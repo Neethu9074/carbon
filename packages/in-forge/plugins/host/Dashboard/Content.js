@@ -59,64 +59,78 @@ export default function HostDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuUsage')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
-        </KpiKeyValue>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '16px',
+            width: '100%',
+            boxSizing: 'border-box'
+          }}
+        >
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuUsage')}>
+            <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
+          </KpiKeyValue>
 
-        {isLinux(snapshot) && (
-          <>
-            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processBlockedState')}>
+          {isLinux(snapshot) && (
+            <>
+              <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processBlockedState')}>
+                <MetricValue
+                  snapshotId={snapshot.get('id')}
+                  metric="systemProcess.blockedProcesses"
+                  formatter={number.compact}
+                />
+              </KpiKeyValue>
+              <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processWaitingRuntime')}>
+                <MetricValue
+                  snapshotId={snapshot.get('id')}
+                  metric="systemProcess.runningProcesses"
+                  formatter={number.compact}
+                />
+              </KpiKeyValue>
+            </>
+          )}
+
+          {!isIbmiOs(snapshot) && (
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.memoryUsage')}>
               <MetricValue
                 snapshotId={snapshot.get('id')}
-                metric="systemProcess.blockedProcesses"
-                formatter={number.compact}
+                metric="memory.used"
+                formatter={percentageZeroDecimalPlaces}
               />
             </KpiKeyValue>
-            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processWaitingRuntime')}>
+          )}
+
+          {isAixOs(snapshot) && (
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.avgRunQueue')}>
               <MetricValue
                 snapshotId={snapshot.get('id')}
-                metric="systemProcess.runningProcesses"
-                formatter={number.compact}
+                metric="cpu.avgRunQueue"
+                formatter={value =>
+                  value < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : twoDecimalPlaces(value)
+                }
               />
             </KpiKeyValue>
-          </>
-        )}
+          )}
 
-        {!isIbmiOs(snapshot) && (
-          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.memoryUsage')}>
-            <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
-          </KpiKeyValue>
-        )}
+          {!(isWindows(snapshot) || isZos(snapshot)) && (
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuLoad')}>
+              <MetricValue snapshotId={snapshot.get('id')} metric="load.1min" formatter={twoDecimalPlaces} />
+            </KpiKeyValue>
+          )}
 
-        {isAixOs(snapshot) && (
-          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.avgRunQueue')}>
-            <MetricValue
-              snapshotId={snapshot.get('id')}
-              metric="cpu.avgRunQueue"
-              formatter={value =>
-                value < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : twoDecimalPlaces(value)
-              }
-            />
-          </KpiKeyValue>
-        )}
+          {isAixOs(snapshot) && (
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.userSessions')}>
+              <MetricValue snapshotId={snapshot.get('id')} metric="userSessions" formatter={number.compact} />
+            </KpiKeyValue>
+          )}
 
-        {isAixOs(snapshot) && (
-          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.userSessions')}>
-            <MetricValue snapshotId={snapshot.get('id')} metric="userSessions" formatter={number.compact} />
-          </KpiKeyValue>
-        )}
-
-        {!(isWindows(snapshot) || isZos(snapshot)) && (
-          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuLoad')}>
-            <MetricValue snapshotId={snapshot.get('id')} metric="load.1min" formatter={twoDecimalPlaces} />
-          </KpiKeyValue>
-        )}
-
-        {isAixOs(snapshot) && (
-          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.physc')}>
-            <MetricValue snapshotId={snapshot.get('id')} metric="cpu.physc" formatter={number.twoDecimalPlaces} />
-          </KpiKeyValue>
-        )}
+          {isAixOs(snapshot) && (
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.physc')}>
+              <MetricValue snapshotId={snapshot.get('id')} metric="cpu.physc" formatter={number.twoDecimalPlaces} />
+            </KpiKeyValue>
+          )}
+        </div>
       </KpiSection>
 
       <Columize>
@@ -394,7 +408,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           {isLinux(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
-              snapshotHostFqdn={snapshot.getIn(['date', 'fqdn'])}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
