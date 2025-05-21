@@ -13253,7 +13253,13 @@
       }
     },
     "kubecost": {
-      "label": "Kubecost"
+      "label": "Kubecost",
+      "AuthenticationFailedForKubecostApiCall":"Unable to autenticate to kubecost api call, please check api_key included in config",
+      "instanaKubecostDocumentationUrl": "https://ibm.biz/kubecost",
+      "kubecostInvalidUrl": "Kubecost: The provided URL <code>{{connectionUrl}}</code> appears to be invalid or malformed. Please check for typos or missing host information.",
+      "kubecostUnknownCluster": "Kubecost: Cluster ID <code>{{clusterId}}</code> not found in Kubecost response. It may be incorrect or not actively monitored.",
+      "kubecostUnableToConnect": "Kubecost: Connection failed for <code>{{connectionUrl}}</code> with status code {{statusCode}}. Check if the URL is valid and reachable.",
+      "kubecostUnableToAuthenticate": "Kubecost: Unable to authenticate. Please ensure a valid API key is configured."
     },
     "kubernetesCluster": {
       "noActivity": "No activity",
