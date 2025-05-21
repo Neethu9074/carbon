@@ -5,6 +5,7 @@
 
 import React, { Fragment } from 'react';
 
+import { getAppStatusLabel } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
@@ -42,6 +43,12 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
       label={t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.durationLabel')}
       value={latencyFixed.compact(beacon.duration)}
     />
+    {getAppStatusLabel(beacon) && (
+      <KeyValueHeader
+        label={t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.appStatusLabel')}
+        value={getAppStatusLabel(beacon)}
+      />
+    )}
   </Fragment>
 );
 

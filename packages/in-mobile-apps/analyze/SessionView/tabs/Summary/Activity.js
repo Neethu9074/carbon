@@ -29,13 +29,16 @@ export default function Activity({
   query,
   setQuery,
   types,
-  setTypes
+  setTypes,
+  appState,
+  setAppState
 }) {
   const filteredBeacons = beacons
     .filter(beacon => {
       return !(
         (types?.length > 0 && types?.indexOf(getType(beacon)) === -1) ||
         (view && view?.toLowerCase() !== beacon?.view?.toLowerCase()) ||
+        (appState && appState?.toLowerCase() !== beacon?.currentAppState?.toLowerCase()) ||
         !renderers[beacon?.type] ||
         (query && renderers[beacon?.type]?.getLabel(beacon).toLowerCase().indexOf(query) === -1)
       );
@@ -43,7 +46,7 @@ export default function Activity({
     .sort((a, b) => a.timestamp - b.timestamp);
 
   // we want to force all expansion states to reset when filtering
-  const filterHash = generateStableHash({ view, query, types });
+  const filterHash = generateStableHash({ view, query, types, appState });
 
   return (
     <Row>
@@ -56,6 +59,8 @@ export default function Activity({
             filterTypes={types}
             setTypes={setTypes}
             beacons={beacons}
+            appState={appState}
+            setAppState={setAppState}
           />
           <div className={locals.overviewChartContainer}>
             <OverviewChart
@@ -109,5 +114,7 @@ Activity.propTypes = {
   setQuery: PropTypes.func,
   types: PropTypes.array,
   setTypes: PropTypes.func,
-  view: PropTypes.string
+  view: PropTypes.string,
+  appState: PropTypes.string,
+  setAppState: PropTypes.func
 };

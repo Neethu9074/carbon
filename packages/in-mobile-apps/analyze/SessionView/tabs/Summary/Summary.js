@@ -31,6 +31,7 @@ export default function Summary({ beacons, detailId }) {
   const [query, setQuery] = useState('');
   const [view, setView] = useState('');
   const [types, setTypes] = useState([]);
+  const [appState, setAppState] = useState('');
 
   const linkToMobileAppHref = useGetLinkToMobileApp(firstBeacon.mobileAppId);
   return (
@@ -84,6 +85,8 @@ export default function Summary({ beacons, detailId }) {
         setView={setView}
         types={types}
         setTypes={setTypes}
+        appState={appState}
+        setAppState={setAppState}
       />
     </ContentWrapper>
   );
