@@ -159,6 +159,7 @@ export default function SloList({
       cardTitle={t('in-service-levels:sloList.title')}
       page={actualPage}
       pageSize={actualPageSize}
+      pageSizes={[10, 20, 30, 40, 50]}
       orderBy={orderBy}
       orderDirection={orderDirection}
       query={query}
@@ -179,7 +180,6 @@ export default function SloList({
           />
         ) : null
       }
-      tableInCard={!isDashboard}
       fixedLayout
     />
   );

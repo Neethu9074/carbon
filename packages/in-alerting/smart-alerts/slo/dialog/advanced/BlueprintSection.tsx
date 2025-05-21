@@ -57,9 +57,9 @@ export default function BlueprintSection() {
             context: 'BURNED_PERCENTAGE'
           })}
         </TabSelectItem>
-        <TabSelectItem<SloAlertMetricTypes> forId="BURN_RATE">
+        <TabSelectItem<SloAlertMetricTypes> forId="BURN_RATE_V2">
           {t('in-alerting:smartAlerts.slo.advancedModeContainer.blueprint', {
-            context: 'BURN_RATE'
+            context: 'BURN_RATE_V2'
           })}
         </TabSelectItem>
         <TabSelectItem<SloAlertMetricTypes> forId="STATUS">
@@ -99,7 +99,7 @@ export default function BlueprintSection() {
             </Typography>
           </BlueprintSectionPanel>
         </TabSelectPanel>
-        <TabSelectPanel<SloAlertMetricTypes> id="BURN_RATE">
+        <TabSelectPanel<SloAlertMetricTypes> id="BURN_RATE_V2">
           <BurnRateBlueprintSectionPanel />
         </TabSelectPanel>
         <TabSelectPanel<SloAlertMetricTypes> id="STATUS">

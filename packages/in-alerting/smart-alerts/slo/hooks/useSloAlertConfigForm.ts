@@ -12,8 +12,9 @@ import { generateStableHash } from '@instana/utils';
 import useSloAlertFormSideEffects, {
   SloAlertFormSideEffectsReturnType
 } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormSideEffects';
-import { SloAlertForm, createSloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import useSloAlertEntityType from 'in-alerting/smart-alerts/slo/hooks/useSloAlertEntityType';
+import { createSloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
+import { SloAlertForm } from 'in-alerting/smart-alerts/slo/types';
 
 export default function useSloAlertConfigForm(
   alertConfig: ServiceLevelsAlertConfig

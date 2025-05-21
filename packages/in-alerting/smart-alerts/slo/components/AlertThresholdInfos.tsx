@@ -6,7 +6,12 @@
 
 import React from 'react';
 
-import { ServiceLevelsAlertRuleUnion, StaticThresholdConfig, ServiceLevelsBurnRateTimeWindows } from '@instana/types';
+import {
+  ServiceLevelsAlertRuleUnion,
+  StaticThresholdConfig,
+  ServiceLevelsBurnRateConfig,
+  ServiceLevelsBurnRateTimeWindows
+} from '@instana/types';
 import { KeyValue, Stack } from '@instana/components';
 
 import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -16,14 +21,25 @@ interface AlertThresholdInfosProps {
   threshold?: StaticThresholdConfig;
   rule: ServiceLevelsAlertRuleUnion;
   burnRateTimeWindows?: ServiceLevelsBurnRateTimeWindows;
+  burnRateConfig?: ServiceLevelsBurnRateConfig[];
 }
 
-export default function AlertThresholdInfos({ threshold, rule, burnRateTimeWindows }: AlertThresholdInfosProps) {
+export default function AlertThresholdInfos({
+  threshold,
+  rule,
+  burnRateTimeWindows,
+  burnRateConfig
+}: AlertThresholdInfosProps) {
   const { metric } = rule;
   const { value, operator } = threshold ?? {};
   const { longTimeWindow, shortTimeWindow } = burnRateTimeWindows ?? {};
-  const isBurnRate = metric === 'BURN_RATE';
-  const thresholdValue = isBurnRate ? value : percentageUpToTwoDecimalPlaces(value ?? 0);
+  const isBurnRateV2 = metric === 'BURN_RATE_V2';
+  const isBurnRateV1 = metric === 'BURN_RATE';
+
+  const thresholdValue = isBurnRateV1 ? value : percentageUpToTwoDecimalPlaces(value ?? 0);
+  const singleWindowBurnRateConfig = burnRateConfig?.find(({ alertWindowType }) => alertWindowType === 'SINGLE');
+  const longWindowBurnRateConfig = burnRateConfig?.find(({ alertWindowType }) => alertWindowType === 'LONG');
+  const shortWindowBurnRateConfig = burnRateConfig?.find(({ alertWindowType }) => alertWindowType === 'SHORT');
 
   return (
     <Stack distribution="start" direction="horizontal" gap="xxlarge">
@@ -34,7 +50,7 @@ export default function AlertThresholdInfos({ threshold, rule, burnRateTimeWindo
         })}
         multilineLabel
       />
-      {value && operator && (
+      {metric !== 'BURN_RATE_V2' && (
         <KeyValue
           label={t('in-alerting:smartAlerts.slo.details.thresholdLabel')}
           value={t('in-alerting:smartAlerts.slo.details.thresholdInfo', {
@@ -44,7 +60,7 @@ export default function AlertThresholdInfos({ threshold, rule, burnRateTimeWindo
           multilineLabel
         />
       )}
-      {isBurnRate && longTimeWindow && shortTimeWindow && (
+      {isBurnRateV1 && longTimeWindow && shortTimeWindow && (
         <>
           <KeyValue
             label={t('in-alerting:smartAlerts.slo.details.longWindowLabel')}
@@ -62,6 +78,66 @@ export default function AlertThresholdInfos({ threshold, rule, burnRateTimeWindo
             })}
             multilineLabel
           />
+        </>
+      )}
+      {isBurnRateV2 && (
+        <>
+          {singleWindowBurnRateConfig ? (
+            <>
+              <KeyValue
+                label={t('in-alerting:smartAlerts.slo.details.singleWindowLabel')}
+                value={t('in-alerting:smartAlerts.slo.details.timeWindowInfo', {
+                  context: singleWindowBurnRateConfig?.durationUnitType,
+                  count: singleWindowBurnRateConfig?.duration
+                })}
+                multilineLabel
+              />
+              <KeyValue
+                label={t('in-alerting:smartAlerts.slo.details.thresholdLabel')}
+                value={t('in-alerting:smartAlerts.slo.details.thresholdInfo', {
+                  operator: singleWindowBurnRateConfig?.threshold?.operator,
+                  percentage: singleWindowBurnRateConfig?.threshold?.value
+                })}
+                multilineLabel
+              />
+            </>
+          ) : (
+            <>
+              <KeyValue
+                label={t('in-alerting:smartAlerts.slo.details.longWindowLabel')}
+                value={t('in-alerting:smartAlerts.slo.details.timeWindowInfo', {
+                  context: longWindowBurnRateConfig?.durationUnitType,
+                  count: longWindowBurnRateConfig?.duration
+                })}
+                multilineLabel
+              />
+              <KeyValue
+                label={t('in-alerting:smartAlerts.slo.details.thresholdLabel')}
+                value={t('in-alerting:smartAlerts.slo.details.thresholdInfo', {
+                  operator: longWindowBurnRateConfig?.threshold?.operator,
+                  percentage: longWindowBurnRateConfig?.threshold?.value
+                })}
+                multilineLabel
+              />
+
+              <KeyValue
+                label={t('in-alerting:smartAlerts.slo.details.shortWindowLabel')}
+                value={t('in-alerting:smartAlerts.slo.details.timeWindowInfo', {
+                  context: shortWindowBurnRateConfig?.durationUnitType,
+                  count: shortWindowBurnRateConfig?.duration
+                })}
+                multilineLabel
+              />
+              <KeyValue
+                label={t('in-alerting:smartAlerts.slo.details.thresholdLabel')}
+                value={t('in-alerting:smartAlerts.slo.details.thresholdInfo', {
+                  operator: shortWindowBurnRateConfig?.threshold?.operator,
+                  percentage: shortWindowBurnRateConfig?.threshold?.value
+                })}
+                multilineLabel
+              />
+            </>
+          )}
         </>
       )}
     </Stack>

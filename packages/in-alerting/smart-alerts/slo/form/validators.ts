@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ValidationResult } from 'formalistic';
+import { MapForm, ValidationResult } from 'formalistic';
 
-import { SloAlertBurnRateTimeWindowsFields } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import { isSloAlertDurationUnit } from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { calculateTimeWindowInMilliseconds } from 'in-alerting/smart-alerts/slo/form/utils';
 import { isSloAlertThresholdOperator } from 'in-alerting/smart-alerts/slo/types';
+import { BurnRateAlertFormFields } from 'in-alerting/smart-alerts/slo/types';
 import { t } from 'in-i18n';
 
 export function noEmptySloIds(sloIds: string[]): ValidationResult {
@@ -61,11 +61,11 @@ export function noInvalidDurationUnit(durationUnit: string): ValidationResult {
   return undefined;
 }
 
-export function burnRateFormValidator(form: SloAlertBurnRateTimeWindowsFields): ValidationResult {
-  const shortTimeWindowDurationField = form.shortTimeWindow.getIn(['duration']);
-  const shortTimeWindowDurationUnitField = form.shortTimeWindow.getIn(['durationType']);
-  const longTimeWindowDurationField = form.longTimeWindow.getIn(['duration']);
-  const longTimeWindowDurationUnitField = form.longTimeWindow.getIn(['durationType']);
+export function burnRateConfigFormValidator(form: MapForm<BurnRateAlertFormFields>[]): ValidationResult {
+  const shortTimeWindowDurationField = form[1].getIn(['duration']);
+  const shortTimeWindowDurationUnitField = form[1].getIn(['durationUnitType']);
+  const longTimeWindowDurationField = form[0].getIn(['duration']);
+  const longTimeWindowDurationUnitField = form[0].getIn(['durationUnitType']);
 
   if (!isFieldValid(shortTimeWindowDurationField) || !isFieldValid(longTimeWindowDurationField)) return undefined;
 
@@ -83,7 +83,7 @@ export function burnRateFormValidator(form: SloAlertBurnRateTimeWindowsFields): 
       {
         severity: 'error',
         message: t('in-alerting:smartAlerts.slo.advancedModeContainer.burnRateShortWindowLongerThanLongWindowError'),
-        path: '$.burnRateTimeWindows.longTimeWindow'
+        path: '$.burnRateConfig.longTimeWindow'
       }
     ];
   }

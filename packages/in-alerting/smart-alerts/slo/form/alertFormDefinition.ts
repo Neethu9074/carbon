@@ -4,68 +4,38 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm, Field, ListForm, MapForm, MapPath } from 'formalistic';
+import { createField, createListForm, createMapForm, ListForm, MapForm } from 'formalistic';
 
 import {
-  AlertingDurationUnitType,
-  CustomPayloadFieldUnion,
-  ErrorBudgetAlertMetric,
+  BurnRateAlertWindowType,
   ServiceLevelsAlertConfig,
   ServiceLevelsAlertConfigWithMetadata,
-  ServiceLevelsAlertRuleUnion,
-  ServiceLevelsObjectiveAlertMetric,
-  SloEntityType,
-  ThresholdOperator
+  ServiceLevelsBurnRateConfig,
+  SloEntityType
 } from '@instana/types';
 
+import {
+  BurnRateAlertFormFields,
+  BurnRateAlertType,
+  BurnRateThresholdFields,
+  isServiceLevelAlertConfigWithMetaData,
+  SloAlertForm,
+  SloAlertFormFields,
+  SloAlertRuleFormFields,
+  SloAlertTimeThresholdFields
+} from 'in-alerting/smart-alerts/slo/types';
 import {
   noEmptySloIds,
   noInvalidOperator,
   notLessThanOrEqualToZero,
-  noInvalidDurationUnit
+  noInvalidDurationUnit,
+  burnRateConfigFormValidator
 } from 'in-alerting/smart-alerts/slo/form/validators';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { defaultOperator, defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
-import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
 import { maxValidator, positiveNumberValidator } from 'in-services/validators/number';
-import { burnRateFormValidator } from 'in-alerting/smart-alerts/slo/form/validators';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notBlankValidator } from 'in-services/validators/string';
-
-export type SloAlertRuleFormFields = {
-  alertType: Field<ServiceLevelsAlertRuleUnion['alertType']>;
-  metric: Field<ErrorBudgetAlertMetric | ServiceLevelsObjectiveAlertMetric>;
-};
-export type SloAlertFormTimeWindowFields = {
-  duration: Field<number>;
-  durationType: Field<AlertingDurationUnitType>;
-};
-export type SloAlertBurnRateTimeWindowsFields = {
-  longTimeWindow: MapForm<SloAlertFormTimeWindowFields>;
-  shortTimeWindow: MapForm<SloAlertFormTimeWindowFields>;
-};
-export type SloAlertTimeThresholdFields = {
-  expiry: Field<number>;
-  timeWindow: Field<number>;
-};
-export type SloAlertFormFields = {
-  entityType: Field<SloEntityType | undefined>;
-  burnRateTimeWindows: MapForm<SloAlertBurnRateTimeWindowsFields>;
-  sloIds: Field<string[]>;
-  rule: MapForm<SloAlertRuleFormFields>;
-  threshold: Field<number | undefined>;
-  operator: Field<ThresholdOperator>;
-  timeThreshold: MapForm<SloAlertTimeThresholdFields>;
-  alertChannelIds: Field<string[]>;
-  severity: Field<number>;
-  name: Field<string>;
-  description: Field<string>;
-  triggering: Field<boolean>;
-  customPayloadFields: ListForm<Field<CustomPayloadFieldUnion>[]>;
-  id: Field<string>;
-};
-export type SloAlertFormPath = MapPath<SloAlertFormFields>;
-export interface SloAlertForm extends MapForm<SloAlertFormFields> {}
 
 export function createSloAlertRuleForm(alertConfig: ServiceLevelsAlertConfig): MapForm<SloAlertRuleFormFields> {
   return createMapForm({
@@ -77,93 +47,6 @@ export function createSloAlertRuleForm(alertConfig: ServiceLevelsAlertConfig): M
         value: alertConfig.rule.metric ?? 'STATUS'
       })
     }
-  });
-}
-
-export function createUnvalidatedLongTimeWindowForm(
-  alertConfig?: ServiceLevelsAlertConfig
-): MapForm<SloAlertFormTimeWindowFields> {
-  return createMapForm({
-    items: {
-      duration: createField({
-        value: alertConfig?.burnRateTimeWindows?.longTimeWindow?.duration ?? 0
-      }),
-      durationType: createField({
-        value: alertConfig?.burnRateTimeWindows?.longTimeWindow?.durationType ?? 'minute'
-      })
-    }
-  });
-}
-
-export function createValidatedLongTimeWindowForm(
-  alertConfig?: ServiceLevelsAlertConfig
-): MapForm<SloAlertFormTimeWindowFields> {
-  return createMapForm({
-    items: {
-      duration: createField({
-        value: alertConfig?.burnRateTimeWindows?.longTimeWindow?.duration ?? 0,
-        validator: notLessThanOrEqualToZero
-      }),
-      durationType: createField({
-        value: alertConfig?.burnRateTimeWindows?.longTimeWindow?.durationType ?? 'minute',
-        validator: noInvalidDurationUnit
-      })
-    }
-  });
-}
-
-export function createUnvalidatedShortTimeWindowForm(
-  alertConfig?: ServiceLevelsAlertConfig
-): MapForm<SloAlertFormTimeWindowFields> {
-  return createMapForm({
-    items: {
-      duration: createField({
-        value: alertConfig?.burnRateTimeWindows?.shortTimeWindow?.duration ?? 0
-      }),
-      durationType: createField({
-        value: alertConfig?.burnRateTimeWindows?.shortTimeWindow?.durationType ?? 'minute'
-      })
-    }
-  });
-}
-
-export function createValidatedShortTimeWindowForm(
-  alertConfig?: ServiceLevelsAlertConfig
-): MapForm<SloAlertFormTimeWindowFields> {
-  return createMapForm({
-    items: {
-      duration: createField({
-        value: alertConfig?.burnRateTimeWindows?.shortTimeWindow?.duration ?? 0,
-        validator: notLessThanOrEqualToZero
-      }),
-      durationType: createField({
-        value: alertConfig?.burnRateTimeWindows?.shortTimeWindow?.durationType ?? 'minute',
-        validator: noInvalidDurationUnit
-      })
-    }
-  });
-}
-
-export function createUnvalidatedSloBurnRateTimeWindowsForm(
-  alertConfig?: ServiceLevelsAlertConfig
-): MapForm<SloAlertBurnRateTimeWindowsFields> {
-  return createMapForm({
-    items: {
-      shortTimeWindow: createUnvalidatedShortTimeWindowForm(alertConfig),
-      longTimeWindow: createUnvalidatedLongTimeWindowForm(alertConfig)
-    }
-  });
-}
-
-export function createValidatedSloBurnRateTimeWindowsForm(
-  alertConfig?: ServiceLevelsAlertConfig
-): MapForm<SloAlertBurnRateTimeWindowsFields> {
-  return createMapForm({
-    items: {
-      shortTimeWindow: createValidatedShortTimeWindowForm(alertConfig),
-      longTimeWindow: createValidatedLongTimeWindowForm(alertConfig)
-    },
-    validator: burnRateFormValidator
   });
 }
 
@@ -184,29 +67,86 @@ export function createSloAlertTimeThresholdForm(
   });
 }
 
+export function generateWindowBasedBurnRateForm(
+  windowName: BurnRateAlertWindowType,
+  burnRate: ServiceLevelsBurnRateConfig | undefined
+) {
+  return createMapForm<BurnRateAlertFormFields>({
+    items: {
+      duration: createField({ value: burnRate?.duration ?? 0, validator: notLessThanOrEqualToZero }),
+      durationUnitType: createField({
+        value: burnRate?.durationUnitType ?? 'minute',
+        validator: noInvalidDurationUnit
+      }),
+      alertWindowType: createField({ value: windowName }),
+      threshold: createMapForm<BurnRateThresholdFields>({
+        items: {
+          operator: createField({ value: burnRate?.threshold?.operator ?? defaultOperator }),
+          value: createField({
+            value: burnRate?.threshold?.value ?? 0,
+            validator: composeAndShortCircuitOnError(maxValidator(100), positiveNumberValidator)
+          }),
+          lastUpdated: createField({ value: burnRate?.threshold?.lastUpdated ?? Date.now() })
+        }
+      })
+    }
+  });
+}
+
+export function createBurnRateAlertConfig(
+  configs: ServiceLevelsBurnRateConfig[],
+  burnRateAlertWindow: BurnRateAlertType,
+  isBurnRateBlueprint = false
+): ListForm<MapForm<BurnRateAlertFormFields>[]> {
+  if (!isBurnRateBlueprint)
+    return createListForm({
+      items: []
+    });
+
+  const singleWindowConfig = configs.find(({ alertWindowType }) => alertWindowType === 'SINGLE');
+  const shortWindowConfig = configs.find(({ alertWindowType }) => alertWindowType === 'SHORT');
+  const longWindowConfig = configs.find(({ alertWindowType }) => alertWindowType === 'LONG');
+
+  if (burnRateAlertWindow === 'single') {
+    return createListForm({
+      items: [generateWindowBasedBurnRateForm('SINGLE', singleWindowConfig)]
+    });
+  } else {
+    return createListForm({
+      items: [
+        generateWindowBasedBurnRateForm('LONG', longWindowConfig),
+        generateWindowBasedBurnRateForm('SHORT', shortWindowConfig)
+      ],
+      validator: burnRateConfigFormValidator
+    });
+  }
+}
 export function createSloAlertForm(
   alertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata,
   entityType?: SloEntityType
 ): SloAlertForm {
   const id = isServiceLevelAlertConfigWithMetaData(alertConfig) ? alertConfig.id : '';
-  const isBurnRateBlueprint = alertConfig.rule.metric === 'BURN_RATE';
+  const isBurnRateBlueprint = alertConfig.rule.metric === 'BURN_RATE' || alertConfig.rule.metric === 'BURN_RATE_V2';
+  const burnRateAlertWindowType = alertConfig.burnRateConfig?.some(
+    ({ alertWindowType }) => alertWindowType === 'LONG' || alertWindowType === 'SHORT'
+  )
+    ? 'multi'
+    : 'single';
+
   const form = createMapForm<SloAlertFormFields>({
     items: {
       entityType: createField({
         value: entityType,
         validator: notBlankValidator
       }),
-      burnRateTimeWindows: isBurnRateBlueprint
-        ? createValidatedSloBurnRateTimeWindowsForm(alertConfig)
-        : createUnvalidatedSloBurnRateTimeWindowsForm(alertConfig),
       sloIds: createField({
         value: alertConfig.sloIds,
         validator: noEmptySloIds
       }),
       rule: createSloAlertRuleForm(alertConfig),
       threshold: createField({
-        value: alertConfig?.threshold?.value,
-        validator: composeAndShortCircuitOnError(maxValidator(100), positiveNumberValidator)
+        value: alertConfig?.threshold?.value ?? 0,
+        validator: composeAndShortCircuitOnError(maxValidator(100))
       }),
       operator: createField({
         value: alertConfig?.threshold?.operator ?? defaultOperator,
@@ -231,7 +171,15 @@ export function createSloAlertForm(
         value: alertConfig.triggering
       }),
       customPayloadFields: createListFormForCustomPayloads(alertConfig.customPayloadFields, false),
-      id: createField({ value: id })
+      id: createField({ value: id }),
+      burnRateAlertType: createField({
+        value: burnRateAlertWindowType
+      }),
+      burnRateConfig: createBurnRateAlertConfig(
+        alertConfig?.burnRateConfig ?? [],
+        burnRateAlertWindowType,
+        isBurnRateBlueprint
+      )
     }
   });
   return form;

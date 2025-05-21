@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Stack, ValidationBlock } from '@instana/components';
 
-import BurnRateBlueprintSectionContent from 'in-alerting/smart-alerts/slo/components/BurnRateBlueprintSectionContent';
+import BurnRateBlueprintSection from 'in-alerting/smart-alerts/slo/components/BurnRateBlueprintSection/BurnRateBlueprintSection';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import BlueprintSectionTitle from 'in-alerting/smart-alerts/slo/components/BlueprintSectionTitle';
 
@@ -26,7 +26,7 @@ export default function BurnRateBlueprintSectionPanel() {
           <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
         ))
       ) : (
-        <BurnRateBlueprintSectionContent />
+        <BurnRateBlueprintSection />
       )}
     </Stack>
   );

@@ -20,9 +20,9 @@ import AdvancedModeContainer from 'in-alerting/smart-alerts/slo/dialog/advanced/
 import useSloAlertConfigForm from 'in-alerting/smart-alerts/slo/hooks/useSloAlertConfigForm';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { formToSloAlertConfiguration } from 'in-alerting/smart-alerts/slo/form/utils';
-import { SloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import { trackAlertSaved } from 'in-alerting/smart-alerts/components/tracker';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { SloAlertForm } from 'in-alerting/smart-alerts/slo/types';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/fixedObjects';

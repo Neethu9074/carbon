@@ -1,12 +1,13 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
 
 import { LoadingSkeleton, NumberInput, Stack, Typography } from '@instana/components';
+import { ServiceLevelsBurnRateConfig } from '@instana/types';
 
 import {
   calculateTimeWindowInMilliseconds,
@@ -21,9 +22,9 @@ import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Trans, t } from 'in-i18n';
 
-import locals from './BurnRateBlueprintSectionContent.mless';
+import locals from './BurnRateBlueprintSection.mless';
 
-export default function BurnRateBlueprintSectionContent() {
+export default function MultiWindowBurnRate() {
   const { form, onChange } = useSloAlertFormContext();
 
   const sloIdsField = form.getIn(['sloIds']);
@@ -43,18 +44,33 @@ export default function BurnRateBlueprintSectionContent() {
     sloWithTheShortestTimeWindow?.timeWindow.duration ?? 0,
     sloWithTheShortestTimeWindow?.timeWindow.durationUnit ?? 'millisecond'
   );
+  const burnRateConfig = (form.getIn(['burnRateConfig']).toJS() as ServiceLevelsBurnRateConfig[]) ?? [];
+  const longWindowBurnRateFormIndex = burnRateConfig.findIndex(item => item?.alertWindowType === 'LONG');
+  const shortWindowBurnRateFormIndex = burnRateConfig.findIndex(item => item?.alertWindowType === 'SHORT');
 
-  const longTimeWindowDurationField = form.getIn(['burnRateTimeWindows', 'longTimeWindow', 'duration']);
-  const longTimeWindowUnitField = form.getIn(['burnRateTimeWindows', 'longTimeWindow', 'durationType']);
-  const shortTimeWindowDurationField = form.getIn(['burnRateTimeWindows', 'shortTimeWindow', 'duration']);
-  const shortTimeWindowUnitField = form.getIn(['burnRateTimeWindows', 'shortTimeWindow', 'durationType']);
-  const thresholdField = form.getIn(['threshold']);
-  const operatorField = form.getIn(['operator']);
+  if (shortWindowBurnRateFormIndex < 0 || longWindowBurnRateFormIndex < 0) return null;
+
+  const longTimeWindowDurationField = form.getIn(['burnRateConfig', longWindowBurnRateFormIndex, 'duration']);
+  const longTimeWindowUnitField = form.getIn(['burnRateConfig', longWindowBurnRateFormIndex, 'durationUnitType']);
+  const shortTimeWindowDurationField = form.getIn(['burnRateConfig', shortWindowBurnRateFormIndex, 'duration']);
+  const shortTimeWindowUnitField = form.getIn(['burnRateConfig', shortWindowBurnRateFormIndex, 'durationUnitType']);
+
+  const longWindowThreshold = form.getIn(['burnRateConfig', longWindowBurnRateFormIndex, 'threshold', 'value']);
+  const shortWindowThreshold = form.getIn(['burnRateConfig', shortWindowBurnRateFormIndex, 'threshold', 'value']);
+  const isLongWindowThresholdFieldValid = isFieldValid(longWindowThreshold);
+  const isShortWindowThresholdFieldValid = isFieldValid(shortWindowThreshold);
+
+  const longWindowOperatorField = form.getIn(['burnRateConfig', longWindowBurnRateFormIndex, 'threshold', 'operator']);
+  const shortWindowOperatorField = form.getIn([
+    'burnRateConfig',
+    shortWindowBurnRateFormIndex,
+    'threshold',
+    'operator'
+  ]);
 
   const longTimeWindowDurationValue = longTimeWindowDurationField.value;
   const shortTimeWindowDurationValue = shortTimeWindowDurationField.value;
 
-  const isThresholdFieldValid = isFieldValid(thresholdField);
   const isShortTimeWindowDurationFieldValid = isFieldValid(shortTimeWindowDurationField);
   const isLongTimeWindowDurationFieldValid = isFieldValid(longTimeWindowDurationField);
   const isShortTimeWindowDurationUnitFieldValid = isFieldValid(shortTimeWindowUnitField);
@@ -72,7 +88,7 @@ export default function BurnRateBlueprintSectionContent() {
     shortTimeWindowUnitField.value
   );
 
-  const burnRateForm = form.get('burnRateTimeWindows');
+  const burnRateForm = form.get('burnRateConfig');
   const shouldShowShortWindowExceedsLongWindowError =
     shortTimeWindowDurationInMilliseconds > longTimeWindowDurationInMilliseconds &&
     longTimeWindowDurationValue !== 0 &&
@@ -84,7 +100,7 @@ export default function BurnRateBlueprintSectionContent() {
     <Stack gap="medium">
       <Stack gap="xsmall">
         <Typography variant="heading-200" component="p" noMargin>
-          {t('in-alerting:smartAlerts.slo.advancedModeContainer.burnRateLongWindowTitle')}
+          {t('in-alerting:smartAlerts.slo.advancedModeContainer.burnRateWindowTitle', { context: 'MULTI_WINDOW' })}
         </Typography>
         <Typography variant="body-small" component="p" noMargin>
           {t('in-alerting:smartAlerts.slo.advancedModeContainer.burnRateLongWindowDescription')}
@@ -92,7 +108,7 @@ export default function BurnRateBlueprintSectionContent() {
         <Stack direction="horizontal" align="center">
           <Trans
             i18nKey="in-alerting:smartAlerts.slo.advancedModeContainer.thresholdInputDescription"
-            tOptions={{ context: 'BURN_RATE' }}
+            tOptions={{ context: 'BURN_RATE_V2' }}
           >
             Evaluate the last
             <Stack direction="horizontal">
@@ -108,7 +124,7 @@ export default function BurnRateBlueprintSectionContent() {
                 min={0}
                 max={1000}
                 onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-                  onChange(['burnRateTimeWindows', 'longTimeWindow', 'duration'], () =>
+                  onChange(['burnRateConfig', longWindowBurnRateFormIndex, 'duration'], () =>
                     longTimeWindowDurationField.setValue(+value).setTouched(true)
                   );
                 }}
@@ -117,7 +133,7 @@ export default function BurnRateBlueprintSectionContent() {
               <TimeOptionsDropdown
                 value={longTimeWindowUnitField.value}
                 onChange={durationUnit => {
-                  onChange(['burnRateTimeWindows', 'longTimeWindow', 'durationType'], () =>
+                  onChange(['burnRateConfig', longWindowBurnRateFormIndex, 'durationUnitType'], () =>
                     longTimeWindowUnitField.setValue(durationUnit).setTouched(true)
                   );
                 }}
@@ -142,6 +158,44 @@ export default function BurnRateBlueprintSectionContent() {
             <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
           ))}
       </Stack>
+      <Stack gap="medium">
+        <Typography variant="heading-200" component="p" noMargin>
+          {t('in-alerting:smartAlerts.slo.advancedModeContainer.thresholdTitle')}
+        </Typography>
+        <Stack direction="horizontal" align="center">
+          <Trans
+            i18nKey="in-alerting:smartAlerts.slo.advancedModeContainer.burnRateDescription"
+            tOptions={{ context: 'BURN_RATE_V2' }}
+          >
+            Notify me when the burn rate is
+            <OperatorDropdown
+              operators={sloAlertThresholdOperators}
+              value={longWindowOperatorField.value}
+              onChange={operator =>
+                onChange(['burnRateConfig', longWindowBurnRateFormIndex, 'threshold', 'operator'], () =>
+                  longWindowOperatorField.setValue(operator).setTouched(true)
+                )
+              }
+            />
+            <NumberInput
+              id="slo-long-window-alerting-burn-rate"
+              invalid={!isLongWindowThresholdFieldValid}
+              value={longWindowThreshold.value}
+              min={0}
+              max={100}
+              onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
+                onChange(['burnRateConfig', longWindowBurnRateFormIndex, 'threshold', 'value'], () =>
+                  longWindowThreshold.setValue(+value).setTouched(true)
+                )
+              }
+            />
+          </Trans>
+        </Stack>
+        {!isLongWindowThresholdFieldValid &&
+          longWindowThreshold.messages.map(({ message }, index) => (
+            <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+          ))}
+      </Stack>
       <Stack gap="xsmall">
         <Typography variant="heading-200" component="p" noMargin>
           {t('in-alerting:smartAlerts.slo.advancedModeContainer.burnRateShortWindowTitle')}
@@ -152,7 +206,7 @@ export default function BurnRateBlueprintSectionContent() {
         <Stack direction="horizontal" align="center">
           <Trans
             i18nKey="in-alerting:smartAlerts.slo.advancedModeContainer.thresholdInputDescription"
-            tOptions={{ context: 'BURN_RATE' }}
+            tOptions={{ context: 'BURN_RATE_V2' }}
           >
             Evaluate the last
             <Stack direction="horizontal">
@@ -168,7 +222,7 @@ export default function BurnRateBlueprintSectionContent() {
                 min={0}
                 max={10000}
                 onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-                  onChange(['burnRateTimeWindows', 'shortTimeWindow', 'duration'], () =>
+                  onChange(['burnRateConfig', shortWindowBurnRateFormIndex, 'duration'], () =>
                     shortTimeWindowDurationField.setValue(+value).setTouched(true)
                   );
                 }}
@@ -177,7 +231,7 @@ export default function BurnRateBlueprintSectionContent() {
               <TimeOptionsDropdown
                 value={shortTimeWindowUnitField.value}
                 onChange={durationUnit => {
-                  onChange(['burnRateTimeWindows', 'shortTimeWindow', 'durationType'], () =>
+                  onChange(['burnRateConfig', shortWindowBurnRateFormIndex, 'durationUnitType'], () =>
                     shortTimeWindowUnitField.setValue(durationUnit).setTouched(true)
                   );
                 }}
@@ -213,28 +267,34 @@ export default function BurnRateBlueprintSectionContent() {
         <Stack direction="horizontal" align="center">
           <Trans
             i18nKey="in-alerting:smartAlerts.slo.advancedModeContainer.burnRateDescription"
-            tOptions={{ context: 'BURN_RATE' }}
+            tOptions={{ context: 'BURN_RATE_V2' }}
           >
             Notify me when the burn rate is
             <OperatorDropdown
               operators={sloAlertThresholdOperators}
-              value={operatorField.value}
-              onChange={operator => onChange(['operator'], () => operatorField.setValue(operator).setTouched(true))}
+              value={shortWindowOperatorField.value}
+              onChange={operator =>
+                onChange(['burnRateConfig', shortWindowBurnRateFormIndex, 'threshold', 'operator'], () =>
+                  shortWindowOperatorField.setValue(operator).setTouched(true)
+                )
+              }
             />
             <NumberInput
-              id="slo-alerting-burn-rate"
-              invalid={!isThresholdFieldValid}
-              value={thresholdField.value}
+              id="slo-short-window-alerting-burn-rate"
+              invalid={!isShortWindowThresholdFieldValid}
+              value={shortWindowThreshold.value}
               min={0}
               max={100}
               onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
-                onChange(['threshold'], () => thresholdField.setValue(+value).setTouched(true))
+                onChange(['burnRateConfig', shortWindowBurnRateFormIndex, 'threshold', 'value'], () =>
+                  shortWindowThreshold.setValue(+value).setTouched(true)
+                )
               }
             />
           </Trans>
         </Stack>
-        {!isThresholdFieldValid &&
-          thresholdField.messages.map(({ message }, index) => (
+        {!isShortWindowThresholdFieldValid &&
+          shortWindowThreshold.messages.map(({ message }, index) => (
             <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
           ))}
       </Stack>

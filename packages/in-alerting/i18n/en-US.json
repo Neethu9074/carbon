@@ -1730,18 +1730,18 @@
       "descriptionIsHigherOrEqualTo": "{{metricName}} is higher or equal to {{value}}.",
       "descriptionIsLowerThan": "{{metricName}} is lower than {{value}}.",
       "descriptionIsLowerThanOrEqualTo": "{{metricName}} is lower or equal to {{value}}.",
-      "evaluationType" : {
+      "evaluationType": {
         "title": "Choose your alerting method",
-        "custom" : {
+        "custom": {
           "title": "Custom aggregation",
           "description": "Combines all metrics in scope into a single metric per group. Only one active issue will be tracked at a time per group."
         },
-        "perEntity" : {
+        "perEntity": {
           "title": "Per entity alerting",
           "description": "Monitors each metric individually. You will receive an alert for every metric that violates the threshold."
         }
       },
-      "group" : {
+      "group": {
         "disabled": {
           "tooltipInfo": "Adding Group works only with custom aggregation."
         }
@@ -1902,15 +1902,21 @@
         "blueprint_STATUS": "Status",
         "blueprint_BURNED_PERCENTAGE": "Error budget",
         "blueprint_BURN_RATE": "Burn rate",
+        "blueprint_BURN_RATE_V2": "Burn rate",
         "blueprintDescription": "",
+        "burnRateAlertTypeLabel": "Alert window type",
+        "burnRateAlertTypeLabel_SINGLE_WINDOW": "Single alert window",
+        "burnRateAlertTypeLabel_MULTI_WINDOW": "Long & short alert window",
         "blueprintDescription_STATUS": "Receive an alert when the SLO status falls below a threshold.",
         "blueprintDescription_BURNED_PERCENTAGE": "Receive an alert when a percentage of the error budget is consumed.",
-        "blueprintDescription_BURN_RATE": "Burn rate is a value that indicates how fast your error budget is consumed relative to your SLO's target length.",
+        "blueprintDescription_BURN_RATE_V2": "Burn rate is a value that indicates how fast your error budget is consumed relative to your SLO's target length. ",
         "burnRateShortWindowTitle": "Short alert window",
-        "burnRateShortWindowDescription": "These alerts will be triggered when the error rate exceeds the threshold faster over a shorter period. This can help capture a sudden spike of errors or downtime due to a critical bug.",
+        "burnRateShortWindowDescription": "Alerts are triggered when the error rate exceeds the threshold faster over a shorter period. This can help capture a sudden spike of errors or downtime due to a critical bug.",
         "burnRateDescription": "Notify me when the burn rate is <1/> <2/>",
-        "burnRateLongWindowTitle": "Long alert window",
-        "burnRateLongWindowDescription": "These alerts will be triggered when the error rate exceeds the threshold over a longer period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
+        "burnRateWindowTitle_SINGLE_WINDOW": "Alert window",
+        "burnRateWindowTitle_MULTI_WINDOW": "Long alert window",
+        "burnRateSingleWindowDescription": "Alerts are triggered when the error rate exceeds the threshold over a specified period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
+        "burnRateLongWindowDescription": "Alerts are triggered when the error rate exceeds the threshold over a longer period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
         "burnRateShortWindowLongerThanLongWindowError": "Short window cannot exceed long window. Please, adjust either of the values.",
         "burnRateTimeWindowTooLongError": "The alert window cannot exceed the time window of a selected SLO. Please, check the following SLO: {{value}}.",
         "thresholdTitle": "Threshold: When do you want to be alerted?",
@@ -1918,6 +1924,7 @@
         "thresholdInputDescription_BURNED_PERCENTAGE": "When <1/> <2/> percent of error budget is consumed",
         "thresholdInputDescription_STATUS": "When SLO status is <1/> <2/> percent",
         "thresholdInputDescription_BURN_RATE": "Evaluate the last <1/> of the SLO.",
+        "thresholdInputDescription_BURN_RATE_V2": "Evaluate the last <1/> of the SLO.",
         "timeThresholdType_gracePeriod": "When the condition persists over a specified amount of time",
         "timeThresholdTypeTitle_gracePeriod": "Alert when the condition is violated for consecutive $t(in-components:time.minutes, {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "At least $t(in-components:time.minutes, {\"count\": {{minutes}} }) must have passed for the event to end",
@@ -1926,7 +1933,11 @@
         "alertPropertiesTitlePlaceholder_STATUS": "SLO status is low",
         "alertPropertiesDescriptionPlaceholder_STATUS": "SLO status is {{operator}} {{percentage}}.",
         "alertPropertiesTitlePlaceholder_BURN_RATE": "Burn rate is exceeded",
-        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "Burn rate of the SLO is {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE_V2": "Burn rate is exceeded",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "Burn rate of the SLO is {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2": "Burn rate of the SLO is {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_SINGLE": "Burn rate of the SLO is {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_MULTI": "Burn rate of the SLO Long window is {{longWindowOperator}} {{longWindowPercentage}} and Short window is {{shortWindowOperator}} {{shortWindowPercentage}}.",
         "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "Remaining error budget is low",
         "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Consumed {{operator}} {{percentage}} of the error budget.",
         "alertPropertiesIncidentWarning": "Incidents are only applicable to SLO's associated with applications"
@@ -1942,8 +1953,10 @@
         "blueprintLabel": "Blueprint",
         "blueprintInfo": "",
         "blueprintInfo_BURN_RATE": "Burn rate",
+        "blueprintInfo_BURN_RATE_V2": "Burn rate",
         "blueprintInfo_BURNED_PERCENTAGE": "Error budget consumed",
         "blueprintInfo_STATUS": "Status",
+        "singleWindowLabel": "Alert window",
         "longWindowLabel": "Long window",
         "shortWindowLabel": "Short window",
         "timeWindowInfo_minute": "{{count}} minute",
@@ -1964,10 +1977,14 @@
         "coolDownPeriodDescription": "A minimum of {{value}} must pass for the event to conclude."
       },
       "alertList": {
-        "threshold": "Threshold: {{value}}",
-        "threshold_BURN_RATE": "Burn rate: {{value}}",
-        "threshold_BURNED_PERCENTAGE": "Threshold: {{value}}",
-        "threshold_STATUS": "Threshold: {{value}}",
+        "threshold": "{{metric}}, threshold {{operator}} {{value}}",
+        "threshold_BURN_RATE": "{{metric}}, threshold {{operator}} {{value}}",
+        "singleWindowThreshold_BURN_RATE_V2": "{{metric}}, threshold {{operator}} {{value}}",
+        "longWindowThreshold_BURN_RATE_V2": "{{metric}}, threshold (Long) {{longWindowOperator}} {{longWindowValue}}, (Short) {{shortWindowoperator}} {{shortWindowValue}}",
+        "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, threshold (Long) {{operator}} {{value}} & (Short) < 1",
+        "threshold_BURNED_PERCENTAGE": "{{metric}}, threshold {{operator}} {{value}}",
+        "threshold_STATUS": "{{metric}}, threshold {{operator}} {{value}}",
+        "alertListSloAppliedColumnName":"SLOs applied",
         "sloApplied": "SLOs Applied",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
@@ -1976,8 +1993,13 @@
         "sloCount_2": "{{count}} SLOs",
         "title": "",
         "title_BURN_RATE": "Burn rate",
+        "title_BURN_RATE_V2": "Burn rate",
         "title_BURNED_PERCENTAGE": "Error budget consumed",
-        "title_STATUS": "Status"
+        "title_STATUS": "Status",
+        "errorBudgetLabel": "Error Budget",
+        "deprecatedLabel": "Deprecated",
+        "noDataHeader": "No Slo Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "messages": {
         "successTitle": "",

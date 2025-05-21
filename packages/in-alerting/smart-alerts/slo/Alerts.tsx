@@ -7,44 +7,30 @@
 import React from 'react';
 
 import { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
-import { Card, ColumnizedDefinition } from '@instana/components';
 
 import {
   serviceLevelsAlertDetailsFullyQualified,
   serviceLevelsAlertsSegment,
   serviceLevelsObjectiveAlertDetailsFullyQualified
 } from 'in-service-levels/navigation/path';
-import {
-  deleteAlertConfig,
-  disableAlertConfig,
-  enableAlertConfig
-} from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
-import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsListWithUrlState';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { sloSmartAlertDetailsUrlParameters } from 'in-service-levels/navigation/urlParameters';
 import { getAllSloAlertConfigurations } from 'in-alerting/smart-alerts/slo/api/sloAlertConfig';
-import { ActionHandlers } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
-import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
-import AlertConfigDialog from 'in-alerting/smart-alerts/slo/dialog/AlertConfigDialog';
-import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
+import { getActionHandlers } from 'in-alerting/smart-alerts/slo/list/AlertListHandlers';
+import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import SloAppliedColumn from 'in-alerting/smart-alerts/slo/list/SloAppliedColumn';
 import AlertTypeColumn from 'in-alerting/smart-alerts/slo/list/AlertTypeColumn';
-import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import CreateSmartAlert from 'in-alerting/smart-alerts/slo/CreateSmartAlert';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import { sortOptions } from 'in-alerting/smart-alerts/slo/constants';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
-import { deepFreeze } from 'in-services/util/object';
 import Footer from 'in-components/Footer/Footer';
 import { Trans, t } from 'in-i18n';
-
-const sortOptions = deepFreeze([{ label: t('in-alerting:smartAlerts.sortOptions.name'), value: 'name' }]);
 
 export interface AlertsProps {
   sloId?: string;
@@ -61,42 +47,72 @@ export default function Alerts({ sloId }: AlertsProps) {
           pagePath: location?.pathname
         }}
       />
-      <Card>
-        <SmartAlertsListWithUrlState
-          getLocalAlertConfigsFetchFunction={() => getAllSloAlertConfigurations(sloId)}
-          getLocalAlertConfigTitle={numberOfAlerts =>
-            t('in-alerting:smartAlerts.list.header.configuredAlerts', {
-              numberOfAlerts
-            })
-          }
-          columnDefinitions={columnDefinitions}
-          sortOptions={sortOptions}
-          createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, sloId)}
-          alertsTab={serviceLevelsAlertsSegment}
-        />
-      </Card>
+
+      <AlertBaseList<ServiceLevelsAlertConfigWithMetadata>
+        extraColumnDefinitions={columnDefinitions}
+        getAlertConfigs={() => getAllSloAlertConfigurations(sloId)}
+        createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, sloId)}
+        alertsTab={serviceLevelsAlertsSegment}
+        getSubtitle={config =>
+          (config.rule.metric === 'BURN_RATE' && t('in-alerting:smartAlerts.slo.alertList.deprecatedLabel')) || ''
+        }
+        sortOptions={sortOptions}
+        // for carbon table
+        displayCarbonTable={smartAlertCarbonTableEnabled}
+        getNameSubtitle={config =>
+          (config.rule.metric === 'BURN_RATE' && t('in-alerting:smartAlerts.slo.alertList.deprecatedLabel')) || ''
+        }
+        extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+        noDataHeader={t('in-alerting:smartAlerts.slo.alertList.noDataHeader')}
+        noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.slo.alertList.noDataDescription" />}
+        toolBarContent={<CreateSmartAlert sloId={sloId} />}
+      />
       <Footer />
     </>
   );
 }
 
-const columnDefinitions: ColumnizedDefinition[] = [
+const columnDefinitions = [
   {
+    id: 'alertType',
+    label: t('in-alerting:table.triggeringAction'),
     width: '30%',
-    getContent: ({ config }) => <NameColumnCell config={config} />
+    getContent: (config: ServiceLevelsAlertConfigWithMetadata) => <AlertTypeColumn config={config} />
   },
   {
-    getContent: ({ config }) => <AlertTypeColumn config={config} />,
-    width: '20%'
+    id: 'sloApplied',
+    label: t('in-alerting:smartAlerts.slo.alertList.alertListSloAppliedColumnName'),
+    getContent: (config: ServiceLevelsAlertConfigWithMetadata) => <SloAppliedColumn config={config} />
   },
+  // used custom action handler component since we conditionally render alert actions
   {
-    getContent: ({ config }) => <SloAppliedColumn config={config} />,
-    width: '20%'
-  },
-  {
-    getContent: ({ config }) => <ListActionsColumn config={config} actionHandlers={actionHandlers} isLoading={false} />
+    id: 'slo-actions',
+    label: '',
+    getContent: (config: ServiceLevelsAlertConfigWithMetadata) => (
+      <ListActionsColumn config={config} actionHandlers={getActionHandlers(config)} isLoading={false} />
+    )
   }
 ];
+
+function getCarbonTableColumnDefinitions() {
+  return [
+    {
+      id: 'triggering-action',
+      label: t('in-alerting:table.triggeringAction'),
+      ellipsis: '25vw',
+      getContent: (config: ServiceLevelsAlertConfigWithMetadata) => <AlertTypeColumn config={config} />,
+      sortable: false
+    },
+    // used custom action handler component since we conditionally render alert actions
+    {
+      id: 'slo-actions',
+      label: '',
+      getContent: (config: ServiceLevelsAlertConfigWithMetadata) => (
+        <ListActionsColumn config={config} actionHandlers={getActionHandlers(config)} isLoading={false} />
+      )
+    }
+  ];
+}
 
 function createRowLinkLocation(
   config: ServiceLevelsAlertConfigWithMetadata,
@@ -115,79 +131,3 @@ function createRowLinkLocation(
 
   return location;
 }
-
-const handleToggleEnabled: ActionHandlers<ServiceLevelsAlertConfigWithMetadata>['handleToggleEnabled'] = (
-  enabled,
-  id,
-  setIsSaving
-) => {
-  setIsSaving(true);
-
-  (enabled ? disableAlertConfig(id, baseUrl.SLO) : enableAlertConfig(id, baseUrl.SLO)).once(
-    () => {
-      refreshSmartAlertConfigsList();
-    },
-    () => {
-      setIsSaving(false);
-    }
-  );
-};
-
-const handleDelete: ActionHandlers<ServiceLevelsAlertConfigWithMetadata>['handleDelete'] = (
-  id,
-  setIsSaving,
-  configName
-) => {
-  addActiveDialog(
-    <ConfirmationDialog
-      header={t('in-alerting:smartAlerts.components.list.labelConfirm')}
-      description={
-        <span>
-          <Trans i18nKey="in-alerting:smartAlerts.components.list.labelConfirmRemoveConfig" values={{ configName }} />
-        </span>
-      }
-      confirmButtonLabel={t('in-alerting:smartAlerts.components.list.labelRemove')}
-      onSubmit={() => {
-        setIsSaving(true);
-        close();
-        deleteAlertConfig(id, baseUrl.SLO).once(
-          () => {
-            trackAlertDeleteConfirm(id);
-            refreshSmartAlertConfigsList();
-          },
-          () => {
-            setIsSaving(false);
-          }
-        );
-      }}
-    />
-  );
-};
-
-function handleClone(config: ServiceLevelsAlertConfigWithMetadata) {
-  openSmartAlertDialog(config, true);
-}
-
-function handleEdit(config: ServiceLevelsAlertConfigWithMetadata) {
-  openSmartAlertDialog(config, false);
-}
-
-function openSmartAlertDialog(config: ServiceLevelsAlertConfigWithMetadata, isCopy: boolean) {
-  addActiveDialog(
-    <AlertConfigDialog
-      alertConfig={isCopy ? duplicateAlertConfig(config) : config}
-      onClose={() => {
-        close();
-        refreshSmartAlertConfigsList();
-      }}
-      editMode={!isCopy}
-    />
-  );
-}
-
-const actionHandlers: ActionHandlers<ServiceLevelsAlertConfigWithMetadata> = {
-  handleClone,
-  handleEdit,
-  handleToggleEnabled,
-  handleDelete
-};
