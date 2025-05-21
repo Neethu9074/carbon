@@ -130,7 +130,7 @@ function TearSheetLoader({ action, actionFilter, copy, actionId, isFromDashboard
       kind: 'primary',
       label: t('in-automation:actionHistory.saveButton'),
       onClick: () => {
-        onSubmit({ form, setForm });
+        onSubmit({ form, action, setForm });
       }
     } as any,
     {
