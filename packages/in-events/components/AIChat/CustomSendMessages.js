@@ -51,22 +51,13 @@ export async function CustomSendMessages(
             {
               response_type: 'text',
               text: text
-            }
+            },
+            ...(restart ? reprompt : [])
           ]
         }
       },
       { silent: false }
     );
-    if (restart) {
-      await instance.messaging.addMessage(
-        {
-          output: {
-            generic: reprompt
-          }
-        },
-        { silent: false }
-      );
-    }
   }
   async function sendError(nlg, errorMessage) {
     await instance.messaging.addMessage(
