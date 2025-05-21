@@ -307,6 +307,8 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event  
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops            @Instana-IBM-GitHub-Enterprise @instana/eng-bizops @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/businessMetrics   @Instana-IBM-GitHub-Enterprise @instana/eng-bizops @instana/eng-ui
 
 # Custom Widget Table
 packages/in-custom-dashboards/widgets/Table @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui @instana/eng-infrastructure
