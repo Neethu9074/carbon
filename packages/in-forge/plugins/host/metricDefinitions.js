@@ -168,14 +168,8 @@ export default [
     formatter: number
   },
   {
-    metric: 'cpu.systemCalls',
-    label: t('in-forge:plugins.host.systemCalls'),
-    category: [t('in-forge:plugins.host.cpu')],
-    min: 0,
-    formatter: number.compact
-  },
-  {
     metrics: [
+      'cpu.systemCalls',
       'cpu.systemReads',
       'cpu.systemWrites',
       'cpu.blockReads',
@@ -186,6 +180,7 @@ export default [
       'cpu.logicalBlockWrites'
     ],
     labels: [
+      t('in-forge:plugins.host.systemCalls'),
       t('in-forge:plugins.host.systemReads'),
       t('in-forge:plugins.host.systemWrites'),
       t('in-forge:plugins.host.blockReads'),
