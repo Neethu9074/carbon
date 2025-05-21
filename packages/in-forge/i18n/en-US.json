@@ -11080,7 +11080,7 @@
         "processesStopped": "Stopped",
         "CpuProcess": "Process Statistics",
         "stolenIdleCyclesPct": "Stolen idle cycles",
-        "physc": "Physical CPU Consumption",
+        "physicalConsumption": "Physical CPU Consumption",
         "userSessions": "User Sessions",
         "load": "Load",
         "memory": "Memory",

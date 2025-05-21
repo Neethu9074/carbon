@@ -118,8 +118,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           )}
 
           {isAixOs(snapshot) && (
-            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.physc')}>
-              <MetricValue snapshotId={snapshot.get('id')} metric="cpu.physc" formatter={number.twoDecimalPlaces} />
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.physicalConsumption')}>
+              <MetricValue snapshotId={snapshot.get('id')} metric="cpu.physicalConsumption" formatter={number.twoDecimalPlaces} />
             </KpiKeyValue>
           )}
         </div>
