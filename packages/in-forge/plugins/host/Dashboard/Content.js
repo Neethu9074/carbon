@@ -66,52 +66,39 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             gap: '16px',
             width: '100%',
             boxSizing: 'border-box'
-          }}
-        >
+          }}>
           <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuUsage')}>
             <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
           </KpiKeyValue>
 
-          {isLinux(snapshot) && (
-            <>
-              <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processBlockedState')}>
-                <MetricValue
-                  snapshotId={snapshot.get('id')}
-                  metric="systemProcess.blockedProcesses"
-                  formatter={number.compact}
-                />
-              </KpiKeyValue>
-              <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processWaitingRuntime')}>
-                <MetricValue
-                  snapshotId={snapshot.get('id')}
-                  metric="systemProcess.runningProcesses"
-                  formatter={number.compact}
-                />
-              </KpiKeyValue>
-            </>
-          )}
-
-          {!isIbmiOs(snapshot) && (
-            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.memoryUsage')}>
-              <MetricValue
-                snapshotId={snapshot.get('id')}
-                metric="memory.used"
-                formatter={percentageZeroDecimalPlaces}
-              />
+        {isLinux(snapshot) && (
+          <>
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processBlockedState')}>
+              <MetricValue snapshotId={snapshot.get('id')} metric="systemProcess.blockedProcesses" formatter={number.compact} />
             </KpiKeyValue>
-          )}
-
-          {isAixOs(snapshot) && (
-            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.avgRunQueue')}>
-              <MetricValue
-                snapshotId={snapshot.get('id')}
-                metric="cpu.avgRunQueue"
-                formatter={value =>
-                  value < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : twoDecimalPlaces(value)
-                }
-              />
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processWaitingRuntime')}>
+              <MetricValue snapshotId={snapshot.get('id')} metric="systemProcess.runningProcesses" formatter={number.compact} />
             </KpiKeyValue>
-          )}
+          </>
+        )}
+
+        {!isIbmiOs(snapshot) && (
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.memoryUsage')}>
+            <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
+          </KpiKeyValue>
+        )}
+
+        {isAixOs(snapshot) && (
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.avgRunQueue')}>
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric="cpu.avgRunQueue"
+              formatter={value =>
+                value < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : twoDecimalPlaces(value)
+              }
+            />
+          </KpiKeyValue>
+        )}
 
           {!(isWindows(snapshot) || isZos(snapshot)) && (
             <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuLoad')}>
@@ -326,18 +313,18 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min: 0,
-                formatter: bytes.detailed,
-                metrics: ['memory.total'],
-                labels: [t('in-forge:plugins.host.total')],
-                type: 'line'
+                 min: 0,
+                 formatter: bytes.detailed,
+                 metrics: ['memory.total'],
+                 labels: [t('in-forge:plugins.host.total')],
+                 type: 'line'
               }}
               y2={{
-                min: 0,
-                formatter: percentageZeroDecimalPlaces,
-                metrics: memoryUsedMetrics,
-                labels: memoryUsedMetricsLabels,
-                type: 'line'
+                 min: 0,
+                 formatter: percentageZeroDecimalPlaces,
+                 metrics: memoryUsedMetrics,
+                 labels: memoryUsedMetricsLabels,
+                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -405,14 +392,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
-          {isLinux(snapshot) && (
+          {(isLinux(snapshot)) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min: 0,
+                min:0,
                 formatter: bytes.detailed,
                 metrics: ['memory.virtualTotal', 'memory.virtualUsed', 'memory.virtualFree'],
                 labels: [
@@ -425,14 +412,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
-          {isLinux(snapshot) && (
+          {(isLinux(snapshot)) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min: 0,
+                min:0,
                 formatter: bytes.detailed,
                 metrics: ['memory.shared'],
                 labels: [t('in-forge:plugins.host.dashboard.shared')],
