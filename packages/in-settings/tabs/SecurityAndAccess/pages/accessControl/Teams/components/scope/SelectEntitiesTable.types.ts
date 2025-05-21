@@ -18,6 +18,7 @@ export interface SelectEntitiesTableProps<I> {
   observable: () => Observable<Result<I[]>>;
   tableAddLabel: string;
   tableTitle: string;
+  showTableHeader?: boolean;
 }
 
 export interface ScopeItemRow<ROW_DATA> {

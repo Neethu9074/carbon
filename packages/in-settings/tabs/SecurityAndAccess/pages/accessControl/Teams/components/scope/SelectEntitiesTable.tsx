@@ -71,7 +71,8 @@ const SelectEntitiesTable = <I,>({
   extractName,
   observable,
   tableAddLabel,
-  tableTitle
+  tableTitle,
+  showTableHeader = false
 }: SelectEntitiesTableProps<I>) => {
   const { form, updateIn } = useMapFormContext<ScopeTableFormFields>(SCOPE_FORM_ID);
   const itemsField = form.getIn([fieldName]);
@@ -121,7 +122,7 @@ const SelectEntitiesTable = <I,>({
   };
 
   return (
-    <div className={locals.scopeSelectEntitiesTable}>
+    <div className={showTableHeader ? undefined : locals.hideSelectEntitiesTableHeader}>
       <MultiSelectDataTable
         getBatchActionItems={() => SELECT_ENTITIES_TABLE_BATCH_ACTIONS}
         getEntityName={({ name }) => t('in-settings:tabs.teams.scopeItemName', { name: name })}

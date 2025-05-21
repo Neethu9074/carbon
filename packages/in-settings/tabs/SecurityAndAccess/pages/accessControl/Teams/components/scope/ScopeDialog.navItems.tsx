@@ -6,21 +6,21 @@
 
 import React from 'react';
 
-import { just } from '@instana/observables';
-
 import {
   getAllSyntheticCredentialsForEntitySelectionWithDefaults,
   getAllSyntheticTestsForEntitySelectionWithDefaults
 } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import { getAllBusinessPerspectivesForEntitySelectionWithDefaults } from 'in-bizops/subscriptions/helpers/getAllBusinessPerspectivesForEntitySelectionWithDefaults';
+import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesNamespacesForEntitySelection';
+import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
 import LimitedAccessSwitcher from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
+import KubernetesSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/KubernetesSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import ScopeSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection';
 import { TeamScopeEntity } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { LimitedAccessScope } from 'in-stores/permission';
-import { success } from 'in-services/util/result';
 import { TimeConfig } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
@@ -84,15 +84,15 @@ export const createNavItems = (timeConfig: TimeConfig) => {
           extractName={extractName}
           fieldName="businessPerspectives"
           limitedAccessScopes={[LimitedAccessScope.LIMITED_BIZOPS_SCOPE]}
-          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedBusinessMonitoringSwitchLabel')}
+          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedBusinessProcessesSwitchLabel')}
           observable={() => getAllBusinessPerspectivesForEntitySelectionWithDefaults({ timeConfig })}
           tableAddLabel={t('in-settings:dialogs.scope.addBusinessPerspectivesLabel')}
-          tableTitle={t('in-settings:dialogs.scope.businessMonitoringSectionTitle')}
+          tableTitle={t('in-settings:dialogs.scope.businessProcessesSectionTitle')}
         />
       ),
-      label: t('in-settings:dialogs.scope.businessMonitoringSectionTitle'),
+      label: t('in-settings:dialogs.scope.businessProcessesSectionTitle'),
       scrollId: 'business-monitoring-section',
-      title: t('in-settings:dialogs.scope.businessMonitoringSectionTitle'),
+      title: t('in-settings:dialogs.scope.businessProcessesSectionTitle'),
       valid: true
     },
     {
@@ -115,20 +115,24 @@ export const createNavItems = (timeConfig: TimeConfig) => {
     },
     {
       content: (
-        <ScopeSection<TeamScopeEntity>
+        <KubernetesSection<TeamScopeEntity>
           extractId={extractId}
           extractName={extractName}
-          fieldName="kubernetesClusters"
+          clustersFieldName="kubernetesClusters"
+          clustersObservable={() => getAllKubernetesClustersForEntitySelectionWithDefaults({ timeConfig })}
+          clustersTableAddLabel={t('in-settings:dialogs.scope.addClustersLabel')}
+          clustersTableTitle={t('in-settings:dialogs.scope.kubernetesSectionClustersTitle')}
+          nameSpacesFieldName="kubernetesNamespaces"
+          nameSpacesObservable={() => getAllKubernetesNamespacesForEntitySelectionWithDefaults({ timeConfig })}
+          nameSpacesTableAddLabel={t('in-settings:dialogs.scope.addNameSpacesLabel')}
+          nameSpacesTableTitle={t('in-settings:dialogs.scope.kubernetesSectionNameSpacesTitle')}
           limitedAccessScopes={[LimitedAccessScope.LIMITED_KUBERNETES_SCOPE]}
-          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedPlatformsSwitchLabel')}
-          tableAddLabel={t('in-settings:dialogs.scope.addClustersLabel')}
-          tableTitle={t('in-settings:dialogs.scope.platformsSectionTitle')}
-          observable={() => just(success([]))}
+          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedKubernetesSwitchLabel')}
         />
       ),
-      label: t('in-settings:dialogs.scope.platformsSectionTitle'),
+      label: t('in-settings:dialogs.scope.kubernetesSectionTitle'),
       scrollId: 'platforms-section',
-      title: t('in-settings:dialogs.scope.platformsSectionTitle'),
+      title: t('in-settings:dialogs.scope.kubernetesSectionTitle'),
       valid: true
     },
     {
