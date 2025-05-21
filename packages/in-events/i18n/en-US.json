@@ -21,6 +21,7 @@
   "titleRelatedEvents": "Related events ({{eventCount}})",
   "titleAffectedIncidents": "Affected Incidents",
   "noRelatedEvents": "No related events found",
+  "noMetricsFound": "No metric found",
   "titleLastProcess": "Last process",
   "titleLastHost": "Last host",
   "titleLastKnownHost": "Last known host",

@@ -27,8 +27,8 @@ export function getPluginsWithCustomMetricsOptionsObservable() {
   });
 }
 
-export function getCustomMetricsOptionsForPluginObservable(entityType) {
-  return getCustomMetricsForPlugin(entityType).map(metricInstances => {
+export function getCustomMetricsOptionsForPluginObservable(entityType, searchKey) {
+  return getCustomMetricsForPlugin(entityType, searchKey).map(metricInstances => {
     const result = [];
     if (metricInstances) {
       metricInstances.map(metricInstance => {

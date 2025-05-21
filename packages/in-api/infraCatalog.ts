@@ -32,13 +32,15 @@ export function getPluginsWithCustomMetrics() {
   }).map(response => fromJS(response.body));
 }
 
-export function getCustomMetricsForPlugin(plugin: string) {
+export function getCustomMetricsForPlugin(plugin: string, searchKey?: string) {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/infrastructure-monitoring/catalog/metrics/${encodeURIComponent(plugin)}`,
     queryParams: {
-      filter: 'custom'
+      filter: 'custom',
+      limit: 1000,
+      label: searchKey
     }
   }).map(response => fromJS(response.body));
 }
