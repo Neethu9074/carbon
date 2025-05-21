@@ -178,7 +178,7 @@ export async function CustomSendMessages(
           async apiData => {
             const tabular = formatForTable(nlgResponse, apiData);
             await instance.messaging.removeMessages([statusMessageId]);
-            if (tabular.output?.generic?.[0]?.user_defined?.rows?.length == 0) {
+            if (tabular.output?.generic?.[1]?.user_defined?.rows?.length == 0) {
               sendTextMessage(nlgResponse, t('in-events:aichat.noMatching'), true);
             } else {
               instance.messaging.addMessage(tabular);
