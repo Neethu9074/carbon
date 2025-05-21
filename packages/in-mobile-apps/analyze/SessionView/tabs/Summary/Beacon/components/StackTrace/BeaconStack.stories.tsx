@@ -187,6 +187,7 @@ const testData: Record<string, MobileAppMonitoringBeacon> = {
     rateLimitCount: 0,
     rateLimitTimeMax: 0,
     rateLimitTimeMin: 0,
-    usedMb: 0
+    usedMb: 0,
+    currentAppState: ''
   }
 };

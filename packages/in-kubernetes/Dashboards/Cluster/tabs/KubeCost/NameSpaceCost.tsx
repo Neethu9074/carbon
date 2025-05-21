@@ -38,7 +38,7 @@ interface CSVExportProps {
   csvData: Record<string, any>[];
 }
 
-export const colorFormatter = function Color(value: object | undefined | null) {
+export const colorFormatter = function Color(value: number | object) {
   if (typeof value === 'number') {
     if (value > 0) {
       return themes.default.ids.color.option.red['500'];
@@ -232,8 +232,13 @@ const cols = [
         return `namespaceCostList.${row.key}.trend`;
       },
       getContent(row: NamespaceCostRow) {
-        const trendValue = row;
-        return <Badge color={colorFormatter(trendValue)}>{trendValue + '%'}</Badge>;
+        // BeeInstana doesn't support negative values, so we subtract the 1000 offset (added by the sensor) to normalize the values for display.
+        const isValidNumber = typeof row === 'number';
+        const adjustedtrendValue = isValidNumber ? row - 1000 : row;
+
+        if (!isValidNumber) return '-';
+
+        return <Badge color={colorFormatter(adjustedtrendValue)}>{adjustedtrendValue + '%'}</Badge>;
       },
       getTimeWindowAggregation() {
         return 'sum';

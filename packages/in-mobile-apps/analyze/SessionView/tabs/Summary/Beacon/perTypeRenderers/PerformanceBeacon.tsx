@@ -41,6 +41,8 @@ const LABELS = {
 
 export const getLabel = (beacon: MobileAppMonitoringBeacon) => LABELS[beacon.performanceSubtype] || null;
 
+export const getAppStatusLabel = (beacon: MobileAppMonitoringBeacon) => beacon.currentAppState;
+
 export const getExtraTooltipFields = () => ({});
 
 const getDurationValue = (beacon: MobileAppMonitoringBeacon) => {
@@ -74,6 +76,12 @@ export const LeftHeader: FC<LeftHeaderProps> = ({ beacon, earliestTimestamp }) =
       label={t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.durationLabel')}
       value={getDurationValue(beacon)}
     />
+    {getAppStatusLabel(beacon) && (
+      <KeyValueHeader
+        label={t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.appStatusLabel')}
+        value={getAppStatusLabel(beacon)}
+      />
+    )}
   </Fragment>
 );
 

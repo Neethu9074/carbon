@@ -10,6 +10,10 @@ import { Error, isApplicationSloEntity, Result, ServiceLevelObjectiveConfigurati
 import { combineLatest, just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import {
+  serviceLevelsObjectiveAlertsFullyQualified,
+  serviceLevelsObjectiveSummaryFullyQualified
+} from 'in-service-levels/navigation/path';
 import tabs, {
   ApplicationSloTabData,
   isApplicationSloTabData,
@@ -19,7 +23,6 @@ import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/compone
 import { defaultServiceLevelObjectiveUrlParameters, SloUrlState } from 'in-service-levels/navigation/urlParameters';
 import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
-import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
@@ -28,6 +31,7 @@ import { LabeledEntity, SloMonitoredEntity } from 'in-service-levels/types';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { getSloConfiguration } from 'in-service-levels/api/configuration';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { loadEntities } from 'in-service-levels/utils/loadEntities';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -67,8 +71,7 @@ export default function ServiceLevelsObjectiveDashboard() {
   const endpoint = tabData && isApplicationSloTabData(tabData) ? tabData.endpoint : undefined;
   const configuration = tabData?.configuration;
   const sloTimeWindow = configuration?.timeWindow;
-  const openCreateSmartAlertDialog = () =>
-    addActiveDialog(<CreateSmartAlertDialog preselectedSloId={tabData?.configuration.id} />);
+  const isSmartAlertsDashboardList = location.pathname === serviceLevelsObjectiveAlertsFullyQualified;
 
   return (
     <>
@@ -102,11 +105,17 @@ export default function ServiceLevelsObjectiveDashboard() {
         />
       </SloTimeWindowProvider>
       <Footer />
-      <FloatingActionButtons>
-        <FloatingActionButton icon="lib_alerts_create" kind="primaryv2" onClick={openCreateSmartAlertDialog}>
-          {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
-        </FloatingActionButton>
-      </FloatingActionButtons>
+      {(!smartAlertCarbonTableEnabled || (smartAlertCarbonTableEnabled && !isSmartAlertsDashboardList)) && (
+        <FloatingActionButtons>
+          <FloatingActionButton
+            icon="lib_alerts_create"
+            kind="primaryv2"
+            onClick={() => addActiveDialog(<CreateSmartAlertDialog preselectedSloId={tabData?.configuration.id} />)}
+          >
+            {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
+          </FloatingActionButton>
+        </FloatingActionButtons>
+      )}
     </>
   );
 }

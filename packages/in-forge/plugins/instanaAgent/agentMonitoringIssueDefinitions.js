@@ -357,5 +357,60 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/switch-to-J11`
+  },
+  kubecost_invalid_url: {
+    issueDescription: {
+      Component: function kubecostInvalidUrl({ connectionUrl }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.kubecost.kubecostInvalidUrl" values={{ connectionUrl: connectionUrl }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: t('in-forge:plugins.kubecost.instanaKubecostDocumentationUrl')
+  },
+  kubecost_unknown_cluster: {
+    issueDescription: {
+      Component: function kubecostUnknownCluster({ clusterId }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.kubecost.kubecostUnknownCluster" values={{ clusterId }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: t('in-forge:plugins.kubecost.instanaKubecostDocumentationUrl')
+  },
+  kubecost_unable_to_connect: {
+    issueDescription: {
+      Component: function kubecostUnableToConnect({ connectionUrl, statusCode }) {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.kubecost.kubecostUnableToConnect"
+              values={{ connectionUrl: connectionUrl, statusCode: statusCode }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: t('in-forge:plugins.kubecost.instanaKubecostDocumentationUrl')
+  },
+  kubecost_unable_to_authenticate: {
+    issueDescription: {
+      Component: function kubecostUnableToAuthenticate() {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.kubecost.kubecostUnableToAuthenticate" />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: t('in-forge:plugins.kubecost.instanaKubecostDocumentationUrl')
   }
 };

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
 
@@ -39,8 +39,11 @@ import { Nullish } from 'in-types';
 interface AlertDetailsProps {
   sloId?: string;
 }
+
 export default function AlertDetails({ sloId }: AlertDetailsProps) {
   const timeConfig = useTimeConfig();
+  const [alertConfig, setAlertConfig] = useState<ServiceLevelsAlertConfigWithMetadata>();
+
   return (
     <LeftRightPadding>
       <Alert
@@ -62,11 +65,15 @@ export default function AlertDetails({ sloId }: AlertDetailsProps) {
         disableConfig={(id: string) => disableAlertConfig(id, baseUrl.SLO)}
         deleteConfig={(id: string) => deleteAlertConfig(id, baseUrl.SLO)}
         restoreConfig={restoreSloAlertConfiguration}
-        renderSmartAlertDialog={SmartAlertDialogWrapper}
-        renderAlertConfiguration={AlertConfiguration}
+        renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
+        renderAlertConfiguration={({ alertConfig }: { alertConfig: ServiceLevelsAlertConfigWithMetadata }) => {
+          setAlertConfig(alertConfig);
+          return <AlertConfiguration alertConfig={alertConfig} />;
+        }}
         getAllowedPlaceholders={() => []}
         isGlobalSmartAlert
         canConfigureGlobalAlertConfigs
+        showActionButton={Boolean(alertConfig) && alertConfig?.rule?.metric !== 'BURN_RATE'}
       />
     </LeftRightPadding>
   );

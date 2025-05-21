@@ -4,12 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
-import {
-  SloAlertForm,
-  createUnvalidatedSloBurnRateTimeWindowsForm,
-  createValidatedSloBurnRateTimeWindowsForm
-} from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
+import { createListForm } from 'formalistic';
+
+import { ServiceLevelsBurnRateConfig } from '@instana/types';
+
+import { defaultOperator, defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
+import { createBurnRateAlertConfig } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
+import { BurnRateAlertType, SloAlertForm } from 'in-alerting/smart-alerts/slo/types';
 import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -37,14 +39,20 @@ function updateAlertType(form: SloAlertForm): SloAlertForm {
   );
 }
 
-function updateBurnRateTimeWindowsForm(form: SloAlertForm): SloAlertForm {
+function updateBurnRateConfigForm(form: SloAlertForm): SloAlertForm {
   const alertMetricValue = form.getIn(['rule', 'metric']).value;
-  const burnRateFormReplacement =
-    alertMetricValue === 'BURN_RATE'
-      ? createValidatedSloBurnRateTimeWindowsForm()
-      : createUnvalidatedSloBurnRateTimeWindowsForm();
+  const burnRateAlertType = form.getIn(['burnRateAlertType']).value;
 
-  return form.put('burnRateTimeWindows', burnRateFormReplacement);
+  const burnRateFormReplacement =
+    alertMetricValue === 'BURN_RATE_V2'
+      ? createBurnRateAlertConfig(
+          defaultSloAlertConfig.burnRateConfig as ServiceLevelsBurnRateConfig[],
+          burnRateAlertType,
+          true
+        )
+      : createListForm({ items: [] });
+
+  return form.put('burnRateConfig', burnRateFormReplacement);
 }
 
 export function updateSloAlertNameAndDescription(form: SloAlertForm): SloAlertForm {
@@ -52,7 +60,9 @@ export function updateSloAlertNameAndDescription(form: SloAlertForm): SloAlertFo
   const thresholdFormValue = form.getIn(['threshold']).value;
   const operator = form.getIn(['operator']).value;
   const threshold =
-    metric === 'BURN_RATE' ? thresholdFormValue : percentageUpToTwoDecimalPlaces(form.getIn(['threshold']).value ?? 0);
+    metric === 'BURN_RATE_V2' || metric === 'BURN_RATE'
+      ? thresholdFormValue
+      : percentageUpToTwoDecimalPlaces(form.getIn(['threshold']).value ?? 0);
 
   let updatedForm = form;
 
@@ -62,22 +72,56 @@ export function updateSloAlertNameAndDescription(form: SloAlertForm): SloAlertFo
     });
     updatedForm = updatedForm.updateIn(['name'], nameField => nameField.setValue(titlePlaceholder));
   }
+  let descriptionPlaceholder = '';
 
   if (!form.get('description').touched) {
-    const descriptionPlaceholder = t(
-      'in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder',
-      {
-        context: metric,
-        percentage: threshold,
-        operator
-      }
-    );
+    if (metric === 'BURN_RATE_V2') {
+      descriptionPlaceholder = getBurnRateDescriptionPlaceholder(updatedForm);
+    } else {
+      descriptionPlaceholder = t(
+        'in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder',
+        {
+          context: metric,
+          percentage: threshold,
+          operator
+        }
+      );
+    }
     updatedForm = updatedForm.updateIn(['description'], descriptionField =>
       descriptionField.setValue(descriptionPlaceholder)
     );
   }
 
   return updatedForm;
+}
+
+export function getBurnRateDescriptionPlaceholder(form: SloAlertForm) {
+  const metric = form.getIn(['rule', 'metric']).value;
+  const burnRateAlertType = form.getIn(['burnRateAlertType']).value as BurnRateAlertType;
+  const burnRateConfig = (form.getIn(['burnRateConfig']).toJS() as ServiceLevelsBurnRateConfig[]) || [];
+
+  const burnRateContext = `${metric}_${burnRateAlertType.toUpperCase()}`;
+
+  const singleWindowConfig = burnRateConfig.find(({ alertWindowType }) => alertWindowType === 'SINGLE');
+  const longWindowConfig = burnRateConfig.find(({ alertWindowType }) => alertWindowType === 'LONG');
+  const shortWindowConfig = burnRateConfig.find(({ alertWindowType }) => alertWindowType === 'SHORT');
+
+  if (burnRateAlertType === 'single') {
+    return t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder', {
+      context: burnRateContext,
+      singleWindowOperator: singleWindowConfig?.threshold?.operator ?? defaultOperator,
+      singleWindowPercentage: singleWindowConfig?.threshold?.value ?? 0
+    });
+  } else if (burnRateAlertType === 'multi') {
+    return t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder', {
+      context: burnRateContext,
+      longWindowPercentage: longWindowConfig?.threshold?.value ?? 0,
+      shortWindowPercentage: shortWindowConfig?.threshold?.value ?? 0,
+      longWindowOperator: longWindowConfig?.threshold?.operator ?? defaultOperator,
+      shortWindowOperator: shortWindowConfig?.threshold?.operator ?? defaultOperator
+    });
+  }
+  return '';
 }
 
 const formSideEffects: Effect<SloAlertForm>[] = [
@@ -87,14 +131,22 @@ const formSideEffects: Effect<SloAlertForm>[] = [
   },
   {
     path: ['rule', 'metric'],
-    effects: [updateAlertType, updateThresholdOperator, updateSloAlertNameAndDescription, updateBurnRateTimeWindowsForm]
+    effects: [updateAlertType, updateThresholdOperator, updateSloAlertNameAndDescription, updateBurnRateConfigForm]
   },
   {
-    path: ['threshold'],
+    path: ['burnRateAlertType'],
+    effects: [updateSloAlertNameAndDescription]
+  },
+  {
+    path: ['burnRateConfig', /^(0|1)$/],
     effects: [updateSloAlertNameAndDescription]
   },
   {
     path: ['operator'],
+    effects: [updateSloAlertNameAndDescription]
+  },
+  {
+    path: ['threshold'],
     effects: [updateSloAlertNameAndDescription]
   }
 ];

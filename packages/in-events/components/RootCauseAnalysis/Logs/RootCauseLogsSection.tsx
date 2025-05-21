@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+// eslint-disable-next-line no-restricted-imports
+import { AccordionSkeleton } from '@carbon/react';
 import React, { useContext, useMemo } from 'react';
 import { get } from 'lodash';
 
@@ -19,7 +21,6 @@ import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/event
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Endpoint, Event } from 'in-types';
 import { t } from 'in-i18n';
@@ -59,7 +60,7 @@ const RootCauseLogsSection = ({ incident, rootCause }: RootCauseLogsSectionProps
     [relatedAPID]
   );
 
-  if (loadingStackData || loadingSnapshotData) return <LoadingIndicator />;
+  if (loadingStackData || loadingSnapshotData) return <AccordionSkeleton count={1} open={false} />;
 
   const probabilityScore = rootCause.probFailure;
   const rcaTrackingData = {
@@ -82,7 +83,7 @@ const RootCauseLogsSection = ({ incident, rootCause }: RootCauseLogsSectionProps
       </Collapsible.Header>
       <Collapsible.Content>
         <div className={locals.accordionContent}>
-          {entityData && infraServiceLabelInformation && nonInfraServiceLabelInformation && (
+          {entityData && (infraServiceLabelInformation || nonInfraServiceLabelInformation) && (
             <RootCauseContextDashboard
               applicationBoundaryScope="ALL"
               serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation?.[0]?.id}

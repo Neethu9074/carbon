@@ -5,6 +5,7 @@
 
 import React, { Fragment } from 'react';
 
+import { getAppStatusLabel } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
 import Meta from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/Meta';
@@ -23,6 +24,12 @@ export const LeftHeader = ({ beacon }) => (
       label={t('in-mobile-apps:sessionView.tabsSumSessionStartBeacon.sessionStartLabel')}
       value={getLabel(beacon)}
     />
+    {getAppStatusLabel(beacon) && (
+      <KeyValueHeader
+        label={t('in-mobile-apps:sessionView.tabsSumSessionStartBeacon.appStatusLabel')}
+        value={getAppStatusLabel(beacon)}
+      />
+    )}
   </Fragment>
 );
 

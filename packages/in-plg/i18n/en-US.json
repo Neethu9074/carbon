@@ -738,6 +738,7 @@
         "name": "Name",
         "owner": "Owner",
         "permissions": "Permissions",
+        "teams": "Teams",
         "searchPlaceholderLabel": "dashboards",
         "addButtonLabel": "dashboard",
         "viewAllLabel": "dashboards"

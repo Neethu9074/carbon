@@ -6,8 +6,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button, Tooltip } from '@instana/components';
+import { Button, Pill, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/carbon';
 
 import {
   applicationDashboardUrlParameters,
@@ -29,7 +30,6 @@ import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { capitalize } from 'in-services/formatters/string';
@@ -39,8 +39,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-import locals from './Endpoints.mless';
 
 const pathSegment = '/endpoints';
 const matrixPrefix = 'endpoint.';
@@ -93,9 +91,9 @@ const columnDefinitions = [
     sortable: false,
     getContent(item) {
       return (
-        <div className={locals.typeWrapper}>
-          <Badge color={getColor(item.endpoint.type)}>{item.endpoint.type}</Badge>
-          {item.endpoint.synthetic ? (
+        <Stack orientation="horizontal">
+          <Pill type={getColor(item.endpoint.type)}>{item.endpoint.type}</Pill>
+          {item.endpoint.synthetic && (
             <Tooltip
               align="topMiddle"
               content={
@@ -104,10 +102,10 @@ const columnDefinitions = [
                   : t('in-applications:synthetic')
               }
             >
-              <Badge type="magenta">{capitalize(item.endpoint.syntheticType)}</Badge>
+              <Pill type="magenta">{capitalize(item.endpoint.syntheticType)}</Pill>
             </Tooltip>
-          ) : null}
-        </div>
+          )}
+        </Stack>
       );
     }
   },
@@ -277,13 +275,7 @@ export default function Endpoints(props) {
   const rightHeader = ({ query }) => (
     <>
       {role.canConfigureServiceMapping && (
-        <Button
-          size="compact"
-          className={locals.button}
-          icon="lib_actions_settings"
-          kind="action"
-          href={getLinkToEndpointConfig(hasHttpType)}
-        >
+        <Button size="compact" icon="lib_actions_settings" kind="action" href={getLinkToEndpointConfig(hasHttpType)}>
           {t('in-applications:buttonConfigureEndpoints')}
         </Button>
       )}

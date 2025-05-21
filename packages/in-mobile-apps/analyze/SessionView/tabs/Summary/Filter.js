@@ -18,8 +18,19 @@ import { t } from 'in-i18n';
 
 import locals from './Filter.mless';
 
-export default function Filter({ view, setView, query, setQuery, filterTypes, setTypes, beacons }) {
+export default function Filter({
+  view,
+  setView,
+  query,
+  setQuery,
+  filterTypes,
+  setTypes,
+  beacons,
+  appState,
+  setAppState
+}) {
   const views = useMemo(() => getViews(beacons), [beacons]);
+  const appStates = useMemo(() => getAppStates(beacons), [beacons]);
 
   return (
     <div className={locals.wrapper}>
@@ -40,6 +51,27 @@ export default function Filter({ view, setView, query, setQuery, filterTypes, se
           >
             <option value="">{t('in-mobile-apps:sessionView.tabsSumFilter.allOption')}</option>
             {views.map(v => (
+              <option key={v} value={v}>
+                {v}
+              </option>
+            ))}
+          </Select>
+        </FilterBlock>
+      )}
+
+      {appStates.length > 1 && (
+        <FilterBlock title={t('in-mobile-apps:sessionView.tabsSumFilter.appStateTitle')}>
+          <Select
+            id="app-state-filter"
+            value={appState || ''}
+            className={locals.viewFilter}
+            onChange={e => {
+              stopPropagationAndPreventDefault(e);
+              setAppState(e.target.value || '');
+            }}
+          >
+            <option value="">{t('in-mobile-apps:sessionView.tabsSumFilter.allOption')}</option>
+            {appStates.map(v => (
               <option key={v} value={v}>
                 {v}
               </option>
@@ -130,6 +162,16 @@ function getViews(beacons) {
       .filter(isNotBlank)
       .sort(compareIgnoreCase),
     p => p.toLowerCase()
+  );
+}
+
+function getAppStates(beacons) {
+  return sortedUniqBy(
+    beacons
+      .map(b => b.currentAppState)
+      .filter(isNotBlank)
+      .sort(compareIgnoreCase),
+    s => s.toLowerCase()
   );
 }
 

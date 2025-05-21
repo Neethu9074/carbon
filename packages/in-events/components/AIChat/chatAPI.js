@@ -85,6 +85,7 @@ export function formatForTable(nlg, apiResponse) {
   const first = instanaApiResponse[0];
   const potentialTags = (Object.keys(first.tags || {}) || []).filter(x => /^label\..*|.*\.name$/.test(x));
   let useTag = potentialTags.length > 0 ? potentialTags[0] : null;
+
   if (first.name) {
     response.data.headers.push({ key: 'name', header: t('in-events:aichat.name') });
   } else if (useTag) {
@@ -108,7 +109,13 @@ export function formatForTable(nlg, apiResponse) {
     response.data.headers.push({ key: 'timestamp', header: t('in-events:aichat.timestamp') });
     instanaApiResponse.forEach((entry, i) => {
       const row = {};
-      row.name = entry.name || entry.tags?.[useTag];
+
+      if (useTag) {
+        row[useTag] = entry.tags?.[useTag];
+      } else {
+        row.name = entry.name;
+      }
+
       let timestamp;
       metricKeys.forEach((key, index) => {
         if (index === 0) {
@@ -189,19 +196,19 @@ export function formatForBarChart(tableData) {
   };
 
   const response = [];
-  if (!tableData || tableData.rows.length === 0) {
+  if (!tableData || tableData.rows?.length === 0) {
     return emptyChartData;
   }
 
   // Extract headers and rows
-  const headers = tableData.headers;
-  const rows = tableData.rows;
+  const headers = tableData?.headers;
+  const rows = tableData?.rows;
 
   // Map sorted rows to bar chart format
   rows.forEach(row => {
-    const group = row[headers[0].key];
+    const group = row[headers?.[0]?.key];
     // currently only visualizing first column of metrics
-    const value = row[headers[1].key];
+    const value = row[headers?.[1]?.key];
     response.push({
       group: group,
       value: value

@@ -25,10 +25,12 @@ import { customDashboard as customDashboardType } from 'in-plg/pages/WelcomePage
 import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 import { getCustomDashboardsPaginated, getUsers } from 'in-custom-dashboards/api';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getCustomDashboard } from 'in-custom-dashboards/api';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 
 export default function DashboardWidget({
@@ -57,6 +59,14 @@ export default function DashboardWidget({
         header: t('in-plg:welcomepage.component.dashboardWidget.permissions'),
         key: 'permissions'
       },
+      ...(rbacTeamsEnabled
+        ? [
+            {
+              header: t('in-plg:welcomepage.component.dashboardWidget.teams'),
+              key: 'teams'
+            }
+          ]
+        : []),
       {
         key: 'favourite',
         header: ''
@@ -97,6 +107,17 @@ export default function DashboardWidget({
         return <DashboardPermission id={item?.id} annotations={item?.annotations} />;
       }
     },
+    ...(rbacTeamsEnabled
+      ? [
+          {
+            key: 'teams',
+            getContent({ item }: any) {
+              const tags = item?.rbacTags;
+              return <TagsInTable tags={tags} />;
+            }
+          }
+        ]
+      : []),
     {
       key: 'favourite',
       getContent({ id, item, isDisabled = false, isFavourite = false }) {

@@ -14,16 +14,6 @@ export const defaultOperator: ThresholdOperator = '>=';
 
 export const defaultSloAlertConfig = Object.freeze({
   alertChannelIds: [],
-  burnRateTimeWindows: {
-    longTimeWindow: {
-      duration: 0,
-      durationType: 'minute'
-    },
-    shortTimeWindow: {
-      duration: 0,
-      durationType: 'minute'
-    }
-  },
   customPayloadFields: [],
   description: t('in-alerting:smartAlerts.slo.advancedModeContainer.alertPropertiesDescriptionPlaceholder', {
     context: 'BURNED_PERCENTAGE',
@@ -51,7 +41,8 @@ export const defaultSloAlertConfig = Object.freeze({
     expiry: minutes.toMillis(10),
     timeWindow: minutes.toMillis(10)
   },
-  triggering: false
+  triggering: false,
+  burnRateConfig: []
 } as ServiceLevelsAlertConfig);
 
 export function createNewAlertConfig(sloId?: string): ServiceLevelsAlertConfig {

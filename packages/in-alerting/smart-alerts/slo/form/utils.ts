@@ -10,10 +10,11 @@ import {
   DurationUnitType,
   ServiceLevelsAlertConfig,
   ServiceLevelsAlertRuleUnion,
-  ServiceLevelObjectiveConfiguration
+  ServiceLevelObjectiveConfiguration,
+  ServiceLevelsBurnRateConfig
 } from '@instana/types';
 
-import { SloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
+import { SloAlertForm } from 'in-alerting/smart-alerts/slo/types';
 
 export const getSloWithMinDurationTimeWindow = (slos: ServiceLevelObjectiveConfiguration[]) => {
   if (slos.length === 0) return undefined;
@@ -39,24 +40,21 @@ export const calculateTimeWindowInMilliseconds = (duration: number, durationUnit
 };
 
 export function formToSloAlertConfiguration(form: SloAlertForm): ServiceLevelsAlertConfig {
-  const alertMetricField = form.getIn(['rule', 'metric']);
   const alertChannelIds = form.getIn(['alertChannelIds']).value;
-  const burnRateTimeWindows =
-    alertMetricField.value === 'BURN_RATE' ? form.getIn(['burnRateTimeWindows']).toJS() : undefined;
   const customPayloadFields = form.getIn(['customPayloadFields']).toJS();
   const description = form.getIn(['description']).value;
   const name = form.getIn(['name']).value;
   const rule = form.getIn(['rule']).toJS() as ServiceLevelsAlertRuleUnion;
   const severity = form.getIn(['severity']).value;
   const sloIds = form.getIn(['sloIds']).value;
-  const threshold = form.getIn(['threshold']).value ?? 0;
+  const threshold = form.getIn(['threshold'])?.value ?? 0;
   const timeThreshold = form.getIn(['timeThreshold']).toJS();
   const triggering = form.getIn(['triggering']).value;
   const operator = form.getIn(['operator']).value;
-
+  const burnRateConfig = (form.getIn(['burnRateConfig']).toJS() as ServiceLevelsBurnRateConfig[]) ?? undefined;
   return {
     alertChannelIds,
-    burnRateTimeWindows,
+    burnRateConfig,
     customPayloadFields,
     description,
     name,

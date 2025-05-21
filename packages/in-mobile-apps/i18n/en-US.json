@@ -171,7 +171,8 @@
       "viewsTitle": "Views",
       "allOption": "All",
       "searchTitle": "Search",
-      "typesTitle": "Types"
+      "typesTitle": "Types",
+      "appStateTitle": "App state"
     },
     "tabsSumFilterableTypes": {
       "HTTPShort": "HTTP",
@@ -243,7 +244,8 @@
       "customEventHeader": "Custom event",
       "eventNameTitle": "Event name",
       "errMsgTitle": "Error message",
-      "metaHeader": "Meta"
+      "metaHeader": "Meta",
+      "appStatusLabel": "App state"
     },
     "tabsSumCrashBeacon": {
       "startTimeLabel": "Start time",
@@ -255,7 +257,8 @@
       "stackTrace": "Stack trace",
       "stackTraceLastOccurrence": "Stack trace (last occurrence)",
       "stackTraceButtonCrashedThreadsStackTrace": "Crashed threads",
-      "stackTraceButtonAllThreadsStackTrace": "All threads"
+      "stackTraceButtonAllThreadsStackTrace": "All threads",
+      "appStatusLabel": "App state"
     },
     "tabsSumPerformanceBeacon": {
       "performanceMetricLabel": "Performance metric",
@@ -270,7 +273,8 @@
       "errMsgTitle": "Error Message",
       "usedMemoryLabel": "Used memory",
       "availableMemoryLabel": "Available memory",
-      "maximumAvailableMemoryLabel": "Maximum available memory"
+      "maximumAvailableMemoryLabel": "Maximum available memory",
+      "appStatusLabel": "App state"
     },
     "tabsSumDroppedBeacons": {
       "droppedBeaconsLabel": "Dropped beacons",
@@ -283,7 +287,8 @@
       "httpMessage": "{{count}} HTTP beacons were dropped because the data fetching limit was reached.",
       "customeEventMessage": "{{count}} Custom event beacons were dropped because the data fetching limit was reached.",
       "viewMessage": "{{count}} View transitions beacons were dropped because the data fetching limit was reached.",
-      "learnMoreAboutDroppedBeacons": "To learn more visit Dropped beacons"
+      "learnMoreAboutDroppedBeacons": "To learn more visit Dropped beacons",
+      "appStatusLabel": "App state"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Retrieval time",
@@ -300,15 +305,18 @@
       "networkInsightsHeader": "Network insights",
       "transferSizeTitle": "Transfer size",
       "encodedBodySizeTitle": "Encoded body size",
-      "decodedBodySizeTitle": "Decoded body size"
+      "decodedBodySizeTitle": "Decoded body size",
+      "appStatusLabel": "App state"
     },
     "tabsSumSessionStartBeacon": {
       "sessionStartLabel": "Session start",
-      "metaHeader": "Meta"
+      "metaHeader": "Meta",
+      "appStatusLabel": "App state"
     },
     "tabsSumViewChangeBeacon": {
       "viewTransitionLabel": "View transition",
-      "startTimeLabel": "Start time"
+      "startTimeLabel": "Start time",
+      "appStatusLabel": "App state"
     }
   },
   "dashboard": {

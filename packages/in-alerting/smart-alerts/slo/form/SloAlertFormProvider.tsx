@@ -7,12 +7,9 @@
 import React, { PropsWithChildren, createContext } from 'react';
 import { Item } from 'formalistic';
 
-import {
-  SloAlertForm,
-  SloAlertFormPath,
-  createSloAlertForm
-} from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
+import { createSloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import { createNewAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
+import { SloAlertForm, SloAlertFormPath } from 'in-alerting/smart-alerts/slo/types';
 
 export type CreateSloAlertDialogMode = 'NEW' | 'EDIT';
 export type SloAlertFormOnChange = (path: SloAlertFormPath, updater: (i: Item) => Item) => void;

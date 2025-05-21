@@ -5,7 +5,7 @@
  */
 
 :local {
-  .scopeSelectEntitiesTable {
+  .hideSelectEntitiesTableHeader {
     :global(.cds--data-table-header) {
       display: none;
     }

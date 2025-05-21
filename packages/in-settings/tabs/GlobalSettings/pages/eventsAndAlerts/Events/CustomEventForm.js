@@ -39,9 +39,7 @@ export default function CustomEventForm({ form, setForm, onChange, hideLegacyApp
   }, [form.get('dataSource').value]);
 
   const customMetricsForPlugin = useObservable(() => {
-    if (isCustomDataSourceSelected(form) && entityType) {
-      return getCustomMetricsOptionsForPluginObservable(entityType);
-    }
+    return getCustomMetricOptions(form, entityType);
   }, [entityType]);
 
   const selectedApplicationName = form.get('application') ? form.get('application').value : '';
@@ -127,5 +125,11 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form) {
         customMetricsList.push(metricItem);
       }
     }
+  }
+}
+
+export function getCustomMetricOptions(form, entityType, searchKey = undefined) {
+  if (isCustomDataSourceSelected(form) && entityType) {
+    return getCustomMetricsOptionsForPluginObservable(entityType, searchKey);
   }
 }

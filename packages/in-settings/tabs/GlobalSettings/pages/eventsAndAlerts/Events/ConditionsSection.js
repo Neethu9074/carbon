@@ -198,6 +198,7 @@ export function ConditionsSection({
         onChange={onChange}
         disabled={disabled}
         customMetricsForPlugin={customMetricsForPlugin}
+        form={form}
       />
 
       {!hideAppDataLegacyEventsEnabled &&

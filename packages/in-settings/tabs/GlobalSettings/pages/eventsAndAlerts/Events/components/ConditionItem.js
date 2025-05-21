@@ -31,13 +31,13 @@ export function ConditionItem({
   customMetricsForPlugin,
   entityType,
   builtInDataSourceSelected,
-  customDataSourceSelected
+  customDataSourceSelected,
+  metricForm
 }) {
   const metricNameField = form.get('metricName');
   const metricName = metricNameField?.value;
   customMetricsForPlugin = fillMetricType(customMetricsForPlugin, metricName);
   const isNotDynamic = !entityType || !metricName || !isBuiltInDynamicMetric(entityType, metricName);
-
   return (
     <>
       {builtInDataSourceSelected && (
@@ -103,6 +103,9 @@ export function ConditionItem({
                     value={metricName}
                     metrics={customMetricsForPlugin}
                     onChange={onCustomMetricChanged(metricName, onChange, customMetricsForPlugin)}
+                    entityType={entityType}
+                    form={metricForm}
+                    metricOnChange={onChange}
                   />
                   <TouchedMessages field={metricNameField} />
                 </FormGroup>
@@ -124,7 +127,7 @@ export function ConditionItem({
   );
 }
 
-function fillMetricType(customMetricsForPlugin, metricName) {
+export function fillMetricType(customMetricsForPlugin, metricName) {
   if (customMetricsForPlugin?.filter(metric => metric.value === metricName).length == 0 && metricName) {
     const plugin = {
       label: toTitleCase(metricName),

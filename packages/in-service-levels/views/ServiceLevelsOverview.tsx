@@ -15,11 +15,16 @@ import {
 } from 'in-service-levels/navigation/path';
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
+import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import FloatingSloButtons from 'in-service-levels/components/FloatingSloButtons';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SloList from 'in-service-levels/components/SloList/SloList';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -32,6 +37,8 @@ import { t } from 'in-i18n';
 export default function ServiceLevelsOverview() {
   const { createHrefToPath, matchLocation } = useNavigation();
   const isServiceLevelsAlertsActive = matchLocation(serviceLevelsAlertsFullyQualified);
+  const isSloSmartAlertDetails = matchLocation(serviceLevelsAlertDetailsFullyQualified);
+
   return (
     <Sticky
       header={
@@ -67,7 +74,18 @@ export default function ServiceLevelsOverview() {
         {isServiceLevelsAlertsActive && <SloSmartAlerts />}
       </LeftRightPadding>
       <Footer />
-      <FloatingSloButtons />
+      {!isServiceLevelsAlertsActive && <FloatingSloButtons />}
+      {((isServiceLevelsAlertsActive && !smartAlertCarbonTableEnabled) || isSloSmartAlertDetails) && (
+        <FloatingActionButtons>
+          <FloatingActionButton
+            icon="lib_alerts_create"
+            kind="primaryv2"
+            onClick={() => addActiveDialog(<CreateSmartAlertDialog />)}
+          >
+            {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
+          </FloatingActionButton>
+        </FloatingActionButtons>
+      )}
     </Sticky>
   );
 }

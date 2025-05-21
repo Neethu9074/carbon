@@ -12,6 +12,7 @@ import { Link, Spacer } from '@instana/components';
 import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BatchIndicator';
 // @ts-expect-error Could not find a declaration file for module
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
+import { getAppStatusLabel } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import { LeftHeaderProps } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/types';
 import { CodeSnippet } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/CodeSnippet';
 // @ts-expect-error
@@ -92,6 +93,12 @@ export const LeftHeader: FC<LeftHeaderProps> = ({ beacon, earliestTimestamp }) =
         label={t('in-mobile-apps:sessionView.tabsSumDroppedBeacons.beaconCountLabel')}
         value={number.compact(rateLimitCount)}
       />
+      {getAppStatusLabel(beacon) && (
+        <KeyValueHeader
+          label={t('in-mobile-apps:sessionView.tabsSumDroppedBeacons.appStatusLabel')}
+          value={getAppStatusLabel(beacon)}
+        />
+      )}
     </Fragment>
   );
 };

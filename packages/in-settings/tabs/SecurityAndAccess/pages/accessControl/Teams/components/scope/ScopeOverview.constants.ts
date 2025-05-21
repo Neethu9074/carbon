@@ -11,10 +11,12 @@ import {
   getAllSyntheticTestsForEntitySelectionWithDefaults
 } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import { getAllBusinessPerspectivesForEntitySelectionWithDefaults } from 'in-bizops/subscriptions/helpers/getAllBusinessPerspectivesForEntitySelectionWithDefaults';
+import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesNamespacesForEntitySelection';
 import {
   extractId,
   extractName
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.navItems';
+import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import { ScopeArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.types';
@@ -55,10 +57,10 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     }
   },
   {
-    id: 'business-monitoring',
-    title: t('in-settings:tabs.teams.scopeBusinessMonitoring'),
+    id: 'business-processes',
+    title: t('in-settings:tabs.teams.scopeBusinessProcesses'),
     subtitle: scope => {
-      return t('in-settings:tabs.teams.scopeBusinessMonitoringSubtitle', {
+      return t('in-settings:tabs.teams.scopeBusinessProcessesSubtitle', {
         count: scope?.businessPerspectives?.length ?? 0
       });
     },
@@ -95,17 +97,26 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
   {
     id: 'platforms-infrastructure',
     title: t('in-settings:tabs.teams.scopePlatformsAndInfrastructure'),
-    subtitle: () => {
+    subtitle: scope => {
       return t('in-settings:tabs.teams.scopePlatformsAndInfrastructureSubtitle', {
-        count: 0
+        count: (scope?.kubernetesClusters?.length ?? 0) + (scope?.kubernetesNamespaces?.length ?? 0)
       });
     },
-    items: () => {
+    items: (scope, timeConfig) => {
       return [
         {
-          id: 'entities',
-          items: [],
-          observable: () => just(success([])),
+          id: 'kubernetes-namespaces',
+          title: t('in-settings:tabs.teams.scopeSectionKubernetesNameSpaces'),
+          items: scope?.kubernetesNamespaces,
+          observable: () => getAllKubernetesNamespacesForEntitySelectionWithDefaults({ timeConfig }),
+          extractId: extractId,
+          extractName: extractName
+        },
+        {
+          id: 'kubernetes-clusters',
+          title: t('in-settings:tabs.teams.scopeSectionKubernetesClusters'),
+          items: scope?.kubernetesClusters,
+          observable: () => getAllKubernetesClustersForEntitySelectionWithDefaults({ timeConfig }),
           extractId: extractId,
           extractName: extractName
         }

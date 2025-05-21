@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import ICMThreadConnQueue from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMThreadConnQueue';
 import ICMServicesList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServicesList';
 import ICMServiceList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServiceList';
 import ICMThreadList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMThreadList';
@@ -50,50 +51,7 @@ export default function Networks({ data }: { data: SnapshotData }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.icmThreads')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['icminfodatastats.maxThr', 'icminfodatastats.peekThr'],
-              labels: [t('in-sap:dashboards.maximum'), t('in-sap:dashboards.peek')],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title={t('in-sap:dashboards.icmConnections')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['icminfodatastats.maxConn', 'icminfodatastats.peekConn', 'icminfodatastats.curConn'],
-              labels: [t('in-sap:dashboards.maximum'), t('in-sap:dashboards.peek'), t('in-sap:dashboards.current')],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.icmQueue')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['icminfodatastats.maxQueue', 'icminfodatastats.peekQueue', 'icminfodatastats.curQueue'],
-              labels: [t('in-sap:dashboards.maximum'), t('in-sap:dashboards.peek'), t('in-sap:dashboards.current')],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
+        <ICMThreadConnQueue snapshotId={snapshotId} timeConfig={timeConfig} />
       </Columize>
       <ICMThreadList snapshotId={snapshotId} timeConfig={timeConfig} />
       <ICMServiceList snapshotId={snapshotId} timeConfig={timeConfig} />

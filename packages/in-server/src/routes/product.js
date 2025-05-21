@@ -199,7 +199,8 @@ router.get('/', async (req, res) => {
     const solisUiHost = clientConfig.solisUiHost ?? '';
     const isAssistMeEnabled = ibmCommonEnabled && featureFlags.assistmeEnabled && walkmeEnabled;
     const isSessionPlayBackRequired =
-      walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
+      walkmeEnabled &&
+      (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled || featureFlags.whatsNewBannerEnabled);
     const segmentAnalyticsEnabled = featureFlags.segmentAnalyticsEnabled;
     res.set(
       'Content-Security-Policy',

@@ -20,6 +20,7 @@ import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile'
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export default function WhatsNewBannerStepBuilder() {
@@ -34,6 +35,7 @@ export default function WhatsNewBannerStepBuilder() {
       buttonType: 'primary',
       onButtonClick: () => {
         trackCta(KUBECOST_INTEGRATION_BUTTON_CLICKED);
+        startRecording();
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
         //the id of the smart walk-thru is taken from walkme editor
         WalkMeAPI.startFlowById(2093256);
@@ -48,6 +50,7 @@ export default function WhatsNewBannerStepBuilder() {
       hasPermission: role?.canViewLogs,
       onButtonClick: () => {
         trackCta(LOGS_IN_CONTEXT_BUTTON_CLICKED);
+        startRecording();
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
         //the id of the smart walk-thru is taken from walkme editor
         WalkMeAPI.startFlowById(2094310);
@@ -62,6 +65,7 @@ export default function WhatsNewBannerStepBuilder() {
       hasPermission: hasApplicationsAccess,
       onButtonClick: () => {
         trackCta(TURBONOMIC_OPTIMIZATION_BUTTON_CLICKED);
+        startRecording();
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
         //the id of the smart walk-thru is taken from walkme editor
         WalkMeAPI.startFlowById(2103008);
@@ -76,6 +80,7 @@ export default function WhatsNewBannerStepBuilder() {
       hasPermission: hasApplicationsAccess,
       onButtonClick: () => {
         trackCta(CONCERT_INTEGRATION_BUTTON_CLICKED);
+        startRecording();
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
         //the id of the smart walk-thru is taken from walkme editor
         WalkMeAPI.startFlowById(2103195);
@@ -101,3 +106,12 @@ export default function WhatsNewBannerStepBuilder() {
     </Stack>
   );
 }
+
+const startRecording = () => {
+  //Sandbox and Free trial will have recordings from initialization
+  //This banner will not be shown in free trial so only checking for Sandbox
+  if (!playwithEnabled) {
+    //@ts-expect-error WalkMeInsightsAPI is loaded during runtime using script
+    WalkMeInsightsAPI.startPlaybackRecording();
+  }
+};

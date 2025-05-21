@@ -76,7 +76,7 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
               pageRootName: pageNames.cluster_cost
             }}
           />
-          <KubeCostBanner isEnterprise={isEnterprise} coreCount={coreCount} />
+          {!isEnterprise && <KubeCostBanner coreCount={coreCount} />}
           <KubeCostMetrics kubeCostData={kubeCostData.data} timeConfig={finalTimeConfig} cluster={cluster} />
         </>
       ) : (

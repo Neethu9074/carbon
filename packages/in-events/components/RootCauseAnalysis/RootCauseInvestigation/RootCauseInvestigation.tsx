@@ -49,6 +49,7 @@ const RootCauseInvestigation = ({ openInvestigation, incident, setOpenInvestigat
   const { selectedRootCause } = useContext(SelectedRootCauseContext);
   const { rootCauses, rootCauseMetadata } = useContext(RootCauseDataContext);
   const rootCause = rootCauses[selectedRootCause];
+  const serviceId = rootCause.entityStackData?.application.groups.find(g => g.type === 'service')?.items[0].id;
 
   // backend API
   const [backendResponse, setBackendResponse] = useState<(InvestigationResponse | null)[]>(rootCauses.map(() => null));
@@ -82,7 +83,8 @@ const RootCauseInvestigation = ({ openInvestigation, incident, setOpenInvestigat
       },
       eventId: incident.id,
       timeConfig: getIncidentTimeConfig(incident),
-      applicationId: incident.metadata?.['app20ApplicationId']
+      applicationId: incident.metadata?.['app20ApplicationId'],
+      serviceId
     });
 
     result.once(
@@ -118,7 +120,7 @@ const RootCauseInvestigation = ({ openInvestigation, incident, setOpenInvestigat
         setIsExpanded(true);
       }
     );
-  }, [incident, rootCauseMetadata, selectedRootCause, setOpenInvestigation]);
+  }, [incident, rootCauseMetadata, selectedRootCause, setOpenInvestigation, serviceId]);
 
   useEffect(() => {
     if (openInvestigation) startInvestigation();

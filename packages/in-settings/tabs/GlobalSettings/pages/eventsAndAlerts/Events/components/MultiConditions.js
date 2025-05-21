@@ -45,7 +45,8 @@ export function MultiConditions({
   customMetricsForPlugin,
   entityType,
   builtInDataSourceSelected,
-  customDataSourceSelected
+  customDataSourceSelected,
+  form
 }) {
   if (!rulesForm || !entityType) return null;
 
@@ -97,6 +98,7 @@ export function MultiConditions({
             customMetricsForPlugin={customMetricsForPlugin}
             compactLayout={canHaveMultipleConditions}
             hideTimeWindow={canHaveMultipleConditions}
+            metricForm={form}
           />
         );
 

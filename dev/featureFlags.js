@@ -180,7 +180,7 @@ module.exports = {
   sloLiteEnabled: true,
   sloFullEnabled: true,
   solisEnabled: false,
-  sloBurnRateEnabled: false,
+  sloBurnRateEnabled: true,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
   tealiumPrivacyEnabled: false,
   relatedEventsDatagridEnabled: true,

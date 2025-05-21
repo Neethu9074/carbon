@@ -5,6 +5,9 @@
  */
 
 import React, { useState } from 'react';
+import { Field } from 'formalistic';
+
+import { AccessRestriction } from '@instana/types';
 
 import LimitedAccessSwitcher, {
   SCOPE_TYPE
@@ -16,6 +19,15 @@ import {
 import { ScopeSectionProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection.types';
 import SelectEntitiesTable from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/SelectEntitiesTable';
 import { useMapFormContext } from 'in-settings/components/MapFormProvider/MapFormProvider';
+
+export const getInitialScopeType = (
+  permissionsField: Field<AccessRestriction[] | undefined>,
+  limitedAccessScopes: AccessRestriction[]
+) => {
+  return permissionsField?.value && limitedAccessScopes.every(scope => permissionsField?.value?.includes(scope))
+    ? SCOPE_TYPE.LIMITED_ACCESS
+    : SCOPE_TYPE.ENTIRE_UNIT;
+};
 
 const ScopeSection = <I,>({
   fieldName,
@@ -29,12 +41,7 @@ const ScopeSection = <I,>({
 }: ScopeSectionProps<I>) => {
   const { form } = useMapFormContext<ScopeTableFormFields>(SCOPE_FORM_ID);
   const permissionsField = form.getIn(['accessPermissions']);
-
-  const [scopeType, setScopeType] = useState<string>(
-    permissionsField?.value && limitedAccessScopes.every(scope => permissionsField?.value?.includes(scope))
-      ? SCOPE_TYPE.LIMITED_ACCESS
-      : SCOPE_TYPE.ENTIRE_UNIT
-  );
+  const [scopeType, setScopeType] = useState<string>(getInitialScopeType(permissionsField, limitedAccessScopes));
 
   return (
     <>

@@ -19,12 +19,13 @@ export default [
     languageOptions: {
       parser: babelParser,
       parserOptions: {
-      requireConfigFile: false,
-      presets: [
-        '@babel/preset-typescript',
-        '@babel/preset-react',
-        '@babel/preset-env'
-        ]
+        requireConfigFile: false,
+        presets: ['@babel/preset-typescript', '@babel/preset-react', '@babel/preset-env'],
+        babelOptions: {
+          parserOpts: {
+            plugins: ['jsx'] // see https://github.com/babel/babel/issues/14546
+          }
+        }
       },
       sourceType: 'module',
       ecmaVersion: 2021,
@@ -32,39 +33,35 @@ export default [
         ...globals.browser,
         ...globals.jest,
         ...globals.node,
-        '__DEV__': false,
-        '__HOT_RELOAD__': false
+        __DEV__: false,
+        __HOT_RELOAD__: false
       }
-    },
+    }
   },
   ...commonConfig,
   {
-    ignores: [
-      'packages/in-map/lib',
-      'packages/history'
-    ]
+    ignores: ['packages/in-map/lib', 'packages/history']
   },
-  { settings: {
+  {
+    settings: {
       react: {
-          version: '17.0.2',
+        version: '17.0.2'
       },
 
       'import/resolver': ['webpack', 'typescript'],
 
       'import/parsers': {
-          '@typescript-eslint/parser': ['.ts', '.tsx'],
+        '@typescript-eslint/parser': ['.ts', '.tsx']
       }
     }
   },
   {
     linterOptions: {
       reportUnusedDisableDirectives: 'off'
-		}
+    }
   },
   {
-    files: [
-      '**/*.{ts,tsx}'
-    ],
+    files: ['**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
@@ -80,9 +77,7 @@ export default [
     }
   },
   {
-    files: [
-      '**/*.{js,jsx,ts,tsx}'
-    ],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
       prettier
     },
@@ -103,9 +98,9 @@ export default [
       'no-use-before-define': [
         'off',
         {
-          'functions': false,
-          'classes': false,
-          'variables': false
+          functions: false,
+          classes: false,
+          variables: false
         }
       ],
 
@@ -117,19 +112,17 @@ export default [
       'react/jsx-equals-spacing': 'off',
       'react/jsx-tag-spacing': 'off',
       'react/no-unused-prop-types': 'off',
-      'quotes': 'off',
-      'semi': 'off',
+      quotes: 'off',
+      semi: 'off',
       'prefer-const': 'off',
       'react-hooks/rules-of-hooks': 'off',
       'no-unused-vars': 'off',
-      'strict': 'warn',
+      strict: 'warn',
       'no-console': 'warn'
     }
   },
   {
-    files: [
-      '**/*test*.{js,jsx,ts,tsx}'
-    ],
+    files: ['**/*test*.{js,jsx,ts,tsx}'],
     plugins: { jest: pluginJest },
     rules: {
       ...pluginJest.configs['flat/recommended'].rules,
