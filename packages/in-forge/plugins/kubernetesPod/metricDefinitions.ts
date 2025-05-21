@@ -28,7 +28,7 @@ export default [
       t('in-forge:plugins.kubernetesPod.restarts'),
       t('in-forge:plugins.kubernetesPod.restartsDelta'),
       t('in-forge:plugins.kubernetesPod.conditionNotReady'),
-      t('in-forge:plugins.kubernetesPod.cpuUsageToRequestedRatio')
+      t('in-forge:plugins.kubernetesPod.cpuUsageToCpuRequests')
     ],
     min: 0,
     formatter: number
