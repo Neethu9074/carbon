@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Pill, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Tooltip } from '@instana/components';
 import { just } from '@instana/observables';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -28,7 +28,6 @@ import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import ServiceContext from 'in-applications/components/ServiceContext';
-import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
@@ -259,7 +258,7 @@ function renderMetaInformation({ result }) {
               : t('in-applications:synthetic')
           }
         >
-          <Badge type={'magenta'}>{capitalize(result.data.syntheticType)}</Badge>
+          <Pill type={'magenta'}>{capitalize(result.data.syntheticType)}</Pill>
         </Tooltip>
       )}
       <TechnologyIndicatorList technologies={result.data.technologies} responsive={false} />
