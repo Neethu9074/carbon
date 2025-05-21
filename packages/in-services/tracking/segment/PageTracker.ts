@@ -16,6 +16,7 @@ import { user } from 'in-stores/user';
 
 let productPlanType: string;
 let userId: string;
+let hasIdentified = false;
 
 const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
   const location = useLocation();
@@ -39,6 +40,11 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
     productPlanType = getLicenseTypeForSegment(activeLicenseType);
     // @ts-expect-error not types available...
     userId = customRealmName + '-' + user?.id;
+    // Call identify only once
+    if (!hasIdentified && userId) {
+      window.analytics.identify(userId);
+      hasIdentified = true;
+    }
     window.analytics.page('Page Viewed', {
       UT30: ut30,
       instanceId: tenantUnitId,
