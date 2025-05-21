@@ -17,10 +17,8 @@ import ManualActionContent from 'in-automation/components/ManualActionContent/Ma
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
-import ConsentForm from 'in-automation/components/ConsentForm/ConsentForm';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { createManualField } from 'in-automation/utils/actionField';
 import TextArea from 'in-components/form/TextArea/TextArea';
@@ -203,22 +201,14 @@ function GenerateButton({
   const generatedAction = useGeneratedAction();
   const promptForm = form.get('prompt');
 
-  const handleClick = () => {
-    clickEPWTLink({
-      type: { type: 'manualActionGeneration' }
-    });
-  };
-
-  const { generateAIClickPromptStepTrackerSegment, aiActionGenerateErrorTrackerSegment, clickEPWTLink } =
-    useSegmentTracker();
+  const { generateAIClickPromptStepTrackerSegment, aiActionGenerateErrorTrackerSegment } = useSegmentTracker();
   return (
     <>
       <Button
         kind="secondary"
         disabled={
           (!promptForm.hierarchyValid && promptForm.hierarchyTouched) ||
-          (!!generatedAction && isLoading(generatedAction)) ||
-          !automationActionAiGenerationUnitEnabled
+          (!!generatedAction && isLoading(generatedAction))
         }
         onClick={() => {
           if (!promptForm.hierarchyValid) {
@@ -237,12 +227,6 @@ function GenerateButton({
       >
         {t('in-automation:GenerateAIActionDialog.generateAction')}
       </Button>
-
-      {!automationActionAiGenerationUnitEnabled && (
-        <div>
-          <ConsentForm onClick={handleClick} />
-        </div>
-      )}
     </>
   );
 }
