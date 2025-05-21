@@ -66,8 +66,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             gap: '16px 0px',
             width: '100%',
             boxSizing: 'border-box'
-          }}
-        >
+          }}>
+
           <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuUsage')}>
             <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
           </KpiKeyValue>
