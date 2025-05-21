@@ -8,9 +8,9 @@ import React, { useMemo, useEffect } from 'react';
 import { fromJS } from 'immutable';
 
 import { Label, Input, Spacer } from '@instana/components';
+import { combineLatest, just } from '@instana/observables';
 import { AgentSnapshot, Result } from '@instana/types';
 import { create, timeout } from '@instana/observables';
-import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
@@ -24,10 +24,10 @@ import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { getSnapshot, SnapshotData } from 'in-stores/snapshot';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { getSnapshot } from 'in-stores/snapshot';
 import { getGitops } from 'in-automation/api';
 import { t } from 'in-i18n';
 
@@ -135,32 +135,52 @@ function AgentSelection({
 }) {
   const agent = exportForm?.get('agent');
   const exportType = exportForm.get('exportType');
+
   const hostSnapshots = useObservable(() => {
     const getHostSnapshotIds = agentSnapShots?.map(agent =>
       getHostSnapshotId(fromJS(agent)).map(id => ({ id, agent }))
     );
-    return combineLatest(getHostSnapshotIds).flatMap(hostData =>
-      combineLatest(
-        hostData.map(({ id, agent }) =>
-          getSnapshot(id).map(hostSnapshot => ({
-            hostSnapshot,
-            agent
-          }))
-        )
-      )
-    );
-  }, [agentSnapShots]);
 
-  const options =
-    hostSnapshots
-      ?.map(({ hostSnapshot, agent }) => {
-        const hostname = hostSnapshot?.get('label');
-        return {
-          label: hostname,
-          value: agent.volatileId?.host_id ?? ''
-        };
-      })
-      .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
+    if (getHostSnapshotIds.length > 0) {
+      return combineLatest(getHostSnapshotIds).flatMap(
+        hostData =>
+          combineLatest(
+            hostData.map(({ id, agent }) =>
+              getSnapshot(id)
+                .startWith(null)
+                .map(hostSnapshot => {
+                  if (hostSnapshot === null) return null;
+                  return { hostSnapshot, agent };
+                })
+            )
+          ).map(data => ({
+            loading: false,
+            data: data.filter(item => item !== null) as {
+              hostSnapshot: SnapshotData;
+              agent: AgentSnapshot;
+            }[] // filter out nulls and type needed for types validation
+          })) // wrap result
+      );
+    } else {
+      return just({ loading: false, data: [] });
+    }
+  }, [agentSnapShots]) ?? { loading: true, data: [] };
+
+  if ('loading' in hostSnapshots && hostSnapshots.loading) {
+    return <LoadingIndicator size="xxl" />;
+  }
+
+  const options = Array.isArray(hostSnapshots.data)
+    ? hostSnapshots.data
+        .map(({ hostSnapshot, agent }) => {
+          const hostname = hostSnapshot?.get('label');
+          return {
+            label: hostname,
+            value: agent.volatileId?.host_id ?? ''
+          };
+        })
+        .sort((a, b) => a.label.localeCompare(b.label))
+    : [];
 
   return (
     <>

@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { fromJS } from 'immutable';
 
 import { Typography, Spacer, Link, DescriptionList, DescriptionItem } from '@instana/components';
-import { Action, Parameter, VolatileId, DynamicFieldValue } from '@instana/types';
+import { Action, Parameter, VolatileId, DynamicFieldValue, AgentSnapshot } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -48,13 +48,13 @@ import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { getSnapshot, SnapshotData } from 'in-stores/snapshot';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
-import { getSnapshot } from 'in-stores/snapshot';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
@@ -186,12 +186,20 @@ function AgentSelection({
         hostData =>
           combineLatest(
             hostData.map(({ id, agent }) =>
-              getSnapshot(id).map(hostSnapshot => ({
-                hostSnapshot,
-                agent
-              }))
+              getSnapshot(id)
+                .startWith(null)
+                .map(hostSnapshot => {
+                  if (hostSnapshot === null) return null;
+                  return { hostSnapshot, agent };
+                })
             )
-          ).map(data => ({ loading: false, data })) // wrap result
+          ).map(data => ({
+            loading: false,
+            data: data.filter(item => item !== null) as {
+              hostSnapshot: SnapshotData;
+              agent: AgentSnapshot;
+            }[] // filter out nulls and type needed for types validation
+          })) // wrap result
       );
     } else {
       return just({ loading: false, data: [] });
