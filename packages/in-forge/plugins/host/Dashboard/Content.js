@@ -59,15 +59,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, auto))',
-            gap: '16px 0px',
-            width: '100%',
-            boxSizing: 'border-box'
-          }}
-        >
+        <div className={locals.kpiGrid}>
           <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuUsage')}>
             <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
           </KpiKeyValue>
@@ -326,18 +318,18 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                 min: 0,
-                 formatter: bytes.detailed,
-                 metrics: ['memory.total'],
-                 labels: [t('in-forge:plugins.host.total')],
-                 type: 'line'
+                min: 0,
+                formatter: bytes.detailed,
+                metrics: ['memory.total'],
+                labels: [t('in-forge:plugins.host.total')],
+                type: 'line'
               }}
               y2={{
-                 min: 0,
-                 formatter: percentageZeroDecimalPlaces,
-                 metrics: memoryUsedMetrics,
-                 labels: memoryUsedMetricsLabels,
-                 type: 'line'
+                min: 0,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: memoryUsedMetrics,
+                labels: memoryUsedMetricsLabels,
+                type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -405,14 +397,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
-          {(isLinux(snapshot)) && (
+          {isLinux(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['date', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min:0,
+                min: 0,
                 formatter: bytes.detailed,
                 metrics: ['memory.virtualTotal', 'memory.virtualUsed', 'memory.virtualFree'],
                 labels: [
@@ -425,14 +417,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
-          {(isLinux(snapshot)) && (
+          {isLinux(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min:0,
+                min: 0,
                 formatter: bytes.detailed,
                 metrics: ['memory.shared'],
                 labels: [t('in-forge:plugins.host.dashboard.shared')],
