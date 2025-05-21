@@ -9,13 +9,24 @@ import {
   isBizOpsUnifiedMetricConfiguration,
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
+import { BizOpsMetricDataSource, UnifiedMetricConfiguration } from '@instana/types/typeDefinitions';
 
 // @ts-expect-error Module needs to be translated to TS
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 export type BizOpsUnifiedMetricConfigurationWithDataSource = BizOpsUnifiedMetricConfiguration & {
-  dataSource: 'BUSINESS_FLOW_OBJECTS';
+  dataSource: BizOpsMetricDataSource;
+};
+
+export const isBusinessMetricsUnifiedMetricConfiguration = (unifiedMetricConfiguration: UnifiedMetricConfiguration) => {
+  //@ts-expect-error TODO: this source will be added to typedefs generation in R298, it currently routes configs from
+  // the businessMetrics form source of custom dashboards
+  return unifiedMetricConfiguration.source === 'BUSINESS_METRICS';
+};
+
+export const isCustomBusinessMetricsSource = (metricConfiguration: BizOpsUnifiedMetricConfiguration) => {
+  return metricConfiguration.dataSource === 'CUSTOM_BUSINESS_METRICS';
 };
 
 /**
@@ -27,7 +38,18 @@ export type BizOpsUnifiedMetricConfigurationWithDataSource = BizOpsUnifiedMetric
 export const enrichBySettingDataSource = (
   metricConfiguration: UnifiedMetricConfigurationUnion
 ): UnifiedMetricConfigurationUnion | BizOpsUnifiedMetricConfigurationWithDataSource => {
-  if (isBizOpsUnifiedMetricConfiguration(metricConfiguration) && IsCustomDashboardPage()) {
+  if (isBusinessMetricsUnifiedMetricConfiguration(metricConfiguration) && IsCustomDashboardPage()) {
+    const newBusinessMetrics = {
+      ...metricConfiguration,
+      source: 'BIZOPS',
+      dataSource: 'CUSTOM_BUSINESS_METRICS'
+    } as BizOpsUnifiedMetricConfigurationWithDataSource;
+    return newBusinessMetrics;
+  } else if (
+    isBizOpsUnifiedMetricConfiguration(metricConfiguration) &&
+    !isCustomBusinessMetricsSource(metricConfiguration) &&
+    IsCustomDashboardPage()
+  ) {
     const newMetrics: BizOpsUnifiedMetricConfigurationWithDataSource = {
       ...metricConfiguration,
       dataSource: 'BUSINESS_FLOW_OBJECTS'
