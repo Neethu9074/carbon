@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-import { GetBusinessMetricsTagsSuggetionsQuery } from '@instana/types/typeDefinitions';
+import { GetBusinessMetricsTagsSuggestionsQuery } from '@instana/types/typeDefinitions';
 import { Result, TagSuggestions } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory<GetBusinessMetricsTagsSuggetionsQuery, Result<TagSuggestions>>({
+export default createResultSubscriptionFactory<GetBusinessMetricsTagsSuggestionsQuery, Result<TagSuggestions>>({
   eventId: 'getBusinessMetricsTagsSuggestions',
   trackSubscriptionStatistics: true
 });

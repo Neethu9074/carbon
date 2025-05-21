@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { GetBusinessMetricsTagsSuggetionsQuery } from '@instana/types/typeDefinitions';
+import { GetBusinessMetricsTagsSuggestionsQuery } from '@instana/types/typeDefinitions';
 
 import getBusinessMetricTagSuggestions from 'in-bizops/subscriptions/getBusinessMetricTagSuggestions';
 import getBusinessMetricsTagsCatalog from 'in-bizops/subscriptions/getBusinessMetricsTagsCatalog';
@@ -20,7 +20,7 @@ const { QueryBuilder } = createDynamicQueryBuilder<
       timeConfig: timeConfig
     }),
   getSuggestions: ({ tagName, timeConfig, propose, value, metric }) => {
-    const query: GetBusinessMetricsTagsSuggetionsQuery = {
+    const query: GetBusinessMetricsTagsSuggestionsQuery = {
       metric: metric,
       propose: propose,
       key: tagName,
