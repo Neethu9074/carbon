@@ -188,7 +188,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaZeroDecimalPlaces,
-                metrics: ['pods.count', 'cap_pods'],
+                metrics: ['used_pods', 'cap_pods'],
                 labels: [t('in-kubernetes:dashboards.used'), t('in-kubernetes:dashboards.hard')],
                 type: 'line',
                 min: 0,
