@@ -5,6 +5,8 @@
  */
 
 import React, { useState } from 'react';
+import { stringify } from 'qs';
+import { omit } from 'lodash';
 
 import { Modal } from '@instana/carbon';
 import { Team } from '@instana/types';
@@ -46,9 +48,17 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
 
     setStatus('pending');
 
+    const newScope = form.toJS();
+
+    // Transform action types and action tags into single action filter string
+    const actionFilter = stringify(
+      { tags: newScope.actionTags, type: newScope.actionTypes },
+      { encode: false, arrayFormat: 'comma' }
+    );
+
     const payload = {
       ...team,
-      scope: form.toJS()
+      scope: { ...omit(newScope, 'actionTags', 'actionTypes'), actionFilters: [actionFilter] }
     };
 
     saveTeam(

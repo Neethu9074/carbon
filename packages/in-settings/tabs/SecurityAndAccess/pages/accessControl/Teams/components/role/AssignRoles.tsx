@@ -9,27 +9,12 @@ import React from 'react';
 import { ContainedList, ContainedListItem, FilterableMultiSelect } from '@instana/carbon';
 import { RoleOverview, TeamRole } from '@instana/types';
 
-import {
-  TeamRoleSelectionType,
-  FilterableMultiSelectItemProps,
-  FilterableMultiSelectItemExtraProps
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.types';
+import { TeamRoleSelectionType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.types';
 import { AssignRolesProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoles.types';
+import { defaultFilterItems } from 'in-settings/components/FilterableMultiSelect/FilterableMultiSelect.utils';
 import { t } from 'in-i18n';
 
 import locals from './AssignRoles.mless';
-
-const defaultFilterItems = (
-  items: Array<FilterableMultiSelectItemProps>,
-  extra: FilterableMultiSelectItemExtraProps
-): Array<FilterableMultiSelectItemProps> => {
-  return items.filter(item => {
-    if (!extra.inputValue) {
-      return true;
-    }
-    return extra.itemToString(item).toLowerCase().includes(extra.inputValue.toLowerCase());
-  });
-};
 
 const createInitialSelectedItems = (roleIds: Array<TeamRole>) => {
   return roleIds.map(roleId => {
@@ -93,7 +78,7 @@ export const AssignRoles = ({ form, onSelectRoles, roles }: AssignRolesProps) =>
             return (
               <ContainedListItem key={userId}>
                 <div className={locals.indivdualRoleSelectionList}>
-                  <span>{fullName ? fullName : userId}</span>
+                  <span>{fullName ?? userId}</span>
                   <span>
                     <FilterableMultiSelect
                       filterItems={defaultFilterItems}

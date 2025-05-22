@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import {
   getAllSyntheticCredentialsForEntitySelectionWithDefaults,
   getAllSyntheticTestsForEntitySelectionWithDefaults
@@ -15,13 +17,13 @@ import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kub
 import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
 import LimitedAccessSwitcher from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
+import AutomationsSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/AutomationsSection';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import KubernetesSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/KubernetesSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import ScopeSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection';
 import { TeamScopeEntity } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { LimitedAccessScope } from 'in-stores/permission';
-import { TimeConfig } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
 export const extractName = (entity: TeamScopeEntity) => {
@@ -192,7 +194,7 @@ export const createNavItems = (timeConfig: TimeConfig) => {
     },
     {
       content: (
-        <LimitedAccessSwitcher
+        <AutomationsSection
           limitedAccessScopes={[LimitedAccessScope.LIMITED_AUTOMATION_SCOPE]}
           limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedAutomationsSwitchLabel')}
         />
