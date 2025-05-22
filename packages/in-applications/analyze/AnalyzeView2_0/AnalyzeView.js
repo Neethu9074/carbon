@@ -27,6 +27,7 @@ import {
   groupedChartingOptions,
   ungroupedChartingOptions
 } from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
+import { getTagCatalog as getSubtracesTagCatalog } from 'in-applications/analyze/components/workspace/SubtraceQueryBuilder';
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -164,6 +165,12 @@ const typePerDataSource = {
   subtraces: 'subtraces'
 };
 
+const catalogMap = {
+  calls: getCallsTagCatalog,
+  traces: getTracesTagCatalog,
+  subtraces: getSubtracesTagCatalog
+};
+
 const callsMetricCatalogTransformer = createMetricCatalogTransformer('calls');
 const tracesMetricCatalogTransformer = createMetricCatalogTransformer('traces');
 
@@ -197,8 +204,7 @@ export default function ApplicationsAnalyzeView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [hiddenCalls]
   );
-
-  const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
+  const tagCatalog = useTagCatalog(catalogMap[dataSource]);
 
   if (isAnalyticsOneLocation(location)) {
     return <AnalyzeOneToTwoViewParameterConversion dataSourceConfigurations={dataSourceConfigurations} />;

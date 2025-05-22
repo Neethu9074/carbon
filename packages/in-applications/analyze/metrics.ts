@@ -18,6 +18,7 @@ import { t } from 'in-i18n';
 
 export const CALLS = 'CALLS';
 export const TRACES = 'TRACES';
+export const SUBTRACES = 'SUBTRACES';
 
 export const defaultMetrics = [
   { metric: 'latency', aggregation: 'MEAN' },

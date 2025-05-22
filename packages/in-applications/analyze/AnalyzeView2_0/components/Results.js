@@ -28,27 +28,32 @@ import locals from './Results.mless';
 
 const getDataPerDataSource = {
   calls: getCalls,
-  traces: getTraces
+  traces: getTraces,
+  subtraces: getTraces //TODO:need to change
 };
 
 const typePerDataSource = {
   calls: 'call',
-  traces: 'trace'
+  traces: 'trace',
+  subtraces: 'subtrace'
 };
 
 const namePerDataSource = {
   calls: t('in-applications:labelCall'),
-  traces: t('in-applications:labelTrace')
+  traces: t('in-applications:labelTrace'),
+  subtraces: t('in-applications:labelTrace') //TODO:need to change
 };
 
 const traceIdNamePerDataSource = {
   calls: 'traceId',
-  traces: 'id'
+  traces: 'id',
+  subtraces: 'traceId'
 };
 
 const columnsPerDataSource = {
   calls: getColumnDefinitions('calls'),
-  traces: getColumnDefinitions('traces')
+  traces: getColumnDefinitions('traces'),
+  subtraces: getColumnDefinitions('subtraces')
 };
 
 export default function Results(props) {
