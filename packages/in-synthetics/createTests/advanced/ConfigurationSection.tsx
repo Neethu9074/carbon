@@ -4,47 +4,31 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm, ValidationResult, createField } from 'formalistic';
+import { Field, Item, MapForm, ValidationResult } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Stack, RadioButton, CarbonCheckbox as Checkbox, Button, IconButton } from '@instana/components';
+import { Stack, Button, IconButton, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import {
   onlyUniqueKeyNames,
   requestHeaderNameValidator,
-  requestHeaderValueValidator,
-  timeoutValidator
+  requestHeaderValueValidator
 } from 'in-synthetics/createTests/validators/configValidators';
-import {
-  Invalid,
-  Validation,
-  expectJson,
-  expectMatch,
-  expectStatus,
-  retriesObject,
-  timeoutObject,
-  ConfigItem
-} from 'in-synthetics/utils/constants';
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
-import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
-import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
-import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
+import { Invalid, Validation, expectJson, expectMatch, expectStatus, ConfigItem } from 'in-synthetics/utils/constants';
+import ConfigurationCommonSection from 'in-synthetics/createTests/advanced/ConfigurationCommonSection';
 import ValidationSection from 'in-synthetics/createTests/advanced/ValidationSection';
 import { HTTPMethods } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
-import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
-import { numberValidator } from 'in-services/validators/jsonType';
-import { minValidator } from 'in-services/validators/number';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { isNotBlank } from 'in-services/util/string';
 import FormGroup from 'in-components/form/FormGroup';
-import { Col, Row } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
@@ -81,22 +65,11 @@ export default function ConfigurationSection({
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
-  const allowInsecure = configForm.get('allowInsecure') as Field<boolean>;
-  const followRedirect = configForm.get('followRedirect') as Field<boolean>;
   const body = configForm.get('body') as Field<string>;
   const validationString = configForm.get('validationString') as Field<string>;
   const expectStatusField = configForm.get('expectStatus') as Field<string>;
   const expectJsonField = configForm.get('expectJson') as Field<Record<string, string>>;
   const expectMatchField = configForm.get('expectMatch') as Field<string>;
-  const timeoutField = configForm.get('timeout') as Field<string>;
-  const retriesField = configForm.get('retries') as Field<number>;
-  const retryIntervalField = configForm.get('retryInterval') as Field<number>;
-  const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
-  const [timeout, setTimeout] = useState({
-    value: timeoutField.value.replace(/\D/g, ''),
-    unit: timeoutField.value.replace(/\d/g, '')
-  });
-  const selectedUnit = Object.keys(timeoutObject).filter(item => timeoutObject[item].value === timeout.unit)[0];
 
   const getDefaultExpectValues = (): Validation[] => {
     const expectedObject: Validation[] = [];
@@ -257,7 +230,7 @@ export default function ConfigurationSection({
           </FormGroup>
 
           {urlField.map(field => (
-            <FormGroup className={locals.descriptionInput}>
+            <FormGroup className={locals.descriptionInput} key={field.value}>
               <Label htmlFor="url" hasError={!field.valid && field.touched}>
                 {t('in-synthetics:dialog.createTest.requestStep.labelUrl')}
               </Label>
@@ -279,63 +252,68 @@ export default function ConfigurationSection({
         </Stack>
       </div>
       <div className={locals.configContainer}>
-        {headers.map(header => {
-          return (
-            <Stack direction="horizontal" component="li" key={header.id}>
-              <FormGroup className={locals.descriptionInput}>
-                <Label htmlFor="header">{t('in-synthetics:dialog.createTest.advancedMode.configStep.header')}</Label>
-                <Input
-                  name="header"
-                  value={header.key}
-                  hasError={header.error['name'].invalid}
-                  onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                    let updatedHeaders = headers.slice();
-                    const index = updatedHeaders.findIndex((h: ConfigItem) => h.id === header.id);
-                    updatedHeaders[index].key = target.value;
-                    checkForUniqueHeaderNames();
-                    updatedHeaders = validateHeaders(updatedHeaders, target.value, index, true);
-                    setHeaders([...updatedHeaders]);
-                    updateHeaders(false);
-                  }}
-                />
-                {header.error['name'].invalid && <ValidationBlock>{header.error['name'].message}</ValidationBlock>}
-              </FormGroup>
-              <FormGroup className={locals.descriptionInput}>
-                <Label htmlFor="headerValue">
-                  {t('in-synthetics:dialog.createTest.advancedMode.configStep.headerValue')}
-                </Label>
-                <Input
-                  name="headerValue"
-                  value={header.value}
-                  hasError={header.error['value'].invalid}
-                  onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                    let updatedHeaders = headers.slice();
-                    const index = updatedHeaders.findIndex((h: ConfigItem) => h.id === header.id);
-                    updatedHeaders[index].value = target.value;
-                    updatedHeaders = validateHeaders(updatedHeaders, target.value, index, false);
-                    setHeaders([...updatedHeaders]);
-                    updateHeaders(false);
-                  }}
-                />
-                {header.error['value'].invalid && <ValidationBlock>{header.error['value'].message}</ValidationBlock>}
-              </FormGroup>
-              <div className={classNames(locals.deleteAction, locals.deleteHeader)}>
-                <IconButton kind="action" type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
-              </div>
-            </Stack>
-          );
-        })}
-        <section>{invalidHeader.invalid && <ValidationBlock>{invalidHeader.message}</ValidationBlock>}</section>
-        <div>
-          <Button
-            className={locals.validationsBtn}
-            kind="action"
-            icon="lib_openclose_add_circle_outline"
-            onClick={addNewHeaderRow}
-          >
-            {t('in-synthetics:dialog.createTest.advancedMode.configStep.addHeader')}
-          </Button>
-        </div>
+        <Stack gap="small">
+          <Typography variant="body-bold">
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.headerSectionLabel')}
+          </Typography>
+          {headers.map(header => {
+            return (
+              <Stack direction="horizontal" component="li" key={header.id}>
+                <FormGroup className={locals.headerInput}>
+                  <Label htmlFor="header">{t('in-synthetics:dialog.createTest.advancedMode.configStep.header')}</Label>
+                  <Input
+                    name="header"
+                    value={header.key}
+                    hasError={header.error['name'].invalid}
+                    onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                      let updatedHeaders = headers.slice();
+                      const index = updatedHeaders.findIndex((h: ConfigItem) => h.id === header.id);
+                      updatedHeaders[index].key = target.value;
+                      checkForUniqueHeaderNames();
+                      updatedHeaders = validateHeaders(updatedHeaders, target.value, index, true);
+                      setHeaders([...updatedHeaders]);
+                      updateHeaders(false);
+                    }}
+                  />
+                  {header.error['name'].invalid && <ValidationBlock>{header.error['name'].message}</ValidationBlock>}
+                </FormGroup>
+                <FormGroup className={locals.headerInput}>
+                  <Label htmlFor="headerValue">
+                    {t('in-synthetics:dialog.createTest.advancedMode.configStep.headerValue')}
+                  </Label>
+                  <Input
+                    name="headerValue"
+                    value={header.value}
+                    hasError={header.error['value'].invalid}
+                    onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                      let updatedHeaders = headers.slice();
+                      const index = updatedHeaders.findIndex((h: ConfigItem) => h.id === header.id);
+                      updatedHeaders[index].value = target.value;
+                      updatedHeaders = validateHeaders(updatedHeaders, target.value, index, false);
+                      setHeaders([...updatedHeaders]);
+                      updateHeaders(false);
+                    }}
+                  />
+                  {header.error['value'].invalid && <ValidationBlock>{header.error['value'].message}</ValidationBlock>}
+                </FormGroup>
+                <div className={classNames(locals.deleteAction, locals.deleteHeader)}>
+                  <IconButton kind="action" type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
+                </div>
+              </Stack>
+            );
+          })}
+          <section>
+            {invalidHeader.invalid && <ValidationBlock>{invalidHeader.message}</ValidationBlock>}
+            <Button
+              className={locals.validationsBtn}
+              kind="action"
+              icon="lib_openclose_add_circle_outline"
+              onClick={addNewHeaderRow}
+            >
+              {t('in-synthetics:dialog.createTest.advancedMode.configStep.addHeader')}
+            </Button>
+          </section>
+        </Stack>
       </div>
       {methodField?.value !== 'GET' && (
         <div className={locals.configContainer}>
@@ -357,181 +335,42 @@ export default function ConfigurationSection({
         </div>
       )}
       <div className={locals.configContainer}>
-        <FormGroup className={locals.descriptionInput}>
-          <Label htmlFor="validationString">
-            {t('in-synthetics:dialog.createTest.advancedMode.configStep.validationString')}
-          </Label>
-          <Input
-            name="validationString"
-            value={validationString.value}
-            onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-              updateForm(
-                form.updateIn(['configuration', 'validationString'], (field: Item) =>
-                  (field as Field<string>).setValue(target?.value).setTouched(true)
-                )
-              );
-            }}
-          />
-        </FormGroup>
-      </div>
-      <div className={locals.configContainer}>
-        <ValidationSection
-          form={form}
-          updateForm={updateForm}
-          expectSelections={expectSelections}
-          setExpectSelections={setExpectSelections}
-          setInvalidJSON={setInvalidJSON}
-          invalidJSON={invalidJSON}
-        />
-      </div>
-      <div className={locals.configContainer}>
-        <FormGroup className={locals.descriptionInput}>
-          <Label className={locals.timeoutLabel}>
-            {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldLabel')}
-          </Label>
-          <div className={locals.subText}>
-            {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeUnitsLabel')}
-          </div>
-          <Row className={locals.row}>
-            {Object.keys(timeoutObject).map(unit => (
-              <Col lg={4} key={unit}>
-                <RadioButton
-                  key={unit}
-                  label={timeoutObject[unit].label}
-                  checked={timeoutObject[unit].value === timeout.unit}
-                  onChange={() => {
-                    setTimeout({ value: '0', unit: timeoutObject[unit].value });
-                    updateForm(
-                      form.updateIn(['configuration', 'timeout'], (field: Item) =>
-                        (field as Field<string>).setValue('0' + timeoutObject[unit].value).setTouched(true)
-                      )
-                    );
-                  }}
-                />
-              </Col>
-            ))}
-          </Row>
-          <Stack direction="horizontal">
-            <div className={locals.alignText}>
-              {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldDescription')}
-            </div>
+        <Stack gap="small">
+          <Typography variant="body-bold">
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.validationsSectionLabel')}
+          </Typography>
+          <FormGroup className={locals.descriptionInput}>
+            <Label htmlFor="validationString">
+              {t('in-synthetics:dialog.createTest.advancedMode.configStep.validationString')}
+            </Label>
             <Input
-              name="timeout"
-              hasError={invalidTimeout.invalid && timeoutField.touched}
-              value={timeout.value}
+              name="validationString"
+              value={validationString.value}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                setTimeout({ value: target?.value, unit: timeout.unit });
-                const timeoutInvalid = timeoutValidator(target?.value, timeout.unit);
-                setInvalidTimeout({ invalid: timeoutInvalid[0].invalid, message: timeoutInvalid[0].message });
                 updateForm(
-                  form.updateIn(['configuration', 'timeout'], (field: Item) =>
-                    (field as Field<string>).setValue(Number(target?.value).toString() + timeout.unit).setTouched(true)
+                  form.updateIn(['configuration', 'validationString'], (field: Item) =>
+                    (field as Field<string>).setValue(target?.value).setTouched(true)
                   )
                 );
               }}
             />
-            <div className={locals.alignText}>{timeoutObject[selectedUnit]?.label}</div>
-          </Stack>
-          {invalidTimeout.invalid && <ValidationBlock>{invalidTimeout.message}</ValidationBlock>}
-        </FormGroup>
-      </div>
-      <div className={locals.configContainer}>
-        <FormGroup className={locals.descriptionInput}>
-          <Label>{t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldLabel')}</Label>
-          <Row className={locals.row}>
-            {retriesObject.map(retry => (
-              <Col lg={4} key={retry.value}>
-                <RadioButton
-                  key={retry.value}
-                  label={retry.label}
-                  checked={retry.value === retriesField.value}
-                  onChange={() => {
-                    if (retry.value === 0) {
-                      updateForm(
-                        form
-                          .updateIn(['configuration', 'retries'], (field: Item) =>
-                            (field as Field<number>).setValue(retry.value).setTouched(true)
-                          )
-                          .updateIn(['configuration', 'retryInterval'], (field: Item) =>
-                            (field as Field<number>).setValue(1).setTouched(true)
-                          )
-                      );
-                    } else {
-                      updateForm(
-                        form
-                          .put(
-                            'configuration',
-                            form.get('configuration').put(
-                              'retryInterval',
-                              createField({
-                                value: 1,
-                                validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
-                              })
-                            )
-                          )
-                          .updateIn(['configuration', 'retries'], (field: Item) =>
-                            (field as Field<number>).setValue(retry.value).setTouched(true)
-                          )
-                      );
-                    }
-                  }}
-                />
-              </Col>
-            ))}
-          </Row>
-
-          {(retriesField.value === 1 || retriesField.value === 2) && (
-            <Section>
-              <ActionTitle>
-                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
-              </ActionTitle>
-              <Description>{getRetryIntervalDescriptionText(retriesField.value, retryIntervalField.value)}</Description>
-              {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
-              <TouchedMessages field={retryIntervalField} />
-            </Section>
-          )}
-        </FormGroup>
-      </div>
-      <div className={locals.configContainer}>
-        <Stack direction="horizontal">
-          <Checkbox
-            id="followRedirect"
-            onChange={({ target }) => {
-              updateForm(
-                form.updateIn(['configuration', 'followRedirect'], (field: Item) =>
-                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
-                )
-              );
-            }}
-            checked={followRedirect.value}
-            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.followRedirect')}
-          />
-          <Checkbox
-            id="allowInsecure"
-            onChange={({ target }) => {
-              updateForm(
-                form.updateIn(['configuration', 'allowInsecure'], (field: Item) =>
-                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
-                )
-              );
-            }}
-            checked={allowInsecure.value}
-            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure')}
-          />
-          <Checkbox
-            id="markSyntheticCall"
-            onChange={({ target }) => {
-              updateForm(
-                form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
-                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
-                )
-              );
-            }}
-            checked={markSyntheticCall.value}
-            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
+          </FormGroup>
+          <ValidationSection
+            form={form}
+            updateForm={updateForm}
+            expectSelections={expectSelections}
+            setExpectSelections={setExpectSelections}
+            setInvalidJSON={setInvalidJSON}
+            invalidJSON={invalidJSON}
           />
         </Stack>
       </div>
+      <ConfigurationCommonSection
+        form={form}
+        updateForm={updateForm}
+        invalidTimeout={invalidTimeout}
+        setInvalidTimeout={setInvalidTimeout}
+      />
     </div>
   );
 }

@@ -27,10 +27,24 @@ describe('BrowserSimpleConfiguration', () => {
         setInvalidTimeout={setInvalidTimeout}
       />
     );
-    expect(screen.getByText('Webpage URL')).toBeInTheDocument();
-    expect(screen.getByText('Timeout')).toBeInTheDocument();
-    expect(screen.getByText('Retry strategy')).toBeInTheDocument();
-    expect(screen.getByText('Mark synthetic call')).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.webpageUrl'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutAndRetrySectionLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.additionalOptionsSectionLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall'))
+    ).toBeInTheDocument();
     expect(screen.getByText(t('in-synthetics:dashboard.configuration.recordVideo'))).toBeInTheDocument();
   });
 
@@ -52,21 +66,33 @@ describe('BrowserSimpleConfiguration', () => {
     expect(inputElements[0]).toHaveValue('');
 
     // Timeout
-    expect((screen.getByLabelText('minutes (m)') as HTMLInputElement).checked).toBe(true);
-    expect((screen.getByLabelText('seconds (s)') as HTMLInputElement).checked).toBe(false);
-    expect((screen.getByLabelText('milliseconds (ms)') as HTMLInputElement).checked).toBe(false);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMinutes'))
+    ).toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionSeconds'))
+    ).not.toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMilliseconds'))
+    ).not.toBeChecked();
 
     // Retry strategy
-    expect((screen.getByLabelText('None') as HTMLInputElement).checked).toBe(true);
-    expect((screen.getByLabelText('Retry once') as HTMLInputElement).checked).toBe(false);
-    expect((screen.getByLabelText('Retry twice') as HTMLInputElement).checked).toBe(false);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionNone'))
+    ).toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionOnce'))
+    ).not.toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionTwice'))
+    ).not.toBeChecked();
 
     // Mark Synthetic Call
-    expect((screen.getByLabelText('Mark synthetic call') as HTMLInputElement).checked).toBe(true);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall'))
+    ).toBeChecked();
 
     // Record video of user actions
-    expect(
-      (screen.getByLabelText(t('in-synthetics:dashboard.configuration.recordVideo')) as HTMLInputElement).checked
-    ).toBe(false);
+    expect(screen.getByLabelText(t('in-synthetics:dashboard.configuration.recordVideo'))).not.toBeChecked();
   });
 });

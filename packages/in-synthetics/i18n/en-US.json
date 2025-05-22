@@ -262,7 +262,11 @@
             },
             "assertionsNotificationTitle": "Assertions required",
             "assertionsNotificationDescription": "Add at least one assertion when using the \"ALL associated with assertions\" query type."
-          }
+          },
+          "headerSectionLabel": "Add headers (Optional)",
+          "validationsSectionLabel": "Add validations (Optional)",
+          "timeoutAndRetrySectionLabel": "Timeout and Retry strategy (Optional)",
+          "additionalOptionsSectionLabel": "Additional options"
         },
         "loadMore": "Load more",
         "selectTests": {
