@@ -20,8 +20,6 @@ export type BizOpsUnifiedMetricConfigurationWithDataSource = BizOpsUnifiedMetric
 };
 
 export const isBusinessMetricsUnifiedMetricConfiguration = (unifiedMetricConfiguration: UnifiedMetricConfiguration) => {
-  //@ts-expect-error TODO: this source will be added to typedefs generation in R298, it currently routes configs from
-  // the businessMetrics form source of custom dashboards
   return unifiedMetricConfiguration.source === 'BUSINESS_METRICS';
 };
 
