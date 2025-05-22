@@ -1917,7 +1917,7 @@
         "burnRateWindowTitle_MULTI_WINDOW": "Long alert window",
         "burnRateSingleWindowDescription": "Alerts are triggered when the error rate exceeds the threshold over a specified period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
         "burnRateLongWindowDescription": "Alerts are triggered when the error rate exceeds the threshold over a longer period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
-        "burnRateShortWindowLongerThanLongWindowError": "Short window cannot exceed long window. Please, adjust either of the values.",
+        "burnRateShortWindowLongerThanLongWindowError": "Short window should be less than long window. Please, adjust either of the values.",
         "burnRateTimeWindowTooLongError": "The alert window cannot exceed the time window of a selected SLO. Please, check the following SLO: {{value}}.",
         "thresholdTitle": "Threshold: When do you want to be alerted?",
         "thresholdInputDescription": "",
