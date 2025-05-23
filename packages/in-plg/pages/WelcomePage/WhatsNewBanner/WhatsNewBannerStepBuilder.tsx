@@ -21,6 +21,7 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
 import { playwithEnabled } from 'in-services/featureFlags';
+import { config } from 'in-services/config';
 import { role } from 'in-stores/user';
 
 export default function WhatsNewBannerStepBuilder() {
@@ -108,9 +109,11 @@ export default function WhatsNewBannerStepBuilder() {
 }
 
 const startRecording = () => {
+  const { activeLicenseType } = config;
   //Sandbox and Free trial will have recordings from initialization
   //This banner will not be shown in free trial so only checking for Sandbox
-  if (!playwithEnabled) {
+  //Session playbacks only enabled for paid customers
+  if (!playwithEnabled && (activeLicenseType === 'hostBasedPaid' || activeLicenseType === 'paidPerUse')) {
     //@ts-expect-error WalkMeInsightsAPI is loaded during runtime using script
     WalkMeInsightsAPI.startPlaybackRecording();
   }
