@@ -560,8 +560,7 @@
     "role": {
       "deprecated": "deprecated",
       "newRole": "New role",
-      "permissionsCount": "Permissions",
-      "usersCount": "Number of users assigned"
+      "permissionsCount": "Permissions"
     },
     "team": {
       "events": {
@@ -1741,7 +1740,7 @@
     "accessAll": "Access all",
     "access": "Access",
     "accessForTenantUnit": "Access for {{tenantUnit}}-{{tenant}}",
-    "numberOfMembers": "Number of members",
+    "numberOfMembers": "Members",
     "groupEntityName": "group {{entityName}}",
     "inviteWithEmail": "invite {{email}}",
     "selectEventType": "Select event type",
