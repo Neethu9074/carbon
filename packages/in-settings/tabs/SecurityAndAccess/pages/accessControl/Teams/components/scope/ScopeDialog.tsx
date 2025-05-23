@@ -36,7 +36,7 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
   const [form, setForm] = useDerivedState(createScopeForm(team.scope));
   const [status, setStatus] = useState('');
   const timeConfig = useTimeConfig();
-  const navigationItems = createNavItems(timeConfig);
+  const navigationItems = createNavItems(form, timeConfig);
 
   function onSubmit() {
     if (!form.hierarchyValid) {
@@ -58,7 +58,11 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
 
     const payload = {
       ...team,
-      scope: { ...omit(newScope, 'actionTags', 'actionTypes'), actionFilters: [actionFilter] }
+      scope: {
+        ...omit(newScope, 'actionTags', 'actionTypes'),
+        actionFilters: [actionFilter],
+        ...form.get('infrastructureForm').toJS()
+      }
     };
 
     saveTeam(

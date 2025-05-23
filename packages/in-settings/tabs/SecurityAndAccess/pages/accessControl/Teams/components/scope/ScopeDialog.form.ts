@@ -7,46 +7,43 @@
 import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
 import { parse } from 'qs';
 
-import { AccessRestriction, RestrictedApplicationFilter } from '@instana/types';
+import { AccessRestriction, RestrictedApplicationFilter, TeamScope } from '@instana/types';
+import { t } from '@instana/i18n-react';
 
-import { t } from 'in-i18n';
+import { isBlank } from 'in-services/util/string';
 
 export const SCOPE_FORM_ID = 'rbac-scope-form';
 
 export type ScopeFormFields = {
   accessPermissions: Field<AccessRestriction[] | undefined>;
-  actionFilters: Field<string[] | undefined>;
+  actionFilter: Field<string | undefined>;
   actionTags: Field<string[] | undefined>;
   actionTypes: Field<string[] | undefined>;
   applications: Field<string[] | undefined>;
   businessPerspectives: Field<string[] | undefined>;
-  infraDfqFilters: Field<string[] | undefined>;
   kubernetesClusters: Field<string[] | undefined>;
   kubernetesNamespaces: Field<string[] | undefined>;
-  logFilters: Field<string[] | undefined>;
+  logFilter: Field<string | undefined>;
   mobileApps: Field<string[] | undefined>;
   restrictedApplicationFilter: Field<RestrictedApplicationFilter | undefined>;
   syntheticCredentials: Field<string[] | undefined>;
   syntheticTests: Field<string[] | undefined>;
   tagIds: Field<string[] | undefined>;
   websites: Field<string[] | undefined>;
+  infrastructureForm: InfrastructureForm;
 };
 
 export type ScopeTableFormFields = Exclude<
   ScopeFormFields,
-  'accessPermissions' | 'restrictedApplicationFilter' | 'infraDfqFilters' | 'automationsForm'
+  'accessPermissions' | 'restrictedApplicationFilter' | 'infrastructureForm' | 'logFilter' | 'actionFilter'
 >;
 
 export type ScopeFormFieldType = keyof ScopeFormFields;
 
 export type ScopeTableFormFieldType = Exclude<
   ScopeFormFieldType,
-  'accessPermissions' | 'restrictedApplicationFilter' | 'infraDfqFilters' | 'automationsForm'
+  'accessPermissions' | 'restrictedApplicationFilter' | 'infrastructureForm' | 'logFilter' | 'actionFilter'
 >;
-
-export type DefaultScopeFormFieldValues = {
-  [key in keyof ScopeFormFields]: ScopeFormFields[key]['value'];
-};
 
 const emptyListValidator = (items: string[], message: string): ValidationResult => {
   if (items.length === 0) {
@@ -79,12 +76,29 @@ const getFilterValue = (filter: string[] | string) => {
   return [];
 };
 
-export function createScopeForm(initValues?: Partial<DefaultScopeFormFieldValues>): MapForm<ScopeFormFields> {
+type InfrastructureFormItems = {
+  isDfqEnabled: Field<boolean>;
+  infraDfqFilter: Field<string | undefined>;
+};
+
+type InfrastructureForm = MapForm<InfrastructureFormItems>;
+
+function infraDfqFiltersValidator({ isDfqEnabled, infraDfqFilter }: InfrastructureFormItems): ValidationResult {
+  if (isDfqEnabled.value) {
+    if (isBlank(infraDfqFilter?.value))
+      return [
+        {
+          severity: 'error',
+          message: t('in-settings:PermissionSection.infrastructureDfq_mayNotBeBlank')
+        }
+      ];
+  }
+  return null;
+}
+
+export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields> {
   // Parse action filter string into action types and action tags
-  const { tags = [], type = [] } = parse(
-    initValues?.actionFilters && initValues?.actionFilters.length > 0 ? initValues?.actionFilters[0] : '',
-    { comma: true }
-  ) as {
+  const { tags = [], type = [] } = parse(initValues?.actionFilter ?? '', { comma: true }) as {
     tags?: string[] | string;
     type?: string[] | string;
   };
@@ -94,8 +108,8 @@ export function createScopeForm(initValues?: Partial<DefaultScopeFormFieldValues
       accessPermissions: createField({
         value: initValues?.accessPermissions ?? undefined
       }),
-      actionFilters: createField({
-        value: initValues?.actionFilters ?? undefined
+      actionFilter: createField({
+        value: initValues?.actionFilter ?? undefined
       }),
       actionTypes: createField({
         value: getFilterValue(type),
@@ -111,17 +125,26 @@ export function createScopeForm(initValues?: Partial<DefaultScopeFormFieldValues
       businessPerspectives: createField({
         value: initValues?.businessPerspectives ?? undefined
       }),
-      infraDfqFilters: createField({
-        value: initValues?.infraDfqFilters ?? undefined
+      infrastructureForm: createMapForm<InfrastructureFormItems>({
+        validator: infraDfqFiltersValidator,
+        items: {
+          isDfqEnabled: createField({
+            value: !!initValues?.infraDfqFilter
+          }),
+          infraDfqFilter: createField({
+            value: initValues?.infraDfqFilter ?? undefined
+          })
+        }
       }),
+
       kubernetesClusters: createField({
         value: initValues?.kubernetesClusters ?? undefined
       }),
       kubernetesNamespaces: createField({
         value: initValues?.kubernetesNamespaces ?? undefined
       }),
-      logFilters: createField({
-        value: initValues?.logFilters ?? undefined
+      logFilter: createField({
+        value: initValues?.logFilter ?? undefined
       }),
       mobileApps: createField({
         value: initValues?.mobileApps ?? undefined

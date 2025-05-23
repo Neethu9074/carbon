@@ -22,7 +22,7 @@ import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/s
 import { ScopeArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.types';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import { TeamScopeEntity } from 'in-settings/tabs/SecurityAndAccess/api/teams';
-import { success } from 'in-services/util/result';
+import { success, successObservable } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
@@ -99,7 +99,8 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     title: t('in-settings:tabs.teams.scopePlatformsAndInfrastructure'),
     subtitle: scope => {
       return t('in-settings:tabs.teams.scopePlatformsAndInfrastructureSubtitle', {
-        count: (scope?.kubernetesClusters?.length ?? 0) + (scope?.kubernetesNamespaces?.length ?? 0)
+        count: (scope?.kubernetesClusters?.length ?? 0) + (scope?.kubernetesNamespaces?.length ?? 0),
+        infraDfq: scope?.infraDfqFilter ? ', DFQ' : null
       });
     },
     items: (scope, timeConfig) => {
@@ -117,6 +118,14 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
           title: t('in-settings:tabs.teams.scopeSectionKubernetesClusters'),
           items: scope?.kubernetesClusters,
           observable: () => getAllKubernetesClustersForEntitySelectionWithDefaults({ timeConfig }),
+          extractId: extractId,
+          extractName: extractName
+        },
+        {
+          id: 'infrastructure',
+          title: t('in-settings:tabs.teams.scopeInfrastructure'),
+          items: ['dfqId'],
+          observable: () => successObservable([{ id: 'dfqId', name: scope?.infraDfqFilter ?? '' }]),
           extractId: extractId,
           extractName: extractName
         }

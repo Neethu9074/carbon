@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { TimeConfig } from '@instana/types';
@@ -16,8 +17,10 @@ import { getAllBusinessPerspectivesForEntitySelectionWithDefaults } from 'in-biz
 import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesNamespacesForEntitySelection';
 import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
 import LimitedAccessSwitcher from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
+import InfrastructureSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/InfrastructureSection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import AutomationsSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/AutomationsSection';
+import { ScopeFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import KubernetesSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/KubernetesSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
@@ -34,7 +37,7 @@ export const extractId = (entity: TeamScopeEntity): string => {
   return entity.id;
 };
 
-export const createNavItems = (timeConfig: TimeConfig) => {
+export const createNavItems = (form: MapForm<ScopeFormFields>, timeConfig: TimeConfig) => {
   return [
     {
       content: <Trans i18nKey={'in-settings:dialogs.scope.generalSectionDescription'} />,
@@ -138,11 +141,16 @@ export const createNavItems = (timeConfig: TimeConfig) => {
       valid: true
     },
     {
-      content: <></>,
+      content: (
+        <InfrastructureSection
+          limitedAccessScopes={[LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE]}
+          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.infrastructureLimitAccessSwitchLabel')}
+        />
+      ),
       label: t('in-settings:dialogs.scope.infrastructureSectionTitle'),
       scrollId: 'infrastructure-section',
       title: t('in-settings:dialogs.scope.infrastructureSectionTitle'),
-      valid: true
+      valid: !form.touched || form.getIn(['infrastructureForm']).valid
     },
     {
       content: (
