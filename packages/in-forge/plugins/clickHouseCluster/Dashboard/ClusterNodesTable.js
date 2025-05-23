@@ -36,19 +36,21 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.clickhouseCluster.dashboard.titleShard'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
+      getContent: value => value,
       getValue(row) {
-        return row.snapshot.getIn(['data', 'shard_num']);
+        return Number(row.snapshot.getIn(['data', 'shard_num']));
       }
     }
   },
   {
     title: t('in-forge:plugins.clickhouseCluster.dashboard.titleReplica'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
+      getContent: value => value,
       getValue(row) {
-        return row.snapshot.getIn(['data', 'replica_num']);
+        return Number(row.snapshot.getIn(['data', 'replica_num']));
       }
     }
   },
