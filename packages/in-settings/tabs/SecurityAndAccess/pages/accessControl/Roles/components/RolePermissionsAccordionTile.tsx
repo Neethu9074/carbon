@@ -10,15 +10,12 @@ import { Accordion, AccordionItem, Layer, Stack, Tile } from '@instana/carbon';
 import { Spacer, Typography } from '@instana/components';
 
 import {
-  ProductAreaPermissionUnion,
-  RoleDetailsWithPermissions
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
-import {
   AddPermissionItemsFunction,
   PermissionMap
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/hooks/usePermissionCount';
+import { RoleDetailsWithPermissions } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 import PermissionList from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/PermissionList';
-import { AreaPermission, Capability, LimitedAccessScope } from 'in-stores/permission';
+import { AreaPermission, Capability, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
 import SpaceBetweenStack from 'in-settings/components/SpaceBetweenStack';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
@@ -67,7 +64,7 @@ export default function RolePermissionsAccordionTile<T>({
             ]}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.websiteSectionTitle')}
-            limitingPermissions={[LimitedAccessScope.LIMITED_WEBSITES_SCOPE]}
+            limitingAccessScope={LimitedAccessScope.LIMITED_WEBSITES_SCOPE}
             status={status}
           />
           <PermissionAccordionItem
@@ -78,7 +75,7 @@ export default function RolePermissionsAccordionTile<T>({
             ]}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.mobileAppsSectionTitle')}
-            limitingPermissions={[LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE]}
+            limitingAccessScope={LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE}
             status={status}
           />
           <PermissionAccordionItem
@@ -86,7 +83,7 @@ export default function RolePermissionsAccordionTile<T>({
             availablePermissions={[AreaPermission.ACCESS_BIZOPS]}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.businessMonitoringSectionTitle')}
-            limitingPermissions={[LimitedAccessScope.LIMITED_BIZOPS_SCOPE]}
+            limitingAccessScope={LimitedAccessScope.LIMITED_BIZOPS_SCOPE}
             status={status}
           />
           <PermissionAccordionItem
@@ -100,15 +97,12 @@ export default function RolePermissionsAccordionTile<T>({
             ]}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.applicationsSectionTitle')}
-            limitingPermissions={[LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]}
+            limitingAccessScope={LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE}
             status={status}
           />
           <PermissionAccordionItem
             addPermissionItems={addPermissionItems}
-            availablePermissions={[]}
-            enabledPermissions={permissions}
-            label={t('in-settings:dialogs.role.platformsSectionTitle')}
-            limitingPermissions={[
+            availablePermissions={[
               LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
               LimitedAccessScope.LIMITED_NUTANIX_SCOPE,
               LimitedAccessScope.LIMITED_OPENSTACK_SCOPE,
@@ -116,8 +110,12 @@ export default function RolePermissionsAccordionTile<T>({
               LimitedAccessScope.LIMITED_PHMC_SCOPE,
               LimitedAccessScope.LIMITED_POWERVC_SCOPE,
               LimitedAccessScope.LIMITED_SAP_SCOPE,
-              LimitedAccessScope.LIMITED_VSPHERE_SCOPE
+              LimitedAccessScope.LIMITED_VSPHERE_SCOPE,
+              LimitedAccessScope.LIMITED_ZHMC_SCOPE
             ]}
+            enabledPermissions={permissions}
+            label={t('in-settings:dialogs.role.platformsSectionTitle')}
+            reversed
             status={status}
           />
           <PermissionAccordionItem
@@ -129,7 +127,7 @@ export default function RolePermissionsAccordionTile<T>({
             ]}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.infrastructureSectionTitle')}
-            limitingPermissions={[LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE]}
+            limitingAccessScope={LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE}
             status={status}
           />
           <PermissionAccordionItem
@@ -168,7 +166,7 @@ export default function RolePermissionsAccordionTile<T>({
             ]}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.syntheticMonitoringSectionTitle')}
-            limitingPermissions={[LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]}
+            limitingAccessScope={LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE}
             status={status}
           />
           <PermissionAccordionItem
@@ -181,7 +179,7 @@ export default function RolePermissionsAccordionTile<T>({
             ]}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.automationSectionTitle')}
-            limitingPermissions={[LimitedAccessScope.LIMITED_AUTOMATION_SCOPE]}
+            limitingAccessScope={LimitedAccessScope.LIMITED_AUTOMATION_SCOPE}
             status={status}
           />
           <PermissionAccordionItem
@@ -259,14 +257,20 @@ function PermissionItemTitle({ name, info }: PermissionItemTitleProps) {
 
 interface PermissionAccordionItemProps
   extends Pick<Parameters<typeof PermissionList>[0], 'availablePermissions' | 'enabledPermissions'> {
-  label: string;
   /**
    * This callback function will be used to update references of actual enabled
    * and available permissions, in order to show correct amount of permissions
    * in the headline of the tile.
    **/
   addPermissionItems: AddPermissionItemsFunction;
-  limitingPermissions?: ProductAreaPermissionUnion[];
+  label: string;
+  limitingAccessScope?: LimitedAccessScopeType;
+  /**
+   * Permissions have a reverse logic and count as set if the corresponding
+   * LIMITED_ permission is NOT set. This option reflects the counting logic
+   * accordingly.
+   */
+  reversed?: boolean;
   status: FetchStatus;
 }
 
@@ -275,46 +279,46 @@ function PermissionAccordionItem({
   availablePermissions,
   enabledPermissions,
   label,
-  limitingPermissions = [],
+  limitingAccessScope,
+  reversed,
   status
 }: PermissionAccordionItemProps) {
-  const availablePermissionsWithLimiting = [...availablePermissions, ...limitingPermissions];
-  const actualEnabledPermissions = availablePermissionsWithLimiting.filter(permission =>
-    enabledPermissions?.includes(permission)
-  );
+  const actualEnabledPermissions = availablePermissions.filter(permission => {
+    if (reversed) return !enabledPermissions?.includes(permission);
 
-  // To correctly record the absence of limiting permissions, we invert the
-  // logic and add or remove them manually from the permission items.
-  const limitingPermissionsToAdd = limitingPermissions.filter(
-    limitingPermission => !actualEnabledPermissions.includes(limitingPermission)
-  );
-  const enabledPermissionsWithLimiting = [
-    ...actualEnabledPermissions.filter(permission => !limitingPermissions.includes(permission)),
-    ...limitingPermissionsToAdd
-  ];
+    return enabledPermissions?.includes(permission);
+  });
 
-  const actual = enabledPermissionsWithLimiting.length;
-  const count = availablePermissionsWithLimiting.length;
+  const enabledPermissionsCount = actualEnabledPermissions.length;
+  const availablePermissionsCount = availablePermissions.length;
 
   useEffect(
     // As soon as the amount of available or enabled permissions has changed, we
     // need to update the permission references in order to update the counter.
-    () => addPermissionItems(availablePermissionsWithLimiting, enabledPermissionsWithLimiting),
+    () => addPermissionItems(availablePermissions, actualEnabledPermissions),
     // We only need to check for the array length in dep-array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [availablePermissionsWithLimiting.length, enabledPermissionsWithLimiting.length, addPermissionItems]
+    [availablePermissions.length, actualEnabledPermissions.length, addPermissionItems]
   );
 
   return (
     <AccordionItem
       title={
-        <PermissionItemTitle name={label} info={t('in-settings:details.role.permissionCount', { actual, count })} />
+        <PermissionItemTitle
+          name={label}
+          info={t('in-settings:details.role.permissionCount', {
+            actual: enabledPermissionsCount,
+            count: availablePermissionsCount
+          })}
+        />
       }
     >
       <Layer level={1}>
         <PermissionList
-          availablePermissions={availablePermissionsWithLimiting}
-          enabledPermissions={enabledPermissionsWithLimiting}
+          hasAccessPermission={limitingAccessScope && !enabledPermissions?.includes(limitingAccessScope)}
+          limitingAccessScope={limitingAccessScope}
+          availablePermissions={availablePermissions}
+          enabledPermissions={actualEnabledPermissions}
           status={status}
         />
       </Layer>
