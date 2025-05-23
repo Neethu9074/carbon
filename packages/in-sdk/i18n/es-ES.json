@@ -50,6 +50,7 @@
     "runtimeLabelGo": "Go",
     "runtimeLabelJava": "Java",
     "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPhp": "PHP",
     "runtimeLabelPython": "Python",
     "runtimeLabelRuby": "Ruby",
     "runtimeLabelUnknown": "Entorno de ejecución desconocido"
