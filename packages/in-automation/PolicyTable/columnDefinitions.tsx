@@ -36,7 +36,7 @@ function NameColumn({ policy }: { policy: Policy }) {
   const hrefToPolicyDetails = useHrefToPolicyDetails();
   return (
     <WithSubscript subscript={<Subscript policy={policy} />}>
-      <Link className={locals.ellipsis} href={hrefToPolicyDetails(policy.id, false)}>
+      <Link className={locals.ellipsis} href={hrefToPolicyDetails(policy.id)}>
         {policy.name}
       </Link>
     </WithSubscript>

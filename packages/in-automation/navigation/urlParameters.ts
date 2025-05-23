@@ -4,19 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
-  actionDetails,
-  policies,
-  policiesDetails,
-  actionCatalog,
-  actionDashboard
-} from 'in-automation/navigation/paths';
+import { actionDetails, policies, policyDetails, actionCatalog, actionDashboard } from 'in-automation/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 
 export const policyDetailsUrlParameters = {
   id: createIdUrlParameter(policies),
-  op: createOpParameter(policiesDetails)
+  op: createOpParameter(policyDetails)
 };
 
 export const actionDetailsUrlParameters = {

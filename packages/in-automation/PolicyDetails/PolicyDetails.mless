@@ -1,0 +1,70 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .content {
+    padding: 1rem;
+  }
+  .titleStack {
+    display: grid;
+    justify-content: space-between;
+  }
+  .noHorizontalPaddings {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .controlsWrapper {
+    display: flex;
+  }
+  .flexSpaceBetween {
+    justify-content: space-between;
+  }
+  .flexEnd {
+    justify-content: flex-end;
+  }
+  .gridGap {
+    gap: 16px;
+  }
+  .customMarginY {
+    :global .cds--css-grid-column .cds--css-grid-column {
+      margin-bottom: 10px;
+      margin-top: 5px;
+    }
+  }
+  .removeMarginX {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+  .bgWhite {
+    background-color: var(--cds-layer);
+  }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 0 1.3rem;
+    font-size: 0.9rem;
+    color: var(--cds-link-primary);
+    cursor: pointer;
+    margin: 0;
+    &:not([href]):not([tabindex]) {
+      color: var(--cds-link-primary);
+    }
+  }
+  .icon {
+    fill: currentColor;
+  }
+  .DfqSearchBarWrapper {
+    & > div > div:first-of-type {
+      border: 0;
+      :global .cm-character::after {
+        display: none;
+      }
+      pre {
+        padding: 0;
+      }
+    }
+  }
+}

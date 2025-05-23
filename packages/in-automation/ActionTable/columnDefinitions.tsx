@@ -25,7 +25,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-automation/ActionTable/columnDefinitions.mless';
 
-function NameColumn({ action }: { action: Action | ScoredAction }) {
+export function NameColumn({ action, isLink = true }: { action: Action | ScoredAction; isLink?: boolean }) {
   const { name, id, type } = action;
   const hrefToActionDashboard = useHrefToActionDashboard();
   const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
@@ -33,18 +33,24 @@ function NameColumn({ action }: { action: Action | ScoredAction }) {
   const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
   return (
     <WithSubscript subscript={ACTION_TRANSLATIONS[type]}>
-      <Link
-        className={locals.ellipsis}
-        // @ts-ignore-error ignore added for turbo url
-        href={type !== ACTION_TYPE.EXTERNAL ? hrefToActionDashboard(id) : action.metadata?.ai[0]?.actionDetailsURL}
-        onClick={() => {
-          if (isAIActions) {
-            viewAIGenaratedActionTrackerSegment({ actionName: name, actionType: type });
-          }
-        }}
-      >
-        {name}
-      </Link>
+      {isLink ? (
+        <Link
+          className={locals.ellipsis}
+          // @ts-ignore-error ignore added for turbo url
+          href={type !== ACTION_TYPE.EXTERNAL ? hrefToActionDashboard(id) : action.metadata?.ai[0]?.actionDetailsURL}
+          onClick={() => {
+            if (isAIActions) {
+              viewAIGenaratedActionTrackerSegment({ actionName: name, actionType: type });
+            }
+          }}
+        >
+          {name}
+        </Link>
+      ) : (
+        <span title={name} className={locals.ellipsis}>
+          {name}
+        </span>
+      )}
     </WithSubscript>
   );
 }

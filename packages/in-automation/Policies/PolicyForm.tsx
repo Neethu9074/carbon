@@ -6,15 +6,15 @@
 
 import React from 'react';
 
-import { Link, Spacer, IconButton, TextArea, Checkbox } from '@instana/components';
+import { Checkbox, IconButton, Link, Spacer, TextArea } from '@instana/components';
 import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { usePolicyFormContext } from 'in-automation/Policies/usePolicyForm/usePolicyForm';
-import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUrlParams';
+import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
@@ -23,29 +23,29 @@ import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
 import { ApplyOn } from 'in-automation/Policies/usePolicyForm/types';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SelectTrigger from 'in-automation/Policies/SelectTrigger';
+import ScrollStep from 'in-components/StepsContainer/ScrollStep';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { PolicyFormEntity } from 'in-automation/Policies/types';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import SelectAction from 'in-automation/Policies/SelectAction';
 import usePolicyTags from 'in-automation/hooks/usePolicyTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import { Triggers, isPolicy } from 'in-automation/types';
 import FormGroup from 'in-components/form/FormGroup';
-import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Label from 'in-components/form/Label/Label';
+import { isLoading } from 'in-services/util/result';
 import Input from 'in-components/form/Input/Input';
+import Label from 'in-components/form/Label/Label';
 import { FetchStatus } from 'in-hooks/utils/types';
-import { isPolicy } from 'in-automation/types';
-import { Triggers } from 'in-automation/types';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policy.mless';
 
 function CopyPolicyLink({ policy }: { policy: PolicyFormEntity }) {
-  const { isNew } = usePolicyDetailsUrlParams();
+  const { isNew } = usePolicyDetailsUrlParams({ copy: false });
   const navigateToPolicyDetails = useNavigateToPolicyDetails();
 
   if (isNew || !isPolicy(policy)) return null;
@@ -60,7 +60,7 @@ function CopyPolicyLink({ policy }: { policy: PolicyFormEntity }) {
 }
 
 export function PolicyFormHeader({ policy }: { policy: PolicyFormEntity }) {
-  const { isNew } = usePolicyDetailsUrlParams();
+  const { isNew } = usePolicyDetailsUrlParams({ copy: false });
 
   return (
     <HorizontalFlexWrapper className={locals.spaceBetween}>
@@ -81,14 +81,20 @@ export function PolicyFormBody({ actions, triggers }: { actions: Action[]; trigg
     <LeftRightPadding>
       <Row>
         <Col lg={8}>
-          <SectionHeading>{t('in-automation:policies.1PolicyDetails')}</SectionHeading>
-          <DetailsSection />
-          <SectionHeading>{t('in-automation:policies.2TriggerConfiguration')}</SectionHeading>
-          <SelectTrigger triggers={triggers} />
-          <TypeSection />
-          <ScopeSection />
-          <SectionHeading>{t('in-automation:policies.3ActionConfiguration')}</SectionHeading>
-          <SelectAction actions={actions} />
+          <ScrollStep id="1-action-details">
+            <SectionHeading>{t('in-automation:policies.1PolicyDetails')}</SectionHeading>
+            <DetailsSection />
+          </ScrollStep>
+          <ScrollStep id="2-trigger-configuration">
+            <SectionHeading>{t('in-automation:policies.2TriggerConfiguration')}</SectionHeading>
+            <SelectTrigger triggers={triggers} />
+            <TypeSection />
+            <ScopeSection />
+          </ScrollStep>
+          <ScrollStep id="3-action-configuration">
+            <SectionHeading>{t('in-automation:policies.3ActionConfiguration')}</SectionHeading>
+            <SelectAction actions={actions} />
+          </ScrollStep>
         </Col>
       </Row>
     </LeftRightPadding>
@@ -96,10 +102,9 @@ export function PolicyFormBody({ actions, triggers }: { actions: Action[]; trigg
 }
 
 export function PolicyFormFooter({ submitStatus }: { submitStatus: FetchStatus | undefined }) {
-  const { isNew } = usePolicyDetailsUrlParams();
+  const { isNew } = usePolicyDetailsUrlParams({ copy: false });
   const { form } = usePolicyFormContext();
   const navigateToPolicies = useNavigateToPolicies();
-
   return (
     <>
       <Spacer vertical="xlarge" />

@@ -24,7 +24,6 @@ import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/syn
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
-import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
@@ -34,6 +33,7 @@ import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/webs
 import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
+import CreateNewPolicyTearsheet from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { PolicyTypeFilter } from 'in-automation/PolicyTable/tableFilters';
@@ -117,7 +117,6 @@ export default function Policies({
     })
   }));
 
-  const navigateToPolicyDetails = useNavigateToPolicyDetails();
   const totalHits = result.data?.totalHits;
   const isPoliciesLoading = isLoading(policies) || !totalHits;
 
@@ -133,7 +132,7 @@ export default function Policies({
         hideFilters ? null : (
           <>
             {role?.canConfigureAutomationPolicies && (
-              <Button kind="action" onClick={() => navigateToPolicyDetails()} icon="lib_openclose_add_circle_outline">
+              <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
                 {t('in-automation:policies.newPolicy')}
               </Button>
             )}
@@ -172,15 +171,14 @@ function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
 }
 
 function PoliciesMoreMenu({ policy }: { policy: PolicyTableEntity }) {
-  const navigateToPolicyDetails = useNavigateToPolicyDetails();
   if (!role?.canConfigureAutomationPolicies) return null;
   return (
     <Stack align="end">
       <MoreMenu kind="subtle">
-        <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(policy.id, false)}>
+        <MoreMenuButton icon="lib_actions_edit" onClick={() => handleButtonClick({ policyId: policy.id })}>
           {t('in-automation:edit')}
         </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(policy.id, true)}>
+        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleButtonClick({ policyId: policy.id, copy: true })}>
           {t('in-automation:copy')}
         </MoreMenuButton>
         <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(policy)}>
@@ -280,7 +278,13 @@ let columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
   }
 ];
 
-function showConfirmationDialog(policy: Policy) {
+export function showConfirmationDialog(
+  policy: Policy,
+  options?: {
+    callback?: () => void;
+    disableRefresh?: boolean;
+  }
+) {
   const { id, name } = policy;
   addActiveDialog(
     <ConfirmationDialog
@@ -294,17 +298,24 @@ function showConfirmationDialog(policy: Policy) {
       onSubmit={() => {
         close();
         // TODO: Tracker for policy delete
-        onDelete(id);
+        onDelete(id, options);
       }}
     />
   );
 }
 
-function onDelete(id: string) {
+function onDelete(
+  id: string,
+  options?: {
+    callback?: () => void;
+    disableRefresh?: boolean;
+  }
+) {
   deletePolicy(id).once(
     () => {
       onDeleteSuccess();
-      refresh();
+      if (!options?.disableRefresh) refresh();
+      options?.callback?.();
     },
     () => {
       onDeleteFailed();
@@ -333,3 +344,7 @@ function onDeleteFailed() {
     'policy-delete-error'
   );
 }
+
+const handleButtonClick = ({ policyId, copy }: { policyId?: string; copy?: boolean }) => {
+  addActiveDialog(<CreateNewPolicyTearsheet policyId={policyId} copy={copy} />);
+};

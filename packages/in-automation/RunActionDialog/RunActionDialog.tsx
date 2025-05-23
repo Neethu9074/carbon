@@ -87,67 +87,69 @@ export default function RunActionDialog({
   });
   const { runActionTrackerSegment, testActionTrackerSegment } = useSegmentTracker();
   return (
-    <Dialog
-      className={locals.dialog}
-      titleIconType={action.type === ACTION_TYPE.MANUAL ? undefined : 'lib_help_error_error_circle'}
-      title={getTitle({ action, error, actionInstanceId, test, policy })}
-      onClose={() => onClose({ error, actionInstanceId })}
-      withoutBodyPadding
-      doNotCloseOnOutsideClick
-    >
-      <>
-        <div className={locals.actionModalPadding}>
-          <RunActionContent
-            action={action}
-            error={error}
-            isSaving={isSaving}
-            actionInstanceId={actionInstanceId}
-            form={form}
-            setForm={setForm}
-            agentSnapShots={agentSnapShots}
-            volatileId={volatileId}
-            errorResolvingDynamicParameters={errorResolvingDynamicParameters}
-            resolvedDynamicParameters={resolvedDynamicParameters}
-            policy={policy}
-          />
-        </div>
-        <FormFooter>
-          {action.type === ACTION_TYPE.MANUAL ? (
-            <CancelButton onClick={close}>{t('in-automation:close')}</CancelButton>
-          ) : (
-            <RunActionFooter
-              policy={policy}
+    <div className={locals.dialogWrapper}>
+      <Dialog
+        className={locals.dialog}
+        titleIconType={action.type === ACTION_TYPE.MANUAL ? undefined : 'lib_help_error_error_circle'}
+        title={getTitle({ action, error, actionInstanceId, test, policy })}
+        onClose={() => onClose({ error, actionInstanceId })}
+        withoutBodyPadding
+        doNotCloseOnOutsideClick
+      >
+        <>
+          <div className={locals.actionModalPadding}>
+            <RunActionContent
+              action={action}
               error={error}
-              test={test}
-              agentSnapShots={agentSnapShots}
-              actionInstanceId={actionInstanceId}
               isSaving={isSaving}
+              actionInstanceId={actionInstanceId}
               form={form}
-              onSave={() =>
-                onSave(
-                  {
-                    form,
-                    setForm,
-                    setIsSaving,
-                    action,
-                    agentSnapShots,
-                    setError,
-                    setActionInstanceId,
-                    event,
-                    policy,
-                    handleSave,
-                    executePolicy,
-                    test
-                  },
-                  runActionTrackerSegment,
-                  testActionTrackerSegment
-                )
-              }
+              setForm={setForm}
+              agentSnapShots={agentSnapShots}
+              volatileId={volatileId}
+              errorResolvingDynamicParameters={errorResolvingDynamicParameters}
+              resolvedDynamicParameters={resolvedDynamicParameters}
+              policy={policy}
             />
-          )}
-        </FormFooter>
-      </>
-    </Dialog>
+          </div>
+          <FormFooter>
+            {action.type === ACTION_TYPE.MANUAL ? (
+              <CancelButton onClick={close}>{t('in-automation:close')}</CancelButton>
+            ) : (
+              <RunActionFooter
+                policy={policy}
+                error={error}
+                test={test}
+                agentSnapShots={agentSnapShots}
+                actionInstanceId={actionInstanceId}
+                isSaving={isSaving}
+                form={form}
+                onSave={() =>
+                  onSave(
+                    {
+                      form,
+                      setForm,
+                      setIsSaving,
+                      action,
+                      agentSnapShots,
+                      setError,
+                      setActionInstanceId,
+                      event,
+                      policy,
+                      handleSave,
+                      executePolicy,
+                      test
+                    },
+                    runActionTrackerSegment,
+                    testActionTrackerSegment
+                  )
+                }
+              />
+            )}
+          </FormFooter>
+        </>
+      </Dialog>
+    </div>
   );
 }
 
@@ -192,7 +194,7 @@ function filterAgentSnapShotsArray(hostId: string, agents: OUT | null | undefine
   };
 }
 
-function useAgentSnapShots({ action }: { action: Action }) {
+export function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
   let query = '';
   const gitUrl = getGitLinkFromFields(action.fields);

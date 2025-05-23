@@ -22,7 +22,7 @@ import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToAc
 import { ACTION_FIELD_TRANSLATIONS } from 'in-automation/components/ActionHistory/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
+import { policyDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -57,8 +57,9 @@ export default function DetailTab({
   const handleToggle = () => setIsExpanded(expanded => !expanded);
   function getPolicyView(id: string): string {
     const path = location;
-    path.pathname = policiesDetailsFullyQualified;
+    path.pathname = policyDetailsFullyQualified;
     setOrDeleteMatrixKey(path, '/policies', 'id', id);
+    delete path.query.from;
     return createHref(path);
   }
 

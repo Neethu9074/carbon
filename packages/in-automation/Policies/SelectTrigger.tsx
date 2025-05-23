@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Spacer, Stack, Typography, Button, RadioButton } from '@instana/components';
+import { Button, RadioButton, Spacer, Stack, Typography } from '@instana/components';
 import { TriggerType } from '@instana/types';
 
 import {
@@ -33,21 +33,21 @@ import useServerTableUrlState, {
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { usePolicyFormContext } from 'in-automation/Policies/usePolicyForm/usePolicyForm';
-import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
+import { Triggers, TriggerSpecification } from 'in-automation/types';
+import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { hasError, listSuccess } from 'in-services/util/result';
 import { getTriggerType } from 'in-automation/utils/trigger';
-import { TriggerSpecification } from 'in-automation/types';
+import CancelButton from 'in-components/form/CancelButton';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { merge } from 'in-services/util/resultMerger';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
-import { Triggers } from 'in-automation/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -59,7 +59,7 @@ export default function SelectTrigger({ triggers }: { triggers: Triggers }) {
   const triggerId = form.get('triggerId');
   const triggerType = form.get('triggerType');
   const selectedTriggerType = triggers[triggerType.value];
-  // @ts-expect-error
+  // @ts-ignore
   const selectedTrigger = selectedTriggerType.data?.find(trigger => trigger.id === triggerId.value);
 
   const result = hasError(selectedTriggerType)
@@ -213,70 +213,72 @@ function SelectTriggerDialog({
       fixedLayout
     />
   );
-  return (
-    <Dialog
-      className={locals.select}
-      title={t('in-automation:policies.addEventTrigger')}
-      onClose={close}
-      withoutBodyPadding
-    >
-      <div className={locals.selectDialog}>
-        <TabSelect menuWidth="20%" panelsWidth="80%" activePanelId={selectedTab} onChange={setSelectedTab}>
-          <TabSelectHeader>
-            <Typography variant="heading-200" noWrap>
-              {t('in-automation:policies.selectEventTrigger')}
-            </Typography>
-          </TabSelectHeader>
-          <TabSelectMenu>
-            <TabSelectItem forId="event" withRadioButton>
-              {t('in-automation:policies.event')}
-            </TabSelectItem>
-            <TabSelectItem forId="globalApplicationSmartAlert" withRadioButton>
-              {t('in-automation:policies.globalApplicationSmartAlert')}
-            </TabSelectItem>
-            <TabSelectItem forId="applicationSmartAlert" withRadioButton>
-              {t('in-automation:policies.applicationSmartAlert')}
-            </TabSelectItem>
-            <TabSelectItem forId="websiteSmartAlert" withRadioButton>
-              {t('in-automation:policies.websiteSmartAlert')}
-            </TabSelectItem>
-            <TabSelectItem forId="mobileAppSmartAlert" withRadioButton>
-              {t('in-automation:policies.mobileAppSmartAlert')}
-            </TabSelectItem>
-            <TabSelectItem forId="infraSmartAlert" withRadioButton>
-              {t('in-automation:policies.infraSmartAlert')}
-            </TabSelectItem>
-            <TabSelectItem forId="syntheticsSmartAlert" withRadioButton>
-              {t('in-automation:policies.syntheticsSmartAlert')}
-            </TabSelectItem>
-            <TabSelectItem forId="logSmartAlert" withRadioButton>
-              {t('in-automation:policies.logSmartAlert')}
-            </TabSelectItem>
-            <TabSelectItem forId="sloSmartAlert" withRadioButton>
-              {t('in-automation:policies.sloSmartAlert')}
-            </TabSelectItem>
-          </TabSelectMenu>
-          <TabSelectPanels>
-            <TabSelectPanel id="event">{table}</TabSelectPanel>
-            <TabSelectPanel id="applicationSmartAlert">{table}</TabSelectPanel>
-            <TabSelectPanel id="websiteSmartAlert">{table}</TabSelectPanel>
-            <TabSelectPanel id="globalApplicationSmartAlert">{table}</TabSelectPanel>
-            <TabSelectPanel id="infraSmartAlert">{table}</TabSelectPanel>
-            <TabSelectPanel id="mobileAppSmartAlert">{table}</TabSelectPanel>
-            <TabSelectPanel id="syntheticsSmartAlert">{table}</TabSelectPanel>
-            <TabSelectPanel id="logSmartAlert">{table}</TabSelectPanel>
-            <TabSelectPanel id="sloSmartAlert">{table}</TabSelectPanel>
-          </TabSelectPanels>
-        </TabSelect>
-      </div>
 
-      <FormFooter>
-        <CancelButton onClick={close} />
-        <Button kind="primary" disabled={!selectedId} onClick={handleSubmit}>
-          {t('in-automation:policies.addEventTrigger')}
-        </Button>
-      </FormFooter>
-    </Dialog>
+  return (
+    <div className={locals.dialogWrapper}>
+      <Dialog
+        className={locals.select}
+        title={t('in-automation:policies.addEventTrigger')}
+        onClose={close}
+        withoutBodyPadding
+      >
+        <div className={locals.selectDialog}>
+          <TabSelect menuWidth="20%" panelsWidth="80%" activePanelId={selectedTab} onChange={setSelectedTab}>
+            <TabSelectHeader>
+              <Typography variant="heading-200" noWrap>
+                {t('in-automation:policies.selectEventTrigger')}
+              </Typography>
+            </TabSelectHeader>
+            <TabSelectMenu>
+              <TabSelectItem forId="event" withRadioButton>
+                {t('in-automation:policies.event')}
+              </TabSelectItem>
+              <TabSelectItem forId="globalApplicationSmartAlert" withRadioButton>
+                {t('in-automation:policies.globalApplicationSmartAlert')}
+              </TabSelectItem>
+              <TabSelectItem forId="applicationSmartAlert" withRadioButton>
+                {t('in-automation:policies.applicationSmartAlert')}
+              </TabSelectItem>
+              <TabSelectItem forId="websiteSmartAlert" withRadioButton>
+                {t('in-automation:policies.websiteSmartAlert')}
+              </TabSelectItem>
+              <TabSelectItem forId="mobileAppSmartAlert" withRadioButton>
+                {t('in-automation:policies.mobileAppSmartAlert')}
+              </TabSelectItem>
+              <TabSelectItem forId="infraSmartAlert" withRadioButton>
+                {t('in-automation:policies.infraSmartAlert')}
+              </TabSelectItem>
+              <TabSelectItem forId="syntheticsSmartAlert" withRadioButton>
+                {t('in-automation:policies.syntheticsSmartAlert')}
+              </TabSelectItem>
+              <TabSelectItem forId="logSmartAlert" withRadioButton>
+                {t('in-automation:policies.logSmartAlert')}
+              </TabSelectItem>
+              <TabSelectItem forId="sloSmartAlert" withRadioButton>
+                {t('in-automation:policies.sloSmartAlert')}
+              </TabSelectItem>
+            </TabSelectMenu>
+            <TabSelectPanels>
+              <TabSelectPanel id="event">{table}</TabSelectPanel>
+              <TabSelectPanel id="applicationSmartAlert">{table}</TabSelectPanel>
+              <TabSelectPanel id="websiteSmartAlert">{table}</TabSelectPanel>
+              <TabSelectPanel id="globalApplicationSmartAlert">{table}</TabSelectPanel>
+              <TabSelectPanel id="infraSmartAlert">{table}</TabSelectPanel>
+              <TabSelectPanel id="mobileAppSmartAlert">{table}</TabSelectPanel>
+              <TabSelectPanel id="syntheticsSmartAlert">{table}</TabSelectPanel>
+              <TabSelectPanel id="logSmartAlert">{table}</TabSelectPanel>
+              <TabSelectPanel id="sloSmartAlert">{table}</TabSelectPanel>
+            </TabSelectPanels>
+          </TabSelect>
+        </div>
+        <FormFooter>
+          <CancelButton onClick={close} />
+          <Button kind="primary" disabled={!selectedId} onClick={handleSubmit}>
+            {t('in-automation:policies.addEventTrigger')}
+          </Button>
+        </FormFooter>
+      </Dialog>
+    </div>
   );
 }
 

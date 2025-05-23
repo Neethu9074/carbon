@@ -12,9 +12,11 @@ import { generateUniqueShortId } from '@instana/utils';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
+import { shouldHideParameter } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import { ActionForm, MappedValue } from 'in-automation/ActionCatalog/useActionForm/types';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { Parameter } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenterWrapper.mless';
@@ -28,6 +30,7 @@ interface ServerTablePresenterWrapperProps<VALUETYPE> {
   ticketIdParameterExist?: boolean;
   noDataMessage?: string;
   leftHeader?: React.ReactNode;
+  hideHiddenParams?: boolean;
 }
 
 export default function ServerTablePresenterWrapper<VALUETYPE>({
@@ -38,11 +41,15 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
   defaultRow,
   customAddRow,
   customAddRowLabel,
-  ticketIdParameterExist = false
+  ticketIdParameterExist = false,
+  hideHiddenParams = false
 }: ServerTablePresenterWrapperProps<VALUETYPE>) {
   const isNotEditable = useIsNotEditableContext();
   const { form, setForm } = useActionFormContext();
-  const data = form.get(formKey).value as MappedValue<VALUETYPE>[];
+  let data = form.get(formKey).value as MappedValue<VALUETYPE>[];
+  if (formKey === 'parameters' && hideHiddenParams) {
+    data = data?.filter(param => !shouldHideParameter(param.value as Parameter));
+  }
   const result = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
     progress: {

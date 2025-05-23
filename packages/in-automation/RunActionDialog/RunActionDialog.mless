@@ -17,6 +17,10 @@
   .dialog {
     width: 65%;
   }
+  .dialogWrapper {
+    z-index: 9001;
+    position: fixed;
+  }
   .actionDescriptionMargin dt {
     margin-bottom: 0.25rem;
   }

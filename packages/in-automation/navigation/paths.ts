@@ -28,6 +28,9 @@ export const isAutomationView = getRootPathPredicate(automationRoot);
 export const actionDashboard = '/actionDashboard';
 export const actionDashboardFullyQualified = `${actionCatalogFullyQualified}${actionDashboard}` as const;
 
+export const policyDetails = '/policyDetails';
+export const policyDetailsFullyQualified = `${policiesFullyQualified}${policyDetails}` as const;
+
 export const actionSummary = '/summary';
 export const actionSummaryFullyQualified = `${actionDashboardFullyQualified}${actionSummary}` as const;
 

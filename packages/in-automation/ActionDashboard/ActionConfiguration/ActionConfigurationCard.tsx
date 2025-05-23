@@ -70,7 +70,7 @@ export default function ActionDetailsCard({ data }: Readonly<ActionDetailsCardPr
   );
 }
 
-const renderConfigurationFields = (type: ActionType, data: ActionFormEntity) => {
+export const renderConfigurationFields = (type: ActionType, data: ActionFormEntity) => {
   const components = {
     [ACTION_TYPE.ANSIBLE]: <AnsibleSection data={data} />,
     [ACTION_TYPE.DOC_LINK]: <DocLinkSection />,
@@ -471,9 +471,15 @@ function ManualSection() {
   const manualContent = form.get('manualContent');
 
   return manualContent.map(field => (
-    <CarbonColumn span="50%">
+    <CarbonColumn xlg={8} lg={16} md={8}>
       <CarbonFormGroup legendText={t('in-automation:ActionCatalog.content')}>
-        <Code code={field.value} lang="markdown" withExpandButton wrapperClassName="code-snippet-wrapper" softWrap />
+        <Code
+          code={field.value}
+          lang="markdown"
+          withExpandButton
+          wrapperClassName="code-snippet-wrapper-content"
+          softWrap
+        />
       </CarbonFormGroup>
     </CarbonColumn>
   ));
@@ -506,7 +512,9 @@ function ScriptSection() {
     <>
       {subtype.map(field => (
         <CarbonColumn sm={4}>
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.interpreter')}>{field.value}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.interpreter')}>
+            {field.value || NO_FIELD_VALUE}
+          </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {script.map(field => (
