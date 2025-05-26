@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
+import { createField, createMapForm, Field, MapForm, ValidationMessage, ValidationResult } from 'formalistic';
 import { parse } from 'qs';
 
 import { AccessRestriction, RestrictedApplicationFilter, TeamScope } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import { LimitedAccessScope } from 'in-stores/permission';
 import { isBlank } from 'in-services/util/string';
 
 export const SCOPE_FORM_ID = 'rbac-scope-form';
@@ -45,25 +46,28 @@ export type ScopeTableFormFieldType = Exclude<
   'accessPermissions' | 'restrictedApplicationFilter' | 'infrastructureForm' | 'logFilter' | 'actionFilter'
 >;
 
-const emptyListValidator = (items: string[], message: string): ValidationResult => {
-  if (items.length === 0) {
-    return [
-      {
+const scopeValidator = ({ accessPermissions, actionTags, actionTypes }: ScopeFormFields): ValidationResult => {
+  let errors: ValidationMessage[] = [];
+
+  // Validate automation action type and tag filter
+  if (accessPermissions?.value?.includes(LimitedAccessScope.LIMITED_AUTOMATION_SCOPE)) {
+    if (actionTags?.value?.length === 0) {
+      errors.push({
         severity: 'error',
-        message: message
-      }
-    ];
-  } else {
-    return [];
+        message: t('in-settings:dialogs.scope.noActionTagSelectedError'),
+        path: 'actionTags'
+      });
+    }
+    if (actionTypes?.value?.length === 0) {
+      errors.push({
+        severity: 'error',
+        message: t('in-settings:dialogs.scope.noActionTypeSelectedError'),
+        path: 'actionTypes'
+      });
+    }
   }
-};
 
-const actionTagsValidator = (tags: string[]): ValidationResult => {
-  return emptyListValidator(tags, t('in-settings:dialogs.scope.noActionTypeSelectedError'));
-};
-
-const actionTypesValidator = (types: string[]): ValidationResult => {
-  return emptyListValidator(types, t('in-settings:dialogs.scope.noActionTagSelectedError'));
+  return errors;
 };
 
 const getFilterValue = (filter: string[] | string) => {
@@ -74,6 +78,15 @@ const getFilterValue = (filter: string[] | string) => {
   }
 
   return [];
+};
+
+export const parseActionFilter = (actionFilter: string) => {
+  const { tags = [], type = [] } = parse(actionFilter ?? '', { comma: true }) as {
+    tags?: string[] | string;
+    type?: string[] | string;
+  };
+
+  return { actionTags: getFilterValue(tags), actionTypes: getFilterValue(type) };
 };
 
 type InfrastructureFormItems = {
@@ -98,10 +111,7 @@ function infraDfqFiltersValidator({ isDfqEnabled, infraDfqFilter }: Infrastructu
 
 export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields> {
   // Parse action filter string into action types and action tags
-  const { tags = [], type = [] } = parse(initValues?.actionFilter ?? '', { comma: true }) as {
-    tags?: string[] | string;
-    type?: string[] | string;
-  };
+  const { actionTags, actionTypes } = parseActionFilter(initValues?.actionFilter ?? '');
 
   return createMapForm<ScopeFormFields>({
     items: {
@@ -112,12 +122,10 @@ export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields
         value: initValues?.actionFilter ?? undefined
       }),
       actionTypes: createField({
-        value: getFilterValue(type),
-        validator: actionTypesValidator
+        value: actionTypes
       }),
       actionTags: createField({
-        value: getFilterValue(tags),
-        validator: actionTagsValidator
+        value: actionTags
       }),
       applications: createField({
         value: initValues?.applications ?? undefined
@@ -164,6 +172,7 @@ export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields
       websites: createField({
         value: initValues?.websites ?? undefined
       })
-    }
+    },
+    validator: scopeValidator
   });
 }

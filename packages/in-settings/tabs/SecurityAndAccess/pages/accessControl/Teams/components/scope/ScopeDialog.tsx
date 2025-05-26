@@ -60,7 +60,7 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
       ...team,
       scope: {
         ...omit(newScope, 'actionTags', 'actionTypes'),
-        actionFilters: [actionFilter],
+        actionFilter: actionFilter,
         ...form.get('infrastructureForm').toJS()
       }
     };

@@ -31,7 +31,7 @@ interface AutomationsSectionProps {
   limitedAccessScopes: AccessRestriction[];
 }
 
-const ACTION_TYPE_OPTIONS = ACTION_TYPES.map(type => ({
+export const ACTION_TYPE_OPTIONS = ACTION_TYPES.map(type => ({
   id: type,
   text: ACTION_TRANSLATIONS[type]
 }));
@@ -55,6 +55,9 @@ const AutomationsSection = ({ limitedAccessSwitchLabel, limitedAccessScopes }: A
   const actionTags = useActionTags();
   const permissionsField = form.getIn(['accessPermissions']);
   const [scopeType, setScopeType] = useState<string>(getInitialScopeType(permissionsField, limitedAccessScopes));
+  const formErrors = form.messages;
+  const actionTagsError = formErrors.filter(message => message.path === 'actionTags')?.[0]?.message;
+  const actionTypesError = formErrors.filter(message => message.path === 'actionTypes')?.[0]?.message;
 
   return (
     <>
@@ -76,8 +79,8 @@ const AutomationsSection = ({ limitedAccessSwitchLabel, limitedAccessScopes }: A
                 filterItems={defaultFilterItems}
                 id={`rbac-team-scope-automations-action-types`}
                 initialSelectedItems={createMultiSelectItemsTypes(actionTypesField?.value ?? [])}
-                invalid={!actionTypesField.valid}
-                invalidText={actionTypesField?.messages[0]?.message}
+                invalid={actionTypesField.touched && actionTypesError !== undefined}
+                invalidText={actionTypesError}
                 items={ACTION_TYPE_OPTIONS}
                 itemToString={item => item?.text ?? ''}
                 onChange={selected =>
@@ -96,8 +99,8 @@ const AutomationsSection = ({ limitedAccessSwitchLabel, limitedAccessScopes }: A
                 filterItems={defaultFilterItems}
                 id={`rbac-team-scope-automations-action-tags`}
                 initialSelectedItems={createMultiSelectItemsTags(actionTagsField?.value ?? [])}
-                invalid={!actionTagsField.valid}
-                invalidText={actionTagsField?.messages[0]?.message}
+                invalid={actionTagsField.touched && actionTagsError !== undefined}
+                invalidText={actionTagsError}
                 items={createMultiSelectItemsTags(actionTags?.data ?? [])}
                 itemToString={item => item?.text ?? ''}
                 onChange={selected =>

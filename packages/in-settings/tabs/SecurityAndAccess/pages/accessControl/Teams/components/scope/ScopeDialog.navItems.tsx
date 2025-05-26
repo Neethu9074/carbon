@@ -210,7 +210,7 @@ export const createNavItems = (form: MapForm<ScopeFormFields>, timeConfig: TimeC
       label: t('in-settings:dialogs.scope.automationSectionTitle'),
       scrollId: 'automation-section',
       title: t('in-settings:dialogs.scope.automationSectionTitle'),
-      valid: true
+      valid: !form?.messages?.some(message => message.path === 'actionTags' || message.path === 'actionTypes')
     }
   ];
 };
