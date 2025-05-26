@@ -6,6 +6,8 @@
 import { Field, MapForm, Item } from 'formalistic';
 import React from 'react';
 
+import { Label } from '@instana/components';
+
 //@ts-expect-error will convert DebouncedDistinctSlider to typescript
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import {
@@ -13,7 +15,7 @@ import {
   convertMinutesToHours,
   testFrequencyDescription
 } from 'in-synthetics/utils/testFrequencyUtil';
-import Section, { ActionTitle, Description, SubTitle } from 'in-synthetics/createTests/wizard/Section';
+import Section, { ActionTitle, SubTitle } from 'in-synthetics/createTests/wizard/Section';
 import { Shape } from 'in-components/Slider/proptypes';
 import FormGroup from 'in-components/form/FormGroup';
 import { hours, minutes } from 'in-services/time';
@@ -85,17 +87,11 @@ export default function SelectScheduleStep({ form, updateForm, simpleMode }: Pro
   } else {
     //Advanced Mode
     return (
-      <Section>
-        <FormGroup className={locals.outerBox}>
-          <ActionTitle>{t('in-synthetics:dialog.createTest.advancedMode.simultaneous')}</ActionTitle>
-          <Description>{t('in-synthetics:dialog.createTest.advancedMode.simultaneousDescription')}</Description>
-        </FormGroup>
-        <FormGroup className={locals.outerBox}>
-          <ActionTitle>{testFrequencyTitle(syntheticType.value)}</ActionTitle>
-          <Description>{testFrequencyDescription(syntheticType.value, frequencyField.value)}</Description>
-          {slider({ syntheticType, frequencyField, form, updateForm })}
-        </FormGroup>
-      </Section>
+      <div className={locals.outerBox}>
+        <Label>{testFrequencyTitle(syntheticType.value)}</Label>
+        {slider({ syntheticType, frequencyField, form, updateForm })}
+        <ActionTitle>{testFrequencyDescription(syntheticType.value, frequencyField.value)}</ActionTitle>
+      </div>
     );
   }
 }

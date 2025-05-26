@@ -7,7 +7,7 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
 
 import ConfigurationCommonSection from 'in-synthetics/createTests/advanced/ConfigurationCommonSection';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
@@ -41,6 +41,9 @@ export default function SSLCertificateConfiguration({
   return (
     <>
       <div className={locals.configContainer}>
+        <Typography variant="body-bold">
+          {t('in-synthetics:dialog.createTest.advancedMode.configStep.hostDetailsSectionLabel')}
+        </Typography>
         <Stack direction="horizontal">
           <FormGroup className={locals.descriptionInput}>
             <Label>{t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputHostName')}</Label>
@@ -82,9 +85,9 @@ export default function SSLCertificateConfiguration({
       </div>
       <div className={locals.configContainer}>
         <FormGroup className={locals.descriptionInput}>
-          <Label htmlFor="daysRemaining">
+          <Typography variant="body-bold">
             {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.failureConfigLabel')}
-          </Label>
+          </Typography>
           <Stack direction="horizontal">
             <div className={locals.alignText}>
               <Trans
