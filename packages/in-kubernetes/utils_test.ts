@@ -32,15 +32,24 @@ const items: KubernetesClusterListItem[] = [
     nodes: 6,
     services: 89,
     persistentVolumes: 1,
-    unhealthyNodes: 4,
+    nodeCounters: {
+      totalNodes: 2,
+      unhealthyNodes: 4
+    },
     workloads: {
       daemonSets: 16,
       deployments: 62,
       deploymentConfigs: 0,
       statefulSets: 2,
       pods: 256,
-      runningPods: 4,
-      unhealthyDeployments: 4
+      deploymentCounters: {
+        totalDeployments: 62,
+        unhealthyDeployments: 0
+      },
+      podCounters: {
+        totalPods: 29,
+        runningPods: 4
+      }
     },
     cronJobs: 2,
     entityHealthInfo: {
@@ -71,7 +80,10 @@ const items: KubernetesClusterListItem[] = [
     },
     namespaces: 5,
     nodes: 3,
-    unhealthyNodes: 4,
+    nodeCounters: {
+      totalNodes: 3,
+      unhealthyNodes: 4
+    },
     services: 7,
     persistentVolumes: 0,
     workloads: {
@@ -80,8 +92,14 @@ const items: KubernetesClusterListItem[] = [
       deploymentConfigs: 0,
       statefulSets: 0,
       pods: 16,
-      runningPods: 4,
-      unhealthyDeployments: 4
+      podCounters: {
+        totalPods: 29,
+        runningPods: 4
+      },
+      deploymentCounters: {
+        totalDeployments: 6,
+        unhealthyDeployments: 4
+      }
     },
     cronJobs: 0,
     entityHealthInfo: {
@@ -112,17 +130,26 @@ const items: KubernetesClusterListItem[] = [
     },
     namespaces: 16,
     nodes: 3,
-    unhealthyNodes: 3,
+    nodeCounters: {
+      totalNodes: 3,
+      unhealthyNodes: 3
+    },
     services: 100,
     persistentVolumes: 6,
     workloads: {
       daemonSets: 16,
       deployments: 44,
-      unhealthyDeployments: 3,
       deploymentConfigs: 0,
       statefulSets: 1,
       pods: 77,
-      runningPods: 2
+      podCounters: {
+        totalPods: 77,
+        runningPods: 2
+      },
+      deploymentCounters: {
+        totalDeployments: 44,
+        unhealthyDeployments: 3
+      }
     },
     cronJobs: 1,
     entityHealthInfo: {
