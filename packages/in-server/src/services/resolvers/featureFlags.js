@@ -960,5 +960,10 @@ module.exports = exports = [
     uiClientKey: 'allSmartAlertsViewEnabled',
     instanaCtlKey: 'feature.all.smart.alerts.view.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'apMetricsDeltaFetchingEnabled',
+    instanaCtlKey: 'feature.ap.metrics.delta.fetching.enabled',
+    defaultValue: false
   }
 ];
