@@ -775,7 +775,7 @@
       "teamScope": "Team scope",
       "teamScopeNotDefinedMessage": "Until a team scope is defined, members operate with the roles granted on the entire unit scope.",
       "teamSuccessfullySaved": "Team successfully saved.",
-      "teamTagUsedOn": "Team tag used on",
+      "teamAssociations": "Team Associations",
       "teamTagUsedOnEntitiesMessage": "Entities are displayed on this list as team members operate (create or delete).",
       "teamsTitle": "Teams",
       "teamTagUsedOnAlertChannels": "Alert channels",

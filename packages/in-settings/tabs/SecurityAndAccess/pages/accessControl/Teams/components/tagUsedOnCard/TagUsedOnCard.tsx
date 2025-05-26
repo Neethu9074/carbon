@@ -27,7 +27,7 @@ const TagUsedOnCard = ({ isLoading, entities }: TagUsedOnCardProps) => {
   const isEmptyTagInUse = entities ? Object.values(entities).every(entity => entity.ids?.length === 0) : true;
 
   return (
-    <ProductiveCard title={t('in-settings:tabs.teams.teamTagUsedOn')} className={locals.tagUsedOnCard}>
+    <ProductiveCard title={t('in-settings:tabs.teams.teamAssociations')} className={locals.tagUsedOnCard}>
       {isLoading && <InlineLoading />}
       {!isLoading && isEmptyTagInUse && <NoTagUsedOn />}
       {!isLoading && !isEmptyTagInUse && (
