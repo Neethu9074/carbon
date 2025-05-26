@@ -141,6 +141,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           <SwitcherDivider className={local.profileMenu_switcherDivider} />
           {tealiumPrivacyEnabled ? (
             <SwitcherItem
+              href="#"
               data-autoid="dds--privacy-cp__link"
               // The below function will open the cookie preferences dialog box from the "More options" button
               // in IBM privacy banner
