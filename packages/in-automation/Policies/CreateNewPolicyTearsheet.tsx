@@ -43,6 +43,7 @@ import useTriggers from 'in-automation/Policies/useTriggers';
 import SectionLine from 'in-settings/components/SectionLine';
 import { isAIActionCopy } from 'in-automation/utils/action';
 import { close } from 'in-components/DialogPresenter/store';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
 import usePolicy from 'in-automation/Policies/usePolicy';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -133,7 +134,7 @@ export default function CreateNewPolicyTearsheet({
       <ViewTrackingMeta
         data={{
           productArea: productAreas.automation,
-          pageRootName: 'Automation > Policies > New or Edit Policy'
+          pageRootName: pageNames.automation_policy_create
         }}
       />
       <TearSheetLoader
