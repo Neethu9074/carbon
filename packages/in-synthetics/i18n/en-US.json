@@ -264,6 +264,7 @@
           },
           "hostDetailsSectionLabel": "Host details",
           "headerSectionLabel": "Add headers (optional)",
+          "testCriteriaLabel": "Test criteria",
           "validationsSectionLabel": "Add validations (optional)",
           "timeoutAndRetrySectionLabel": "Timeout and Retry strategy (optional)",
           "additionalOptionsSectionLabel": "Additional options"
