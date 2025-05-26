@@ -256,6 +256,7 @@ export const SETTINGS_PERSONAL_API_TOKEN_UPDATE = 'settings.personalApiToken.upd
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
 export const SETTINGS_ROLE_DELETE = 'settings.role.delete';
+export const SETTINGS_ROLE_SCOPE_SUBMIT = 'settings.role.scope.submit';
 export const SETTINGS_SESSION_TIMEOUT_UPDATE = 'settings.sessionTimeout.update';
 export const SETTINGS_TEAM_CREATE = 'settings.team.create';
 export const SETTINGS_TEAM_UPDATE = 'settings.team.update';

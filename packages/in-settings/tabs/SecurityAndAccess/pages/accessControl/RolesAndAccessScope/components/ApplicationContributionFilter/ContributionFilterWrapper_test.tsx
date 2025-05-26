@@ -9,7 +9,7 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import ContributionFilterWrapper from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
-import { contributionFilterNameValidator } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
+import { contributionFilterNameValidator } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
 import { t } from 'in-i18n';
 
 const mockFormData = {

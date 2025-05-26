@@ -10,7 +10,6 @@ import { SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
 
 import RoleAndAccessScopeColumns from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { removeAdditionalPermissionsForNoaccess } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import {
   getGroupWithIdpFlagAsResultObservable,
   saveGroup,
@@ -20,11 +19,10 @@ import {
   SETTINGS_ACCESS_CONTROL_GROUP_CREATE,
   SETTINGS_ACCESS_CONTROL_GROUP_UPDATE
 } from 'in-services/tracking/eventNames';
-import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { RemoveUserDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/RemoveUserDialog';
 import { createForm } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
+import { formToApiGroup } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
 import LoadingGroup from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/LoadingGroup';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import InlineEditorRow from 'in-settings/tabs/SecurityAndAccess/components/InlineEditorRow';
 import Users from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Users';
 import { securityAndAccessAccessControlGroups } from 'in-settings/navigation/paths';
@@ -219,52 +217,14 @@ function changeGroupName(form, updateForm, setMessage, updateGroupId) {
   saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm, updateGroupId });
 }
 
-function getPermissionSetWithApFilters(permissionSet, form) {
-  const backendModel = toBackendQueryModel(form.get('tagFilterExpression').value, true);
-  const contributionFilterConfig = {
-    tagFilterExpression: backendModel,
-    scope: form.get('scope')?.value,
-    label: form.get('label')?.value?.trim()
-  };
-  const permissionSetWithFilter = {
-    ...permissionSet,
-    ['restrictedApplicationFilter']: contributionFilterConfig
-  };
-  return permissionSetWithFilter;
-}
-
-function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop, unstable_trackEvent }) {
-  const isRestrictedFilter = form.get('tagFilterExpression').value?.length > 0;
-  let permissionSet = form.get('permissionSet').value;
+export function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop, unstable_trackEvent }) {
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
     setCanSaveItem(false);
     return;
   }
 
-  const actionFilter = form.get('actionFilter').value;
-  permissionSet = {
-    ...permissionSet,
-    actionFilter
-  };
-  permissionSet = removeAdditionalPermissionsForNoaccess(
-    [
-      ProductArea.WEBSITE,
-      ProductArea.MOBILE_APP,
-      ProductArea.APPLICATION,
-      ProductArea.INFRASTRUCTURE,
-      ProductArea.SYNTHETICS,
-      ProductArea.AUTOMATION
-    ],
-    permissionSet
-  );
-
-  const group = {
-    id: form.get('id').value,
-    name: form.get('name').value,
-    members: form.get('members').value,
-    permissionSet: isRestrictedFilter ? getPermissionSetWithApFilters(permissionSet, form) : permissionSet
-  };
+  const group = formToApiGroup(form);
 
   setMessage({ text: t('in-settings:tabs.savingGroup'), type: 'neutral', isSaving: true });
 

@@ -6,19 +6,9 @@
 
 import { ApiApplicationScope, TagFilter } from '@instana/types';
 
-export const mockEmptyPermissionsSet = {
-  applicationIds: [],
-  infraDfqFilter: {},
-  kubernetesClusterUUIDs: [],
-  kubernetesNamespaceUIDs: [],
-  mobileAppIds: [],
-  permissions: [],
-  websiteIds: [],
-  businessPerspectiveIds: [],
-  syntheticCredentialKeys: [],
-  syntheticTestIds: [],
-  actionFilter: {}
-};
+import { createEmptyPermissionSet } from 'in-settings/utils/form';
+
+export const mockEmptyPermissionsSet = createEmptyPermissionSet();
 
 const mockPermissionsWithLimitedAccess = [
   'LIMITED_WEBSITES_SCOPE',

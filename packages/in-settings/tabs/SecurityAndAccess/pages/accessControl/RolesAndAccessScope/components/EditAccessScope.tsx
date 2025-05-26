@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { MapForm, Field, MapFormItems } from 'formalistic';
+import { MapForm, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
 import { PermissionSet, Result } from '@instana/types';
@@ -48,23 +48,24 @@ import { actionAutomationEnabled, syntheticsEnabled } from 'in-services/featureF
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { isBlank } from 'in-services/util/string';
 import { t, Trans } from 'in-i18n';
+import { GroupFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
+import useDerivedState from 'in-hooks/useDerivedState';
 
-interface EditAccessScopeDialogProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
+interface EditAccessScopeDialogProps<FORM_TYPE extends MapFormItems>
+  extends Omit<FormControlProps<FORM_TYPE>, 'setForm'> {
   editMode?: boolean;
   onSave: (form: MapForm<FORM_TYPE>) => void;
   onCancel: VoidFunction;
 }
 
-export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
+export default function EditAccessScopeDialog({
   form: originForm,
-  setForm: _originSetForm,
   onSave,
   onCancel,
   editMode
-}: EditAccessScopeDialogProps<FORM_TYPE>) {
-  const [form, setForm] = useState(originForm);
+}: EditAccessScopeDialogProps<GroupFormFields>) {
+  const [form, setForm] = useDerivedState(originForm);
   const { subSlideConfig, setSubSlideConfig, showSubSlide, setShowSubSlide } = useSubSlideControl();
   const context = editMode ? 'edit' : 'create';
   const timeConfig = useTimeConfig();
@@ -106,7 +107,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
 
   validateContributionFilter();
 
-  const formControlProps: FormControlProps<FORM_TYPE> = {
+  const formControlProps: FormControlProps<GroupFormFields> = {
     form,
     setForm
   };
@@ -387,6 +388,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     if (limitedPermission !== 'LIMITED_ACCESS') return true;
     return form.get('actionFilter').hierarchyValid;
   };
+
   return (
     <ConfigDialog
       showSubSlide={showSubSlide}
@@ -398,15 +400,13 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       }}
       title={t('in-settings:roleAndAccessScope.dialogTitle', { context })}
       navItems={navItems}
-      onClickSave={() => onSave(form)}
+      onClickSave={() => {
+        if (!form.hierarchyValid && !isValidActionFilter() && !isValidContributionFilter)
+          return setForm(form.setTouched(true));
+
+        onSave(form);
+      }}
       onClickCancel={onCancel}
-      disabledSaveButton={
-        !form.hierarchyTouched ||
-        !permissionSetField?.hierarchyValid ||
-        isBlank((form.get('name') as Field<string>).value) ||
-        !isValidContributionFilter ||
-        !isValidActionFilter()
-      }
       noHeader
       noDivider
     />

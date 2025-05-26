@@ -7,27 +7,20 @@
 import { MapForm, MapFormItems } from 'formalistic';
 import React, { useEffect } from 'react';
 
-import { ApiGroup, PermissionSet } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 import { Button } from '@instana/components';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
-import {
-  getAreaRoleFromPermissionSet,
-  getField
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
-import EditAccessScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
-import {
-  ProductArea,
-  ScopeRoles
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import { getField } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import { securityAndAccessAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col } from 'in-components/layout/Grid/Grid';
 import config from 'in-services/config';
-import { Trans, t } from 'in-i18n';
+import { t } from 'in-i18n';
+import EditGroupDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/components/EditGroupDialog';
+import { GroupFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
 
 export interface FormControlProps<FORM_TYPE extends MapFormItems> {
   form: MapForm<FORM_TYPE>;
@@ -37,17 +30,14 @@ interface RoleAndAccessScopeColumnsProps<FORM_TYPE extends MapFormItems> extends
   readOnly?: boolean;
   editMode?: boolean;
   onSave: (form: MapForm<FORM_TYPE>) => void;
-  result: { group: ApiGroup };
 }
 
-export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems>({
+export default function RoleAndAccessScopeColumns({
   form,
-  setForm,
   readOnly,
   editMode,
-  onSave,
-  result
-}: RoleAndAccessScopeColumnsProps<FORM_TYPE>) {
+  onSave
+}: RoleAndAccessScopeColumnsProps<GroupFormFields>) {
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
 
   const { goToPath } = useNavigation();
@@ -59,50 +49,14 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
     close();
   };
 
-  const onClickSave = (form: MapForm<FORM_TYPE>) => {
-    const initialApplicationRole = getAreaRoleFromPermissionSet(
-      ProductArea.APPLICATION,
-      permissionSetField?.value as PermissionSet
-    );
-    const contributorApplicationIds = result.group.permissionSet.applicationIds?.filter(
-      scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor
-    )?.length;
-    const currentPermissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
-    const currentApplicationRole = getAreaRoleFromPermissionSet(ProductArea.APPLICATION, currentPermissionSet);
-    const currentTagfilter = currentPermissionSet?.restrictedApplicationFilter?.tagFilterExpression;
-    if (
-      contributorApplicationIds > 0 &&
-      (currentTagfilter === undefined || currentApplicationRole !== initialApplicationRole)
-    ) {
-      addActiveDialog(
-        <ConfirmationDialog
-          header={t('in-settings:components.confirmRemove')}
-          description={
-            <Trans
-              i18nKey="in-settings:components.confirmSaveGroup"
-              values={{ numberOfContributorAPs: contributorApplicationIds }}
-            />
-          }
-          confirmButtonLabel={t('forms.actions.save')}
-          onSubmit={() => {
-            close();
-            onSave(form);
-            close();
-          }}
-        />
-      );
-    } else {
-      onSave(form);
-      close();
-    }
-  };
-
   const openAccessScopeDialog = () => {
     addActiveDialog(
-      <EditAccessScopeDialog
+      <EditGroupDialog
         form={form}
-        setForm={setForm}
-        onSave={form => onClickSave(form)}
+        onSave={form => {
+          close();
+          onSave(form);
+        }}
         onCancel={closeAndBack}
         editMode={editMode}
       />
