@@ -8,13 +8,10 @@
   .triggerAlertContainer {
     display: grid;
     align-items: center;
-    justify-items: start;
+    justify-items: stretch;
     padding-top: 1.5rem;
-    grid-template-columns: 15% 85%;
+    grid-template-columns: 15% 1fr;
     grid-gap: 1rem;
-  }
-  .width80 {
-    width: 80%;
   }
   .label {
     width: 5rem;

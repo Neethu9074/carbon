@@ -49,6 +49,12 @@ export default function useAlertConfigValidation(
     if (fieldTouchedAndInvalid(timeThresholdForm?.get('timeWindow'))) {
       return false;
     }
+    if (fieldTouchedAndInvalid(timeThresholdForm?.get('users'))) {
+      return false;
+    }
+    if (fieldTouchedAndInvalid(timeThresholdForm?.get('userPercentage'))) {
+      return false;
+    }
     if (fieldTouchedAndInvalid(timeThresholdForm?.get('violations'))) {
       return false;
     }

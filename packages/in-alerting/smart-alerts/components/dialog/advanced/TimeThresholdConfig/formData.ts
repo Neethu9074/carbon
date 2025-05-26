@@ -50,7 +50,7 @@ export const timeThresholdTypesTearSheet = Object.freeze({
 
 export const timeThresholdLabelsTearSheet: Record<TimeThresholdTypeTearSheet, string> = {
   userImpactOfViolationsInSequence: t(
-    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence'
+    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.labelUserImpactOfViolationsInSequence'
   ),
   requestImpact: t(
     'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelTraceImpact'

@@ -17,6 +17,8 @@ export default function AlertThresholdConfigItemContainer({
   hasExtraColumnOnRight,
   noIcon,
   isTearSheet,
+  isTwoColumns,
+  isFourColumns,
   isColumns3WithError,
   isTSFiveColumn,
   isTSColumn5WithErrorOnBothField,
@@ -26,6 +28,8 @@ export default function AlertThresholdConfigItemContainer({
     <div
       className={classNames({
         [locals.columns4]: hasExtraColumnOnRight,
+        [locals.columns2TS]: isTearSheet && isTwoColumns,
+        [locals.rowWith4columns]: isTearSheet && isFourColumns,
         [locals.columns3]: !hasExtraColumnOnRight && !noIcon,
         [locals.itemWithLabelGrid]: !isTearSheet && !hasExtraColumnOnRight && noIcon,
         [locals.columns3TS]: isTearSheet && !isColumns3WithError,
@@ -49,6 +53,8 @@ AlertThresholdConfigItemContainer.propTypes = {
   hasExtraColumnOnRight: PropTypes.bool,
   noIcon: PropTypes.bool,
   isTearSheet: PropTypes.bool,
+  isTwoColumns: PropTypes.bool,
+  isFourColumns: PropTypes.bool,
   isColumns3WithError: PropTypes.bool,
   isTSFiveColumn: PropTypes.bool,
   isTSColumn5WithErrorOnBothField: PropTypes.bool,
