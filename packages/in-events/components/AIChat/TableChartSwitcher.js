@@ -76,17 +76,6 @@ const TableChartSwitcher = ({ messageItem }) => {
 
   const chart_data = formatForBarChart({ headers: headers, rows: paginatedRows });
 
-  // If the data is empty we dont need to show a table or chart
-  const isEmpty = chart_data?.data.length == 0;
-  if (isEmpty) {
-    return (
-      <>
-        <br />
-        {t('in-events:aichat.noData')}
-      </>
-    );
-  }
-
   return (
     <div>
       <ContentSwitcher

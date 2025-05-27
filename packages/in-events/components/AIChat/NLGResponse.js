@@ -14,9 +14,12 @@ const MAX_TEXT = 250;
 
 const NLGResponse = ({ messageItem }) => {
   const originalText = messageItem?.user_defined?.text || '';
-  const [show, setShow] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+  // showButton controls the show all button
   const [showButton, setShowButton] = useState(false);
+  // The text we will be showing visually
   const [streamedText, setStreamedText] = useState('');
+  // Current index for the positioning in the original text
   const [index, setIndex] = useState(0);
 
   // This useEffect is responsible for controlling the typewriter
@@ -28,26 +31,26 @@ const NLGResponse = ({ messageItem }) => {
         naturalRandomIncrease(setStreamedText, setIndex, originalText, index);
       }, 50);
       return () => clearTimeout(timer);
-    } else if (index == MAX_TEXT && !show) {
+    } else if (index == MAX_TEXT && !showMore) {
       // Add the ellipsis once you reach 250
       setStreamedText(prevText => prevText + '...');
       setIndex(prevIndex => prevIndex + 1);
       setShowButton(true);
-    } else if (show) {
+    } else if (showMore) {
       // When the show more is clicked we display ALL the text
       setStreamedText(originalText);
-    } else if (!show) {
+    } else if (!showMore) {
       // When the show less is clicked we display 250 + ...
       setStreamedText(`${originalText.substring(0, MAX_TEXT)}...`);
     }
-  }, [streamedText, index, show, originalText]);
+  }, [streamedText, index, showMore, originalText]);
 
   return (
     <div>
       {streamedText}
       {showButton && (
-        <div onClick={() => setShow(!show)} className={locals.showHidButton}>
-          {(show && t('in-events:aichat.showLess')) || t('in-events:aichat.showMore')}
+        <div onClick={() => setShowMore(!showMore)} className={locals.showHidButton}>
+          {(showMore && t('in-events:aichat.showLess')) || t('in-events:aichat.showMore')}
         </div>
       )}
     </div>
