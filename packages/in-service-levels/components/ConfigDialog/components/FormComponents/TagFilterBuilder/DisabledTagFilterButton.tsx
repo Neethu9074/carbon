@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Add } from '@carbon/icons-react';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/carbon';
 
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
@@ -17,12 +18,12 @@ interface DisabledTagFilterButtonProps {
 }
 export default function DisabledTagFilterButton({ width, noCustomTitle }: DisabledTagFilterButtonProps) {
   return noCustomTitle ? (
-    <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
+    <Button size="sm" renderIcon={Add} kind="ghost" disabled>
       {t('in-components:queryBuilder.components.filterButtonAddFilter')}
     </Button>
   ) : (
     <Section title={t('in-service-levels:createSloDialog.customFilter')} titleWidth={width}>
-      <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
+      <Button size="sm" renderIcon={Add} kind="ghost" disabled>
         {t('in-components:queryBuilder.components.filterButtonAddFilter')}
       </Button>
     </Section>

@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { ThresholdOperator, SLIThresholdOperator } from '@instana/types';
-import { Select } from '@instana/components';
+import { Select } from '@instana/carbon';
 
 import locals from './OperatorDropdown.mless';
 
@@ -27,11 +27,15 @@ export default function OperatorDropdown<OPERATOR extends ThresholdOperator | SL
   return (
     <div className={locals.dropdownContainer}>
       <Select
+        id="slo-select-operator"
+        className={locals.selectElement}
         disabled={disabled}
         onChange={e => {
           onChange(e.target.value as OPERATOR);
         }}
         value={value}
+        size="sm"
+        hideLabel
       >
         {operators.map(value => (
           <option value={value} key={value}>

@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { AggregationType } from '@instana/types';
-import { Select } from '@instana/components';
+import { Select } from '@instana/carbon';
 
 import { timeAggregationOptions } from 'in-service-levels/constants';
 import { TimeAggregationOptions } from 'in-service-levels/types';
@@ -28,7 +28,15 @@ export default function AggregationSelectorInput({
   handleChange
 }: AggregationSelectorInputProps) {
   return (
-    <Select disabled={disabled} hasError={hasError} onChange={handleChange} value={value}>
+    <Select
+      id="slo-select-aggregate"
+      disabled={disabled}
+      invalid={hasError}
+      onChange={handleChange}
+      value={value}
+      size="sm"
+      hideLabel
+    >
       {availableOptions.map(value => {
         const label = timeAggregationOptions[value];
         return (

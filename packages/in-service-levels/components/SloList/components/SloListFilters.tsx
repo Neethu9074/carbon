@@ -6,11 +6,14 @@
 
 import React from 'react';
 
-import { Spacer, Stack } from '@instana/components';
+import { Spacer } from '@instana/components'; //not available in @instana/carbon
 import { SloEntityType } from '@instana/types';
+import { Stack } from '@instana/carbon';
 
 import EntityTypeFilter from 'in-service-levels/components/SloList/components/EntityTypeFilter';
 import SloTagFilter from 'in-service-levels/components/SloList/components/SloTagFilter';
+
+import locals from './SloAlignContent.mless';
 
 interface SloListFiltersProps {
   tags: string[];
@@ -21,7 +24,7 @@ interface SloListFiltersProps {
 
 export default function SloListFilters({ tags, selectedTags, entityType, setFilter }: SloListFiltersProps) {
   return (
-    <Stack direction="horizontal">
+    <Stack orientation="horizontal" gap="1rem" className={locals.stackAlignCenter}>
       <SloTagFilter tags={tags} value={selectedTags} onChange={value => setFilter({ tags: value })} />
       <EntityTypeFilter value={entityType} onChange={value => setFilter({ entityType: value })} />
       <Spacer />

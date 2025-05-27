@@ -4,9 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Close } from '@carbon/icons-react';
 import React from 'react';
 
-import { Typography, Button } from '@instana/components';
+import { Typography } from '@instana/components';
+import { Button } from '@instana/carbon';
 
 import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
@@ -44,9 +46,10 @@ export default function WebsiteTagFilterBuilderContent({
       actions={
         shouldRenderClearButton && (
           <Button
-            kind="subtle"
+            kind="ghost"
+            renderIcon={Close}
             icon="lib_openclose_cancel"
-            size="compact"
+            size="sm"
             onClick={() =>
               onChange(['scope', 'tagFilterExpression'], () => tagFilterExpressionField.setValue([]).setTouched(true))
             }

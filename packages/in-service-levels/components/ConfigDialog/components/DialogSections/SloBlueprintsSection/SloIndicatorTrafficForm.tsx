@@ -6,7 +6,8 @@
 
 import React, { useContext } from 'react';
 
-import { Input, RadioButton, Stack, Typography, ValidationBlock } from '@instana/components';
+import { RadioButton, RadioButtonGroup, NumberInput } from '@instana/carbon';
+import { Stack, Typography, ValidationBlock } from '@instana/components';
 import { SLIThresholdOperator } from '@instana/types';
 
 import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
@@ -63,14 +64,18 @@ export default function SloIndicatorTrafficForm() {
               />
             ),
             ThresholdInput: (
-              <Input
+              <NumberInput
                 className={locals.thresholdInput}
                 disabled={isFormInEditMode}
-                hasError={!isThresholdFieldValid}
+                invalid={!isThresholdFieldValid}
                 id="threshold-traffic-input"
-                min="0"
-                onChange={e => {
-                  const newValue = e.target.value === '' ? undefined : parseInt(e.target.value);
+                min={0}
+                allowEmpty
+                size="sm"
+                invalidText={''}
+                iconDescription="Change threshold value"
+                onChange={(_event, state) => {
+                  const newValue = state.value === '' ? undefined : Number(state.value);
                   onChange(['indicator', 'threshold'], () => thresholdField.setValue(newValue).setTouched(true));
                 }}
                 onKeyDown={e => (e.key === '.' ? e.preventDefault() : null)}
@@ -89,11 +94,11 @@ export default function SloIndicatorTrafficForm() {
       <Typography variant="body-bold" component="h4" noMargin>
         {t('in-service-levels:general.trafficType')}
       </Typography>
-      <Stack gap="disabled">
+      <RadioButtonGroup orientation="vertical" name="slo-indicator-traffic">
         <RadioButton
           checked={trafficTypeField.value === 'all'}
           disabled={isFormInEditMode}
-          label={t('in-service-levels:general.indicator.trafficTypeLabel', {
+          labelText={t('in-service-levels:general.indicator.trafficTypeLabel', {
             entityType: entityTypeField.value,
             trafficType: 'all'
           })}
@@ -104,7 +109,7 @@ export default function SloIndicatorTrafficForm() {
         <RadioButton
           checked={trafficTypeField.value === 'erroneous'}
           disabled={isFormInEditMode}
-          label={t('in-service-levels:general.indicator.trafficTypeLabel', {
+          labelText={t('in-service-levels:general.indicator.trafficTypeLabel', {
             entityType: entityTypeField.value,
             trafficType: 'erroneous'
           })}
@@ -112,7 +117,7 @@ export default function SloIndicatorTrafficForm() {
             onChange(['indicator', 'trafficType'], () => trafficTypeField.setValue('erroneous').setTouched(true))
           }
         />
-      </Stack>
+      </RadioButtonGroup>
     </Stack>
   );
 }

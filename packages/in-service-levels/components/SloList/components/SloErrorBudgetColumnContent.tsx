@@ -6,12 +6,14 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack } from '@instana/carbon';
 
 import ErrorBudgetInfo from 'in-service-levels/components/SloList/components/ErrorBudgetInfo';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import SparkChart from 'in-components/SparkChart/SparkChartReactComponent';
 import { minutes, number } from 'in-services/formatters/number';
+
+import locals from './SloAlignContent.mless';
 
 interface SloErrorBudgetColumnContentProps {
   item: SloListItem;
@@ -22,7 +24,7 @@ export default function SloErrorBudgetColumnContent({ item, showSparkChart }: Sl
   const { configuration, remainingBudget, burnDown, metricGranularity, metricTimeConfig } = item;
 
   return (
-    <Stack direction="horizontal" align="center">
+    <Stack orientation="horizontal" gap="1rem" className={locals.stackAlignCenter}>
       {showSparkChart && (
         <SparkChart
           metrics={burnDown}

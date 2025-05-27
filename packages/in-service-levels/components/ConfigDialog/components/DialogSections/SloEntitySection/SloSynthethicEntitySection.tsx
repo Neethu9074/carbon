@@ -6,7 +6,8 @@
 
 import React, { useContext, useState } from 'react';
 
-import { SearchInput, Typography, ValidationBlock } from '@instana/components';
+import { Typography, ValidationBlock } from '@instana/components';
+import { Search } from '@instana/carbon';
 
 import SloEntityTable, {
   EntityData,
@@ -69,11 +70,15 @@ export default function SloSynthethicEntitySection() {
           {t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
         </Typography>
         {!isEditMode && (
-          <SearchInput
-            onChange={q => setQueryDebounced(q)}
-            placeholder={t('in-components:searchInput.placeholderSearch')}
-            query={queryInput}
-          />
+          <div>
+            <Search
+              labelText=""
+              onChange={event => setQueryDebounced(event.target.value)}
+              placeholder={t('in-components:searchInput.placeholderSearch')}
+              size="sm"
+              value={queryInput}
+            />
+          </div>
         )}
       </SloTableHeader>
       {!isEntityIdsFieldValid &&

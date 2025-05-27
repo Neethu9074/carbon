@@ -6,8 +6,9 @@
 
 import React, { useContext } from 'react';
 
-import { Stack, SvgIcon, Select, Input, ValidationBlock } from '@instana/components';
+import { Stack, SvgIcon, ValidationBlock } from '@instana/components';
 import { DurationUnitType, TimeWindowType } from '@instana/types';
+import { Select, NumberInput } from '@instana/carbon';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
@@ -56,35 +57,42 @@ export default function TimeWindowSelector() {
         titleWidth={titleWidth}
       >
         <Stack direction="horizontal" gap="xsmall">
-          <Input
+          <NumberInput
             className={locals.objectiveInput}
             type="number"
             id="time-window-size"
+            size="sm"
             value={windowDurationField.value}
-            onChange={e => {
+            onChange={(_event, state) => {
               onChange(['objective', 'duration'], () =>
-                windowDurationField.setValue(Number(e.target.value)).setTouched(true)
+                windowDurationField.setValue(Number(state.value)).setTouched(true)
               );
             }}
-            min="1"
+            min={1}
             max={getMaxTimeWindowDurationValue(windowDurationUnitField.value)}
-            hasError={!windowDurationField.valid && windowDurationField.touched}
+            invalid={!windowDurationField.valid && windowDurationField.touched}
           />
-          <Select
-            value={windowDurationUnitField.value}
-            onChange={e => {
-              onChange(['objective', 'durationUnit'], () =>
-                windowDurationUnitField.setValue(e.target.value as DurationUnitType).setTouched(true)
-              );
-            }}
-          >
-            <option value="day">
-              {t('in-service-levels:general.timeWindow.option_day', { count: windowDurationField.value })}
-            </option>
-            <option value="week">
-              {t('in-service-levels:general.timeWindow.option_week', { count: windowDurationField.value })}
-            </option>
-          </Select>
+          <div className={locals.selectField}>
+            <Select
+              id="slo-select-duration"
+              labelText=""
+              noLabel
+              size="sm"
+              value={windowDurationUnitField.value}
+              onChange={e => {
+                onChange(['objective', 'durationUnit'], () =>
+                  windowDurationUnitField.setValue(e.target.value as DurationUnitType).setTouched(true)
+                );
+              }}
+            >
+              <option value="day">
+                {t('in-service-levels:general.timeWindow.option_day', { count: windowDurationField.value })}
+              </option>
+              <option value="week">
+                {t('in-service-levels:general.timeWindow.option_week', { count: windowDurationField.value })}
+              </option>
+            </Select>
+          </div>
         </Stack>
         {!timeStamp.valid &&
           timeStamp.messages.map(({ message }, index) => (
