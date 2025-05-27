@@ -31,9 +31,7 @@ const LocationSection = ({ test }: Props) => {
       if (result == null) {
         return EMPTY;
       }
-      return (result as Result<SyntheticLocation[]>)?.data?.filter(location =>
-        locationsByTest.includes(location.id || '')
-      );
+      return result?.data?.filter(Boolean)?.filter(location => locationsByTest.includes(location.id ?? ''));
     })
     .map(result => result ?? EMPTY);
 

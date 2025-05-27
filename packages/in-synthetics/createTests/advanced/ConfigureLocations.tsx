@@ -8,9 +8,8 @@ import React, { useMemo, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
+import { ButtonGroup, Button } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { ButtonGroup } from '@instana/components';
-import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports
@@ -112,9 +111,9 @@ export default function ConfigureLocations({
         if (result == null) {
           return EMPTY;
         }
-        return result?.data?.filter(
-          (location: SyntheticLocation) => locationIds.filter(ids => ids === location.id).length > 0
-        );
+        return result?.data
+          ?.filter(Boolean)
+          ?.filter(location => locationIds.filter(ids => ids === location.id).length > 0);
       })
       .map(result => result ?? EMPTY);
   });
