@@ -32,7 +32,8 @@ const { QueryBuilder } = createDynamicQueryBuilder<
       }
     };
     return getBusinessMetricTagSuggestions(query);
-  }
+  },
+  disableEntitySelection: true
 });
 
 export default QueryBuilder;

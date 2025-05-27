@@ -7,6 +7,9 @@
 import {
   BizOpsUnifiedMetricConfiguration,
   isBizOpsUnifiedMetricConfiguration,
+  TagFilter,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { BizOpsMetricDataSource, UnifiedMetricConfiguration } from '@instana/types/typeDefinitions';
@@ -37,11 +40,19 @@ export const enrichBySettingDataSource = (
   metricConfiguration: UnifiedMetricConfigurationUnion
 ): UnifiedMetricConfigurationUnion | BizOpsUnifiedMetricConfigurationWithDataSource => {
   if (isBusinessMetricsUnifiedMetricConfiguration(metricConfiguration) && IsCustomDashboardPage()) {
-    const newBusinessMetrics = {
+    let newBusinessMetrics = {
       ...metricConfiguration,
-      source: 'BIZOPS',
       dataSource: 'CUSTOM_BUSINESS_METRICS'
     } as BizOpsUnifiedMetricConfigurationWithDataSource;
+
+    if (newBusinessMetrics.tagFilterExpression) {
+      const newTagFilterExpression = mapTagFilterExpression(newBusinessMetrics.tagFilterExpression);
+      newBusinessMetrics = {
+        ...newBusinessMetrics,
+        tagFilterExpression: newTagFilterExpression
+      };
+    }
+
     return newBusinessMetrics;
   } else if (
     isBizOpsUnifiedMetricConfiguration(metricConfiguration) &&
@@ -55,6 +66,25 @@ export const enrichBySettingDataSource = (
     return newMetrics;
   }
   return metricConfiguration;
+};
+
+const mapTagFilterExpression = (
+  tagFilterExpression: TagFilterExpressionElementUnion
+): TagFilterExpressionElementUnion => {
+  if (tagFilterExpression.type === 'EXPRESSION') {
+    const modifiedFilterExpression: TagFilterExpression = {
+      ...tagFilterExpression,
+      elements: tagFilterExpression.elements.map(tagFilter => mapTagFilterExpression(tagFilter))
+    };
+    return modifiedFilterExpression;
+  } else {
+    const modifiedTagFilter: TagFilter = {
+      ...tagFilterExpression,
+      name: 'otel.business.metric.tag',
+      key: tagFilterExpression.name
+    };
+    return modifiedTagFilter;
+  }
 };
 
 const IsCustomDashboardPage = () => {
