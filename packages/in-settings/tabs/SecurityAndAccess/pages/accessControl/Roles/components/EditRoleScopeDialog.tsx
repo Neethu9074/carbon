@@ -74,14 +74,14 @@ export default function EditRoleScopeDialog({ roleId }: EditRoleScopeDialogProps
           onError: () => {
             addMessage({
               content: t('in-components:error.serverErrorInfo'),
-              timeout: seconds.toMillis(4),
+              timeout: seconds.toMillis(6),
               type: 'danger'
             });
           },
           onSuccess: () => {
             addMessage({
               content: t('in-settings:dialogs.role.roleSuccessfullySaved'),
-              timeout: seconds.toMillis(6),
+              timeout: seconds.toMillis(4),
               type: 'success'
             });
             unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_ROLE_SCOPE_SUBMIT }, trackEventPayload);

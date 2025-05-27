@@ -561,7 +561,7 @@
   },
   "tabs": {
     "role": {
-      "deprecated": "deprecated",
+      "deprecated": "limited scope",
       "newRole": "New role",
       "permissionsCount": "Permissions"
     },
