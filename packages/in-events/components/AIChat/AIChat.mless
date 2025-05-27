@@ -18,12 +18,11 @@
     right: 30px;
     bottom: 30px;
     --cds-layout-density-padding-inline-local: none;
+    border-radius: 30px 30px 10px 30px;
 
     &:hover {
       .draggableSvg {
         background: var(--cds-button-primary-hover);
-        border-bottom: 5px solid var(--cds-button-primary-hover);
-        border-top: 5px solid var(--cds-button-primary-hover);
       }
     }
 
@@ -31,8 +30,6 @@
       box-shadow: 0 0 0 3px var(--cds-button-primary-active, #002d9c), inset 0 0 0 2px white;
       .draggableSvg {
         background: var(--cds-button-primary-active);
-        border-bottom: 5px solid var(--cds-button-primary-active);
-        border-top: 5px solid var(--cds-button-primary-active);
         cursor: move;
       }
     }
@@ -40,16 +37,10 @@
 
   .draggableSvg {
     position: absolute;
-    margin-left: 33px;
-    margin-top: 33px;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid var(--cds-button-primary);
-    border-top: 5px solid var(--cds-button-primary);
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 5px;
-    border-top-left-radius: 5px;
+    margin-left: 34px;
+    margin-top: 34px;
+    padding: 5px;
+    border-radius: 5px 10px 5px 10px;
     transform: rotate(90deg);
     background: var(--cds-button-primary);
     cursor: move;

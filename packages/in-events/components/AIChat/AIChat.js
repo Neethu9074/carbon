@@ -89,6 +89,8 @@ const config = {
 
 export function AIChat() {
   useEffect(() => {
+    // This timeout is needed because we need to wait for the Chat window
+    // to be OPEN before setting the drag listener
     setTimeout(() => {
       setDragListener();
     }, 500);
@@ -121,40 +123,23 @@ export function AIChat() {
           instance.trackCta = trackCta;
         }}
         onAfterRender={instance => {
-          // isDragging is shared across the various functions to synchronize actions accordingly
-          let isDragging = false;
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
           const draggableIcon = document.getElementById(DRAGGABLE_ICON);
 
+          // Simple listener to stop clicks onto the launcher
           draggableIcon.addEventListener('click', e => {
-            // If its NOT isDragging we open the window, otherwise do nothing
             e.stopPropagation();
-            if (!isDragging) {
-              // Still need to wait for render
-              setTimeout(() => {
-                setDragListener();
-              }, 500);
-            }
           });
 
-          // Listen to when the launcher is clicked
-          // Clicks could mean two things, dragging or opening
+          // Listen to when the launcher is clicked and open mainWindow
           launcherElement.addEventListener('click', e => {
-            e.stopPropagation();
-            // If its NOT isDragging we open the window, otherwise do nothing
-            if (!isDragging) {
-              instance?.changeView('mainWindow');
-              launcherElement.style.display = 'none';
-              const elements = document.getElementsByTagName('cds-aichat-internal');
-              if (elements.length === 1) {
-                const movable = elements[0].shadowRoot.getElementById('WACWidget');
-                movable.style.right = `32px`;
-                movable.style.bottom = `32px`;
-              }
-              // Still need to wait for render
-              setTimeout(() => {
-                setDragListener();
-              }, 500);
+            instance?.changeView('mainWindow');
+            launcherElement.style.display = 'none';
+            const elements = document.getElementsByTagName('cds-aichat-internal');
+            if (elements.length === 1) {
+              const movable = elements[0].shadowRoot.getElementById('WACWidget');
+              movable.style.right = `32px`;
+              movable.style.bottom = `32px`;
             }
           });
           // Whenever the chat window opens / closes we want to hide / show the launcher button
@@ -187,7 +172,6 @@ export function AIChat() {
               document.onmousemove = elementDrag;
             };
             const elementDrag = e => {
-              isDragging = true;
               e = e || window.event;
               e.preventDefault();
               // Determine new cursor position and then
@@ -196,6 +180,7 @@ export function AIChat() {
               pos2 = pos4 - e.clientY;
               pos3 = e.clientX;
               pos4 = e.clientY;
+              // Move the Launcher button location
               const newElem = document.getElementById(LAUNCHER_BUTTON_ID);
               newElem.style.top = newElem.offsetTop - pos2 + 'px';
               newElem.style.left = newElem.offsetLeft - pos1 + 'px';
@@ -206,10 +191,6 @@ export function AIChat() {
               // When click is released stop moving
               document.onmouseup = null;
               document.onmousemove = null;
-              // Set a slight delay so then a second click would open the chat
-              setTimeout(() => {
-                isDragging = false;
-              }, 25);
             };
             element.onmousedown = dragMouseDown;
           }
