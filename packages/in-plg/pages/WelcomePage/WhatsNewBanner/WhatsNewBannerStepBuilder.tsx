@@ -28,21 +28,6 @@ export default function WhatsNewBannerStepBuilder() {
   const { trackCta } = useSegmentTracking();
   const tileData: TileDataType[] = [
     {
-      key: 'kubecost',
-      title: t('in-plg:welcomepage.kubecost.title'),
-      description: t('in-plg:welcomepage.kubecost.description'),
-      buttonName: t('in-plg:welcomepage.kubecost.buttonName'),
-      hasPermission: hasKubernetesAccess,
-      buttonType: 'primary',
-      onButtonClick: () => {
-        trackCta(KUBECOST_INTEGRATION_BUTTON_CLICKED);
-        startRecording();
-        //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
-        //the id of the smart walk-thru is taken from walkme editor
-        WalkMeAPI.startFlowById(2093256);
-      }
-    },
-    {
       key: 'logging',
       title: t('in-plg:welcomepage.logging.title'),
       description: t('in-plg:welcomepage.logging.description'),
@@ -70,6 +55,21 @@ export default function WhatsNewBannerStepBuilder() {
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
         //the id of the smart walk-thru is taken from walkme editor
         WalkMeAPI.startFlowById(2103008);
+      }
+    },
+    {
+      key: 'kubecost',
+      title: t('in-plg:welcomepage.kubecost.title'),
+      description: t('in-plg:welcomepage.kubecost.description'),
+      buttonName: t('in-plg:welcomepage.kubecost.buttonName'),
+      hasPermission: hasKubernetesAccess,
+      buttonType: 'primary',
+      onButtonClick: () => {
+        trackCta(KUBECOST_INTEGRATION_BUTTON_CLICKED);
+        startRecording();
+        //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
+        //the id of the smart walk-thru is taken from walkme editor
+        WalkMeAPI.startFlowById(2093256);
       }
     },
     {
