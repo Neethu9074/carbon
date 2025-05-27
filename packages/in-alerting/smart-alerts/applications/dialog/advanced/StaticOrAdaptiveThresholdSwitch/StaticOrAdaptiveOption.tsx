@@ -37,7 +37,7 @@ export default function StaticOrAdaptiveOption({
   badgeTitle,
   tooltipContent
 }: Props) {
-  const { icon, title, description, isBeta } = isTearSheet
+  const { icon, title, description } = isTearSheet
     ? tearSheetStaticOrAdaptiveThresholds.info[baselineType]
     : staticOrAdaptiveThresholds.info[baselineType];
 
@@ -69,7 +69,6 @@ export default function StaticOrAdaptiveOption({
           description={description}
           checked={currentType === baselineType}
           onChange={() => onChange(baselineType)}
-          isBeta={isBeta}
           asRadioButton
         />
       )}
