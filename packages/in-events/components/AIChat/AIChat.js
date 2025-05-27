@@ -88,9 +88,9 @@ const config = {
 };
 
 export function AIChat() {
+  // This timeout is needed because we need to wait for the Chat window
+  // to be rendered before setting the drag listener
   useEffect(() => {
-    // This timeout is needed because we need to wait for the Chat window
-    // to be OPEN before setting the drag listener
     setTimeout(() => {
       setDragListener();
     }, 500);
@@ -141,6 +141,10 @@ export function AIChat() {
               movable.style.right = `32px`;
               movable.style.bottom = `32px`;
             }
+            // Still need to wait for render
+            setTimeout(() => {
+              setDragListener();
+            }, 500);
           });
           // Whenever the chat window opens / closes we want to hide / show the launcher button
           instance.on({
