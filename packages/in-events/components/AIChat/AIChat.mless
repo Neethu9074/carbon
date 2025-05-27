@@ -13,14 +13,45 @@
     z-index: var(--ids-z-index-option-overlays);
     color: #fff;
     border-radius: 28px;
-    width: 56px;
-    height: 56px;
+    width: 57px;
+    height: 57px;
     right: 30px;
     bottom: 30px;
     --cds-layout-density-padding-inline-local: none;
+
+    &:hover {
+      .draggableSvg {
+        background: var(--cds-button-primary-hover);
+        border-bottom: 5px solid var(--cds-button-primary-hover);
+        border-top: 5px solid var(--cds-button-primary-hover);
+      }
+    }
+
+    &:active {
+      box-shadow: 0 0 0 3px var(--cds-button-primary-active, #002d9c), inset 0 0 0 2px white;
+      .draggableSvg {
+        background: var(--cds-button-primary-active);
+        border-bottom: 5px solid var(--cds-button-primary-active);
+        border-top: 5px solid var(--cds-button-primary-active);
+        cursor: move;
+      }
+    }
   }
 
-  .aiChatDraggableButton:active {
-    box-shadow: 0 0 0 3px var(--cds-button-primary-active, #002d9c), inset 0 0 0 2px white;
+  .draggableSvg {
+    position: absolute;
+    margin-left: 33px;
+    margin-top: 33px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid var(--cds-button-primary);
+    border-top: 5px solid var(--cds-button-primary);
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    transform: rotate(90deg);
+    background: var(--cds-button-primary);
+    cursor: move;
   }
 }

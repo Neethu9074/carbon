@@ -18,6 +18,7 @@ import NLGResponse from 'in-events/components/AIChat/NLGResponse';
 import locals from './AIChat.mless';
 
 const LAUNCHER_BUTTON_ID = 'aiChatLauncher';
+const DRAGGABLE_ICON = 'aiChatDraggableIcon';
 
 // Helper function when needing to reposition the launcher icon
 export function MoveAIChatLauncher(pixel) {
@@ -123,9 +124,23 @@ export function AIChat() {
           // isDragging is shared across the various functions to synchronize actions accordingly
           let isDragging = false;
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
+          const draggableIcon = document.getElementById(DRAGGABLE_ICON);
+
+          draggableIcon.addEventListener('click', e => {
+            // If its NOT isDragging we open the window, otherwise do nothing
+            e.stopPropagation();
+            if (!isDragging) {
+              // Still need to wait for render
+              setTimeout(() => {
+                setDragListener();
+              }, 500);
+            }
+          });
+
           // Listen to when the launcher is clicked
           // Clicks could mean two things, dragging or opening
-          launcherElement.addEventListener('click', () => {
+          launcherElement.addEventListener('click', e => {
+            e.stopPropagation();
             // If its NOT isDragging we open the window, otherwise do nothing
             if (!isDragging) {
               instance?.changeView('mainWindow');
@@ -155,7 +170,7 @@ export function AIChat() {
           });
 
           // Drag Element will make the Ai Launcher Button Draggable across the screen
-          dragElement(document.getElementById(LAUNCHER_BUTTON_ID));
+          dragElement(document.getElementById(DRAGGABLE_ICON));
           function dragElement(element) {
             var pos1 = 0,
               pos2 = 0,
@@ -181,10 +196,11 @@ export function AIChat() {
               pos2 = pos4 - e.clientY;
               pos3 = e.clientX;
               pos4 = e.clientY;
-              element.style.top = element.offsetTop - pos2 + 'px';
-              element.style.left = element.offsetLeft - pos1 + 'px';
-              element.style.right = 'auto';
-              element.style.bottom = 'auto';
+              const newElem = document.getElementById(LAUNCHER_BUTTON_ID);
+              newElem.style.top = newElem.offsetTop - pos2 + 'px';
+              newElem.style.left = newElem.offsetLeft - pos1 + 'px';
+              newElem.style.right = 'auto';
+              newElem.style.bottom = 'auto';
             };
             const closeDragElement = () => {
               // When click is released stop moving
@@ -201,6 +217,7 @@ export function AIChat() {
       />
       <CarbonButton className={locals.aiChatDraggableButton} id={LAUNCHER_BUTTON_ID}>
         <SvgIcon type={'lib_actions_chat_launch'} size="regular" />
+        <SvgIcon type={'lib_actions_reorder'} size="xxs" className={locals.draggableSvg} id={DRAGGABLE_ICON} />
       </CarbonButton>
     </>
   );
