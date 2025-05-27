@@ -5,9 +5,11 @@
 
 import React from 'react';
 
+import { locationIdTagName, runTypeTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { locationIdTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
+import { runTypeCICD, runTypeScheduled } from 'in-synthetics/utils/constants';
+import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
@@ -21,6 +23,7 @@ type Props = {
   renderPostChartContent: (a: any) => JSX.Element;
   locationIds: string;
   locationDisplayLabels: string;
+  runType?: string;
 };
 
 export default function Failures({
@@ -28,6 +31,7 @@ export default function Failures({
   locationIds,
   locationDisplayLabels,
   timeShiftConfig,
+  runType,
   renderPostChartContent
 }: Props) {
   return (
@@ -36,6 +40,7 @@ export default function Failures({
       locationIds={locationIds}
       locationDisplayLabels={locationDisplayLabels}
       timeShiftConfig={timeShiftConfig}
+      runType={runType}
       renderPostChartContent={renderPostChartContent}
     />
   );
@@ -46,6 +51,7 @@ const RenderChart = ({
   locationIds,
   locationDisplayLabels,
   timeShiftConfig,
+  runType,
   renderPostChartContent
 }: Props) => {
   const locations: string[] = locationIds.split(',');
@@ -72,7 +78,16 @@ const RenderChart = ({
         stringValue: locations[i],
         name: locationIdTagName,
         operator: EQUALS
-      }
+      },
+      ...(syntheticRunNowEnabled
+        ? [
+            {
+              stringValue: runType === runTypeCICD ? runTypeScheduled : runType,
+              name: runTypeTagName,
+              operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS
+            }
+          ]
+        : [])
     ];
 
     testMetricConfigs[i] = {

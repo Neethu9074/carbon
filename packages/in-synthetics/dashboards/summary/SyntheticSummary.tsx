@@ -49,10 +49,11 @@ import locals from './SyntheticSummary.mless';
 
 const SyntheticSummaryDashboard = () => {
   const { trackCta } = useSegmentTracking();
-  const [count, setReloadCount] = useState(0);
-  const [dataScope, setDataScope] = useState<DataScopeType>(dataScopes[1]);
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+  const runType: string = getMatrixParameter(location, syntheticsDashboard, 'runType') ?? '';
+  const [count, setReloadCount] = useState(0);
+  const [dataScope, setDataScope] = useState(dataScopes.find(dataScope => dataScope.value === runType));
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
   const hideButtonInAlertsTab = smartAlertCarbonTableEnabled
     ? location.pathname !== dashboardAlertsFullyQualified

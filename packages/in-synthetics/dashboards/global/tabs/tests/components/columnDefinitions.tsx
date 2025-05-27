@@ -36,6 +36,7 @@ import locals from 'in-synthetics/dashboards/global/tabs/tests/components/column
 
 interface TestListProps extends ServerTablePresenterProps<TestResultListItem> {
   timeConfig: TimeConfig;
+  runType?: string;
 }
 
 export interface TimeResult {
@@ -65,7 +66,7 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
   };
 }
 
-function TestLabelContent({ item }: { item: TestResultListItem }) {
+function TestLabelContent({ item, runType }: { item: TestResultListItem; runType: string }) {
   const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   location.pathname = syntheticsSummaryPath;
@@ -100,6 +101,7 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
   );
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'runType', runType);
 
   return (
     <div>
@@ -115,7 +117,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     id: 'test_name',
     defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.testList.testLabel'),
-    getContent: item => <TestLabelContent item={item} />
+    getContent: (item, { runType }) => <TestLabelContent item={item} runType={runType ?? ''} />
   },
   {
     id: 'status',

@@ -26,8 +26,8 @@ import {
   SyntheticTestFilterOperator
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
+import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { TableActions } from 'in-settings/components/List';
 import { Options } from 'in-hooks/useUrlState';
@@ -62,6 +62,7 @@ export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
 
 // CI/CD
 export const runTypeCICD = 'CI/CD';
+export const runTypeScheduled = 'Scheduled';
 
 export const DNSTransportOptions: { label: string; value: string }[] = [
   {
@@ -121,7 +122,7 @@ export const datascopeRunTypes = [
 export const dataScopes = [
   {
     label: t('in-synthetics:dashboard.testList.options.allLabel'),
-    value: 'ALL'
+    value: 'All'
   },
   {
     label: t('in-synthetics:dashboard.testList.options.scheduledMenuLabel'),
@@ -411,6 +412,7 @@ export interface FilterState {
   locationIds: string[];
   applicationIds?: string[];
   entityIds?: string[];
+  runType?: string;
 }
 
 export interface FilterLocationState {
@@ -428,6 +430,7 @@ export type CurrentState = {
   locationIds?: string[];
   applicationIds?: string[];
   entityIds?: string[];
+  runType?: string;
 };
 
 export type CurrentLocationsState = {
@@ -484,17 +487,25 @@ export const entityIdsUrlParameter = {
   serializer: buildJsonSerializer()
 };
 
+export const runTypeUrlParameter = {
+  path: pathSegment,
+  name: 'runType',
+  as: 'runType',
+  initialState: 'Scheduled'
+};
+
 export const filterLocationTypesUrlStateDefinition = {
   bind: [locationTypesUrlParameter]
 } as Options<UrlState>;
 
-export const filterUrlStateDefinition = syntheticRbacLimitedEnabled
-  ? ({
-      bind: [syntheticTypesUrlParameter, locationsUrlParameter, entityIdsUrlParameter]
-    } as Options<UrlState>)
-  : ({
-      bind: [syntheticTypesUrlParameter, locationsUrlParameter, applicationsUrlParameter]
-    } as Options<UrlState>);
+export const filterUrlStateDefinition = {
+  bind: [
+    syntheticTypesUrlParameter,
+    locationsUrlParameter,
+    ...(syntheticRbacLimitedEnabled ? [entityIdsUrlParameter] : [applicationsUrlParameter]),
+    ...(syntheticRunNowEnabled ? [runTypeUrlParameter] : [])
+  ]
+} as Options<UrlState>;
 
 export const filterLocationUrlStateDefinition = {
   bind: [locationsUrlParameter]

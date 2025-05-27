@@ -9,13 +9,19 @@ import { PaginatedResult, Result, TagFilter, TestResultListItem } from '@instana
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 
-import { DataScopeType, TestResponse, dummyTestResultList } from 'in-synthetics/utils/constants';
+import {
+  DataScopeType,
+  TestResponse,
+  dummyTestResultList,
+  runTypeCICD,
+  runTypeScheduled
+} from 'in-synthetics/utils/constants';
 import SummaryCharts from 'in-synthetics/dashboards/summary/tabs/summary/SummaryCharts';
 import SummaryKPIs from 'in-synthetics/dashboards/summary/tabs/summary/SummaryKPIs';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { testIdTagName, runTypeTagName } from 'in-synthetics/tags';
 import { syntheticRunNowEnabled } from 'in-services/featureFlags';
@@ -55,15 +61,15 @@ export default function Summary({ test, dataScope }: SummaryProps) {
   ];
   if (syntheticRunNowEnabled) {
     tagFilters.push({
-      stringValue: dataScope?.value,
+      stringValue: dataScope?.value === runTypeCICD ? runTypeScheduled : dataScope?.value,
       name: runTypeTagName,
-      operator: EQUALS,
+      operator: dataScope?.value === runTypeCICD ? NOT_EQUAL : EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     });
   }
   const resultList: Result<PaginatedResult<TestResultListItem>> =
-    useObservable<any, [number]>(
+    useObservable<any, [DataScopeType]>(
       () =>
         getTestResultList({
           pagination: {
@@ -80,7 +86,7 @@ export default function Summary({ test, dataScope }: SummaryProps) {
           },
           tagFilters: tagFilters //tagFilters only has test_id.
         }),
-      [0]
+      [dataScope!]
     ) || dummyTestResultList;
 
   const totalHits = resultList.data?.totalHits ?? 0;
@@ -91,6 +97,7 @@ export default function Summary({ test, dataScope }: SummaryProps) {
         title={t('in-synthetics:dashboard.summary.smallerTimeFrameTitle')}
         description={t('in-synthetics:dashboard.summary.smallerTimeFrameDescription')}
         bold
+        fullInlineWidth
       />
     );
   }

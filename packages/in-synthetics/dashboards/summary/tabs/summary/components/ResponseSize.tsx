@@ -8,9 +8,11 @@ import React from 'react';
 import { t } from '@instana/i18n-react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { locationIdTagName, testIdTagName } from 'in-synthetics/tags';
+import { locationIdTagName, runTypeTagName, testIdTagName } from 'in-synthetics/tags';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
+import { runTypeCICD, runTypeScheduled } from 'in-synthetics/utils/constants';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
+import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { bytes } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
 import { chartColors } from 'in-themes/chartColors';
@@ -22,6 +24,7 @@ type Props = {
   renderPostChartContent: (a: any) => JSX.Element;
   locationIds: string;
   locationDisplayLabels: string;
+  runType?: string;
 };
 
 export default function ResponseSize({
@@ -29,6 +32,7 @@ export default function ResponseSize({
   locationIds,
   locationDisplayLabels,
   timeShiftConfig,
+  runType,
   renderPostChartContent
 }: Props) {
   return (
@@ -37,6 +41,7 @@ export default function ResponseSize({
       locationIds={locationIds}
       locationDisplayLabels={locationDisplayLabels}
       timeShiftConfig={timeShiftConfig}
+      runType={runType}
       renderPostChartContent={renderPostChartContent}
     />
   );
@@ -47,6 +52,7 @@ const RenderChart = ({
   locationIds,
   locationDisplayLabels,
   timeShiftConfig,
+  runType,
   renderPostChartContent
 }: Props) => {
   const locations: string[] = locationIds.split(',');
@@ -66,7 +72,16 @@ const RenderChart = ({
         stringValue: locations[i],
         name: locationIdTagName,
         operator: EQUALS
-      }
+      },
+      ...(syntheticRunNowEnabled
+        ? [
+            {
+              stringValue: runType === runTypeCICD ? runTypeScheduled : runType,
+              name: runTypeTagName,
+              operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS
+            }
+          ]
+        : [])
     ];
 
     testMetricConfigs[i] = {

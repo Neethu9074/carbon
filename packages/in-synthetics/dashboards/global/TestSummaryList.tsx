@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import {
   OrderDirection,
@@ -29,7 +29,10 @@ import {
   locationsUrlParameter,
   applicationsUrlParameter,
   datascopeRunTypes,
-  entityIdsUrlParameter
+  entityIdsUrlParameter,
+  runTypeUrlParameter,
+  runTypeScheduled,
+  runTypeCICD
 } from 'in-synthetics/utils/constants';
 import {
   applicationIdTagName,
@@ -84,14 +87,24 @@ import locals from 'in-synthetics/dashboards/global/TestSummaryList.mless';
 
 const urlStateDefinition: Options<FilterState> = {
   bind: filterUrlStateDefinition.bind,
-  reducer: (prevState: FilterState, { syntheticTypes, locationIds, applicationIds, entityIds }: CurrentState) => {
-    const commonUrlStateProps = {
-      syntheticTypes: syntheticTypes || prevState.syntheticTypes,
-      locationIds: locationIds || prevState.locationIds
+  reducer: (
+    prevState: FilterState,
+    { syntheticTypes, locationIds, applicationIds, entityIds, runType }: CurrentState
+  ) => {
+    const urlStateProps: FilterState = {
+      syntheticTypes: syntheticTypes ?? prevState.syntheticTypes,
+      locationIds: locationIds ?? prevState.locationIds
     };
-    return syntheticRbacLimitedEnabled
-      ? { ...commonUrlStateProps, entityIds: entityIds || prevState.entityIds }
-      : { ...commonUrlStateProps, applicationIds: applicationIds || prevState.applicationIds };
+
+    if (syntheticRbacLimitedEnabled) {
+      urlStateProps.entityIds = entityIds ?? prevState.entityIds;
+    } else {
+      urlStateProps.applicationIds = applicationIds ?? prevState.applicationIds;
+    }
+    if (syntheticRunNowEnabled) {
+      urlStateProps.runType = runType ?? prevState.runType;
+    }
+    return urlStateProps;
   }
 };
 const ServerTableWithUrlState = createServerTableWithUrlState({
@@ -104,7 +117,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     ...timeConfigUrlParameters,
     syntheticTypesUrlParameter,
     locationsUrlParameter,
-    syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter
+    syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter,
+    syntheticRunNowEnabled ? runTypeUrlParameter : []
   ],
   columnDefinitions,
   defaultOrderBy: 'successRate',
@@ -134,14 +148,15 @@ const addFilter = (
 
 const TestSummaryList = () => {
   const timeConfig = useTimeConfig();
+  const location = useLocation();
   let allApplicationIds = new Set<string>();
   let allWebsiteIds = new Set<string>();
   let allMobileAppIds = new Set<string>();
   let associations;
-  const [{ syntheticTypes, locationIds, applicationIds, entityIds }, setFilter] = useUrlState(urlStateDefinition);
+  const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType }, setFilter] =
+    useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
-  const [runType, setRunType] = useState<string>(datascopeRunTypes[0].value);
   if (syntheticRbacLimitedEnabled && !syntheticTests?.progress?.loading) {
     syntheticTests?.data?.forEach(function (item: SyntheticTest) {
       if (item?.applications) {
@@ -173,7 +188,6 @@ const TestSummaryList = () => {
   }, [storedDialogAlarm]);
 
   const rightHeader = useFilterHeader(true, syntheticTests, setFilter);
-  const location = useLocation();
 
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -196,12 +210,10 @@ const TestSummaryList = () => {
                 className={locals.dropdownWidth}
                 items={datascopeRunTypes}
                 onChange={({ selectedItem }) => {
-                  if (selectedItem != null) {
-                    setRunType(selectedItem.value);
-                  }
+                  setFilter({ runType: selectedItem?.value! });
                 }}
                 label=""
-                id={runType}
+                id="runType"
                 titleText=""
                 selectedItem={datascopeRunTypes.find(item => item.value === runType)}
                 initialSelectedItem={datascopeRunTypes[0]}
@@ -270,7 +282,7 @@ export const getTestSummaryListData = ({
   entityIds = [],
   associations,
   excludeIds = [],
-  runType = ''
+  runType = 'Scheduled'
 }: GetTestSummaryList) => {
   const baseTagFilterExpression: TagFilterExpression = {
     elements: [],
@@ -371,9 +383,9 @@ export const getTestSummaryListData = ({
       type: 'EXPRESSION'
     };
     runTypeTagFilterExpression.elements.push({
-      value: runType,
+      value: runTypeScheduled,
       name: runTypeTagName,
-      operator: EQUALS,
+      operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     });

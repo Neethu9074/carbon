@@ -10,6 +10,7 @@ import {
   MetricResult,
   Result,
   SyntheticUnifiedMetricConfiguration,
+  TagFilter,
   TimeConfig,
   TimeShift,
   UnifiedMetricConfigurationUnion
@@ -17,31 +18,33 @@ import {
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import { runTypeCICD, runTypeScheduled, TestResponse } from 'in-synthetics/utils/constants';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import { runTypeTagName, testIdTagName } from 'in-synthetics/tags';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
-import { TestResponse } from 'in-synthetics/utils/constants';
+import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 import { chartColors } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { testIdTagName } from 'in-synthetics/tags';
 
 type Props = {
   test: TestResponse;
+  runType?: string;
 };
 
-export default function ResponseStatus({ test }: Props) {
+export default function ResponseStatus({ test, runType }: Props) {
   const timeConfig = useTimeConfig();
   const timeShiftConfig = useTimeShiftConfig();
 
   if (!test.progress.loading) {
-    return <RenderChart test={test} timeConfig={timeConfig} timeShiftConfig={timeShiftConfig} />;
+    return <RenderChart test={test} timeConfig={timeConfig} timeShiftConfig={timeShiftConfig} runType={runType} />;
   } else {
     return (
       <ResultAwareChart
@@ -66,9 +69,10 @@ type ChartProps = {
   test: TestResponse;
   timeConfig: TimeConfig;
   timeShiftConfig: TimeShift;
+  runType?: string;
 };
 
-function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
+function RenderChart({ test, timeConfig, timeShiftConfig, runType }: ChartProps) {
   const metricKey = 'responseStatus';
   const id = get(test, ['data', 'id']);
 
@@ -88,7 +92,18 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
           operator: EQUALS,
           entity: NOT_APPLICABLE,
           type: 'TAG_FILTER'
-        }
+        },
+        ...(syntheticRunNowEnabled
+          ? [
+              {
+                stringValue: runType === runTypeCICD ? runTypeScheduled : runType,
+                name: runTypeTagName,
+                operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS,
+                entity: NOT_APPLICABLE,
+                type: 'TAG_FILTER'
+              } as TagFilter
+            ]
+          : [])
       ],
       timeShift: timeShiftConfig,
       resultType: 'SINGLE_NUMBER',
@@ -106,7 +121,8 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
   };
 
   const result: Result<MetricResult[]> =
-    useObservable(() => getUnifiedMetrics({ metrics }), [config.metricConfiguration.timeShift]) ?? pendingResult;
+    useObservable(() => getUnifiedMetrics({ metrics }), [config.metricConfiguration.timeShift, runType]) ??
+    pendingResult;
 
   let distinctCount: number = 0;
   if (!result.progress.loading) {
