@@ -8,7 +8,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
-import { Link } from '@instana/components';
+import { Link, InfoIcon } from '@instana/components';
+import { Stack } from '@instana/carbon';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -139,16 +140,40 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     label: t('in-synthetics:dashboard.testList.type'),
     defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
-      return (
-        <div>
-          <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
-          <span className={locals.secText}>
-            {t('in-synthetics:dashboard.testList.frequencySubText', {
-              count: item?.testResultCommonProperties?.testCommonProperties?.frequency
-            })}
-          </span>
-        </div>
-      );
+      const sslDaysRemaining = item?.testResultCommonProperties?.sslDaysRemaining;
+      if (sslDaysRemaining != null) {
+        return (
+          <div>
+            <Stack orientation="vertical">
+              <Stack orientation="horizontal" gap="xsmall">
+                <h4>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
+                <InfoIcon
+                  description={t('in-synthetics:dashboard.testList.sslDaysRemaining', {
+                    daysRemaining: sslDaysRemaining
+                  })}
+                  align="bottom"
+                />
+              </Stack>
+              <span className={locals.secText}>
+                {t('in-synthetics:dashboard.testList.frequencySubText', {
+                  count: item?.testResultCommonProperties?.testCommonProperties?.frequency
+                })}
+              </span>
+            </Stack>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
+            <span className={locals.secText}>
+              {t('in-synthetics:dashboard.testList.frequencySubText', {
+                count: item?.testResultCommonProperties?.testCommonProperties?.frequency
+              })}
+            </span>
+          </div>
+        );
+      }
     }
   },
   {

@@ -530,6 +530,7 @@
       "paused": "Paused",
       "deleted": "Deleted",
       "type": "Type",
+      "sslDaysRemaining":"Expires in {{daysRemaining}} days",
       "successRate": "Success rate",
       "successRuns": "{{successRuns}} / {{totalRuns}} results",
       "latency": "Avg. response time",
