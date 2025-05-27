@@ -631,6 +631,7 @@ export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
 export const EVENT_NOTES_EDIT_SUBMIT = 'event.notes.edit.submit';
 export const EVENT_NOTES_DELETE_SUBMIT = 'event.notes.delete.submit';
 export const EVENT_AI_GENERATE_SUBMIT = 'event.ai.generate.submit';
+export const EVENT_AI_GENERATE_SUBMIT_OVERVIEW = 'event.ai.generate.submit.overview';
 export const EVENT_AI_SHOW_MORE_INCIDENTS = 'event.ai.show.more.incidents';
 export const EVENT_AI_SHOW_MORE_ACTIONS = 'event.ai.show.more.actions';
 export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
