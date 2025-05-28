@@ -8,7 +8,7 @@ import React from 'react';
 import { KeyValue } from '@instana/components';
 
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
-import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
+import { getSeverity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
@@ -30,7 +30,7 @@ export default function SplitScreenTraceDetailContent({ dataSource, ungroupedVie
   const item = props[type];
   const { label, duration, batchCount } = item;
   const timestamp = item[ungroupedViewConfiguration.timestampName];
-  const severity = getServerity({ item: props, dataSource });
+  const severity = getSeverity({ item: props, dataSource });
   return (
     <div className={locals.wrapper} onClick={() => trackTraceViewTraceListClicked({ label })}>
       <Tooltip

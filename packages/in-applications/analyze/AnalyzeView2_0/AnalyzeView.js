@@ -70,13 +70,17 @@ const defaultSelectableFields = [
   { type: 'metric', metricId: 'latency', aggregationId: 'MEAN' },
   { type: 'metric', metricId: 'errors', aggregationId: 'MEAN' }
 ];
+const callsDataSource = 'calls';
+const subtraceDataSource = 'subtraces';
+const tracesDataSource = 'traces';
+
 const defaultChartedMetrics = {
   calls: [
     {
       templateId: 'calls.overview',
       metrics: [
         {
-          metricId: 'calls',
+          metricId: callsDataSource,
           aggregationId: 'SUM'
         },
         {
@@ -95,7 +99,7 @@ const defaultChartedMetrics = {
       templateId: 'calls.overview',
       metrics: [
         {
-          metricId: 'traces',
+          metricId: tracesDataSource,
           aggregationId: 'SUM'
         },
         {
@@ -126,33 +130,33 @@ const timestampNames = {
     grouped: 'firstTimestamp'
   },
   subtraces: {
-    ungrouped: 'startTime',
+    ungrouped: 'subtraceTimestamp',
     grouped: 'firstTimestamp'
   }
 };
 
 const groupedView = {
-  calls: getGroupedView('calls'),
-  traces: getGroupedView('traces'),
-  subtraces: getGroupedView('subtraces')
+  calls: getGroupedView(callsDataSource),
+  traces: getGroupedView(tracesDataSource),
+  subtraces: getGroupedView(subtraceDataSource)
 };
 
 const ungroupedView = {
-  calls: getUngroupedView('calls'),
-  traces: getUngroupedView('traces'),
-  subtraces: getUngroupedView('subtraces')
+  calls: getUngroupedView(callsDataSource),
+  traces: getUngroupedView(tracesDataSource),
+  subtraces: getUngroupedView(subtraceDataSource)
 };
 
 const fixedFields = {
-  calls: getFixedFields('calls'),
-  traces: getFixedFields('traces'),
-  subtraces: getFixedFields('subtraces')
+  calls: getFixedFields(callsDataSource),
+  traces: getFixedFields(tracesDataSource),
+  subtraces: getFixedFields(subtraceDataSource)
 };
 
 const typePerDataSource = {
   calls: 'call',
   traces: 'trace',
-  subtraces: 'subtraces'
+  subtraces: 'subtrace'
 };
 
 const catalogMap = {
@@ -161,13 +165,13 @@ const catalogMap = {
   subtraces: getSubtracesTagCatalog
 };
 
-const callsMetricCatalogTransformer = createMetricCatalogTransformer('calls');
-const tracesMetricCatalogTransformer = createMetricCatalogTransformer('traces');
-const subtracesMetricCatalogTransformer = createMetricCatalogTransformer('subtraces');
+const callsMetricCatalogTransformer = createMetricCatalogTransformer(callsDataSource);
+const tracesMetricCatalogTransformer = createMetricCatalogTransformer(tracesDataSource);
+const subtracesMetricCatalogTransformer = createMetricCatalogTransformer(subtraceDataSource);
 
-const callsChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('calls');
-const tracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('traces');
-const subtracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('subtraces');
+const callsChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer(callsDataSource);
+const tracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer(tracesDataSource);
+const subtracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer(subtraceDataSource);
 
 export default function ApplicationsAnalyzeView() {
   const [{ dataSource, hiddenCalls, fastQueryModeEnabled }, onChange] = useUrlState({
@@ -262,12 +266,12 @@ export function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }
     calls: {
       metricCatalogTransformer: callsMetricCatalogTransformer,
       chartableMetricCatalogTransformer: callsChartableMetricCatalogTransformer,
-      facetedSearchItems: getFacetedSearchItems({ dataSource: 'calls', hiddenCalls, onChangeHiddenCalls }),
+      facetedSearchItems: getFacetedSearchItems({ dataSource: callsDataSource, hiddenCalls, onChangeHiddenCalls }),
       groupedView: groupedView.calls,
       ungroupedView: ungroupedView.calls,
       fixedFields: fixedFields.calls,
       defaultSelectableFields,
-      defaultChartedMetrics: defaultChartedMetrics['calls'],
+      defaultChartedMetrics: defaultChartedMetrics[callsDataSource],
       supportedCustomMetrics: dataSourceConstants.calls.supportedCustomMetrics,
       // the metric catalog from the backend currently provides only a single formatter per metric type,
       // we have to override the default formatter if aggregation type 'PER_SECOND' is used
@@ -277,21 +281,21 @@ export function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }
     traces: {
       metricCatalogTransformer: tracesMetricCatalogTransformer,
       chartableMetricCatalogTransformer: tracesChartableMetricCatalogTransformer,
-      facetedSearchItems: getFacetedSearchItems({ dataSource: 'traces', hiddenCalls, onChangeHiddenCalls }),
+      facetedSearchItems: getFacetedSearchItems({ dataSource: tracesDataSource, hiddenCalls, onChangeHiddenCalls }),
       groupedView: groupedView.traces,
       ungroupedView: ungroupedView.traces,
       fixedFields: fixedFields.traces,
       defaultSelectableFields,
-      defaultChartedMetrics: defaultChartedMetrics['traces']
+      defaultChartedMetrics: defaultChartedMetrics[tracesDataSource]
     },
     subtraces: {
       metricCatalogTransformer: subtracesMetricCatalogTransformer,
       chartableMetricCatalogTransformer: subtracesChartableMetricCatalogTransformer,
-      facetedSearchItems: getFacetedSearchItems({ dataSource: 'subtraces', hiddenCalls, onChangeHiddenCalls }),
+      facetedSearchItems: getFacetedSearchItems({ dataSource: subtraceDataSource, hiddenCalls, onChangeHiddenCalls }),
       ungroupedView: ungroupedView.subtraces,
       groupedView: groupedView.subtraces,
       fixedFields: fixedFields.subtraces,
-      defaultChartedMetrics: defaultChartedMetrics['subtraces'],
+      defaultChartedMetrics: defaultChartedMetrics[subtraceDataSource],
       unSupportedMetricTemplates: ['calls.overview', 'latency.distribution']
     }
   };
@@ -334,8 +338,9 @@ function getCustomGroupLabel(groupName, groupbyTag) {
 }
 
 function getUngroupedView(dataSource) {
+  const isSubtraceDataSource = dataSource === subtraceDataSource;
   return {
-    defaultOrderBy: 'timestamp',
+    defaultOrderBy: isSubtraceDataSource ? 'subtraceTimestamp' : 'timestamp',
     defaultOrderDirection: 'DESC',
     timestampName: timestampNames[dataSource].ungrouped,
     customFieldRenderingInstructions: {
@@ -343,7 +348,7 @@ function getUngroupedView(dataSource) {
         getTimestamp: item => {
           const type = typePerDataSource[dataSource];
           const timestampName = timestampNames[dataSource].ungrouped;
-          return item[type][timestampName];
+          return isSubtraceDataSource ? item[timestampName] : item[type][timestampName];
         }
       })
     },
@@ -358,17 +363,23 @@ function getUngroupedView(dataSource) {
       },
       ColumnContent(item) {
         const type = typePerDataSource[dataSource];
+        const durationValue = isSubtraceDataSource ? item.subtraceDuration : item[type].duration;
+        const batchingIndicator = isSubtraceDataSource ? (
+          <div />
+        ) : (
+          <BatchingIndicator
+            batchCount={item[type].batchCount}
+            tooltipContent={t('in-applications:analyze.listBatchLatencyTooltip', {
+              batchCount: item[type].batchCount,
+              types: getTypeTextByCount(type, item[type].batchCount)
+            })}
+            noTopPosition
+          />
+        );
         return (
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <Typography variant="body-regular">{latencyFixed.compact(item[type].duration)}</Typography>
-            <BatchingIndicator
-              batchCount={item[type].batchCount}
-              tooltipContent={t('in-applications:analyze.listBatchLatencyTooltip', {
-                batchCount: item[type].batchCount,
-                types: getTypeTextByCount(type, item[type].batchCount)
-              })}
-              noTopPosition
-            />
+            <Typography variant="body-regular">{latencyFixed.compact(durationValue)}</Typography>
+            {batchingIndicator}
           </div>
         );
       },
@@ -397,7 +408,7 @@ function createMetricCatalogTransformer(dataSource) {
       ...metricDefinition,
       aggregations: supportedMetrics[metricDefinition.metricId],
       label:
-        dataSource === 'traces'
+        dataSource === tracesDataSource
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
           : t('in-applications:metrics.calls', { context: metricDefinition.metricId })
     };
@@ -407,23 +418,26 @@ function createMetricCatalogTransformer(dataSource) {
 function createChartableMetricCatalogTransformer(dataSource) {
   // For chartable metrics (unifiedMetricsQuery) the 'traces' dataSource uses 'calls' metric instead of 'traces'
   const supportedMetrics =
-    dataSource === 'subtraces'
+    dataSource === subtraceDataSource
       ? dataSourceConstants.subtraces.metricCatalogSupportedChartableMetrics
       : dataSourceConstants.calls.metricCatalogSupportedChartableMetrics;
   return metricDefinition => {
     //TODO: will remove this once backend supports subtraceDuration metric
-    if (metricDefinition.metricId === 'latency' && dataSource === 'subtraces') {
+    if (metricDefinition.metricId === 'latency' && dataSource === subtraceDataSource) {
       metricDefinition = { ...metricDefinition, metricId: 'subtraceDuration' };
     }
-    if (!supportedMetrics[metricDefinition.metricId] || (dataSource === 'traces' && metricDefinition.customMetric)) {
+    if (
+      !supportedMetrics[metricDefinition.metricId] ||
+      (dataSource === tracesDataSource && metricDefinition.customMetric)
+    ) {
       return null;
     }
     return {
       ...metricDefinition,
       label:
-        dataSource === 'traces'
+        dataSource === tracesDataSource
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
-          : dataSource === 'calls'
+          : dataSource === callsDataSource
           ? t('in-applications:metrics.calls', { context: metricDefinition.metricId.replace('.', '_') })
           : t('in-applications:metrics.subtraces', { context: metricDefinition.metricId }),
       aggregations: supportedMetrics[metricDefinition.metricId],
@@ -457,8 +471,8 @@ function getMetric({ metrics }) {
 }
 
 function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls }) {
-  const isSubTraceDataSource = dataSource === 'subtraces';
-  const isCallsDataSource = dataSource === 'calls';
+  const isSubTraceDataSource = dataSource === subtraceDataSource;
+  const isCallsDataSource = dataSource === callsDataSource;
   const renderer = isCallsDataSource ? FacetedFilterMultiSelect : FacetedFilterGeneric;
 
   if (isSubTraceDataSource && analyzeSubtracesEnabled) {
@@ -626,7 +640,7 @@ function getFacetedSearchSuggestions({
     tagToExclude: tag
   });
 
-  if (dataSource === 'subtraces' && analyzeSubtracesEnabled) {
+  if (dataSource === subtraceDataSource && analyzeSubtracesEnabled) {
     return getSubtraceSideFilter({
       tagFilterExpression: backendQuery,
       tagName: group.groupbyTag,
@@ -647,7 +661,7 @@ function getFacetedSearchSuggestions({
     includeSynthetic,
     metrics: {
       [metricKey]: {
-        metric: 'calls',
+        metric: callsDataSource,
         aggregation: 'SUM'
       }
     },

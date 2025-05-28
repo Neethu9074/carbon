@@ -13,11 +13,12 @@ import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/Ung
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
-import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
+import { getSeverity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
+import getSubtraceList from '../../../subscriptions/getSubtraceList';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
@@ -29,7 +30,7 @@ import locals from './Results.mless';
 const getDataPerDataSource = {
   calls: getCalls,
   traces: getTraces,
-  subtraces: getTraces //TODO:need to change
+  subtraces: getSubtraceList
 };
 
 const typePerDataSource = {
@@ -41,7 +42,7 @@ const typePerDataSource = {
 const namePerDataSource = {
   calls: t('in-applications:labelCall'),
   traces: t('in-applications:labelTrace'),
-  subtraces: t('in-applications:labelTrace') //TODO:need to change
+  subtraces: t('in-applications:labelSubtrace')
 };
 
 const traceIdNamePerDataSource = {
@@ -151,6 +152,7 @@ function getTableData({
     },
     order: { ...orderBy, collation: collationLanguage },
     tagFilterExpression: backendQueryModel,
+    timeConfig: timeConfig,
     filter: {
       timeConfig: timeConfig
     },
@@ -162,24 +164,28 @@ function getTableData({
 
 function LabelServiceContent({ item, type }) {
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const isSubtraceType = type === 'subtrace';
 
-  const label = item[type].service.label;
-  return (
+  const label = !isSubtraceType ? item[type].service.label : item.services.map(service => service.label).join(', ');
+  return !isSubtraceType ? (
     <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: item[type].service.id })}>
       {label}
     </Link>
-  );
+  ) : (
+    <>{label}</>
+  ); //TODO Create links for all services?
 }
 
 function getColumnDefinitions(dataSource) {
   const type = typePerDataSource[dataSource];
+  const subtraceType = type === 'subtrace';
   return [
     {
       id: 'erroneous',
       label: t('in-applications:labelStatus'),
       sortable: false,
       getContent(item) {
-        const severity = getServerity({ item, dataSource });
+        const severity = getSeverity({ item, dataSource });
         return (
           <div className={locals.healthIcon}>
             <HealthIcon
@@ -200,39 +206,57 @@ function getColumnDefinitions(dataSource) {
       label: namePerDataSource[dataSource],
       sortable: false,
       getContent(item, { getHrefToDetailId, groupLabel }) {
-        const label = item[type].label;
+        const label = subtraceType ? item.subtraceName : item[type].label; //TODO Add link for detailview for subtraces
         return (
           <div className={locals.batchedLine}>
             <SvgIcon type={`lib_application_${type}`} color="var(--cds-link-primary)" size="s" />
             <Spacer horizontal="xsmall" />
-            <LinkToDetailPage
-              item={item}
-              dataSource={dataSource}
-              getHrefToDetailId={getHrefToDetailId}
-              linkLabel={label}
-              groupLabel={groupLabel}
-            />
-            <BatchingIndicator
-              batchCount={item[type].batchCount}
-              tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
-                type: getTypeTextByCount(type, 1),
-                batchCount: item[type].batchCount,
-                types: getTypeTextByCount(type, item[type].batchCount)
-              })}
-              noTopPosition
-            />
+            {!subtraceType ? (
+              <LinkToDetailPage
+                item={item}
+                dataSource={dataSource}
+                getHrefToDetailId={getHrefToDetailId}
+                linkLabel={label}
+                groupLabel={groupLabel}
+              />
+            ) : (
+              <span>{label}</span>
+            )}
+            {!subtraceType && (
+              <BatchingIndicator
+                batchCount={item[type].batchCount}
+                tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
+                  type: getTypeTextByCount(type, 1),
+                  batchCount: item[type].batchCount,
+                  types: getTypeTextByCount(type, item[type].batchCount)
+                })}
+                noTopPosition
+              />
+            )}
           </div>
         );
       }
     },
     {
       id: 'service',
-      label: t('in-applications:labelService'),
+      label: subtraceType ? t('in-applications:labelServices') : t('in-applications:labelService'),
       sortable: false,
       getContent(item) {
         return <LabelServiceContent item={item} type={type} />;
       }
-    }
+    },
+    ...(subtraceType
+      ? [
+          {
+            id: 'subCalls',
+            label: t('in-applications:subtraces.labelCallsPerSubtrace'),
+            sortable: false,
+            getContent(item) {
+              return <span>{item.subtraceCalls}</span>;
+            }
+          }
+        ]
+      : [])
   ];
 }
 

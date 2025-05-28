@@ -158,16 +158,17 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               errors={errors}
             />
 
-            <GroupingConfiguratorSection
-              value={groupBy}
-              onChange={onGroupByChange}
-              GroupingConfigurator={groupingConfiguratorPerDataSource[dataSource]}
-              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
-              tracking={{
-                onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
-              }}
-            />
-
+            {dataSource !== 'subtraces' && (
+              <GroupingConfiguratorSection
+                value={groupBy}
+                onChange={onGroupByChange}
+                GroupingConfigurator={groupingConfiguratorPerDataSource[dataSource]}
+                tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+                tracking={{
+                  onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
+                }}
+              />
+            )}
             <ActionSection
               left={
                 <Stack direction={'horizontal'} gap={'small'}>
