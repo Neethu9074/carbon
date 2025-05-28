@@ -109,17 +109,7 @@ const defaultChartedMetrics = {
       ]
     }
   ],
-  subtraces: [
-    {
-      templateId: 'subtrace.overview',
-      metrics: [
-        {
-          metricId: 'subtraceDuration',
-          aggregationId: 'MEAN'
-        }
-      ]
-    }
-  ]
+  subtraces: [{ metricId: 'subtraceDuration', aggregationId: 'MEAN' }]
 };
 const dataSourceParameter = {
   path: analyzePath,
@@ -173,9 +163,11 @@ const catalogMap = {
 
 const callsMetricCatalogTransformer = createMetricCatalogTransformer('calls');
 const tracesMetricCatalogTransformer = createMetricCatalogTransformer('traces');
+const subtracesMetricCatalogTransformer = createMetricCatalogTransformer('subtraces');
 
 const callsChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('calls');
 const tracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('traces');
+const subtracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('subtraces');
 
 export default function ApplicationsAnalyzeView() {
   const [{ dataSource, hiddenCalls, fastQueryModeEnabled }, onChange] = useUrlState({
@@ -293,14 +285,14 @@ export function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }
       defaultChartedMetrics: defaultChartedMetrics['traces']
     },
     subtraces: {
-      metricCatalogTransformer: tracesMetricCatalogTransformer, //TODO:  need to change
-      chartableMetricCatalogTransformer: tracesChartableMetricCatalogTransformer, //TODO:  need to change
+      metricCatalogTransformer: subtracesMetricCatalogTransformer,
+      chartableMetricCatalogTransformer: subtracesChartableMetricCatalogTransformer,
       facetedSearchItems: getFacetedSearchItems({ dataSource: 'subtraces', hiddenCalls, onChangeHiddenCalls }),
       ungroupedView: ungroupedView.subtraces,
-      groupedView: groupedView.traces, // TODO:  need to change
+      groupedView: groupedView.subtraces,
       fixedFields: fixedFields.subtraces,
-      defaultSelectableFields,
-      defaultChartedMetrics: defaultChartedMetrics['subtraces']
+      defaultChartedMetrics: defaultChartedMetrics['subtraces'],
+      unSupportedMetricTemplates: ['calls.overview', 'latency.distribution']
     }
   };
 }
@@ -414,8 +406,15 @@ function createMetricCatalogTransformer(dataSource) {
 
 function createChartableMetricCatalogTransformer(dataSource) {
   // For chartable metrics (unifiedMetricsQuery) the 'traces' dataSource uses 'calls' metric instead of 'traces'
-  const supportedMetrics = dataSourceConstants.calls.metricCatalogSupportedChartableMetrics;
+  const supportedMetrics =
+    dataSource === 'subtraces'
+      ? dataSourceConstants.subtraces.metricCatalogSupportedChartableMetrics
+      : dataSourceConstants.calls.metricCatalogSupportedChartableMetrics;
   return metricDefinition => {
+    //TODO: will remove this once backend supports subtraceDuration metric
+    if (metricDefinition.metricId === 'latency' && dataSource === 'subtraces') {
+      metricDefinition = { ...metricDefinition, metricId: 'subtraceDuration' };
+    }
     if (!supportedMetrics[metricDefinition.metricId] || (dataSource === 'traces' && metricDefinition.customMetric)) {
       return null;
     }
@@ -424,7 +423,9 @@ function createChartableMetricCatalogTransformer(dataSource) {
       label:
         dataSource === 'traces'
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
-          : t('in-applications:metrics.calls', { context: metricDefinition.metricId.replace('.', '_') }),
+          : dataSource === 'calls'
+          ? t('in-applications:metrics.calls', { context: metricDefinition.metricId.replace('.', '_') })
+          : t('in-applications:metrics.subtraces', { context: metricDefinition.metricId }),
       aggregations: supportedMetrics[metricDefinition.metricId],
       formatter: metricFormatter(metricDefinition)
     };
@@ -432,7 +433,7 @@ function createChartableMetricCatalogTransformer(dataSource) {
 }
 
 function metricFormatter({ metricId, formatter }) {
-  if (metricId === 'latency') {
+  if (metricId === 'latency' || metricId === 'subtraceDuration') {
     return 'LATENCY';
   }
   return formatter;

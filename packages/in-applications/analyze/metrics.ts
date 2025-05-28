@@ -227,5 +227,29 @@ export const dataSourceConstants = {
     getData: getTraces,
     getGroupData: getTraceGroups,
     traceIdName: 'id'
+  },
+  subtraces: {
+    type: 'subtrace',
+    backendDataSource: SUBTRACES,
+    defaultMetrics: [{ metric: 'subtraceDuration', aggregation: 'MEAN' }],
+    defaultCharts: [{ metric: 'subtraceDuration', aggregation: 'MEAN', source: 'SUBTRACE' }],
+    metricConfiguration: {
+      subtraceDuration: {
+        formatter: millis.forcedCompactOnMs.detailed,
+        label: t('in-applications:labelLatency'),
+        type: 'time',
+        aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN', 'SUM']
+      }
+    },
+    metricCatalogSupportedMetrics: {
+      subtraceDuration: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX']
+    },
+    metricCatalogSupportedChartableMetrics: {
+      subtraceDuration: ['P25', 'P50', 'P95', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MAX']
+    },
+    latencyTag: 'subtraceDuration',
+    getData: getCalls, //TODO:need to change
+    getGroupData: getCallGroups, //TODO:need to change
+    traceIdName: 'traceId'
   }
 };

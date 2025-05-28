@@ -70,6 +70,11 @@ const transformMetricTagFilterValues = tagFilterExpression => {
   return tagFilterExpression;
 };
 
+const unifiedMetricsSource = {
+  traces: 'APPLICATION',
+  calls: 'APPLICATION',
+  subtraces: 'SUBTRACE'
+};
 export function ChartsPresenter(props) {
   const {
     hiddenCalls,
@@ -90,7 +95,7 @@ export function ChartsPresenter(props) {
           ...chartedMetric,
           rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
         }))}
-        unifiedMetricsSource="APPLICATION"
+        unifiedMetricsSource={unifiedMetricsSource[dataSource]}
         mapMetricConfiguration={(metricConfiguration, { dataSource }) => {
           validateTagFilterValue(metricConfiguration);
           return {

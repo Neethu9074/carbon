@@ -214,7 +214,8 @@ function AnalyzeStateManagement({
     defaultChartedMetrics = emptyArray,
     metricCatalogTransformer,
     chartableMetricCatalogTransformer,
-    supportedCustomMetrics
+    supportedCustomMetrics,
+    unSupportedMetricTemplates = emptyArray
   } = dataSourceConfigurations[dataSource];
 
   const { trackUa2OrderByChanged, trackUa2OrderByGroupChanged } = useAnalyzeTracker();
@@ -286,16 +287,18 @@ function AnalyzeStateManagement({
     }
 
     if (chartableMetricCatalogTransformer != null) {
-      return metricTemplatesResult?.data.map(template => {
-        return {
-          ...template,
-          metrics: template.metrics.map(chartableMetricCatalogTransformer).filter(Boolean)
-        };
-      });
+      return metricTemplatesResult?.data
+        .filter(template => !unSupportedMetricTemplates.includes(template.templateId))
+        .map(template => {
+          return {
+            ...template,
+            metrics: template.metrics.map(chartableMetricCatalogTransformer).filter(Boolean)
+          };
+        });
     }
 
     return metricTemplatesResult?.data;
-  }, [metricTemplatesResult, chartableMetricCatalogTransformer]);
+  }, [metricTemplatesResult, chartableMetricCatalogTransformer, unSupportedMetricTemplates]);
   const currentMetricsTemplate = chartedMetricData?.find(metricData => metricData.templateId != null);
 
   let chartedMetricsTemplate;

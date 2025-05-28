@@ -722,7 +722,8 @@
     "traces_traces": "Traces",
     "traces_latency": "Latency",
     "traces_erroneousCalls": "Erroneous traces",
-    "traces_errors": "Erroneous traces rate"
+    "traces_errors": "Erroneous traces rate",
+    "subtraces_subtraceDuration": "Duration"
   },
   "viewLists": {
     "application": "Applications",
