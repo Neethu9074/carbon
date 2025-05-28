@@ -5,7 +5,7 @@
  */
 
 import { create, timeout } from '@instana/observables';
-import { Event, Policy, Result } from '@instana/types';
+import { Event, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -68,26 +68,22 @@ export default function useScoredActions({
 
 interface UseRecommendedScoredActionsParams {
   actions: Result<ScoredAction[]>;
-  policies: Result<Policy[]>;
 }
 
-export function useUserRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
-  if (isLoading(actions, policies)) return pendingResult as Result<ScoredAction[]>;
-  if (hasError(actions, policies))
+export function useUserRecommendedScoredActions({ actions }: UseRecommendedScoredActionsParams) {
+  if (isLoading(actions)) return pendingResult as Result<ScoredAction[]>;
+  if (hasError(actions))
     return error<ScoredAction[]>([{ message: 'Failed to filter recommended actions.', code: 'SERVER' }]);
   return success(
-    actions.data!.filter(action => {
-      const policyExistWithAction = policies.data!.some(
-        policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.id === action.id
-      );
-      return !policyExistWithAction && action.confidence != 'low' && !action.metadata?.builtIn;
+    actions.data!.filter(actionMatch => {
+      return actionMatch?.confidence != 'low';
     })
   );
 }
 
-export function useAIRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
-  if (isLoading(actions, policies)) return pendingResult as Result<ScoredAction[]>;
-  if (hasError(actions, policies))
+export function useAIRecommendedScoredActions({ actions }: UseRecommendedScoredActionsParams) {
+  if (isLoading(actions)) return pendingResult as Result<ScoredAction[]>;
+  if (hasError(actions))
     return error<ScoredAction[]>([{ message: 'Failed to filter recommended actions.', code: 'SERVER' }]);
 
   return success(actions.data!);
@@ -110,12 +106,16 @@ export function usePaginatedScoredActions({
     result: actions,
     serverTableUrlState,
     setServerTableUrlState,
-    searchAttributes: ['name', 'description', 'type', action => action?.tags?.toString() ?? ''],
+    searchAttributes: [
+      action => action?.entity?.name ?? '',
+      action => action?.entity?.description ?? '',
+      action => action?.entity?.tags?.toString() ?? ''
+    ],
     sort: entity => {
       const { orderBy } = serverTableUrlState;
       let value = entity[orderBy as keyof ScoredAction];
       if (orderBy === 'score') {
-        return [entity.score, entity.name.trim().toLowerCase()];
+        return [entity.score, entity.entity?.name.trim().toLowerCase()];
       }
       return typeof value === 'string' ? value.trim().toLowerCase() : value;
     }

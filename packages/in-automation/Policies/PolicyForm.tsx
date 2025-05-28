@@ -76,7 +76,15 @@ export function PolicyFormHeader({ policy }: { policy: PolicyFormEntity }) {
   );
 }
 
-export function PolicyFormBody({ actions, triggers }: { actions: Action[]; triggers: Triggers }) {
+export function PolicyFormBody({
+  actions,
+  triggers,
+  inEventPage = false
+}: {
+  actions: Action[];
+  triggers: Triggers;
+  inEventPage?: boolean;
+}) {
   return (
     <LeftRightPadding>
       <Row>
@@ -87,7 +95,7 @@ export function PolicyFormBody({ actions, triggers }: { actions: Action[]; trigg
           </ScrollStep>
           <ScrollStep id="2-trigger-configuration">
             <SectionHeading>{t('in-automation:policies.2TriggerConfiguration')}</SectionHeading>
-            <SelectTrigger triggers={triggers} />
+            <SelectTrigger triggers={triggers} inEventPage={inEventPage} />
             <TypeSection />
             <ScopeSection />
           </ScrollStep>

@@ -126,7 +126,7 @@ function createPolicy({
           triggerName: event.problem?.problemText
         });
         refresh();
-        setActiveKey('automationPolicies');
+        setActiveKey('recommendedActions');
         onCreateSuccess(policy.name);
       },
       () => {

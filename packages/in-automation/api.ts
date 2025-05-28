@@ -88,8 +88,13 @@ export function getAllActionsWithAISuggestions(
     headers: getCsrfHeader(),
     mapToResultObject: true
   }).map(response =>
-    mapData(response, actions =>
-      actions.map(({ action, score, confidence, aiEngine }) => ({ ...action, score, confidence, aiEngine }))
+    mapData(response, actionMatch =>
+      actionMatch.map(({ action, score, confidence, aiEngine, policy }) => ({
+        entity: aiEngine === 'POLICY' && policy ? policy : action,
+        score,
+        confidence,
+        aiEngine
+      }))
     )
   );
 }

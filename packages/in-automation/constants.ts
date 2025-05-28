@@ -42,6 +42,22 @@ export const ACTION_TRANSLATIONS: Record<ActionType, string> = {
   DOC_LINK: t('in-automation:ActionCatalog.docLink')
 };
 
+export const ScoredActionsType: Record<string, string> = {
+  POLICY: t('in-automation:policies.policy'),
+  SUCCESS_RATE: t('in-automation:recommendation'),
+  NLP: t('in-automation:recommendation'),
+  EVENT_SIMILARITY: t('in-automation:recommendation'),
+  TURBONOMIC: 'Turbonomic'
+};
+
+export const ScoredActionsAIEngine: Record<string, string> = {
+  POLICY: t('in-automation:userCreated'),
+  SUCCESS_RATE: t('in-automation:successRate'),
+  NLP: 'NLP',
+  EVENT_SIMILARITY: t('in-automation:eventSimilarity'),
+  TURBONOMIC: t('in-automation:optimization')
+};
+
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE'];
 export const HTTP_METHODS_WITH_BODY = ['POST', 'PUT'];
 

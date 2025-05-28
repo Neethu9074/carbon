@@ -31,7 +31,6 @@ import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
 import CancelButton from 'in-components/form/CancelButton';
 import FormGroup from 'in-components/form/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { ScoredAction } from 'in-automation/types';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
 import { role } from 'in-stores/user';
@@ -39,7 +38,7 @@ import { t } from 'in-i18n';
 
 import locals from './Policy.mless';
 
-export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
+export const nameColumn: ColumnDefinition<Action> = {
   id: 'name',
   label: t('in-automation:name'),
   getContent: action => <NameColumn action={action} isLink={false} />,

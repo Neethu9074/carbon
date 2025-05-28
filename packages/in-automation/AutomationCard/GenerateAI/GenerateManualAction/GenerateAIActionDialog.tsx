@@ -202,7 +202,7 @@ function useOnSubmit() {
               aiOriginated: true,
               triggerName: event.problem?.problemText
             });
-            setActiveKey('automationPolicies');
+            setActiveKey('recommendedActions');
             onCreatePolicySuccess(result.data?.name!, result.data?.id!);
             refreshPolicies();
             onClose();
