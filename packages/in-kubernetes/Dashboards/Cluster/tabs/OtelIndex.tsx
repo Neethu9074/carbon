@@ -13,9 +13,8 @@ import {
 } from 'in-services/featureFlags';
 //@ts-expect-error TS migration
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
-import { nodesDashboard, podsDashboard, clusterOtelDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-//@ts-expect-error TS migration
-import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
+import { nodesDashboard, podsDashboard, clusterOtelDashboardFullyQualified, clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import OtelNodes from 'in-kubernetes/Dashboards/Cluster/tabs/OtelNodes';
 //@ts-expect-error TS migration
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 //@ts-expect-error TS migration
@@ -34,13 +33,14 @@ export default [
   openTelemetryKubernetesNodesViewEnabled && {
     label: t('in-kubernetes:dashboards.nodes'),
     path: `${clusterOtelDashboardFullyQualified}${nodesDashboard}`,
-    component: Nodes,
-    header: ({ result, tab, location }: { result: any; tab: any; location: any }) =>
-      getCounterComponent({ result, tab, location }, v => v.nodes)
+   component: (props: { result?: any; tab?: any; location?: any }) => (
+  <OtelNodes {...props} data={props.result?.data ?? {}} />
+),
+    header: (props: { result: any; tab: any; location: any }) => getCounterComponent(props, v => v.nodes)
   },
   openTelemetryKubernetesPodsViewEnabled && {
     label: t('in-kubernetes:dashboards.pods'),
-    path: `${clusterOtelDashboardFullyQualified}${podsDashboard}`,
+    path: `${clusterDashboardFullyQualified}${podsDashboard}`,
     component: Pods,
     header: ({ result, tab, location }: { result: any; tab: any; location: any }) =>
       getCounterComponent({ result, tab, location }, v => v.workloads.pods),
