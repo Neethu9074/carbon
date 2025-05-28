@@ -7,5 +7,6 @@
 :local {
   .description {
     margin-top: 1rem;
+    word-wrap: break-word;
   }
 }
