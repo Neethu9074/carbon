@@ -4,14 +4,17 @@
  */
 
 import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 
+import { AbstractIntegration, AbstractIntegrationUnion } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
 
+// @ts-expect-error TS migration
 import { configs, fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
-export function getAlertChannelsInfosMutable(ids = []) {
+export function getAlertChannelsInfosMutable(ids: string[] = []) {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -20,7 +23,7 @@ export function getAlertChannelsInfosMutable(ids = []) {
   }).map(response => response.body);
 }
 
-export function getAlertChannel(id) {
+export function getAlertChannel(id: string) {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -29,17 +32,24 @@ export function getAlertChannel(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveAlertChannel(integration) {
+export function saveAlertChannel(
+  integration: Map<keyof AbstractIntegrationUnion, AbstractIntegrationUnion[keyof AbstractIntegrationUnion]>,
+  isCreate = false
+) {
+  const basePath = '/api/events/settings/alertingChannels';
+  const method = isCreate ? 'POST' : 'PUT';
+  const url = isCreate ? basePath : `${basePath}/${encodeURIComponent(integration.get('id'))}`;
+
   return http({
-    method: 'PUT',
+    method: method,
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/events/settings/alertingChannels/${encodeURIComponent(integration.get('id'))}`,
+    url: url,
     data: integration.toJS()
   }).map(response => fromJS(response.body));
 }
 
-export function deleteAlertChannel(id) {
+export function deleteAlertChannel(id: string) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
@@ -48,7 +58,9 @@ export function deleteAlertChannel(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function alertChannelTest(integration) {
+export function alertChannelTest(
+  integration: Map<keyof AbstractIntegrationUnion, AbstractIntegrationUnion[keyof AbstractIntegrationUnion]>
+) {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -58,7 +70,11 @@ export function alertChannelTest(integration) {
   }).map(response => fromJS(response.body));
 }
 
-export function createAlertChannel(id, kind, name = '') {
+export function createAlertChannel(
+  id: AbstractIntegration['id'] | null,
+  kind: AbstractIntegration['kind'],
+  name: AbstractIntegration['name'] = ''
+) {
   if (!kind) {
     return {
       id: id || generateUniqueShortId(),
