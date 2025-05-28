@@ -12,7 +12,10 @@ import { Stack, SvgIcon, Typography } from '@instana/components';
 import { Duration, MaintenanceConfigV2 } from '@instana/types';
 import { formatDate, formatTime } from '@instana/format-date';
 
-import { getEndAndTimeDurationOfWindow } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import {
+  formatRruleDateAsLocal,
+  getEndAndTimeDurationOfWindow
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import { StartObject } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -46,7 +49,7 @@ export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivew
     const duration = (form.getIn(['window', 'duration']) as Field<Duration>).value;
 
     if (rrule) {
-      const rruleDates = rrule.all((_, i) => i < 5);
+      const rruleDates = rrule.all((_, i) => i < 5).map(formatRruleDateAsLocal);
       if (Array.isArray(rruleDates) && rruleDates.length > 0) {
         rruleDates.forEach(date => {
           const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
