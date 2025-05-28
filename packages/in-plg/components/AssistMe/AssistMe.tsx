@@ -37,8 +37,8 @@ export default function AssistMe() {
           openAssistMe();
           setIsExpanded(!isExpanded);
         }}
-        aria-controls="ibm-assist-me-shell"
         aria-expanded={isExpanded}
+        {...(isExpanded && { 'aria-controls': 'ibm-assist-me-shell' })}
         renderIcon={() => <IconForButton icon="lib_help_error_help_outline" iconSize="s" />}
       >
         {t('in-plg:licenseBanner.getAnswers')}
