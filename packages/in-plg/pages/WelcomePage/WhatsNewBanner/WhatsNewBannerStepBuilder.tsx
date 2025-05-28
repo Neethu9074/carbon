@@ -32,7 +32,7 @@ export default function WhatsNewBannerStepBuilder() {
       title: t('in-plg:welcomepage.logging.title'),
       description: t('in-plg:welcomepage.logging.description'),
       buttonName: t('in-plg:welcomepage.logging.buttonName'),
-      buttonType: 'ghost',
+      buttonType: 'primary',
       hasPermission: role?.canViewLogs,
       onButtonClick: () => {
         trackCta(LOGS_IN_CONTEXT_BUTTON_CLICKED);
@@ -63,7 +63,7 @@ export default function WhatsNewBannerStepBuilder() {
       description: t('in-plg:welcomepage.kubecost.description'),
       buttonName: t('in-plg:welcomepage.kubecost.buttonName'),
       hasPermission: hasKubernetesAccess,
-      buttonType: 'primary',
+      buttonType: 'ghost',
       onButtonClick: () => {
         trackCta(KUBECOST_INTEGRATION_BUTTON_CLICKED);
         startRecording();

@@ -35,9 +35,10 @@ describe('in-plg/pages/WelcomePage/WhatsNewBanner/WhatsNewBannerStepBuilder', ()
   it('WhatsNewBannerStepBuilder buttons should have one primary and the the rest as ghost button', () => {
     const { container } = render(<WhatsNewBannerStepBuilder />);
     const buttons = container.querySelectorAll('[data-test-id="tile-button"]');
-    const primaryButtons = Array.from(buttons).filter(button => button.classList.contains('cds--btn--primary'));
-    const ghostButtons = Array.from(buttons).filter(button => button.classList.contains('cds--btn--ghost'));
-    expect(primaryButtons.length).toBe(1);
-    expect(ghostButtons.length).toBe(buttons.length - 1);
+    expect(buttons.length).toBeGreaterThan(0);
+    expect(buttons[0].classList.contains('cds--btn--primary')).toBe(true);
+    for (let i = 1; i < buttons.length; i++) {
+      expect(buttons[i].classList.contains('cds--btn--ghost')).toBe(true);
+    }
   });
 });
