@@ -47,7 +47,6 @@
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
-  "deletePolicyWithName": "Delete policy {{actionName}}",
   "jobTemplate": "Job template",
   "workflowJobTemplate": "Workflow job template",
   "hostsLimit": "Hosts limit (optional)",
@@ -84,14 +83,10 @@
   "actionCategory": "Action categories",
   "value": "Value",
   "type": "Type",
-  "automationPoliciesWithCount": "Automation policies ({{count}})",
-  "automationPolicies": "Automation policies",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search actions",
   "searchOptimizations": "Search optimizations",
   "hostsLimitHelpText": "Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
-  "aiEngine": "AI engine",
-  "engine": "Engine",
   "eventSimilarity": "Event similarity",
   "close": "Close",
   "tag": "Tag",
@@ -274,7 +269,6 @@
     "confidence_high": "High",
     "bodyDescription": "Data associated with the HTTP request.",
     "confidence": "{{context}}",
-    "confidenceHelpText": "This action was recommended based on: {{source}}",
     "http": "HTTP",
     "confidenceTitle": "Confidence",
     "run": "Run",
@@ -524,23 +518,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "Policies were created successfully.",
-        "content": "{{count}} policy has been created successfully.",
         "content_plural": "{{count}} policies have been created successfully.",
         "content_0": "{{count}} policies have been created successfully.",
         "content_1": "{{count}} policies have been created successfully.",
         "content_2": "{{count}} policies have been created successfully."
-      },
-      "failure": {
-        "title": "Failed to create policies.",
-        "content": "There was a problem creating the policies: {{error}}"
       }
     },
     "deleteDialog": {
       "success": "Policy was deleted successfully.",
       "failure": "Failed to delete policy."
     },
-    "createPolicies": "Create policies",
     "websiteSmartAlert": "Website Smart Alert"
   },
   "infoPanel": {
