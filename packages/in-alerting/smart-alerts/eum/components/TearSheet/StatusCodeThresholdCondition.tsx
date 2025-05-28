@@ -20,6 +20,7 @@ import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/use
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { Option } from 'in-components/ComboBox';
@@ -82,7 +83,7 @@ export default function StatusCodeThresholdCondition({
             content={t('in-alerting:smartAlerts.details.metricTitle')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <Dropdown
           value={metricName}
@@ -103,7 +104,7 @@ export default function StatusCodeThresholdCondition({
             content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <StaticOrAdaptiveSwitch
           form={form}
@@ -131,7 +132,7 @@ export default function StatusCodeThresholdCondition({
             content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         {/* Threshold type */}
         {thresholdType === STATIC_THRESHOLD && (

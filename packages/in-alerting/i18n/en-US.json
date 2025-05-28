@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "Alert level",
     "alertPropertyInfosLabelTriggersIncident": "Triggers incident",
     "alertPropertyInfosLabelDescription": "Description",
-    "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
+    "noChannelSelectedText": "No channels added. Get started by clicking Select alert channels.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional filters",
     "groupBy": "Group by",
     "noChannelAvailable": "No alert channels available",
@@ -1168,7 +1168,7 @@
         },
         "step5": {
           "title": "Define alert channels",
-          "description": "Select where you want to be notified for this alert"
+          "description": "Select where you want to be notified for this alert."
         },
         "slowness": {
           "headline": "Automatic alerts for onLoad time or HTTP latency",
@@ -1354,7 +1354,7 @@
           "header": "What properties do you want to set for this alert"
         },
         "step4": {
-          "header": "Select where you want to be notified for this alert"
+          "header": "Select where you want to be notified for this alert."
         }
       }
     },
@@ -1499,7 +1499,7 @@
         },
         "step5": {
           "title": "Define alert channels",
-          "description": "Select where you want to be notified for this alert"
+          "description": "Select where you want to be notified for this alert."
         },
         "slowness": {
           "headline": "Automatic alerts for HTTP latency",

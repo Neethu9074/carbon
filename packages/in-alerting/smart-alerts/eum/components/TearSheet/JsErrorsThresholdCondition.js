@@ -14,6 +14,7 @@ import { getMetricUnitPostfix, isPercentageMetric } from 'in-alerting/smart-aler
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
+import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
@@ -42,7 +43,7 @@ export default function JsErrorsThresholdCondition({
             content={t('in-alerting:smartAlerts.details.metricTitle')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <Dropdown
           value={metricName}
@@ -64,7 +65,7 @@ export default function JsErrorsThresholdCondition({
             content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         {/* Threshold input field */}
         <MultiThresholdCondition

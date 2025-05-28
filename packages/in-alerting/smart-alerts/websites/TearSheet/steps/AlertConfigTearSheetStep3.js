@@ -29,6 +29,7 @@ import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertT
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import { days } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
@@ -101,6 +102,7 @@ export default function AlertConfigTearSheetStep3({
                 thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
               }
               thresholdType={thresholdType}
+              titleWidth={getTitleWidth()}
             />
           </TearSheetStepTitleWrapper>
         </div>

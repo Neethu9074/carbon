@@ -22,6 +22,7 @@ import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Secti
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
@@ -67,7 +68,7 @@ export default function ThroughputThresholdCondition({
             content={t('in-alerting:smartAlerts.details.metricTitle')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <Dropdown
           value={metricName}
@@ -89,7 +90,7 @@ export default function ThroughputThresholdCondition({
             content={t('in-alerting:smartAlerts.websites.advanced.thresholdType')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <StaticOrAdaptiveSwitch
           form={form}
@@ -118,7 +119,7 @@ export default function ThroughputThresholdCondition({
             content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         {/* Threshold type */}
         {thresholdType === STATIC_THRESHOLD && (
