@@ -7,7 +7,8 @@
 import { TagCatalog, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { useFilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getTagCatalog from 'in-infrastructure/Explore/services/getTagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -32,7 +33,9 @@ export default function useTagCatalog({
     windowSize: 60000
   } as TimeConfig;
 
-  const filter = { timeConfig: modifiedTimeConfig, tagFilterExpression: EMPTY_EXPRESSION };
+  const filterContext = useFilterContext();
+  const tagFilterExpression = toBackendQueryModel(filterContext);
+  const filter = { timeConfig: modifiedTimeConfig, tagFilterExpression };
 
   const tagCatalogResult = useObservable(
     () => getTagCatalog({ filter, metric, ownerType, regex: regex ?? false }),
