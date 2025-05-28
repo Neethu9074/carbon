@@ -83,7 +83,7 @@ export default function Node(props: NodeProps) {
 
   return (
     <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
-      <CarbonPopover className={local.carbonPopover} open={selectedNodeId === id}>
+      <CarbonPopover className={local.carbonPopover} open={selectedNodeId === id} align={'right-start'}>
         <ProcessNode {...props.node} onClick={() => handleNodeClick(id)} />
         <CarbonPopoverContent id="bizOpsFlowIssuesPopoverContent">
           <BizOpsOpenIssuesList

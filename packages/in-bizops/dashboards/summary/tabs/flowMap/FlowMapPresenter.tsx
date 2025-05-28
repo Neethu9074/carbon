@@ -69,9 +69,14 @@ export default function FlowMapPresenter({ timeConfig, mapData, addPaginateData 
         id: 'root',
         layoutOptions: {
           'elk.algorithm': 'layered',
-          'elk.spacing.nodeNode': (padding * 2).toString(), // vertical spacing
-          'elk.layered.spacing.nodeNodeBetweenLayers': padding.toString(), // horizontal spacing
-          'elk.layered.spacing.edgeNodeBetweenLayers': padding.toString()
+          // vertical spacing
+          'elk.spacing.edgeEdge': padding.toString(),
+          'elk.spacing.nodeNode': padding.toString(),
+          'elk.spacing.edgeNode': padding.toString(),
+          // horizontal spacing
+          'elk.layered.spacing.nodeNodeBetweenLayers': padding.toString(),
+          'elk.layered.spacing.edgeNodeBetweenLayers': padding.toString(),
+          'elk.layered.spacing.edgeEdgeBetweenLayers': padding.toString()
         },
         children: mapData.nodes,
         edges: mapData.edges
