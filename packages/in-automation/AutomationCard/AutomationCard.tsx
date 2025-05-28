@@ -9,9 +9,6 @@ import React from 'react';
 import { Event, VolatileId } from '@instana/types';
 import { Card, Spacer } from '@instana/components';
 
-// import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
-// import usePolicies from 'in-automation/AutomationCard/usePolicies';
-import useHistory from 'in-automation/AutomationCard/useHistory';
 import useScoredActions, {
   useUserRecommendedScoredActions,
   useAIRecommendedScoredActions
@@ -19,6 +16,7 @@ import useScoredActions, {
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
+import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';

@@ -115,7 +115,6 @@ function AutomationCardForPRC({ volatileId, event, incident }: AutomationCardPro
     .filter(Boolean) as ProcessedSnapshot[];
 
   const activeKey = useActiveKey();
-  // const policies = usePolicies({ event });
   const historyCount = useHistory({ eventId: event.id });
   const trigger = useTrigger({ event });
   const userActions = useScoredActions({ event, trigger, type: 'default' });

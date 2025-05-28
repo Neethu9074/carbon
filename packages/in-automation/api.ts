@@ -8,7 +8,6 @@ import {
   Action,
   VolatileId,
   Event,
-  ActionMatch,
   EventSpecificationInfo,
   ActionInstance,
   Policy,
@@ -47,6 +46,14 @@ const turboAPIBase = '/api/turbonomic';
 const actionUrl = `${automationAPIBase}/actions` as const;
 const policiesUrl = `${automationAPIBase}/policies` as const;
 
+interface RecActionMatch {
+  readonly action?: Action;
+  readonly policy?: Policy;
+  readonly aiEngine: string;
+  readonly confidence: string;
+  readonly score: number;
+}
+
 export function getActions() {
   return http<Action[]>({
     method: 'GET',
@@ -72,7 +79,7 @@ export function getAllActionsWithAISuggestions(
   type?: 'default' | 'watsonx',
   eventId?: string
 ) {
-  return http<ActionMatch[]>({
+  return http<RecActionMatch[]>({
     method: 'POST',
     maxRetries: 3,
     url: `${automationAPIBase}/ai/action/match`,

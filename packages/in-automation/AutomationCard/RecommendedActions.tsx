@@ -263,8 +263,6 @@ function RecActionsMoreMenu({
                   stopPropagationAndPreventDefault(e);
                   handleButtonClick({ policyId: policy.id, inEventPage: true });
                 }}
-
-                //Todo
               >
                 {t('in-automation:editPolicy')}
               </MoreMenuButton>
