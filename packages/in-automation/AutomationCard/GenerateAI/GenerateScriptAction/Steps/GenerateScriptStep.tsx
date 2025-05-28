@@ -17,8 +17,10 @@ import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/g
 import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackComponent';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
+import ConsentForm from 'in-automation/components/ConsentForm/ConsentForm';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -140,7 +142,8 @@ function GenerateScriptButton({
         className={locals.generateScriptButton}
         disabled={
           (!promptForm.hierarchyValid && promptForm.hierarchyTouched) ||
-          (!!generatedAction && isLoading(generatedAction))
+          (!!generatedAction && isLoading(generatedAction)) ||
+          !automationActionAiGenerationUnitEnabled
         }
         onClick={() => {
           if (!promptForm.hierarchyValid) {
@@ -230,6 +233,7 @@ export default function GenerateScriptStep({
   const promptForm = form.get('prompt');
   const promptStep = promptForm.get('promptStep');
   const interpreterType = promptForm.get('interpreterType');
+  const { clickEPWTLink } = useSegmentTracker();
   const onChangeValue = (val: string) => {
     setForm(form => form.updateIn(['prompt', 'promptStep'], item => item.setValue(val).setTouched(true)));
     setForm(form =>
@@ -237,6 +241,12 @@ export default function GenerateScriptStep({
         item.setValue(`This action has script for  ${val}`).setTouched(true)
       )
     );
+  };
+
+  const handleClick = () => {
+    clickEPWTLink({
+      type: { type: 'scriptActionGeneration' }
+    });
   };
 
   return (
@@ -318,6 +328,7 @@ export default function GenerateScriptStep({
                 <GenerateScriptButton form={form} setForm={setForm} />
               </div>
               <TouchedMessages field={field} />
+              {!automationActionAiGenerationUnitEnabled && <ConsentForm onClick={handleClick} />}
             </FormGroup>
           ))}
         </Col>
