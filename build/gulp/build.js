@@ -153,6 +153,7 @@ function writeTryBuildServerConfigFile(cb) {
     cookie: {
       name: 'in-token-test'
     },
+    activeLicenseType: 'hostBasedPaid',
     segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
     amplitudeKey: 'client-R2KC1Tw3m8BAnSOiVOSwMWosWdGyGDmN',
     eum: {
@@ -228,6 +229,7 @@ function writeTryBuildReleaseServerConfigFile(cb) {
     cookie: {
       name: 'in-token-stable'
     },
+    activeLicenseType: 'hostBasedPaid',
     segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
     eum: {
       apiKey: 'hUD6LIQpRaeFDkvAf5X4Yg',
