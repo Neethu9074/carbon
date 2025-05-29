@@ -4,30 +4,35 @@
  * Copyright IBM Corp. 2025
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule';
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true,
 
-export const rules = {
-  ...createImportRestrictionRule({
-    enforceAbsoluteImportPaths: true,
+        allowedInPackages: [
+          // current package
+          'in-linuxkvmhypervisor',
 
-    allowedInPackages: [
-      // current package
-      'in-linuxkvmhypervisor',
-
-      // shared package
-      'in-components',
-      'in-forge',
-      'in-hoc',
-      'in-i18n',
-      'in-stores',
-      'ui-client',
-      'in-services',
-      'in-hooks',
-      'in-infrastructure',
-      'in-sdk',
-      'in-subscription'
-    ]
-  })
-};
+          // shared package
+          'in-components',
+          'in-forge',
+          'in-hoc',
+          'in-i18n',
+          'in-stores',
+          'ui-client',
+          'in-services',
+          'in-hooks',
+          'in-infrastructure',
+          'in-sdk',
+          'in-subscription'
+        ]
+      })
+    }
+  }
+];
