@@ -18,7 +18,7 @@ import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
-import getSubtraceList from '../../../subscriptions/getSubtraceList';
+import getSubtraceList from 'in-applications/subscriptions/getSubtraceList';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
