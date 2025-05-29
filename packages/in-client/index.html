@@ -39,19 +39,6 @@
       // };
     </script>
 
-    <!-- This is a temparory script to remove the notice_close cookie from users' browser to display the tealium banner.
- It will be removed in R298. -->
-    <script type="text/javascript">
-      window.addEventListener('load', function () {
-        if (!window.instana.config.featureFlags.tealiumPrivacyEnabled) return
-        if (!localStorage.getItem('cookieBannerShown') && document.cookie.includes('notice_close')) {
-          document.cookie = 'notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-          document.cookie = 'notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.instana.rocks; secure';
-          if(localStorage.getItem('noticeCloseCookieDeleted')) localStorage.removeItem('noticeCloseCookieDeleted');
-          localStorage.setItem('cookieBannerShown', 'true');
-        }
-      });
-    </script>
     <!-- ibm-commons-script -->
     <script type="text/javascript">
       if (window.instana.config.featureFlags.ibmCommonEnabled) {
