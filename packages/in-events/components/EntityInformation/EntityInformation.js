@@ -77,9 +77,9 @@ export default function EntityInformation(props) {
 }
 
 function isPerEntityInfraSmartAlert(metadata, plugin) {
-  const groupingInfo = metadata.get('groupingTags', {}).toJS();
+  const groupingInfo = metadata?.get('groupingTags')?.toJS?.() ?? {};
   const groupByTags = Object.keys(groupingInfo);
-  return groupByTags.length === 1 && groupByTags[0] === `id.${plugin}`;
+  return groupByTags?.length === 1 && groupByTags?.[0] === `id.${plugin}`;
 }
 
 function InfraSmartAlertEntityInformation({ metadata }) {
