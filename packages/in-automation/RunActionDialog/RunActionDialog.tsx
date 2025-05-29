@@ -24,6 +24,7 @@ import RunActionContent, {
 import { getTimeoutFromFields, getAnsibleHostIdFromFields } from 'in-automation/utils/actionField';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { getGitLinkFromFields, getGitTypeFromFields } from 'in-automation/utils/actionField';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
@@ -417,6 +418,9 @@ function onSave(
       setActionInstanceId(response?.actionInstanceId);
     } else {
       setActionInstanceId(response.actionInstanceId);
+      if (!test) {
+        refreshScoredActions();
+      }
     }
   };
 
