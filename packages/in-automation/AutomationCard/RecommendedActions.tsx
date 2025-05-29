@@ -6,15 +6,16 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 
-import { Button, IconButton, Spacer, Stack, Typography, Link, SvgIcon } from '@instana/components';
-import { Event, Result, VolatileId } from '@instana/types';
+import { Button, Spacer, Stack, Typography, CarbonButton } from '@instana/components';
+import { Event, Result, VolatileId, Action, Policy } from '@instana/types';
 import { TimeConfig } from '@instana/types';
 
 import {
-  aiEngineColumn,
-  descriptionColumn,
-  nameColumn,
-  scoreColumn
+  scoredActionTagsColumn,
+  scoredActionNameColumn,
+  scoredActionDescriptionColumn,
+  scoredActionAiEngineColumn,
+  scoredActionScoreColumn
 } from 'in-automation/ActionTable/columnDefinitions';
 import useServerTableUrlState, {
   ServerTableUrlState
@@ -22,35 +23,43 @@ import useServerTableUrlState, {
 import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import RecommendationsExplainability from 'in-automation/AutomationCard/RecommendationsExplainability';
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
+import { ACTION_TYPE, EXECUTABLE_ACTIONS, ScoredActionsType } from 'in-automation/constants';
+import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
+import CreateNewPolicyTearsheet from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardForPRC';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
-import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
-import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
+import { refresh } from 'in-automation/AutomationCard/useScoredActions';
+import { AiEngineFilter } from 'in-automation/ActionTable/tableFilters';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { actionAiGenerationEnabled } from 'in-services/featureFlags';
+import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { ACTION_TYPE } from 'in-automation/constants';
+import MoreMenu from 'in-components/MoreMenu/MoreMenu';
+import { isManual } from 'in-automation/utils/policy';
 import { isLoading } from 'in-services/util/result';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
+import { deletePolicy } from 'in-automation/api';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/RecommendedActions.mless';
 
@@ -64,22 +73,77 @@ interface RecommendedActionsTableProps extends ServerTablePresenterProps<ScoredA
 }
 
 const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps> = {
-  id: 'action',
   label: '',
+  id: 'actions',
   sortable: false,
-  width: 17,
-  getContent: (action, { volatileId, event, trigger }) => (
-    <ExecuteButton action={action} volatileId={volatileId} event={event} trigger={trigger} />
+  width: 5,
+  getContent: (scoredAction, { volatileId, event, trigger }) => (
+    <RecActionsMoreMenu scoredAction={scoredAction} volatileId={volatileId} event={event} trigger={trigger} />
   )
 };
+function onDeleteSuccess() {
+  addMessage(
+    {
+      type: 'info',
+      timeout: 2000,
+      content: t('in-automation:policies.deleteDialog.success')
+    },
+    'policy-delete-info'
+  );
+}
 
-function ExecuteButton({
-  action,
+function onDeleteFailed() {
+  addMessage(
+    {
+      type: 'danger',
+      timeout: 3000,
+      content: t('in-automation:policies.deleteDialog.failure')
+    },
+    'policy-delete-error'
+  );
+}
+
+function onDelete(id: string) {
+  deletePolicy(id).once(
+    () => {
+      onDeleteSuccess();
+      refresh();
+    },
+    () => {
+      onDeleteFailed();
+    }
+  );
+}
+
+function showConfirmationDialog(policy: Policy) {
+  const { id, name } = policy;
+  addActiveDialog(
+    <ConfirmationDialog
+      header={t('in-automation:deleteDialog.confirmRemove')}
+      description={
+        <Typography variant="body-regular">
+          <Trans i18nKey="in-automation:deleteDialog.confirmRemoveMsg" values={{ name }} />
+        </Typography>
+      }
+      confirmButtonLabel={t('in-automation:deleteDialog.delete')}
+      onSubmit={() => {
+        close();
+        onDelete(id);
+      }}
+    />
+  );
+}
+
+const handleButtonClick = ({ policyId, inEventPage }: { policyId?: string; inEventPage?: boolean }) => {
+  addActiveDialog(<CreateNewPolicyTearsheet policyId={policyId} inEventPage={inEventPage} />);
+};
+function RecActionsMoreMenu({
+  scoredAction,
   volatileId,
   event,
   trigger
 }: {
-  action: ScoredAction;
+  scoredAction: ScoredAction;
   volatileId: VolatileId;
   event: Event;
   trigger: Result<TriggerSpecification>;
@@ -87,104 +151,226 @@ function ExecuteButton({
   const { runActionTrackerSegment } = useSegmentTracker();
   const { entityId } = event;
   const agentSnapShots = useTurboAgentSnapShots();
+  const hrefToActionDashboard = useHrefToActionDashboard();
+  const hrefToPolicyDetails = useHrefToPolicyDetails();
   const agents = agentSnapShots?.data?.online ?? [];
-  if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
-  if (action.type === ACTION_TYPE.EXTERNAL) {
-    const isManualExternal = action?.metadata?.ai;
+  const entityType = scoredAction.entity as Action;
+  const policy = scoredAction.entity as Policy;
+  if (scoredAction.aiEngine !== 'POLICY' && entityType !== undefined && entityType.type === ACTION_TYPE.EXTERNAL) {
+    const isManualExternal = entityType.metadata?.ai;
 
     if (!isManualExternal) return null;
     if (isManualExternal) {
       if (!role?.canRunAutomationActions) return null;
 
       return (
-        <Button
-          kind="action"
-          icon="lib_actions_play"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            addActiveDialog(
-              <TurboActionRunModal action={action} agents={agents} eventId={event?.id} targetSnapshotId={entityId} />
-            );
-          }}
-          noAutoMargin
-        >
-          {t('in-automation:ActionCatalog.run')}
-        </Button>
+        <Stack align="end">
+          <MoreMenu kind="subtle">
+            <MoreMenuButton
+              icon="lib_actions_play"
+              requireTitle
+              title={t('in-automation:viewRunAction')}
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(
+                  <TurboActionRunModal
+                    action={scoredAction}
+                    agents={agents}
+                    eventId={event?.id}
+                    targetSnapshotId={entityId}
+                  />
+                );
+              }}
+            >
+              {t('in-automation:viewRunAction')}
+            </MoreMenuButton>
+          </MoreMenu>
+        </Stack>
       );
     }
   }
-  if (action.type !== ACTION_TYPE.EXTERNAL) {
+
+  if (scoredAction.aiEngine === 'POLICY' && policy !== undefined) {
+    if (!isManual(policy)) return null;
+    const action = policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action;
+    const { type } = action;
+    const isExecutable = EXECUTABLE_ACTIONS.includes(type);
+
     return (
-      <HorizontalFlexWrapper className={locals.rowActions}>
-        {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
-          <div>
-            <Spacer horizontal="medium" />
-            <Link
-              target="_blank"
-              onClick={e => {
-                e.stopPropagation();
-                runActionTrackerSegment({
-                  actionName: action.name,
-                  actionType: action.type,
-                  fromRecommendedActions: true,
-                  aiOriginated: false
-                });
+      <Stack align="end">
+        <MoreMenu kind="subtle">
+          {role?.canRunAutomationActions && action.type === ACTION_TYPE.DOC_LINK && (
+            <MoreMenuButton
+              icon="lib_views_external_link"
+              onClick={() => {
+                window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
               }}
-              href={getDocLinkFromFields(action.fields).value}
             >
-              {t('in-automation:ActionCatalog.launch')}{' '}
-              <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-            </Link>
-          </div>
-        )}
-        {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
-          <Button
-            kind="action"
-            icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
-            onClick={e => {
-              // Track manual action viewed
-              stopPropagationAndPreventDefault(e);
-              addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-              if (action.type === ACTION_TYPE.MANUAL) {
-                runActionTrackerSegment({
-                  actionName: action.name,
-                  actionType: action.type,
-                  fromRecommendedActions: true,
-                  aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
-                });
-              }
-            }}
-            noAutoMargin
-          >
-            {action.type === ACTION_TYPE.MANUAL
-              ? t('in-automation:ActionCatalog.view')
-              : t('in-automation:ActionCatalog.run')}
-          </Button>
-        )}
-        {role?.canConfigureAutomationPolicies && action.type !== ACTION_TYPE.EXTERNAL && (
-          <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
-            <IconButton
-              kind="primaryv2"
-              type="lib_openclose_add_circle_outline"
+              {t('in-automation:ActionCatalog.launch')}
+            </MoreMenuButton>
+          )}
+
+          {role?.canRunAutomationActions && isExecutable && (
+            <MoreMenuButton
+              icon="lib_actions_play"
+              requireTitle
+              title={t('in-automation:viewRunPolicy')}
               onClick={e => {
                 stopPropagationAndPreventDefault(e);
-                addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
+                addActiveDialog(
+                  <RunActionDialog action={action} executePolicy={policy} volatileId={volatileId} event={event} />
+                );
               }}
-            />
-          </Tooltip>
-        )}
-      </HorizontalFlexWrapper>
+            >
+              {t('in-automation:viewRunPolicy')}
+            </MoreMenuButton>
+          )}
+
+          {role?.canRunAutomationActions && type === ACTION_TYPE.MANUAL && (
+            <MoreMenuButton
+              icon="lib_views_show"
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+                // Track manual action viewed
+                runActionTrackerSegment({
+                  actionName: action.name,
+                  actionType: action.type,
+                  policyName: policy.name,
+                  policyType: 'manual',
+                  aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+                });
+              }}
+            >
+              {t('in-automation:ActionCatalog.view')}
+            </MoreMenuButton>
+          )}
+
+          <MoreMenuButton
+            icon="lib_views_show"
+            requireTitle
+            title={t('in-automation:viewPolicyDashboard')}
+            href={hrefToPolicyDetails(policy.id)}
+          >
+            {t('in-automation:viewPolicyDashboard')}
+          </MoreMenuButton>
+
+          {role?.canConfigureAutomationPolicies && (
+            <>
+              <MoreMenuButton
+                icon="lib_actions_edit"
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  handleButtonClick({ policyId: policy.id, inEventPage: true });
+                }}
+              >
+                {t('in-automation:editPolicy')}
+              </MoreMenuButton>
+
+              <MoreMenuButton
+                icon="lib_actions_delete"
+                hasDivider
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  showConfirmationDialog(policy);
+                }}
+              >
+                {t('in-automation:deletePolicy')}
+              </MoreMenuButton>
+            </>
+          )}
+        </MoreMenu>
+      </Stack>
+    );
+  }
+
+  if (scoredAction.aiEngine !== 'POLICY' && entityType !== undefined && entityType.type !== ACTION_TYPE.EXTERNAL) {
+    const { type, fields, id } = entityType;
+    const isExecutable = EXECUTABLE_ACTIONS.includes(type);
+
+    return (
+      <Stack align="end">
+        <MoreMenu kind="subtle">
+          {role?.canRunAutomationActions && type === ACTION_TYPE.DOC_LINK && (
+            <MoreMenuButton
+              icon="lib_views_external_link"
+              onClick={() => {
+                window.open(getDocLinkFromFields(fields).value, '_blank')?.focus();
+              }}
+            >
+              {t('in-automation:ActionCatalog.launch')}
+            </MoreMenuButton>
+          )}
+
+          {role?.canRunAutomationActions && isExecutable && (
+            <MoreMenuButton
+              icon="lib_actions_play"
+              requireTitle
+              title={t('in-automation:viewRunAction')}
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(<RunActionDialog action={entityType} volatileId={volatileId} event={event} />);
+              }}
+            >
+              {t('in-automation:viewRunAction')}
+            </MoreMenuButton>
+          )}
+
+          {role?.canRunAutomationActions && type === ACTION_TYPE.MANUAL && (
+            <MoreMenuButton
+              icon="lib_views_show"
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(<RunActionDialog action={entityType} volatileId={volatileId} event={event} />);
+                // Track manual action viewed
+                runActionTrackerSegment({
+                  actionName: entityType.name,
+                  actionType: entityType.type,
+                  policyName: policy.name,
+                  policyType: 'manual',
+                  aiOriginated: isAIAction(entityType) || isAIActionCopy(entityType) ? true : false
+                });
+              }}
+            >
+              {t('in-automation:ActionCatalog.view')}
+            </MoreMenuButton>
+          )}
+
+          <MoreMenuButton
+            icon="lib_views_show"
+            requireTitle
+            title={t('in-automation:viewActionDashboard')}
+            href={hrefToActionDashboard(id)}
+          >
+            {t('in-automation:viewActionDashboard')}
+          </MoreMenuButton>
+
+          {role?.canConfigureAutomationPolicies && (
+            <MoreMenuButton
+              icon="lib_openclose_add_circle_outline"
+              requireTitle
+              title={t('in-automation:createPolicy')}
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(<CreatePolicyDialog trigger={trigger} action={entityType} event={event} />);
+              }}
+            >
+              {t('in-automation:createPolicy')}
+            </MoreMenuButton>
+          )}
+        </MoreMenu>
+      </Stack>
     );
   }
   return null;
 }
 
 const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] = [
-  nameColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
-  descriptionColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
-  tagsColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
-  aiEngineColumn,
-  scoreColumn,
+  scoredActionNameColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+  scoredActionAiEngineColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+  scoredActionDescriptionColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+  scoredActionTagsColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+  scoredActionScoreColumn,
   actionColumn
 ];
 
@@ -236,15 +422,10 @@ function useFilters({
   recommendedActions: Result<ScoredAction[]>;
   setServerTableUrlState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void;
 }) {
-  const [types, setTypesState] = useState<string[] | undefined>(undefined);
   const [aiEngine, setAiEngine] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
 
   const filters = [
-    {
-      key: 'types' as const,
-      value: types
-    },
     {
       key: 'aiEngine' as const,
       value: aiEngine
@@ -257,26 +438,19 @@ function useFilters({
 
   return {
     filteredActions: mapData(recommendedActions, data =>
-      data.filter(action =>
+      data.filter(scoredAction =>
         filters.reduce((shouldInclude, filter) => {
           const emptyFilter = !filter.value?.length;
           if (emptyFilter) return shouldInclude;
           switch (filter.key) {
-            case 'types':
-              return shouldInclude && (filter.value?.some(type => action.type === type) ?? false);
             case 'aiEngine':
-              return (shouldInclude = shouldInclude && filter.value === action.aiEngine);
+              return (shouldInclude = shouldInclude && filter.value === ScoredActionsType[scoredAction.aiEngine]);
             case 'tags':
-              return shouldInclude && (action.tags?.some(tag => filter.value?.includes(tag)) ?? false);
+              return shouldInclude && (scoredAction.entity?.tags?.some(tag => filter.value?.includes(tag)) ?? false);
           }
         }, true)
       )
     ),
-    types,
-    setTypes: ({ types }: { types: string[] | undefined }) => {
-      setTypesState(types);
-      setServerTableUrlState({ page: 1, query: '' });
-    },
     aiEngine,
     setAiEngine: (aiEngine: string | null) => {
       setAiEngine(aiEngine);
@@ -324,14 +498,15 @@ export default function RecommendedActions({
     matrixPrefix,
     defaultOrderBy: 'score',
     defaultOrderDirection: 'DESC',
-    defaultPageSize: 7
+    defaultPageSize: 5,
+    defaultPageSizes: [5, 10, 15, 20]
   });
   const showOotbActions =
     getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
 
-  const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
-  const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
-  const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
+  const { page, pageSize, orderBy, orderDirection, query, pageSizes } = serverTableUrlState;
+  const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => ScoredActionsType[aiEngine]))];
+  const availableTags = Array.from(new Set(recommendedActions.data?.flatMap(item => item.entity?.tags ?? [])));
   const data = useMemo(() => {
     const selectedSnapshot = initialSnapshots?.find(snapshot => snapshot.rcaSnapshotID === selectedRCA);
 
@@ -371,7 +546,7 @@ export default function RecommendedActions({
     }
   }, [entityData, entityType, setSelectedDescription, setSelectedEntityType, selectedRCA, entityId]);
 
-  const { filteredActions, types, setTypes, aiEngine, setAiEngine, tags, setTags } = useFilters({
+  const { filteredActions, aiEngine, setAiEngine, tags, setTags } = useFilters({
     recommendedActions,
     setServerTableUrlState
   });
@@ -419,10 +594,25 @@ export default function RecommendedActions({
           <Spacer vertical="small" />
         </>
       )}
+      <Spacer vertical="small" />
+      <Stack direction="horizontal" gap="disabled">
+        <Typography variant="body-regular">
+          {t('in-automation:recommendedActionsExplanability.linkExplanation')}
+        </Typography>
+        <CarbonButton
+          className={locals.learnMoreButton}
+          kind="ghost"
+          onClick={() => addActiveDialog(<RecommendationsExplainability />)}
+        >
+          {t('in-automation:recommendedActionsExplanability.link')}
+        </CarbonButton>
+      </Stack>
+
       <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
         columnDefinitions={columnDefinitions}
         volatileId={volatileId}
         event={event}
+        pageSizes={pageSizes}
         trigger={trigger}
         fixedLayout
         leftHeader={
@@ -435,7 +625,6 @@ export default function RecommendedActions({
         onChange={setServerTableUrlState}
         orderBy={orderBy}
         orderDirection={orderDirection}
-        searchMaxWidth={180}
         page={page}
         pageSize={pageSize}
         query={query}
@@ -451,7 +640,6 @@ export default function RecommendedActions({
                 selectedEntityType={selectedEntityType}
               />
             )}
-            <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
             <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
             <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
             <Spacer horizontal="small" />

@@ -5,11 +5,16 @@
  */
 
 :local {
-  .rowActions > * {
-    width: 50%;
-    a {
-      padding-left: 1rem;
-    }
+  .algorithmsSection {
+    margin-left: 2rem;
+    font-size: var(--ids-font-size-option-body-regular);
+  }
+  .explainabilityDialog {
+    max-width: 830px;
+  }
+  .learnMoreButton {
+    max-width: fit-content;
+    bottom: 1rem;
   }
 }
 

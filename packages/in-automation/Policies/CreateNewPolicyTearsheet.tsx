@@ -19,6 +19,7 @@ import {
   isManual
 } from 'in-automation/utils/policy';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUrlParams';
 import { generateNavItems } from 'in-automation/Policies/usePolicyForm/validationUtils';
@@ -65,11 +66,13 @@ const cancelButton = {
 export default function CreateNewPolicyTearsheet({
   policyId,
   copy = false,
-  isFromDashboard = false
+  isFromDashboard = false,
+  inEventPage = false
 }: {
   policyId?: string;
   copy?: boolean;
   isFromDashboard?: boolean;
+  inEventPage?: boolean;
 }) {
   const { isCopy, id, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
   const policy = usePolicy({ id, isCopy });
@@ -144,6 +147,7 @@ export default function CreateNewPolicyTearsheet({
         policyId={policyId}
         policy={policy.data!}
         triggers={triggers}
+        inEventPage={inEventPage}
         isFromDashboard={isFromDashboard}
       />
     </>
@@ -157,12 +161,13 @@ interface TearSheetProps {
   actions: Action[];
   triggers: Triggers;
   isFromDashboard?: boolean;
+  inEventPage: boolean;
 }
 
-function TearSheetLoader({ actions, copy, policy, policyId, triggers, isFromDashboard }: TearSheetProps) {
+function TearSheetLoader({ actions, copy, policy, policyId, triggers, isFromDashboard, inEventPage }: TearSheetProps) {
   const { isCopy, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
   const [form, setForm] = usePolicyForm(policy, actions, triggers);
-  const { onSubmit, result } = useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard });
+  const { onSubmit, result } = useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEventPage });
   const policyButtons = [
     {
       kind: 'primary',
@@ -196,6 +201,7 @@ function TearSheetLoader({ actions, copy, policy, policyId, triggers, isFromDash
             triggers={triggers}
             result={result}
             copy={copy}
+            inEventPage={inEventPage}
           />
         </>
       </Tearsheet>
@@ -328,7 +334,8 @@ function PolicyDetailsLoader({
   actions,
   triggers,
   result,
-  copy
+  copy,
+  inEventPage
 }: Readonly<{
   form: PolicyForm;
   setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
@@ -336,6 +343,7 @@ function PolicyDetailsLoader({
   triggers: Triggers;
   result: Result<any> | null;
   copy: boolean;
+  inEventPage: boolean;
 }>) {
   const errored = hasError(result!);
   const errors = errored ? result!.errors : null;
@@ -352,6 +360,7 @@ function PolicyDetailsLoader({
         triggers={triggers}
         form={form}
         setForm={form => setForm(form as PolicyForm)}
+        inEventPage={inEventPage}
       />
     </>
   );
@@ -362,12 +371,13 @@ interface PolicyDetailsProps {
   form: PolicyForm;
   setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
   triggers: Triggers;
+  inEventPage: boolean;
 }
 
-function PolicyDetails({ actions, form, setForm, triggers }: PolicyDetailsProps) {
+function PolicyDetails({ actions, form, setForm, triggers, inEventPage }: PolicyDetailsProps) {
   return (
     <Form form={form} setForm={form => setForm(form as PolicyForm)} onSubmit={() => {}}>
-      <PolicyFormBody actions={actions} triggers={triggers} />
+      <PolicyFormBody actions={actions} triggers={triggers} inEventPage={inEventPage} />
     </Form>
   );
 }
@@ -378,8 +388,9 @@ interface useOnSubmitProps {
   actions: Action[];
   triggers: Triggers;
   isFromDashboard?: boolean;
+  inEventPage: boolean;
 }
-function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard }: useOnSubmitProps) {
+function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEventPage }: useOnSubmitProps) {
   const { createPolicyTrackerSegment, editPolicyTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
   const { isNew, id } = usePolicyDetailsUrlParams({ policyId, copy });
@@ -434,11 +445,15 @@ function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard }: use
             editPolicyTrackerSegment(trackerDetails);
             onEditSuccess(result.data?.name!);
             close();
-            if (isFromDashboard) {
-              refreshPolicy();
+            if (inEventPage) {
+              refreshScoredActions();
             } else {
-              navigateToPolicyPolicies();
-              refresh();
+              if (isFromDashboard) {
+                refreshPolicy();
+              } else {
+                navigateToPolicyPolicies();
+                refresh();
+              }
             }
           },
           result => {

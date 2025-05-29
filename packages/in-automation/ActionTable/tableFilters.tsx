@@ -85,7 +85,7 @@ export function AiEngineFilter({ aiEngine, setAiEngine, availableAiEngines }: Ai
   return (
     <ComboBox
       options={availableAiEngines.map(engine => ({ value: engine, label: engine }))}
-      placeholder={t('in-automation:engine')}
+      placeholder={t('in-automation:type')}
       value={aiEngine}
       onChange={newValue => {
         if (!newValue) {
