@@ -56,6 +56,7 @@ import './entityStatisticsMember';
 import './ibmOpenstackHypervisor';
 import './powerVCComputeInstance';
 import './azureEventHubNamespace';
+import './linuxKVMHypervisorHost';
 import './aliCloudRocketMqGroup';
 import './aliCloudRocketMqTopic';
 import './golangRuntimePlatform';

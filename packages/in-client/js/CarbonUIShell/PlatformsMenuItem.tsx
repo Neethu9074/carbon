@@ -19,7 +19,8 @@ import {
   hasVSphereAccess,
   hasZHMCAccess,
   hasXenServerAccess,
-  hasWindowsHypervisorAccess
+  hasWindowsHypervisorAccess,
+  hasLinuxKVMHypervisorAccess
 } from 'in-stores/permission';
 // @ts-expect-error no declaration file
 import { sap, sapSystemListFullyQualified as sapSystemList } from 'in-sap/navigation/paths';
@@ -29,6 +30,7 @@ import {
 } from 'in-cloudfoundry/navigation/paths';
 // @ts-expect-error needs ts migration
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
+import { linuxkvmhypervisor, linuxkvmhypervisorHostListFullyQualified } from 'in-linuxkvmhypervisor/navigation/paths';
 import { windowsHypervisor, windowsHypervisorHostListFullyQualified } from 'in-windowshypervisor/navigation/paths';
 import { kubernetes, clusterListFullyQualified as kubernetesClusterList } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error needs ts migration
@@ -53,6 +55,7 @@ const shouldRenderSap = hasSAPAccess && !playwithEnabled;
 const shouldRenderVSphere = hasVSphereAccess && !playwithEnabled;
 const shouldRenderXenServer = hasXenServerAccess && !playwithEnabled;
 const shouldRenderWindowsHypervisor = hasWindowsHypervisorAccess && !playwithEnabled;
+const shouldRenderLinuxKVMHypervisor = hasLinuxKVMHypervisorAccess && !playwithEnabled;
 
 const numberOfAllowedPlatforms = [
   shouldRenderPCFA,
@@ -65,7 +68,8 @@ const numberOfAllowedPlatforms = [
   shouldRenderSap,
   shouldRenderVSphere,
   shouldRenderXenServer,
-  shouldRenderWindowsHypervisor
+  shouldRenderWindowsHypervisor,
+  shouldRenderLinuxKVMHypervisor
 ].filter(Boolean).length;
 
 interface PlatformsMenuItemProps {
@@ -92,6 +96,7 @@ function PlatformsSideNavMenuItem({ isSideNavExpanded }: PlatformsSideNavMenuIte
     ibmp,
     powervc,
     ibmz,
+    linuxkvmhypervisor,
     openstack,
     kubernetes,
     nutanix,
@@ -229,6 +234,16 @@ function PlatformsMenuItemContent(props: PlatformsMenuItemContentProps) {
           label={t('in-components:mainNavigation.viewSwitcherLabelWindowsHypervisor')}
           href={createHrefToPath(windowsHypervisorHostListFullyQualified)}
           isActive={matchLocation(windowsHypervisor)}
+        />
+      )}
+      {shouldRenderLinuxKVMHypervisor && (
+        <MenuItem
+          {...props}
+          id="main-nav-linuxkvmhypervisor"
+          key="main-nav-linuxkvmhypervisor"
+          label={t('in-components:mainNavigation.viewSwitcherLabelLinuxKVMHypervisor')}
+          href={createHrefToPath(linuxkvmhypervisorHostListFullyQualified)}
+          isActive={matchLocation(linuxkvmhypervisor)}
         />
       )}
     </>

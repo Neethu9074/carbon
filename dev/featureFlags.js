@@ -151,6 +151,7 @@ module.exports = {
   extrapolateMissingStackedAreaValues: true,
   nutanixEnabled: true,
   xenserverEnabled: true,
+  linuxkvmhypervisorEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
   disableEventConfigEnabled: true,
   graphTabEnabled: true,

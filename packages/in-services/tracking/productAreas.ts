@@ -21,6 +21,7 @@ export const productAreas = Object.freeze({
   cloud_foundry: 'Platforms - Cloud Foundry',
   ibmZ: 'Platforms - IBM Z HMC',
   kubernetes: 'Platforms - Kubernetes',
+  linuxkvmhypervisor: 'Linux KVM Hypervisor',
   vsphere: 'Platforms - vSphere',
   openstack: 'Platforms - Openstack',
   ibmpower: 'Platforms - IBM Power HMC',
