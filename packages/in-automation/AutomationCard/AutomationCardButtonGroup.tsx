@@ -14,14 +14,13 @@ import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
 
 interface AutomationCardButtonGroupProps {
-  policyCount: number | undefined;
   recommendedActionsCount: number | undefined;
   actionHistoryCount: number | undefined;
 }
 
-type ButtonKey = 'automationPolicies' | 'recommendedActions' | 'actionHistory';
+type ButtonKey = 'recommendedActions' | 'actionHistory';
 
-const initialActiveKey: ButtonKey = 'automationPolicies';
+const initialActiveKey: ButtonKey = 'recommendedActions';
 
 const activeKeyStore = createStore<ButtonKey>({
   name: 'in-automation/AutomationCard/activeKeyStore',
@@ -35,7 +34,6 @@ export const useActiveKey = () => useObservable(activeKey$, []) ?? initialActive
 export const setActiveKey = (activeKey: ButtonKey) => activeKeyStore.mutateTo(activeKey);
 
 export default function AutomationCardButtonGroup({
-  policyCount,
   recommendedActionsCount,
   actionHistoryCount
 }: AutomationCardButtonGroupProps) {
@@ -43,14 +41,6 @@ export default function AutomationCardButtonGroup({
   const { recommendedActionsTabClickTrackerSegment } = useSegmentTracker();
 
   const buttonProps = [
-    {
-      text:
-        policyCount !== undefined
-          ? t('in-automation:automationPoliciesWithCount', { count: policyCount })
-          : t('in-automation:automationPolicies'),
-      key: 'automationPolicies',
-      onClick: () => setActiveKey('automationPolicies')
-    },
     {
       text:
         recommendedActionsCount !== undefined

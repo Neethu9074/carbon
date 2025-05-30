@@ -139,6 +139,9 @@ export const syntheticNodeJs22Enabled = isFeatureFlagEnabled('syntheticNodeJs22E
 // Synthetic SSL Improvement feature flag
 export const syntheticSslImprovementEnabled = isFeatureFlagEnabled('syntheticSslImprovementEnabled');
 
+// Synthetic carbon table feature flag
+export const syntheticCarbonTableEnabled = isFeatureFlagEnabled('syntheticCarbonTableEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'

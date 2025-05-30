@@ -53,7 +53,13 @@ import { t } from 'in-i18n';
 
 import locals from './Policy.mless';
 
-export default function SelectTrigger({ triggers }: { triggers: Triggers }) {
+export default function SelectTrigger({
+  triggers,
+  inEventPage = false
+}: {
+  triggers: Triggers;
+  inEventPage?: boolean;
+}) {
   const { form, setForm } = usePolicyFormContext();
 
   const triggerId = form.get('triggerId');
@@ -100,7 +106,8 @@ export default function SelectTrigger({ triggers }: { triggers: Triggers }) {
           <Label hasError={!triggerId.valid && triggerId.touched}>{t('in-automation:policies.eventTrigger')}</Label>
         }
         rightHeader={
-          role?.canConfigureAutomationPolicies && (
+          role?.canConfigureAutomationPolicies &&
+          !inEventPage && (
             <Button
               kind="action"
               onClick={() => addActiveDialog(<SelectTriggerDialog form={form} setForm={setForm} triggers={triggers} />)}

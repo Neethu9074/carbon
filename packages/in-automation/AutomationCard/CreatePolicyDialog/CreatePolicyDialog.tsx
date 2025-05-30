@@ -13,6 +13,7 @@ import usePolicyForm, { PolicyForm } from 'in-automation/AutomationCard/CreatePo
 import CreatePolicyStep from 'in-automation/AutomationCard/CreatePolicyDialog/Steps/CreatePolicyStep';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import ViewActionStep from 'in-automation/AutomationCard/CreatePolicyDialog/Steps/ViewActionStep';
+import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
@@ -20,7 +21,6 @@ import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
-import { refresh } from 'in-automation/AutomationCard/usePolicies';
 import { hasError, isLoading } from 'in-services/util/result';
 import { isAIActionCopy } from 'in-automation/utils/action';
 import { close } from 'in-components/DialogPresenter/store';
@@ -125,8 +125,8 @@ function createPolicy({
           aiOriginated: isAIActionCopy(action!) ? true : false,
           triggerName: event.problem?.problemText
         });
-        refresh();
-        setActiveKey('automationPolicies');
+        refreshScoredActions();
+        setActiveKey('recommendedActions');
         onCreateSuccess(policy.name);
       },
       () => {

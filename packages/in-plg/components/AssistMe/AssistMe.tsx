@@ -10,16 +10,19 @@ import { CarbonButton } from '@instana/components';
 
 import AssistMeSearchKeyword from 'in-plg/components/AssistMe/AssistMeDynamicSearch';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { activeLanguage, t } from 'in-i18n';
 
 export default function AssistMe() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { trackCta } = useSegmentTracking();
   useEffect(() => {
     const handleEscKey = (event: any) => {
       if (event.key === 'Escape' && isExpanded) {
         //@ts-expect-error defined in AssistMe controller.js
         assistMeController.close();
         setIsExpanded(false);
+        trackCta('AssistMe - Closed');
       }
     };
     document.addEventListener('keydown', handleEscKey);
@@ -27,16 +30,23 @@ export default function AssistMe() {
     return () => {
       document.removeEventListener('keydown', handleEscKey);
     };
-  }, [isExpanded]);
+  }, [isExpanded, trackCta]);
+  const handleClick = () => {
+    const wasOpen = assistMeController?.isOpen?.();
+    openAssistMe();
+    setIsExpanded(!wasOpen);
+    if (wasOpen) {
+      trackCta('AssistMe - Closed');
+    } else {
+      trackCta('AssistMe - Opened');
+    }
+  };
   return (
     <div data-search-context={AssistMeSearchKeyword()}>
       <CarbonButton
         id="wm-getanswers"
         kind="ghost"
-        onClick={() => {
-          openAssistMe();
-          setIsExpanded(!isExpanded);
-        }}
+        onClick={handleClick}
         aria-expanded={isExpanded}
         {...(isExpanded && { 'aria-controls': 'ibm-assist-me-shell' })}
         renderIcon={() => <IconForButton icon="lib_help_error_help_outline" iconSize="s" />}
@@ -50,6 +60,7 @@ interface AssistMeKeys {
   productId: string;
   topSpacing: string;
   zIndex: number;
+  isOpen: () => boolean;
 }
 const assistMeProperties = {
   productId: 'a875055db9b7697d9da869d8f5db0f7c',

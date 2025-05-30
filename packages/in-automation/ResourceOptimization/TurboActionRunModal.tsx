@@ -305,7 +305,7 @@ export default function TurboActionRunModal({ action, agents, targetSnapshotId, 
   const [runActionError, setRunActionError] = useState('');
   const [runActionResponseId, setRunActionResponseId] = useState('');
   // @ts-ignore-error
-  const metadata = action?.metadata?.ai[0];
+  const metadata = action?.entity?.metadata?.ai[0];
 
   const actionInstanceId = metadata?.actionInstanceId ?? '';
   const createdDate = metadata?.actionInstanceCreatedDate ?? 0;
@@ -334,7 +334,7 @@ export default function TurboActionRunModal({ action, agents, targetSnapshotId, 
   const params = {
     volatileId: targetAgent?.volatileId ?? {},
     createdDate: metadata?.actionInstanceCreatedDate ?? 0,
-    actionName: action?.name ?? '',
+    actionName: action?.entity?.name ?? '',
     actionInstanceId: metadata?.actionInstanceId ?? '',
     eventId
   };
@@ -366,12 +366,12 @@ export default function TurboActionRunModal({ action, agents, targetSnapshotId, 
             <Typography variant="heading-200" noMargin>
               {t('in-automation:resourceOptimization.actionName')}
             </Typography>
-            <Typography variant="body-regular"> {action?.name}</Typography>
+            <Typography variant="body-regular"> {action?.entity?.name}</Typography>
             <Pill size="md"> {turboActionCategoryMap[metadata?.actionCategory as TurboActionCategory]}</Pill>
             <Typography variant="heading-200" noMargin>
               {t('in-automation:resourceOptimization.riskDescription')}
             </Typography>
-            <Typography variant="body-regular"> {action?.description}</Typography>
+            <Typography variant="body-regular"> {action?.entity?.description}</Typography>
             <ApplicationImpactSection
               appImpactLoading={appImpactLoading}
               impactedApplications={impactedApplications}

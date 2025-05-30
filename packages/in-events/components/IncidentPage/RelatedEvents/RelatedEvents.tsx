@@ -41,6 +41,7 @@ import EventDurationMarker from 'in-events/components/legacy/marker/EventDuratio
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
 // @ts-expect-error no typedef available
 import { EventListItemSkeleton } from 'in-events/components/legacy/EventListItem';
+import { convertEventToRawEvent } from 'in-events/components/RootCauseAnalysis/Topology/utils/convertEventToRawEvent';
 // @ts-expect-error no typedef available
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 // @ts-expect-error no typedef available
@@ -304,7 +305,7 @@ const RelatedEventsTable = ({
     type: <EventIcon event={ev} tooltipLabel={getEventSeverityLabelWithEventType(ev, timeConfig)} size="xs" />,
     duration: <EventDurationMarker event={ev} justText />,
     id: ev.get('id'),
-    on: <OnEntity rawEvent={ev.toJS()} />
+    on: <OnEntity rawEvent={convertEventToRawEvent(ev.toJS())} />
   }));
 
   return (

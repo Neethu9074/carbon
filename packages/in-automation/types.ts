@@ -28,7 +28,8 @@ import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 
-export type ScoredAction = Action & {
+export type ScoredAction = {
+  entity: Action | Policy | undefined;
   score: number;
   confidence: string;
   aiEngine: string;

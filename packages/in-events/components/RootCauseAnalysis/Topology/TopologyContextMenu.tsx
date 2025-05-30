@@ -21,8 +21,8 @@ import { createTagFilterExpressionForAnalysisOfApplicationSA } from 'in-events/c
 //@ts-expect-error
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
+import { convertEventsToRawEvents } from 'in-events/components/RootCauseAnalysis/Topology/utils/convertEventToRawEvent';
 import getHealthInfoQueryParams from 'in-events/components/RootCauseAnalysis/Topology/utils/getHealthInfoQueryParams';
-import convertEventToRawEvent from 'in-events/components/RootCauseAnalysis/Topology/utils/convertEventToRawEvent';
 import { getAPMetricsObservable, getLegacyAPMetricsObservable } from 'in-events/components/legacy/TopologyUtils';
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -171,7 +171,7 @@ const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
           {!isEmpty(healthInfo?.data?.openIssues) && (
             <EventsDatagrid
               headers={['severity', 'title']}
-              events={convertEventToRawEvent(healthInfo?.data?.openIssues) || []}
+              events={convertEventsToRawEvents(healthInfo?.data?.openIssues) || []}
               loading={healthInfo?.progress.loading || false}
               canLoadMore={false}
               loadMore={() => {}}

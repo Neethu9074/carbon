@@ -47,15 +47,7 @@ describe('AutomationCard', () => {
     jest.resetModules();
   });
 
-  it('initializes with automationPolicies as the default active key', () => {
-    render(<AutomationCard {...props} />);
-    const allMatches = screen.getAllByText('Automation policies');
-    fireEvent.click(allMatches[0]);
-    const heading = screen.getByText('Automation policies', { selector: 'h2' });
-    expect(heading).toBeInTheDocument();
-  });
-
-  it('updates to show recommendedActions content when active key is changed', () => {
+  it('initializes with recommendedActions as the default active key', () => {
     render(<AutomationCard {...props} />);
     const allMatches = screen.getAllByText('Recommended actions');
     fireEvent.click(allMatches[0]);
