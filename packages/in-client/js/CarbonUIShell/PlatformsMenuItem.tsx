@@ -10,6 +10,7 @@ import { MenuItem, SideNavMenu, SvgIcon } from '@instana/components';
 
 import {
   hasKubernetesAccess,
+  hasLinuxKVMHypervisorAccess,
   hasNutanixAccess,
   hasOpenStackAccess,
   hasPCFAccess,
@@ -19,8 +20,7 @@ import {
   hasVSphereAccess,
   hasZHMCAccess,
   hasXenServerAccess,
-  hasWindowsHypervisorAccess,
-  hasLinuxKVMHypervisorAccess
+  hasWindowsHypervisorAccess
 } from 'in-stores/permission';
 // @ts-expect-error no declaration file
 import { sap, sapSystemListFullyQualified as sapSystemList } from 'in-sap/navigation/paths';
@@ -186,6 +186,16 @@ function PlatformsMenuItemContent(props: PlatformsMenuItemContentProps) {
           isActive={matchLocation(kubernetes)}
         />
       )}
+      {shouldRenderLinuxKVMHypervisor && (
+        <MenuItem
+          {...props}
+          id="main-nav-linuxkvmhypervisor"
+          key="main-nav-linuxkvmhypervisor"
+          label={t('in-components:mainNavigation.viewSwitcherLabelLinuxKVMHypervisor')}
+          href={createHrefToPath(linuxkvmhypervisorHostListFullyQualified)}
+          isActive={matchLocation(linuxkvmhypervisor)}
+        />
+      )}
       {shouldRenderNutanix && (
         <MenuItem
           {...props}
@@ -234,16 +244,6 @@ function PlatformsMenuItemContent(props: PlatformsMenuItemContentProps) {
           label={t('in-components:mainNavigation.viewSwitcherLabelWindowsHypervisor')}
           href={createHrefToPath(windowsHypervisorHostListFullyQualified)}
           isActive={matchLocation(windowsHypervisor)}
-        />
-      )}
-      {shouldRenderLinuxKVMHypervisor && (
-        <MenuItem
-          {...props}
-          id="main-nav-linuxkvmhypervisor"
-          key="main-nav-linuxkvmhypervisor"
-          label={t('in-components:mainNavigation.viewSwitcherLabelLinuxKVMHypervisor')}
-          href={createHrefToPath(linuxkvmhypervisorHostListFullyQualified)}
-          isActive={matchLocation(linuxkvmhypervisor)}
         />
       )}
     </>
