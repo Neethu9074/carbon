@@ -123,6 +123,12 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   columnDefinitions,
   defaultOrderBy: 'successRate',
   defaultOrderDirection: 'ASC',
+  defaultDisabledColumns: [
+    'avg_response_time',
+    'location',
+    syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
+    'health'
+  ],
   pathSegment,
   matrixPrefix
 });

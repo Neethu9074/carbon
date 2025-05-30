@@ -106,7 +106,11 @@ function TestLabelContent({ item, runType }: { item: TestResultListItem; runType
 
   return (
     <div>
-      <Link href={createHref(location)} onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}>
+      <Link
+        href={createHref(location)}
+        onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
+        title={item?.testResultCommonProperties?.testCommonProperties?.label}
+      >
         <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>
@@ -118,11 +122,14 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     id: 'test_name',
     defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.testList.testLabel'),
+    noWrap: true,
+    ellipsis: '15vw',
     getContent: (item, { runType }) => <TestLabelContent item={item} runType={runType ?? ''} />
   },
   {
     id: 'status',
     label: t('in-synthetics:dashboard.testList.status'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const status = item?.testResultCommonProperties?.testCommonProperties?.active
@@ -138,6 +145,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'synthetic_type',
     label: t('in-synthetics:dashboard.testList.type'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const sslDaysRemaining = item?.testResultCommonProperties?.sslDaysRemaining;
@@ -179,6 +187,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'successRate',
     label: t('in-synthetics:dashboard.testList.successRate'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
@@ -207,6 +216,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'avg_response_time',
     label: t('in-synthetics:dashboard.testList.latency'),
+    optional: true,
     defaultOrderDirection: 'DESC',
     getContent(item: TestResultListItem, { result, timeConfig }) {
       return (
@@ -226,6 +236,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'location',
     label: t('in-synthetics:dashboard.testList.locationLabel'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
       return <LocationsPresenter item={item} />;
@@ -234,6 +245,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.associationLabel'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
       return <AssociationsContent item={item} />;
@@ -242,6 +254,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'health',
     label: t('in-synthetics:dashboard.testList.health'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
       const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
