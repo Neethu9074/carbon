@@ -85,8 +85,6 @@ export const scoredActionScoreColumn: ColumnDefinition<ScoredAction> = {
   width: 4,
   sortable: true,
   getContent(scoredAction) {
-    const action = scoredAction.entity as Action;
-    if (action.type === ACTION_TYPE.EXTERNAL) return null;
     return (
       <HorizontalFlexWrapper>
         <Typography variant="body-regular">
