@@ -47,10 +47,10 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
 
   const { capacity, limits, requests, usage } = k8sNodeChart;
 
-  const nodeTagId = tagEquals('id.kubernetesNode', snapshotId);
+  const nodeTagId = tagEquals('id.otelK8sNode', snapshotId);
   const nodeQuery = andQuery(nodeTagId);
   const tagFilterExpression = toBackendQueryModel(nodeQuery);
-  const type = plugins.kubernetesNode;
+  const type = plugins.oTelK8sNode;
 
   const kpiWidth = 2;
 
@@ -123,14 +123,17 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
             config={[
               {
                 metricConfiguration: {
-                  metric: 'required_cpu',
+
+                  metric: 'k8s.node.cpu.utilization',
+                  //metric: 'required_cpu'
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
               },
               {
                 metricConfiguration: {
-                  metric: 'required_cpu_percentage',
+                  metric: 'k8s.node.memory.usage',
+                  //metric: 'required_cpu_percentage',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -146,7 +149,8 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
             config={[
               {
                 metricConfiguration: {
-                  metric: 'limit_cpu',
+                  metric: 'k8s.node.memory.available',
+                  //metric: 'limit_cpu',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
