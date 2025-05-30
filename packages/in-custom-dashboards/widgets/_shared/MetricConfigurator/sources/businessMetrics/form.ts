@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import { MapForm } from 'formalistic';
+import { createField, MapForm } from 'formalistic';
 
 //@ts-expect-error needs ts migration
 import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form.js';
 
 interface State {
+  unit: string;
   compareToTimeShifted: boolean;
   label: string;
   source: string;
@@ -17,5 +18,10 @@ interface State {
 }
 
 export function createForm(form: MapForm<any>, savedState: State) {
-  return addTagFilterExpressionField(form, savedState);
+  return addTagFilterExpressionField(form, savedState).put(
+    'unit',
+    createField({
+      value: savedState?.unit || ''
+    })
+  );
 }

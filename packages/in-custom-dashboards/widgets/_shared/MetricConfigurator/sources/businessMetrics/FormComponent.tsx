@@ -5,8 +5,8 @@
  */
 
 import { Field, Item, MapForm } from 'formalistic';
-import React, { useState } from 'react';
 import { find } from 'lodash';
+import React from 'react';
 
 import { Select, Stack, TextInput } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -70,15 +70,12 @@ const FormComponent = ({
 }: BusinessMetricsFormComponentProps) => {
   const timeConfig = useTimeConfig();
   const metricField = form.get('metric');
+  const unitField = form.get('unit');
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
   const aggregationField = form.get('aggregation');
 
-  const metric = metricField.value || undefined;
-
-  // state var for the unit so we can add it to the unit input after selection
-  const [unitState, setUnitState] = useState('');
-
+  const metric = metricField.value || '';
   const tagCatalog = useBusinessMetricsTagCatalog({ metric });
   let enrichedTagCatalog = tagCatalog;
   if (tagCatalog) enrichedTagCatalog = enrichTagCatalog(tagCatalog);
@@ -154,15 +151,18 @@ const FormComponent = ({
               value={metricField.value}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 onChange([], form => {
-                  if (e.target.value) setUnitState(getMetricUnit(e.target.value));
-                  else setUnitState('');
-
                   let updatedForm = form as MapForm<any>;
                   if (updatedForm.get('metricLabel')) {
                     updatedForm = updatedForm.updateIn(['metricLabel'], (field: Field<string>) =>
                       field.setValue(getMetricLabel(e.target.value)).setTouched(true)
                     );
                   }
+                  if (getMetricUnit(e.target.value)) {
+                    updatedForm = updatedForm.updateIn(['unit'], (field: Field<string>) =>
+                      field.setValue(getMetricUnit(e.target.value)).setTouched(true)
+                    );
+                  }
+
                   return updatedForm
                     .updateIn(['metric'], (field: Field<string>) => field.setValue(e.target.value).setTouched(true))
                     .updateIn(['aggregation'], (field: Field<string>) => {
@@ -186,12 +186,13 @@ const FormComponent = ({
             </Select>
             <TouchedMessages field={metricField} />
             <div className={locals.unitInputDiv}>
-              <label className={locals.unitInputLabel} htmlFor="bizMetricsUnitInput">
+              <label className={locals.unitInputLabel} htmlFor="metric-configurator-unit">
                 {t('in-custom-dashboards:widgets.srcBusinessMetrics.formComponent.unit')}
               </label>
               <TextInput
+                id="metric-configurator-unit"
                 className={locals.unitInput}
-                value={unitState}
+                value={unitField.value}
                 readOnly
                 title={t('in-custom-dashboards:widgets.srcBusinessMetrics.formComponent.pleaseSelect')}
               />
