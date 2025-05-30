@@ -26,9 +26,9 @@ export default function Summary({ data: host }: SummaryData) {
   return (
     <>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
-        <KpiCard title={t('in-linuxkvmhypervisor:dashboards.address')} value={host.address} />
-        <KpiCard title={t('in-linuxkvmhypervisor:dashboards.os')} value={host.os} />
-        <KpiCard title={t('in-linuxkvmhypervisor:dashboards.numberOfVms')} value={host.numberOfVms} />
+        <KpiCard title={t('in-linuxkvmhypervisor:dashboards.address')} value={host.address || 'N/A'} />
+        <KpiCard title={t('in-linuxkvmhypervisor:dashboards.os')} value={host.os || 'N/A'} />
+        <KpiCard title={t('in-linuxkvmhypervisor:dashboards.numberOfVms')} value={host.numberOfVms || 'N/A'} />
       </KpiGridRow>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
         <InfraMetricKpiCard

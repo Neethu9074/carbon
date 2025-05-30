@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-import { get } from 'lodash';
 import React from 'react';
 
 import getLinuxKVMHypervisorHost from 'in-linuxkvmhypervisor/subscriptions/getLinuxKVMHypervisorHost';
@@ -54,11 +53,5 @@ export default function HostDashboard({ location }: HostDashboardProps) {
 }
 
 function Header(props: HostBreadcrumbProps) {
-  return (
-    <DashboardHeader
-      title={t('in-linuxkvmhypervisor:host')}
-      icon="lib_linux"
-      label={get(props.result, ['data', 'name'])}
-    />
-  );
+  return <DashboardHeader title={t('in-linuxkvmhypervisor:host')} icon="lib_linux" label={props.result?.data?.name} />;
 }

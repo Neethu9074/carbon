@@ -7,7 +7,7 @@
 import React from 'react';
 
 import LinuxKVMHypervisorNoDataNotification from 'in-linuxkvmhypervisor/lists/components/LinuxKVMHypervisorNoDataNotification';
-import { getLinuxKVMHypervisorHostsWithDefaults } from 'in-linuxkvmhypervisor/subscriptions/getLinuxKVMHypervisorHosts';
+import { getDefaultedLinuxKVMHypervisorHosts } from 'in-linuxkvmhypervisor/subscriptions/getLinuxKVMHypervisorHosts';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -110,11 +110,11 @@ export default connectTo(
   }
 );
 function getTableData(params) {
-  return getLinuxKVMHypervisorHostsWithDefaults(params);
+  return getDefaultedLinuxKVMHypervisorHosts(params);
 }
 
 function getHasDataToRender() {
   return timeConfig$
-    .flatMap(timeConfig => getLinuxKVMHypervisorHostsWithDefaults({ timeConfig }))
+    .flatMap(timeConfig => getDefaultedLinuxKVMHypervisorHosts({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
 }

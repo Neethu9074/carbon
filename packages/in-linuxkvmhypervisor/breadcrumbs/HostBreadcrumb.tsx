@@ -43,7 +43,7 @@ export default connectTo(
 
     return (
       <Breadcrumb href={getLinuxKVMHypervisorHostDashboard(hostId)} label={t('in-linuxkvmhypervisor:host')}>
-        {hostData && hostData.hostname}
+        {hostData && hostData?.hostname}
       </Breadcrumb>
     );
   }

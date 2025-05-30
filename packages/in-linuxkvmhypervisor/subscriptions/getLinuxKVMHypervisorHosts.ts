@@ -21,7 +21,7 @@ export interface GetLinuxKVMHypervisorHostsWithDefaultProps {
   orderDirection?: OrderDirection;
   timeConfig: TimeConfig;
 }
-export function getLinuxKVMHypervisorHostsWithDefaults({
+export function getDefaultedLinuxKVMHypervisorHosts({
   query = '',
   page = 1,
   pageSize = 20,
