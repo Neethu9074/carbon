@@ -88,11 +88,9 @@ function InfraSmartAlertEntityInformation({ metadata }) {
   const entityName = metadata.get('entityName', '');
 
   return (
-    <EntityInformationPresenter shouldDisplayDefaultLabel>
-      <Typography variant="body-small">
-        {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
-      </Typography>
-    </EntityInformationPresenter>
+    <Typography variant="body-small">
+      {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
+    </Typography>
   );
 }
 
