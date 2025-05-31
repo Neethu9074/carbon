@@ -8,30 +8,33 @@ import React from 'react';
 
 import { Result, TimeConfig } from '@instana/types';
 
-import getWindowsHypervisorHost from 'in-windowshypervisor/subscriptions/getWindowsHypervisorHost';
 // @ts-expect-error needs migration
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import getWindowsHypervisorVM from 'in-windowshypervisor/subscriptions/getWindowsHypervisorVM';
 import { useWindowsHypervisorEntityLink } from 'in-windowshypervisor/navigation/paths';
 // @ts-expect-error needs migration
 import connectTo from 'in-hoc/connectTo';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-export interface HostBreadcrumbProps {
+export interface VMBreadcrumbProps {
   hostId: string | null | undefined;
+  vmId: string | null | undefined;
   viewPath: string;
   timeConfig: TimeConfig;
   result?: Result<any>;
 }
-interface HostInfo {
+interface VMInfo {
   hostId: string;
-  hostData: SnapshotData;
+  vmId: string;
+  vmData: SnapshotData;
 }
 export default connectTo(
-  (props: HostBreadcrumbProps) => ({
-    hostData: getWindowsHypervisorHost({
+  (props: VMBreadcrumbProps) => ({
+    vmData: getWindowsHypervisorVM({
       filter: {
         hostId: props.hostId,
+        vmId: props.vmId,
         timeConfig: props.timeConfig
       },
       pagination: {
@@ -44,14 +47,12 @@ export default connectTo(
       }
     }).map(result => result.data)
   }),
-  function HostBreadcrumb({ hostId, hostData }: HostInfo) {
-    const getWindowsHypervisorHostDashboard = useWindowsHypervisorEntityLink('host', { hostId });
-
-    if (!hostId) return null;
-
+  function VMBreadcrumb({ hostId, vmId, vmData }: VMInfo) {
+    const getWindowsHypervisorVMDashboard = useWindowsHypervisorEntityLink('vm', { hostId, vmId });
+    if (!vmId) return null;
     return (
-      <Breadcrumb href={getWindowsHypervisorHostDashboard(hostId)} label={t('in-windowshypervisor:host')}>
-        {hostData && hostData.name}
+      <Breadcrumb href={getWindowsHypervisorVMDashboard(vmId)} label={t('in-windowshypervisor:vm')}>
+        {vmData && vmData.name}
       </Breadcrumb>
     );
   }

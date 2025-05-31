@@ -39,7 +39,7 @@ export function getWindowsHypervisorHostsWithDefaults({
       direction: orderDirection
     },
     filter: {
-      label: query,
+      name: query,
       timeConfig
     }
   });
