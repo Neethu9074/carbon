@@ -6,8 +6,6 @@
 
 import React from 'react';
 
-import { TimeConfig } from '@instana/types';
-
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -15,7 +13,6 @@ import Capitalize from 'in-components/Capitalize';
 import { t } from 'in-i18n';
 
 export interface SummaryData {
-  timeConfig: TimeConfig;
   data: SnapshotData;
 }
 

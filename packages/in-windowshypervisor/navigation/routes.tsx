@@ -13,10 +13,13 @@ import VMDashboard from 'promise-loader?global,windowshypervisor!in-windowshyper
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import {
+  windowsHypervisor,
+  hostDashboardFullyQualified,
+  vmDashboardFullyQualified
+} from 'in-windowshypervisor/navigation/paths';
 // @ts-expect-error
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { windowsHypervisor, hostDashboardFullyQualified } from 'in-windowshypervisor/navigation/paths';
-import { vmDashboardFullyQualified } from 'in-windowshypervisor/navigation/paths';
 
 export default [
   <Route key="hostDashboard" path={hostDashboardFullyQualified}>
