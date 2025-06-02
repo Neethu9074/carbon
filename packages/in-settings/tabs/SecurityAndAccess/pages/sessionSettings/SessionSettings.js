@@ -27,7 +27,7 @@ import { t } from 'in-i18n';
 
 import locals from './SessionSettings.mless';
 
-const minTokenLifeTime = minutes.toMillis(15);
+const minTokenLifeTime = minutes.toMillis(10);
 const maxTokenLifeTime = days.toMillis(7);
 const tokenLifeTimeDomain = maxTokenLifeTime - minTokenLifeTime;
 const idleTimeInMillisDefault = hours.toMillis(8);
@@ -102,7 +102,7 @@ function TokenLifeTimeSlider({ form, setForm }) {
 }
 
 function IdleTimeSlider({ form, setForm }) {
-  const min = minutes.toMillis(15);
+  const min = minutes.toMillis(10);
   const max = hours.toMillis(8);
   const formatTime = formatDurationAccurately;
   const labeledTicks = [min, hours.toMillis(1), max].map(value => ({
