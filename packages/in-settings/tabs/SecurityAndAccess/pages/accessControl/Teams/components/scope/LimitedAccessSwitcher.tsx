@@ -15,8 +15,8 @@ import {
   ToggleAccessPermissions
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher.types';
 import {
-  ScopeTableFormFields,
-  SCOPE_FORM_ID
+  SCOPE_FORM_ID,
+  ScopeFormFields
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { useMapFormContext } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import config from 'in-services/config';
@@ -52,9 +52,10 @@ const toggleAccessPermissions = ({
 const LimitedAccessSwitcher = ({
   limitedAccessSwitchLabel,
   limitedAccessScopes,
-  onChange
+  onChange,
+  onEntireUnitSelected
 }: LimitedAccessSwitcherProps) => {
-  const { form, updateIn } = useMapFormContext<ScopeTableFormFields>(SCOPE_FORM_ID);
+  const { form, updateForm } = useMapFormContext<ScopeFormFields>(SCOPE_FORM_ID);
   const permissionsField = form.getIn(['accessPermissions']);
 
   const [scopeType, setScopeType] = useState<string>(
@@ -86,7 +87,9 @@ const LimitedAccessSwitcher = ({
           toAddOnEnabled: limitedAccessScopes,
           toRemoveOnDisabled: limitedAccessScopes
         });
-        updateIn(['accessPermissions'], permissionsField.setValue(updatedAccessPermissions).setTouched(true));
+
+        const updatedForm = onEntireUnitSelected ? onEntireUnitSelected() : form;
+        updateForm(updatedForm.updateIn(['accessPermissions'], f => f.setValue(updatedAccessPermissions)));
       }}
       size="sm"
     >

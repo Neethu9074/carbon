@@ -21,15 +21,15 @@ import {
   ScopeItemRow,
   SelectEntitiesTableProps
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/SelectEntitiesTable.types';
-import {
-  ScopeTableFormFields,
-  SCOPE_FORM_ID
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import MultiSelectDataTable, {
   DataTableRow,
   Notification,
   TableActions
 } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
+import {
+  SCOPE_FORM_ID,
+  ScopeFormFields
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import SelectEntitiesDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/SelectEntitiesDialog';
 import useScopeEntityMapping from 'in-settings/tabs/SecurityAndAccess/hooks/useScopeEntityMapping';
 import { useMapFormContext } from 'in-settings/components/MapFormProvider/MapFormProvider';
@@ -74,7 +74,7 @@ const SelectEntitiesTable = <I,>({
   tableTitle,
   showTableHeader = false
 }: SelectEntitiesTableProps<I>) => {
-  const { form, updateIn } = useMapFormContext<ScopeTableFormFields>(SCOPE_FORM_ID);
+  const { form, updateIn } = useMapFormContext<ScopeFormFields>(SCOPE_FORM_ID);
   const itemsField = form.getIn([fieldName]);
   const dataTableResult = useObservable(observable, []) ?? pendingResult;
   const loading = isLoading(dataTableResult);

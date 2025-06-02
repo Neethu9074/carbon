@@ -17,6 +17,7 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { createNavItems } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.navItems';
 import MapFormProvider, { FormMode } from 'in-settings/components/MapFormProvider/MapFormProvider';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { close as closeModal } from 'in-components/DialogPresenter/store';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -36,7 +37,7 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
   const [form, setForm] = useDerivedState(createScopeForm(team.scope));
   const [status, setStatus] = useState('');
   const timeConfig = useTimeConfig();
-  const navigationItems = createNavItems(form, timeConfig);
+  const navigationItems = createNavItems(form, team.tag, timeConfig);
 
   function onSubmit() {
     if (!form.hierarchyValid) {
@@ -56,12 +57,26 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
       { encode: false, arrayFormat: 'comma' }
     );
 
+    // Create contribution filter
+    const restrictedApplicationFilter = newScope.applicationFilterForm.isFilterEnabled
+      ? {
+          ...newScope.restrictedApplicationFilter,
+          tagFilterExpression: toBackendQueryModel(newScope.applicationFilterForm.filterExpression),
+          label: newScope.applicationFilterForm.filterName,
+          scope: newScope.applicationFilterForm.scope
+        }
+      : undefined;
+
+    // Build updated team
     const payload = {
       ...team,
       scope: {
-        ...omit(newScope, 'actionTags', 'actionTypes'),
+        ...omit(newScope, 'actionTags', 'actionTypes', 'applicationFilterForm', 'infrastructureForm'),
         actionFilter: actionFilter,
-        ...form.get('infrastructureForm').toJS()
+        restrictedApplicationFilter: restrictedApplicationFilter,
+        infraDfqFilter: newScope?.infrastructureForm?.isDfqEnabled
+          ? newScope.infrastructureForm.infraDfqFilter
+          : undefined
       }
     };
 
@@ -91,6 +106,8 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
   return (
     <MapFormProvider id={SCOPE_FORM_ID} form={form} mode={mode} updateForm={setForm}>
       <Modal
+        aria-label={t('in-settings:dialogs.scope.dialogAriaLabel')}
+        hasScrollingContent
         modalHeading={t('in-settings:dialogs.scope.title', { context: mode })}
         onRequestClose={closeModal}
         onRequestSubmit={onSubmit}
@@ -99,6 +116,7 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
         primaryButtonDisabled={status === 'pending'}
         primaryButtonText={t('in-settings:tabs.save')}
         secondaryButtonText={t('in-settings:tabs.cancel')}
+        selectorsFloatingMenus={['.cds--body--with-modal-open div[data-overlay-id]']}
         size="lg"
       >
         <form>

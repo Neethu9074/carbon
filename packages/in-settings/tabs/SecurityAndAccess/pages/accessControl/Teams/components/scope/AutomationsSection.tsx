@@ -14,8 +14,8 @@ import LimitedAccessSwitcher, {
   SCOPE_TYPE
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
 import {
-  ScopeTableFormFields,
-  SCOPE_FORM_ID
+  SCOPE_FORM_ID,
+  ScopeFormFields
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { getInitialScopeType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection';
 import { defaultFilterItems } from 'in-settings/components/FilterableMultiSelect/FilterableMultiSelect.utils';
@@ -49,7 +49,7 @@ const createMultiSelectItemsTypes = (types: Array<string>) => {
 };
 
 const AutomationsSection = ({ limitedAccessSwitchLabel, limitedAccessScopes }: AutomationsSectionProps) => {
-  const { form, updateIn } = useMapFormContext<ScopeTableFormFields>(SCOPE_FORM_ID);
+  const { form, updateIn } = useMapFormContext<ScopeFormFields>(SCOPE_FORM_ID);
   const actionTagsField = form.getIn(['actionTags']);
   const actionTypesField = form.getIn(['actionTypes']);
   const actionTags = useActionTags();
@@ -65,6 +65,12 @@ const AutomationsSection = ({ limitedAccessSwitchLabel, limitedAccessScopes }: A
         limitedAccessScopes={limitedAccessScopes}
         limitedAccessSwitchLabel={limitedAccessSwitchLabel}
         onChange={newScopeType => setScopeType(newScopeType)}
+        onEntireUnitSelected={() =>
+          // Reset action filter
+          form
+            .updateIn(['actionTypes'], f => f.setValue(undefined).setTouched(true))
+            .updateIn(['actionTags'], f => f.setValue(undefined).setTouched(true))
+        }
       />
 
       {scopeType === SCOPE_TYPE.LIMITED_ACCESS && (

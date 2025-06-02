@@ -47,6 +47,12 @@ const InfrastructureSection = ({ limitedAccessSwitchLabel, limitedAccessScopes }
         limitedAccessScopes={limitedAccessScopes}
         limitedAccessSwitchLabel={limitedAccessSwitchLabel}
         onChange={newScopeType => setScopeType(newScopeType)}
+        onEntireUnitSelected={() =>
+          // Reset DFQ fields
+          form
+            .updateIn(['infrastructureForm', 'isDfqEnabled'], f => f.setValue(false).setTouched(true))
+            .updateIn(['infrastructureForm', 'infraDfqFilter'], f => f.setValue('').setTouched(true))
+        }
       />
 
       {scopeType === SCOPE_TYPE.LIMITED_ACCESS && (

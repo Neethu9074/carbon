@@ -13,8 +13,8 @@ import LimitedAccessSwitcher, {
   SCOPE_TYPE
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
 import {
-  ScopeTableFormFields,
-  SCOPE_FORM_ID
+  SCOPE_FORM_ID,
+  ScopeFormFields
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { ScopeSectionProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection.types';
 import SelectEntitiesTable from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/SelectEntitiesTable';
@@ -39,7 +39,7 @@ const ScopeSection = <I,>({
   tableAddLabel,
   tableTitle
 }: ScopeSectionProps<I>) => {
-  const { form } = useMapFormContext<ScopeTableFormFields>(SCOPE_FORM_ID);
+  const { form } = useMapFormContext<ScopeFormFields>(SCOPE_FORM_ID);
   const permissionsField = form.getIn(['accessPermissions']);
   const [scopeType, setScopeType] = useState<string>(getInitialScopeType(permissionsField, limitedAccessScopes));
 
@@ -48,7 +48,10 @@ const ScopeSection = <I,>({
       <LimitedAccessSwitcher
         limitedAccessScopes={limitedAccessScopes}
         limitedAccessSwitchLabel={limitedAccessSwitchLabel}
-        onChange={newScopeType => setScopeType(newScopeType)}
+        onChange={newScopeType => {
+          setScopeType(newScopeType);
+        }}
+        onEntireUnitSelected={() => form.updateIn([fieldName], f => f.setValue(undefined).setTouched(true))}
       />
 
       {scopeType === SCOPE_TYPE.LIMITED_ACCESS && (

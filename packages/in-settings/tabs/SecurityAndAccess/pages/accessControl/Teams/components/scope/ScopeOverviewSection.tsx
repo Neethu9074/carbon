@@ -27,36 +27,34 @@ const ScopeOverviewSection = <I,>({ areaId, section }: ScopeOverviewSectionProps
     observable: section.observable
   });
 
-  if (scopeEntities?.length > 0) {
-    return (
-      <ContainedList
-        key={`${areaId}-${section.id}`}
-        label={section.title ?? ''}
-        className={section.title ? undefined : locals.hideTitle}
-      >
-        {section?.displayType === 'tagSet' && (
-          <ContainedListItem>
-            <TagSet
-              overflowType="tag"
-              tags={scopeEntities.map((item: I) => {
-                return { label: section.extractName(item), type: 'high-contrast' };
-              })}
-            />
-          </ContainedListItem>
-        )}
-        {(!section?.displayType || section?.displayType === 'list') &&
-          scopeEntities.map((item: I) => {
-            return (
-              <ContainedListItem key={`${section.id}-${section.extractId(item)}`}>
-                {section.extractName(item)}
-              </ContainedListItem>
-            );
-          })}
-      </ContainedList>
-    );
-  }
+  if (!scopeEntities?.length) return <></>;
 
-  return <></>;
+  return (
+    <ContainedList
+      key={`${areaId}-${section.id}`}
+      label={section.title ?? ''}
+      className={section.title ? undefined : locals.hideTitle}
+    >
+      {section?.displayType === 'tagSet' && (
+        <ContainedListItem>
+          <TagSet
+            overflowType="tag"
+            tags={scopeEntities.map((item: I) => {
+              return { label: section.extractName(item), type: 'high-contrast' };
+            })}
+          />
+        </ContainedListItem>
+      )}
+      {(!section?.displayType || section?.displayType === 'list') &&
+        scopeEntities.map((item: I) => {
+          return (
+            <ContainedListItem key={`${section.id}-${section.extractId(item)}`}>
+              {section.extractName(item)}
+            </ContainedListItem>
+          );
+        })}
+    </ContainedList>
+  );
 };
 
 export default ScopeOverviewSection;

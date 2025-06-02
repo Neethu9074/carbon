@@ -7,9 +7,11 @@
 import { createField, createMapForm, Field, MapForm, ValidationMessage, ValidationResult } from 'formalistic';
 import { parse } from 'qs';
 
-import { AccessRestriction, RestrictedApplicationFilter, TeamScope } from '@instana/types';
+import { AccessRestriction, ApiApplicationScope, RestrictedApplicationFilter, TeamScope } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { LimitedAccessScope } from 'in-stores/permission';
 import { isBlank } from 'in-services/util/string';
 
@@ -20,8 +22,10 @@ export type ScopeFormFields = {
   actionFilter: Field<string | undefined>;
   actionTags: Field<string[] | undefined>;
   actionTypes: Field<string[] | undefined>;
+  applicationFilterForm: ApplicationFilterForm;
   applications: Field<string[] | undefined>;
   businessPerspectives: Field<string[] | undefined>;
+  infrastructureForm: InfrastructureForm;
   kubernetesClusters: Field<string[] | undefined>;
   kubernetesNamespaces: Field<string[] | undefined>;
   logFilter: Field<string | undefined>;
@@ -31,19 +35,21 @@ export type ScopeFormFields = {
   syntheticTests: Field<string[] | undefined>;
   tagIds: Field<string[] | undefined>;
   websites: Field<string[] | undefined>;
-  infrastructureForm: InfrastructureForm;
 };
-
-export type ScopeTableFormFields = Exclude<
-  ScopeFormFields,
-  'accessPermissions' | 'restrictedApplicationFilter' | 'infrastructureForm' | 'logFilter' | 'actionFilter'
->;
 
 export type ScopeFormFieldType = keyof ScopeFormFields;
 
-export type ScopeTableFormFieldType = Exclude<
+export type ScopeTableFormFieldType = Extract<
   ScopeFormFieldType,
-  'accessPermissions' | 'restrictedApplicationFilter' | 'infrastructureForm' | 'logFilter' | 'actionFilter'
+  | 'applications'
+  | 'businessPerspectives'
+  | 'kubernetesClusters'
+  | 'kubernetesNamespaces'
+  | 'mobileApps'
+  | 'syntheticCredentials'
+  | 'syntheticTests'
+  | 'tagIds'
+  | 'websites'
 >;
 
 const scopeValidator = ({ accessPermissions, actionTags, actionTypes }: ScopeFormFields): ValidationResult => {
@@ -109,6 +115,15 @@ function infraDfqFiltersValidator({ isDfqEnabled, infraDfqFilter }: Infrastructu
   return null;
 }
 
+export type ApplicationFilterFormItems = {
+  isFilterEnabled: Field<boolean>;
+  filterExpression: Field<FormModelElement[] | undefined>;
+  filterName: Field<string | undefined>;
+  scope: Field<ApiApplicationScope>;
+};
+
+export type ApplicationFilterForm = MapForm<ApplicationFilterFormItems>;
+
 export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields> {
   // Parse action filter string into action types and action tags
   const { actionTags, actionTypes } = parseActionFilter(initValues?.actionFilter ?? '');
@@ -121,11 +136,29 @@ export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields
       actionFilter: createField({
         value: initValues?.actionFilter ?? undefined
       }),
+      actionTags: createField({
+        value: actionTags
+      }),
       actionTypes: createField({
         value: actionTypes
       }),
-      actionTags: createField({
-        value: actionTags
+      applicationFilterForm: createMapForm<ApplicationFilterFormItems>({
+        items: {
+          isFilterEnabled: createField({
+            value: !!initValues?.restrictedApplicationFilter?.label
+          }),
+          filterExpression: createField({
+            value: initValues?.restrictedApplicationFilter?.tagFilterExpression
+              ? fromBackendModel(initValues?.restrictedApplicationFilter?.tagFilterExpression)
+              : fromBackendModel(emptyTagFilterExpression)
+          }),
+          filterName: createField({
+            value: initValues?.restrictedApplicationFilter?.label ?? ''
+          }),
+          scope: createField({
+            value: initValues?.restrictedApplicationFilter?.scope ?? 'INCLUDE_NO_DOWNSTREAM'
+          })
+        }
       }),
       applications: createField({
         value: initValues?.applications ?? undefined
@@ -144,7 +177,6 @@ export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields
           })
         }
       }),
-
       kubernetesClusters: createField({
         value: initValues?.kubernetesClusters ?? undefined
       }),

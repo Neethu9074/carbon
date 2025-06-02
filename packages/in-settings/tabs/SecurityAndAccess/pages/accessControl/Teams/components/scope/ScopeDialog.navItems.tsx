@@ -19,6 +19,7 @@ import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kuber
 import LimitedAccessSwitcher from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
 import InfrastructureSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/InfrastructureSection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
+import ApplicationsSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ApplicationsSection';
 import AutomationsSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/AutomationsSection';
 import { ScopeFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
@@ -37,7 +38,7 @@ export const extractId = (entity: TeamScopeEntity): string => {
   return entity.id;
 };
 
-export const createNavItems = (form: MapForm<ScopeFormFields>, timeConfig: TimeConfig) => {
+export const createNavItems = (form: MapForm<ScopeFormFields>, teamTag: string, timeConfig: TimeConfig) => {
   return [
     {
       content: <Trans i18nKey={'in-settings:dialogs.scope.generalSectionDescription'} />,
@@ -102,7 +103,8 @@ export const createNavItems = (form: MapForm<ScopeFormFields>, timeConfig: TimeC
     },
     {
       content: (
-        <ScopeSection<TeamScopeEntity>
+        <ApplicationsSection
+          defaultFilterName={teamTag}
           extractId={extractId}
           extractName={extractName}
           fieldName="applications"
