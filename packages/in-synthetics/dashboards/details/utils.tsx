@@ -91,9 +91,10 @@ export const useSyntheticContextConfiguration = () => {
   const locationDisplayLabels: string =
     getMatrixParameter(location, syntheticDetailsPath, 'locationDisplayLabels') ?? '';
   const locationIds: string = getMatrixParameter(location, syntheticDetailsPath, 'locationIds') ?? '';
-
+  const runType: string = getMatrixParameter(location, syntheticDetailsPath, 'runType') ?? '';
   location.pathname = syntheticsDashboard;
 
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'runType', runType);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'testId', testId);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'testLabel', testLabel);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'type', testType);
