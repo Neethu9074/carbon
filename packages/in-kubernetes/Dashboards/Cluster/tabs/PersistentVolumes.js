@@ -41,7 +41,6 @@ const columnDefinitions = [
   {
     id: 'capacity.storage',
     label: t('in-kubernetes:dashboards.storageTotalCapacity'),
-    sortable: false,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -57,7 +56,6 @@ const columnDefinitions = [
   {
     id: 'currentMetrics.capacity.used',
     label: t('in-kubernetes:dashboards.storageUsedCapacity'),
-    sortable: false,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -73,7 +71,6 @@ const columnDefinitions = [
   {
     id: 'currentMetrics.capacity.usedPercent',
     label: t('in-kubernetes:dashboards.storageUtilization'),
-    sortable: false,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
