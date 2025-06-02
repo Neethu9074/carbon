@@ -34,7 +34,8 @@ const items: KubernetesClusterListItem[] = [
     persistentVolumes: 1,
     nodeCounters: {
       totalNodes: 2,
-      unhealthyNodes: 4
+      criticalNodes: 0,
+      warningNodes: 0
     },
     workloads: {
       daemonSets: 16,
@@ -44,7 +45,8 @@ const items: KubernetesClusterListItem[] = [
       pods: 256,
       deploymentCounters: {
         totalDeployments: 62,
-        unhealthyDeployments: 0
+        criticalDeployments: 0,
+        warningDeployments: 0
       },
       podCounters: {
         totalPods: 29,
@@ -82,7 +84,8 @@ const items: KubernetesClusterListItem[] = [
     nodes: 3,
     nodeCounters: {
       totalNodes: 3,
-      unhealthyNodes: 4
+      criticalNodes: 0,
+      warningNodes: 0
     },
     services: 7,
     persistentVolumes: 0,
@@ -98,7 +101,8 @@ const items: KubernetesClusterListItem[] = [
       },
       deploymentCounters: {
         totalDeployments: 6,
-        unhealthyDeployments: 4
+        criticalDeployments: 0,
+        warningDeployments: 0
       }
     },
     cronJobs: 0,
@@ -132,7 +136,8 @@ const items: KubernetesClusterListItem[] = [
     nodes: 3,
     nodeCounters: {
       totalNodes: 3,
-      unhealthyNodes: 3
+      criticalNodes: 0,
+      warningNodes: 0
     },
     services: 100,
     persistentVolumes: 6,
@@ -148,7 +153,8 @@ const items: KubernetesClusterListItem[] = [
       },
       deploymentCounters: {
         totalDeployments: 44,
-        unhealthyDeployments: 3
+        criticalDeployments: 0,
+        warningDeployments: 0
       }
     },
     cronJobs: 1,
