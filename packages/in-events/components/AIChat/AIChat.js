@@ -186,8 +186,28 @@ export function AIChat() {
               pos4 = e.clientY;
               // Move the Launcher button location
               const newElem = document.getElementById(LAUNCHER_BUTTON_ID);
-              newElem.style.top = newElem.offsetTop - pos2 + 'px';
-              newElem.style.left = newElem.offsetLeft - pos1 + 'px';
+              // These if else statements help keep the launcher from being
+              // dragged OUTSIDE of the screen view.
+              if (e.clientY < 55) {
+                // Top of the screen
+                newElem.style.top = '0px';
+              } else if (e.clientY > window.innerHeight - 5) {
+                // Bottom of the screen
+                newElem.style.top = window.innerHeight - 57 + 'px';
+              } else {
+                // All other positions
+                newElem.style.top = newElem.offsetTop - pos2 + 'px';
+              }
+              if (e.clientX > window.innerWidth - 25) {
+                // Right of the screen
+                newElem.style.left = window.innerWidth - 57 + 'px';
+              } else if (newElem.offsetLeft - pos1 <= 0) {
+                // Left of the screen
+                newElem.style.left = '0px';
+              } else {
+                // All other positions
+                newElem.style.left = newElem.offsetLeft - pos1 + 'px';
+              }
               newElem.style.right = 'auto';
               newElem.style.bottom = 'auto';
             };
