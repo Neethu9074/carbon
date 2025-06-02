@@ -24,6 +24,8 @@ export const customValue = 'custom';
 export const deprecatedValue = 'deprecated';
 export const migratedValue = 'migrated';
 
+export const MAX_CHAR_LENGTH_ENTITY_LABEL = 2048;
+
 export function isBuiltInRule(entity: EventSpecificationInfo): boolean {
   return isBuiltInRuleType(entity.type);
 }

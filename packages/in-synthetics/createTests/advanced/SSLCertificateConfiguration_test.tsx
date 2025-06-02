@@ -11,6 +11,7 @@ import React from 'react';
 import { createAdvancedSSLCertificateConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { checkForInvalidHost, checkForInvalidPort } from 'in-synthetics/createTests/validators/urlValidator';
 import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
+import { t } from 'in-i18n';
 
 describe('SSLCertificateConfiguration', () => {
   const updateForm = jest.fn();
@@ -28,11 +29,27 @@ describe('SSLCertificateConfiguration', () => {
         setInvalidTimeout={setInvalidTimeout}
       />
     );
-    expect(screen.getByText('Host name')).toBeInTheDocument();
-    expect(screen.getByText('Port')).toBeInTheDocument();
-    expect(screen.getByText('Failure configuration')).toBeInTheDocument();
-    expect(screen.getByText('Timeout')).toBeInTheDocument();
-    expect(screen.getByText('Retry strategy')).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputHostName'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputPortNumber'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.failureConfigLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.additionalOptionsSectionLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.acceptSelfSignedCertificate'))
+    ).toBeInTheDocument();
   });
 
   it('Renders all new fields with their default values', () => {
@@ -56,14 +73,26 @@ describe('SSLCertificateConfiguration', () => {
     expect(screen.getByTestId('days-remaining')).toHaveValue('');
 
     // Timeout
-    expect((screen.getByLabelText('minutes (m)') as HTMLInputElement).checked).toBe(true);
-    expect((screen.getByLabelText('seconds (s)') as HTMLInputElement).checked).toBe(false);
-    expect((screen.getByLabelText('milliseconds (ms)') as HTMLInputElement).checked).toBe(false);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMinutes'))
+    ).toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionSeconds'))
+    ).not.toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMilliseconds'))
+    ).not.toBeChecked();
 
     // Retry strategy
-    expect((screen.getByLabelText('None') as HTMLInputElement).checked).toBe(true);
-    expect((screen.getByLabelText('Retry once') as HTMLInputElement).checked).toBe(false);
-    expect((screen.getByLabelText('Retry twice') as HTMLInputElement).checked).toBe(false);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionNone'))
+    ).toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionOnce'))
+    ).not.toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionTwice'))
+    ).not.toBeChecked();
   });
 
   it('Displays validation error for invalid host name', () => {
@@ -131,7 +160,7 @@ describe('SSLCertificateConfiguration', () => {
       />
     );
 
-    expect(screen.getByText('Host format not valid')).toBeInTheDocument();
+    expect(screen.getByText(t('in-synthetics:dialog.createTest.validators.invalidHost'))).toBeInTheDocument();
   });
 
   it('Displays validation error for invalid port', () => {
@@ -198,6 +227,6 @@ describe('SSLCertificateConfiguration', () => {
         setInvalidTimeout={setInvalidTimeout}
       />
     );
-    expect(screen.getByText('Port value not valid')).toBeInTheDocument();
+    expect(screen.getByText(t('in-synthetics:dialog.createTest.validators.invalidPortValue'))).toBeInTheDocument();
   });
 });

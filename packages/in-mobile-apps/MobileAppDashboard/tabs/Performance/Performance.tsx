@@ -215,8 +215,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
-              renderer: Renderer.integral,
-              calculateStackDifferences: true,
+              renderer: Renderer.line,
               formatter: millisToTwoDecimalSeconds,
               labels: [t('in-mobile-apps:dashboard.tabs.androidLabel'), t('in-mobile-apps:dashboard.tabs.iosLabel')],
               metricIds: ['coldStartAndroid', 'coldStartIos'],

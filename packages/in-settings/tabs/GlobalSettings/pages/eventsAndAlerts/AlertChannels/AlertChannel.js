@@ -46,7 +46,6 @@ import { toTitleCase } from 'in-services/util/string';
 import { Col, Row } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import List from 'in-settings/components/List';
-import Tooltip from 'in-components/Tooltip';
 import entityForm from 'in-hoc/entityForm';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -357,13 +356,11 @@ function AlertChannelLabel({ entity }) {
   }
 
   return (
-    <Tooltip content={label} align="topLeft" delay={500}>
-      <WithSubscript subscript={getSubscript(entity)}>
-        <Link href={href$ ?? href} ellipsis>
-          {label}
-        </Link>
-      </WithSubscript>
-    </Tooltip>
+    <WithSubscript subscript={getSubscript(entity)}>
+      <Link href={href$ ?? href} ellipsis>
+        {label}
+      </Link>
+    </WithSubscript>
   );
 }
 

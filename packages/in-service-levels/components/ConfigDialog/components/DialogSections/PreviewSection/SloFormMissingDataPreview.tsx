@@ -6,7 +6,8 @@
 
 import React, { useContext } from 'react';
 
-import { Stack, Typography, Button } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
+import { Button } from '@instana/carbon';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { SloFormSideEffectsReturnType } from 'in-service-levels/hooks/useSloFormSideEffects';
@@ -24,7 +25,7 @@ export default function SloFormMissingDataPreview({ updateForm }: SloFormMissing
       <Typography variant="body-regular">
         {t('in-service-levels:sloChart.missingData.previewNotAvailWidgetConfigIncomplete')}
       </Typography>
-      <Button kind="action" onClick={() => updateForm(form.setTouched(true, { recurse: true }))} size="compact">
+      <Button kind="ghost" onClick={() => updateForm(form.setTouched(true, { recurse: true }))} size="sm">
         {t('in-service-levels:sloChart.missingData.highlightMissingConfig')}
       </Button>
     </Stack>

@@ -4,7 +4,9 @@
  */
 
 import { resetMetricsAndOrderOnTypeChange, typeMatrixParameter } from 'in-infrastructure/navigation/paths';
+import { and, useFilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import getTagValueSearchSuggestions from 'in-infrastructure/subscriptions/getTagValueSuggestions';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { mapData } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 
@@ -26,9 +28,15 @@ export default ({ name, key, timeConfig, value, propose, tagFilterExpression }) 
   const [{ type: urlType }] = useUrlState(urlStateDefinition);
   const type = urlType === 'all' ? null : urlType;
 
+  const filterContext = useFilterContext();
+  const contextTagFilterExpression = toBackendQueryModel(filterContext);
+
   return getTagValueSearchSuggestions({
     tagName: key !== undefined ? name + '.' + key : name,
-    filter: { tagFilterExpression, timeConfig: modifiedTimeConfig },
+    filter: {
+      tagFilterExpression: and(contextTagFilterExpression, tagFilterExpression),
+      timeConfig: modifiedTimeConfig
+    },
     partialTagValue: value,
     valueCount: fetchKeySuggestions ? 1000 : 10,
     fetchKeySuggestions,

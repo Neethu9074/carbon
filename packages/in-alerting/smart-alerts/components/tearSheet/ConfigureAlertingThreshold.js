@@ -11,8 +11,8 @@ import {
   getMarksForThresholdType,
   getDefaultMark
 } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/ConfigureGranularity';
-import ConfigureUserImpact from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/ConfigureUserImpact';
 import ConfigureTraceImpact from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/ConfigureTraceImpact';
+import ConfigureUserImpact from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/ConfigureUserImpact';
 import ConfigureTimeWindow from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/ConfigureTimeWindow';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import TouchedMessages from 'in-components/form/TouchedMessages';

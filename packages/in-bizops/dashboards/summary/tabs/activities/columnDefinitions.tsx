@@ -52,7 +52,7 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
         activityName = t('in-bizops:lists.unnamedActivity');
       }
 
-      return ActivityLink(activityName, item.businessActivity?.activityId);
+      return <ActivityLink activityName={activityName} activityId={item.businessActivity?.activityId} />;
     }
   },
   {
@@ -117,7 +117,12 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
   }
 ];
 
-function ActivityLink(activityName: string | undefined, activityId: string | undefined) {
+interface ActivityLinkProps {
+  activityName: string | undefined;
+  activityId: string | undefined;
+}
+
+function ActivityLink({ activityName, activityId }: ActivityLinkProps) {
   const { location, createHref } = useNavigation();
 
   const businessProcessId: string =
@@ -139,11 +144,7 @@ function ActivityLink(activityName: string | undefined, activityId: string | und
   setOrDeleteMatrixKey(location, businessActivityPath, 'activityId', activityId);
 
   return (
-    <Link
-      className={locals.label}
-      href={createHref(location)}
-      onClick={() => bizopsActivitySelect(activityTracking)}
-    >
+    <Link className={locals.label} href={createHref(location)} onClick={() => bizopsActivitySelect(activityTracking)}>
       {activityName}
     </Link>
   );

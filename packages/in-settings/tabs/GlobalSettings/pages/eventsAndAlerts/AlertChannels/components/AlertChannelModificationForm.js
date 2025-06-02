@@ -62,9 +62,11 @@ function AlertChannelModificationForm(props) {
   const [selectedList, setSelectedList] = useState([]);
   useEffect(() => {
     if (rbacTeamsEnabled && !teamsLoading && !teamsHasErrors) {
-      const teamsSelected = teamsAssigned
-        ? teamsList.filter(item => teamsAssigned.some(team => team.get('id') == item.id))
-        : [];
+      const initialTeamSelected = teamsList.filter(team => team.id === window.instana.user.role.teamId);
+      const teamsSelected =
+        teamsAssigned?.size > 0
+          ? teamsList.filter(item => teamsAssigned.some(team => team.get('id') === item.id))
+          : initialTeamSelected;
       setForm(form.put('rbacTags', teamsSelected));
       setSelectedList(teamsSelected);
     }
@@ -279,7 +281,7 @@ function getConfig(alertChannel) {
   return fullyQualified[alertChannel.get('kind')];
 }
 
-export function save(alertChannel, form) {
+export function save(alertChannel, form, isCreate) {
   const addRbacTags = obj => {
     let result = obj;
     const rbacTags = form.get('rbacTags');
@@ -295,7 +297,7 @@ export function save(alertChannel, form) {
     path: '',
     channel: form.get('kind').value
   });
-  return saveAlertChannel(fromJS(addRbacTags(getConfig(alertChannel).createEntity(alertChannel, form))));
+  return saveAlertChannel(fromJS(addRbacTags(getConfig(alertChannel).createEntity(alertChannel, form))), isCreate);
 }
 
 export function createForm(alertChannel) {

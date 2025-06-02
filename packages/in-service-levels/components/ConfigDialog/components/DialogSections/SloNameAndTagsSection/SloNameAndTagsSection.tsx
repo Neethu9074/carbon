@@ -6,7 +6,8 @@
 
 import React, { useContext } from 'react';
 
-import { Stack, Input, ValidationBlock } from '@instana/components';
+import { Stack, ValidationBlock } from '@instana/components';
+import { TextInput } from '@instana/carbon';
 
 import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
@@ -40,13 +41,15 @@ export default function SloNameAndTagsSection() {
             hasError={!isNameValid}
             titleWidth={titleWidth}
           >
-            <Input
+            <TextInput
+              labelText=""
               id="slo-name-input"
               type="text"
               value={nameField.value}
               maxLength={256}
               placeholder={t('in-service-levels:createSloDialog.sloNamePlaceholder')}
               className={locals.nameInput}
+              size="sm"
               onChange={e =>
                 onChange(['nameTags', 'name'], () => nameField.setValue(e.currentTarget.value).setTouched(true))
               }

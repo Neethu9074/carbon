@@ -40,6 +40,7 @@ export enum XenServerEntities {
 
 type LinkParams = {
   hostId?: string | null;
+  vmId?: string | null;
 };
 
 export const useXenServerEntityLink = (entityType: keyof typeof XenServerEntities, linkParams?: LinkParams) => {

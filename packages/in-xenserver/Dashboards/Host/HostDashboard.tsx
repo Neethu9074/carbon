@@ -40,6 +40,14 @@ export default function HostDashboard({ location }: HostDashboardProps) {
           filter: {
             hostId: hostProps.hostId,
             timeConfig: hostProps.timeConfig
+          },
+          pagination: {
+            page: 1,
+            pageSize: 20
+          },
+          order: {
+            by: 'name',
+            direction: 'ASC'
           }
         })}
         HeaderComponent={Header}

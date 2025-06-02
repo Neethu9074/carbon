@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Add, Notification } from '@carbon/icons-react';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/carbon';
 
 // eslint-disable-next-line no-restricted-imports
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
@@ -26,10 +27,10 @@ export default function FloatingSloButtons() {
   return (
     <FloatingActionButtons>
       <FloatingActionButtonMenu>
-        <Button icon="lib_openclose_add" kind="primaryv2" onClick={openCreateSloDialog}>
+        <Button renderIcon={Add} size={'md'} kind="secondary" onClick={openCreateSloDialog}>
           {t('in-service-levels:general.addButtonLabel', { context: 'slo' })}
         </Button>
-        <Button icon="lib_alerts_create" kind="primaryv2" onClick={openCreateSmartAlertDialog}>
+        <Button renderIcon={Notification} size={'md'} kind="secondary" onClick={openCreateSmartAlertDialog}>
           {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
         </Button>
       </FloatingActionButtonMenu>

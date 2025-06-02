@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "Alert level",
     "alertPropertyInfosLabelTriggersIncident": "Triggers incident",
     "alertPropertyInfosLabelDescription": "Description",
-    "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
+    "noChannelSelectedText": "No channels added. Get started by clicking Select alert channels.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional filters",
     "groupBy": "Group by",
     "noChannelAvailable": "No alert channels available",
@@ -1009,12 +1009,15 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Violations persist at random intervals",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Violations persist continuously",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "When a minimum number of traces are impacted",
+          "labelUserImpactOfViolationsInSequence": "When a certain amount of users are impacted",
           "granularity": {
             "description": "Calls are placed in {{granularity}}-minute windows; every {{granularity}} minutes, a metric value is calculated for that window"
           },
           "triggerAlert": "Trigger alert",
           "triggerAfter": "Trigger after",
           "tracesImpacted": "traces are impacted",
+          "numberOfUserImpactPostLabel": "or more number of users are impacted",
+          "percentageOfUserImpactPostLabel": "or more % of users are impacted",
           "outOfConsecutiveEvaluations": "out of",
           "persistenceType": "Persistence type",
           "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations",
@@ -1165,7 +1168,7 @@
         },
         "step5": {
           "title": "Define alert channels",
-          "description": "Select where you want to be notified for this alert"
+          "description": "Select where you want to be notified for this alert."
         },
         "slowness": {
           "headline": "Automatic alerts for onLoad time or HTTP latency",
@@ -1351,7 +1354,7 @@
           "header": "What properties do you want to set for this alert"
         },
         "step4": {
-          "header": "Select where you want to be notified for this alert"
+          "header": "Select where you want to be notified for this alert."
         }
       }
     },
@@ -1496,7 +1499,7 @@
         },
         "step5": {
           "title": "Define alert channels",
-          "description": "Select where you want to be notified for this alert"
+          "description": "Select where you want to be notified for this alert."
         },
         "slowness": {
           "headline": "Automatic alerts for HTTP latency",
@@ -1917,7 +1920,7 @@
         "burnRateWindowTitle_MULTI_WINDOW": "Long alert window",
         "burnRateSingleWindowDescription": "Alerts are triggered when the error rate exceeds the threshold over a specified period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
         "burnRateLongWindowDescription": "Alerts are triggered when the error rate exceeds the threshold over a longer period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
-        "burnRateShortWindowLongerThanLongWindowError": "Short window cannot exceed long window. Please, adjust either of the values.",
+        "burnRateShortWindowLongerThanLongWindowError": "Short window should be less than long window. Please, adjust either of the values.",
         "burnRateTimeWindowTooLongError": "The alert window cannot exceed the time window of a selected SLO. Please, check the following SLO: {{value}}.",
         "thresholdTitle": "Threshold: When do you want to be alerted?",
         "thresholdInputDescription": "",

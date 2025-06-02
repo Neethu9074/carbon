@@ -25,6 +25,10 @@
     outline: none;
   }
 
+  .deleteMargin {
+    margin-top: 1rem;
+  }
+
   .logicalOperator {
     margin-top: 1rem;
     margin-bottom: 1rem;

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   CarbonComposedModal as ComposedModal,
@@ -16,6 +16,7 @@ import {
   CarbonButton as Button
 } from '@instana/components';
 
+import { close } from 'in-components/DialogPresenter/store';
 import { deleteFilter } from 'in-applications/api/filters';
 import { t, Trans } from 'in-i18n';
 
@@ -24,11 +25,10 @@ interface Props {
   filterName: string;
 }
 export const DeleteFilterModal = ({ filterId, filterName }: Props): JSX.Element => {
-  const [open, setOpen] = useState(true);
   const handleDelete = () => {
     if (!filterId) return;
     deleteFilter(filterId).subscribe(() => {
-      setOpen(false);
+      close();
     });
   };
 
@@ -48,11 +48,11 @@ export const DeleteFilterModal = ({ filterId, filterName }: Props): JSX.Element 
     </Stack>
   );
   return (
-    <ComposedModal aria-label="Confirm filter deletion" size="md" open={open} onClose={() => setOpen(false)}>
+    <ComposedModal aria-label="Confirm filter deletion" size="md" open onClose={close}>
       <ModalHeader title={<div>{t('in-applications:analyze.deleteFilterModalLabel')}</div>} />
       <ModalBody>{modalBody}</ModalBody>
-      <ModalFooter onRequestSubmit={handleDelete} onRequestClose={() => setOpen(false)}>
-        <Button kind="ghost" onClick={() => setOpen(false)}>
+      <ModalFooter>
+        <Button kind="ghost" onClick={close}>
           {t('in-applications:buttonCancel')}
         </Button>
         <Button kind="danger" dangerDescription={t('in-applications:buttonDelete')} onClick={handleDelete}>

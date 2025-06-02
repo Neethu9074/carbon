@@ -23,10 +23,10 @@ import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvide
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { FetchStatus } from 'in-hooks/utils/types';
-import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 import locals from './RoleDetails.mless';
+import EditRoleScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleScopeDialog';
 
 export default function RoleDetails() {
   const { id: roleId } = useParams<{ id: string }>();
@@ -147,12 +147,10 @@ function FloatingMenuButtons({ hasScope, role, status }: FloatingMenuButtonsProp
               >
                 {t('in-settings:details.role.editPermissionsButton')}
               </MoreMenuButton>
-              {/* TODO: Will implement button handlers in a follow-up PR */}
-              {hasScope && (
-                <MoreMenuButton onClick={noop}>{t('in-settings:details.role.editAsGroupButton')}</MoreMenuButton>
-              )}
-              {hasScope && (
-                <MoreMenuButton onClick={noop}>{t('in-settings:details.role.deleteScopeButton')}</MoreMenuButton>
+              {hasScope && role && (
+                <MoreMenuButton onClick={() => addActiveDialog(<EditRoleScopeDialog roleId={role.id!} />)}>
+                  {t('in-settings:details.role.editAsGroupButton')}
+                </MoreMenuButton>
               )}
             </MoreMenu>
           )}

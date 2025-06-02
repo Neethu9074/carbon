@@ -9,19 +9,21 @@ import { useMemo } from 'react';
 import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import useUrlState from 'in-hooks/useUrlState';
 
-export default function usePolicyDetailsUrlParams() {
+export default function usePolicyDetailsUrlParams({ policyId, copy }: { policyId?: string; copy?: boolean } = {}) {
   const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null }>({
     bind: [policyDetailsUrlParameters.id, policyDetailsUrlParameters.op]
   });
 
+  const finalPolicyId = policyId ?? id;
+  const finalCopy = copy ?? op === 'copy';
   return useMemo(() => {
-    const isCopy = op === 'copy';
-    const isCreate = !id;
+    const isCopy = finalCopy;
+    const isCreate = !finalPolicyId;
     const isNew = isCreate || isCopy;
     return {
-      id: id ?? null,
+      id: finalPolicyId ?? null,
       isNew,
       isCopy
     };
-  }, [id, op]);
+  }, [finalPolicyId, finalCopy]);
 }

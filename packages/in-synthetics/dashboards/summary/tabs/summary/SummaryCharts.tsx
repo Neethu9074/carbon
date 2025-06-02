@@ -44,6 +44,7 @@ export default function SummaryCharts({
         locationIds={locationIds}
         locationDisplayLabels={locationDisplayLabels}
         timeShiftConfig={timeShiftConfig}
+        runType={runType}
         renderPostChartContent={MarkerLanes}
       />
     </Col>
@@ -56,6 +57,7 @@ export default function SummaryCharts({
         locationIds={locationIds}
         locationDisplayLabels={locationDisplayLabels}
         timeShiftConfig={timeShiftConfig}
+        runType={runType}
         renderPostChartContent={MarkerLanes}
       />
     </Col>
@@ -68,6 +70,7 @@ export default function SummaryCharts({
         locationIds={locationIds}
         locationDisplayLabels={locationDisplayLabels}
         timeShiftConfig={timeShiftConfig}
+        runType={runType}
         renderPostChartContent={MarkerLanes}
       />
     </Col>
@@ -81,7 +84,7 @@ export default function SummaryCharts({
 
   const responseStatusChart = (
     <Col lg key="responseStatus">
-      <ResponseStatus test={test} />
+      <ResponseStatus test={test} runType={runType} />
     </Col>
   );
 
@@ -92,6 +95,7 @@ export default function SummaryCharts({
         locationIds={locationIds}
         locationDisplayLabels={locationDisplayLabels}
         timeShiftConfig={timeShiftConfig}
+        runType={runType}
         renderPostChartContent={MarkerLanes}
       />
     </Col>

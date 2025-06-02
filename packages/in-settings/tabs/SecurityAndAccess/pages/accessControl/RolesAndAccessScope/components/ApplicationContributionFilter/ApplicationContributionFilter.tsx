@@ -37,20 +37,24 @@ export interface ApplicationContributionFilterProps<FORM_TYPE extends MapFormIte
   setForm: (form: MapForm<FORM_TYPE>) => void;
   setValid?: (isValid: boolean) => void;
   editMode?: boolean;
+  filterExpressionFieldName?: Extract<keyof FORM_TYPE, string> | string;
+  filterNameFieldName?: Extract<keyof FORM_TYPE, string> | string;
 }
 
 export default function ApplicationContributionFilter<FORM_TYPE extends MapFormItems>({
   form,
   setForm,
   setValid = (_isValid: boolean) => {},
-  editMode
+  editMode,
+  filterExpressionFieldName = 'tagFilterExpression',
+  filterNameFieldName = 'label'
 }: ApplicationContributionFilterProps<FORM_TYPE>) {
-  const tagFilterExpressionField = form.get('tagFilterExpression') as any;
+  const tagFilterExpressionField = form.get(filterExpressionFieldName) as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
-  const filterNameField = getField<string>(form, 'label');
+  const filterNameField = getField<string>(form, filterNameFieldName);
   const filterName = filterNameField?.value?.trim();
   const [initialfilterName] = useState(filterNameField?.value);
-  const [isFilterNameValid, setFilterNameValid] = useState(true);
+  const [isFilterNameValid, setIsFilterNameValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>('');
   const { trackCta } = useSegmentTracking();
 
@@ -72,7 +76,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
           if (result?.data) {
             // Name is valid if no application perspective with the same name is found
             const isNameValid = result.data.exists === false;
-            setFilterNameValid(isNameValid);
+            setIsFilterNameValid(isNameValid);
             setErrorMessage(isNameValid ? '' : t('in-settings:PermissionSection.contributionFilter_name_alreadyUsed'));
 
             // Report valid
@@ -99,7 +103,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
     form: MapForm<FORM_TYPE>,
     setForm: (form: MapForm<FORM_TYPE>) => void
   ) => {
-    setForm(updateFormField(form, 'tagFilterExpression', tagFilterExpression, true));
+    setForm(updateFormField(form, filterExpressionFieldName, tagFilterExpression, true));
   };
 
   return (
@@ -117,7 +121,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
         <Input
           id="application-contribution-filter-name"
           onChange={e => {
-            setForm(updateFormField(form, 'label', e.target.value, true));
+            setForm(updateFormField(form, filterNameFieldName, e.target.value, true));
           }}
           value={filterNameField?.value ?? ''}
           hasError={!filterNameField?.valid || !isFilterNameValid}

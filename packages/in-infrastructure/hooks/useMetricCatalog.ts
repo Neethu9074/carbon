@@ -7,6 +7,8 @@ import { TimeConfig, MetricCatalog, Result, Context, TagFilterExpressionElementU
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
+import { and, useFilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getMetricCatalogOnce, GetMetricCatalog } from 'in-services/metrics/metricCatalog';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -36,6 +38,9 @@ export default function useMetricCatalog({
     windowSize: 60000
   } as TimeConfig;
 
+  const filterContext = useFilterContext();
+  const contextTagFilterExpression = toBackendQueryModel(filterContext);
+
   return (
     useObservable(
       () =>
@@ -45,7 +50,10 @@ export default function useMetricCatalog({
               withHierarchy,
               type
             )({
-              filter: { tagFilterExpression, timeConfig: modifiedTimeConfig },
+              filter: {
+                tagFilterExpression: and(contextTagFilterExpression, tagFilterExpression),
+                timeConfig: modifiedTimeConfig
+              },
               type,
               query: query?.trim(),
               context

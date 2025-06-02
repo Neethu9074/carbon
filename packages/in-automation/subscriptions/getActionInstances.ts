@@ -15,8 +15,12 @@ import {
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
+interface ExtendedGetActionInstancesQuery extends GetActionInstancesQuery {
+  policyId?: string;
+}
+
 const getActionInstances = createResultSubscriptionFactory<
-  GetActionInstancesQuery,
+  ExtendedGetActionInstancesQuery,
   Result<PaginatedResult<ActionInstance>>
 >({
   eventId: 'getActionInstancesList',

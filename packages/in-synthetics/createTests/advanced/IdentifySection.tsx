@@ -55,28 +55,28 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
             </FormGroup>
           ))}
         </div>
-      </div>
-      <div className={locals.outerBox}>
-        {descriptionField.map(field => (
-          <FormGroup className={locals.urlInput}>
-            <Label htmlFor="description" hasError={!field.valid && field.touched}>
-              {t('in-synthetics:dialog.createTest.basicDetails.labelDescription')}
-            </Label>
-            <TextArea
-              name="description"
-              value={field.value}
-              onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
-                updateForm(
-                  form.updateIn(['description'], (descriptionFormField: Item) =>
-                    (descriptionFormField as Field<string>).setValue(target.value).setTouched(true)
-                  )
-                );
-              }}
-              hasError={!field.valid && field.touched}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+        <div>
+          {descriptionField.map(field => (
+            <FormGroup className={locals.urlInput}>
+              <Label htmlFor="description" hasError={!field.valid && field.touched}>
+                {t('in-synthetics:dialog.createTest.basicDetails.labelDescription')}
+              </Label>
+              <TextArea
+                name="description"
+                value={field.value}
+                onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
+                  updateForm(
+                    form.updateIn(['description'], (descriptionFormField: Item) =>
+                      (descriptionFormField as Field<string>).setValue(target.value).setTouched(true)
+                    )
+                  );
+                }}
+                hasError={!field.valid && field.touched}
+              />
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+        </div>
       </div>
       {!syntheticRbacLimitedEnabled && (
         <div className={locals.baseContainer}>

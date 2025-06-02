@@ -24,11 +24,7 @@ interface WelcomeHeaderProps {
 }
 
 export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivationData }: WelcomeHeaderProps) {
-  const username = onboardingHeaderEnabled
-    ? `, ${user?.fullName ?? ''}!`
-    : !playwithEnabled
-    ? `, ${user?.fullName ?? ''}!`
-    : '';
+  const username = getUsername();
   const headerTitle = `${t('in-plg:welcomepage.heading')}${username}`;
   return (
     <div
@@ -50,4 +46,10 @@ export function DatePickerHeader() {
       </Stack>
     </div>
   );
+}
+
+function getUsername() {
+  if (playwithEnabled) return '';
+  if (user?.fullName) return `, ${user.fullName}!`;
+  return '';
 }

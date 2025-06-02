@@ -11,6 +11,7 @@ import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { PageTrackerProps } from 'in-services/tracking/segment/types';
 import { customRealmName } from 'in-services/util/constants';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { config } from 'in-services/config';
 import { user } from 'in-stores/user';
 
@@ -41,7 +42,7 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
     // @ts-expect-error not types available...
     userId = customRealmName + '-' + user?.id;
     // Call identify only once
-    if (!hasIdentified && userId) {
+    if (!hasIdentified && userId && !playwithEnabled) {
       window.analytics.identify(userId);
       hasIdentified = true;
     }

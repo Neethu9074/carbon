@@ -56,6 +56,7 @@ export default function ActionCatalog({
     matrixPrefix,
     defaultOrderBy: 'name',
     defaultPageSize: 10,
+    defaultPageSizes: [10, 15, 20],
     paginationResettingUrlParameters: [
       createTypeUrlParameter(pathSegment, matrixPrefix),
       createTagsUrlParameter(pathSegment, matrixPrefix),
@@ -63,7 +64,7 @@ export default function ActionCatalog({
     ]
   });
   const isUserActions = actionsType === 'user';
-  const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
+  const { page, pageSize, orderBy, orderDirection, query, pageSizes } = serverTableUrlState;
 
   const [{ tags, types }, setFilter] = useActionCatalogFilterUrlState({ pathSegment, matrixPrefix });
   const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, types, tags });
@@ -76,6 +77,7 @@ export default function ActionCatalog({
     <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
       onChange={setServerTableUrlState}
       pageSize={pageSize}
+      pageSizes={pageSizes}
       page={page}
       searchPlaceholder={t('in-automation:searchActions')}
       searchMaxWidth={180}

@@ -9,22 +9,46 @@ import React from 'react';
 import { CarbonContainedList, CarbonContainedListItem, LoadingSkeleton } from '@instana/components';
 
 import { ProductAreaPermissionUnion } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
+import { LimitedAccessScopeType } from 'in-stores/permission';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
+
+function getListHeaderLabel({
+  hasAccessPermission,
+  limitingAccessScope
+}: Pick<PermissionListProps, 'hasAccessPermission' | 'limitingAccessScope'>) {
+  if (!limitingAccessScope) {
+    return t('in-settings:details.role.permissionListHeader');
+  }
+
+  if (limitingAccessScope && !hasAccessPermission) {
+    return t('in-settings:productAreas.no_access');
+  }
+
+  return t('in-settings:dialogs.role.permissionLabel', { context: limitingAccessScope });
+}
 
 interface PermissionListProps {
   availablePermissions: Array<ProductAreaPermissionUnion>;
   enabledPermissions?: Array<ProductAreaPermissionUnion>;
+  hasAccessPermission?: boolean;
+  limitingAccessScope?: LimitedAccessScopeType;
   status: FetchStatus;
 }
 
-export default function PermissionList({ availablePermissions, enabledPermissions = [], status }: PermissionListProps) {
+export default function PermissionList({
+  availablePermissions,
+  enabledPermissions = [],
+  hasAccessPermission,
+  limitingAccessScope,
+  status
+}: PermissionListProps) {
+  const label = getListHeaderLabel({ hasAccessPermission, limitingAccessScope });
   const permissionList = availablePermissions.filter(permission => enabledPermissions.includes(permission));
-  const hasPermissions = !!permissionList.length;
 
   if (status === 'pending') {
     return (
-      <CarbonContainedList label={t('in-settings:details.role.permissionListHeader')} kind={'disclosed'}>
+      <CarbonContainedList label={label} kind="disclosed">
         {availablePermissions.map((_, index) => (
           <CarbonContainedListItem key={`permission-list-item-${index}`}>
             <LoadingSkeleton />
@@ -35,16 +59,12 @@ export default function PermissionList({ availablePermissions, enabledPermission
   }
 
   return (
-    <CarbonContainedList label={t('in-settings:details.role.permissionListHeader')} kind={'disclosed'}>
-      {!hasPermissions ? (
-        <CarbonContainedListItem>{t('in-settings:details.role.noPermission')}</CarbonContainedListItem>
-      ) : (
-        permissionList.map((permission, index) => (
-          <CarbonContainedListItem key={`permission-list-item-${index}`}>
-            {t('in-settings:dialogs.role.permissionLabel', { context: permission })}
-          </CarbonContainedListItem>
-        ))
-      )}
+    <CarbonContainedList label={label} kind="disclosed">
+      {permissionList.map((permission, index) => (
+        <CarbonContainedListItem key={`permission-list-item-${index}`}>
+          {t('in-settings:dialogs.role.permissionLabel', { context: permission })}
+        </CarbonContainedListItem>
+      ))}
     </CarbonContainedList>
   );
 }

@@ -8,6 +8,10 @@ import React, { ReactNode } from 'react';
 import { useObservable } from '@instana/hooks';
 
 import {
+  enrichBySettingDataSource,
+  isBusinessMetricsUnifiedMetricConfiguration
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/utils';
+import {
   Result,
   SliConfigurationWithLastUpdated,
   Threshold,
@@ -19,7 +23,6 @@ import {
   ConfigWithCompanionMetric,
   ConfigWithStaticCompanion
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { enrichBySettingDataSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/utils';
 import { customDashboardsFastQueryModeEnabled, thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
 import hideSliSource from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/hideSliSource';
 import hideSloSource from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/slo/hideSloSource';
@@ -95,8 +98,9 @@ function BigNumber({
   // add bizops data source if necessary
   if (isBizOpsUnifiedMetricConfiguration(config?.metricConfiguration)) {
     config.metricConfiguration = enrichBySettingDataSource(config.metricConfiguration);
+  } else if (isBusinessMetricsUnifiedMetricConfiguration(config?.metricConfiguration)) {
+    config.metricConfiguration = enrichBySettingDataSource(config.metricConfiguration);
   }
-
   if (hideSloSource(config) || hideSliSource(config, sliConfig)) return null;
 
   return (

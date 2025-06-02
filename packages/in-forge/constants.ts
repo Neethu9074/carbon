@@ -269,6 +269,7 @@ export const nonServicePlugins = {
   kubernetesPersistentVolumeClaim: 'kubernetesPersistentVolumeClaim',
   kubernetesHorizontalPodAutoscaler: 'kubernetesHorizontalPodAutoscaler',
   liferayApplicationContainer: 'liferayApplicationContainer',
+  linuxKVMHypervisorHost: 'linuxKVMHypervisorHost',
   lxc: 'lxc',
   mariaDbDatabase: 'mariaDbDatabase',
   memcached: 'memcached',
@@ -721,6 +722,8 @@ export const fullyQualifiedPlugins = {
   kubernetesStatefulSet:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.statefulset.KubernetesStatefulSet',
   liferayApplicationContainer: 'com.instana.forge.infrastructure.application.liferay.LiferayApplicationContainer',
+  linuxKVMHypervisorHost:
+    'com.instana.forge.infrastructure.paas.linuxkvmhypervisor.derivedentity.host.LinuxKVMHypervisorHost',
   lxc: 'com.instana.forge.infrastructure.virtualization.lxc.Lxc',
   mariaDbDatabase: 'com.instana.forge.infrastructure.database.mariadb.MariaDbDatabase',
   memcached: 'com.instana.forge.infrastructure.cache.memcached.Memcached',

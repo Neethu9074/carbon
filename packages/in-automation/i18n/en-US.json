@@ -47,7 +47,6 @@
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
-  "deletePolicyWithName": "Delete policy {{actionName}}",
   "jobTemplate": "Job template",
   "workflowJobTemplate": "Workflow job template",
   "hostsLimit": "Hosts limit (optional)",
@@ -84,14 +83,10 @@
   "actionCategory": "Action categories",
   "value": "Value",
   "type": "Type",
-  "automationPoliciesWithCount": "Automation policies ({{count}})",
-  "automationPolicies": "Automation policies",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search actions",
   "searchOptimizations": "Search optimizations",
   "hostsLimitHelpText": "Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
-  "aiEngine": "AI engine",
-  "engine": "Engine",
   "eventSimilarity": "Event similarity",
   "close": "Close",
   "tag": "Tag",
@@ -112,6 +107,33 @@
   "triggeringEvent": "Triggering event",
   "probableRootCause": "Probable root cause",
   "contextFor": "Context for:",
+  "backToPolicies": "Back to policies",
+  "backToEvent": "Back to event",
+  "recommendation": "Recommendation",
+  "userCreated": "User created",
+  "successRate": "Success rate",
+  "optimization": "Optimization",
+  "viewRunAction": "View and run action",
+  "viewRunPolicy": "View and run policy",
+  "viewPolicyDashboard": "View policy dashboard",
+  "editPolicy": "Edit policy",
+  "deletePolicy": "Delete policy",
+  "viewActionDashboard": "View action dashboard",
+  "createPolicy": "Create policy",
+  "recommendedActionsExplanability": {
+    "linkExplanation": "Instana uses algorithms and integrations to recommend actions for events.",
+    "link": "Learn more about each type of recommendation.",
+    "algorithmSectionText1": "<strong>Event similarity -</strong> Incident-triggered event signatures are matched against event signatures for the events configured in policies. A score is calculated and normalized. The action configured in the policy is given this event-to-event score..",
+    "algorithmSectionText2": "<strong>NLP ( Natural Language Processing ) -</strong> Incident-triggered event signatures are matched against action signatures in the action catalog. Signatures include the name, description, entity type, and tags. A score is calculated and normalized..",
+    "algorithmSectionText3": "<strong>Success rate -</strong> actions are given a score based on the success rate for the action when run against past occurrences of an event.",
+    "sectionDescription": "Instana uses pre-defined algorithms based on event signatures that are created when an incident occurs. There are three types:",
+    "sectionHeading": "Instana recommendations",
+    "optimizations": "Optimizations",
+    "optimizationsExplanation": "If the entity referenced by an incident has IBM Turbonomic actions that are associated with it, these actions are recommended with high confidence.",
+    "algorithms": "Algorithms",
+    "policiesExplanation": " When an event is raised that matches the conditions specified in a policy trigger, the policy is listed as a recommended action.",
+    "learnMoreLink": "Learn more about action recommendations in IBM Docs."
+  },
   "GenerateAIActionDialog": {
     "actionConfiguration": "Action configuration",
     "actionDetails": "Provide action details",
@@ -247,7 +269,6 @@
     "confidence_high": "High",
     "bodyDescription": "Data associated with the HTTP request.",
     "confidence": "{{context}}",
-    "confidenceHelpText": "This action was recommended based on: {{source}}",
     "http": "HTTP",
     "confidenceTitle": "Confidence",
     "run": "Run",
@@ -434,8 +455,11 @@
     "createANewPolicy": "Create a new policy",
     "configurePolicyEntityName": "Configure policy: {{entityName}}",
     "1PolicyDetails": "1. Policy details",
+    "policyDetails": "Policy details",
     "2TriggerConfiguration": "2. Trigger configuration",
+    "triggerConfiguration": "Trigger configuration",
     "3ActionConfiguration": "3. Action configuration",
+    "actionConfiguration": "Action configuration",
     "showsUpInTheListOfPolicies": "Shows up in the list of policies. Should be unique and meaningful.",
     "showsUpInThePolicyDescription": "Shows up in the policy description. Should be as descriptive as possible.",
     "manual": "Manual",
@@ -494,23 +518,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "Policies were created successfully.",
-        "content": "{{count}} policy has been created successfully.",
         "content_plural": "{{count}} policies have been created successfully.",
         "content_0": "{{count}} policies have been created successfully.",
         "content_1": "{{count}} policies have been created successfully.",
         "content_2": "{{count}} policies have been created successfully."
-      },
-      "failure": {
-        "title": "Failed to create policies.",
-        "content": "There was a problem creating the policies: {{error}}"
       }
     },
     "deleteDialog": {
       "success": "Policy was deleted successfully.",
       "failure": "Failed to delete policy."
     },
-    "createPolicies": "Create policies",
     "websiteSmartAlert": "Website Smart Alert"
   },
   "infoPanel": {
@@ -594,9 +611,9 @@
       },
       "section2": {
         "section2Title": "Input prompt fields",
-        "section2EventName": "<strong>Event name.</strong> The name of the incident, event, or alert.",
-        "section2Description": "<strong>Event description.</strong> The description of the incident or event.",
-        "section2Entitytype": "<strong>Event entity type.</strong> The type of entity associated with the incident or event."
+        "section2EventName": "<strong>Event name -</strong> The name of the incident, event, or alert.",
+        "section2Description": "<strong>Event description -</strong> The description of the incident or event.",
+        "section2Entitytype": "<strong>Event entity type -</strong> The type of entity associated with the incident or event."
       },
       "section3": {
         "AIModel": "AI model"

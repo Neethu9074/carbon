@@ -18,11 +18,14 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.navItems';
 import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
+import { parseActionFilter } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import { ScopeArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.types';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import { TeamScopeEntity } from 'in-settings/tabs/SecurityAndAccess/api/teams';
-import { success } from 'in-services/util/result';
+import { ACTION_TRANSLATIONS, ACTION_TYPES } from 'in-automation/constants';
+import { success, successObservable } from 'in-services/util/result';
+import { getActionTags } from 'in-automation/api';
 import { t } from 'in-i18n';
 
 export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
@@ -31,8 +34,12 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     title: t('in-settings:tabs.teams.scopeWebsitesAndMobileApps'),
     subtitle: scope => {
       return t('in-settings:tabs.teams.scopeWebsitesAndMobileAppsSubtitle', {
-        websitesCount: scope?.websites?.length ?? 0,
-        mobileAppsCount: scope?.mobileApps?.length ?? 0
+        websites: t('in-settings:tabs.teams.scopeWebsitesAndMobileAppsSubtitleWebsites', {
+          count: scope?.websites?.length ?? 0
+        }),
+        mobileApps: t('in-settings:tabs.teams.scopeWebsitesAndMobileAppsSubtitleMobileApps', {
+          count: scope?.mobileApps?.length ?? 0
+        })
       });
     },
     items: (scope, timeConfig) => {
@@ -99,7 +106,8 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     title: t('in-settings:tabs.teams.scopePlatformsAndInfrastructure'),
     subtitle: scope => {
       return t('in-settings:tabs.teams.scopePlatformsAndInfrastructureSubtitle', {
-        count: (scope?.kubernetesClusters?.length ?? 0) + (scope?.kubernetesNamespaces?.length ?? 0)
+        count: (scope?.kubernetesClusters?.length ?? 0) + (scope?.kubernetesNamespaces?.length ?? 0),
+        infraDfq: scope?.infraDfqFilter ? ', DFQ' : null
       });
     },
     items: (scope, timeConfig) => {
@@ -119,6 +127,14 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
           observable: () => getAllKubernetesClustersForEntitySelectionWithDefaults({ timeConfig }),
           extractId: extractId,
           extractName: extractName
+        },
+        {
+          id: 'infrastructure',
+          title: t('in-settings:tabs.teams.scopeInfrastructure'),
+          items: ['dfqId'],
+          observable: () => successObservable([{ id: 'dfqId', name: scope?.infraDfqFilter ?? '' }]),
+          extractId: extractId,
+          extractName: extractName
         }
       ];
     }
@@ -128,8 +144,12 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     title: t('in-settings:tabs.teams.scopeSyntheticMonitoring'),
     subtitle: scope => {
       return t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitle', {
-        testsCount: scope?.syntheticTests?.length ?? 0,
-        credentialsCount: scope?.syntheticCredentials?.length ?? 0
+        tests: t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitleTests', {
+          count: scope?.syntheticTests?.length ?? 0
+        }),
+        credentials: t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitleCredentials', {
+          count: scope?.syntheticCredentials?.length ?? 0
+        })
       });
     },
     items: (scope, timeConfig) => {
@@ -174,17 +194,50 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
   {
     id: 'automations',
     title: t('in-settings:tabs.teams.scopeAutomations'),
-    subtitle: () => {
-      return t('in-settings:tabs.teams.scopeAutomationsSubtitle', { count: 0 });
+    subtitle: scope => {
+      return t('in-settings:tabs.teams.scopeAutomationsSubtitle', {
+        actionTypes: t('in-settings:tabs.teams.scopeAutomationsSubtitleActionTypes', {
+          count: parseActionFilter(scope?.actionFilter ?? '')?.actionTypes?.length ?? 0
+        }),
+        actionTags: t('in-settings:tabs.teams.scopeAutomationsSubtitleActionTags', {
+          count: parseActionFilter(scope?.actionFilter ?? '')?.actionTags?.length ?? 0
+        })
+      });
     },
-    items: () => {
+    items: scope => {
       return [
         {
-          id: 'automations',
-          items: [],
-          observable: () => just(success([])),
+          id: 'actionTypes',
+          title: t('in-settings:tabs.teams.scopeSectionActionTypes'),
+          items: parseActionFilter(scope?.actionFilter ?? '').actionTypes,
+          observable: () =>
+            just(
+              success(
+                ACTION_TYPES.map(type => ({
+                  id: type,
+                  name: ACTION_TRANSLATIONS[type]
+                }))
+              )
+            ),
           extractId: extractId,
-          extractName: extractName
+          extractName: extractName,
+          displayType: 'tagSet'
+        },
+        {
+          id: 'actionTags',
+          title: t('in-settings:tabs.teams.scopeSectionActionTags'),
+          items: parseActionFilter(scope?.actionFilter ?? '').actionTags,
+          observable: () =>
+            getActionTags().map(data =>
+              success(
+                data.data?.tags.map(tag => {
+                  return { id: tag, name: tag };
+                }) ?? []
+              )
+            ),
+          extractId: extractId,
+          extractName: extractName,
+          displayType: 'tagSet'
         }
       ];
     }

@@ -6,16 +6,15 @@
 
 import React, { useState } from 'react';
 
-import { Spacer, Stack, IconButton, Button, RadioButton } from '@instana/components';
+import { Button, IconButton, RadioButton, Spacer, Stack } from '@instana/components';
 import { Action } from '@instana/types';
 
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
+import { descriptionColumn, NameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { usePolicyFormContext } from 'in-automation/Policies/usePolicyForm/usePolicyForm';
-import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm/utils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -26,8 +25,10 @@ import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TagsFilter } from 'in-automation/components/tableFilters';
+import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { listSuccess, success } from 'in-services/util/result';
 import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
+import CancelButton from 'in-components/form/CancelButton';
 import FormGroup from 'in-components/form/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
@@ -36,6 +37,14 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Policy.mless';
+
+export const nameColumn: ColumnDefinition<Action> = {
+  id: 'name',
+  label: t('in-automation:name'),
+  getContent: action => <NameColumn action={action} isLink={false} />,
+  width: 15,
+  sortable: true
+};
 
 export default function SelectAction({ actions }: { actions: Action[] }) {
   const { form, setForm } = usePolicyFormContext();
@@ -174,39 +183,46 @@ function SelectActionDialog({
   ];
 
   return (
-    <Dialog className={locals.select} title={t('in-automation:policies.addAction')} onClose={close} withoutBodyPadding>
-      <div className={locals.selectDialog}>
-        <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
-          searchPlaceholder={t('in-automation:searchActions')}
-          onChange={setServerTableUrlState}
-          page={page}
-          onRowClick={onChange}
-          pageSize={pageSize}
-          result={result}
-          query={query}
-          rightHeader={
-            <>
-              <Stack direction="horizontal">
-                <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
-                <TagsFilter availableTags={actionTags} tags={tags} setTags={setTags} />
-              </Stack>
-              <Spacer horizontal="small" />
-            </>
-          }
-          columnDefinitions={columnDefinitions}
-          orderBy={orderBy}
-          orderDirection={orderDirection}
-          fixedLayout
-        />
-      </div>
-      <Spacer vertical="small" />
-      <FormFooter>
-        <CancelButton onClick={close} />
-        <Button kind="primary" disabled={!selectedId} onClick={handleSubmit}>
-          {t('in-automation:policies.addAction')}
-        </Button>
-      </FormFooter>
-    </Dialog>
+    <div className={locals.dialogWrapper}>
+      <Dialog
+        className={locals.select}
+        title={t('in-automation:policies.addAction')}
+        onClose={close}
+        withoutBodyPadding
+      >
+        <div className={locals.selectDialog}>
+          <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
+            searchPlaceholder={t('in-automation:searchActions')}
+            onChange={setServerTableUrlState}
+            page={page}
+            onRowClick={onChange}
+            pageSize={pageSize}
+            result={result}
+            query={query}
+            rightHeader={
+              <>
+                <Stack direction="horizontal">
+                  <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
+                  <TagsFilter availableTags={actionTags} tags={tags} setTags={setTags} />
+                </Stack>
+                <Spacer horizontal="small" />
+              </>
+            }
+            columnDefinitions={columnDefinitions}
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            fixedLayout
+          />
+        </div>
+        <Spacer vertical="small" />{' '}
+        <FormFooter>
+          <CancelButton onClick={close} />
+          <Button kind="primary" disabled={!selectedId} onClick={handleSubmit}>
+            {t('in-automation:policies.addAction')}
+          </Button>
+        </FormFooter>
+      </Dialog>
+    </div>
   );
 }
 

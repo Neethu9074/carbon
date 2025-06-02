@@ -16,15 +16,25 @@ import { aggregationLabels } from 'in-stores/metric';
 function isCallOverviewTemplate(template) {
   return template.templateId === 'calls.overview';
 }
-
-function isSupportedAggregation(metricId, aggregation) {
-  const supportedAggregations = dataSourceConstants.calls.metricCatalogSupportedChartableMetrics[metricId];
+const metricCatalogSupportedChartableMetrics = {
+  calls: dataSourceConstants.calls.metricCatalogSupportedChartableMetrics,
+  traces: dataSourceConstants.calls.metricCatalogSupportedChartableMetrics,
+  subtraces: dataSourceConstants.subtraces.metricCatalogSupportedChartableMetrics
+};
+function isSupportedAggregation(metricId, aggregation, dataSource) {
+  const supportedAggregations = metricCatalogSupportedChartableMetrics[dataSource][metricId];
   return supportedAggregations.includes(aggregation);
 }
 
 export default function Charting(props) {
-  const { chartedMetricsTemplate, chartableMetricCatalog, CustomChartFactory, chartedMetrics, onChartedMetricsChange } =
-    props;
+  const {
+    chartedMetricsTemplate,
+    chartableMetricCatalog,
+    CustomChartFactory,
+    chartedMetrics,
+    onChartedMetricsChange,
+    dataSource
+  } = props;
 
   let metricAggregations;
   const [cachedMetrics, setCachedMetrics] = useState([]);
@@ -38,7 +48,9 @@ export default function Charting(props) {
       chartedMetricsTemplate.metrics?.map(metric => ({
         metricId: metric.metricId,
         aggregations: isCallOverviewTemplate(chartedMetricsTemplate)
-          ? metric.aggregations.filter(agg => agg !== 'DISTRIBUTION' && isSupportedAggregation(metric.metricId, agg))
+          ? metric.aggregations.filter(
+              agg => agg !== 'DISTRIBUTION' && isSupportedAggregation(metric.metricId, agg, dataSource)
+            )
           : metric.aggregations
       })) ?? [];
   } else {

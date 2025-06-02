@@ -4,11 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, Item, MapForm, notBlankValidator, ValidationResult } from 'formalistic';
-import { isEmpty, isUndefined } from 'lodash';
-import { parse } from 'qs';
+import { Field, Item, MapForm } from 'formalistic';
 
-import { PermissionSet, ScopeBinding } from '@instana/types';
+import { ApplicationConfig, PermissionSet } from '@instana/types';
 
 import {
   AreaRole,
@@ -23,68 +21,18 @@ import {
   syntheticAdditionalOwnerCapabilities,
   syntheticViewCapabilities
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
-import { GroupApiResult } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/types';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { Capability, CapabilityType, PermissionsUnion } from 'in-stores/permission';
-import { isBlank } from 'in-services/util/string';
-import { t } from 'in-i18n';
+import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import {
+  createGroupFormFromApiResult,
+  GroupFormFields
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
+import { GroupApiResult } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/types';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
   // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
   const item = Array.isArray(path) ? form.getIn(path) : form.get(path);
   return item as Field<T> | undefined;
-}
-
-export function contributionFilterNameValidator(name: string | null | undefined): ValidationResult {
-  if (isBlank(name)) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-settings:PermissionSection.contributionFilter_name_mayNotBeBlank')
-      }
-    ];
-  }
-
-  if (name!.length > 128) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-settings:PermissionSection.contributionFilter_name_mustNotBeLargerThan128Characters')
-      }
-    ];
-  }
-
-  return null;
-}
-
-export function dfqFilterValidator(permissionSet: PermissionSet | undefined): ValidationResult {
-  if (isUndefined(permissionSet?.infraDfqFilter.scopeId)) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-settings:PermissionSection.infrastructureDfq_mayNotBeBlank')
-      }
-    ];
-  }
-  return null;
-}
-
-export function actionFilterValidator(actionFilter: ScopeBinding | undefined): ValidationResult {
-  const scopeId = actionFilter?.scopeId;
-  if (scopeId == undefined) return null;
-  const { tags = [], type = [] } = parse(scopeId, { comma: true }) as {
-    tags?: string[] | string;
-    type?: string[] | string;
-  };
-  if (isEmpty(tags) && isEmpty(type)) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-settings:PermissionSection.automationFilter_mayNotBeBlank')
-      }
-    ];
-  }
-  return null;
 }
 
 export function updateFormField<T>(
@@ -103,65 +51,8 @@ export function setFieldValue<T>(field: Item, value: T, isTouched = false): Fiel
   return updatedField.setTouched(true);
 }
 
-export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
-  const { id, name, members, permissionSet } = apiResult?.result.group || {};
-  const applicationConfig = getDefaultApplicationConfig(name);
-  const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
-  const actionScope = permissionSet && getScopeFromProductArea(ProductArea.AUTOMATION, permissionSet);
-  const actionFilter = (actionScope &&
-    actionScope === ScopedPermissionItem.LIMITED_ACCESS &&
-    permissionSet?.actionFilter) || { scopeId: undefined, scopeRoleId: '-1' };
-  const label = permissionSet?.restrictedApplicationFilter?.label || applicationConfig?.label;
-  const tagFilterExpression =
-    fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) ||
-    applicationConfig.tagFilterExpression;
-  return form
-    .put(
-      'id',
-      createField({
-        value: id
-      })
-    )
-    .put(
-      'name',
-      createField({
-        value: name,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'label',
-      createField({
-        value: label,
-        validator: contributionFilterNameValidator
-      })
-    )
-    .put(
-      'members',
-      createField({
-        value: members
-      })
-    )
-    .put(
-      'permissionSet',
-      createField({
-        value: permissionSet,
-        validator: dfqFilterValidator
-      })
-    )
-    .put(
-      'scope',
-      createField({
-        value: applicationScope
-      })
-    )
-    .put(
-      'tagFilterExpression',
-      createField({
-        value: tagFilterExpression
-      })
-    )
-    .put('actionFilter', createField({ value: actionFilter, validator: actionFilterValidator }));
+export function createForm(form?: MapForm<GroupFormFields>, apiResult?: GroupApiResult) {
+  return createGroupFormFromApiResult({ form, group: apiResult?.result.group });
 }
 
 // Returns the AreaRole that matches the specified permissions
@@ -270,11 +161,13 @@ function addPermissionsByRoleForProductArea(
   return newPermissions;
 }
 
-export const getDefaultApplicationConfig = (applicationContributionfilterName: string | undefined) => {
+export const getDefaultApplicationConfig = (
+  applicationContributionfilterName: string | undefined
+): Pick<ApplicationConfig, 'label' | 'scope' | 'tagFilterExpression'> => {
   return {
-    label: applicationContributionfilterName,
+    label: applicationContributionfilterName ?? '',
     scope: 'INCLUDE_NO_DOWNSTREAM',
-    tagFilterExpression: []
+    tagFilterExpression: getEmptyTagFilterExpression()
   };
 };
 

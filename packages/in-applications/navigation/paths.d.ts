@@ -53,6 +53,8 @@ interface GetLinkToAnalyzeProps {
   applicationName: string;
   serviceName: string;
   endpointName: string;
+  subtraceId: string;
+  subtraceName: string;
   boundaryScope: ApplicationBoundaryScope;
   jumpToSource: boolean;
   dataSource: Lowercase<ApplicationDataSource>;

@@ -8,7 +8,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
-import { Link } from '@instana/components';
+import { Link, InfoIcon } from '@instana/components';
+import { Stack } from '@instana/carbon';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -36,6 +37,7 @@ import locals from 'in-synthetics/dashboards/global/tabs/tests/components/column
 
 interface TestListProps extends ServerTablePresenterProps<TestResultListItem> {
   timeConfig: TimeConfig;
+  runType?: string;
 }
 
 export interface TimeResult {
@@ -65,7 +67,7 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
   };
 }
 
-function TestLabelContent({ item }: { item: TestResultListItem }) {
+function TestLabelContent({ item, runType }: { item: TestResultListItem; runType: string }) {
   const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   location.pathname = syntheticsSummaryPath;
@@ -100,10 +102,15 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
   );
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'runType', runType);
 
   return (
     <div>
-      <Link href={createHref(location)} onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}>
+      <Link
+        href={createHref(location)}
+        onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
+        title={item?.testResultCommonProperties?.testCommonProperties?.label}
+      >
         <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>
@@ -115,11 +122,14 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     id: 'test_name',
     defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.testList.testLabel'),
-    getContent: item => <TestLabelContent item={item} />
+    noWrap: true,
+    ellipsis: '15vw',
+    getContent: (item, { runType }) => <TestLabelContent item={item} runType={runType ?? ''} />
   },
   {
     id: 'status',
     label: t('in-synthetics:dashboard.testList.status'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const status = item?.testResultCommonProperties?.testCommonProperties?.active
@@ -135,23 +145,49 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'synthetic_type',
     label: t('in-synthetics:dashboard.testList.type'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
-      return (
-        <div>
-          <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
-          <span className={locals.secText}>
-            {t('in-synthetics:dashboard.testList.frequencySubText', {
-              count: item?.testResultCommonProperties?.testCommonProperties?.frequency
-            })}
-          </span>
-        </div>
-      );
+      const sslDaysRemaining = item?.testResultCommonProperties?.sslDaysRemaining;
+      if (sslDaysRemaining != null) {
+        return (
+          <div>
+            <Stack orientation="vertical">
+              <Stack orientation="horizontal" gap="xsmall">
+                <h4>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
+                <InfoIcon
+                  description={t('in-synthetics:dashboard.testList.sslDaysRemaining', {
+                    daysRemaining: sslDaysRemaining
+                  })}
+                  align="bottom"
+                />
+              </Stack>
+              <span className={locals.secText}>
+                {t('in-synthetics:dashboard.testList.frequencySubText', {
+                  count: item?.testResultCommonProperties?.testCommonProperties?.frequency
+                })}
+              </span>
+            </Stack>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
+            <span className={locals.secText}>
+              {t('in-synthetics:dashboard.testList.frequencySubText', {
+                count: item?.testResultCommonProperties?.testCommonProperties?.frequency
+              })}
+            </span>
+          </div>
+        );
+      }
     }
   },
   {
     id: 'successRate',
     label: t('in-synthetics:dashboard.testList.successRate'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
@@ -180,6 +216,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'avg_response_time',
     label: t('in-synthetics:dashboard.testList.latency'),
+    optional: true,
     defaultOrderDirection: 'DESC',
     getContent(item: TestResultListItem, { result, timeConfig }) {
       return (
@@ -199,6 +236,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'location',
     label: t('in-synthetics:dashboard.testList.locationLabel'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
       return <LocationsPresenter item={item} />;
@@ -207,6 +245,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.associationLabel'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
       return <AssociationsContent item={item} />;
@@ -215,6 +254,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   {
     id: 'health',
     label: t('in-synthetics:dashboard.testList.health'),
+    optional: true,
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
       const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack } from '@instana/carbon';
 
 import DeleteSloMoreMenuButton from 'in-service-levels/components/SloList/components/DeleteSloMoreMenuButton';
 import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
@@ -18,6 +18,8 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
+
+import locals from './SloAlignContent.mless';
 
 interface Props {
   item: SloListItem;
@@ -47,7 +49,7 @@ export default function SloActions({ item }: Props) {
   };
 
   return (
-    <Stack align="end">
+    <Stack className={locals.stackAlignEnd}>
       <MoreMenu kind="subtle">
         <MoreMenuButton icon="lib_actions_edit" disabled={disabled} onClick={disabled ? noop : openEditDialog}>
           {t('in-service-levels:general.editButtonLabel')}

@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { ContainedList, ContainedListItem } from '@instana/carbon';
+import { TagSet } from '@instana/ibm-products';
 
 import { ScopeAreaSection } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.types';
 import useScopeEntityMapping from 'in-settings/tabs/SecurityAndAccess/hooks/useScopeEntityMapping';
@@ -26,19 +27,32 @@ const ScopeOverviewSection = <I,>({ areaId, section }: ScopeOverviewSectionProps
     observable: section.observable
   });
 
+  if (!scopeEntities?.length) return <></>;
+
   return (
     <ContainedList
       key={`${areaId}-${section.id}`}
       label={section.title ?? ''}
       className={section.title ? undefined : locals.hideTitle}
     >
-      {scopeEntities.map((item: I) => {
-        return (
-          <ContainedListItem key={`${section.id}-${section.extractId(item)}`}>
-            {section.extractName(item)}
-          </ContainedListItem>
-        );
-      })}
+      {section?.displayType === 'tagSet' && (
+        <ContainedListItem>
+          <TagSet
+            overflowType="tag"
+            tags={scopeEntities.map((item: I) => {
+              return { label: section.extractName(item), type: 'high-contrast' };
+            })}
+          />
+        </ContainedListItem>
+      )}
+      {(!section?.displayType || section?.displayType === 'list') &&
+        scopeEntities.map((item: I) => {
+          return (
+            <ContainedListItem key={`${section.id}-${section.extractId(item)}`}>
+              {section.extractName(item)}
+            </ContainedListItem>
+          );
+        })}
     </ContainedList>
   );
 };

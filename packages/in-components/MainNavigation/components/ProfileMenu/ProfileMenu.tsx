@@ -49,9 +49,9 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
   const activeLicenseType = config.activeLicenseType;
   const { isMcspEnvironment, mcspSaasConsoleUrl, regionName, ownerName } = config.mcspDetails ?? {};
   //// Show MCSP menu items only if the environment is MCSP
-  // and the active license type is either 'hostBasedPaid' or 'payPerUse'.
+  // and the active license type is either 'hostBasedPaid' or 'paidPerUse'.
   const shouldShowMcspMenuItems =
-    isMcspEnvironment && (activeLicenseType === 'hostBasedPaid' || activeLicenseType === 'payPerUse');
+    isMcspEnvironment && (activeLicenseType === 'hostBasedPaid' || activeLicenseType === 'paidPerUse');
 
   const teamsObservable = useObservable(rbacTeamsEnabled ? getTeamsByUserId() : just(null), []) ?? pendingResult;
   const teams = teamsObservable?.data ?? [];
@@ -141,6 +141,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           <SwitcherDivider className={local.profileMenu_switcherDivider} />
           {tealiumPrivacyEnabled ? (
             <SwitcherItem
+              href="#"
               data-autoid="dds--privacy-cp__link"
               // The below function will open the cookie preferences dialog box from the "More options" button
               // in IBM privacy banner

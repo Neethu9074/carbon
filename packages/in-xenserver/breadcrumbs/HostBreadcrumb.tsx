@@ -33,6 +33,14 @@ export default connectTo(
       filter: {
         hostId: props.hostId,
         timeConfig: props.timeConfig
+      },
+      pagination: {
+        page: 1,
+        pageSize: 20
+      },
+      order: {
+        by: 'name',
+        direction: 'ASC'
       }
     }).map(result => result.data)
   }),

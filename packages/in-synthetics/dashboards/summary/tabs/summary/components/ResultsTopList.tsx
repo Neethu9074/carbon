@@ -22,12 +22,13 @@ import { formatErrorMessage, getResultErrorMessage } from 'in-synthetics/dashboa
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { syntheticDnsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { runTypeTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
+import { runTypeCICD, runTypeScheduled } from 'in-synthetics/utils/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -141,9 +142,9 @@ function getList({ testId, timeConfig, selectedMetric, testType, runType }: GetL
   const tagFilters = [statusTagFilters, baseTagFilters, baseTagFilters];
   if (syntheticRunNowEnabled) {
     const runTypeTagFilter: TagFilter = {
-      stringValue: runType,
+      stringValue: runType === runTypeCICD ? runTypeScheduled : runType,
       name: runTypeTagName,
-      operator: EQUALS,
+      operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     };

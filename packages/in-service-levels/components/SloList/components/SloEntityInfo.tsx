@@ -12,7 +12,8 @@ import {
   isApplicationSloEntity,
   isTagFilter
 } from '@instana/types';
-import { Stack, SvgIcon, Typography } from '@instana/components';
+import { Typography, SvgIcon } from '@instana/components';
+import { Stack } from '@instana/carbon';
 
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -23,6 +24,8 @@ import { LabeledEntity } from 'in-service-levels/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { t } from 'in-i18n';
+
+import locals from './SloAlignContent.mless';
 
 interface Props {
   entities: LabeledEntity[];
@@ -53,8 +56,8 @@ export default function SloEntityInfo({ entities, entityType, service, endpoint,
   const hasMultipleEntities = entities.length > 1;
 
   return (
-    <Stack direction="horizontal" align="center">
-      <Stack direction="horizontal" align="center" gap="xxsmall">
+    <Stack orientation="horizontal" className={locals.stackAlignCenter}>
+      <Stack orientation="horizontal" className={locals.stackAlignCenter} gap="0.25rem">
         <Tooltip content={toolTipText}>
           <SvgIcon type={iconType} aria-label={toolTipText} />
         </Tooltip>

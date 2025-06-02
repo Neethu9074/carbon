@@ -34,7 +34,9 @@ export const stepConfigsForCarbonTearSheet = [
     title: t('in-alerting:smartAlerts.websites.tearSheet.step3.title'),
     validateIntermediately: [
       ['threshold', 'value'],
-      ['timeThreshold', 'timeWindow']
+      ['timeThreshold', 'timeWindow'],
+      ['timeThreshold', 'users'],
+      ['timeThreshold', 'userPercentage']
     ],
     component: AlertConfigTearSheetStep3
   },

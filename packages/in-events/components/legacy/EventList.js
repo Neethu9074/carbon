@@ -35,10 +35,12 @@ import { getExpressionWithGroupingTags } from 'in-events/components/EventContent
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
+import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AutomationCardForPRC from 'in-automation/AutomationCard/AutomationCardForPRC';
+import { EVENT_AI_GENERATE_SUBMIT_OVERVIEW } from 'in-services/tracking/eventNames';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
@@ -195,6 +197,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                   // Open notes, generate summary
                   setSummaryNotes(true, true);
                   MoveAIChatLauncher('500px');
+                  handleTracking(incident.get('id'), EVENT_AI_GENERATE_SUBMIT_OVERVIEW);
                 }}
               >
                 <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>

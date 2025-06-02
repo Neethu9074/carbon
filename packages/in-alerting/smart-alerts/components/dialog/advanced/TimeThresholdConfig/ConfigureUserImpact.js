@@ -94,7 +94,7 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
               <Input
                 className={locals.input}
                 type="number"
-                min="1"
+                min={1}
                 name="users"
                 value={timeThresholdForm.get('users')?.value ?? ''}
                 placeholder={numberOfUsersDefault}
@@ -103,7 +103,7 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
                     field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
                   )
                 }
-                step="1"
+                step={1}
                 disabled={!alertByNumberOfUsersChecked}
               />
             </FormGroup>
@@ -159,8 +159,8 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
               <Input
                 className={locals.input}
                 type="number"
-                min="1"
-                max="100"
+                min={1}
+                max={100}
                 value={
                   timeThresholdForm.containsKey('userPercentage')
                     ? getValueRoundedToDecimals(timeThresholdForm.get('userPercentage').value, true)
@@ -175,7 +175,7 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
                       .setTouched(true)
                   );
                 }}
-                step="1"
+                step={1}
                 disabled={!alertByPercentageOfUsersChecked}
               />
             </FormGroup>

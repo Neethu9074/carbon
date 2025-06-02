@@ -112,7 +112,7 @@ export function getNavigationTreeForRole({ role, defaultLogin }: GetNavigationTr
       }
     }
 
-    if (role.canConfigureTeams) {
+    if (!rbacTeamsEnabled && role.canConfigureTeams) {
       accessControlPages.push({
         idx: 'groups-page',
         path: securityAndAccessAccessControlGroups,

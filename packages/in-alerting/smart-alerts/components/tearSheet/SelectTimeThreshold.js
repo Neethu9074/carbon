@@ -19,23 +19,37 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/tearSheet/SelectTimeThreshold.mless';
 
-export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOption, impactTimeThresholdDisabled }) {
-  const { violationsPersistOverTime, violationsInSequence, violationsInPeriod, traceImpact } =
-    timeThresholdTypesTearSheet;
+export default function SelectTimeThreshold({
+  form,
+  updateForm,
+  hasTraceImpactOption,
+  hasUserImpactOption,
+  impactTimeThresholdDisabled
+}) {
+  const {
+    violationsPersistOverTime,
+    violationsInSequence,
+    violationsInPeriod,
+    traceImpact,
+    userImpactOfViolationsInSequence
+  } = timeThresholdTypesTearSheet;
 
-  const currenttimeThreshold = form.get('timeThreshold').get('type').value;
+  const timeThresholdTypeSelected = form.get('timeThreshold').get('type').value;
   const selectedTriggerAlert =
-    currenttimeThreshold == violationsInSequence || currenttimeThreshold == violationsInPeriod
+    timeThresholdTypeSelected == violationsInSequence || timeThresholdTypeSelected == violationsInPeriod
       ? violationsInSequence
-      : traceImpact;
+      : timeThresholdTypeSelected;
   const selectedPersistanceType =
-    currenttimeThreshold == violationsInPeriod ? violationsInPeriod : violationsInSequence;
+    timeThresholdTypeSelected == violationsInPeriod ? violationsInPeriod : violationsInSequence;
 
-  const selectBox1 = [createSelectOptionTearSheet(violationsPersistOverTime)];
+  const triggerTypeSelect = [createSelectOptionTearSheet(violationsPersistOverTime)];
   if (hasTraceImpactOption && !impactTimeThresholdDisabled) {
-    selectBox1.push(createSelectOptionTearSheet(traceImpact));
+    triggerTypeSelect.push(createSelectOptionTearSheet(traceImpact));
   }
-  const selectBox2 = [
+  if (hasUserImpactOption && !impactTimeThresholdDisabled) {
+    triggerTypeSelect.push(createSelectOptionTearSheet(userImpactOfViolationsInSequence));
+  }
+  const persistenceTypeSelect = [
     createSelectOptionTearSheet(violationsInSequence),
     createSelectOptionTearSheet(violationsInPeriod)
   ];
@@ -55,20 +69,19 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
           id="timeThresholdTypeTriggerAlert"
           data-testid="timeThresholdTypeTriggerAlert"
           value={selectedTriggerAlert}
-          wrapperClassName={locals.width80}
           useFullWidth
           onChange={e => {
             updateForm(form.put('timeThreshold', getTimeThresholdFormForType(form, e.target.value)));
           }}
         >
-          {selectBox1.map(({ value, label }) => (
+          {triggerTypeSelect.map(({ value, label }) => (
             <option key={value} value={value}>
               {label}
             </option>
           ))}
         </Select>
       </div>
-      {currenttimeThreshold != traceImpact && (
+      {timeThresholdTypeSelected != traceImpact && timeThresholdTypeSelected != userImpactOfViolationsInSequence && (
         <div className={locals.triggerAlertContainer}>
           <span className={locals.label}>
             <AlertTypography
@@ -83,13 +96,12 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
             id="timeThresholdTypePersistenceType"
             data-testid="timeThresholdTypePersistenceType"
             value={selectedPersistanceType}
-            wrapperClassName={locals.width80}
             useFullWidth
             onChange={e => {
               updateForm(form.put('timeThreshold', getTimeThresholdFormForType(form, e.target.value)));
             }}
           >
-            {selectBox2.map(({ value, label }) => (
+            {persistenceTypeSelect.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -115,5 +127,6 @@ SelectTimeThreshold.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   hasTraceImpactOption: PropTypes.bool,
+  hasUserImpactOption: PropTypes.bool,
   impactTimeThresholdDisabled: PropTypes.bool
 };

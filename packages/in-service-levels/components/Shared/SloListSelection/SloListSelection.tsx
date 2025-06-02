@@ -7,9 +7,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Field, Item } from 'formalistic';
 
-import { HorizontalIndicator, Typography, SearchInput, ValidationBlock } from '@instana/components';
+import { HorizontalIndicator, Typography, ValidationBlock } from '@instana/components';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
 import { PaginatedResult, SloEntityType } from '@instana/types';
+import { Search } from '@instana/carbon';
 
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
@@ -84,11 +85,15 @@ export default function SloListSelection({ sloIdsField, entityTypeField, onChang
           <Typography variant="heading-200" component="h2">
             {t('in-alerting:smartAlerts.slo.advancedModeContainer.selectSloHeadline')}
           </Typography>
-          <SearchInput
-            query={query}
-            onChange={q => setQuery(q)}
-            placeholder={t('in-components:searchInput.placeholderSearch')}
-          />
+          <div>
+            <Search
+              labelText=""
+              value={query}
+              onChange={event => setQuery(event.target.value)}
+              placeholder={t('in-components:searchInput.placeholderSearch')}
+              size="sm"
+            />
+          </div>
         </SloTableHeader>
         <HorizontalIndicator progress={progress} />
         <SloTableSelection

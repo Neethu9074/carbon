@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { RRule, Weekday } from 'rrule';
+import { RRule, Weekday, datetime } from 'rrule';
 import { add, sub } from 'date-fns';
 
 export const createRRuleFreq = (
@@ -21,6 +21,52 @@ export const createRRuleFreq = (
 export const setRRuleInterval = (rrule: RRule, interval: number): RRule => {
   rrule.options.interval = interval;
   return rrule;
+};
+
+/**
+ * Convert users input in a date format that rrule recommends.
+ *
+ * See https://github.com/jkbrzt/rrule/tree/master?tab=readme-ov-file#important-use-utc-dates
+ * @param dateStartField user input for date
+ * @param timeField user input for time
+ * @returns
+ */
+export const getDateObjectFromRrule = (dateStartField?: String, timeField?: String): Date | null => {
+  if (!dateStartField || !timeField) return null;
+
+  // extract date from dateStartField formatted as YYYY-MM-DD
+  const [year, month, day] = dateStartField.split('-').map(Number);
+
+  // extract time from timeField formatted as HH:MM:SS
+  const [hour, minute, seconds] = timeField.split(':').map(Number);
+
+  const date = datetime(year, month, day, hour, minute, seconds);
+
+  return date;
+};
+
+/**
+ * Convert rrule's fake "UTC" time to local time format.
+ *
+ * See https://github.com/jkbrzt/rrule/tree/master?tab=readme-ov-file#important-use-utc-dates
+ * @param rruleDate rrule date
+ * @returns Date in local timezone
+ */
+export const formatRruleDateAsLocal = (rruleDate: Date): Date => {
+  // Extract components using getUTC* methods, as rrule intends these
+  // to be the local time components.
+  const year = rruleDate.getUTCFullYear();
+  const month = rruleDate.getUTCMonth(); // getUTCMonth() is 0-indexed (0 for January)
+  const day = rruleDate.getUTCDate();
+  const hours = rruleDate.getUTCHours();
+  const minutes = rruleDate.getUTCMinutes();
+  const seconds = rruleDate.getUTCSeconds();
+
+  // Create a new Date object. JavaScript's Date constructor, when given
+  // these numerical components, assumes they are for the local timezone.
+  const localDate = new Date(year, month, day, hours, minutes, seconds);
+
+  return localDate;
 };
 
 export const setRRuleDtstart = (rrule: RRule, dateTime: Date): RRule => {

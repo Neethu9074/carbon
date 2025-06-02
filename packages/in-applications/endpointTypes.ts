@@ -7,6 +7,7 @@ import invariant from 'invariant';
 
 import { EndpointType } from '@instana/types';
 
+import { carbonCategorical } from 'in-themes/chartColors';
 import { lighten } from 'in-services/formatters/color';
 import { t } from 'in-i18n';
 
@@ -50,11 +51,28 @@ export function getColor(type: string) {
   return colorTranslation[type] || colorTranslation.SDK;
 }
 
+export const colorTranslationForCharts: Record<string, string> = {
+  BATCH: carbonCategorical.purple70,
+  SHELL: carbonCategorical.cyan50,
+  DATABASE: carbonCategorical.teal70,
+  HTTP: carbonCategorical.magenta70,
+  MESSAGING: carbonCategorical.red50,
+  RPC: carbonCategorical.red90,
+  EVENT: carbonCategorical.green60,
+  GRAPHQL: carbonCategorical.blue80,
+  INTERNAL: carbonCategorical.magenta50,
+  UNDEFINED: carbonCategorical.yellow50,
+  UNKNOWN: carbonCategorical.teal50,
+  SELF: carbonCategorical.cyan90,
+  SDK: carbonCategorical.orange70,
+  OPENTELEMETRY: carbonCategorical.purple50
+};
+
 export function getColorChart(type: string) {
   if (__DEV__) {
-    invariant(colorTranslation[type], `Unknown endpoint type ${type}`);
+    invariant(colorTranslationForCharts[type], `Unknown endpoint type ${type}`);
   }
-  return lighten(colorTranslation[type], 0.05) || colorTranslation.SDK;
+  return lighten(colorTranslationForCharts[type], 0.05) || colorTranslationForCharts.SDK;
 }
 
 export function getEndpointTypesComboBoxItems(restrict: Array<EndpointType> | null = null) {

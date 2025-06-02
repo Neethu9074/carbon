@@ -53,6 +53,7 @@ export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
 export const xenserverEnabled = isFeatureFlagEnabled('xenserverEnabled');
 export const windowsHypervisorEnabled = isFeatureFlagEnabled('windowsHypervisorEnabled');
+export const linuxkvmhypervisorEnabled = isFeatureFlagEnabled('linuxkvmhypervisorEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
@@ -137,6 +138,9 @@ export const syntheticNodeJs22Enabled = isFeatureFlagEnabled('syntheticNodeJs22E
 
 // Synthetic SSL Improvement feature flag
 export const syntheticSslImprovementEnabled = isFeatureFlagEnabled('syntheticSslImprovementEnabled');
+
+// Synthetic carbon table feature flag
+export const syntheticCarbonTableEnabled = isFeatureFlagEnabled('syntheticCarbonTableEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -387,3 +391,4 @@ export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled
 export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);
 export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);
 export const rcaAiAutomatedInvestigationEnabled = isFeatureFlagEnabled('rcaAiAutomatedInvestigationEnabled', false);
+export const apMetricsDeltaFetchingEnabled = isFeatureFlagEnabled('apMetricsDeltaFetchingEnabled', false);

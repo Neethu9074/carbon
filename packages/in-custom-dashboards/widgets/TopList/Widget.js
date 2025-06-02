@@ -12,6 +12,7 @@ import {
   getFilterResultNote,
   useFilteredMetricConfiguration
 } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
+import { default as BusinessMetricsTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/BusinessMetricsTopListCatalog';
 import { default as SyntheticTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/SyntheticTopListCatalog';
 import { enrichBySettingDataSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/utils';
 import { default as WebsiteTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/WebsiteTopListCatalog';
@@ -49,7 +50,6 @@ export default function ListWidget({ config: baseConfig, title, actions, isInMod
   const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration(baseConfig.metricConfiguration);
   const config = { ...baseConfig, metricConfiguration };
   const timeConfig = useTimeConfig();
-
   switch (config.metricConfiguration.source) {
     case 'APPLICATION':
       return (
@@ -117,6 +117,21 @@ export default function ListWidget({ config: baseConfig, title, actions, isInMod
 
       return (
         <BizOpsTopListCatalog
+          config={config}
+          title={title}
+          actions={actions}
+          isInModal={isInModal}
+          dragHandle={dragHandle}
+          timeConfig={timeConfig}
+          filterResult={filterResult}
+        />
+      );
+    case 'BUSINESS_METRICS':
+      // add bizops data source
+      config.metricConfiguration = enrichBySettingDataSource(config.metricConfiguration);
+
+      return (
+        <BusinessMetricsTopListCatalog
           config={config}
           title={title}
           actions={actions}

@@ -114,17 +114,15 @@ export function columnDefinitions(hasRowNavigation) {
       ellipsis: true,
       getContent(entity) {
         return (
-          <Tooltip content={entity.name} align="auto" delay={500} overwriteBlock overflowEllipsis>
-            <WithSubscript subscript={getKind(entity)}>
-              {hasRowNavigation ? (
-                <Link href={getEntityIdView(globalSettingsAlertingAlertChannels, entity.id)} ellipsis>
-                  {entity.name}
-                </Link>
-              ) : (
-                <span className={locals.ellipsis}>{entity.name}</span>
-              )}
-            </WithSubscript>
-          </Tooltip>
+          <WithSubscript subscript={getKind(entity)}>
+            {hasRowNavigation ? (
+              <Link href={getEntityIdView(globalSettingsAlertingAlertChannels, entity.id)} ellipsis>
+                {entity.name}
+              </Link>
+            ) : (
+              <span className={locals.ellipsis}>{entity.name}</span>
+            )}
+          </WithSubscript>
         );
       },
       getValue(entity) {

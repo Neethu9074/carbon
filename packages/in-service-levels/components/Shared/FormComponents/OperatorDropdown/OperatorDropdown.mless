@@ -7,6 +7,9 @@
 :local {
   .dropdownContainer {
     position: relative;
-    width: 6rem;
+  }
+
+  .selectElement {
+    padding-right: 0.85rem;
   }
 }

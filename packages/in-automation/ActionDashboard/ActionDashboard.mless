@@ -47,8 +47,21 @@
     border: 0;
   }
 }
-:global .code-snippet-wrapper {
+:global .code-snippet-wrapper,
+:global .code-snippet-wrapper-content {
   --cds-layer: var(--cds-background);
   margin-bottom: 0;
   font-size: 0.75rem;
+}
+:global .code-snippet-wrapper {
+  width: 50%;
+  pre {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1280px) {
+  :global .code-snippet-wrapper {
+    width: 100%;
+  }
 }

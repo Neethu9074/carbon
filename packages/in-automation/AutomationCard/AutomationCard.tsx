@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { Card, Spacer } from '@instana/components';
 import { Event, VolatileId } from '@instana/types';
+import { Card, Spacer } from '@instana/components';
 
 import useScoredActions, {
   useUserRecommendedScoredActions,
@@ -16,8 +16,6 @@ import useScoredActions, {
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
-import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
-import usePolicies from 'in-automation/AutomationCard/usePolicies';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
@@ -30,32 +28,20 @@ interface AutomationCardProps {
 
 function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const activeKey = useActiveKey();
-  const policies = usePolicies({ event });
   const historyCount = useHistory({ eventId: event.id });
   const trigger = useTrigger({ event });
   const userActions = useScoredActions({ event, trigger, type: 'default' });
   const ootbActions = useScoredActions({ event, trigger, type: 'watsonx' });
-  const recommendedActions = useUserRecommendedScoredActions({ actions: userActions, policies });
-  const ootbRecommendedActions = useAIRecommendedScoredActions({ actions: ootbActions, policies });
+  const recommendedActions = useUserRecommendedScoredActions({ actions: userActions });
+  const ootbRecommendedActions = useAIRecommendedScoredActions({ actions: ootbActions });
   return (
     <Row withoutSideMargin>
       <Col xs>
         <Card>
           <AutomationCardButtonGroup
-            policyCount={policies?.data?.length}
             recommendedActionsCount={recommendedActions?.data?.length}
             actionHistoryCount={historyCount}
           />
-          {(activeKey === 'automationPolicies' || activeKey === 'recommendedActions') && <Spacer vertical="small" />}
-          {activeKey === 'automationPolicies' && (
-            <AutomationPolicies
-              volatileId={volatileId}
-              event={event}
-              actions={userActions}
-              policies={policies}
-              trigger={trigger}
-            />
-          )}
           {activeKey === 'recommendedActions' && (
             <RecommendedActions
               event={event}
@@ -65,7 +51,12 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
               ootbRecommendedActions={ootbRecommendedActions}
             />
           )}
-          {activeKey === 'actionHistory' && <ActionHistoryTable eventId={event.id} />}
+          {activeKey === 'actionHistory' && (
+            <>
+              <Spacer vertical="small" />
+              <ActionHistoryTable eventId={event.id} />
+            </>
+          )}
         </Card>
       </Col>
     </Row>

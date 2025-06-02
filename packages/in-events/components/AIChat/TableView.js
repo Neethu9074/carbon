@@ -93,16 +93,18 @@ const TableView = ({
           </TableContainer>
         )}
       />
-      <Pagination
-        pageSizes={pageSizes}
-        page={currentPage}
-        pageSize={pageSize}
-        onChange={({ page, pageSize }) => {
-          handlePageChange(page);
-          handlePageSizeChange(pageSize);
-        }}
-        totalItems={totalItems}
-      />
+      {totalItems > 5 && (
+        <Pagination
+          pageSizes={pageSizes}
+          page={currentPage}
+          pageSize={pageSize}
+          onChange={({ page, pageSize }) => {
+            handlePageChange(page);
+            handlePageSizeChange(pageSize);
+          }}
+          totalItems={totalItems}
+        />
+      )}
     </div>
   );
 };

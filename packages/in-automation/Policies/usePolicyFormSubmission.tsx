@@ -25,7 +25,7 @@ interface SubmitPayload {
 
 export default function usePolicyFormSubmission() {
   const { createPolicyTrackerSegment, editPolicyTrackerSegment } = useSegmentTracker();
-  const { id, isNew } = usePolicyDetailsUrlParams();
+  const { id, isNew } = usePolicyDetailsUrlParams({ copy: false });
 
   return useFormSubmission<SubmitPayload, Policy>(({ form, triggers, actions }) => {
     const policy = getPolicyFromForm(form);

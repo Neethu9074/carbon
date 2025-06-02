@@ -7,20 +7,23 @@
 import React from 'react';
 
 import { FormGroup, Label, RadioButton, Spacer, Typography } from '@instana/components';
+import { Result, Action } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { Result } from '@instana/types';
 
+import {
+  scoredActionTagsColumn,
+  scoredActionNameColumn,
+  scoredActionDescriptionColumn
+} from 'in-automation/ActionTable/columnDefinitions';
 import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { setGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
 import { getManualContentFromFields, getScriptFromFields, base64ToUtf8 } from 'in-automation/utils/actionField';
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { ScoredAction } from 'in-automation/types';
@@ -54,23 +57,26 @@ const columnDefinitions: ColumnDefinition<ScoredAction, SelectActionTableProps>[
     id: 'select',
     label: '',
     width: 50,
-    getContent: (action, { onSelect, selectedAction }) => (
-      <RadioButton label="" checked={action.id === selectedAction?.id} onChange={() => onSelect(action)} />
-    )
+    getContent(item, { onSelect, selectedAction }) {
+      const action = item.entity as Action;
+      const selectedOOTBAction = selectedAction?.entity as Action;
+      return <RadioButton label="" checked={action.id === selectedOOTBAction?.id} onChange={() => onSelect(item)} />;
+    }
   },
-  nameColumn as ColumnDefinition<ScoredAction, SelectActionTableProps>,
-  descriptionColumn as ColumnDefinition<ScoredAction, SelectActionTableProps>,
-  tagsColumn as ColumnDefinition<ScoredAction, SelectActionTableProps>
+  scoredActionNameColumn as ColumnDefinition<ScoredAction, SelectActionTableProps>,
+  scoredActionDescriptionColumn as ColumnDefinition<ScoredAction, SelectActionTableProps>,
+  scoredActionTagsColumn as ColumnDefinition<ScoredAction, SelectActionTableProps>
 ];
 
 function onSelect({
-  action,
+  item,
   setForm
 }: {
-  action: ScoredAction;
+  item: ScoredAction;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
 }) {
-  setSelectedAction(action);
+  const action = item.entity as Action;
+  setSelectedAction(item);
   setGeneratedAction(null);
   setForm(form => {
     let updatedForm = form
@@ -125,7 +131,7 @@ export default function SelectActionStep({
   });
 
   function select(action: ScoredAction) {
-    onSelect({ action, setForm });
+    onSelect({ item: action, setForm });
   }
 
   return (
@@ -166,7 +172,7 @@ function ActionName({ name = '-' }) {
   );
 }
 
-function ScriptSection({ action }: { action: ScoredAction }) {
+function ScriptSection({ action }: { action: Action }) {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
@@ -209,7 +215,8 @@ function EmptySection() {
   );
 }
 function ActionPreview() {
-  const selectedAction = useSelectedAction();
+  const selectedScoredAction = useSelectedAction();
+  const selectedAction = selectedScoredAction?.entity as Action;
   if (!selectedAction) return <EmptySection />;
   switch (selectedAction.type) {
     case 'SCRIPT':

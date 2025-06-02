@@ -32,6 +32,8 @@ export interface ContributionFilterWrapperProps<FORM_TYPE extends MapFormItems> 
   isContributorRole?: boolean;
   setValid?: (isValid: boolean) => void;
   editMode?: boolean;
+  filterExpressionFieldName?: Extract<keyof FORM_TYPE, string> | string;
+  filterNameFieldName?: Extract<keyof FORM_TYPE, string> | string;
 }
 
 export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems>({
@@ -39,10 +41,12 @@ export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems
   setForm,
   isContributorRole,
   setValid,
-  editMode
+  editMode,
+  filterExpressionFieldName = 'tagFilterExpression',
+  filterNameFieldName = 'label'
 }: ContributionFilterWrapperProps<FORM_TYPE>) {
   const timeConfig = useTimeConfig();
-  const tagFilterExpressionField = getField<FormModelElement[]>(form, 'tagFilterExpression');
+  const tagFilterExpressionField = getField<FormModelElement[]>(form, filterExpressionFieldName);
   const tagFilterExpression = tagFilterExpressionField?.value;
 
   const validTagFilterExpressionResult: Result<boolean> =
@@ -55,7 +59,7 @@ export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems
     const downstreamScope = jsForm.scope;
     const tagFilterExpression = jsForm.tagFilterExpression;
 
-    if (!isValidTagFilterExpression || tagFilterExpression.length === 0) {
+    if (!isValidTagFilterExpression || tagFilterExpression?.length === 0) {
       return successObservable([]);
     }
 
@@ -70,7 +74,14 @@ export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems
 
   return (
     <div className={locals.contributionFilter_wrapper}>
-      <ApplicationContributionFilter form={form} setForm={setForm} setValid={setValid} editMode={editMode} />
+      <ApplicationContributionFilter
+        form={form}
+        setForm={setForm}
+        setValid={setValid}
+        editMode={editMode}
+        filterExpressionFieldName={filterExpressionFieldName}
+        filterNameFieldName={filterNameFieldName}
+      />
       <div className={locals.contributionFilter_wrapper_servicesLiveList}>
         <ServiceLiveList
           servicesLiveList={servicesLiveList}

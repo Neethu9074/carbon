@@ -10,6 +10,7 @@ import {
   entityLabelOperatorOptions,
   entityTypesToExcludeInVerificationRule
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
+import { MAX_CHAR_LENGTH_ENTITY_LABEL } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -75,7 +76,7 @@ export function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, fo
               value={matchingEntityLabel.value || ''}
               onChange={e => onChange('matchingEntityLabel', e.target.value)}
               hasError={!matchingEntityLabel.valid && matchingEntityLabel.touched}
-              maxLength={256}
+              maxLength={MAX_CHAR_LENGTH_ENTITY_LABEL}
               autoFocus
             />
             <TouchedMessages field={matchingEntityLabel} />

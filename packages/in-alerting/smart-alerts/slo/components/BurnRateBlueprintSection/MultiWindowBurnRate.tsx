@@ -90,7 +90,7 @@ export default function MultiWindowBurnRate() {
 
   const burnRateForm = form.get('burnRateConfig');
   const shouldShowShortWindowExceedsLongWindowError =
-    shortTimeWindowDurationInMilliseconds > longTimeWindowDurationInMilliseconds &&
+    shortTimeWindowDurationInMilliseconds >= longTimeWindowDurationInMilliseconds &&
     longTimeWindowDurationValue !== 0 &&
     shortTimeWindowDurationValue !== 0 &&
     hasShortWindowBeenTouched &&

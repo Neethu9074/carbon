@@ -144,6 +144,7 @@ export const pageNames = Object.freeze({
   automation_action_history: 'Automation > Action History',
   automation_policies: 'Automation > Policies',
   automation_policy_view: 'Automation > Policies > Policy details',
+  automation_policy_create: 'Automation > Policies > New or Edit Policy',
   automation_generate_script_with_watsonx: 'Automation > Generate script With watsonx',
   custom_payload: 'Custom Payload',
   nutanix_vm: 'Nutanix VM',
@@ -152,7 +153,9 @@ export const pageNames = Object.freeze({
   nutanix: 'Nutanix',
   xenserver: 'XenServer',
   xenserver_host: 'XenServer Host',
-  windowshypervisor: 'Windows Hypervisor'
+  windowshypervisor: 'Windows Hypervisor',
+  linuxkvmhypervisor: 'Linux KVM Hypervisor',
+  linuxkvmhypervisor_host: 'Linux KVM Hypervisor Host'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

@@ -6,7 +6,7 @@
 
 import React, { ComponentProps, useEffect } from 'react';
 
-import { CarbonFilterableMultiSelect } from '@instana/components';
+import { FilterableMultiSelect } from '@instana/carbon';
 
 import { t } from 'in-i18n';
 
@@ -21,8 +21,8 @@ interface Option {
   value: string;
 }
 
-type CarbonFilterableMultiSelectProps = ComponentProps<typeof CarbonFilterableMultiSelect<Option>>;
-const sloTagFilterItems: CarbonFilterableMultiSelectProps['filterItems'] = (items, { itemToString, inputValue }) => {
+type FilterableMultiSelectProps = ComponentProps<typeof FilterableMultiSelect<Option>>;
+const sloTagFilterItems: FilterableMultiSelectProps['filterItems'] = (items, { itemToString, inputValue }) => {
   return items.filter(item => {
     if (!inputValue) {
       return true;
@@ -48,7 +48,7 @@ export default function SloTagFilter({ tags, value, onChange }: SloTagFilterProp
   }, [value, tags, onChange]);
 
   return (
-    <CarbonFilterableMultiSelect
+    <FilterableMultiSelect
       id="sloTagFilter"
       placeholder={t('in-service-levels:sloList.components.sloTagFilter.placeholder')}
       size="sm"

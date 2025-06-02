@@ -124,6 +124,7 @@ module.exports = {
   syntheticRunNowEnabled: true,
   syntheticNodeJs22Enabled: true,
   syntheticSslImprovementEnabled: true,
+  syntheticCarbonTableEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
@@ -151,6 +152,7 @@ module.exports = {
   extrapolateMissingStackedAreaValues: true,
   nutanixEnabled: true,
   xenserverEnabled: true,
+  linuxkvmhypervisorEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
@@ -197,5 +199,6 @@ module.exports = {
   mobileAppSmartAlertSlownessBlueprintEnabled: false,
   regexMatchEnabled: true,
   whatsNewBannerEnabled: true,
-  allSmartAlertsViewEnabled: false
+  allSmartAlertsViewEnabled: false,
+  apMetricsDeltaFetchingEnabled: true
 };

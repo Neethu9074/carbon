@@ -29,4 +29,8 @@
     display: inline-block;
     min-width: 10rem;
   }
+
+  .selectField {
+    width: auto;
+  }
 }

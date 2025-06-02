@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { Checkbox } from '@instana/components';
+import { Checkbox } from '@instana/carbon';
+
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -29,17 +30,19 @@ export default function HiddenCallsConfigurator({
     <Row>
       <Col md={5} xs={5}>
         <Checkbox
+          id="slo-internal-call-checkbox"
           disabled={disabled}
           checked={includeInternal}
-          label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeInternalCalls')}
+          labelText={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeInternalCalls')}
           onChange={() => onChangeInternal?.(!includeInternal)}
         />
       </Col>
       <Col md={5} xs={5}>
         <Checkbox
+          id="slo-synthetic-call-checkbox"
           disabled={disabled}
           checked={includeSynthetic}
-          label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeSyntheticCalls')}
+          labelText={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeSyntheticCalls')}
           onChange={() => onChangeSynthetic?.(!includeSynthetic)}
         />
       </Col>

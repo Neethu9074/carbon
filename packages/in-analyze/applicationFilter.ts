@@ -7,7 +7,7 @@ import { get } from 'lodash';
 
 // eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
-import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
+import { applicationId, serviceId, endpointId, subtraceId } from 'in-analyze/navigation/matrix';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { TagFilter } from 'in-types';
 import { t } from 'in-i18n';
@@ -38,6 +38,12 @@ export const ENDPOINT = {
   name: 'endpoint.name',
   technicalName: 'endpoint.name',
   label: t('in-analyze:applicationFilter.labelEndpoint')
+} as const;
+export const SUBTRACE = {
+  id: subtraceId,
+  name: 'subtrace.name',
+  technicalName: 'subtrace.name',
+  label: t('in-applications:subtraces.labelSubtrace')
 } as const;
 
 export const operators = {

@@ -19,4 +19,12 @@
       margin-top: 0;
     }
   }
+
+  .kpiGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+    gap: 16px 0px;
+    width: 100%;
+    box-sizing: border-box;
+  }
 }

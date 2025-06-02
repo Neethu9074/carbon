@@ -15,6 +15,7 @@ import {
 import TraceGroupingConfigurator from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
+import SubtraceQueryBuilder from 'in-applications/analyze/components/workspace/SubtraceQueryBuilder';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import { FilterActions } from 'in-applications/analyze/AnalyzeView2_0/components/FilterActions';
 import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
@@ -38,12 +39,14 @@ import { t } from 'in-i18n';
 
 const queryBuilderPerDataSource = {
   calls: CallQueryBuilder,
-  traces: TraceQueryBuilder
+  traces: TraceQueryBuilder,
+  subtraces: SubtraceQueryBuilder
 };
 
 const groupingConfiguratorPerDataSource = {
   calls: CallGroupingConfigurator,
-  traces: TraceGroupingConfigurator
+  traces: TraceGroupingConfigurator,
+  subtraces: CallGroupingConfigurator //TODO:need to change
 };
 
 export default function ApplicationsQueryBuilderWorkspace(props) {
@@ -155,16 +158,17 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               errors={errors}
             />
 
-            <GroupingConfiguratorSection
-              value={groupBy}
-              onChange={onGroupByChange}
-              GroupingConfigurator={groupingConfiguratorPerDataSource[dataSource]}
-              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
-              tracking={{
-                onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
-              }}
-            />
-
+            {dataSource !== 'subtraces' && (
+              <GroupingConfiguratorSection
+                value={groupBy}
+                onChange={onGroupByChange}
+                GroupingConfigurator={groupingConfiguratorPerDataSource[dataSource]}
+                tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+                tracking={{
+                  onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
+                }}
+              />
+            )}
             <ActionSection
               left={
                 <Stack direction={'horizontal'} gap={'small'}>

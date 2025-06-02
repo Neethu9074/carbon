@@ -29,7 +29,6 @@ import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/us
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { getActionNameExists, saveNewAction, saveNewPolicy } from 'in-automation/api';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
-import { refresh as refreshPolicies } from 'in-automation/AutomationCard/usePolicies';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
@@ -159,7 +158,6 @@ function useOnSubmit() {
             trackAction();
             createActionSuccessNotification(result.data?.name!, result.data?.id!);
             refreshScoredActions();
-            onClose();
           },
           () => {
             const err = error([
@@ -202,9 +200,9 @@ function useOnSubmit() {
               aiOriginated: true,
               triggerName: event.problem?.problemText
             });
-            setActiveKey('automationPolicies');
+            setActiveKey('recommendedActions');
             onCreatePolicySuccess(result.data?.name!, result.data?.id!);
-            refreshPolicies();
+            refreshScoredActions();
             onClose();
           },
           () => {

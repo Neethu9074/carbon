@@ -23,7 +23,7 @@ import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/co
 // @ts-expect-error module needs to be translated to TS
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { availableMetrics } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/metrics';
-import businessProcessGroupingConfigurator from 'in-bizops/api/businessProcessGroupingConfigurator';
+import businessProcessGroupingConfigurator from 'in-bizops/components/businessProcessGroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import SelectInSection from 'in-components/form/Select/SelectInSection';

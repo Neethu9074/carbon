@@ -26,7 +26,7 @@ export const ROLES_TABLE_HEADERS: Readonly<RolesTableHeader[]> = deepFreeze([
   },
   {
     key: 'usersCount',
-    header: t('in-settings:tabs.role.usersCount')
+    header: t('in-settings:tabs.numberOfMembers')
   },
   {
     key: 'permissionsCount',

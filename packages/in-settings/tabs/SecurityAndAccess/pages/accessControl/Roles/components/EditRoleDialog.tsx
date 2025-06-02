@@ -93,7 +93,7 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
       onError: () => {
         addMessage({
           content: t('in-components:error.serverErrorInfo'),
-          timeout: seconds.toMillis(4),
+          timeout: seconds.toMillis(6),
           type: 'danger'
         });
       },
@@ -101,7 +101,7 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
         const { permissions, ...customData } = payload;
         addMessage({
           content: t('in-settings:dialogs.role.roleSuccessfullySaved'),
-          timeout: seconds.toMillis(6),
+          timeout: seconds.toMillis(4),
           type: 'success'
         });
         unstable_trackEvent(

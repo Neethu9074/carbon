@@ -10,9 +10,9 @@ import { AccessRestriction, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
-  ScopeTableFormFields,
   ScopeTableFormFieldType,
-  SCOPE_FORM_ID
+  SCOPE_FORM_ID,
+  ScopeFormFields
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import LimitedAccessSwitcher, {
   SCOPE_TYPE
@@ -50,7 +50,7 @@ const KubernetesSection = <I,>({
   nameSpacesTableAddLabel,
   nameSpacesTableTitle
 }: KubernetesSectionProps<I>) => {
-  const { form } = useMapFormContext<ScopeTableFormFields>(SCOPE_FORM_ID);
+  const { form } = useMapFormContext<ScopeFormFields>(SCOPE_FORM_ID);
   const permissionsField = form.getIn(['accessPermissions']);
   const [scopeType, setScopeType] = useState<string>(getInitialScopeType(permissionsField, limitedAccessScopes));
 
@@ -60,6 +60,12 @@ const KubernetesSection = <I,>({
         limitedAccessScopes={limitedAccessScopes}
         limitedAccessSwitchLabel={limitedAccessSwitchLabel}
         onChange={newScopeType => setScopeType(newScopeType)}
+        onEntireUnitSelected={() =>
+          // Reset selected clusters and namespaces
+          form
+            .updateIn(['kubernetesClusters'], f => f.setValue(undefined).setTouched(true))
+            .updateIn(['kubernetesNamespaces'], f => f.setValue(undefined).setTouched(true))
+        }
       />
 
       {scopeType === SCOPE_TYPE.LIMITED_ACCESS && (

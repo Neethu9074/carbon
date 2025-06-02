@@ -215,6 +215,7 @@ const AdvancedMode = ({
       scrollId: '4',
       label: t('in-synthetics:dialog.createTest.advancedMode.scheduleLabel'),
       title: t('in-synthetics:dialog.createTest.advancedMode.scheduleTitle'),
+      subTitle: t('in-synthetics:dialog.createTest.advancedMode.simultaneousDescription'),
       valid: true,
       content: <SelectScheduleStep form={form} updateForm={updateForm} simpleMode={false} />
     },

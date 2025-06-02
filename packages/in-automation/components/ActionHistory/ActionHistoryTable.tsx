@@ -147,6 +147,7 @@ type GetActionInstanceList = {
   actionStatuses: string[];
   eventId?: string;
   actionIds?: string[];
+  policyId?: string;
 };
 
 export function GetActionInstanceListData({
@@ -159,7 +160,8 @@ export function GetActionInstanceListData({
   types = [],
   actionStatuses = [],
   eventId,
-  actionIds
+  actionIds,
+  policyId
 }: GetActionInstanceList) {
   return refreshSignal.flatMap(() =>
     getActionInstances({
@@ -177,7 +179,8 @@ export function GetActionInstanceListData({
       types: types,
       actionStatuses: actionStatuses,
       eventId: eventId,
-      actionIds
+      actionIds,
+      policyId
     })
   );
 }
@@ -190,6 +193,7 @@ interface ActionHistoryTableProps {
   title?: string;
   actionIds?: string[];
   actionHistoryDeleteCallback?: Function;
+  policyId?: string;
 }
 
 export default function ActionHistoryTable({
@@ -199,7 +203,8 @@ export default function ActionHistoryTable({
   noEvent = false,
   title,
   actionIds = [],
-  actionHistoryDeleteCallback
+  actionHistoryDeleteCallback,
+  policyId
 }: ActionHistoryTableProps) {
   const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
 
@@ -384,6 +389,7 @@ export default function ActionHistoryTable({
       searchPlaceholder={t('in-automation:actionHistory.filter')}
       eventId={eventId}
       actionIds={actionIds}
+      policyId={policyId}
     />
   );
 }

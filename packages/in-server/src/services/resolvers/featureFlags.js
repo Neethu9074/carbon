@@ -96,6 +96,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'linuxkvmhypervisorEnabled',
+    instanaCtlKey: 'feature.linuxkvmhypervisor.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'zhmcEnabled',
     instanaCtlKey: 'feature.zhmc.enabled',
     defaultValue: false
@@ -473,6 +478,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticSslImprovementEnabled',
     instanaCtlKey: 'feature.synthetic.ssl.improvement.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticCarbonTableEnabled',
+    instanaCtlKey: 'feature.synthetic.carbon.table.enabled',
     defaultValue: false
   },
   {
@@ -959,6 +969,11 @@ module.exports = exports = [
   {
     uiClientKey: 'allSmartAlertsViewEnabled',
     instanaCtlKey: 'feature.all.smart.alerts.view.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'apMetricsDeltaFetchingEnabled',
+    instanaCtlKey: 'feature.ap.metrics.delta.fetching.enabled',
     defaultValue: false
   }
 ];

@@ -25,7 +25,7 @@ export function refreshRole() {
   roleDetailsRefreshSignal.emit(Date.now());
 }
 
-function refreshOnSuccess<T>(result: Result<T>): Result<T> {
+export function refreshOnSuccess<T>(result: Result<T>): Result<T> {
   if (!result.progress.loading && !result.errors.length) refreshRole();
   return result;
 }

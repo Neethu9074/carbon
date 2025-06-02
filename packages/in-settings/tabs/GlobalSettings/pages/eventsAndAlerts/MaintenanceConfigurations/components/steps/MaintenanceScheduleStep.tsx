@@ -14,11 +14,12 @@ import { Duration, MaintenanceConfigV2 } from '@instana/types';
 import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import ScheduleRange from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/ScheduleRange';
 import {
   createRRuleFreq,
+  getDateObjectFromRrule,
   setRRuleDtstart
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import ScheduleRange from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/ScheduleRange';
 import Recurring from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/Recurring';
 import Timing from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/Timing';
 import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
@@ -26,7 +27,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { retriggerOpenAlertsEnabled } from 'in-services/featureFlags';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { parseDateTime } from 'in-services/formatters/date';
 import { getSingle } from 'in-services/settings/settings';
 import FormGroup from 'in-components/form/FormGroup';
 import { Nullish } from 'in-types';
@@ -108,13 +108,7 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
   const [recurrentType, setRecrruentType] = useState(rrule ? rrule.options.freq : -1);
 
   useEffect(() => {
-    let dateTimeStart: Date | null | undefined = null;
-    try {
-      dateTimeStart = parseDateTime(`${dateStartField} ${timeField}`);
-    } catch (exception) {
-      dateTimeStart = null;
-    }
-
+    const dateTimeStart = getDateObjectFromRrule(dateStartField, timeField);
     if (!dateTimeStart) return;
 
     if (

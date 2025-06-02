@@ -10,9 +10,8 @@ import { Severity } from '@instana/types/typeDefinitions';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 //@ts-expect-error TS migration
 import AlertChannelsList from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
-//@ts-expect-error TS migration
-import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
+import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { role } from 'in-stores/user';
 

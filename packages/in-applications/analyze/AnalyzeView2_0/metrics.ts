@@ -15,5 +15,8 @@ export const metricRenderers = {
     errors: 'stackedBar',
     latency: 'stackedArea',
     traces: 'stackedBar'
+  },
+  subtraces: {
+    subtraceDuration: 'stackedBar'
   }
 };

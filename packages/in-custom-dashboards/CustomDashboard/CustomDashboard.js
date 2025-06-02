@@ -194,16 +194,18 @@ export default function CustomDashboardLoader(props) {
     const widget = find(config.widgets, eachWidget => id === eachWidget.id);
     trackCta(CUSTOM_DASHBOARD_EDIT_WIDGET_START, getTrackingMeta(widget));
     addActiveDialog(
-      <WidgetEditorDialog
-        widget={widget}
-        onSubmit={widget => {
-          const newConfig = deepCopy(config);
-          newConfig.widgets = newConfig.widgets.filter(widget => widget.id !== id);
-          newConfig.widgets.push(widget);
-          trackCta(CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH, getTrackingMeta(widget));
-          setConfig(newConfig);
-        }}
-      />
+      <FilterContext.Provider value={topLevelFilters}>
+        <WidgetEditorDialog
+          widget={widget}
+          onSubmit={widget => {
+            const newConfig = deepCopy(config);
+            newConfig.widgets = newConfig.widgets.filter(widget => widget.id !== id);
+            newConfig.widgets.push(widget);
+            trackCta(CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH, getTrackingMeta(widget));
+            setConfig(newConfig);
+          }}
+        />
+      </FilterContext.Provider>
     );
   }
 

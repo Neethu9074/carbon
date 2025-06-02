@@ -21,6 +21,7 @@ import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/use
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -75,7 +76,7 @@ export default function CustomEventsThresholdCondition({
             content={t('in-alerting:smartAlerts.details.metricTitle')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <AlertTypography variant="body-bold" content={blueprintConfig.getMetricLabel(metricName)} />
       </Section>
@@ -89,7 +90,7 @@ export default function CustomEventsThresholdCondition({
             content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <StaticOrAdaptiveSwitch
           form={form}
@@ -118,7 +119,7 @@ export default function CustomEventsThresholdCondition({
             content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         {/* Threshold type */}
         {thresholdType === STATIC_THRESHOLD && (

@@ -149,7 +149,7 @@ export function MultiConditions({
             )}
 
             <div className={locals.ruleBoxWithBorder}>
-              <Stack direction="horizontal" gap="xsmall" align="center">
+              <Stack direction="horizontal" gap="xsmall" align="start">
                 <div className={locals.conditionWrapper}>{conditionForm}</div>
                 <Tooltip content={rulesForm.size === 1 && 'There needs to be at least one condition.'} delay={500}>
                   <IconButton
@@ -157,7 +157,8 @@ export function MultiConditions({
                     aria-label="delete"
                     className={classNames({
                       [locals.disabledDelete]: buttonDisabled,
-                      [locals.deleteButton]: true
+                      [locals.deleteButton]: true,
+                      [locals.deleteMargin]: true
                     })}
                     color={buttonDisabled ? '#86cff3' : themes.default.ids.color.option.blue['400']}
                     type="lib_actions_delete"

@@ -10,13 +10,13 @@ import { TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 import { number, bytesPerSecondTwoDecimalPlaces, kiloBytesTwoDecimalPlaces } from 'in-services/formatters/number';
-// @ts-expect-error needs migration
-import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import InfrastructureMetricChart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import StorageRepositoryTable from 'in-xenserver/Dashboards/Host/tabs/StorageRepositoryTable';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export interface SummaryData {
@@ -35,30 +35,18 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
         <KpiCard title={t('in-xenserver:dashboards.poolTaskCount')} value={host.poolTaskCount} />
       </KpiGridRow>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
-        <InfraMetricKpiCard
-          title={t('in-xenserver:dashboards.xapiMemoryUsage')}
-          snapshotId={snapshotId}
-          metric="xapi_memory_usage_kib"
-          formatter={kiloBytesTwoDecimalPlaces}
-        />
-        <InfraMetricKpiCard
-          title={t('in-xenserver:dashboards.xapiFreeMemory')}
-          snapshotId={snapshotId}
-          metric="xapi_free_memory_kib"
-          formatter={kiloBytesTwoDecimalPlaces}
-        />
-        <InfraMetricKpiCard
-          title={t('in-xenserver:dashboards.xapiLiveMemory')}
-          snapshotId={snapshotId}
-          metric="xapi_live_memory_kib"
-          formatter={kiloBytesTwoDecimalPlaces}
-        />
-        <InfraMetricKpiCard
-          title={t('in-xenserver:dashboards.xapiAllocation')}
-          snapshotId={snapshotId}
-          metric="xapi_allocation_kib"
-          formatter={kiloBytesTwoDecimalPlaces}
-        />
+        <KpiCard title={t('in-xenserver:dashboards.xapiMemoryUsage')}>
+          <MetricValue snapshotId={snapshotId} metric="xapi_memory_usage_kib" formatter={kiloBytesTwoDecimalPlaces} />
+        </KpiCard>
+        <KpiCard title={t('in-xenserver:dashboards.xapiFreeMemory')}>
+          <MetricValue snapshotId={snapshotId} metric="xapi_free_memory_kib" formatter={kiloBytesTwoDecimalPlaces} />
+        </KpiCard>
+        <KpiCard title={t('in-xenserver:dashboards.xapiLiveMemory')}>
+          <MetricValue snapshotId={snapshotId} metric="xapi_live_memory_kib" formatter={kiloBytesTwoDecimalPlaces} />
+        </KpiCard>
+        <KpiCard title={t('in-xenserver:dashboards.xapiAllocation')}>
+          <MetricValue snapshotId={snapshotId} metric="xapi_allocation_kib" formatter={kiloBytesTwoDecimalPlaces} />
+        </KpiCard>
       </KpiGridRow>
       <Row verticallyStretchColumns>
         <Col lg={6}>
@@ -104,6 +92,11 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
               }}
             />
           </Card>
+        </Col>
+      </Row>
+      <Row verticallyStretchColumns>
+        <Col lg={12}>
+          <StorageRepositoryTable timeConfig={timeConfig} data={host} />
         </Col>
       </Row>
     </>

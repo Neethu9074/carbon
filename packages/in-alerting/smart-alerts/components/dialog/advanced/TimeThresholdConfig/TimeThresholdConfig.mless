@@ -25,6 +25,15 @@
     &.columns3TS {
       grid-template-columns: 15% 0.5fr 4fr;
     }
+    &.columns2TS {
+      justify-items: stretch;
+      grid-template-columns: 15% 1fr;
+    }
+    &.rowWith4columns {
+      justify-items: stretch;
+      grid-template-columns: 15% 0.5fr 2fr 3fr;
+      grid-gap: 0rem 1rem;
+    }
     &.columns3TSWithError {
       grid-template-columns: 15% 1.5fr 4fr;
     }
@@ -121,6 +130,10 @@
       grid-column-start: 2;
       padding-left: 0.5rem;
     }
+  }
+  .configureImpactControlsWrapperTearsheet {
+    // allow more than one entries that will each start on a new grid row
+    grid-column-start: 3;
   }
 
   // Carbon has a visually hidden label that is getting used however it is

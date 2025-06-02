@@ -6,9 +6,11 @@
 
 import React from 'react';
 
+import { Result, SubtraceConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { subtraceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import AnalyzeSubtracesButton from 'in-applications/components/AnalyzeSubtracesButton';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import subtraceTabs from 'in-applications/Dashboards/subtrace/tabs';
@@ -33,6 +35,7 @@ export default function SubtraceDashboard() {
             label={subtrace.data?.name ?? ''}
             icon="lib_application_call"
             result={subtrace}
+            renderButtonLine={renderButtonLine}
           />
         )}
         tabs={subtraceTabs}
@@ -42,3 +45,7 @@ export default function SubtraceDashboard() {
     </>
   );
 }
+const renderButtonLine = ({ result }: { result: Result<SubtraceConfig> }) => {
+  const { id: subtraceId, name: subtraceName } = result?.data ?? {};
+  return <AnalyzeSubtracesButton subtraceId={subtraceId!} subtraceName={subtraceName!} />;
+};

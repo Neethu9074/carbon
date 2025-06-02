@@ -11,6 +11,7 @@ import React from 'react';
 
 import { createAdvancedActionConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
+import { t } from 'in-i18n';
 
 describe('ConfigurationSection', () => {
   const form = createMapForm().put('configuration', createAdvancedActionConfigurationForm());
@@ -52,18 +53,50 @@ describe('ConfigurationSection', () => {
       />
     );
 
-    expect(screen.getByText('Operation')).toBeInTheDocument();
-    expect(screen.getByText('URL')).toBeInTheDocument();
-    expect(screen.getByText('Header')).toBeInTheDocument();
-    expect(screen.getByText('Add header')).toBeInTheDocument();
-    expect(screen.getByText('Validation string')).toBeInTheDocument();
-    expect(screen.getByTitle('Expect status')).toBeInTheDocument();
-    expect(screen.getByText('Add validation')).toBeInTheDocument();
-    expect(screen.getByText('Timeout')).toBeInTheDocument();
-    expect(screen.getByText('Retry strategy')).toBeInTheDocument();
-    expect(screen.getByText('Follow redirect')).toBeInTheDocument();
-    expect(screen.getByText('Allow insecure')).toBeInTheDocument();
-    expect(screen.getByText('Mark synthetic call')).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.operation'))
+    ).toBeInTheDocument();
+    expect(screen.getByText(t('in-synthetics:dialog.createTest.requestStep.labelUrl'))).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.headerSectionLabel'))
+    ).toBeInTheDocument();
+    expect(screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.header'))).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.addHeader'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.validationsSectionLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.validationString'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTitle(t('in-synthetics:dialog.createTest.advancedMode.configStep.expectStatusLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.addValidations'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutAndRetrySectionLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.additionalOptionsSectionLabel'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.followRedirect'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall'))
+    ).toBeInTheDocument();
   });
 
   it('Renders all new fields with their default values', async () => {
@@ -104,12 +137,12 @@ describe('ConfigurationSection', () => {
     expect(inputElements[2]).toHaveValue('');
     expect(
       screen.getByRole('button', {
-        name: 'Add header'
+        name: t('in-synthetics:dialog.createTest.advancedMode.configStep.addHeader')
       })
     ).toBeTruthy();
     expect(
       screen.getByRole('button', {
-        name: 'Add header'
+        name: t('in-synthetics:dialog.createTest.advancedMode.configStep.addHeader')
       })
     ).not.toBeDisabled();
 
@@ -121,40 +154,64 @@ describe('ConfigurationSection', () => {
     expect(inputElements[4]).toHaveValue('200');
 
     await userEvent.click(selectElements[1]);
-    await userEvent.click(screen.getByRole('option', { name: 'Expect JSON' }));
+    await userEvent.click(
+      screen.getByRole('option', { name: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectJSONLabel') })
+    );
     expect(selectElements[1]).toHaveValue('Expect JSON');
 
     await userEvent.click(selectElements[1]);
-    await userEvent.click(screen.getByRole('option', { name: 'Expect match' }));
+    await userEvent.click(
+      screen.getByRole('option', {
+        name: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectMatchLabel')
+      })
+    );
     expect(selectElements[1]).toHaveValue('Expect match');
     expect(
       screen.getByRole('button', {
-        name: 'Add validation'
+        name: t('in-synthetics:dialog.createTest.advancedMode.configStep.addValidations')
       })
     ).toBeTruthy();
     expect(
       screen.getByRole('button', {
-        name: 'Add validation'
+        name: t('in-synthetics:dialog.createTest.advancedMode.configStep.addValidations')
       })
     ).not.toBeDisabled();
 
     // Timeout
-    expect((screen.getByLabelText('minutes (m)') as HTMLInputElement).checked).toBe(true);
-    expect((screen.getByLabelText('seconds (s)') as HTMLInputElement).checked).toBe(false);
-    expect((screen.getByLabelText('milliseconds (ms)') as HTMLInputElement).checked).toBe(false);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMinutes'))
+    ).toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionSeconds'))
+    ).not.toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMilliseconds'))
+    ).not.toBeChecked();
 
     // Retry strategy
-    expect((screen.getByLabelText('None') as HTMLInputElement).checked).toBe(true);
-    expect((screen.getByLabelText('Retry once') as HTMLInputElement).checked).toBe(false);
-    expect((screen.getByLabelText('Retry twice') as HTMLInputElement).checked).toBe(false);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionNone'))
+    ).toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionOnce'))
+    ).not.toBeChecked();
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionTwice'))
+    ).not.toBeChecked();
 
     // Follow Redirect
-    expect((screen.getByLabelText('Follow redirect') as HTMLInputElement).checked).toBe(true);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.followRedirect'))
+    ).toBeChecked();
 
     // Allow Insecure
-    expect((screen.getByLabelText('Allow insecure') as HTMLInputElement).checked).toBe(true);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure'))
+    ).toBeChecked();
 
     // Mark Synthetic Call
-    expect((screen.getByLabelText('Mark synthetic call') as HTMLInputElement).checked).toBe(true);
+    expect(
+      screen.getByLabelText(t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall'))
+    ).toBeChecked();
   });
 });

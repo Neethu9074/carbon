@@ -1,0 +1,15 @@
+{
+  "linuxkvmhypervisor": "Linux KVM Hypervisor",
+  "noMonitoringDataFound": "No monitoring data found",
+  "hostname": "Host name",
+  "summary": "Summary",
+  "host": "Host",
+  "hosts": "Hosts",
+  "dashboards": {
+    "address": "IP address",
+    "memoryUsage": "Memory usage",
+    "cpuUsage": "CPU usage",
+    "os": "Operating system",
+    "numberOfVms": "Number of virutal machines"
+  }
+}

@@ -15,19 +15,20 @@ import { PolicyFormBody, PolicyFormFooter, PolicyFormHeader } from 'in-automatio
 import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUrlParams';
 import usePolicyFormSubmission from 'in-automation/Policies/usePolicyFormSubmission';
+import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import usePolicyForm from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { productAreas } from 'in-services/tracking/productAreas';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { PolicyFormEntity } from 'in-automation/Policies/types';
-import { hasError, isLoading } from 'in-services/util/result';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import SectionLine from 'in-settings/components/SectionLine';
+import { hasError, isLoading } from 'in-services/util/result';
 import useTriggers from 'in-automation/Policies/useTriggers';
+import SectionLine from 'in-settings/components/SectionLine';
 import { pageNames } from 'in-services/tracking/pageNames';
 import usePolicy from 'in-automation/Policies/usePolicy';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -35,6 +36,7 @@ import Form from 'in-components/form/binding/Form';
 import { seconds } from 'in-services/time/time';
 import { getActions } from 'in-automation/api';
 import { Triggers } from 'in-automation/types';
+import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import { Trans, t } from 'in-i18n';
 
@@ -58,10 +60,14 @@ function useActions() {
 }
 
 function PolicyDetailsLoader() {
-  const { id, isCopy } = usePolicyDetailsUrlParams();
+  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null }>({
+    bind: [policyDetailsUrlParameters.id, policyDetailsUrlParameters.op]
+  });
+  const copy = op == 'copy';
+  const { id: pid, isCopy } = usePolicyDetailsUrlParams({ policyId: id, copy });
   const actions = useActions();
   const triggers = useTriggers();
-  const policy = usePolicy({ id, isCopy });
+  const policy = usePolicy({ id: pid, isCopy });
 
   const loading = isLoading(policy, actions, ...Object.values(triggers));
   const errored = hasError(policy, actions);
@@ -97,7 +103,11 @@ interface PolicyDetailsProps {
 }
 
 function PolicyDetails({ actions, triggers, policy }: PolicyDetailsProps) {
-  const { isNew } = usePolicyDetailsUrlParams();
+  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null }>({
+    bind: [policyDetailsUrlParameters.id, policyDetailsUrlParameters.op]
+  });
+  const copy = op == 'copy';
+  const { isNew } = usePolicyDetailsUrlParams({ policyId: id, copy });
   const navigateToPolicies = useNavigateToPolicies();
   const [form, setForm] = usePolicyForm(policy, actions, triggers);
 

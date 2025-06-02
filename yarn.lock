@@ -3494,10 +3494,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.297.1009":
-  version: 1.297.1009
-  resolution: "@instana/types@npm:1.297.1009::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.297.1009.tgz"
-  checksum: d674515bc05f6afa5adafdcb079e5495f62b4614eff8ebbdfbedba9e0cbec7df7dd1460b84aaae8a215c3c366333c7a5eb6df8b0c255f32a9366793af163546c
+"@instana/types@npm:1.298.773":
+  version: 1.298.773
+  resolution: "@instana/types@npm:1.298.773::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.298.773.tgz"
+  checksum: 28c84ecc67ee90621a87faf6d4516cd42da9e5f9378df8e49f4368ed49841bcb646e59c6745fa9f0edf19f1350f2868a3085d33bf40982412628a004afa79888
   languageName: node
   linkType: hard
 
@@ -13883,13 +13883,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i@npm:^0.3.7":
-  version: 0.3.7
-  resolution: "i@npm:0.3.7"
-  checksum: 97db09a9377223511bbc416f22e24ee7b90417b0a384710756b2ab74e6cbd95a93ff5856c4bdd8d12d9a74e2460fcbf895f0c2525b6ab2f7898795cb5a5743cf
-  languageName: node
-  linkType: hard
-
 "iconv-lite@npm:0.4.24, iconv-lite@npm:^0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -20931,12 +20924,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rrule@npm:^2.7.1":
-  version: 2.7.1
-  resolution: "rrule@npm:2.7.1"
+"rrule@npm:^2.8.1":
+  version: 2.8.1
+  resolution: "rrule@npm:2.8.1"
   dependencies:
     tslib: ^2.4.0
-  checksum: 80b81c5b1c1d12539a2af6de6fc8ebff8d763d8006cd9a418a1de7adbd634ae84ea853f1590d73ea72737422b8775cd53ca64c59e7c4625eda09a2746596f1d9
+  checksum: 77f3750d90f7ec76f2435d4e0b5f860e20b94d8b0cedf2e94803f8050f8f7e3898153db9790cd4e3aaaf0c2db99b0a912e955fbd0200368ffd4318ec3bc0c88f
   languageName: node
   linkType: hard
 
@@ -23239,7 +23232,7 @@ __metadata:
     "@instana/observables": ^1.8.3
     "@instana/pseudo-translation": 1.6.0
     "@instana/roemitter": ^1.4.4
-    "@instana/types": 1.297.1009
+    "@instana/types": 1.298.773
     "@instana/utils": ^1.5.4
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
@@ -23347,7 +23340,6 @@ __metadata:
     history: 4.7.2-ENCODING-FIX
     html-loader: ^3.0.1
     husky: ^9.0.11
-    i: ^0.3.7
     i18next: ^19.8.4
     i18next-scanner: ^4.4.0
     image-webpack-loader: ^6.0.0
@@ -23405,7 +23397,7 @@ __metadata:
     react-select-async-paginate: ~0.5
     react-test-renderer: ^17
     react-window: ^1.8.11
-    rrule: ^2.7.1
+    rrule: ^2.8.1
     semver: ^5.7.2
     sinon: ^13.0.1
     sinon-chai: ^3.3.0

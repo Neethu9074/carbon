@@ -5,8 +5,8 @@
  */
 
 import { Field, Item, MapForm } from 'formalistic';
-import React, { useState } from 'react';
 import { find } from 'lodash';
+import React from 'react';
 
 import { Select, Stack, TextInput } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -19,17 +19,21 @@ import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricCo
 import { isRequiringGroupingConfiguration } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 // @ts-expect-error module needs to be translated to TS
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 // @ts-expect-error module needs to be translated to TS
 import { aggregationLabels } from 'in-stores/metric/metric';
-import businessProcessGroupingConfigurator from 'in-bizops/api/businessProcessGroupingConfigurator';
+import businessMetricGroupingConfigurator from 'in-bizops/components/businessMetricGroupingConfigurator';
+import getBusinessMetricsDefinitions from 'in-bizops/subscriptions/getBusinessMetricsDefinitions';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import businessMetricQueryBuilder from 'in-bizops/components/businessMetricQueryBuilder';
+import useBusinessMetricsTagCatalog from 'in-bizops/utils/useBusinessMetricsTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
+import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 import locals from './businessMetricsForm.mless';
@@ -46,33 +50,12 @@ interface BusinessMetricsFormComponentProps {
   labelSection: JSX.Element;
 }
 
-// list of available metrics are dynamically generated from a backend call - fake that here for now
-const availableMetrics = [
-  {
-    metric: 'monthly_revenue',
-    label: 'Monthly revenue',
-    supportedAggregations: ['SUM'],
-    metricUnit: '$'
-  },
-  {
-    metric: 'average_latency',
-    label: 'Average latency',
-    supportedAggregations: ['SUM'],
-    metricUnit: 'ms'
-  },
-  {
-    metric: 'percent_uptime',
-    label: 'Percent uptime',
-    supportedAggregations: ['SUM'],
-    metricUnit: '%'
-  },
-  {
-    metric: 'seconds_metric',
-    label: 'Duration',
-    supportedAggregations: ['SUM'],
-    metricUnit: 'seconds'
-  }
-];
+interface AvailableMetricsProps {
+  metric: string;
+  label: string;
+  supportedAggregations: string[];
+  metricUnit: string;
+}
 
 const FormComponent = ({
   form,
@@ -85,20 +68,20 @@ const FormComponent = ({
   maxGrouping = 20,
   labelSection
 }: BusinessMetricsFormComponentProps) => {
+  const timeConfig = useTimeConfig();
   const metricField = form.get('metric');
+  const unitField = form.get('unit');
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
   const aggregationField = form.get('aggregation');
-  const aggregators = getAggregations(metricField.value);
-  const isSingleAggregator = aggregators?.length < 2;
 
-  // state var for the unit so we can add it to the unit input after selection
-  const [unitState, setUnitState] = useState('');
-
-  const tagCatalogResult = useObservable(getGetTagCatalogObservable, []) ?? pendingResult;
+  const metric = metricField.value || '';
+  const tagCatalog = useBusinessMetricsTagCatalog({ metric });
+  let enrichedTagCatalog = tagCatalog;
+  if (tagCatalog) enrichedTagCatalog = enrichTagCatalog(tagCatalog);
 
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
-    tagCatalogResult,
+    tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
     onChange
   });
@@ -108,6 +91,50 @@ const FormComponent = ({
   const onDirectionChange = (direction: string, maxResults: number) =>
     onChangeGrouping(onChange, { ...grouping, direction, maxResults });
   const onIncludeOthersChange = (includeOthers: boolean) => onChangeGrouping(onChange, { ...grouping, includeOthers });
+
+  // get the metric definitions from backend
+  const availableMetricsRaw = useObservable(
+    getBusinessMetricsDefinitions({
+      order: {
+        by: 'metricName',
+        direction: 'DESC'
+      },
+      pagination: {
+        page: 1,
+        pageSize: 50
+      },
+      timeConfig
+    }),
+    [timeConfig]
+  );
+
+  let availableMetrics: AvailableMetricsProps[] = [];
+
+  if (availableMetricsRaw?.data) {
+    availableMetrics = availableMetricsRaw?.data?.items?.map(({ metricName, metricUnit }) => {
+      return {
+        metric: metricName,
+        label: metricName,
+        metricUnit,
+        supportedAggregations: ['SUM', 'MEAN', 'MAX', 'MIN']
+      };
+    });
+  }
+
+  const getAggregations = (metric: string): string[] => {
+    return find(availableMetrics, ({ metric: m }) => m === metric)?.supportedAggregations ?? [];
+  };
+
+  const getMetricLabel = (metricId: string): string => {
+    return find(availableMetrics, ({ metric: m }) => m === metricId)?.label!;
+  };
+
+  const getMetricUnit = (metricId: string): string => {
+    return find(availableMetrics, ({ metric: m }) => m === metricId)?.metricUnit!;
+  };
+
+  const aggregators = getAggregations(metricField.value);
+  const isSingleAggregator = aggregators?.length < 2;
 
   return (
     <Stack gap="xsmall">
@@ -124,15 +151,18 @@ const FormComponent = ({
               value={metricField.value}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 onChange([], form => {
-                  if (e.target.value) setUnitState(getMetricUnit(e.target.value));
-                  else setUnitState('');
-
                   let updatedForm = form as MapForm<any>;
                   if (updatedForm.get('metricLabel')) {
                     updatedForm = updatedForm.updateIn(['metricLabel'], (field: Field<string>) =>
                       field.setValue(getMetricLabel(e.target.value)).setTouched(true)
                     );
                   }
+                  if (getMetricUnit(e.target.value)) {
+                    updatedForm = updatedForm.updateIn(['unit'], (field: Field<string>) =>
+                      field.setValue(getMetricUnit(e.target.value)).setTouched(true)
+                    );
+                  }
+
                   return updatedForm
                     .updateIn(['metric'], (field: Field<string>) => field.setValue(e.target.value).setTouched(true))
                     .updateIn(['aggregation'], (field: Field<string>) => {
@@ -145,7 +175,7 @@ const FormComponent = ({
               <option value="">
                 {t('in-custom-dashboards:widgets.srcBusinessMetrics.formComponent.pleaseSelect')}
               </option>
-              {Object.entries(availableMetrics).map(metricEntry => {
+              {Object.entries(availableMetrics!).map(metricEntry => {
                 const metric = metricEntry[1];
                 return (
                   <option key={metric.metric} value={metric.metric}>
@@ -156,12 +186,13 @@ const FormComponent = ({
             </Select>
             <TouchedMessages field={metricField} />
             <div className={locals.unitInputDiv}>
-              <label className={locals.unitInputLabel} htmlFor="bizMetricsUnitInput">
+              <label className={locals.unitInputLabel} htmlFor="metric-configurator-unit">
                 {t('in-custom-dashboards:widgets.srcBusinessMetrics.formComponent.unit')}
               </label>
               <TextInput
+                id="metric-configurator-unit"
                 className={locals.unitInput}
-                value={unitState}
+                value={unitField.value}
                 readOnly
                 title={t('in-custom-dashboards:widgets.srcBusinessMetrics.formComponent.pleaseSelect')}
               />
@@ -202,29 +233,35 @@ const FormComponent = ({
         )}
       </Sections>
 
-      {BusinessProcessQueryBuilder && (
+      {metric && businessMetricQueryBuilder && (
         <QueryBuilderSection
           value={tagFilterExpression}
           onChange={setTagFilterExpression}
-          QueryBuilder={BusinessProcessQueryBuilder}
-          useLastValidStateWhenErroneous
+          QueryBuilder={businessMetricQueryBuilder}
+          tagCatalog={enrichedTagCatalog}
+          additionalGetTagCatalogProps={{ metric: metric }}
+          getSuggestionsProps={{ metric: metric }}
           withoutIcon
         />
       )}
 
-      <GroupingConfiguration
-        withGrouping={withGrouping}
-        grouping={grouping}
-        tagFilterExpressionField={tagFilterExpressionField}
-        onByChange={onByChange}
-        onDirectionChange={onDirectionChange}
-        onIncludeOthersChange={onIncludeOthersChange}
-        GroupingConfigurator={businessProcessGroupingConfigurator}
-        hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
-        additionalContent={<TouchedMessages field={groupingField} />}
-        withOptionalMarker={!isRequiringGroupingConfiguration(form)}
-        maxGrouping={maxGrouping}
-      />
+      {metric && (
+        <GroupingConfiguration
+          withGrouping={withGrouping}
+          grouping={grouping}
+          tagFilterExpressionField={tagFilterExpressionField}
+          tagCatalog={enrichedTagCatalog}
+          additionalGetTagCatalogProps={{ metric: metric }}
+          onByChange={onByChange}
+          onDirectionChange={onDirectionChange}
+          onIncludeOthersChange={onIncludeOthersChange}
+          GroupingConfigurator={businessMetricGroupingConfigurator}
+          hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
+          additionalContent={<TouchedMessages field={groupingField} />}
+          withOptionalMarker={!isRequiringGroupingConfiguration(form)}
+          maxGrouping={maxGrouping}
+        />
+      )}
 
       {timeShiftConfiguration}
 
@@ -234,21 +271,5 @@ const FormComponent = ({
     </Stack>
   );
 };
-
-const getAggregations = (metric: string): string[] => {
-  return find(availableMetrics, ({ metric: m }) => m === metric)?.supportedAggregations ?? [];
-};
-
-const getMetricLabel = (metricId: string): string => {
-  return find(availableMetrics, ({ metric: m }) => m === metricId)?.label!;
-};
-
-const getMetricUnit = (metricId: string): string => {
-  return find(availableMetrics, ({ metric: m }) => m === metricId)?.metricUnit!;
-};
-
-function getGetTagCatalogObservable() {
-  return getBusinessMonitoringTagCatalog({ useCase: 'FILTERING' });
-}
 
 export default FormComponent;

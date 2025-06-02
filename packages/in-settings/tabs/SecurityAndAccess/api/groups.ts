@@ -183,6 +183,16 @@ function getStrippedGroupsAsResultObservableInternal(_arg: undefined) {
 }
 
 // regular calls
+export function saveGroupAsResultObservable(group: ApiGroup): Observable<Result<ApiGroup>> {
+  return http<ApiGroup>({
+    data: group,
+    headers: getCsrfHeader(),
+    mapToResultObject: true,
+    maxRetries: 3,
+    method: 'PUT',
+    url: `${basePath}/${group.id}`
+  });
+}
 
 export function saveGroup(group: ApiGroup | ApiCreateGroup) {
   if (isApiGroup(group)) {

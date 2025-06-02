@@ -9,8 +9,10 @@ import { Stack, CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } fro
 import { t } from '@instana/i18n-react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { locationIdTagName, testIdTagName } from 'in-synthetics/tags';
+import { locationIdTagName, runTypeTagName, testIdTagName } from 'in-synthetics/tags';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
+import { runTypeCICD, runTypeScheduled } from 'in-synthetics/utils/constants';
+import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { latencyFixed } from 'in-services/formatters/number';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -26,6 +28,7 @@ type NetworkTimingProps = {
   renderPostChartContent: (a: any) => JSX.Element;
   locationIds: string;
   locationDisplayLabels: string;
+  runType?: string;
 };
 
 type Option = {
@@ -44,6 +47,7 @@ export default function NetworkTimings({
   locationIds,
   locationDisplayLabels,
   timeShiftConfig,
+  runType,
   renderPostChartContent
 }: NetworkTimingProps) {
   const locations: string[] = locationIds.split(',');
@@ -78,7 +82,16 @@ export default function NetworkTimings({
       stringValue: location.value,
       name: locationIdTagName,
       operator: EQUALS
-    }
+    },
+    ...(syntheticRunNowEnabled
+      ? [
+          {
+            stringValue: runType === runTypeCICD ? runTypeScheduled : runType,
+            name: runTypeTagName,
+            operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS
+          }
+        ]
+      : [])
   ];
 
   const testMetricConfigs: Metric[] = [

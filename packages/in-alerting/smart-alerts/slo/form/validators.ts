@@ -78,7 +78,7 @@ export function burnRateConfigFormValidator(form: MapForm<BurnRateAlertFormField
     shortTimeWindowDurationUnitField.value
   );
 
-  if (shortTimeWindowDurationInMilliseconds > longTimeWindowDurationInMilliseconds) {
+  if (shortTimeWindowDurationInMilliseconds >= longTimeWindowDurationInMilliseconds) {
     return [
       {
         severity: 'error',

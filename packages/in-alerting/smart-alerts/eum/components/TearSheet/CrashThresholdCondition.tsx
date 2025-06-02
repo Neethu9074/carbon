@@ -21,6 +21,7 @@ import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresh
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -76,7 +77,7 @@ export default function CrashThresholdCondition({
             content={t('in-alerting:smartAlerts.details.metricTitle')}
           />
         }
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <Dropdown
           value={metricName}
@@ -92,7 +93,7 @@ export default function CrashThresholdCondition({
       {/* Threshold Type */}
       <Section
         title={<AlertTypography variant="body-regular" color="color900" content={'Threshold Type'} />}
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         <StaticOrAdaptiveSwitch
           form={form}
@@ -115,7 +116,7 @@ export default function CrashThresholdCondition({
 
       <Section
         title={<AlertTypography variant="body-regular" color="color900" content={'Threshold value'} />}
-        titleWidth="8rem"
+        titleWidth={getTitleWidth()}
       >
         {/* Threshold type */}
         {thresholdType === STATIC_THRESHOLD && (

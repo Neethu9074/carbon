@@ -27,6 +27,7 @@ import {
   EXPRESSION,
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 
 export const FilterContext = createContext<FormModelElement[]>([]);
 
@@ -134,11 +135,7 @@ export function applyFilteredConfiguration<T extends MaybeLabeled & MaybeFiltera
     return {
       metricConfiguration: {
         ...metricConfiguration,
-        tagFilterExpression: {
-          type: 'EXPRESSION',
-          logicalOperator: 'AND',
-          elements: [metricConfiguration.tagFilterExpression, expression]
-        }
+        tagFilterExpression: and(metricConfiguration.tagFilterExpression, expression)
       },
       result: {
         code: resultCode,
@@ -146,6 +143,23 @@ export function applyFilteredConfiguration<T extends MaybeLabeled & MaybeFiltera
       }
     };
   }
+}
+
+export function and(
+  filterA?: TagFilterExpressionElementUnion,
+  filterB?: TagFilterExpressionElementUnion
+): TagFilterExpressionElementUnion {
+  if (!filterA) {
+    return filterB || emptyTagFilterExpression;
+  }
+  if (!filterB) {
+    return filterA;
+  }
+  return {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements: [filterA, filterB]
+  };
 }
 
 function getDataset(metricConfiguration: MaybeLabeled) {

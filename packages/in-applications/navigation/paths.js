@@ -38,6 +38,7 @@ import {
   APPLICATION,
   APPLICATION_INBOUND,
   ENDPOINT,
+  SUBTRACE,
   entityTypes,
   operators,
   SERVICE
@@ -105,6 +106,8 @@ export function useLinkToAnalyze() {
       applicationName,
       serviceName,
       endpointName,
+      subtraceName,
+      subtraceId,
       boundaryScope,
       contextScope,
       jumpToSource,
@@ -130,6 +133,8 @@ export function useLinkToAnalyze() {
         applicationName,
         serviceName,
         endpointName,
+        subtraceName,
+        subtraceId,
         boundaryScope,
         contextScope,
         jumpToSource,
@@ -161,6 +166,8 @@ export function updateLocationToAnalyze(
     applicationName,
     serviceName,
     endpointName,
+    subtraceName,
+    subtraceId,
     boundaryScope = boundaryScopes.inbound,
     contextScope,
     jumpToSource,
@@ -256,6 +263,34 @@ export function updateLocationToAnalyze(
           value: endpointName,
           operator: operators.EQUALS,
           entity: entityTypes.DESTINATION
+        }
+      ]
+    });
+  }
+
+  if (subtraceName != null) {
+    extendingFormModel = joinExpressions({
+      expressions: [
+        extendingFormModel,
+        {
+          type: TAG_FILTER,
+          name: SUBTRACE.name,
+          value: subtraceName,
+          operator: operators.EQUALS,
+          entity: entityTypes.NOT_APPLICABLE
+        }
+      ]
+    });
+  }
+  if (subtraceId != null) {
+    extendingFormModel = joinExpressions({
+      expressions: [
+        extendingFormModel,
+        {
+          type: TAG_FILTER,
+          name: SUBTRACE.id,
+          value: subtraceId,
+          operator: operators.EQUALS
         }
       ]
     });

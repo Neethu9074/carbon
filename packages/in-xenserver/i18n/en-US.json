@@ -6,11 +6,18 @@
     "summary": "Summary",
     "host": "Host",
     "hosts": "Hosts",
+    "vm": "VM",
+    "virtualMachines": "Virtual machines",
     "dashboards":{
+        "cpuUsage": "CPU usage",
         "address": "IP address",
         "cpuCount": "CPU count",
         "bytesRx": "Bytes rx",
         "bytesTx": "Bytes tx",
+        "rxErrors": "Rx errors",
+        "txErrors": "Tx errors",
+        "interface": "Interface",
+        "networkInterfaces": "Network Interfaces",
         "network" : "Network",
         "memoryTotal":"Total memory",
         "memoryFree": "Free memory",
@@ -21,6 +28,34 @@
         "xapiMemoryUsage": "XAPI memory usage",
         "xapiFreeMemory": "XAPI free memory",
         "xapiLiveMemory": "XAPI live memory",
-        "xapiAllocation": "XAPI allocation"
+        "xapiAllocation": "XAPI allocation",
+        "blockDevice": "Block Device",
+        "storageRepositories": "Storage Repositories",
+        "vblockDevice":{
+            "deviceName":"Device name",
+            "mode":"Mode",
+            "type":"Type",
+            "iopsRead": "IOPS read",
+            "iopsWrite": "IOPS write",
+            "readPerSec": "Reads/s",
+            "writePerSec":"Writes/s",
+            "read": "Read",
+            "write": "Write"
+        },
+        "storageRepository":{
+          "name":"Name",
+          "type": "Type",
+          "virtualAllocation":"Virtual allocation",
+          "physicalUtilisation": "Physical utilisation",
+          "physicalSize":"Physical Size"
+        },
+        "vm": {
+            "name": "VM name",
+            "state": "State",
+            "mac": "MAC",
+            "vcpu": "VCPU",
+            "domId": "Domain id",
+            "domType": "Domain type"
+        }
     }
 }

@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import { createField, Field, Item, MapForm } from 'formalistic';
-import React, { ChangeEvent, Fragment, useState } from 'react';
+import React, { ChangeEvent, Fragment } from 'react';
+import { Field, Item, MapForm } from 'formalistic';
 
 import {
   CarbonStack as Stack,
@@ -13,13 +13,12 @@ import {
   CarbonRadioButtonGroup as RadioButtonGroup,
   CarbonRadioButton as RadioButton,
   CarbonDropdown as Dropdown,
-  CarbonCheckbox as Checkbox,
   CarbonIconButton as IconButton,
   CarbonButton as Button,
-  Label,
   SvgIcon,
   CarbonInlineNotification as InlineNotification,
-  Spacer
+  Spacer,
+  Typography
 } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { DNSFilterQueryTime } from '@instana/types';
@@ -29,26 +28,17 @@ import {
   DNSQueryTypes,
   DNSTransportOptions,
   Invalid,
-  retriesObject,
   TargetFilter,
   AssertionTargetFilter,
-  timeoutObject,
   assertionQueryTypes
 } from 'in-synthetics/utils/constants';
 import {
   assertionValidator,
   checkQueryTypeAssertionMismatch
 } from 'in-synthetics/createTests/validators/dnsValidators';
-import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
-import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
-import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
-import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
-import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import ConfigurationCommonSection from 'in-synthetics/createTests/advanced/ConfigurationCommonSection';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
-import { numberValidator } from 'in-services/validators/jsonType';
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import { minValidator } from 'in-services/validators/number';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/advanced/ConfigurationSection.mless';
@@ -85,16 +75,6 @@ export default function DNSConfiguration({
   const acceptCNAMEField = configForm.get('acceptCNAME') as Field<boolean>;
   const lookupServerNameField = configForm.get('lookupServerName') as Field<boolean>;
   const serverRetriesField = configForm.get('serverRetries') as Field<number>;
-  const timeoutField = configForm.get('timeout') as Field<string>;
-  const retriesField = configForm.get('retries') as Field<number>;
-  const retryIntervalField = configForm.get('retryInterval') as Field<number>;
-  const markSyntheticCallField = configForm.get('markSyntheticCall') as Field<boolean>;
-
-  const [timeout, setTimeout] = useState({
-    value: timeoutField.value.replace(/\D/g, ''),
-    unit: timeoutField.value.replace(/\d/g, '')
-  });
-  const selectedUnit = Object.keys(timeoutObject).filter(item => timeoutObject[item].value === timeout.unit)[0];
 
   function addNewTargetFilterRow() {
     const updatedTargetFilters = [
@@ -158,7 +138,10 @@ export default function DNSConfiguration({
   return (
     <>
       <div className={locals.configContainer}>
-        <Stack gap={6}>
+        <Stack gap={4}>
+          <Typography variant="body-bold">
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.testCriteriaLabel')}
+          </Typography>
           <Stack orientation="horizontal" className={locals.serverStack}>
             <TextInput
               id={generateUniqueShortId()}
@@ -532,132 +515,12 @@ export default function DNSConfiguration({
           </div>
         </Stack>
       </div>
-      <div className={locals.configContainer}>
-        <Label className={locals.timeoutLabel}>
-          {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldLabel')}
-        </Label>
-        <Stack gap={6}>
-          <RadioButtonGroup
-            name="timeout"
-            defaultSelected={timeoutObject['minutes'].id}
-            legendText={t('in-synthetics:dialog.createTest.advancedMode.configStep.timeUnitsLabel')}
-            valueSelected={timeout.unit}
-            onChange={value => {
-              setTimeout({ value: '0', unit: String(value) });
-              updateForm(
-                form.updateIn(['configuration', 'timeout'], (field: Item) =>
-                  (field as Field<string>).setValue('0' + String(value)).setTouched(true)
-                )
-              );
-            }}
-          >
-            {Object.keys(timeoutObject).map(unit => (
-              <RadioButton
-                key={timeoutObject[unit].id}
-                id={timeoutObject[unit].id}
-                labelText={timeoutObject[unit].label}
-                value={timeoutObject[unit].value}
-              />
-            ))}
-          </RadioButtonGroup>
-          <Stack gap={3} orientation="horizontal">
-            <TextInput
-              id={generateUniqueShortId()}
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldDescription')}
-              name="timeout"
-              value={timeout.value}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                setTimeout({ value: target?.value, unit: timeout.unit });
-                const timeoutInvalid = timeoutValidator(target?.value, timeout.unit);
-                setInvalidTimeout({ invalid: timeoutInvalid[0].invalid, message: timeoutInvalid[0].message });
-                updateForm(
-                  form.updateIn(['configuration', 'timeout'], (field: Item) =>
-                    (field as Field<string>).setValue(Number(target?.value).toString() + timeout.unit).setTouched(true)
-                  )
-                );
-              }}
-              invalid={invalidTimeout.invalid && timeoutField.touched}
-              invalidText={invalidTimeout.message}
-            />
-            <TextInput
-              labelText=""
-              className={locals.timeoutUnit}
-              hideLabel
-              value={timeoutObject[selectedUnit]?.label}
-              readOnly
-              id={generateUniqueShortId()}
-            />
-          </Stack>
-        </Stack>
-      </div>
-      <div className={locals.configContainer}>
-        <RadioButtonGroup
-          name="retry-strategy"
-          defaultSelected={retriesObject[0].id}
-          legendText={t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldLabel')}
-          valueSelected={retriesField.value}
-          onChange={value => {
-            if (value === 0) {
-              updateForm(
-                form
-                  .updateIn(['configuration', 'retries'], (field: Item) =>
-                    (field as Field<number>).setValue(Number(value)).setTouched(true)
-                  )
-                  .updateIn(['configuration', 'retryInterval'], (field: Item) =>
-                    (field as Field<number>).setValue(1).setTouched(true)
-                  )
-              );
-            } else {
-              updateForm(
-                form
-                  .put(
-                    'configuration',
-                    form.get('configuration').put(
-                      'retryInterval',
-                      createField({
-                        value: 1,
-                        validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
-                      })
-                    )
-                  )
-                  .updateIn(['configuration', 'retries'], (field: Item) =>
-                    (field as Field<number>).setValue(Number(value)).setTouched(true)
-                  )
-              );
-            }
-          }}
-        >
-          {retriesObject.map(retry => (
-            <RadioButton key={retry.id} id={retry.id} labelText={retry.label} value={retry.value} />
-          ))}
-        </RadioButtonGroup>
-        {(retriesField.value === 1 || retriesField.value === 2) && (
-          <Section>
-            <ActionTitle>
-              {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
-            </ActionTitle>
-            <Description>{getRetryIntervalDescriptionText(retriesField.value, retryIntervalField.value)}</Description>
-            {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
-            <TouchedMessages field={retryIntervalField} />
-          </Section>
-        )}
-      </div>
-      <div className={locals.configContainer}>
-        <Stack orientation="horizontal">
-          <Checkbox
-            id="markSyntheticCall"
-            onChange={({ target }) => {
-              updateForm(
-                form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
-                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
-                )
-              );
-            }}
-            checked={markSyntheticCallField.value}
-            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
-          />
-        </Stack>
-      </div>
+      <ConfigurationCommonSection
+        form={form}
+        updateForm={updateForm}
+        invalidTimeout={invalidTimeout}
+        setInvalidTimeout={setInvalidTimeout}
+      />
     </>
   );
 }

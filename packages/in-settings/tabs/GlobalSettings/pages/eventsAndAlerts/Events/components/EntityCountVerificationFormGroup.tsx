@@ -12,6 +12,7 @@ import {
   entityLabelOperatorOptions,
   entityTypesToExcludeInVerificationRule
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
+import { MAX_CHAR_LENGTH_ENTITY_LABEL } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ComboBox, { Option } from 'in-components/ComboBox';
@@ -89,7 +90,7 @@ export default function EntityCountVerificationFormGroup({ entityTypes, form, on
                 value={field.value || ''}
                 onChange={e => onChange('matchingEntityLabel', e.target.value)}
                 hasError={!field.valid && field.touched}
-                maxLength={256}
+                maxLength={MAX_CHAR_LENGTH_ENTITY_LABEL}
                 autoFocus
               />
               <TouchedMessages field={field} />
