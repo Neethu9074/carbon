@@ -30,6 +30,7 @@ export default [
           'in-init',
           'in-integrations',
           'in-kubernetes',
+          'in-linuxkvmhypervisor',
           'in-logging',
           'in-mobile-apps',
           'in-nutanix',

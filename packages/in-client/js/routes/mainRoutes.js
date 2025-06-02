@@ -28,9 +28,11 @@ import {
   hasAutomationAccess,
   hasNutanixAccess,
   hasXenServerAccess,
-  hasWindowsHypervisorAccess
+  hasWindowsHypervisorAccess,
+  hasLinuxKVMHypervisorAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import linuxkvmhypervisorRoutes from 'in-linuxkvmhypervisor/navigation/routes';
 import windowsHypervisorRoutes from 'in-windowshypervisor/navigation/routes';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import vulnerabilityRoutes from 'in-vulnerability-center/navigation/routes';
@@ -105,6 +107,7 @@ export default (
     {deepLinkRoutes}
     {hasNutanixAccess && nutanixRoutes}
     {hasWindowsHypervisorAccess && windowsHypervisorRoutes}
+    {hasLinuxKVMHypervisorAccess && linuxkvmhypervisorRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />

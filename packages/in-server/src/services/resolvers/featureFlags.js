@@ -96,6 +96,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'linuxkvmhypervisorEnabled',
+    instanaCtlKey: 'feature.linuxkvmhypervisor.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'zhmcEnabled',
     instanaCtlKey: 'feature.zhmc.enabled',
     defaultValue: false
