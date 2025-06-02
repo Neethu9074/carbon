@@ -77,13 +77,11 @@ const columnDefinitions = [
     width: 40,
     getContent(entity) {
       return (
-        <Tooltip content={entity.alertName} align="topLeft" delay={500} overwriteBlock caret={false}>
-          <WithSubscript subscript={getSubscript(entity)}>
-            <Link href={getEntityIdView(globalSettingsAlertingAlerts, entity.id)} ellipsis>
-              {entity.alertName}
-            </Link>
-          </WithSubscript>
-        </Tooltip>
+        <WithSubscript subscript={getSubscript(entity)}>
+          <Link href={getEntityIdView(globalSettingsAlertingAlerts, entity.id)} ellipsis>
+            {entity.alertName}
+          </Link>
+        </WithSubscript>
       );
     }
   },

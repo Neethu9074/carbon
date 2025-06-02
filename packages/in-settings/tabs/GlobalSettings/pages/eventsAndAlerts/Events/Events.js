@@ -275,22 +275,20 @@ export function EventName({ entity, hasRowNavigation }) {
     <WithIcon icon={icon.icon} iconColor={icon.color}>
       <WithSubscript subscript={<Subscript entity={entity} />}>
         {hasRowNavigation ? (
-          <Tooltip content={tooltipContent} align="mousePosition" delay={500}>
-            <Link
-              href={getEntityIdView(getDetailsPath(entity), entity.id)}
-              ellipsis
-              onClick={() =>
-                trackCta(SETTINGS_EVENT_VIEW, {
-                  eventDefinitionType: entity.type,
-                  entityType: entity.entityType,
-                  type: entity.triggering ? 'Incident' : 'None',
-                  severity: getSeverityText(entity.severity)
-                })
-              }
-            >
-              {name}
-            </Link>
-          </Tooltip>
+          <Link
+            href={getEntityIdView(getDetailsPath(entity), entity.id)}
+            ellipsis
+            onClick={() =>
+              trackCta(SETTINGS_EVENT_VIEW, {
+                eventDefinitionType: entity.type,
+                entityType: entity.entityType,
+                type: entity.triggering ? 'Incident' : 'None',
+                severity: getSeverityText(entity.severity)
+              })
+            }
+          >
+            {name}
+          </Link>
         ) : (
           <Tooltip content={tooltipContent} align="mousePosition" delay={500}>
             <span className={locals.ellipsis}>{name}</span>
