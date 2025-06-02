@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { CarbonPopover, CarbonPopoverContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
@@ -12,7 +13,7 @@ import { TimeConfig } from '@instana/types';
 import ApplicationEntityOpenIssuesList from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityOpenIssuesList';
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import Overlay from 'in-components/overlays/Overlay';
+import usePopoverClickHandler from 'in-hooks/usePopoverClickHandler';
 
 interface ApplicationEntityHealthIndicatorProps {
   openIssues?: number;
@@ -22,10 +23,14 @@ interface ApplicationEntityHealthIndicatorProps {
   endpointId?: string;
   timeConfig: TimeConfig;
   IndicatorPresenter: any;
+  // eslint-disable-next-line react/no-unused-prop-types
   inContentArea?: boolean;
+  // eslint-disable-next-line react/no-unused-prop-types
+  close?: () => void;
 }
 export default function ApplicationEntityHealthIndicatorBehavior(props: ApplicationEntityHealthIndicatorProps) {
-  let { openIssues, maxSeverity, applicationId, serviceId, endpointId, timeConfig, IndicatorPresenter } = props;
+  let { openIssues, maxSeverity, applicationId, serviceId, endpointId, timeConfig, IndicatorPresenter, inContentArea } =
+    props;
   let healthInfo = useObservable(
     fetchAndMapApplicationEntityHealthInfo({
       applicationId,
@@ -37,6 +42,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props: Applicat
     }),
     [timeConfig]
   );
+  const { open, toggle, ref } = usePopoverClickHandler();
 
   // Previous values when the openIssues, maxSeverity where undefined are needed to be replaced
   healthInfo = openIssues != null && maxSeverity != null ? { openIssues, maxSeverity, timeConfig } : healthInfo;
@@ -52,23 +58,18 @@ export default function ApplicationEntityHealthIndicatorBehavior(props: Applicat
   }
 
   return (
-    <Overlay
-      props={{ ...props, healthInfo }}
-      content={Content}
-      inContentArea={props.inContentArea}
-      align="leftTop"
-      withoutWrapper
-    >
-      {({ toggle, refSetter, isOpen }) => (
+    <CarbonPopover ref={ref} open={open} caret={false} autoAlign dropShadow align="left-start">
+      <CarbonPopoverContent>{Content({ ...props, ...healthInfo, close: toggle })}</CarbonPopoverContent>
+      <div>
         <IndicatorPresenter
           openIssues={healthInfo?.openIssues ?? 0}
           maxSeverity={healthInfo?.maxSeverity ?? 0}
           onClick={toggle}
-          refSetter={refSetter}
-          isOpen={isOpen}
+          isOpen={open}
+          inContentArea={inContentArea}
         />
-      )}
-    </Overlay>
+      </div>
+    </CarbonPopover>
   );
 }
 
