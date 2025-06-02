@@ -12,26 +12,29 @@ import { Result, TimeConfig } from '@instana/types';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 // @ts-expect-error needs migration
 import connectTo from 'in-hoc/connectTo';
-import getXenServerHost from 'in-xenserver/subscriptions/getXenServerHost';
+import getXenServerVM from 'in-xenserver/subscriptions/getXenServerVM';
 import { useXenServerEntityLink } from 'in-xenserver/navigation/paths';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-export interface HostBreadcrumbProps {
+export interface VMBreadcrumbProps {
   hostId: string | null | undefined;
+  vmId: string | null | undefined;
   viewPath: string;
   timeConfig: TimeConfig;
   result?: Result<any>;
 }
-interface HostInfo {
+interface VMInfo {
   hostId: string;
-  hostData: SnapshotData;
+  vmId: string;
+  vmData: SnapshotData;
 }
 export default connectTo(
-  (props: HostBreadcrumbProps) => ({
-    hostData: getXenServerHost({
+  (props: VMBreadcrumbProps) => ({
+    vmData: getXenServerVM({
       filter: {
         hostId: props.hostId,
+        vmId: props.vmId,
         timeConfig: props.timeConfig
       },
       pagination: {
@@ -44,14 +47,12 @@ export default connectTo(
       }
     }).map(result => result.data)
   }),
-  function HostBreadcrumb({ hostId, hostData }: HostInfo) {
-    const getXenServerHostDashboard = useXenServerEntityLink('host', { hostId });
-
-    if (!hostId) return null;
-
+  function VMBreadcrumb({ hostId, vmId, vmData }: VMInfo) {
+    const getXenServerVMDashboard = useXenServerEntityLink('vm', { hostId, vmId });
+    if (!vmId) return null;
     return (
-      <Breadcrumb href={getXenServerHostDashboard(hostId)} label={t('in-xenserver:host')}>
-        {hostData && hostData.name}
+      <Breadcrumb href={getXenServerVMDashboard(vmId)} label={t('in-xenserver:vm')}>
+        {vmData && vmData.name}
       </Breadcrumb>
     );
   }

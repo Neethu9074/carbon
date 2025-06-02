@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import XenServerVirtualMachines from 'in-xenserver/Dashboards/Host/tabs/VirtualMachines';
 import { hostDashboardFullyQualified } from 'in-xenserver/navigation/paths';
 import Summary from 'in-xenserver/Dashboards/Host/tabs/Summary';
 import { t } from 'in-i18n';
@@ -13,5 +14,10 @@ export default [
     label: t('in-xenserver:summary'),
     path: `${hostDashboardFullyQualified}/summary`,
     component: Summary
+  },
+  {
+    label: t('in-xenserver:virtualMachines'),
+    path: `${hostDashboardFullyQualified}/vms`,
+    component: XenServerVirtualMachines
   }
 ];
