@@ -9,6 +9,7 @@ import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matri
 export const applicationId = 'appId';
 export const serviceId = 'serviceId';
 export const endpointId = 'endpointId';
+export const subtraceId = 'subtrace.config.id';
 export const expandId = 'expanded';
 export const fastQueryModeEnabled = 'fastQueryModeEnabled';
 export const showGraph = 'showGraph';
