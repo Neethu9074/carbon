@@ -68,7 +68,8 @@
       "runTheInstanaAgentContainerImage": "Run the Instana agent container image",
       "upgradeTheInstanaAgentContainerImage": "Upgrade the Instana agent container image",
       "installAgentOnDocker": "Install agent on Docker",
-      "configurationOptions": "Configuration options"
+      "configurationOptions": "Configuration options",
+      "optionallyEnterTheAgentZone": "Optionally enter the agent zone that you want the agent to be a part of."
     },
     "jvmVendor": {
       "azulZulu11": "Azul Zulu 11",
@@ -208,7 +209,6 @@
       },
       "iamPermissions": "IAM permissions",
       "trustRelationships": "Trust relationships",
-      "enterAClusterNameAndOptionallyTheAgentZone": "Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
       "awsLambdaNodeJsAutotrace": "The preferred way to configure AWS Lambda functions based on Node.js 10.x (or newer) for tracing is the Instana Lambda layer with AutoTrace.",
       "selectAwsRegionAndLambdaHandler": "Select AWS region and enter the current Lambda handler",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Set Instana auto-wrap handler as the handler for the Lambda function.",

@@ -108,11 +108,9 @@ export default function Docker({
         </Typography>
 
         <LayoutSection
-          title={
-            t('in-plg:agentDetails.aws.step1') + t('in-plg:agentDetails.aws.enterAClusterNameAndOptionallyTheAgentZone')
-          }
+          title={t('in-plg:agentDetails.common.step1') + t('in-plg:agentDetails.docker.optionallyEnterTheAgentZone')}
         >
-          <AgentzoneLister callBackFunc={updateAgentZone} />
+          <AgentzoneLister agent="docker" callBackFunc={updateAgentZone} />
         </LayoutSection>
 
         <LayoutSection
