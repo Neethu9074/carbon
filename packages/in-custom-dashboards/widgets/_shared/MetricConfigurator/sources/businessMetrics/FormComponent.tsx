@@ -83,7 +83,8 @@ const FormComponent = ({
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
-    onChange
+    onChange,
+    disableEntitySelection: true
   });
 
   const grouping = groupingField?.get(0)?.toJS();

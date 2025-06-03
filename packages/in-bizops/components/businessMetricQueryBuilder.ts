@@ -19,11 +19,11 @@ const { QueryBuilder } = createDynamicQueryBuilder<
       metricName: metric,
       timeConfig: timeConfig
     }),
-  getSuggestions: ({ tagName, timeConfig, propose, value, metric }) => {
+  getSuggestions: ({ timeConfig, propose, key, value, metric }) => {
     const query: GetBusinessMetricsTagsSuggestionsQuery = {
       metric: metric,
       propose: propose,
-      key: tagName,
+      key: key,
       value: value,
       timeConfig: timeConfig,
       pagination: {

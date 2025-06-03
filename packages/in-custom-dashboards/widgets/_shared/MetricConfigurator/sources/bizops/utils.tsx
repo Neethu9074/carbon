@@ -44,15 +44,6 @@ export const enrichBySettingDataSource = (
       ...metricConfiguration,
       dataSource: 'CUSTOM_BUSINESS_METRICS'
     } as BizOpsUnifiedMetricConfigurationWithDataSource;
-
-    if (newBusinessMetrics.tagFilterExpression) {
-      const newTagFilterExpression = mapTagFilterExpression(newBusinessMetrics.tagFilterExpression);
-      newBusinessMetrics = {
-        ...newBusinessMetrics,
-        tagFilterExpression: newTagFilterExpression
-      };
-    }
-
     return newBusinessMetrics;
   } else if (
     isBizOpsUnifiedMetricConfiguration(metricConfiguration) &&
