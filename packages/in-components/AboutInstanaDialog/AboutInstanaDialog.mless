@@ -11,9 +11,7 @@
   }
 
   .maxMindAttribution {
-    display: block;
-    max-width: 16rem;
-    white-space: normal;
-    text-align: left;
+    display: inline-flex;
+    align-items: center;
   }
 }

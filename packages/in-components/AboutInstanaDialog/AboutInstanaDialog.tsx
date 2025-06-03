@@ -3,177 +3,139 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { ColumnizedContent, Ul, Li, KeyValue, Button, Stack } from '@instana/components';
+import { Typography, Link, Stack } from '@instana/components';
+import { AboutModal } from '@instana/ibm-products';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 
 import { graphViewFromAboutInstanaEnabled } from 'in-services/featureFlags';
+import instanaLogo from 'in-components/AboutInstanaDialog/Instana.svg?url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
 import { close } from 'in-components/DialogPresenter/store';
-import { instanaRegion } from 'in-services/config';
-import Dialog from 'in-components/Dialog/Dialog';
-import Lettering from 'in-components/Lettering';
-import { build } from 'in-services/config';
-import { t, Trans } from 'in-i18n';
+import { instanaRegion, build } from 'in-services/config';
+import { t } from 'in-i18n';
 
 import locals from './AboutInstanaDialog.mless';
 
 export default function AboutInstanaDialog() {
-  const uiBackendVersion = useObservable(getUiBackendVersion(), []);
+  const uiBackendVersion: { imageTag: string; commit: string } = useObservable(
+    getUiBackendVersion('getInstanaVersion'),
+    []
+  ) as { imageTag: string; commit: string };
   const { createHrefToPath } = useNavigation();
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <Dialog onClose={close} title={<Lettering className={locals.lettering} />}>
-      <Stack align="center" space="medium">
-        <Ul>
-          {instanaRegion && (
-            <Li>
-              <ColumnizedContent
-                columnDefinitions={[
-                  {
-                    width: '10rem',
-                    getContent() {
-                      return t('in-components:aboutInstanaDialog.columnizedContentDeployment');
-                    }
-                  },
-                  {
-                    width: '15rem',
-                    getContent() {
-                      return (
-                        <KeyValue
-                          label={t('in-components:aboutInstanaDialog.labelRegion')}
-                          value={instanaRegion}
-                          accentuated
-                        />
-                      );
-                    }
-                  }
-                ]}
-              />
-            </Li>
-          )}
+    <AboutModal
+      open={isOpen}
+      closeIconDescription={t('in-components:aboutInstanaDialog.close')}
+      content={
+        <span className={locals.fontColor}>
+          <Stack component={'span'} gap="large" direction="vertical" align="start">
+            {instanaRegion && (
+              <Stack component={'span'} gap="xxsmall" direction="vertical" align="start">
+                <Typography component={'span'} variant="heading-03">
+                  {t('in-components:aboutInstanaDialog.columnizedContentDeployment')}
+                </Typography>
+                <Typography component={'span'} noMargin variant="heading-01">
+                  {t('in-components:aboutInstanaDialog.labelRegion')}
+                </Typography>
+                {instanaRegion}
+              </Stack>
+            )}
+            <Stack component={'span'} gap="small" direction="vertical" align="start">
+              <Typography component={'span'} variant="heading-03">
+                {t('in-components:aboutInstanaDialog.columnizedContentUserInterface')}
+              </Typography>
+              {build.tag && (
+                <Stack component={'span'} gap="disabled">
+                  <Typography component={'span'} noMargin variant="heading-01">
+                    {t('in-components:aboutInstanaDialog.labelTag')}
+                  </Typography>
+                  <Typography component={'span'} variant="body-01">
+                    {build.tag}
+                  </Typography>
+                </Stack>
+              )}
 
-          <Li>
-            <ColumnizedContent
-              columnDefinitions={[
-                {
-                  width: '10rem',
-                  getContent() {
-                    return t('in-components:aboutInstanaDialog.columnizedContentUserInterface');
-                  }
-                },
-                {
-                  width: '15rem',
-                  getContent() {
-                    return (
-                      build.tag && (
-                        <KeyValue
-                          label={t('in-components:aboutInstanaDialog.labelTag')}
-                          value={build.tag}
-                          accentuated
-                        />
-                      )
-                    );
-                  }
-                },
-                {
-                  width: '8rem',
-                  getContent() {
-                    return (
-                      build.revision && (
-                        <KeyValue
-                          label={t('in-components:aboutInstanaDialog.labelCommit')}
-                          value={build.revision.substring(0, 12)}
-                          accentuated
-                        />
-                      )
-                    );
-                  }
-                }
-              ]}
-            />
-          </Li>
-
-          {uiBackendVersion && (
-            <Li>
-              <ColumnizedContent
-                columnDefinitions={[
-                  {
-                    width: '10rem',
-                    getContent() {
-                      return t('in-components:aboutInstanaDialog.columnizedContentBackend');
-                    }
-                  },
-                  {
-                    width: '15rem',
-                    getContent() {
-                      return (
-                        uiBackendVersion.imageTag && (
-                          <KeyValue
-                            label={t('in-components:aboutInstanaDialog.labelTag')}
-                            value={uiBackendVersion.imageTag}
-                            accentuated
-                          />
-                        )
-                      );
-                    }
-                  },
-                  {
-                    width: '8rem',
-                    getContent() {
-                      return (
-                        uiBackendVersion.commit && (
-                          <KeyValue
-                            label={t('in-components:aboutInstanaDialog.labelCommit')}
-                            value={uiBackendVersion.commit.substring(0, 12)}
-                            accentuated
-                          />
-                        )
-                      );
-                    }
-                  }
-                ]}
-              />
-            </Li>
-          )}
-
-          <Li>
-            <ColumnizedContent
-              columnDefinitions={[
-                {
-                  width: '10rem',
-                  getContent() {
-                    return t('in-components:aboutInstanaDialog.geo.title');
-                  }
-                },
-                {
-                  getContent() {
-                    return (
-                      <span className={locals.maxMindAttribution}>
-                        <Trans
-                          i18nKey="in-components:aboutInstanaDialog.geo.description"
-                          components={{
-                            linkToMaxMind: <Link external href="https://www.maxmind.com" />
-                          }}
-                        />
-                      </span>
-                    );
-                  }
-                }
-              ]}
-            />
-          </Li>
-        </Ul>
-
-        {graphViewFromAboutInstanaEnabled && (
-          <Button kind="primaryv2" href={createHrefToPath(graphPath)} onClick={() => close()}>
-            {t('in-components:aboutInstanaDialog.buttonGraphShowcase')}
-          </Button>
-        )}
-      </Stack>
-    </Dialog>
+              {build.revision && (
+                <Stack component={'span'} gap="disabled">
+                  <Typography component={'span'} noMargin variant="heading-01">
+                    {t('in-components:aboutInstanaDialog.labelCommit')}
+                  </Typography>
+                  <Typography component={'span'} variant="body-01">
+                    {build.revision.substring(0, 12)}
+                  </Typography>
+                </Stack>
+              )}
+            </Stack>
+            {uiBackendVersion && (
+              <Stack component={'span'} gap="small" direction="vertical" align="start">
+                (
+                <>
+                  <Typography component={'span'} variant="heading-03">
+                    {t('in-components:aboutInstanaDialog.columnizedContentBackend')}
+                  </Typography>
+                  <Stack component={'span'} gap="disabled">
+                    <Typography component={'span'} noMargin variant="heading-01">
+                      {t('in-components:aboutInstanaDialog.labelTag')}
+                    </Typography>
+                    <Typography component={'span'} variant="body-01">
+                      {' '}
+                      {uiBackendVersion?.imageTag}
+                    </Typography>
+                  </Stack>
+                  <Stack component={'span'} gap="disabled">
+                    <Typography component={'span'} noMargin variant="heading-compact-01">
+                      {t('in-components:aboutInstanaDialog.labelCommit')}
+                    </Typography>
+                    <Typography component={'span'} variant="body-01">
+                      {uiBackendVersion?.commit?.substring(0, 12)}
+                    </Typography>
+                  </Stack>
+                </>
+                )
+              </Stack>
+            )}
+            <Stack component={'span'} gap="small" direction="vertical" align="start">
+              <Typography component={'span'} variant="heading-03">
+                {t('in-components:aboutInstanaDialog.geo.title')}
+              </Typography>
+              <Typography component={'span'} variant="body-01">
+                {t('in-components:aboutInstanaDialog.maxMindDescription')}{' '}
+                <Link href="https://www.maxmind.com" linkIconType="lib_views_external_link">
+                  {t('in-components:aboutInstanaDialog.maxMind')}
+                </Link>
+              </Typography>
+              {graphViewFromAboutInstanaEnabled && (
+                <Typography component={'span'} variant="body-01">
+                  {t('in-components:aboutInstanaDialog.dynamicGraphDescription')}{' '}
+                  <Link href={createHrefToPath(graphPath)} onClick={() => close()} inline>
+                    {t('in-components:aboutInstanaDialog.dynamicGraph')}
+                  </Link>
+                </Typography>
+              )}
+            </Stack>
+          </Stack>
+        </span>
+      }
+      copyrightText={t('in-components:aboutInstanaDialog.copyRights')}
+      logo={<img alt="IBM Instana logo" src={instanaLogo} width="96" height="96" />}
+      modalAriaLabel="About this product"
+      onClose={() => {
+        close();
+        setIsOpen(false);
+      }}
+      title={
+        <span className={locals.alignTitle}>
+          {t('in-components:aboutInstanaDialog.ibm')}&nbsp;
+          <span className={locals.fontWeight}>{t('in-components:aboutInstanaDialog.instana')}</span>
+        </span>
+      }
+      version=""
+    />
   );
 }
