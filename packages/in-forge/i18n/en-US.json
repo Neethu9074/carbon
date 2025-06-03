@@ -9870,7 +9870,11 @@
         "allocatedSize": "Allocated Size",
         "freeSize": "Free Size",
         "sharedMemoryStats": "Shared Memory",
-        "rowStoreMemoryStats": "Row Store Memory"
+        "rowStoreMemoryStats": "Row Store Memory",
+        "upTime": "Uptime",
+        "totalCpuUsage": "CPU Usage",
+        "totalMemoryUsage": "Memory Usage",
+        "totalConnections": "Active Connections"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -9920,7 +9924,6 @@
       "tcpSegmentsSentOut": "Sent Out",
       "tcpSegmentsRetransmitted": "Retransmitted",
       "tcpBadSegmentsReceived": "Broken",
-      "upTime": "Up Time",
       "installTime": "Database Installed On"
     },
     "service": {
