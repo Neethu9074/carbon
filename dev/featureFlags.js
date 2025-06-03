@@ -201,5 +201,6 @@ module.exports = {
   whatsNewBannerEnabled: true,
   allSmartAlertsViewEnabled: false,
   apMetricsDeltaFetchingEnabled: true,
-  isControlledEnvEnabled: false
+  isControlledEnvEnabled: false,
+  blockLogDeletionsEnabled: false
 };

@@ -962,6 +962,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'blockLogDeletionsEnabled',
+    instanaCtlKey: 'feature.block.log.deletions.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'relatedEventsDatagrid',
     instanaCtlKey: 'feature.related.events.datagrid.enabled',
     defaultValue: false

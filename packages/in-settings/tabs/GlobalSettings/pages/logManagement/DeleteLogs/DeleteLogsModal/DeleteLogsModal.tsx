@@ -34,6 +34,7 @@ import { showToast } from 'in-settings/tabs/GlobalSettings/pages/logManagement/D
 import { NotificationState } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { formatDate, parseDateTime } from 'in-services/formatters/date';
+import { blockLogDeletionsEnabled } from 'in-services/featureFlags';
 import { deleteLogs } from 'in-logging/api/deleteLogs';
 import TimePicker from 'in-components/form/TimePicker';
 import { activeLocale } from 'in-i18n';
@@ -133,6 +134,8 @@ export function DeleteLogsModal({
       showToast(toastType, title, message, 'logsDeleted', icon);
     });
   };
+
+  if (!blockLogDeletionsEnabled) deletionInProgress = false;
 
   const { loadingStatus, loadingDescription } = getDeletionStatus({
     isDeleting,
