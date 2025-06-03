@@ -298,7 +298,7 @@ function WidgetMoreMenu({
               {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
             </MoreMenuButton>
             {customDashboardsExportPdfWidget && (
-              <MoreMenuButton icon="lib_actions_download" onClick={() => onPDFDownload(widget.id)}>
+              <MoreMenuButton icon="lib_actions_download" onClick={() => onPDFDownload(widget)}>
                 {t('in-custom-dashboards:customDashboard.grid.grid.exportPDF')}
               </MoreMenuButton>
             )}

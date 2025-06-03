@@ -206,6 +206,7 @@ function Presenter({
   errors,
   order,
   items,
+  pluginName,
   type,
   loadMore: defaultCursorPaginationLoadMore,
   retrievalSize,
@@ -278,6 +279,7 @@ function Presenter({
           metricMetadatas={metricMetadatas}
           order={order}
           tracking={tracking}
+          pluginName={pluginName}
           type={type}
           CustomHeaderActions={getHeaderActions}
           backendQueryModel={backendQueryModel}
@@ -708,16 +710,9 @@ function getHeaderActions(props) {
     return <></>;
   }
 
-  const timeConfig = props.timeConfig;
-  const backendQueryModel = props.backendQueryModel;
-  const order = props.order;
-  const type = props.type;
-  const metrics = props.metrics;
-  const cursor = props.cursor;
-  const columns = props.columns;
-  const granularity = props.granularity;
-  const groupBy = props.groupBy;
-  const csvFileName = 'group_entites_' + type + '.csv';
+  const { timeConfig, backendQueryModel, order, type, pluginName, metrics, cursor, columns, granularity, groupBy } =
+    props;
+  const csvFileName = `group_entites_${type}.csv`;
 
   const getAllData = ({ cursor }) =>
     getGroups({
@@ -742,7 +737,9 @@ function getHeaderActions(props) {
         columns={columns}
         cursor={cursor}
       />
-      <DownloadPdfButton />
+      <DownloadPdfButton
+        options={{ pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}` }}
+      />
       <MetricCatalogAndSortingConfigurator {...props} showTagCatalog={false} />
     </>
   );

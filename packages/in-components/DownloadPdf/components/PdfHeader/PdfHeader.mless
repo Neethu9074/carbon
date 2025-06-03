@@ -23,6 +23,11 @@
   }
 
   .timeRange {
+    flex: 1;
     margin-bottom: 1rem;
+  }
+
+  .title {
+    flex: 1;
   }
 }

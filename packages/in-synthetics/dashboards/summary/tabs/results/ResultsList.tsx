@@ -15,6 +15,8 @@ import {
   ResultsCurrentState,
   ResultsFilterState,
   resultsFilterUrlStateDefinition,
+  runTypeCICD,
+  runTypeScheduled,
   TestResponse
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error Could not find declaration type
@@ -28,11 +30,11 @@ import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-service
 import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracking/tracker';
 import FailureTypePopover from 'in-synthetics/dashboards/summary/tabs/results/FailureTypePopover';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
+import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { syntheticDnsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
-import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
@@ -389,9 +391,9 @@ function getSynthTableData({
       type: 'EXPRESSION'
     };
     runTypeTagFilterExpression.elements.push({
-      value: runType,
+      value: runType === runTypeCICD ? runTypeScheduled : runType,
       name: runTypeTagName,
-      operator: EQUALS,
+      operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     });

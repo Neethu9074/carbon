@@ -21,6 +21,7 @@ import { Trans, t } from 'in-i18n';
 import locals from './AgentzoneLister.mless';
 
 interface AgentzoneListerProp {
+  agent?: string;
   callBackFunc: (agentZone: string) => void;
 }
 
@@ -58,13 +59,14 @@ const retrievalSize = 200;
  *
  * ! Search functionality is case-sensitive.
  */
-const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
+const AgentzoneLister = ({ agent, callBackFunc }: AgentzoneListerProp) => {
   const [isLoading, setIsLoading] = useState(false);
   const [listOfAgentZones, setListOfAgentZones] = useState<string[]>([]);
   const [backendQueryModel, setBackendQueryModel] = useState<BackendQueryModelProp>(backendQueryModelDefaultValue);
   const [agentZoneInternal, setAgentZoneInternal] = useState<string>('');
 
   const timeConfig = useTimeConfig();
+  const isDockerAgent: boolean = agent === 'docker';
 
   function getAgentZones({ timeConfig, backendQueryModel }: GetAgentZonesProp) {
     return getEntities({
@@ -130,7 +132,9 @@ const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
           <div className={classNames('cds--form__helper-text', { [locals.helpText]: true })}>
             {t('in-plg:agentDetails.common.agentZoneOptional')}
           </div>
-          <SvgIcon size="xs" type="lib_help_error_help_outline" color="var(--ids-color-option-neutral-600)" />
+          {!isDockerAgent && (
+            <SvgIcon size="xs" type="lib_help_error_help_outline" color="var(--ids-color-option-neutral-600)" />
+          )}
         </Stack>
       </Tooltip>
       <CreatableComboBox

@@ -39,6 +39,7 @@ export default class extends React.Component {
       chart,
       chartWrapper,
       isCustomDashboard,
+      customDashboardTitle,
       exportWidgetToPdf,
       tooltipRef
     } = props;
@@ -69,7 +70,13 @@ export default class extends React.Component {
     if (isCustomDashboard && customDashboardsExportPdfWidget) {
       basicButtonConfigs.push({
         ...downloadPDFAction,
-        onClick: () => exportWidgetToPdf({ target: chartWrapper, tooltipRef, isHistogram: false })
+        onClick: () =>
+          exportWidgetToPdf({
+            target: chartWrapper,
+            tooltipRef,
+            isHistogram: false,
+            pdfHeaderTitle: customDashboardTitle
+          })
       });
     }
 

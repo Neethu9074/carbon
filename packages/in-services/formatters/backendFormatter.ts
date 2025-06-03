@@ -55,7 +55,7 @@ export type InternalFormatterTypes =
 const mappings: {
   readonly [key in BackendFormatterType]: FormatterWithDefault;
 } = {
-  NUMBER: createFormatterWithDefault(number, 'compact'),
+  NUMBER: createFormatterWithDefault(number, 'detailed'),
   RATE: createFormatterWithDefault(number.perSecond, 'detailed'),
 
   PERCENTAGE: createFormatterWithDefault(percentage, 'detailed'),
@@ -99,7 +99,7 @@ function createFormatterWithDefault<T extends NumberFormatter>(
 const mappingsToUiInternalNames: {
   readonly [key in InternalFormatterTypes]?: string;
 } = {
-  NUMBER: 'number.compact',
+  NUMBER: 'number.detailed',
   PERCENTAGE: 'percentage.detailed',
   PERCENTAGE_100: 'percentagePlain.detailed',
   BYTES: 'bytes.detailed',

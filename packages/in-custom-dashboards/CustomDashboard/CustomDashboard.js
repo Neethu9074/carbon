@@ -111,13 +111,14 @@ export default function CustomDashboardLoader(props) {
   }, [config, activeDialogs.length]);
 
   const exportWidgetToPdf = useCallback(
-    ({ target, tooltipRef, isHistogram }) => {
+    ({ target, tooltipRef, isHistogram, pdfHeaderTitle }) => {
       const { widgetNode, widgetType, widgetId } = getWidgetProperties(target);
       return exportWidgetAsPdf({
         action: options => generatePdfFromElement(<PdfWidgetContainer widgetId={widgetId} />, options),
         widgetNode,
         widgetId,
         widgetType,
+        pdfHeaderTitle,
         tooltipRef,
         isHistogram,
         trackCta
@@ -127,8 +128,8 @@ export default function CustomDashboardLoader(props) {
   );
 
   const contextValues = useMemo(
-    () => ({ widgets: config?.widgets, exportWidgetToPdf }),
-    [config?.widgets, exportWidgetToPdf]
+    () => ({ widgets: config?.widgets, exportWidgetToPdf, customDashboardTitle: config?.title }),
+    [config, exportWidgetToPdf]
   );
   return (
     <CustomDashboardContext.Provider value={contextValues}>
@@ -158,11 +159,11 @@ export default function CustomDashboardLoader(props) {
         onZoomWidget={onZoomWidget}
         onRemoveWidget={onRemoveWidget}
         onDiscardChanges={onDiscardChanges}
-        onPDFDownload={onPDFDownload}
+        onPDFDownload={widgetConfig => onPDFDownload(widgetConfig, config)}
         onPDFDashboardDownload={() => {
           setDownloadDashboard(true);
-          trackCta(DOWNLOAD_PDF_START, { customDashboardId: dashboardId });
-          onPDFDashboardDownload(dashboardId);
+          trackCta(DOWNLOAD_PDF_START, { customDashboardId: dashboardId, dashboardTitle: config.title });
+          onPDFDashboardDownload(config);
         }}
         onShare={onShare}
         onEditAsJson={onEditAsJson}
@@ -367,14 +368,17 @@ export default function CustomDashboardLoader(props) {
     setConfig(deepCopy(result.data));
   }
 
-  function onPDFDownload(id) {
-    const target = document.getElementById(getWidgetId(id));
-    exportWidgetToPdf({ target, tooltipRef: null, isHistogram: false });
+  function onPDFDownload(config, dashboardConfig) {
+    const { title } = dashboardConfig;
+    const target = document.getElementById(getWidgetId(config.id));
+    exportWidgetToPdf({ target, tooltipRef: null, isHistogram: false, pdfHeaderTitle: title });
   }
 
-  async function onPDFDashboardDownload(customDashboardId) {
+  async function onPDFDashboardDownload(config) {
+    const { id, title } = config;
+
     const node = document.querySelector('.react-grid-layout');
-    const pdfHeaderUrl = await getPdfHeaderUrl();
+    const pdfHeaderUrl = await getPdfHeaderUrl({ pdfHeaderTitle: title });
 
     if (!node) {
       setDownloadDashboard(false);
@@ -383,7 +387,8 @@ export default function CustomDashboardLoader(props) {
 
     addActiveDialog(
       <DownloadPdfDialog
-        id={customDashboardId}
+        id={id}
+        filename={title}
         headerUrl={pdfHeaderUrl}
         node={node}
         sanitize={sanitizeWidgets}

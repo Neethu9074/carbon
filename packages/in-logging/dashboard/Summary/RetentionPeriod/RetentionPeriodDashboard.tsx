@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { HorizontalIndicator, LoadingSkeleton } from '@instana/components';
+import { HorizontalIndicator, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
@@ -24,8 +24,14 @@ const localisationStrings = {
   currentRetentionPeriod: t('in-settings:tabs.retentionPeriod.currentRetentionPeriod'),
   days: t('in-settings:tabs.retentionPeriod.days')
 };
+
+interface ErrorObject {
+  error: boolean;
+  message: string;
+}
 export default function RetentionPeriodDashboard() {
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState({ error: false, message: '' } as ErrorObject);
   const [retentionValue, setRetentionValue] = useState<number | undefined | string>();
   const progress: Progress = {
     loading: isLoading
@@ -44,29 +50,48 @@ export default function RetentionPeriodDashboard() {
         }
       : undefined;
 
-  const getRetentionPeriod$ = retentionLogsGET();
+  useEffect(() => {
+    const getRetentionPeriod$ = retentionLogsGET();
 
-  getRetentionPeriod$.once(response => {
-    setRetentionValue(response.body.retentionDays);
-    setIsLoading(false);
-  });
-  getRetentionPeriod$.errors().once(_ => {
-    setIsLoading(false);
-  });
+    getRetentionPeriod$.once(response => {
+      setRetentionValue(response.body.retentionDays);
+      setHasError({ error: false, message: '' });
+      setIsLoading(false);
+    });
+    getRetentionPeriod$.errors().once(response => {
+      setHasError({ error: true, message: response.error[0]?.message });
+      setIsLoading(false);
+    });
+  }, []);
 
   return (
     <>
       {!isLoading ? (
-        <KpiCard title={localisationStrings.currentRetentionPeriod} iconAction={logRetentionIcon} noTooltipOnTitle>
-          <div className={locals.body}>
-            <p className={locals.retentionContent}>
-              <span data-testid="retentionValue" className={locals.number}>
-                {retentionValue}
+        hasError.error ? (
+          <KpiCard title={localisationStrings.currentRetentionPeriod} noTooltipOnTitle iconClassName={locals.error}>
+            <Stack align="center" distribution="center">
+              <span title={hasError.message as string}>
+                <SvgIcon
+                  data-testid="kpi-error-icon"
+                  size="l"
+                  type="lib_help_error_error_circle"
+                  className={locals.error}
+                />
               </span>
-              {localisationStrings.days}
-            </p>
-          </div>
-        </KpiCard>
+            </Stack>
+          </KpiCard>
+        ) : (
+          <KpiCard title={localisationStrings.currentRetentionPeriod} iconAction={logRetentionIcon} noTooltipOnTitle>
+            <div className={locals.body}>
+              <p className={locals.retentionContent}>
+                <span data-testid="retentionValue" className={locals.number}>
+                  {retentionValue}
+                </span>
+                {localisationStrings.days}
+              </p>
+            </div>
+          </KpiCard>
+        )
       ) : (
         <>
           <HorizontalIndicator className={locals.loadingIndicator} progress={progress} />

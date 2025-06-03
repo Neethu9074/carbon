@@ -16,29 +16,32 @@ import locals from 'in-components/DownloadPdf/components/PdfExportLayout/PdfExpo
 interface Props {
   onReady?: () => void;
   orientation?: string;
+  pdfHeaderTitle?: string;
   isFullWidth?: boolean;
   pdfContent?: ReactNode;
 }
 
-const PdfExportLayout = forwardRef<HTMLDivElement, Props>(({ onReady, orientation, pdfContent, isFullWidth }, ref) => {
-  return (
-    <div
-      id={pdfExportLayout}
-      data-testid={pdfExportLayout}
-      className={classNames({
-        [locals.pdfExportLayout]: true,
-        [locals.fullWidth]: isFullWidth,
-        [locals.landscape]: Boolean(orientation === 'l')
-      })}
-    >
-      <div id="pdf-export-container" ref={ref}>
-        <PdfHeader orientation={orientation} />
-        <PdfContent orientation={orientation} onReady={onReady}>
-          {pdfContent}
-        </PdfContent>
+const PdfExportLayout = forwardRef<HTMLDivElement, Props>(
+  ({ onReady, orientation, pdfHeaderTitle, pdfContent, isFullWidth }, ref) => {
+    return (
+      <div
+        id={pdfExportLayout}
+        data-testid={pdfExportLayout}
+        className={classNames({
+          [locals.pdfExportLayout]: true,
+          [locals.fullWidth]: isFullWidth,
+          [locals.landscape]: Boolean(orientation === 'l')
+        })}
+      >
+        <div id="pdf-export-container" ref={ref}>
+          <PdfHeader orientation={orientation} title={pdfHeaderTitle} />
+          <PdfContent orientation={orientation} onReady={onReady}>
+            {pdfContent}
+          </PdfContent>
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default PdfExportLayout;

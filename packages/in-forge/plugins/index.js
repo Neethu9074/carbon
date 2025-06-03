@@ -74,6 +74,7 @@ import './azureServiceBusTopics';
 import './awsDocumentDbInstance';
 import './snowflakeOrganization';
 import './windowsHypervisorHost';
+import './ibmiAuditJournalsInfo';
 import './azureEventHubCluster';
 import './redisEnterpriseShard';
 import './tuxedoAppApplication';

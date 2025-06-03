@@ -36,9 +36,9 @@ interface Props {
   node: HTMLElement;
   id: string;
   filename?: string;
-  close: () => void;
   headerUrl?: string;
   sanitize?: (node: Node) => boolean;
+  close: () => void;
   isStackWidgets?: boolean;
 }
 

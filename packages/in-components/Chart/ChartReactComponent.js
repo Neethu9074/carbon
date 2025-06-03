@@ -74,7 +74,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
   } = props;
 
   const { PdfExportRenderer } = usePdfExport();
-  const { exportWidgetToPdf } = useCustomDashboardContext();
+  const { exportWidgetToPdf, customDashboardTitle } = useCustomDashboardContext();
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
 
@@ -214,6 +214,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
                 disableChartInLive={disableChartInLive}
                 isCustomDashboard={matchLocation(customDashboardsPath)}
                 exportWidgetToPdf={exportWidgetToPdf}
+                customDashboardTitle={customDashboardTitle}
                 isHighlightedOnDisabledChart$={isHighlightedOnDisabledChart$}
               />
             )}

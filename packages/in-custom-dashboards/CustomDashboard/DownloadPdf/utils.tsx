@@ -73,6 +73,7 @@ interface ExportWidgetPdfOptions {
   widgetType: string;
   widgetNode: HTMLElement;
   tooltipRef: any;
+  pdfHeaderTitle?: string;
   isHistogram: boolean;
   trackCta: CtaTrackingFunction;
 }
@@ -86,12 +87,14 @@ export const exportWidgetAsPdf = ({
   widgetNode,
   tooltipRef,
   isHistogram,
+  pdfHeaderTitle,
   action,
   trackCta
 }: ExportWidgetPdfOptions) => {
   const orientation = getWidgetPdfOrientation(widgetType);
   const options = {
     filename: widgetId,
+    pdfHeaderTitle,
     customize: (nodeToExport: HTMLElement) =>
       customizeTooltip({
         nodeToExport,

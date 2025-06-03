@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { HorizontalIndicator, LoadingSkeleton } from '@instana/components';
+import { HorizontalIndicator, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
@@ -57,7 +57,7 @@ export default function LogVolumeDashboard() {
     [timePeriod]
   );
 
-  const { progress, data } = result || { progress: { loading: false }, data: {} };
+  const { progress, data, errors } = result || { progress: { loading: false }, data: {} };
   const logVolume = data?.logVolumeUsageItems?.[0]?.logVolume;
 
   return (
@@ -67,6 +67,14 @@ export default function LogVolumeDashboard() {
           <HorizontalIndicator className={locals.loadingIndicator} progress={progress} />
           <LoadingSkeleton className={locals.skeleton} />
         </>
+      ) : errors && errors?.length > 0 ? (
+        <KpiCard title={localisationStrings.logVolumeTitle} noTooltipOnTitle iconClassName={locals.error}>
+          <Stack align="center" distribution="center">
+            <span title={errors[0].message}>
+              <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />
+            </span>
+          </Stack>
+        </KpiCard>
       ) : (
         <KpiCard title={localisationStrings.logVolumeTitle} iconAction={logVolumeIcon} noTooltipOnTitle>
           <div className={locals.body}>

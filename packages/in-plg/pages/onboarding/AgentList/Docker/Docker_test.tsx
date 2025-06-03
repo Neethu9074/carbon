@@ -19,7 +19,7 @@ describe('Docker Tests', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        t('in-plg:agentDetails.aws.step1') + t('in-plg:agentDetails.aws.enterAClusterNameAndOptionallyTheAgentZone')
+        t('in-plg:agentDetails.common.step1') + t('in-plg:agentDetails.docker.optionallyEnterTheAgentZone')
       )
     ).toBeInTheDocument();
     expect(
