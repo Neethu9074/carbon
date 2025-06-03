@@ -12,9 +12,9 @@ import { generateUniqueShortId } from '@instana/utils';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import { Code, ConfigItem, TestTypeSelected, AssertionTargetFilter } from 'in-synthetics/utils/constants';
 import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracking/tracker';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
-import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import SideRadioMenu from 'in-components/SideRadioMenu';
@@ -34,6 +34,8 @@ interface BluePrintSelectionSectionProps {
   isUpdateConfig: boolean;
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
   setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
+  setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
+  setValidationFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
 }
 
 const BluePrintSelectionSection = ({
@@ -48,7 +50,9 @@ const BluePrintSelectionSection = ({
   setCommonAttributes,
   isUpdateConfig,
   setScriptDetails,
-  setHeaders
+  setHeaders,
+  setTargetFilters,
+  setValidationFilters
 }: BluePrintSelectionSectionProps) => {
   return (
     <LightCard
@@ -71,6 +75,8 @@ const BluePrintSelectionSection = ({
         isUpdateConfig={isUpdateConfig}
         setScriptDetails={setScriptDetails}
         setHeaders={setHeaders}
+        setTargetFilters={setTargetFilters}
+        setValidationFilters={setValidationFilters}
       />
     </LightCard>
   );
@@ -89,6 +95,8 @@ interface SelectionMenuProps {
   isUpdateConfig: boolean;
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
   setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
+  setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
+  setValidationFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
 }
 
 const SelectionMenu = ({
@@ -103,7 +111,9 @@ const SelectionMenu = ({
   setCommonAttributes,
   isUpdateConfig,
   setScriptDetails,
-  setHeaders
+  setHeaders,
+  setTargetFilters,
+  setValidationFilters
 }: SelectionMenuProps) => {
   const { trackCta } = useSegmentTracking();
   const blueprintConfigs = getAdvancedBlueprintConfig();
@@ -172,6 +182,8 @@ const SelectionMenu = ({
           isUpdateConfig={isUpdateConfig}
           setScriptDetails={setScriptDetails}
           setHeaders={setHeaders}
+          setTargetFilters={setTargetFilters}
+          setValidationFilters={setValidationFilters}
         />
       </div>
     </div>

@@ -11,7 +11,7 @@ import { KeyValue, CarbonGrid as Grid, CarbonColumn as Column } from '@instana/c
 import { generateUniqueShortId } from '@instana/utils';
 import { DNSFilterTargetValue } from '@instana/types';
 
-import { DNSFilterOperators, DNSQueryTypes } from 'in-synthetics/utils/constants';
+import { AssertionFilterOperators, DNSQueryTypes } from 'in-synthetics/utils/constants';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { t } from 'in-i18n';
 
@@ -32,7 +32,9 @@ export const DNSAssertions = ({ assertions }: { assertions: DNSFilterTargetValue
           })}
         >
           <Column sm={3}>{DNSQueryTypes.find(queryType => queryType.value === assertion.key)?.label}</Column>
-          <Column sm={3}>{DNSFilterOperators.find(operator => operator.value === assertion.operator)?.label}</Column>
+          <Column sm={3}>
+            {AssertionFilterOperators.find(operator => operator.value === assertion.operator)?.label}
+          </Column>
           <Column sm={3}>{assertion.value}</Column>
         </Grid>
       );

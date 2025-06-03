@@ -61,7 +61,9 @@ const AdvancedMode = ({
   targetFilters,
   setTargetFilters,
   showAssertionsWarning,
-  setShowAssertionsWarning
+  setShowAssertionsWarning,
+  validationFilters,
+  setValidationFilters
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
   const getSelectedBlueprintIndex = () => {
@@ -144,6 +146,8 @@ const AdvancedMode = ({
             updateForm={updateForm}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
+            validationFilters={validationFilters}
+            setValidationFilters={setValidationFilters}
           />
         );
       case 'DNS':
@@ -183,6 +187,8 @@ const AdvancedMode = ({
         isUpdateConfig={isUpdateConfig}
         setScriptDetails={setScriptDetails!}
         setHeaders={setHeaders}
+        setTargetFilters={setTargetFilters}
+        setValidationFilters={setValidationFilters}
       />
     )
   };

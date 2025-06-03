@@ -21,14 +21,15 @@ import {
   apiScriptTest,
   apiSimpleTest,
   browserScriptTest,
-  browserSimpleTest
+  browserSimpleTest,
+  AssertionTargetFilter
 } from 'in-synthetics/utils/constants';
 import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracking/tracker';
 import getDefaultCustomProperties from 'in-synthetics/createTests/utils/getDefaultCustomProperties';
-import { getDefaultTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import populateCommonAttributes from 'in-synthetics/createTests/utils/populateCommonAttributes';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import { getTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
@@ -105,7 +106,8 @@ const CreateSyntheticTestDialogPresenter = ({
   const [invalidTimeout, setInvalidTimeout] = useState({ invalid: false, message: '' });
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
-  const [targetFilters, setTargetFilters] = useState(getDefaultTargetFilters(form));
+  const [targetFilters, setTargetFilters] = useState(getTargetFilters(form, 'targetValues'));
+  const [validationFilters, setValidationFilters] = useState(getTargetFilters(form, 'validationRules'));
   const [showAssertionsWarning, setShowAssertionsWarning] = useState(false);
   /**
    * A single form is being rendered in multiple pages in the simple mode
@@ -158,11 +160,22 @@ const CreateSyntheticTestDialogPresenter = ({
       : undefined;
   };
 
-  const SSLCertificateErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+  const SSLCertificateErrorsExist = (
+    configForm: MapForm<any>,
+    syntheticTypeField: Field<string>,
+    validationFilters: AssertionTargetFilter[]
+  ) => {
     return syntheticTypeField.value === 'SSLCertificate'
       ? (configForm.get('hostname') && !configForm.get('hostname').valid) ||
           (configForm.get('port') && !configForm.get('port').valid) ||
-          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid)
+          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid) ||
+          (configForm.get('validationRules') &&
+            validationFilters.some(
+              targetFilter =>
+                targetFilter.error.key.invalid ||
+                targetFilter.error.operator.invalid ||
+                targetFilter.error.value.invalid
+            ))
       : undefined;
   };
 
@@ -209,7 +222,7 @@ const CreateSyntheticTestDialogPresenter = ({
       // for HTTPScript, WebpageScript, and BrowserScript
       scriptErrorExist(configForm, syntheticTypeField) ||
       // for SSL Certificate
-      SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
+      SSLCertificateErrorsExist(configForm, syntheticTypeField, validationFilters) ||
       // for DNS
       DNSErrorsExist(configForm, syntheticTypeField, targetFilters, showAssertionsWarning) ||
       !syntheticTypeField.valid ||
@@ -366,6 +379,8 @@ const CreateSyntheticTestDialogPresenter = ({
             setTargetFilters={setTargetFilters}
             showAssertionsWarning={showAssertionsWarning}
             setShowAssertionsWarning={setShowAssertionsWarning}
+            validationFilters={validationFilters}
+            setValidationFilters={setValidationFilters}
           />
         )}
       </div>

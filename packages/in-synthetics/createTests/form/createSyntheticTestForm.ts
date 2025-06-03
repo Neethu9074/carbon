@@ -604,6 +604,12 @@ export function createAdvancedSSLCertificateConfigurationForm(savedState?: Recor
       })
     )
     .put(
+      'validationRules',
+      createField({
+        value: savedState?.validationRules ?? []
+      })
+    )
+    .put(
       'timeout',
       createField({
         value: savedState?.timeout ?? '0m',

@@ -9,11 +9,10 @@ import {
   IPv4Validator,
   IPv6Validator,
   dnsServerValidator,
-  assertionValidator,
   responseTimeValidator,
-  noSpaceValidator,
   checkQueryTypeAssertionMismatch
 } from 'in-synthetics/createTests/validators/dnsValidators';
+import { assertionValidator, noSpaceValidator } from 'in-synthetics/createTests/validators/validator';
 import { getErrorMessage } from 'in-services/validators/jsonType';
 import { t } from 'in-i18n';
 
@@ -214,8 +213,9 @@ describe('assertionValidator', () => {
           inValidResolutionRecord: false
         },
         '8.8.8.1',
+        'value',
         'ANY',
-        'value'
+        'DNS'
       )
     ).toStrictEqual({
       id: 'qrV2-UbYk0BfCFEc',
@@ -264,8 +264,9 @@ describe('assertionValidator', () => {
           inValidResolutionRecord: false
         },
         'CONTAINS',
+        'operator',
         'ANY',
-        'operator'
+        'DNS'
       )
     ).toStrictEqual({
       id: 'qrV2-UbYk0BfCFEc',
@@ -314,8 +315,9 @@ describe('assertionValidator', () => {
           inValidResolutionRecord: false
         },
         'A',
+        'key',
         'ANY',
-        'key'
+        'DNS'
       )
     ).toStrictEqual({
       id: 'qrV2-UbYk0BfCFEc',
@@ -364,8 +366,9 @@ describe('assertionValidator', () => {
           inValidResolutionRecord: false
         },
         '8.8.8.8',
+        'value',
         'ANY',
-        'value'
+        'DNS'
       )
     ).toStrictEqual({
       id: 'qrV2-UbYk0BfCFEc',
@@ -414,8 +417,9 @@ describe('assertionValidator', () => {
           inValidResolutionRecord: false
         },
         '8.8.8 .8',
+        'value',
         'ANY',
-        'value'
+        'DNS'
       )
     ).toStrictEqual({
       id: 'qrV2-UbYk0BfCFEc',
@@ -464,8 +468,9 @@ describe('assertionValidator', () => {
           inValidResolutionRecord: false
         },
         'AAAA',
+        'key',
         'A',
-        'key'
+        'DNS'
       )
     ).toStrictEqual({
       id: 'qrV2-UbYk0BfCFEc',
@@ -514,14 +519,23 @@ describe('responseTimeValidator', () => {
 
 describe('noSpaceValidator', () => {
   test('validates the resolution record and return undefined value of resolution record is valid', () => {
-    expect(noSpaceValidator('8.8.8.8')).toStrictEqual(undefined);
+    expect(noSpaceValidator('DNS', '8.8.8.8')).toStrictEqual(undefined);
   });
 
   test('validates the resolution record and return  an error message if resolution record contain spaces', () => {
-    expect(noSpaceValidator('8.8.8 .8')).toStrictEqual([
+    expect(noSpaceValidator('DNS', '8.8.8 .8')).toStrictEqual([
       {
         severity: 'error',
         message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidResolutionRecord')
+      }
+    ]);
+  });
+
+  test('validates the resolution record and return  an error message if resolution record contain spaces', () => {
+    expect(noSpaceValidator('SSLCertificate', '8.8.8 .8')).toStrictEqual([
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.ssl.invalidAttributeValue')
       }
     ]);
   });

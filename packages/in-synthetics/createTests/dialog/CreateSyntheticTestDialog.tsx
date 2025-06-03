@@ -4,27 +4,20 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
+import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
-import {
-  Code,
-  Invalid,
-  SlideInConfig,
-  SliderState,
-  TargetFilter,
-  TestTypeSelected
-} from 'in-synthetics/utils/constants';
 import CreateSyntheticTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialogPresenter';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
+import { Code, SlideInConfig, SliderState, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { getUpdatedTargetFilter } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { syntheticWizardCreateButtonClick } from 'in-synthetics/tracking/tracker';
 import { Error as ScriptError, SyntheticTest } from 'in-types';
-import { isNotBlank } from 'in-services/util/string';
 import { createTest } from 'in-synthetics/api';
 
 interface CreateSyntheticTestDialogProps {
@@ -123,18 +116,13 @@ const createSyntheticTest = (
         ...updatedForm.toJS()
       } as SyntheticTest;
     } else if (form.get('configuration').get('syntheticType').value === 'DNS') {
-      if (isEmpty(form.get('configuration').get('targetValues').value)) {
-        updatedForm = form.put('configuration', form.get('configuration').remove('targetValues'));
-      } else {
-        const updatedFilter = form
-          .get('configuration')
-          .get('targetValues')
-          .value.map(({ id, error, ...otherValues }: { id: string; error: Invalid }) => otherValues)
-          .filter((targetValue: TargetFilter) => isNotBlank(targetValue.key));
-        updatedForm = form.updateIn(['configuration', 'targetValues'], (field: Item) =>
-          (field as Field<TargetFilter>).setValue(updatedFilter).setTouched(true)
-        );
-      }
+      updatedForm = getUpdatedTargetFilter(form, 'targetValues');
+      testConfig = {
+        active: true,
+        ...updatedForm.toJS()
+      } as SyntheticTest;
+    } else if (form.get('configuration').get('syntheticType').value === 'SSLCertificate') {
+      updatedForm = getUpdatedTargetFilter(form, 'validationRules');
       testConfig = {
         active: true,
         ...updatedForm.toJS()

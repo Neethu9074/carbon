@@ -4,12 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm, createField } from 'formalistic';
-import { isEmpty } from 'lodash';
+import { MapForm, createField } from 'formalistic';
 
 import { BrowserScriptConfiguration, HttpScriptConfiguration, SyntheticTest } from '@instana/types';
 
-import { Invalid, TargetFilter } from 'in-synthetics/utils/constants';
+import { getUpdatedTargetFilter } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 
@@ -84,7 +83,6 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
   if (hasEmptyStrings(updatedForm.get('customProperties').value)) {
     updatedForm = updatedForm.put('customProperties', createField({ value: {} }));
   }
-
   if (
     updatedForm.get('configuration').get('syntheticType').value === 'HTTPAction' &&
     hasEmptyStrings(updatedForm.get('configuration').get('headers').value)
@@ -95,18 +93,13 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
       ...updatedForm.toJS()
     } as SyntheticTest;
   } else if (updatedForm.get('configuration').get('syntheticType').value === 'DNS') {
-    if (isEmpty(updatedForm.get('configuration').get('targetValues').value)) {
-      updatedForm = updatedForm.put('configuration', updatedForm.get('configuration').remove('targetValues'));
-    } else {
-      const updatedFilter = updatedForm
-        .get('configuration')
-        .get('targetValues')
-        .value.map(({ id, error, ...otherValues }: { id: string; error: Invalid }) => otherValues)
-        .filter((targetValue: TargetFilter) => isNotBlank(targetValue.key));
-      updatedForm = updatedForm.updateIn(['configuration', 'targetValues'], (field: Item) =>
-        (field as Field<TargetFilter>).setValue(updatedFilter).setTouched(true)
-      );
-    }
+    updatedForm = getUpdatedTargetFilter(updatedForm, 'targetValues');
+    testConfig = {
+      id: testId,
+      ...updatedForm.toJS()
+    } as SyntheticTest;
+  } else if (updatedForm.get('configuration').get('syntheticType').value === 'SSLCertificate') {
+    updatedForm = getUpdatedTargetFilter(updatedForm, 'validationRules');
     testConfig = {
       id: testId,
       ...updatedForm.toJS()

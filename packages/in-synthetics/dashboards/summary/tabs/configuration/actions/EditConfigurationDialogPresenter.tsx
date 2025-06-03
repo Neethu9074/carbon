@@ -12,11 +12,11 @@ import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
 
 import cleanConfigurationForm from 'in-synthetics/dashboards/summary/tabs/configuration/actions/cleanConfigurationForm';
+import { ConfigItem, SlideInHeader, TestTypeSelected, AssertionTargetFilter } from 'in-synthetics/utils/constants';
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { clickSyntheticMonitoringConfigurationTabEditTracker } from 'in-synthetics/tracking/tracker';
-import { getDefaultTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
+import { getTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -162,7 +162,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   };
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
-  const [targetFilters, setTargetFilters] = useState(getDefaultTargetFilters(form));
+  const [targetFilters, setTargetFilters] = useState(getTargetFilters(form, 'targetValues'));
+  const [validationFilters, setValidationFilters] = useState(getTargetFilters(form, 'validationRules'));
 
   const formId = 'create-synthetics-test-form';
 
@@ -196,11 +197,22 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     );
   }
 
-  const SSLCertificateErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+  const SSLCertificateErrorsExist = (
+    configForm: MapForm<any>,
+    syntheticTypeField: Field<string>,
+    validationFilters: AssertionTargetFilter[]
+  ) => {
     return syntheticTypeField.value === 'SSLCertificate'
       ? (configForm.get('hostname') && !configForm.get('hostname').valid) ||
           (configForm.get('port') && !configForm.get('port').valid) ||
-          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid)
+          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid) ||
+          (configForm.get('validationRules') &&
+            validationFilters.some(
+              targetFilter =>
+                targetFilter.error.key.invalid ||
+                targetFilter.error.operator.invalid ||
+                targetFilter.error.value.invalid
+            ))
       : undefined;
   };
 
@@ -238,7 +250,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           (configForm.get('scripts') &&
             (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
       // for SSL Certificate
-      SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
+      SSLCertificateErrorsExist(configForm, syntheticTypeField, validationFilters) ||
       // for DNS
       DNSErrorsExist(configForm, syntheticTypeField, targetFilters, showAssertionsWarning) ||
       !syntheticTypeField.valid ||
@@ -343,6 +355,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setTargetFilters={setTargetFilters}
           showAssertionsWarning={showAssertionsWarning}
           setShowAssertionsWarning={setShowAssertionsWarning}
+          validationFilters={validationFilters}
+          setValidationFilters={setValidationFilters}
         />
       </form>
     </DialogWithSlideInView>

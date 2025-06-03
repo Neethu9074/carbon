@@ -11,12 +11,37 @@ import React from 'react';
 import { createAdvancedSSLCertificateConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { checkForInvalidHost, checkForInvalidPort } from 'in-synthetics/createTests/validators/urlValidator';
 import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
+import { syntheticSslImprovementEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 describe('SSLCertificateConfiguration', () => {
   const updateForm = jest.fn();
   const setInvalidTimeout = jest.fn();
   const invalidTimeout = { invalid: false, message: '' };
+  const validationFilters = [
+    {
+      id: '123454',
+      key: '',
+      operator: '',
+      value: '',
+      error: {
+        key: {
+          invalid: false,
+          message: ''
+        },
+        operator: {
+          invalid: false,
+          message: ''
+        },
+        value: {
+          invalid: false,
+          message: ''
+        }
+      },
+      inValidResolutionRecord: false
+    }
+  ];
+  const setValidationFilters = jest.fn();
 
   it('Renders the SSL Certificate configuration section correctly', () => {
     const form = createMapForm().put('configuration', createAdvancedSSLCertificateConfigurationForm());
@@ -27,6 +52,8 @@ describe('SSLCertificateConfiguration', () => {
         updateForm={updateForm}
         invalidTimeout={invalidTimeout}
         setInvalidTimeout={setInvalidTimeout}
+        validationFilters={validationFilters}
+        setValidationFilters={setValidationFilters}
       />
     );
     expect(
@@ -61,9 +88,12 @@ describe('SSLCertificateConfiguration', () => {
         updateForm={updateForm}
         invalidTimeout={invalidTimeout}
         setInvalidTimeout={setInvalidTimeout}
+        validationFilters={validationFilters}
+        setValidationFilters={setValidationFilters}
       />
     );
-    expect(container.getElementsByTagName('input').length).toBe(11);
+    expect(container.getElementsByTagName('input').length).toBe(syntheticSslImprovementEnabled ? 12 : 11);
+
     // Host Name
     expect(screen.getByTestId('host-name')).toHaveValue('');
     // Port
@@ -157,6 +187,8 @@ describe('SSLCertificateConfiguration', () => {
         updateForm={updateForm}
         invalidTimeout={invalidTimeout}
         setInvalidTimeout={setInvalidTimeout}
+        validationFilters={validationFilters}
+        setValidationFilters={setValidationFilters}
       />
     );
 
@@ -225,6 +257,8 @@ describe('SSLCertificateConfiguration', () => {
         updateForm={updateForm}
         invalidTimeout={invalidTimeout}
         setInvalidTimeout={setInvalidTimeout}
+        validationFilters={validationFilters}
+        setValidationFilters={setValidationFilters}
       />
     );
     expect(screen.getByText(t('in-synthetics:dialog.createTest.validators.invalidPortValue'))).toBeInTheDocument();

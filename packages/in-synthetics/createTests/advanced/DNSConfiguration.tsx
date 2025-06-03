@@ -24,7 +24,7 @@ import { generateUniqueShortId } from '@instana/utils';
 import { DNSFilterQueryTime } from '@instana/types';
 
 import {
-  DNSFilterOperators,
+  AssertionFilterOperators,
   DNSQueryTypes,
   DNSTransportOptions,
   Invalid,
@@ -32,11 +32,9 @@ import {
   AssertionTargetFilter,
   assertionQueryTypes
 } from 'in-synthetics/utils/constants';
-import {
-  assertionValidator,
-  checkQueryTypeAssertionMismatch
-} from 'in-synthetics/createTests/validators/dnsValidators';
 import ConfigurationCommonSection from 'in-synthetics/createTests/advanced/ConfigurationCommonSection';
+import { checkQueryTypeAssertionMismatch } from 'in-synthetics/createTests/validators/dnsValidators';
+import { assertionValidator } from 'in-synthetics/createTests/validators/validator';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -298,8 +296,9 @@ export default function DNSConfiguration({
                         const validator = assertionValidator(
                           selectedFilter,
                           selectedItem?.value!,
+                          'key',
                           queryTypeField.value,
-                          'key'
+                          'DNS'
                         );
                         targetFilter.error = validator.error;
                       }
@@ -316,10 +315,12 @@ export default function DNSConfiguration({
                 <Dropdown
                   id={generateUniqueShortId()}
                   className={locals.queryWidth}
-                  items={DNSFilterOperators}
-                  initialSelectedItem={DNSFilterOperators.find(operator => operator.value === selectedFilter.operator)}
+                  items={AssertionFilterOperators}
+                  initialSelectedItem={AssertionFilterOperators.find(
+                    operator => operator.value === selectedFilter.operator
+                  )}
                   label=""
-                  titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorLabel')}
+                  titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.operatorLabel')}
                   type="default"
                   onChange={({ selectedItem }) => {
                     targetFilters.forEach(targetFilter => {
@@ -328,8 +329,9 @@ export default function DNSConfiguration({
                         const validator = assertionValidator(
                           selectedFilter,
                           selectedItem?.value!,
+                          'operator',
                           queryTypeField.value,
-                          'operator'
+                          'DNS'
                         );
                         targetFilter.error = validator.error;
                       }
@@ -357,8 +359,9 @@ export default function DNSConfiguration({
                         const validator = assertionValidator(
                           selectedFilter,
                           target?.value,
+                          'value',
                           queryTypeField.value,
-                          'value'
+                          'DNS'
                         );
                         targetFilter.error = validator.error;
                       }
@@ -384,7 +387,7 @@ export default function DNSConfiguration({
                 <IconButton
                   kind="ghost"
                   onClick={() => deleteTargetFilterRow(selectedFilter.id)}
-                  label={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.deleteButtonLabel')}
+                  label={t('in-synthetics:dialog.createTest.advancedMode.configStep.deleteButtonLabel')}
                   align="top"
                 >
                   <SvgIcon type="lib_actions_delete" />
@@ -398,7 +401,7 @@ export default function DNSConfiguration({
             size="sm"
             renderIcon={() => <IconForButton icon="lib_openclose_add" iconSize="s" />}
           >
-            {t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.addRecordTypeLabel')}
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.addFieldLabel')}
           </Button>
         </Stack>
       </div>

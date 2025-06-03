@@ -11,7 +11,14 @@ import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { Code, ConfigItem, SSLCertificateTest, TestTypeSelected } from 'in-synthetics/utils/constants';
+import {
+  Code,
+  ConfigItem,
+  SSLCertificateTest,
+  TestTypeSelected,
+  AssertionTargetFilter
+} from 'in-synthetics/utils/constants';
+import { getDefaultTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import SimpleOrScriptOption from 'in-synthetics/createTests/advanced/SimpleOrScriptOption';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
@@ -33,6 +40,8 @@ interface SelectedTestTypeProps {
   isUpdateConfig: boolean;
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
   setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
+  setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
+  setValidationFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
 }
 
 const pingAPIDescription = (
@@ -81,7 +90,9 @@ const SelectedTestType = ({
   setCommonAttributes,
   isUpdateConfig,
   setScriptDetails,
-  setHeaders
+  setHeaders,
+  setTargetFilters,
+  setValidationFilters
 }: SelectedTestTypeProps) => {
   const populateCommonAttributes = () => {
     commonAttributes['url'] = '';
@@ -171,6 +182,11 @@ const SelectedTestType = ({
                 }
               }
             ]);
+            if (testTypeSelected?.ssl.simple) {
+              setValidationFilters(getDefaultTargetFilters());
+            } else if (testTypeSelected?.dns.simple) {
+              setTargetFilters(getDefaultTargetFilters());
+            }
           }}
           disabled={isBlank(commonAttributes.syntheticType)}
         >

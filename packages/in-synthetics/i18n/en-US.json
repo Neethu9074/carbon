@@ -223,6 +223,13 @@
           "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
           "recordVideo": "Record user actions on failure",
           "acceptSelfSignedCertificate":"Accept self-signed certificate",
+          "operatorLabel": "Conditional",
+          "operatorOptionMatches": "Matches",
+          "operatorOptionContains": "Contains",
+          "operatorOptionIs": "Is",
+          "operatorOptionNotMatches": "Not matches",
+          "deleteButtonLabel": "Delete",
+          "addFieldLabel": "Add field",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "The URL is the domain name being tested for DNS resolution",
@@ -236,14 +243,7 @@
             "assertionsTitle": "Assertions (optional)",
             "assertionsSubtitle": "These fields are optional, but when filled they all need to be true for the test to be successful.",
             "recordTypeLabel": "Record type",
-            "operatorLabel": "Conditional",
-            "operatorOptionMatches": "Matches",
-            "operatorOptionContains": "Contains",
-            "operatorOptionIs": "Is",
-            "operatorOptionNotMatches": "Not matches",
             "resolutionRecordLabel": "Resolution record",
-            "deleteButtonLabel": "Delete",
-            "addRecordTypeLabel": "Add field",
             "recursiveLookupLabel": "Recursive lookup",
             "dnsRadioButtonOnLabel": "On",
             "dnsRadioButtonOffLabel": "Off",
@@ -261,6 +261,18 @@
             },
             "assertionsNotificationTitle": "Assertions required",
             "assertionsNotificationDescription": "Add at least one assertion when using the \"ALL associated with assertions\" query type."
+          },
+          "ssl":{
+            "attributeLabel": "Attribute",
+            "valueLabel": "Value",
+            "attributeValueLabel": "Attribute Value",
+            "invalidAttributeValue": "Attribute value not valid",
+            "assertion" :{
+              "commonName": "issuedTo.commonName",
+              "alternativeName": "issuedTo.alternativeName",
+              "organization": "issuedBy.organization",
+              "tlsVersion": "tls.version"
+            }
           },
           "hostDetailsSectionLabel": "Host details",
           "headerSectionLabel": "Add headers (optional)",

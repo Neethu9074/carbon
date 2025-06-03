@@ -472,6 +472,12 @@ function createAdvancedSSLCertificateConfigurationForm(configuration?: Record<st
       })
     )
     .put(
+      'validationRules',
+      createField({
+        value: configuration?.validationRules ?? []
+      })
+    )
+    .put(
       'timeout',
       createField({
         value: configuration?.timeout,

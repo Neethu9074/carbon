@@ -137,22 +137,41 @@ export interface DataScopeType {
   label: string;
   value: string;
 }
-export const DNSFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
+export const AssertionFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
   {
-    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionContains'),
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.operatorOptionContains'),
     value: 'CONTAINS'
   },
   {
-    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionMatches'),
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.operatorOptionMatches'),
     value: 'MATCHES'
   },
   {
-    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionIs'),
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.operatorOptionIs'),
     value: 'IS'
   },
   {
-    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionNotMatches'),
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.operatorOptionNotMatches'),
     value: 'NOT_MATCHES'
+  }
+];
+
+export const sslAssertionTypes: { label: string; value: string }[] = [
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.ssl.assertion.commonName'),
+    value: 'issuedTo.commonName'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.ssl.assertion.alternativeName'),
+    value: 'issuedTo.alternativeName'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.ssl.assertion.organization'),
+    value: 'issuedBy.organization'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.ssl.assertion.tlsVersion'),
+    value: 'tls.version'
   }
 ];
 
@@ -584,6 +603,8 @@ export interface AdvancedModeProps {
   setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
   showAssertionsWarning: boolean;
   setShowAssertionsWarning: React.Dispatch<React.SetStateAction<boolean>>;
+  validationFilters: AssertionTargetFilter[];
+  setValidationFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
 }
 
 export interface SlideInConfig {

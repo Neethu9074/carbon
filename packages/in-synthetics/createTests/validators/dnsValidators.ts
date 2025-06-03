@@ -86,52 +86,6 @@ export function dnsServerValidator(server: string): ValidationResult {
 }
 
 /**
- * Validates the syntax of a DNS assertion.
- * @param selectedFilter - The assertion to be validated.
- * @param newValue - new input value for key/ operator/ value.
- * @param scenario - The scenario of the input change.
- * @returns the updated assertion with it's selectedFilter.error field filled.
- */
-export function assertionValidator(
-  selectedFilter: AssertionTargetFilter,
-  newValue: string,
-  queryType: string,
-  scenario: string
-): AssertionTargetFilter {
-  const recordType = scenario === 'key' ? newValue : selectedFilter.key;
-  const operator = scenario === 'operator' ? newValue : selectedFilter.operator;
-  const recordResolution = scenario === 'value' ? newValue : selectedFilter.value;
-
-  const recordTypeNotBlank: ValidationResult = notBlankValidator(recordType);
-  const recordTypeNotValid: ValidationResult = recordTypeValidator(queryType, selectedFilter);
-  const operatorNotBlank: ValidationResult = notBlankValidator(operator);
-  const recordResolutionNotBlank: ValidationResult = notBlankValidator(recordResolution);
-
-  const recordResolutionNotValid: ValidationResult = noSpaceValidator(recordResolution);
-
-  if (recordTypeNotBlank) {
-    selectedFilter.error['key'] = { invalid: true, message: recordTypeNotBlank[0].message! };
-  } else if (recordTypeNotValid) {
-    selectedFilter.error['key'] = { invalid: true, message: recordTypeNotValid[0].message! };
-  } else {
-    selectedFilter.error['key'] = { invalid: false, message: '' };
-  }
-  if (operatorNotBlank) {
-    selectedFilter.error['operator'] = { invalid: true, message: operatorNotBlank[0].message! };
-  } else {
-    selectedFilter.error['operator'] = { invalid: false, message: '' };
-  }
-  if (recordResolutionNotBlank) {
-    selectedFilter.error['value'] = { invalid: true, message: recordResolutionNotBlank[0].message! };
-  } else if (recordResolutionNotValid) {
-    selectedFilter.error['value'] = { invalid: true, message: recordResolutionNotValid[0].message! };
-  } else {
-    selectedFilter.error['value'] = { invalid: false, message: '' };
-  }
-  return selectedFilter;
-}
-
-/**
  * Validates the syntax of a resolution record.
  * @param responseTimeObj - The responseTime key-operator-value to be validated.
  * @returns An array of severity-message pairs if the value is blank or is not a number.
@@ -149,24 +103,6 @@ export function responseTimeValidator(responseTimeObj: DNSFilterQueryTime): Vali
       }
     ];
   }
-  return undefined;
-}
-
-/**
- * Validates the syntax of a resolution record.
- * @param record - The resolution record to be validated.
- * @returns An array of severity-message pairs if the resolution record contains spaces, otherwise return undefined.
- */
-export function noSpaceValidator(record?: string): ValidationResult {
-  if (record != null && typeof record === 'string' && record.includes(' ')) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidResolutionRecord')
-      }
-    ];
-  }
-
   return undefined;
 }
 
@@ -198,7 +134,7 @@ export function checkQueryTypeAssertionMismatch(queryType: string, targetFilters
  * @param targetFilter - The target filter which has to be validated.
  * @returns An array of severity-message pairs if the target filter and query type mismatches.
  */
-function recordTypeValidator(queryType: string, targetFilter: AssertionTargetFilter): ValidationResult {
+export function recordTypeValidator(queryType: string, targetFilter: AssertionTargetFilter): ValidationResult {
   if (
     isNotBlank(targetFilter.key) &&
     ((queryType === 'A' && targetFilter.key === 'AAAA') ||
