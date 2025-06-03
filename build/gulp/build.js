@@ -155,6 +155,7 @@ function writeTryBuildServerConfigFile(cb) {
     },
     activeLicenseType: 'hostBasedPaid',
     segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
+    walkmeKey: '9ef25d161f0e453a8f3e4dea9390a967',
     amplitudeKey: 'client-R2KC1Tw3m8BAnSOiVOSwMWosWdGyGDmN',
     eum: {
       apiKey: 'hUD6LIQpRaeFDkvAf5X4Yg',
@@ -231,6 +232,7 @@ function writeTryBuildReleaseServerConfigFile(cb) {
     },
     activeLicenseType: 'hostBasedPaid',
     segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
+    walkmeKey: '9ef25d161f0e453a8f3e4dea9390a967',
     eum: {
       apiKey: 'hUD6LIQpRaeFDkvAf5X4Yg',
       domain: 'magenta.instana.rocks/eum/',

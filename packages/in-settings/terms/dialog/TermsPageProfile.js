@@ -17,9 +17,9 @@ import {
   CarbonModal as Modal
 } from '@instana/components';
 
+import { isControlledEnvEnabled, tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import { tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -104,17 +104,20 @@ export default function TermsPageProfile({
         {fullTermsConfigEnabled &&
           form
             .get('testingGroup')
-            .map(({ value }) => (
-              <CarbonCheckbox
-                id="user-testing-group"
-                labelText={t('in-settings:tabs.userTestingGroup')}
-                hideLabel
-                className={locals.profileCheckbox}
-                helperText={t('in-settings:tabs.profileCheckboxText')}
-                checked={value}
-                onChange={() => onChange(form, 'testingGroup', !value)}
-              />
-            ))}
+            .map(
+              ({ value }) =>
+                !isControlledEnvEnabled && (
+                  <CarbonCheckbox
+                    id="user-testing-group"
+                    labelText={t('in-settings:tabs.userTestingGroup')}
+                    hideLabel
+                    className={locals.profileCheckbox}
+                    helperText={t('in-settings:tabs.profileCheckboxText')}
+                    checked={value}
+                    onChange={() => onChange(form, 'testingGroup', !value)}
+                  />
+                )
+            )}
       </Stack>
       {errorWarningMessages}
     </Modal>

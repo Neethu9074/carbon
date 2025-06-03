@@ -17,8 +17,8 @@ import {
 } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { fullTermsConfigEnabled, isControlledEnvEnabled, tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import MapFormProvider, { useMapFormContext } from 'in-settings/components/MapFormProvider/MapFormProvider';
-import { fullTermsConfigEnabled, tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import FormFooter, { SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import { saveUserSettingsAsObservable } from 'in-settings/api/userSettings';
@@ -271,27 +271,31 @@ const CheckboxField = () => {
   const termsField = form.getIn(['termsAndPrivacySettings']);
   const checkboxValue = termsField?.value.testingGroup ?? false;
   return (
-    <FormGroup>
-      <CarbonCheckbox
-        id="user-testing-group"
-        data-testid="testing-group"
-        labelText={t('in-settings:tabs.userTestingGroup')}
-        hideLabel
-        className={locals.profileCheckbox}
-        helperText={t('in-settings:tabs.profileCheckboxText')}
-        checked={checkboxValue}
-        onChange={e =>
-          updateIn(
-            ['termsAndPrivacySettings'],
-            termsField
-              .setValue({
-                ...termsField.value,
-                testingGroup: e.target.checked
-              })
-              .setTouched(true)
-          )
-        }
-      />
-    </FormGroup>
+    <>
+      {!isControlledEnvEnabled && (
+        <FormGroup>
+          <CarbonCheckbox
+            id="user-testing-group"
+            data-testid="testing-group"
+            labelText={t('in-settings:tabs.userTestingGroup')}
+            hideLabel
+            className={locals.profileCheckbox}
+            helperText={t('in-settings:tabs.profileCheckboxText')}
+            checked={checkboxValue}
+            onChange={e =>
+              updateIn(
+                ['termsAndPrivacySettings'],
+                termsField
+                  .setValue({
+                    ...termsField.value,
+                    testingGroup: e.target.checked
+                  })
+                  .setTouched(true)
+              )
+            }
+          />
+        </FormGroup>
+      )}
+    </>
   );
 };

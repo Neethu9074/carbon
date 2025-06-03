@@ -975,5 +975,10 @@ module.exports = exports = [
     uiClientKey: 'apMetricsDeltaFetchingEnabled',
     instanaCtlKey: 'feature.ap.metrics.delta.fetching.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'isControlledEnvEnabled',
+    instanaCtlKey: 'feature.is.controlled.env.enabled',
+    defaultValue: false
   }
 ];

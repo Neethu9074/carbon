@@ -5,17 +5,18 @@
 
 import React from 'react';
 
-import { create } from '@instana/observables';
 import { Stack, Checkbox } from '@instana/components';
+import { create } from '@instana/observables';
 
+// eslint-disable-next-line import/no-deprecated
+import ApiItemView from 'in-settings/components/ApiItemView';
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
+import { isControlledEnvEnabled, fullTermsConfigEnabled } from 'in-services/featureFlags';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import MarketingMessageBox from 'in-settings/terms/MarketingMessageBox';
-import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
-import ApiItemView from 'in-settings/components/ApiItemView';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -72,15 +73,18 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
         {fullTermsConfigEnabled &&
           form
             .get('testingGroup')
-            .map(({ value }) => (
-              <Checkbox
-                label={t('in-settings:tabs.userTestingGroup')}
-                explanation={t('in-settings:tabs.toParticipateInOptionalInterviewsAndSurveyWithOurProductTeam')}
-                checked={value}
-                onChange={() => onChange(form, 'testingGroup', !value)}
-                size="large"
-              />
-            ))}
+            .map(
+              ({ value }) =>
+                !isControlledEnvEnabled && (
+                  <Checkbox
+                    label={t('in-settings:tabs.userTestingGroup')}
+                    explanation={t('in-settings:tabs.toParticipateInOptionalInterviewsAndSurveyWithOurProductTeam')}
+                    checked={value}
+                    onChange={() => onChange(form, 'testingGroup', !value)}
+                    size="large"
+                  />
+                )
+            )}
       </Stack>
 
       <MarketingMessageBox />

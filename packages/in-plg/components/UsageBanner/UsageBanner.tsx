@@ -16,6 +16,7 @@ import { Result } from '@instana/types';
 
 import {
   assistmeEnabled,
+  isControlledEnvEnabled,
   onPremLicenseInformationEnabled,
   playWithReleaseEnabled,
   playwithEnabled,
@@ -81,8 +82,8 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const isWalkMeEnabled = tealiumPrivacyEnabled
     ? walkmeToolEnabled
     : termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
-  // The AssistMe feature will be enabled if assistmeEnabled flag is true, walkme is loaded and the AssistMe script is loaded.
-  const showGetAnswers = isWalkMeEnabled && assistmeEnabled && isAssistMeScriptLoaded;
+  // The AssistMe feature will be enabled if The environment is not controlled, assistmeEnabled flag is true, walkme is loaded and the AssistMe script is loaded.
+  const showGetAnswers = !isControlledEnvEnabled && isWalkMeEnabled && assistmeEnabled && isAssistMeScriptLoaded;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';

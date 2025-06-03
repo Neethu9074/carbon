@@ -26,7 +26,12 @@ import {
   PROFILE_MENU_USER_PROFILE_CLICK,
   PROFILE_MENU_SAAS_CONSOLE_CLICK
 } from 'in-services/tracking/tracking';
-import { rbacTeamsEnabled, tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import {
+  isControlledEnvEnabled,
+  rbacTeamsEnabled,
+  tealiumPrivacyEnabled,
+  tenantSwitcherEnabled
+} from 'in-services/featureFlags';
 import TeamFocusDropdown from 'in-components/MainNavigation/components/ProfileMenu/TeamFocusDropdown';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { userSettingsProfile } from 'in-settings/navigation/paths';
@@ -138,13 +143,11 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           </div>
         ) : null}
         <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
-          <SwitcherDivider className={local.profileMenu_switcherDivider} />
-          {tealiumPrivacyEnabled ? (
+          {!isControlledEnvEnabled && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
+          {tealiumPrivacyEnabled && !isControlledEnvEnabled && (
             <SwitcherItem
               href="#"
               data-autoid="dds--privacy-cp__link"
-              // The below function will open the cookie preferences dialog box from the "More options" button
-              // in IBM privacy banner
               onClick={() => {
                 (window as any)._dl?.fn?.trustarc?.cookiePreferencesClick?.();
               }}
@@ -154,7 +157,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
                 {t('in-components:mainNavigation.profileMenu_privacy')}
               </Typography>
             </SwitcherItem>
-          ) : null}
+          )}
           {tealiumPrivacyEnabled ? <SwitcherDivider className={local.profileMenu_switcherDivider} /> : null}
           {tenantSwitcherEnabled ? (
             <SwitcherItem

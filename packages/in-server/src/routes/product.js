@@ -11,6 +11,7 @@ const fs = require('fs');
 const { getCurrentUser, isRequestCarryingAValidSeemingCookie } = require('../auth');
 const getNumberLocaleDefinition = require('../services/numberLocale');
 const { getSegmentKey } = require('../services/segment');
+const { getWalkmeKey } = require('../services/walkme');
 const { getIntegrationBaseUrl } = require('../services/getIntegrationBaseUrl');
 const { getAmplitudeKey } = require('../services/amplitude');
 const buildInformation = require('../../assets/build.json');
@@ -181,6 +182,7 @@ router.get('/', async (req, res) => {
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
     clientConfig.segmentKey = getSegmentKey();
+    clientConfig.walkmeKey = getWalkmeKey();
     clientConfig.integrationBaseUrl = getIntegrationBaseUrl();
     const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
     clientConfig.activeLicenseType = activeLicenseInfo;
@@ -189,6 +191,7 @@ router.get('/', async (req, res) => {
     clientConfig.mcspDetails = environmentInfo.mcspDetails;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const segmentKeyValue = clientConfig.segmentKey;
+    const walkmeKeyValue = clientConfig.walkmeKey;
     const walkmeEnabled = featureFlags.tealiumPrivacyEnabled
       ? featureFlags.walkmeToolEnabled
       : termsAndPrivacy.walkmeAnalyticsServices;
@@ -240,6 +243,7 @@ router.get('/', async (req, res) => {
         ibmCommonEnabled,
         tealiumPrivacyEnabled,
         segmentKeyValue,
+        walkmeKeyValue,
         segmentAnalyticsEnabled
       })
     );
@@ -391,8 +395,6 @@ async function getEnvironmentInfo(req) {
     });
     return response;
   } catch (e) {
-    // Catch any errors during the fetch operation and log them
-    console.error('Error fetching environment info:', e);
     return '{}';
   }
 }

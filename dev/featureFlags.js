@@ -200,5 +200,6 @@ module.exports = {
   regexMatchEnabled: true,
   whatsNewBannerEnabled: true,
   allSmartAlertsViewEnabled: false,
-  apMetricsDeltaFetchingEnabled: true
+  apMetricsDeltaFetchingEnabled: true,
+  isControlledEnvEnabled: false
 };

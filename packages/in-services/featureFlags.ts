@@ -392,3 +392,4 @@ export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled
 export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);
 export const rcaAiAutomatedInvestigationEnabled = isFeatureFlagEnabled('rcaAiAutomatedInvestigationEnabled', false);
 export const apMetricsDeltaFetchingEnabled = isFeatureFlagEnabled('apMetricsDeltaFetchingEnabled', false);
+export const isControlledEnvEnabled = isFeatureFlagEnabled('isControlledEnvEnabled', false);
