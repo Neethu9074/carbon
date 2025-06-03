@@ -49,6 +49,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
   const { backendQueryModel, backendGroupBy, order, type, metrics, timeConfig } = props;
 
   const [filterExpression, setFilterExpression] = useState<any>();
+  const [searchKey, setSearchKey] = useState<any>('');
   const [orderByDirection, setOrderByDirection] = useState(order);
 
   // entire metrics [] do not need to be passed as dependency array to the 'useCursorPagination',
@@ -67,8 +68,13 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
   const filterExpressionJSON = JSON.stringify(filterExpression);
 
   useEffect(() => {
+    if (searchKey) {
+      setBackendQueryModel(backendGroupBy, backendQueryModel, setFilterExpression, searchKey);
+      return;
+    }
     setFilterExpression(backendQueryModel);
-  }, [backendQueryModel]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [backendQueryModel, searchKey]);
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination<InfraExploreCursor, any>(
     ({ cursor }) => {
@@ -103,9 +109,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
       {...props}
       {...cursorPaginatedProps}
       order={orderByDirection}
-      setBackendQueryModel={searchBy =>
-        setBackendQueryModel(backendGroupBy, backendQueryModel, setFilterExpression, searchBy)
-      }
+      setBackendQueryModel={searchBy => setSearchKey(searchBy)}
       onOrderByChange={onOrderByChange}
     />
   );
