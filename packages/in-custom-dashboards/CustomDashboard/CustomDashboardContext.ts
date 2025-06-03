@@ -8,11 +8,13 @@ import { createContext, useContext } from 'react';
 
 export interface CustomDashboardContextProps {
   widgets: any;
+  customDashboardTitle: string;
   exportWidgetToPdf: any;
 }
 
 export const CustomDashboardContext = createContext<CustomDashboardContextProps>({
   widgets: {},
+  customDashboardTitle: '',
   exportWidgetToPdf: () => {}
 });
 

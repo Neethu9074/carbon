@@ -20,9 +20,10 @@ import locals from 'in-components/DownloadPdf/components/PdfHeader/PdfHeader.mle
 
 interface Props {
   orientation?: string;
+  title?: React.ReactNode;
 }
 
-export default function PdfHeader({ orientation }: Readonly<Props>) {
+export default function PdfHeader({ orientation, title }: Readonly<Props>) {
   const timeConfig = useTimeConfig();
   const currentTime = timeConfig.to ?? Date.now();
   const adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(timeConfig, currentTime, getChartGranularity);
@@ -51,7 +52,16 @@ export default function PdfHeader({ orientation }: Readonly<Props>) {
             IBM <strong>Instana</strong>
           </Typography>
         </div>
-        <Stack direction="horizontal" distribution="end">
+        <Stack direction="horizontal" distribution={title ? 'spaceBetween' : 'end'}>
+          {title && (
+            <div className={locals.title}>
+              <Stack direction="vertical" gap="disabled">
+                <Typography variant="heading-01" component="div">
+                  {title}
+                </Typography>
+              </Stack>
+            </div>
+          )}
           <div className={locals.timeRange}>
             <Stack direction="vertical" gap="disabled" distribution="end">
               <Typography variant="body-02" align="right">

@@ -56,6 +56,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { getPluginName } from 'in-sdk/pluginName';
 import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import useUrlState from 'in-hooks/useUrlState';
@@ -421,6 +422,8 @@ function List({
 }) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
+  const pluginName = getPluginName(type);
+
   const { sortingTracker, loadMoreTracker, groupFocusedOnTracker, groupExpandedTracker, groupCollapsedTracker } =
     useSegmentTracker();
 
@@ -465,6 +468,7 @@ function List({
         metrics={metrics}
         metricMetadatas={metricMetadatas}
         type={type}
+        pluginName={pluginName}
         groupBy={groupBy}
         backendGroupBy={backendGroupBy}
         order={order}
@@ -495,6 +499,7 @@ function List({
         setOrder(order);
         sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
       }}
+      pluginName={pluginName}
       type={type}
       metrics={metrics}
       tags={tags}

@@ -85,9 +85,10 @@ test('renders PdfWidgetContainer with context', () => {
   ];
 
   const exportWidgetToPdf = jest.fn();
+  const customDashboardTitle = 'My Dashboard Title';
 
   render(
-    <CustomDashboardContext.Provider value={{ widgets, exportWidgetToPdf }}>
+    <CustomDashboardContext.Provider value={{ widgets, exportWidgetToPdf, customDashboardTitle }}>
       <PdfWidgetContainer widgetId="DCpjFb9Kii1As8Qg" />
     </CustomDashboardContext.Provider>
   );

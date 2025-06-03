@@ -146,6 +146,7 @@ export default connectTo(
               immediatelyOpenContextMenu={immediatelyOpenContextMenu}
               showContextMenu={showContextMenu}
               tooltipRef={this.lastTooltipRef}
+              customDashboardTitle={this.props.customDashboardTitle}
               isCustomDashboard={this.props.isCustomDashboard}
               setShowContextMenu={showContextMenu => this.setState({ showContextMenu })}
             />

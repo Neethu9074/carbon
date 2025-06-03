@@ -12,37 +12,41 @@ import PdfExportLayout from 'in-components/DownloadPdf/components/PdfExportLayou
 interface Props {
   onReady: () => void;
   orientation?: string;
+  pdfHeaderTitle?: string;
   pdfContent?: ReactNode;
   isFullWidth?: boolean;
 }
 
-const PdfExportPortal = forwardRef<HTMLDivElement, Props>(({ onReady, orientation, pdfContent, isFullWidth }, ref) => {
-  const [container] = useState(() => document.createElement('div'));
-  const [mounted, setMounted] = useState(false);
+const PdfExportPortal = forwardRef<HTMLDivElement, Props>(
+  ({ onReady, orientation, pdfHeaderTitle, pdfContent, isFullWidth }, ref) => {
+    const [container] = useState(() => document.createElement('div'));
+    const [mounted, setMounted] = useState(false);
 
-  // Creates a container to append the portal on the fly
-  // Remove it after unmounting the component
-  useEffect(() => {
-    document.body.appendChild(container);
-    setMounted(true);
-    return () => {
-      document.body.removeChild(container);
-    };
-  }, [container]);
+    // Creates a container to append the portal on the fly
+    // Remove it after unmounting the component
+    useEffect(() => {
+      document.body.appendChild(container);
+      setMounted(true);
+      return () => {
+        document.body.removeChild(container);
+      };
+    }, [container]);
 
-  return mounted
-    ? createPortal(
-        <PdfExportLayout
-          ref={ref}
-          pdfContent={pdfContent}
-          orientation={orientation}
-          onReady={onReady}
-          isFullWidth={isFullWidth}
-        />,
-        container
-      )
-    : null;
-});
+    return mounted
+      ? createPortal(
+          <PdfExportLayout
+            ref={ref}
+            pdfHeaderTitle={pdfHeaderTitle}
+            pdfContent={pdfContent}
+            orientation={orientation}
+            onReady={onReady}
+            isFullWidth={isFullWidth}
+          />,
+          container
+        )
+      : null;
+  }
+);
 
 PdfExportPortal.displayName = 'PdfExportPortal';
 

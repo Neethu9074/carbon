@@ -55,7 +55,7 @@ export default function HistogramWidgetCard({
     baseConfig[metricConfigurationPath] as UnifiedMetricConfigurationUnion
   );
   const { PdfExportRenderer } = usePdfExport();
-  const { exportWidgetToPdf } = useCustomDashboardContext();
+  const { exportWidgetToPdf, customDashboardTitle } = useCustomDashboardContext();
   //Using stable instance to avoid unnecessary rendering
   const config = useStableObjectInstance({ ...baseConfig, metricConfiguration });
   const result = useResultData({ config });
@@ -80,7 +80,13 @@ export default function HistogramWidgetCard({
   if (isCustomDashboard && customDashboardsExportPdfWidget) {
     selectionMenuItems.push({
       ...downloadPDFAction,
-      onClick: () => exportWidgetToPdf({ target: ref?.current, tooltipRef: tooltip, isHistogram: true })
+      onClick: () =>
+        exportWidgetToPdf({
+          target: ref?.current,
+          tooltipRef: tooltip,
+          isHistogram: true,
+          pdfHeaderTitle: customDashboardTitle
+        })
     });
     if (
       customDashboardsFastQueryModeEnabled &&

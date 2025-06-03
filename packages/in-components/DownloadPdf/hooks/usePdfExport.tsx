@@ -19,8 +19,9 @@ import { imagesToPdf } from 'in-services/util/imagesToPdf';
 import { t } from 'in-i18n';
 
 export interface Options {
-  filename: string;
+  filename?: string;
   pdfSettings?: jsPDFOptions;
+  pdfHeaderTitle?: string;
   shouldFitPdf?: boolean;
   isPortalContentFullWidth?: boolean;
   customize?: (nodeToExport: HTMLElement) => void;
@@ -64,6 +65,7 @@ export default function usePdfExport() {
           <PdfExportPortal
             ref={portalRef}
             orientation={options?.pdfSettings?.orientation}
+            pdfHeaderTitle={options?.pdfHeaderTitle}
             pdfContent={Component}
             isFullWidth={options?.isPortalContentFullWidth}
             onReady={onReady}
@@ -142,12 +144,16 @@ export default function usePdfExport() {
   /**
    * Function that mounts the portal, generates the pdf header and returns its url.
    */
-  const getPdfHeaderUrl = () =>
-    renderPortal(null, async ({ pdfHeaderNode }) => {
-      const pdfHeaderUrl = await getPdfHeader({ node: pdfHeaderNode });
-      setPortal(null);
-      return pdfHeaderUrl;
-    });
+  const getPdfHeaderUrl = (options: Options) =>
+    renderPortal(
+      null,
+      async ({ pdfHeaderNode }) => {
+        const pdfHeaderUrl = await getPdfHeader({ node: pdfHeaderNode });
+        setPortal(null);
+        return pdfHeaderUrl;
+      },
+      options
+    );
 
   return {
     generatePdfFromElement,

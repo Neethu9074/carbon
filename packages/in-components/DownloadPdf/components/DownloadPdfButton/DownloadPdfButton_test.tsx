@@ -9,8 +9,12 @@ import React from 'react';
 
 import DownloadPdfButton from 'in-components/DownloadPdf/components/DownloadPdfButton/DownloadPdfButton';
 
+const options = {
+  pdfHeaderTitle: ''
+};
+
 test('renders DownloadPdfButton', () => {
-  render(<DownloadPdfButton />);
+  render(<DownloadPdfButton options={options} />);
   const element = screen.getByText('Download PDF');
   expect(element).toBeInTheDocument();
 });

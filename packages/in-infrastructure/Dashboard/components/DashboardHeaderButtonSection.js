@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { kebabCase } from 'lodash';
 import React from 'react';
 
 import { just } from '@instana/observables';
@@ -18,6 +19,7 @@ import { getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { MoreMenuCollapser } from 'in-components/MoreMenu';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getSnapshots } from 'in-stores/snapshot';
+import { getPluginName } from 'in-sdk/pluginName';
 import { plugins } from 'in-forge/constants';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -72,7 +74,14 @@ export default connectTo(
             infraDashboardExportPdfEnabled && {
               icon: 'lib_actions_download',
               label: t('in-components:downloadPdf.downloadPdfLabel'),
-              onClick: exportDashboardToPdf
+              onClick: ({ snapshot }) => {
+                const { label, plugin } = snapshot.toJS();
+                const pluginName = getPluginName(plugin);
+                exportDashboardToPdf({
+                  filename: kebabCase(label),
+                  pdfHeaderTitle: `${label} (${pluginName})`
+                });
+              }
             }
           ].filter(Boolean)}
           snapshot={snapshot}

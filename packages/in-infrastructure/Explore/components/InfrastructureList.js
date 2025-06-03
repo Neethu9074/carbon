@@ -77,6 +77,7 @@ export default function InfrastructureList({
   isSearchable = false,
   tags = [],
   type,
+  pluginName,
   metrics,
   metricMetadatas,
   order: incomingOrder,
@@ -252,6 +253,7 @@ export default function InfrastructureList({
           metricMetadatas={metricMetadatas}
           tracking={tracking}
           CustomHeaderActions={getHeaderActions}
+          pluginName={pluginName}
           type={type}
           backendQueryModel={backendQueryModel}
           metricCatalog={metricCatalog}
@@ -598,7 +600,7 @@ function getHeaderActions(props) {
     return <></>;
   }
 
-  const { timeConfig, backendQueryModel, order, type, metrics, tags, cursor, columns, granularity } = props;
+  const { timeConfig, backendQueryModel, order, type, pluginName, metrics, tags, cursor, columns, granularity } = props;
   const csvFileName = `infrastructure_entities_${type}.csv`;
 
   const getAllData = ({ cursor }) =>
@@ -624,7 +626,9 @@ function getHeaderActions(props) {
         cursor={cursor}
         columns={columns}
       />
-      <DownloadPdfButton />
+      <DownloadPdfButton
+        options={{ pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}` }}
+      />
       <MetricCatalogAndSortingConfigurator {...props} metrics={metrics.filter(m => !m.removeFromTable)} />
     </>
   );

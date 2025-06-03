@@ -8,18 +8,18 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
+import usePdfExport, { Options } from 'in-components/DownloadPdf/hooks/usePdfExport';
 import { t } from 'in-i18n';
 
 import locals from './DownloadPdfButton.mless';
 
-export default function DownloadPdfButton() {
+export default function DownloadPdfButton({ options }: { options: Options }) {
   const { exportDashboardToPdf, PdfExportRenderer } = usePdfExport();
   return (
     <>
       <Button
         className={locals.downloadPdfButton}
-        onClick={() => exportDashboardToPdf()}
+        onClick={() => exportDashboardToPdf(options)}
         size="compact"
         icon="lib_actions_download"
         kind="secondary"
