@@ -24,6 +24,7 @@ import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-
 import List, { CreateNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
 import PropertyInTable from 'in-settings/tabs/GlobalSettings/components/PropertyInTable';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
@@ -66,6 +67,7 @@ export default function Alerts() {
       getDetailsHref={entity => getEntityHref(globalSettingsAlertingAlerts, entity.id)}
       trackEvent={() => trackCta(SETTINGS_ALERT_OPEN_SUBMIT_FORM)}
       noDataMessage={t('in-settings:tabs.noAlertConfigured')}
+      pageSizes={pageSizes}
     />
   );
 }

@@ -52,6 +52,7 @@ import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } f
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import List, { CreateNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -160,6 +161,7 @@ export default function Events({
         getDetailsHref={
           onRowClick || !hasRowNavigation ? null : entity => getEntityHref(getDetailsPath(entity), entity.id)
         }
+        pageSizes={pageSizes}
       />
     </>
   );

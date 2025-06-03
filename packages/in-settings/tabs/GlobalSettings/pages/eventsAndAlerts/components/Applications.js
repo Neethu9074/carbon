@@ -8,6 +8,7 @@ import React from 'react';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { t } from 'in-i18n';
@@ -46,6 +47,7 @@ export default function Applications({
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       getDetailsHref={null}
+      pageSizes={pageSizes}
     />
   );
 }

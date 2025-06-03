@@ -33,6 +33,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { useAlertConfigLink } from 'in-websites/navigation/paths';
 import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -257,6 +258,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             loadEntities={() => getAlertsForAlertChannelId(entityId).map(resp => filterAlertConfigBasedOnRoles(resp))}
             initialOrderBy="label"
             searchAttributes={['label']}
+            pageSizes={pageSizes}
           />
         </Col>
       </Row>

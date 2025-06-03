@@ -32,6 +32,7 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { t } from 'in-i18n';
 
 import locals from './AlertChannelsList.mless';
@@ -100,6 +101,7 @@ export default function AlertChannelsList({
               return getEntityHref(teamSettingsAlertingAlertChannels, entity.id);
             }
       }
+      pageSizes={pageSizes}
     />
   );
 }

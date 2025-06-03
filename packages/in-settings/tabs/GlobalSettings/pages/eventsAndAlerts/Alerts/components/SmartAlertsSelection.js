@@ -20,6 +20,7 @@ import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/a
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { isLoading, hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -57,6 +58,7 @@ function SelectedSmartAlertsList({ form, setForm, isAutomation }) {
       noDataMessage={t('in-settings:tabs.noSmartAlertsSelected')}
       searchPlaceholder={t('in-settings:tabs.filter')}
       isSearchable
+      pageSizes={pageSizes}
     />
   );
 }

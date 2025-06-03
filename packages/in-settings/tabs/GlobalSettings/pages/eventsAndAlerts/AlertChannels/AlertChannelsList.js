@@ -17,6 +17,7 @@ import { SETTINGS_ALERT_CHANNEL_CLICK } from 'in-services/tracking/eventNames';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import useUrlState from 'in-hooks/useUrlState';
@@ -101,6 +102,7 @@ export default function AlertChannelsList({
               return getEntityHref(globalSettingsAlertingAlertChannels, entity.id);
             }
       }
+      pageSizes={pageSizes}
     />
   );
 }

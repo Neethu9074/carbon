@@ -11,3 +11,5 @@ export const ADVANCED = 'Advanced';
 export const SIMPLE = 'Simple';
 export const DIALOG = 'DialogMode';
 export const CHOICE_DIALOG = 'ChoiceDialog';
+
+export const pageSizes = [5, 10, 20, 30, 40, 50];

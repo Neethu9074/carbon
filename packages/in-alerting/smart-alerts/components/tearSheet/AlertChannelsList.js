@@ -19,6 +19,7 @@ import {
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import List, { defaultHeaderWithCount, areAllRowsOnAllPagesSelected } from 'in-settings/components/List';
 import { getEntityHref, globalSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { clickAlertChannelTracker } from 'in-settings/tracker';
 import { t } from 'in-i18n';
 
@@ -81,6 +82,7 @@ export default function AlertChannelsList({
               return getEntityHref(globalSettingsAlertingAlertChannels, entity.id);
             }
       }
+      pageSizes={pageSizes}
     />
   );
 }

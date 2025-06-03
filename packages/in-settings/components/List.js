@@ -123,10 +123,12 @@ function InnerList({
   customDialogMessage,
   customDialogConfirmLabel,
   customDeleteTooltipMessage,
-  boundedPath
+  boundedPath,
+  pageSizes
 }) {
   const [orderByState, setOrderBy] = useState(initialOrderBy ?? 'name');
   const [orderDirectionState, setOrderDirection] = useState(initalOrderDir ?? 'ASC');
+  const [listPagesize, setListPagesize] = useState(pageSize);
   const [{ query, page }, setState] = useUrlState({
     bind: [
       {
@@ -191,11 +193,11 @@ function InnerList({
       sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
     totalHitsAfterFilter = entities.length;
     entitiesBeforePagination = entities;
-    const offset = (pageState - 1) * pageSize;
-    const until = offset + pageSize;
+    const offset = (pageState - 1) * listPagesize;
+    const until = offset + listPagesize;
     entities = entities.slice(offset, until);
   }
-  const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
+  const result = arrayToResult(entities, totalHitsAfterFilter, listPagesize);
 
   const leftHeader = selectLeftHeader(
     cardTitle,
@@ -225,12 +227,13 @@ function InnerList({
       {title && <Title title={title} />}
       {errorMessage && <TemporaryMessage type="error" message={errorMessage} duration={null} />}
       <ServerTablePresenter
-        onChange={({ page, query, orderBy, orderDirection }) => {
+        onChange={({ page, query, orderBy, orderDirection, pageSize }) => {
           setPage(page);
           onPageChange?.(page);
           setOrderBy(orderBy);
           setOrderDirection(orderDirection);
           setQuery(query);
+          setListPagesize(pageSize);
           if (boundedPath) {
             setState({ query, page: 1 });
             setState({ page });
@@ -255,7 +258,7 @@ function InnerList({
         orderBy={orderByState}
         orderDirection={orderDirectionState}
         page={pageState}
-        pageSize={pageSize}
+        pageSize={listPagesize}
         query={queryState}
         isSearchable={isSearchable}
         searchPlaceholder={searchPlaceholder}
@@ -285,14 +288,15 @@ function InnerList({
           entitiesBeforePagination,
           tableActions,
           pageState,
-          pageSize
+          listPagesize
         )}
         setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(
           entitiesBeforePagination,
           tableActions,
           pageState,
-          pageSize
+          listPagesize
         )}
+        pageSizes={pageSizes}
       />
     </div>
   );
