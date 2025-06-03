@@ -171,25 +171,27 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
             )}
             <ActionSection
               left={
-                <Stack direction={'horizontal'} gap={'small'}>
-                  {CustomAction && <CustomAction {...props} />}
-                  <ApiQueryAction
-                    group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
-                    hiddenCalls={hiddenCalls}
-                    metrics={getMetricsAsApi()}
-                    order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
-                    backendQueryModel={backendQueryModel}
-                    backendQueryModelWithFacets={backendQueryModelWithFacets}
-                    tracking={{
-                      onClick: () => trackUa2ApiQueryPressed({ dataSource })
-                    }}
-                    docsLink={docLink}
-                    endpointUrl={endpointUrl}
-                    timeFrame={timeConfig}
-                    disabled={disableApiQuery}
-                    disabledTooltip={disabledApiQueryTooltip}
-                  />
-                </Stack>
+                dataSource !== 'subtraces' && (
+                  <Stack direction={'horizontal'} gap={'small'}>
+                    {CustomAction && <CustomAction {...props} />}
+                    <ApiQueryAction
+                      group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
+                      hiddenCalls={hiddenCalls}
+                      metrics={getMetricsAsApi()}
+                      order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
+                      backendQueryModel={backendQueryModel}
+                      backendQueryModelWithFacets={backendQueryModelWithFacets}
+                      tracking={{
+                        onClick: () => trackUa2ApiQueryPressed({ dataSource })
+                      }}
+                      docsLink={docLink}
+                      endpointUrl={endpointUrl}
+                      timeFrame={timeConfig}
+                      disabled={disableApiQuery}
+                      disabledTooltip={disabledApiQueryTooltip}
+                    />
+                  </Stack>
+                )
               }
               right={
                 <FilterActions
