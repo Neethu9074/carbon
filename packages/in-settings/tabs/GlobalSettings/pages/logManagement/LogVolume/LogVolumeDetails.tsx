@@ -80,7 +80,6 @@ export function Skeletons() {
 
 function MonthReport({ expandedState, logVolume, numberOfMonth, retentionPeriods, groupingTag }: MonthReportProps) {
   const { amount, localizedUnit } = bytesToLargerUnit(logVolume, 2);
-
   const refinedRetentionPeriodData = refineRetentionPeriodData(retentionPeriods);
   const monthString = t('in-settings:maintenanceWindow.months', { context: getMonthName(numberOfMonth) });
 
@@ -100,12 +99,14 @@ function MonthReport({ expandedState, logVolume, numberOfMonth, retentionPeriods
           </span>
         </div>
       </Li>
-      <RetentionPeriods
-        groupingTag={groupingTag}
-        expandedState={expandedState}
-        retentionPeriods={refinedRetentionPeriodData}
-        numberOfMonth={numberOfMonth}
-      />
+      {amount > 0 && (
+        <RetentionPeriods
+          groupingTag={groupingTag}
+          expandedState={expandedState}
+          retentionPeriods={refinedRetentionPeriodData}
+          numberOfMonth={numberOfMonth}
+        />
+      )}
     </div>
   );
 }

@@ -62,16 +62,23 @@ describe('RetentionPeriodDashboard', () => {
     expect(screen.getByTestId('retentionValue')).toHaveTextContent('30');
   });
 
-  it('handles error state correctly', () => {
+  it('renders error state correctly when request fails', () => {
     (retentionLogsGET as jest.Mock).mockReturnValueOnce({
       once: jest.fn(),
-      errors: jest.fn(() => ({ once: jest.fn(callback => callback()) }))
+      errors: jest.fn(() => ({
+        once: jest.fn(callback => callback({ error: ['Something went wrong'] }))
+      }))
     });
-    (useObservable as jest.Mock).mockReturnValueOnce(false);
+
+    (useObservable as jest.Mock).mockReturnValue(false);
 
     render(<RetentionPeriodDashboard />);
-    const loadingIndicator = getLoadingIndicator();
 
-    expect(loadingIndicator).not.toBeInTheDocument();
+    const errorIcon = screen.getByTestId('kpi-error-icon');
+    expect(errorIcon).toBeInTheDocument();
+
+    expect(screen.queryByTestId('retentionValue')).not.toBeInTheDocument();
+
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
   });
 });
