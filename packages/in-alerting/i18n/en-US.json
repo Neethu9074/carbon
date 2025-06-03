@@ -912,7 +912,6 @@
         "criticalAlertPreviewLabel": "Critical preview",
         "alertPreviewMissingThresholdInfo": "No preview available. Please select at least one threshold value to see the preview.",
         "alertPropertiesAlertProperties": "Alert properties",
-        "alertPreviewDefaultTitle": "Notification title",
         "groupingPlaceholdersMissingTooltip": "To include more placeholders, configure grouping(s)",
         "buttonSave": "Save",
         "buttonCreate": "Create",

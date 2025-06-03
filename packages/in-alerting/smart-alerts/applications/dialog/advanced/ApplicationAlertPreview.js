@@ -28,7 +28,7 @@ export function ApplicationAlertPreview({ form, applicationLabel, evaluationType
       isCriticalDefined={isCriticalDefined}
       entityLabel={entityLabel}
       entityIconType={entityIconType}
-      renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} isTearSheet={isTearSheet} />}
+      renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} />}
       isTearSheet={isTearSheet}
     />
   );
