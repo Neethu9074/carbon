@@ -33,7 +33,6 @@ import SSLCertificateDetails from 'in-synthetics/dashboards/details/components/S
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { DNSTestDetails } from 'in-synthetics/dashboards/details/components/DNSTestDetails';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
-import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
 import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import { syntheticDnsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
@@ -240,7 +239,7 @@ const AnalyzeView = () => {
               timelineDetails={timelineDetails}
               resultList={resultList}
             />
-            {getTestResultListStatus(resultList) !== 1 && (
+            {status !== 1 && (
               <Row>
                 <Col xs>
                   <FailedRun resultList={resultList} testType={testType} />

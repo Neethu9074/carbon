@@ -207,6 +207,7 @@ function Label({ item, selectedMetric, testType }: LabelProps) {
   );
   const resultsLabel = testLocation + AdditionalLabel({ item, selectedMetric });
   const resultError = item?.testResultCommonProperties?.errors?.[0] ?? '';
+  const runType = getMatrixParameter(location, syntheticsDashboard, 'runType') ?? '';
   location.pathname = syntheticDetailsPath;
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', testId);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', resultId);
@@ -229,6 +230,7 @@ function Label({ item, selectedMetric, testType }: LabelProps) {
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationDisplayLabels', locationDisplayLabels);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationIds', locationIds);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'resultsLabel', resultsLabel);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'runType', runType);
   return (
     <>
       <div>
