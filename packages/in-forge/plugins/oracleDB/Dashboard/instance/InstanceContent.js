@@ -39,7 +39,6 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import GenericCustomMetrics from 'in-forge/common/GenericCustomMetrics';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
@@ -339,7 +338,6 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
       <TopTenSQLWithHighIOLast24HrTable snapshot={snapshot} />
       <SQLConsumingMoreCPUTable snapshot={snapshot} />
       <ForegroundSessionsTable snapshot={snapshot} />
-      <GenericCustomMetrics snapshot={snapshot} timeConfig={timeConfig} />
       <DBmarlinNotificationMessage />
     </div>
   );

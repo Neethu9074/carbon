@@ -17,6 +17,7 @@ import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialo
 import DefaultSidebar from 'in-infrastructure/Dashboard/components/DefaultSidebar';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
+import GenericCustomMetrics from 'in-forge/common/GenericCustomMetrics';
 import { alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -118,6 +119,7 @@ export default connectTo(
               <div className={locals.content}>
                 <AgentMonitoringIssueNotifications snapshot={snapshot} timeConfig={timeConfig} />
                 <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
+                <GenericCustomMetrics snapshot={snapshot} timeConfig={timeConfig} />
               </div>
             </div>
           </Sticky>
