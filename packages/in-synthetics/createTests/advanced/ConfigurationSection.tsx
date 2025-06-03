@@ -230,7 +230,7 @@ export default function ConfigurationSection({
           </FormGroup>
 
           {urlField.map(field => (
-            <FormGroup className={locals.descriptionInput} key={field.value}>
+            <FormGroup className={locals.descriptionInput} key="url">
               <Label htmlFor="url" hasError={!field.valid && field.touched}>
                 {t('in-synthetics:dialog.createTest.requestStep.labelUrl')}
               </Label>
