@@ -212,6 +212,7 @@ export const nonServicePlugins = {
   ibmiDiskInfo: 'ibmiDiskInfo',
   ibmIMessageQueueInfo: 'ibmIMessageQueueInfo',
   ibmiActiveJobsInfo: 'ibmiActiveJobsInfo',
+  ibmiAuditJournalsInfo: 'ibmiAuditJournalsInfo',
   ibmIOs: 'ibmIOs',
   ibmIms: 'ibmIms',
   ibmiNetworkInfo: 'ibmiNetworkInfo',
@@ -652,6 +653,8 @@ export const fullyQualifiedPlugins = {
   ibmCtg: 'com.instana.forge.infrastructure.application.ibmzos.IbmCtg',
   ibmiActiveJobsInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.activeJobsInfo.IbmiActiveJobsInfo',
+  ibmiAuditJournalsInfo:
+    'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.auditJournal.IbmiAuditJournalInfo',
   ibmIMessageQueueInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.messageQueue.IbmIMessageQueueInfo',
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',

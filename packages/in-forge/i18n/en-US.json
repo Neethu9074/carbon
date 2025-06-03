@@ -1018,6 +1018,11 @@
   "pluginName_ibmiActiveJobsInfo_1": "Active Jobs Information on IBM i",
   "pluginName_ibmiActiveJobsInfo_2": "Active Jobs Information on IBM i",
   "pluginName_ibmiActiveJobsInfo": "Active Jobs Information on IBM i",
+  "pluginName_ibmiAuditJournalsInfo_plural": "Audit Journals Information on IBM i",
+  "pluginName_ibmiAuditJournalsInfo_0": "Audit Journals Information on IBM i",
+  "pluginName_ibmiAuditJournalsInfo_1": "Audit Journals Information on IBM i",
+  "pluginName_ibmiAuditJournalsInfo_2": "Audit Journals Information on IBM i",
+  "pluginName_ibmiAuditJournalsInfo": "Audit Journal Information on IBM i",
   "pluginName_ibmiDiskInfo_plural": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_0": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
@@ -11962,6 +11967,23 @@
       },
       "sidebar": {
         "ibmiActiveJobsInfo": "IBM i Info",
+        "hostName": "Host Name"
+      }
+    },
+     "ibmiAuditJournalsInfo": {
+      "name": "Audit Journals Information on IBM i",
+      "dashboard": {
+        "tables": {
+          "auditJournals": {
+            "name": "Audit Journal",
+            "entryType": "Entry Type",
+            "entryTypeDetail": "Entry Type Detail",
+            "entryCount": "Entry Count"
+          }
+        }
+      },
+      "sidebar": {
+        "ibmiAuditJournalsInfo": "IBM i Info",
         "hostName": "Host Name"
       }
     },
