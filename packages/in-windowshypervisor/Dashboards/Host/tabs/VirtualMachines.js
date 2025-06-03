@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 
 // @ts-expect-error needs migration
@@ -27,6 +28,14 @@ export const VmLabel = ({ item }) => {
   const hostId = item.hostId;
   const getWindowsHypervisorVmDashboard = useWindowsHypervisorEntityLink('vm', { hostId });
   return <EntityLink label={item.name} href={getWindowsHypervisorVmDashboard(item.vmId)} />;
+};
+
+VmLabel.propTypes = {
+  item: PropTypes.shape({
+    hostId: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    vmId: PropTypes.string.isRequired
+  }).isRequired
 };
 
 const columnDefinitions = [

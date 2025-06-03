@@ -52,7 +52,7 @@ export default connectTo(
     if (!vmId) return null;
     return (
       <Breadcrumb href={getWindowsHypervisorVMDashboard(vmId)} label={t('in-windowshypervisor:vm')}>
-        {vmData && vmData.name}
+        {vmData?.name}
       </Breadcrumb>
     );
   }

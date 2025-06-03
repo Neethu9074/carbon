@@ -17,5 +17,9 @@ export function HostBreadcrumbs(props: HostBreadcrumbProps) {
 export function VMBreadcrumbs(props: VMBreadcrumbProps) {
   const { vmId, hostId } = props;
 
-  return [<HomeViewBreadcrumb />, hostId && <HostBreadcrumb {...props} />, vmId && <VMBreadcrumb {...props} />];
+  return [
+    <HomeViewBreadcrumb key="home" />,
+    hostId && <HostBreadcrumb key="host" {...props} />,
+    vmId && <VMBreadcrumb key="vm" {...props} />
+  ];
 }
