@@ -47,7 +47,7 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
 
   const { capacity, limits, requests, usage } = k8sNodeChart;
 
-  const nodeTagId = tagEquals('id.otelK8sNode', snapshotId);
+  const nodeTagId = tagEquals('id.oTelK8sNode', snapshotId);
   const nodeQuery = andQuery(nodeTagId);
   const tagFilterExpression = toBackendQueryModel(nodeQuery);
   const type = plugins.oTelK8sNode;
