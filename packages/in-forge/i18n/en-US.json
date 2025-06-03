@@ -17832,7 +17832,17 @@
       "traceState": "Trace State",
       "error": "Error",
       "tags": "Tags",
-      "resource": "Resource"
+      "resource": "Resource",
+      "events": "Span Events",
+      "eventName": "Event name",
+      "timestamp": "Timestamp",
+      "links": "Span Links",
+      "traceId": "Trace ID",
+      "spanId": "Span ID",
+      "eventNamePrefix": "Name: ",
+      "traceIdPrefix": "Trace Id: ",
+      "eventDetails": "Event Details",
+      "linkDetails": "Link Details"
     },
     "otelBatchSynthetic": {
       "indexReturn": "Internal trigger",

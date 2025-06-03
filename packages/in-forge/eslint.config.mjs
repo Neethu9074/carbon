@@ -41,6 +41,7 @@ export default [
           'in-integrations',
           'in-logging',
           'in-automation',
+          'in-analyze',
 
           // shared packages
           'in-components',
