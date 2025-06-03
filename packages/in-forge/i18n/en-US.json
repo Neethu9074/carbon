@@ -9908,7 +9908,7 @@
       "blockingSessions": "Blocking sessions",
       "blockedThreads": "Blocked threads",
       "threadsJobWorkerBlockedCount": "Blocked job worker threads",
-      "threadsSqlExecutorBlockedCount": "Blocked SQL ececutor threads",
+      "threadsSqlExecutorBlockedCount": "Blocked SQL executor threads",
       "queueingConnectionCount": "Queueing connection count",
       "unableToConnect": "Cannot connect to {{dbName}} using connection url {{connectionUrl}} for user {{user}}.",
       "currentStmtExecutionRate": "Current statement execution rate",
