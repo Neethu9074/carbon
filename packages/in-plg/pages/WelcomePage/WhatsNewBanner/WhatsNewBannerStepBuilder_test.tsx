@@ -24,7 +24,7 @@ describe('in-plg/pages/WelcomePage/WhatsNewBanner/WhatsNewBannerStepBuilder', ()
   const kubecostText = 'Cost visibility with IBM Kubecost';
   const loggingText = 'Instana logging';
   const turbonomicText = 'Resource actions, powered by Turbonomic';
-  const concertText = 'AI driven insights with IBM Concert';
+  const concertText = 'Prioritize CVEs with IBM Concert';
   it('should render WhatsNewBannerStepBuilder', () => {
     render(<WhatsNewBannerStepBuilder />);
     expect(screen.getByText(kubecostText)).toBeInTheDocument();
