@@ -33,12 +33,12 @@ const linuxkvmhypervisorHostLink = ({ hostname, id }) => {
 
 const columnDefinitions = [
   {
-    id: 'name',
+    id: 'hostname',
     label: t('in-linuxkvmhypervisor:hostname'),
     getContent: linuxkvmhypervisorHostLink
   },
   {
-    id: 'virtualMachines',
+    id: 'numberOfVms',
     label: t('in-linuxkvmhypervisor:dashboards.numberOfVms'),
     getContent(item) {
       return item.numberOfVms;
@@ -79,7 +79,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
-  defaultOrderBy: 'name',
+  defaultOrderBy: 'hostname',
   defaultOrderDirection: 'ASC',
   pathSegment
 });

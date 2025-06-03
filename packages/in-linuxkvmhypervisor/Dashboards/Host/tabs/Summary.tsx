@@ -25,12 +25,12 @@ export default function Summary({ data: host }: SummaryData) {
   const snapshotId = host.id;
   return (
     <>
-      <KpiGridRow sizes={[3, 3, 3, 3]}>
+      <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard title={t('in-linuxkvmhypervisor:dashboards.address')} value={host.address || 'N/A'} />
         <KpiCard title={t('in-linuxkvmhypervisor:dashboards.os')} value={host.os || 'N/A'} />
         <KpiCard title={t('in-linuxkvmhypervisor:dashboards.numberOfVms')} value={host.numberOfVms || 'N/A'} />
       </KpiGridRow>
-      <KpiGridRow sizes={[3, 3, 3, 3]}>
+      <KpiGridRow sizes={[6, 6]}>
         <InfraMetricKpiCard
           title={t('in-linuxkvmhypervisor:dashboards.memoryUsage')}
           snapshotId={snapshotId}
