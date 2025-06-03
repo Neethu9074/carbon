@@ -25,7 +25,7 @@ export function getDefaultedLinuxKVMHypervisorHosts({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'name',
+  orderBy = 'hostname',
   orderDirection = 'ASC',
   timeConfig
 }: GetLinuxKVMHypervisorHostsWithDefaultProps) {
