@@ -115,7 +115,7 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
-        keyWords: 'kubernetesoperatork8s',
+        keyWords: 'openshiftoperatork8s',
         Content: OpenshiftOperator
       }
     },
@@ -141,7 +141,7 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
-        keyWords: 'kubernetesdeamonsetk8s',
+        keyWords: 'openshiftdaemonsetk8s',
         Content: Openshift
       }
     },
