@@ -7,7 +7,7 @@
     "memoryUsage": "Memory usage",
     "summary": "Summary",
     "vm": "VM",
-    "virtualMachines": "Virtual Machines",
+    "virtualMachines": "Virtual machines",
     "host": "Host",
     "hosts": "Hosts",
     "dashboards":{
@@ -22,7 +22,7 @@
         "cpuAverage": "CPU average",
         "storageSpaceUsed": "Available storage space",
         "vmName": "Name",
-        "noOfCpus": "Number of Cpus",
+        "noOfCpus": "Number of CPUs",
         "noOfCores": "Number of cores",
         "deviceID": "Device ID",
         "volumeName": "Volume name",

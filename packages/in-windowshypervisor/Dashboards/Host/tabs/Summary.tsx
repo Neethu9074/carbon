@@ -36,7 +36,7 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
         <InfraMetricKpiCard
           title={t('in-windowshypervisor:dashboards.storageSpaceUsed')}
           snapshotId={snapshotId}
-          metric="storageSpaceFreeKib"
+          metric="freeStorageSpaceKib"
           formatter={kiloBytesTwoDecimalPlaces}
         />
       </KpiGridRow>

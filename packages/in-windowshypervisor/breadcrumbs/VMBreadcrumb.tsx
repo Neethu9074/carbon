@@ -19,6 +19,7 @@ import { t } from 'in-i18n';
 
 export interface VMBreadcrumbProps {
   hostId: string | null | undefined;
+  snapshotId: string | null | undefined;
   vmId: string | null | undefined;
   viewPath: string;
   timeConfig: TimeConfig;

@@ -34,6 +34,7 @@ export default function VMDashboard({ location }: VMDashboardProps) {
   const vmProps: VMBreadcrumbProps = {
     hostId: getMatrixParameter(location, vmDashboard, matrixHostId),
     vmId: getMatrixParameter(location, vmDashboard, matrixVMId),
+    snapshotId: getMatrixParameter(location, vmDashboard, matrixHostId),
     viewPath: vmDashboard,
     timeConfig: getTimeConfig(location)
   };
@@ -64,7 +65,7 @@ export default function VMDashboard({ location }: VMDashboardProps) {
           <CenterAlignmentColumn>
             <EntityVersionList
               plugin={plugins.windowsHypervisorVM}
-              snapshotId={vmProps.hostId}
+              snapshotId={vmProps.snapshotId}
               timeConfig={vmProps.timeConfig}
               errors={errors}
             />
