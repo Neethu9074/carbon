@@ -4,15 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-/*
- * IBM Confidential
- * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
- */
-
 import { get } from 'lodash';
 import React from 'react';
 
+import type { KubernetesNode, EntityHealthInfo } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
@@ -240,15 +235,11 @@ export default function Nodes(props: any) {
   );
 }
 
-type NodeLinkProps = {
-  id: string;
-  name: string;
-  entityHealthInfo: {
-    maxSeverity: number;
-    openIssues?: any[];
-    [key: string]: any;
-  };
-};
+interface NodeLinkProps {
+  id: KubernetesNode['id'];
+  name: KubernetesNode['name'];
+  entityHealthInfo: EntityHealthInfo;
+}
 
 function NodeLink({ id, name, entityHealthInfo }: NodeLinkProps) {
   const href = useOtelNodeDashboard(id);

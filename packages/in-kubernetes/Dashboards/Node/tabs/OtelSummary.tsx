@@ -125,7 +125,6 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
                 metricConfiguration: {
 
                   metric: 'k8s.node.cpu.utilization',
-                  //metric: 'required_cpu'
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -133,7 +132,6 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
               {
                 metricConfiguration: {
                   metric: 'k8s.node.memory.usage',
-                  //metric: 'required_cpu_percentage',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -150,7 +148,6 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
               {
                 metricConfiguration: {
                   metric: 'k8s.node.memory.available',
-                  //metric: 'limit_cpu',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors

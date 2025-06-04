@@ -107,7 +107,7 @@ export default function OtelNodeDashboard({ location }: { location: any }) {
   );
 }
 
-type HeaderProps = {
+interface HeaderProps {
   result: any;
   kubernetesTimeShiftSelectTracker: (args: any) => void;
   [key: string]: any;
@@ -127,7 +127,7 @@ function Header(props: HeaderProps) {
   );
 }
 
-type RenderButtonLineProps = {
+interface RenderButtonLineProps {
   nodeId: string;
   timeConfig: any;
   result: {
@@ -165,15 +165,18 @@ function renderButtonLine({ nodeId, timeConfig, result }: RenderButtonLineProps)
     />
   );
 }
+
+interface RenderButtonLineSecondaryProps {
+  nodeId: string;
+  timeConfig: any;
+  kubernetesTimeShiftSelectTracker: (args: any) => void;
+}
+
 function renderButtonLineSecondary({
   nodeId,
   timeConfig,
   kubernetesTimeShiftSelectTracker
-}: {
-  nodeId: string;
-  timeConfig: any;
-  kubernetesTimeShiftSelectTracker: (args: any) => void;
-}) {
+}: RenderButtonLineSecondaryProps) {
   return (
     <>
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
