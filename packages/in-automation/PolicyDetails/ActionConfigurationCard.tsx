@@ -18,6 +18,7 @@ import {
 } from '@instana/components';
 
 import {
+  TRIGGERING_AGENT,
   TRIGGERING_HOST_FQDN_OPTION,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
@@ -48,53 +49,52 @@ export default function ActionConfigurationCard({ data, agentId, inputParameterV
   const { hostSnapshots } = useHostSnapshots(data);
   const hrefToActionDashboard = useHrefToActionDashboard();
   if (!data) return null;
-
   const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(data.type);
   const { tags } = data;
   const renderTags = tags?.length ? <DynamicTagList tags={tags} /> : NO_FIELD_VALUE;
   const currentAgent = hostSnapshots?.filter(
     ({ hostSnapshot }) => hostSnapshot.get('entityId').get('host') === agentId
   )?.[0];
-  const hostname = currentAgent?.hostSnapshot.get('label') ?? NO_FIELD_VALUE;
+  const hostname =
+    currentAgent?.hostSnapshot.get('label') ||
+    (agentId === TRIGGERING_AGENT ? t('in-automation:policies.triggeringAgent') : NO_FIELD_VALUE);
 
   return (
-    <>
-      <CarbonTile>
-        <CarbonStack orientation="horizontal">
-          <Typography variant="heading-02">{t('in-automation:policies.actionConfiguration')}</Typography>
-        </CarbonStack>
-        <CarbonGrid fullWidth className={classNames(local.removeMarginX, local.customMarginY)}>
-          <CarbonColumn span="50%">
-            <CarbonFormGroup legendText={t('in-automation:name')}>
-              <Link href={hrefToActionDashboard(data.id)}>{data?.name}</Link>
+    <CarbonTile>
+      <CarbonStack orientation="horizontal">
+        <Typography variant="heading-02">{t('in-automation:policies.actionConfiguration')}</Typography>
+      </CarbonStack>
+      <CarbonGrid fullWidth className={classNames(local.removeMarginX, local.customMarginY)}>
+        <CarbonColumn span="50%">
+          <CarbonFormGroup legendText={t('in-automation:name')}>
+            <Link href={hrefToActionDashboard(data.id)}>{data?.name}</Link>
+          </CarbonFormGroup>
+        </CarbonColumn>
+        <CarbonColumn span="50%">
+          <CarbonFormGroup legendText={t('in-automation:description')}>{data?.description}</CarbonFormGroup>
+        </CarbonColumn>
+        <CarbonColumn span="50%">
+          <CarbonFormGroup legendText={t('in-automation:tagsLabel')}>{renderTags}</CarbonFormGroup>
+        </CarbonColumn>
+        <CarbonColumn span="50%">
+          <CarbonFormGroup legendText={t('in-automation:type')}>{ACTION_TRANSLATIONS[data.type]}</CarbonFormGroup>
+        </CarbonColumn>
+        {renderConfigurationFields(data.type, data)}
+        {data.type === ACTION_TYPE.ANSIBLE && renderAnsibleContent(inputParameterValues)}
+        <CarbonColumn span="100%">
+          <CarbonFormGroup legendText={t('in-automation:targetAgent')}>{hostname}</CarbonFormGroup>
+        </CarbonColumn>
+        {showParametersSection && (
+          <CarbonColumn span="100%">
+            <CarbonFormGroup legendText={t('in-automation:actionDashboard.ParameterDetails')}>
+              <isNotEditableContext.Provider value>
+                <ParametersTable isAnsibleParameter hideHiddenParams parameterNewValues={inputParameterValues} />
+              </isNotEditableContext.Provider>
             </CarbonFormGroup>
           </CarbonColumn>
-          <CarbonColumn span="50%">
-            <CarbonFormGroup legendText={t('in-automation:description')}>{data?.description}</CarbonFormGroup>
-          </CarbonColumn>
-          <CarbonColumn span="50%">
-            <CarbonFormGroup legendText={t('in-automation:tagsLabel')}>{renderTags}</CarbonFormGroup>
-          </CarbonColumn>
-          <CarbonColumn span="50%">
-            <CarbonFormGroup legendText={t('in-automation:type')}>{ACTION_TRANSLATIONS[data.type]}</CarbonFormGroup>
-          </CarbonColumn>
-          {renderConfigurationFields(data.type, data)}
-          {data.type === ACTION_TYPE.ANSIBLE && renderAnsibleContent(inputParameterValues)}
-          <CarbonColumn span="100%">
-            <CarbonFormGroup legendText={t('in-automation:targetAgent')}>{hostname}</CarbonFormGroup>
-          </CarbonColumn>
-          {showParametersSection && (
-            <CarbonColumn span="100%">
-              <CarbonFormGroup legendText={t('in-automation:actionDashboard.ParameterDetails')}>
-                <isNotEditableContext.Provider value>
-                  <ParametersTable isAnsibleParameter hideHiddenParams />
-                </isNotEditableContext.Provider>
-              </CarbonFormGroup>
-            </CarbonColumn>
-          )}
-        </CarbonGrid>
-      </CarbonTile>
-    </>
+        )}
+      </CarbonGrid>
+    </CarbonTile>
   );
 }
 

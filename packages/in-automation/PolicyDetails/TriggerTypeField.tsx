@@ -146,3 +146,19 @@ function SyntheticFilterApplied({ item }: { item: SyntheticAlertConfigWithMetada
     </HorizontalFlexWrapper>
   );
 }
+
+export function getTriggerType(type: TriggerType) {
+  const fields = {
+    applicationSmartAlert: t('in-automation:policies.applicationSmartAlert'),
+    globalApplicationSmartAlert: t('in-automation:policies.globalApplicationSmartAlert'),
+    websiteSmartAlert: t('in-automation:policies.websiteSmartAlert'),
+    mobileAppSmartAlert: t('in-automation:policies.mobileAppSmartAlert'),
+    infraSmartAlert: t('in-automation:policies.infraSmartAlert'),
+    syntheticsSmartAlert: t('in-automation:policies.syntheticsSmartAlert'),
+    logSmartAlert: t('in-automation:policies.logSmartAlert'),
+    sloSmartAlert: t('in-automation:policies.sloSmartAlert'),
+    builtinEvent: t('in-automation:policies.event'),
+    customEvent: t('in-automation:policies.event')
+  };
+  return fields[type];
+}

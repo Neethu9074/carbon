@@ -8,24 +8,34 @@ import React, { useState } from 'react';
 
 import { Link, Typography } from '@instana/components';
 
+import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
-import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
+import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { DynamicFieldValue, ParameterValue } from 'in-types';
+import { safeParseJSON } from 'in-automation/utils/json';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
+interface ExtendedMappedParameter extends MappedParameter {
+  name: string;
+}
+
 const getColumnDefinitions = ({
   setOpenDialog,
-  setSelectedId
+  setSelectedId,
+  parameterNewValues = null
 }: {
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+  parameterNewValues?: ParameterValue[] | null;
 }): ColumnDefinition<MappedParameter>[] => [
   {
     id: 'displayName',
@@ -63,6 +73,37 @@ const getColumnDefinitions = ({
       );
     }
   },
+  ...(parameterNewValues
+    ? [
+        {
+          id: 'value',
+          sortable: false,
+          label: t('in-automation:value'),
+          getContent(item: ExtendedMappedParameter) {
+            if (item.value.type === 'dynamic') {
+              const parsedDynamicValue: DynamicFieldValue | {} = safeParseJSON(item.value.value);
+              return <DynamicTagBasedPayloadConfigurator value={toViewModel(parsedDynamicValue)} disabled />;
+            }
+            const value = parameterNewValues.find(param => param.name === item.value.name)?.value ?? item.value.value;
+            if (item.value.type === 'vault') {
+              const parsedDynamicValue: DynamicFieldValue | {} = safeParseJSON(value);
+              return (
+                <div>
+                  {Object.entries(parsedDynamicValue).map(([key, val]) => (
+                    <div key={key}>
+                      <Typography variant="body-regular">
+                        <strong>{key}:</strong> {val}
+                      </Typography>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+            return value;
+          }
+        }
+      ]
+    : []),
   {
     id: 'description',
     sortable: false,
@@ -93,8 +134,18 @@ const getColumnDefinitions = ({
   }
 ];
 
+interface ParametersTableProps {
+  isAnsibleParameter?: boolean;
+  hideHiddenParams?: boolean;
+  parameterNewValues?: ParameterValue[] | null;
+}
+
 // Note: Ansible actions will have extra vars mapped to parameters, we don't want to allow creating new parameters, but we do want to allow editing existing ones (minus the name as this is the key in the extra vars object)
-export default function ParametersTable({ isAnsibleParameter = false, hideHiddenParams = false }) {
+export default function ParametersTable({
+  isAnsibleParameter = false,
+  hideHiddenParams = false,
+  parameterNewValues = null
+}: ParametersTableProps) {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { form, setForm } = useActionFormContext();
@@ -112,7 +163,8 @@ export default function ParametersTable({ isAnsibleParameter = false, hideHidden
     parameters.some(param => param.value.name === 'id');
   const columnDefinitions = getColumnDefinitions({
     setOpenDialog,
-    setSelectedId
+    setSelectedId,
+    parameterNewValues
   });
 
   return (

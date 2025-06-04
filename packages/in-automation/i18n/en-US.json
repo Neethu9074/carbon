@@ -134,6 +134,7 @@
     "policiesExplanation": " When an event is raised that matches the conditions specified in a policy trigger, the policy is listed as a recommended action.",
     "learnMoreLink": "Learn more about action recommendations in IBM Docs."
   },
+  "triggerType": "Trigger Type",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Action configuration",
     "actionDetails": "Provide action details",

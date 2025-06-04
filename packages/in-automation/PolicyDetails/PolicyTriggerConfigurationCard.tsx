@@ -33,12 +33,12 @@ import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/syn
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
+import { getTriggerType, TriggerTypeField } from 'in-automation/PolicyDetails/TriggerTypeField';
 import { EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { usePolicyFormContext } from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
-import { TriggerTypeField } from 'in-automation/PolicyDetails/TriggerTypeField';
 import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import { Trigger } from 'in-types';
@@ -60,7 +60,6 @@ export default function PolicyTriggerConfigurationCard({ data, triggers }: Polic
   const { form } = usePolicyFormContext();
   const automatic = form.getIn(['action', 'type', 'automatic']);
   const selectedTriggerType = triggers[data.type];
-
   // @ts-ignore
   const selectedTrigger = selectedTriggerType.data?.find(trigger => trigger.id === data.id);
   return (
@@ -77,6 +76,9 @@ export default function PolicyTriggerConfigurationCard({ data, triggers }: Polic
           </CarbonColumn>
           <CarbonColumn span="100%">
             <CarbonFormGroup legendText={t('in-automation:description')}>{data?.description}</CarbonFormGroup>
+          </CarbonColumn>
+          <CarbonColumn span="100%">
+            <CarbonFormGroup legendText={t('in-automation:triggerType')}>{getTriggerType(data.type)}</CarbonFormGroup>
           </CarbonColumn>
           <CarbonColumn span="100%">
             {selectedTrigger && <TriggerTypeField trigger={selectedTrigger} type={data.type} />}
@@ -104,7 +106,7 @@ function ScopeSection() {
         <CarbonColumn span="100%">
           <CarbonFormGroup legendText={t('in-automation:policies.dynamicFocusQuery')}>
             {query.map(field => (
-              <div className={local.DfqSearchBarWrapper}>
+              <div className={local.DfqSearchBarWrapper} key={1}>
                 <DfqSearchBar
                   theme="light"
                   onQueryValueChange={() => {}}
@@ -152,12 +154,12 @@ function getEventName(item: TriggerSpecification) {
     );
   }
   if (isSloSmartAlert(item)) {
-    <NameColumnCell config={item} />;
+    return <NameColumnCell config={item} />;
   }
   if (isEventSpecification(item)) {
     return <EventName hasRowNavigation={false} entity={item} />;
   }
-  if (item && item.threshold) {
+  if (item?.threshold) {
     return <NameColumnCell config={item} getSubtitle={config => getSubtitleLog(config.threshold!)} />;
   }
   return null;

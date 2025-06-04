@@ -97,8 +97,11 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
     bind: [policyDetailsUrlParameters.id]
   });
   const [form] = usePolicyForm(policy, [], triggers);
-  const { action, agentId, inputParameterValues } =
-    policy?.typeConfigurations[0]?.runnable.runConfiguration.actions[0] ?? {};
+  const {
+    action,
+    agentId,
+    inputParameterValues = []
+  } = policy?.typeConfigurations[0]?.runnable.runConfiguration.actions[0] ?? {};
   const [actionForm] = useActionForm({ action, actionFilter: 'all' });
   const formValue = useMemo(
     () => ({
@@ -112,60 +115,58 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
   let backLable = from === eventsPath ? t('in-automation:backToEvent') : t('in-automation:backToPolicies');
 
   return (
-    <>
-      <ActionFormContext.Provider value={formValue}>
-        <Form form={form} setForm={() => {}} onSubmit={() => {}}>
-          <section className={local.content}>
-            <CarbonStack gap={5} orientation="vertical">
-              <div
-                className={classNames({
-                  [local.controlsWrapper]: true,
-                  [local.flexSpaceBetween]: from,
-                  [local.flexEnd]: !from
-                })}
-              >
-                {from && (
-                  <Link
-                    className={local.link}
-                    onClick={() => {
-                      window.history.back();
-                    }}
-                  >
-                    <SvgIcon type="lib_arrow_expand_left" className={local.icon} />
-                    {backLable}
-                  </Link>
-                )}
-                <PolicyControls data={policy} />
-              </div>
+    <ActionFormContext.Provider value={formValue}>
+      <Form form={form} setForm={() => {}} onSubmit={() => {}}>
+        <section className={local.content}>
+          <CarbonStack gap={5} orientation="vertical">
+            <div
+              className={classNames({
+                [local.controlsWrapper]: true,
+                [local.flexSpaceBetween]: from,
+                [local.flexEnd]: !from
+              })}
+            >
+              {from && (
+                <Link
+                  className={local.link}
+                  onClick={() => {
+                    window.history.back();
+                  }}
+                >
+                  <SvgIcon type="lib_arrow_expand_left" className={local.icon} />
+                  {backLable}
+                </Link>
+              )}
+              <PolicyControls data={policy} />
+            </div>
 
-              <CarbonRow>
-                <CarbonGrid fullWidth condensed className={classNames(local.customMarginY, local.gridGap)}>
-                  <CarbonColumn lg={8} md={4} className={classNames(local.bgWhite)}>
-                    <PolicyDetailsCard data={policy} />
+            <CarbonRow>
+              <CarbonGrid fullWidth condensed className={classNames(local.customMarginY, local.gridGap)}>
+                <CarbonColumn lg={8} md={4} className={classNames(local.bgWhite)}>
+                  <PolicyDetailsCard data={policy} />
+                </CarbonColumn>
+                <CarbonColumn lg={8} md={4} className={classNames(local.bgWhite)}>
+                  <PolicyTriggerConfigurationCard data={policy?.trigger} triggers={triggers} />
+                </CarbonColumn>
+                {action && (
+                  <CarbonColumn lg={16} md={8}>
+                    <ActionConfigurationCard
+                      data={action}
+                      agentId={agentId}
+                      inputParameterValues={inputParameterValues}
+                    />
                   </CarbonColumn>
-                  <CarbonColumn lg={8} md={4} className={classNames(local.bgWhite)}>
-                    <PolicyTriggerConfigurationCard data={policy?.trigger} triggers={triggers} />
+                )}
+                {![ACTION_TYPE.MANUAL, ACTION_TYPE.DOC_LINK].includes(action.type) && (
+                  <CarbonColumn lg={16} md={8}>
+                    <ActionHistoryTable policyId={id} />
                   </CarbonColumn>
-                  {action && (
-                    <CarbonColumn lg={16} md={8}>
-                      <ActionConfigurationCard
-                        data={action}
-                        agentId={agentId}
-                        inputParameterValues={inputParameterValues}
-                      />
-                    </CarbonColumn>
-                  )}
-                  {![ACTION_TYPE.MANUAL, ACTION_TYPE.DOC_LINK].includes(action.type) && (
-                    <CarbonColumn lg={16} md={8}>
-                      <ActionHistoryTable policyId={id} />
-                    </CarbonColumn>
-                  )}
-                </CarbonGrid>
-              </CarbonRow>
-            </CarbonStack>
-          </section>
-        </Form>
-      </ActionFormContext.Provider>
-    </>
+                )}
+              </CarbonGrid>
+            </CarbonRow>
+          </CarbonStack>
+        </section>
+      </Form>
+    </ActionFormContext.Provider>
   );
 }
