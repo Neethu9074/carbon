@@ -51,10 +51,10 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
+import { applicationSubtracesEnabled } from 'in-services/featureFlags';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
-import { analyzeSubtracesEnabled } from 'in-services/featureFlags';
 import { GROUP_COLORS } from 'in-components/AnalyzeView/utils.ts';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
@@ -475,7 +475,7 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
   const isCallsDataSource = dataSource === callsDataSource;
   const renderer = isCallsDataSource ? FacetedFilterMultiSelect : FacetedFilterGeneric;
 
-  if (isSubTraceDataSource && analyzeSubtracesEnabled) {
+  if (isSubTraceDataSource && applicationSubtracesEnabled) {
     return [
       {
         renderer: FacetedFilterRangeInput,
@@ -640,7 +640,7 @@ function getFacetedSearchSuggestions({
     tagToExclude: tag
   });
 
-  if (dataSource === subtraceDataSource && analyzeSubtracesEnabled) {
+  if (dataSource === subtraceDataSource && applicationSubtracesEnabled) {
     return getSubtraceSideFilter({
       tagFilterExpression: backendQuery,
       tagName: group.groupbyTag,

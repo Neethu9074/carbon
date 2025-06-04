@@ -15,7 +15,7 @@ import {
   mobileAppCrashBeaconEnabled,
   mobileAppPerfBeaconEnabled,
   mobileAppDroppedBeaconsEnabled,
-  analyzeSubtracesEnabled,
+  applicationSubtracesEnabled,
   logConsoleEnabled
 } from 'in-services/featureFlags';
 /* eslint-enable no-restricted-imports */
@@ -135,7 +135,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         },
         {
           dataSource: 'subtraces',
-          enabled: analyzeSubtracesEnabled,
+          enabled: applicationSubtracesEnabled,
           //need to change the catalog after the backend is ready
           getHref: ({ formModel, tracesTagCatalog: tagCatalog, setOnClickNotificationMessage }) =>
             tagCatalog &&
