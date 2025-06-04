@@ -337,6 +337,7 @@
       "nameLabel": "Name",
       "occurrencesLabel": "Occurrences",
       "screenRenderingDuration": "Rendering duration",
+      "screenRenderingDurationKPICard": "Rendering duration (75th)",
       "affectedUsersLabel": "Affected users",
       "uniqueUsersTitle": "Unique users",
       "crashActivityTitle": "Crashes",

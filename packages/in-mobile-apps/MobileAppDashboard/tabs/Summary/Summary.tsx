@@ -5,6 +5,7 @@
 
 import React, { Fragment } from 'react';
 
+import { Spacer } from '@instana/components';
 import { Card } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
@@ -26,7 +27,7 @@ import CrashTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/CrashTo
 import { summaryTab, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { number, percentage } from 'in-services/formatters/number';
+import { number, percentage, ms } from 'in-services/formatters/number';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -52,9 +53,158 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
   const MarkerLane = MobileAppMarkerLane({ mobileAppId });
   const thinWidgetWidth = viewId == null ? 4 : 6;
 
+  function setSizeKPICard(viewId: string | undefined) {
+    if (mobileAppScreenRenderingDurationEnabled) {
+      if (viewId) return [3, 3, 3, 3];
+      else return mobileAppCrashBeaconEnabled ? [2, 2, 2, 3, 3] : [4, 4, 4];
+    } else return mobileAppCrashBeaconEnabled ? [2, 2, 2, 3, 3] : [4, 4, 4];
+  }
+  const screenRend = (
+    <MobileAppMetricsKpiCard
+      title={t('in-mobile-apps:dashboard.tabs.screenRenderingDurationKPICard')}
+      formatter={ms.compact}
+      metricsConfig={{
+        tagFilters,
+        timeConfig,
+        metrics: {
+          beaconDuration: {
+            metric: 'beaconDuration',
+            aggregation: 'P75'
+          }
+        }
+      }}
+      iconAction={{
+        text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
+        kind: 'subtle',
+        icon: 'lib_analyze',
+        href:
+          tagCatalogViewChange &&
+          getLinkToMobileAppAnalyze({
+            beaconType: 'viewChange',
+            formModel: translateDemocratisationTagFiltersToFormModel({
+              mobileAppLabel,
+              tagFilters,
+              tagCatalog: tagCatalogViewChange
+            }),
+            groupBy: {
+              groupbyTag: 'mobileBeacon.view.name'
+            },
+            fields: [
+              {
+                metricId: 'beaconDuration',
+                aggregationId: 'P75',
+                type: metricType
+              }
+            ],
+            chartedMetrics: [
+              {
+                metricId: 'beaconDuration',
+                aggregationId: 'P75'
+              }
+            ]
+          })
+      }}
+    />
+  );
+
+  const crashAffectedSessionRate = (
+    <MobileAppBigNumberCard
+      title={t('in-mobile-apps:dashboard.tabs.crashAffectedSessionRateTitle')}
+      metric={'crashAffectedSessionRate'}
+      aggregation={'MEAN'}
+      formatter={percentage.detailed}
+      companionMetric={'crashAffectedSessionCount'}
+      companionAggregation={'DISTINCT_COUNT'}
+      companionFormatter={v =>
+        t('in-mobile-apps:dashboard.tabs.sessionCount', {
+          formattedCount: number.compact(v),
+          count: v
+        })
+      }
+      comparisonColors={{
+        decreaseColor: blue.id,
+        increaseColor: blue.id
+      }}
+      tagFilters={tagFilters}
+      timeConfig={timeConfig}
+      iconAction={{
+        text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
+        kind: 'subtle',
+        icon: 'lib_analyze',
+        href:
+          tagCatalogCrash &&
+          getLinkToMobileAppAnalyze({
+            beaconType: 'crash',
+            formModel: translateDemocratisationTagFiltersToFormModel({
+              mobileAppLabel,
+              tagFilters,
+              tagCatalog: tagCatalogCrash
+            }),
+            groupBy: {
+              groupbyTag: 'mobileBeacon.crash.groupLabel'
+            }
+          })
+      }}
+    />
+  );
+
+  const crashAffectedUserRate = (
+    <MobileAppBigNumberCard
+      title={t('in-mobile-apps:dashboard.tabs.crashAffectedUserRateTitle')}
+      metric={'crashAffectedUserRate'}
+      aggregation={'MEAN'}
+      formatter={percentage.detailed}
+      companionMetric={'crashAffectedUserCount'}
+      companionAggregation={'DISTINCT_COUNT'}
+      companionFormatter={v =>
+        t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
+          formattedCount: number.compact(v),
+          count: v
+        })
+      }
+      comparisonColors={{
+        decreaseColor: blue.id,
+        increaseColor: blue.id
+      }}
+      tagFilters={tagFilters}
+      timeConfig={timeConfig}
+      iconAction={{
+        text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
+        kind: 'subtle',
+        icon: 'lib_analyze',
+        href:
+          tagCatalogCrash &&
+          getLinkToMobileAppAnalyze({
+            beaconType: 'crash',
+            formModel: translateDemocratisationTagFiltersToFormModel({
+              mobileAppLabel,
+              tagFilters,
+              tagCatalog: tagCatalogCrash
+            }),
+            groupBy: {
+              groupbyTag: 'mobileBeacon.crash.groupLabel'
+            },
+            fields: [
+              {
+                metricId: 'uniqueUsersOrSessions',
+                aggregationId: 'DISTINCT_COUNT',
+                type: metricType
+              }
+            ],
+            chartedMetrics: [
+              {
+                metricId: 'uniqueUsersOrSessions',
+                aggregationId: 'DISTINCT_COUNT'
+              }
+            ]
+          })
+      }}
+    />
+  );
+
   return (
     <Fragment>
-      <KpiGridRow sizes={mobileAppCrashBeaconEnabled ? [2, 2, 2, 3, 3] : [4, 4, 4]}>
+      <KpiGridRow sizes={setSizeKPICard(viewId)}>
         <MobileAppBigNumberCard
           title={t('in-mobile-apps:dashboard.tabs.sessionStartsTitle')}
           metric={'sessions'}
@@ -164,100 +314,29 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               })
           }}
         />
-        {mobileAppCrashBeaconEnabled && (
-          <MobileAppBigNumberCard
-            title={t('in-mobile-apps:dashboard.tabs.crashAffectedSessionRateTitle')}
-            metric={'crashAffectedSessionRate'}
-            aggregation={'MEAN'}
-            formatter={percentage.detailed}
-            companionMetric={'crashAffectedSessionCount'}
-            companionAggregation={'DISTINCT_COUNT'}
-            companionFormatter={v =>
-              t('in-mobile-apps:dashboard.tabs.sessionCount', {
-                formattedCount: number.compact(v),
-                count: v
-              })
-            }
-            comparisonColors={{
-              decreaseColor: blue.id,
-              increaseColor: blue.id
-            }}
-            tagFilters={tagFilters}
-            timeConfig={timeConfig}
-            iconAction={{
-              text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href:
-                tagCatalogCrash &&
-                getLinkToMobileAppAnalyze({
-                  beaconType: 'crash',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    mobileAppLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogCrash
-                  }),
-                  groupBy: {
-                    groupbyTag: 'mobileBeacon.crash.groupLabel'
-                  }
-                })
-            }}
-          />
-        )}
-        {mobileAppCrashBeaconEnabled && (
-          <MobileAppBigNumberCard
-            title={t('in-mobile-apps:dashboard.tabs.crashAffectedUserRateTitle')}
-            metric={'crashAffectedUserRate'}
-            aggregation={'MEAN'}
-            formatter={percentage.detailed}
-            companionMetric={'crashAffectedUserCount'}
-            companionAggregation={'DISTINCT_COUNT'}
-            companionFormatter={v =>
-              t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
-                formattedCount: number.compact(v),
-                count: v
-              })
-            }
-            comparisonColors={{
-              decreaseColor: blue.id,
-              increaseColor: blue.id
-            }}
-            tagFilters={tagFilters}
-            timeConfig={timeConfig}
-            iconAction={{
-              text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href:
-                tagCatalogCrash &&
-                getLinkToMobileAppAnalyze({
-                  beaconType: 'crash',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    mobileAppLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogCrash
-                  }),
-                  groupBy: {
-                    groupbyTag: 'mobileBeacon.crash.groupLabel'
-                  },
-                  fields: [
-                    {
-                      metricId: 'uniqueUsersOrSessions',
-                      aggregationId: 'DISTINCT_COUNT',
-                      type: metricType
-                    }
-                  ],
-                  chartedMetrics: [
-                    {
-                      metricId: 'uniqueUsersOrSessions',
-                      aggregationId: 'DISTINCT_COUNT'
-                    }
-                  ]
-                })
-            }}
-          />
-        )}
+
+        {[viewId && mobileAppScreenRenderingDurationEnabled && screenRend].filter(Boolean)}
+
+        {viewId == null
+          ? crashAffectedSessionRate
+          : viewId && !mobileAppScreenRenderingDurationEnabled
+          ? crashAffectedSessionRate
+          : null}
+
+        {viewId == null
+          ? crashAffectedUserRate
+          : viewId && !mobileAppScreenRenderingDurationEnabled
+          ? crashAffectedUserRate
+          : null}
       </KpiGridRow>
+
+      {viewId && mobileAppScreenRenderingDurationEnabled && <Spacer vertical="medium" />}
+      {viewId && mobileAppScreenRenderingDurationEnabled && (
+        <KpiGridRow sizes={[6, 6]}>
+          {mobileAppCrashBeaconEnabled && crashAffectedSessionRate}
+          {mobileAppCrashBeaconEnabled && crashAffectedUserRate}
+        </KpiGridRow>
+      )}
 
       <Row>
         <Col lg={mobileAppCrashBeaconEnabled ? thinWidgetWidth : 12}>
