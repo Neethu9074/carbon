@@ -51,7 +51,8 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
       savedTeam => {
         setMessage({
           kind: 'success',
-          title: t('in-settings:tabs.teams.teamSuccessfullySaved'),
+          title: t('in-settings:components.successTitle'),
+          subtitle: t('in-settings:tabs.teams.teamSuccessfullySaved'),
           timeout: 3000
         });
 

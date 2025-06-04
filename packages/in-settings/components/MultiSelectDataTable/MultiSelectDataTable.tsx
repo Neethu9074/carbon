@@ -9,32 +9,30 @@ import { Add } from '@carbon/icons-react';
 import React from 'react';
 
 import {
-  CarbonDataTable as DataTable,
-  CarbonTable as Table,
-  CarbonTableHead as TableHead,
-  CarbonTableRow as TableRow,
-  CarbonTableHeader as TableHeader,
-  CarbonTableBody as TableBody,
-  CarbonTableCell as TableCell,
-  CarbonTableContainer as TableContainer,
-  CarbonTableToolbar as TableToolbar,
-  CarbonTableToolbarSearch as TableToolbarSearch,
-  CarbonTableToolbarContent as TableToolbarContent,
-  CarbonOverflowMenu as OverflowMenu,
-  CarbonOverflowMenuItem as OverflowMenuItem,
-  CarbonTableSelectAll as TableSelectAll,
-  CarbonTableSelectRow as TableSelectRow,
-  Pagination,
-  TableSkeleton,
-  CarbonButton as Button,
-  CarbonTableBatchAction as TableBatchAction,
-  CarbonTableBatchActions as TableBatchActions,
-  CarbonInlineLoading as InlineLoading,
-  CarbonIconButton as IconButton,
-  Tooltip,
-  CarbonEmptyState,
-  CarbonToastNotification as ToastNotification
-} from '@instana/components';
+  DataTable,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableToolbar,
+  TableToolbarSearch,
+  TableToolbarContent,
+  OverflowMenu,
+  OverflowMenuItem,
+  TableSelectAll,
+  TableSelectRow,
+  Button,
+  TableBatchAction,
+  TableBatchActions,
+  InlineLoading,
+  IconButton,
+  ToastNotification,
+  ToastNotificationProps
+} from '@instana/carbon';
+import { Pagination, TableSkeleton, Tooltip, CarbonEmptyState } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
@@ -43,17 +41,13 @@ import { t, Trans } from '@instana/i18n-react';
 import ConfirmationDialog from 'in-settings/components/ConfirmationDialog/ConfirmationDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { seconds } from 'in-services/time/time';
 import useUrlState from 'in-hooks/useUrlState';
 
 import locals from './MultiSelectDataTable.mless';
 
-export interface Notification {
+export interface Notification extends ToastNotificationProps {
   readonly key?: string;
-  readonly kind: 'error' | 'info' | 'success' | 'warning';
-  readonly title: string;
-  readonly subtitle?: string;
-  readonly caption?: string;
-  readonly timeout?: number;
 }
 
 export interface OverflowMenuItemProps {
@@ -270,10 +264,11 @@ export default function MultiSelectDataTable<
             setNotification({
               key: generateUniqueShortId(),
               kind: 'success',
-              title: t('in-settings:components.removedEntity', {
+              title: t('in-settings:components.successTitle'),
+              subtitle: t('in-settings:components.removedEntity', {
                 entity: getEntityName(entity)
               }),
-              timeout: 10000
+              timeout: seconds.toMillis(5)
             });
           });
           deletion$?.errors().once((error: Error) => {
@@ -324,10 +319,11 @@ export default function MultiSelectDataTable<
             setIsBatchDeleting(false);
             setNotification({
               kind: 'success',
-              title: t('in-settings:components.removedEntity', {
+              title: t('in-settings:components.successTitle'),
+              subtitle: t('in-settings:components.removedEntity', {
                 entity: t('in-settings:tabs.noOfItemsSelected', { noOfItemsSelected: selectedRows?.length })
               }),
-              timeout: 10000
+              timeout: seconds.toMillis(5)
             });
           });
           deletion$?.errors().once((error: Error) => {
@@ -339,7 +335,7 @@ export default function MultiSelectDataTable<
                 itemName: t('in-settings:tabs.noOfItemsSelected', { noOfItemsSelected: selectedRows?.length })
               }),
               subtitle: error.message,
-              timeout: 10000
+              timeout: seconds.toMillis(10)
             });
           });
         }}
@@ -350,16 +346,17 @@ export default function MultiSelectDataTable<
   return (
     <>
       {notification && notification?.title && (
-        <ToastNotification
-          key={notification?.key}
-          kind={notification.kind}
-          title={notification.title}
-          subtitle={notification.subtitle}
-          lowContrast
-          timeout={notification.timeout}
-          className={locals.toastMessage}
-          caption={notification.caption}
-        />
+        <div className={locals.toastContainer}>
+          <ToastNotification
+            key={notification?.key}
+            kind={notification.kind}
+            title={notification.title}
+            subtitle={notification.subtitle}
+            lowContrast
+            // timeout={notification.timeout}
+            caption={notification.caption}
+          />
+        </div>
       )}
       <DataTable rows={paginatedRows} headers={[...tableHeaders]} isSortable>
         {({

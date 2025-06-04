@@ -362,7 +362,8 @@
     "removeMemberFromRoleButton": "Remove user from role",
     "addMemberToRoleButton": "Add user",
     "selectMembersDialogTitle": "Select user",
-    "teamScopeTitle": "Scope"
+    "teamScopeTitle": "Scope",
+    "successTitle": "Success"
   },
   "details": {
     "role": {
