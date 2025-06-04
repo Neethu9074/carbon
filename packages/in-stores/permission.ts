@@ -128,7 +128,8 @@ export const Capability = Object.freeze({
   CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
   CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP',
   CAN_MANUALLY_CLOSE_ISSUE: 'CAN_MANUALLY_CLOSE_ISSUE',
-  CAN_INVOKE_ALERT_CHANNEL: 'CAN_INVOKE_ALERT_CHANNEL'
+  CAN_INVOKE_ALERT_CHANNEL: 'CAN_INVOKE_ALERT_CHANNEL',
+  CAN_CONFIGURE_LLM: 'CAN_CONFIGURE_LLM'
 } as const);
 
 export const InfrastructureCapability = Object.freeze({
@@ -734,6 +735,15 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanManuallyCloseIssueLabel'),
     description: t('in-stores:permissionCanManuallyCloseIssueDescription'),
     category: t('in-stores:permissionCanManuallyCloseIssueCategory'),
+    isOwnerPermission: false
+  },
+  /* AI Management */
+  [Capability.CAN_CONFIGURE_LLM]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_LLM,
+    keyForApiTokenApi: 'canConfigureLLM',
+    label: t('in-stores:permissionCanConfigureLLMLabel'),
+    description: t('in-stores:permissionCanConfigureLLMDecription'),
+    category: t('in-stores:permissionAIManagementCategory'),
     isOwnerPermission: false
   }
 };

@@ -137,7 +137,9 @@
   "permissionCanViewSyntheticTestResultsLabel": "Access to synthetic test results",
   "permissionCanViewSyntheticTestResultsDescription": "Permits access to view synthetic test results.",
   "permissionSyntheticMonitoringCategory": "Synthetic monitoring",
-
+  "permissionAIManagementCategory": "AI management",
+  "permissionCanConfigureLLMLabel": "Configuration of LLM Egress Gateways",
+  "permissionCanConfigureLLMDecription": "Permits access to create, update, and delete LLM Egress Gateway",
   "metric": {
     "metric_MEAN": "mean",
     "metric_MIN": "min",
