@@ -7,15 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import {
-  SvgIcon,
-  CarbonButton,
-  CarbonInlineLoading,
-  HelpText,
-  PreviewPill,
-  Typography,
-  Link
-} from '@instana/components';
+import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText, Typography, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { EVENT_AI_GENERATE_SUBMIT, NOTES_SUMMARY_CLICK_EPWT_LINK } from 'in-services/tracking/eventNames';
@@ -172,7 +164,6 @@ export function QuickActions(props) {
           <>
             <div className={locals.quickActionsHeader}>
               {t('in-events:notes.summarizeIncident')}
-              <PreviewPill privatePreview />
               <div className={locals.feedbackWrapper}>
                 <Link href="https://your.feedback.ibm.com/jfe/form/SV_5je3oKfjA0NZM0e" externalWithIcon>
                   {t('in-events:notes.feedback')}
