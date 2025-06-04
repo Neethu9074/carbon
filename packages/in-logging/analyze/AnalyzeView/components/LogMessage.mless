@@ -4,6 +4,14 @@
  */
 
 :local {
+  .code {
+    background-color: transparent !important;
+    div,
+    span {
+      background-color: transparent !important;
+    }
+  }
+
   .message {
     color: var(--ids-color-option-neutral-900);
     overflow-wrap: break-word;

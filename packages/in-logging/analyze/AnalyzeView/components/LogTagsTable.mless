@@ -67,4 +67,12 @@
   .tagSkeleton {
     width: 100%;
   }
+
+  .code {
+    background-color: transparent !important;
+    div,
+    span {
+      background-color: transparent !important;
+    }
+  }
 }

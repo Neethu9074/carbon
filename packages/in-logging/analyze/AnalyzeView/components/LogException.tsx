@@ -5,11 +5,13 @@
 
 import React, { useMemo } from 'react';
 
-import { Stack } from '@instana/components';
+import { Code, Stack } from '@instana/components';
 
-import { LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_STACK_TRACE } from 'in-logging/queryBuilder';
+import { LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE, LOG_EXCEPTION_TYPE } from 'in-logging/queryBuilder';
 import LogExceptionDialog from 'in-logging/analyze/AnalyzeView/components/LogExceptionDialog';
+import { getStackTraceLanguage } from 'in-logging/analyze/AnalyzeView/components/utils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { logFormattingEnabled } from 'in-services/featureFlags';
 import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -64,6 +66,8 @@ function LogException({
     return null;
   }
 
+  const lang = useMemo(() => getStackTraceLanguage(stackTraceMessage), [stackTraceMessage]);
+
   return (
     <div>
       {!isToggled ? (
@@ -89,7 +93,17 @@ function LogException({
           {hasExceptionAndStackTrace && stackTraceMessage && (
             <>
               <b> {t('in-logging:logTraceTitle')} &gt;</b>
-              <div className={locals.logExceptionMessage}>{stackTraceMessage}</div>
+              {lang && logFormattingEnabled ? (
+                <div
+                  onClick={e => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <Code lang={lang} withoutCopyButton code={stackTraceMessage} />
+                </div>
+              ) : (
+                <div className={locals.logExceptionMessage}>{stackTraceMessage}</div>
+              )}
             </>
           )}
         </div>

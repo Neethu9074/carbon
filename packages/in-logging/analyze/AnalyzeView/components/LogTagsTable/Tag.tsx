@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { CarbonContainedListItem, IconButton, Link } from '@instana/components';
+import { CarbonContainedListItem, Code, IconButton, Link } from '@instana/components';
 import { LogTag, TagFilter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
@@ -33,6 +33,7 @@ import { containerSnapshotIds, ID_HOST, LOG_CUSTOM_KEY_APPLICATION_IDS, LOG_FILE
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED } from 'in-services/tracking/eventNames';
+import { getPrettifiedJSON } from 'in-logging/analyze/AnalyzeView/components/utils';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Tooltip from 'in-components/Tooltip';
@@ -123,6 +124,7 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
   const isApplicationsTag = tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS;
   const isLogFilePathTag = tag.name === LOG_FILE_PATH;
   const hostTag = item.tags.find(tag => tag.name === ID_HOST) as LogTag;
+  const JSONString = getPrettifiedJSON(tag.stringValue ?? '');
 
   //As long as we have to put the link and the name of the Log Id Host, we are faking the tag name and the tag object
   //to the hooks for getting the correct name and the correct link, only when we are facing the log.file.path tagRow
@@ -136,6 +138,11 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
 
   const resolvedLink = useResolvedLink(universalTagName, universalTag, item);
   const { trackCta } = useSegmentTracking();
+
+  if (JSONString) {
+    return <Code withoutCopyButton softWrap lang="json" code={JSONString} wrapperClassName={locals.code} />;
+  }
+
   if (isApplicationsTag) {
     return <ApplicationsListTag resolvedValue={resolvedValue} stringValue={tag.stringValue} item={item} />;
   }

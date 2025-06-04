@@ -980,5 +980,10 @@ module.exports = exports = [
     uiClientKey: 'isControlledEnvEnabled',
     instanaCtlKey: 'feature.is.controlled.env.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'logFormattingEnabled',
+    instanaCtlKey: 'feature.log.formatting.enabled',
+    defaultValue: false
   }
 ];

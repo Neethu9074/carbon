@@ -201,5 +201,6 @@ module.exports = {
   allSmartAlertsViewEnabled: false,
   apMetricsDeltaFetchingEnabled: true,
   isControlledEnvEnabled: false,
-  blockLogDeletionsEnabled: false
+  blockLogDeletionsEnabled: false,
+  logFormattingEnabled: true
 };

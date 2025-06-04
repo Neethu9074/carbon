@@ -68,6 +68,7 @@ export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
 export const blockLogDeletionsEnabled = isFeatureFlagEnabled('blockLogDeletionsEnabled');
+export const logFormattingEnabled = isFeatureFlagEnabled('logFormattingEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
