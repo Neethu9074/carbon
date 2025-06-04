@@ -31,6 +31,8 @@ import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlert
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
+import { eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
+import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -81,6 +83,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
 
   const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
+  const isKPI = false;
 
   return (
     <>
@@ -125,6 +128,20 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
           </Card>
         </Col>
       </Row>
+      {eumImpactedUsersForAppAlertEnabled && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <SmartAlertImpactedUsers
+              alertConfig={alertConfig}
+              event={event}
+              eventEntity={eventEntity}
+              snapshot={snapshot}
+              isKPI={isKPI}
+            />
+          </Col>
+        </Row>
+      )}
+
       <Row withoutSideMargin>
         <Col xs>
           <Card
@@ -148,6 +165,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
           </Card>
         </Col>
       </Row>
+
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:titleScope')}>

@@ -7,37 +7,45 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 
 import { HorizontalIndicator, Button } from '@instana/components';
-import { Disposable, just } from '@instana/observables';
+import { Disposable } from '@instana/observables';
 
 import {
-  CursorPaginatedResult,
-  Error,
-  EumBeaconByTraceBeaconsItem,
-  Progress,
-  TagFilterExpressionElementUnion,
-  TimeConfig,
-  JoinSource
-} from 'in-types';
+  getImpactedBeaconByTrace,
+  downloadImpactedBeaconByTrace
+} from 'in-eum/ImpactedUsers/BeaconByTraceQueryHandler';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
-import getEumBeaconByTrace, { makeEumBeaconByTraceQuery } from 'in-eum/subscriptions/getEumBeaconByTrace';
-import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
+import { getImpactedBeacon, downloadImpactedBeacon } from 'in-eum/ImpactedUsers/ImpactedBeaconsQueryHandler';
+import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { Error, Nullish, Progress, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+// @ts-ignore
+import * as entityUtils from 'in-services/entityUtils';
 import { useEumTracker } from 'in-eum/tracking/segTracker';
-import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 interface AnalyzeImpactedUsersButtonProps {
+  entityType?: string | unknown;
   alertType?: string;
   disabled?: boolean;
   timeConfig?: TimeConfig | null;
-  joinFilterForImpactedUsers: TagFilterExpressionElementUnion;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+}
+
+interface ImpactedBeaconTagFilterExpressionProps {
+  alertId?: string | Nullish;
+  entityId?: string;
+  entityType?: string | unknown;
+  excludeViolationRelatedFilters?: boolean;
 }
 
 export default function AnalyzeImpactedUsersButton({
+  entityType,
   alertType,
   disabled,
   timeConfig,
-  joinFilterForImpactedUsers
+  tagFilterExpression
 }: AnalyzeImpactedUsersButtonProps) {
   const [progress, setProgress] = useState<Progress | null>(null);
   const [errors, setErrors] = useState<Array<Error>>([]);
@@ -52,8 +60,22 @@ export default function AnalyzeImpactedUsersButton({
     []
   );
 
+  const getHandlers = useCallback(() => {
+    if (entityUtils.isWebsiteEntityType(entityType) || entityUtils.isMobileAppEntityType(entityType)) {
+      return {
+        getBeacon: getImpactedBeacon,
+        downloadBeacon: downloadImpactedBeacon
+      };
+    }
+    return {
+      getBeacon: getImpactedBeaconByTrace,
+      downloadBeacon: downloadImpactedBeaconByTrace
+    };
+  }, [entityType]);
+
   const onClickDownload = useCallback(() => {
-    subscriptionRef.current = downloadImpactedUserBeacons(timeConfig, joinFilterForImpactedUsers, alertType)
+    const { getBeacon, downloadBeacon } = getHandlers();
+    subscriptionRef.current = getBeacon(timeConfig, tagFilterExpression, alertType, entityType)
       .startWith(null)
       .subscribe(result => {
         const loading = result?.progress?.loading ?? true;
@@ -63,12 +85,17 @@ export default function AnalyzeImpactedUsersButton({
         });
         setErrors(result?.errors ?? []);
         if (!loading && subscriptionRef.current && result?.data) {
-          download(result.data);
+          downloadBeacon(
+            result.data,
+            typeof entityType === 'string' ? entityType : '',
+            typeof alertType === 'string' ? alertType : ''
+          );
           subscriptionRef.current.dispose();
           subscriptionRef.current = null;
         }
       });
-  }, [alertType, joinFilterForImpactedUsers, timeConfig]);
+  }, [alertType, tagFilterExpression, timeConfig, getHandlers, entityType]);
+
   return (
     <>
       {progress?.loading && <HorizontalIndicator progress={progress} />}
@@ -93,85 +120,24 @@ export default function AnalyzeImpactedUsersButton({
   );
 }
 
-function download(result: CursorPaginatedResult<EumBeaconByTraceBeaconsItem>) {
-  const now = new Date();
-  const nowForFileName = formatDateWithActiveLanguage(now, 'yyyyMMdd-HHmmss');
-  const a = document.body.appendChild(document.createElement('a'));
+export function getEnrichedAnalyzeTagFilterFormModelImpactedBeacons({
+    alertId,
+    entityId,
+    entityType,
+    excludeViolationRelatedFilters
+  }: ImpactedBeaconTagFilterExpressionProps) {
+    const tagFilterName = excludeViolationRelatedFilters
+      ? entityUtils.isMobileAppEntityType(entityType)
+        ? 'mobileBeacon.mobileApp.id'
+        : 'beacon.website.id'
+      : 'impactedBeacon.websiteOrMobileApp.id';
 
-  a.download = `impacts-${result.items?.length}-of-${result.totalHits}-${nowForFileName}.csv`;
-  a.href = `data:text/csv;charset=utf-8,${encodeURIComponent(getCSVData(result.items ?? []))}`;
-  a.click();
-  document.body.removeChild(a);
-}
+    const eumAlertId = excludeViolationRelatedFilters ? null : alertId;
 
-function getCSVData(items: Array<EumBeaconByTraceBeaconsItem>): string {
-  const lines = [
-    [
-      t('in-eum:csvDataColumnLabels.id'),
-      t('in-eum:csvDataColumnLabels.name'),
-      t('in-eum:csvDataColumnLabels.email'),
-      t('in-eum:csvDataColumnLabels.country'),
-      t('in-eum:csvDataColumnLabels.subdivision'),
-      t('in-eum:csvDataColumnLabels.eumCfgLabel'),
-      t('in-eum:csvDataColumnLabels.source')
-    ]
-  ];
-
-  items.forEach(item => {
-    lines.push([
-      item.beacon.userIdOrSessionId ?? '',
-      item.beacon.userName ?? '',
-      item.beacon.userEmail ?? '',
-      item.beacon.country ?? '',
-      item.beacon.subdivision ?? '',
-      item.beacon.eumCfgLabel ?? '',
-      item.beacon.eumSource ?? ''
-    ]);
-  });
-
-  return lines.map(line => line.join(',')).join('\n');
-}
-
-function downloadImpactedUserBeacons(
-  timeConfig?: TimeConfig | null,
-  joinFilterForImpactedUsers?: TagFilterExpressionElementUnion,
-  alertType?: string
-) {
-  let joinSource = 'JOIN_SOURCE_EUM_IMPACTED_TRACES' as JoinSource;
-  if (alertType === 'throughput') {
-    joinSource = 'JOIN_SOURCE_APPLICATION' as JoinSource;
+    return joinExpressions({
+      expressions: [
+        eumAlertId ? tagFilter('impactedBeacon.alertId', EQUALS, eumAlertId) : null,
+        entityId ? tagFilter(tagFilterName, EQUALS, entityId) : null
+      ].filter(Boolean) as (FormModelElement | FormModelElement[])[]
+    });
   }
-  if (!timeConfig || !joinFilterForImpactedUsers) {
-    return just(
-      success<CursorPaginatedResult<EumBeaconByTraceBeaconsItem>>({
-        items: [],
-        canLoadMore: false,
-        totalHits: 0,
-        totalRepresentedItemCount: 0,
-        totalRetainedItemCount: 0
-      })
-    );
-  }
-
-  return getEumBeaconByTrace(
-    makeEumBeaconByTraceQuery({
-      metrics: [
-        'beaconByTrace.userIdOrSessionId',
-        'beaconByTrace.user.name',
-        'beaconByTrace.user.email',
-        'beaconByTrace.geo.country',
-        'beaconByTrace.geo.subdivision',
-        'beaconByTrace.configId',
-        'beaconByTrace.source'
-      ],
-      timeConfig,
-      joinFilterExpression: joinFilterForImpactedUsers,
-      distinctBy: ['beaconByTrace.userIdOrSessionId', 'beaconByTrace.configId'],
-      pagination: {
-        cursor: undefined,
-        retrievalSize: 200
-      },
-      joinSource: joinSource
-    })
-  );
-}

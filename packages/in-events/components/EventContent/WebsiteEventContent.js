@@ -16,6 +16,7 @@ import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
+import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -33,6 +34,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
@@ -124,6 +126,20 @@ export default function WebsiteEventContent({ event, snapshot, reload }) {
           </Card>
         </Col>
       </Row>
+
+      {eumImpactedUsersForAppAlertEnabled && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <SmartAlertImpactedUsers
+              alertConfig={alertConfig}
+              event={event}
+              eventEntity={eventEntity}
+              snapshot={snapshot}
+              isKPI={false}
+            />
+          </Col>
+        </Row>
+      )}
 
       <Row withoutSideMargin>
         <Col xs>

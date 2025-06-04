@@ -15,12 +15,21 @@ import {
   fireCallbacksForEventAtFocusedMomentAsStream,
   getEventSeverityLabel
 } from 'in-stores/events';
+import {
+  isWebsiteSmartAlertEvent,
+  isMobileAppSmartAlertEvent,
+  isApplicationSmartAlertEvent
+} from 'in-events/components/eventUtil';
 import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
+import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlertConfig';
+import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
 import { formatDurationAccurately, formatTime } from 'in-services/formatters/date';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import { eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
+import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
+import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { formatDate } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -33,7 +42,7 @@ import { t } from 'in-i18n';
 
 import dateTimeLocals from 'in-components/KpiCard/DateTimeKpiCard.mless';
 
-export default function EventDetailsKPIs({ event, isIncident, isApplicationSmartAlert }) {
+export default function EventDetailsKPIs({ event, isIncident }) {
   const eventType = getEventType(event);
   if (isIncident) {
     return <IncidentKPIs event={event} />;
@@ -41,8 +50,8 @@ export default function EventDetailsKPIs({ event, isIncident, isApplicationSmart
   if (eventType === EVENT_TYPES.CVE_ISSUE) {
     return <CveKPIs event={event} />;
   }
-  if (isApplicationSmartAlert) {
-    return <ImapactedUsersEventKPIs event={event} />;
+  if (isApplicationSmartAlertEvent(event) || isWebsiteSmartAlertEvent(event) || isMobileAppSmartAlertEvent(event)) {
+    return <ImpactedUsersEventKPIs event={event} />;
   }
   return <EventKPIs event={event} />;
 }
@@ -65,7 +74,7 @@ function EventKPIs({ event }) {
   );
 }
 
-function ImapactedUsersEventKPIs({ event }) {
+function ImpactedUsersEventKPIs({ event }) {
   const started = getEventType(event) === EVENT_TYPES.CHANGE ? t('in-events:titleTime') : t('in-events:headerStarted');
   return (
     <Row withoutSideMargin>
@@ -218,8 +227,18 @@ export const Severity = connectTo(
 );
 
 export const ImpactedKPI = ({ event }) => {
-  const alertConfig = useApplicationEventAlertConfig(event);
-  const eventEntity = useApplicationEventEntity(event);
+  let alertConfig = null;
+  let eventEntity = null;
+  if (isApplicationSmartAlertEvent(event)) {
+    alertConfig = useApplicationEventAlertConfig(event);
+    eventEntity = useApplicationEventEntity(event);
+  } else if (isWebsiteSmartAlertEvent(event)) {
+    alertConfig = useWebsiteEventAlertConfig(event);
+    eventEntity = useWebsiteEventEntity(event);
+  } else if (isMobileAppSmartAlertEvent(event)) {
+    alertConfig = useMobileAppEventAlertConfig(event);
+    eventEntity = useMobileAppEventEntity(event);
+  }
   if (alertConfig) {
     return <SmartAlertImpactedUsers alertConfig={alertConfig} event={event} eventEntity={eventEntity} isKPI />;
   }

@@ -12,6 +12,8 @@ import { just } from '@instana/observables';
 
 // @ts-ignore
 import { getEnrichedAnalyzeTagFilterFormModel, impactedTracesTagFilterExpressionGenerator } from 'in-events/components/AnalyzeApplicationEventButton';
+import { MobileAppSmartAlertConfig, WebsiteSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { getEnrichedAnalyzeTagFilterFormModelImpactedBeacons } from 'in-eum/ImpactedUsers/AnalyzeImpactedUsersButton';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { joinExpressions, FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -30,7 +32,7 @@ import { minutes } from 'in-services/time';
 export interface SmartAlertImpactedUsersProps {
   event: EventOrMap;
   snapshot?: SnapshotData;
-  alertConfig?: ApplicationSmartAlertConfig;
+  alertConfig?: ApplicationSmartAlertConfig | MobileAppSmartAlertConfig | WebsiteSmartAlertConfig;
   eventEntity?: any;
   isKPI: boolean;
 }
@@ -72,14 +74,20 @@ export default function SmartAlertImpactedUsers({
     [alertConfig, analyzedEventEntity, event, timeConfig]
   );
 
-  // only application alert is supported for now
-  if (!entityUtils.isAppDataEntityType(entityType) || !filterExpressions) {
+  // Application, Website and Mobile App alerts are the only supported
+  if (
+    (!entityUtils.isAppDataEntityType(entityType) &&
+      !entityUtils.isWebsiteEntityType(entityType) &&
+      !entityUtils.isMobileAppEntityType(entityType)) ||
+    !filterExpressions
+  ) {
     return null;
   }
 
   return (
     <ImpactedUsers
-      alertType={alertConfig?.rule.alertType}
+      entityType={entityType}
+      alertType={alertConfig?.rule?.alertType}
       timeConfig={timeConfig}
       joinFilterForImpactedUsers={filterExpressions.impacted}
       joinFilterForTotalUsers={filterExpressions.total}
@@ -104,7 +112,7 @@ function getImpactedTimeConfigFromEvent(event: EventOrMap): TimeConfig {
 function createFilterExpressionsForAppAlert(
   event: EventOrMap,
   timeConfig: TimeConfig,
-  alertConfig?: ApplicationSmartAlertConfig,
+  alertConfig?: ApplicationSmartAlertConfig | MobileAppSmartAlertConfig | WebsiteSmartAlertConfig,
   eventEntity?: any
 ) {
   const entityType = event.get('entityType');
@@ -114,6 +122,8 @@ function createFilterExpressionsForAppAlert(
   let serviceName: string | undefined = undefined;
   let endpointName: string | undefined = undefined;
   let applicationId: string | undefined = eventEntity.applicationId;
+  let websiteId: string | undefined = eventEntity.websiteId;
+  let mobileAppId: string | undefined = eventEntity.mobileAppId;
   let alertId: string | undefined = eventEntity.alertId;
   let applicationName: string | undefined = eventEntity.applicationName;
   let serviceId: string | undefined = eventEntity.serviceId;
@@ -139,6 +149,10 @@ function createFilterExpressionsForAppAlert(
     } else if (entityUtils.isEndpointEntity(entityType)) {
       serviceId = serviceId || eventEntity.data.serviceId;
       endpointId = endpointId || eventEntity.data.id;
+    } else if (entityUtils.isWebsiteEntityType(entityType)) {
+      websiteId = websiteId || eventEntity.websiteId;
+    } else if (entityUtils.isMobileAppEntityType(entityType)) {
+      mobileAppId = mobileAppId || eventEntity.mobileAppId;
     }
   }
 
@@ -152,10 +166,19 @@ function createFilterExpressionsForAppAlert(
     return { impacted: getQueryModelForAppAlertWithoutAlertConfig(), total: null };
   }
 
-  if (alertConfig.rule.alertType === 'throughput') {
+  if (alertConfig?.rule?.alertType === 'throughput') {
     // we don't show the affected services/endpoints list for this blueprint type, because there is no simple property
     // to differentiate single calls from being violated or non-violated. Thus, we have to come up with a new way to do
     // this distinction.
+
+    // Here we are handling the case of what tagFilterExpression we have to pass when we have a throughput alert
+    // along with the entity type.
+    if (entityUtils.isWebsiteEntityType(entityType) || entityUtils.isMobileAppEntityType(entityType)) {
+      return {
+        impacted: getQueryModelForAppAlertFromAlertConfig(true),
+        total: getQueryModelForAppAlertFromAlertConfig(true)
+      };
+    }
     return { impacted: getQueryModelForAppAlertFromAlertConfig(false), total: null };
   }
 
@@ -186,7 +209,23 @@ function createFilterExpressionsForAppAlert(
   }
 
   function getQueryModelForAppAlertFromAlertConfig(excludeViolationRelatedFilters: boolean) {
-    if (alertConfig?.rule.alertType === 'throughput') {
+    //If the alert type is throughput, and it is a website or mobile app alert
+    if (
+      alertConfig?.rule?.alertType === 'throughput' &&
+      (entityUtils.isWebsiteEntityType(entityType) || entityUtils.isMobileAppEntityType(entityType))
+    ) {
+      const entityId = entityUtils.isMobileAppEntityType(entityType) ? mobileAppId : websiteId;
+      return toBackendQueryModel(
+        getEnrichedAnalyzeTagFilterFormModelImpactedBeacons({
+          alertId: null,
+          entityId: entityId,
+          entityType: entityType,
+          excludeViolationRelatedFilters: excludeViolationRelatedFilters
+        })
+      );
+    }
+    //If the alert type is throughput, and it is an application alert
+    else if (alertConfig?.rule?.alertType === 'throughput' && entityUtils.isApplicationEntity(entityType)) {
       return toBackendQueryModel(
         getEnrichedAnalyzeTagFilterFormModel({
           alertConfig,
@@ -200,12 +239,26 @@ function createFilterExpressionsForAppAlert(
         })
       );
     }
-
-    return toBackendQueryModel(
-      impactedTracesTagFilterExpressionGenerator({
-        alertId: alertId,
-        applicationId: applicationId
-      })
-    );
+    //If alert type is not throughput, and it is a website or mobile app entity
+    else if (entityUtils.isWebsiteEntityType(entityType) || entityUtils.isMobileAppEntityType(entityType)) {
+      const entityId = entityUtils.isMobileAppEntityType(entityType) ? mobileAppId : websiteId;
+      return toBackendQueryModel(
+        getEnrichedAnalyzeTagFilterFormModelImpactedBeacons({
+          alertId: alertId,
+          entityId: entityId,
+          entityType: entityType,
+          excludeViolationRelatedFilters: excludeViolationRelatedFilters
+        })
+      );
+    }
+    //Alert type is not throughput, and it is an application entity
+    else {
+      return toBackendQueryModel(
+        impactedTracesTagFilterExpressionGenerator({
+          alertId: alertId,
+          applicationId: applicationId
+        })
+      );
+    }
   }
 }

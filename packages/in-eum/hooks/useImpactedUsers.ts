@@ -15,6 +15,9 @@ import {
   CursorPaginatedResult,
   APImpactedUsersByWebsiteOrAppResultItem,
   JoinSource,
+  MobileAppMetricConfiguration,
+  WebsiteMetricConfiguration,
+  EumImpactedBeaconMetricConfiguration
 } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -25,6 +28,8 @@ import getAPImpactedUsersByWebsiteOrApp, {
 // eslint-disable-next-line no-restricted-imports
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+// @ts-ignore
+import * as entityUtils from 'in-services/entityUtils';
 import { FetchedState, FetchStatus } from 'in-hooks/utils/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -67,7 +72,9 @@ export interface ImpactedUsersMetricsResult {
 }
 
 export function useImpactedUsersMetrics(
-  { impacted, total }: UseImpactedUsersMetricsProps, alertType: string | undefined
+  { impacted, total }: UseImpactedUsersMetricsProps,
+  alertType: string | undefined,
+  entityType: string | unknown
 ): ImpactedUsersMetricsResult {
   const timeForTraceEstimation = adjustTimeConfigForTraceEstimation(
     total?.joinFilterExpression ? total.timeConfig : impacted.timeConfig
@@ -75,56 +82,58 @@ export function useImpactedUsersMetrics(
 
   return (
     useObservable(() => {
+      const [impactedUsersJoinConfig, totalUsersJoinConfig] = [
+        'beaconByTrace.truncatedBackendTraceId',
+        'beaconByTrace.configId'
+      ];
       // LET US TRY AND RUN THE FOURTH QUERY HERE
-      if (alertType === 'throughput'){
-        return impactedUsersLegacyQueries({impacted, total}, timeForTraceEstimation)
+      if (alertType === 'throughput' && entityUtils.isApplicationEntity(entityType)) {
+        return impactedUsersLegacyQueries({ impacted, total }, timeForTraceEstimation);
       }
-      else {
-        const [impactedUsersJoinConfig, totalUsersJoinConfig] = [
-          'beaconByTrace.truncatedBackendTraceId',
-          'beaconByTrace.configId'
-        ];
-        const impactedUsersObservable = getUnifiedMetrics({
-          metrics: {
-            impactedUsers: makeEumMetricConfiguration(
-              impacted.timeConfig,
-              impacted.joinFilterExpression,
-              impactedUsersJoinConfig,
-              'JOIN_SOURCE_EUM_IMPACTED_TRACES'
-            )
-          }
-        });
+      let impactedUsersObservable;
+      let totalUsersObservable;
+      if (
+        alertType === 'throughput' &&
+        (entityUtils.isWebsiteEntityType(entityType) || entityUtils.isMobileAppEntityType(entityType))
+      ) {
+        impactedUsersObservable = usersReportforWebsiteOrMobile({ impacted, total }, entityType);
+        totalUsersObservable = just(success<UnifiedMetricsResult[]>([]));
+      } else {
+        impactedUsersObservable = getImpactedUsersObservable(impacted, impactedUsersJoinConfig, entityType);
+        totalUsersObservable = getTotalUsersObservable({ impacted, total }, totalUsersJoinConfig, entityType);
+      }
 
-        const totalUsersObservable = total?.joinFilterExpression
-          ? getUnifiedMetrics({
-              metrics: {
-                totalUsers: makeEumMetricConfiguration(total.timeConfig, total.joinFilterExpression, totalUsersJoinConfig, 'JOIN_SOURCE_EUM_IMPACTED_TRACES')
-              }
+      const APImpactedUsersByWebsiteOrAppObservable = entityUtils.isApplicationEntity(entityType)
+        ? getAPImpactedUsersByWebsiteOrApp(
+            makeAPImpactedUsersByWebsiteOrAppQuery({
+              timeConfig: impacted.timeConfig,
+              joinFilterExpression: impacted.joinFilterExpression,
+              joinSource: 'JOIN_SOURCE_EUM_IMPACTED_TRACES'
             })
-          : alwaysNull;
+          )
+        : just(
+            success<CursorPaginatedResult<APImpactedUsersByWebsiteOrAppResultItem>>({
+              items: [],
+              canLoadMore: false,
+              totalHits: 0,
+              totalRepresentedItemCount: 0,
+              totalRetainedItemCount: 0
+            })
+          );
 
-        const APImpactedUsersByWebsiteOrAppObservable = getAPImpactedUsersByWebsiteOrApp(
-          makeAPImpactedUsersByWebsiteOrAppQuery({
-            timeConfig: impacted.timeConfig,
-            joinFilterExpression: impacted.joinFilterExpression,
-            joinSource: 'JOIN_SOURCE_EUM_IMPACTED_TRACES'
-          })
-        );
-
-        return combineLatest([
-          impactedUsersObservable,
-          totalUsersObservable,
-          APImpactedUsersByWebsiteOrAppObservable
-        ]).map(([resultImpacted, resultTotal, resultAPImpacted]) =>
-          expandResults({
-            timeForTraceEstimation: timeForTraceEstimation,
-            adjustedTimeConfig: undefined,
-            impacted: resultImpacted,
-            total: resultTotal,
-            websitesOrMobiles: resultAPImpacted
-          })
-        );
-      }
+      return combineLatest([
+        impactedUsersObservable,
+        totalUsersObservable,
+        APImpactedUsersByWebsiteOrAppObservable
+      ]).map(([resultImpacted, resultTotal, resultAPImpacted]) =>
+        expandResults({
+          timeForTraceEstimation: timeForTraceEstimation,
+          adjustedTimeConfig: undefined,
+          impacted: resultImpacted,
+          total: resultTotal,
+          websitesOrMobiles: resultAPImpacted
+        })
+      );
     }, [impacted, total]) ?? {
       timeForTraceEstimation: timeForTraceEstimation,
       traceEstimation: expandFetchedState(resultToFetchedStateResponse(pendingResult)),
@@ -136,16 +145,110 @@ export function useImpactedUsersMetrics(
   );
 }
 
+function getTotalUsersObservable(
+  { impacted, total }: UseImpactedUsersMetricsProps,
+  totalUsersJoinConfig: string,
+  entityType: string | unknown
+) {
+  if (entityUtils.isWebsiteEntityType(entityType)) {
+    return getUnifiedMetrics({
+      metrics: {
+        totalUsers: makeImpactedBeaconConfiguration(
+          'WEBSITE',
+          impacted.timeConfig,
+          total?.joinFilterExpression || undefined
+        )
+      }
+    });
+  } else if (entityUtils.isMobileAppEntityType(entityType)) {
+    return getUnifiedMetrics({
+      metrics: {
+        totalUsers: makeImpactedBeaconConfiguration(
+          'MOBILE_APP',
+          impacted.timeConfig,
+          total?.joinFilterExpression || undefined
+        )
+      }
+    });
+  } else {
+    return total?.joinFilterExpression
+      ? getUnifiedMetrics({
+          metrics: {
+            totalUsers: makeEumMetricConfiguration(
+              total.timeConfig,
+              total.joinFilterExpression,
+              totalUsersJoinConfig,
+              'JOIN_SOURCE_EUM_IMPACTED_TRACES'
+            )
+          }
+        })
+      : alwaysNull;
+  }
+}
+
+function getImpactedUsersObservable(
+  impacted: UseImpactedUsersMetricsProps['impacted'],
+  impactedUsersJoinConfig: string,
+  entityType: string | unknown
+) {
+  if (entityUtils.isWebsiteEntityType(entityType) || entityUtils.isMobileAppEntityType(entityType)) {
+    return getUnifiedMetrics({
+      metrics: {
+        impactedUsers: makeImpactedBeaconConfiguration(
+          'EUM_IMPACTED_BEACON',
+          impacted.timeConfig,
+          impacted.joinFilterExpression
+        )
+      }
+    });
+  } else {
+    return getUnifiedMetrics({
+      metrics: {
+        impactedUsers: makeEumMetricConfiguration(
+          impacted.timeConfig,
+          impacted.joinFilterExpression,
+          impactedUsersJoinConfig,
+          'JOIN_SOURCE_EUM_IMPACTED_TRACES'
+        )
+      }
+    });
+  }
+}
+
+function usersReportforWebsiteOrMobile(
+  { impacted, total }: UseImpactedUsersMetricsProps,
+  entityType: string | unknown
+) {
+  if (entityUtils.isWebsiteEntityType(entityType)) {
+    return getUnifiedMetrics({
+      metrics: {
+        impactedUsers: makeImpactedBeaconConfiguration(
+          'WEBSITE',
+          impacted.timeConfig,
+          total?.joinFilterExpression || undefined
+        )
+      }
+    });
+  } else {
+    return getUnifiedMetrics({
+      metrics: {
+        impactedUsers: makeImpactedBeaconConfiguration(
+          'MOBILE_APP',
+          impacted.timeConfig,
+          total?.joinFilterExpression || undefined
+        )
+      }
+    });
+  }
+}
+
 function impactedUsersLegacyQueries(
-    {impacted, total}: UseImpactedUsersMetricsProps,
-    timeForTraceEstimation: TimeConfig
-  ){
+  { impacted, total }: UseImpactedUsersMetricsProps,
+  timeForTraceEstimation: TimeConfig
+) {
   return getUnifiedMetrics({
     metrics: {
-      traces: makeTotalTracesQuery(
-        timeForTraceEstimation,
-        total?.joinFilterExpression || impacted.joinFilterExpression
-      )
+      traces: makeTotalTracesQuery(timeForTraceEstimation, total?.joinFilterExpression || impacted.joinFilterExpression)
     }
   }).flatMap(totalTraces => {
     const zeroResult: Result<Array<UnifiedMetricsResult>> = success<Array<UnifiedMetricsResult>>([
@@ -195,23 +298,33 @@ function impactedUsersLegacyQueries(
 
     const impactedUsersObservable = getUnifiedMetrics({
       metrics: {
-        impactedUsers: makeEumMetricConfiguration(adjustedTimeConfig, impacted.joinFilterExpression, 'beaconByTrace.truncatedBackendTraceId', 'JOIN_SOURCE_APPLICATION')
+        impactedUsers: makeEumMetricConfiguration(
+          adjustedTimeConfig,
+          impacted.joinFilterExpression,
+          'beaconByTrace.truncatedBackendTraceId',
+          'JOIN_SOURCE_APPLICATION'
+        )
       }
     });
     const totalUsersObservable = total?.joinFilterExpression
       ? getUnifiedMetrics({
           metrics: {
-            totalUsers: makeEumMetricConfiguration(adjustedTimeConfig, total.joinFilterExpression, 'beaconByTrace.truncatedBackendTraceId', 'JOIN_SOURCE_APPLICATION')
+            totalUsers: makeEumMetricConfiguration(
+              adjustedTimeConfig,
+              total.joinFilterExpression,
+              'beaconByTrace.truncatedBackendTraceId',
+              'JOIN_SOURCE_APPLICATION'
+            )
           }
         })
       : alwaysNull;
-      const APImpactedUsersByWebsiteOrAppObservable = getAPImpactedUsersByWebsiteOrApp(
-        makeAPImpactedUsersByWebsiteOrAppQuery({
-          timeConfig: impacted.timeConfig,
-          joinFilterExpression: impacted.joinFilterExpression,
-          joinSource: 'JOIN_SOURCE_APPLICATION'
-        })
-      );
+    const APImpactedUsersByWebsiteOrAppObservable = getAPImpactedUsersByWebsiteOrApp(
+      makeAPImpactedUsersByWebsiteOrAppQuery({
+        timeConfig: impacted.timeConfig,
+        joinFilterExpression: impacted.joinFilterExpression,
+        joinSource: 'JOIN_SOURCE_APPLICATION'
+      })
+    );
 
     return combineLatest([impactedUsersObservable, totalUsersObservable, APImpactedUsersByWebsiteOrAppObservable]).map(
       ([resultImpacted, resultTotal, resultAPImpacted]) =>
@@ -347,6 +460,27 @@ function expandFetchedState<T>(fetchedState: FetchedState<T>): ExpandedFetchedSt
     state,
     errors,
     progress
+  };
+}
+
+function makeImpactedBeaconConfiguration(
+  source: 'EUM_IMPACTED_BEACON' | 'EUM' | 'WEBSITE' | 'MOBILE_APP',
+  timeConfig: TimeConfig,
+  tagFilterExpression: TagFilterExpressionElementUnion | undefined
+):
+  | MobileAppMetricConfiguration
+  | EumMetricConfiguration
+  | WebsiteMetricConfiguration
+  | EumImpactedBeaconMetricConfiguration {
+  return {
+    source: source,
+    aggregation: 'DISTINCT_COUNT',
+    metric: 'uniqueUsersOrSessions',
+    timeShift: { offset: 0 },
+    timeConfig,
+    resultType: 'SINGLE_NUMBER',
+    tagFilterExpression: tagFilterExpression,
+    beaconType: 'ALL'
   };
 }
 

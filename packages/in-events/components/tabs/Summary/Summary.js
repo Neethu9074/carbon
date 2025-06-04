@@ -112,11 +112,7 @@ export default function Summary(props) {
           <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
         ) : (
           <>
-            <EventDetailsKPIs
-              event={event}
-              isIncident={isIncident}
-              isApplicationSmartAlert={isApplicationSmartAlertEvent(event)}
-            />
+            <EventDetailsKPIs event={event} isIncident={isIncident} />
             <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
           </>
         )}

@@ -11,14 +11,16 @@ import { useImpactedUsersMetrics } from 'in-eum/hooks/useImpactedUsers';
 import { TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 
 interface ImpactedUsersProps {
-  alertType?: string ;
+  entityType?: string | unknown;
+  alertType?: string;
   timeConfig: TimeConfig;
   joinFilterForImpactedUsers: TagFilterExpressionElementUnion;
-  joinFilterForTotalUsers?: TagFilterExpressionElementUnion | null;
+  joinFilterForTotalUsers: TagFilterExpressionElementUnion | null;
   isKPI: boolean;
 }
 
 export default function ImpactedUsers({
+  entityType,
   alertType,
   timeConfig,
   joinFilterForImpactedUsers,
@@ -32,15 +34,15 @@ export default function ImpactedUsers({
     }),
     [joinFilterForImpactedUsers, joinFilterForTotalUsers, timeConfig]
   );
-
-  const metricImpacts = useImpactedUsersMetrics(metricConfig, alertType);
+  const metricImpacts = useImpactedUsersMetrics(metricConfig, alertType, entityType);
 
   return (
     <ImpactedUsersPresenter
+      entityType={entityType}
       alertType={alertType}
       timeConfig={timeConfig}
       metricImpacts={metricImpacts}
-      downloadProp={{ joinFilterForImpactedUsers }}
+      downloadProp={{ tagFilterExpression: joinFilterForImpactedUsers }}
       isKPI={isKPI}
     />
   );

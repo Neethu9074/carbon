@@ -15,6 +15,8 @@ import {
   calculateOverallStatus,
   estimateTotalCount
 } from 'in-eum/hooks/useImpactedUsers';
+// @ts-expect-error TS migration: No types available for 'in-services/entityUtils'
+import * as entityUtils from 'in-services/entityUtils';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import AnalyzeImpactedUsersButton from 'in-eum/ImpactedUsers/AnalyzeImpactedUsersButton';
@@ -31,16 +33,18 @@ import locals from './ImpactedUsersPresenter.mless';
 const countFormatter = getIntlNumberFormatter();
 
 interface ImpactedUsersPresenterProps {
+  entityType?: string | unknown;
   alertType?: string;
   timeConfig: TimeConfig;
   metricImpacts: ImpactedUsersMetricsResult;
   downloadProp: {
-    joinFilterForImpactedUsers: TagFilterExpressionElementUnion;
+    tagFilterExpression: TagFilterExpressionElementUnion;
   };
   isKPI: boolean;
 }
 
 export default function ImpactedUsersPresenter({
+  entityType,
   alertType,
   timeConfig,
   metricImpacts,
@@ -127,15 +131,18 @@ export default function ImpactedUsersPresenter({
             <span className={locals.DescriptionText}>{t('in-eum:countTextImpactedUsers')}</span>
           </Col>
         </Row>
-        <Row withoutSideMargin>
-          <Col lg={12}>
-            <DataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-            {carbonRows && carbonRows?.length === 0 && <NoDataAvailable height={150} />}
-          </Col>
-        </Row>
+        {entityUtils.isApplicationEntity(entityType) ? (
+          <Row withoutSideMargin>
+            <Col lg={12}>
+              <DataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+              {carbonRows && carbonRows?.length === 0 && <NoDataAvailable height={150} />}
+            </Col>
+          </Row>
+        ) : null}
         <Row withoutSideMargin>
           <Col>
             <AnalyzeImpactedUsersButton
+              entityType={entityType}
               alertType={alertType}
               disabled={
                 overallStatus.pending ||

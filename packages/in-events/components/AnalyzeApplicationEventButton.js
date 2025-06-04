@@ -24,6 +24,7 @@ import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import * as entityUtils from 'in-services/entityUtils';
 import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
 
