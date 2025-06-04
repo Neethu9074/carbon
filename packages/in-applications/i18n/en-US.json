@@ -93,6 +93,7 @@
   "buttonInspectIssue_1": "Inspect {{count}} issue",
   "buttonInspectIssue_2": "Inspect {{count}} issues",
   "buttonAnalyzeCalls": "Analyze calls",
+  "buttonAnalyzeSubtraces": "Analyze subtraces",
   "buttonAnalyzeServices": "Analyze services",
   "buttonAnalyzeEndpoints": "Analyze endpoints",
   "buttonClear": "Clear",

@@ -10,6 +10,7 @@ import { Button } from '@instana/carbon';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { t } from 'in-i18n';
 
 interface AnalyzeSubtracesButtonProps {
@@ -17,21 +18,22 @@ interface AnalyzeSubtracesButtonProps {
   subtraceName: string;
 }
 export default function AnalyzeSubtracesButton({ subtraceId, subtraceName }: AnalyzeSubtracesButtonProps) {
+  const { goToPath } = useNavigation();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-
+  const linkToSubtraceAnalyze = getLinkToApplicationAnalyze({
+    subtraceId,
+    subtraceName,
+    dataSource: 'subtraces'
+  });
   return (
     <Button
       kind="primary"
-      iconDescription={t('in-applications:buttonAnalyzeCalls')}
+      iconDescription={t('in-applications:buttonAnalyzeSubtraces')}
       renderIcon={() => <RenderIcon size="xs" type="lib_application_call" />}
       size="sm"
-      href={getLinkToApplicationAnalyze({
-        subtraceId,
-        subtraceName,
-        dataSource: 'subtraces'
-      })}
+      onClick={() => goToPath(linkToSubtraceAnalyze.slice(2))}
     >
-      {t('in-applications:buttonAnalyzeCalls')}
+      {t('in-applications:buttonAnalyzeSubtraces')}
     </Button>
   );
 }
