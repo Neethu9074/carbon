@@ -41,6 +41,7 @@ const items: KubernetesClusterListItem[] = [
       daemonSets: 16,
       deployments: 62,
       deploymentConfigs: 0,
+      containers: 0,
       statefulSets: 2,
       pods: 256,
       deploymentCounters: {
@@ -92,6 +93,7 @@ const items: KubernetesClusterListItem[] = [
     workloads: {
       daemonSets: 2,
       deployments: 6,
+      containers: 0,
       deploymentConfigs: 0,
       statefulSets: 0,
       pods: 16,
@@ -144,6 +146,7 @@ const items: KubernetesClusterListItem[] = [
     workloads: {
       daemonSets: 16,
       deployments: 44,
+      containers: 0,
       deploymentConfigs: 0,
       statefulSets: 1,
       pods: 77,
