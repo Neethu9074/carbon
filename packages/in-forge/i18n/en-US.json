@@ -13874,6 +13874,18 @@
       "gcBeforePercentage": "Before GC percentage",
       "gcAfterPercentage": "After GC percentage"
     },
+    "nutanixHost": {
+      "cpuUsage": "CPU usage",
+      "memoryUsage": "Memory usage",
+      "datacenterAverageIoLatency": "Host average IO latency",
+      "totalIoSizeBytes": "Host IO bytes transferred",
+      "datacenterIoOps":"Datacenter operations",
+      "controllerReadIops": "Controller read operations",
+      "controllerWriteIops": "Controller write operations",
+      "contentCacheHitPpm": "Content cache hit percentage",
+      "contentCacheLookups": "Content cache lookups",
+      "contentCacheMemoryUsage": "Content cache memory usage"
+    },
     "oTelDatabase": {
       "name": "Database Name",
       "kind": "Kind",
