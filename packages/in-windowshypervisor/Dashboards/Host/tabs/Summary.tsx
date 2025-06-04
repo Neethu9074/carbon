@@ -12,6 +12,7 @@ import { Card } from '@instana/components';
 // @ts-expect-error needs migration
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import InfrastructureMetricChart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DatastoreTable from 'in-windowshypervisor/Dashboards/Host/tabs/StorageDiskTable';
 import { number, kiloBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -35,7 +36,7 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
         <InfraMetricKpiCard
           title={t('in-windowshypervisor:dashboards.storageSpaceUsed')}
           snapshotId={snapshotId}
-          metric="memoryUsedKib"
+          metric="freeStorageSpaceKib"
           formatter={kiloBytesTwoDecimalPlaces}
         />
       </KpiGridRow>
@@ -69,6 +70,7 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
           </Card>
         </Col>
       </Row>
+      <DatastoreTable data={host} timeConfig={timeConfig} />
     </>
   );
 }

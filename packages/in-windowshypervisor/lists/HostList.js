@@ -42,6 +42,7 @@ const columnDefinitions = [
   {
     id: 'virtualMachines',
     label: t('in-windowshypervisor:noOfVms'),
+    sortable: false,
     getContent: item => <TableEntityCounter count={item.noOfVms} />
   },
   {

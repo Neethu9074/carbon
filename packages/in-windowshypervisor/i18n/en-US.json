@@ -2,10 +2,12 @@
     "windowshypervisor": "Windows Hypervisor",
     "noMonitoringDataFound": "No monitoring data found",
     "hostName": "Host name",
-    "noOfVms": "No of virutal machines",
+    "noOfVms": "Number of virutal machines",
     "cpuUsage": "CPU usage",
     "memoryUsage": "Memory usage",
     "summary": "Summary",
+    "vm": "VM",
+    "virtualMachines": "Virtual machines",
     "host": "Host",
     "hosts": "Hosts",
     "dashboards":{
@@ -15,8 +17,26 @@
         "freeRAM": "Free RAM",
         "ram": "RAM",
         "totalRAM": "Total RAM",
+        "disksAttached": "Disks attached",
         "cpuAveragePercentage": "CPU average (%)",
         "cpuAverage": "CPU average",
-        "storageSpaceUsed": "Total storage space"
+        "storageSpaceUsed": "Available storage space",
+        "vmName": "Name",
+        "noOfCpus": "Number of CPUs",
+        "noOfCores": "Number of cores",
+        "deviceID": "Device ID",
+        "volumeName": "Volume name",
+        "freeSpace": "Free space",
+        "size": "Size",
+        "noDataAvailable": {
+          "windowsHypervisorVMTitle": "No virtual machines available",
+          "windowsHypervisorVMDescription": "There were no virtual machines retrieved for the selected time range."
+        },
+        "vm": {
+          "status": "Status",
+          "state": "State",
+          "ramAssigned": "RAM assigned",
+          "macAddress": "MAC address"
+        }
     }
 }

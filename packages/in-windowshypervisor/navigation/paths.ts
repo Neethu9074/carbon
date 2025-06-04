@@ -37,6 +37,7 @@ export enum WindowsHypervisorEntities {
 
 type LinkParams = {
   hostId?: string;
+  vmId?: string | null;
 };
 
 export const useWindowsHypervisorEntityLink = (
