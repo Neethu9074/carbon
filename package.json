@@ -66,6 +66,7 @@
     "@amplitude/experiment-js-client": "^1.11.0",
     "@babel/core": "^7.12.3",
     "@babel/runtime": "7.26.10",
+    "@carbon/ai-chat": "0.3.2-1",
     "@carbon/colors": "^11.21.0",
     "@carbon/icons": "^11.56.0",
     "@carbon/pictograms-react": "11.63.0",

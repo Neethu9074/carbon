@@ -3,17 +3,18 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
-
-import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import React, { useEffect, useMemo } from 'react';
+import { ChatContainer } from '@carbon/ai-chat';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
-import { ChatContainer } from '@instana/ai-chat';
 
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import TableChartSwitcher from 'in-events/components/AIChat/TableChartSwitcher';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import EditableOptions from 'in-events/components/AIChat/EditableOptions';
 import NLGResponse from 'in-events/components/AIChat/NLGResponse';
+import PromptLibrary from "./CustomPanels/PromptLibrary"
 
 import locals from './AIChat.mless';
 
@@ -100,10 +101,19 @@ export function AIChat() {
   MoveAIChatLauncher('50px');
   const { trackCta } = useSegmentTracking();
 
+
+  const renderWriteableElements = useMemo(
+    () => ({
+      customPanelElement: <PromptLibrary />,
+    }),
+    [],
+  );
+
   return (
     <>
       <ChatContainer
         config={config}
+        renderWriteableElements={renderWriteableElements}
         renderUserDefinedResponse={({ messageItem }, instance) => {
           if (!messageItem) {
             return;
@@ -123,6 +133,25 @@ export function AIChat() {
           instance.trackCta = trackCta;
         }}
         onAfterRender={instance => {
+
+
+          const customPanel = instance.customPanels.getPanel();
+          const panelOptions = {
+            title: 'Prompt library',
+          };
+
+
+          // instance.writeableElements.customPanelElement = <div>{"HEEEYYYOOO"}</div>
+          instance.updateCustomMenuOptions([
+            { text: 'Prompt library', handler: () => customPanel.open(panelOptions)},
+          ]);
+
+
+
+
+
+
+
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
           const draggableIcon = document.getElementById(DRAGGABLE_ICON);
 
