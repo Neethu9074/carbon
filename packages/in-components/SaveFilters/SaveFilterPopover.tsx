@@ -31,15 +31,15 @@ import {
 
 import { clickedFilter$, setClickedFilter, cleanTagFilterExpression } from 'in-applications/analyze/utils/filterUtils';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { createFilter, updateFilter } from 'in-applications/api/filters';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
+import { RenderIcon } from 'in-components/SaveFilters/RenderIcon';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-import locals from 'in-applications/analyze/components/SaveFilters/SaveFilterPopover.mless';
+import locals from 'in-components/SaveFilters/SaveFilterPopover.mless';
 
 interface Props {
   backendQueryModel: TagFilterExpressionElementUnion;

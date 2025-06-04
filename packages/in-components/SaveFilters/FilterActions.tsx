@@ -10,18 +10,26 @@ import { Group, TagFilterExpressionElementUnion, DataSource, SavedFilter, Result
 import { CarbonStack as Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { SaveFilterPopover } from 'in-applications/analyze/components/SaveFilters/SaveFilterPopover';
-import { SavedFilters } from 'in-applications/analyze/components/SaveFilters/SavedFilters';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { SaveFilterPopover } from 'in-components/SaveFilters/SaveFilterPopover';
+import { SavedFilters } from 'in-components/SaveFilters/SavedFilters';
 import { getSavedFilters } from 'in-applications/api/filters';
 import { pendingResult } from 'in-services/fixedObjects';
+
+export type SetFilterUrlState = ({
+  groupBy,
+  formModel
+}: {
+  groupBy: Group | {};
+  formModel: FormModelElement[];
+}) => void;
 
 interface Props {
   dataSource: DataSource;
   group: Group;
   formModel: FormModelElement[];
   backendQueryModel: TagFilterExpressionElementUnion;
-  setUrlState: ({ groupBy, formModel }: { groupBy: Group | {}; formModel: FormModelElement[] }) => void;
+  setUrlState: SetFilterUrlState;
 }
 export const FilterActions = ({ backendQueryModel, dataSource, formModel, group, setUrlState }: Props): JSX.Element => {
   const [filterToEdit, setFilterToEdit] = useState<SavedFilter | null>();

@@ -17,12 +17,12 @@ import CallGroupingConfigurator from 'in-applications/analyze/components/workspa
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import SubtraceQueryBuilder from 'in-applications/analyze/components/workspace/SubtraceQueryBuilder';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
-import { FilterActions } from 'in-applications/analyze/AnalyzeView2_0/components/FilterActions';
 import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
+import { FilterActions } from 'in-components/SaveFilters/FilterActions';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';

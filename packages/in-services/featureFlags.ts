@@ -59,6 +59,7 @@ export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const regexMatchEnabled = isFeatureFlagEnabled('regexMatchEnabled');
+export const logFilterSaving = isFeatureFlagEnabled('logFilterSaving');
 
 export const patternRecognitionEnabled = isFeatureFlagEnabled('patternRecognitionEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');

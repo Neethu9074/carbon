@@ -9,8 +9,8 @@ import React from 'react';
 import { Button } from '@instana/carbon';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { RenderIcon } from 'in-components/SaveFilters/RenderIcon';
 import { t } from 'in-i18n';
 
 interface AnalyzeSubtracesButtonProps {

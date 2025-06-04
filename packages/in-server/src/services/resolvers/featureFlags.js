@@ -952,6 +952,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logFilterSaving',
+    instanaCtlKey: 'feature.log.filterSaving.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'regexMatchEnabled',
     instanaCtlKey: 'feature.regex.match.enabled',
     defaultValue: false

@@ -23,18 +23,18 @@ import {
 import { DataSource, Group, Result, SavedFilter } from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { DeleteFilterModal } from 'in-applications/analyze/components/SaveFilters/DeleteFilterModal';
-import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
+import { DeleteFilterModal } from 'in-components/SaveFilters/DeleteFilterModal';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { setClickedFilter } from 'in-applications/analyze/utils/filterUtils';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import usePopoverClickHandler from 'in-hooks/usePopoverClickHandler';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
+import { RenderIcon } from 'in-components/SaveFilters/RenderIcon';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-import locals from 'in-applications/analyze/components/SaveFilters/SavedFilters.mless';
+import locals from 'in-components/SaveFilters/SavedFilters.mless';
 
 interface SavedFiltersProps {
   dataSource: DataSource;

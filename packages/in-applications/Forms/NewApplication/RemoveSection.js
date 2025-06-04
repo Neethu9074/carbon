@@ -17,10 +17,10 @@ import {
 } from '@instana/components';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { deleteApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationsList } from 'in-applications/navigation/paths';
+import { RenderIcon } from 'in-components/SaveFilters/RenderIcon';
 import { combineDataAndError } from 'in-services/util/ro';
 import { Trans, t } from 'in-i18n';
 

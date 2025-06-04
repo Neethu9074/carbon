@@ -200,6 +200,7 @@ module.exports = {
   whatsNewBannerEnabled: true,
   allSmartAlertsViewEnabled: false,
   apMetricsDeltaFetchingEnabled: true,
+  logFilterSaving: true,
   isControlledEnvEnabled: false,
   blockLogDeletionsEnabled: false,
   logFormattingEnabled: true

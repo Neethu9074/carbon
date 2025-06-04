@@ -10,6 +10,7 @@ import React from 'react';
 import {
   AggregationType,
   Cursor,
+  DataSource,
   Group,
   MetricDescription,
   Result,
@@ -111,7 +112,7 @@ export interface StateManagementChildProps {
     current?: Record<string, number>;
   };
   groupLabel: string;
-  dataSource: string;
+  dataSource: DataSource | 'LOGS';
   isLoading: boolean;
   isValid: boolean;
   refreshFixatedTimeConfig: () => void;
@@ -162,6 +163,7 @@ export interface StateManagementChildProps {
   setDetailId: (id: string) => void;
   getFacetedSearchSuggestions: (params: GetFacetedSearchSuggestionsParams) => Observable<GetLogGroupsResponse>;
   setSelectedId: (selectedId: string | null) => void;
+  setUrlState: (selectedId: string | null) => void;
 }
 
 interface GroupedView {
@@ -210,7 +212,7 @@ export interface TimeFixatingAnalyzeStateManagementProps {
 
 export interface StateManagementProps extends TimeFixatingAnalyzeStateManagementProps {
   refreshFixatedTimeConfig?: () => void;
-  defaultDataSource: string;
+  defaultDataSource: Lowercase<DataSource | 'LOGS'>;
   getMetricCatalog?: GetMetricCatalog;
   getMetricTemplates?: ObservableCreator<unknown, unknown>;
   urlStateDefinition?: Options<UrlState>;

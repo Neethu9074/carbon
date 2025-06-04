@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { DataSource, TagFilter } from '@instana/types';
 import { Message, Stack } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { TagFilter } from '@instana/types';
 
 import {
   getMaximumExpressionDepth,
@@ -16,12 +16,15 @@ import {
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { FilterActions, SetFilterUrlState } from 'in-components/SaveFilters/FilterActions';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
+import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
+import { logFilterSaving } from 'in-services/featureFlags';
 import Sections from 'in-components/workspace/Sections';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
@@ -52,7 +55,8 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
     groupBy,
     disableHeader,
     showGroupingConfiguration = true,
-    showTimeSelection = true
+    showTimeSelection = true,
+    setUrlState
   } = props;
   const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged } = useAnalyzeTracker();
   const tracking: QueryBuilderTrackingFunctions = {
@@ -99,6 +103,19 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
                       tagName: group.groupbyTag
                     })
                 }}
+              />
+            )}
+            {logFilterSaving && (
+              <ActionSection
+                right={
+                  <FilterActions
+                    backendQueryModel={backendQueryModel}
+                    group={groupBy}
+                    formModel={formModel}
+                    dataSource={dataSource as DataSource}
+                    setUrlState={setUrlState as unknown as SetFilterUrlState}
+                  />
+                }
               />
             )}
           </Sections>

@@ -7,7 +7,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { SaveFilterPopover } from 'in-applications/analyze/components/SaveFilters/SaveFilterPopover';
+import { SaveFilterPopover } from 'in-components/SaveFilters/SaveFilterPopover';
 
 test('disables save button when no filter is selected', () => {
   const setEditFilterMock = jest.fn();
