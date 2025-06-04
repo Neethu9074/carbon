@@ -26,7 +26,7 @@ export function ScopeWrapper({
     <Stack direction="vertical" gap={gap}>
       <Stack direction="vertical" gap={'disabled'}>
         <AlertTypography variant="heading-200" content={title} />
-        <AlertTypography variant="body-small" content={description} color="color600" />
+        <AlertTypography variant="body-regular" content={description} color="color600" />
       </Stack>
       {children}
     </Stack>

@@ -41,7 +41,7 @@ export default function FilterCalls({
             content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeFilterCallsTitle')}
           />
           <AlertTypography
-            variant="body-small"
+            variant="body-regular"
             color="color600"
             content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeFilterCallsDescription')}
           />

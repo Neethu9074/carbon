@@ -8,5 +8,6 @@
   .borderBox {
     border: 1px solid var(--ids-color-option-neutral-300);
     padding: 0.75rem;
+    background-color: var(--cds-layer-01);
   }
 }

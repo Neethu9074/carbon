@@ -28,9 +28,7 @@ export default function TearSheetStepTitleWrapper({
   return (
     <div className={locals.container}>
       <AlertTypography variant={'heading-200'} content={headline} noMargin />
-      <span className={locals.block}>
-        <AlertTypography variant={'body-regular'} color={'color600'} content={description} noMargin />
-      </span>
+      <AlertTypography variant={'body-regular'} color={'color600'} content={description} noMargin />
       {!hideSpace && <Spacer size="gutter" />}
       <>{children}</>
     </div>

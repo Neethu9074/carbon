@@ -8,11 +8,4 @@
   .container {
     width: 100%;
   }
-
-  .titleBlock {
-    margin-bottom: 1.5rem;
-  }
-  .block {
-    display: flex;
-  }
 }

@@ -36,6 +36,7 @@ export default function ForecastAlerting({
       headline={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.title')}
       hideSpace
     >
+      <Spacer size="xsmall" />
       <Stack direction="vertical" gap="xsmall">
         <Toggle
           checked={enabled}
@@ -57,7 +58,7 @@ export default function ForecastAlerting({
         />
 
         <AlertTypography
-          variant="label-01"
+          variant="body-regular"
           color="color600"
           content={t('in-alerting:smartAlerts.infrastructure.tearSheet.forecastAlerting.description')}
         />
