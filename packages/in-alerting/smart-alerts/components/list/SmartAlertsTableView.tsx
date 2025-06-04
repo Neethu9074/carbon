@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useRef, useState } from 'react';
-import { isEmpty } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { isEmpty, isEqual } from 'lodash';
 
 import { CarbonTab, CarbonTabList, CarbonTabPanels } from '@instana/components';
 import { CarbonTabs } from '@instana/components';
@@ -66,7 +66,6 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
     setExternalState
   );
 
-  const listItems = useRef<AlertConfigType[]>([]);
   const fetchedGlobalAlerts = useSmartAlertConfigs(getGlobalAlertConfigFetchFunction);
   const fetchedLocalAlerts = useSmartAlertConfigs(getLocalAlertConfigsFetchFunction);
 
@@ -103,12 +102,17 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
-  const offset = (page - 1) * pageSize;
-  const until = offset + pageSize;
+  const offset = (page - 1) * Number(pageSize);
+  const until = offset + Number(pageSize);
+
+  const [listItems, setListItems] = useState<AlertConfigType[]>([]);
 
   useEffect(() => {
     if (!loading) {
-      listItems.current = [...searchResultsSelected].sort(sortBy(orderBy, orderDirection)).slice(offset, until);
+      const items = [...searchResultsSelected].sort(sortBy(orderBy, orderDirection)).slice(offset, until);
+      if (!isEqual(listItems, items)) {
+        setListItems(items);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchResultsSelected, loading, orderBy, orderDirection, page, pageSize]);
@@ -122,7 +126,7 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
     <SmartAlertTablePresenter
       cardTitle={hasSingleCategory ? getLocalAlertConfigTitle(localSearchResults.length || 0) : undefined}
       columnDefinitions={columnDefinitions}
-      result={getListItems(searchResultsSelected.length, listItems.current, pageSize)}
+      result={getListItems(searchResultsSelected.length, listItems, pageSize)}
       orderBy={orderBy}
       orderDirection={orderDirection}
       page={page}
@@ -156,9 +160,9 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
           {toolBarContent}
         </>
       }
-      allRowSelected={selectedData.length > 0 && selectedData.length === listItems.current.length}
+      allRowSelected={selectedData.length > 0 && selectedData.length === listItems.length}
       rowSelected={selectedData}
-      handleSelectAll={() => handleSelectAll(selectedData, setSelectedRows, listItems.current)}
+      handleSelectAll={() => handleSelectAll(selectedData, setSelectedRows, listItems)}
       handleRowSelect={(row: RowProps) => handleRowSelect(row, selectedData, setSelectedRows)}
       handleToolBarActionCancel={() => handleToolBarActionCancel(setSelectedRows)}
       isSearchable

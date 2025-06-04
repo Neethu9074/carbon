@@ -131,7 +131,7 @@ export function selectActionColumnDefinition(selection, onSelect, width) {
     id: 'actions',
     sortable: false,
     width,
-    getContent({ config }) {
+    getContent: config => {
       return <ListSelectionColumn selection={selection} onSelect={onSelect} config={config} />;
     }
   };

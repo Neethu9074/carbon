@@ -167,6 +167,7 @@
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart Alerts",
+    "titleNoSmartAlertsConfiguredFound": "No Smart Alert configurations found",
     "alertChannelList": {
       "selectAllWarning": "Select all warning",
       "selectAllCritical": "Select all critical",
@@ -1986,7 +1987,7 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, threshold (Long) {{operator}} {{value}} & (Short) < 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}, threshold {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}, threshold {{operator}} {{value}}",
-        "alertListSloAppliedColumnName":"SLOs applied",
+        "alertListSloAppliedColumnName": "SLOs applied",
         "sloApplied": "SLOs Applied",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
