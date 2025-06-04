@@ -54,7 +54,7 @@ function parsePolicy(policy: PolicyFormEntity) {
   return {
     name: policy.name,
     description: policy.description ?? '',
-    actionId: typeConfiguration.runnable.id,
+    actionId: typeConfiguration?.runnable.runConfiguration.actions[0]?.action?.id,
     agentId,
     applyOn: typeConfiguration.condition?.query ? SCOPE.DFQ : SCOPE.ALL,
     query: typeConfiguration.condition?.query ?? '',
