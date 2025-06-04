@@ -23,7 +23,8 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createDynamicQueryB
           ownerType,
           query,
           metric,
-          regex
+          regex,
+          includeHidden: false
         })
     : undefined,
   addTagDefinitionToFormModel: true,

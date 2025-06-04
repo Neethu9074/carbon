@@ -38,7 +38,13 @@ export default function useTagBasedPayloadConfigurator({
 
     return createTagBasedInfraPayloadConfigurator({
       getTagCatalog: () =>
-        getInfraTagCatalog({ filter: matchAllRecentFilter, ownerType: entityType, metric: metricName, regex }),
+        getInfraTagCatalog({
+          filter: matchAllRecentFilter,
+          ownerType: entityType,
+          metric: metricName,
+          regex,
+          includeHidden: false
+        }),
       getSuggestions: getTagValueSuggestions
     });
   }, [metricName, regex, entityType]);

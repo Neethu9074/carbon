@@ -38,7 +38,7 @@ export default function useTagCatalog({
   const filter = { timeConfig: modifiedTimeConfig, tagFilterExpression };
 
   const tagCatalogResult = useObservable(
-    () => getTagCatalog({ filter, metric, ownerType, regex: regex ?? false }),
+    () => getTagCatalog({ filter, metric, ownerType, regex: regex ?? false, includeHidden: false }),
     [timeConfig, metric, ownerType, regex, includeMetricTags]
   );
 
