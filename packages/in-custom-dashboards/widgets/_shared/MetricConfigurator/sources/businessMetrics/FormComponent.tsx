@@ -42,6 +42,7 @@ interface BusinessMetricsFormComponentProps {
   form: MapForm<any>;
   onChange: (path: string[], updater: (f: Item) => Item) => void;
   dataSourceSection: JSX.Element;
+  formatterSection: JSX.Element;
   timeShiftConfiguration: JSX.Element;
   thresholdConfiguration: JSX.Element;
   withAggregationInMetrics: boolean;
@@ -61,6 +62,7 @@ const FormComponent = ({
   form,
   onChange,
   dataSourceSection,
+  formatterSection,
   timeShiftConfiguration,
   thresholdConfiguration,
   withAggregationInMetrics = true,
@@ -232,6 +234,7 @@ const FormComponent = ({
             )}
           </SelectInSection>
         )}
+        {formatterSection}
       </Sections>
 
       {metric && businessMetricQueryBuilder && (
@@ -252,6 +255,7 @@ const FormComponent = ({
           grouping={grouping}
           tagFilterExpressionField={tagFilterExpressionField}
           tagCatalog={enrichedTagCatalog}
+          getSuggestionsProps={{ metric: metric }}
           additionalGetTagCatalogProps={{ metric: metric }}
           onByChange={onByChange}
           onDirectionChange={onDirectionChange}

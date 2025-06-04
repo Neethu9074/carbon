@@ -20,6 +20,8 @@ interface GroupingConfiguratorSectionProps {
   hasError?: boolean;
   fixOverlayLeftAlignment?: boolean;
   additionalGetTagCatalogProps?: any;
+  // pass additional object data into the getSuggestions websocket call
+  getSuggestionsProps?: GetSuggestionsProps;
   SectionWrapper?: React.FunctionComponent<any>;
 }
 declare const GroupingConfiguratorSection = (props: GroupingConfiguratorSectionProps) => JSX.Element;

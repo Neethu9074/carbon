@@ -18,18 +18,20 @@ interface GetTagCatalogProps {
   timeConfig: TimeConfig;
 }
 
+interface GetMetricTagSuggestionsProps extends GetTagSuggestionsProps {
+  metric: string;
+}
+
 const { GroupingConfigurator } = createDynamicGroupingConfigurator<{ metric: string }>({
   getTagCatalog: ({ metric, timeConfig }: GetTagCatalogProps) =>
     getBusinessMetricsTagsCatalog({
       metricName: metric,
       timeConfig: timeConfig
     }),
-  getSuggestions: (params: GetTagSuggestionsProps) => {
-    const { timeConfig, propose, key, value } = params;
+  getSuggestions: (params: GetMetricTagSuggestionsProps) => {
+    const { timeConfig, propose, key, value, metric } = params;
     const query: GetBusinessMetricsTagsSuggestionsQuery = {
-      // TODO:  Need to pass metric in from the grouping configurator,
-      // but the prop doesn't currently exist.
-      metric: 'metric',
+      metric: metric,
       propose: propose,
       key: key,
       value: value,

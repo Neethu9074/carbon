@@ -30,6 +30,7 @@ export default function GroupingConfigurator({
   loadingLabel,
   getTagCatalog,
   additionalGetTagCatalogProps,
+  getSuggestionsProps,
   addTagDefinitionToFormModel,
   disableEntitySelection
 }) {
@@ -94,6 +95,7 @@ export default function GroupingConfigurator({
                 onChange={onChange}
                 onGroupRemoved={tracking?.onGroupRemoved}
                 getSuggestions={getSuggestions}
+                getSuggestionsProps={getSuggestionsProps}
                 group={group}
                 toggle={toggle}
                 ref={refSetter}
