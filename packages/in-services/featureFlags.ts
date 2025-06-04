@@ -395,3 +395,15 @@ export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDa
 export const rcaAiAutomatedInvestigationEnabled = isFeatureFlagEnabled('rcaAiAutomatedInvestigationEnabled', false);
 export const apMetricsDeltaFetchingEnabled = isFeatureFlagEnabled('apMetricsDeltaFetchingEnabled', false);
 export const isControlledEnvEnabled = isFeatureFlagEnabled('isControlledEnvEnabled', false);
+export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
+  'openTelemetryKubernetesUnifiedViewEnabled',
+  false
+);
+export const openTelemetryKubernetesNodesViewEnabled = isFeatureFlagEnabled(
+  'openTelemetryKubernetesNodesViewEnabled',
+  false
+);
+export const openTelemetryKubernetesPodsViewEnabled = isFeatureFlagEnabled(
+  'openTelemetryKubernetesPodsViewEnabled',
+  false
+);

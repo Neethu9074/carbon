@@ -36,7 +36,8 @@ import {
   BaseProps,
   clusterListFullyQualified,
   IdsProps,
-  namespaceListFullyQualified
+  namespaceListFullyQualified,
+  clusterOtelListFullyQualified
 } from 'in-kubernetes/navigation/paths';
 import SortingConfigurator, {
   DropdownItem
@@ -85,6 +86,7 @@ export default function ResourceCardList({
   hasSortingEnabled
 }: Readonly<ResourceCardListProps>) {
   const isClusterType = type === 'cluster';
+  const isOtelClusterType = type === 'otelcluster';
   const urlStateDefinition = getUrlStateDefinition(isClusterType);
   const { location, navigate } = useNavigation();
   const searchRef = useRef<HTMLDivElement>(null);
@@ -137,7 +139,17 @@ export default function ResourceCardList({
     { label: t('in-kubernetes:cloudNative.sortingOptions.cronJobs'), value: cronJobs }
   ]).filter(item => item.value === 'name' || workloads.includes(item.value));
 
-  const pathname = `${isClusterType ? clusterListFullyQualified : namespaceListFullyQualified}/table`;
+  let basePath;
+
+  if (isClusterType) {
+    basePath = clusterListFullyQualified;
+  } else if (isOtelClusterType) {
+    basePath = clusterOtelListFullyQualified;
+  } else {
+    basePath = namespaceListFullyQualified;
+  }
+
+  const pathname = `${basePath}/table`;
 
   return (
     <>

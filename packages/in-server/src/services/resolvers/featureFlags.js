@@ -990,5 +990,20 @@ module.exports = exports = [
     uiClientKey: 'logFormattingEnabled',
     instanaCtlKey: 'feature.log.formatting.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'openTelemetryKubernetesUnifiedViewEnabled',
+    instanaCtlKey: 'feature.open.telemetry.kubernetes.unified.view.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'openTelemetryKubernetesNodesViewEnabled',
+    instanaCtlKey: 'feature.open.telemetry.kubernetes.nodes.view.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'openTelemetryKubernetesPodsViewEnabled',
+    instanaCtlKey: 'feature.open.telemetry.kubernetes.pods.view.enabled',
+    defaultValue: false
   }
 ];

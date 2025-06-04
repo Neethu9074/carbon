@@ -332,7 +332,10 @@
       "title": "Access important information faster",
       "content": "The card view provides more details about your clusters and namespaces at a glance and directly links to each tab page from the dashboard for focused investigation. <br /><br />You can easily move between these new views and table views by clicking the content switcher.",
       "button": "Got it"
-    }
+    },
+     "nodes": "Nodes",
+    "pods": "Pods",
+    "containers": "Containers"
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",
@@ -422,5 +425,15 @@
     "days":"days ago",
     "close": "Close",
     "branch": "Branch"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Instana agent",
+      "description": "View information based on data collected by the Instana agent."
+    },
+    "otelCollector": {
+      "text": "OpenTelemetry collector",
+      "description": "View information based on data collected by the Instana OpenTelemetry collector."
+    }
   }
 }

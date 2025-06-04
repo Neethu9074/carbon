@@ -16,13 +16,13 @@ import { t } from 'in-i18n';
 
 interface AnalyzeCallsProps {
   clusterName: string;
-  namespaceName: string;
-  daemonSetName: string;
-  deploymentName: string;
-  deploymentConfigName: string;
-  serviceName: string;
-  statefulSetName: string;
-  podName: string;
+  namespaceName?: string;
+  daemonSetName?: string;
+  deploymentName?: string;
+  deploymentConfigName?: string;
+  serviceName?: string;
+  statefulSetName?: string;
+  podName?: string;
   groupBy: Partial<Group>;
 }
 

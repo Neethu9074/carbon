@@ -6,19 +6,19 @@
 
 import React from 'react';
 
-import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
+import { getOtelKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getOtelKubernetesClusters';
 import ResourceCardList from 'in-kubernetes/lists/ResourceCardList/ResourceCardList';
 import { useGetClusterDashboard } from 'in-kubernetes/navigation/paths';
 
-export default function ClusterCardView() {
-  const getClusterHrefs = useGetClusterDashboard('cluster');
-  const workloads = ['unhealthyNodes', 'unhealthyDeployments', 'runningPods', 'namespaces', 'services', 'cronJobs'];
+export default function OtelCluster() {
+  const getClusterHrefs = useGetClusterDashboard('otelcluster');
+  const workloads = ['otelNodes', 'otelPods', 'otelContainers'];
 
   return (
     <ResourceCardList
-      type="cluster"
+      type="otelcluster"
       hasSortingEnabled
-      subscription={getKubernetesClustersWithDefaults}
+      subscription={getOtelKubernetesClustersWithDefaults}
       getHrefs={getClusterHrefs}
       workloads={workloads}
     />

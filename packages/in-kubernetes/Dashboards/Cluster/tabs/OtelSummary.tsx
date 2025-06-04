@@ -9,11 +9,6 @@ import React from 'react';
 
 import { AggregationType, KubernetesCluster, ResultType, TimeConfig } from '@instana/types';
 
-import {
-  andQuery,
-  LogsChartInteractionWrapper,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
 import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
@@ -24,6 +19,7 @@ import { bytesTwoDecimalPlaces, percentage, twoDecimalPlaces, zeroDecimalPlaces 
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 // @ts-expect-error
 import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopNamespacesList';
+import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -31,7 +27,6 @@ import { k8sChartColors, k8sClusterChart } from 'in-kubernetes/components/K8sCha
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { summaryTab, useClusterDashboard } from 'in-kubernetes/navigation/paths';
-import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
@@ -42,7 +37,6 @@ import { Col, Row } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
-const showUsage = k8sClusterUsageEnabled;
 interface SummaryProps {
   data: KubernetesCluster;
   timeConfig: TimeConfig;
@@ -52,8 +46,6 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = cluster?.id;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.cluster', snapshotId, timeConfig);
-
   const { running, limits, requests, usage } = k8sChartColors;
   const { pending, capacity, allocated } = k8sClusterChart;
 
@@ -62,9 +54,9 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
     comparisonIncreaseColor: blue.id
   };
 
-  const clusterTagId = tagEquals('id.kubernetesCluster', snapshotId);
+  const clusterTagId = tagEquals('id.oTelK8sCluster', snapshotId);
   const tagFilterExpression = toBackendQueryModel(andQuery(clusterTagId));
-  const type = plugins.kubernetesCluster;
+  const type = plugins.oTelK8sCluster;
 
   const defaultBigNumberMetricConfig = {
     source,
@@ -110,12 +102,10 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   });
 
   function addUsageToMetrics(metricsArr: Metric[], metric: Metric) {
-    if (showUsage) {
+    if (k8sClusterUsageEnabled) {
       metricsArr.push(metric);
-      return metricsArr;
-    } else {
-      return metricsArr;
     }
+    return metricsArr;
   }
 
   return (
@@ -320,12 +310,6 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
             snapshotId={snapshotId}
             hasButtonInActionslane={false}
           />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
 

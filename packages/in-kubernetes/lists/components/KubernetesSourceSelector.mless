@@ -1,0 +1,64 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  li.menuitem {
+    block-size: min-content !important;
+    min-width: fit-content !important;
+  }
+
+  li.menuitem:first-child {
+    padding-top: 0.25rem;
+  }
+
+  li.menuitem:not(first-child) {
+    border-bottom: 0.0625rem solid var(--cds-border-subtle);
+    padding-bottom: 0.25rem;
+    padding-top: 0.25rem;
+  }
+
+  li.menuitem:not(last-child) {
+    padding-bottom: 0.25rem;
+  }
+
+  li.menuitem:last-child {
+    border-bottom: none;
+  }
+
+  .option {
+    min-width: fit-content;
+    display: grid;
+    grid-template-columns: 2rem auto;
+  }
+
+  .optionText {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .optionIcon {
+    align-self: center;
+  }
+
+  .label {
+    grid-column-start: 2;
+    font-size: var(--cds-heading-01-font-size);
+    font-weight: var(--cds-heading-01-font-weight);
+    line-height: var(--cds-heading-01-line-height);
+    letter-spacing: var(--cds-heading-01-letter-spacing);
+  }
+
+  .description {
+    font-size: var(--cds-label-01-font-size);
+    font-weight: var(--cds-label-01-font-weight);
+    line-height: var(--cds-label-01-line-height);
+    letter-spacing: var(--cds-label-01-letter-spacing);
+    margin-top: 0.5rem;
+    grid-column-start: 2;
+    text-wrap: wrap;
+    overflow: hidden;
+  }
+}

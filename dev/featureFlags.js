@@ -203,5 +203,8 @@ module.exports = {
   logFilterSaving: true,
   isControlledEnvEnabled: false,
   blockLogDeletionsEnabled: false,
-  logFormattingEnabled: true
+  logFormattingEnabled: true,
+  openTelemetryKubernetesUnifiedViewEnabled: false,
+  openTelemetryKubernetesNodesViewEnabled: false,
+  openTelemetryKubernetesPodsViewEnabled: false
 };

@@ -45,8 +45,11 @@ export const serviceDashboardDetailsFullyQualified = `${serviceDashboardFullyQua
 
 export const clusterList = '/clusters';
 export const clusterDashboard = `/cluster`;
+export const clusterOtelDashboard = `/cluster/otel`;
 export const clusterListFullyQualified = `${kubernetes}${clusterList}`;
+export const clusterOtelListFullyQualified = `${kubernetes}${clusterList}/otel`;
 export const clusterDashboardFullyQualified = `${kubernetes}${clusterDashboard}`;
+export const clusterOtelDashboardFullyQualified = `${kubernetes}${clusterOtelDashboard}`;
 export const clusterDashboardDetailsFullyQualified = `${clusterDashboardFullyQualified}/details`;
 
 export const namespaceList = '/namespaces';
@@ -57,6 +60,11 @@ export const namespaceDashboardDetailsFullyQualified = `${namespaceDashboardFull
 
 export const explore = '/explore';
 export const exploreFullyQualified = `${kubernetes}${explore}`;
+
+export const containerDashboard = `/container`;
+export const containersDashboard = `/containers`;
+export const containerDashboardFullyQualified = `${kubernetes}${containersDashboard}`;
+export const containerDashboardDetailsFullyQualified = `${containerDashboardFullyQualified}/details`;
 
 export const podDashboard = `/pod`;
 export const podsDashboard = `/pods`;
@@ -146,29 +154,39 @@ export function useClusterDashboard(clusterId: string, { tab, tabMatrix, timeCon
   });
 }
 
-export const useGetClusterDashboard = () => {
+export function useOtelClusterDashboard(clusterId: string, { tab, tabMatrix, timeConfig }: BaseProps = emptyObject) {
+  return useNavigateToDashboard({
+    base: clusterOtelDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: clusterDashboard,
+    matrixParam: matrixClusterId,
+    id: clusterId
+  });
+}
+
+export const useGetClusterDashboard = (clusterType: string) => {
   const { createHref, location } = useNavigation();
+
+  const base = clusterType === 'otelcluster' ? clusterOtelDashboardFullyQualified : clusterDashboardFullyQualified;
 
   return (
     clusterId: string,
     { tab = summaryTab, tabMatrix, timeConfig }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
   ) => {
-    const base = clusterDashboardFullyQualified;
     const matrixSegment = clusterDashboard;
     const matrixParam = matrixClusterId;
     const id = clusterId;
     const paramsCallback = (params: any) => {
       setOrDeleteMatrixKey(params, namespaceDashboard, matrixClusterId, clusterId);
     };
-
     location.pathname = `${base}${tab}`;
-
     setOrDeleteMatrixKey(location, matrixSegment, matrixParam, id);
 
     if (timeConfig != null) {
       setTimeConfig(location, timeConfig);
     }
-
     // @ts-expect-error
     location.matrix[tab] = tabMatrix;
 

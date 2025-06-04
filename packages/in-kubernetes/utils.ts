@@ -19,6 +19,9 @@ export const runningPods = 'runningPods';
 export const namespaces = 'namespaces';
 export const services = 'services';
 export const cronJobs = 'cronJobs';
+export const otelNodes = 'otelNodes';
+export const otelPods = 'otelPods';
+export const otelContainers = 'otelContainers';
 
 export type ItemAdditionalInfo = Record<string, any>;
 export interface FilterProps extends Pick<OrderProps, 'orderBy' | 'orderDirection'> {

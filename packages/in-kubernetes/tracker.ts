@@ -29,6 +29,11 @@ interface UIInteractionPayload extends Object {
   orderDirection?: string;
   href?: string;
   cardTitle?: string;
+  dashboard?: string;
+  area?: string;
+  offset?: string;
+  windowSize?: number;
+  autoRefresh?: boolean;
 }
 
 export type TrackingFunction = (customData: UIInteractionPayload) => void;

@@ -23,7 +23,7 @@ interface DashboardButtonLineProps {
   plugin: string;
   timeConfig: TimeConfig;
   tagFilters: ApplicationTagFilter[];
-  pod: KubernetesPod;
+  pod?: KubernetesPod;
 }
 
 export default function DashboardButtonLine({

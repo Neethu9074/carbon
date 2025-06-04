@@ -87,9 +87,10 @@ export function getKubernetesCounters(params: Props) {
   }
   return combineLatest(events)
     .throttle(500)
-    .map(([pods, nodes, deployments, namespaces]: any) => ({
+    .map(([pods, nodes, deployments, namespaces, containers]: any) => ({
       totalRunningPods: pods?.totalHits ?? 0,
       totalCronJobs: namespaces?.cronJobs,
+      totalContainers: containers?.totalHits ?? 0,
       ...getNodesInfo(nodes),
       ...getDeploymentsInfo(deployments)
     }));
