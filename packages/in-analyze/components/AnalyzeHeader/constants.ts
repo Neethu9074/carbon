@@ -55,7 +55,8 @@ export const dataSourceSources: DataSourceMatrix[] = [
 ];
 
 export const analyzeDocs = {
-  logs: 'https://ibm.biz/instana-logging',
+  logsHomepage: 'https://ibm.biz/instana-logging',
+  logs: 'https://www.ibm.com/docs/en/instana-observability/1.0.296?topic=instana-logging#analyzing-logs',
   logsRetention:
     'https://www.ibm.com/docs/en/instana-observability/latest?topic=logging-configuring-extended-log-retention',
   infrastructure: 'https://www.ibm.com/docs/en/instana-observability/latest?topic=analytics-analyze-infrastructure'

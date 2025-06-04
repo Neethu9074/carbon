@@ -7,14 +7,16 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Button, SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
+import { Button, Link, SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import LoggingPermissionWrapper from 'in-logging/navigation/LoggingPermissionWrapper';
+import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLoggingNavigationItems } from 'in-logging/dashboard/utils';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { logsPathWithDataSource } from 'in-logging/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
 import Sticky from 'in-components/Sticky/Sticky';
@@ -74,6 +76,7 @@ const LoggingDashboardHeader = ({
 }: DashboardHeaderProps) => {
   const { location, createHref, matchLocation } = useNavigation();
   const loggingNavigationItems = useLoggingNavigationItems();
+  const { trackClickedDocsLink } = useAnalyzeTracker();
 
   return (
     <>
@@ -84,6 +87,11 @@ const LoggingDashboardHeader = ({
         {...(withButton && { renderButtonLine: ButtonLine })}
         ariaLabel={t('in-components:pageStructure.headerAriaLabel')}
         {...(!withTimeSelection && { renderTimeSelection: () => null })}
+        renderMetaInformation={() => (
+          <Link onClick={trackClickedDocsLink} external href={analyzeDocs.logsHomepage}>
+            {t('in-analyze:analyzeHeader.readDocs')}
+          </Link>
+        )}
       />
       {withTabs && (
         <DashboardHeaderModule>
