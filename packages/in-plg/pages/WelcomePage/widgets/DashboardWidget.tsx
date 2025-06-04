@@ -31,7 +31,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getCustomDashboard } from 'in-custom-dashboards/api';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
-import Tooltip from 'in-components/Tooltip/Tooltip';
+
 
 export default function DashboardWidget({
   config,
@@ -82,11 +82,7 @@ export default function DashboardWidget({
       key: 'name',
       getContent({ item }) {
         setOrDeleteMatrixKey(connectToLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, item.id);
-        return (
-          <Tooltip content={item?.title ?? ''} align="auto" caret={false} delay={300}>
-            <Link href={createHref(connectToLocation)}>{item?.title ?? ''}</Link>
-          </Tooltip>
-        );
+        return <Link href={createHref(connectToLocation)}>{item?.title ?? ''}</Link>;
       }
     },
     {

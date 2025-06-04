@@ -25,7 +25,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { openEventsAtServerTime$ } from 'in-stores/events';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { concatQueries } from 'in-events/utils';
 
 export default connectTo(() => ({
@@ -109,11 +108,7 @@ export default connectTo(() => ({
     {
       key: 'title',
       getContent({ item }) {
-        return (
-          <Tooltip content={item?.title ?? ''} align="auto" caret={false} delay={300}>
-            <Link href={onItemClicked(item?.id)}>{item?.title ?? ''}</Link>
-          </Tooltip>
-        );
+        return <Link href={onItemClicked(item?.id)}>{item?.title ?? ''}</Link>;
       }
     },
     {

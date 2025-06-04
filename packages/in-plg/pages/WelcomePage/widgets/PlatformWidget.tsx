@@ -86,7 +86,6 @@ import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { success } from 'in-services/util/result';
 
 function handleFavoriteClick(id: string, item: any, isFavourite: boolean, type: string) {
@@ -352,11 +351,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
     {
       key: 'name',
       getContent({ item }) {
-        return (
-          <Tooltip content={getLabel(item)} align="auto" caret={false} delay={300}>
-            <Link href={getLink(item)}>{getLabel(item)}</Link>
-          </Tooltip>
-        );
+        return <Link href={getLink(item)}>{getLabel(item)}</Link>;
       }
     },
     {

@@ -34,7 +34,6 @@ import { bizopsProcessesListSelect } from 'in-bizops/tracker';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 
 interface GetBusinessDataProps {
   timeConfig: TimeConfig;
@@ -139,14 +138,12 @@ export default connectTo(() => ({
         };
 
         return (
-          <Tooltip content={item?.businessProcess?.definitionName ?? ''} align="auto" caret={false} delay={300}>
-            <Link
-              href={getItemLink(item, location, createHref)}
-              onClick={() => bizopsProcessesListSelect(processTracking)}
-            >
-              {item?.businessProcess?.definitionName ?? ''}
-            </Link>
-          </Tooltip>
+          <Link
+            href={getItemLink(item, location, createHref)}
+            onClick={() => bizopsProcessesListSelect(processTracking)}
+          >
+            {item?.businessProcess?.definitionName ?? ''}
+          </Link>
         );
       }
     },

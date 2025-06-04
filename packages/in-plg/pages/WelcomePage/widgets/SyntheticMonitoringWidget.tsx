@@ -57,7 +57,6 @@ import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { Location } from 'in-stores/navigation/types';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { role } from 'in-stores/user';
 
 const syntheticArrayOptions = {
@@ -312,19 +311,12 @@ export default function SyntheticMonitoringWidget({
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip
-              content={item?.testResultCommonProperties?.testCommonProperties?.label ?? ''}
-              align="auto"
-              caret={false}
-              delay={300}
+            <Link
+              href={createLinkLocation(item, location)}
+              onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
             >
-              <Link
-                href={createLinkLocation(item, location)}
-                onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
-              >
-                {item?.testResultCommonProperties?.testCommonProperties?.label ?? ''}
-              </Link>
-            </Tooltip>
+              {item?.testResultCommonProperties?.testCommonProperties?.label ?? ''}
+            </Link>
           );
         }
       },
@@ -381,13 +373,7 @@ export default function SyntheticMonitoringWidget({
       {
         key: 'name',
         getContent({ item }) {
-          return (
-            <Tooltip content={item?.label ?? ''} align="auto" caret={false} delay={300}>
-              <span>
-                <LocationNameLink item={item} />
-              </span>
-            </Tooltip>
-          );
+          return <LocationNameLink item={item} />;
         }
       },
       {
@@ -429,11 +415,7 @@ export default function SyntheticMonitoringWidget({
       {
         key: 'name',
         getContent({ item }) {
-          return (
-            <Tooltip content={item?.name ?? ''} align="auto" caret={false} delay={300}>
-              <Link href={createLinkLocation(item, location)}>{item?.name ?? ''}</Link>
-            </Tooltip>
-          );
+          return <Link href={createLinkLocation(item, location)}>{item?.name ?? ''}</Link>;
         }
       },
       {

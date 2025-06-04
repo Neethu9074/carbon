@@ -56,7 +56,6 @@ import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import { SnapshotMap } from 'in-components/EntityLink';
 import { getIconTypeCallback } from 'in-sdk/iconType';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { getSnapshot } from 'in-stores/snapshot';
 
 function handleFavoriteClick(id: string, item: any, isFavourite: boolean, type: string) {
@@ -339,15 +338,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
-              <Link
-                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
-                  pathname: '/physical/dashboard'
-                })}
-              >
-                {item?.snapshot ? getLabel(item?.snapshot) : ''}
-              </Link>
-            </Tooltip>
+            <Link
+              href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
+                pathname: '/physical/dashboard'
+              })}
+            >
+              {item?.snapshot ? getLabel(item?.snapshot) : ''}
+            </Link>
           );
         }
       },
@@ -439,15 +436,14 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
-              <Link
-                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
-                  pathname: '/physical/dashboard'
-                })}
-              >
-                {item?.snapshot ? getLabel(item?.snapshot) : ''}
-              </Link>
-            </Tooltip>
+            <Link
+              href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
+                pathname: '/physical/dashboard'
+              })}
+              ellipsis
+            >
+              {item?.snapshot ? getLabel(item?.snapshot) : ''}
+            </Link>
           );
         }
       },
@@ -545,15 +541,14 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
-              <Link
-                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
-                  pathname: '/physical/dashboard'
-                })}
-              >
-                {item?.snapshot ? getLabel(item?.snapshot) : ''}
-              </Link>
-            </Tooltip>
+            <Link
+              href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
+                pathname: '/physical/dashboard'
+              })}
+              ellipsis
+            >
+              {item?.snapshot ? getLabel(item?.snapshot) : ''}
+            </Link>
           );
         }
       },

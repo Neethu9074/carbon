@@ -52,7 +52,6 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getTimeConfig } from 'in-stores/time/config';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { role } from 'in-stores/user';
 
 function getApplicationData(params: GetApplicationsWithDefaultsProps) {
@@ -227,11 +226,9 @@ export default function ApplicationWidget({
       key: 'name',
       getContent({ item }) {
         return (
-          <Tooltip content={item?.application?.label ?? ''} align="auto" caret={false} delay={300}>
-            <Link href={getLinkToApplicationDashboard({ applicationId: item?.application?.id })}>
-              {item?.application?.label ?? ''}
-            </Link>
-          </Tooltip>
+          <Link href={getLinkToApplicationDashboard({ applicationId: item?.application?.id })}>
+            {item?.application?.label ?? ''}
+          </Link>
         );
       }
     },
