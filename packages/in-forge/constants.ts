@@ -432,7 +432,8 @@ export const hiddenPlugins = [
   'componentMetricsInstance',
   'entityStatisticsMember',
   'processingStatisticsMember',
-  'steadyMetricExposureEntity'
+  'steadyMetricExposureEntity',
+  'kubeCostPlatform'
 ];
 
 export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
