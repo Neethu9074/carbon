@@ -21,4 +21,17 @@
       block-size: 3rem !important;
     }
   }
+
+  .flyout {
+    position: fixed;
+    top: 6rem;
+    right: 1.25rem;
+    z-index: 300;
+  }
+
+  .toastMessage {
+    :global .cds--actionable-notification__subtitle {
+      padding: 0.5rem 0.5rem 0 0;
+    }
+  }
 }

@@ -16,6 +16,7 @@ import {
   TagFilterOperator,
   TimeConfig
 } from '@instana/types';
+import { Message as CarbonMessage } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Dropdown } from '@instana/carbon';
 
@@ -44,6 +45,10 @@ import {
   runTypeTagName,
   typeTagName
 } from 'in-synthetics/tags';
+import {
+  addColumnCustomizationNotification,
+  removeColumncustomizationNotification
+} from 'in-synthetics/utils/setTestsColumnConfigurationMessage';
 import showNotification, {
   calculateNextOccurrence,
   setReminder,
@@ -162,6 +167,7 @@ const TestSummaryList = () => {
   const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType }, setFilter] =
     useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
+  const showTestsColumnCustomizationMessage = addColumnCustomizationNotification();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
   if (syntheticRbacLimitedEnabled && !syntheticTests?.progress?.loading) {
     syntheticTests?.data?.forEach(function (item: SyntheticTest) {
@@ -205,6 +211,18 @@ const TestSummaryList = () => {
             pageRootName: pageNames.synthetic_monitoring_tests
           }}
         />
+        {showTestsColumnCustomizationMessage && (
+          <div className={locals.flyout}>
+            <CarbonMessage
+              className={locals.toastMessage}
+              title={t('in-synthetics:dashboard.testList.configureColumns.title')}
+              inline={false}
+              dismissible
+              onClose={removeColumncustomizationNotification}
+              description={t('in-synthetics:dashboard.testList.configureColumns.description')}
+            />
+          </div>
+        )}
         <ServerTableWithUrlState
           get={getTestSummaryListData}
           timeConfig={timeConfig}

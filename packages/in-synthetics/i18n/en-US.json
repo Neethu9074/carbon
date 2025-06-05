@@ -222,7 +222,7 @@
           "downloadZip": "Download .zip file",
           "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
           "recordVideo": "Record user actions on failure",
-          "acceptSelfSignedCertificate":"Accept self-signed certificate",
+          "acceptSelfSignedCertificate": "Accept self-signed certificate",
           "operatorLabel": "Conditional",
           "operatorOptionMatches": "Matches",
           "operatorOptionContains": "Contains",
@@ -262,12 +262,12 @@
             "assertionsNotificationTitle": "Assertions required",
             "assertionsNotificationDescription": "Add at least one assertion when using the \"ALL associated with assertions\" query type."
           },
-          "ssl":{
+          "ssl": {
             "attributeLabel": "Attribute",
             "valueLabel": "Value",
             "attributeValueLabel": "Attribute Value",
             "invalidAttributeValue": "Attribute value not valid",
-            "assertion" :{
+            "assertion": {
               "commonName": "issuedTo.commonName",
               "alternativeName": "issuedTo.alternativeName",
               "organization": "issuedBy.organization",
@@ -493,13 +493,13 @@
         "smartAlerts": "Smart Alerts",
         "credentials": "Credentials"
       },
-      "options":{
-        "scheduledMenuLabel":"Scheduled",
-        "onDemandMenuLabel":"On demand",
-        "allLabel":"All",
-        "scheduledLabel":"Data scope : Scheduled",
-        "onDemandLabel":"Data scope : On demand",
-        "dashboardHeaderLabel" :"Data based on : {{dataScopeLabel}}"
+      "options": {
+        "scheduledMenuLabel": "Scheduled",
+        "onDemandMenuLabel": "On demand",
+        "allLabel": "All",
+        "scheduledLabel": "Data scope : Scheduled",
+        "onDemandLabel": "Data scope : On demand",
+        "dashboardHeaderLabel": "Data based on : {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissions for synthetic monitoring",
@@ -542,7 +542,7 @@
       "paused": "Paused",
       "deleted": "Deleted",
       "type": "Type",
-      "sslDaysRemaining":"Expires in {{daysRemaining}} days",
+      "sslDaysRemaining": "Expires in {{daysRemaining}} days",
       "successRate": "Success rate",
       "successRuns": "{{successRuns}} / {{totalRuns}} results",
       "latency": "Avg. response time",
@@ -559,7 +559,11 @@
       "health": "Health",
       "action": "Action",
       "labelConfirmRemoveTest": "Are you sure you want to remove <strong>{{testLabel}}</strong> test? This action cannot be undone.",
-      "na": "N/A"
+      "na": "N/A",
+      "configureColumns": {
+        "title": "Column customization",
+        "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed."
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",
@@ -907,7 +911,7 @@
       "associatedMobileApps": "Associated Mobile Apps",
       "noMobileAppAssociated": "No Mobile Apps associated",
       "recordVideo": "Record user actions on failure",
-      "acceptSelfSignedCertificate":"Accept self-signed certificate",
+      "acceptSelfSignedCertificate": "Accept self-signed certificate",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Query type",
