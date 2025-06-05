@@ -912,6 +912,7 @@
       "noMobileAppAssociated": "No Mobile Apps associated",
       "recordVideo": "Record user actions on failure",
       "acceptSelfSignedCertificate": "Accept self-signed certificate",
+      "operatorLabel": "Conditional",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Query type",
@@ -921,7 +922,6 @@
         "responseTimeDescription": "Response time is less than {{responseTime}}ms",
         "assertionsTitle": "Assertions",
         "recordTypeLabel": "Record type",
-        "operatorLabel": "Conditional",
         "resolutionRecordLabel": "Resolution record",
         "recursiveLookupLabel": "Recursive lookup",
         "dnsRadioButtonOnLabel": "On",
@@ -930,6 +930,10 @@
         "acceptCNAMELabel": "Accept CNAME",
         "lookupServerNamelabel": "Lookup server name",
         "serverRetriesLabel": "Server retries"
+      },
+      "ssl": {
+        "attributeLabel": "Attribute",
+        "valueLabel": "Value"
       }
     },
     "credentialList": {

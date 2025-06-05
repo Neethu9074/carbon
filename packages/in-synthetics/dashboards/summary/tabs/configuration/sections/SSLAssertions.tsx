@@ -8,16 +8,16 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { KeyValue, CarbonGrid as Grid, CarbonColumn as Column } from '@instana/components';
+import { SSLCertificateValidation } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
-import { DNSFilterTargetValue } from '@instana/types';
 
-import { AssertionFilterOperators, DNSQueryTypes } from 'in-synthetics/utils/constants';
+import { AssertionFilterOperators, sslAssertionTypes } from 'in-synthetics/utils/constants';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
 
-export const DNSAssertions = ({ assertions }: { assertions: DNSFilterTargetValue[] }) => {
+export const SSLAssertions = ({ assertions }: { assertions: SSLCertificateValidation[] }) => {
   const renderTargetValues = (): JSX.Element[] => {
     const content: JSX.Element[] = [];
     assertions.forEach((assertion, index) => {
@@ -31,7 +31,7 @@ export const DNSAssertions = ({ assertions }: { assertions: DNSFilterTargetValue
             [locals.lastRow]: index === assertions.length - 1
           })}
         >
-          <Column sm={3}>{DNSQueryTypes.find(queryType => queryType.value === assertion.key)?.label}</Column>
+          <Column sm={3}>{sslAssertionTypes.find(attribute => attribute.value === assertion.key)?.label}</Column>
           <Column sm={3}>
             {AssertionFilterOperators.find(operator => operator.value === assertion.operator)?.label}
           </Column>
@@ -50,13 +50,13 @@ export const DNSAssertions = ({ assertions }: { assertions: DNSFilterTargetValue
     >
       <Grid as="div" key={generateUniqueShortId()} className={locals.configAssertions}>
         <Column sm={3}>
-          <KeyValue value={t('in-synthetics:dashboard.configuration.dns.recordTypeLabel')} />
+          <KeyValue value={t('in-synthetics:dashboard.configuration.ssl.attributeLabel')} />
         </Column>
         <Column sm={3}>
           <KeyValue value={t('in-synthetics:dashboard.configuration.operatorLabel')} />
         </Column>
         <Column sm={3}>
-          <KeyValue value={t('in-synthetics:dashboard.configuration.dns.resolutionRecordLabel')} />
+          <KeyValue value={t('in-synthetics:dashboard.configuration.ssl.valueLabel')} />
         </Column>
       </Grid>
       {renderTargetValues()}
