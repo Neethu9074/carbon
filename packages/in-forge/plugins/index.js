@@ -382,6 +382,7 @@ import './nginx';
 import './redis';
 import './vault';
 import './zCics';
+import './genai';
 import './ceph';
 import './crio';
 import './etcd';

@@ -12,6 +12,7 @@ import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import metricDefinitions from './metricDefinitions';
 import kpiDefinitions from './kpiDefinitions';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.oTelVLLM,
@@ -22,5 +23,8 @@ registerSnapshotDefinition({
       Environment: snapshot.getIn(['data', 'env'])
     });
   },
-  getIconType: () => 'ai'
+  getIconType: () => 'ai',
+  technologyDescriptor: {
+    label: t('in-forge:plugins.oTelVLLM.vllm')
+  }
 });
