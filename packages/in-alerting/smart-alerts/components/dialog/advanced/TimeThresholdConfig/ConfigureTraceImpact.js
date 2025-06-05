@@ -35,7 +35,7 @@ export default function ConfigureTraceImpact({ form, onChange }) {
                 <Input
                   className={locals.input}
                   type="number"
-                  min="1"
+                  min={1}
                   name="requests"
                   value={value}
                   onChange={e =>
@@ -43,7 +43,7 @@ export default function ConfigureTraceImpact({ form, onChange }) {
                       field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
                     )
                   }
-                  step="1"
+                  step={1}
                 />
               ))}
             </FormGroup>
