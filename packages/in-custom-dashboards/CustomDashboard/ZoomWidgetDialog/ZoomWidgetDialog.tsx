@@ -34,10 +34,12 @@ export default function ZoomWidgetDialog({ widget, component: Widget, close }: a
 
   // Closes the modal in case the url changes, preventing an issue when a redirection happens and the modal keeps opened.
   useEffect(() => {
-    if (hasUrlChanged) {
+    // we can add a better condition?
+    const isSloWidget = widget.type === 'slo2';
+    if (hasUrlChanged && !isSloWidget) {
       close();
     }
-  }, [close, hasUrlChanged]);
+  }, [close, hasUrlChanged, widget.type]);
 
   const {
     config,
