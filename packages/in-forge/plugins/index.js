@@ -328,6 +328,7 @@ import './phmcVIOS';
 import './bpm/jbpm';
 import './oTelDcgm';
 import './oTelVLLM';
+import './mapRNode';
 import './oTelLLM';
 import './oTelJvm';
 import './bpm/baw';

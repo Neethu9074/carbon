@@ -1300,6 +1300,11 @@
   "pluginName_lxc_1": "LXC Containers",
   "pluginName_lxc_2": "LXC Containers",
   "pluginName_lxc": "LXC Container",
+  "pluginName_mapRNode": "MapR Node",
+  "pluginName_mapRNode_plural": "MapR Nodes",
+  "pluginName_mapRNode_0": "MapR Node",
+  "pluginName_mapRNode_1": "MapR Node",
+  "pluginName_mapRNode_2": "MapR Node",
   "pluginName_mariaDbDatabase_plural": "MariaDBs",
   "pluginName_mariaDbDatabase_0": "MariaDBs",
   "pluginName_mariaDbDatabase_1": "MariaDBs",
@@ -14566,6 +14571,19 @@
       "labelDatabaseDiskWrites": "Database Disk Writes",
       "labelDatabaseBytesReceived": "Database Bytes Received",
       "labelDatabaseBytesSent": "Database Bytes Sent"
+    },
+    "maprNode": {
+      "pluginName": "MapR Node",
+      "pid": "Process ID",
+      "nodeName": "Node Name",
+      "health": "Health",
+      "utilization": "Utilization",
+      "configuredService": "Configured Service",
+      "rackTopology": "Rack Topology",
+      "healthDesc": "Health Description",
+      "cpus": "Number of CPU",
+      "disks": "Number Of Disks",
+      "connectErrorIssueDescription": "Agent could not connect to MapR"
     },
     "tibcoASNode": {
       "connectErrorIssueDescription": "Agent could not connect to FTL realm service. Connection failed with error: <code>{{error}}</code>",

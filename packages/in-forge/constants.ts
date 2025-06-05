@@ -272,6 +272,7 @@ export const nonServicePlugins = {
   liferayApplicationContainer: 'liferayApplicationContainer',
   linuxKVMHypervisorHost: 'linuxKVMHypervisorHost',
   lxc: 'lxc',
+  mapRNode: 'mapRNode',
   mariaDbDatabase: 'mariaDbDatabase',
   memcached: 'memcached',
   mongoDb: 'mongoDb',
@@ -729,6 +730,7 @@ export const fullyQualifiedPlugins = {
   linuxKVMHypervisorHost:
     'com.instana.forge.infrastructure.paas.linuxkvmhypervisor.derivedentity.host.LinuxKVMHypervisorHost',
   lxc: 'com.instana.forge.infrastructure.virtualization.lxc.Lxc',
+  mapRNode: 'com.instana.forge.infrastructure.database.mapr.MapRNode',
   mariaDbDatabase: 'com.instana.forge.infrastructure.database.mariadb.MariaDbDatabase',
   memcached: 'com.instana.forge.infrastructure.cache.memcached.Memcached',
   mongoDb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
