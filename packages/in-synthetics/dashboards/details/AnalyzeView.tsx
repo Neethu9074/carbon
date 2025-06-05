@@ -19,7 +19,8 @@ import {
   dummyTestResultList,
   ResultDetailsResponse,
   ResultMetadataResponse,
-  runTypeCICD
+  runTypeCICD,
+  runTypeScheduled
 } from 'in-synthetics/utils/constants';
 import {
   useSyntheticContextConfiguration,
@@ -29,14 +30,15 @@ import {
 } from 'in-synthetics/dashboards/details/utils';
 import { showCICDRerunErrorMessage, showCICDRerunSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { CustomPropertiesSection } from 'in-synthetics/dashboards/details/components/CustomPropertiesSection';
+import { runTypeTagName, startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import SSLCertificateDetails from 'in-synthetics/dashboards/details/components/SSLCertificateDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { DNSTestDetails } from 'in-synthetics/dashboards/details/components/DNSTestDetails';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
-import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import { syntheticDnsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import AnalyzeViewKPIs from 'in-synthetics/dashboards/details/AnalyzeViewKPIs';
@@ -44,7 +46,6 @@ import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import { getTestResultMetadata, rerunTest } from 'in-synthetics/api';
@@ -125,6 +126,14 @@ const AnalyzeView = () => {
       numberValue: startTime,
       name: startTimeTagName,
       operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    },
+    {
+      //Add runType in tagFilter
+      stringValue: runType === runTypeCICD ? runTypeScheduled : runType,
+      name: runTypeTagName,
+      operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     }
