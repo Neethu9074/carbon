@@ -317,7 +317,8 @@
     "tabsSumViewChangeBeacon": {
       "viewTransitionLabel": "View transition",
       "startTimeLabel": "Start time",
-      "appStatusLabel": "App state"
+      "appStatusLabel": "App state",
+      "renderingDurationlabel": "Rendering duration"
     }
   },
   "dashboard": {
