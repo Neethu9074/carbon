@@ -27,7 +27,7 @@
   }
   .bdi {
     table-layout: fixed;
-    width: 100%;
+    width: auto;
     display: table;
     direction: rtl;
   }
