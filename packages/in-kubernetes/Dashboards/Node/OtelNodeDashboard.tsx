@@ -7,14 +7,13 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import type { KubernetesNamespace, ResultPrecisionDetails, Progress } from '@instana/types';
-
 // @ts-expect-error TS migration
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 // @ts-expect-error TS migration
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
+import type { KubernetesNamespace, ResultPrecisionDetails, Progress, Nullish, Result, TimeConfig } from 'in-types';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 // @ts-expect-error TS migration
 import EntityVersionList from 'in-components/EntityVersionList';
@@ -26,6 +25,7 @@ import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import getOtelKubernetesNode from 'in-kubernetes/subscriptions/getOtelKubernetesNode';
 import { nodeDashboard, nodeOtelDashboard } from 'in-kubernetes/navigation/paths';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import { TrackingFunction, useKubernetesTracker } from 'in-kubernetes/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -33,12 +33,10 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/otelIndex';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
-import { Nullish, Result, TimeConfig } from 'in-types';
 import { Location } from 'in-stores/navigation/types';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -113,7 +111,7 @@ export default function OtelNodeDashboard({ location }: { location: Location }) 
 
 interface HeaderProps {
   result?: Result<any> | Nullish;
-  kubernetesTimeShiftSelectTracker: (args: any) => void;
+  kubernetesTimeShiftSelectTracker: TrackingFunction;
   [key: string]: any;
 };
 

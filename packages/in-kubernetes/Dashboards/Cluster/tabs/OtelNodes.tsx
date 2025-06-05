@@ -7,9 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import type { KubernetesNode, EntityHealthInfo } from '@instana/types';
+import type { KubernetesNode, EntityHealthInfo, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 // @ts-expect-error TS migration

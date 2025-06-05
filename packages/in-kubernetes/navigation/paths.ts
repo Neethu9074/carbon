@@ -310,7 +310,7 @@ export function useOtelNodeDashboard(
     tab,
     tabMatrix,
     timeConfig,
-    matrixSegment: nodeDashboard, // TODO:nodeOtelDashboard or nodeDashboard?
+    matrixSegment: nodeDashboard,
     matrixParam: matrixNodeId,
     id: nodeId,
     paramsCallback: params => {

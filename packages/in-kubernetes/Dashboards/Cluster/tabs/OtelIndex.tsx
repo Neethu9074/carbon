@@ -5,6 +5,8 @@
  */
 import React from 'react';
 
+import { Result, KubernetesClusterListItem }from '@instana/types'
+
 import {
   beeInstanaInfraMetricsEnabled,
   beeinstanaInfraMetricsWithTimeshiftEnabled,
@@ -24,19 +26,6 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
-interface DashboardResult {
-  data?: {
-    id?: string;
-    nodes?: number;
-    workloads?: {
-      pods?: number;
-      [key: string]: unknown;
-    };
-    [key: string]: unknown;
-  };
-  [key: string]: unknown;
-}
-
 interface DashboardTab {
   label: string;
   path: string;
@@ -55,24 +44,24 @@ export default [
   openTelemetryKubernetesNodesViewEnabled && {
     label: t('in-kubernetes:dashboards.nodes'),
     path: `${clusterOtelDashboardFullyQualified}${nodesDashboard}`,
-    component: (props: { result?: DashboardResult; tab?: DashboardTab; location?: Location }) => (
+    component: (props: { result?: Result< KubernetesClusterListItem >; tab?: DashboardTab; location?: Location }) => (
       <OtelNodes {...props} data={props.result?.data ?? {}} />
     ),
-    header: (props: { result: DashboardResult; tab: DashboardTab; location: Location }) =>
+    header: (props: { result: Result< KubernetesClusterListItem >; tab: DashboardTab; location: Location }) =>
       getCounterComponent(props, v => v.nodes)
   },
   openTelemetryKubernetesPodsViewEnabled && {
     label: t('in-kubernetes:dashboards.pods'),
     path: `${clusterDashboardFullyQualified}${podsDashboard}`,
     component: Pods,
-    header: ({ result, tab, location }: { result: DashboardResult; tab: DashboardTab; location: Location }) =>
+    header: ({ result, tab, location }: { result: Result< KubernetesClusterListItem >; tab: DashboardTab; location: Location }) =>
       getCounterComponent({ result, tab, location }, v => v.workloads?.pods ?? 0),
     stickToBottom: true
   }
 ].filter(Boolean);
 
 function getCounterComponent(
-  { result, tab, location }: { result: DashboardResult; tab: DashboardTab; location: Location },
+  { result, tab, location }: { result: Result< KubernetesClusterListItem >; tab: DashboardTab; location: Location },
   valueExtractor: (v: any) => number
 ) {
   const clusterId = result?.data?.id;
