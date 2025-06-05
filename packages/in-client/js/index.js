@@ -41,6 +41,9 @@ initialiseSteps([
   // accept terms and privacy settings
   'termsAndPrivacy',
 
+  // guide freetrial users to choose between sandbox or freetrial
+  'freetrialSelection',
+
   // if there is no agent deployed, force the onboarding dialog
   'instanaOnboarding',
   

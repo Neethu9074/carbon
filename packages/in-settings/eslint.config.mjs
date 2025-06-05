@@ -31,6 +31,7 @@ export default [
           'in-kubernetes',
           'in-logging',
           'in-mobile-apps',
+          'in-plg',
           'in-sdk',
           'in-settings',
           'in-services',
