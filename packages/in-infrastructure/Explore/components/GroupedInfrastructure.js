@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
-import { isEqual } from 'lodash';
+import { isEqual, kebabCase } from 'lodash';
 
 import {
   ColumnizedContent,
@@ -738,7 +738,10 @@ function getHeaderActions(props) {
         cursor={cursor}
       />
       <DownloadPdfButton
-        options={{ pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}` }}
+        options={{
+          pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}`,
+          filename: kebabCase(pluginName)
+        }}
       />
       <MetricCatalogAndSortingConfigurator {...props} showTagCatalog={false} />
     </>

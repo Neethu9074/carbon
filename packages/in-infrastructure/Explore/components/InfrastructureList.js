@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { isEqual } from 'lodash';
+import { isEqual, kebabCase } from 'lodash';
 import rpt from 'prop-types';
 
 import { LoadingSpinner, Ul } from '@instana/components';
@@ -627,7 +627,10 @@ function getHeaderActions(props) {
         columns={columns}
       />
       <DownloadPdfButton
-        options={{ pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}` }}
+        options={{
+          filename: kebabCase(pluginName),
+          pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}`
+        }}
       />
       <MetricCatalogAndSortingConfigurator {...props} metrics={metrics.filter(m => !m.removeFromTable)} />
     </>
