@@ -24,22 +24,17 @@ import { t } from 'in-i18n';
 import locals from './PerformanceBeacon.mless';
 
 export const PERFORMANCE_SUBTYPES = {
-  AST: 'App start or launch time',
-  OOM: 'Low memory',
-  ANR: 'App not responding or freezing'
+  AST: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.appStartTimeLabel'),
+  OOM: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.lowMemoryLabel'),
+  ANR: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.appNotRespondingLabel'),
+  ENU: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.excessiveNetworkLabel')
 };
 
 export function formatFileSize(fileSize: number) {
   return `${fileSize} mb`;
 }
 
-const LABELS = {
-  [PERFORMANCE_SUBTYPES.AST]: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.appStartTimeLabel'),
-  [PERFORMANCE_SUBTYPES.OOM]: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.lowMemoryLabel'),
-  [PERFORMANCE_SUBTYPES.ANR]: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.appNotRespondingLabel')
-};
-
-export const getLabel = (beacon: MobileAppMonitoringBeacon) => LABELS[beacon.performanceSubtype] || null;
+export const getLabel = (beacon: MobileAppMonitoringBeacon) => beacon.performanceSubtype || null;
 
 export const getAppStatusLabel = (beacon: MobileAppMonitoringBeacon) => beacon.currentAppState;
 

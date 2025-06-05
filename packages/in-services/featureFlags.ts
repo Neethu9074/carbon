@@ -100,6 +100,10 @@ export const mobileAppScreenRenderingDurationEnabled = isFeatureFlagEnabled(
   'mobileAppScreenRenderingDurationEnabled',
   false
 );
+export const mobileAppExcessiveNetworkUsageEnabled = isFeatureFlagEnabled(
+  'mobileAppExcessiveNetworkUsageEnabled',
+  false
+);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);

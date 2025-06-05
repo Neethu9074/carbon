@@ -361,6 +361,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'mobileAppExcessiveNetworkUsageEnabled',
+    instanaCtlKey: 'feature.eum.mobile.app.excessive.network.usage.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false

@@ -17,6 +17,7 @@ import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
 import { number, percentage, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import { mobileAppExcessiveNetworkUsageEnabled } from 'in-services/featureFlags';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -317,6 +318,38 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
           />
         </Col>
       </Row>
+      {mobileAppExcessiveNetworkUsageEnabled && (
+        <Row>
+          <Col lg={4}>
+            <MobileAppChartWrapper
+              title={t('in-mobile-apps:dashboard.tabs.excessiveNetworkUsageTitle')}
+              timeConfig={timeConfig}
+              viewInAnalytics={viewInAnalytics}
+              y1={{
+                renderer: Renderer.bar,
+                formatter: number.compact,
+                labels: [t('in-mobile-apps:dashboard.tabs.androidLabel')],
+                metricIds: ['androidEnuCount'],
+                colors: [carbonCategorical.purple50]
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                tagFilters: tagFiltersForRequests,
+                metrics: {
+                  androidEnuCount: {
+                    metric: 'androidEnuCount',
+                    granularity,
+                    aggregation: 'SUM',
+                    beaconType: 'perf',
+                    omitMetricInAnalytics: true
+                  }
+                }
+              }}
+              renderPostChartContent={MarkerLane}
+            />
+          </Col>
+        </Row>
+      )}
     </Fragment>
   );
 }
