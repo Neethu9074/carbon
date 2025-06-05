@@ -22,6 +22,7 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import { allowedPlaceholders } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { getAlertTitle } from 'in-alerting/smart-alerts/synthetics/dialog/SyntheticsAlertProperties';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
@@ -66,7 +67,7 @@ export default function AlertConfigTearSheetStep3({
               />
               <AlertPreview
                 form={form}
-                renderHeadline={() => <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />}
+                renderHeadline={() => <AlertPreviewHeadline title={getAlertTitle(form.get('name'))} />}
                 getDescriptionPlaceholder={getDescriptionPlaceholder}
                 entityLabel={t('in-alerting:smartAlerts.synthetics.alertProperties.testName')}
                 entityIconType="lib_synthetic"
