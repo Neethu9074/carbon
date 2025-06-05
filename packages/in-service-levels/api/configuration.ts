@@ -5,6 +5,8 @@
  */
 
 import {
+  BlueprintType,
+  InquiryResult,
   OrderDirection,
   PaginatedResult,
   Result,
@@ -16,6 +18,7 @@ import { generateStableHash } from '@instana/utils';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { SloStatus } from 'in-service-levels/types';
 import { isBlank } from 'in-services/util/string';
 import { error } from 'in-services/util/result';
 import { minutes } from 'in-services/time';
@@ -30,9 +33,12 @@ export interface GetAllSloConfigurationsArguments {
   query?: string;
   tags?: string[];
   entityType?: SloEntityType;
+  sloStatus?: SloStatus;
   entityIds?: string;
   orderBy?: string;
   orderDirection?: OrderDirection;
+  grouped?: boolean;
+  blueprint?: BlueprintType;
 }
 
 function getAllSloConfigurationsInternal({
@@ -41,10 +47,12 @@ function getAllSloConfigurationsInternal({
   pageSize = 20,
   orderDirection = 'ASC',
   tags,
+  sloStatus,
   query,
   entityType,
   entityIds,
-  orderBy
+  orderBy,
+  blueprint
 }: GetAllSloConfigurationsArguments = {}) {
   return refreshSignal.flatMap(() =>
     http<PaginatedResult<ServiceLevelObjectiveConfiguration>>({
@@ -61,11 +69,44 @@ function getAllSloConfigurationsInternal({
         query,
         entityType,
         entityIds,
-        orderBy
+        orderBy,
+        sloStatus,
+        blueprint
       }
     })
   );
 }
+
+function getAllSloGroupsInternal({
+  tags,
+  sloStatus,
+  query,
+  entityType,
+  blueprint
+}: GetAllSloConfigurationsArguments = {}) {
+  return refreshSignal.flatMap(() =>
+    http<PaginatedResult<ServiceLevelObjectiveConfiguration>>({
+      method: 'GET',
+      maxRetries: 3,
+      url: '/api/settings/slo',
+      mapToResultObject: true,
+      queryParams: {
+        tag: tags,
+        query,
+        entityType,
+        sloStatus,
+        blueprint,
+        grouped: true
+      }
+    })
+  );
+}
+
+export const getAllSloGroups = memoize<
+  GetAllSloConfigurationsArguments,
+  Result<InquiryResult<ServiceLevelObjectiveConfiguration>>
+>(getAllSloGroupsInternal, args => generateStableHash(args), minutes.toMillis(1));
+
 
 export const getAllSloConfigurations = memoize<
   GetAllSloConfigurationsArguments,

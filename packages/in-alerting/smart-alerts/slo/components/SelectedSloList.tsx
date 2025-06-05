@@ -19,10 +19,10 @@ import { serviceLevelsAlertDetailsSegment } from 'in-service-levels/navigation/p
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { buildSloListItem } from 'in-service-levels/hooks/useSloListItems';
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import { pathSegment } from 'in-synthetics/utils/constants';
+import { SloListItem } from 'in-service-levels/types';
 import { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';

@@ -6,14 +6,22 @@
 
 import { useMemo } from 'react';
 
-import { SloEntityType } from '@instana/types';
+import { BlueprintType, SloEntityType } from '@instana/types';
 
-import { createEntityIdUrlParameter, createTagsUrlParameter } from 'in-service-levels/navigation/urlParameters';
+import {
+  createBlueprintUrlParameter,
+  createEntityIdUrlParameter,
+  createSloStatusUrlParameter,
+  createTagsUrlParameter
+} from 'in-service-levels/navigation/urlParameters';
 import useUrlState, { Options, UrlStateReturn } from 'in-hooks/useUrlState';
+import { SloStatus } from 'in-service-levels/types';
 
-interface SloListFilterState {
+export interface SloListFilterState {
   tags: string[];
   entityType?: SloEntityType;
+  blueprint?: BlueprintType;
+  sloStatus?: SloStatus;
 }
 
 interface Params {
@@ -34,6 +42,11 @@ export default function useSloListFilterUrlState({
 
 function createUrlStateDefinition({ pathSegment, matrixPrefix = '' }: Params): Options<SloListFilterState> {
   return {
-    bind: [createEntityIdUrlParameter(pathSegment, matrixPrefix), createTagsUrlParameter(pathSegment, matrixPrefix)]
+    bind: [
+      createEntityIdUrlParameter(pathSegment, matrixPrefix),
+      createTagsUrlParameter(pathSegment, matrixPrefix),
+      createSloStatusUrlParameter(pathSegment, matrixPrefix),
+      createBlueprintUrlParameter(pathSegment, matrixPrefix)
+    ]
   };
 }

@@ -1,0 +1,88 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .popover-open {
+    .panel--container {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+    :global(.cds--data-table-content),
+    .table-skeleton,
+    :global(.cds--pagination) {
+      width: calc(100% - 336px);
+      transform: translateX(336px);
+    }
+  }
+  .slo-table-container {
+    min-height: 420px;
+  }
+
+  .filter--panel__close-wrapper:global(.cds--popover-container):not(:global(.cds--popover--auto-align)) {
+    position: absolute;
+    right: 0;
+  }
+
+  .filter--panel__close {
+    position: relative;
+  }
+
+  .table-fixed-layout {
+    table-layout: fixed;
+  }
+
+  .toolbar-content {
+    padding-left: 3rem;
+  }
+  .filter-button-container:global(.cds--popover-container) {
+    position: absolute;
+    left: 0;
+  }
+
+  :global(.cds--data-table) {
+    tbody.empty-table-body {
+      tr {
+        height: 14rem;
+        td {
+          display: flex;
+          align-items: flex-start;
+          padding-top: 2rem;
+          border-block-end: 0;
+        }
+      }
+      &,
+      tr:not([data-child-row]):hover,
+      tr[data-child-row]:hover > td {
+        background-color: transparent;
+      }
+    }
+
+    &.empty-table-wrapper tbody {
+      th,
+      tr:hover td {
+        border-block-end: 0;
+      }
+    }
+
+    td .empty-table {
+      position: absolute;
+      max-width: 265px;
+    }
+
+    .table-sortable-header {
+      background: var(--cds-layer-selected-hover);
+    }
+
+    .table-header-row-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
+    .tableRowItem {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

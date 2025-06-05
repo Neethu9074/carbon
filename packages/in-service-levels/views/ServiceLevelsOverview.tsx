@@ -20,7 +20,6 @@ import FloatingActionButton from 'in-components/FloatingActionButton/FloatingAct
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import FloatingSloButtons from 'in-service-levels/components/FloatingSloButtons';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
@@ -74,7 +73,6 @@ export default function ServiceLevelsOverview() {
         {isServiceLevelsAlertsActive && <SloSmartAlerts />}
       </LeftRightPadding>
       <Footer />
-      {!isServiceLevelsAlertsActive && <FloatingSloButtons />}
       {((isServiceLevelsAlertsActive && !smartAlertCarbonTableEnabled) || isSloSmartAlertDetails) && (
         <FloatingActionButtons>
           <FloatingActionButton

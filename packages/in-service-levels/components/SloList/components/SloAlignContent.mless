@@ -16,4 +16,10 @@
     flex-flow: column;
     align-items: flex-end;
   }
+
+  .overflowMenuItemContainer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
 }

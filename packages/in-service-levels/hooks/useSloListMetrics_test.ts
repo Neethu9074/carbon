@@ -6,7 +6,7 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import { ServiceLevelObjectiveConfiguration, TimeConfig, Error, Result } from '@instana/types';
+import { ServiceLevelObjectiveConfiguration, Error, Result } from '@instana/types';
 import { just } from '@instana/observables';
 
 import useSloListMetrics, { StructuredMetricResult, resultReducer } from 'in-service-levels/hooks/useSloListMetrics';
@@ -18,12 +18,8 @@ import { days, hours } from 'in-services/time';
 jest.mock('in-subscription/getUnifiedMetrics');
 const getUnifiedMetrics = gUM as jest.MockedFunction<typeof gUM>;
 
+// For slo list make sure we always fetch the latest metrics(for past hour)
 describe('in-service-levels/hooks/useSloListMetrics', () => {
-  const timeConfig: TimeConfig = {
-    windowSize: hours.toMillis(1),
-    autoRefresh: false
-  };
-
   beforeEach(() => {
     jest.clearAllMocks();
     getUnifiedMetrics.mockReturnValue(just(pendingResult));
@@ -51,7 +47,7 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     ];
 
     // When
-    renderHook(() => useSloListMetrics(configurations, timeConfig));
+    renderHook(() => useSloListMetrics(configurations));
 
     // Then
     expect(getUnifiedMetrics).toHaveBeenNthCalledWith(
@@ -94,7 +90,7 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     ];
 
     // When
-    renderHook(() => useSloListMetrics(configurations, timeConfig));
+    renderHook(() => useSloListMetrics(configurations));
 
     // Then
     expect(getUnifiedMetrics).toHaveBeenNthCalledWith(
@@ -145,7 +141,7 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     ];
 
     // When
-    renderHook(() => useSloListMetrics(configurations, timeConfig));
+    renderHook(() => useSloListMetrics(configurations));
 
     // Then
     expect(getUnifiedMetrics).toHaveBeenNthCalledWith(
@@ -178,8 +174,6 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     // Given
     jest.useFakeTimers();
     jest.setSystemTime(days.toMillis(5));
-    // Select time-window of seven days in time-picker
-    const selectedTimeConfig = { ...timeConfig, windowSize: days.toMillis(7) };
     const configurations: ServiceLevelObjectiveConfiguration[] = [
       {
         id: 'slo1',
@@ -201,7 +195,7 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     ];
 
     // When
-    renderHook(() => useSloListMetrics(configurations, selectedTimeConfig));
+    renderHook(() => useSloListMetrics(configurations));
 
     // Then
     expect(getUnifiedMetrics).toHaveBeenNthCalledWith(
@@ -238,9 +232,9 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     const configurations: ServiceLevelObjectiveConfiguration[] = [];
 
     // When
-    renderHook(() => useSloListMetrics(configurations, timeConfig));
-    renderHook(() => useSloListMetrics(configurations, timeConfig));
-    const { result } = renderHook(() => useSloListMetrics(configurations, timeConfig));
+    renderHook(() => useSloListMetrics(configurations));
+    renderHook(() => useSloListMetrics(configurations));
+    const { result } = renderHook(() => useSloListMetrics(configurations));
     const [metrics] = result.current;
 
     // Then
@@ -258,7 +252,7 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     getUnifiedMetrics.mockReturnValue(just(error([expectedError])));
 
     // When
-    const { result } = renderHook(() => useSloListMetrics(configurations, timeConfig));
+    const { result } = renderHook(() => useSloListMetrics(configurations));
     const [, actualStatus] = result.current;
 
     // Then
@@ -271,7 +265,7 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     getUnifiedMetrics.mockReturnValue(just(pendingResult));
 
     // When
-    const { result } = renderHook(() => useSloListMetrics(configurations, timeConfig));
+    const { result } = renderHook(() => useSloListMetrics(configurations));
     const [, actualStatus] = result.current;
 
     // Then
@@ -293,7 +287,7 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     getUnifiedMetrics.mockReturnValue(just(success([{ id: 'slo1-status-status', values: [] }])));
 
     // When
-    const { result } = renderHook(() => useSloListMetrics(configurations, timeConfig));
+    const { result } = renderHook(() => useSloListMetrics(configurations));
     const [actualMetrics] = result.current;
 
     // Then

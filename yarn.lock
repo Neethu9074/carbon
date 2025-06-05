@@ -3323,6 +3323,18 @@ __metadata:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.72.0
     "@ibm/telemetry-js": 1.8.0
+    "@instana/design-tokens": ^1.29.0
+    "@instana/format-date": ^1.8.0
+    "@instana/format-numbers": ^1.7.0
+    "@instana/hooks": ^1.13.0
+    "@instana/i18n-react": ^1.8.0
+    "@instana/observables": ^1.9.0
+    classnames: ^2.5.1
+    lodash: ^4.17.21
+    prism-react-renderer: 1.3.5
+    prismjs: 1.30.0
+  peerDependencies:
+    i18next: ^19.0.0
     react: ^17.0.2
   checksum: 3d84377be36b7c71a34075c51b51e1b2c1b627e04eb1c30fb9ccb4f85d7a63bbd369c17ce9d78c7a18b534cbe5a1490ee3544ac0260b259c28a2ecd98e431af9
   languageName: node
@@ -12381,6 +12393,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^12.9.7":
+  version: 12.9.7
+  resolution: "framer-motion@npm:12.9.7"
+  dependencies:
+    motion-dom: ^12.9.6
+    motion-utils: ^12.9.4
+    tslib: ^2.4.0
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 7cf16f167d8403fd6fbb72ef7873f05f78f34382588dde09a9199460027e9f94e52ce45a72da29ad9212093f6f68e1d989545301cb5ac8a03bfd55feb1c6e93d
+  languageName: node
+  linkType: hard
+
 "framer-motion@npm:^6.5.1, framer-motion@npm:^6.5.1 < 7":
   version: 6.5.1
   resolution: "framer-motion@npm:6.5.1"
@@ -17486,6 +17520,43 @@ __metadata:
   version: 0.5.1
   resolution: "moo@npm:0.5.1"
   checksum: 2d8c013f1f9aad8e5c7a9d4a03dbb4eecd91b9fe5e9446fbc7561fd38d4d161c742434acff385722542fe7b360fce9c586da62442379e62e4158ad49c7e1a6b7
+  languageName: node
+  linkType: hard
+
+"motion-dom@npm:^12.9.6":
+  version: 12.9.6
+  resolution: "motion-dom@npm:12.9.6"
+  dependencies:
+    motion-utils: ^12.9.4
+  checksum: 2a28d2e44f1db8de2e45e8ceb7bc96cbe5dfdca0f3e4016d41c35712dcddf519e264970686e75a4132f44299cd1ec48b5cc0631c53c70f6101b62831db68c10f
+  languageName: node
+  linkType: hard
+
+"motion-utils@npm:^12.9.4":
+  version: 12.9.4
+  resolution: "motion-utils@npm:12.9.4"
+  checksum: 7fe97beb216e0591afac3188e1ad10de40099b9092813078e2b5d86b4403331e3006f5866e75bc3e14097379dd456fd6e79b95cee9d685001690630ea7fa54d0
+  languageName: node
+  linkType: hard
+
+"motion@npm:^12.9.7":
+  version: 12.9.7
+  resolution: "motion@npm:12.9.7"
+  dependencies:
+    framer-motion: ^12.9.7
+    tslib: ^2.4.0
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: f51bf310e9b61babd66926f20608da6ebccbf84be0e499281ba13bcdc297a651b2abf0d3317408d631bab21c3091c61ca6a1eec51c3d83262ac3c7d77c0bbb03
   languageName: node
   linkType: hard
 
@@ -23369,6 +23440,7 @@ __metadata:
     mini-css-extract-plugin: ^2.9.0
     mkdirp: ^3.0.1
     moment-timezone: ^0.5.43
+    motion: ^12.9.7
     opn: 3.0.3
     postcss: ^8.4.1
     postcss-discard-comments: ^5.0.1

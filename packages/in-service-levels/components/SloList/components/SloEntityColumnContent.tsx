@@ -7,7 +7,7 @@
 import React from 'react';
 
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
+import { SloListItem } from 'in-service-levels/types';
 
 interface Props {
   item: SloListItem;

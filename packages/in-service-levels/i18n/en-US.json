@@ -27,6 +27,10 @@
       "sloLimitReachedError": "The maximum number of service level objective configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
     },
     "traffic": "Traffic",
+    "statuses": {
+      "label_red": "Out of target",
+      "label_green": "In target"
+    },
     "indicator": {
       "type": "Unknown type",
       "type_eventBased": "Event count",
@@ -271,17 +275,40 @@
   },
   "sloList": {
     "components": {
+      "sloListTable": {
+        "serviceLevelsCreateButton": "Create service level objective",
+        "filterLabel": "Filter",
+        "clearLabel": "Clear",
+        "filterClose": "Close",
+        "sloListErrorTitle": "Something went wrong",
+        "sloListErrorDescription": "An unexpected error occurred. Please refresh the page or try again later.",
+        "emptyListStateTitle": "No results found",
+        "emptyListStateSubtitle": "Try adjusting your search or filter options to find what you're looking for.",
+        "emptyListStateIllustrationDescription": "Showing no data available"
+      },
+      "sloListFilters": {
+        "filterStatus": "Status",
+        "filterTags": "Tags",
+        "filterBlueprint": "Blueprint",
+        "filterEntity": "Entity"
+      },
       "sloEntityInfo": {
         "service": "Service: {{label}}",
         "endpoint": "Endpoint: {{label}}",
         "tooltip": "{{context}} SLO"
       },
-      "entityTypeFilter": {
-        "placeholder": "Entity type"
+      "statusFilter": {
+        "sloStatusAll": "All"
       },
       "sloTagFilter": {
-        "placeholder": "Tag",
-        "noTagsInfo": "No tags available"
+        "placeholder": "Select tags",
+        "noTagsInfo": "No tags available",
+        "clearFilters": "Clear filters",
+        "filters": "Unknown filter",
+        "filters_entityType": "Entity type: $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
+        "filters_blueprint": "Blueprint: $t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
+        "filters_sloStatus": "Status: $t(in-service-levels:general.statuses.label, {\"context\":\"{{value}}\"})",
+        "filters_tags": "Tag: {{value}}"
       },
       "sloStatusColumnContent": {
         "target": "Target {{target}}"
@@ -341,7 +368,7 @@
         "totalTraffic": "Total: {{value}}"
       },
       "burnRateKpiCard": {
-        "burnRateInfo":"Burn rate over selected slo time window"
+        "burnRateInfo": "Burn rate over selected slo time window"
       },
       "errorBudgetChart": {
         "title": "Error budget"

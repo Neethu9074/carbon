@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
+import { SloListItem } from 'in-service-levels/types';
 
 interface Props {
   item: SloListItem;
@@ -15,6 +15,5 @@ interface Props {
 
 export default function SloEntityColumnContent({ item }: Props) {
   const { tags } = item.configuration;
-
   return <DynamicTagList tags={tags} />;
 }

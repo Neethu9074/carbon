@@ -54,6 +54,20 @@ export function createEntityIdUrlParameter(
   return createSloUrlParameter('entityType', pathSegment, matrixPrefix);
 }
 
+export function createBlueprintUrlParameter(
+  pathSegment: string,
+  matrixPrefix: string = ''
+): ParameterDefinition<string> {
+  return createSloUrlParameter('blueprint', pathSegment, matrixPrefix);
+}
+
+export function createSloStatusUrlParameter(
+  pathSegment: string,
+  matrixPrefix: string = ''
+): ParameterDefinition<string> {
+  return createSloUrlParameter('sloStatus', pathSegment, matrixPrefix);
+}
+
 export function createTagsUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string[]> {
   return {
     path: pathSegment,

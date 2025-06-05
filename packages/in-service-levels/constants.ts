@@ -62,3 +62,5 @@ export const SloTimeWindowTypes = Object.freeze({
   SELECTED_TIME: 'SELECTED_TIME',
   SLO_TIME_WINDOW: 'SLO_TIME_WINDOW'
 });
+
+export const sloStatuses = ['red', 'green'] as const;

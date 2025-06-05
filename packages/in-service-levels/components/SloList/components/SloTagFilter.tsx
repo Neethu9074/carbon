@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { ComponentProps, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { FilterableMultiSelect } from '@instana/carbon';
 
@@ -16,23 +16,22 @@ export interface SloTagFilterProps {
   tags?: string[];
 }
 
-interface Option {
-  label: string;
-  value: string;
+function mapTags(tags?: string[]) {
+  // TODO: Check this
+  if (!tags || !tags.length) {
+    return [
+      {
+        value: '',
+        label: t('in-service-levels:sloList.components.sloTagFilter.noTagsInfo')
+      }
+    ];
+  }
+
+  return tags.map(t => ({ label: t, value: t }));
 }
 
-type FilterableMultiSelectProps = ComponentProps<typeof FilterableMultiSelect<Option>>;
-const sloTagFilterItems: FilterableMultiSelectProps['filterItems'] = (items, { itemToString, inputValue }) => {
-  return items.filter(item => {
-    if (!inputValue) {
-      return true;
-    }
-    return itemToString(item).toLowerCase().includes(inputValue.toLowerCase());
-  });
-};
-
 export default function SloTagFilter({ tags, value, onChange }: SloTagFilterProps) {
-  const selectedFilters = value?.length > 0 ? mapTags(value) : [];
+  const selectedItems = value?.length > 0 ? mapTags(value) : [];
 
   useEffect(() => {
     const validTags = tags || [];
@@ -48,31 +47,21 @@ export default function SloTagFilter({ tags, value, onChange }: SloTagFilterProp
   }, [value, tags, onChange]);
 
   return (
-    <FilterableMultiSelect
-      id="sloTagFilter"
+    <FilterableMultiSelect<{ label: string; value: string }>
+      id="slo-tag-filter"
       placeholder={t('in-service-levels:sloList.components.sloTagFilter.placeholder')}
-      size="sm"
-      initialSelectedItems={selectedFilters}
+      selectedItems={selectedItems}
       items={mapTags(tags)}
-      onChange={selected => {
-        const newValue = selected.selectedItems || [];
+      onChange={({ selectedItems }) => {
+        const newValue = selectedItems || [];
         onChange(newValue.map(option => option.value));
       }}
-      filterItems={sloTagFilterItems}
+      filterItems={(items, { itemToString, inputValue }) =>
+        items.filter(item => {
+          if (!inputValue) return true;
+          return itemToString(item).toLowerCase().includes(inputValue.toLowerCase());
+        })
+      }
     />
   );
-}
-
-function mapTags(tags?: string[]) {
-  if (!tags || !tags.length) {
-    return [
-      {
-        value: '',
-        label: t('in-service-levels:sloList.components.sloTagFilter.noTagsInfo'),
-        isDisabled: true
-      }
-    ];
-  }
-
-  return tags.map(t => ({ label: t, value: t }));
 }

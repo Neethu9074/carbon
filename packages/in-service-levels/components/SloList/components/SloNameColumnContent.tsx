@@ -8,10 +8,8 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import useGetHrefToSloDashboard from 'in-service-levels/navigation/hooks/useGetHrefToSloDashboard';
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
-import { calculateSeverity } from 'in-service-levels/utils/math';
+import { SloListItem } from 'in-service-levels/types';
 
 interface Props {
   item: SloListItem;
@@ -19,14 +17,11 @@ interface Props {
 
 export default function SloNameColumnContent({ item }: Props) {
   const hrefToSloDashboard = useGetHrefToSloDashboard();
-
-  const { configuration, status } = item;
-  const { name, target, id } = configuration;
+  const { configuration } = item;
+  const { name, id } = configuration;
   return (
-    <SeverityIndicatorCellContentWrapper severity={status != null ? calculateSeverity({ status, target }) : undefined}>
-      <Link href={hrefToSloDashboard(id!)} ellipsis>
-        {name}
-      </Link>
-    </SeverityIndicatorCellContentWrapper>
+    <Link href={hrefToSloDashboard(id!)} ellipsis>
+      {name}
+    </Link>
   );
 }

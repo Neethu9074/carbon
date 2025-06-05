@@ -1,0 +1,92 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .panel--container {
+    height: 100%;
+    min-height: 35rem;
+    max-height: calc(var(--table-height));
+    min-width: 320px;
+    border-right: 1px solid var(--cds-border-subtle);
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    background-color: var(--cds-layer-01);
+    opacity: 0;
+    transform: translateX(-320px);
+
+    &::before {
+      position: absolute;
+      height: 1px;
+      content: '';
+      top: -1px;
+      left: 0;
+      width: 48px;
+      background-color: var(--cds-layer-02);
+    }
+  }
+
+  .filter--panel__content {
+    height: 100%;
+    overflow-y: scroll;
+    position: relative;
+    width: 100%;
+  }
+
+  .filter-panel-button-set {
+    position: sticky;
+    bottom: 0; // account for x scrollbar of table
+    width: 320px;
+
+    button:global(.cds--btn) {
+      min-width: 50%;
+      max-inline-size: 50%;
+    }
+  }
+
+  .filter--panel__header {
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    background-color: var(--cds-layer-01);
+    border-top: 1px solid var(--cds-border-subtle);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: var(--cds-spacing-09);
+  }
+
+  .flyout--container {
+    height: 100%;
+  }
+
+  .scroll-divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    display: block;
+    background-color: var(--cds-border-subtle);
+    animation: divider-line 1ms alternate;
+    animation-timeline: scroll(block nearest);
+
+    @starting-style {
+      opacity: 0;
+    }
+
+    @keyframes divider-line {
+      0% {
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+    }
+  }
+}

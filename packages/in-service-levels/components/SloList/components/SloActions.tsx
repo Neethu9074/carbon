@@ -6,26 +6,25 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/carbon';
+import { Stack, OverflowMenu, OverflowMenuItem } from '@instana/carbon';
+import { SvgIcon } from '@instana/components';
 
-import DeleteSloMoreMenuButton from 'in-service-levels/components/SloList/components/DeleteSloMoreMenuButton';
+import useDoDeleteSloConfiguration from 'in-service-levels/hooks/useDoDeleteSloConfiguration';
 import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
-import MoreMenu from 'in-components/MoreMenu/MoreMenu';
+import { SloListItem } from 'in-service-levels/types';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 import locals from './SloAlignContent.mless';
 
-interface Props {
+interface SloActionProps {
   item: SloListItem;
 }
 
-export default function SloActions({ item }: Props) {
+export default function SloActions({ item }: SloActionProps) {
   const { configuration, entities } = item;
   const disabled = entities.some(({ deleted }) => deleted);
   const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
@@ -48,17 +47,45 @@ export default function SloActions({ item }: Props) {
     addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);
   };
 
+  const doDelete = useDoDeleteSloConfiguration(configuration, meta);
+
   return (
     <Stack className={locals.stackAlignEnd}>
-      <MoreMenu kind="subtle">
-        <MoreMenuButton icon="lib_actions_edit" disabled={disabled} onClick={disabled ? noop : openEditDialog}>
-          {t('in-service-levels:general.editButtonLabel')}
-        </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy" onClick={openCloneDialog}>
-          {t('in-service-levels:general.copyButtonLabel')}
-        </MoreMenuButton>
-        <DeleteSloMoreMenuButton configuration={item.configuration} />
-      </MoreMenu>
+      <OverflowMenu kind="subtle" flipped>
+        <OverflowMenuItem
+          itemText={
+            <div className={locals.overflowMenuItemContainer}>
+              <SvgIcon size="s" type={'lib_actions_edit'} />
+              {t('in-service-levels:general.editButtonLabel')}
+            </div>
+          }
+          disabled={disabled}
+          onClick={disabled ? noop : openEditDialog}
+        />
+
+        <OverflowMenuItem
+          onClick={openCloneDialog}
+          itemText={
+            <div className={locals.overflowMenuItemContainer}>
+              <SvgIcon size="s" type={'lib_actions_copy'} />
+              {t('in-service-levels:general.copyButtonLabel')}
+            </div>
+          }
+        />
+
+        <OverflowMenuItem
+          isDelete
+          onClick={() => {
+            doDelete();
+          }}
+          itemText={
+            <div className={locals.overflowMenuItemContainer}>
+              <SvgIcon size="s" type={'lib_actions_delete'} />
+              {t('in-service-levels:general.deleteButtonLabel')}
+            </div>
+          }
+        />
+      </OverflowMenu>
     </Stack>
   );
 }

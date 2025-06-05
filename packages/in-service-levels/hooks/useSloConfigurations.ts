@@ -18,10 +18,12 @@ export default function useSloConfigurations({
   pageSize,
   query,
   tags,
+  sloStatus,
   entityType,
   entityIds,
   orderBy,
-  orderDirection
+  orderDirection,
+  blueprint
 }: GetAllSloConfigurationsArguments): FetchedState<PaginatedResult<ServiceLevelObjectiveConfiguration>> {
   const result = useObservable(
     () =>
@@ -31,12 +33,14 @@ export default function useSloConfigurations({
         pageSize,
         query,
         tags,
+        sloStatus,
         entityType,
         entityIds,
         orderBy,
-        orderDirection
+        orderDirection,
+        blueprint
       }),
-    [generateStableHash(ids), page, pageSize, query, tags, entityType, orderBy, orderDirection]
+    [generateStableHash(ids), page, pageSize, query, tags, entityType, orderBy, orderDirection, sloStatus, blueprint]
   );
   return resultToFetchedStateResponse(result);
 }

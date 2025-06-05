@@ -14,10 +14,18 @@ import {
   TrafficBlueprintIndicator,
   SyntheticTest,
   Application,
-  Website
+  Website,
+  ServiceLevelObjectiveConfiguration,
+  TimeConfig
 } from '@instana/types';
+import { MetricDataSeries } from 'in-components/Chart/types';
 
-import { SloTimeWindowTypes, sliThresholdOperators, timeAggregationOptions } from 'in-service-levels/constants';
+import {
+  SloTimeWindowTypes,
+  sliThresholdOperators,
+  sloStatuses,
+  timeAggregationOptions
+} from 'in-service-levels/constants';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
 
@@ -72,4 +80,16 @@ export type SloMonitoredEntity = Application | Website | SyntheticTest;
 
 export function isSliThresholdOperator(operator: string): operator is SLIThresholdOperator {
   return sliThresholdOperators.includes(operator as SLIThresholdOperator);
+}
+
+export type SloStatus = (typeof sloStatuses)[number];
+
+export interface SloListItem {
+  configuration: ServiceLevelObjectiveConfiguration;
+  entities: LabeledEntity[];
+  status?: number;
+  remainingBudget?: number;
+  burnDown: MetricDataSeries;
+  metricTimeConfig: TimeConfig;
+  metricGranularity: number;
 }
