@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { MinimalTagDefinition } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Group, TagFilterExpression } from 'in-types';
@@ -19,7 +20,8 @@ export interface SelectedMetric extends Group {
 //  function converts the groupy {} to a tagFilterExpression for Infra events.
 export function getExpressionWithGroupingTags(
   tagFilterExpression: TagFilterExpression,
-  groupingTags: GroupingTag[]
+  groupingTags: GroupingTag[],
+  isInfraSmartAlert: boolean = false
 ): TagFilterExpression {
   const groupingKeys = Object.keys(groupingTags);
   if (!groupingKeys.length) {
@@ -29,8 +31,25 @@ export function getExpressionWithGroupingTags(
   const groupingTFE: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
 
   groupingKeys.map(key => {
-    const groupExpression = tagFilter(key, EQUALS, groupingTags[key as keyof typeof groupingTags]);
-    groupingTFE.elements.push(groupExpression);
+    let minimalTagDefinition: MinimalTagDefinition | undefined = undefined;
+    if (key.startsWith('id.') && isInfraSmartAlert) {
+      minimalTagDefinition = {
+        availability: [],
+        name: key,
+        path: [{ label: 'Infra' }, { label: key }],
+        type: 'STRING'
+      };
+    }
+    const groupExpression = tagFilter(
+      key,
+      EQUALS,
+      groupingTags[key as keyof typeof groupingTags],
+      undefined,
+      undefined,
+      minimalTagDefinition
+    );
+
+    groupingTFE.elements.push({ ...groupExpression });
   });
 
   return { type: 'EXPRESSION', logicalOperator: 'AND', elements: [tagFilterExpression, groupingTFE] };

@@ -108,7 +108,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   const alertConfigWithGroupingExpression = {
     ...alertConfig,
     tagFilterExpression: {
-      ...getExpressionWithGroupingTags(deepCopy(tagFilterExpression) as TagFilterExpression, groupingTags)
+      ...getExpressionWithGroupingTags(deepCopy(tagFilterExpression) as TagFilterExpression, groupingTags, true)
     }
   };
 
