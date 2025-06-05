@@ -7,6 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import type { KubernetesNamespace, ResultPrecisionDetails, Progress } from '@instana/types';
+
 // @ts-expect-error TS migration
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 // @ts-expect-error TS migration
@@ -36,12 +38,14 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
+import { Nullish, Result, TimeConfig } from 'in-types';
+import { Location } from 'in-stores/navigation/types';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
-export default function OtelNodeDashboard({ location }: { location: any }) {
+export default function OtelNodeDashboard({ location }: { location: Location }) {
   const props = {
     nodeId: getMatrixParameter(location, nodeDashboard, matrixNodeId),
     viewPath: nodeOtelDashboard,
@@ -108,7 +112,7 @@ export default function OtelNodeDashboard({ location }: { location: any }) {
 }
 
 interface HeaderProps {
-  result: any;
+  result?: Result<any> | Nullish;
   kubernetesTimeShiftSelectTracker: (args: any) => void;
   [key: string]: any;
 };
@@ -129,7 +133,7 @@ function Header(props: HeaderProps) {
 
 interface RenderButtonLineProps {
   nodeId: string;
-  timeConfig: any;
+  timeConfig: TimeConfig;
   result: {
     data?: {
       name?: string;
@@ -168,7 +172,7 @@ function renderButtonLine({ nodeId, timeConfig, result }: RenderButtonLineProps)
 
 interface RenderButtonLineSecondaryProps {
   nodeId: string;
-  timeConfig: any;
+  timeConfig: TimeConfig;
   kubernetesTimeShiftSelectTracker: (args: any) => void;
 }
 
@@ -197,14 +201,24 @@ function renderButtonLineSecondary({
   );
 }
 
-function RenderMetaInformation({ result }: { result: any }) {
+interface KubernetesIndicatorResult {
+  data: KubernetesNamespace;
+  time: number;
+  adjustedWindowSize: number;
+  resultPrecisionDetails: ResultPrecisionDetails;
+  errors: Error[];
+  progress: Progress;
+  backendTraceId: string;
+}
+
+function RenderMetaInformation({ result }: { result?: KubernetesIndicatorResult | null }) {
   const version = get(result, ['data', 'version']);
 
   return (
     <>
       {version && <BadgeList type={version} types={[version]} getColor={() => 'blue'} />}
       <TypesBadgeList type={t('in-kubernetes:dashboards.k8SNode')} />
-      <KubernetesIndicator result={result} />
+      {result && <KubernetesIndicator result={result} />}
     </>
   );
 }

@@ -9,6 +9,7 @@ import React from 'react';
 
 import type { KubernetesNode, EntityHealthInfo } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 // @ts-expect-error TS migration
@@ -54,8 +55,8 @@ function EntityHost({
   clusterDistribution
 }: {
   nodeId: string;
-  timeConfig: any;
-  clusterDistribution: any;
+  timeConfig: TimeConfig;
+  clusterDistribution: string;
 }) {
   const host = useObservable(getHostByKubernetesNodeId({ nodeId, timeConfig }), []) ?? pendingResult;
   const isEksCluster = isEks(clusterDistribution);
@@ -71,8 +72,8 @@ function EntityHost({
     const isLabelShortened = label.length > shortenStringLength;
     const href = getDashboardLink(hostData.get('id'), {
       pathname: '/physical/dashboard',
-      to: timeConfig.to,
-      focusedMoment: timeConfig.to
+      to: timeConfig.to ?? undefined,
+      focusedMoment: timeConfig.to ?? undefined
     });
 
     return (
@@ -90,11 +91,22 @@ function EntityHost({
   return <>{isEksCluster ? t('in-kubernetes:dashboards.fargateNode') : valueMissingPlaceholder}</>;
 }
 
+export interface OtelNodeTableItem {
+  node: KubernetesNode;
+  name: string;
+  entityHealthInfo: EntityHealthInfo;
+  age?: number;
+  roles?: string;
+  status?: string;
+  sortedMetricValue?: number;
+  snapshotIdForMetric?: string;
+}
+
 const columnDefinitions = [
   {
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
-    getContent(item: any) {
+    getContent(item: OtelNodeTableItem) {
       const { node, name, entityHealthInfo } = item;
       return <NodeLink id={node.id} name={name} entityHealthInfo={entityHealthInfo} />;
     }
@@ -102,14 +114,14 @@ const columnDefinitions = [
   {
     id: 'status',
     label: t('in-kubernetes:dashboards.status'),
-    getContent(item: any) {
+    getContent(item: OtelNodeTableItem) {
       return item.node.status;
     }
   },
   {
     id: 'roles',
     label: t('in-kubernetes:dashboards.roles'),
-    getContent(item: any) {
+    getContent(item: OtelNodeTableItem) {
       return (
         <ViewWidthRestrictedColumn width={15}>{item.node.roles || valueMissingPlaceholder}</ViewWidthRestrictedColumn>
       );
@@ -118,7 +130,7 @@ const columnDefinitions = [
   {
     id: 'age',
     label: t('in-kubernetes:dashboards.age'),
-    getContent(item: any) {
+    getContent(item: OtelNodeTableItem) {
       return item.node.age && formatDurationAccurately(item.node.age);
     }
   },
@@ -126,7 +138,7 @@ const columnDefinitions = [
     id: 'required_cpu_percentage',
     label: t('in-kubernetes:dashboards.cpuRequests'),
     sortable: true,
-    getContent(item: any, props: any, columnId: string) {
+    getContent(item: OtelNodeTableItem, props: any, columnId: string) {
       return (
         <ServerSideSortedMetricValue
           snapshotId={item.node.id}
@@ -141,7 +153,7 @@ const columnDefinitions = [
     id: 'limit_cpu_percentage',
     label: t('in-kubernetes:dashboards.cpuLimits'),
     sortable: true,
-    getContent(item: any, props: any, columnId: string) {
+    getContent(item: OtelNodeTableItem, props: any, columnId: string) {
       return (
         <ServerSideSortedMetricValue
           snapshotId={item.node.id}
@@ -156,7 +168,7 @@ const columnDefinitions = [
     id: 'required_mem_percentage',
     label: t('in-kubernetes:dashboards.memoryRequests'),
     sortable: true,
-    getContent(item: any, props: any, columnId: string) {
+    getContent(item: OtelNodeTableItem, props: any, columnId: string) {
       return (
         <ServerSideSortedMetricValue
           snapshotId={item.node.id}
@@ -171,7 +183,7 @@ const columnDefinitions = [
     id: 'limit_mem_percentage',
     label: t('in-kubernetes:dashboards.memoryLimits'),
     sortable: true,
-    getContent(item: any, props: any, columnId: string) {
+    getContent(item: OtelNodeTableItem, props: any, columnId: string) {
       return (
         <ServerSideSortedMetricValue
           snapshotId={item.node.id}
@@ -185,7 +197,7 @@ const columnDefinitions = [
   {
     id: 'health',
     label: t('in-kubernetes:dashboards.health'),
-    getContent(item: any, { timeConfig }: any) {
+    getContent(item: OtelNodeTableItem, timeConfig: TimeConfig) {
       return (
         <EntityHealthIndicator
           openIssues={item.entityHealthInfo.openIssues.length}
@@ -202,7 +214,7 @@ const columnDefinitions = [
     id: 'host',
     label: t('in-kubernetes:dashboards.monitoredByInstana'),
     sortable: false,
-    getContent({ snapshotIdForMetric }: any, { timeConfig, data: { clusterDistribution } }: any) {
+    getContent(snapshotIdForMetric: string, timeConfig: TimeConfig, clusterDistribution: string ) {
       return (
         <EntityHost nodeId={snapshotIdForMetric} timeConfig={timeConfig} clusterDistribution={clusterDistribution} />
       );
@@ -235,11 +247,15 @@ export default function Nodes(props: any) {
   );
 }
 
-interface NodeLinkProps {
-  id: KubernetesNode['id'];
-  name: KubernetesNode['name'];
-  entityHealthInfo: EntityHealthInfo;
-}
+type NodeLinkProps = {
+  id: string;
+  name: string;
+  entityHealthInfo: {
+    maxSeverity: number;
+    openIssues?: any[];
+    [key: string]: any;
+  };
+};
 
 function NodeLink({ id, name, entityHealthInfo }: NodeLinkProps) {
   const href = useOtelNodeDashboard(id);
