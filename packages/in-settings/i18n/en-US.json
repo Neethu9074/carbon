@@ -559,7 +559,8 @@
       "websiteSectionTitle": "Websites"
     },
     "selectEntities": {
-      "doneButton": "Done"
+      "doneButton": "Done",
+      "emptyStateMessage": "No {{entityType}} selected. To get started, click {{addButtonLabel}}."
     }
   },
   "tabs": {
