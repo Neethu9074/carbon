@@ -87,8 +87,7 @@ describe('GetStartedFreetrial', () => {
     render(<GetStartedFreetrial handleButtonClick={handleButtonClick} />);
     const sandboxLink = screen.getByRole('link', {
       name: /Start with sample data/i
-    }) as HTMLAnchorElement;
-
-    expect(sandboxLink.href).toContain('test%40example.com');
+    });
+    expect(sandboxLink).toHaveAttribute('href', expect.stringContaining('test%40example.com'));
   });
 });
