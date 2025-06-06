@@ -33,6 +33,7 @@ import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
+import { getTagCatalog as getSubtracesTagCatalog } from 'in-applications/analyze/components/workspace/SubtraceQueryBuilder.ts';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
@@ -76,12 +77,11 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   };
   const callsTagCatalog = useApplicationTagCatalog(getCallsTagCatalog);
   const tracesTagCatalog = useApplicationTagCatalog(getTracesTagCatalog);
-
+  const subtracesTagCatalog = useApplicationTagCatalog(getSubtracesTagCatalog);
   const getAnalyzeHref = useGenerateLinkToAnalyze();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const generateLogsHref = useGenerateLinkToLogs();
   const logsConsoleRef = useLinkToLogsConsole();
-
   const linkToProfileAnalyze = useLinkToProfileAnalyze();
   const productAreas = [
     {
@@ -136,8 +136,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'subtraces',
           enabled: applicationSubtracesEnabled,
-          //need to change the catalog after the backend is ready
-          getHref: ({ formModel, tracesTagCatalog: tagCatalog, setOnClickNotificationMessage }) =>
+          getHref: ({ formModel, subtracesTagCatalog: tagCatalog, setOnClickNotificationMessage }) =>
             tagCatalog &&
             getLinkToApplicationAnalyze({
               dataSource: 'subtraces',
@@ -349,6 +348,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
                 mobileTagCatalogs={mobileTagCatalogs}
                 callsTagCatalog={callsTagCatalog}
                 tracesTagCatalog={tracesTagCatalog}
+                subtracesTagCatalog={subtracesTagCatalog}
                 productArea={productArea}
                 activeConfiguration={activeConfiguration}
               />
@@ -389,6 +389,7 @@ function ProductAreaEntry({
   mobileTagCatalogs,
   callsTagCatalog,
   tracesTagCatalog,
+  subtracesTagCatalog,
   close,
   productArea,
   onClickSideEffect,
@@ -411,10 +412,20 @@ function ProductAreaEntry({
           ...mobileTagCatalogs,
           callsTagCatalog,
           tracesTagCatalog,
+          subtracesTagCatalog,
           setOnClickNotificationMessage
         })
       ),
-    [callsTagCatalog, formModel, hrefGetter, isGrouped, mobileTagCatalogs, tracesTagCatalog, websiteTagCatalogs]
+    [
+      callsTagCatalog,
+      formModel,
+      hrefGetter,
+      isGrouped,
+      mobileTagCatalogs,
+      tracesTagCatalog,
+      subtracesTagCatalog,
+      websiteTagCatalogs
+    ]
   );
 
   if (!isEnabled) {
