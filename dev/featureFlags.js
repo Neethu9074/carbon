@@ -207,5 +207,6 @@ module.exports = {
   logFormattingEnabled: true,
   openTelemetryKubernetesUnifiedViewEnabled: false,
   openTelemetryKubernetesNodesViewEnabled: false,
-  openTelemetryKubernetesPodsViewEnabled: false
+  openTelemetryKubernetesPodsViewEnabled: false,
+  newOTelPageEnabled: false
 };

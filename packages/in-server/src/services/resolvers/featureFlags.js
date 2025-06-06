@@ -1010,5 +1010,10 @@ module.exports = exports = [
     uiClientKey: 'openTelemetryKubernetesPodsViewEnabled',
     instanaCtlKey: 'feature.open.telemetry.kubernetes.pods.view.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'newOTelPageEnabled',
+    instanaCtlKey: 'feature.new.otel.page.enabled',
+    defaultValue: false
   }
 ];

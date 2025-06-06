@@ -41,6 +41,7 @@ import { close as closeModal } from 'in-components/DialogPresenter/store';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SETTINGS_ROLE_SUBMIT } from 'in-services/tracking/eventNames';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import useDerivedState from 'in-hooks/useDerivedState';
 import { FetchStatus } from 'in-hooks/utils/types';
@@ -208,9 +209,13 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
     },
     {
       content: <AgentDeploymentSection />,
-      label: t('in-settings:dialogs.role.agentDeploymentSectionTitle'),
+      label: newOTelPageEnabled
+        ? t('in-settings:dialogs.role.datasourceSectionTitle')
+        : t('in-settings:dialogs.role.agentDeploymentSectionTitle'),
       scrollId: 'agent-deployment-section',
-      title: t('in-settings:dialogs.role.agentDeploymentSectionTitle'),
+      title: newOTelPageEnabled
+        ? t('in-settings:dialogs.role.datasourceSectionTitle')
+        : t('in-settings:dialogs.role.agentDeploymentSectionTitle'),
       valid: true
     },
     {

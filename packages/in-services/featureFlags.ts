@@ -411,3 +411,4 @@ export const openTelemetryKubernetesPodsViewEnabled = isFeatureFlagEnabled(
   'openTelemetryKubernetesPodsViewEnabled',
   false
 );
+export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);

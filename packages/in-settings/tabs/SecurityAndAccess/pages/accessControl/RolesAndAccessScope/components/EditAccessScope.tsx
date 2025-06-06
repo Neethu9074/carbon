@@ -20,13 +20,14 @@ import {
   getScopeFromProductArea,
   updateFormField
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
-import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
-import PermissionSectionBusinessMonitoring from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring';
 import {
   AreaRoleWithContributor,
   ProductArea,
+  ProductAreaType,
   ScopedPermissionItem
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
+import PermissionSectionBusinessMonitoring from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring';
 import { getAllBusinessPerspectivesForEntitySelectionWithDefaults } from 'in-bizops/subscriptions/helpers/getAllBusinessPerspectivesForEntitySelectionWithDefaults';
 import PermissionSectionInfrastructure from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import PermissionSectionAutomation from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionAutomation';
@@ -41,16 +42,16 @@ import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-application
 import HeadingSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
+import { GroupFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
+import { actionAutomationEnabled, newOTelPageEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { actionAutomationEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { pendingResult } from 'in-services/fixedObjects';
+import useDerivedState from 'in-hooks/useDerivedState';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t, Trans } from 'in-i18n';
-import { GroupFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
-import useDerivedState from 'in-hooks/useDerivedState';
 
 interface EditAccessScopeDialogProps<FORM_TYPE extends MapFormItems>
   extends Omit<FormControlProps<FORM_TYPE>, 'setForm'> {
@@ -73,14 +74,19 @@ export default function EditAccessScopeDialog({
   const groupNameField = getField<string>(form, 'name');
   const tagFilterExpression = getField<FormModelElement[]>(form, 'tagFilterExpression')?.value ?? undefined;
 
-  const globalSections = [
+  const globalSections: ProductAreaType[] = [
     ProductArea.MIXED,
     ProductArea.EVENT,
     ProductArea.LOGS,
     ProductArea.DASHBOARD,
-    ProductArea.AGENTS,
     ProductArea.ACCESS_CONTROL
   ];
+
+  if (newOTelPageEnabled) {
+    globalSections.splice(4, 0, ProductArea.DATASOURCE);
+  } else {
+    globalSections.splice(4, 0, ProductArea.AGENTS);
+  }
 
   const validTagFilterExpressionResult: Result<boolean> =
     useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;

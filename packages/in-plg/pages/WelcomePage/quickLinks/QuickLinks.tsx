@@ -24,11 +24,11 @@ import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
 import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
+import { newOTelPageEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 import { MakeDefaulButtonProps } from 'in-plg/pages/WelcomePage/quickLinks/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { getPageType } from 'in-plg/Demo/NewPlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -47,7 +47,11 @@ export const QuickLinks = () => {
           <QuickLinkButton
             icon="lib_actions_settings"
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.settings')}
-            buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')}
+            buttonName={
+              newOTelPageEnabled
+                ? t('in-plg:welcomepage.quickLinks.buttonNames.installDataSource')
+                : t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')
+            }
             href={createHrefToPath('/agents/installation')}
             onClick={() => {
               trackCta(WELCOME_PAGE_DEPLOY_AGENT_CLICK, getPageType(location.pathname));

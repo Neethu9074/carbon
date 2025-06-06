@@ -534,7 +534,7 @@
       "showOnboardingTasks": "Show onboarding tasks",
       "hideOnboardingTasks": "Hide onboarding tasks",
       "showWhatsNew": "Show what's new",
-      "hideWhatsNew":"Hide what's new"
+      "hideWhatsNew": "Hide what's new"
     },
     "kubecost": {
       "title": "Cost visibility with IBM Kubecost",
@@ -815,6 +815,7 @@
       },
       "buttonNames": {
         "deployAgent": "Deploy agent",
+        "installDataSource": "Install a data source",
         "addUser": "Add user",
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",

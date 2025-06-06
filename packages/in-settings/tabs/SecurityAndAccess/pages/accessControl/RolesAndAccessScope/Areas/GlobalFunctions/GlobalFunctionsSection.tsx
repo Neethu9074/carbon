@@ -9,18 +9,19 @@ import React, { useContext } from 'react';
 import { Ul } from '@instana/components';
 
 import {
-  agentsCapabilities,
   customDashboardCapabilities,
   mixedCapabilities,
   logCapabilities,
   accessControlCapabilities,
   ProductArea,
-  eventAndAlertCapabilities
+  eventAndAlertCapabilities,
+  agentsCapabilities
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { getCapabilitiesSectionData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getCapabilitiesSectionData';
 import { CapabilitySubsection } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export const GlobalFunctionsSection = () => {
@@ -49,7 +50,9 @@ export const GlobalFunctionsSection = () => {
       />
       <CapabilitySubsection
         capabilities={agentsCapabilities}
-        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AGENTS })}
+        headerText={t('in-settings:productAreas.permissions', {
+          context: newOTelPageEnabled ? ProductArea.DATASOURCE : ProductArea.AGENTS
+        })}
       />
       <CapabilitySubsection
         capabilities={accessControlCapabilities}
