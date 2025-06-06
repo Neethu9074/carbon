@@ -11,7 +11,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import styleDefs from './InputValueViewerReadOnly.mless';
 
-export default function InputValueViewerReadOnly({ value = '', className }) {
+export default function InputValueViewerReadOnly({ value = '', className }: { value: string; className: string }) {
   const locals = useThemedLocals(styleDefs);
   value = String(value);
 
