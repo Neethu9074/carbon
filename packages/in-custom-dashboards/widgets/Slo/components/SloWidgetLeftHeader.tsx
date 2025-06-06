@@ -26,17 +26,17 @@ export default function SloWidgetLeftHeader({ isPreview, sloConfig, title }: Wid
   return (
     <Stack gap="xxsmall">
       <Grid className={locals.grid} condensed>
-        <Column lg={8}>
+        <Column lg={8} className={locals.column}>
           <Tooltip content={title} overflowEllipsis overwriteBlock>
             <div>
-              <Typography variant="heading-03" noMargin noWrap align="center">
+              <Typography variant="heading-03" noMargin noWrap align="left">
                 {title}
               </Typography>
             </div>
           </Tooltip>
         </Column>
-        <Column lg={8}>
-          <Stack direction="horizontal" align="center">
+        <Column lg={8} className={locals.column}>
+          <Stack direction="horizontal" align="start">
             <Tooltip content={sloConfig.name} overflowEllipsis>
               <div>
                 <SloEntityInfo entityType={sloConfig.entity.type} sloName={sloConfig.name} />
