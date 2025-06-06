@@ -72,8 +72,10 @@ export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
 export const podDashboardDetailsFullyQualified = `${podDashboardFullyQualified}/details`;
 
 export const nodeDashboard = `/node`;
+export const nodeOtelDashboard = `/node/otel`;
 export const nodesDashboard = '/nodes';
 export const nodeDashboardFullyQualified = `${kubernetes}${nodeDashboard}`;
+export const nodeOtelDashboardFullyQualified = `${kubernetes}${nodeOtelDashboard}`;
 export const nodeDashboardDetailsFullyQualified = `${nodeDashboardFullyQualified}/details`;
 
 export const cronJobDashboard = `/cronjob`;
@@ -295,6 +297,24 @@ export function useNodeDashboard(
     id: nodeId,
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, nodeDashboard, matrixClusterId, clusterId);
+    }
+  });
+}
+
+export function useOtelNodeDashboard(
+  nodeId: string,
+  { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: nodeOtelDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: nodeDashboard,
+    matrixParam: matrixNodeId,
+    id: nodeId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, nodeOtelDashboard, matrixClusterId, clusterId);
     }
   });
 }

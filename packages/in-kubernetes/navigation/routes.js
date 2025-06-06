@@ -13,6 +13,7 @@ import NamespaceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/D
 import CronJobDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/CronJob/CronJobDashboard';
 import ClusterDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Cluster/ClusterDashboard';
 import ServiceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Service/ServiceDashboard';
+import OtelNodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Node/OtelNodeDashboard';
 import NodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Node/NodeDashboard';
 import PodDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Pod/PodDashboard';
 import KubernetesMainView from 'promise-loader?global,kubernetes!in-kubernetes/KubernetesMainView';
@@ -26,6 +27,7 @@ import {
   namespaceDashboardFullyQualified,
   podDashboardFullyQualified,
   nodeDashboardFullyQualified,
+  nodeOtelDashboardFullyQualified,
   daemonSetDashboardFullyQualified,
   deploymentDashboardFullyQualified,
   deploymentConfigDashboardFullyQualified,
@@ -47,6 +49,9 @@ export default [
   </Route>,
   <Route key="kubernetesNamespaceDashboard" path={namespaceDashboardFullyQualified}>
     {renderAsyncRouteChildren(NamespaceDashboard)}
+  </Route>,
+  <Route key="kubernetesOtelNodeDashboard" path={nodeOtelDashboardFullyQualified}>
+    {renderAsyncRouteChildren(OtelNodeDashboard)}
   </Route>,
   <Route key="kubernetesNodeDashboard" path={nodeDashboardFullyQualified}>
     {renderAsyncRouteChildren(NodeDashboard)}
