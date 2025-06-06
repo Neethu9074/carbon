@@ -383,7 +383,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsBusinessMetricsCustomDashboardEnabled',
     instanaCtlKey: 'feature.bizops.business.metrics.custom.dashboard.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
