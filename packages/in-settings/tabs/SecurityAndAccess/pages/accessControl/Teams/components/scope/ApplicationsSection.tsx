@@ -9,21 +9,20 @@ import { MapForm } from 'formalistic';
 
 import { Stack, Toggle } from '@instana/carbon';
 
-import ContributionFilterWrapper from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import {
   ApplicationFilterFormItems,
+  resetApplicationFields,
   SCOPE_FORM_ID,
   ScopeFormFields
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
+import ContributionFilterWrapper from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import LimitedAccessSwitcher, {
   SCOPE_TYPE
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
 import { ScopeSectionProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection.types';
 import SelectEntitiesTable from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/SelectEntitiesTable';
 import { getInitialScopeType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection';
-import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { useMapFormContext } from 'in-settings/components/MapFormProvider/MapFormProvider';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationsSection.mless';
@@ -52,21 +51,6 @@ const ApplicationsSection = <I,>({
   const applicationFilterForm = form.getIn(['applicationFilterForm']);
   const [scopeType, setScopeType] = useState<string>(getInitialScopeType(permissionsField, limitedAccessScopes));
 
-  const resetApplicationFields = (resetSelectedApplications: boolean) => {
-    // Reset contribution filter fields
-    const updatedForm = form
-      .updateIn(['applicationFilterForm', 'filterName'], f => f.setValue('').setTouched(true))
-      .updateIn(['applicationFilterForm', 'filterExpression'], f =>
-        f.setValue(fromBackendModel(emptyTagFilterExpression)).setTouched(true)
-      )
-      .updateIn(['applicationFilterForm', 'scope'], f => f.setValue('INCLUDE_NO_DOWNSTREAM').setTouched(true))
-      .updateIn(['applicationFilterForm', 'isFilterEnabled'], f => f.setValue(false).setTouched(true));
-
-    return resetSelectedApplications
-      ? updatedForm.updateIn([fieldName], f => f.setValue(undefined).setTouched(true))
-      : updatedForm;
-  };
-
   return (
     <>
       <LimitedAccessSwitcher
@@ -75,7 +59,7 @@ const ApplicationsSection = <I,>({
         onChange={newScopeType => {
           setScopeType(newScopeType);
         }}
-        onEntireUnitSelected={() => resetApplicationFields(true)}
+        onEntireUnitSelected={() => resetApplicationFields(form, true)}
       />
 
       {scopeType === SCOPE_TYPE.LIMITED_ACCESS && (
@@ -107,7 +91,7 @@ const ApplicationsSection = <I,>({
                 );
               } else {
                 // Filter disabled => reset contribution filter fields
-                updateForm(resetApplicationFields(false));
+                updateForm(resetApplicationFields(form, false));
               }
             }}
             defaultToggled={isFilterEnabledField?.value}

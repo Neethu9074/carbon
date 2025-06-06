@@ -124,6 +124,24 @@ export type ApplicationFilterFormItems = {
 
 export type ApplicationFilterForm = MapForm<ApplicationFilterFormItems>;
 
+export const resetApplicationFields = (
+  form: MapForm<ScopeFormFields>,
+  resetSelectedApplications: boolean
+): MapForm<ScopeFormFields> => {
+  // Reset contribution filter fields
+  const updatedForm = form
+    .updateIn(['applicationFilterForm', 'filterName'], f => f.setValue('').setTouched(true))
+    .updateIn(['applicationFilterForm', 'filterExpression'], f =>
+      f.setValue(fromBackendModel(emptyTagFilterExpression)).setTouched(true)
+    )
+    .updateIn(['applicationFilterForm', 'scope'], f => f.setValue('INCLUDE_NO_DOWNSTREAM').setTouched(true))
+    .updateIn(['applicationFilterForm', 'isFilterEnabled'], f => f.setValue(false).setTouched(true));
+
+  return resetSelectedApplications
+    ? updatedForm.updateIn(['applications'], f => f.setValue(undefined).setTouched(true))
+    : updatedForm;
+};
+
 export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields> {
   // Parse action filter string into action types and action tags
   const { actionTags, actionTypes } = parseActionFilter(initValues?.actionFilter ?? '');
