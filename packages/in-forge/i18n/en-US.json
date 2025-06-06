@@ -17882,16 +17882,16 @@
       "error": "Error",
       "tags": "Tags",
       "resource": "Resource",
-      "events": "Span Events",
+      "events": "Span events",
       "eventName": "Event name",
       "timestamp": "Timestamp",
-      "links": "Span Links",
-      "traceId": "Trace ID",
-      "spanId": "Span ID",
+      "links": "Span links",
+      "traceId": "Trace id",
+      "spanId": "Span id",
       "eventNamePrefix": "Name: ",
-      "traceIdPrefix": "Trace Id: ",
-      "eventDetails": "Event Details",
-      "linkDetails": "Link Details"
+      "traceIdPrefix": "Trace id: ",
+      "eventDetails": "Event details",
+      "linkDetails": "Link details"
     },
     "otelBatchSynthetic": {
       "indexReturn": "Internal trigger",
