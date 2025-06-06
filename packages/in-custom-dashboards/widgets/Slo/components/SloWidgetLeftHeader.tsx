@@ -22,11 +22,13 @@ interface WidgetLeftHeaderProps {
   title: string;
 }
 
+const totalGridColumns = 16;
+
 export default function SloWidgetLeftHeader({ isPreview, sloConfig, title }: WidgetLeftHeaderProps) {
   return (
     <Stack gap="xxsmall">
-      <Grid className={locals.grid} condensed>
-        <Column lg={8} className={locals.column}>
+      <Grid className={locals.grid} condensed fullWidth>
+        <Column lg={getColumnSpanFromTitleLength(title)} className={locals.column}>
           <Tooltip content={title} overflowEllipsis overwriteBlock>
             <div>
               <Typography variant="heading-03" noMargin noWrap align="left">
@@ -35,7 +37,7 @@ export default function SloWidgetLeftHeader({ isPreview, sloConfig, title }: Wid
             </div>
           </Tooltip>
         </Column>
-        <Column lg={8} className={locals.column}>
+        <Column lg={totalGridColumns - getColumnSpanFromTitleLength(title)} className={locals.column}>
           <Stack direction="horizontal" align="start">
             <Tooltip content={sloConfig.name} overflowEllipsis>
               <div>
@@ -56,4 +58,16 @@ export default function SloWidgetLeftHeader({ isPreview, sloConfig, title }: Wid
       )}
     </Stack>
   );
+}
+
+function getColumnSpanFromTitleLength(title: string): number {
+  const maxTitleLength = 50;
+  const baseSpan = 3;
+  const maxAdditionalSpan = 5;
+
+  const cappedLength = Math.min(title.length, maxTitleLength);
+  const proportion = cappedLength / maxTitleLength;
+  const span = baseSpan + maxAdditionalSpan * proportion;
+
+  return Math.round(span);
 }
