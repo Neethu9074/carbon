@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { TagFilterEntity } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import { SOURCE, DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -13,7 +14,7 @@ import { t } from 'in-i18n';
 
 import locals from './Entity.mless';
 
-export default function EntityReadOnly({ entity }) {
+export default function EntityReadOnly({ entity }: { entity: TagFilterEntity }) {
   if (entity === SOURCE || entity === DESTINATION) {
     return (
       <>
