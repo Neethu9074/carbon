@@ -6,11 +6,13 @@
 import { create, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 
+import { CreateWidgetResponse, FinalConfig, SlotsResponse } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 import { CustomDashboard, CustomDashboardPreview, Result, TagCatalog, TimeConfig, UserResult } from 'in-types';
 import memoize, { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
 import { DEFAULT_NUMBER_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
+import { seconds } from 'in-services/time/time';
 import http from 'in-services/http';
 
 const refreshSignal = create<string>().emit('');
@@ -115,6 +117,31 @@ export function updateCustomDashboard(customDashboard: CustomDashboard): Observa
   }).map(v => {
     refreshSignal.emit(customDashboard.id);
     return v;
+  });
+}
+
+export function promptSlots(input: string): Observable<Result<SlotsResponse>> {
+  return http<SlotsResponse>({
+    method: 'POST',
+    url: `/api/custom-dashboard/slots`,
+    headers: getCsrfHeader(),
+    responseType: 'json',
+    data: { prompt: input },
+    timeout: seconds.toMillis(60),
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function promptGetWidgetJson(finalConfig: FinalConfig): Observable<Result<CreateWidgetResponse>> {
+  return http<CreateWidgetResponse>({
+    method: 'POST',
+    url: `/api/custom-dashboard/create-widget`,
+    headers: getCsrfHeader(),
+    responseType: 'json',
+    data: { ...finalConfig },
+    maxRetries: 3,
+    mapToResultObject: true
   });
 }
 

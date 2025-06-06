@@ -103,6 +103,7 @@ module.exports = {
   customDashboardsExportPdfWidget: true,
   customDashboardsExportPdfEntireDashboard: true,
   customDashboardsFastQueryModeEnabled: false,
+  customDashboardsPromptingEnabled: true,
   infraDashboardExportPdfEnabled: true,
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,

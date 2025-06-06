@@ -169,6 +169,7 @@ export const customDashboardsExportPdfEntireDashboard = isFeatureFlagEnabled(
 );
 
 export const customDashboardsFastQueryModeEnabled = isFeatureFlagEnabled('customDashboardsFastQueryModeEnabled', false);
+export const customDashboardsPromptingEnabled = isFeatureFlagEnabled('customDashboardsPromptingEnabled', false);
 
 export const infraDashboardExportPdfEnabled = isFeatureFlagEnabled('infraDashboardExportPdfEnabled');
 

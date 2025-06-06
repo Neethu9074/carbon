@@ -525,6 +525,11 @@ module.exports = exports = [
     instanaCtlKey: 'feature.custom.dashboards.fast.query.mode.enabled',
     defaultValue: false
   },
+  {
+    uiClientKey: 'customDashboardsPromptingEnabled',
+    instanaCtlKey: 'feature.custom.dashboards.prompting.enabled',
+    defaultValue: false
+  },
 
   {
     uiClientKey: 'playwithTestEnabled',
