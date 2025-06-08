@@ -4,19 +4,19 @@
  * Copyright IBM Corp. 2025
  */
 
-import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled';
 import React, { useState, useEffect } from 'react';
-import { path as d3Path } from 'd3-path';
-import YAML from 'yaml';
 
 import { Edge } from '@instana/carbon-charts';
 import '@instana/carbon-charts/lib/index.css';
 
 import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
-import ProcessorNode from 'in-visualize/components/Nodes/ProcessorNode';
-import ReceiverNode from 'in-visualize/components/Nodes/ReceiverNode';
-import ExporterNode from 'in-visualize/components/Nodes/ExporterNode';
-import PipelineNode from 'in-visualize/components/Nodes/PipelineNode';
+import ProcessorNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ProcessorNode';
+import ReceiverNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ReceiverNode';
+import ExporterNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ExporterNode';
+import PipelineNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/PipelineNode';
+import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled';
+import { path as d3Path } from 'd3-path';
+import YAML from 'yaml';
 
 export interface PipeNode extends ElkNode {
   id: string;
