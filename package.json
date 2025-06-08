@@ -162,7 +162,6 @@
     "react-router-dom": "^5.2.0",
     "react-select": "^4.3.1",
     "react-select-async-paginate": "~0.5",
-    "reactflow": "^11.11.4",
     "rrule": "^2.7.1",
     "semver": "^5.3.0",
     "sockjs-client": "^1.6.1",
