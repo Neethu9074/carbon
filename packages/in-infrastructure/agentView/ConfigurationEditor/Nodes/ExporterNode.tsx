@@ -4,18 +4,18 @@
  * Copyright IBM Corp. 2025
  */
 
-import { WorkspaceImport } from '@carbon/icons-react';
 import React from 'react';
 
+import { Export } from '@carbon/icons-react';
 import { ShapeNode } from '@instana/carbon-charts';
 
-interface ReceiverNodeProps {
+interface ExporterNodeProps {
   x: number;
   y: number;
   name?: string;
 }
 
-export default function ReceiverNode({ x, y, name }: ReceiverNodeProps) {
+export default function ExporterNode({ x, y, name }: ExporterNodeProps) {
   const height = 50;
   const width = 50;
   return (
@@ -23,10 +23,10 @@ export default function ReceiverNode({ x, y, name }: ReceiverNodeProps) {
       <div style={{ height, width }}>
         <ShapeNode
           shape="rounded-square"
-          renderIcon={<WorkspaceImport />}
+          renderIcon={<Export />}
           size="100%"
-          title={name ? name : 'Receiver'}
-          style={{ backgroundColor: '#edf5ff' }}
+          title={name ? name : 'Exporter'}
+          style={{ backgroundColor: '#78a9ff' }}
         />
       </div>
     </foreignObject>
