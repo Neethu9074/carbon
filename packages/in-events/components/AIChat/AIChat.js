@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 import { createPortal } from 'react-dom';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ChatContainer } from '@carbon/ai-chat';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
@@ -14,7 +14,8 @@ import TableChartSwitcher from 'in-events/components/AIChat/TableChartSwitcher';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import EditableOptions from 'in-events/components/AIChat/EditableOptions';
 import NLGResponse from 'in-events/components/AIChat/NLGResponse';
-import PromptLibrary from "./CustomPanels/PromptLibrary"
+import PromptLibrary from './CustomPanels/PromptLibrary';
+import { custom } from 'in-websites/queryBuilder';
 
 import locals from './AIChat.mless';
 
@@ -101,12 +102,12 @@ export function AIChat() {
   MoveAIChatLauncher('50px');
   const { trackCta } = useSegmentTracking();
 
-
+  const [instance, setInstance] = useState(null);
   const renderWriteableElements = useMemo(
     () => ({
-      customPanelElement: <PromptLibrary />,
+      customPanelElement: <PromptLibrary instance={instance} />
     }),
-    [],
+    [instance]
   );
 
   return (
@@ -131,27 +132,14 @@ export function AIChat() {
         }}
         onBeforeRender={instance => {
           instance.trackCta = trackCta;
+          setInstance(instance);
         }}
         onAfterRender={instance => {
-
-
           const customPanel = instance.customPanels.getPanel();
           const panelOptions = {
-            title: 'Prompt library',
+            title: 'Prompt library'
           };
-
-
-          // instance.writeableElements.customPanelElement = <div>{"HEEEYYYOOO"}</div>
-          instance.updateCustomMenuOptions([
-            { text: 'Prompt library', handler: () => customPanel.open(panelOptions)},
-          ]);
-
-
-
-
-
-
-
+          instance.updateCustomMenuOptions([{ text: 'Prompt library', handler: () => customPanel.open(panelOptions) }]);
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
           const draggableIcon = document.getElementById(DRAGGABLE_ICON);
 
