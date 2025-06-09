@@ -356,6 +356,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'eumImpactedUsersForWebsiteAndMobileAlertEnabled',
+    instanaCtlKey: 'feature.eum.impacted.users.for.website.and.mobile.alert.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'mobileAppScreenRenderingDurationEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.screen.rendering.duration.enabled',
     defaultValue: false

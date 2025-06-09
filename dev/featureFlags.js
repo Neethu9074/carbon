@@ -79,6 +79,7 @@ module.exports = {
   mobileAppExcessiveNetworkUsageEnabled: false,
   websiteBeaconQueryOptimizationEnabled: true,
   eumImpactedUsersForAppAlertEnabled: true,
+  eumImpactedUsersForWebsiteAndMobileAlertEnabled: true,
   controlPlaneEnabled: true,
   kubecostEnabled: true,
   largeTracesV2Enabled: true,

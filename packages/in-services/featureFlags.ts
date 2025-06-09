@@ -105,6 +105,7 @@ export const mobileAppExcessiveNetworkUsageEnabled = isFeatureFlagEnabled(
   false
 );
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
+export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForWebsiteAndMobileAlertEnabled', true);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
 
