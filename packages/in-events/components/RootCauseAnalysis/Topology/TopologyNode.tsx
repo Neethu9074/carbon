@@ -26,7 +26,7 @@ import locals from './RootCauseMap.mless';
 
 interface TopologyNodeProps {
   node: TopologyGraphNode;
-  setCurrentlyOpen: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentlyOpen: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const getEntityIcon = (entityType: string, metadata: TopologyGraphNode['metadata']) => {

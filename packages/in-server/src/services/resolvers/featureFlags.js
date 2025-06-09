@@ -592,6 +592,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'rcaAgenticEnabled',
+    instanaCtlKey: 'feature.ai.rca.agentic.workflow.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eventFeedbackEnabled',
     instanaCtlKey: 'feature.event.feedback.enabled',
     defaultValue: true

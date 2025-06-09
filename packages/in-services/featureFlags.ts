@@ -399,6 +399,7 @@ export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled
 export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);
 export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);
 export const rcaAiAutomatedInvestigationEnabled = isFeatureFlagEnabled('rcaAiAutomatedInvestigationEnabled', false);
+export const rcaAgenticEnabled = isFeatureFlagEnabled('rcaAgenticEnabled', false);
 export const apMetricsDeltaFetchingEnabled = isFeatureFlagEnabled('apMetricsDeltaFetchingEnabled', false);
 export const isControlledEnvEnabled = isFeatureFlagEnabled('isControlledEnvEnabled', false);
 export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
