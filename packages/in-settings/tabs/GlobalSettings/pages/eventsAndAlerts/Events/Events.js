@@ -52,10 +52,12 @@ import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } f
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import List, { CreateNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { toHtml } from 'in-services/formatters/markdown';
 import { pendingResult } from 'in-services/fixedObjects';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -332,7 +334,7 @@ function columnDefinitions(hasRowNavigation) {
       label: t('in-settings:tabs.description'),
       width: 40,
       getContent(entity) {
-        return <div className={locals.fourLines}>{entity.description}</div>;
+        return <DangerousHtmlPresenter className={locals.fourLines} html={toHtml(entity.description)} />;
       }
     },
     {
