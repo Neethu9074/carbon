@@ -208,7 +208,7 @@ export default [
     max: 1,
     formatter: percentage,
     metrics: ['stats.diskUsedPercentage'],
-    labels: [t('in-forge:plugins.oracleDB.percentage')],
+    labels: [t('in-forge:plugins.oracleDB.diskUsed')],
     min: 0
   }
 ];
