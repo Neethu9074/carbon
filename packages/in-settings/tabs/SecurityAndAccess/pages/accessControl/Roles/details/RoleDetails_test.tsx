@@ -12,6 +12,7 @@ import RoleDetails from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import useRoleDetails from 'in-settings/tabs/SecurityAndAccess/hooks/useRoleDetails';
 import { Capability, LimitedAccessScope } from 'in-stores/permission';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { success } from 'in-services/util/result';
 
 jest.mock('react-router');
@@ -77,7 +78,9 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/details/R
     const automationSection = getByText('Automation', { selector });
     const eventsAndAlertsSection = getByText('Events and alerts management', { selector });
     const globalFunctionsSection = getByText('Global functions', { selector });
-    const agentDeploymentSection = getByText('Agent deployment', { selector });
+    const agentDeploymentSection = getByText(newOTelPageEnabled ? 'Datasources' : 'Agent deployment', {
+      selector
+    });
     const accessControlSection = getByText('Access control', { selector });
 
     // Then

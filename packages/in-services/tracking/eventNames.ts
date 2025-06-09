@@ -286,6 +286,7 @@ export const UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK = 'unitOnboarding.startMo
 export const UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK = 'unitOnboarding.inviteTeammates.click';
 
 export const WELCOME_PAGE_DEPLOY_AGENT_CLICK = 'welcomePage.deployAgent.click';
+export const WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK = 'welcomePage.installdatasource.click';
 export const WELCOME_PAGE_ADD_USER_CLICK = 'welcomePage.addUser.click';
 export const WELCOME_PAGE_IBM_DOCUMENTATION_CLICK = 'welcomePage.ibmDocumentation.click';
 export const WELCOME_PAGE_RELEASE_NOTES_CLICK = 'welcomePage.releaseNotes.click';

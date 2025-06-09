@@ -12,6 +12,7 @@ import { t } from '@instana/i18n-react';
 import {
   WELCOME_PAGE_ADD_USER_CLICK,
   WELCOME_PAGE_DEPLOY_AGENT_CLICK,
+  WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK,
   WELCOME_PAGE_IBM_DOCUMENTATION_CLICK,
   WELCOME_PAGE_RELEASE_NOTES_CLICK,
   WELCOME_PAGE_WHATS_NEW_LINK_CLICK
@@ -54,7 +55,10 @@ export const QuickLinks = () => {
             }
             href={createHrefToPath('/agents/installation')}
             onClick={() => {
-              trackCta(WELCOME_PAGE_DEPLOY_AGENT_CLICK, getPageType(location.pathname));
+              trackCta(
+                newOTelPageEnabled ? WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK : WELCOME_PAGE_DEPLOY_AGENT_CLICK,
+                getPageType(location.pathname)
+              );
             }}
           />
         )}
