@@ -26,7 +26,7 @@ export default function SloEntityInfo({ entityType, sloName }: SloEntityInfoProp
       <Tooltip content={tooltipText}>
         <SvgIcon type={`lib_${entityType}`} aria-label={tooltipText} />
       </Tooltip>
-      <Typography variant="body-regular" noMargin noWrap>
+      <Typography variant="body-regular" noMargin>
         {sloName}
       </Typography>
     </Stack>
