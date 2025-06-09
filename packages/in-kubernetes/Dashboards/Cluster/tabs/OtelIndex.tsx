@@ -22,8 +22,6 @@ import {
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
 //@ts-expect-error TS migration
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
-//@ts-expect-error TS migration
-import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
 import OtelNodes from 'in-kubernetes/Dashboards/Cluster/tabs/OtelNodes';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/OtelSummary';
 import OtelPods from 'in-kubernetes/Dashboards/Cluster/tabs/OtelPods';
@@ -58,12 +56,12 @@ export default [
   openTelemetryKubernetesUnifiedViewEnabled && {
     label: t('in-kubernetes:dashboards.pods'),
     path: `${clusterDashboardFullyQualified}${podsDashboard}`,
-    component: (props: { result?: any; tab?: DashboardTab; location?: Location }) => (
-      <OtelPods {...props} data={props.result?.data ?? {}} />
+    component: (props: { result?: Result< KubernetesClusterListItem >; tab?: DashboardTab; location?: Location }) => (
+      props.location ? <OtelPods {...props} timeConfig={getTimeConfig(props.location)} /> : null
     ),
-    header: (props: { result: any; tab: DashboardTab; location: Location }) =>
+    header: (props: { result: Result< KubernetesClusterListItem >; tab: DashboardTab; location: Location }) =>
       getCounterComponent(props, v => v.pods)
-  },
+  }
 ].filter(Boolean);
 
 function getCounterComponent(
