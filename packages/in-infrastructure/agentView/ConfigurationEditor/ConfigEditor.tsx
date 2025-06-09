@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import * as yamlMode from '@codemirror/legacy-modes/mode/yaml';
@@ -11,9 +11,7 @@ import React from 'react';
 
 // @ts-ignore
 // temp yaml hack
-import SampleConfig from 'in-visualize/SampleConfig.yaml';
-
-// import { t } from '@instana/i18n-react';
+import SampleConfig from 'in-infrastructure/agentView/ConfigurationEditor/SampleConfig.yaml';
 
 interface ConfigEditorProps {
   agentConfig?: string;

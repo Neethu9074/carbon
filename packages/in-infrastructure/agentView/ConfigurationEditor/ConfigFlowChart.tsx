@@ -4,34 +4,20 @@
  * Copyright IBM Corp. 2025
  */
 
+import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled';
 import React, { useState, useEffect } from 'react';
+import { path as d3Path } from 'd3-path';
+import YAML from 'yaml';
 
 import { Edge } from '@instana/carbon-charts';
 import '@instana/carbon-charts/lib/index.css';
 
-import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
 import ProcessorNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ProcessorNode';
 import ReceiverNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ReceiverNode';
 import ExporterNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ExporterNode';
 import PipelineNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/PipelineNode';
-import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled';
-import { path as d3Path } from 'd3-path';
-import YAML from 'yaml';
-
-export interface PipeNode extends ElkNode {
-  id: string;
-  height: number;
-  width: number;
-  nodeType?: string;
-  name?: string;
-  children?: PipeNode[];
-}
-
-export interface PipeEdge extends ElkExtendedEdge {
-  id: string;
-  sources: string[];
-  targets: string[];
-}
+import { PipeNode, PipeEdge } from 'in-infrastructure/agentView/ConfigurationEditor/types';
+import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
 
 function Link({ link }: { link: ElkExtendedEdge }) {
   const sections = link.sections![0];
@@ -50,7 +36,6 @@ function Link({ link }: { link: ElkExtendedEdge }) {
 }
 
 function parseNodeData(editorValue: any) {
-  // TODO: useMemo the editor value
   if (editorValue.config == '') {
     return [];
   }
@@ -161,7 +146,7 @@ export default function ConfigFlowChart(config: string) {
   let nodeData: PipeNode[] = [];
   let edgeData: PipeEdge[] = [];
   try {
-    // Catching and ignoring errors here since validation errors will be handled by validation tool, prevents additional noise
+    // Catching and ignoring errors here since validation errors will be handled by collector validation tool, prevents additional noise
     nodeData = parseNodeData(config);
     edgeData = calcEdges(nodeData);
   } catch (error: unknown) {
