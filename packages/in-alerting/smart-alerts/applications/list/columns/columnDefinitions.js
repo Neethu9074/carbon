@@ -167,7 +167,7 @@ export function getEntityNameAsSubtitle(config, isGlobalSmartAlertConfig) {
   return <ListSubtitle label={label} icon="lib_application" />;
 }
 
-function ApplicationName({ applicationId }) {
+export function ApplicationName({ applicationId }) {
   const applicationLabel = useObservable(getApplicationLabelObservable, [applicationId]);
 
   return <ListSubtitle label={applicationLabel} icon="lib_application" />;
