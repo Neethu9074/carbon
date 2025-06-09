@@ -6,6 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import ListDeselectionColumn from 'in-alerting/smart-alerts/applications/list/columns/ListDeselectionColumn';
 import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/list/columns/EvaluationTypeColumn';
@@ -22,6 +24,7 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import { isCategoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -151,13 +154,30 @@ export function deselectActionColumnDefinition(onDeselect, width) {
 // function to display subtitle in carbon table
 export function getEntityNameAsSubtitle(config, isGlobalSmartAlertConfig) {
   if (!isGlobalSmartAlertConfig) {
+    const { applicationId } = config;
+    if (applicationId) {
+      return <ApplicationName applicationId={applicationId} />;
+    }
     return;
   }
   const { applicationIds } = config;
   const label = t('in-alerting:smartAlerts.applications.inventory.numberOfApplicationsSelected', {
     count: applicationIds?.length
   });
-  return <ListSubtitle label={label} icon={'lib_application'} />;
+  return <ListSubtitle label={label} icon="lib_application" />;
+}
+
+function ApplicationName({ applicationId }) {
+  const applicationLabel = useObservable(getApplicationLabelObservable, [applicationId]);
+
+  return <ListSubtitle label={applicationLabel} icon="lib_application" />;
+}
+
+function getApplicationLabelObservable([id]) {
+  if (!id) {
+    return null;
+  }
+  return getApplication({ id }).map(result => result.data?.label);
 }
 
 export function createTableColumnDefinition(configsCategory, trackCta, useSmartAlertCreateUrl, urlParams) {

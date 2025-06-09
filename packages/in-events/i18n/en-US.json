@@ -335,7 +335,9 @@
     "ApplicationSmartAlert": "Application Smart Alerts",
     "syntheticsSA": "Synthetics Smart Alerts",
     "infraSA": "Infrastructure Smart Alerts",
-    "logSA": "Log Smart Alerts"
+    "logSA": "Log Smart Alerts",
+    "websiteSA": "Website Smart Alerts",
+    "mobileSA": "Mobile Smart Alerts"
   },
   "feedback": {
     "skip": "Skip",

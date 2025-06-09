@@ -11,7 +11,7 @@ import {
   enableAlertConfig,
   deleteAlertConfig
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { ALERTING_DELETE_CONFIRM } from 'in-services/tracking/eventNames';

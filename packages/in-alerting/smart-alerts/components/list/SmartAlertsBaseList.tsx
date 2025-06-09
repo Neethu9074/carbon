@@ -296,7 +296,7 @@ export function getConfigByCategory<AlertConfig extends AlertConfigType>({
   return { configs: [], loading: true, errors: [] };
 }
 
-type FetchedConfigs<AlertConfig extends AlertConfigType> = {
+export type FetchedConfigs<AlertConfig extends AlertConfigType> = {
   configs: AlertConfig[];
   isLoading: boolean;
   errors: Error[];

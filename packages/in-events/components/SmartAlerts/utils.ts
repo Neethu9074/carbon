@@ -5,13 +5,14 @@
  */
 
 import { combineLatest } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
 
 import {
   getApplicationAlertConfigStats,
   getInfraAlertConfigStats,
   getSyntheticAlertConfigStats,
-  getLogAlertConfigStats
+  getLogAlertConfigStats,
+  getMobileAppAlertConfigStats,
+  getWebsiteAlertConfigStats
 } from 'in-events/components/SmartAlerts/api/api';
 import { ConfigStats } from 'in-events/components/SmartAlerts/constants';
 
@@ -19,23 +20,23 @@ export function getCountLabel(id: string, allConfigStats?: ConfigStats): string 
   return allConfigStats?.[id]?.toString();
 }
 
-export function useAllConfigStats() {
+export function getAllConfigStats() {
   const firstStatsGroup$ = combineLatest([
     getApplicationAlertConfigStats({}),
     getInfraAlertConfigStats({}),
     getSyntheticAlertConfigStats({})
   ]);
 
-  const secondStatsGroup$ = combineLatest([getLogAlertConfigStats({})]);
+  const secondStatsGroup$ = combineLatest([
+    getLogAlertConfigStats({}),
+    getWebsiteAlertConfigStats({}),
+    getMobileAppAlertConfigStats({})
+  ]);
 
-  const allConfigStats = useObservable(combineLatest([firstStatsGroup$, secondStatsGroup$]), [])?.reduce(
-    (acc: ConfigStats, group: Array<any>) => {
-      return group?.reduce((innerAcc, next) => {
-        return { ...innerAcc, ...next.data };
-      }, acc);
-    },
-    {}
-  );
+  const allConfigStats = () =>
+    combineLatest([firstStatsGroup$, secondStatsGroup$]).map(([firstStatsGroup, secondStatsGroup]) => {
+      return [...firstStatsGroup, ...secondStatsGroup];
+    });
 
   return allConfigStats;
 }

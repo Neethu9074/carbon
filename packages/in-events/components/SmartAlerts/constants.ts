@@ -15,6 +15,8 @@ export const smartAlerts = 'smartAlerts';
 export const infraAlerts = 'infraAlerts';
 export const syntheticAlerts = 'syntheticAlerts';
 export const logAlerts = 'logAlerts';
+export const websiteAlerts = 'websiteAlerts';
+export const mobileAppAlerts = 'mobileAppAlerts';
 
 export const TabList = [
   {
@@ -24,6 +26,14 @@ export const TabList = [
   {
     id: smartAlerts,
     label: t('in-events:eventsSmartAlerts.ApplicationSmartAlert')
+  },
+  {
+    id: websiteAlerts,
+    label: t('in-events:eventsSmartAlerts.websiteSA')
+  },
+  {
+    id: mobileAppAlerts,
+    label: t('in-events:eventsSmartAlerts.mobileSA')
   },
   {
     id: infraAlerts,

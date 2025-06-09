@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { getAllGlobalAlertConfigsForApplicationsAsResultObservable } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
+import { getAllGlobalAlertConfigsForApplications } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { Alerts } from 'in-events/components/SmartAlerts/Components/Application/ApplicationAlerts';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -16,7 +16,7 @@ export default function GlobalApplicationSmartAlerts() {
   return (
     <Alerts
       configsCategory={categoryGlobal}
-      fetchFunction={() => getAllGlobalAlertConfigsForApplicationsAsResultObservable()}
+      fetchFunction={() => getAllGlobalAlertConfigsForApplications()}
       noDataHeader={t('in-alerting:smartAlerts.applications.inventory.noGlobalAlertDataHeader')}
       noDataDescription={
         <Trans i18nKey="in-alerting:smartAlerts.applications.inventory.noGlobalAlertDataDescription" />

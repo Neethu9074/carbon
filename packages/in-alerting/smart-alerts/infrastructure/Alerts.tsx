@@ -10,10 +10,6 @@ import { ThresholdConfigUnion, InfraAlertRuleUnion, ForecastingConfig } from '@i
 import { themes } from '@instana/design-tokens';
 
 import {
-  getAllAlertConfigsWithResult,
-  getInfraConfigsAsResultObservable
-} from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
-import {
   infraAlertsDetailsPath,
   infraAlertDetailsFullyQualifiedPath,
   infraSmartAlerts
@@ -24,6 +20,7 @@ import {
 } from 'in-infrastructure/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -65,7 +62,7 @@ export default function Alerts({ isEventsView = false }: { isEventsView?: boolea
     <AlertBaseList<InfraSmartAlertConfigWithMetadata>
       extraColumnDefinitions={getColumnDefinitions()}
       actionHandlers={handlers}
-      getAlertConfigs={() => (isEventsView ? getInfraConfigsAsResultObservable() : getAllAlertConfigsWithResult())}
+      getAlertConfigs={() => getAllAlertConfigsWithResult()}
       createRowLinkLocation={createRowLinkLocation}
       getSubtitle={config => getSubtitle(config.rule, config.threshold, config.forecastingConfig)}
       sortOptions={sortOptions}
