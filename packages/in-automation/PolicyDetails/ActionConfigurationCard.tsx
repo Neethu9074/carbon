@@ -67,7 +67,9 @@ export default function ActionConfigurationCard({ data, agentId, inputParameterV
       <CarbonGrid fullWidth className={classNames(local.removeMarginX, local.customMarginY)}>
         <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:name')}>
-            <Link href={hrefToActionDashboard(data.id)}>{data?.name}</Link>
+            <Link href={hrefToActionDashboard(data.id)} external>
+              {data?.name}
+            </Link>
           </CarbonFormGroup>
         </CarbonColumn>
         <CarbonColumn span="50%">
