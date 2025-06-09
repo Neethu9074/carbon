@@ -24,7 +24,7 @@ export default function UpdateConfigurationDialog() {
   };
 
   return (
-    <Dialog title={t('in-forge:plugins.instanaAgent.dashboard.updateConfig')} onClose={close}>
+    <Dialog title={t('in-infrastructure:collectorView.updateConfig')} onClose={close}>
       <HorizontalFlexWrapper style={{ height: '100vh', width: '150vh' }}>
         <ConfigEditor agentConfig={config} handleAgentConfigChange={handleConfigChange} />
         <ConfigFlowChart config={config} />

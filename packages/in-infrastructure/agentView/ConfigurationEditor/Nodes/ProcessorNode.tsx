@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Schematics } from '@carbon/icons-react';
 import React from 'react';
 
 import { ShapeNode } from '@instana/carbon-charts';
-import { Schematics } from '@carbon/icons-react';
+
+import { t } from 'in-i18n';
 
 interface ProcessorNodeProps {
   x: number;
@@ -25,7 +27,7 @@ export default function ProcessorNode({ x, y, name }: ProcessorNodeProps) {
           shape="rounded-square"
           renderIcon={<Schematics />}
           size="100%"
-          title={name ? name : 'Processor'}
+          title={name ? name : t('in-infrastructure:collectorView.processor')}
           style={{ backgroundColor: '#a6c8ff' }}
         />
       </div>

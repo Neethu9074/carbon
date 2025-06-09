@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Export } from '@carbon/icons-react';
 import React from 'react';
 
-import { Export } from '@carbon/icons-react';
 import { ShapeNode } from '@instana/carbon-charts';
+
+import { t } from 'in-i18n';
 
 interface ExporterNodeProps {
   x: number;
@@ -25,7 +27,7 @@ export default function ExporterNode({ x, y, name }: ExporterNodeProps) {
           shape="rounded-square"
           renderIcon={<Export />}
           size="100%"
-          title={name ? name : 'Exporter'}
+          title={name ? name : t('in-infrastructure:collectorView.exporter')}
           style={{ backgroundColor: '#78a9ff' }}
         />
       </div>

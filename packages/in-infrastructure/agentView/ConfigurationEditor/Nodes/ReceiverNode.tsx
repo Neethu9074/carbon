@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
+import { WorkspaceImport } from '@carbon/icons-react';
 import React from 'react';
 
-import { WorkspaceImport } from '@carbon/icons-react';
 import { ShapeNode } from '@instana/carbon-charts';
+
+import { t } from 'in-i18n';
 
 interface ReceiverNodeProps {
   x: number;
@@ -25,7 +27,7 @@ export default function ReceiverNode({ x, y, name }: ReceiverNodeProps) {
           shape="rounded-square"
           renderIcon={<WorkspaceImport />}
           size="100%"
-          title={name ? name : 'Receiver'}
+          title={name ? name : t('in-infrastructure:collectorView.reveiver')}
           style={{ backgroundColor: '#edf5ff' }}
         />
       </div>
