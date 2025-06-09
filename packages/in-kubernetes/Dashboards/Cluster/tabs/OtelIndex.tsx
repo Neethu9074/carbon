@@ -26,6 +26,7 @@ import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
 import OtelNodes from 'in-kubernetes/Dashboards/Cluster/tabs/OtelNodes';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/OtelSummary';
+import OtelPods from 'in-kubernetes/Dashboards/Cluster/tabs/OtelPods';
 import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
@@ -57,18 +58,12 @@ export default [
   openTelemetryKubernetesUnifiedViewEnabled && {
     label: t('in-kubernetes:dashboards.pods'),
     path: `${clusterDashboardFullyQualified}${podsDashboard}`,
-    component: Pods,
-    header: ({
-      result,
-      tab,
-      location
-    }: {
-      result: Result<KubernetesClusterListItem>;
-      tab: DashboardTab;
-      location: Location;
-    }) => getCounterComponent({ result, tab, location }, v => v.workloads?.pods ?? 0),
-    stickToBottom: true
-  }
+    component: (props: { result?: any; tab?: DashboardTab; location?: Location }) => (
+      <OtelPods {...props} data={props.result?.data ?? {}} />
+    ),
+    header: (props: { result: any; tab: DashboardTab; location: Location }) =>
+      getCounterComponent(props, v => v.pods)
+  },
 ].filter(Boolean);
 
 function getCounterComponent(

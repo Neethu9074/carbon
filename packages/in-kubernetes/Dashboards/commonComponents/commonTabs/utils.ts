@@ -14,10 +14,12 @@ import {
   EntityHealthInfo
 } from '@instana/types';
 
-import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
 import getOtelKubernetesNodes from 'in-kubernetes/subscriptions/getOtelKubernetesNodes';
+import getOtelKubernetesPods from 'in-kubernetes/subscriptions/getOtelKubernetesPods';
+import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
 import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import { getInfraGranularity } from 'in-stores/metric/metric';
+
 interface GetHealthyStatusProps extends Omit<KubernetesPodListItem, 'pod'> {
   statusSummary: string;
   podConditions: KubernetesCondition[];
@@ -215,6 +217,36 @@ export function getOtelKubernetesNodesData({
   });
 }
 
+interface GetOtelKubernetesPodsQuery extends KubernetesQueryFilter, KubernetesQuery {}
+
+export function getOtelKubernetesPodsData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'type',
+  orderDirection = 'ASC',
+  timeConfig,
+  clusterId,
+  workloadControllerId
+}: GetOtelKubernetesPodsQuery) {
+  return getOtelKubernetesPods({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      clusterId,
+      workloadControllerId,
+      timeConfig
+    },
+    granularity: getInfraGranularity(timeConfig)
+  });
+}
 
 interface GetKubernetesWorkloadQuery extends KubernetesQueryFilter, KubernetesQuery {
   resultTransformer?: (result: Result<any>) => any;

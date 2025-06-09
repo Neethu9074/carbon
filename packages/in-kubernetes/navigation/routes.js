@@ -61,6 +61,9 @@ export default [
   <Route key="kubernetesPersistentVolumeDashboard" path={persistentVolumeDashboardFullyQualified}>
     {renderAsyncRouteChildren(PersistentVolumeDashboard)}
   </Route>,
+  <Route key="kubernetesOtelPodDashboard" path={podOtelDashboardFullyQualified}>
+    {renderAsyncRouteChildren(PodDashboard)}
+  </Route>,
   <Route key="kubernetesPodDashboard" path={podDashboardFullyQualified}>
     {renderAsyncRouteChildren(PodDashboard)}
   </Route>,

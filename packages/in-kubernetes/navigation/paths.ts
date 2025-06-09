@@ -69,7 +69,9 @@ export const containerDashboardDetailsFullyQualified = `${containerDashboardFull
 
 export const podDashboard = `/pod`;
 export const podsDashboard = `/pods`;
+export const podOtelDashboard = `/pod/otel`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
+export const podOtelDashboardFullyQualified = `${kubernetes}${podOtelDashboard}`;
 export const podDashboardDetailsFullyQualified = `${podDashboardFullyQualified}/details`;
 
 export const nodeDashboard = `/node`;
@@ -285,6 +287,37 @@ export function usePodDashboard(
       setOrDeleteMatrixKey(params, podDashboard, matrixDeploymentId, deploymentId);
       setOrDeleteMatrixKey(params, podDashboard, matrixCronJobId, cronJobId);
       setOrDeleteMatrixKey(params, podDashboard, matrixNodeId, nodeId);
+    }
+  });
+}
+
+export function useOtelPodDashboard(
+  podId: string,
+  {
+    tab,
+    tabMatrix,
+    timeConfig,
+    clusterId,
+    namespaceId,
+    deploymentId,
+    nodeId,
+    cronJobId
+  }: BaseProps & IdsProps = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: podOtelDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: podDashboard,
+    matrixParam: matrixPodId,
+    id: podId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixClusterId, clusterId); // TODO: use podOtelDashboard for OpenTelemetry or podDashboard for non-OpenTelemetry??
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixNamespaceId, namespaceId);
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixDeploymentId, deploymentId);
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixCronJobId, cronJobId);
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixNodeId, nodeId);
     }
   });
 }
