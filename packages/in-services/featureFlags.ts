@@ -413,3 +413,4 @@ export const openTelemetryKubernetesPodsViewEnabled = isFeatureFlagEnabled(
   false
 );
 export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);
+export const otelCollectorConfigEditorEnabled = isFeatureFlagEnabled('otelCollectorConfigEditorEnabled', false);
