@@ -19,7 +19,6 @@ import {
   CarbonTableCell,
   Link
 } from '@instana/components';
-import { formatDate, formatTime } from '@instana/format-date';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -33,6 +32,7 @@ import EventDurationMarker from 'in-events/components/legacy/marker/EventDuratio
 import { getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 // @ts-expect-error no typedef available
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
+import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -191,7 +191,7 @@ function AffectedIncidentsTable({ prcAttachedIncidents, headers, timeConfig }: A
               )
             )}
           >
-            {`${formatDate(start)} ${formatTime(start)}`}
+            {`${formatCarbonDate(start)} ${formatCarbonTime(start)}`}
           </Link>
         </Tooltip>
       ),
@@ -251,8 +251,8 @@ const chartOptions = {
           const date = tick instanceof Date ? tick : new Date(tick);
           // Set milliseconds to 0 to ignore them
           date.setMilliseconds(0);
-          const formattedDate = formatDate(date.getTime());
-          const formattedTime = formatTime(date.getTime());
+          const formattedDate = formatCarbonDate(date.getTime());
+          const formattedTime = formatCarbonTime(date.getTime());
           // Ensure we always return a string
           return formattedTime ? formattedDate + '\n' + formattedTime.toString() : '';
         }
@@ -289,8 +289,8 @@ const chartOptions = {
 
       return `
         <div class="carbon-tooltip-content">
-          <p>${t('in-events:date')}: ${formatDate(timestamp)}</p>
-          <p>${t('in-events:time')}: ${formatTime(timestamp)}</p>
+          <p>${t('in-events:date')}: ${formatCarbonDate(timestamp)}</p>
+          <p>${t('in-events:time')}: ${formatCarbonTime(timestamp)}</p>
           <p>${t('in-events:probability')}: ${dataPoint.prcProbability.toFixed(2)}</p>
         </div>
       `;
