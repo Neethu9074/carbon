@@ -37,6 +37,7 @@ import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
 import { Triggers } from 'in-automation/types';
 import useUrlState from 'in-hooks/useUrlState';
+import { role } from 'in-stores/user';
 import { Policy } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -137,7 +138,7 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
                   {backLable}
                 </Link>
               )}
-              <PolicyControls data={policy} />
+              {role?.canConfigureAutomationPolicies && <PolicyControls data={policy} />}
             </div>
 
             <CarbonRow>
