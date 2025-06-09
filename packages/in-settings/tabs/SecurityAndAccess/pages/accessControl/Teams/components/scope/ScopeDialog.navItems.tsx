@@ -14,6 +14,7 @@ import {
   getAllSyntheticTestsForEntitySelectionWithDefaults
 } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import { getAllBusinessPerspectivesForEntitySelectionWithDefaults } from 'in-bizops/subscriptions/helpers/getAllBusinessPerspectivesForEntitySelectionWithDefaults';
+import { MinimalSelectEntitiesProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/SelectEntitiesTable.types';
 import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesNamespacesForEntitySelection';
 import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
 import LimitedAccessSwitcher from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
@@ -24,6 +25,7 @@ import AutomationsSection from 'in-settings/tabs/SecurityAndAccess/pages/accessC
 import { ScopeFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import KubernetesSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/KubernetesSection';
+import SyntheticsSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/SyntheticsSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import ScopeSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection';
 import { TeamScopeEntity } from 'in-settings/tabs/SecurityAndAccess/api/teams';
@@ -39,6 +41,20 @@ export const extractId = (entity: TeamScopeEntity): string => {
 };
 
 export const createNavItems = (form: MapForm<ScopeFormFields>, teamTag: string, timeConfig: TimeConfig) => {
+  const syntheticTestEntityTable: MinimalSelectEntitiesProps<TeamScopeEntity> = {
+    fieldName: 'syntheticTests',
+    observable: () => getAllSyntheticTestsForEntitySelectionWithDefaults({ timeConfig }),
+    tableAddLabel: t('in-settings:dialogs.scope.addSyntheticTestsLabel'),
+    tableTitle: t('in-settings:dialogs.scope.syntheticTestsSectionTitle')
+  };
+
+  const syntheticCredentialsEntityTable: MinimalSelectEntitiesProps<TeamScopeEntity> = {
+    fieldName: 'syntheticCredentials',
+    observable: () => getAllSyntheticCredentialsForEntitySelectionWithDefaults({ timeConfig }),
+    tableAddLabel: t('in-settings:dialogs.scope.addSyntheticCredentialsLabel'),
+    tableTitle: t('in-settings:dialogs.scope.syntheticCredentialsSectionTitle')
+  };
+
   return [
     {
       content: <Trans i18nKey={'in-settings:dialogs.scope.generalSectionDescription'} />,
@@ -156,38 +172,18 @@ export const createNavItems = (form: MapForm<ScopeFormFields>, teamTag: string, 
     },
     {
       content: (
-        <ScopeSection<TeamScopeEntity>
+        <SyntheticsSection<TeamScopeEntity>
           extractId={extractId}
           extractName={extractName}
-          fieldName="syntheticTests"
           limitedAccessScopes={[LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]}
-          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedSyntheticTestsSwitchLabel')}
-          observable={() => getAllSyntheticTestsForEntitySelectionWithDefaults({ timeConfig })}
-          tableAddLabel={t('in-settings:dialogs.scope.addSyntheticTestsLabel')}
-          tableTitle={t('in-settings:dialogs.scope.syntheticTestsSectionTitle')}
+          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedSyntheticSwitchLabel')}
+          syntheticTestEntityTable={syntheticTestEntityTable}
+          syntheticCredentialsEntityTable={syntheticCredentialsEntityTable}
         />
       ),
-      label: t('in-settings:dialogs.scope.syntheticTestsSectionTitle'),
-      scrollId: 'synthetic-tests-section',
-      title: t('in-settings:dialogs.scope.syntheticTestsSectionTitle'),
-      valid: true
-    },
-    {
-      content: (
-        <ScopeSection<TeamScopeEntity>
-          extractId={extractId}
-          extractName={extractName}
-          fieldName="syntheticCredentials"
-          limitedAccessScopes={[LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]}
-          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedSyntheticCredentialsSwitchLabel')}
-          observable={() => getAllSyntheticCredentialsForEntitySelectionWithDefaults({ timeConfig })}
-          tableAddLabel={t('in-settings:dialogs.scope.addSyntheticCredentialsLabel')}
-          tableTitle={t('in-settings:dialogs.scope.syntheticCredentialsSectionTitle')}
-        />
-      ),
-      label: t('in-settings:dialogs.scope.syntheticCredentialsSectionTitle'),
-      scrollId: 'synthetic-credentials-section',
-      title: t('in-settings:dialogs.scope.syntheticCredentialsSectionTitle'),
+      label: t('in-settings:dialogs.scope.syntheticSectionTitle'),
+      scrollId: 'synthetic-section',
+      title: t('in-settings:dialogs.scope.syntheticSectionTitle'),
       valid: true
     },
     {

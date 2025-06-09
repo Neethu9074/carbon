@@ -26,3 +26,8 @@ export interface ScopeItemRow<ROW_DATA> {
   name: ReactNode;
   rowData: ROW_DATA;
 }
+
+export type MinimalSelectEntitiesProps<I> = Pick<
+  SelectEntitiesTableProps<I>,
+  'fieldName' | 'observable' | 'tableAddLabel' | 'tableTitle'
+>;

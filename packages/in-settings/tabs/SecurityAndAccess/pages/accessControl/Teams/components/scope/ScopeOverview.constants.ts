@@ -138,7 +138,7 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
         infrastructure: hasAccessToAllInfrastructure
           ? t('in-settings:tabs.teams.scopeInfrastructureSubtitleAll')
           : t('in-settings:tabs.teams.scopePlatformsAndInfrastructureSubtitleInfrastructure', {
-              infraDfq: scope?.infraDfqFilter ? 'DFQ' : null
+              infraDfq: scope?.infraDfqFilter ? 'DFQ' : t('in-settings:tabs.teams.scopeInfrastructureSubtitleLimited')
             })
       });
     },
@@ -163,9 +163,9 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
         {
           id: 'infrastructure',
           title: t('in-settings:tabs.teams.scopeInfrastructure'),
-          items: ['dfqId'],
+          items: scope?.infraDfqFilter ? ['dfqId'] : [],
           observable: () =>
-            successObservable(scope?.infraDfqFilter ? [{ id: 'dfqId', name: scope.infraDfqFilter ?? '' }] : []),
+            successObservable(scope?.infraDfqFilter ? [{ id: 'dfqId', name: scope.infraDfqFilter }] : []),
           extractId: extractId,
           extractName: extractName
         }
@@ -176,13 +176,18 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     id: 'synthetic-monitoring',
     title: t('in-settings:tabs.teams.scopeSyntheticMonitoring'),
     subtitle: scope => {
+      const hasAccessToAllSynthetics = hasEntireUnitScope(scope, [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]);
       return t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitle', {
-        tests: t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitleTests', {
-          count: scope?.syntheticTests?.length ?? 0
-        }),
-        credentials: t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitleCredentials', {
-          count: scope?.syntheticCredentials?.length ?? 0
-        })
+        tests: hasAccessToAllSynthetics
+          ? t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitleTestsAll')
+          : t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitleTests', {
+              count: scope?.syntheticTests?.length ?? 0
+            }),
+        credentials: hasAccessToAllSynthetics
+          ? t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitleCredentialsAll')
+          : t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitleCredentials', {
+              count: scope?.syntheticCredentials?.length ?? 0
+            })
       });
     },
     items: (scope, timeConfig) => {
