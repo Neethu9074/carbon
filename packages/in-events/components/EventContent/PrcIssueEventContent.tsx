@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import { LineChart } from '@carbon/charts-react';
+import { ScaleTypes } from '@carbon/charts';
 import React from 'react';
 
 import {
@@ -17,7 +19,6 @@ import {
   CarbonTableCell,
   Link
 } from '@instana/components';
-import { formatDate, formatTime } from '@instana/format-date';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -31,6 +32,7 @@ import EventDurationMarker from 'in-events/components/legacy/marker/EventDuratio
 import { getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 // @ts-expect-error no typedef available
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
+import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -45,9 +47,6 @@ import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
-
-// import { LineChart } from '@instana/carbon-charts';
-// import { LineChartOptions, ScaleTypes } from '@carbon/charts-react';
 
 type TYPE_AFFECTED_INCIDENTS = EventOrMap[] | unknown[] | null | undefined;
 type HEADER = {
@@ -125,14 +124,13 @@ export default function PrcIssueEventContent({ event }: PrcIssueEventContentProp
           </Card>
         </Col>
       </Row>
-      {/* experiemntal work below to try to include a line chart of the probability of failure over time */}
-      {/* <Row withoutSideMargin>
-      <Col xs>
-          <Card title={"Fault Probability"}>
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card title={t('in-events:titleFaultProbabilityChart')}>
             <PrcConfidenceChart event={event} />
           </Card>
         </Col>
-      </Row> */}
+      </Row>
     </>
   );
 }
@@ -193,7 +191,7 @@ function AffectedIncidentsTable({ prcAttachedIncidents, headers, timeConfig }: A
               )
             )}
           >
-            {`${formatDate(start)} ${formatTime(start)}`}
+            {`${formatCarbonDate(start)} ${formatCarbonTime(start)}`}
           </Link>
         </Tooltip>
       ),
@@ -238,60 +236,94 @@ function AffectedIncidentsEmptyState() {
 
 // experimental work to add a line chart for probability over time
 
-// interface PrcConfidenceChartProps {
-//   event: EventOrMap
-// }
+interface PrcConfidenceChartProps {
+  event: EventOrMap;
+}
 
-// const chartOptions : LineChartOptions = {
-// 	axes: {
-// 		bottom: {
-// 			title: "Date",
-// 			mapsTo: "end",
-//       scaleType: ScaleTypes.TIME,
-// 		},
-// 		left: {
-// 			mapsTo: "prcProbability",
-// 			title: "Probability",
-//       scaleType: ScaleTypes.LINEAR
-// 		}
-// 	},
-//   legend:{
-//     enabled:false
-//   },
-//   experimental:true,
-// }
+const chartOptions = {
+  axes: {
+    bottom: {
+      title: '',
+      mapsTo: 'end',
+      scaleType: ScaleTypes.TIME,
+      ticks: {
+        formatter: (tick: number | Date) => {
+          const date = tick instanceof Date ? tick : new Date(tick);
+          // Set milliseconds to 0 to ignore them
+          date.setMilliseconds(0);
+          const formattedDate = formatCarbonDate(date.getTime());
+          const formattedTime = formatCarbonTime(date.getTime());
+          // Ensure we always return a string
+          return formattedTime ? formattedDate + '\n' + formattedTime.toString() : '';
+        }
+      }
+    },
+    left: {
+      mapsTo: 'prcProbability',
+      title: t('in-events:labelFailureProbability'),
+      scaleType: ScaleTypes.LINEAR
+    }
+  },
+  legend: {
+    enabled: false
+  },
+  height: '300px',
+  grid: {
+    x: {
+      enabled: true
+    },
+    y: {
+      enabled: true
+    }
+  },
+  tooltip: {
+    enabled: true,
+    customHTML: (data: any[]) => {
+      const dataPoint = data[0];
+      if (!dataPoint) return '';
 
-// type confidenceData = {
-//   prcProbability: number,
-//   start: string,
-//   end: string
-// }
+      // Get timestamp and remove milliseconds
+      const date = new Date(dataPoint.end);
+      date.setMilliseconds(0);
+      const timestamp = date.getTime();
 
-// function PrcConfidenceChart({ event } : PrcConfidenceChartProps) {
-//   const prcEvaluationWindows : any[] = event.getIn(['metadata', 'prcEvaluationWindows'], []);
-//   console.log(prcEvaluationWindows)
-//   const data : confidenceData[]  = prcEvaluationWindows.map(x => {
-//     return {
-//       prcProbability: x.get('prcProbability'),
-//       start: `${formatDate(x.get('start'))} ${formatTime(x.get('start'))}`,
-//       end: `${formatDate(x.get('end'))}T${formatTime(x.get('end'))}`
-//     }
-//   }
-//   )
-//   console.log(data)
+      return `
+        <div class="carbon-tooltip-content">
+          <p>${t('in-events:date')}: ${formatCarbonDate(timestamp)}</p>
+          <p>${t('in-events:time')}: ${formatCarbonTime(timestamp)}</p>
+          <p>${t('in-events:probability')}: ${dataPoint.prcProbability.toFixed(2)}</p>
+        </div>
+      `;
+    }
+  },
+  curve: 'curveMonotoneX'
+};
 
-//   const mockData = [
-//     {group: "Probability of Failure",
-//       prcProbability: 0.7,
-//      end: "2019-01-02T05:00:00.000Z"
-//     },
-//     {group: "Probability of Failure",
-//       prcProbability: 0.8,
-//       end: "2019-01-02T05:10:00.000Z"
-//      },
-//   ]
+type ConfidenceData = {
+  group: string;
+  prcProbability: number;
+  start: number;
+  end: number;
+};
+function PrcConfidenceChart({ event }: PrcConfidenceChartProps) {
+  let chartData: ConfidenceData[] = [];
+  const prcEvaluationWindows: any[] = event.getIn(['metadata', 'prcEvaluationWindows'], []);
+  prcEvaluationWindows.map((window: any) => {
+    // Remove milliseconds from timestamps
+    const start = parseInt(window.get('start'));
+    const end = parseInt(window.get('end'));
 
-//   return (
-//     <LineChart data={mockData} options={chartOptions}/>
-//   )
-// }
+    // Round timestamps to the nearest second by setting milliseconds to 0
+    const startNoMs = new Date(start).setMilliseconds(0);
+    const endNoMs = new Date(end).setMilliseconds(0);
+
+    chartData.push({
+      group: t('in-events:probability'),
+      prcProbability: parseFloat(window.get('prcProbability')),
+      start: startNoMs,
+      end: endNoMs
+    });
+  });
+
+  return <LineChart data={chartData} options={chartOptions} />;
+}
