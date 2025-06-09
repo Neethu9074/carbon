@@ -19,7 +19,6 @@ interface Service {
   pipelines: Pipelines;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface OTelConfig {
   receivers: object;
   processors: object;

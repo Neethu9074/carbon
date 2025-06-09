@@ -1,16 +1,17 @@
 /*
- * (c) Copyright IBM Corp. 2024
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 import React, { useState } from 'react';
 
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 // @ts-ignore
-// temp yaml hack
-import SampleConfig from 'in-visualize/SampleConfig.yaml';
-import ConfigFlowChart from 'in-visualize/components/ConfigFlowChart';
-import ConfigEditor from 'in-visualize/components/ConfigEditor';
+// temp yaml file import until collector management integration
+import SampleConfig from 'in-infrastructure/agentView/ConfigurationEditor/SampleConfig.yaml';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import ConfigFlowChart from 'in-infrastructure/agentView/ConfigurationEditor/ConfigFlowChart';
+import ConfigEditor from 'in-infrastructure/agentView/ConfigurationEditor/ConfigEditor';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
