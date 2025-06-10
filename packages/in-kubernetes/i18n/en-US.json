@@ -29,6 +29,7 @@
     "summary": "Summary",
     "details": "Details",
     "hostCoverage": "Host coverage",
+    "k8SensorVersion": "K8s Sensor Version",
     "clusterUuid": "Cluster UUID",
     "agentMonitor": "Agent monitor",
     "controlPlane": "Control plane",
