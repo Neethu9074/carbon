@@ -491,7 +491,8 @@
         "tests": "Tests",
         "locations": "Locations",
         "smartAlerts": "Smart Alerts",
-        "credentials": "Credentials"
+        "credentials": "Credentials",
+        "syntheticTests": "Synthetic tests"
       },
       "options": {
         "scheduledMenuLabel": "Scheduled",

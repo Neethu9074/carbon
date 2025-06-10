@@ -1,0 +1,51 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
+import { Ellipsis, ListItem, Width } from 'in-synthetics/components/constants';
+
+export const getEllipsisValue = (ellipsis: Ellipsis, width: Width) => {
+  if (typeof ellipsis === 'string' || (width !== 'undefined' && ellipsis !== undefined)) {
+    ellipsis = true;
+  }
+  ellipsis ??= false;
+  return ellipsis;
+};
+
+export const getWidthValue = (ellipsis: Ellipsis, width: Width) => {
+  if (typeof ellipsis === 'string') {
+    width = ellipsis;
+  }
+  return width;
+};
+
+export const getWidthInAbsoluteUnit = (ellipsis: Ellipsis, widthInAbsoluteUnit: boolean | undefined) => {
+  if (typeof ellipsis === 'string') {
+    widthInAbsoluteUnit = true;
+  }
+  return widthInAbsoluteUnit;
+};
+
+export const getHeader = <ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
+  item: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>
+) => {
+  if (item.renderLabel) {
+    const label = typeof item.label === 'string' ? ({ data: item.label } as unknown as string) : item.label;
+    return item.renderLabel({ ...item, label });
+  }
+  return item.label;
+};
+
+export const getSortDirection = (id: string, orderBy: string, orderDirection: string) => {
+  let sortDirection: 'ASC' | 'DESC' | 'NONE';
+
+  if (id === orderBy) {
+    sortDirection = orderDirection === 'ASC' ? 'ASC' : 'DESC';
+  } else {
+    sortDirection = 'NONE';
+  }
+  return sortDirection;
+};

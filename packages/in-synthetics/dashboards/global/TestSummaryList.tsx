@@ -55,13 +55,18 @@ import showNotification, {
   storedAlarmTimeOrNull,
   timeExpired
 } from 'in-synthetics/utils/setReminders';
+import {
+  syntheticCarbonTableEnabled,
+  syntheticRbacLimitedEnabled,
+  syntheticRunNowEnabled
+} from 'in-services/featureFlags';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import SyntheticDataTableWithUrlState from 'in-synthetics/components/SyntheticDataTableWithUrlState';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
-import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -223,34 +228,47 @@ const TestSummaryList = () => {
             />
           </div>
         )}
-        <ServerTableWithUrlState
-          get={getTestSummaryListData}
-          timeConfig={timeConfig}
-          rightHeader={rightHeader}
-          cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
-          toolBarContent={
-            syntheticRunNowEnabled && (
-              <Dropdown
-                className={locals.dropdownWidth}
-                items={datascopeRunTypes}
-                onChange={({ selectedItem }) => {
-                  setFilter({ runType: selectedItem?.value! });
-                }}
-                label=""
-                id="runType"
-                titleText=""
-                selectedItem={datascopeRunTypes.find(item => item.value === runType)}
-                initialSelectedItem={datascopeRunTypes[0]}
-              />
-            )
-          }
-          runType={runType}
-          syntheticTypes={syntheticTypes}
-          locationIds={locationIds}
-          applicationIds={applicationIds}
-          entityIds={entityIds}
-          associations={associations}
-        />
+        {syntheticCarbonTableEnabled ? (
+          <SyntheticDataTableWithUrlState
+            get={getTestSummaryListData}
+            paginationResettingUrlParameters={[...timeConfigUrlParameters]}
+            columnDefinitions={columnDefinitions}
+            defaultOrderBy="successRate"
+            defaultOrderDirection="ASC"
+            pathSegment={pathSegment}
+            matrixPrefix={matrixPrefix}
+            timeConfig={timeConfig}
+          />
+        ) : (
+          <ServerTableWithUrlState
+            get={getTestSummaryListData}
+            timeConfig={timeConfig}
+            rightHeader={rightHeader}
+            cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
+            toolBarContent={
+              syntheticRunNowEnabled && (
+                <Dropdown
+                  className={locals.dropdownWidth}
+                  items={datascopeRunTypes}
+                  onChange={({ selectedItem }) => {
+                    setFilter({ runType: selectedItem?.value! });
+                  }}
+                  label=""
+                  id="runType"
+                  titleText=""
+                  selectedItem={datascopeRunTypes.find(item => item.value === runType)}
+                  initialSelectedItem={datascopeRunTypes[0]}
+                />
+              )
+            }
+            runType={runType}
+            syntheticTypes={syntheticTypes}
+            locationIds={locationIds}
+            applicationIds={applicationIds}
+            entityIds={entityIds}
+            associations={associations}
+          />
+        )}
       </LeftRightPadding>
       <Footer />
 

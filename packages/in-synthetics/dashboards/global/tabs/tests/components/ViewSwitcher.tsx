@@ -8,12 +8,12 @@ import React from 'react';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { syntheticCarbonTableEnabled, syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
-import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-synthetics/navigation/paths';
@@ -50,9 +50,13 @@ export default function ViewSwitcher() {
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticsPath)}
-              label={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
+              label={
+                syntheticCarbonTableEnabled
+                  ? t('in-synthetics:dashboard.testList.secondaryLabels.syntheticTests')
+                  : t('in-synthetics:dashboard.testList.secondaryLabels.tests')
+              }
               isActive={isTestsActive && !isLocationsActive && !isCredentialsActive && !isSmartAlertsActive}
-              icon={'lib_synthetic'}
+              icon={syntheticCarbonTableEnabled ? '' : 'lib_synthetic'}
             />
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticLocationPath)}
