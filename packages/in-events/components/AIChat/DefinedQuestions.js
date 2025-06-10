@@ -66,6 +66,15 @@ export const promptLibrary = [
   }
 ];
 
+// This is our user type prompt_library that will ultimately invoke
+// our CustomResponse/PromptBubble
+export const promptLibraryBubble = {
+  response_type: 'user_defined',
+  user_defined: {
+    user_defined_type: 'prompt_library'
+  }
+};
+
 export const technologyOptions = {
   response_type: 'user_defined',
   user_defined: {
@@ -132,8 +141,8 @@ export const reprompt = [
   {
     response_type: 'text',
     text: t('in-events:aichat.anyOtherQs')
-  },
-  technologyOptions
+  } //,
+  //technologyOptions
 ];
 
 export const InitialLoadOptions = [
@@ -141,7 +150,7 @@ export const InitialLoadOptions = [
     response_type: 'text',
     text: WELCOME_TEXT
   },
-  technologyOptions
+  promptLibraryBubble
 ];
 
 export function handleDefinedTreeQuestions(request, instance, trackCta) {

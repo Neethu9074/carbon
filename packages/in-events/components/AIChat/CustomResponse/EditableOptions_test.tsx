@@ -8,7 +8,7 @@ import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 
 // @ts-expect-error not ts file
-import EditableOptions from 'in-events/components/AIChat/EditableOptions';
+import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
 
 describe('EditableOptions', () => {
   it('should render option from prop', async () => {

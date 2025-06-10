@@ -9,12 +9,13 @@ import { ChatContainer } from '@carbon/ai-chat';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
 
+import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
+import TableChartSwitcher from 'in-events/components/AIChat/CustomResponse/TableChartSwitcher';
+import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
-import TableChartSwitcher from 'in-events/components/AIChat/TableChartSwitcher';
+import PromptLibrary from 'in-events/components/AIChat//CustomPanels/PromptLibrary';
+import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import EditableOptions from 'in-events/components/AIChat/EditableOptions';
-import NLGResponse from 'in-events/components/AIChat/NLGResponse';
-import PromptLibrary from './CustomPanels/PromptLibrary';
 import { custom } from 'in-websites/queryBuilder';
 
 import locals from './AIChat.mless';
@@ -120,6 +121,8 @@ export function AIChat() {
             return;
           }
           switch (messageItem.user_defined?.user_defined_type) {
+            case 'prompt_library':
+              return <PromptLibraryResponse instance={instance} />;
             case `editable_options`:
               return <EditableOptions messageItem={messageItem} instance={instance} />;
             case 'table_chart':
