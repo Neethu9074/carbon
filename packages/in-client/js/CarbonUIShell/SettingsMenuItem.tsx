@@ -11,9 +11,10 @@ import { useObservable } from '@instana/hooks';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { locationWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
+import DataSourcesMenuItem from 'in-client/js/CarbonUIShell/DataSourceMenuItem';
+import { newOTelPageEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
-import { playwithEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 function InternalView() {
@@ -48,6 +49,8 @@ export default function SettingsMenuItem() {
         isActive={matchLocation(settingsPath)}
         href={createHrefToPath(settingsPath)}
       />
+      {newOTelPageEnabled && <DataSourcesMenuItem />}
+
       <InternalView />
     </>
   );

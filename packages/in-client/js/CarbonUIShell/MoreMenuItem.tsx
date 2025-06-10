@@ -15,7 +15,7 @@ import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { releaseNotesEnabled } from 'in-services/featureFlags';
+import { newOTelPageEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 import AsyncComponent from 'in-components/AsyncComponent';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -35,7 +35,7 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
       renderIcon={() => <SvgIcon size="s" type="lib_menu_additional_resources" />}
       title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
     >
-      {role?.canConfigureAgents && (
+      {role?.canConfigureAgents && !newOTelPageEnabled && (
         <MenuItem
           id="main-nav-agents"
           key="main-nav-agents"
@@ -44,6 +44,7 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
           isActive={matchLocation(agentsPath)}
         />
       )}
+
       {releaseNotesEnabled && (
         <MenuItem
           id="main-nav-release-notes"

@@ -3,6 +3,8 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
+// eslint-disable-next-line no-restricted-imports
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 
 const express = require('express');
 const fs = require('fs');
@@ -489,7 +491,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   }
 
   // agents
-  if (role?.canConfigureAgents) {
+  if (role?.canConfigureAgents && !newOTelPageEnabled) {
     toolItems.push({
       icon_name: 'settings--services',
       label: t('in-server:mainNavigation.viewSwitcherLabelAgents'),
