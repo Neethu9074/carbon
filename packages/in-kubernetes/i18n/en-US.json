@@ -445,6 +445,9 @@
     "otelCollector": {
       "text": "OpenTelemetry collector",
       "description": "View information based on data collected by the Instana OpenTelemetry collector."
+    },
+    "additionalMetrics": {
+      "title": "Additional"
     }
   }
 }

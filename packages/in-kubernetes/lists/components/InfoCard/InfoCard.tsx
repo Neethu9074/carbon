@@ -73,7 +73,7 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
   const { kubernetesCardClicked } = useKubernetesTracker();
   const namespaceId = data?.namespace?.id;
   const clusterId = data?.cluster?.id;
-  const isClusterType = type === 'cluster';
+  const isClusterType = type === 'cluster' || type === 'otelcluster';
 
   const result =
     useObservable(

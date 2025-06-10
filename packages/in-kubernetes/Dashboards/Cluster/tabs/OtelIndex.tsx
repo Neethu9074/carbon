@@ -5,15 +5,19 @@
  */
 import React from 'react';
 
-import { Result, KubernetesClusterListItem }from '@instana/types'
+import { Result, KubernetesClusterListItem } from '@instana/types';
 
 import {
   beeInstanaInfraMetricsEnabled,
   beeinstanaInfraMetricsWithTimeshiftEnabled,
-  openTelemetryKubernetesPodsViewEnabled,
-  openTelemetryKubernetesNodesViewEnabled
+  openTelemetryKubernetesUnifiedViewEnabled
 } from 'in-services/featureFlags';
-import { nodesDashboard, podsDashboard, clusterOtelDashboardFullyQualified, clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import {
+  nodesDashboard,
+  podsDashboard,
+  clusterOtelDashboardFullyQualified,
+  clusterDashboardFullyQualified
+} from 'in-kubernetes/navigation/paths';
 //@ts-expect-error TS migration
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
 //@ts-expect-error TS migration
@@ -41,27 +45,34 @@ export default [
     component:
       beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
-  openTelemetryKubernetesNodesViewEnabled && {
+  openTelemetryKubernetesUnifiedViewEnabled && {
     label: t('in-kubernetes:dashboards.nodes'),
     path: `${clusterOtelDashboardFullyQualified}${nodesDashboard}`,
-    component: (props: { result?: Result< KubernetesClusterListItem >; tab?: DashboardTab; location?: Location }) => (
+    component: (props: { result?: Result<KubernetesClusterListItem>; tab?: DashboardTab; location?: Location }) => (
       <OtelNodes {...props} data={props.result?.data ?? {}} />
     ),
-    header: (props: { result: Result< KubernetesClusterListItem >; tab: DashboardTab; location: Location }) =>
+    header: (props: { result: Result<KubernetesClusterListItem>; tab: DashboardTab; location: Location }) =>
       getCounterComponent(props, v => v.nodes)
   },
-  openTelemetryKubernetesPodsViewEnabled && {
+  openTelemetryKubernetesUnifiedViewEnabled && {
     label: t('in-kubernetes:dashboards.pods'),
     path: `${clusterDashboardFullyQualified}${podsDashboard}`,
     component: Pods,
-    header: ({ result, tab, location }: { result: Result< KubernetesClusterListItem >; tab: DashboardTab; location: Location }) =>
-      getCounterComponent({ result, tab, location }, v => v.workloads?.pods ?? 0),
+    header: ({
+      result,
+      tab,
+      location
+    }: {
+      result: Result<KubernetesClusterListItem>;
+      tab: DashboardTab;
+      location: Location;
+    }) => getCounterComponent({ result, tab, location }, v => v.workloads?.pods ?? 0),
     stickToBottom: true
   }
 ].filter(Boolean);
 
 function getCounterComponent(
-  { result, tab, location }: { result: Result< KubernetesClusterListItem >; tab: DashboardTab; location: Location },
+  { result, tab, location }: { result: Result<KubernetesClusterListItem>; tab: DashboardTab; location: Location },
   valueExtractor: (v: any) => number
 ) {
   const clusterId = result?.data?.id;

@@ -7,9 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
-//@ts-expect-error TS migration
+// @ts-expect-error TS migration
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 //@ts-expect-error TS migration
@@ -38,30 +36,16 @@ import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
+import { Nullish, Result, TimeConfig } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
-
-export interface ClusterData {
-  clusterDistribution: string;
-  clusterManagement: ClusterManagement;
-  clusterId: string;
-  label: string;
-  missingAppsPermission: boolean;
-  version: string;
-}
-
-interface ClusterManagement {
-  fullName: string;
-  shortName: string;
-}
 
 interface RenderButtonLineSecondaryProps {
   timeConfig: TimeConfig;
@@ -72,21 +56,19 @@ interface RenderButtonLineSecondaryProps {
 interface RenderButtonLineProps {
   clusterId: string;
   timeConfig: TimeConfig;
-  clusterData: ClusterData;
+  result: Result<any>;
 }
 
 export default function ClusterDashboard() {
   const { location } = useNavigation();
   const timeConfig = useTimeConfig();
-  const clusterId = getMatrixParameter(location, clusterDashboard, matrixClusterId);
-  const clusterData = useObservable(getOtelKubernetesCluster({ id: clusterId, timeConfig: timeConfig }), [clusterId])
-    ?.data as ClusterData;
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useKubernetesTracker();
   const props = {
-    clusterId,
+    clusterId: getMatrixParameter(location, clusterDashboard, matrixClusterId),
+    isOtelCluster: true,
     viewPath: clusterOtelDashboard,
     timeConfig
   };
-  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useKubernetesTracker();
 
   return (
     <>
@@ -100,6 +82,10 @@ export default function ClusterDashboard() {
       <Breadcrumbs items={ClusterBreadcrumbs(props)} />
 
       <TabView
+        result$={getOtelKubernetesCluster({
+          id: props.clusterId,
+          timeConfig: props.timeConfig
+        })}
         HeaderComponent={props => (
           <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
         )}
@@ -124,28 +110,37 @@ export default function ClusterDashboard() {
           <CenterAlignmentColumn>
             <EntityVersionList
               plugin={plugins.kubernetesCluster}
-              snapshotId={clusterData?.clusterId}
+              snapshotId={props.clusterId}
               timeConfig={timeConfig}
               errors={errors}
             />
           </CenterAlignmentColumn>
         )}
       />
-
       <Footer />
     </>
   );
 
-  function Header(props: any) {
+  interface HeaderProps {
+    result: Result<any> | Nullish;
+    clusterId?: string | null;
+    viewPath: string;
+    timeConfig: TimeConfig;
+    kubernetesTimeShiftSelectTracker: TrackingFunction;
+  }
+
+  function Header(props: HeaderProps) {
+    const clusterDistribution = get(props, ['result', 'data', 'clusterDistribution'], 'kubernetes');
+    const label = get(props.result, ['data', 'label']);
     return (
       <DashboardHeader
         {...props}
         title={t('in-kubernetes:dashboards.kubernetesCluster')}
-        icon={`lib_${clusterData?.clusterDistribution}`}
-        label={clusterData?.label}
+        icon={`lib_${clusterDistribution}`}
+        label={label}
         renderButtonLine={renderButtonLine}
         renderButtonLineSecondary={renderButtonLineSecondary}
-        renderMetaInformation={RenderMetaInformation}
+        renderMetaInformation={renderMetaInformation}
       />
     );
   }
@@ -175,8 +170,8 @@ export default function ClusterDashboard() {
     );
   }
 
-  function renderButtonLine({ clusterId, timeConfig, clusterData }: RenderButtonLineProps) {
-    const clusterLabel = clusterData?.label;
+  function renderButtonLine({ clusterId, timeConfig, result }: RenderButtonLineProps) {
+    const clusterLabel = get(result, ['data', 'label'], '');
 
     return (
       <>
@@ -195,10 +190,10 @@ export default function ClusterDashboard() {
     );
   }
 
-  function RenderMetaInformation() {
-    const version = clusterData?.version;
-    const clusterDistribution = clusterData?.clusterDistribution ?? 'kubernetes';
-    const clusterManagement = clusterData?.clusterManagement;
+  function renderMetaInformation({ result }: { result: Result<any> }) {
+    const version = get(result, ['data', 'version']);
+    const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
+    const clusterManagement = get(result, ['data', 'clusterManagement']);
     return (
       <>
         {version && <BadgeList type={version} getColor={() => 'blue'} types={[]} />}

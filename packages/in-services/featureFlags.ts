@@ -407,12 +407,4 @@ export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
   'openTelemetryKubernetesUnifiedViewEnabled',
   false
 );
-export const openTelemetryKubernetesNodesViewEnabled = isFeatureFlagEnabled(
-  'openTelemetryKubernetesNodesViewEnabled',
-  false
-);
-export const openTelemetryKubernetesPodsViewEnabled = isFeatureFlagEnabled(
-  'openTelemetryKubernetesPodsViewEnabled',
-  false
-);
 export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);
