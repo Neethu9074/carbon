@@ -12,6 +12,7 @@ import { Link } from '@instana/components';
 import { role } from 'in-stores/user';
 
 export const DEFAULT_NUMBER_ROWS = 5;
+export const MAX_NUMBER_ROWS = 2000;
 
 export function getNoDataHeader(label: string) {
   switch (label) {
