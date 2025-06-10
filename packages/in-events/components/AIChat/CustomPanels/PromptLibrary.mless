@@ -12,6 +12,11 @@
     cursor: pointer;
   }
 
+  .panel {
+    height: 32rem;
+    overflow: auto;
+  }
+
   .listHeader {
     :global(.cds--contained-list__header) {
       display: none;

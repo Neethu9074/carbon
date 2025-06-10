@@ -43,25 +43,25 @@ export const promptLibrary = [
   {
     kind: 'Application',
     questions: [
-      'Show me calls with high latency for service <service-name> in app <app-name>',
-      'Show me erroneous calls for service <service-a>',
-      'Show me calls with status code 5XX received by <service-a>',
-      'Show me calls which spiked in last <duration> minutes in <service-a>'
+      'Show me calls with high latency for service <service-name> in app <app-name>.',
+      'Show me erroneous calls for service <service-name>.',
+      'Show me calls with status code 5XX received by service <service-name>.',
+      'Show me calls which spiked in last <duration> minutes in service <service-name>.'
     ]
   },
   {
     kind: 'Infrastructure',
     questions: [
-      'Show total number of failed queries to db2 database with host name ABC',
-      'Get the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace XYZ.',
-      'Show top 3 queues with highest queue depth for last 60 minutes group by queue name.',
-      'What is the sum of aggregated cpu requests for kubernetes deployment APP-1 in namespace NAMESPACE-1 for last 2 hours?',
-      'What is the count of pods for deployments labeled as environment=envABC in the namespace nameXYZ?',
-      'Show total number of failed queries to db2 database with host name ABC',
-      'Get the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace XYZ.',
-      'Show top 3 queues with highest queue depth for last 60 minutes group by queue name.',
-      'What is the sum of aggregated cpu requests for kubernetes deployment APP-1 in namespace NAMESPACE-1 for last 2 hours?',
-      'What is the count of pods for deployments labeled as environment=envABC in the namespace nameXYZ?'
+      'Show me the total number of failed queries to DB2 database with host name <host-name>.',
+      'Show me the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace <namespace-name>.',
+      'Show me the top <number> queues with highest queue depth for last <duration> minutes group. Group by queue name.',
+      'What is the sum of aggregated CPU requests for kubernetes deployment <app-name> in namespace <namespace-name> for last <duration> hours?',
+      'What is the count of pods for deployments labeled as environment=<environment-name> in the namespace <namespace-name>?',
+      'Show me the total number of failed queries to DB2 database with host name <host-name>.',
+      'Show me the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace <namespace-name>.',
+      'Show me the top <number> queues with highest queue depth for last <duration> minutes group. Group by queue name.',
+      'What is the sum of aggregated CPU requests for kubernetes deployment <app-name> in namespace <namespace-name> for last <duration> hours?',
+      'What is the count of pods for deployments labeled as environment=<environment-name> in the namespace <namespace-name>?'
     ]
   }
 ];
@@ -122,7 +122,7 @@ export const technologyOptions = {
       },
       {
         key: 'Throughput',
-        value: 'Show me calls which spiked in last <duration> minutes in service <service-name> '
+        value: 'Show me calls which spiked in last <duration> minutes in service <service-name>'
       }
     ]
   }

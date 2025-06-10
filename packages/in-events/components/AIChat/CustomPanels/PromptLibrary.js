@@ -28,22 +28,20 @@ const PromptLibrary = ({ instance }) => {
   return (
     <div id="promptLibrary">
       <CarbonTabs>
-        <div>
-          <CarbonTabList scrollDebounceWait={200} className={locals.tabsWidth}>
-            {promptLibrary.map(subject => {
-              return <CarbonTab className={locals.tabHeader}>{subject.kind}</CarbonTab>;
-            })}
-          </CarbonTabList>
-          <CarbonSearch
-            onChange={e => {
-              setSearch(e.target.value);
-            }}
-          />
-        </div>
+        <CarbonTabList className={locals.tabsWidth}>
+          {promptLibrary.map(subject => {
+            return <CarbonTab className={locals.tabHeader}>{subject.kind}</CarbonTab>;
+          })}
+        </CarbonTabList>
+        <CarbonSearch
+          onChange={e => {
+            setSearch(e.target.value);
+          }}
+        />
         <CarbonTabPanels>
           {promptLibrary.map(subject => {
             return (
-              <CarbonTabPanel>
+              <CarbonTabPanel className={locals.panel}>
                 <CarbonContainedList label={subject.kind} size="lg" className={locals.listHeader}>
                   {subject.questions
                     .filter(question => question.includes(search))
