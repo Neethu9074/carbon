@@ -11,14 +11,5 @@
     "durationTooLong": "Due to the long duration of the issue, the query results now only show data from the last few hours",
     "tooManyCalls": "Due to the high volume of calls, the query results now only show data from the last few hours",
     "tooManyCallsWithEstimation": "Due to the high volume of calls (Approximately {{estimatedCount}} in total), the query results now only show data from the last few hours"
-  },
-  "csvDataColumnLabels": {
-    "id": "ID",
-    "name": "Name",
-    "email": "Email",
-    "country":"Country/Area",
-    "subdivision":"Subdivision",
-    "eumCfgLabel":"Config Label",
-    "source":"Source"
   }
 }

@@ -22,10 +22,10 @@ import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineTo
 import AnalyzeImpactedUsersButton from 'in-eum/ImpactedUsers/AnalyzeImpactedUsersButton';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
-import { TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard';
 import { hours } from 'in-services/time';
+import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ImpactedUsersPresenter.mless';
@@ -34,21 +34,17 @@ const countFormatter = getIntlNumberFormatter();
 
 interface ImpactedUsersPresenterProps {
   entityType?: string | unknown;
-  alertType?: string;
+  eventId?: string;
   timeConfig: TimeConfig;
   metricImpacts: ImpactedUsersMetricsResult;
-  downloadProp: {
-    tagFilterExpression: TagFilterExpressionElementUnion;
-  };
   isKPI: boolean;
 }
 
 export default function ImpactedUsersPresenter({
   entityType,
-  alertType,
+  eventId,
   timeConfig,
   metricImpacts,
-  downloadProp,
   isKPI
 }: Readonly<ImpactedUsersPresenterProps>) {
   const { impacted, total, websitesOrMobiles } = metricImpacts;
@@ -66,10 +62,6 @@ export default function ImpactedUsersPresenter({
       header: t('in-eum:titleImpactedUsers')
     }
   ];
-  let TimeConfigToUse: TimeConfig = timeConfig;
-  if (alertType === 'throughput') {
-    TimeConfigToUse = overallStatus.timeForTraceEstimation || timeConfig;
-  }
   const carbonRows =
     websitesOrMobiles?.data?.items?.map(it => ({
       id: it.result.eumCfgId,
@@ -143,7 +135,7 @@ export default function ImpactedUsersPresenter({
           <Col>
             <AnalyzeImpactedUsersButton
               entityType={entityType}
-              alertType={alertType}
+              eventId={eventId}
               disabled={
                 overallStatus.pending ||
                 !(
@@ -152,8 +144,6 @@ export default function ImpactedUsersPresenter({
                   overallStatus.timeForTraceEstimation
                 )
               }
-              timeConfig={TimeConfigToUse}
-              {...downloadProp}
             />
           </Col>
         </Row>
