@@ -662,6 +662,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'incidentNotesTopActionsEnabled',
+    instanaCtlKey: 'feature.incident.notes.top.actions.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
     instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
     defaultValue: false

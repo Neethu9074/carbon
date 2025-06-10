@@ -137,7 +137,7 @@ function showConfirmationDialog(policy: Policy) {
 const handleButtonClick = ({ policyId, inEventPage }: { policyId?: string; inEventPage?: boolean }) => {
   addActiveDialog(<CreateNewPolicyTearsheet policyId={policyId} inEventPage={inEventPage} />);
 };
-function RecActionsMoreMenu({
+export function RecActionsMoreMenu({
   scoredAction,
   volatileId,
   event,

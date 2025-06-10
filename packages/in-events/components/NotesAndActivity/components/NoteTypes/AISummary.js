@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 
 import { SvgIcon, CarbonButton, CarbonIconButton, CarbonInlineLoading } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { useObservable } from '@instana/hooks';
 
 import {
   EVENT_AI_SHOW_MORE_INCIDENTS,
@@ -25,13 +26,16 @@ import {
   convertNotesSummaryToString
 } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
 import FeedbackModal from 'in-events/components/NotesAndActivity/components/NoteTypes/FeedbackModal';
+import { TopThreeActions } from 'in-events/components/NotesAndActivity/components/TopThreeActions';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import { incidentNotesTopActionsEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAction from 'in-automation/ActionCatalog/useAction';
 import { eventsPath } from 'in-events/navigation/paths';
+import { getEvent } from 'in-stores/events';
 import { t } from 'in-i18n';
 
 import locals from './AISummary.mless';
@@ -62,6 +66,7 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
   const firstFiveRelated = subArray(relatedEventSummary, 0, 5);
   const lastRelated = subArray(relatedEventSummary, 5, relatedEventSummary.size);
   const actionHistory = noteObj?.data?.get('actionHistorySummary') || [];
+  const triggeringEvent = useObservable(getEvent(event?.get('triggeringEvent')), [event?.get('triggeringEvent')]);
   const firstFiveAction = subArray(actionHistory, 0, 5);
   const lastAction = subArray(actionHistory, 5, actionHistory.size);
   // Only one entry so dont need show more
@@ -111,19 +116,24 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
       </div>
 
       {/* Summarization of Actions to take */}
-      <div className={locals.summarySection}>
-        <div className={locals.contentsHeader}>{t('in-events:notes.sumActions')}</div>
-        <ActionEntry actionList={firstFiveAction} noteId={noteObj?.id} event={event} />
-        {showAllActions && <ActionEntry actionList={lastAction} event={event} />}
-        {lastAction.size > 0 && (
-          <ShowAllButton
-            setShowAllType={setShowAllActions}
-            showAllValue={showAllActions}
-            trackingType={EVENT_AI_SHOW_MORE_ACTIONS}
-            noteId={noteObj?.id}
-          />
-        )}
-      </div>
+      {!incidentNotesTopActionsEnabled && (
+        <div className={locals.summarySection}>
+          <div className={locals.contentsHeader}>{t('in-events:notes.sumActions')}</div>
+          <ActionEntry actionList={firstFiveAction} noteId={noteObj?.id} event={event} />
+          {showAllActions && <ActionEntry actionList={lastAction} event={event} />}
+          {lastAction.size > 0 && (
+            <ShowAllButton
+              setShowAllType={setShowAllActions}
+              showAllValue={showAllActions}
+              trackingType={EVENT_AI_SHOW_MORE_ACTIONS}
+              noteId={noteObj?.id}
+            />
+          )}
+        </div>
+      )}
+      {incidentNotesTopActionsEnabled && (
+        <TopThreeActions event={event?.toJS()} triggeringEvent={triggeringEvent?.toJS()} actions={firstFiveAction} />
+      )}
 
       <div className={locals.shareCopyWrapper}>
         {/* Share summarization button */}

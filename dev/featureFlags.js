@@ -52,6 +52,7 @@ module.exports = {
   loggingEnabled: true,
   patternRecognitionEnabled: true,
   notesAndActivityEnabled: true,
+  incidentNotesTopActionsEnabled: true,
   carbonTooltipEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,

@@ -425,6 +425,9 @@
     "showMore": "Show more"
   },
   "notes": {
+    "recommendedActions": "Recommended actions",
+    "aiEngine": "AI engine",
+    "viewAllRecActions": "View all recommended actions",
     "openNotes": "Open summary and notes",
     "notesActivity": "Summary and notes with AI",
     "confirmDelete": "Confirm deletion",
