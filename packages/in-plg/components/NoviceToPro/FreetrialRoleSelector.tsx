@@ -107,7 +107,7 @@ export default function FreetrialRoleSelector({
           />
         </div>
         <div className={locals.imageWrapper}>
-          <img src={RoleSelector} alt="Visual" />
+          <img src={RoleSelector} alt="Visual" className={locals.image} />
         </div>
       </div>
     </Tearsheet>
