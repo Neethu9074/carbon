@@ -12,14 +12,9 @@ import {
   beeinstanaInfraMetricsWithTimeshiftEnabled,
   openTelemetryKubernetesUnifiedViewEnabled
 } from 'in-services/featureFlags';
-import {
-  nodesDashboard,
-  podsDashboard,
-  clusterOtelDashboardFullyQualified,
-  clusterDashboardFullyQualified
-} from 'in-kubernetes/navigation/paths';
 //@ts-expect-error TS migration
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
+import { nodesDashboard, podsDashboard, clusterOtelDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 //@ts-expect-error TS migration
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import OtelNodes from 'in-kubernetes/Dashboards/Cluster/tabs/OtelNodes';
@@ -55,7 +50,7 @@ export default [
   },
   openTelemetryKubernetesUnifiedViewEnabled && {
     label: t('in-kubernetes:dashboards.pods'),
-    path: `${clusterDashboardFullyQualified}${podsDashboard}`,
+    path: `${clusterOtelDashboardFullyQualified}${podsDashboard}`,
     component: (props: { result?: Result< KubernetesClusterListItem >; tab?: DashboardTab; location?: Location }) => (
       props.location ? <OtelPods {...props} timeConfig={getTimeConfig(props.location)} /> : null
     ),

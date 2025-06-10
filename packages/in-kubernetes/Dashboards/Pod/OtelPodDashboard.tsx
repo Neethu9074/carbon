@@ -194,7 +194,6 @@ function renderButtonLine({ podId, timeConfig, result }: RenderButtonLineProps) 
         clusterName={clusterName}
         namespaceName={namespaceName}
         podName={podName}
-        timeConfig={timeConfig}
         groupBy={createGroupBy('kubernetes.namespace.name', DESTINATION)}
       />
     </>

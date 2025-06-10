@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { Group, TimeConfig } from '@instana/types';
 import { Button } from '@instana/components';
+import { Group } from '@instana/types';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { type as typeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -23,7 +23,6 @@ interface AnalyzeCallsProps {
   serviceName?: string;
   statefulSetName?: string;
   podName?: string;
-  timeConfig?: TimeConfig;
   groupBy: Partial<Group>;
 }
 
@@ -36,7 +35,6 @@ export default function AnalyzeCallsButton({
   serviceName,
   statefulSetName,
   podName,
-  timeConfig,
   groupBy
 }: AnalyzeCallsProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
@@ -56,8 +54,7 @@ export default function AnalyzeCallsButton({
           deploymentConfigName,
           serviceName,
           statefulSetName,
-          podName,
-          timeConfig
+          podName
         }),
         groupBy
       })}
