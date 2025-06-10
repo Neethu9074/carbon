@@ -62,6 +62,7 @@ module.exports = {
   only: [
     // All our main packages
     path.join(__dirname, 'packages', '**', '*.js'),
+    path.join(__dirname, 'packages', '**', '*.jsx'),
     path.join(__dirname, 'packages', '**', '*.ts'),
     path.join(__dirname, 'packages', '**', '*.tsx'),
     // Storybook

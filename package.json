@@ -7,6 +7,7 @@
   "scripts": {
     "clean": "gulp clean",
     "build": "BUILD_DEV=false node --max-old-space-size=4096 node_modules/.bin/gulp build",
+    "generate-error-pages": "cd packages/in-server && yarn install && yarn build:staticpages",
     "try-build": "cd target && yarn && cd .. && BUILD_DEV=false gulp try-build",
     "try-build-release": "cd target && yarn && cd .. && BUILD_DEV=false gulp try-build-release",
     "test": "yarn run test:unit && yarn run test:typecheck && yarn run test:lint",
