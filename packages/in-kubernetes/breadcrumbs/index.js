@@ -17,6 +17,7 @@ import {
 } from 'in-kubernetes/navigation/paths';
 import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
+import PersistentVolumeBreadcrumb from 'in-kubernetes/breadcrumbs/PersistentVolumeBreadcrumb';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
 import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';
@@ -69,6 +70,18 @@ export function NodeBreadcrumbs(props) {
     clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
     namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     nodeId && <NodeBreadcrumb {...props} />
+  ];
+}
+
+export function PersistentVolumeBreadcrumbs(props) {
+  const { persistentVolumeId, clusterId } = props;
+
+  const clusterHref = useClusterDashboard(clusterId);
+
+  return [
+    <HomeViewBreadcrumb />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    persistentVolumeId && <PersistentVolumeBreadcrumb {...props} />
   ];
 }
 

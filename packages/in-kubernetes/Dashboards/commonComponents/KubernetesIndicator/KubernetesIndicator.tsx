@@ -7,25 +7,13 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { KubernetesLabel, KubernetesNamespace, Progress, ResultPrecisionDetails } from '@instana/types';
+import { KubernetesLabel, Result } from '@instana/types';
 
 import getKubernetesIconAndLabel from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/utils';
 // @ts-expect-error
 import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 
-interface Props {
-  result: {
-    data: KubernetesNamespace;
-    time: number;
-    adjustedWindowSize: number;
-    resultPrecisionDetails: ResultPrecisionDetails;
-    errors: Error[];
-    progress: Progress;
-    backendTraceId: string;
-  };
-}
-
-export default function KubernetesIndicator({ result }: Props) {
+export default function KubernetesIndicator({ result }: Readonly<{ result: Result<any> }>) {
   const entryBaseName = 'app.kubernetes.io';
 
   const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');

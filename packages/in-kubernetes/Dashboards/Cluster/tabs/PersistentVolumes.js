@@ -11,11 +11,13 @@ import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commo
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import getKubernetesPersistentVolumes from 'in-kubernetes/subscriptions/getKubernetesPersistentVolumes';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
+import { usePersistentVolumeDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
@@ -27,7 +29,8 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
-      return item.name;
+      const { persistentVolume, name, entityHealthInfo } = item;
+      return <PersistentVolumeLink id={persistentVolume.id} name={name} entityHealthInfo={entityHealthInfo} />;
     }
   },
   {
@@ -150,4 +153,17 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
+}
+
+function PersistentVolumeLink({ id, name, entityHealthInfo }) {
+  const href = usePersistentVolumeDashboard(id);
+
+  return (
+    <SeverityAwareEntityLink
+      icon="lib_infra_kubernetesPersistentVolume"
+      label={name}
+      href={href}
+      severity={entityHealthInfo.maxSeverity}
+    />
+  );
 }
