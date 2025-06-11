@@ -21,7 +21,7 @@ import Infrastructure from 'in-kubernetes/Dashboards/Pod/tabs/Infrastructure';
 // @ts-expect-error TS migration
 import Details from 'in-kubernetes/Dashboards/Pod/tabs/Details/Details';
 import { podOtelDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Summary from 'in-kubernetes/Dashboards/Pod/tabs/Summary/Summary';
+import OtelSummary from 'in-kubernetes/Dashboards/Pod/tabs/Summary/OtelSummary';
 import { t } from 'in-i18n';
 
 export default [
@@ -29,7 +29,7 @@ export default [
     label: t('in-kubernetes:dashboards.summary'),
     path: `${podOtelDashboardFullyQualified}/summary`,
     component:
-      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? OtelSummary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.containers'),
