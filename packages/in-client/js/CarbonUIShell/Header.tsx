@@ -12,8 +12,7 @@ import React from 'react';
 
 import { CarbonStack, CarbonHeaderGlobalAction as HeaderGlobalAction } from '@instana/components';
 
-import { ShowPrivacyNotification } from 'in-plg/components/ShowPrivacyNotification/ShowPrivacyNotification';
-import { playwithEnabled, playWithReleaseEnabled, tealiumPrivacyEnabled } from 'in-services/featureFlags';
+import { playwithEnabled, playWithReleaseEnabled } from 'in-services/featureFlags';
 import AsyncComponent from 'in-components/AsyncComponent';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { t } from 'in-i18n';
@@ -44,7 +43,6 @@ export default function Header({ expanded, onClickSideNavExpand }: HeaderContent
               <UserIcon size="s" color="var(--cds-icon-secondary)" className={local.userIcon} />
             </HeaderGlobalAction>
           </div>
-          {tealiumPrivacyEnabled && ShowPrivacyNotification()}
         </CarbonStack>
       )}
     </>
