@@ -6,9 +6,12 @@
 
 import React, { useMemo } from 'react';
 
+import { CarbonStack } from '@instana/components';
+
 import ActionConfigurationCard from 'in-automation/ActionDashboard/ActionConfiguration/ActionConfigurationCard';
 import ParameterDetailsCard from 'in-automation/ActionDashboard/ActionConfiguration/ParameterDetailsCard';
 import ActionDetailsCard from 'in-automation/ActionDashboard/ActionConfiguration/ActionDetailsCard';
+import ActionDashboardBreadcrumb from 'in-automation/ActionDashboard/ActionDashboardBreadcrumb';
 import { isNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
@@ -16,7 +19,7 @@ import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { isAIAction } from 'in-automation/utils/action';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
-import { Nullish, Action } from 'in-types';
+import { Action, Nullish } from 'in-types';
 
 interface ActionConfigurationProps {
   data: Action | Nullish;
@@ -40,7 +43,10 @@ export default function ActionConfiguration({ data }: ActionConfigurationProps) 
     <isNotEditableContext.Provider value>
       <ActionFormContext.Provider value={formValue}>
         <Form form={form} setForm={() => {}} onSubmit={() => {}}>
-          <ActionDetailsCard data={data} isAIGeneratedAction={isAIGeneratedAction} />
+          <CarbonStack orientation="vertical" gap={5}>
+            <ActionDashboardBreadcrumb />
+            <ActionDetailsCard data={data} isAIGeneratedAction={isAIGeneratedAction} />
+          </CarbonStack>
           <ActionConfigurationCard data={data} />
           {showParametersSection && <ParameterDetailsCard data={data} />}
         </Form>

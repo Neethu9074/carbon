@@ -6,11 +6,12 @@
 
 import React from 'react';
 
-import { Spacer } from '@instana/components';
+import { CarbonStack, Spacer } from '@instana/components';
 
 import { averageExecutionTimeRefresh } from 'in-automation/ActionDashboard/ActionSummary/useActionAverageExecutionTime';
 import { numberOfRunDataRefresh } from 'in-automation/ActionDashboard/ActionSummary/useActionNumberOfRunData';
 import { actionSuccessRateRefresh } from 'in-automation/ActionDashboard/ActionSummary/useActionSuccessRate';
+import ActionDashboardBreadcrumb from 'in-automation/ActionDashboard/ActionDashboardBreadcrumb';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import SummaryCards from 'in-automation/ActionDashboard/ActionSummary/SummaryCards';
 import PolicyTable from 'in-automation/PolicyTable/PolicyTable';
@@ -29,7 +30,10 @@ export default function ActionSummary({ data }: Readonly<ActionSummaryProps>) {
 
   return (
     <>
-      <SummaryCards data={data} />
+      <CarbonStack orientation="vertical" gap={5}>
+        <ActionDashboardBreadcrumb />
+        <SummaryCards data={data} />
+      </CarbonStack>
       <Spacer size="small" vertical="large" />
       {![ACTION_TYPE.MANUAL, ACTION_TYPE.DOC_LINK].includes(data.type) && (
         <ActionHistoryTable

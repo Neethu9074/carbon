@@ -46,6 +46,21 @@
     padding-left: 0;
     border: 0;
   }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 0 1.3rem;
+    font-size: 0.9rem;
+    color: var(--cds-link-primary);
+    cursor: pointer;
+    margin: 0;
+    &:not([href]):not([tabindex]) {
+      color: var(--cds-link-primary);
+    }
+  }
+  .icon {
+    fill: currentColor;
+  }
 }
 :global .code-snippet-wrapper,
 :global .code-snippet-wrapper-content {
