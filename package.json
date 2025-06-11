@@ -294,6 +294,7 @@
     "webpackbar": "^5.0.2"
   },
   "resolutions": {
+    "json5": "2.2.3",
     "@babel/traverse": "7.23.2",
     "typescript": "5.1.5",
     "@types/react": "^17.0.14"
