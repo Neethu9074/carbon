@@ -10,6 +10,8 @@ import React from 'react';
 //@ts-expect-error
 import AgentCatalog from 'in-plg/pages/onboarding/AgentCatalog';
 import AgentViewRouter from 'in-plg/pages/onboarding/AgentViewRouter';
+import AgentCatalogV2 from 'in-plg/pages/onboarding/AgentCatalogV2';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 
 interface PortalProps {
   agentKey: string;
@@ -33,9 +35,15 @@ const Portal = (props: PortalProps) => {
           )}
         />
 
-        <Route path="/agents/onboarding/installation" render={() => <AgentCatalog fromOnboarding />} />
+        <Route
+          path="/agents/onboarding/installation"
+          render={() => (newOTelPageEnabled ? <AgentCatalogV2 fromOnboarding /> : <AgentCatalog fromOnboarding />)}
+        />
 
-        <Route path="/" render={() => <AgentCatalog fromOnboarding />} />
+        <Route
+          path="/"
+          render={() => (newOTelPageEnabled ? <AgentCatalogV2 fromOnboarding /> : <AgentCatalog fromOnboarding />)}
+        />
       </Switch>
     </>
   );
