@@ -30,7 +30,7 @@ export default function ReceiverNode({ x, y, name }: ReceiverNodeProps) {
           shape="rounded-square"
           renderIcon={<SvgIcon type="lib_actions_download" size="xs" />}
           size="100%"
-          title={name ?? t('in-infrastructure:collectorView.reveiver')}
+          title={name ?? t('in-infrastructure:collectorView.receiver')}
         />
       </div>
     </foreignObject>
