@@ -4,12 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Schematics } from '@carbon/icons-react';
 import React from 'react';
 
 import { ShapeNode } from '@instana/carbon-charts';
+import { SvgIcon } from '@instana/components';
 
 import { t } from 'in-i18n';
+
+import locals from './nodes.mless';
 
 interface ProcessorNodeProps {
   x: number;
@@ -22,13 +24,13 @@ export default function ProcessorNode({ x, y, name }: ProcessorNodeProps) {
   const width = 50;
   return (
     <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
-      <div style={{ height, width }}>
+      <div className={locals.node}>
         <ShapeNode
+          className={locals.processorNode}
           shape="rounded-square"
-          renderIcon={<Schematics />}
+          renderIcon={<SvgIcon type="lib_infra_ibmCloudSchematics" size="xs" />}
           size="100%"
-          title={name ? name : t('in-infrastructure:collectorView.processor')}
-          style={{ backgroundColor: '#a6c8ff' }}
+          title={name ?? t('in-infrastructure:collectorView.processor')}
         />
       </div>
     </foreignObject>

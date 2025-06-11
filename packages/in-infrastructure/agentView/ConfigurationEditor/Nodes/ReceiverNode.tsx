@@ -4,12 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import { WorkspaceImport } from '@carbon/icons-react';
 import React from 'react';
 
 import { ShapeNode } from '@instana/carbon-charts';
+import { SvgIcon } from '@instana/components';
 
 import { t } from 'in-i18n';
+
+import locals from './nodes.mless';
 
 interface ReceiverNodeProps {
   x: number;
@@ -22,13 +24,13 @@ export default function ReceiverNode({ x, y, name }: ReceiverNodeProps) {
   const width = 50;
   return (
     <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
-      <div style={{ height, width }}>
+      <div className={locals.node}>
         <ShapeNode
+          className={locals.receiverNode}
           shape="rounded-square"
-          renderIcon={<WorkspaceImport />}
+          renderIcon={<SvgIcon type="lib_actions_download" size="xs" />}
           size="100%"
-          title={name ? name : t('in-infrastructure:collectorView.reveiver')}
-          style={{ backgroundColor: '#edf5ff' }}
+          title={name ?? t('in-infrastructure:collectorView.reveiver')}
         />
       </div>
     </foreignObject>

@@ -4,12 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Export } from '@carbon/icons-react';
 import React from 'react';
 
 import { ShapeNode } from '@instana/carbon-charts';
+import { SvgIcon } from '@instana/components';
 
 import { t } from 'in-i18n';
+
+import locals from './nodes.mless';
 
 interface ExporterNodeProps {
   x: number;
@@ -22,13 +24,13 @@ export default function ExporterNode({ x, y, name }: ExporterNodeProps) {
   const width = 50;
   return (
     <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
-      <div style={{ height, width }}>
+      <div className={locals.node}>
         <ShapeNode
+          className={locals.exporterNode}
           shape="rounded-square"
-          renderIcon={<Export />}
+          renderIcon={<SvgIcon type="lib_actions_upload" size="xs" />}
           size="100%"
-          title={name ? name : t('in-infrastructure:collectorView.exporter')}
-          style={{ backgroundColor: '#78a9ff' }}
+          title={name ?? t('in-infrastructure:collectorView.exporter')}
         />
       </div>
     </foreignObject>

@@ -8,9 +8,11 @@ import React from 'react';
 
 import { ShapeNode } from '@instana/carbon-charts';
 
+import locals from './nodes.mless';
+
 interface PipelineNodeProps {
-  x: number | undefined;
-  y: number | undefined;
+  x?: number;
+  y?: number;
   height: number;
   width: number;
   name: string;
@@ -19,12 +21,12 @@ interface PipelineNodeProps {
 export default function PipelineNode({ x, y, height, width, name }: PipelineNodeProps) {
   return (
     <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
-      <div style={{ height, width }}>
+      <div className={locals.node}>
         <ShapeNode
+          className={locals.pipelineNode}
           shape="rounded-square"
           renderIcon={null}
           size="100%"
-          style={{ backgroundColor: '#4589ff33' }}
           title={name.charAt(0).toUpperCase() + name.slice(1)}
         />
       </div>

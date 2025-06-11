@@ -15,18 +15,15 @@ import SampleConfig from 'in-infrastructure/agentView/ConfigurationEditor/Sample
 
 interface ConfigEditorProps {
   agentConfig?: string;
-  handleAgentConfigChange: any;
+  handleAgentConfigChange: () => void;
 }
 
 export default function ConfigEditor({ agentConfig = SampleConfig, handleAgentConfigChange }: ConfigEditorProps) {
   return (
-    <>
-      <CodeMirror
-        value={agentConfig}
-        onChange={handleAgentConfigChange}
-        extensions={[StreamLanguage.define(yamlMode.yaml)]}
-      />
-      ;
-    </>
+    <CodeMirror
+      value={agentConfig}
+      onChange={handleAgentConfigChange}
+      extensions={[StreamLanguage.define(yamlMode.yaml)]}
+    />
   );
 }

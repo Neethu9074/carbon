@@ -17,6 +17,8 @@ import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
+import locals from './UpdateConfigurationDialog.mless';
+
 export default function UpdateConfigurationDialog() {
   const [config, setConfig] = useState(SampleConfig);
 
@@ -27,7 +29,7 @@ export default function UpdateConfigurationDialog() {
   return (
     otelCollectorConfigEditorEnabled && (
       <Dialog title={t('in-infrastructure:collectorView.updateConfig')} onClose={close}>
-        <HorizontalFlexWrapper style={{ height: '100vh', width: '150vh' }}>
+        <HorizontalFlexWrapper className={locals.editorDialog}>
           <ConfigEditor agentConfig={config} handleAgentConfigChange={handleConfigChange} />
           <ConfigFlowChart config={config} />
         </HorizontalFlexWrapper>
