@@ -16,7 +16,6 @@ import ConfigFlowChart from 'in-infrastructure/agentView/ConfigurationEditor/Con
 import ConfigEditor from 'in-infrastructure/agentView/ConfigurationEditor/ConfigEditor';
 import { otelCollectorConfigEditorEnabled } from 'in-services/featureFlags';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from './UpdateConfigurationDialog.mless';
@@ -31,12 +30,14 @@ export default function UpdateConfigurationDialog() {
   return (
     otelCollectorConfigEditorEnabled && (
       <Modal
-        // className={locals.editorDialog}
+        className={locals.editorDialog}
         modalHeading={t('in-infrastructure:collectorView.updateConfig')}
         onRequestClose={close}
         open
+        primaryButtonText="Submit"
+        secondaryButtonText="Cancel"
       >
-        <HorizontalFlexWrapper>
+        <HorizontalFlexWrapper className={locals.dialogContent}>
           <ConfigEditor agentConfig={config} handleAgentConfigChange={handleConfigChange} />
           <ConfigFlowChart config={config} />
         </HorizontalFlexWrapper>

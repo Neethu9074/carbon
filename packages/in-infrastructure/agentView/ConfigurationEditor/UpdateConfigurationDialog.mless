@@ -7,6 +7,6 @@
 :local {
   .editorDialog {
     height: 100vh;
-    width: 150vh;
+    width: 200vh;
   }
 }
