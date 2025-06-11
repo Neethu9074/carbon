@@ -6,6 +6,8 @@
 
 import React, { useState } from 'react';
 
+import { CarbonModal as Modal } from '@instana/components';
+
 // @ts-ignore
 // temp yaml file import until collector management integration
 import SampleConfig from 'in-infrastructure/agentView/ConfigurationEditor/SampleConfig.yaml';
@@ -28,12 +30,17 @@ export default function UpdateConfigurationDialog() {
 
   return (
     otelCollectorConfigEditorEnabled && (
-      <Dialog title={t('in-infrastructure:collectorView.updateConfig')} onClose={close}>
-        <HorizontalFlexWrapper className={locals.editorDialog}>
+      <Modal
+        // className={locals.editorDialog}
+        modalHeading={t('in-infrastructure:collectorView.updateConfig')}
+        onRequestClose={close}
+        open
+      >
+        <HorizontalFlexWrapper>
           <ConfigEditor agentConfig={config} handleAgentConfigChange={handleConfigChange} />
           <ConfigFlowChart config={config} />
         </HorizontalFlexWrapper>
-      </Dialog>
+      </Modal>
     )
   );
 }
