@@ -99,14 +99,17 @@ export const mobileAppPerformanceTabEnabled = isFeatureFlagEnabled('mobileAppPer
 export const mobileAppDroppedBeaconsEnabled = isFeatureFlagEnabled('mobileAppDroppedBeaconsEnabled', true);
 export const mobileAppScreenRenderingDurationEnabled = isFeatureFlagEnabled(
   'mobileAppScreenRenderingDurationEnabled',
-  false
+  true
 );
 export const mobileAppExcessiveNetworkUsageEnabled = isFeatureFlagEnabled(
   'mobileAppExcessiveNetworkUsageEnabled',
   false
 );
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
-export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForWebsiteAndMobileAlertEnabled', true);
+export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled(
+  'eumImpactedUsersForWebsiteAndMobileAlertEnabled',
+  true
+);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
 

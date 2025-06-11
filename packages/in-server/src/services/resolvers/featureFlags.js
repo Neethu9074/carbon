@@ -363,7 +363,7 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppScreenRenderingDurationEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.screen.rendering.duration.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'mobileAppExcessiveNetworkUsageEnabled',
