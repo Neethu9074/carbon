@@ -3,6 +3,8 @@
   "typescript.format.enable": false,
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
   "npm.packageManager": "yarn",
   "jest.autoRun": {
     // https://github.com/jest-community/vscode-jest#autoRun
