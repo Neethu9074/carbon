@@ -51,6 +51,9 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
 }: ApplicationContributionFilterProps<FORM_TYPE>) {
   const tagFilterExpressionField = form.get(filterExpressionFieldName) as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
+  const formErrors = form.messages;
+  const tagFilterExpressionError = formErrors.filter(message => message.path === filterExpressionFieldName)?.[0]
+    ?.message;
   const filterNameField = getField<string>(form, filterNameFieldName);
   const filterName = filterNameField?.value?.trim();
   const [initialfilterName] = useState(filterNameField?.value);
@@ -144,6 +147,9 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
                 trackCta(SETTINGS_GROUP_APPLICATION_FILTER_ADDED, { groupId: getField(form, 'id')?.value })
             }}
           />
+          {filterNameField?.touched && tagFilterExpressionError && (
+            <p className={locals.contributionFilter_errorMessage}>{tagFilterExpressionError}</p>
+          )}
         </div>
         <HorizontalFlexWrapper className={locals.contributionFilter_clearButton}>
           {tagFilterExpression?.length > 0 && (
