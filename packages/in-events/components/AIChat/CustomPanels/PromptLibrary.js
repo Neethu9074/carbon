@@ -23,8 +23,10 @@ import locals from './PromptLibrary.mless';
 
 // import { t } from 'in-i18n';
 
-const PromptLibrary = ({ instance }) => {
+const PromptLibrary = ({ instance, chatInstance }) => {
   const [search, setSearch] = useState('');
+    console.log('instance in prompt library', instance, chatInstance)
+
   return (
     <div id="promptLibrary">
       <CarbonTabs>
@@ -51,6 +53,7 @@ const PromptLibrary = ({ instance }) => {
                           onClick={() => {
                             const customPanel = instance?.customPanels?.getPanel();
                             const textField = instance?.elements?.getMessageInput?.();
+                            console.log('heyheyheyhey', instance)
                             if (textField) {
                               textField.setValue(question);
                               customPanel.close();

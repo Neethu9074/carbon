@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 import { createPortal } from 'react-dom';
-import React, { useEffect, useMemo, useState } from 'react';
-import { ChatContainer } from '@carbon/ai-chat';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 
+// import { ChatContainer } from '@carbon/ai-chat';
+import { ChatContainer } from '@instana/ai-chat';
 import { SvgIcon, CarbonButton } from '@instana/components';
 
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
