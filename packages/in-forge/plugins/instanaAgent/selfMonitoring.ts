@@ -132,3 +132,15 @@ export function loadDownloadableLogs([snapshot]: [snapshot: SnapshotData]) {
     args: {}
   });
 }
+
+// This function is used to update the OTel collector configuration.
+// It uses the same action name 'agent.configuration.update' but with a different argument structure.
+export function updateOTelConfiguration(snapshot: SnapshotData, configString: string) {
+  return createAgentResponseObservable({
+    action: 'agent.configuration.update',
+    target: snapshot.get('volatileId'),
+    args: { configString }
+  }).once(response => {
+    logger.info('OTel collector configuration update response', response);
+  });
+}
