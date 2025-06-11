@@ -137,6 +137,7 @@ export default function FormComponent({
           QueryBuilder={QueryBuilder}
           useLastValidStateWhenErroneous
           withoutIcon
+          source="logs"
           getSuggestionLabel={({ item, tagName }) =>
             tagName === 'technology' ? `${getPluginName(item)} (${item})` : item
           }
