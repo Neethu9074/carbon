@@ -107,8 +107,8 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
       />
       <TabView
         result$={getOtelKubernetesPod({
-          id: podId ?? '',
-          timeConfig: timeConfig
+          id: props.podId ?? '',
+          timeConfig: props.timeConfig
         })}
         HeaderComponent={props => (
           props.result !== undefined && props.result !== null

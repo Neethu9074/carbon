@@ -313,7 +313,7 @@ export function useOtelPodDashboard(
     matrixParam: matrixPodId,
     id: podId,
     paramsCallback: params => {
-      setOrDeleteMatrixKey(params, podOtelDashboard, matrixClusterId, clusterId); // TODO: use podOtelDashboard for OpenTelemetry or podDashboard for non-OpenTelemetry??
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixClusterId, clusterId);
       setOrDeleteMatrixKey(params, podOtelDashboard, matrixNamespaceId, namespaceId);
       setOrDeleteMatrixKey(params, podOtelDashboard, matrixDeploymentId, deploymentId);
       setOrDeleteMatrixKey(params, podOtelDashboard, matrixCronJobId, cronJobId);

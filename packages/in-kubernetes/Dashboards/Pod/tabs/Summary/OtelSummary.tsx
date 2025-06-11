@@ -33,9 +33,9 @@ import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/Container
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
+import { summaryTab, useOtelPodDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { summaryTab, usePodDashboard } from 'in-kubernetes/navigation/paths';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -102,7 +102,7 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
     comparisonIncreaseColor: blue.id
   };
 
-  const viewAllHref = usePodDashboard(pod.id, { tab: '/conditions' });
+  const viewAllHref = useOtelPodDashboard(pod.id, { tab: '/conditions' });
 
   return (
     <>

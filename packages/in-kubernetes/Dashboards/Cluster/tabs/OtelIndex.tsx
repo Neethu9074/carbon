@@ -51,8 +51,8 @@ export default [
   openTelemetryKubernetesUnifiedViewEnabled && {
     label: t('in-kubernetes:dashboards.pods'),
     path: `${clusterOtelDashboardFullyQualified}${podsDashboard}`,
-    component: (props: { result?: Result< KubernetesClusterListItem >; tab?: DashboardTab; location?: Location }) => (
-      props.location ? <OtelPods {...props} timeConfig={getTimeConfig(props.location)} /> : null
+    component: (props: { result?: Result<KubernetesClusterListItem>; tab?: DashboardTab; location?: Location }) => (
+      props.location ? <OtelPods {...props} data={props.result?.data ?? {}} timeConfig={getTimeConfig(props.location)}/> : null
     ),
     header: (props: { result: Result< KubernetesClusterListItem >; tab: DashboardTab; location: Location }) =>
       getCounterComponent(props, v => v.pods)

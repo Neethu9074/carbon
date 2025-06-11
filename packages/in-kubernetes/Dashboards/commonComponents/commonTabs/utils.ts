@@ -223,8 +223,8 @@ export function getOtelKubernetesPodsData({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'type',
-  orderDirection = 'ASC',
+  orderBy = 'health',
+  orderDirection = 'DESC',
   timeConfig,
   clusterId,
   workloadControllerId

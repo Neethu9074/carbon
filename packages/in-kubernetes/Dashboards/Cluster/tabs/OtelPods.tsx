@@ -36,14 +36,14 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error TS migration
 import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
-import { getKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
+import { getOtelKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { useOtelPodDashboard } from 'in-kubernetes/navigation/paths';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import useUrlState from 'in-hooks/useUrlState';
@@ -318,6 +318,7 @@ interface PodsProps {
   nodeId?: string;
   cronJobId?: string;
   Table?: TableComponentType;
+  data?: any;
 }
 
 interface PhaseUrlState {
@@ -362,7 +363,7 @@ export default function Pods(props: PodsProps) {
       <K8sAgentMonitoringIssueNotifications {...props} entityName="pods" />
       <Card>
         <Table
-          get={getKubernetesPodsData}
+          get={getOtelKubernetesPodsData}
           timeConfig={timeConfig}
           namespaceId={namespaceId}
           workloadControllerId={workloadControllerId}
@@ -389,6 +390,6 @@ interface PodLinkProps {
 }
 
 function PodLink({ podId, deploymentId, nodeId, podLabel, maxSeverity }: PodLinkProps) {
-  const href = usePodDashboard(podId, { deploymentId, nodeId });
+  const href = useOtelPodDashboard(podId, { deploymentId, nodeId });
   return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={podLabel} href={href} severity={maxSeverity} />;
 }
