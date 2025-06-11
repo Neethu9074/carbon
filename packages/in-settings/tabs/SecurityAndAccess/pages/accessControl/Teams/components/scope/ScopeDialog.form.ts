@@ -202,8 +202,7 @@ export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields
               : fromBackendModel(emptyTagFilterExpression)
           }),
           filterName: createField({
-            value: initValues?.restrictedApplicationFilter?.label ?? '',
-            validator: contributionFilterNameValidator
+            value: initValues?.restrictedApplicationFilter?.label ?? ''
           }),
           scope: createField({
             value: initValues?.restrictedApplicationFilter?.scope ?? 'INCLUDE_NO_DOWNSTREAM'
