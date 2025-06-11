@@ -153,6 +153,7 @@
         "scheduleTitle": "Schedule: How will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Credentials with teams associated will also be reflected in the teams page in settings.",
         "customPropertiesTitle": "Custom properties (optional)",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
         "frequencyHours": "This test will run every {{frequencyHours}} hours.",
@@ -451,6 +452,7 @@
       "createButton": "New Credential",
       "nameValue": "Name and value",
       "associations": "Associations",
+      "teams": "Teams",
       "newCredentials": "Create a synthetic credential",
       "steps": {
         "textInput": {
@@ -463,7 +465,8 @@
           "placeholder": "Credential value",
           "labelText": "Value"
         },
-        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
+        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities.",
+        "teamsStepDescription": "Select teams to associate with this credential."
       },
       "feedback": {
         "successMessage": "Successfully created credential",
