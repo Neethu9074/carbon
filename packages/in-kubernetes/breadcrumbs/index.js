@@ -17,9 +17,9 @@ import {
 } from 'in-kubernetes/navigation/paths';
 import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
+import PersistentVolumeBreadcrumb from 'in-kubernetes/breadcrumbs/PersistentVolumeBreadcrumb';
 import getOtelKubernetesCluster from 'in-kubernetes/subscriptions/getOtelKubernetesCluster';
 import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
-import PersistentVolumeBreadcrumb from 'in-kubernetes/breadcrumbs/PersistentVolumeBreadcrumb';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
 import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';

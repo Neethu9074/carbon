@@ -7,12 +7,13 @@ import { get } from 'lodash';
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
+import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default connectTo(
-  ({ clusterId: id, timeConfig, subscription }) => ({
+  ({ clusterId: id, timeConfig, subscription = getKubernetesCluster }) => ({
     cluster: subscription({
       id,
       timeConfig
