@@ -8,7 +8,6 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
@@ -209,9 +208,7 @@ export default function Nodes(props) {
   return (
     <>
       <K8sAgentMonitoringIssueNotifications {...props} entityName="nodes" />
-      <Card>
-        <ServerTableWithUrlState get={getKubernetesNodesData} {...props} />
-      </Card>
+      <ServerTableWithUrlState get={getKubernetesNodesData} {...props} />
     </>
   );
 }

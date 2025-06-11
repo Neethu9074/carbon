@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 import ControlFrame from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/ControlFrame';
 import PodTreeMap from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/PodTreeMap';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
@@ -42,26 +40,24 @@ function PodsListWithMap(props) {
   }
 
   return (
-    <Card>
-      <ControlFrame
-        {...props}
-        view={view}
-        setView={setView}
-        groupingOptions={groupingOptions}
-        render={_props => (
-          <WithEmptyStateFallback getHasDataToRender={() => getHasDataToRender(props)}>
-            <ServerTreeMap
-              getTreeMap$={() => getTreeMap(_props.grouping.value)}
-              treeMapRendererProps={{
-                ...props,
-                ..._props
-              }}
-              TreeMapRenderer={PodTreeMap}
-            />
-          </WithEmptyStateFallback>
-        )}
-      />
-    </Card>
+    <ControlFrame
+      {...props}
+      view={view}
+      setView={setView}
+      groupingOptions={groupingOptions}
+      render={_props => (
+        <WithEmptyStateFallback getHasDataToRender={() => getHasDataToRender(props)}>
+          <ServerTreeMap
+            getTreeMap$={() => getTreeMap(_props.grouping.value)}
+            treeMapRendererProps={{
+              ...props,
+              ..._props
+            }}
+            TreeMapRenderer={PodTreeMap}
+          />
+        </WithEmptyStateFallback>
+      )}
+    />
   );
 }
 

@@ -7,7 +7,7 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { Card, TableEntityCounter } from '@instana/components';
+import { TableEntityCounter } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedK8sMetricValue from 'in-kubernetes/Dashboards/commonComponents/ServerSideSortedK8sMetricValue';
@@ -191,26 +191,24 @@ export default function Namespaces(props) {
   return (
     <>
       <K8sAgentMonitoringIssueNotifications {...props} entityName="namespaces" />
-      <Card>
-        <div className={locals.table}>
-          <ServerTableWithUrlState
-            get={getTableData}
-            filterColumnDefinitions={({ result }) => {
-              const anyOpenshift =
-                result.data &&
-                result.data.items &&
-                Boolean(
-                  find(result.data.items, item =>
-                    isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
-                  )
-                );
-              return columnDefinition => anyOpenshift || columnDefinition.id !== 'workloads.deploymentConfigs';
-            }}
-            timeConfig={props.timeConfig}
-            clusterId={props.clusterId}
-          />
-        </div>
-      </Card>
+      <div className={locals.table}>
+        <ServerTableWithUrlState
+          get={getTableData}
+          filterColumnDefinitions={({ result }) => {
+            const anyOpenshift =
+              result.data &&
+              result.data.items &&
+              Boolean(
+                find(result.data.items, item =>
+                  isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
+                )
+              );
+            return columnDefinition => anyOpenshift || columnDefinition.id !== 'workloads.deploymentConfigs';
+          }}
+          timeConfig={props.timeConfig}
+          clusterId={props.clusterId}
+        />
+      </div>
     </>
   );
 }

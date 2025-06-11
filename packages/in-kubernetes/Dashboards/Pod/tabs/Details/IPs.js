@@ -5,19 +5,23 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Typography, Ul, Li, KeyValue } from '@instana/components';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { t } from 'in-i18n';
 
 export default function IPs({ resource: pod }) {
   return (
-    <Card title={t('in-kubernetes:dashboards.iPs')}>
-      <Dl>
-        <Di title={t('in-kubernetes:dashboards.hostIp')}>{pod.hostIp || valueMissingPlaceholder}</Di>
-        <Di title={t('in-kubernetes:dashboards.podIp')}>{pod.podIp || valueMissingPlaceholder}</Di>
-      </Dl>
-    </Card>
+    <>
+      <Typography variant="heading-03">{t('in-kubernetes:dashboards.iPs')}</Typography>
+      <Ul>
+        <Li>
+          <KeyValue value={pod.hostIp || valueMissingPlaceholder} label={t('in-kubernetes:dashboards.hostIp')} />
+        </Li>
+        <Li>
+          <KeyValue value={pod.podIp || valueMissingPlaceholder} label={t('in-kubernetes:dashboards.podIp')} />
+        </Li>
+      </Ul>
+    </>
   );
 }
