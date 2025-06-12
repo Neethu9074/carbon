@@ -6,8 +6,6 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import { clusterIdUrlParameter, namespaceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -90,9 +88,7 @@ export default function CronJobs(props) {
   return (
     <>
       <K8sAgentMonitoringIssueNotifications {...props} entityName="cronjobs" />
-      <Card>
-        <ServerTableWithUrlState get={getTableData} {...props} />
-      </Card>
+      <ServerTableWithUrlState get={getTableData} {...props} />
     </>
   );
 }

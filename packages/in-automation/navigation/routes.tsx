@@ -13,8 +13,6 @@ import ActionDashboard from 'promise-loader?global!in-automation/ActionDashboard
 // @ts-expect-error
 import PolicyDetail from 'promise-loader?global!in-automation/PolicyDetails/PolicyDetails';
 // @ts-expect-error
-import PolicyDetails from 'promise-loader?global!in-automation/Policies/Policy';
-// @ts-expect-error
 import Policies from 'promise-loader?global!in-automation/Policies/Policies';
 import { Route } from 'react-router';
 import React from 'react';
@@ -24,7 +22,6 @@ import {
   actionDashboardFullyQualified,
   actionHistoryPath,
   policiesFullyQualified,
-  policiesDetailsFullyQualified,
   policyDetailsFullyQualified
 } from 'in-automation/navigation/paths';
 // @ts-expect-error
@@ -42,9 +39,6 @@ export default [
   </Route>,
   <Route exact path={policiesFullyQualified} key="policies">
     {renderAsyncRouteChildren(Policies)}
-  </Route>,
-  <Route path={policiesDetailsFullyQualified} key="policyDetails">
-    {renderAsyncRouteChildren(PolicyDetails)}
   </Route>,
   <Route path={policyDetailsFullyQualified} key="policyDashboard">
     {renderAsyncRouteChildren(PolicyDetail)}

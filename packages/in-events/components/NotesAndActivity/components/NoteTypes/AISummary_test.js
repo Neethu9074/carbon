@@ -21,7 +21,13 @@ describe('AISummary', () => {
 
   it('renders the text in a div with the correct class name', () => {
     const wrapper = shallow(
-      <AISummary noteObj={{}} setNeedOverlay={() => {}} setShareOpen={() => {}} setSummaryData={() => {}} event={{}} />
+      <AISummary
+        noteObj={{}}
+        setNeedOverlay={() => {}}
+        setShareOpen={() => {}}
+        setSummaryData={() => {}}
+        event={Immutable.fromJS({})}
+      />
     );
     expect(wrapper.find(`div.${locals.contentsHeader}`)).toHaveLength(3);
     expect(wrapper.find(`div.${locals.contentsHeader}`).at(0).text()).toEqual('Summary of incident:');

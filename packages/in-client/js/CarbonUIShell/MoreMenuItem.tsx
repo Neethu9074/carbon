@@ -8,7 +8,7 @@
 import AboutInstanaDialog from 'promise-loader?global!in-components/AboutInstanaDialog';
 import React from 'react';
 
-import { MenuItem, SideNavMenu, SvgIcon, CarbonSideNavLink } from '@instana/components';
+import { MenuItem, SideNavMenu, SvgIcon, CarbonSideNavLink, useUIShellContext } from '@instana/components';
 
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
@@ -22,12 +22,9 @@ import { t } from 'in-i18n';
 
 import local from './MoreMenuItem.mless';
 
-interface MoreMenuItemProps {
-  isSideNavExpanded: boolean;
-}
-
-export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
+export default function MoreMenuItem() {
   const { matchLocation, createHrefToPath } = useNavigation();
+  const { isSideNavExpanded } = useUIShellContext();
 
   return (
     <SideNavMenu

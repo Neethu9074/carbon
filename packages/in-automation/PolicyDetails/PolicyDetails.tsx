@@ -12,6 +12,7 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard/DefaultLoadingDashboard';
 import PolicyTriggerConfigurationCard from 'in-automation/PolicyDetails/PolicyTriggerConfigurationCard';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import ActionConfigurationCard from 'in-automation/PolicyDetails/ActionConfigurationCard';
@@ -19,7 +20,6 @@ import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionFo
 import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import PolicyDetailsdHeader from 'in-automation/PolicyDetails/PolicyDetailsHeader';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import usePolicyForm from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
 import PolicyDetailsCard from 'in-automation/PolicyDetails/PolicyDetailsCard';
@@ -37,6 +37,7 @@ import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
 import { Triggers } from 'in-automation/types';
 import useUrlState from 'in-hooks/useUrlState';
+import { role } from 'in-stores/user';
 import { Policy } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -56,7 +57,7 @@ export default function PolicyDashboard() {
     return (
       <>
         <PolicyDetailsdHeader result={result} />
-        <LoadingIndicator size={'xl'} />
+        <DefaultLoadingDashboard />
       </>
     );
   }
@@ -137,7 +138,7 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
                   {backLable}
                 </Link>
               )}
-              <PolicyControls data={policy} />
+              {role?.canConfigureAutomationPolicies && <PolicyControls data={policy} />}
             </div>
 
             <CarbonRow>

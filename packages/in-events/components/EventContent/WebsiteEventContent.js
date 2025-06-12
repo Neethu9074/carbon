@@ -34,7 +34,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
+import { eumImpactedUsersForWebsiteAndMobileAlertEnabled } from 'in-services/featureFlags';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
@@ -127,7 +127,7 @@ export default function WebsiteEventContent({ event, snapshot, reload }) {
         </Col>
       </Row>
 
-      {eumImpactedUsersForAppAlertEnabled && (
+      {eumImpactedUsersForWebsiteAndMobileAlertEnabled && (
         <Row withoutSideMargin>
           <Col xs>
             <SmartAlertImpactedUsers

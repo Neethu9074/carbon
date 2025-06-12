@@ -17,6 +17,9 @@ import {
 } from 'in-kubernetes/navigation/paths';
 import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
+import PersistentVolumeBreadcrumb from 'in-kubernetes/breadcrumbs/PersistentVolumeBreadcrumb';
+import getOtelKubernetesCluster from 'in-kubernetes/subscriptions/getOtelKubernetesCluster';
+import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
 import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';
@@ -28,8 +31,14 @@ import { fullyQualifiedPlugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 export function ClusterBreadcrumbs(props) {
-  const { clusterId } = props;
-  return [<HomeViewBreadcrumb />, clusterId && <ClusterBreadcrumb {...props} />];
+  const { clusterId, isOtelCluster } = props;
+
+  return [
+    <HomeViewBreadcrumb />,
+    clusterId && (
+      <ClusterBreadcrumb {...props} subscription={isOtelCluster ? getOtelKubernetesCluster : getKubernetesCluster} />
+    )
+  ];
 }
 
 export function NamespaceBreadcrumbs(props) {
@@ -69,6 +78,18 @@ export function NodeBreadcrumbs(props) {
     clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
     namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     nodeId && <NodeBreadcrumb {...props} />
+  ];
+}
+
+export function PersistentVolumeBreadcrumbs(props) {
+  const { persistentVolumeId, clusterId } = props;
+
+  const clusterHref = useClusterDashboard(clusterId);
+
+  return [
+    <HomeViewBreadcrumb />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    persistentVolumeId && <PersistentVolumeBreadcrumb {...props} />
   ];
 }
 

@@ -6,12 +6,13 @@
 
 import React from 'react';
 
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
 import AlertConfigDialog from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
 import generateAlertConfig from 'in-alerting/smart-alerts/infrastructure/data/generateAlertConfig';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { infraSmartAlerts } from 'in-stores/navigation/paths/mainPaths';
 import { close } from 'in-components/DialogPresenter/store';
+import { events } from 'in-settings/navigation/paths';
 
 export default function CreateSmartAlertDialog() {
   const alertConfig = generateAlertConfig();
@@ -20,7 +21,7 @@ export default function CreateSmartAlertDialog() {
     <AlertConfigDialog
       onClose={() => {
         close();
-        if (location.pathname.includes(infraSmartAlerts)) {
+        if (location.pathname.includes(infraSmartAlerts) || location.pathname.includes(events)) {
           refreshSmartAlertConfigsList();
         }
       }}

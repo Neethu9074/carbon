@@ -356,9 +356,14 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'eumImpactedUsersForWebsiteAndMobileAlertEnabled',
+    instanaCtlKey: 'feature.eum.impacted.users.for.website.and.mobile.alert.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'mobileAppScreenRenderingDurationEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.screen.rendering.duration.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'mobileAppExcessiveNetworkUsageEnabled',
@@ -587,6 +592,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'rcaAgenticEnabled',
+    instanaCtlKey: 'feature.ai.rca.agentic.workflow.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eventFeedbackEnabled',
     instanaCtlKey: 'feature.event.feedback.enabled',
     defaultValue: true
@@ -650,6 +660,11 @@ module.exports = exports = [
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'incidentNotesTopActionsEnabled',
+    instanaCtlKey: 'feature.incident.notes.top.actions.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
@@ -1004,16 +1019,6 @@ module.exports = exports = [
   {
     uiClientKey: 'openTelemetryKubernetesUnifiedViewEnabled',
     instanaCtlKey: 'feature.open.telemetry.kubernetes.unified.view.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'openTelemetryKubernetesNodesViewEnabled',
-    instanaCtlKey: 'feature.open.telemetry.kubernetes.nodes.view.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'openTelemetryKubernetesPodsViewEnabled',
-    instanaCtlKey: 'feature.open.telemetry.kubernetes.pods.view.enabled',
     defaultValue: false
   },
   {

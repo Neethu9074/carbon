@@ -28,6 +28,7 @@ interface RootCauseTopologySVGWrapperProps {
   height: string;
   algorithm: string;
   setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
+  containerId?: string;
 }
 
 export function RootCauseTopologySVGWrapper({
@@ -36,7 +37,8 @@ export function RootCauseTopologySVGWrapper({
   width,
   height,
   algorithm,
-  setAlgorithm
+  setAlgorithm,
+  containerId = `rootCauseTopologyContainer-${Math.random().toString(36).substr(2, 9)}`
 }: RootCauseTopologySVGWrapperProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
@@ -129,7 +131,7 @@ export function RootCauseTopologySVGWrapper({
           </Stack>
         </Stack>
       </CarbonTile>
-      <div id="rootCauseTopologyContainer">
+      <div id={containerId}>
         <svg
           ref={svgRef}
           width={width}

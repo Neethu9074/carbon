@@ -8,7 +8,9 @@ import React from 'react';
 import { Spacer, Toggle } from '@instana/components';
 
 import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AlertSection from 'in-alerting/components/AlertSection';
+import { toHtml } from 'in-services/formatters/markdown';
 import Sections from 'in-components/workspace/Sections';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -52,6 +54,7 @@ export default function AlertPropertyInfos({
   shouldDisplayAlertLevelSection = true
 }: AlertPropertyInfosProps) {
   const severityProperty = propertiesBySeverity[severity];
+
   return (
     <Sections>
       <AlertSection title={t('in-alerting:components.alertPropertyInfosLabelTitle')}>
@@ -78,7 +81,9 @@ export default function AlertPropertyInfos({
         icon="lib_help_error_error_outline"
         title={t('in-alerting:components.alertPropertyInfosLabelDescription')}
       >
-        <Label className={locals.staticDescription}>{description}</Label>
+        <Label className={locals.staticDescription}>
+          <DangerousHtmlPresenter html={toHtml(description)} />
+        </Label>
       </AlertSection>
     </Sections>
   );

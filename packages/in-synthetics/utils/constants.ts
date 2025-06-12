@@ -593,6 +593,8 @@ export interface AdvancedModeProps {
   setInvalidHeader: React.Dispatch<React.SetStateAction<Invalid>>;
   invalidJSON: Invalid;
   setInvalidJSON: React.Dispatch<React.SetStateAction<Invalid>>;
+  teams: TeamTagEx[];
+  setTeams: React.Dispatch<React.SetStateAction<TeamTagEx[]>>;
   customProperties: ConfigItem[];
   setCustomProperties: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
   invalidCustomProperty: Invalid;
@@ -622,6 +624,20 @@ export interface ConfigItem {
   key: string;
   value: string;
   error: Record<string, ErrorType>;
+}
+
+export interface TeamTagEx {
+  tag_id?: string;
+  id?: string;
+  entity_id?: string;
+  displayName: string;
+}
+
+export interface TeamRaw {
+  id: string;
+  name: string;
+  hasScope?: boolean;
+  usersCount?: number;
 }
 
 export interface Validation {

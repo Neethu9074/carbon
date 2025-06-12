@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { MenuItem, SideNavMenu, SvgIcon } from '@instana/components';
+import { MenuItem, SideNavMenu, SvgIcon, useUIShellContext } from '@instana/components';
 
 import {
   hasKubernetesAccess,
@@ -72,24 +72,17 @@ const numberOfAllowedPlatforms = [
   shouldRenderLinuxKVMHypervisor
 ].filter(Boolean).length;
 
-interface PlatformsMenuItemProps {
-  isSideNavExpanded: boolean;
-}
-
-export default function PlatformsMenuItem({ isSideNavExpanded }: PlatformsMenuItemProps) {
+export default function PlatformsMenuItem() {
   if (numberOfAllowedPlatforms === 0) return null;
 
   if (numberOfAllowedPlatforms === 1) return <PlatformsMenuItemContent icon="lib_platforms_inverted" />;
 
-  return <PlatformsSideNavMenuItem isSideNavExpanded={isSideNavExpanded} />;
+  return <PlatformsSideNavMenuItem />;
 }
 
-interface PlatformsSideNavMenuItemProps {
-  isSideNavExpanded: boolean;
-}
-
-function PlatformsSideNavMenuItem({ isSideNavExpanded }: PlatformsSideNavMenuItemProps) {
+function PlatformsSideNavMenuItem() {
   const { matchLocation } = useNavigation();
+  const { isSideNavExpanded } = useUIShellContext();
 
   const isActive = matchLocation(
     cloudfoundry,
@@ -121,6 +114,7 @@ function PlatformsSideNavMenuItem({ isSideNavExpanded }: PlatformsSideNavMenuIte
 interface PlatformsMenuItemContentProps {
   icon?: string;
 }
+
 function PlatformsMenuItemContent(props: PlatformsMenuItemContentProps) {
   const { matchLocation, createHrefToPath } = useNavigation();
 

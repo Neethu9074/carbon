@@ -33,7 +33,8 @@ paths.allServerSourcesIgnoreRules = [
   path.join('**', '__mocks__', '**', '*'),
   path.join('**', 'test', '**', '*'),
   path.join('**', 'coverage', '**', '*'),
-  path.join('**', 'README.md')
+  path.join('**', 'README.md'),
+  path.join('**', 'generate-error-page-content', '**', '*')
 ];
 paths.featureFlags = path.join(paths.devDir, 'featureFlags.js');
 paths.i18nInputFiles = path.join(paths.packageDir, '*', 'i18n', '*');

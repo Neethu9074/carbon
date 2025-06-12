@@ -27,6 +27,7 @@ export type ActionConfigurationFormItems = {
   agentId: Field<string>;
   parameters: Field<ParameterValue[]>;
   type: MapForm<PolicyTypeFormItems>;
+  isActionPreSelected: Field<boolean>;
 };
 
 export type PolicyFormItems = {

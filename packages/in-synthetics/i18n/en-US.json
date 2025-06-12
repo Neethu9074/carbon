@@ -153,6 +153,7 @@
         "scheduleTitle": "Schedule: How will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Credentials with teams associated will also be reflected in the teams page in settings.",
         "customPropertiesTitle": "Custom properties (optional)",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
         "frequencyHours": "This test will run every {{frequencyHours}} hours.",
@@ -312,7 +313,11 @@
         "applicationsTitle": "Associate: Select applications to associate with this synthetic test",
         "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application.",
         "associationsTitle": "Associate: Select what you want to associate with this synthetic test (optional)",
-        "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities."
+        "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities.",
+        "teamsLabel": "Teams",
+        "teamsTitle": "Teams: Select teams to associate with this test (optional)",
+        "teamsDescription": "Select teams to associate with this test.",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Tests with teams associated will also be reflected in the teams page in settings."
       },
       "associations": {
         "applicationsTitle": "Select applications to associate with this synthetic test",
@@ -447,6 +452,7 @@
       "createButton": "New Credential",
       "nameValue": "Name and value",
       "associations": "Associations",
+      "teams": "Teams",
       "newCredentials": "Create a synthetic credential",
       "steps": {
         "textInput": {
@@ -459,7 +465,8 @@
           "placeholder": "Credential value",
           "labelText": "Value"
         },
-        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
+        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities.",
+        "teamsStepDescription": "Select teams to associate with this credential."
       },
       "feedback": {
         "successMessage": "Successfully created credential",
@@ -491,7 +498,8 @@
         "tests": "Tests",
         "locations": "Locations",
         "smartAlerts": "Smart Alerts",
-        "credentials": "Credentials"
+        "credentials": "Credentials",
+        "syntheticTests": "Synthetic tests"
       },
       "options": {
         "scheduledMenuLabel": "Scheduled",
@@ -563,7 +571,8 @@
       "configureColumns": {
         "title": "Column customization",
         "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed."
-      }
+      },
+      "searchSyntheticTests" :"Search synthetic tests"
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",
@@ -903,6 +912,7 @@
       "daysRemaining": "Failure configuration",
       "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
       "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration",
+      "teams": "Teams",
       "associations": "Associations",
       "associatedApplications": "Associated Applications",
       "noApplicationsAssociated": "No Applications associated",

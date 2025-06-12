@@ -59,6 +59,8 @@ interface ResultsTopListProps {
   runType?: string;
 }
 export default function ResultsTopList({ testId, testType, runType }: ResultsTopListProps) {
+  //default runType value is Scheduled
+  runType = runType ?? runTypeScheduled;
   const timeConfig = useTimeConfig();
   const colors = [themes.default.ids.color.option.red['500'], null, null];
   const urlMatrixParamConfig = {

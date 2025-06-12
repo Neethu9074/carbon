@@ -2,3 +2,5 @@ serverConfig.json
 serverConfig.yaml
 /coverage
 /.yarn/cache
+src/templates/generated
+assets/errorPages/css

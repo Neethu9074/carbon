@@ -64,6 +64,7 @@ export const logFilterSaving = isFeatureFlagEnabled('logFilterSaving');
 export const patternRecognitionEnabled = isFeatureFlagEnabled('patternRecognitionEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
+export const incidentNotesTopActionsEnabled = isFeatureFlagEnabled('incidentNotesTopActionsEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
@@ -98,13 +99,17 @@ export const mobileAppPerformanceTabEnabled = isFeatureFlagEnabled('mobileAppPer
 export const mobileAppDroppedBeaconsEnabled = isFeatureFlagEnabled('mobileAppDroppedBeaconsEnabled', true);
 export const mobileAppScreenRenderingDurationEnabled = isFeatureFlagEnabled(
   'mobileAppScreenRenderingDurationEnabled',
-  false
+  true
 );
 export const mobileAppExcessiveNetworkUsageEnabled = isFeatureFlagEnabled(
   'mobileAppExcessiveNetworkUsageEnabled',
   false
 );
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
+export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled(
+  'eumImpactedUsersForWebsiteAndMobileAlertEnabled',
+  true
+);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
 
@@ -398,18 +403,11 @@ export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled
 export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);
 export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);
 export const rcaAiAutomatedInvestigationEnabled = isFeatureFlagEnabled('rcaAiAutomatedInvestigationEnabled', false);
+export const rcaAgenticEnabled = isFeatureFlagEnabled('rcaAgenticEnabled', false);
 export const apMetricsDeltaFetchingEnabled = isFeatureFlagEnabled('apMetricsDeltaFetchingEnabled', false);
 export const isControlledEnvEnabled = isFeatureFlagEnabled('isControlledEnvEnabled', false);
 export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
   'openTelemetryKubernetesUnifiedViewEnabled',
-  false
-);
-export const openTelemetryKubernetesNodesViewEnabled = isFeatureFlagEnabled(
-  'openTelemetryKubernetesNodesViewEnabled',
-  false
-);
-export const openTelemetryKubernetesPodsViewEnabled = isFeatureFlagEnabled(
-  'openTelemetryKubernetesPodsViewEnabled',
   false
 );
 export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);

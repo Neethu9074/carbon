@@ -16,64 +16,24 @@ import { t } from 'in-i18n';
 const testTeamsResult = {
   data: [
     {
-      id: 'OiP5zdr6SCOeOC3j6e-xqw',
-      name: 'vishnu-test-team',
-      usersCount: 1,
-      hasScope: false
-    },
-    {
-      id: 'Cb9-JnITTB2ql9rW2uh7UA',
-      name: 'desdy',
-      usersCount: 0,
-      hasScope: false
+      id: 'R3kiM5t5RX65blmGPo9lng',
+      displayName: "Fabienne's team"
     },
     {
       id: 'qIZV7690SXeH9CxmNRlx4A',
-      name: 'Andreas Test Team',
-      usersCount: 1,
-      hasScope: true
+      displayName: 'Andreas Test Team'
     },
     {
-      id: 'ZKX0yJsHRyqXIpusmLanCA',
-      name: 'Rose Test',
-      usersCount: 2,
-      hasScope: false
+      id: 'GfldyEDUTiqSZtr28EC53A',
+      displayName: 'Philips team'
     },
     {
-      id: 'NDD9l1KfRvy2OIDO650iOg',
-      name: 'Rose Test team',
-      usersCount: 2,
-      hasScope: false
+      id: 'iYtsNMPpShiyRkPF4trkUQ',
+      displayName: 'Mate test'
     },
     {
-      id: 'juQhsVF0RX6p-RTbFSPY8w',
-      name: 'our very first tag',
-      usersCount: 1,
-      hasScope: true
-    },
-    {
-      id: '6mbRdxd9Qhm6YSwd-XHwpg',
-      name: "Kyle's team",
-      usersCount: 0,
-      hasScope: false
-    },
-    {
-      id: '4kQMMPMTTPeqSdDNZ373GA',
-      name: 'Team Vishnu',
-      usersCount: 3,
-      hasScope: true
-    },
-    {
-      id: 'PES9FYKJT-ChbqBWftn1fw',
-      name: "Andre's Test Team",
-      usersCount: 6,
-      hasScope: true
-    },
-    {
-      id: 'bvhM4OyeRfWEjR7_AA6h2Q',
-      name: 'SRE CIO',
-      usersCount: 0,
-      hasScope: false
+      id: 'hSgNzPdzQn-kH16-U4trCw',
+      displayName: 'Sample team'
     }
   ],
   errors: [],
@@ -85,9 +45,9 @@ const testTeamsResult = {
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
-jest.mock('in-api/teams', () => {
+jest.mock('in-settings/tabs/SecurityAndAccess/api/tags', () => {
   return {
-    getTeamsOverview: jest.fn()
+    getTagsResult: jest.fn()
   };
 });
 jest.mock('in-services/featureFlags', () => ({
@@ -113,13 +73,13 @@ describe('EditTeamsDialog', () => {
     rbacTags: [
       {
         entity_id: 'nDyVFJvGQNWTOXvODaTaRQ',
-        tag_id: 'juQhsVF0RX6p-RTbFSPY8w',
-        displayName: 'our very first tag'
+        tag_id: 'hSgNzPdzQn-kH16-U4trCw',
+        displayName: 'Sample team'
       },
       {
         entity_id: 'nDyVFJvGQNWTOXvODaTaRQ',
-        tag_id: 'Cb9-JnITTB2ql9rW2uh7UA',
-        displayName: 'desdy'
+        tag_id: 'iYtsNMPpShiyRkPF4trkUQ',
+        displayName: 'Mate test'
       }
     ],
     title: 'zippy',
@@ -149,20 +109,24 @@ describe('EditTeamsDialog', () => {
     const dropdown = screen.getByText(t('in-custom-dashboards:customDashboard.editTeamsDialog.chooseTeams'));
     expect(dropdown).toBeInTheDocument();
   });
-  it('renders the correct teams when drop down is expanded', () => {
+  it('renders the correct teams when drop down is expanded', async () => {
     const { container } = render(testComponent);
     const button = screen.getByRole('combobox');
     expect(button).toBeTruthy();
     fireEvent.click(button);
-    let item = screen.getByText('desdy');
+    let item = screen.getByText('Philips team');
     expect(item).toBeInTheDocument();
-    item = screen.getByText('our very first tag');
+    item = screen.getByText('Mate test');
     expect(item).toBeInTheDocument();
-    item = screen.getByText('Team Vishnu');
+    item = screen.getByText('Sample team');
     expect(item).toBeInTheDocument();
     let checkboxes = container.querySelectorAll('.cds--checkbox');
-    expect(checkboxes).toHaveLength(10);
+    expect(checkboxes).toHaveLength(5);
     let checkedboxes = container.querySelectorAll('input:checked');
     expect(checkedboxes).toHaveLength(2);
+
+    const saveBtn = screen.getByText(t('in-custom-dashboards:save'));
+    fireEvent.click(saveBtn);
+    expect(onSubmit).toHaveBeenCalledTimes(1);
   });
 });

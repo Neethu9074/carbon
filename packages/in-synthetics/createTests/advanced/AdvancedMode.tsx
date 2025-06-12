@@ -19,14 +19,15 @@ import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePr
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
+import { rbacTeamsEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import ApplicationsSection from 'in-synthetics/createTests//wizard/ApplicationsSection';
 import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import DNSConfiguration from 'in-synthetics/createTests/advanced/DNSConfiguration';
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
+import TeamsSection from 'in-synthetics/createTests/advanced/TeamsSection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -52,6 +53,8 @@ const AdvancedMode = ({
   setInvalidHeader,
   invalidJSON,
   setInvalidJSON,
+  teams,
+  setTeams,
   customProperties,
   setCustomProperties,
   invalidCustomProperty,
@@ -249,8 +252,20 @@ const AdvancedMode = ({
           valid: true,
           content: <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
         },
+    ...(rbacTeamsEnabled
+      ? [
+          {
+            scrollId: '7',
+            label: t('in-synthetics:dialog.createTest.advancedMode.teamsLabel'),
+            title: t('in-synthetics:dialog.createTest.advancedMode.teamsTitle'),
+            subTitle: t('in-synthetics:dialog.createTest.advancedMode.teamsDescription'),
+            valid: true,
+            content: <TeamsSection form={form} updateForm={updateForm} teams={teams} setTeams={setTeams} />
+          }
+        ]
+      : []),
     {
-      scrollId: '7',
+      scrollId: '8',
       label: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       title: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       valid: true,

@@ -13,7 +13,6 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
-import type { KubernetesNamespace, ResultPrecisionDetails, Progress, Nullish, Result, TimeConfig } from 'in-types';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 // @ts-expect-error TS migration
 import EntityVersionList from 'in-components/EntityVersionList';
@@ -24,6 +23,7 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import getOtelKubernetesNode from 'in-kubernetes/subscriptions/getOtelKubernetesNode';
 import { nodeDashboard, nodeOtelDashboard } from 'in-kubernetes/navigation/paths';
+import type { KubernetesNamespace, Nullish, Result, TimeConfig } from 'in-types';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { TrackingFunction, useKubernetesTracker } from 'in-kubernetes/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
@@ -113,7 +113,7 @@ interface HeaderProps {
   result?: Result<any> | Nullish;
   kubernetesTimeShiftSelectTracker: TrackingFunction;
   [key: string]: any;
-};
+}
 
 function Header(props: HeaderProps) {
   return (
@@ -140,7 +140,7 @@ interface RenderButtonLineProps {
     };
     [key: string]: any;
   };
-};
+}
 
 function renderButtonLine({ nodeId, timeConfig, result }: RenderButtonLineProps) {
   return (
@@ -155,15 +155,15 @@ function renderButtonLine({ nodeId, timeConfig, result }: RenderButtonLineProps)
           operator: 'EQUALS',
           entity: 'DESTINATION',
           type: 'TAG_FILTER'
-      },
-      {
-        name: 'kubernetes.cluster.name',
-        value: result.data?.clusterId,
-        operator: 'EQUALS',
-        entity: 'DESTINATION',
-        type: 'TAG_FILTER'
-      }
-    ]}
+        },
+        {
+          name: 'kubernetes.cluster.name',
+          value: result.data?.clusterId,
+          operator: 'EQUALS',
+          entity: 'DESTINATION',
+          type: 'TAG_FILTER'
+        }
+      ]}
     />
   );
 }
@@ -199,17 +199,7 @@ function renderButtonLineSecondary({
   );
 }
 
-interface KubernetesIndicatorResult {
-  data: KubernetesNamespace;
-  time: number;
-  adjustedWindowSize: number;
-  resultPrecisionDetails: ResultPrecisionDetails;
-  errors: Error[];
-  progress: Progress;
-  backendTraceId: string;
-}
-
-function RenderMetaInformation({ result }: { result?: KubernetesIndicatorResult | null }) {
+function RenderMetaInformation({ result }: Readonly<{ result: Result<KubernetesNamespace> }>) {
   const version = get(result, ['data', 'version']);
 
   return (

@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 import {
   clusterIdUrlParameter,
   podIdUrlParameter,
@@ -82,11 +80,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function Conditions(props) {
-  return (
-    <Card>
-      <ServerTableWithUrlState get={getTableData} {...props} />
-    </Card>
-  );
+  return <ServerTableWithUrlState get={getTableData} {...props} />;
 }
 
 function getTableData({

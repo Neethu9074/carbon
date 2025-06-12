@@ -5,19 +5,29 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Typography, Ul, Li, KeyValue } from '@instana/components';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { t } from 'in-i18n';
 
 export default function IPs({ resource: node }) {
   return (
-    <Card title={t('in-kubernetes:dashboards.iPs')}>
-      <Dl>
-        <Di title={t('in-kubernetes:dashboards.internalIp')}>{node.internalIp || valueMissingPlaceholder}</Di>
-        <Di title={t('in-kubernetes:dashboards.externalIp')}>{node.externalIp || valueMissingPlaceholder}</Di>
-      </Dl>
-    </Card>
+    <>
+      <Typography variant="heading-03">{t('in-kubernetes:dashboards.iPs')}</Typography>
+      <Ul>
+        <Li>
+          <KeyValue
+            value={node.internalIp || valueMissingPlaceholder}
+            label={t('in-kubernetes:dashboards.internalIp')}
+          />
+        </Li>
+        <Li>
+          <KeyValue
+            value={node.externalIp || valueMissingPlaceholder}
+            label={t('in-kubernetes:dashboards.externalIp')}
+          />
+        </Li>
+      </Ul>
+    </>
   );
 }

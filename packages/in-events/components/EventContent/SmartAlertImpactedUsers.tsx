@@ -10,9 +10,12 @@ import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
+import {
+  MobileAppSmartAlertConfig,
+  WebsiteSmartAlertConfig
+} from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 // @ts-ignore
-import { getEnrichedAnalyzeTagFilterFormModel, impactedTracesTagFilterExpressionGenerator } from 'in-events/components/AnalyzeApplicationEventButton';
-import { MobileAppSmartAlertConfig, WebsiteSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { impactedTracesTagFilterExpressionGenerator, getEnrichedAnalyzeTagFilterFormModel } from 'in-events/components/AnalyzeApplicationEventButton';
 import { getEnrichedAnalyzeTagFilterFormModelImpactedBeacons } from 'in-eum/ImpactedUsers/AnalyzeImpactedUsersButton';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
@@ -44,8 +47,8 @@ export default function SmartAlertImpactedUsers({
   eventEntity,
   isKPI
 }: SmartAlertImpactedUsersProps) {
-  const [entityType, timeConfig] = useMemo(
-    () => [event.get('entityType'), getImpactedTimeConfigFromEvent(event)],
+  const [entityType, timeConfig, eventId] = useMemo(
+    () => [event.get('entityType'), getImpactedTimeConfigFromEvent(event), getEventId(event)],
     [event]
   );
 
@@ -87,6 +90,7 @@ export default function SmartAlertImpactedUsers({
   return (
     <ImpactedUsers
       entityType={entityType}
+      eventId={eventId}
       alertType={alertConfig?.rule?.alertType}
       timeConfig={timeConfig}
       joinFilterForImpactedUsers={filterExpressions.impacted}
@@ -107,6 +111,11 @@ function getImpactedTimeConfigFromEvent(event: EventOrMap): TimeConfig {
     windowSize: Math.max(minutes.toMillis(10), eventTo - eventFrom),
     autoRefresh: false
   };
+}
+
+function getEventId(event: EventOrMap): string | undefined {
+  const id = event.get('id');
+  return typeof id === 'string' ? id : undefined;
 }
 
 function createFilterExpressionsForAppAlert(

@@ -7,8 +7,6 @@
 import { get, filter } from 'lodash';
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 import {
   clusterIdUrlParameter,
   serviceIdUrlParameter,
@@ -276,21 +274,19 @@ export default function Pods(props) {
   return (
     <>
       <K8sAgentMonitoringIssueNotifications {...props} entityName="pods" />
-      <Card>
-        <Table
-          get={getKubernetesPodsData}
-          timeConfig={timeConfig}
-          namespaceId={namespaceId}
-          workloadControllerId={workloadControllerId}
-          clusterId={clusterId}
-          serviceId={serviceId}
-          nodeId={nodeId}
-          cronJobId={cronJobId}
-          rightHeader={rightHeader}
-          leftHeader={leftHeader}
-          phase={phase}
-        />
-      </Card>
+      <Table
+        get={getKubernetesPodsData}
+        timeConfig={timeConfig}
+        namespaceId={namespaceId}
+        workloadControllerId={workloadControllerId}
+        clusterId={clusterId}
+        serviceId={serviceId}
+        nodeId={nodeId}
+        cronJobId={cronJobId}
+        rightHeader={rightHeader}
+        leftHeader={leftHeader}
+        phase={phase}
+      />
     </>
   );
 }

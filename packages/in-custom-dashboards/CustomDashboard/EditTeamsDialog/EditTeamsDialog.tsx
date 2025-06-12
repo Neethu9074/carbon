@@ -7,15 +7,16 @@
 /* eslint-disable no-restricted-imports */
 import React, { useState, useEffect } from 'react';
 
-import { CarbonMultiSelect, CarbonModal, Typography, CarbonCallout } from '@instana/components';
+import { MultiSelect, Modal, Callout } from '@instana/carbon';
+import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { CustomDashboardWithUserSpecificInformation } from 'in-types';
+import { CustomDashboardWithUserSpecificInformation, TeamTag } from 'in-types';
+import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import { isLoading, hasError } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
-import { getTeamsOverview } from 'in-api/teams';
 import { t } from 'in-i18n';
 
 import locals from './EditTeamsDialog.mless';
@@ -35,8 +36,8 @@ interface EditTeamsProps {
 }
 
 export default function EditTeamsDialog({ config, onSubmit }: EditTeamsProps) {
-  const [selectedList, setSelectedList] = useState([]);
-  const onSelectionChanged = (item: []) => {
+  const [selectedList, setSelectedList] = useState<TeamTag[]>([]);
+  const onSelectionChanged = (item: TeamTag[]) => {
     setSelectedList(item);
   };
   const handleSubmit = () => {
@@ -46,7 +47,7 @@ export default function EditTeamsDialog({ config, onSubmit }: EditTeamsProps) {
     });
     close();
   };
-  const teamsResult = useObservable(getTeamsOverview, []) ?? pendingResult;
+  const teamsResult = useObservable(getTagsResult, []) ?? pendingResult;
   const teamsLoading = isLoading(teamsResult);
   const teamsHasErrors = hasError(teamsResult);
   const teamsList = !teamsLoading && !teamsHasErrors ? teamsResult.data : [];
@@ -61,7 +62,7 @@ export default function EditTeamsDialog({ config, onSubmit }: EditTeamsProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamsAssigned, teamsList]);
   return (
-    <CarbonModal
+    <Modal
       open
       onRequestClose={close}
       modalHeading={t('in-custom-dashboards:customDashboard.editTeamsDialog.title')}
@@ -72,23 +73,23 @@ export default function EditTeamsDialog({ config, onSubmit }: EditTeamsProps) {
       onRequestSubmit={() => handleSubmit()}
     >
       <Typography variant="body-01">{t('in-custom-dashboards:customDashboard.editTeamsDialog.description')}</Typography>
-      <CarbonCallout
+      <Callout
         className={locals.message}
         subtitle={t('in-custom-dashboards:customDashboard.editTeamsDialog.calloutMessage')}
         lowContrast
       />
       <div id="teamsSelect" className={locals.teamsSelector}>
-        <CarbonMultiSelect
+        <MultiSelect
           id="custDashTeamsSelect"
           size="sm"
           label={t('in-custom-dashboards:customDashboard.editTeamsDialog.chooseTeams')}
           titleText={t('in-custom-dashboards:customDashboard.editTeamsDialog.selectorLabel')}
-          onChange={(data: any) => onSelectionChanged(data.selectedItems)}
+          onChange={data => onSelectionChanged(data.selectedItems ?? [])}
           items={teamsList}
           selectedItems={selectedList}
-          itemToString={(item: any) => (item ? item.name : '')}
+          itemToString={(item: TeamTag) => (item ? item.displayName : '')}
         />
       </div>
-    </CarbonModal>
+    </Modal>
   );
 }

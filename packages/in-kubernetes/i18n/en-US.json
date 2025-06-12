@@ -10,6 +10,7 @@
     "namespace": "Namespace",
     "node": "Node",
     "pod": "Pod",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "K8s Service"
   },
   "clusterBadgeNameOpenShift": "OpenShift",
@@ -29,6 +30,7 @@
     "summary": "Summary",
     "details": "Details",
     "hostCoverage": "Host coverage",
+    "k8SensorVersion": "K8s Sensor Version",
     "clusterUuid": "Cluster UUID",
     "agentMonitor": "Agent monitor",
     "controlPlane": "Control plane",
@@ -56,9 +58,16 @@
     "memoryUsage": "Memory usage",
     "phase": "Phase",
     "storageClassName": "Storage class name",
+    "capacityStorage": "Capacity storage",
     "storageTotalCapacity": "Total capacity",
     "storageUsedCapacity": "Used capacity",
     "storageUtilization": "Utilization",
+    "storageUsedTotalCapacity": "out of {{total}} total",
+    "total": "Total",
+    "reclaimPolicy": "Reclaim policy",
+    "accessMode": "Access mode",
+    "volumeMode": "Volume mode",
+    "creationTimestamp": "Creation timestamp",
     "cpuRequests": "CPU requests",
     "cpuRequestsMultiMetric": "CPU requests",
     "cpuLimitsAlloc": "CPU limits allocation",
@@ -161,6 +170,8 @@
     "lastJobDuration": "Last job duration",
     "kubernetesDaemonSet": "Kubernetes DaemonSet",
     "k8SDaemonSet": "K8s DaemonSet",
+    "kubernetesPersistentVolume": "Kubernetes PersistentVolume",
+    "k8SPersistentVolume": "K8s PersistentVolume",
     "unscheduled": "Unscheduled",
     "unready": "Unready",
     "available": "Available",
@@ -434,6 +445,9 @@
     "otelCollector": {
       "text": "OpenTelemetry collector",
       "description": "View information based on data collected by the Instana OpenTelemetry collector."
+    },
+    "additionalMetrics": {
+      "title": "Additional"
     }
   }
 }

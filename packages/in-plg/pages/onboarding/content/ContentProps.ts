@@ -14,6 +14,7 @@ export default interface ContentProps {
   icon: string;
   fullLabel?: string;
   category?: string;
+  keyWords?: string;
   Content?: (props: OnboardingProps) => JSX.Element;
   __score?: number;
   subTechnology?: SubTechnology;

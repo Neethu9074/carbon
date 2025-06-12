@@ -15,6 +15,7 @@ import {
   namespaceList,
   deploymentsDashboard,
   daemonSetsDashboard,
+  persistentVolumesDashboard,
   statefulSetsDashboard,
   cronJobsDashboard,
   servicesDashboard,
@@ -158,7 +159,7 @@ export default [
   persistentVolumeSupportEnabled &&
     !playwithEnabled && {
       label: t('in-kubernetes:dashboards.persistentVolumes'),
-      path: `${clusterDashboardFullyQualified}/persistentvolumes`,
+      path: `${clusterDashboardFullyQualified}/}${persistentVolumesDashboard}`,
       component: PersistentVolumes,
       header: props => getCounterComponent(props, v => v.persistentVolumes),
       stickToBottom: true

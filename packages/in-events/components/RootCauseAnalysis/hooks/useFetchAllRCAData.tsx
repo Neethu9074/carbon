@@ -60,6 +60,19 @@ const useFetchAllRCAData = (incident: Event) => {
   const rootCauses = useMemo(() => getRootCauses(incident), [incident]);
   const incidentTimeWindow = useMemo(() => getIncidentTimeConfig(incident), [incident]);
 
+  // triggeringEntity
+  const triggeringEntityType = determineEntityTypeFromEntityIDMap({
+    host: '',
+    pluginId: get(incident, 'plugin'),
+    steadyId: ''
+  });
+
+  const triggeringData = useFetchAppropriateRCAEntityData(
+    triggeringEntityType,
+    incident.entityId || '',
+    incidentTimeWindow
+  );
+
   const rca1 = rootCauses[0];
   const rca1props = getRCAProps(rca1);
   const rca2 = rootCauses[1];
@@ -74,13 +87,15 @@ const useFetchAllRCAData = (incident: Event) => {
 
   return {
     rootCauses: [rc1Data, rca2Data, rca3Data],
-    rootCauseMetadata: rootCauses
+    rootCauseMetadata: rootCauses,
+    triggeringData
   };
 };
 
 const defaultValue: {
   rootCauses: RCAEntityDataType[];
   rootCauseMetadata: RootCause[];
+  triggeringData: RCAEntityDataType;
 } = {
   rootCauses: [
     {
@@ -96,7 +111,11 @@ const defaultValue: {
       entityType: 'infrastructure'
     }
   ],
-  rootCauseMetadata: []
+  rootCauseMetadata: [],
+  triggeringData: {
+    ...NoAppropriateRCAEntityData,
+    entityType: 'infrastructure'
+  }
 };
 
 const RootCauseDataContext = createContext(defaultValue);

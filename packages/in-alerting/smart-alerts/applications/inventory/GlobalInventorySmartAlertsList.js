@@ -27,6 +27,7 @@ import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListA
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
 import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { alertsTab } from 'in-applications/navigation/paths';
 import { role } from 'in-stores/user';
@@ -39,6 +40,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
   const urlParams = {
     isGlobal: isCategoryGlobal(configsCategory)
   };
+  const location = useLocation();
 
   return (
     <>
@@ -67,6 +69,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
               <CreateSmartAlertButtonForCarbonTable
                 isGlobal
                 buttonName={t('in-alerting:smartAlerts.createSmartAlert')}
+                location={location}
               />
             )
           }

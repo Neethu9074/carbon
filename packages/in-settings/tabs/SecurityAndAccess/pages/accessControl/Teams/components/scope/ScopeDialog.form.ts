@@ -10,6 +10,7 @@ import { parse } from 'qs';
 import { AccessRestriction, ApiApplicationScope, RestrictedApplicationFilter, TeamScope } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import { contributionFilterNameValidator } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { LimitedAccessScope } from 'in-stores/permission';
@@ -142,6 +143,36 @@ export const resetApplicationFields = (
     : updatedForm;
 };
 
+const contributionFilterValidator = ({
+  filterName,
+  filterExpression,
+  isFilterEnabled
+}: ApplicationFilterFormItems): ValidationResult => {
+  let errors: ValidationMessage[] = [];
+
+  // Validate application contribution filter
+  if (isFilterEnabled?.value) {
+    const filterNameResult = contributionFilterNameValidator(filterName?.value);
+    if (filterNameResult && filterNameResult?.length > 0) {
+      errors.push({ ...filterNameResult[0], path: 'filterName' });
+    }
+
+    if (
+      filterExpression?.value === undefined ||
+      filterExpression?.value?.length === 0 ||
+      filterExpression?.value === fromBackendModel(emptyTagFilterExpression)
+    ) {
+      errors.push({
+        severity: 'error',
+        message: t('in-settings:dialogs.scope.noApplicationContributionFilterTagExpressionError'),
+        path: 'filterExpression'
+      });
+    }
+  }
+
+  return errors;
+};
+
 export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields> {
   // Parse action filter string into action types and action tags
   const { actionTags, actionTypes } = parseActionFilter(initValues?.actionFilter ?? '');
@@ -176,7 +207,8 @@ export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields
           scope: createField({
             value: initValues?.restrictedApplicationFilter?.scope ?? 'INCLUDE_NO_DOWNSTREAM'
           })
-        }
+        },
+        validator: contributionFilterValidator
       }),
       applications: createField({
         value: initValues?.applications ?? undefined
