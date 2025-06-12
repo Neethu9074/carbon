@@ -73,6 +73,7 @@ interface QueryBuilderProps<
   disableEntitySelection?: boolean;
   fixOverlayLeftAlignment?: boolean;
   tracking?: QueryBuilderTrackingFunctions;
+  source?: string;
 
   maxExpressionDepth?: number;
   useLastValidStateWhenErroneous?: boolean;
