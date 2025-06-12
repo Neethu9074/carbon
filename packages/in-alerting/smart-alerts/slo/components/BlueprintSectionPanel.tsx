@@ -10,8 +10,8 @@ import { Stack, Typography } from '@instana/components';
 
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import BlueprintSectionTitle from 'in-alerting/smart-alerts/slo/components/BlueprintSectionTitle';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { t } from 'in-i18n';
 
 interface BlueprintSectionPanelProps {

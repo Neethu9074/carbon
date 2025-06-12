@@ -33,6 +33,7 @@ export const ServiceLevelErrors = Object.freeze({
   UNHANDLED_SLO_ENTITY_TYPE: 'unhandled SLO entity type',
   UNHANDLED_SLI_TYPE: 'unhandled SLI type',
   UNEXPECTED_SLO_CREATION_ERROR: 'unexpected SLO creation error',
+  UNEXPECTED_CORRECTION_WINDOW_CREATION_ERROR: 'unexpected correction window creation error',
   UNSUPPORTED_TIME_WINDOW_TYPE: 'unsupported time window type',
   UNSUPPORTED_BLUEPRINT_TYPE: 'unsupported SLO blueprint type'
 });

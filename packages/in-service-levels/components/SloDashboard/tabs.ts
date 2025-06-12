@@ -9,9 +9,11 @@ import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import {
   serviceLevelsObjectiveSummaryFullyQualified,
   serviceLevelsObjectiveConfigurationFullyQualified,
-  serviceLevelsObjectiveAlertsFullyQualified
+  serviceLevelsObjectiveAlertsFullyQualified,
+  serviceLevelsObjectiveCorrectionWindowsFullyQualified
 } from 'in-service-levels/navigation/path';
 import SloConfigurationDetails from 'in-service-levels/components/SloDashboard/components/SloConfigurationDetails';
+import CorrectionWindows from 'in-service-levels/features/CorrectionWindows/components/CorrectionWindows';
 import SloSmartAlerts from 'in-service-levels/components/SloDashboard/components/SloSmartAlerts';
 import SloSummary from 'in-service-levels/components/SloDashboard/components/SloSummary';
 import { Tab } from 'in-components/LocationAwareTabView/types';
@@ -55,6 +57,12 @@ const dashboardTabs: Tab<SloTabData, {}>[] = [
     label: t('in-service-levels:sloDashboard.tabs.smartAlertsLabel'),
     path: serviceLevelsObjectiveAlertsFullyQualified,
     component: SloSmartAlerts,
+    hideTabLabelWhenAlone: true
+  },
+  {
+    label: t('in-service-levels:sloDashboard.tabs.correctionWindowsLabel'),
+    path: serviceLevelsObjectiveCorrectionWindowsFullyQualified,
+    component: CorrectionWindows,
     hideTabLabelWhenAlone: true
   }
 ];

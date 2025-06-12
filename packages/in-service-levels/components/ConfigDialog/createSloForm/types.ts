@@ -21,8 +21,6 @@ import {
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { SloBeaconTypes } from 'in-service-levels/types';
 
-export type CreateSloDialogMode = 'NEW' | 'CLONE' | 'EDIT';
-
 export type SloFormFields = {
   entity: SloEntityForm;
   indicator: SloIndicatorForm;

@@ -6,22 +6,26 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 
 import useGetHrefToSloDashboard from 'in-service-levels/navigation/hooks/useGetHrefToSloDashboard';
-import { SloListItem } from 'in-service-levels/types';
+import { SloListItem, SelectSloListItem } from 'in-service-levels/types';
 
 interface Props {
-  item: SloListItem;
+  item: SloListItem | SelectSloListItem;
+  isLink?: boolean;
 }
 
-export default function SloNameColumnContent({ item }: Props) {
+export default function SloNameColumnContent({ item, isLink = false }: Props) {
   const hrefToSloDashboard = useGetHrefToSloDashboard();
   const { configuration } = item;
   const { name, id } = configuration;
-  return (
-    <Link href={hrefToSloDashboard(id!)} ellipsis>
-      {name}
-    </Link>
-  );
+  if (isLink) {
+    return (
+      <Link href={hrefToSloDashboard(id!)} ellipsis>
+        {name}
+      </Link>
+    );
+  }
+  return <Typography variant="body-regular">{name}</Typography>;
 }

@@ -97,7 +97,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
               <IndicatorChart
                 customHeight={250}
                 configuration={configuration}
-                customChartSkeletonHeight={308}
+                customChartSkeletonHeight={332}
                 entity={configuration.entity}
                 indicator={configuration.indicator}
                 createdDate={configuration.createdDate}
@@ -108,7 +108,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
             <Col lg={6}>
               <ErrorBudgetChart
                 customHeight={250}
-                customChartSkeletonHeight={308}
+                customChartSkeletonHeight={332}
                 configuration={configuration}
                 title={t('in-service-levels:sloDashboard.components.errorBudgetChart.title')}
               />
@@ -118,13 +118,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
             <Col lg={6}>
               <BurnRateChart
                 customHeight={250}
-                customChartSkeletonHeight={308}
+                customChartSkeletonHeight={332}
                 configuration={configuration}
                 title={t('in-service-levels:sloDashboard.components.burnRateChart.title')}
               />
             </Col>
             <Col lg={6}>
-              <TrafficChart customHeight={250} customChartSkeletonHeight={308} configuration={configuration} />
+              <TrafficChart customHeight={250} customChartSkeletonHeight={332} configuration={configuration} />
             </Col>
           </Row>
         </>
@@ -146,7 +146,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
               <IndicatorChart
                 customHeight={250}
                 configuration={configuration}
-                customChartSkeletonHeight={308}
+                customChartSkeletonHeight={332}
                 entity={configuration.entity}
                 indicator={configuration.indicator}
                 createdDate={configuration.createdDate}
@@ -156,13 +156,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
             <Col lg={4}>
               <ErrorBudgetChart
                 customHeight={250}
-                customChartSkeletonHeight={308}
+                customChartSkeletonHeight={332}
                 configuration={configuration}
                 title={t('in-service-levels:sloDashboard.components.errorBudgetChart.title')}
               />
             </Col>
             <Col lg={4}>
-              <TrafficChart customHeight={250} customChartSkeletonHeight={308} configuration={configuration} />
+              <TrafficChart customHeight={250} customChartSkeletonHeight={332} configuration={configuration} />
             </Col>
           </Row>
         </>

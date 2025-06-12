@@ -10,7 +10,7 @@ import { Stack, OverflowMenu, OverflowMenuItem } from '@instana/carbon';
 import { SvgIcon } from '@instana/components';
 
 import useDoDeleteSloConfiguration from 'in-service-levels/hooks/useDoDeleteSloConfiguration';
-import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
+import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -18,7 +18,9 @@ import { SloListItem } from 'in-service-levels/types';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-import locals from './SloAlignContent.mless';
+import locals from 'in-service-levels/styles/SloAlignContent.mless';
+
+const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
 
 interface SloActionProps {
   item: SloListItem;
@@ -27,16 +29,15 @@ interface SloActionProps {
 export default function SloActions({ item }: SloActionProps) {
   const { configuration, entities } = item;
   const disabled = entities.some(({ deleted }) => deleted);
-  const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
   const openCloneDialog = () => {
     addActiveDialog(
-      <CreateSloDialog
+      <ConfigureSloDialog
         mode="CLONE"
         configuration={{
           ...configuration,
           id: undefined,
           lastUpdated: undefined,
-          name: t('in-service-levels:createSloDialog.sloNameCopyTemplate', { name: item.configuration.name })
+          name: t('in-service-levels:general.nameCopyTemplate', { name: item.configuration.name })
         }}
         trackingMeta={meta}
       />
@@ -44,7 +45,7 @@ export default function SloActions({ item }: SloActionProps) {
   };
 
   const openEditDialog = () => {
-    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);
+    addActiveDialog(<ConfigureSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);
   };
 
   const doDelete = useDoDeleteSloConfiguration(configuration, meta);

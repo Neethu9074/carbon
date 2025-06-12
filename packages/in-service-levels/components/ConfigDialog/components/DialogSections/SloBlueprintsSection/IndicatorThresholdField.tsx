@@ -11,8 +11,8 @@ import { Stack, Typography, ValidationBlock } from '@instana/components';
 
 import { CustomBlueprintType, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import ThresholdInput from 'in-service-levels/components/Shared/ThresholdInput/ThresholdInput';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import PercentageInput from 'in-service-levels/components/PercentageInput';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { t } from 'in-i18n';
 
 interface IndicatorThresholdFieldProps {

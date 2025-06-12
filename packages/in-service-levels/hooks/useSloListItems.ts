@@ -8,7 +8,7 @@ import { PaginatedResult, Result, ServiceLevelObjectiveConfiguration, TimeConfig
 
 import useSloListMetrics, { SloMetricsResultMap } from 'in-service-levels/hooks/useSloListMetrics';
 import { calculateSloGranularity, applyAdjustedTimeframe } from 'in-service-levels/utils/time';
-import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
+import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { getSingleNumberMetricValue } from 'in-service-levels/utils/format';

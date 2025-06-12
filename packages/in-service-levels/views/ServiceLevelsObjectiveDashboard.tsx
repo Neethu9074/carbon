@@ -29,7 +29,7 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAler
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import { LabeledEntity, SloMonitoredEntity } from 'in-service-levels/types';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
-import { getSloConfiguration } from 'in-service-levels/api/configuration';
+import { getSloConfiguration } from 'in-service-levels/api/sloConfiguration';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

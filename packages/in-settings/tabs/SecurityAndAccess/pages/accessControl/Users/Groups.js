@@ -15,7 +15,7 @@ import AddUserToGroupButton from 'in-settings/tabs/SecurityAndAccess/pages/acces
 import { getEntityIdView, securityAndAccessAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
-import WithSubscript from 'in-settings/components/WithSubscript';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import ApiList from 'in-settings/components/ApiList';
 import { ownerRoleId } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';

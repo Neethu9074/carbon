@@ -17,9 +17,9 @@ import SloEntityTable, {
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import useSyntheticTestsCursorPaginated from 'in-service-levels/hooks/useSyntheticTestsCursorPaginated';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import useSyntheticTests from 'in-service-levels/hooks/useSyntheticTests';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { all } from 'in-hooks/utils/progress';

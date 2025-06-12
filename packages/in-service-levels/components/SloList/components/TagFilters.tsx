@@ -9,9 +9,9 @@ import React, { useRef, useState } from 'react';
 
 import { DismissibleTag, OperationalTag, Button, Popover, PopoverContent } from '@instana/carbon';
 
-import useIsTagsOverFlow from 'in-service-levels/components/SloList/hooks/useIsTagsOverFlow';
 import { SloListFilterState } from 'in-service-levels/hooks/useSloListFilterUrlState';
 import useTagFilters from 'in-service-levels/components/SloList/hooks/useTagFilters';
+import useIsOverflow from 'in-hooks/useIsOverflow';
 import { t } from 'in-i18n';
 
 import locals from './TagFilters.mless';
@@ -36,7 +36,7 @@ export default function TagFilters({
   const overflowTagRef = useRef<HTMLDivElement>(null);
   const [operationalPopover, setOperationalPopover] = useState(false);
 
-  const { displayCount } = useIsTagsOverFlow({
+  const { displayCount } = useIsOverflow({
     ref: filterSummaryRef,
     measureRef: measureTagRef,
     measurementOffset: 106,
@@ -94,7 +94,7 @@ export default function TagFilters({
         )}
       </div>
       <Button kind="ghost" onClick={resetFilters}>
-        {t('in-service-levels:sloList.components.sloTagFilter.clearFilters')}
+        {t('in-service-levels:general.filtering.clearFilters')}
       </Button>
     </div>
   );

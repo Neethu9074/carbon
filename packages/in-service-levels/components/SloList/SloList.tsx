@@ -37,9 +37,9 @@ import SloEntityColumnContent from 'in-service-levels/components/SloList/compone
 import SloStatusColumnContent from 'in-service-levels/components/SloList/components/SloStatusColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import SloTagsColumnContent from 'in-service-levels/components/SloList/components/SloTagsColumnContent';
+import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
 import useSloListTable from 'in-service-levels/components/SloList/hooks/useSloListTable';
-import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
 import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUrlState';
 import FilterPanel from 'in-service-levels/components/SloList/components/FilterPanel';
 import SloActions from 'in-service-levels/components/SloList/components/SloActions';
@@ -67,7 +67,7 @@ export function getColumnDefinitions({ isMediumWidth, isSmallWidth, showEntityIn
   const columns = [
     columnHelper.accessor(row => row.configuration.name, {
       id: 'name',
-      cell: props => <SloNameColumnContent item={props.row.original} />,
+      cell: props => <SloNameColumnContent isLink item={props.row.original} />,
       header: t('in-service-levels:sloList.columnLabels.name'),
       enableSorting: true,
       size: 200
@@ -191,7 +191,7 @@ export default function SloList({
                   setPopoverOpen(prev => !prev);
                   animatePanel(popoverOpen);
                 }}
-                label={t('in-service-levels:sloList.components.sloListTable.filterLabel')}
+                label={t('in-service-levels:general.filtering.filterLabel')}
                 kind="ghost"
               >
                 <Filter />
@@ -206,7 +206,7 @@ export default function SloList({
                 renderIcon={Add}
                 onClick={() =>
                   addActiveDialog(
-                    <CreateSloDialog
+                    <ConfigureSloDialog
                       mode="NEW"
                       trackingMeta={{ productArea: productAreas.slo, pageName: pageNames.service_levels }}
                     />
@@ -236,7 +236,7 @@ export default function SloList({
               kind="ghost"
               className={locals['filter--panel__close']}
               aria-label="Close"
-              label={t('in-service-levels:sloList.components.sloListTable.filterClose')}
+              label={t('in-service-levels:general.filtering.filterClose')}
               align="left"
               onClick={() => {
                 setPopoverOpen(false);
@@ -266,7 +266,7 @@ export default function SloList({
                 animatePanel(popoverOpen);
               }}
             >
-              {t('in-service-levels:sloList.components.sloListTable.clearLabel')}
+              {t('in-service-levels:general.filtering.clearLabel')}
             </Button>
           }
           primaryButton={
@@ -278,7 +278,7 @@ export default function SloList({
                 animatePanel(popoverOpen);
               }}
             >
-              {t('in-service-levels:sloList.components.sloListTable.filterLabel')}
+              {t('in-service-levels:general.filtering.filterLabel')}
             </Button>
           }
         />

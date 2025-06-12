@@ -12,7 +12,7 @@ import { Policy } from '@instana/types';
 import { getActionConfigurationFromPolicy, isAutomatic, isManual } from 'in-automation/utils/policy';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import WithSubscript from 'in-settings/components/WithSubscript';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';

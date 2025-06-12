@@ -17,8 +17,8 @@ import TimeThresholdSection from 'in-alerting/smart-alerts/slo/dialog/advanced/T
 import CustomPayloadSection from 'in-alerting/smart-alerts/slo/dialog/advanced/CustomPayloadSection';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import BlueprintSection from 'in-alerting/smart-alerts/slo/dialog/advanced/BlueprintSection';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import SloTargetSection from 'in-alerting/smart-alerts/slo/dialog/advanced/SloTargetSection';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import StepsContainer from 'in-components/StepsContainer';
 import { MessageType } from 'in-components/MessageStack';
 import { NavItem } from 'in-components/SideNav/SideNav';

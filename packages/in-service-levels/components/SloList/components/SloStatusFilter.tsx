@@ -30,11 +30,7 @@ export default function SloStatusFilter({ value, onChange, groups }: SloStatusFi
       name="slo-status-radio-button-group"
       orientation="vertical"
     >
-      <RadioButtonWithCount
-        labelText={t('in-service-levels:sloList.components.statusFilter.sloStatusAll')}
-        value={undefined}
-        count={allCount}
-      />
+      <RadioButtonWithCount labelText={t('in-service-levels:general.all')} value={undefined} count={allCount} />
       <RadioButtonWithCount
         labelText={t('in-service-levels:general.statuses.label', { context: 'green' })}
         value="green"

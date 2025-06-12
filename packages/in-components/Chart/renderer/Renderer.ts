@@ -9,6 +9,7 @@ import { TimeConfig } from '@instana/types';
 import barOverlapping from 'in-components/Chart/renderer/barOverlapping';
 // @ts-expect-error
 import stackedArea from 'in-components/Chart/renderer/stackedArea';
+import { MultiMetricRenderProps, Renderer } from 'in-components/Chart/renderer/types';
 // @ts-expect-error
 import stackedBar from 'in-components/Chart/renderer/stackedBar';
 // @ts-expect-error
@@ -17,14 +18,13 @@ import integral from 'in-components/Chart/renderer/integral';
 import area from 'in-components/Chart/renderer/area';
 // @ts-expect-error
 import bar from 'in-components/Chart/renderer/bar';
-import { Renderer } from 'in-components/Chart/renderer/types';
 import point from 'in-components/Chart/renderer/point';
 import line from 'in-components/Chart/renderer/line';
 import pie from 'in-components/Chart/renderer/pie';
 
 export default {
   area: area as Renderer,
-  bar: bar as Renderer,
+  bar: bar as Renderer<MultiMetricRenderProps>,
   barOverlapping: barOverlapping as Renderer,
   integral: integral as Renderer,
   line,

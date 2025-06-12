@@ -18,7 +18,7 @@ interface DoSubmitFunctionProps<PAYLOAD, RESULT_TYPE> {
   onError: (data?: Result<RESULT_TYPE>) => void;
 }
 
-type DoSubmitFunction<PAYLOAD, RESULT_TYPE> = (props: DoSubmitFunctionProps<PAYLOAD, RESULT_TYPE>) => void;
+export type DoSubmitFunction<PAYLOAD, RESULT_TYPE> = (props: DoSubmitFunctionProps<PAYLOAD, RESULT_TYPE>) => void;
 
 export default function useFormSubmission<PAYLOAD, RESULT_TYPE>(
   callback$: (payload: PAYLOAD) => Observable<Result<RESULT_TYPE>>

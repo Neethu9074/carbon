@@ -20,12 +20,19 @@ export const serviceLevelsOverview = serviceLevelsRoot;
 export const serviceLevelsAlertsSegment = `/alerts`;
 export const serviceLevelsAlertsFullyQualified = `${serviceLevelsRoot}${serviceLevelsAlertsSegment}` as const;
 
+export const serviceLevelsCorrectionWindowsSegment = `/correctionWindows`;
+export const serviceLevelsCorrectionWindowsFullyQualified =
+  `${serviceLevelsRoot}${serviceLevelsCorrectionWindowsSegment}` as const;
+
 export const serviceLevelsAlertDetailsSegment = `/details`;
 export const serviceLevelsAlertDetailsFullyQualified =
   `${serviceLevelsAlertsFullyQualified}${serviceLevelsAlertDetailsSegment}` as const;
 
 export const serviceLevelsObjective = '/objective';
 export const serviceLevelsObjectiveFullyQualified = `${serviceLevelsRoot}${serviceLevelsObjective}` as const;
+
+export const serviceLevelsObjectiveCorrectionWindowsFullyQualified =
+  `${serviceLevelsObjectiveFullyQualified}${serviceLevelsCorrectionWindowsSegment}` as const;
 
 export const serviceLevelsObjectiveSummary = `/summary`;
 export const serviceLevelsObjectiveSummaryFullyQualified =

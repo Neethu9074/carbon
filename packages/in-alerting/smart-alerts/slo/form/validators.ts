@@ -7,10 +7,10 @@
 import { MapForm, ValidationResult } from 'formalistic';
 
 import { isSloAlertDurationUnit } from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { calculateTimeWindowInMilliseconds } from 'in-alerting/smart-alerts/slo/form/utils';
 import { isSloAlertThresholdOperator } from 'in-alerting/smart-alerts/slo/types';
 import { BurnRateAlertFormFields } from 'in-alerting/smart-alerts/slo/types';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { t } from 'in-i18n';
 
 export function noEmptySloIds(sloIds: string[]): ValidationResult {

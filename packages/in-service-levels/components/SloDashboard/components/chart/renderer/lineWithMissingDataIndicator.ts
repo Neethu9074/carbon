@@ -5,6 +5,11 @@
  */
 
 import {
+  correctionOverlay,
+  isCorrectionWindowMetricId,
+  overlappingSectionsMetricId
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
+import {
   renderMissingDataIndicator,
   timeWindowIncludesFirstCollectionTimestamp
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
@@ -25,6 +30,10 @@ function createLineWithMissingDataIndicatorRenderer({
   return {
     id: 'lineWithMissingDataIndicator',
     render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {
+      if (metricId === overlappingSectionsMetricId || (metricId && isCorrectionWindowMetricId(metricId))) {
+        correctionOverlay.render({ color, scale, config, dataSeries, metricId });
+        return;
+      }
       renderer.line.render({ color, scale, config, dataSeries, metricId });
 
       if (timeWindowIncludesFirstCollectionTimestamp(firstCollectedMetricTimestamp, config.timeConfig)) {

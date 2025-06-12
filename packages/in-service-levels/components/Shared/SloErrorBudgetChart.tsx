@@ -11,7 +11,9 @@ import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
 import ControlledSloErrorBudgetChart from 'in-service-levels/components/Shared/ControlledSloErrorBudgetChart';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
+import { Group } from 'in-service-levels/hooks/useCorrectionWindowOverlay';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import { MetricDataSeries } from 'in-components/Chart/types';
 import { sloMetrics } from 'in-service-levels/metrics';
 
 interface SloErrorBudgetChartProps {
@@ -23,6 +25,9 @@ interface SloErrorBudgetChartProps {
   timeWindowColors: string[];
   configuration: ServiceLevelObjectiveConfiguration;
   title?: string;
+  onLegendItemToggle?: (id: string) => void;
+  groups?: Group[];
+  overlappingSections?: MetricDataSeries;
 }
 
 export default function SloErrorBudgetChart({
@@ -33,7 +38,10 @@ export default function SloErrorBudgetChart({
   timeWindows,
   timeWindowColors,
   configuration,
-  title
+  title,
+  onLegendItemToggle,
+  groups,
+  overlappingSections
 }: SloErrorBudgetChartProps) {
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
@@ -66,6 +74,9 @@ export default function SloErrorBudgetChart({
       metrics={metricsWithGranularity}
       errors={errors}
       progress={progress}
+      onLegendItemToggle={onLegendItemToggle}
+      groups={groups}
+      overlappingSections={overlappingSections}
       renderPostChartContent={props => <SloDashboardMarkerLanes entity={configuration.entity} {...props} />}
     />
   );

@@ -16,10 +16,10 @@ import {
 import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents/OperatorDropdown/OperatorDropdown';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import TimeOptionsDropdown from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { sloAlertThresholdOperators } from 'in-alerting/smart-alerts/slo/constants';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { Trans, t } from 'in-i18n';
 
 import locals from './BurnRateBlueprintSection.mless';
