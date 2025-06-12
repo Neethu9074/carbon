@@ -154,17 +154,19 @@ export function getCorrectionWindowsInternal({
   }
 
   const to = timeConfig.to ?? Date.now();
-  return http<Correction>({
-    method: 'GET',
-    maxRetries: 3,
-    url: '/api/slo/correction',
-    mapToResultObject: true,
-    queryParams: {
-      sloId: sloConfigId,
-      from: to - timeConfig.windowSize,
-      to
-    }
-  });
+  return refreshSignal.flatMap(() =>
+    http<Correction>({
+      method: 'GET',
+      maxRetries: 3,
+      url: '/api/slo/correction',
+      mapToResultObject: true,
+      queryParams: {
+        sloId: sloConfigId,
+        from: to - timeConfig.windowSize,
+        to
+      }
+    })
+  );
 }
 
 export const getCorrectionWindows = memoize<GetCorrectionWindowsArguments, Result<Correction>>(
