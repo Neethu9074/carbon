@@ -38,7 +38,6 @@ export default function CarbonUIShell() {
   const { location } = useNavigation();
   const titleDetail = useUIShellTitleDetail();
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
-  const [isSideNavExpanded, setIsSideNavExpanded] = useState(false);
 
   const onClickSideNavExpand = () => setIsHeaderExpanded(!isHeaderExpanded);
 
@@ -82,7 +81,6 @@ export default function CarbonUIShell() {
       skipToContentText={t('in-components:mainNavigation.skipToMainContent')}
       onSideNavClick={internalToggleClick}
       titleDetail={titleDetail}
-      onToggle={(_, value) => setIsSideNavExpanded(value)}
       headerContent={<Header expanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />}
       headerPanelContent={
         <ProfileMenu isSideNavExpanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />
@@ -93,7 +91,7 @@ export default function CarbonUIShell() {
       <WebsiteMobileAppView />
       <BizOpsMenuItem />
       <ApplicationsMenuItem />
-      <PlatformsMenuItem isSideNavExpanded={isSideNavExpanded} />
+      <PlatformsMenuItem />
       <InfrastructureMenuItem />
       <MenuItem isDivider />
       <CustomDashboardsMenuItem />
@@ -106,7 +104,7 @@ export default function CarbonUIShell() {
       <ServiceLevelsMenuItem />
       <MenuItem isDivider />
       <SettingsMenuItem />
-      {!playwithEnabled && <MoreMenuItem isSideNavExpanded={isSideNavExpanded} />}
+      {!playwithEnabled && <MoreMenuItem />}
     </UIShell>
   );
 }

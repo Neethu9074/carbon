@@ -3328,9 +3328,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:5.19.0":
-  version: 5.19.0
-  resolution: "@instana/components@npm:5.19.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.19.0.tgz"
+"@instana/components@npm:5.20.0":
+  version: 5.20.0
+  resolution: "@instana/components@npm:5.20.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.20.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/layout": 11.28.0
@@ -3349,7 +3349,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: 89490e19c715ede9b7f125ee9b24a137b8fbacc7ed00b8c02b78f42f7f4dcd5f1f91152e9bfcbd3401e17d06d47b95a0515ba4e3784527068a0abe8ccb225cc7
+  checksum: 81c1097b01e7cd53b061c11e81fe9d43392e4a46ce3864158c927dab1000d711cdffa811fe9767cf1bb191d69addaf7be54974fbed14e21e40e9a80d7fb03bf8
   languageName: node
   linkType: hard
 
@@ -23263,7 +23263,7 @@ __metadata:
     "@instana/ai-chat": 0.1.9
     "@instana/carbon": 1.5.2
     "@instana/carbon-charts": 0.9.2
-    "@instana/components": 5.19.0
+    "@instana/components": 5.20.0
     "@instana/design-tokens": 1.29.0
     "@instana/eslint-config-commons": 1.4.0
     "@instana/format-date": 1.8.0
