@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { MapForm } from 'formalistic';
+import { Field, MapForm, MapFormItems, UpdatedMapForm } from 'formalistic';
 
 import {
   AdaptiveThresholdRule,
@@ -14,6 +14,12 @@ import {
   StaticThresholdRule,
   ThresholdType
 } from 'in-types';
+import {
+  shiftDecimalLeft,
+  shiftDecimalRight,
+  increaseBy,
+  increaseByForPercentageMetric
+} from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 
@@ -137,4 +143,72 @@ export function populateRulesInConfig(alertConfig: any) {
   }
 
   return alertConfig;
+}
+
+export interface SetValidNextValueProps {
+  isChecked: boolean;
+  warningThresholdValue: number;
+  thresholdType: string;
+  updateForm: (form: MapForm<any>) => void;
+  updatedThresholdValue: (
+    targetValue: number | null,
+    thresholdType: string
+  ) => UpdatedMapForm<any, string, UpdatedMapForm<MapFormItems, string, UpdatedMapForm<any, string, Field<any>>>>;
+  percentageMetric: boolean;
+  operator: string;
+}
+
+export function setValidNextValue({
+  isChecked,
+  warningThresholdValue,
+  thresholdType,
+  updateForm,
+  updatedThresholdValue,
+  percentageMetric,
+  operator
+}: SetValidNextValueProps) {
+  if (!isChecked) {
+    // update the field to null if threshold is unchecked
+    return updateForm(updatedThresholdValue(null, thresholdType));
+  }
+
+  const nextValue = getNextValue(percentageMetric, warningThresholdValue, operator);
+  return updateForm(updatedThresholdValue(Number(nextValue), thresholdType));
+}
+
+export function getNextValue(percentageMetric: any, warningThresholdValue: any, operator: any) {
+  if (warningThresholdValue === null) {
+    // if warning threshold is not enabled, set the value as 0 for the critical field
+    return 0;
+  }
+
+  let nextValue: string | number | null;
+  if (percentageMetric) {
+    if (warningThresholdValue === 0) {
+      nextValue = getAdjustedValue(0, operator, increaseByForPercentageMetric);
+    } else if (Math.floor(warningThresholdValue) === warningThresholdValue) {
+      nextValue = getAdjustedValue(warningThresholdValue, operator, increaseByForPercentageMetric);
+    } else {
+      // if warning threshold is a decimal number
+      const valueShifted = shiftDecimalRight(warningThresholdValue, 2, percentageMetric);
+      const incremented = valueShifted ? getAdjustedValue(Number(valueShifted), operator, increaseBy) : 0;
+      nextValue = shiftDecimalLeft(incremented, 2, percentageMetric);
+    }
+  } else {
+    nextValue = getAdjustedValue(warningThresholdValue, operator, increaseBy);
+  }
+  return nextValue;
+}
+
+function getAdjustedValue(value: number, operator: string, increaseBy: number) {
+  switch (operator) {
+    case '>':
+    case '>=':
+      return value + increaseBy;
+    case '<':
+    case '<=':
+      return value <= 1 ? 0 : value - increaseBy;
+    default:
+      throw Error('unexpected error : value cannot be shifted');
+  }
 }
