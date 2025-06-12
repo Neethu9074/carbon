@@ -105,8 +105,13 @@ export default function GroupedInfrastructure(props) {
   const [cachedCursor, setCachedCursor] = useState(undefined);
 
   const { totalHits, items, cursor, progress, ...cursorPaginatedProps } = useCursorPagination(
-    ({ cursor }) =>
-      getGroups({
+    ({ cursor }) => {
+      let retrievalSizeBasedOnCachedCursor = retrievalSize;
+
+      if (isLiveModeEnabled && cachedCursor && !cursor) {
+        retrievalSizeBasedOnCachedCursor = cachedCursor.offset + retrievalSize;
+      }
+      return getGroups({
         timeConfig,
         backendQueryModel,
         groupBy: backendGroupBy,
@@ -115,9 +120,10 @@ export default function GroupedInfrastructure(props) {
         metrics,
         granularity,
         cursor,
-        retrievalSize,
+        retrievalSize: retrievalSizeBasedOnCachedCursor,
         missingPlaceholder: showGroupsWithMissingTags ? tag_not_present_group : undefined
-      }),
+      });
+    },
     [timeConfig, backendQueryModel, backendGroupBy, order, type, showGroupsWithMissingTags, ...dependencies]
   );
 
