@@ -23,6 +23,7 @@ import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/us
 import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUrlParams';
 import { generateNavItems } from 'in-automation/Policies/usePolicyForm/validationUtils';
+import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import usePolicyForm from 'in-automation/Policies/usePolicyForm/usePolicyForm';
@@ -66,12 +67,14 @@ const cancelButton = {
 export default function CreateNewPolicyTearsheet({
   policyId,
   actionId,
+  triggerDetails,
   copy = false,
   isFromDashboard = false,
   inEventPage = false
 }: {
   policyId?: string;
   actionId?: string;
+  triggerDetails?: TriggerDetailsProps;
   copy?: boolean;
   isFromDashboard?: boolean;
   inEventPage?: boolean;
@@ -152,6 +155,7 @@ export default function CreateNewPolicyTearsheet({
         triggers={triggers}
         inEventPage={inEventPage}
         isFromDashboard={isFromDashboard}
+        triggerDetails={triggerDetails}
       />
     </>
   );
@@ -166,6 +170,7 @@ interface TearSheetProps {
   isFromDashboard?: boolean;
   inEventPage: boolean;
   actionId?: string;
+  triggerDetails?: TriggerDetailsProps;
 }
 
 function TearSheetLoader({
@@ -176,10 +181,11 @@ function TearSheetLoader({
   triggers,
   isFromDashboard,
   inEventPage,
-  actionId
+  actionId,
+  triggerDetails
 }: TearSheetProps) {
   const { isCopy, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
-  const [form, setForm] = usePolicyForm(policy, actions, triggers);
+  const [form, setForm] = usePolicyForm(policy, actions, triggers, triggerDetails);
   const { onSubmit, result } = useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEventPage });
   const policyButtons = [
     {
@@ -450,7 +456,9 @@ function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEve
             createPolicyTrackerSegment(trackerDetails);
             onSaveSuccess(result.data?.name!);
             close();
-            if (!isActionPreSelected) navigateToPolicyPolicies();
+            if (inEventPage) {
+              refreshScoredActions();
+            } else if (!isActionPreSelected) navigateToPolicyPolicies();
             if (!isFromDashboard && !isActionPreSelected) refresh();
           },
           result => {
