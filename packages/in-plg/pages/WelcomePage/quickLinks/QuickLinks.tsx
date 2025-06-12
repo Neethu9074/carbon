@@ -46,7 +46,7 @@ export const QuickLinks = () => {
       <Stack gap="disabled" direction="horizontal">
         {!playwithEnabled && role?.canConfigureAgents && (
           <QuickLinkButton
-            icon="lib_actions_settings"
+            icon="lib_datasource"
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.settings')}
             buttonName={
               newOTelPageEnabled

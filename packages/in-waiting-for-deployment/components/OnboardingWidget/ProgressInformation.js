@@ -41,7 +41,7 @@ export default function ProgressInformation({ getRedirectButtonProperties, isBac
                   ? 'lib_check'
                   : 'lib_actions_loading'
                 : newOTelPageEnabled
-                ? 'lib_db2_database'
+                ? 'lib_datasource'
                 : 'lib_actions_settings'
             }
           />
