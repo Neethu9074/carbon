@@ -65,8 +65,8 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
-import SyntheticDataTableWithUrlState from 'in-synthetics/components/SyntheticDataTableWithUrlState';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -229,7 +229,7 @@ const TestSummaryList = () => {
           </div>
         )}
         {syntheticCarbonTableEnabled ? (
-          <SyntheticDataTableWithUrlState
+          <CarbonDataTableWithUrlState
             get={getTestSummaryListData}
             paginationResettingUrlParameters={[...timeConfigUrlParameters]}
             columnDefinitions={columnDefinitions}
@@ -238,6 +238,8 @@ const TestSummaryList = () => {
             pathSegment={pathSegment}
             matrixPrefix={matrixPrefix}
             timeConfig={timeConfig}
+            isSearchable
+            searchText={t('in-synthetics:dashboard.testList.searchSyntheticTests')}
           />
         ) : (
           <ServerTableWithUrlState

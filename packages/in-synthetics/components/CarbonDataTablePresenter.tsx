@@ -5,6 +5,7 @@
  */
 
 import classNames from 'classnames';
+import { debounce } from 'lodash';
 import React from 'react';
 
 import { Pagination as CarbonPagination } from '@instana/components';
@@ -14,29 +15,34 @@ import {
   getHeader,
   getSortDirection,
   getWidthInAbsoluteUnit,
-  getWidthValue
+  getWidthValue,
+  sortHandler
 } from 'in-synthetics/components/utils';
-import {
-  CarbonHeader,
-  CarbonRow,
-  ListItem,
-  SyntheticDataTablePresenterProps
-} from 'in-synthetics/components/constants';
+import { CarbonHeader, CarbonRow, ListItem, CarbonDataTablePresenterProps } from 'in-synthetics/components/constants';
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
-import { SyntheticDataTable } from 'in-synthetics/components/SyntheticDataTable';
+import { CarbonDataTable } from 'in-synthetics/components/CarbonDataTable';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import { PaginatedResult, Result } from 'in-types';
 
-import locals from './SyntheticDataTablePresenter.mless';
+import locals from './CarbonDataTablePresenter.mless';
 
-export default function SyntheticDataTablePresenter<
-  ITEM_TYPE extends ListItem,
-  PROPS_TYPE extends TableProps<ITEM_TYPE>
->(props: SyntheticDataTablePresenterProps<ITEM_TYPE, PROPS_TYPE>) {
+export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
+  props: CarbonDataTablePresenterProps<ITEM_TYPE, PROPS_TYPE>
+) {
   const { query, page, orderBy, orderDirection, pageSize, pageSizes, onChange = noop, columnDefinitions } = props;
   let defaultPageSize = pageSizes?.[0] ?? pageSize;
   const result = props.result ?? (pendingResult as Result<PaginatedResult<ITEM_TYPE>>);
+
+  const debounceOnChange = debounce((searchInput: string) => {
+    if (searchInput !== undefined) {
+      onChange({ query: searchInput, orderBy, orderDirection, page: 1, pageSize, pageSizes });
+    }
+  }, 500);
+
+  const filterRows = (searchInputText: string) => {
+    debounceOnChange(searchInputText);
+  };
 
   const carbonHeaders: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[] = columnDefinitions.map(
     (item: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>, i: number) => ({
@@ -71,20 +77,29 @@ export default function SyntheticDataTablePresenter<
                     [locals.tableMinimumHorizontalSpace]: useMinimumAmountOfHorizontalSpace
                   })}
                 >
-                  {getContent(item, props as unknown as PROPS_TYPE, key)}
+                  {getContent?.(item, props as unknown as PROPS_TYPE, key)}
                 </div>
               )
             }
-          : { [key]: getContent(item, props as unknown as PROPS_TYPE, key) };
+          : { [key]: getContent?.(item, props as unknown as PROPS_TYPE, key) };
         return content;
       });
       const carbonRow: CarbonRow = Object.assign({}, ...newRow, idObj);
       return carbonRow;
     }) ?? [];
 
+  const sortRow = sortHandler(carbonHeaders, onChange, query, pageSize, pageSizes);
+
   return (
     <>
-      <SyntheticDataTable rows={carbonRows} headers={carbonHeaders} isLoading={loading} {...props} />
+      <CarbonDataTable
+        rows={carbonRows}
+        headers={carbonHeaders}
+        isLoading={loading}
+        filterRows={e => filterRows(e?.target?.value)}
+        sortRow={sortRow}
+        {...props}
+      />
       {result.data && result.data.totalHits > defaultPageSize && (
         <CarbonPagination
           currentPage={page}

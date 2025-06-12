@@ -571,7 +571,8 @@
       "configureColumns": {
         "title": "Column customization",
         "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed."
-      }
+      },
+      "searchSyntheticTests" :"Search synthetic tests"
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",

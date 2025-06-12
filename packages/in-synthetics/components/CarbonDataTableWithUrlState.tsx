@@ -7,16 +7,16 @@ import React, { useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { ListItem, SyntheticDataTableWithUrlStateProps } from 'in-synthetics/components/constants';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import SyntheticDataTablePresenter from 'in-synthetics/components/SyntheticDataTablePresenter';
+import { ListItem, CarbonDataTableWithUrlStateProps } from 'in-synthetics/components/constants';
+import SyntheticDataTablePresenter from 'in-synthetics/components/CarbonDataTablePresenter';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { TableProps } from 'in-components/tables/ServerTable/types';
 
-export default function SyntheticDataTableWithUrlState<
+export default function CarbonDataTableWithUrlState<
   ITEM_TYPE extends ListItem,
   PROPS_TYPE extends TableProps<ITEM_TYPE>
->(props: SyntheticDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>) {
+>(props: CarbonDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>) {
   const {
     paginationResettingUrlParameters = emptyArray,
     columnDefinitions: staticColumnDefinitions,

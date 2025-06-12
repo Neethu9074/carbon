@@ -129,7 +129,7 @@ module.exports = {
   syntheticRunNowEnabled: true,
   syntheticNodeJs22Enabled: true,
   syntheticSslImprovementEnabled: true,
-  syntheticCarbonTableEnabled: true,
+  syntheticCarbonTableEnabled: false,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
