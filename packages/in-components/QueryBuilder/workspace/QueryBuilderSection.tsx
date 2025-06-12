@@ -34,6 +34,7 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   tagCatalog?: TagCatalog;
   fixOverlayLeftAlignment?: boolean;
   useLastValidStateWhenErroneous?: boolean;
+  source?: string;
 
   withOptionalMarker?: boolean;
   withTechnicalPreview?: boolean;
@@ -65,7 +66,8 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   getSuggestionLabel,
   onErrorStateChange,
   additionalGetTagCatalogProps,
-  SectionWrapper = Section
+  SectionWrapper = Section,
+  source
 }: QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS>) {
   const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
     hasError?: boolean;
@@ -103,7 +105,6 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
       </>
     );
   }
-
   return (
     <SectionWrapper
       icon={withoutIcon ? undefined : 'lib_actions_filter'}
@@ -134,6 +135,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
               setInternalError(emptyObject);
               onChange(tagFilterExpression);
             }}
+            source={source}
             tagCatalog={tagCatalog}
             onError={setInternalError}
             tracking={tracking}

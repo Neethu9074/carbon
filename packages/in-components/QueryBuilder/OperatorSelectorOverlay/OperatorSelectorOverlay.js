@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 import PropTypes from 'prop-types';
@@ -17,11 +18,11 @@ import { regexMatchEnabled } from 'in-services/featureFlags';
 
 import locals from './OperatorSelectorOverlay.mless';
 
-export default function OperatorSelectorOverlay({ value, allowedOperators, onChange, close, tagType }) {
+export default function OperatorSelectorOverlay({ value, allowedOperators, onChange, close, tagType, source }) {
   const { matrix } = useLocation();
 
-  const isLoggingRoute = Boolean(matrix['/logs'] || matrix['/customDashboards']);
-  const shouldFilterRegex = !regexMatchEnabled || !isLoggingRoute;
+  const isLogsRelated = Boolean(matrix['/logs'] || source === 'logs');
+  const shouldFilterRegex = !regexMatchEnabled || !isLogsRelated;
 
   const filteredOperators = shouldFilterRegex
     ? allowedOperators.filter(operator => operator !== REGEX_MATCH)
@@ -55,5 +56,6 @@ OperatorSelectorOverlay.propTypes = {
   tagType: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
-  value: PropTypes.string
+  value: PropTypes.string,
+  source: PropTypes.string
 };
