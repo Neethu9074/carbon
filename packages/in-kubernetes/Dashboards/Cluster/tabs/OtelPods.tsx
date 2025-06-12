@@ -7,8 +7,6 @@
 import { get, filter } from 'lodash';
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 import {
   clusterIdUrlParameter,
   serviceIdUrlParameter,
@@ -38,6 +36,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { getOtelKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
+import { KubernetesClusterListItem, EntityHealthInfo, KubernetesCondition } from 'in-types';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -66,9 +65,9 @@ const allColumnDefinitions = [
         pod,
         statusSummary
       }: {
-        entityHealthInfo: any;
-        pod: { label: string; id: string; conditions?: any };
-        statusSummary: any;
+        entityHealthInfo: EntityHealthInfo;
+        pod: { label: string; id: string; conditions?: KubernetesCondition[] };
+        statusSummary: string;
       },
       {
         deploymentId,
@@ -83,7 +82,7 @@ const allColumnDefinitions = [
       const { label: podLabel, id: podId } = pod;
 
       const { maxSeverity } = getHealthyStatus({
-        podConditions: pod.conditions,
+        podConditions: pod.conditions ?? [],
         entityHealthInfo,
         statusSummary
       });
@@ -217,16 +216,16 @@ const allColumnDefinitions = [
         entityHealthInfo,
         statusSummary
       }: {
-        pod: { conditions?: any; id: string };
-        entityHealthInfo: any;
-        statusSummary: any;
+        pod: { conditions?: KubernetesCondition[]; id: string };
+        entityHealthInfo: EntityHealthInfo;
+        statusSummary: string;
       },
-      { timeConfig }: { timeConfig: any }
+      { timeConfig }: { timeConfig: TimeConfig }
     ) {
       const { conditions, id: podId } = pod;
 
       const { maxSeverity, openIssuesCount } = getHealthyStatus({
-        podConditions: conditions,
+        podConditions: conditions ?? [],
         entityHealthInfo,
         statusSummary
       });
@@ -309,7 +308,7 @@ const urlStateDefinition = {
 };
 
 interface PodsProps {
-  timeConfig: any;
+  timeConfig: TimeConfig;
   namespaceId?: string;
   clusterId?: string;
   workloadControllerId?: string;
@@ -318,7 +317,7 @@ interface PodsProps {
   nodeId?: string;
   cronJobId?: string;
   Table?: TableComponentType;
-  data?: any;
+  data?: KubernetesClusterListItem | Record<string, never>;
 }
 
 interface PhaseUrlState {
@@ -361,21 +360,19 @@ export default function Pods(props: PodsProps) {
   return (
     <>
       <K8sAgentMonitoringIssueNotifications {...props} entityName="pods" />
-      <Card>
-        <Table
-          get={getOtelKubernetesPodsData}
-          timeConfig={timeConfig}
-          namespaceId={namespaceId}
-          workloadControllerId={workloadControllerId}
-          clusterId={clusterId}
-          serviceId={serviceId}
-          nodeId={nodeId}
-          cronJobId={cronJobId}
-          rightHeader={rightHeader}
-          leftHeader={leftHeader}
-          phase={phase ?? undefined}
-        />
-      </Card>
+      <Table
+        get={getOtelKubernetesPodsData}
+        timeConfig={timeConfig}
+        namespaceId={namespaceId}
+        workloadControllerId={workloadControllerId}
+        clusterId={clusterId}
+        serviceId={serviceId}
+        nodeId={nodeId}
+        cronJobId={cronJobId}
+        rightHeader={rightHeader}
+        leftHeader={leftHeader}
+        phase={phase ?? undefined}
+      />;
     </>
   );
 }

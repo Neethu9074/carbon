@@ -44,6 +44,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { useKubernetesTracker } from 'in-kubernetes/tracker';
+import { TimeConfig, Result, KubernetesPod } from 'in-types';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -53,8 +54,6 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import { TimeConfig } from 'in-types';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 export default function OtelPodDashboard({ location }: { location: Location }) {
@@ -142,25 +141,25 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
 }
 
 interface HeaderProps extends Omit<DashboardHeaderProps, 'title' | 'icon' | 'label' | 'renderButtonLine' | 'renderButtonLineSecondary' | 'renderMetaInformation'> {
-  result: Result<any>;
+  result: Result<KubernetesPod>;
   kubernetesTimeShiftSelectTracker: (params: any) => void;
 }
 
 interface RenderButtonLineProps {
   podId: string;
   timeConfig: TimeConfig;
-  result: Result<any>;
+  result: Result<KubernetesPod>;
 }
 
 interface RenderButtonLineSecondaryProps {
   timeConfig: TimeConfig;
   podId: string;
-  result: Result<any>;
+  result: Result<KubernetesPod>;
   kubernetesTimeShiftSelectTracker: (params: any) => void;
 }
 
 interface RenderMetaInformationProps {
-  result: Result< any>;
+  result: Result< KubernetesPod>;
 }
 
 function Header(props: HeaderProps) {
@@ -191,7 +190,7 @@ function renderButtonLine({ podId, timeConfig, result }: RenderButtonLineProps) 
       />
 
       <AnalyzeCallsButton
-        clusterName={clusterName}
+        clusterName={clusterName ?? ''}
         namespaceName={namespaceName}
         podName={podName}
         groupBy={createGroupBy('kubernetes.namespace.name', DESTINATION)}
