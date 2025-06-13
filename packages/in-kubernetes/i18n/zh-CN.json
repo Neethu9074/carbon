@@ -10,6 +10,7 @@
     "namespace": "名称空间",
     "node": "节点",
     "pod": "Pod",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "K8s 服务"
   },
   "clusterBadgeNameOpenShift": "OpenShift",
@@ -29,6 +30,7 @@
     "summary": "摘要",
     "details": "详细信息",
     "hostCoverage": "主机覆盖范围",
+    "k8SensorVersion": "K8s 传感器版本",
     "clusterUuid": "集群 UUID",
     "agentMonitor": "代理程序监视器",
     "controlPlane": "控制平面",
@@ -55,9 +57,17 @@
     "cpuUsage": "CPU 使用率",
     "memoryUsage": "内存使用率",
     "phase": "阶段",
-    "reclaimPolicy": "回收策略",
-    "storageCapacity": "存储容量",
     "storageClassName": "存储类名",
+    "capacityStorage": "容量存储",
+    "storageTotalCapacity": "总容量",
+    "storageUsedCapacity": "已用容量",
+    "storageUtilization": "使用率",
+    "storageUsedTotalCapacity": "总计 {{total}}",
+    "total": "总计",
+    "reclaimPolicy": "回收策略",
+    "accessMode": "访问方式",
+    "volumeMode": "卷方式",
+    "creationTimestamp": "创建时间戳记",
     "cpuRequests": "CPU 请求：",
     "cpuRequestsMultiMetric": "CPU 请求：",
     "cpuLimitsAlloc": "CPU 限制分配",
@@ -160,6 +170,8 @@
     "lastJobDuration": "上次作业持续时间",
     "kubernetesDaemonSet": "Kubernetes 守护程序集",
     "k8SDaemonSet": "K8s 守护程序集",
+    "kubernetesPersistentVolume": "Kubernetes PersistentVolume",
+    "k8SPersistentVolume": "K8s PersistentVolume",
     "unscheduled": "未调度",
     "unready": "未就绪",
     "available": "可用",
@@ -277,12 +289,12 @@
       "idleCost": "闲置成本",
       "viewInKubeCost": "在 Kubecost 中查看",
       "coreCountByCluster": "vCPU",
-      "noKubecostData": "利用 Kubecost 实现成本可观察性和分配。 要配置集成，请遵循以下[步骤][文档]。\n\n[文档]:https://ibm.biz/kubecost",
+      "noKubecostData": "使用 Kubecost 为此集群启用成本监控。\n 要配置集成，请按照文档中的 [以下步骤] 进行操作。\n\n[按照以下步骤]：https://ibm.biz/kubecost",
       "totalClusterCost": "集群总成本（最近 14 天）",
       "workloadEfficiency": "工作负载效率",
       "estimatedMonthlySavings": "估计每月节省额",
-      "totalClusterCostTooltipinfo": "所选时间段集群的总成本。 注意：如果您的数据不足 14 天，您将在 14 天周期结束前看到该数字。",
-      "workloadEfficiencyTooltipinfo": "每个工作负载在所选窗口内的平均效率。 工作负载效率是 RAM 和 CPU 使用量与配置的 RAM 和 CPU 请求数的成本加权比率。",
+      "totalClusterCostTooltipinfo": "您的集群在过去 14 天的总费用。 如果您的数据少于 14 天，您将看到该数字，直到完整的 14 天周期结束。",
+      "workloadEfficiencyTooltipinfo": "过去 14 天内每个工作负载的平均效率。 工作负载效率是 RAM 和 CPU 使用量与配置的 RAM 和 CPU 请求的成本加权比率。",
       "estimatedMonthlySavingsTooltipinfo": "根据所选时间段的历史数据确定的估计集群每月节省额。",
       "deploymentInfoNotRetrieving": "Kubecost 无法检索部署信息",
       "notRetrievingData": "Kubecost 无法检索数据",
@@ -331,7 +343,10 @@
       "title": "更快获取重要信息",
       "content": "卡片视图提供有关集群和名称空间的更多详细信息，一目了然，并可从仪表板直接链接到每个选项卡页，以便进行重点调查。 <br /><br />单击内容切换器，就可以在这些新视图和表格视图之间轻松切换。",
       "button": "知道了"
-    }
+    },
+    "nodes": "节点数",
+    "pods": "pod",
+    "containers": "容器"
   },
   "viewAllEntityName_unknownEntity_plural": "所有",
   "viewAllEntityName_unknownEntity_0": "所有",
@@ -421,5 +436,18 @@
     "days": "天前",
     "close": "关闭",
     "branch": "分支"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Instana 代理程序",
+      "description": "查看基于 Instana 代理收集的数据的信息。"
+    },
+    "otelCollector": {
+      "text": "OpenTelemetry 收集器",
+      "description": "查看基于 Instana OpenTelemetry 收集器收集的数据的信息。"
+    },
+    "additionalMetrics": {
+      "title": "附加"
+    }
   }
 }

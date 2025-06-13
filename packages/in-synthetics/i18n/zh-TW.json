@@ -38,7 +38,7 @@
         "webpageActionTitle": "此「瀏覽器簡式（網頁動作）」測試的名稱",
         "browserScriptTitle": "此「瀏覽器 Script」測試的名稱",
         "labelName": "測試的名稱",
-        "labelDescription": "說明",
+        "labelDescription": "說明（選用）",
         "labelFrequency": "頻率（分鐘）",
         "labelFrequencyHour": "頻率（小時）",
         "labelApplication": "選取應用程式",
@@ -150,14 +150,13 @@
         "locationsLabel": "位置",
         "locationsTitle": "位置：此測試將在何處執行？",
         "scheduleLabel": "排程",
-        "scheduleTitle": "排程：何時執行此測試？",
+        "scheduleTitle": "排程：這次測試將如何進行？",
         "identifyLabel": "識別",
         "identifyTitle": "識別：測試將執行什麼動作？",
-        "customPropertiesTitle": "自訂內容",
+        "customPropertiesTitle": "自訂內容（選用）",
         "frequency": "此測試將每隔 {{frequencyValue}} 分鐘執行一次。",
         "frequencyHours": "此測試將每隔 {{frequencyHours}} 小時執行一次。",
         "frequencyHoursAndMinutes": "此測試將每隔 {{frequencyHours}} 小時及 {{frequencyMinutes}} 分鐘執行一次。",
-        "simultaneous": "同時",
         "simultaneousDescription": "此測試將在每一個選取的位置上同步執行。",
         "configStep": {
           "allowInsecure": "容許不安全",
@@ -204,7 +203,7 @@
           "node22BrowserUploadFileDescription": "您可以上傳單一的 .js、.cjs 或 .mjs 檔案、一個包含這些檔案的 .zip 檔案，或由 Selenium IDE 錄製的 .side Script。",
           "sideFileUploadedMessage": "無法修改或驗證 Selenium Script",
           "bundleFileNotSupportedMessage": "已選取不受支援的檔案。 只有在「進階模式」中才支援軟體組。",
-          "timeoutFieldLabel": "逾時",
+          "timeoutFieldLabel": "逾時（選用）",
           "timeUnitsLabel": "時間單位",
           "timeoutFieldOptionMinutes": "分鐘 (m)",
           "timeoutFieldOptionSeconds": "秒 (s)",
@@ -213,7 +212,7 @@
           "invalidTimeoutvalue": "逾時值無效",
           "invalidTimeoutUnit": "逾時單位無效",
           "timeoutFieldDescription": "此測試將在以下時間後失敗",
-          "retryFieldLabel": "重試策略",
+          "retryFieldLabel": "重試策略（選用）",
           "retryFieldOptionNone": "無",
           "retryFieldOptionOnce": "重試一次",
           "retryFieldOptionTwice": "重試兩次",
@@ -224,6 +223,13 @@
           "mainFileNameHelperText": "提供此 .zip 檔案中包含測試入口點的檔案的名稱",
           "recordVideo": "記錄使用者在失敗時的動作",
           "acceptSelfSignedCertificate": "接受自簽憑證",
+          "operatorLabel": "條件式",
+          "operatorOptionMatches": "符合",
+          "operatorOptionContains": "包含",
+          "operatorOptionIs": "是",
+          "operatorOptionNotMatches": "不相符",
+          "deleteButtonLabel": "刪除",
+          "addFieldLabel": "新增欄位",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL 是正在測試 DNS 解析的網域名稱",
@@ -237,14 +243,7 @@
             "assertionsTitle": "斷言（選用）",
             "assertionsSubtitle": "這些欄位是選用的，但填寫後所有欄位都必須為 True，測試才算成功。",
             "recordTypeLabel": "記錄類型",
-            "operatorLabel": "條件式",
-            "operatorOptionMatches": "符合",
-            "operatorOptionContains": "包含",
-            "operatorOptionIs": "是",
-            "operatorOptionNotMatches": "不相符",
             "resolutionRecordLabel": "解析記錄",
-            "deleteButtonLabel": "刪除",
-            "addRecordTypeLabel": "新增欄位",
             "recursiveLookupLabel": "遞迴查閱",
             "dnsRadioButtonOnLabel": "開啟",
             "dnsRadioButtonOffLabel": "關閉",
@@ -262,7 +261,25 @@
             },
             "assertionsNotificationTitle": "所需主張",
             "assertionsNotificationDescription": "使用「全部與主張相關」查詢類型時，請至少新增一個主張。"
-          }
+          },
+          "ssl": {
+            "attributeLabel": "屬性",
+            "valueLabel": "值",
+            "attributeValueLabel": "屬性值",
+            "invalidAttributeValue": "屬性值無效",
+            "assertion": {
+              "commonName": "issuedTo.commonName",
+              "alternativeName": "issuedTo.alternativeName",
+              "organization": "issuedBy.organization",
+              "tlsVersion": "tls.version"
+            }
+          },
+          "hostDetailsSectionLabel": "主機詳細資料",
+          "headerSectionLabel": "新增標頭（選用）",
+          "testCriteriaLabel": "測試準則",
+          "validationsSectionLabel": "新增驗證（選用）",
+          "timeoutAndRetrySectionLabel": "逾時和重試策略（選用）",
+          "additionalOptionsSectionLabel": "其他選項"
         },
         "loadMore": "載入更多",
         "selectTests": {
@@ -294,7 +311,7 @@
         "associationsLabel": "關聯",
         "applicationsTitle": "關聯：選取要與此綜合測試相關聯的應用程式",
         "applicationsDescription": "將綜合測試與應用程式相關聯將為所有有權存取該應用程式的使用者授予存取權限。",
-        "associationsTitle": "關聯：選取您要與此綜合測試相關聯的項目",
+        "associationsTitle": "關聯：選取您要與此綜合測試相關聯的項目（選用）",
         "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。"
       },
       "associations": {
@@ -474,11 +491,16 @@
         "tests": "測試",
         "locations": "位置",
         "smartAlerts": "智慧型警示",
-        "credentials": "認證"
+        "credentials": "認證",
+        "syntheticTests": "綜合測試"
       },
       "options": {
+        "scheduledMenuLabel": "已排定",
+        "onDemandMenuLabel": "隨需應變",
+        "allLabel": "全部",
         "scheduledLabel": "資料範圍 : 已排程",
-        "onDemandLabel": "資料範圍：隨需應變"
+        "onDemandLabel": "資料範圍：隨需應變",
+        "dashboardHeaderLabel": "資料基於：{{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "綜合監視的權限",
@@ -521,6 +543,7 @@
       "paused": "已暫停",
       "deleted": "已刪除",
       "type": "類型",
+      "sslDaysRemaining": "{{daysRemaining}} 天後過期",
       "successRate": "成功率",
       "successRuns": "{{successRuns}} / {{totalRuns}} 個結果",
       "latency": "平均回應時間",
@@ -537,7 +560,11 @@
       "health": "性能",
       "action": "動作",
       "labelConfirmRemoveTest": "您確定要移除 <strong>{{testLabel}}</strong> 測試嗎？ 這個動作無法復原。",
-      "na": "N/A"
+      "na": "N/A",
+      "configureColumns": {
+        "title": "直欄自訂作業",
+        "description": "現在您可以自訂您的綜合測試資料表。 透過這種方式，您可以彈性地選擇要顯示哪些直欄並根據需要重新排列它們。"
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "即時模式不適用於綜合位置頁面",
@@ -886,6 +913,7 @@
       "noMobileAppAssociated": "沒有相關聯的行動應用程式",
       "recordVideo": "記錄使用者在失敗時的動作",
       "acceptSelfSignedCertificate": "接受自簽憑證",
+      "operatorLabel": "條件式",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "查詢類型",
@@ -895,7 +923,6 @@
         "responseTimeDescription": "回應時間小於 {{responseTime}} 毫秒",
         "assertionsTitle": "斷言",
         "recordTypeLabel": "記錄類型",
-        "operatorLabel": "條件式",
         "resolutionRecordLabel": "解析記錄",
         "recursiveLookupLabel": "遞迴查閱",
         "dnsRadioButtonOnLabel": "開啟",
@@ -904,6 +931,10 @@
         "acceptCNAMELabel": "接受 CNAME",
         "lookupServerNamelabel": "查閱伺服器名稱",
         "serverRetriesLabel": "伺服器重試"
+      },
+      "ssl": {
+        "attributeLabel": "屬性",
+        "valueLabel": "值"
       }
     },
     "credentialList": {

@@ -39,9 +39,10 @@
   "namespace": "名称空间",
   "deployment": "部署",
   "pod": "Pod",
+  "deleteLogsTootilpSuccess": "成功",
   "tooltipEntityHealthNoIssues": "没有问题",
-  "tooltipEntityHealthInProgress": "进行中",
-  "tooltipEntityHealthFailed": "失败",
+  "deleteLogsTooltipInProgress": "进行中",
+  "deleteLogsTooltipFailed": "失败",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 个问题",
   "endOfInfiniteScroll": "没有更多日志可用",
   "liveModeDisabled": "分析日志时不支持实时方式",
@@ -81,9 +82,23 @@
       "logIntegrations": "日志集成",
       "logIntegrationsDescription": "连接日志管理解决方案并进行配置，以满足您的需求。",
       "retentionPeriod": "保留期",
-      "retentionPeriodDescription": "更改保留期会影响日志的保留时间以及在应用程序、仪表板和分析中的可用情况，并会对成本和计费产生影响。",
+      "retentionPeriodDescription": "更改日志在应用程序、仪表板和分析中的保留时间和可用性。 这可能会影响成本和账单。",
       "patternRecognition": "日志模式识别",
-      "patternRecognitionDescription": "可发现日志中重复出现模式的人工智能功能。 这些模式可提供日志的简要概览，有助于缩短解决故障的时间。"
+      "patternRecognitionDescription": "可发现日志中重复出现模式的人工智能功能。 这些模式可提供日志的简要概览，有助于缩短解决故障的时间。",
+      "patternRecognitionSet": {
+        "gotIt": "知道了",
+        "cancel": "取消",
+        "gettingStarted": "入门",
+        "howDoesItWorks": "这如何工作？",
+        "firstDescription_0": "日志模式识别用于训练 AI 算法，以发现日志中的重复模式。 通过分析大量日志，它能够识别日志中的可变和静态部分，并从中发现模式。 \n\n AI 算法仅依赖您的日志消息，不会与其他客户端的日志共享。 这确保了您的数据隐私和安全。",
+        "howWillHelpMe": "对我有什么帮助？",
+        "secondDescription_0": "识别日志中的模式有助于减少故障诊断时解决问题所需的时间。 您可以过滤特定模式或对大量日志进行分组。 \n\n 分组可以提供您正在获取的日志的高级概述，并帮助优化开放式遥测配置，以避免获取无关日志，从而节省存储和获取成本。",
+        "learnMore": "了解更多",
+        "popHoverSecondDescription": "通过分析大量日志，它能够识别日志中的可变和静态部分，并从中发现模式。\n\nAI 算法仅依赖您的日志消息，不会与其他客户端的日志共享。 这确保了您数据的隐私和安全。",
+        "hotItWorks": "运作方式",
+        "popHoverFirstDescription": "日志模式识别用于训练 AI 算法，以发现日志中的重复模式。 ",
+        "aiExpained": "AI 解释"
+      }
     }
   }
 }

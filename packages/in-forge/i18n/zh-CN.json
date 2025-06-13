@@ -84,6 +84,16 @@
   "pluginName_application_1": "应用程序",
   "pluginName_application_2": "应用程序",
   "pluginName_application": "应用程序",
+  "pluginName_argocdCluster_plural": "Argo CD 集群",
+  "pluginName_argocdCluster_0": "Argo CD 集群",
+  "pluginName_argocdCluster_1": "Argo CD 集群",
+  "pluginName_argocdCluster_2": "Argo CD 集群",
+  "pluginName_argocdCluster": "Argo CD 集群",
+  "pluginName_argocdApplication_plural": "Argo CD 应用程序",
+  "pluginName_argocdApplication_0": "Argo CD 应用程序",
+  "pluginName_argocdApplication_1": "Argo CD 应用程序",
+  "pluginName_argocdApplication_2": "Argo CD 应用程序",
+  "pluginName_argocdApplication": "Argo CD 应用程序",
   "pluginName_availabilityZone_plural": "可用性区域",
   "pluginName_availabilityZone_0": "可用性区域",
   "pluginName_availabilityZone_1": "可用性区域",
@@ -1018,6 +1028,11 @@
   "pluginName_ibmiActiveJobsInfo_1": "IBM i 的活动作业信息",
   "pluginName_ibmiActiveJobsInfo_2": "IBM i 的活动作业信息",
   "pluginName_ibmiActiveJobsInfo": "IBM i 的活动作业信息",
+  "pluginName_ibmiAuditJournalsInfo_plural": "关于 IBM i 的审计日志信息",
+  "pluginName_ibmiAuditJournalsInfo_0": "关于 IBM i 的审计日志信息",
+  "pluginName_ibmiAuditJournalsInfo_1": "关于 IBM i 的审计日志信息",
+  "pluginName_ibmiAuditJournalsInfo_2": "关于 IBM i 的审计日志信息",
+  "pluginName_ibmiAuditJournalsInfo": "关于 IBM i 的审计日志信息",
   "pluginName_ibmiDiskInfo_plural": "IBM i 的磁盘信息",
   "pluginName_ibmiDiskInfo_0": "IBM i 的磁盘信息",
   "pluginName_ibmiDiskInfo_1": "IBM i 的磁盘信息",
@@ -1295,6 +1310,11 @@
   "pluginName_lxc_1": "LXC 容器",
   "pluginName_lxc_2": "LXC 容器",
   "pluginName_lxc": "LXC 容器",
+  "pluginName_mapRNode": "MapR 节点",
+  "pluginName_mapRNode_plural": "MapR 节点",
+  "pluginName_mapRNode_0": "MapR 节点",
+  "pluginName_mapRNode_1": "MapR 节点",
+  "pluginName_mapRNode_2": "MapR 节点",
   "pluginName_mariaDbDatabase_plural": "MariaDB",
   "pluginName_mariaDbDatabase_0": "MariaDB",
   "pluginName_mariaDbDatabase_1": "MariaDB",
@@ -1401,11 +1421,13 @@
   "pluginName_oTelLLM_1": "OTel LLMonitor",
   "pluginName_oTelLLM_2": "OTel LLMonitor",
   "pluginName_oTelLLM": "OTel LLMonitor",
+  "pluginName_oTelVLLM": "OTel vLLM 服务器",
   "pluginName_oTelVLLM_plural": "OTel vLLM 服务器",
   "pluginName_oTelVLLM_0": "OTel vLLM 服务器",
   "pluginName_oTelVLLM_1": "OTel vLLM 服务器",
   "pluginName_oTelVLLM_2": "OTel vLLM 服务器",
-  "pluginName_oTelVLLM": "OTel vLLM 服务器",
+  "pluginName_genai": "GenAI",
+  "pluginName_genai_plural": "GenAI",
   "pluginName_oTelDcgm_plural": "OTel Dcgm",
   "pluginName_oTelDcgm_0": "OTel Dcgm",
   "pluginName_oTelDcgm_1": "OTel Dcgm",
@@ -1889,6 +1911,11 @@
   "pluginName_nutanixDatacenter_1": "Nutanix 数据中心",
   "pluginName_nutanixDatacenter_2": "Nutanix 数据中心",
   "pluginName_nutanixDatacenter": "Nutanix 数据中心",
+  "pluginName_linuxKVMHypervisorHost": "Linux KVM 系统管理程序主机",
+  "pluginName_linuxKVMHypervisorHost_plural": "Linux KVM 系统管理程序主机",
+  "pluginName_linuxKVMHypervisorHost_0": "Linux KVM 系统管理程序主机",
+  "pluginName_linuxKVMHypervisorHost_1": "Linux KVM 系统管理程序主机",
+  "pluginName_linuxKVMHypervisorHost_2": "Linux KVM 系统管理程序主机",
   "pluginName_xenServerHost_plural": "XenServer 主机",
   "pluginName_xenServerHost_0": "XenServer 主机",
   "pluginName_xenServerHost_1": "XenServer 主机",
@@ -9859,7 +9886,11 @@
         "allocatedSize": "已分配大小",
         "freeSize": "可用大小",
         "sharedMemoryStats": "共享内存",
-        "rowStoreMemoryStats": "行存储内存"
+        "rowStoreMemoryStats": "行存储内存",
+        "upTime": "正常运行时间",
+        "totalCpuUsage": "CPU 使用率",
+        "totalMemoryUsage": "内存使用率",
+        "totalConnections": "活动连接数"
       },
       "systemId": "系统标识",
       "databaseName": "数据库名称",
@@ -9897,7 +9928,7 @@
       "blockingSessions": "正在阻止会话",
       "blockedThreads": "被阻止的线程",
       "threadsJobWorkerBlockedCount": "被阻止的作业工作程序线程",
-      "threadsSqlExecutorBlockedCount": "被阻止的 SQL ececutor 线程",
+      "threadsSqlExecutorBlockedCount": "被阻止的 SQL 执行程序线程",
       "queueingConnectionCount": "正在排队的连接计数",
       "unableToConnect": "无法使用用户 {{user}} 的连接 url {{connectionUrl}} 连接到 {{dbName}}。",
       "currentStmtExecutionRate": "当前语句执行速率",
@@ -9909,7 +9940,6 @@
       "tcpSegmentsSentOut": "已发送",
       "tcpSegmentsRetransmitted": "已重新发送",
       "tcpBadSegmentsReceived": "已中断",
-      "upTime": "运行时间",
       "installTime": "数据库安装在"
     },
     "service": {
@@ -11059,7 +11089,7 @@
         "aixDeviceInterrupts": "设备中断数",
         "avgRunQueue": "平均运行队列 (1h)",
         "notCollected": "未收集",
-        "systemCalls": "系统调用数/秒",
+        "systemCalls": "调用数/秒",
         "systemReads": "读取量/秒",
         "systemWrites": "写入量/秒",
         "blockReads": "块读取数/秒",
@@ -11078,6 +11108,9 @@
         "processesIdle": "空闲",
         "processesStopped": "已停止",
         "CpuProcess": "进程统计信息",
+        "stolenIdleCyclesPct": "被盗的空闲周期",
+        "physicalConsumption": "物理 CPU 消耗量",
+        "userSessions": "用户会话数",
         "load": "负载",
         "memory": "内存",
         "used": "已用",
@@ -11215,15 +11248,6 @@
       "aixDeviceInterrupts": "设备中断数",
       "avgRunQueue": "平均运行队列 (1h)",
       "notCollected": "未收集",
-      "systemCalls": "系统调用数/秒",
-      "systemReads": "读取量/秒",
-      "systemWrites": "写入量/秒",
-      "blockReads": "块读取数/秒",
-      "blockWrites": "块写入数/秒",
-      "nonBlockReads": "非块读取数/秒",
-      "nonBlockWrites": "非块写入数/秒",
-      "logicalBlockReads": "逻辑块读取数/秒",
-      "logicalBlockWrites": "逻辑块写入数/秒",
       "hypv": "系统管理程序",
       "user": "用户",
       "system": "系统",
@@ -11953,6 +11977,23 @@
       },
       "sidebar": {
         "ibmiActiveJobsInfo": "IBM i 信息",
+        "hostName": "主机名"
+      }
+    },
+    "ibmiAuditJournalsInfo": {
+      "name": "关于 IBM i 的审计日志信息",
+      "dashboard": {
+        "tables": {
+          "auditJournals": {
+            "name": "审计日志",
+            "entryType": "入口类型",
+            "entryTypeDetail": "条目类型详细信息",
+            "entryCount": "入口计数"
+          }
+        }
+      },
+      "sidebar": {
+        "ibmiAuditJournalsInfo": "IBM i 信息",
         "hostName": "主机名"
       }
     },
@@ -13266,7 +13307,12 @@
       }
     },
     "kubecost": {
-      "label": "Kubecost"
+      "label": "Kubecost",
+      "instanaKubecostDocumentationUrl": "https://ibm.biz/kubecost",
+      "kubecostInvalidUrl": "Kubecost：提供的 URL <code>{{connectionUrl}}</code> 似乎无效或格式错误。 请检查是否有拼写错误或缺少主机信息。",
+      "kubecostUnknownCluster": "Kubecost：在 Kubecost 响应中未找到集群标识 <code>{{clusterId}}</code>。 这可能是不正确的，也可能未被积极监控。",
+      "kubecostUnableToConnect": "Kubecost：<code>{{connectionUrl}}</code> 的连接失败，状态码为 {{statusCode}}。 请检查 URL 是否有效且可访问。",
+      "kubecostUnableToAuthenticate": "Kubecost：无法进行身份验证。 请确保已配置有效的 API 密钥。"
     },
     "kubernetesCluster": {
       "noActivity": "无活动",
@@ -13518,7 +13564,8 @@
       "cpuLimits": "CPU 限制",
       "memoryRequests": "内存请求",
       "memoryLimits": "内存限制",
-      "conditionNotReady": "Pod 条件未就绪"
+      "conditionNotReady": "Pod 条件未就绪",
+      "cpuUsageToCpuRequests": "CPU 请求分配"
     },
     "kubernetesService": {
       "kubernetesService": "Kubernetes 服务"
@@ -13834,6 +13881,18 @@
       "gcBeforePercentage": "GC 前百分比",
       "gcAfterPercentage": "GC 后百分比"
     },
+    "nutanixHost": {
+      "cpuUsage": "CPU 使用率",
+      "memoryUsage": "内存使用率",
+      "datacenterAverageIoLatency": "主机平均 IO 延迟",
+      "totalIoSizeBytes": "主机 IO 传输字节数",
+      "datacenterIoOps": "数据中心操作",
+      "controllerReadIops": "控制器读取操作",
+      "controllerWriteIops": "控制器写入操作",
+      "contentCacheHitPpm": "内容缓存命中率",
+      "contentCacheLookups": "内容缓存查询",
+      "contentCacheMemoryUsage": "内容缓存内存使用情况"
+    },
     "oTelDatabase": {
       "name": "数据库名称",
       "kind": "种类",
@@ -14000,8 +14059,19 @@
         "totalCountByService": "请求总数（按服务划分）"
       }
     },
+    "genai": {
+      "genai": "GenAI",
+      "watsonx": "Watsonx",
+      "bedrock": "Bedrock",
+      "crewai": "人员 AI",
+      "langchain": "Langchain",
+      "groq": "Groq",
+      "anthropic": "Anthropic",
+      "sagemaker": "Sagemaker"
+    },
     "oTelVLLM": {
       "oTelVLLM": "OTel vLLM 服务器",
+      "vllm": "vLLM",
       "kind": "种类",
       "serviceName": "服务名称",
       "entityType": "实体类型",
@@ -14510,6 +14580,19 @@
       "labelDatabaseDiskWrites": "数据库磁盘写入",
       "labelDatabaseBytesReceived": "已接收的数据库字节数",
       "labelDatabaseBytesSent": "已发送的数据库字节数"
+    },
+    "maprNode": {
+      "pluginName": "MapR 节点",
+      "pid": "进程标识",
+      "nodeName": "节点名",
+      "health": "运行状况",
+      "utilization": "使用率",
+      "configuredService": "配置的服务",
+      "rackTopology": "机架拓扑",
+      "healthDesc": "运行状况描述",
+      "cpus": "CPU 数",
+      "disks": "磁盘数量",
+      "connectErrorIssueDescription": "代理无法连接到 MapR"
     },
     "tibcoASNode": {
       "connectErrorIssueDescription": "代理程序无法连接到 FTL 域服务。 连接失败，发生错误: <code>{{error}}</code>",
@@ -17791,7 +17874,17 @@
       "traceState": "跟踪状态",
       "error": "错误",
       "tags": "标记",
-      "resource": "资源"
+      "resource": "资源",
+      "events": "范围事件",
+      "eventName": "事件名称",
+      "timestamp": "时间戳记",
+      "links": "范围链接",
+      "traceId": "跟踪标识",
+      "spanId": "范围标识",
+      "eventNamePrefix": "名称： ",
+      "traceIdPrefix": "跟踪标识： ",
+      "eventDetails": "事件详细信息",
+      "linkDetails": "链接详细信息"
     },
     "otelBatchSynthetic": {
       "indexReturn": "内部触发器",

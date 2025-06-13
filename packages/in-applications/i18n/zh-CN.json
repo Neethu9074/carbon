@@ -6,6 +6,7 @@
   "labelAnalytic": "分析",
   "labelCall": "调用",
   "labelTrace": "跟踪",
+  "labelSubtrace": "子跟踪",
   "labelStatus": "状态",
   "linkDownload": "下载",
   "linkDownloadCalls": "下载调用",
@@ -92,6 +93,7 @@
   "buttonInspectIssue_1": "检查 {{count}} 个问题",
   "buttonInspectIssue_2": "检查 {{count}} 个问题",
   "buttonAnalyzeCalls": "分析调用",
+  "buttonAnalyzeSubtraces": "分析子跟踪",
   "buttonAnalyzeServices": "分析服务",
   "buttonAnalyzeEndpoints": "分析端点",
   "buttonClear": "清除",
@@ -255,6 +257,7 @@
     "endpoints": "端点",
     "types": "类型",
     "technologies": "技术",
+    "NumberOfSubCalls": "编号 的子调用",
     "httpStatusCode": "HTTP 状态",
     "hiddenCalls": "隐藏的调用",
     "fastQueryMode": "快速查询方式",
@@ -721,7 +724,8 @@
     "traces_traces": "跟踪",
     "traces_latency": "等待时间",
     "traces_erroneousCalls": "错误跟踪",
-    "traces_errors": "错误跟踪率"
+    "traces_errors": "错误跟踪率",
+    "subtraces_subtraceDuration": "持续时间"
   },
   "viewLists": {
     "application": "应用程序",

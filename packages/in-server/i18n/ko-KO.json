@@ -1,79 +1,73 @@
 {
-    "mainNavigation": {
-      "monitoringObservability": "모니터링 및 관찰",
-      "criticalEvents": "중요 이벤트",
-      "warningEvents": "경고 이벤트",
-      "incident": "사건",
-      "activeTotal": "활성/전체",
-      "shared": "공유",
-      "customerDashboard": "사용자 정의 대시보드",
-      "owner": "소유자",
-      "viewSwitcherCustomDashboards": "사용자 정의 대시보드",
-      "viewSwitcherLabelWebsitesAndMobileApps": "웹 사이트 및 모바일 앱",
-      "viewSwitcherLabelWebsites": "웹 사이트",
-      "viewSwitcherLabelMobileApps": "모바일 앱",
-      "viewSwitcherLabelApplications": "애플리케이션",
-      "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-      "viewSwitcherLabelphmc": "IBM 전원 HMC",
-      "viewSwitcherLabelPowervc": "IBM PowerVC",
-      "viewSwitcherLabelzhmc": "IBM Z HMC",
-      "viewSwitcherLabelOpenstack": "OpenStack",
-      "viewSwitcherLabelKubernetes": "Kubernetes",
-      "viewSwitcherLabelNutanix": "Nutanix",
-      "viewSwitcherLabelSap": "SAP",
-      "viewSwitcherLabelvSphere": "vSphere",
-      "viewSwitcherlabelInfrastructure": "인프라",
-      "viewSwitcherLabelAnalytics": "분석",
-      "viewVulnerabilityCenter": "취약점",
-      "viewSwitcherLabelEvents": "이벤트",
-      "viewSwitcherLabelSlo": "서비스 레벨",
-      "viewSwitcherLabelLogs": "로그",
-      "viewSwitcherLabelInternal": "내부",
-      "viewSwitcherLabelSettings": "설정",
-      "viewSwitcherLabelTenants": "테넌트",
-      "viewSwitcherLabelAgents": "에이전트",
-      "viewSwitcherLabelReleaseNotes": "릴리스 정보",
-      "viewSwitcherLabelDocumentation": "문서",
-      "viewSwitcherLabelSupport": "지원",
-      "viewSwitcherLabelAboutInstana": "Instana 정보",
-      "viewSwitcherButtonSignOut": "로그아웃",
-      "profileMenu_tooltip": "프로파일 메뉴",
-      "viewSwitcherLabelPlatforms": "플랫폼",
-      "home": "홈",
-      "businessMonitoring": "비즈니스 모니터링",
-      "labelSyntheticMonitoring": "합성 모니터링",
-      "automation": "자동화",
-      "viewSwitcherLabelMore": "계속",
-      "viewSwitcherLabelTools": "Tools",
-      "viewSwitcherLabelAdministration": "Administration"
+  "mainNavigation": {
+    "monitoringObservability": "모니터링 및 관측성",
+    "criticalEvents": "중요한 이벤트",
+    "warningEvents": "경고 이벤트",
+    "incident": "인시던트",
+    "activeTotal": "활성/총계",
+    "shared": "공유",
+    "customerDashboard": "사용자 정의 대시보드",
+    "owner": "소유자",
+    "viewSwitcherCustomDashboards": "사용자 정의 대시보드",
+    "viewSwitcherLabelWebsitesAndMobileApps": "웹 사이트 및 모바일 앱",
+    "viewSwitcherLabelWebsites": "웹 사이트",
+    "viewSwitcherLabelMobileApps": "모바일 앱",
+    "viewSwitcherLabelApplications": "애플리케이션",
+    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM 전원 HMC",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
+    "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelKubernetes": "Kubernetes",
+    "viewSwitcherLabelNutanix": "Nutanix",
+    "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherlabelInfrastructure": "인프라",
+    "viewSwitcherLabelAnalytics": "분석",
+    "viewVulnerabilityCenter": "취약점",
+    "viewSwitcherLabelEvents": "이벤트",
+    "viewSwitcherLabelSlo": "서비스 레벨",
+    "viewSwitcherLabelLogs": "로그",
+    "viewSwitcherLabelInternal": "내부",
+    "viewSwitcherLabelSettings": "설정",
+    "viewSwitcherLabelAgents": "에이전트",
+    "viewSwitcherLabelDocumentation": "문서",
+    "profileMenu_tooltip": "프로파일 메뉴",
+    "viewSwitcherLabelPlatforms": "플랫폼",
+    "home": "홈",
+    "businessMonitoring": "비즈니스 모니터링",
+    "labelSyntheticMonitoring": "합성 모니터링",
+    "automation": "자동화",
+    "viewSwitcherLabelTools": "도구",
+    "viewSwitcherLabelAdministration": "관리"
+  },
+  "errorPages": {
+    "404": {
+      "title": "페이지를 찾을 수 없음",
+      "label": "오류 404",
+      "description": "요청한 페이지가 이동되었거나 사용할 수 없거나, 지정한 URL이 유효하지 않습니다. URL을 확인하거나 사이트에서 요청한 컨텐츠를 검색하십시오."
     },
-        "errorPages": {
-      "404": {
-        "title": "Page not found",
-        "label": "Error 404",
-        "description": "The page you requested has moved or is unavailable, or the specified URL is not valid. Please check the URL or search the site for the requested content."
-      },
-      "403": {
-        "title": "Access denied",
-        "label": "Error 403",
-        "description": "You are not authorized to access the requested page. Please verify that you are logged in to the hosting environment and your access permissions are correct."
-      },
-      "500": {
-        "title": "Internal server error",
-        "label": "Error 500",
-        "description": "An undefined server-side error has occurred and the server is unable to fulfill your request. Please refresh the page or try again later."
-      },
-      "maintenance": {
-        "title": "Page unavailable",
-        "label": "Maintenance",
-        "description": "We are currently busy upgrading the system. Your environment will be back shortly."
-      },
-      "links": {
-        "statusLink": "Instana status page",
-        "supportLink": "Support",
-        "homeLink": "Home",
-        "adminLink": "Contact administrator for access",
-        "signoutButtonLabel": "Sign out"
-      }
+    "403": {
+      "title": "액세스가 거부됨",
+      "label": "오류 403",
+      "description": "요청된 페이지에 액세스할 수 있는 권한이 없습니다. 호스팅 환경에 로그인되어 있고 액세스 권한이 올바른지 확인하십시오."
+    },
+    "500": {
+      "title": "내부 서버 오류",
+      "label": "오류 500",
+      "description": "서버 측에서 정의되지 않은 오류가 발생하여 서버가 요청을 처리할 수 없습니다. 페이지를 새로 고치거나 나중에 다시 시도하십시오."
+    },
+    "maintenance": {
+      "title": "사용할 수 없는 페이지",
+      "label": "유지보수",
+      "description": "현재 시스템을 업그레이드하는 작업을 진행 중입니다. 환경이 곧 복구될 예정입니다."
+    },
+    "links": {
+      "statusLink": "Instana 상태 페이지",
+      "supportLink": "지원",
+      "homeLink": "홈",
+      "adminLink": "관리자에게 액세스 권한을 문의하십시오",
+      "signoutButtonLabel": "로그아웃"
     }
   }
+}

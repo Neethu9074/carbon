@@ -8,7 +8,8 @@
   "pageStructure": {
     "headerAriaLabel": "페이지 헤더",
     "contentAriaLabel": "컨텐츠",
-    "filterAriaLabel": "필터"
+    "filterAriaLabel": "필터",
+    "pageTabsAriaLabel": "페이지 탭"
   },
   "fileInputButton": {
     "label": {
@@ -139,6 +140,7 @@
   },
   "downloadPdf": {
     "downloadPdfFile": "PDF 파일 다운로드",
+    "downloadPdfLabel": "PDF 다운로드",
     "settings": "설정",
     "pdfOrientation": "방향",
     "portrait": "세로",
@@ -496,6 +498,7 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelWindowsHypervisor": "Windows 하이퍼바이저",
     "viewSwitcherLabelXenServer": "XenServer",
+    "viewSwitcherLabelLinuxKVMHypervisor": "Linux KVM 하이퍼바이저",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "플랫폼",
     "viewSwitcherCustomDashboards": "사용자 정의 대시보드",
@@ -512,8 +515,8 @@
     "profileMenu_saasConsole": "IBM SaaS 콘솔",
     "profileMenu_privacy": "개인정보 보호",
     "profileMenu_logOut": "로그아웃",
-    "teamFocus_title": "팀 포커스",
-    "teamFocus_entireUnit": "전체 단위"
+    "scope_title": "범위",
+    "scope_defaultScope": "기본 범위"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "메트릭 선택",

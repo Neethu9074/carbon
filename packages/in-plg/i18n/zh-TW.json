@@ -68,7 +68,8 @@
       "runTheInstanaAgentContainerImage": "執行 Instana 代理程式儲存器映像檔",
       "upgradeTheInstanaAgentContainerImage": "升級 Instana 代理程式儲存器映像檔",
       "installAgentOnDocker": "在 Docker 上安裝代理程式",
-      "configurationOptions": "配置選項"
+      "configurationOptions": "配置選項",
+      "optionallyEnterTheAgentZone": "您可以選擇輸入您希望代理程式所屬的代理區域。"
     },
     "jvmVendor": {
       "azulZulu11": "Azul Zulu 11",
@@ -208,7 +209,6 @@
       },
       "iamPermissions": "IAM 權限",
       "trustRelationships": "信任關係",
-      "enterAClusterNameAndOptionallyTheAgentZone": "輸入叢集名稱，並選擇性地輸入您希望叢集所屬的代理程式區域。",
       "awsLambdaNodeJsAutotrace": "根據 Node.js 10.x（或更新版本）來配置 AWS Lambda 函數以進行追蹤的理想作法是，使用具有 AutoTrace 的 Instana Lambda 層。",
       "selectAwsRegionAndLambdaHandler": "選取 AWS 區域，並輸入現行 Lambda 處理程式",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "將 Instana 自動包裝處理程式設為 Lambda 函數的處理程式。",
@@ -539,11 +539,21 @@
     "kubecost": {
       "title": "IBM Kubecost 的成本可見性",
       "description": "免費開始使用，並查看叢集的成本洞察力和預估節省金額。",
-      "buttonName": "立即探索"
+      "buttonName": "進一步瞭解"
     },
     "logging": {
       "title": "Instana 記載",
       "description": "現在已支援透過 OTel 從任意位置接收日誌，並可透過附加特性將保留時間延長至 90 天。",
+      "buttonName": "立即探索"
+    },
+    "turbonomic": {
+      "title": "資源動作，採用 Turbonomic",
+      "description": "查看資源動作如何協助您的應用程式。",
+      "buttonName": "進一步瞭解"
+    },
+    "concert": {
+      "title": "優先處理具有 IBM Concert 的 CVE",
+      "description": "發掘您作業中的重要洞察力，並且將動作自動化。",
       "buttonName": "進一步瞭解"
     },
     "startIntegrating": {
@@ -728,6 +738,7 @@
         "name": "名稱",
         "owner": "擁有者",
         "permissions": "權限",
+        "teams": "團隊",
         "searchPlaceholderLabel": "儀表板",
         "addButtonLabel": "儀表板",
         "viewAllLabel": "儀表板"
@@ -804,6 +815,7 @@
       },
       "buttonNames": {
         "deployAgent": "部署代理程式",
+        "installDataSource": "安裝資料來源",
         "addUser": "新增使用者",
         "documentation": "IBM 說明文件",
         "releaseNotes": "版本注意事項",
@@ -873,5 +885,36 @@
     "title": "管理您的設定檔",
     "description": "檢視和更新您的設定檔、調整隱私設定，以及登出 - 全都在一個地方完成。",
     "buttonText": "完成"
+  },
+  "trialNoviceToProDialog": {
+    "welcometitle": "歡迎使用，{{username}}！",
+    "description": "首先，最能說明您的角色的是什麼？",
+    "getStarted": "準備要開始使用了嗎？",
+    "descriptionFreeTrial": "部署代理程式以查看您自己的資料在動作中的情況。",
+    "descriptionSandbox": "或在 Sandbox 中探索 Instana——我們的互動式示範環境中提供樣本資料。",
+    "trialButtonData": "從我自己的資料開始",
+    "sandboxButtonData": "從樣本資料開始",
+    "roles": {
+      "frontendDeveloper": "前端開發人員",
+      "backendDeveloper": "後端開發人員",
+      "businessManager": "業務經理",
+      "devOpsEngineer": "DevOps 工程師",
+      "siteReliabilityEngineer": "網站可靠性工程師",
+      "itOperations": "IT 營運",
+      "itDecisionMaker": "IT 決策制定者",
+      "support": "支援",
+      "productManager": "產品經理",
+      "preferNotToSay": "不便透露",
+      "other": "其他"
+    },
+    "steps": {
+      "stepOne": "角色",
+      "stepTwo": "開始使用"
+    },
+    "checkboxText": "如果您想要參與我們產品團隊的選用訪談和調查，請選取此勾選框。",
+    "specifyRole": "指定您的角色",
+    "roleName": "角色名稱",
+    "yourRole": "您的角色",
+    "next": "下一步"
   }
 }

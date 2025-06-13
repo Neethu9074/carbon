@@ -39,9 +39,10 @@
   "namespace": "Namespace",
   "deployment": "Implementação",
   "pod": "Pod",
+  "deleteLogsTootilpSuccess": "Sucesso",
   "tooltipEntityHealthNoIssues": "Nenhum problema",
-  "tooltipEntityHealthInProgress": "Em andamento",
-  "tooltipEntityHealthFailed": "Com falha",
+  "deleteLogsTooltipInProgress": "Em andamento",
+  "deleteLogsTooltipFailed": "Com falha",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
   "endOfInfiniteScroll": "Não há mais logs disponíveis",
   "liveModeDisabled": "O modo em tempo real não é suportado ao analisar logs",
@@ -81,9 +82,23 @@
       "logIntegrations": "Integrações de log",
       "logIntegrationsDescription": "Conecte suas soluções de gerenciamento de log e configure-as para atender às suas necessidades.",
       "retentionPeriod": "Período de retenção",
-      "retentionPeriodDescription": "A mudança do período de retenção afeta o tempo em que os logs são retidos e disponibilizados em aplicativos, painéis e análises de dados e possui um impacto em custo e faturamento.",
+      "retentionPeriodDescription": "Altere por quanto tempo os logs ficam retidos e disponíveis em Aplicativos, Painéis e Análise de dados. Isso pode afetar os custos e o faturamento.",
       "patternRecognition": "Reconhecimento de padrões de log",
-      "patternRecognitionDescription": "Funcionalidade de IA que identifica padrões recorrentes em seus logs. Os padrões fornecem uma visão geral de alto nível dos seus logs e ajudam a reduzir o tempo de resolução de problemas."
+      "patternRecognitionDescription": "Funcionalidade de IA que identifica padrões recorrentes em seus logs. Os padrões fornecem uma visão geral de alto nível dos seus logs e ajudam a reduzir o tempo de resolução de problemas.",
+      "patternRecognitionSet": {
+        "gotIt": "Feito",
+        "cancel": "Cancelar",
+        "gettingStarted": "Introdução",
+        "howDoesItWorks": "Como funciona?",
+        "firstDescription_0": "O reconhecimento de padrões de logs treina um algoritmo de IA para identificar padrões recorrentes em seus logs. Ao analisar grandes volumes de logs, ele é capaz de reconhecer partes variáveis e estáticas dos logs e descobrir padrões neles. \n\n O algoritmo de IA baseia-se apenas nas suas mensagens de log e não as compartilha com os logs de outros clientes. Isso garante a privacidade e segurança dos seus dados.",
+        "howWillHelpMe": "Como isso vai me ajudar?",
+        "secondDescription_0": "Reconhecer padrões em seus logs pode ajudar a diminuir o tempo necessário para resolver um problema durante a resolução de problemas. É possível filtrar por um padrão específico ou agrupar uma grande quantidade de logs. \n\n O agrupamento pode fornecer uma visão geral resumida dos logs que estão sendo ingeridos e ajudar a refinar sua configuração do OpenTelemetry para evitar a ingestão de logs irrelevantes, economizando custos de armazenamento e ingestão.",
+        "learnMore": "Saiba mais",
+        "popHoverSecondDescription": "Ao analisar grandes volumes de logs, ele é capaz de reconhecer partes variáveis e estáticas dos logs e descobrir padrões neles.\n\nO algoritmo de IA baseia-se apenas nas suas mensagens de log e não as compartilha com os logs de outros clientes. Isso garante a privacidade e segurança dos seus dados",
+        "hotItWorks": "Como funciona",
+        "popHoverFirstDescription": "O reconhecimento de padrões de logs treina um algoritmo de IA para identificar padrões recorrentes em seus logs. ",
+        "aiExpained": "IA explicada"
+      }
     }
   }
 }

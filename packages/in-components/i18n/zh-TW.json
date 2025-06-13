@@ -8,7 +8,8 @@
   "pageStructure": {
     "headerAriaLabel": "頁面標頭",
     "contentAriaLabel": "内容",
-    "filterAriaLabel": "過濾器"
+    "filterAriaLabel": "過濾器",
+    "pageTabsAriaLabel": "頁面標籤"
   },
   "fileInputButton": {
     "label": {
@@ -139,6 +140,7 @@
   },
   "downloadPdf": {
     "downloadPdfFile": "下載 PDF 檔案",
+    "downloadPdfLabel": "下載 PDF",
     "settings": "設定",
     "pdfOrientation": "方向",
     "portrait": "直印",
@@ -496,6 +498,7 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelWindowsHypervisor": "Windows Hypervisor",
     "viewSwitcherLabelXenServer": "XenServer",
+    "viewSwitcherLabelLinuxKVMHypervisor": "Linux KVM Hypervisor",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherCustomDashboards": "自訂儀表板",
@@ -512,8 +515,8 @@
     "profileMenu_saasConsole": "IBM SaaS 主控台",
     "profileMenu_privacy": "隱私權",
     "profileMenu_logOut": "登出",
-    "teamFocus_title": "團隊焦點",
-    "teamFocus_entireUnit": "整個單位"
+    "scope_title": "範圍",
+    "scope_defaultScope": "預設範圍"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "選取度量",

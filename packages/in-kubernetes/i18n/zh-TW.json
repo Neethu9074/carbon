@@ -10,6 +10,7 @@
     "namespace": "名稱空間",
     "node": "節點",
     "pod": "Pod",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "K8s 服務"
   },
   "clusterBadgeNameOpenShift": "OpenShift",
@@ -29,6 +30,7 @@
     "summary": "摘要",
     "details": "詳細資料",
     "hostCoverage": "主機涵蓋面",
+    "k8SensorVersion": "K8s 感測器版本",
     "clusterUuid": "叢集 UUID",
     "agentMonitor": "代理程式監視器",
     "controlPlane": "控制平面",
@@ -55,9 +57,17 @@
     "cpuUsage": "CPU 使用率",
     "memoryUsage": "記憶體用量",
     "phase": "階段",
-    "reclaimPolicy": "收回原則",
-    "storageCapacity": "儲存體容量",
     "storageClassName": "儲存類別名稱",
+    "capacityStorage": "容量儲存體",
+    "storageTotalCapacity": "總容量",
+    "storageUsedCapacity": "已用容量",
+    "storageUtilization": "使用率",
+    "storageUsedTotalCapacity": "共 {{total}} 筆",
+    "total": "總計",
+    "reclaimPolicy": "收回原則",
+    "accessMode": "存取模式",
+    "volumeMode": "磁區模式",
+    "creationTimestamp": "建立時間戳記",
     "cpuRequests": "CPU 要求",
     "cpuRequestsMultiMetric": "CPU 要求",
     "cpuLimitsAlloc": "CPU 限制配置",
@@ -160,6 +170,8 @@
     "lastJobDuration": "前次工作持續時間",
     "kubernetesDaemonSet": "Kubernetes DaemonSet",
     "k8SDaemonSet": "K8s DaemonSet",
+    "kubernetesPersistentVolume": "Kubernetes PersistentVolume",
+    "k8SPersistentVolume": "K8s PersistentVolume",
     "unscheduled": "未排程",
     "unready": "未備妥",
     "available": "可用的",
@@ -277,12 +289,12 @@
       "idleCost": "閒置成本",
       "viewInKubeCost": "在 Kubecost 中查看",
       "coreCountByCluster": "vCPU",
-      "noKubecostData": "使用 Kubecost，以實現成本的可觀察性和分配。 若要配置整合，請遵循下列 [步驟][文件]。\n\n[文件]：https://ibm.biz/kubecost",
+      "noKubecostData": "使用 Kubecost 為此叢集啟用成本監視功能。\n 若要配置整合，請在文件中 [遵循這些步驟]。\n\n[遵循這些步驟]：https://ibm.biz/kubecost",
       "totalClusterCost": "叢集總成本（最近 14 天）",
       "workloadEfficiency": "工作負載效率",
       "estimatedMonthlySavings": "預估每月節省",
-      "totalClusterCostTooltipinfo": "您的叢集在所選取的時間範圍內的總成本。 注意：如果您的資料少於 14 天，該數值會持續顯示，直到完整的 14 天週期結束為止。",
-      "workloadEfficiencyTooltipinfo": "每個工作負載在選定視窗中的平均效率。 工作負載效率是 RAM 和 CPU 使用量相對於其配置的 RAM 和 CPU 要求的成本加權比率。",
+      "totalClusterCostTooltipinfo": "您過去 14 天的叢集總費用。 如果您擁有的資料少於 14 天，您將看到該數字，直到完整的 14 天週期過去。",
+      "workloadEfficiencyTooltipinfo": "過去 14 天中每個工作負載的平均效率。 工作負載效率是 RAM 和 CPU 使用量與配置的 RAM 和 CPU 要求之間的成本加權比率。",
       "estimatedMonthlySavingsTooltipinfo": "根據所選取時間範圍內的歷程資料，預估您的叢集每月可節省的費用。",
       "deploymentInfoNotRetrieving": "Kubecost 未擷取部署資訊",
       "notRetrievingData": "Kubecost 未擷取資料",
@@ -331,7 +343,10 @@
       "title": "更快存取重要資訊",
       "content": "卡片檢視可一目了然地提供叢集和名稱空間的更多詳細資料，並可從儀表板直接鏈結至每個標籤頁面，以便進行重點調查。 <br /><br />您可以按一下內容切換器，輕鬆地在這些新視圖和表格視圖之間移動。",
       "button": "瞭解"
-    }
+    },
+    "nodes": "節點",
+    "pods": "Pod",
+    "containers": "儲存器"
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",
@@ -421,5 +436,18 @@
     "days": "天前",
     "close": "關閉",
     "branch": "分支"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Instana 代理程式",
+      "description": "根據 Instana 代理程式所收集的資料檢視資訊。"
+    },
+    "otelCollector": {
+      "text": "OpenTelemetry 收集器",
+      "description": "根據 Instana OpenTelemetry 收集器收集的資料檢視資訊。"
+    },
+    "additionalMetrics": {
+      "title": "其他"
+    }
   }
 }

@@ -39,9 +39,10 @@
   "namespace": "네임스페이스",
   "deployment": "배치",
   "pod": "팟(Pod)",
+  "deleteLogsTootilpSuccess": "성공",
   "tooltipEntityHealthNoIssues": "문제 없음",
-  "tooltipEntityHealthInProgress": "진행 중",
-  "tooltipEntityHealthFailed": "실패함",
+  "deleteLogsTooltipInProgress": "진행 중",
+  "deleteLogsTooltipFailed": "실패함",
   "tooltipEntityHealthIssues": "{{numberOfIssues}}개의 문제",
   "endOfInfiniteScroll": "사용 가능한 로그가 더 이상 없음",
   "liveModeDisabled": "로그 분석 시 라이브 모드가 지원되지 않음",
@@ -81,9 +82,23 @@
       "logIntegrations": "로그 통합",
       "logIntegrationsDescription": "로그 관리 솔루션을 연결하고 필요에 맞게 구성하십시오.",
       "retentionPeriod": "보존 기간",
-      "retentionPeriodDescription": "보존 기간을 변경하면 로그가 애플리케이션, 대시보드, 분석에서 보존되고 사용할 수 있는 시간이 영향을 받으며 비용과 청구에 영향을 미칩니다.",
+      "retentionPeriodDescription": "애플리케이션, 대시보드 및 분석에서 로그의 보존 기간과 사용 가능 기간을 변경할 수 있습니다. 이는 비용과 청구에 영향을 미칠 수 있습니다.",
       "patternRecognition": "로그 패턴 인식",
-      "patternRecognitionDescription": "로그에서 반복되는 패턴을 발견하는 AI 기능. 패턴은 로그에 대한 높은 레벨의 개요를 제공하며 문제 해결에 걸리는 시간을 줄이는 데 도움이 됩니다."
+      "patternRecognitionDescription": "로그에서 반복되는 패턴을 발견하는 AI 기능. 패턴은 로그에 대한 높은 레벨의 개요를 제공하며 문제 해결에 걸리는 시간을 줄이는 데 도움이 됩니다.",
+      "patternRecognitionSet": {
+        "gotIt": "확인",
+        "cancel": "취소",
+        "gettingStarted": "시작하기",
+        "howDoesItWorks": "어떻게 작동되나요?",
+        "firstDescription_0": "로그 패턴 인식은 AI 알고리즘을 훈련시켜 로그에서 반복되는 패턴을 발견하도록 합니다. 대량의 로그를 분석함으로써 알고리즘은 로그의 가변적 및 정적 부분을 인식하고 그 안에서 패턴을 발견할 수 있습니다. \n\n AI 알고리즘은 사용자의 로그 메시지에만 의존하며 다른 클라이언트의 로그와 공유하지 않습니다. 이를 통해 데이터의 프라이버시와 보안이 보장됩니다.",
+        "howWillHelpMe": "어떻게 도움이 되나요?",
+        "secondDescription_0": "로그에서 패턴을 인식하면 문제를 해결할 때 필요한 시간을 줄이는 데 도움이 될 수 있습니다. 대량의 로그를 통해 특정 패턴이나 그룹을 필터링할 수 있습니다. \n\n 그룹화를 통해 수집 중인 로그에 대한 개략적인 개요를 제공하고, 오픈 텔레메트리 구성을 개선하여 관련 없는 로그의 수집을 방지함으로써 저장 및 수집 비용을 절감할 수 있습니다.",
+        "learnMore": "자세히 알아보기",
+        "popHoverSecondDescription": "대량의 로그를 분석함으로써 알고리즘은 로그의 가변적 및 정적 부분을 인식하고 그 안에서 패턴을 발견할 수 있습니다.\n\nAI 알고리즘은 사용자의 로그 메시지에만 의존하며 다른 클라이언트의 로그와 공유하지 않습니다. 이를 통해 데이터의 프라이버시와 보안이 보장됩니다.",
+        "hotItWorks": "작동 방식",
+        "popHoverFirstDescription": "로그 패턴 인식은 AI 알고리즘을 훈련시켜 로그에서 반복되는 패턴을 발견하도록 합니다. ",
+        "aiExpained": "AI 설명"
+      }
     }
   }
 }

@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "Livello di avviso",
     "alertPropertyInfosLabelTriggersIncident": "Attiva incident",
     "alertPropertyInfosLabelDescription": "Descrizione",
-    "noChannelSelectedText": "Attualmente, non è stato selezionato un canale di avviso e non verrà ricevuto alcun avviso.",
+    "noChannelSelectedText": "Nessun canale aggiunto. Per iniziare fare clic su \"Seleziona canali di avviso\".",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtri aggiuntivi",
     "groupBy": "Raggruppa per",
     "noChannelAvailable": "Nessun canale di avviso disponibile",
@@ -167,6 +167,7 @@
     "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart",
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
     "smartAlertsTitle": "Avvisi smart",
+    "titleNoSmartAlertsConfiguredFound": "Non sono state trovate configurazioni di Avvisi Smart",
     "alertChannelList": {
       "selectAllWarning": "Selezionare tutti gli avvisi",
       "selectAllCritical": "Selezionare tutti gli elementi critici",
@@ -912,7 +913,6 @@
         "criticalAlertPreviewLabel": "Anteprima critica",
         "alertPreviewMissingThresholdInfo": "Nessuna anteprima disponibile. Selezionare almeno un valore di soglia per visualizzare l'anteprima.",
         "alertPropertiesAlertProperties": "Proprietà avviso",
-        "alertPreviewDefaultTitle": "Titolo notifica",
         "groupingPlaceholdersMissingTooltip": "Per includere più segnaposto, configurare i raggruppamenti",
         "buttonSave": "Salva",
         "buttonCreate": "Crea",
@@ -998,7 +998,8 @@
         "title": "Periodo di tolleranza (facoltativo)",
         "description": "Selezionare per quanto tempo un problema deve rimanere aperto dopo che la soglia di violazione non è più soddisfatta. Trascorso questo tempo, la questione verrà automaticamente chiusa.",
         "label": "Seleziona",
-        "summary": "Chiudere automaticamente un problema dopo che la soglia di violazione non è più soddisfatta <strong>per {{gracePeriodValue}}</strong>."
+        "defaultGracePeriod": "Predefinito",
+        "summary": "Chiudi automaticamente un problema dopo che la soglia di violazione non è più soddisfatta"
       },
       "tearSheet": {
         "cancelModalTitle": "Sei sicuro di voler annullare?",
@@ -1008,12 +1009,15 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Le violazioni persistono a intervalli casuali",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Le violazioni persistono continuamente",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "Quando viene colpito un numero minimo di tracce",
+          "labelUserImpactOfViolationsInSequence": "Quando un certo numero di utenti viene influenzato",
           "granularity": {
             "description": "Le chiamate vengono effettuate in finestre di {{granularity}} minuti; ogni {{granularity}} minuti, viene calcolato un valore metrico per quella finestra"
           },
           "triggerAlert": "Attiva avviso",
           "triggerAfter": "Attiva dopo",
           "tracesImpacted": "le tracce sono interessate",
+          "numberOfUserImpactPostLabel": "un numero maggiore di utenti è influenzato",
+          "percentageOfUserImpactPostLabel": "o una % superiore di utenti viene influenzata",
           "outOfConsecutiveEvaluations": "su",
           "persistenceType": "Tipo di persistenza",
           "numberOfConsecutiveViolationsPostLabel": "le finestre di {{granularity}} minuti consecutive hanno violazioni",
@@ -1163,7 +1167,7 @@
         },
         "step5": {
           "title": "Definisci i canali di avviso",
-          "description": "Seleziona dove si desidera essere avvisato per questo allarme"
+          "description": "Selezionare dove si desidera ricevere la notifica per questo avviso."
         },
         "slowness": {
           "headline": "Avvisi automatici per tempo di connessione onLoad o latenza HTTP",
@@ -1349,7 +1353,7 @@
           "header": "Quali proprietà si desidera impostare per questo avviso"
         },
         "step4": {
-          "header": "Seleziona dove si desidera essere avvisato per questo allarme"
+          "header": "Selezionare dove si desidera ricevere la notifica per questo avviso."
         }
       }
     },
@@ -1494,7 +1498,7 @@
         },
         "step5": {
           "title": "Definisci i canali di avviso",
-          "description": "Seleziona dove si desidera essere avvisato per questo allarme"
+          "description": "Selezionare dove si desidera ricevere la notifica per questo avviso."
         },
         "slowness": {
           "headline": "Avvisi automatici per la latenza di HTTP",
@@ -1904,22 +1908,29 @@
         "blueprint_STATUS": "Stato",
         "blueprint_BURNED_PERCENTAGE": "Budget di errore",
         "blueprint_BURN_RATE": "Velocità di combustione",
+        "blueprint_BURN_RATE_V2": "Velocità di combustione",
         "blueprintDescription": "",
+        "burnRateAlertTypeLabel": "Tipo di finestra di avviso",
+        "burnRateAlertTypeLabel_SINGLE_WINDOW": "Finestra per avviso singolo",
+        "burnRateAlertTypeLabel_MULTI_WINDOW": "Finestra di avviso lunga e breve",
         "blueprintDescription_STATUS": "Ricevere un avviso quando lo stato SLO scende al di sotto di una soglia.",
         "blueprintDescription_BURNED_PERCENTAGE": "Ricevere un avviso quando viene utilizzata una percentuale del budget di errore.",
-        "blueprintDescription_BURN_RATE": "La velocità di combustione è un valore che indica la velocità di consumo del budget degli errori rispetto alla lunghezza obiettivo dello SLO.",
+        "blueprintDescription_BURN_RATE_V2": "La velocità di combustione è un valore che indica la velocità di consumo del budget degli errori rispetto alla lunghezza obiettivo dello SLO. ",
         "burnRateShortWindowTitle": "Finestra di avviso breve",
-        "burnRateShortWindowDescription": "Questi avvisi verranno attivati quando il tasso di errore supera la soglia più velocemente in un periodo più breve. Questo può aiutare a catturare un improvviso picco di errori o di inattività dovuto a un bug critico.",
+        "burnRateShortWindowDescription": "Gli avvisi vengono attivati quando il tasso di errore supera la soglia più rapidamente in un periodo più breve. Questo può aiutare a catturare un improvviso picco di errori o di inattività dovuto a un bug critico.",
         "burnRateDescription": "Informami quando il tasso di consumo è <1/> <2/>",
-        "burnRateLongWindowTitle": "Finestra di avviso lunga",
-        "burnRateLongWindowDescription": "Questi avvisi verranno attivati quando il tasso di errore supera la soglia in un periodo di tempo più lungo. Questo aiuta a identificare i problemi che si sono accumulati nel tempo e che, se non affrontati, potrebbero causare problemi in futuro.",
-        "burnRateShortWindowLongerThanLongWindowError": "La finestra breve non può superare la finestra lunga. Adeguare uno dei due valori.",
+        "burnRateWindowTitle_SINGLE_WINDOW": "Finestra di avviso",
+        "burnRateWindowTitle_MULTI_WINDOW": "Finestra di avviso lunga",
+        "burnRateSingleWindowDescription": "Gli avvisi vengono attivati quando il tasso di errore supera la soglia per un periodo di tempo specificato. Questo aiuta a identificare i problemi che si sono accumulati nel tempo e che, se non affrontati, potrebbero causare problemi in futuro.",
+        "burnRateLongWindowDescription": "Gli avvisi vengono attivati quando il tasso di errore supera la soglia per un periodo di tempo prolungato. Questo aiuta a identificare i problemi che si sono accumulati nel tempo e che, se non affrontati, potrebbero causare problemi in futuro.",
+        "burnRateShortWindowLongerThanLongWindowError": "La finestra breve deve essere più piccola della finestra lunga. Adeguare uno dei due valori.",
         "burnRateTimeWindowTooLongError": "La finestra di avviso non può superare la finestra temporale di uno SLO selezionato. Controllare il seguente SLO: {{value}}.",
         "thresholdTitle": "Soglia: quando si desidera essere avvisati?",
         "thresholdInputDescription": "",
         "thresholdInputDescription_BURNED_PERCENTAGE": "Quando viene utilizzata una percentuale del budget di errori di <1/> <2/> percento",
         "thresholdInputDescription_STATUS": "Quando lo stato SLO è <1/> <2/> percento",
         "thresholdInputDescription_BURN_RATE": "Valutare l'ultimo <1/> dello SLO.",
+        "thresholdInputDescription_BURN_RATE_V2": "Valutare l'ultimo <1/> dello SLO.",
         "timeThresholdType_gracePeriod": "Quando la condizione persiste per un periodo di tempo specificato",
         "timeThresholdTypeTitle_gracePeriod": "Avviso quando la condizione viene violata per $t consecutivi (in-components:time.minutes, {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "Deve essere trascorso un tempo di almeno $t(in-components:time.minutes, {\"count\": {{minutes}} }) perché l'evento termini",
@@ -1928,7 +1939,11 @@
         "alertPropertiesTitlePlaceholder_STATUS": "Lo stato SLO è basso",
         "alertPropertiesDescriptionPlaceholder_STATUS": "Lo stato dello SLO è {{operator}} {{percentage}}.",
         "alertPropertiesTitlePlaceholder_BURN_RATE": "La velocità di combustione è stata superata",
-        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "La velocità di combustione dello SLO è {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE_V2": "La velocità di combustione è stata superata",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "Tasso di consumo dello SLO è {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2": "Tasso di consumo dello SLO è {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_SINGLE": "Tasso di consumo dello SLO è {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_MULTI": "Il tasso di consumo della finestra lunga dello SLO è {{longWindowOperator}} {{longWindowPercentage}} e quello della finestra breve è {{shortWindowOperator}} {{shortWindowPercentage}}.",
         "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "Il budget di errori rimanente è basso",
         "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Consumato {{operator}} {{percentage}} del budget degli errori.",
         "alertPropertiesIncidentWarning": "Gli incidenti si possono applicare solo agli SLO associati alle applicazioni"
@@ -1944,8 +1959,10 @@
         "blueprintLabel": "Progetto iniziale",
         "blueprintInfo": "",
         "blueprintInfo_BURN_RATE": "Velocità di combustione",
+        "blueprintInfo_BURN_RATE_V2": "Velocità di combustione",
         "blueprintInfo_BURNED_PERCENTAGE": "Budget di errori utilizzato",
         "blueprintInfo_STATUS": "Stato",
+        "singleWindowLabel": "Finestra di avviso",
         "longWindowLabel": "Finestra lunga",
         "shortWindowLabel": "Finestra corta",
         "timeWindowInfo_minute": "{{count}} minuto",
@@ -1966,10 +1983,14 @@
         "coolDownPeriodDescription": "Deve trascorrere un tempo minimo di {{value}} perché l'evento si concluda."
       },
       "alertList": {
-        "threshold": "Soglia: {{value}}",
-        "threshold_BURN_RATE": "Velocità di combustione: {{value}}",
-        "threshold_BURNED_PERCENTAGE": "Soglia: {{value}}",
-        "threshold_STATUS": "Soglia: {{value}}",
+        "threshold": "{{metric}}, soglia {{operator}} {{value}}",
+        "threshold_BURN_RATE": "{{metric}}, soglia {{operator}} {{value}}",
+        "singleWindowThreshold_BURN_RATE_V2": "{{metric}}, soglia {{operator}} {{value}}",
+        "longWindowThreshold_BURN_RATE_V2": "{{metric}}, soglia (Lunga) {{longWindowOperator}} {{longWindowValue}}, (Breve) {{shortWindowoperator}} {{shortWindowValue}}",
+        "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, soglia (Lunga) {{operator}} {{value}} e (Breve) < 1",
+        "threshold_BURNED_PERCENTAGE": "{{metric}}, soglia {{operator}} {{value}}",
+        "threshold_STATUS": "{{metric}}, soglia {{operator}} {{value}}",
+        "alertListSloAppliedColumnName": "SLO applicati",
         "sloApplied": "SLO applicati",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLO",
@@ -1978,8 +1999,13 @@
         "sloCount_2": "{{count}} SLO",
         "title": "",
         "title_BURN_RATE": "Velocità di combustione",
+        "title_BURN_RATE_V2": "Velocità di combustione",
         "title_BURNED_PERCENTAGE": "Budget di errori utilizzato",
-        "title_STATUS": "Stato"
+        "title_STATUS": "Stato",
+        "errorBudgetLabel": "Budget di errore",
+        "deprecatedLabel": "Obsoleto",
+        "noDataHeader": "Nessun Avviso Smart basato sullo Slo",
+        "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
       },
       "messages": {
         "successTitle": "",

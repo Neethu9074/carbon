@@ -15,6 +15,7 @@
   "testAction": "Ação de teste",
   "targetAgent": "Destinar agente",
   "triggeringAgent": "{{hostname}} (agente de acionamento)",
+  "agentEmpty": "Você não tem nenhum agente configurado",
   "targetAgentDescription": "Um agente encapsula 1.. * Sensores, que por sua vez, são capazes de levantar eventos para o back-end do Instana. Um agente de acionamento contém o sensor que levantou esse evento específico.",
   "chosenToRun": "Executar ação {{actionName}}",
   "viewManualAction": "Visualizar ação manual {{actionName}}",
@@ -46,7 +47,6 @@
   "description": "Descrição",
   "automation": "Automação",
   "failedToResolveDynamicParameters": "Falha ao resolver os parâmetros dinâmicos.",
-  "deletePolicyWithName": "Excluir política {{actionName}}",
   "jobTemplate": "Modelo de tarefa",
   "workflowJobTemplate": "Modelo de tarefa do fluxo de trabalho",
   "hostsLimit": "Limite de hosts (opcional)",
@@ -83,14 +83,10 @@
   "actionCategory": "Categorias de ação",
   "value": "Valor",
   "type": "Tipo",
-  "automationPoliciesWithCount": "Políticas de automação ({{count}})",
-  "automationPolicies": "Políticas de automação",
   "copyOf": "(Cópia de) {{name}}",
   "searchActions": "Ações de procura",
   "searchOptimizations": "Otimizações de procura",
   "hostsLimitHelpText": "Limitar a execução ao host de destino especificado. Selecione o valor que corresponde à forma como o sistema é representado no inventário Ansible ou insira uma sequência suportada pela sintaxe de limite Ansible.",
-  "aiEngine": "Mecanismo de IA",
-  "engine": "Mecanismo",
   "eventSimilarity": "Similaridade de evento",
   "close": "Fechar",
   "tag": "Marcar",
@@ -111,6 +107,34 @@
   "triggeringEvent": "Evento acionador",
   "probableRootCause": "Causa raiz provável",
   "contextFor": "Contexto para:",
+  "backToPolicies": "Voltar para políticas",
+  "backToEvent": "Voltar ao evento",
+  "recommendation": "Recomendação",
+  "userCreated": "Usuário criado",
+  "successRate": "Pontuação de sucesso",
+  "optimization": "Otimização",
+  "viewRunAction": "Visualizar e executar ação",
+  "viewRunPolicy": "Visualizar e executar política",
+  "viewPolicyDashboard": "Visualizar painel de políticas",
+  "editPolicy": "Editar política",
+  "deletePolicy": "Exclua a política",
+  "viewActionDashboard": "Visualizar painel de ação",
+  "createPolicy": "Criar política",
+  "recommendedActionsExplanability": {
+    "linkExplanation": "O Instana usa algoritmos e integrações para recomendar ações para eventos.",
+    "link": "Saiba mais sobre cada tipo de recomendação.",
+    "algorithmSectionText1": "<strong>Similaridade de eventos -</strong> As assinaturas de eventos acionados por incidentes são comparadas com as assinaturas de eventos configuradas nas políticas. Uma pontuação é calculada e normalizada. A ação configurada na política recebe uma pontuação de evento para evento.",
+    "algorithmSectionText2": "<strong>NLP (Processamento de Linguagem Natural) -</strong> As assinaturas de eventos acionados por incidentes são comparadas com as assinaturas de ações no catálogo de ações. As assinaturas incluem o nome, a descrição, o tipo de entidade e as tags. Uma pontuação é calculada e normalizada.",
+    "algorithmSectionText3": "<strong>Taxa de sucesso -</strong> As ações recebem uma pontuação com base na taxa de sucesso da ação quando executadas em relação a ocorrências anteriores de um evento.",
+    "sectionDescription": "O Instana usa algoritmos predefinidos baseados em assinaturas de eventos que são criadas quando ocorre um incidente. Há três tipos:",
+    "sectionHeading": "Recomendações do Instana",
+    "optimizations": "Otimizações",
+    "optimizationsExplanation": "Se a entidade referenciada por um incidente tiver ações IBM Turbonomic associadas a ela, essas ações serão recomendadas com base na sua pontuação de NLP.",
+    "algorithms": "Algoritmos",
+    "policiesExplanation": " Quando é gerado um evento que corresponde às condições especificadas em um ativador de política, a política é listada como uma ação recomendada.",
+    "learnMoreLink": "Saiba mais sobre as recomendações de ação em IBM Docs."
+  },
+  "triggerType": "Tipo de acionador",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Configuração da ação",
     "actionDetails": "Fornecer detalhes da ação",
@@ -246,7 +270,6 @@
     "confidence_high": "Alta",
     "bodyDescription": "Dados associados à solicitação de HTTP.",
     "confidence": "{{context}}",
-    "confidenceHelpText": "Esta ação foi recomendada com base em: {{source}}",
     "http": "HTTP",
     "confidenceTitle": "Confiança",
     "run": "Executar o",
@@ -433,8 +456,11 @@
     "createANewPolicy": "Crie uma nova política",
     "configurePolicyEntityName": "Configurar política: {{entityName}}",
     "1PolicyDetails": "1. Detalhes da política",
+    "policyDetails": "Detalhes da política",
     "2TriggerConfiguration": "2. Configuração do acionador",
+    "triggerConfiguration": "Configuração do acionador",
     "3ActionConfiguration": "3. Configuração de ação",
+    "actionConfiguration": "Configuração da ação",
     "showsUpInTheListOfPolicies": "Aparece na lista de políticas. Deve ser exclusivo e significativo.",
     "showsUpInThePolicyDescription": "Aparece na descrição da política. Deve ser o mais descritivo possível.",
     "manual": "Manual",
@@ -493,23 +519,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "As políticas foram criadas com sucesso.",
-        "content": "A política {{count}} foi criada com sucesso.",
         "content_plural": "{{count}} foram criadas com sucesso.",
         "content_0": "{{count}} foram criadas com sucesso.",
         "content_1": "{{count}} foram criadas com sucesso.",
         "content_2": "{{count}} foram criadas com sucesso."
-      },
-      "failure": {
-        "title": "Falha ao criar políticas.",
-        "content": "Houve um problema ao criar as políticas: {{error}}"
       }
     },
     "deleteDialog": {
       "success": "A política foi excluída com sucesso.",
       "failure": "Falha ao excluir a política."
     },
-    "createPolicies": "Criar políticas",
     "websiteSmartAlert": "Alerta inteligente do website"
   },
   "infoPanel": {
@@ -593,9 +612,9 @@
       },
       "section2": {
         "section2Title": "Campos de prompt de entrada",
-        "section2EventName": "<strong>Nome do evento.</strong> O nome do incidente, evento ou alerta.",
-        "section2Description": "<strong>Descrição do evento.</strong> A descrição do incidente ou evento.",
-        "section2Entitytype": "<strong>Tipo de entidade do evento.</strong> O tipo de entidade associada ao incidente ou evento."
+        "section2EventName": "<strong>Nome do evento -</strong> O nome do incidente, evento ou alerta.",
+        "section2Description": "<strong>Descrição do evento -</strong> A descrição do incidente ou evento.",
+        "section2Entitytype": "<strong>Tipo de entidade do evento -</strong> O tipo de entidade associada ao incidente ou evento."
       },
       "section3": {
         "AIModel": "Modelo de IA"

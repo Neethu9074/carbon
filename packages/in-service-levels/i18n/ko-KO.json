@@ -27,6 +27,10 @@
       "sloLimitReachedError": "SLO(Service Level Objective) 구성의 최대 수({{0}})에 도달했습니다. 이 한계를 늘리도록 요청하려면 Instana 지원에 문의하십시오."
     },
     "traffic": "트래픽",
+    "statuses": {
+      "label_red": "목표에서 벗어남",
+      "label_green": "목표 이내"
+    },
     "indicator": {
       "type": "알 수 없는 유형",
       "type_eventBased": "이벤트 개수",
@@ -242,7 +246,7 @@
   "sloChart": {
     "sloFormatter": {
       "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
-      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}\" })"
     },
     "sloChartSummary": {
       "status": "상태",
@@ -271,17 +275,40 @@
   },
   "sloList": {
     "components": {
+      "sloListTable": {
+        "serviceLevelsCreateButton": "서비스 수준 목표 설정하기",
+        "filterLabel": "필터",
+        "clearLabel": "지우기",
+        "filterClose": "닫기",
+        "sloListErrorTitle": "문제가 발생함",
+        "sloListErrorDescription": "예상치 않은 오류가 발생했습니다. 페이지를 새로 고치거나 나중에 다시 시도하십시오.",
+        "emptyListStateTitle": "결과를 찾을 수 없음",
+        "emptyListStateSubtitle": "원하는 항목을 찾을 수 있도록 검색 또는 필터 옵션을 조정해 보십시오.",
+        "emptyListStateIllustrationDescription": "사용 가능한 데이터가 없음 표시"
+      },
+      "sloListFilters": {
+        "filterStatus": "상태",
+        "filterTags": "태그",
+        "filterBlueprint": "블루프린트",
+        "filterEntity": "엔티티"
+      },
       "sloEntityInfo": {
         "service": "서비스: {{label}}",
         "endpoint": "엔드포인트: {{label}}",
         "tooltip": "{{context}} SLO"
       },
-      "entityTypeFilter": {
-        "placeholder": "엔티티 유형"
+      "statusFilter": {
+        "sloStatusAll": "모두"
       },
       "sloTagFilter": {
-        "placeholder": "태그",
-        "noTagsInfo": "사용 가능한 태그 없음"
+        "placeholder": "태그 선택",
+        "noTagsInfo": "사용 가능한 태그 없음",
+        "clearFilters": "필터 지우기",
+        "filters": "알 수 없는 필터",
+        "filters_entityType": "엔티티 유형: $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
+        "filters_blueprint": "블루프린트: $t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
+        "filters_sloStatus": "상태: $t(in-service-levels:general.statuses.label, {\"context\":\"{{value}}\"})",
+        "filters_tags": "태그: {{value}}"
       },
       "sloStatusColumnContent": {
         "target": "대상 {{target}}"
@@ -341,7 +368,7 @@
         "totalTraffic": "총계: {{value}}"
       },
       "burnRateKpiCard": {
-        "burnRateInfo": "선택한 SLO 기간 동안의 소모율"
+        "burnRateInfo": "선택한 SLO 시간 창에서의 소진율"
       },
       "errorBudgetChart": {
         "title": "오류 예산"

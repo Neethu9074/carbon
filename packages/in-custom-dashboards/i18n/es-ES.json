@@ -1,4 +1,6 @@
 {
+  "cancel": "Cancelar",
+  "save": "Guardar",
   "editor": {
     "copyOf": "Copia de {{title}}"
   },
@@ -10,6 +12,13 @@
         "dashboardAJson": "Panel de control como JSON",
         "editDashboard": "Editar panel de control"
       }
+    },
+    "editTeamsDialog": {
+      "title": "Editar equipos",
+      "description": "Seleccione los equipos que desea asociar con este panel de control.",
+      "calloutMessage": "La adición de equipos permitirá a los miembros del equipo ver y editar este panel de control. También se reflejará en la página de equipos dentro de la configuración.",
+      "selectorLabel": "Equipos",
+      "chooseTeams": "Elegir equipos"
     },
     "grid": {
       "grid": {
@@ -84,6 +93,7 @@
       "addWidget": "Añadir widget",
       "tvMode": "Modo TV",
       "editName": "Editar nombre",
+      "editTeams": "Editar equipos",
       "editAsJson": "Editar como JSON",
       "viewAsJson": "Ver como JSON",
       "copyAllWidgets": "Copiar todos los widgets",
