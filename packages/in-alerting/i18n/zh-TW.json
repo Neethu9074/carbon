@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "警示層次",
     "alertPropertyInfosLabelTriggersIncident": "觸發發生事件",
     "alertPropertyInfosLabelDescription": "說明",
-    "noChannelSelectedText": "目前，您尚未選取警示通道，而不會收到任何警示。",
+    "noChannelSelectedText": "未新增通道。 按一下「選取警示通道」即可開始。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他過濾器",
     "groupBy": "分組方式",
     "noChannelAvailable": "沒有可用的警示通道",
@@ -167,6 +167,7 @@
     "titleNoSmartAlertsCreated": "未建立任何智慧型警示",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "smartAlertsTitle": "智慧型警示",
+    "titleNoSmartAlertsConfiguredFound": "找不到智慧警示配置",
     "alertChannelList": {
       "selectAllWarning": "選取所有警告",
       "selectAllCritical": "選取所有嚴重的",
@@ -912,7 +913,6 @@
         "criticalAlertPreviewLabel": "重要預覽",
         "alertPreviewMissingThresholdInfo": "沒有可用的預覽。 請至少選取一個臨界值才能查看預覽。",
         "alertPropertiesAlertProperties": "警示內容",
-        "alertPreviewDefaultTitle": "通知標題",
         "groupingPlaceholdersMissingTooltip": "若要包含更多位置保留元，請配置群組",
         "buttonSave": "儲存",
         "buttonCreate": "建立",
@@ -998,7 +998,8 @@
         "title": "寬限期（選用）",
         "description": "選取違規臨界值不再符合後問題應保持開放的時間。 一旦過了這段時間，該問題將自動關閉。",
         "label": "選取",
-        "summary": "在不再<strong>符合 {{gracePeriodValue}}</strong> 的違規臨界值後，自動關閉問題。"
+        "defaultGracePeriod": "預設值",
+        "summary": "當違規臨界值不再滿足後，自動關閉問題"
       },
       "tearSheet": {
         "cancelModalTitle": "您確定要取消嗎？",
@@ -1008,12 +1009,15 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "違規以隨機間隔持續存在",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "違規不斷持續存在",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "當最少數量的追蹤資料受到影響時",
+          "labelUserImpactOfViolationsInSequence": "當一定數量的使用者受到影響",
           "granularity": {
             "description": "呼叫會被放置在 {{granularity}} 分鐘的視窗中；每 {{granularity}} 分鐘，為該視窗計算一個度量值"
           },
           "triggerAlert": "觸發警示",
           "triggerAfter": "觸發後",
           "tracesImpacted": "追蹤資料受到影響",
+          "numberOfUserImpactPostLabel": "或更多數量的使用者受到影響",
+          "percentageOfUserImpactPostLabel": "或更多比例的使用者受到影響時",
           "outOfConsecutiveEvaluations": "超出",
           "persistenceType": "持續性類型",
           "numberOfConsecutiveViolationsPostLabel": "連續的 {{granularity}} 分鐘視窗有違規情況",
@@ -1163,7 +1167,7 @@
         },
         "step5": {
           "title": "定義警示通道",
-          "description": "選取您希望接收此警示通知的位置"
+          "description": "選取您希望接收此警示通知的位置。"
         },
         "slowness": {
           "headline": "針對 onLoad 時間或 HTTP 延遲自動發出警示",
@@ -1349,7 +1353,7 @@
           "header": "您要為此警示設定哪些內容"
         },
         "step4": {
-          "header": "選取您希望接收此警示通知的位置"
+          "header": "選取您希望接收此警示通知的位置。"
         }
       }
     },
@@ -1494,7 +1498,7 @@
         },
         "step5": {
           "title": "定義警示通道",
-          "description": "選取您希望接收此警示通知的位置"
+          "description": "選取您希望接收此警示通知的位置。"
         },
         "slowness": {
           "headline": "HTTP 延遲自動警示",
@@ -1904,22 +1908,29 @@
         "blueprint_STATUS": "狀態",
         "blueprint_BURNED_PERCENTAGE": "錯誤預算",
         "blueprint_BURN_RATE": "消耗率",
+        "blueprint_BURN_RATE_V2": "消耗率",
         "blueprintDescription": "",
+        "burnRateAlertTypeLabel": "警示視窗類型",
+        "burnRateAlertTypeLabel_SINGLE_WINDOW": "單一警示視窗",
+        "burnRateAlertTypeLabel_MULTI_WINDOW": "長短警示視窗",
         "blueprintDescription_STATUS": "當 SLO 狀態低於臨界值時接收警示。",
         "blueprintDescription_BURNED_PERCENTAGE": "當已耗用某個百分比的錯誤預算時接收警示。",
-        "blueprintDescription_BURN_RATE": "消耗率是一個數值，表示相對於 SLO 的目標長度，誤差預算消耗的速度。",
+        "blueprintDescription_BURN_RATE_V2": "消耗率是一個數值，表示相對於 SLO 的目標長度，誤差預算消耗的速度。 ",
         "burnRateShortWindowTitle": "短時間警示視窗",
-        "burnRateShortWindowDescription": "當錯誤率在較短時間內較快超過臨界值時，就會觸發警示。 這有助於擷取因重要錯誤而突然激增的錯誤或停機時間。",
+        "burnRateShortWindowDescription": "當錯誤率在較短時間內迅速超過臨界值時，就會觸發警示。 這有助於擷取因重要錯誤而突然激增的錯誤或停機時間。",
         "burnRateDescription": "當燃燒率為<1/> <2/>時通知我",
-        "burnRateLongWindowTitle": "長警示視窗",
+        "burnRateWindowTitle_SINGLE_WINDOW": "警示視窗",
+        "burnRateWindowTitle_MULTI_WINDOW": "長警示視窗",
+        "burnRateSingleWindowDescription": "當錯誤率在指定時間內超過臨界值時，就會觸發警示。 這有助於找出隨著時間的推移而累積的問題，如果不加以處理，可能會在未來造成問題。",
         "burnRateLongWindowDescription": "當錯誤率在較長時間內超過臨界值時，就會觸發警示。 這有助於找出隨著時間的推移而累積的問題，如果不加以處理，可能會在未來造成問題。",
-        "burnRateShortWindowLongerThanLongWindowError": "短視窗不能超過長視窗。 請調整任一數值。",
+        "burnRateShortWindowLongerThanLongWindowError": "短期視窗應小於長期視窗。 請調整任一數值。",
         "burnRateTimeWindowTooLongError": "警示視窗不能超過所選取 SLO 的時間視窗。 請檢查下列 SLO：{{value}}。",
         "thresholdTitle": "臨界值：何時要收到警示？",
         "thresholdInputDescription": "",
         "thresholdInputDescription_BURNED_PERCENTAGE": "當已耗用 <1/> <2/> 百分比的錯誤預算時",
         "thresholdInputDescription_STATUS": "當 SLO 狀態 <1/> <2/> 存在時",
         "thresholdInputDescription_BURN_RATE": "評估 SLO 的最後一個 <1/>。",
+        "thresholdInputDescription_BURN_RATE_V2": "評估 SLO 的最後一個 <1/>。",
         "timeThresholdType_gracePeriod": "當條件持續存在超過指定的時間量時",
         "timeThresholdTypeTitle_gracePeriod": "當連續 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 違反條件時發出警示",
         "timeThresholdTypeTitle_cooldownPeriod": "至少必須已經過 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 事件才會結束",
@@ -1928,7 +1939,11 @@
         "alertPropertiesTitlePlaceholder_STATUS": "SLO 狀態偏低",
         "alertPropertiesDescriptionPlaceholder_STATUS": "SLO 狀態為 {{operator}} {{percentage}}。",
         "alertPropertiesTitlePlaceholder_BURN_RATE": "消耗率已超過",
-        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "SLO 的消耗率為 {{operator}} {{percentage}}。",
+        "alertPropertiesTitlePlaceholder_BURN_RATE_V2": "消耗率已超過",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "SLO 的消耗率是 {{singleWindowOperator}} {{singleWindowPercentage}}。",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2": "SLO 的消耗率是 {{singleWindowOperator}} {{singleWindowPercentage}}。",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_SINGLE": "SLO 的消耗率是 {{singleWindowOperator}} {{singleWindowPercentage}}。",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_MULTI": "SLO 長期視窗的消耗率為 {{longWindowOperator}} {{longWindowPercentage}}，而短期視窗的消耗率為 {{shortWindowOperator}} {{shortWindowPercentage}}。",
         "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "剩餘錯誤預算偏低",
         "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "已耗用 {{operator}} {{percentage}} 錯誤預算。",
         "alertPropertiesIncidentWarning": "發生事件僅適用於與應用程式相關聯的 SLO"
@@ -1944,8 +1959,10 @@
         "blueprintLabel": "藍圖",
         "blueprintInfo": "",
         "blueprintInfo_BURN_RATE": "消耗率",
+        "blueprintInfo_BURN_RATE_V2": "消耗率",
         "blueprintInfo_BURNED_PERCENTAGE": "耗用的錯誤預算",
         "blueprintInfo_STATUS": "狀態",
+        "singleWindowLabel": "警示視窗",
         "longWindowLabel": "長視窗",
         "shortWindowLabel": "短視窗",
         "timeWindowInfo_minute": "{{count}} 分鐘",
@@ -1966,10 +1983,14 @@
         "coolDownPeriodDescription": "至少必須已經過 {{value}}，事件才會結束。"
       },
       "alertList": {
-        "threshold": "臨界值：{{value}}",
-        "threshold_BURN_RATE": "消耗率：{{value}}",
-        "threshold_BURNED_PERCENTAGE": "臨界值：{{value}}",
-        "threshold_STATUS": "臨界值：{{value}}",
+        "threshold": "{{metric}}，臨界值 {{operator}} {{value}}",
+        "threshold_BURN_RATE": "{{metric}}，臨界值 {{operator}} {{value}}",
+        "singleWindowThreshold_BURN_RATE_V2": "{{metric}}，臨界值 {{operator}} {{value}}",
+        "longWindowThreshold_BURN_RATE_V2": "{{metric}}、臨界值（長）{{longWindowOperator}} {{longWindowValue}}、（短）{{shortWindowoperator}} {{shortWindowValue}}",
+        "shortWindowThreshold_BURN_RATE_V2": "{{metric}}、臨界值（長）{{operator}} {{value}} &（短）< 1",
+        "threshold_BURNED_PERCENTAGE": "{{metric}}，臨界值 {{operator}} {{value}}",
+        "threshold_STATUS": "{{metric}}，臨界值 {{operator}} {{value}}",
+        "alertListSloAppliedColumnName": "已套用 SLO",
         "sloApplied": "已套用 SLO",
         "sloCount": "{{count}} 個 SLO",
         "sloCount_plural": "{{count}} 個 SLO",
@@ -1978,8 +1999,13 @@
         "sloCount_2": "{{count}} 個 SLO",
         "title": "",
         "title_BURN_RATE": "消耗率",
+        "title_BURN_RATE_V2": "消耗率",
         "title_BURNED_PERCENTAGE": "耗用的錯誤預算",
-        "title_STATUS": "狀態"
+        "title_STATUS": "狀態",
+        "errorBudgetLabel": "錯誤預算",
+        "deprecatedLabel": "已淘汰",
+        "noDataHeader": "無 Slo 智慧警示",
+        "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       },
       "messages": {
         "successTitle": "",

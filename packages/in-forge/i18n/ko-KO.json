@@ -84,6 +84,16 @@
   "pluginName_application_1": "애플리케이션",
   "pluginName_application_2": "애플리케이션",
   "pluginName_application": "애플리케이션",
+  "pluginName_argocdCluster_plural": "Argo CD 클러스터",
+  "pluginName_argocdCluster_0": "Argo CD 클러스터",
+  "pluginName_argocdCluster_1": "Argo CD 클러스터",
+  "pluginName_argocdCluster_2": "Argo CD 클러스터",
+  "pluginName_argocdCluster": "Argo CD 클러스터",
+  "pluginName_argocdApplication_plural": "Argo CD 애플리케이션",
+  "pluginName_argocdApplication_0": "Argo CD 애플리케이션",
+  "pluginName_argocdApplication_1": "Argo CD 애플리케이션",
+  "pluginName_argocdApplication_2": "Argo CD 애플리케이션",
+  "pluginName_argocdApplication": "Argo CD 애플리케이션",
   "pluginName_availabilityZone_plural": "가용성 구역",
   "pluginName_availabilityZone_0": "가용성 구역",
   "pluginName_availabilityZone_1": "가용성 구역",
@@ -1018,6 +1028,11 @@
   "pluginName_ibmiActiveJobsInfo_1": "IBM i의 활성 작업 정보",
   "pluginName_ibmiActiveJobsInfo_2": "IBM i의 활성 작업 정보",
   "pluginName_ibmiActiveJobsInfo": "IBM i의 활성 작업 정보",
+  "pluginName_ibmiAuditJournalsInfo_plural": "IBM i에서 찾은 감사 저널 정보",
+  "pluginName_ibmiAuditJournalsInfo_0": "IBM i에서 찾은 감사 저널 정보",
+  "pluginName_ibmiAuditJournalsInfo_1": "IBM i에서 찾은 감사 저널 정보",
+  "pluginName_ibmiAuditJournalsInfo_2": "IBM i에서 찾은 감사 저널 정보",
+  "pluginName_ibmiAuditJournalsInfo": "IBM i에서 찾은 감사 저널 정보",
   "pluginName_ibmiDiskInfo_plural": "IBM i의 디스크 정보",
   "pluginName_ibmiDiskInfo_0": "IBM i의 디스크 정보",
   "pluginName_ibmiDiskInfo_1": "IBM i의 디스크 정보",
@@ -1295,6 +1310,11 @@
   "pluginName_lxc_1": "LXC 컨테이너",
   "pluginName_lxc_2": "LXC 컨테이너",
   "pluginName_lxc": "LXC 컨테이너",
+  "pluginName_mapRNode": "MapR 노드",
+  "pluginName_mapRNode_plural": "MapR 노드",
+  "pluginName_mapRNode_0": "MapR 노드",
+  "pluginName_mapRNode_1": "MapR 노드",
+  "pluginName_mapRNode_2": "MapR 노드",
   "pluginName_mariaDbDatabase_plural": "MariaDB",
   "pluginName_mariaDbDatabase_0": "MariaDB",
   "pluginName_mariaDbDatabase_1": "MariaDB",
@@ -1401,11 +1421,13 @@
   "pluginName_oTelLLM_1": "OTEL LLMonitor",
   "pluginName_oTelLLM_2": "OTEL LLMonitor",
   "pluginName_oTelLLM": "OTEL LLMonitor",
+  "pluginName_oTelVLLM": "OTel vLLM 서버",
   "pluginName_oTelVLLM_plural": "OTel vLLM 서버",
   "pluginName_oTelVLLM_0": "OTel vLLM 서버",
   "pluginName_oTelVLLM_1": "OTel vLLM 서버",
   "pluginName_oTelVLLM_2": "OTel vLLM 서버",
-  "pluginName_oTelVLLM": "OTel vLLM 서버",
+  "pluginName_genai": "GenAI",
+  "pluginName_genai_plural": "GenAI",
   "pluginName_oTelDcgm_plural": "OTEL Dcgm",
   "pluginName_oTelDcgm_0": "OTEL Dcgm",
   "pluginName_oTelDcgm_1": "OTEL Dcgm",
@@ -1889,6 +1911,11 @@
   "pluginName_nutanixDatacenter_1": "Nutanix 데이터 센터",
   "pluginName_nutanixDatacenter_2": "Nutanix 데이터 센터",
   "pluginName_nutanixDatacenter": "Nutanix 데이터 센터",
+  "pluginName_linuxKVMHypervisorHost": "Linux KVM 하이퍼바이저 호스트",
+  "pluginName_linuxKVMHypervisorHost_plural": "Linux KVM 하이퍼바이저 호스트",
+  "pluginName_linuxKVMHypervisorHost_0": "Linux KVM 하이퍼바이저 호스트",
+  "pluginName_linuxKVMHypervisorHost_1": "Linux KVM 하이퍼바이저 호스트",
+  "pluginName_linuxKVMHypervisorHost_2": "Linux KVM 하이퍼바이저 호스트",
   "pluginName_xenServerHost_plural": "XenServer 호스트",
   "pluginName_xenServerHost_0": "XenServer 호스트",
   "pluginName_xenServerHost_1": "XenServer 호스트",
@@ -9859,7 +9886,11 @@
         "allocatedSize": "할당된 크기",
         "freeSize": "여유 크기",
         "sharedMemoryStats": "공유 메모리",
-        "rowStoreMemoryStats": "행 저장소 메모리"
+        "rowStoreMemoryStats": "행 저장소 메모리",
+        "upTime": "가동 시간",
+        "totalCpuUsage": "CPU 사용량",
+        "totalMemoryUsage": "메모리 사용량",
+        "totalConnections": "활성 연결"
       },
       "systemId": "시스템 ID",
       "databaseName": "데이터베이스 이름",
@@ -9909,7 +9940,6 @@
       "tcpSegmentsSentOut": "전송됨",
       "tcpSegmentsRetransmitted": "재전송됨",
       "tcpBadSegmentsReceived": "끊어짐",
-      "upTime": "작동 시간",
       "installTime": "데이터베이스 설치 대상"
     },
     "service": {
@@ -11059,7 +11089,7 @@
         "aixDeviceInterrupts": "디바이스 인터럽트 수",
         "avgRunQueue": "평균 실행 큐(1h)",
         "notCollected": "수집되지 않음",
-        "systemCalls": "시스템 호출 수/초",
+        "systemCalls": "초당 호출 수",
         "systemReads": "읽기/초",
         "systemWrites": "쓰기/초",
         "blockReads": "블록 읽기 수/초",
@@ -11078,6 +11108,9 @@
         "processesIdle": "유휴",
         "processesStopped": "중지됨",
         "CpuProcess": "프로세스 통계",
+        "stolenIdleCyclesPct": "도난당한 유휴 주기",
+        "physicalConsumption": "물리적 CPU 소비",
+        "userSessions": "사용자 세션",
         "load": "로드",
         "memory": "메모리",
         "used": "사용됨",
@@ -11215,15 +11248,6 @@
       "aixDeviceInterrupts": "디바이스 인터럽트 수",
       "avgRunQueue": "평균 실행 큐(1h)",
       "notCollected": "수집되지 않음",
-      "systemCalls": "시스템 호출 수/초",
-      "systemReads": "읽기/초",
-      "systemWrites": "쓰기/초",
-      "blockReads": "블록 읽기 수/초",
-      "blockWrites": "블록 쓰기 수/초",
-      "nonBlockReads": "비블록 읽기 수/초",
-      "nonBlockWrites": "비 블록 쓰기 수/초",
-      "logicalBlockReads": "논리 블록 읽기 수/초",
-      "logicalBlockWrites": "논리적 블록 쓰기 수/초",
       "hypv": "하이퍼바이저",
       "user": "사용자",
       "system": "시스템",
@@ -11953,6 +11977,23 @@
       },
       "sidebar": {
         "ibmiActiveJobsInfo": "IBM i 정보",
+        "hostName": "호스트 이름"
+      }
+    },
+    "ibmiAuditJournalsInfo": {
+      "name": "IBM i에서 찾은 감사 저널 정보",
+      "dashboard": {
+        "tables": {
+          "auditJournals": {
+            "name": "감사 저널",
+            "entryType": "엔티티 유형",
+            "entryTypeDetail": "항목 유형 세부 정보",
+            "entryCount": "입력 수"
+          }
+        }
+      },
+      "sidebar": {
+        "ibmiAuditJournalsInfo": "IBM i 정보",
         "hostName": "호스트 이름"
       }
     },
@@ -13266,7 +13307,12 @@
       }
     },
     "kubecost": {
-      "label": "Kubecost"
+      "label": "Kubecost",
+      "instanaKubecostDocumentationUrl": "https://ibm.biz/kubecost",
+      "kubecostInvalidUrl": "Kubecost: 제공된 URL <code>{{connectionUrl}}</code>가 유효하지 않거나 잘못된 것으로 보입니다. 오타나 누락된 호스트 정보가 있는지 확인하십시오.",
+      "kubecostUnknownCluster": "Kubecost: 클러스터 ID <code>{{clusterId}}</code>가 Kubecost 응답에서 발견되지 않았습니다. 부정확하거나 적극적으로 모니터링되지 않을 수 있습니다.",
+      "kubecostUnableToConnect": "Kubecost: <code>{{connectionUrl}}</code> 연결 실패, 상태 코드 {{statusCode}}. URL 주소가 유효하고 연결 가능한지 확인하십시오.",
+      "kubecostUnableToAuthenticate": "Kubecost: 인증할 수 없습니다. 유효한 API 키가 구성되어 있는지 확인하십시오."
     },
     "kubernetesCluster": {
       "noActivity": "활동 없음",
@@ -13518,7 +13564,8 @@
       "cpuLimits": "CPU 한계",
       "memoryRequests": "메모리 요청",
       "memoryLimits": "메모리 한계",
-      "conditionNotReady": "팟(Pod) 상태 준비 안됨"
+      "conditionNotReady": "팟(Pod) 상태 준비 안됨",
+      "cpuUsageToCpuRequests": "CPU 요청 할당"
     },
     "kubernetesService": {
       "kubernetesService": "Kubernetes 서비스"
@@ -13834,6 +13881,18 @@
       "gcBeforePercentage": "GC 이전 백분율",
       "gcAfterPercentage": "GC 이후 백분율"
     },
+    "nutanixHost": {
+      "cpuUsage": "CPU 사용량",
+      "memoryUsage": "메모리 사용량",
+      "datacenterAverageIoLatency": "호스트 평균 IO 지연",
+      "totalIoSizeBytes": "전송된 호스트 IO 바이트",
+      "datacenterIoOps": "데이터 센터 운영",
+      "controllerReadIops": "컨트롤러 읽기 작업",
+      "controllerWriteIops": "컨트롤러 쓰기 작업",
+      "contentCacheHitPpm": "컨텐츠 캐시 적중률",
+      "contentCacheLookups": "컨텐츠 캐시 조회",
+      "contentCacheMemoryUsage": "컨텐츠 캐시 메모리 사용량"
+    },
     "oTelDatabase": {
       "name": "데이터베이스 이름",
       "kind": "유형",
@@ -14000,8 +14059,19 @@
         "totalCountByService": "서비스별 총 요청 수"
       }
     },
+    "genai": {
+      "genai": "GenAI",
+      "watsonx": "Watsonx",
+      "bedrock": "Bedrock",
+      "crewai": "Crew AI",
+      "langchain": "Langchain",
+      "groq": "Groq",
+      "anthropic": "Anthropic",
+      "sagemaker": "Sagemaker"
+    },
     "oTelVLLM": {
       "oTelVLLM": "OTel vLLM 서버",
+      "vllm": "vLLM",
       "kind": "유형",
       "serviceName": "서비스 이름",
       "entityType": "엔티티 유형",
@@ -14510,6 +14580,19 @@
       "labelDatabaseDiskWrites": "데이터베이스 디스크 쓰기",
       "labelDatabaseBytesReceived": "수신된 데이터베이스 바이트",
       "labelDatabaseBytesSent": "전송된 데이터베이스 바이트"
+    },
+    "maprNode": {
+      "pluginName": "MapR 노드",
+      "pid": "프로세스 ID",
+      "nodeName": "노드 이름",
+      "health": "상태",
+      "utilization": "활용도",
+      "configuredService": "구성된 서비스",
+      "rackTopology": "랙 토폴로지",
+      "healthDesc": "상태 설명",
+      "cpus": "CPU 수",
+      "disks": "디스크 수",
+      "connectErrorIssueDescription": "에이전트가 MapR에 연결할 수 없습니다."
     },
     "tibcoASNode": {
       "connectErrorIssueDescription": "에이전트가 FTL 영역 서비스에 연결할 수 없습니다. 연결에 실패했으며 오류가 발생했습니다. <code>{{error}}</code>",
@@ -17791,7 +17874,17 @@
       "traceState": "추적 상태",
       "error": "오류",
       "tags": "태그",
-      "resource": "자원"
+      "resource": "자원",
+      "events": "스팬 이벤트",
+      "eventName": "이벤트 이름",
+      "timestamp": "시간소인",
+      "links": "스팬 링크",
+      "traceId": "추적 ID",
+      "spanId": "스팬 ID",
+      "eventNamePrefix": "이름: ",
+      "traceIdPrefix": "추적 ID: ",
+      "eventDetails": "이벤트 세부사항",
+      "linkDetails": "링크 세부사항"
     },
     "otelBatchSynthetic": {
       "indexReturn": "내부 트리거",

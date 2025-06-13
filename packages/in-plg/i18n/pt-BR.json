@@ -68,7 +68,8 @@
       "runTheInstanaAgentContainerImage": "Execute a imagem do contêiner do agente Instana",
       "upgradeTheInstanaAgentContainerImage": "Faça upgrade da imagem do contêiner do agente Instana",
       "installAgentOnDocker": "Instale o agente no Docker",
-      "configurationOptions": "Opções de configuração"
+      "configurationOptions": "Opções de configuração",
+      "optionallyEnterTheAgentZone": "Opcionalmente, insira a zona do agente da qual você deseja que ele faça parte."
     },
     "jvmVendor": {
       "azulZulu11": "Azul Zulu 11",
@@ -208,7 +209,6 @@
       },
       "iamPermissions": "Permissões do IAM",
       "trustRelationships": "Relacionamentos de confiança",
-      "enterAClusterNameAndOptionallyTheAgentZone": "Insira um nome de cluster e, opcionalmente, a zona do agente da qual você deseja que o cluster faça parte.",
       "awsLambdaNodeJsAutotrace": "A maneira preferencial de configurar funções AWS Lambda com base em Node.js 10.x (ou mais novo) para rastreio é a camada Lambda da Instana com AutoTrace.",
       "selectAwsRegionAndLambdaHandler": "Selecione a região AWS e insira o manipulador de Lambda atual",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Configure o manipulador de agrupamento automático do Instana como o manipulador para a função Lambda.",
@@ -539,11 +539,21 @@
     "kubecost": {
       "title": "Visibilidade de custos com o IBM Kubecost",
       "description": "Comece gratuitamente e obtenha informações sobre custos e estimativas de economia para seus clusters.",
-      "buttonName": "Explorar agora"
+      "buttonName": "Saiba mais"
     },
     "logging": {
       "title": "Criação de log do Instana",
       "description": "Agora são aceitos logs em qualquer lugar através do OTel, com retenção mais longa de até 90 dias como recurso complementar.",
+      "buttonName": "Explorar agora"
+    },
+    "turbonomic": {
+      "title": "Ações de recursos, com tecnologia Turbonomic",
+      "description": "Veja como as ações do recurso podem ajudar suas aplicações.",
+      "buttonName": "Saiba mais"
+    },
+    "concert": {
+      "title": "Priorizar CVEs com IBM Concert",
+      "description": "Descubra informações cruciais sobre suas operações e automatize ações.",
       "buttonName": "Saiba mais"
     },
     "startIntegrating": {
@@ -728,6 +738,7 @@
         "name": "Nome",
         "owner": "Proprietário",
         "permissions": "Permissões",
+        "teams": "equipes",
         "searchPlaceholderLabel": "painéis",
         "addButtonLabel": "dashboard",
         "viewAllLabel": "painéis"
@@ -804,6 +815,7 @@
       },
       "buttonNames": {
         "deployAgent": "Implementar agente",
+        "installDataSource": "Instalar uma origem de dados",
         "addUser": "Incluir usuário",
         "documentation": "Documentação IBM",
         "releaseNotes": "Notas sobre a liberação",
@@ -873,5 +885,36 @@
     "title": "Gerenciar seu perfil",
     "description": "Visualize e atualize seu perfil, ajuste as configurações de privacidade e efetue logout - tudo em um só lugar.",
     "buttonText": "Concluído"
+  },
+  "trialNoviceToProDialog": {
+    "welcometitle": "Bem-vindo, {{username}}!",
+    "description": "Primeiro, o que melhor descreve sua função?",
+    "getStarted": "Pronto para iniciar?",
+    "descriptionFreeTrial": "Implemente um agente para ver seus próprios dados em ação.",
+    "descriptionSandbox": "Ou explore o Instana no Ambiente de simulação – nosso ambiente de demonstração interativo com dados de exemplo.",
+    "trialButtonData": "Começar com meus próprios dados",
+    "sandboxButtonData": "Começar com dados de amostra",
+    "roles": {
+      "frontendDeveloper": "Desenvolvedor de front-end",
+      "backendDeveloper": "Desenvolvedor de back-end",
+      "businessManager": "Gerente de negócios",
+      "devOpsEngineer": "Engenheiro de DevOps",
+      "siteReliabilityEngineer": "Engenheiro de confiabilidade do site",
+      "itOperations": "Operações de TI",
+      "itDecisionMaker": "Tomador de decisões de TI",
+      "support": "Suporte",
+      "productManager": "Gerente de produto",
+      "preferNotToSay": "Preferir não dizer",
+      "other": "Outro"
+    },
+    "steps": {
+      "stepOne": "Função",
+      "stepTwo": "Introdução"
+    },
+    "checkboxText": "Marque esta caixa de seleção se desejar participar de entrevistas e pesquisas opcionais com nossa equipe de produtos",
+    "specifyRole": "Especifique sua função",
+    "roleName": "Nome da função",
+    "yourRole": "Sua função",
+    "next": "Avançar"
   }
 }

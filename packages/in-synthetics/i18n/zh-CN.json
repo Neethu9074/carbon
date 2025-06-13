@@ -38,7 +38,7 @@
         "webpageActionTitle": "此浏览器简单（Web 页面操作）测试的名称",
         "browserScriptTitle": "此浏览器脚本测试的名称",
         "labelName": "测试的名称",
-        "labelDescription": "描述",
+        "labelDescription": "描述（可选）",
         "labelFrequency": "频率（分钟）",
         "labelFrequencyHour": "频率（小时）",
         "labelApplication": "选择应用程序",
@@ -150,14 +150,13 @@
         "locationsLabel": "位置",
         "locationsTitle": "位置：此测试将在何处运行？",
         "scheduleLabel": "调度",
-        "scheduleTitle": "调度：此测试将在何时运行？",
+        "scheduleTitle": "调度：此测试将如何运行？",
         "identifyLabel": "识别",
         "identifyTitle": "识别：测试将要做什么？",
-        "customPropertiesTitle": "定制属性",
+        "customPropertiesTitle": "定制属性（可选）",
         "frequency": "此测试将每 {{frequencyValue}} 分钟运行一次。",
         "frequencyHours": "此测试将每 {{frequencyHours}} 小时运行一次。",
         "frequencyHoursAndMinutes": "此测试将每 {{frequencyHours}} 小时 {{frequencyMinutes}} 分钟运行一次。",
-        "simultaneous": "同时",
         "simultaneousDescription": "此测试将在所选的每个位置同时运行。",
         "configStep": {
           "allowInsecure": "允许不安全",
@@ -204,7 +203,7 @@
           "node22BrowserUploadFileDescription": "您可以上传单个 .js、.cjs 或 .mjs 文件，也可以上传包含捆绑 .js、.cjs 或 .mjs 文件的 .zip 文件，还可以上传 Selenium IDE 录制的 .side 脚本。",
           "sideFileUploadedMessage": "无法修改或验证 Selenium 脚本",
           "bundleFileNotSupportedMessage": "选择了不受支持的文件。 仅在高级方式下支持捆绑软件。",
-          "timeoutFieldLabel": "超时",
+          "timeoutFieldLabel": "时区（可选）",
           "timeUnitsLabel": "时间单位",
           "timeoutFieldOptionMinutes": "分钟 (m)",
           "timeoutFieldOptionSeconds": "秒 (s)",
@@ -213,7 +212,7 @@
           "invalidTimeoutvalue": "超时值无效",
           "invalidTimeoutUnit": "超时单元无效",
           "timeoutFieldDescription": "此测试将在以下时间之后失败：",
-          "retryFieldLabel": "重试策略",
+          "retryFieldLabel": "重试策略（可选）",
           "retryFieldOptionNone": "无",
           "retryFieldOptionOnce": "重试一次",
           "retryFieldOptionTwice": "重试两次",
@@ -224,6 +223,13 @@
           "mainFileNameHelperText": "请提供此 .zip 文件中包含测试入口点的文件名",
           "recordVideo": "记录用户在发生故障时的操作",
           "acceptSelfSignedCertificate": "接受自签名证书",
+          "operatorLabel": "条件性",
+          "operatorOptionMatches": "匹配项",
+          "operatorOptionContains": "包含",
+          "operatorOptionIs": "是",
+          "operatorOptionNotMatches": "无匹配项",
+          "deleteButtonLabel": "删除",
+          "addFieldLabel": "添加字段",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL 是正在测试 DNS 解析的域名",
@@ -237,14 +243,7 @@
             "assertionsTitle": "断言（可选）",
             "assertionsSubtitle": "这些字段是可选的，但填写时必须全部为 true，测试才能成功。",
             "recordTypeLabel": "记录类型",
-            "operatorLabel": "条件性",
-            "operatorOptionMatches": "匹配项",
-            "operatorOptionContains": "包含",
-            "operatorOptionIs": "是",
-            "operatorOptionNotMatches": "无匹配项",
             "resolutionRecordLabel": "解析记录",
-            "deleteButtonLabel": "删除",
-            "addRecordTypeLabel": "添加字段",
             "recursiveLookupLabel": "递归查找",
             "dnsRadioButtonOnLabel": "ON",
             "dnsRadioButtonOffLabel": "关闭",
@@ -262,7 +261,25 @@
             },
             "assertionsNotificationTitle": "所需断言",
             "assertionsNotificationDescription": "使用“所有与断言相关内容”查询类型时，至少添加一个断言。"
-          }
+          },
+          "ssl": {
+            "attributeLabel": "属性",
+            "valueLabel": "值",
+            "attributeValueLabel": "属性值",
+            "invalidAttributeValue": "属性值无效",
+            "assertion": {
+              "commonName": "issuedTo.commonName",
+              "alternativeName": "issuedTo.alternativeName",
+              "organization": "issuedBy.organization",
+              "tlsVersion": "tls.version"
+            }
+          },
+          "hostDetailsSectionLabel": "主机详细信息",
+          "headerSectionLabel": "添加标题（可选）",
+          "testCriteriaLabel": "测试条件",
+          "validationsSectionLabel": "添加验证（可选）",
+          "timeoutAndRetrySectionLabel": "超时和重试策略（可选）",
+          "additionalOptionsSectionLabel": "附加选项"
         },
         "loadMore": "加载更多",
         "selectTests": {
@@ -294,7 +311,7 @@
         "associationsLabel": "关联",
         "applicationsTitle": "关联：选择要与此合成测试关联的应用程序",
         "applicationsDescription": "将合成测试与某个应用程序关联起来，就会向所有有权访问该应用程序的用户授予访问权限。",
-        "associationsTitle": "关联：选择要与此合成测试关联的内容",
+        "associationsTitle": "关联：选择要与此合成测试关联的内容（可选）",
         "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。"
       },
       "associations": {
@@ -474,11 +491,16 @@
         "tests": "测试",
         "locations": "位置",
         "smartAlerts": "智能警报",
-        "credentials": "凭证"
+        "credentials": "凭证",
+        "syntheticTests": "合成测试"
       },
       "options": {
+        "scheduledMenuLabel": "已调度",
+        "onDemandMenuLabel": "按需",
+        "allLabel": "全部",
         "scheduledLabel": "数据范围：预定",
-        "onDemandLabel": "数据范围：按需"
+        "onDemandLabel": "数据范围：按需",
+        "dashboardHeaderLabel": "数据基于：{{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "合成监视许可权",
@@ -521,6 +543,7 @@
       "paused": "已暂停",
       "deleted": "已删除",
       "type": "类型",
+      "sslDaysRemaining": "{{daysRemaining}} 天后到期",
       "successRate": "成功率",
       "successRuns": "{{successRuns}} 条结果（共 {{totalRuns}} 条）",
       "latency": "平均响应时间",
@@ -537,7 +560,11 @@
       "health": "运行状况",
       "action": "操作",
       "labelConfirmRemoveTest": "确定要除去 <strong>{{testLabel}}</strong> 测试吗？ 此操作不可撤销。",
-      "na": "不适用"
+      "na": "不适用",
+      "configureColumns": {
+        "title": "列定制",
+        "description": "您现在可以定制自己的合成测试数据表。 这样，您便可以灵活选择要显示的列，并根据需要重新排列它们。"
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "“实时方式”在“合成位置”页面中不适用",
@@ -886,6 +913,7 @@
       "noMobileAppAssociated": "无关联的移动应用",
       "recordVideo": "记录用户在发生故障时的操作",
       "acceptSelfSignedCertificate": "接受自签名证书",
+      "operatorLabel": "条件性",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "查询类型",
@@ -895,7 +923,6 @@
         "responseTimeDescription": "响应时间小于 {{responseTime}} 毫秒",
         "assertionsTitle": "断言",
         "recordTypeLabel": "记录类型",
-        "operatorLabel": "条件性",
         "resolutionRecordLabel": "解析记录",
         "recursiveLookupLabel": "递归查找",
         "dnsRadioButtonOnLabel": "ON",
@@ -904,6 +931,10 @@
         "acceptCNAMELabel": "接受 CNAME",
         "lookupServerNamelabel": "查询服务器名称",
         "serverRetriesLabel": "服务器重试次数"
+      },
+      "ssl": {
+        "attributeLabel": "属性",
+        "valueLabel": "值"
       }
     },
     "credentialList": {

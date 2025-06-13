@@ -38,7 +38,7 @@
         "webpageActionTitle": "이 브라우저 단순(웹 페이지 조치) 테스트의 이름은 무엇입니까?",
         "browserScriptTitle": "이 브라우저 스크립트 테스트의 이름은 무엇입니까?",
         "labelName": "테스트 이름",
-        "labelDescription": "설명",
+        "labelDescription": "설명(선택사항)",
         "labelFrequency": "빈도(분)",
         "labelFrequencyHour": "빈도(시간)",
         "labelApplication": "애플리케이션 선택",
@@ -150,14 +150,13 @@
         "locationsLabel": "위치",
         "locationsTitle": "위치: 이 테스트는 어디에서 실행되나요?",
         "scheduleLabel": "스케줄",
-        "scheduleTitle": "일정: 테스트 실행 시점은 언제인가요?",
+        "scheduleTitle": "스케줄: 이 테스트는 어떻게 진행됩니까?",
         "identifyLabel": "식별",
         "identifyTitle": "식별: 테스트는 무엇을 하나요?",
-        "customPropertiesTitle": "사용자 정의 특성",
+        "customPropertiesTitle": "사용자 정의 특성(선택사항)",
         "frequency": "이 테스트는 {{frequencyValue}}분마다 실행됩니다.",
         "frequencyHours": "이 테스트는 {{frequencyHours}}시간마다 실행됩니다.",
         "frequencyHoursAndMinutes": "이 테스트는 {{frequencyHours}}시간 {{frequencyMinutes}}분마다 실행됩니다.",
-        "simultaneous": "동시",
         "simultaneousDescription": "이 테스트는 선택한 각 위치에서 동시에 실행됩니다.",
         "configStep": {
           "allowInsecure": "비보안 허용",
@@ -204,7 +203,7 @@
           "node22BrowserUploadFileDescription": "단일 .js, .cjs 또는 .mjs 파일, 번들 .js, .cjs 또는 .mjs 파일이 포함된 .zip 파일 또는 Selenium IDE에서 기록한 .side 스크립트 중 하나를 업로드할 수 있습니다.",
           "sideFileUploadedMessage": "Selenium 스크립트는 수정하거나 유효성 검증할 수 없습니다.",
           "bundleFileNotSupportedMessage": "지원되지 않는 파일을 선택했습니다. 번들은 고급 모드에서만 지원됩니다.",
-          "timeoutFieldLabel": "제한시간",
+          "timeoutFieldLabel": "제한시간(선택사항)",
           "timeUnitsLabel": "시간 단위",
           "timeoutFieldOptionMinutes": "분 (m)",
           "timeoutFieldOptionSeconds": "초 (s)",
@@ -213,7 +212,7 @@
           "invalidTimeoutvalue": "올바르지 않은 제한시간 값",
           "invalidTimeoutUnit": "올바르지 않은 제한시간 단위",
           "timeoutFieldDescription": "이 테스트는 다음 이후에 실패합니다.",
-          "retryFieldLabel": "재시도 전략",
+          "retryFieldLabel": "재시도 전략(선택사항)",
           "retryFieldOptionNone": "없음",
           "retryFieldOptionOnce": "한 번 재시도",
           "retryFieldOptionTwice": "두 번 재시도",
@@ -224,6 +223,13 @@
           "mainFileNameHelperText": "테스트의 진입점이 포함된 이 .zip 파일 안에 있는 파일 이름을 입력하십시오",
           "recordVideo": "실패 시 사용자 조치 기록",
           "acceptSelfSignedCertificate": "자체 서명 인증서 승인",
+          "operatorLabel": "조건부",
+          "operatorOptionMatches": "Matches",
+          "operatorOptionContains": "포함",
+          "operatorOptionIs": "=",
+          "operatorOptionNotMatches": "일치하지 않음",
+          "deleteButtonLabel": "삭제",
+          "addFieldLabel": "필드 추가",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL은 DNS 확인을 위해 테스트 중인 도메인 이름입니다.",
@@ -237,14 +243,7 @@
             "assertionsTitle": "어설쎤(선택사항)",
             "assertionsSubtitle": "이 필드는 선택사항이지만, 입력된 모든 필드가 참이어야 테스트가 성공합니다.",
             "recordTypeLabel": "레코드 유형",
-            "operatorLabel": "조건부",
-            "operatorOptionMatches": "Matches",
-            "operatorOptionContains": "포함",
-            "operatorOptionIs": "=",
-            "operatorOptionNotMatches": "일치하지 않음",
             "resolutionRecordLabel": "해결 레코드",
-            "deleteButtonLabel": "삭제",
-            "addRecordTypeLabel": "필드 추가",
             "recursiveLookupLabel": "반복 검색",
             "dnsRadioButtonOnLabel": "On",
             "dnsRadioButtonOffLabel": "해제",
@@ -262,7 +261,25 @@
             },
             "assertionsNotificationTitle": "필요한 어설션",
             "assertionsNotificationDescription": "\"어설션과 연관된 모든\" 쿼리 유형을 사용할 때는 어설션을 하나 이상 추가하십시오."
-          }
+          },
+          "ssl": {
+            "attributeLabel": "속성",
+            "valueLabel": "값",
+            "attributeValueLabel": "속성 값",
+            "invalidAttributeValue": "속성 값이 유효하지 않음",
+            "assertion": {
+              "commonName": "issuedTo.commonName",
+              "alternativeName": "issuedTo.alternativeName",
+              "organization": "issuedBy.organization",
+              "tlsVersion": "tls.version"
+            }
+          },
+          "hostDetailsSectionLabel": "호스트 세부사항",
+          "headerSectionLabel": "헤더 추가(선택사항)",
+          "testCriteriaLabel": "테스트 기준",
+          "validationsSectionLabel": "유효성 검사 추가(선택사항)",
+          "timeoutAndRetrySectionLabel": "시간 초과 및 재시도 전략(선택사항)",
+          "additionalOptionsSectionLabel": "추가 옵션"
         },
         "loadMore": "추가 로드",
         "selectTests": {
@@ -294,7 +311,7 @@
         "associationsLabel": "연관",
         "applicationsTitle": "연관: 이 합성 테스트와 연관시킬 애플리케이션 선택",
         "applicationsDescription": "합성 테스트를 애플리케이션과 연관시키면 해당 애플리케이션에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다.",
-        "associationsTitle": "연관: 이 합성 테스트와 연관시킬 항목 선택",
+        "associationsTitle": "연관: 이 합성 테스트와 연관시킬 항목 선택(선택사항)",
         "associationsDescription": "합성 테스트를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다."
       },
       "associations": {
@@ -474,11 +491,16 @@
         "tests": "테스트",
         "locations": "위치",
         "smartAlerts": "스마트 경보",
-        "credentials": "신임 정보"
+        "credentials": "신임 정보",
+        "syntheticTests": "합성 테스트"
       },
       "options": {
+        "scheduledMenuLabel": "계획됨",
+        "onDemandMenuLabel": "온디맨드",
+        "allLabel": "모두",
         "scheduledLabel": "데이터 범위: 스케줄됨",
-        "onDemandLabel": "데이터 범위 : 온디맨드"
+        "onDemandLabel": "데이터 범위 : 온디맨드",
+        "dashboardHeaderLabel": "데이터 기반: {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "합성 모니터링에 대한 권한",
@@ -521,6 +543,7 @@
       "paused": "일시중지됨",
       "deleted": "Deleted",
       "type": "유형",
+      "sslDaysRemaining": " 만료까지 {{daysRemaining}}일 남았습니다",
       "successRate": "성공률",
       "successRuns": "{{successRuns}}/{{totalRuns}}개의 결과",
       "latency": "평균 응답 시간",
@@ -537,7 +560,11 @@
       "health": "상태",
       "action": "조치",
       "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> 테스트를 제거하시겠습니까? 이 조치는 실행 취소할 수 없습니다.",
-      "na": "해당사항 없음"
+      "na": "해당사항 없음",
+      "configureColumns": {
+        "title": "컬럼 사용자 정의",
+        "description": "이제 합성 테스트 데이터 테이블을 사용자 정의할 수 있습니다. 이를 통해 유연하게 표시할 열을 선택하고 필요에 따라 재배치할 수 있습니다."
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "합성 위치 페이지에서는 라이브 모드를 적용할 수 없음",
@@ -886,6 +913,7 @@
       "noMobileAppAssociated": "연관된 모바일 앱 없음",
       "recordVideo": "실패 시 사용자 조치 기록",
       "acceptSelfSignedCertificate": "자체 서명 인증서 승인",
+      "operatorLabel": "조건부",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "쿼리 유형",
@@ -895,7 +923,6 @@
         "responseTimeDescription": "응답 시간은 {{responseTime}}ms 미만임",
         "assertionsTitle": "어설션",
         "recordTypeLabel": "레코드 유형",
-        "operatorLabel": "조건부",
         "resolutionRecordLabel": "해결 레코드",
         "recursiveLookupLabel": "반복 검색",
         "dnsRadioButtonOnLabel": "On",
@@ -904,6 +931,10 @@
         "acceptCNAMELabel": "CNAME 수락",
         "lookupServerNamelabel": "서버 이름 조회",
         "serverRetriesLabel": "서버 재시도 수"
+      },
+      "ssl": {
+        "attributeLabel": "속성",
+        "valueLabel": "값"
       }
     },
     "credentialList": {

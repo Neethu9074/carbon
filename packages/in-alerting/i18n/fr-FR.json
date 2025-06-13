@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "Niveau d'alerte",
     "alertPropertyInfosLabelTriggersIncident": "Déclenche un incident",
     "alertPropertyInfosLabelDescription": "Description",
-    "noChannelSelectedText": "Vous n'avez actuellement pas sélectionné de canal d'alerte ; vous ne recevrez donc aucune alerte.",
+    "noChannelSelectedText": "Aucune chaîne n'a été ajoutée. Commencez par cliquer sur Sélectionner les canaux d'alerte.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtres supplémentaires",
     "groupBy": "Regrouper par",
     "noChannelAvailable": "Aucun canal d'alerte disponible",
@@ -167,6 +167,7 @@
     "titleNoSmartAlertsCreated": "Aucune alerte intelligente créée",
     "titleCopyOf": "(Copie de) {{smartAlertTitle}}",
     "smartAlertsTitle": "Alertes intelligentes",
+    "titleNoSmartAlertsConfiguredFound": "Aucune configuration Smart Alert trouvée",
     "alertChannelList": {
       "selectAllWarning": "Sélectionner tous les avertissements",
       "selectAllCritical": "Sélectionner toutes les erreurs critiques",
@@ -912,7 +913,6 @@
         "criticalAlertPreviewLabel": "Aperçu critique",
         "alertPreviewMissingThresholdInfo": "Aucun aperçu disponible. Veuillez sélectionner au moins une valeur seuil pour voir l'aperçu.",
         "alertPropertiesAlertProperties": "Propriétés d'alerte",
-        "alertPreviewDefaultTitle": "Titre de la notification",
         "groupingPlaceholdersMissingTooltip": "Pour inclure davantage de marques de réservation, configurez un ou plusieurs regroupements",
         "buttonSave": "Sauvegarder",
         "buttonCreate": "Créer",
@@ -998,7 +998,8 @@
         "title": "Délai de grâce (facultatif)",
         "description": "Sélectionnez la durée pendant laquelle un problème doit rester ouvert après que le seuil de violation n'est plus atteint. Passé ce délai, le dossier sera automatiquement clôturé.",
         "label": "Sélectionner",
-        "summary": "Fermer automatiquement un problème lorsque le seuil de violation n'est plus atteint <strong>pour {{gracePeriodValue}}</strong>."
+        "defaultGracePeriod": "Par défaut",
+        "summary": "Fermer automatiquement un problème lorsque le seuil de violation n'est plus atteint pour"
       },
       "tearSheet": {
         "cancelModalTitle": "Voulez-vous vraiment annuler ?",
@@ -1008,12 +1009,15 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Les violations persistent à des intervalles aléatoires",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Les violations persistent en continu",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "Lorsqu'un nombre minimum de traces est impacté",
+          "labelUserImpactOfViolationsInSequence": "Lorsqu'un certain nombre d'utilisateurs sont affectés",
           "granularity": {
             "description": "Les appels sont placés dans des fenêtres de {{granularity}} minutes ; toutes les {{granularity}} minutes, une valeur métrique est calculée pour cette fenêtre"
           },
           "triggerAlert": "Alerte de déclenchement",
           "triggerAfter": "Déclencher après",
           "tracesImpacted": "les traces sont impactées",
+          "numberOfUserImpactPostLabel": "ou si un nombre plus élevé d'utilisateurs sont affectés",
+          "percentageOfUserImpactPostLabel": "ou si un pourcentage plus élevé d'utilisateurs sont affectés",
           "outOfConsecutiveEvaluations": "sur",
           "persistenceType": "Type de persistance",
           "numberOfConsecutiveViolationsPostLabel": "les fenêtres consécutives de {{granularity}}-minute présentent des violations",
@@ -1163,7 +1167,7 @@
         },
         "step5": {
           "title": "Définir les canaux d'alerte",
-          "description": "Sélectionnez l'endroit où vous souhaitez être averti de cette alerte"
+          "description": "Sélectionnez l'endroit où vous souhaitez être notifié pour cette alerte."
         },
         "slowness": {
           "headline": "Alertes automatiques pour le délai onLoad ou la latence HTTP",
@@ -1349,7 +1353,7 @@
           "header": "Quelles propriétés souhaitez-vous définir pour cette alerte"
         },
         "step4": {
-          "header": "Sélectionnez l'endroit où vous souhaitez être averti de cette alerte"
+          "header": "Sélectionnez l'endroit où vous souhaitez être notifié pour cette alerte."
         }
       }
     },
@@ -1494,7 +1498,7 @@
         },
         "step5": {
           "title": "Définir les canaux d'alerte",
-          "description": "Sélectionnez l'endroit où vous souhaitez être averti de cette alerte"
+          "description": "Sélectionnez l'endroit où vous souhaitez être notifié pour cette alerte."
         },
         "slowness": {
           "headline": "Alertes automatiques relatives au temps d'attente HTTP",
@@ -1904,22 +1908,29 @@
         "blueprint_STATUS": "Statut",
         "blueprint_BURNED_PERCENTAGE": "Budget d'erreur",
         "blueprint_BURN_RATE": "Taux de consommation",
+        "blueprint_BURN_RATE_V2": "Taux de consommation",
         "blueprintDescription": "",
+        "burnRateAlertTypeLabel": "Type de fenêtre d'alerte",
+        "burnRateAlertTypeLabel_SINGLE_WINDOW": "Fenêtre d'alerte unique",
+        "burnRateAlertTypeLabel_MULTI_WINDOW": "Fenêtre d'alerte longue et courte",
         "blueprintDescription_STATUS": "Recevez une alerte lorsque le statut de l'objectif du niveau de service passe en dessous d'un certain seuil.",
         "blueprintDescription_BURNED_PERCENTAGE": "Recevez une alerte lorsqu'un pourcentage du budget d'erreur est consommé.",
-        "blueprintDescription_BURN_RATE": "Le taux de consommation est une valeur qui indique la vitesse à laquelle votre budget d'erreurs est consommé par rapport à la durée cible de votre Objectif du niveau de service (SLO).",
+        "blueprintDescription_BURN_RATE_V2": "Le taux de consommation est une valeur qui indique la vitesse à laquelle votre budget d'erreurs est consommé par rapport à la durée cible de votre Objectif du niveau de service (SLO). ",
         "burnRateShortWindowTitle": "Fenêtre d'alerte courte",
-        "burnRateShortWindowDescription": "Ces alertes seront déclenchées lorsque le taux d'erreur dépasse le seuil plus rapidement a cours d'une période plus courte. Cette solution permet de détecter un pic d'erreurs soudain ou un temps d'indisponibilité causé par un bogue critique.",
+        "burnRateShortWindowDescription": "Les alertes sont déclenchées lorsque le taux d'erreur dépasse le seuil plus rapidement au cours d'une période plus courte. Cette solution permet de détecter un pic d'erreurs soudain ou un temps d'indisponibilité causé par un bogue critique.",
         "burnRateDescription": "M'avertir lorsque le taux de consommation est <1/> <2/>",
-        "burnRateLongWindowTitle": "Fenêtre d'alerte longue",
-        "burnRateLongWindowDescription": "Ces alertes sont déclenchées lorsque le taux d'erreur dépasse le seuil au cours d'une période plus longue. Cette solution permet d'identifier les problèmes qui s'accumulent au fil du temps et qui risquent de causer des difficultés à l'avenir s'ils ne sont pas résolus.",
-        "burnRateShortWindowLongerThanLongWindowError": "La fenêtre courte ne peut pas dépasser la fenêtre longue. Veuillez ajuster l'une ou l'autre des valeurs.",
+        "burnRateWindowTitle_SINGLE_WINDOW": "Fenêtre d'alerte",
+        "burnRateWindowTitle_MULTI_WINDOW": "Fenêtre d'alerte longue",
+        "burnRateSingleWindowDescription": "Les alertes sont déclenchées lorsque le taux d'erreur dépasse le seuil fixé au cours d'une période spécifiée. Cette solution permet d'identifier les problèmes qui s'accumulent au fil du temps et qui risquent de causer des difficultés à l'avenir s'ils ne sont pas résolus.",
+        "burnRateLongWindowDescription": "Des alertes sont déclenchées lorsque le taux d'erreur dépasse le seuil au cours d'une période plus longue. Cette solution permet d'identifier les problèmes qui s'accumulent au fil du temps et qui risquent de causer des difficultés à l'avenir s'ils ne sont pas résolus.",
+        "burnRateShortWindowLongerThanLongWindowError": "La fenêtre courte ne doit pas dépasser la fenêtre longue. Veuillez ajuster l'une ou l'autre des valeurs.",
         "burnRateTimeWindowTooLongError": "La fenêtre d'alerte ne peut pas dépasser la fenêtre de durée d'un objectif de niveau de service sélectionné. Veuillez vérifier l'Objectif du niveau de service suivant : {{value}}.",
         "thresholdTitle": "Seuil : quand voulez-vous être alerté ?",
         "thresholdInputDescription": "",
         "thresholdInputDescription_BURNED_PERCENTAGE": "Lorsque <1/> <2/> pour cent du budget d'erreur est consommé",
         "thresholdInputDescription_STATUS": "Lorsque le statut de l'objectif de niveau de service est de <1/> <2/> pour cent",
         "thresholdInputDescription_BURN_RATE": "Évaluer le dernier <1/> des Objectifs du niveau de service.",
+        "thresholdInputDescription_BURN_RATE_V2": "Évaluer le dernier <1/> des Objectifs du niveau de service.",
         "timeThresholdType_gracePeriod": "Lorsque la condition persiste sur une durée spécifiée",
         "timeThresholdTypeTitle_gracePeriod": "Alerte lorsque la condition n'est pas respectée pendant $t(in-components:time.minutes consécutives, {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "Au moins $t(in-components:time.minutes, {\"count\": {{minutes}}}) doivent avoir été transmis pour que l'événement se termine",
@@ -1928,7 +1939,11 @@
         "alertPropertiesTitlePlaceholder_STATUS": "Le statut de l'objectif du niveau de service est faible",
         "alertPropertiesDescriptionPlaceholder_STATUS": "Le statut de l'Objectif du niveau de service est {{operator}} {{percentage}}.",
         "alertPropertiesTitlePlaceholder_BURN_RATE": "Le taux de consommation est dépassé",
-        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "Le taux de consommation de l'Objectif du niveau de service est {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE_V2": "Le taux de consommation est dépassé",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "Le taux de consommation de l'objectif de niveau de service est {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2": "Le taux de consommation de l'objectif de niveau de service est {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_SINGLE": "Le taux de consommation de l'objectif de niveau de service est {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_MULTI": "Le taux de consommation de la fenêtre longue de l'objectif de niveau de service est {{longWindowOperator}} {{longWindowPercentage}} et celui de la fenêtre courte est {{shortWindowOperator}} {{shortWindowPercentage}}.",
         "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "Le budget d'erreur restant est faible",
         "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "A consommé {{operator}} {{percentage}} du budget d'erreurs.",
         "alertPropertiesIncidentWarning": "Les incidents ne sont applicables qu'aux objectifs de niveau de service associés à des applications"
@@ -1944,8 +1959,10 @@
         "blueprintLabel": "Plan directeur",
         "blueprintInfo": "",
         "blueprintInfo_BURN_RATE": "Taux de consommation",
+        "blueprintInfo_BURN_RATE_V2": "Taux de consommation",
         "blueprintInfo_BURNED_PERCENTAGE": "Budget d'erreur utilisé",
         "blueprintInfo_STATUS": "Statut",
+        "singleWindowLabel": "Fenêtre d'alerte",
         "longWindowLabel": "Fenêtre longue",
         "shortWindowLabel": "Fenêtre courte",
         "timeWindowInfo_minute": "{{count}} minute",
@@ -1966,10 +1983,14 @@
         "coolDownPeriodDescription": "Un minimum de {{value}} doit être transmis pour que l'événement se termine."
       },
       "alertList": {
-        "threshold": "Seuil : {{value}}",
-        "threshold_BURN_RATE": "Taux de consommation : {{value}}",
-        "threshold_BURNED_PERCENTAGE": "Seuil : {{value}}",
-        "threshold_STATUS": "Seuil : {{value}}",
+        "threshold": "{{metric}}, seuil {{operator}} {{value}}",
+        "threshold_BURN_RATE": "{{metric}}, seuil {{operator}} {{value}}",
+        "singleWindowThreshold_BURN_RATE_V2": "{{metric}}, seuil {{operator}} {{value}}",
+        "longWindowThreshold_BURN_RATE_V2": "{{metric}} seuil (Long) {{longWindowOperator}} {{longWindowValue}}, (Court) {{shortWindowoperator}} {{shortWindowValue}}",
+        "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, seuil (Long) {{operator}} {{value}} & (Court) < 1",
+        "threshold_BURNED_PERCENTAGE": "{{metric}}, seuil {{operator}} {{value}}",
+        "threshold_STATUS": "{{metric}}, seuil {{operator}} {{value}}",
+        "alertListSloAppliedColumnName": "Objectifs de niveau de service appliqués",
         "sloApplied": "Objectifs de niveau de service appliqués",
         "sloCount": "{{count}} objectif de niveau de service",
         "sloCount_plural": "{{count}} objectifs de niveau de service",
@@ -1978,8 +1999,13 @@
         "sloCount_2": "{{count}} objectifs de niveau de service",
         "title": "",
         "title_BURN_RATE": "Taux de consommation",
+        "title_BURN_RATE_V2": "Taux de consommation",
         "title_BURNED_PERCENTAGE": "Budget d'erreur utilisé",
-        "title_STATUS": "Statut"
+        "title_STATUS": "Statut",
+        "errorBudgetLabel": "Budget d'erreur",
+        "deprecatedLabel": "Obsolète",
+        "noDataHeader": "Aucune alerte intelligente d'objectif de niveau de service",
+        "noDataDescription": "Pour commencer, cliquez sur <strong>Créer une alerte intelligente</strong>."
       },
       "messages": {
         "successTitle": "",

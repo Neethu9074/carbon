@@ -15,6 +15,7 @@
   "testAction": "Tester l'action",
   "targetAgent": "Agent cible",
   "triggeringAgent": "{{hostname}} (agent de déclenchement)",
+  "agentEmpty": "Vous n'avez pas d'agents configurés",
   "targetAgentDescription": "Un agent encapsule 1..* Capteurs, qui à leur tour sont capables d'émettre des événements vers le système de back end Instana. Un agent de déclenchement contient le détecteur qui a émis cet événement particulier.",
   "chosenToRun": "Exécuter l'action {{actionName}}",
   "viewManualAction": "Afficher l'action manuelle {{actionName}}",
@@ -46,7 +47,6 @@
   "description": "Description",
   "automation": "Automatisation",
   "failedToResolveDynamicParameters": "Échec de la résolution des paramètres dynamiques.",
-  "deletePolicyWithName": "Supprimer la règle {{actionName}}",
   "jobTemplate": "Modèle de travail",
   "workflowJobTemplate": "Modèle de travail de flux de travaux",
   "hostsLimit": "Limite d'hôtes (facultatif)",
@@ -83,14 +83,10 @@
   "actionCategory": "Catégories d'action",
   "value": "Valeur",
   "type": "Type",
-  "automationPoliciesWithCount": "Stratégies d'automatisation ({{count}})",
-  "automationPolicies": "Stratégies d'automatisation",
   "copyOf": "(Copie de) {{name}}",
   "searchActions": "Actions de recherche",
   "searchOptimizations": "Optimisation de la recherche",
   "hostsLimitHelpText": "Limiter l'exécution à l'hôte cible spécifié. Sélectionnez la valeur qui correspond à la façon dont le système est représenté dans l'inventaire Ansible ou entrez une chaîne prise en charge par la syntaxe de limite Ansible.",
-  "aiEngine": "Moteur d'IA",
-  "engine": "Moteur",
   "eventSimilarity": "Similarité d'événement",
   "close": "Fermer",
   "tag": "Balise",
@@ -111,6 +107,34 @@
   "triggeringEvent": "Événement déclencheur",
   "probableRootCause": "Cause première probable",
   "contextFor": "Contexte pour :",
+  "backToPolicies": "Retour aux règles",
+  "backToEvent": "Retour à l'événement",
+  "recommendation": "Recommandation",
+  "userCreated": "Utilisateur créé",
+  "successRate": "Taux de réussite",
+  "optimization": "Optimisation",
+  "viewRunAction": "Afficher et exécuter l'action",
+  "viewRunPolicy": "Afficher et exécuter la règle",
+  "viewPolicyDashboard": "Afficher le tableau de bord des règles",
+  "editPolicy": "Editer une règle",
+  "deletePolicy": "Supprimer la règle",
+  "viewActionDashboard": "Afficher le tableau de bord des actions",
+  "createPolicy": "Créer une stratégie",
+  "recommendedActionsExplanability": {
+    "linkExplanation": "Instana utilise des algorithmes et des intégrations pour recommander des actions lors des événements.",
+    "link": "Découvrez-en davantage sur chaque type de recommandation.",
+    "algorithmSectionText1": "<strong>Similarité des événements -</strong> Les signatures des événements déclenchés par des incidents sont comparées aux signatures des événements configurés dans les règles. Un score est calculé et normalisé. L'action configurée dans la règle reçoit ce score d'événement à événement.",
+    "algorithmSectionText2": "<strong>NLP (Traitement Automatique du Langage Naturel) -</strong> Les signatures d'événements déclenchés par des incidents sont comparées aux signatures d'actions dans le catalogue d'actions. Les signatures incluent le nom, la description, le type d'entité et les balises. Un score est calculé et normalisé.",
+    "algorithmSectionText3": "<strong>Taux de réussite -</strong> les actions reçoivent une note basée sur le taux de réussite de l'action lorsqu'elle est exécutée par rapport aux occurrences passées d'un événement.",
+    "sectionDescription": "Instana utilise des algorithmes prédéfinis basés sur des signatures d'événements créées lors de la survenue d'un incident. Il existe trois types de source de données :",
+    "sectionHeading": "Recommandations d'Instana",
+    "optimizations": "Optimisations",
+    "optimizationsExplanation": "Si l'entité référencée par un incident est associée à des actions IBM Turbonomic, ces actions sont recommandées en fonction de leur score NLP.",
+    "algorithms": "Algorithmes",
+    "policiesExplanation": " Lorsqu'un événement correspondant aux conditions spécifiées dans un déclencheur de règle est déclenché, la règle est répertoriée comme une action recommandée.",
+    "learnMoreLink": "Pour en savoir plus sur les recommandations d'action, consultez IBM Docs."
+  },
+  "triggerType": "Type de déclencheur",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Configuration d'action",
     "actionDetails": "Indiquez les détails de l'action",
@@ -246,7 +270,6 @@
     "confidence_high": "Élevé",
     "bodyDescription": "Données associées à la demande HTTP.",
     "confidence": "{{context}}",
-    "confidenceHelpText": "Cette action a été recommandée en fonction de : {{source}}",
     "http": "HTTP",
     "confidenceTitle": "Niveau de fiabilité",
     "run": "Exécuter",
@@ -433,8 +456,11 @@
     "createANewPolicy": "Créer une nouvelle politique",
     "configurePolicyEntityName": "Configurer la règle : {{entityName}}",
     "1PolicyDetails": "1. Détails de la stratégie",
+    "policyDetails": "Détails de la politique",
     "2TriggerConfiguration": "2. Configuration du déclencheur",
+    "triggerConfiguration": "Configuration de déclencheur",
     "3ActionConfiguration": "3. Configuration de l'action",
+    "actionConfiguration": "Configuration d'action",
     "showsUpInTheListOfPolicies": "S'affiche dans la liste des règles. Doit être unique et descriptif.",
     "showsUpInThePolicyDescription": "S'affiche dans la description de la règle. Doit être aussi descriptif que possible.",
     "manual": "Manuel",
@@ -493,23 +519,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "Les stratégies ont été créées.",
-        "content": "{{count}} stratégie a été créée.",
         "content_plural": "{{count}} stratégies ont été créées.",
         "content_0": "{{count}} stratégies ont été créées.",
         "content_1": "{{count}} stratégies ont été créées.",
         "content_2": "{{count}} stratégies ont été créées."
-      },
-      "failure": {
-        "title": "Echec de la création des stratégies.",
-        "content": "Un problème est survenu lors de la création des stratégies : {{error}}"
       }
     },
     "deleteDialog": {
       "success": "La stratégie a été supprimée.",
       "failure": "Echec de la suppression de la stratégie."
     },
-    "createPolicies": "Créer des politiques",
     "websiteSmartAlert": "Alerte intelligente du site Web"
   },
   "infoPanel": {
@@ -593,9 +612,9 @@
       },
       "section2": {
         "section2Title": "Zones d'invite de saisie",
-        "section2EventName": "<strong>Nom de l'événement.</strong> Le nom de l'incident, de l'événement ou de l'alerte.",
-        "section2Description": "<strong>Description de l'événement.</strong> La description de l'incident ou de l'événement.",
-        "section2Entitytype": "<strong>Type d'entité de l'événement.</strong> Le type d'entité associé à l'incident ou à l'événement."
+        "section2EventName": "<strong>Nom de l'événement -</strong> Le nom de l'incident, de l'événement ou de l'alerte.",
+        "section2Description": "<strong>Description de l'événement -</strong> La description de l'incident ou de l'événement.",
+        "section2Entitytype": "<strong>Type d'entité de l'événement -</strong> Le type d'entité associé à l'incident ou à l'événement."
       },
       "section3": {
         "AIModel": "Modèle d'intelligence artificielle"

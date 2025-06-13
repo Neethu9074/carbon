@@ -84,6 +84,16 @@
   "pluginName_application_1": "アプリケーション",
   "pluginName_application_2": "アプリケーション",
   "pluginName_application": "アプリケーション",
+  "pluginName_argocdCluster_plural": "Argo CD クラスター",
+  "pluginName_argocdCluster_0": "Argo CD クラスター",
+  "pluginName_argocdCluster_1": "Argo CD クラスター",
+  "pluginName_argocdCluster_2": "Argo CD クラスター",
+  "pluginName_argocdCluster": "Argo CD クラスター",
+  "pluginName_argocdApplication_plural": "Argo CD アプリケーション",
+  "pluginName_argocdApplication_0": "Argo CD アプリケーション",
+  "pluginName_argocdApplication_1": "Argo CD アプリケーション",
+  "pluginName_argocdApplication_2": "Argo CD アプリケーション",
+  "pluginName_argocdApplication": "Argo CD アプリケーション",
   "pluginName_availabilityZone_plural": "アベイラビリティー・ゾーン",
   "pluginName_availabilityZone_0": "アベイラビリティー・ゾーン",
   "pluginName_availabilityZone_1": "アベイラビリティー・ゾーン",
@@ -1018,6 +1028,11 @@
   "pluginName_ibmiActiveJobsInfo_1": "IBM i でのアクティブ・ジョブ情報",
   "pluginName_ibmiActiveJobsInfo_2": "IBM i でのアクティブ・ジョブ情報",
   "pluginName_ibmiActiveJobsInfo": "IBM i でのアクティブ・ジョブ情報",
+  "pluginName_ibmiAuditJournalsInfo_plural": "IBM i 監査ジャーナル情報",
+  "pluginName_ibmiAuditJournalsInfo_0": "IBM i 監査ジャーナル情報",
+  "pluginName_ibmiAuditJournalsInfo_1": "IBM i 監査ジャーナル情報",
+  "pluginName_ibmiAuditJournalsInfo_2": "IBM i 監査ジャーナル情報",
+  "pluginName_ibmiAuditJournalsInfo": "IBM i 監査ジャーナル情報",
   "pluginName_ibmiDiskInfo_plural": "IBM i 上のディスク情報",
   "pluginName_ibmiDiskInfo_0": "IBM i 上のディスク情報",
   "pluginName_ibmiDiskInfo_1": "IBM i 上のディスク情報",
@@ -1295,6 +1310,11 @@
   "pluginName_lxc_1": "LXC コンテナー",
   "pluginName_lxc_2": "LXC コンテナー",
   "pluginName_lxc": "LXC コンテナー",
+  "pluginName_mapRNode": "MapR ノード",
+  "pluginName_mapRNode_plural": "MapR ノード",
+  "pluginName_mapRNode_0": "MapR ノード",
+  "pluginName_mapRNode_1": "MapR ノード",
+  "pluginName_mapRNode_2": "MapR ノード",
   "pluginName_mariaDbDatabase_plural": "MariaDB",
   "pluginName_mariaDbDatabase_0": "MariaDB",
   "pluginName_mariaDbDatabase_1": "MariaDB",
@@ -1401,11 +1421,13 @@
   "pluginName_oTelLLM_1": "OTEL LLMonitors",
   "pluginName_oTelLLM_2": "OTEL LLMonitors",
   "pluginName_oTelLLM": "OTEL LLMonitor",
+  "pluginName_oTelVLLM": "OTel vLLMサーバー",
   "pluginName_oTelVLLM_plural": "OTel vLLMサーバー",
   "pluginName_oTelVLLM_0": "OTel vLLMサーバー",
   "pluginName_oTelVLLM_1": "OTel vLLMサーバー",
   "pluginName_oTelVLLM_2": "OTel vLLMサーバー",
-  "pluginName_oTelVLLM": "OTel vLLMサーバー",
+  "pluginName_genai": "GenAI",
+  "pluginName_genai_plural": "GenAI",
   "pluginName_oTelDcgm_plural": "OTEL Dcgm",
   "pluginName_oTelDcgm_0": "OTEL Dcgm",
   "pluginName_oTelDcgm_1": "OTEL Dcgm",
@@ -1889,6 +1911,11 @@
   "pluginName_nutanixDatacenter_1": "Nutanix データ・センター",
   "pluginName_nutanixDatacenter_2": "Nutanix データ・センター",
   "pluginName_nutanixDatacenter": "Nutanix データ・センター",
+  "pluginName_linuxKVMHypervisorHost": "Linux KVM ハイパーバイザー・ホスト",
+  "pluginName_linuxKVMHypervisorHost_plural": "Linux KVM ハイパーバイザー・ホスト",
+  "pluginName_linuxKVMHypervisorHost_0": "Linux KVM ハイパーバイザー・ホスト",
+  "pluginName_linuxKVMHypervisorHost_1": "Linux KVM ハイパーバイザー・ホスト",
+  "pluginName_linuxKVMHypervisorHost_2": "Linux KVM ハイパーバイザー・ホスト",
   "pluginName_xenServerHost_plural": "XenServerホスト",
   "pluginName_xenServerHost_0": "XenServerホスト",
   "pluginName_xenServerHost_1": "XenServerホスト",
@@ -9859,7 +9886,11 @@
         "allocatedSize": "割り当てられたサイズ",
         "freeSize": "空きサイズ",
         "sharedMemoryStats": "共有メモリー",
-        "rowStoreMemoryStats": "行ストア・メモリー"
+        "rowStoreMemoryStats": "行ストア・メモリー",
+        "upTime": "アップタイム",
+        "totalCpuUsage": "CPU 使用率",
+        "totalMemoryUsage": "メモリー使用率",
+        "totalConnections": "アクティブな接続"
       },
       "systemId": "システム ID",
       "databaseName": "データベース名",
@@ -9897,7 +9928,7 @@
       "blockingSessions": "セッションをブロック",
       "blockedThreads": "ブロックされたスレッド",
       "threadsJobWorkerBlockedCount": "ブロックされたジョブ・ワーカー・スレッド",
-      "threadsSqlExecutorBlockedCount": "ブロックされた SQL エクセキューター・スレッド",
+      "threadsSqlExecutorBlockedCount": "ブロックされた SQL 実行スレッド",
       "queueingConnectionCount": "キューイング接続数",
       "unableToConnect": "ユーザ {{user}} の接続 URL {{connectionUrl}} を使用して {{dbName}} に接続できません。",
       "currentStmtExecutionRate": "現在のステートメント実行率",
@@ -9909,7 +9940,6 @@
       "tcpSegmentsSentOut": "送信済み",
       "tcpSegmentsRetransmitted": "再送信済み",
       "tcpBadSegmentsReceived": "破損",
-      "upTime": "稼働時間",
       "installTime": "インストールされているデータベース"
     },
     "service": {
@@ -11059,7 +11089,7 @@
         "aixDeviceInterrupts": "デバイス割り込み",
         "avgRunQueue": "平均実行キュー(1h)",
         "notCollected": "収集されませんでした",
-        "systemCalls": "システム・コール/秒",
+        "systemCalls": "呼び出し/秒",
         "systemReads": "読み取り数/秒",
         "systemWrites": "書き込み数/秒",
         "blockReads": "ブロック読み取り/秒",
@@ -11078,6 +11108,9 @@
         "processesIdle": "アイドル",
         "processesStopped": "停止済み",
         "CpuProcess": "プロセス統計",
+        "stolenIdleCyclesPct": "盗まれたアイドル・サイクル",
+        "physicalConsumption": "物理的 CPU 消費量",
+        "userSessions": "ユーザー・セッション",
         "load": "負荷",
         "memory": "メモリー",
         "used": "使用中",
@@ -11215,15 +11248,6 @@
       "aixDeviceInterrupts": "デバイス割り込み",
       "avgRunQueue": "平均実行キュー(1h)",
       "notCollected": "収集されませんでした",
-      "systemCalls": "システム・コール/秒",
-      "systemReads": "読み取り数/秒",
-      "systemWrites": "書き込み数/秒",
-      "blockReads": "ブロック読み取り/秒",
-      "blockWrites": "ブロック書き込み/秒",
-      "nonBlockReads": "非ブロック読み取り/秒",
-      "nonBlockWrites": "非ブロック書き込み/秒",
-      "logicalBlockReads": "論理ブロック読み取り/秒",
-      "logicalBlockWrites": "論理ブロック書き込み/秒",
       "hypv": "ハイパーバイザー",
       "user": "ユーザー",
       "system": "システム",
@@ -11953,6 +11977,23 @@
       },
       "sidebar": {
         "ibmiActiveJobsInfo": "IBM i の情報",
+        "hostName": "ホスト名"
+      }
+    },
+    "ibmiAuditJournalsInfo": {
+      "name": "IBM i 監査ジャーナル情報",
+      "dashboard": {
+        "tables": {
+          "auditJournals": {
+            "name": "監査ジャーナル",
+            "entryType": "エントリー・タイプ",
+            "entryTypeDetail": "エントリー・タイプ詳細",
+            "entryCount": "エントリー数"
+          }
+        }
+      },
+      "sidebar": {
+        "ibmiAuditJournalsInfo": "IBM i の情報",
         "hostName": "ホスト名"
       }
     },
@@ -13266,7 +13307,12 @@
       }
     },
     "kubecost": {
-      "label": "Kubecost"
+      "label": "Kubecost",
+      "instanaKubecostDocumentationUrl": "https://ibm.biz/kubecost",
+      "kubecostInvalidUrl": "Kubecost: 指定された URL <code>{{connectionUrl}}</code> は無効または形式が不正のようです。 誤字や脱字、ホスト情報の欠落がないかご確認ください。",
+      "kubecostUnknownCluster": "Kubecost: クラスター ID <code>{{clusterId}}</code> が Kubecost の応答で見つかりません。 正確でない場合や、積極的に監視されていない場合があります。",
+      "kubecostUnableToConnect": "Kubecost: ステータスコード {{statusCode}} がある <code>{{connectionUrl}}</code> の接続に失敗しました。 URL が有効でアクセス可能かどうかを確認します。",
+      "kubecostUnableToAuthenticate": "Kubecost: 認証に失敗しました。 有効な API キーが設定されていることを確認してください。"
     },
     "kubernetesCluster": {
       "noActivity": "アクティビティーなし",
@@ -13518,7 +13564,8 @@
       "cpuLimits": "CPU 制限",
       "memoryRequests": "メモリー要求",
       "memoryLimits": "メモリー制限",
-      "conditionNotReady": "ポッド状態が作動不能です"
+      "conditionNotReady": "ポッド状態が作動不能です",
+      "cpuUsageToCpuRequests": "CPU リクエスト割り当て"
     },
     "kubernetesService": {
       "kubernetesService": "Kubernetes サービス"
@@ -13834,6 +13881,18 @@
       "gcBeforePercentage": "GC パーセントの前",
       "gcAfterPercentage": "GC パーセントの後"
     },
+    "nutanixHost": {
+      "cpuUsage": "CPU 使用率",
+      "memoryUsage": "メモリー使用率",
+      "datacenterAverageIoLatency": "ホストの平均 IO レイテンシ",
+      "totalIoSizeBytes": "ホスト IO バイト転送",
+      "datacenterIoOps": "データセンター・オペレーション",
+      "controllerReadIops": "コントローラーの読み取り操作",
+      "controllerWriteIops": "コントローラーの書き込み操作",
+      "contentCacheHitPpm": "コンテンツ・キャッシュのヒット率",
+      "contentCacheLookups": "コンテンツ・キャッシュの検索",
+      "contentCacheMemoryUsage": "コンテンツ・キャッシュのメモリー使用量"
+    },
     "oTelDatabase": {
       "name": "データベース名",
       "kind": "種別",
@@ -14000,8 +14059,19 @@
         "totalCountByService": "サービス別リクエスト総数"
       }
     },
+    "genai": {
+      "genai": "GenAI",
+      "watsonx": "Watsonx",
+      "bedrock": "岩盤",
+      "crewai": "クルー AI",
+      "langchain": "ラングチェーン",
+      "groq": "グロック",
+      "anthropic": "アンソロピック",
+      "sagemaker": "セージメーカー"
+    },
     "oTelVLLM": {
       "oTelVLLM": "OTel vLLMサーバー",
+      "vllm": "vLLM",
       "kind": "種別",
       "serviceName": "サービス名",
       "entityType": "エンティティー・タイプ",
@@ -14510,6 +14580,19 @@
       "labelDatabaseDiskWrites": "データベースのディスク書き込み数",
       "labelDatabaseBytesReceived": "データベースの受信バイト数",
       "labelDatabaseBytesSent": "データベースの送信バイト数"
+    },
+    "maprNode": {
+      "pluginName": "MapR ノード",
+      "pid": "プロセス ID",
+      "nodeName": "ノード名",
+      "health": "正常性",
+      "utilization": "使用率",
+      "configuredService": "構成されたサービス",
+      "rackTopology": "ラックのトポロジー",
+      "healthDesc": "健康の説明",
+      "cpus": "CPU の数",
+      "disks": "ディスクの数",
+      "connectErrorIssueDescription": "エージェントは MapR に接続できませんでした"
     },
     "tibcoASNode": {
       "connectErrorIssueDescription": "エージェントは FTL レルム・サービスに接続できませんでした。 接続がエラーで失敗しました: <code>{{error}}</code>",
@@ -17791,7 +17874,17 @@
       "traceState": "トレース状態",
       "error": "エラー",
       "tags": "タグ",
-      "resource": "リソース"
+      "resource": "リソース",
+      "events": "スパン・イベント",
+      "eventName": "イベント名",
+      "timestamp": "タイムスタンプ",
+      "links": "スパン・リンク",
+      "traceId": "トレース ID",
+      "spanId": "スパン ID",
+      "eventNamePrefix": "名前: ",
+      "traceIdPrefix": "トレース ID: ",
+      "eventDetails": "イベント詳細",
+      "linkDetails": "リンクの詳細"
     },
     "otelBatchSynthetic": {
       "indexReturn": "内部トリガー",

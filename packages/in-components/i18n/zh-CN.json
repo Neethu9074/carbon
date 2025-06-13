@@ -8,7 +8,8 @@
   "pageStructure": {
     "headerAriaLabel": "页眉",
     "contentAriaLabel": "内容",
-    "filterAriaLabel": "过滤"
+    "filterAriaLabel": "过滤",
+    "pageTabsAriaLabel": "页面选项卡"
   },
   "fileInputButton": {
     "label": {
@@ -117,7 +118,7 @@
     "formStateLabel": "省/直辖市/自治区"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下\n查询将视图限制为具有少于四个 CPU 的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n\n## 语法\n动态焦点利用 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) 与 Lucene 标准有以下差异：\n- **缺省运算符：** ` AND `\n- **语法约束：** 在[文档](https://ibm.biz/dynamic-focus-syntax-constraints)\n中列出。\n\n## 搜索栏交互\n搜索栏支持自动完成搜索字段，并在您输入时将语法突出显示 lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。\n\n## Lucene 查询语法备忘单\n - **字段搜索：**`entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://ibm.biz/filtering-dynamic-focus)以获取更多信息。",
+    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下\n查询将视图限制为具有少于四个 CPU 的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 语法\n动态焦点利用 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) 与 Lucene 标准有以下差异：\n- **缺省运算符：** ` AND `\n- **语法约束：**在[文档](https://ibm.biz/dynamic-focus-syntax-constraints)\n中列出。##搜索栏交互\n搜索栏支持自动完成搜索字段，并在您输入时将语法突出显示 lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。## Lucene 查询语法备忘单\n - **字段搜索：**`entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://ibm.biz/filtering-dynamic-focus)以获取更多信息。",
     "filtersBtn": "过滤器",
     "filterPresetsMenuHeading": "过滤器",
     "filterPresetsSaveFilters": "保存过滤器以便在此处轻松访问",
@@ -139,6 +140,7 @@
   },
   "downloadPdf": {
     "downloadPdfFile": "下载 PDF 文件",
+    "downloadPdfLabel": "下载 PDF",
     "settings": "设置",
     "pdfOrientation": "定向",
     "portrait": "纵向",
@@ -496,6 +498,7 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelWindowsHypervisor": "Windows 系统管理程序",
     "viewSwitcherLabelXenServer": "XenServer",
+    "viewSwitcherLabelLinuxKVMHypervisor": "Linux KVM 系统管理程序",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherCustomDashboards": "定制仪表板",
@@ -512,8 +515,8 @@
     "profileMenu_saasConsole": "IBM SaaS 控制台",
     "profileMenu_privacy": "隐私",
     "profileMenu_logOut": "注销",
-    "teamFocus_title": "团队焦点",
-    "teamFocus_entireUnit": "整个单元"
+    "scope_title": "作用域",
+    "scope_defaultScope": "缺省作用域"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "选择指标",

@@ -15,6 +15,7 @@
   "testAction": "조치 테스트",
   "targetAgent": "대상 에이전트",
   "triggeringAgent": "{{hostname}}(트리거링 에이전트)",
+  "agentEmpty": "현재 구성된 에이전트가 없습니다",
   "targetAgentDescription": "에이전트는 1..* 센서를 캡슐화하며, 이러한 센서는 이벤트를 Instana 백엔드에 발생시킬 수 있습니다. 트리거링 에이전트에는 이 특정 이벤트를 발생시킨 센서가 포함되어 있습니다.",
   "chosenToRun": "조치 {{actionName}} 실행",
   "viewManualAction": "수동 조치 {{actionName}} 보기",
@@ -46,7 +47,6 @@
   "description": "설명",
   "automation": "자동화",
   "failedToResolveDynamicParameters": "동적 매개변수를 분석하는 데 실패했습니다.",
-  "deletePolicyWithName": "{{actionName}} 정책 삭제",
   "jobTemplate": "작업 템플리트",
   "workflowJobTemplate": "워크플로우 작업 템플리트",
   "hostsLimit": "호스트 한계(선택사항)",
@@ -83,14 +83,10 @@
   "actionCategory": "조치 카테고리",
   "value": "값",
   "type": "유형",
-  "automationPoliciesWithCount": "자동화 정책({{count}}개)",
-  "automationPolicies": "자동화 정책",
   "copyOf": "{{name}} (사본 수)",
   "searchActions": "검색 조치",
   "searchOptimizations": "검색 최적화",
   "hostsLimitHelpText": "지정된 대상 호스트로 실행을 제한합니다. Ansible 인벤토리에서 시스템이 표시되는 방법과 일치하는 값을 선택하거나 Ansible 제한 구문에서 지원되는 문자열을 입력하십시오.",
-  "aiEngine": "AI 엔진",
-  "engine": "엔진",
   "eventSimilarity": "이벤트 유사성",
   "close": "닫기",
   "tag": "태그",
@@ -111,6 +107,34 @@
   "triggeringEvent": "트리거링 이벤트",
   "probableRootCause": "가능한 근본 원인",
   "contextFor": "컨텍스트 대상:",
+  "backToPolicies": "정책으로 돌아가기",
+  "backToEvent": "이벤트로 돌아가기",
+  "recommendation": "권장사항",
+  "userCreated": "사용자 작성됨",
+  "successRate": "성공률",
+  "optimization": "최적화",
+  "viewRunAction": "작업 보기 및 실행",
+  "viewRunPolicy": "정책 보기 및 실행",
+  "viewPolicyDashboard": "정책 대시보드 보기",
+  "editPolicy": "정책 편집",
+  "deletePolicy": "정책 삭제",
+  "viewActionDashboard": "작업 대시보드 보기",
+  "createPolicy": "정책 작성",
+  "recommendedActionsExplanability": {
+    "linkExplanation": "Instana는 알고리즘과 통합 기능을 사용하여 이벤트에 대한 조치를 권장합니다.",
+    "link": "자세한 내용을 보려면 각 추천 유형에 대해 알아보세요.",
+    "algorithmSectionText1": "<strong>이벤트 유사성 -</strong> 인시던트로 트리거된 이벤트 서명은 정책에 구성된 이벤트의 서명과 일치합니다. 점수가 계산되어 정규화됩니다. 정책에 구성된 작업에는 이벤트 간 점수가 부여됩니다.",
+    "algorithmSectionText2": "<strong>NLP(자연어 처리) -</strong> 사건 발생 이벤트 서명이 작업 카탈로그의 작업 서명과 일치합니다. 서명에는 이름, 설명, 엔티티 유형 및 태그가 포함됩니다. 점수가 계산되어 정규화됩니다.",
+    "algorithmSectionText3": "<strong>성공률 -</strong> 작업은 과거 이벤트 발생 시 실행된 결과에 따라 성공률을 기준으로 점수가 부여됩니다.",
+    "sectionDescription": "Instana는 사건이 발생할 때 생성되는 이벤트 서명을 기반으로 사전 정의된 알고리즘을 사용합니다. 다음은 세 가지 유형의 속성입니다.",
+    "sectionHeading": "Instana 권장 사항",
+    "optimizations": "최적화",
+    "optimizationsExplanation": "인시던트가 참조하는 엔티티에 관련된 IBM Turbonomic 작업이 있는 경우, 해당 작업은 NLP 점수를 기준으로 권장됩니다.",
+    "algorithms": "알고리즘",
+    "policiesExplanation": " 정책 트리거에 지정된 조건과 일치하는 이벤트가 발생하면 해당 정책이 권장 작업으로 나열됩니다.",
+    "learnMoreLink": "작업 권장 사항에 대한 자세한 내용은 IBM Docs에서 알아보세요."
+  },
+  "triggerType": "트리거 유형",
   "GenerateAIActionDialog": {
     "actionConfiguration": "조치 구성",
     "actionDetails": "조치 세부사항 제공",
@@ -246,7 +270,6 @@
     "confidence_high": "높음",
     "bodyDescription": "HTTP 요청과 연관된 데이터입니다.",
     "confidence": "{{context}}",
-    "confidenceHelpText": "이 조치는 다음을 기준으로 권장되었습니다. {{source}}",
     "http": "HTTP",
     "confidenceTitle": "신뢰도",
     "run": "다음을 실행하십시오.",
@@ -433,8 +456,11 @@
     "createANewPolicy": "새 정책 작성",
     "configurePolicyEntityName": "정책 구성: {{entityName}}",
     "1PolicyDetails": "1. 정책 세부사항",
+    "policyDetails": "정책 세부사항",
     "2TriggerConfiguration": "2. 트리거 구성",
+    "triggerConfiguration": "트리거 구성",
     "3ActionConfiguration": "3. 조치 구성",
+    "actionConfiguration": "조치 구성",
     "showsUpInTheListOfPolicies": "정책 목록에 표시됩니다. 고유하며 의미가 있어야 합니다.",
     "showsUpInThePolicyDescription": "정책 설명에 표시됩니다. 가능한 한 구체적이어야 합니다.",
     "manual": "수동",
@@ -493,23 +519,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "정책이 작성되었습니다.",
-        "content": "{{count}}개의 정책이 작성되었습니다.",
         "content_plural": "{{count}}개의 정책이 작성되었습니다.",
         "content_0": "{{count}}개의 정책이 작성되었습니다.",
         "content_1": "{{count}}개의 정책이 작성되었습니다.",
         "content_2": "{{count}}개의 정책이 작성되었습니다."
-      },
-      "failure": {
-        "title": "정책을 작성하는 데 실패했습니다.",
-        "content": "정책을 작성하는 중에 문제가 발생했습니다. {{error}}"
       }
     },
     "deleteDialog": {
       "success": "정책이 삭제되었습니다.",
       "failure": "정책을 삭제하는 데 실패했습니다."
     },
-    "createPolicies": "정책 작성",
     "websiteSmartAlert": "웹 사이트 스마트 경보"
   },
   "infoPanel": {
@@ -593,9 +612,9 @@
       },
       "section2": {
         "section2Title": "입력 프롬프트 필드",
-        "section2EventName": "<strong>이벤트 이름입니다.</strong> 인시던트, 이벤트, 경보의 이름입니다.",
-        "section2Description": "<strong>이벤트 설명입니다.</strong> 인시던트 또는 이벤트에 대한 설명입니다.",
-        "section2Entitytype": "<strong>이벤트 엔티티 유형입니다.</strong> 인시던트 또는 이벤트와 연관된 엔티티의 유형입니다."
+        "section2EventName": "<strong>이벤트 이름 -</strong> 인시던트, 이벤트 또는 경보의 이름입니다.",
+        "section2Description": "<strong>이벤트 설명 -</strong> 인시던트 또는 이벤트의 설명입니다.",
+        "section2Entitytype": "<strong>이벤트 엔티티 유형 -</strong> 인시던트 또는 이벤트와 관련된 엔티티의 유형입니다."
       },
       "section3": {
         "AIModel": "AI 모델"

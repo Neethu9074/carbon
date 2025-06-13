@@ -6,6 +6,7 @@
   "labelAnalytic": "Analyse",
   "labelCall": "Appel",
   "labelTrace": "Trace",
+  "labelSubtrace": "Sous-trace",
   "labelStatus": "Statut",
   "linkDownload": "Télécharger",
   "linkDownloadCalls": "Télécharger les appels",
@@ -92,6 +93,7 @@
   "buttonInspectIssue_1": "Inspecter {{count}} problème",
   "buttonInspectIssue_2": "Inspecter {{count}} problèmes",
   "buttonAnalyzeCalls": "Analyser les appels",
+  "buttonAnalyzeSubtraces": "Analyser les sous-traces",
   "buttonAnalyzeServices": "Services d'analyse",
   "buttonAnalyzeEndpoints": "Analyser les noeuds finaux",
   "buttonClear": "Effacer",
@@ -255,6 +257,7 @@
     "endpoints": "Noeuds finaux",
     "types": "Types",
     "technologies": "Technologies",
+    "NumberOfSubCalls": "Nbr de sous-appels",
     "httpStatusCode": "Statut HTTP",
     "hiddenCalls": "Appels masqués",
     "fastQueryMode": "Mode requête rapide",
@@ -721,7 +724,8 @@
     "traces_traces": "Traces",
     "traces_latency": "Temps d'attente",
     "traces_erroneousCalls": "Traces erronées",
-    "traces_errors": "Taux de traces erronées"
+    "traces_errors": "Taux de traces erronées",
+    "subtraces_subtraceDuration": "Durée"
   },
   "viewLists": {
     "application": "Applications",

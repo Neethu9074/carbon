@@ -27,6 +27,10 @@
       "sloLimitReachedError": "已達到服務水準目標配置數目上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。"
     },
     "traffic": "資料流量",
+    "statuses": {
+      "label_red": "超出目標",
+      "label_green": "在目標內"
+    },
     "indicator": {
       "type": "不明類型",
       "type_eventBased": "事件計數",
@@ -242,7 +246,7 @@
   "sloChart": {
     "sloFormatter": {
       "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
-      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}\" })"
     },
     "sloChartSummary": {
       "status": "狀態",
@@ -271,17 +275,40 @@
   },
   "sloList": {
     "components": {
+      "sloListTable": {
+        "serviceLevelsCreateButton": "建立服務水準目標",
+        "filterLabel": "過濾器",
+        "clearLabel": "清除",
+        "filterClose": "關閉",
+        "sloListErrorTitle": "出了一些問題",
+        "sloListErrorDescription": "發生非預期的錯誤。 請重新整理頁面或稍後重試。",
+        "emptyListStateTitle": "找不到任何結果",
+        "emptyListStateSubtitle": "請嘗調整您的搜尋或過濾選項，找到您要尋找的項目。",
+        "emptyListStateIllustrationDescription": "顯示無法使用的資料"
+      },
+      "sloListFilters": {
+        "filterStatus": "狀態",
+        "filterTags": "標籤",
+        "filterBlueprint": "藍圖",
+        "filterEntity": "實體"
+      },
       "sloEntityInfo": {
         "service": "服務：{{label}}",
         "endpoint": "端點：{{label}}",
         "tooltip": "{{context}} SLO"
       },
-      "entityTypeFilter": {
-        "placeholder": "實體類型"
+      "statusFilter": {
+        "sloStatusAll": "全部"
       },
       "sloTagFilter": {
-        "placeholder": "標籤",
-        "noTagsInfo": "沒有可用的標籤"
+        "placeholder": "選取標籤",
+        "noTagsInfo": "沒有可用的標籤",
+        "clearFilters": "清除過濾器",
+        "filters": "未知過濾器",
+        "filters_entityType": "實體類型：$t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
+        "filters_blueprint": "藍圖：$t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
+        "filters_sloStatus": "狀態：$t(in-service-levels:general.statuses.label, {\"context\":\"{{value}}\"})",
+        "filters_tags": "標籤：{{value}}"
       },
       "sloStatusColumnContent": {
         "target": "目標 {{target}}"
@@ -341,7 +368,7 @@
         "totalTraffic": "總計：{{value}}"
       },
       "burnRateKpiCard": {
-        "burnRateInfo": "所選取 SLO 時間視窗的消耗率"
+        "burnRateInfo": "選取的 SLO 時間視窗內的消耗率"
       },
       "errorBudgetChart": {
         "title": "錯誤預算"
