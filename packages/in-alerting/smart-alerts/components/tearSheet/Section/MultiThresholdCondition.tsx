@@ -14,6 +14,10 @@ import {
   updateAlertChannelSelectionOnCriticalThresholdFieldChange
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
+import {
+  WARNING_THRESHOLD,
+  CRITICAL_THRESHOLD
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import { getMaxMetricValue } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
@@ -96,8 +100,20 @@ export default function MultiThresholdCondition({
             label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
             size="large"
             checked={warningThresholdValuePresent}
-            onChange={() => {
-              updateForm(updatedThresholdCheckboxSelection(warningThresholdValuePresent, 'warningThreshold'));
+            onChange={({ target }) => {
+              if (setValidNextValue) {
+                setValidNextValue({
+                  isChecked: target.checked,
+                  thresholdValue: criticalThresholdValue,
+                  thresholdType: WARNING_THRESHOLD,
+                  updateForm,
+                  updatedThresholdValue,
+                  percentageMetric,
+                  operator
+                });
+              } else {
+                updateForm(updatedThresholdCheckboxSelection(warningThresholdValuePresent, 'warningThreshold'));
+              }
             }}
           />
           <ThresholdValueInputWithValidationMessage
@@ -141,8 +157,8 @@ export default function MultiThresholdCondition({
               if (setValidNextValue) {
                 setValidNextValue({
                   isChecked: target.checked,
-                  warningThresholdValue,
-                  thresholdType: 'criticalThreshold',
+                  thresholdValue: warningThresholdValue,
+                  thresholdType: CRITICAL_THRESHOLD,
                   updateForm,
                   updatedThresholdValue,
                   percentageMetric,
