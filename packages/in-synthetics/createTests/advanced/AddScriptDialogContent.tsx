@@ -30,7 +30,6 @@ import { syntheticNodeJs22Enabled } from 'in-services/featureFlags';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import SlideInView from 'in-components/SlideInView/SlideInView';
-import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import CodeInput from 'in-synthetics/packages/Code/CodeInput';
@@ -64,14 +63,14 @@ export default function AddScriptDialogContent({
   const [modified, isModified] = useState(true);
   const [zipFile, setZipFile] = useState(zipFileDetails);
   const [mainFileError, setMainFileError] = useState({ invalid: false, message: '' });
-  const basicFilesSupported = ['js'];
-  const additionalFilesSupported = ['cjs', 'mjs'];
+  const basicFilesSupported = ['js', 'cjs'];
+  const additionalFilesSupported = ['mjs'];
   const supportedFiles = syntheticNodeJs22Enabled
     ? [...basicFilesSupported, ...additionalFilesSupported]
     : basicFilesSupported;
   const acceptedExtensions = syntheticNodeJs22Enabled
     ? ['.js', '.cjs', '.mjs', '.zip', ...(isBrowser ? ['.side'] : [])]
-    : ['text/javascript', '.zip', ...(isBrowser ? ['.side'] : [])];
+    : ['.js', '.cjs', '.zip', ...(isBrowser ? ['.side'] : [])];
   const browserFileUploadDesc = syntheticNodeJs22Enabled
     ? t('in-synthetics:dialog.createTest.advancedMode.configStep.node22BrowserUploadFileDescription')
     : t('in-synthetics:dialog.createTest.advancedMode.configStep.browserUploadFileDescription');
@@ -120,9 +119,10 @@ export default function AddScriptDialogContent({
     }
     try {
       let text = '';
-      const extension = e.target.value.substring(e.target.value.lastIndexOf('.') + 1);
+      let fileName = e.target.files[0].name;
+      const extension = fileName.substring(fileName.lastIndexOf('.') + 1);
       isModified(false);
-      if (supportedFiles.includes(extension) || extension === 'side') {
+      if (supportedFiles.includes(extension) || (isBrowser && extension === 'side')) {
         text = await e.target.files[0].text();
         setScript({ name: e.target.files[0].name, text, extension });
         if (extension === 'side') {
@@ -130,12 +130,21 @@ export default function AddScriptDialogContent({
         } else {
           setScriptErrors(validate(text));
         }
-      } else {
+      } else if (extension === 'zip') {
         setMainFileError({ invalid: false, message: '' });
         const file = e.target.files[0];
         zipToBase64(file, (file, result) => {
           text = result.replace(/^data:application\/[a-z-]+;base64,/, '');
           setScript({ name: file.name, text, scriptFile: '', extension });
+        });
+      } else {
+        setScript({
+          name: '',
+          text: '',
+          errorMessage: t('in-synthetics:dialog.createTest.requestStep.unsupportedFileFormat', {
+            extension: extension
+          }),
+          extension: ''
         });
       }
     } catch (e) {
@@ -178,10 +187,14 @@ export default function AddScriptDialogContent({
                 </div>
               </HorizontalFlexWrapper>
               <Stack direction="vertical" gap="normal">
-                <>
+                <div>
                   <FileInputButton accept={acceptedExtensions.join(',')} onChange={onFileUpload} />
-                  {script.errorMessage && <SaveError>{script.errorMessage}</SaveError>}
-                </>
+                  {script.errorMessage && (
+                    <div className={locals.message}>
+                      <Message type="error" fullInlineWidth title={script.errorMessage} />
+                    </div>
+                  )}
+                </div>
                 {zipFile.blob && (
                   <Button
                     onClick={() => handleZipDownload(zipFile.blob!)}
