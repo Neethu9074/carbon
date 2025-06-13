@@ -22,6 +22,8 @@ import { getInitialScopeType } from 'in-settings/tabs/SecurityAndAccess/pages/ac
 import { useMapFormContext } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 
+import locals from './InfrastructureSection.mless';
+
 interface InfrastructureSectionProps {
   limitedAccessScopes: AccessRestriction[];
   limitedAccessSwitchLabel: string;
@@ -78,7 +80,7 @@ const InfrastructureSection = ({ limitedAccessSwitchLabel, limitedAccessScopes }
             defaultToggled={showDfq}
           />
           {showDfq && (
-            <Stack>
+            <Stack className={locals.dfqSection}>
               <FormGroup legendText={t('in-settings:dialogs.scope.infrastructureDfqLabel')}>
                 <DfqFilter infraDfqFilter={infraDfqFilter} onUpdateDfq={onUpdateInfraDfq} />
                 {(form.touched || (!infraDfqFormField.valid && infraDfqFilterField.hierarchyTouched)) &&
