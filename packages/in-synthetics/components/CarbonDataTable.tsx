@@ -35,9 +35,11 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
   isSearchable,
   filterRows,
   searchText,
-  sortRow
+  sortRow,
+  toolBarContent,
+  actionButtonContent
 }: CarbonDataTableProps<ITEM_TYPE, PropsType>) => {
-  const showToolbar = isSearchable;
+  const showToolbar = isSearchable || toolBarContent || actionButtonContent;
 
   const handleHeaderClick = (
     header: CarbonHeader<ITEM_TYPE, PropsType>,
@@ -67,6 +69,8 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
                       placeholder={searchText}
                     />
                   )}
+                  {toolBarContent ?? null}
+                  {actionButtonContent ?? null}
                 </TableToolbarContent>
               </TableToolbar>
             )}

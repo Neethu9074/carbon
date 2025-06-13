@@ -229,7 +229,7 @@ const TestSummaryList = () => {
           </div>
         )}
         {syntheticCarbonTableEnabled ? (
-          <CarbonDataTableWithUrlState
+          <CarbonDataTableWithUrlState<any, any>
             get={getTestSummaryListData}
             paginationResettingUrlParameters={[...timeConfigUrlParameters]}
             columnDefinitions={columnDefinitions}
@@ -240,6 +240,24 @@ const TestSummaryList = () => {
             timeConfig={timeConfig}
             isSearchable
             searchText={t('in-synthetics:dashboard.testList.searchSyntheticTests')}
+            toolBarContent={
+              syntheticRunNowEnabled && (
+                <Dropdown
+                  className={locals.dropdownWidth}
+                  items={datascopeRunTypes}
+                  onChange={({ selectedItem }) => {
+                    setFilter({ runType: selectedItem?.value! });
+                  }}
+                  label=""
+                  id="runType"
+                  titleText=""
+                  selectedItem={datascopeRunTypes.find(item => item.value === runType)}
+                  initialSelectedItem={datascopeRunTypes[0]}
+                />
+              )
+            }
+            runType={runType}
+            actionButtonContent={role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
           />
         ) : (
           <ServerTableWithUrlState
@@ -274,15 +292,16 @@ const TestSummaryList = () => {
       </LeftRightPadding>
       <Footer />
 
-      {(role?.canConfigureSyntheticTests || role?.canConfigureGlobalSyntheticSmartAlerts) && (
-        <FloatingActionButtons>
-          <FloatingActionButtonMenu>
-            {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
+      {!syntheticCarbonTableEnabled &&
+        (role?.canConfigureSyntheticTests || role?.canConfigureGlobalSyntheticSmartAlerts) && (
+          <FloatingActionButtons>
+            <FloatingActionButtonMenu>
+              {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
 
-            {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
-          </FloatingActionButtonMenu>
-        </FloatingActionButtons>
-      )}
+              {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
+            </FloatingActionButtonMenu>
+          </FloatingActionButtons>
+        )}
     </Sticky>
   );
 };

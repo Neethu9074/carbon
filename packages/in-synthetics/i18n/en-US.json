@@ -340,8 +340,9 @@
         "applicationsTableTitle": "Application(s)",
         "websitesTableTitle": "Website(s)",
         "mobileAppsTableTitle": "Mobile App(s)"
-      }
-    },
+      },
+      "createSyntheticTest": "Create synthetic test"
+  },
     "httpMethods": {
       "get": "GET",
       "post": "POST",

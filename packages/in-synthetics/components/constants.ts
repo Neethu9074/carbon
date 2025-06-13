@@ -38,6 +38,8 @@ export interface CarbonDataTableWithUrlStateProps<
   timeConfig: TimeConfig;
   isSearchable?: boolean;
   searchText?: string;
+  toolBarContent?: JSX.Element | boolean;
+  actionButtonContent?: JSX.Element | boolean;
 }
 
 export interface CarbonDataTablePresenterProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>
@@ -74,6 +76,8 @@ export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PropsType exte
   query: string;
   isSearchable?: boolean;
   searchText?: string;
+  toolBarContent?: JSX.Element | boolean;
+  actionButtonContent?: JSX.Element | boolean;
   filterRows?: (value: React.ChangeEvent<HTMLInputElement>) => void;
   sortRow?: (sortState: { sortDirection: string; sortHeaderKey: string }) => void;
 }

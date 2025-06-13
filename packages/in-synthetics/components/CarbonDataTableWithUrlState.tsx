@@ -16,7 +16,7 @@ import { TableProps } from 'in-components/tables/ServerTable/types';
 export default function CarbonDataTableWithUrlState<
   ITEM_TYPE extends ListItem,
   PROPS_TYPE extends TableProps<ITEM_TYPE>
->(props: CarbonDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>) {
+>(props: CarbonDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE> & PROPS_TYPE) {
   const {
     paginationResettingUrlParameters = emptyArray,
     columnDefinitions: staticColumnDefinitions,
