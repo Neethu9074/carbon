@@ -11,7 +11,7 @@ import { Stack, SvgIcon, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
-import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+import { PlaceholderListWithTooltip } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { insertPlaceholderText } from 'in-alerting/smart-alerts/utils/alertPropertiesTitleUtils';
 //@ts-expect-error TS migrate
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -28,19 +28,19 @@ export interface AlertPropertiesTitleRowProps {
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   getTitlePlaceholder: (form: MapForm<any>) => string;
-  placeholders: ReadonlyArray<Readonly<Placeholder>>;
-  placeholderTooltipContent?: string | undefined;
+  placeholderData: PlaceholderListWithTooltip;
   titlePlaceholder?: string;
 }
 export default function AlertPropertiesTitleRow({
   form,
   onChange,
   getTitlePlaceholder,
-  placeholders,
-  placeholderTooltipContent,
+  placeholderData,
   titlePlaceholder
 }: AlertPropertiesTitleRowProps) {
   const titleTextareaRef = useRef(null);
+  const { placeholders, tooltip } = placeholderData;
+
   return (
     <AlertSection
       titleHtmlFor="name"
@@ -75,8 +75,8 @@ export default function AlertPropertiesTitleRow({
               );
             })}
           </MoreMenu>
-          {placeholderTooltipContent && (
-            <Tooltip align="bottomMiddle" content={placeholderTooltipContent}>
+          {tooltip && (
+            <Tooltip align="topMiddle" content={tooltip}>
               <SvgIcon
                 type="lib_help_error_info_outline"
                 size="s"

@@ -10,7 +10,7 @@ import React from 'react';
 import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
-import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
+import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import { t } from 'in-i18n';
@@ -18,9 +18,14 @@ import { t } from 'in-i18n';
 interface LogMultiThresholdAlertPreviewProps {
   form: MapForm<any>;
   getDescriptionPlaceholder: (form: MapForm<any>, severity?: number) => string;
+  allowedPlaceholders?: ReadonlyArray<Readonly<Placeholder>>;
 }
 
-export function LogMultiThresholdAlertPreview({ form, getDescriptionPlaceholder }: LogMultiThresholdAlertPreviewProps) {
+export function LogMultiThresholdAlertPreview({
+  form,
+  getDescriptionPlaceholder,
+  allowedPlaceholders
+}: LogMultiThresholdAlertPreviewProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
   const warningThresholdValue = warningThresholdField.get('value').value;
@@ -42,7 +47,7 @@ export function LogMultiThresholdAlertPreview({ form, getDescriptionPlaceholder 
         <AlertPreviewHeadline
           title={
             name
-              ? replacePlaceholdersWithMarkup(severityPlaceholderList, name, ({ name }) => name)
+              ? replacePlaceholdersWithMarkup(allowedPlaceholders ?? [], name, ({ name }) => name)
               : getTitlePlaceholder()
           }
         />

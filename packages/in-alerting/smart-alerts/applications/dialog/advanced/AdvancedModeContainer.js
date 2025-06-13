@@ -238,7 +238,7 @@ export default function AdvancedModeContainer(props) {
                 <AlertPropertiesTitleRow
                   form={form}
                   onChange={onChange}
-                  placeholders={placeholdersByEvaluationTypeAndSeverity(evaluationType)}
+                  placeholderData={{ placeholders: placeholdersByEvaluationTypeAndSeverity(evaluationType) }}
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}

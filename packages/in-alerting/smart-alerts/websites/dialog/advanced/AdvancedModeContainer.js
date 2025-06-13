@@ -242,7 +242,7 @@ export default function AdvancedModeContainer(props) {
                       form={form}
                       onChange={onChange}
                       getTitlePlaceholder={getTitlePlaceholder}
-                      placeholders={severityPlaceholderList}
+                      placeholderData={{ placeholders: severityPlaceholderList }}
                     />
                   )}
                 />

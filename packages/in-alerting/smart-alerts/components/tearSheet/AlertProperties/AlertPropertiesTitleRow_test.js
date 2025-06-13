@@ -31,7 +31,7 @@ describe('AlertPropertiesTitleRow : in-alerting/smart-alerts/components/tearShee
         form={form}
         onChange={onChange}
         getTitlePlaceholder={getTitlePlaceholder}
-        placeholders={placeholders}
+        placeholderData={{ placeholders: placeholders }}
       />
     );
     expect(
@@ -51,7 +51,7 @@ describe('AlertPropertiesTitleRow : in-alerting/smart-alerts/components/tearShee
         form={form}
         onChange={onChange}
         getTitlePlaceholder={getTitlePlaceholder}
-        placeholders={placeholders}
+        placeholderData={{ placeholders: placeholders }}
       />
     );
     const placeholderText = screen.getByText(

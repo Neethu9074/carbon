@@ -9,7 +9,7 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 
-import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { Chunk, PARAMETER, toChunks } from 'in-services/util/stringToChunks';
 
 export type HighlightedPlaceholders = (string | JSX.Element)[];

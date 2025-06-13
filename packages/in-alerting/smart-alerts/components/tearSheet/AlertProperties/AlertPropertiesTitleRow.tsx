@@ -11,9 +11,9 @@ import React from 'react';
 import { Button, Stack, SvgIcon, Tooltip } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
+import { PlaceholderListWithTooltip } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 //@ts-expect-error TS migration
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
-import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { insertPlaceholderText } from 'in-alerting/smart-alerts/utils/alertPropertiesTitleUtils';
 //@ts-expect-error TS migrate
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -29,8 +29,7 @@ export interface AlertPropertiesTitleRowProps {
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   getTitlePlaceholder: (form: MapForm<any>) => string;
-  placeholders?: ReadonlyArray<Readonly<Placeholder>>;
-  placeholderTooltipContent?: string | undefined;
+  placeholderData: PlaceholderListWithTooltip;
   showDisabledPlaceholder?: boolean;
   titlePlaceholder?: string;
 }
@@ -38,18 +37,19 @@ export default function AlertPropertiesTitleRow({
   form,
   onChange,
   getTitlePlaceholder,
-  placeholders,
-  placeholderTooltipContent,
+  placeholderData,
   showDisabledPlaceholder = false,
   titlePlaceholder
 }: AlertPropertiesTitleRowProps) {
   const hasError = !form.get('name').valid && form.get('name').touched;
+  const { placeholders, tooltip } = placeholderData;
+
   return (
     <Stack gap="xxsmall">
       <div
         className={classNames(locals.titleRowContainer, {
           [locals.noPlaceholder]: !placeholders,
-          [locals.noPlaceholderTooltip]: placeholders && !placeholderTooltipContent
+          [locals.noPlaceholderTooltip]: placeholders && !tooltip
         })}
       >
         <label>
@@ -105,8 +105,8 @@ export default function AlertPropertiesTitleRow({
             })}
           </MoreMenu>
         )}
-        {placeholderTooltipContent && (
-          <Tooltip align="bottomMiddle" content={placeholderTooltipContent}>
+        {tooltip && (
+          <Tooltip align="topMiddle" content={tooltip}>
             <SvgIcon
               type="lib_help_error_info_outline"
               size="s"

@@ -22,7 +22,7 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearShe
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
@@ -80,10 +80,10 @@ export default function AlertConfigTearSheetStep3({
                 <AlertPropertiesTitleRow
                   form={form}
                   onChange={onChange}
-                  placeholders={placeholders}
-                  placeholderTooltipContent={t(
-                    'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
-                  )}
+                  placeholderData={{
+                    placeholders,
+                    tooltip: t('in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip')
+                  }}
                   getTitlePlaceholder={() => ''}
                   titlePlaceholder={alertNameValue ?? generateTitle(alertTitle)}
                   showDisabledPlaceholder

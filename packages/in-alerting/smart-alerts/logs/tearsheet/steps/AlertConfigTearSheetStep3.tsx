@@ -10,6 +10,10 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import {
+  getAllowedPlaceholders,
+  groupbyForPlaceholder
+} from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import { LogMultiThresholdAlertPreview } from 'in-alerting/smart-alerts/logs/dialog/advanced/LogMultiThresholdAlertPreview';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
@@ -17,7 +21,6 @@ import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
-import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
@@ -34,6 +37,8 @@ export default function AlertConfigTearSheetStep3({
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }) {
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator();
+  const groupBy = form.get('groupBy').value;
+  const placeholders = getAllowedPlaceholders({ groupBy: groupbyForPlaceholder(groupBy) });
 
   return (
     <>
@@ -49,7 +54,10 @@ export default function AlertConfigTearSheetStep3({
                   form={form}
                   onChange={onChange}
                   getTitlePlaceholder={getTitlePlaceholder}
-                  placeholders={severityPlaceholderList}
+                  placeholderData={{
+                    placeholders,
+                    tooltip: t('in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip')
+                  }}
                 />
               )}
               shouldDisplayAlertLevelSelection={false}
@@ -62,7 +70,11 @@ export default function AlertConfigTearSheetStep3({
                 variant="heading-200"
                 content={t('in-alerting:smartAlerts.applications.tearSheet.alertProperties.previewTitle')}
               />
-              <LogMultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
+              <LogMultiThresholdAlertPreview
+                form={form}
+                getDescriptionPlaceholder={getDescriptionPlaceholder}
+                allowedPlaceholders={placeholders}
+              />
             </div>
           )}
           isTearSheet
