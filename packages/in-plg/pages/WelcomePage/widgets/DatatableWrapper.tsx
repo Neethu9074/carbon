@@ -267,8 +267,11 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const dataLoading = result?.progress?.loading;
   const showPagination = mainPage && (dataLoading || hits > pageSizes[0]);
   const dashboardAddMoreLabel = t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel');
+  const serviceLevelsWidgetLable = t('in-plg:welcomepage.component.serviceLevelsWidget.addButtonLabel');
   const addMorePrefix =
-    addButtonLabel === dashboardAddMoreLabel ? t('in-plg:welcomepage.create') : t('in-plg:welcomepage.addMore');
+    addButtonLabel === dashboardAddMoreLabel || serviceLevelsWidgetLable
+      ? t('in-plg:welcomepage.create')
+      : t('in-plg:welcomepage.addMore');
   return (
     <section
       className={classNames({

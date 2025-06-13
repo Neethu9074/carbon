@@ -42,6 +42,8 @@ export function getNoDataHeader(label: string) {
       return t('in-plg:welcomepage.noData.syntheticWidget.smartalerts.header');
     case 'dashboardWidget':
       return t('in-plg:welcomepage.noData.dashboardWidget.header');
+    case 'serviceLevelsWidget':
+      return t('in-plg:welcomepage.noData.serviceLevelsWidget.header');
     default:
       return '';
   }
@@ -84,6 +86,8 @@ export function getNoDataDescription(label: string) {
       return <Trans i18nKey="in-plg:welcomepage.noData.syntheticWidget.smartalerts.description" />;
     case 'dashboardWidget':
       return <Trans i18nKey="in-plg:welcomepage.noData.dashboardWidget.description" />;
+    case 'serviceLevelsWidget':
+      return <Trans i18nKey="in-plg:welcomepage.noData.serviceLevelsWidget.description" />;
     default:
       return '';
   }

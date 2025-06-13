@@ -749,6 +749,12 @@
         "searchPlaceholderLabel": "dashboards",
         "addButtonLabel": "dashboard",
         "viewAllLabel": "dashboards"
+      },
+      "serviceLevelsWidget": {
+        "label": "Service level objectives",
+        "viewAllLabel": "service level objectives",
+        "addButtonLabel": "service level objective",
+        "searchPlaceholderLabel": "service level objectives"
       }
     },
     "noData": {
@@ -810,6 +816,10 @@
       "dashboardWidget": {
         "header": "No custom dashboards",
         "description": "Custom dashboards provide a more tailored view of the information that's important to you.<br><br>To get started, click <strong>Create dashboard</strong>."
+      },
+      "serviceLevelsWidget": {
+        "header": "No service level objectives",
+        "description": "Service level objectives help you set and track performance targets for your services.<br><br>To get started, click <strong>Add service level objectives</strong>."
       }
     },
     "quickLinks": {
