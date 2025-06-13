@@ -74,8 +74,8 @@ export default function TagFilters({
           <Popover
             open={operationalPopover}
             align="bottom-right"
-            autoAlign
             isTabTip
+            caret
             onRequestClose={() => setOperationalPopover(prev => !prev)}
             ref={overflowTagRef}
           >

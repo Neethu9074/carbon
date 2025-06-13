@@ -73,10 +73,10 @@ export function getColumnDefinitions({ isMediumWidth, isSmallWidth, showEntityIn
       size: 200
     }),
     columnHelper.accessor(row => row.configuration.entity.type, {
-      id: 'entityType',
+      id: 'entityName',
       header: t('in-service-levels:sloList.columnLabels.entity'),
       cell: props => <SloEntityColumnContent item={props.row.original} />,
-      enableSorting: false
+      enableSorting: true
       //size: 18.5,
     }),
     columnHelper.accessor(row => row.configuration.indicator.blueprint, {

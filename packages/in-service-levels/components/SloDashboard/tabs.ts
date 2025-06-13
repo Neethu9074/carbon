@@ -45,7 +45,8 @@ const dashboardTabs: Tab<SloTabData, {}>[] = [
     label: t('in-service-levels:sloDashboard.tabs.summaryLabel'),
     path: serviceLevelsObjectiveSummaryFullyQualified,
     component: SloSummary,
-    hideTabLabelWhenAlone: true
+    hideTabLabelWhenAlone: true,
+    isFullWidth: true
   },
   {
     label: t('in-service-levels:sloDashboard.tabs.configurationLabel'),

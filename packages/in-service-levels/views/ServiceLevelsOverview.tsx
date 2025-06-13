@@ -82,7 +82,7 @@ export default function ServiceLevelsOverview() {
         {isServiceLevelsCorrectionWindowsActive && <CorrectionWindows />}
       </LeftRightPadding>
       <Footer />
-      {((isServiceLevelsAlertsActive && !smartAlertCarbonTableEnabled) || isServiceLevelsAlertDetailsActive) && (
+      {isServiceLevelsAlertsActive && !smartAlertCarbonTableEnabled && !isServiceLevelsAlertDetailsActive && (
         <FloatingActionButtons>
           <FloatingActionButton
             icon="lib_alerts_create"

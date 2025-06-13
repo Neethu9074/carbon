@@ -56,8 +56,8 @@ export default function SloEntityInfo({ entities, entityType, service, endpoint,
   const hasMultipleEntities = entities.length > 1;
 
   return (
-    <Stack orientation="horizontal" className={locals.stackAlignCenter}>
-      <Stack orientation="horizontal" className={locals.stackAlignCenter} gap="0.25rem">
+    <Stack orientation="horizontal" className={locals.stackAlignCenter} gap={4}>
+      <Stack orientation="horizontal" className={locals.stackAlignCenter}>
         <Tooltip content={toolTipText}>
           <SvgIcon type={iconType} aria-label={toolTipText} />
         </Tooltip>
