@@ -11157,7 +11157,7 @@
         "capacity": "Capacity",
         "leaked": "Leaked",
         "inodeUsage": "Inode usage",
-        "inodeUsage2": "Inode Usage",
+        "inodeUsage2": "Inode usage",
         "totalUtilization": "Total utilization",
         "readUtilization": "Read utilization",
         "writeUtilization": "Write utilization",
