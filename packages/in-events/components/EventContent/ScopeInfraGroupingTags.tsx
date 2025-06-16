@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { fromBackendModel, removeSurroundingBrackets } from 'in-components/QueryBuilder/transformation/formModel';
-import { GroupingTag, getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
+import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import { deepCopy } from 'in-services/util/object';
@@ -17,7 +17,7 @@ export function ScopeGroupingTags({
   groupingTags
 }: {
   AlertQueryBuilder: QueryBuilderComponent<{}>;
-  groupingTags: GroupingTag[];
+  groupingTags: Record<string, string | number>;
 }) {
   const groupingKeys = Object.keys(groupingTags);
   if (!groupingKeys.length) {
