@@ -15,11 +15,9 @@ import HealthIndicatorButtonPresenter, {
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 // @ts-expect-error needs ts migration
 import { clusterBadgeName } from 'in-kubernetes/clusterDistributions';
-import { getIndicatorPresenter } from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 // @ts-expect-error
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import ArgoCDCluster from 'in-kubernetes/Dashboards/ArgoCD/ArgoCDCluster';
-import { plugin } from 'in-applications/navigation/matrix';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -70,19 +68,19 @@ export default function InfoCardHeader({
             clusterDistributionName: clusterBadgeName(clusterDistribution)
           })}
         />
-        <EntityHealthIndicator IndicatorPresenter={IndicatorPresenter} snapshotId={id} timeConfig={timeConfig} />
+        <EntityHealthIndicator
+          IndicatorPresenter={(props: Readonly<HealthIndicatorButtonPresenterProps>) => {
+            const { maxSeverity, openIssues } = props;
+            if (!maxSeverity && !openIssues) {
+              return null;
+            }
+            return <HealthIndicatorButtonPresenter {...props} />;
+          }}
+          snapshotId={id}
+          timeConfig={timeConfig}
+        />
         <ArgoCDCluster buttonSize="compact" snapshotId={id} timeConfig={timeConfig} />
       </Stack>
     </div>
   );
-}
-
-function IndicatorPresenter(props: Readonly<HealthIndicatorButtonPresenterProps>) {
-  const { maxSeverity, openIssues } = props;
-
-  if (maxSeverity === 0 && openIssues === 0) {
-    return null;
-  }
-
-  return <HealthIndicatorButtonPresenter {...getIndicatorPresenter({ plugin, ...props })} />;
 }

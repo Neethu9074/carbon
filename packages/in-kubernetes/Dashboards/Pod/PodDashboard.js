@@ -149,7 +149,6 @@ function renderButtonLine({ podId, timeConfig, result }) {
         timeConfig={timeConfig}
         plugin={plugins.kubernetesPod}
         tagFilters={getFilters({ clusterName, namespaceName, podName })}
-        pod={result.data}
       />
 
       <AnalyzeCallsButton
