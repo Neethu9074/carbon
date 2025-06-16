@@ -187,7 +187,7 @@
     "@instana/eslint-config-commons": "1.4.0",
     "@instana/import-sort-style-simon": "1.5.0",
     "@instana/pseudo-translation": "1.6.0",
-    "@instana/types": "1.299.565",
+    "@instana/types": "1.299.592",
     "@lezer/generator": "^1.5.0",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.5",
