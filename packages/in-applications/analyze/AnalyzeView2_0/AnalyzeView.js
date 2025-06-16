@@ -39,8 +39,8 @@ import FacetedFilterHiddenCalls from 'in-applications/analyze/components/Faceted
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
+import getSubtraceTagSuggestion from 'in-applications/subscriptions/getSubtraceTagSuggestion';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
-import getSubtraceSideFilter from 'in-applications/subscriptions/getSubtraceSideFilter';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
@@ -641,7 +641,7 @@ function getFacetedSearchSuggestions({
   });
 
   if (dataSource === subtraceDataSource && applicationSubtracesEnabled) {
-    return getSubtraceSideFilter({
+    return getSubtraceTagSuggestion({
       tagFilterExpression: backendQuery,
       tagName: group.groupbyTag,
       filter: {
