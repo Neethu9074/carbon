@@ -246,9 +246,8 @@ function renderMetaInformation({ result }: RenderMetaInformationProps) {
             adjustedWindowSize: result.adjustedWindowSize!,
             resultPrecisionDetails: result.resultPrecisionDetails!,
             errors: (result.errors as InstanaError[]).map(e => ({
-              name: e.code || 'InstanaError',
-              message: e.message,
-              stack: undefined
+              code: e.code || 'InstanaError',
+              message: e.message
             })),
             progress: result.progress!,
             backendTraceId: result.backendTraceId!

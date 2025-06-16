@@ -35,7 +35,6 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 // @ts-expect-error TS migration
 import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { getOtelKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
-import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import { KubernetesClusterListItem, EntityHealthInfo, KubernetesCondition } from 'in-types';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
@@ -63,12 +62,10 @@ const allColumnDefinitions = [
     getContent(
       {
         entityHealthInfo,
-        pod,
-        statusSummary
+        pod
       }: {
         entityHealthInfo: EntityHealthInfo;
         pod: { label: string; id: string; conditions?: KubernetesCondition[] };
-        statusSummary: string;
       },
       {
         deploymentId,
@@ -82,17 +79,11 @@ const allColumnDefinitions = [
     ) {
       const { label: podLabel, id: podId } = pod;
 
-      const { maxSeverity } = getHealthyStatus({
-        podConditions: pod.conditions ?? [],
-        entityHealthInfo,
-        statusSummary
-      });
-
       const props = {
         deploymentId,
         serviceId,
         nodeId,
-        maxSeverity,
+        severity: entityHealthInfo.maxSeverity,
         podLabel,
         podId
       };
@@ -212,29 +203,13 @@ const allColumnDefinitions = [
     id: 'health',
     label: t('in-kubernetes:dashboards.health'),
     getContent(
-      {
-        pod,
-        entityHealthInfo,
-        statusSummary
-      }: {
-        pod: { conditions?: KubernetesCondition[]; id: string };
-        entityHealthInfo: EntityHealthInfo;
-        statusSummary: string;
-      },
+      { pod: { id: podId }, entityHealthInfo }: { pod: { id: string }; entityHealthInfo: EntityHealthInfo },
       { timeConfig }: { timeConfig: TimeConfig }
     ) {
-      const { conditions, id: podId } = pod;
-
-      const { maxSeverity, openIssuesCount } = getHealthyStatus({
-        podConditions: conditions ?? [],
-        entityHealthInfo,
-        statusSummary
-      });
-
       return (
         <EntityHealthIndicator
-          openIssues={openIssuesCount}
-          maxSeverity={maxSeverity}
+          openIssues={entityHealthInfo.openIssues.length}
+          maxSeverity={entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           snapshotId={podId}
@@ -384,10 +359,10 @@ interface PodLinkProps {
   serviceId?: string;
   nodeId?: string;
   podLabel: string;
-  maxSeverity: number;
+  severity: number;
 }
 
-function PodLink({ podId, deploymentId, nodeId, podLabel, maxSeverity }: PodLinkProps) {
+function PodLink({ podId, deploymentId, nodeId, podLabel, severity }: PodLinkProps) {
   const href = useOtelPodDashboard(podId, { deploymentId, nodeId });
-  return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={podLabel} href={href} severity={maxSeverity} />;
+  return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={podLabel} href={href} severity={severity} />;
 }
