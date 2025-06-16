@@ -575,7 +575,9 @@
     "role": {
       "deprecated": "limited scope",
       "newRole": "New role",
-      "permissionsCount": "Permissions"
+      "permissionsCount": "Permissions",
+      "roleDeleteTooltip_Default": "Default role is a built-in role and can't be deleted or renamed.",
+      "roleDeleteTooltip_Owner": "Owner role is a built-in role and can't be deleted or renamed."
     },
     "team": {
       "events": {
