@@ -257,7 +257,7 @@
     "endpoints": "Endpoints",
     "types": "Types",
     "technologies": "Technologies",
-    "NumberOfSubCalls": "Nr. of subcalls",
+    "NumberOfSubCalls": "No. of subcalls",
     "httpStatusCode": "HTTP status",
     "hiddenCalls": "Hidden calls",
     "fastQueryMode": "Fast query mode",
