@@ -144,7 +144,7 @@ export default function SloList({
 
   const {
     table,
-    tableProps: { page, query, orderBy, orderDirection },
+    tableProps: { page, query, orderBy, orderDirection, setServerTableState },
     result
   } = useSloListTable({
     pathSegment,
@@ -165,10 +165,11 @@ export default function SloList({
       setLocalFilters,
       setLocalFilterChange,
       setFilterFromColumnFilters,
-      resetFilters
+      resetFilters,
+      isFiltersEmpty
     },
     groups
-  } = useSloListFilter({ filterUrlPathParams, setFilterUrlPathParams, query });
+  } = useSloListFilter({ filterUrlPathParams, setFilterUrlPathParams, query, setServerTableState });
 
   const { tableContainerRef, animatePanel } = useSloFilterPanelAnimation({ page, result });
 
@@ -261,9 +262,11 @@ export default function SloList({
             <Button
               kind="secondary"
               onClick={() => {
-                resetFilters();
                 setPopoverOpen(false);
                 animatePanel(popoverOpen);
+                if (!isFiltersEmpty) {
+                  resetFilters();
+                }
               }}
             >
               {t('in-service-levels:sloList.components.sloListTable.clearLabel')}
@@ -273,9 +276,12 @@ export default function SloList({
             <Button
               kind="primary"
               onClick={() => {
-                setFilterUrlPathParams(mapColumnFiltersToUrlState(localFilters));
                 setPopoverOpen(false);
                 animatePanel(popoverOpen);
+                if (!isFiltersEmpty) {
+                  setServerTableState({ page: 1 });
+                  setFilterUrlPathParams(mapColumnFiltersToUrlState(localFilters));
+                }
               }}
             >
               {t('in-service-levels:sloList.components.sloListTable.filterLabel')}
@@ -412,7 +418,7 @@ export default function SloList({
           <Pagination
             disabled={result.errors.length > 0}
             page={table.getState().pagination.pageIndex}
-            totalItems={result?.data?.totalHits}
+            totalItems={table.getRowCount()}
             pageSize={table.getState().pagination.pageSize}
             onChange={({ pageSize, page }) => {
               table.setPagination({ pageIndex: page, pageSize: Number(pageSize) });
