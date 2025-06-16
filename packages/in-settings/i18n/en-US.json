@@ -397,7 +397,10 @@
       "successfullyAddedMemberToRole_plural": "Successfully added members to role.",
       "successfullyAddedMemberToRole_1": "Successfully added member to role.",
       "successfullyAddedMemberToRole_2": "Successfully added members to role.",
-      "successfullyRemovedMemberFromRole": "Successfully removed member from role."
+      "successfullyRemovedMemberFromRole": "Successfully removed member from role.",
+      "successfullyAddedMemberToTeam": "Successfully added member to team {{teamName}}.",
+      "successfullyAddedMemberToTeam_plural": "Successfully added members to team {{teamName}}.",
+      "successfullyRemovedMemberFromTeam": "Successfully removed member from team {{teamName}}."
     }
   },
   "dialogs": {
