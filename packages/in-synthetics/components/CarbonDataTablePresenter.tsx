@@ -30,7 +30,17 @@ import locals from './CarbonDataTablePresenter.mless';
 export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
   props: CarbonDataTablePresenterProps<ITEM_TYPE, PROPS_TYPE>
 ) {
-  const { query, page, orderBy, orderDirection, pageSize, pageSizes, onChange = noop, columnDefinitions } = props;
+  const {
+    query,
+    page,
+    orderBy,
+    orderDirection,
+    pageSize,
+    pageSizes,
+    onChange = noop,
+    columnDefinitions,
+    getRowDetails
+  } = props;
   let defaultPageSize = pageSizes?.[0] ?? pageSize;
   const result = props.result ?? (pendingResult as Result<PaginatedResult<ITEM_TYPE>>);
 
@@ -66,6 +76,10 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
   const carbonRows: CarbonRow[] =
     result.data?.items.map((item: ITEM_TYPE, index: number) => {
       const idObj = { id: item.id ?? String(index) };
+      const expandedObj = {
+        expanded: typeof getRowDetails === 'function' ? getRowDetails(item) : undefined
+      };
+
       const newRow = carbonHeaders.map(({ key, getContent, ellipsis, noWrap, useMinimumAmountOfHorizontalSpace }) => {
         const newWidth = typeof ellipsis !== 'boolean' ? ellipsis : null;
         const content = newWidth
@@ -84,7 +98,7 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
           : { [key]: getContent?.(item, props as unknown as PROPS_TYPE, key) };
         return content;
       });
-      const carbonRow: CarbonRow = Object.assign({}, ...newRow, idObj);
+      const carbonRow: CarbonRow = Object.assign({}, ...newRow, idObj, expandedObj);
       return carbonRow;
     }) ?? [];
 
