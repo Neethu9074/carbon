@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Card, DataTable as CarbonDataTable } from '@instana/components';
+import { DataTable as CarbonDataTable, Typography } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -38,8 +38,9 @@ export default function SelectorsList({ resource, defaultOperator = '=' }) {
   }));
 
   return (
-    <Card title={t('in-kubernetes:dashboards.selector')} disableLayer>
+    <>
+      <Typography variant="heading-03">{t('in-kubernetes:dashboards.selector')}</Typography>
       <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-    </Card>
+    </>
   );
 }

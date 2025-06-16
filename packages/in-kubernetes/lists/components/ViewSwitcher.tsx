@@ -35,10 +35,8 @@ export default function KubernetesViewSwitcher() {
   const { k8s, otel } = useCombinedKubernetesClustersConfigs();
   const [namespaces] = useKubernetesNamespacesConfigs();
   const namespacesLabel = `${t('in-kubernetes:namespaces')} (${namespaces?.length ?? 0})`;
-  const clusterLength = isOtelCluster ? otel?.data?.length ?? 0 : k8s?.data?.length;
-  const clusterLabel = `${t('in-kubernetes:clusters')} (${
-    openTelemetryKubernetesUnifiedViewEnabled ? clusterLength : k8s?.data?.length ?? 0
-  })`;
+  const clusterLength = isOtelCluster ? otel?.data?.length : k8s?.data?.length;
+  const clusterLabel = `${t('in-kubernetes:clusters')} (${clusterLength ?? 0})`;
 
   return (
     <>

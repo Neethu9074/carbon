@@ -91,4 +91,10 @@
     fill: currentColor;
     margin-right: 0.25rem;
   }
+
+  .description * {
+    padding-left: 0.25rem !important;
+    .breakWord();
+    white-space: normal;
+  }
 }

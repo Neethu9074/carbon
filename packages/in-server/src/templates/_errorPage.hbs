@@ -8,38 +8,16 @@
   <link rel="apple-touch-icon-precomposed" sizes="152x152" href="apple-touch-icon-152x152.png" />
   <link rel="icon" type="image/x-icon" href="favicon-32x32.png" sizes="any" />
   <title>{{title}} - Instana</title>
-  <link rel="stylesheet" href="/errorPages/main.css">
+  <link rel="stylesheet" href="/errorPages/css/pageserver.css">
 </head>
 <body>
-  <div class="left-side-content" id="main" role="main">
-    <h1 class="title">
-      {{title}}
-    </h1>
 
-    <p class="message">
-      {{message}}
-    </p>
+  {{> (whichError content) }}
 
-    {{#if signOut}}
-      <form id="access-denied-signout-form" class="signout-form" method="post">
-        <button class="link-button signout-button" type="submit" title="{{user.email}}">
-          Sign Out
-        </button>
-      </form>
-    {{/if}}
-
-    <a class="link-button" href="https://status.instana.io/">
-      Instana Status Page
-    </a>
-    <a class="link-button" href="https://support.instana.com/hc/en-us/requests/new">
-      Support
-    </a>
-  </div>
-
-  <script nonce="{{nonce}}">
-    if({{signOut}}) {
-      document.getElementById('access-denied-signout-form').setAttribute("action", '{{{signOutUrl}}}?returnUrl={{{returnUrlWithoutHash}}}' + encodeURIComponent(window.location.hash));
-    }
-  </script>
+  {{#if signOut}}
+    <script nonce="{{nonce}}">
+        document.getElementById('access-denied-signout-form').setAttribute("action", '{{{signOutUrl}}}?returnUrl={{{returnUrlWithoutHash}}}' + encodeURIComponent(window.location.hash));
+    </script>
+  {{/if}}
 </body>
 </html>

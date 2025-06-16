@@ -12,6 +12,9 @@
         width: 100vw;
         max-width: none;
       }
+      .cds--modal-content.c4p--tearsheet__body {
+        overflow: hidden;
+      }
     }
   }
   .progressIndicator {
@@ -21,7 +24,6 @@
   .imageWrapper {
     width: 40%;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     padding-top: var(--cds-spacing-12);
@@ -33,5 +35,10 @@
   }
   .stepOne {
     width: 60%;
+  }
+  .image {
+    min-height: 100%;
+    min-width: 70%;
+    object-fit: contain;
   }
 }

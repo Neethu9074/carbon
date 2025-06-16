@@ -193,7 +193,7 @@ export function getAllAlertConfigsForAllApplications(
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 
-function getAlertConfigsForAllApplications(): Observable<Result<ApplicationSmartAlertConfigWithMetadata[]>> {
+export function getAlertConfigsForAllApplications(): Observable<Result<ApplicationSmartAlertConfigWithMetadata[]>> {
   const request = http<ApplicationSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,

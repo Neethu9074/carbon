@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
@@ -65,11 +65,13 @@ const cancelButton = {
 
 export default function CreateNewPolicyTearsheet({
   policyId,
+  actionId,
   copy = false,
   isFromDashboard = false,
   inEventPage = false
 }: {
   policyId?: string;
+  actionId?: string;
   copy?: boolean;
   isFromDashboard?: boolean;
   inEventPage?: boolean;
@@ -146,6 +148,7 @@ export default function CreateNewPolicyTearsheet({
         copy={copy}
         policyId={policyId}
         policy={policy.data!}
+        actionId={actionId}
         triggers={triggers}
         inEventPage={inEventPage}
         isFromDashboard={isFromDashboard}
@@ -162,9 +165,19 @@ interface TearSheetProps {
   triggers: Triggers;
   isFromDashboard?: boolean;
   inEventPage: boolean;
+  actionId?: string;
 }
 
-function TearSheetLoader({ actions, copy, policy, policyId, triggers, isFromDashboard, inEventPage }: TearSheetProps) {
+function TearSheetLoader({
+  actions,
+  copy,
+  policy,
+  policyId,
+  triggers,
+  isFromDashboard,
+  inEventPage,
+  actionId
+}: TearSheetProps) {
   const { isCopy, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
   const [form, setForm] = usePolicyForm(policy, actions, triggers);
   const { onSubmit, result } = useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEventPage });
@@ -178,6 +191,14 @@ function TearSheetLoader({ actions, copy, policy, policyId, triggers, isFromDash
     } as any,
     cancelButton
   ];
+
+  useEffect(() => {
+    if (actionId) {
+      setForm(form => form.updateIn(['action', 'actionId'], item => item.setValue(actionId as string)));
+      setForm(form => form.updateIn(['action', 'isActionPreSelected'], item => item.setValue(true)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionId]);
 
   return (
     <>
@@ -409,6 +430,7 @@ function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEve
     const policy = getPolicyFromForm(form);
     const selectedAction = getPolicyActionFromActions(actions, policy)!;
     const trigger = getPolicyTriggerFromTriggers(triggers, policy);
+    const isActionPreSelected = form.getIn(['action', 'isActionPreSelected']).value;
 
     const trackerDetails = {
       actionName: selectedAction.name,
@@ -428,8 +450,8 @@ function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEve
             createPolicyTrackerSegment(trackerDetails);
             onSaveSuccess(result.data?.name!);
             close();
-            navigateToPolicyPolicies();
-            if (!isFromDashboard) refresh();
+            if (!isActionPreSelected) navigateToPolicyPolicies();
+            if (!isFromDashboard && !isActionPreSelected) refresh();
           },
           result => {
             onSaveFailure(result?.errors);

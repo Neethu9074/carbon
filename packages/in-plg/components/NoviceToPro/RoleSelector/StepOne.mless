@@ -5,18 +5,11 @@
  */
 
 :local {
-  .card {
-    width: 100%;
-    height: 100%;
-  }
-  .cardWrapper {
-    height: 100%;
-  }
   .grid {
     gap: var(--cds-spacing-03);
     padding: var(--cds-spacing-05);
   }
   .spacing {
-    margin-top: var(--cds-spacing-05);
+    margin-top: var(--cds-spacing-06);
   }
 }

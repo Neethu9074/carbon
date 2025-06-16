@@ -9,28 +9,23 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { HorizontalIndicator, Button } from '@instana/components';
 import { Disposable } from '@instana/observables';
 
-import {
-  getImpactedBeaconByTrace,
-  downloadImpactedBeaconByTrace
-} from 'in-eum/ImpactedUsers/BeaconByTraceQueryHandler';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
-import { getImpactedBeacon, downloadImpactedBeacon } from 'in-eum/ImpactedUsers/ImpactedBeaconsQueryHandler';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { Error, Nullish, Progress, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 // @ts-ignore
 import * as entityUtils from 'in-services/entityUtils';
 import { useEumTracker } from 'in-eum/tracking/segTracker';
+import { Error, Nullish, Progress } from 'in-types';
+import http from 'in-services/http';
 import { t } from 'in-i18n';
 
 interface AnalyzeImpactedUsersButtonProps {
   entityType?: string | unknown;
-  alertType?: string;
+  eventId?: string;
   disabled?: boolean;
-  timeConfig?: TimeConfig | null;
-  tagFilterExpression: TagFilterExpressionElementUnion;
 }
 
 interface ImpactedBeaconTagFilterExpressionProps {
@@ -40,13 +35,7 @@ interface ImpactedBeaconTagFilterExpressionProps {
   excludeViolationRelatedFilters?: boolean;
 }
 
-export default function AnalyzeImpactedUsersButton({
-  entityType,
-  alertType,
-  disabled,
-  timeConfig,
-  tagFilterExpression
-}: AnalyzeImpactedUsersButtonProps) {
+export default function AnalyzeImpactedUsersButton({ entityType, eventId, disabled }: AnalyzeImpactedUsersButtonProps) {
   const [progress, setProgress] = useState<Progress | null>(null);
   const [errors, setErrors] = useState<Array<Error>>([]);
   const subscriptionRef = useRef<Disposable | null>(null);
@@ -60,41 +49,47 @@ export default function AnalyzeImpactedUsersButton({
     []
   );
 
-  const getHandlers = useCallback(() => {
-    if (entityUtils.isWebsiteEntityType(entityType) || entityUtils.isMobileAppEntityType(entityType)) {
-      return {
-        getBeacon: getImpactedBeacon,
-        downloadBeacon: downloadImpactedBeacon
-      };
-    }
-    return {
-      getBeacon: getImpactedBeaconByTrace,
-      downloadBeacon: downloadImpactedBeaconByTrace
-    };
-  }, [entityType]);
-
   const onClickDownload = useCallback(() => {
-    const { getBeacon, downloadBeacon } = getHandlers();
-    subscriptionRef.current = getBeacon(timeConfig, tagFilterExpression, alertType, entityType)
-      .startWith(null)
-      .subscribe(result => {
-        const loading = result?.progress?.loading ?? true;
-        setProgress({
-          loading: loading,
-          percentage: result?.progress?.percentage ? result.progress.percentage * 100 : undefined
-        });
-        setErrors(result?.errors ?? []);
-        if (!loading && subscriptionRef.current && result?.data) {
-          downloadBeacon(
-            result.data,
-            typeof entityType === 'string' ? entityType : '',
-            typeof alertType === 'string' ? alertType : ''
-          );
-          subscriptionRef.current.dispose();
-          subscriptionRef.current = null;
+    if (
+      !entityUtils.isWebsiteEntityType(entityType) &&
+      !entityUtils.isMobileAppEntityType(entityType) &&
+      !entityUtils.isApplicationEntity(entityType)
+    ) {
+      setErrors([
+        {
+          message: 'Source of event should be Application, Website or MobileApp.',
+          code: 'NOT_FOUND'
         }
-      });
-  }, [alertType, tagFilterExpression, timeConfig, getHandlers, entityType]);
+      ]);
+      setProgress(null);
+      return;
+    }
+    setProgress({ loading: true });
+    setErrors([]);
+    return http<string>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/eum/impact/report/${eventId}`,
+      headers: getCsrfHeader()
+    }).subscribe(
+      blobResponse => {
+        const blob = new Blob([blobResponse.body], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `impacted-users-${eventId}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        setProgress(null);
+      },
+      err => {
+        setProgress(null);
+        setErrors([err]);
+      }
+    );
+  }, [entityType, eventId]);
 
   return (
     <>
@@ -121,23 +116,23 @@ export default function AnalyzeImpactedUsersButton({
 }
 
 export function getEnrichedAnalyzeTagFilterFormModelImpactedBeacons({
-    alertId,
-    entityId,
-    entityType,
-    excludeViolationRelatedFilters
-  }: ImpactedBeaconTagFilterExpressionProps) {
-    const tagFilterName = excludeViolationRelatedFilters
-      ? entityUtils.isMobileAppEntityType(entityType)
-        ? 'mobileBeacon.mobileApp.id'
-        : 'beacon.website.id'
-      : 'impactedBeacon.websiteOrMobileApp.id';
+  alertId,
+  entityId,
+  entityType,
+  excludeViolationRelatedFilters
+}: ImpactedBeaconTagFilterExpressionProps) {
+  const tagFilterName = excludeViolationRelatedFilters
+    ? entityUtils.isMobileAppEntityType(entityType)
+      ? 'mobileBeacon.mobileApp.id'
+      : 'beacon.website.id'
+    : 'impactedBeacon.websiteOrMobileApp.id';
 
-    const eumAlertId = excludeViolationRelatedFilters ? null : alertId;
+  const eumAlertId = excludeViolationRelatedFilters ? null : alertId;
 
-    return joinExpressions({
-      expressions: [
-        eumAlertId ? tagFilter('impactedBeacon.alertId', EQUALS, eumAlertId) : null,
-        entityId ? tagFilter(tagFilterName, EQUALS, entityId) : null
-      ].filter(Boolean) as (FormModelElement | FormModelElement[])[]
-    });
-  }
+  return joinExpressions({
+    expressions: [
+      eumAlertId ? tagFilter('impactedBeacon.alertId', EQUALS, eumAlertId) : null,
+      entityId ? tagFilter(tagFilterName, EQUALS, entityId) : null
+    ].filter(Boolean) as (FormModelElement | FormModelElement[])[]
+  });
+}

@@ -6,6 +6,7 @@
 import React from 'react';
 
 import ProgressInformation from 'in-waiting-for-deployment/components/OnboardingWidget/ProgressInformation';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './ProgressSection.mless';
@@ -41,7 +42,11 @@ function getText({ isBackendAvailable, isAgentDeployed }) {
           {t('in-waiting-for-deployment:yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData')}
         </span>
         <br />
-        <span className={locals.description}>{t('in-waiting-for-deployment:letSGetSomeAgentsRunning')}</span>
+        <span className={locals.description}>
+          {newOTelPageEnabled
+            ? t('in-waiting-for-deployment:weAreWaitingForYouToInstallAnInstanaAgentOrCollector')
+            : t('in-waiting-for-deployment:letSGetSomeAgentsRunning')}
+        </span>
       </>
     );
   }

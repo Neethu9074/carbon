@@ -1,0 +1,17 @@
+:local {
+  .investigateContainer {
+    // TODO: remove this once we get rid of row and columns.
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cardWithBorder {
+    border: 1px solid var(--cds-layer-accent);
+  }
+
+  .innerCardsLayout {
+    grid-template-columns: 20rem auto;
+  }
+}

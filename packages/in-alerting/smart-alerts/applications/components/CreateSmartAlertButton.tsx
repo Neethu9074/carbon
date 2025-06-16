@@ -21,8 +21,8 @@ import {
 import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 //@ts-expect-errors
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { ADVANCED, FULLSCREEN, SIMPLE, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
@@ -31,6 +31,8 @@ import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { events } from 'in-settings/navigation/paths';
+import { Location } from 'in-stores/navigation/types';
 
 import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
 
@@ -104,12 +106,14 @@ export function CreateSmartAlertButtonForCarbonTable({
   isGlobal,
   renderAsSimpleButton,
   buttonName,
-  isFloatingButton
+  isFloatingButton,
+  location
 }: {
   isGlobal: boolean;
   renderAsSimpleButton?: boolean;
   buttonName: string;
   isFloatingButton?: boolean;
+  location: Location;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
   const createSmartAlertPath = getLinkToCreateSmartAlert({
@@ -124,7 +128,11 @@ export function CreateSmartAlertButtonForCarbonTable({
         onClose={() => {
           close();
 
-          if (location?.pathname === alertsTabListFullyQualified || location?.pathname === alertsList) {
+          if (
+            location?.pathname === alertsTabListFullyQualified ||
+            location?.pathname === alertsList ||
+            location?.pathname === events
+          ) {
             refreshSmartAlertConfigsList();
           }
         }}

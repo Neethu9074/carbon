@@ -31,7 +31,11 @@ export const k8sChartColors = {
 
   available: chartColors.strokeColors100[0],
 
-  desired: chartColors.strokeColors100[1]
+  desired: chartColors.strokeColors100[1],
+
+  total: chartColors.threeColorPalette[0],
+
+  used: chartColors.threeColorPalette[1]
 };
 
 export const k8sClusterChart = {

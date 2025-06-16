@@ -50,6 +50,12 @@ const createCredentialForm = (credentialNames: string[], savedState?: Record<str
       })
     )
     .put(
+      'rbacTags',
+      createField({
+        value: savedState?.rbacTags ?? []
+      })
+    )
+    .put(
       'applications',
       createField({
         value: savedState?.applications ?? [],

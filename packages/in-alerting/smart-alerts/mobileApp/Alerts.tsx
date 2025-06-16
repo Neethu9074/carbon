@@ -6,10 +6,13 @@
 
 import React from 'react';
 
-// import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import { HistoricBaselineConfig } from '@instana/types/typeDefinitions';
 import { MobileAppAlertRuleUnion, ThresholdConfigUnion } from '@instana/types';
+import { HistoricBaselineConfig } from '@instana/types/typeDefinitions';
 
+import {
+  getAllAlertConfigsWithResult,
+  getAllMobileAppAlertConfigsWithResult
+} from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import {
   MobileAppSmartAlertConfigWithMetadata,
   MobileAppSmartAlertConfig
@@ -18,12 +21,13 @@ import {
 import { useGetMobileAppProps } from 'in-alerting/smart-alerts/mobileApp/hooks/useGetMobileProps';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
+import { alertsTabDetailsFullyQualified, alertsTab, mobileAppPath } from 'in-mobile-apps/navigation/paths';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/mobileApp/hooks/useSmartAlertCreateUrl';
 import AlertBaseList, { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
-import { alertsTabDetailsFullyQualified, alertsTab } from 'in-mobile-apps/navigation/paths';
+import MobileAppLabel from 'in-alerting/smart-alerts/mobileApp/components/MobileAppLabel';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
@@ -35,15 +39,16 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { mobileAppId } from 'in-mobile-apps/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
-export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
+export default function Alerts({ mobileAppId, mobileAppLabel, isEventsView = false }: AlertsProps) {
   const handlers = role?.canConfigureMobileAppSmartAlerts ? actionHandlers : {};
 
   const mobileAppData = useGetMobileAppProps();
@@ -60,22 +65,29 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
       <AlertBaseList<MobileAppSmartAlertConfigWithMetadata>
         extraColumnDefinitions={getExtraColumnDefinition(mobileAppLabel)}
         actionHandlers={handlers}
-        getAlertConfigs={() => getAllAlertConfigsWithResult(mobileAppId)}
+        getAlertConfigs={() =>
+          isEventsView ? getAllMobileAppAlertConfigsWithResult() : getAllAlertConfigsWithResult(mobileAppId)
+        }
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
         sortOptions={sortOptions}
         createRowLinkLocation={createRowLinkLocation}
-        alertsTab={alertsTab}
+        alertsTab={isEventsView ? eventsPath : alertsTab}
         // for carbon table
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
-        getNameSubtitle={() => getMobileAppSubtitle(mobileAppLabel)}
+        getNameSubtitle={config =>
+          isEventsView ? <MobileAppLabel mobileAppID={config.mobileAppId} /> : getMobileAppSubtitle(mobileAppLabel)
+        }
         displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
-          role?.canConfigureMobileAppSmartAlerts ? <CreateSmartAlert {...mobileAppData} isListingPage /> : undefined
+          role?.canConfigureMobileAppSmartAlerts && !isEventsView ? (
+            <CreateSmartAlert {...mobileAppData} isListingPage />
+          ) : undefined
         }
         noDataHeader={t('in-alerting:smartAlerts.mobileApp.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.mobileApp.alertList.noDataDescription" />}
         useSmartAlertCreateUrl={useSmartAlertCreateUrl as (args: AlertURLProps & { mobileAppId?: string }) => string}
+        displayTitle={isEventsView}
       />
     </>
   );
@@ -142,6 +154,11 @@ function createRowLinkLocation(config: MobileAppSmartAlertConfigWithMetadata, lo
     ...location,
     pathname: alertsTabDetailsFullyQualified
   };
+
+  const mobileAppIdExists = getMatrixParameter(rowLinkLocation, mobileAppPath, mobileAppId);
+  if (!mobileAppIdExists) {
+    setOrDeleteMatrixKey(rowLinkLocation, mobileAppPath, mobileAppId, config.mobileAppId);
+  }
 
   setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertId, config.id);
   setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertCreated, config.created);

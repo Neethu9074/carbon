@@ -14,6 +14,7 @@ import { SidePanel } from '@instana/ibm-products';
 import { RootCauseTopologySVGWrapper } from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologySVGWrapper';
 import convertRCALinksToElkLinks from 'in-events/components/RootCauseAnalysis/Topology/utils/convertRCALinksToElkLinks';
 import convertRCANodesToElkNodes from 'in-events/components/RootCauseAnalysis/Topology/utils/convertRCANodesToElkNodes';
+import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
 import { ConnectionsMap, NodesMap, RCA_TOPOLOGY_TAGS } from 'in-events/components/legacy/TopologyUtils';
 import TopologyContextMenu from 'in-events/components/RootCauseAnalysis/Topology/TopologyContextMenu';
 import { TopologyGraphNode } from 'in-events/components/RootCauseAnalysis/Topology/types';
@@ -27,9 +28,16 @@ interface RootCauseTopologyProps {
   nodes: NodesMap;
   width: string;
   height: string;
+  showSidePanel?: boolean;
 }
 
-export default function RootCauseTopology({ relationships, nodes, width, height }: RootCauseTopologyProps) {
+export default function RootCauseTopology({
+  relationships,
+  nodes,
+  width,
+  height,
+  showSidePanel = true
+}: RootCauseTopologyProps) {
   const links = convertRCALinksToElkLinks(relationships);
   const graphNodes = convertRCANodesToElkNodes(nodes);
 
@@ -44,6 +52,7 @@ export default function RootCauseTopology({ relationships, nodes, width, height 
         height={height}
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
+        showSidePanel={showSidePanel}
       />
     </div>
   );
@@ -64,12 +73,22 @@ interface TopologyPresenterProps {
   height: string;
   algorithm: string;
   setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
+  showSidePanel: boolean;
 }
-function RootCauseTopologyPresenter({ nodes, links, width, height, algorithm, setAlgorithm }: TopologyPresenterProps) {
+function RootCauseTopologyPresenter({
+  nodes,
+  links,
+  width,
+  height,
+  algorithm,
+  setAlgorithm,
+  showSidePanel
+}: TopologyPresenterProps) {
   const [positions, setPositions] = useState<TopologyGraphNode>();
-  const [currentlyOpen, setCurrentlyOpen] = useState<string>('');
-  const currentlyOpenEntity = nodes.find(n => n.id === currentlyOpen) || emptyNode;
+  const { selectedEntityId, setSelectedEntityId } = useEntitySelection();
+  const currentlyOpenEntity = nodes.find(n => n.id === selectedEntityId) || emptyNode;
   const elk = useMemo(() => new ELK(), []);
+  const containerId = useMemo(() => `rootCauseTopologyContainer-${Math.random().toString(36).substr(2, 9)}`, []);
 
   const graph: TopologyGraphNode = useMemo(
     () => ({
@@ -100,7 +119,7 @@ function RootCauseTopologyPresenter({ nodes, links, width, height, algorithm, se
   if (!positions) return <LoadingSkeleton />;
 
   const nodeElements = positions.children?.map(node => (
-    <TopologyNode setCurrentlyOpen={setCurrentlyOpen} node={node as TopologyGraphNode} key={node.id} />
+    <TopologyNode setCurrentlyOpen={setSelectedEntityId} node={node as TopologyGraphNode} key={node.id} />
   ));
 
   const linkElements = positions.edges?.map(edge => <TopologyLine key={`link_${edge.id}`} link={edge} />);
@@ -120,21 +139,24 @@ function RootCauseTopologyPresenter({ nodes, links, width, height, algorithm, se
         defs={defs}
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
+        containerId={containerId}
       >
         {linkElements}
         {nodeElements}
       </RootCauseTopologySVGWrapper>
-      <SidePanel
-        open={!isEmpty(currentlyOpen)}
-        slideIn
-        selectorPageContent="#rootCauseTopologyContainer"
-        onRequestClose={() => setCurrentlyOpen('')}
-        title={currentlyOpenEntity.label}
-        className={locals.topologySidePanel}
-        size="sm"
-      >
-        <TopologyContextMenu node={currentlyOpenEntity} />
-      </SidePanel>
+      {showSidePanel && (
+        <SidePanel
+          open={!isEmpty(selectedEntityId)}
+          slideIn
+          selectorPageContent={`#${containerId}`}
+          onRequestClose={() => setSelectedEntityId('')}
+          title={currentlyOpenEntity.label}
+          className={locals.topologySidePanel}
+          size="sm"
+        >
+          <TopologyContextMenu node={currentlyOpenEntity} />
+        </SidePanel>
+      )}
     </div>
   );
 }

@@ -14,15 +14,12 @@ import {
   alertsDetailsPath,
   dashboardAlertDetailsFullPath
 } from 'in-logging/navigation/paths';
-import {
-  getAllAlertConfigsWithResult,
-  getLogsConfigsAsResultObservable
-} from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
+import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
@@ -52,7 +49,7 @@ export default function Alerts({ isLogsDashboardHeader = false, isEventsView = f
     <AlertBaseList<LogSmartAlertConfigWithMetadata>
       extraColumnDefinitions={getColumnDefinitions()}
       actionHandlers={handlers}
-      getAlertConfigs={() => (isEventsView ? getLogsConfigsAsResultObservable() : getAllAlertConfigsWithResult())}
+      getAlertConfigs={() => getAllAlertConfigsWithResult()}
       getSubtitle={config => getSubtitle(config.threshold)}
       sortOptions={sortOptions}
       alertsTab={isEventsView ? eventsPath : alertsPath}

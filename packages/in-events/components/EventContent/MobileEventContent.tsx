@@ -31,7 +31,7 @@ import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlert
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
-import { eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
+import { eumImpactedUsersForWebsiteAndMobileAlertEnabled } from 'in-services/featureFlags';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -128,7 +128,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
           </Card>
         </Col>
       </Row>
-      {eumImpactedUsersForAppAlertEnabled && (
+      {eumImpactedUsersForWebsiteAndMobileAlertEnabled && (
         <Row withoutSideMargin>
           <Col xs>
             <SmartAlertImpactedUsers

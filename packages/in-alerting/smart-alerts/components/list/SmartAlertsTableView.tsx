@@ -9,13 +9,15 @@ import { isEmpty, isEqual } from 'lodash';
 
 import { CarbonTab, CarbonTabList, CarbonTabPanels } from '@instana/components';
 import { CarbonTabs } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 
 import {
+  AlertFetchFunction,
+  FetchedConfigs,
   getConfigByCategory,
   getSearchResults,
-  sortBy,
-  useSmartAlertConfigs
+  sortBy
 } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import {
   defaultState,
@@ -30,10 +32,13 @@ import {
 } from 'in-alerting/smart-alerts/components/list/constants';
 import SmartAlertTablePresenter from 'in-alerting/smart-alerts/components/list/SmartAlertTablePresenter';
 import TableSortingConfigurator from 'in-alerting/smart-alerts/components/list/TableSortingConfigurator';
+import { refreshSmartAlertConfigsStats } from 'in-events/components/SmartAlerts/Components/SmartAlerts';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import { isLoading, success, successObservable } from 'in-services/util/result';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { success } from 'in-services/util/result';
+import { pendingResult } from 'in-services/fixedObjects';
+import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 const pageSizes = [10, 20, 30, 40, 50];
@@ -112,6 +117,7 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
       const items = [...searchResultsSelected].sort(sortBy(orderBy, orderDirection)).slice(offset, until);
       if (!isEqual(listItems, items)) {
         setListItems(items);
+        refreshSmartAlertConfigsStats(true);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -271,4 +277,19 @@ function useOptionalExternalState(externalState: TableState, setExternalState: (
     return [externalState, setExternalState] as const;
   }
   return [state, setState] as const;
+}
+
+export function useSmartAlertConfigs<AlertConfig extends AlertConfigType>(
+  getAlertConfigFetchFunction: AlertFetchFunction<AlertConfig> = () => successObservable<AlertConfig[]>([])
+): FetchedConfigs<AlertConfig> {
+  const result =
+    useObservable(() => {
+      return refreshSignal.flatMap(getAlertConfigFetchFunction);
+    }, []) ?? (pendingResult as Result<AlertConfig[]>);
+
+  return {
+    configs: result?.data ?? [],
+    isLoading: isLoading(result),
+    errors: result?.errors
+  };
 }

@@ -46,5 +46,34 @@
       "viewSwitcherLabelMore": "계속",
       "viewSwitcherLabelTools": "Tools",
       "viewSwitcherLabelAdministration": "Administration"
+    },
+        "errorPages": {
+      "404": {
+        "title": "Page not found",
+        "label": "Error 404",
+        "description": "The page you requested has moved or is unavailable, or the specified URL is not valid. Please check the URL or search the site for the requested content."
+      },
+      "403": {
+        "title": "Access denied",
+        "label": "Error 403",
+        "description": "You are not authorized to access the requested page. Please verify that you are logged in to the hosting environment and your access permissions are correct."
+      },
+      "500": {
+        "title": "Internal server error",
+        "label": "Error 500",
+        "description": "An undefined server-side error has occurred and the server is unable to fulfill your request. Please refresh the page or try again later."
+      },
+      "maintenance": {
+        "title": "Page unavailable",
+        "label": "Maintenance",
+        "description": "We are currently busy upgrading the system. Your environment will be back shortly."
+      },
+      "links": {
+        "statusLink": "Instana status page",
+        "supportLink": "Support",
+        "homeLink": "Home",
+        "adminLink": "Contact administrator for access",
+        "signoutButtonLabel": "Sign out"
+      }
     }
   }

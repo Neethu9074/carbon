@@ -22,6 +22,7 @@ import {
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
 
@@ -48,6 +49,7 @@ export default function InfraMultiThresholdCondition({
   const thresholdType = getThresholdTypeOptions();
   const warningThresholdField = form.get('threshold').get('warningThreshold').get('value');
   const criticalThresholdField = form.get('threshold').get('criticalThreshold').get('value');
+  const operator = form.get('threshold').get('operator').value;
 
   const warningThresholdValue = warningThresholdField.value;
   const criticalThresholdValue = criticalThresholdField.value;
@@ -122,9 +124,17 @@ export default function InfraMultiThresholdCondition({
         label={t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')}
         size="large"
         checked={criticalThresholdValuePresent}
-        onChange={() =>
-          updateForm(updatedThresholdCheckboxSelection(criticalThresholdValuePresent, 'criticalThreshold'))
-        }
+        onChange={({ target }) => {
+          setValidNextValue({
+            isChecked: target.checked,
+            warningThresholdValue,
+            thresholdType: 'criticalThreshold',
+            updateForm,
+            updatedThresholdValue,
+            percentageMetric,
+            operator
+          });
+        }}
       />
       <ThresholdValueInputWithValidationMessage
         max={maxValue}

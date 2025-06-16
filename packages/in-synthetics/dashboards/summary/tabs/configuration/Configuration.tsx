@@ -14,6 +14,7 @@ import { Button } from '@instana/components';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
+import { rbacTeamsEnabled, syntheticDnsEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
 import { clickSyntheticMonitoringConfigurationTabDeleteTracker } from 'in-synthetics/tracking/tracker';
@@ -22,7 +23,7 @@ import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/secti
 import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sections/TestType';
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
-import { syntheticDnsEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
+import Teams from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Teams';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -266,6 +267,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       <Schedule test={test.data} />
       <Identify test={test.data} />
       {(syntheticRbacLimitedEnabled || syntheticRbacLimitedEnabled) && <Associations test={test.data} />}
+      {rbacTeamsEnabled && <Teams test={test.data} />}
       <CustomProperties test={test.data} />
     </Card>
   );

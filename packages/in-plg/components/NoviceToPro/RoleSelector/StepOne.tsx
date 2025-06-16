@@ -68,33 +68,37 @@ const roles = Object.freeze([
     value: 'itDecisionMaker',
     label: t('in-plg:trialNoviceToProDialog.roles.itDecisionMaker')
   },
-  { id: 'support', value: 'support', label: t('in-plg:trialNoviceToProDialog.roles.support') },
+  {
+    id: 'support',
+    value: 'support',
+    label: t('in-plg:trialNoviceToProDialog.roles.support')
+  },
   {
     id: 'productManager',
     value: 'productManager',
     label: t('in-plg:trialNoviceToProDialog.roles.productManager')
   },
-  { id: 'preferNotToSay', value: 'preferNotToSay', label: t('in-plg:trialNoviceToProDialog.roles.preferNotToSay') },
-  { id: 'other', value: 'other', label: t('in-plg:trialNoviceToProDialog.roles.other') }
+  {
+    id: 'preferNotToSay',
+    value: 'preferNotToSay',
+    label: t('in-plg:trialNoviceToProDialog.roles.preferNotToSay')
+  },
+  {
+    id: 'other',
+    value: 'other',
+    label: t('in-plg:trialNoviceToProDialog.roles.other')
+  }
 ]);
 
 const TileComponent = ({ value, label, id, selectedRole, setSelectedRole }: TileComponentProps) => {
   const isSelected = selectedRole === value;
   return (
-    <RadioTile
-      id={id}
-      className={locals.card}
-      value={value}
-      checked={isSelected}
-      onChange={() => setSelectedRole(value)}
-    >
-      <div className={locals.cardWrapper}>
-        <Stack orientation="horizontal">
-          <Stack orientation="vertical" gap="xxsmall">
-            <Typography variant="body-compact-01">{label}</Typography>
-          </Stack>
+    <RadioTile id={id} value={value} checked={isSelected} onChange={() => setSelectedRole(value)}>
+      <Stack orientation="horizontal">
+        <Stack orientation="vertical" gap="xxsmall">
+          <Typography variant="body-compact-01">{label}</Typography>
         </Stack>
-      </div>
+      </Stack>
     </RadioTile>
   );
 };
@@ -110,12 +114,13 @@ export function StepOne({
   return (
     <LeftRightPadding>
       <Stack className={locals.spacing} gap={8} orientation="vertical">
-        <Stack gap={8} orientation="vertical" />
-        <Typography variant="heading-03">{t('in-plg:trialNoviceToProDialog.description')}</Typography>
+        <Stack className={locals.spacing} gap={6} orientation="vertical">
+          <Typography variant="heading-03">{t('in-plg:trialNoviceToProDialog.description')}</Typography>
+        </Stack>
         <Row>
           <Grid fullWidth condensed className={locals.grid}>
             {roles.map(role => (
-              <Column key={role.id} lg={5} md={4}>
+              <Column key={role.id} lg={5} md={6} sm={3}>
                 <TileComponent
                   value={role.value}
                   id={role.id}
@@ -127,7 +132,7 @@ export function StepOne({
             ))}
           </Grid>
           <Grid fullWidth condensed className={locals.grid}>
-            <Column lg={15} md={8}>
+            <Column lg={15} md={6} sm={3}>
               {selectedRole === 'other' && (
                 <TextInput
                   id="otherRoleInput"
@@ -142,7 +147,7 @@ export function StepOne({
           </Grid>
           {!isControlledEnvEnabled && (
             <Grid fullWidth condensed className={locals.grid}>
-              <Column lg={15} md={8}>
+              <Column lg={15} md={6} sm={3}>
                 <Checkbox
                   id="userTestingGroup"
                   labelText={t('in-plg:trialNoviceToProDialog.checkboxText')}

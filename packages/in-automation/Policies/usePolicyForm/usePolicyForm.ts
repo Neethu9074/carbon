@@ -118,6 +118,9 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
               })
             },
             validator: policyTypeValidator
+          }),
+          isActionPreSelected: createField({
+            value: false
           })
         },
         validator: composeAndShortCircuitOnError(

@@ -4,17 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
-import { get } from 'lodash';
+import { Map } from 'immutable';
 import React from 'react';
 
 import { AggregationType, KubernetesCluster, ResultType, TimeConfig } from '@instana/types';
 
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
-import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import { bytesTwoDecimalPlaces, percentage, twoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 // @ts-expect-error
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 // @ts-expect-error
@@ -23,16 +21,13 @@ import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/L
 // @ts-expect-error
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { k8sChartColors, k8sClusterChart } from 'in-kubernetes/components/K8sChartColors';
+import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import { summaryTab, useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
-import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { getChartGranularity } from 'in-stores/metric';
+import { percentage } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
@@ -42,12 +37,11 @@ interface SummaryProps {
   timeConfig: TimeConfig;
 }
 
+export const SPECS = [AVAILABLE_SPECS.GAUGE, AVAILABLE_SPECS.HISTOGRAM, AVAILABLE_SPECS.SUM, AVAILABLE_SPECS.SUMMARY];
+
 export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = cluster?.id;
-
-  const { running, limits, requests, usage } = k8sChartColors;
-  const { pending, capacity, allocated } = k8sClusterChart;
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,
@@ -67,46 +61,6 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
     timeConfig,
     resultType: 'SINGLE_NUMBER' as ResultType
   };
-
-  const defaultMetricConfig = {
-    granularity: getChartGranularity(timeConfig),
-    aggregation: 'MEAN' as AggregationType,
-    source,
-    tagFilterExpression,
-    timeConfig,
-    timeShift: 0,
-    type
-  };
-
-  const isContainerMetric = {
-    /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
-      type filtering must be disabled and cross series aggregation uses SUM */
-    type: undefined,
-    crossSeriesAggregation: 'SUM' as AggregationType
-  };
-
-  const allItemsNodesHrefs = useClusterDashboard(cluster?.id, {
-    tab: '/nodes'
-  });
-
-  const allItemsNamespacesHrefs = useClusterDashboard(cluster?.id, {
-    tab: '/namespaces'
-  });
-
-  const allItemsDeploymentsHrefs = useClusterDashboard(cluster?.id, {
-    tab: '/deployments'
-  });
-
-  const allItemsDeploymentsConfigsHrefs = useClusterDashboard(cluster?.id, {
-    tab: '/deploymentconfigs'
-  });
-
-  function addUsageToMetrics(metricsArr: Metric[], metric: Metric) {
-    if (k8sClusterUsageEnabled) {
-      metricsArr.push(metric);
-    }
-    return metricsArr;
-  }
 
   return (
     <>
@@ -183,152 +137,13 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
           />
         </Col>
       </Row>
-      <Row verticallyStretchColumns>
-        <Col lg={4}>
-          <KubernetesTimeShiftChartPresenter
-            metrics={addUsageToMetrics(
-              [
-                {
-                  metric: 'requiredCPU',
-                  label: t('in-kubernetes:dashboards.requests'),
-                  color: requests,
-                  ...defaultMetricConfig,
-                  ...isContainerMetric
-                },
-                {
-                  metric: 'limitCPU',
-                  label: t('in-kubernetes:dashboards.limits'),
-                  color: limits,
-                  ...defaultMetricConfig
-                },
-                {
-                  metric: 'nodes.capacity_cpu',
-                  label: t('in-kubernetes:dashboards.capacity'),
-                  color: capacity,
-                  ...defaultMetricConfig
-                }
-              ],
-              {
-                metric: 'cpu.total_usage',
-                label: t('in-kubernetes:dashboards.usage'),
-                color: usage,
-                ...defaultMetricConfig
-              }
-            )}
-            title={t('in-kubernetes:dashboards.cpuResources')}
-            colors={[requests, limits, capacity, usage]}
-            formatter="number.compact"
-            tooltipFormatter={twoDecimalPlaces}
-            paramTab="cpuTab"
-            paramMetric="cpuMetric"
-            path={summaryTab}
-            hasActionlane
-            snapshotId={snapshotId}
-            hasButtonInActionslane={false}
-          />
-        </Col>
-        <Col lg={4}>
-          <KubernetesTimeShiftChartPresenter
-            metrics={addUsageToMetrics(
-              [
-                {
-                  metric: 'requiredMemory',
-                  label: t('in-kubernetes:dashboards.requests'),
-                  color: requests,
-                  ...defaultMetricConfig,
-                  ...isContainerMetric
-                },
-                {
-                  metric: 'limitMemory',
-                  label: t('in-kubernetes:dashboards.limits'),
-                  color: limits,
-                  ...defaultMetricConfig
-                },
-                {
-                  metric: 'nodes.capacity_mem',
-                  label: t('in-kubernetes:dashboards.capacity'),
-                  color: capacity,
-                  ...defaultMetricConfig
-                }
-              ],
-              {
-                metric: 'memory.usage',
-                label: t('in-kubernetes:dashboards.usage'),
-                color: usage,
-                ...defaultMetricConfig
-              }
-            )}
-            title={t('in-kubernetes:dashboards.memoryResources')}
-            colors={[requests, limits, capacity, usage]}
-            formatter="bytes.detailed"
-            tooltipFormatter={bytesTwoDecimalPlaces}
-            paramTab="memTab"
-            paramMetric="memMetric"
-            path={summaryTab}
-            hasActionlane
-            snapshotId={snapshotId}
-            hasButtonInActionslane={false}
-          />
-        </Col>
-        <Col lg={4}>
-          <KubernetesTimeShiftChartPresenter
-            metrics={[
-              {
-                metric: 'podsRunning',
-                label: t('in-kubernetes:dashboards.running'),
-                color: running,
-                ...defaultMetricConfig,
-                ...isContainerMetric
-              },
-              {
-                metric: 'podsPending',
-                label: t('in-kubernetes:dashboards.pending'),
-                color: pending,
-                ...defaultMetricConfig
-              },
-              {
-                metric: 'pods.count',
-                label: t('in-kubernetes:dashboards.allocated'),
-                color: allocated,
-                ...defaultMetricConfig
-              },
-              {
-                metric: 'nodes.capacity_pods',
-                label: t('in-kubernetes:dashboards.capacity'),
-                color: capacity,
-                ...defaultMetricConfig
-              }
-            ]}
-            title={t('in-kubernetes:dashboards.pods')}
-            colors={[running, pending, allocated, capacity]}
-            formatter="number.compact"
-            tooltipFormatter={zeroDecimalPlaces}
-            paramTab="podTab"
-            paramMetric="podMetric"
-            path={summaryTab}
-            hasActionlane
-            snapshotId={snapshotId}
-            hasButtonInActionslane={false}
-          />
-        </Col>
-      </Row>
-
-      <Row verticallyStretchColumns>
-        <Col lg={4}>
-          <TopNodesList clusterId={cluster?.id} timeConfig={timeConfig} allItemsHref={allItemsNodesHrefs} />
-        </Col>
-        <Col lg={4}>
-          <TopNamespacesList clusterId={cluster?.id} timeConfig={timeConfig} allItemsHref={allItemsNamespacesHrefs} />
-        </Col>
-        <Col lg={4}>
-          <TopDeploymentsList
-            clusterId={cluster?.id}
+      <Row>
+        <Col lg={12}>
+          <CustomMetricsV2
+            snapshot={Map({ id: snapshotId })}
             timeConfig={timeConfig}
-            allItemsHrefs={{
-              deployments: allItemsDeploymentsHrefs,
-              deploymentConfigs: allItemsDeploymentsConfigsHrefs
-            }}
-            showDeploymentConfigs={isOpenshift(get(cluster, ['clusterDistribution'], 'kubernetes'))}
+            titlePrefix={t('in-kubernetes:sourceSelector.additionalMetrics.title')}
+            specs={SPECS}
           />
         </Col>
       </Row>

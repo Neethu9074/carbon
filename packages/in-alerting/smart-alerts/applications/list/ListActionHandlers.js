@@ -21,7 +21,7 @@ import {
   applicationSmartAlertDialogView
 } from 'in-services/featureFlags';
 import TearSheetButtonWithLink from 'in-alerting/smart-alerts/applications/components/TearSheetButtonWithLink';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';

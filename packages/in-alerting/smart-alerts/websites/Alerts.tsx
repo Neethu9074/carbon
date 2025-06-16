@@ -13,19 +13,28 @@ import {
   WebsiteAlertRuleUnion
 } from '@instana/types';
 
+import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam,
+  websiteId
+} from 'in-websites/navigation/matrix';
+import {
+  getAllAlertConfigs,
+  getAllAlertConfigsWithResult
+} from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 //@ts-expect-error TS migartion
 import { useWebsiteData } from 'in-alerting/smart-alerts/websites/hooks/useWebsiteData';
-import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/websites/hooks/useSmartAlertCreateUrl';
 import AlertBaseList, { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
-import { getAllAlertConfigs } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
+import { alertsTab, alertsTabDetailsFullyQualified, websitePath } from 'in-websites/navigation/paths';
 import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
+import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
+import WebsiteLabel from 'in-alerting/smart-alerts/websites/components/WebsiteLabel';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
@@ -34,7 +43,7 @@ import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
@@ -52,7 +61,15 @@ function getColumnDefinitions(websiteLabel: string) {
   ];
 }
 
-export default function Alerts({ websiteId, websiteLabel }: { websiteId: string; websiteLabel: string }) {
+export default function Alerts({
+  websiteId,
+  websiteLabel,
+  isEventsView = false
+}: {
+  websiteId: string;
+  websiteLabel: string;
+  isEventsView?: boolean;
+}) {
   const handlers = role?.canConfigureWebsiteSmartAlerts ? actionHandlers : {};
 
   const websiteData = useWebsiteData();
@@ -61,19 +78,23 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
     <>
       <AlertBaseList
         extraColumnDefinitions={getColumnDefinitions(websiteLabel)}
-        getAlertConfigs={() => getAllAlertConfigs(websiteId, { asObservable: true })}
+        getAlertConfigs={() =>
+          isEventsView ? getAllAlertConfigsWithResult() : getAllAlertConfigs(websiteId, { asObservable: true })
+        }
         actionHandlers={handlers}
         getSubtitle={config => getSubtitle(config.rule, config.rules)}
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
-        alertsTab={alertsTab}
+        alertsTab={isEventsView ? eventsPath : alertsTab}
         // for carbon table
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
-        getNameSubtitle={() => getWebsiteSubtitle(websiteLabel)}
+        getNameSubtitle={config =>
+          isEventsView ? <WebsiteLabel websiteId={config.websiteId} /> : getWebsiteSubtitle(websiteLabel)
+        }
         displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
-          role?.canConfigureWebsiteSmartAlerts ? (
+          role?.canConfigureWebsiteSmartAlerts && !isEventsView ? (
             <CreateSmartAlert
               websiteId={websiteData.websiteId ?? ''}
               tagFilters={websiteData.tagFilters}
@@ -86,6 +107,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
         noDataHeader={t('in-alerting:smartAlerts.websites.list.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.websites.list.noDataDescription" />}
         useSmartAlertCreateUrl={useSmartAlertCreateUrl as (args: AlertURLProps & { websiteId?: string }) => string}
+        displayTitle={isEventsView}
       />
 
       <Footer />
@@ -153,6 +175,11 @@ function createRowLinkLocation(config: WebsiteSmartAlertConfigWithMetadata, loca
     ...location,
     pathname: alertsTabDetailsFullyQualified
   };
+
+  const websiteIdExists = getMatrixParameter(rowLinkLocation, websitePath, websiteId);
+  if (!websiteIdExists) {
+    setOrDeleteMatrixKey(rowLinkLocation, websitePath, websiteId, config.websiteId);
+  }
 
   setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertIdMatrixParam, config.id);
   setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertCreatedMatrixParam, config.created);

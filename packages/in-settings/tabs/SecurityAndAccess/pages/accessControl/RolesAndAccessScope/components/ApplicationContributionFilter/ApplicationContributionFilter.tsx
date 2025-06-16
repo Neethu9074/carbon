@@ -51,6 +51,10 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
 }: ApplicationContributionFilterProps<FORM_TYPE>) {
   const tagFilterExpressionField = form.get(filterExpressionFieldName) as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
+  const formErrors = form.messages;
+  const tagFilterExpressionError = formErrors.filter(message => message.path === filterExpressionFieldName)?.[0]
+    ?.message;
+  const filterNameError = formErrors.filter(message => message.path === filterNameFieldName)?.[0]?.message;
   const filterNameField = getField<string>(form, filterNameFieldName);
   const filterName = filterNameField?.value?.trim();
   const [initialfilterName] = useState(filterNameField?.value);
@@ -106,6 +110,19 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
     setForm(updateFormField(form, filterExpressionFieldName, tagFilterExpression, true));
   };
 
+  const displayFilterNameError = () => {
+    if (errorMessage) {
+      // Show validation error from backend
+      return <p className={locals.contributionFilter_errorMessage}>{errorMessage}</p>;
+    } else if (filterNameError) {
+      // Show error which has been added on form level (for cases where filter should only be evaluated when enabled)
+      return <p className={locals.contributionFilter_errorMessage}>{filterNameError}</p>;
+    }
+
+    // Show validation error from form field validator
+    return <TouchedMessages field={filterNameField} />;
+  };
+
   return (
     <div className={locals.contributionFilter}>
       <Typography variant="body-regular" component="div">
@@ -124,13 +141,9 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
             setForm(updateFormField(form, filterNameFieldName, e.target.value, true));
           }}
           value={filterNameField?.value ?? ''}
-          hasError={!filterNameField?.valid || !isFilterNameValid}
+          hasError={!filterNameField?.valid || !isFilterNameValid || filterNameError !== undefined}
         />
-        {errorMessage ? (
-          <p className={locals.contributionFilter_errorMessage}>{errorMessage}</p>
-        ) : (
-          <TouchedMessages field={filterNameField} />
-        )}
+        {displayFilterNameError()}
       </Label>
       <div className={locals.contributionFilter_queryBuilder}>
         <div className={locals.contributionFilter_queryBuilderExpression}>
@@ -144,6 +157,9 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
                 trackCta(SETTINGS_GROUP_APPLICATION_FILTER_ADDED, { groupId: getField(form, 'id')?.value })
             }}
           />
+          {filterNameField?.touched && tagFilterExpressionError && (
+            <p className={locals.contributionFilter_errorMessage}>{tagFilterExpressionError}</p>
+          )}
         </div>
         <HorizontalFlexWrapper className={locals.contributionFilter_clearButton}>
           {tagFilterExpression?.length > 0 && (

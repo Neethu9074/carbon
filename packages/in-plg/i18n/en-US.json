@@ -1,7 +1,9 @@
 {
   "welcomeToInstana": "Welcome to Instana!",
+  "installYourFirstDataSource": "Install your first data source",
   "home": "Home",
   "getStartedAndInstallYourFirstAgent": "Get started and install your first agent.",
+  "selectADataSourceAndFollowTheStepsForInstallation": "Select a data source and follow the steps for installation.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Your trial has expired",
     "titleAfterTrialPeriodEnd": "Your trial period has ended",
@@ -77,6 +79,7 @@
     },
     "common": {
       "agentDeployment": "Agent deployment",
+      "dataSources": "Data sources",
       "step1": "Step 1: ",
       "step2": "Step 2: ",
       "step3": "Step 3: ",
@@ -103,7 +106,11 @@
       "sideCard": {
         "prerequisites": "Prerequisites",
         "documentation": "Documentation"
-      }
+      },
+      "openTelemetryCollectors": "OpenTelemetry Collectors",
+      "openTelemetryCollectorsDesciption": "OpenTelemetry Collectors are a standardized way to collect and export telemetry data from applications. They can be used as an alternative to native agents, providing a flexible and scalable solution for observability.",
+      "instanaAgents": "Instana agents",
+      "instanaAgentsDesciption": "Instana agents collect data from various platforms and services, including hosts, cloud services, serverless platforms, and website and mobile applications. They run as a separate process and automatically deploy sensors that send metrics back to the agent for analysis and visualization."
     },
     "kubernetes": {
       "kubernetes": {

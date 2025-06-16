@@ -1,7 +1,9 @@
 {
   "components": {
     "uiShell": {
-      "mainNavigation": "Main navigation"
+      "mainNavigation": "Main navigation",
+      "closeMenu": "Close menu",
+      "openMenu": "Open menu"
     },
     "list": {
       "loadMore": "Load more",

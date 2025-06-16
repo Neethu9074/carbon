@@ -12,12 +12,13 @@ import { Result } from '@instana/types';
 //@ts-expect-error
 import { createTableColumnDefinition } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
-import { getConfigsForAllApplicationsAsResultObservable } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { CreateSmartAlertButtonForCarbonTable } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
+import { getAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import SmartAlertsTableWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import { categoryLocal, sortOptions, categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { eventsPath } from 'in-events/navigation/paths';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
@@ -26,7 +27,7 @@ export default function ApplicationSmartAlerts() {
   return (
     <Alerts
       configsCategory={categoryLocal}
-      fetchFunction={() => getConfigsForAllApplicationsAsResultObservable()}
+      fetchFunction={() => getAlertConfigsForAllApplications()}
       noDataHeader={t('in-alerting:smartAlerts.applications.inventory.noLocalAlertDataHeader')}
       alertsTab={eventsPath}
       noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.applications.inventory.noLocalAlertDataDescription" />}
@@ -49,6 +50,7 @@ export function Alerts({
 }) {
   const { trackCta } = useSegmentTracking();
   const getLinkToEditSmartAlert = useSmartAlertEditUrl();
+  const location = useLocation();
 
   return (
     <SmartAlertsTableWithUrlState
@@ -60,7 +62,11 @@ export function Alerts({
       //@ts-expect-error
       toolBarContent={
         role?.canConfigureGlobalApplicationSmartAlerts && (
-          <CreateSmartAlertButtonForCarbonTable isGlobal buttonName={t('in-alerting:smartAlerts.createSmartAlert')} />
+          <CreateSmartAlertButtonForCarbonTable
+            isGlobal
+            buttonName={t('in-alerting:smartAlerts.createSmartAlert')}
+            location={location}
+          />
         )
       }
       noDataHeader={noDataHeader}

@@ -18,7 +18,9 @@ import {
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { Result, ConfigVersion } from 'in-types';
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.MOBILEAPP;
@@ -77,6 +79,22 @@ export function getAllAlertConfigsWithResult(
   });
   return createObservable(request);
 }
+
+export function getAllMobileAppAlertConfigsWithResult(): Observable<Result<MobileAppSmartAlertConfigWithMetadata[]>> {
+  const request = http<MobileAppSmartAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: baseUrl
+  });
+  return createObservable(request);
+}
+
+export const getMobileAppConfigsAsResultObservable = memoize<void, Result<MobileAppSmartAlertConfigWithMetadata[]>>(
+  getAllMobileAppAlertConfigsWithResult,
+  () => '',
+  minutes.toMillis(2)
+);
 
 export function enableAlertConfig(id: string): Observable<void> {
   return enableAlertConfigApi(id, baseUrl);

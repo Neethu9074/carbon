@@ -51,6 +51,7 @@ export default function SelectAction({ actions }: { actions: Action[] }) {
 
   const action = form.get('action');
   const actionId = action.get('actionId');
+  const isActionPreSelected = action.get('isActionPreSelected').value;
 
   const selectedAction = actions.find(action => action.id === actionId.value);
   const result = listSuccess(selectedAction ? [selectedAction] : []);
@@ -108,7 +109,8 @@ export default function SelectAction({ actions }: { actions: Action[] }) {
         columnDefinitions={columnDefinitions}
         result={result}
         rightHeader={
-          role?.canConfigureAutomationPolicies && (
+          role?.canConfigureAutomationPolicies &&
+          !isActionPreSelected && (
             <Button
               kind="action"
               onClick={() => addActiveDialog(<SelectActionDialog setForm={setForm} actions={actions} form={form} />)}

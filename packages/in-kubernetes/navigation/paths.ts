@@ -16,6 +16,7 @@ import {
   deploymentId as matrixDeploymentId,
   deploymentConfigId as matrixDeploymentConfigId,
   daemonSetId as matrixDaemonSetId,
+  persistentVolumeId as matrixPersistentVolumeId,
   statefulSetId as matrixStatefulSetId
 } from 'in-kubernetes/navigation/matrix';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -101,6 +102,11 @@ export const statefulSetDashboard = `/statefulset`;
 export const statefulSetsDashboard = `/statefulsets`;
 export const statefulSetDashboardFullyQualified = `${kubernetes}${statefulSetDashboard}`;
 export const statefulSetDashboardDetailsFullyQualified = `${statefulSetDashboardFullyQualified}/details`;
+
+export const persistentVolumeDashboard = `/persistentvolume`;
+export const persistentVolumesDashboard = `/persistentvolumes`;
+export const persistentVolumeDashboardFullyQualified = `${kubernetes}${persistentVolumeDashboard}`;
+export const persistentVolumeDashboardDetailsFullyQualified = `${persistentVolumeDashboardFullyQualified}/details`;
 
 export const summaryTab = '/summary';
 
@@ -409,6 +415,24 @@ export function useDaemonSetDashboard(
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, daemonSetDashboard, matrixClusterId, clusterId);
       setOrDeleteMatrixKey(params, daemonSetDashboard, matrixNamespaceId, namespaceId);
+    }
+  });
+}
+
+export function usePersistentVolumeDashboard(
+  persistentVolumeId: string,
+  { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: persistentVolumeDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: persistentVolumeDashboard,
+    matrixParam: matrixPersistentVolumeId,
+    id: persistentVolumeId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, persistentVolumeDashboard, matrixClusterId, clusterId);
     }
   });
 }
