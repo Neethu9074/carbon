@@ -11,18 +11,23 @@
   }
 
   .exporterNode {
-    background-color: #78a9ff;
+    background-color: var(--ids-color-option-blue-400);
   }
 
   .processorNode {
-    background-color: #a6c8ff;
+    background-color: var(--cds-link-inverse-hover);
   }
 
   .receiverNode {
-    background-color: #edf5ff;
+    background-color: var(--ids-color-option-blue-100);
   }
 
   .pipelineNode {
+    // cannot use design token, need to set opacity
     background-color: #4589ff33;
+  }
+
+  .nodeObject {
+    overflow: visible;
   }
 }

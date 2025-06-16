@@ -23,7 +23,7 @@ export default function ExporterNode({ x, y, name }: ExporterNodeProps) {
   const height = 50;
   const width = 50;
   return (
-    <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
+    <foreignObject className={locals.nodeObject} transform={`translate(${x},${y})`} height={height} width={width}>
       <div className={locals.node}>
         <ShapeNode
           className={locals.exporterNode}

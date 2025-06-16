@@ -20,7 +20,7 @@ interface PipelineNodeProps {
 
 export default function PipelineNode({ x, y, height, width, name }: PipelineNodeProps) {
   return (
-    <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
+    <foreignObject className={locals.nodeObject} transform={`translate(${x},${y})`} height={height} width={width}>
       <div className={locals.node}>
         <ShapeNode
           className={locals.pipelineNode}

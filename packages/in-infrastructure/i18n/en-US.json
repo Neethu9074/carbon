@@ -156,6 +156,8 @@
     "exporter": "Exporter",
     "processor": "Processor",
     "receiver": "Receiver",
-    "updateConfig": "Update configuration"
+    "updateConfig": "Update configuration",
+    "submit": "Submit",
+    "cancel": "Cancel"
   }
 }

@@ -34,8 +34,8 @@ export default function UpdateConfigurationDialog() {
         modalHeading={t('in-infrastructure:collectorView.updateConfig')}
         onRequestClose={close}
         open
-        primaryButtonText="Submit"
-        secondaryButtonText="Cancel"
+        primaryButtonText={t('in-infrastructure:collectorView.submit')}
+        secondaryButtonText={t('in-infrastructure:collectorView.cancel')}
       >
         <HorizontalFlexWrapper className={locals.dialogContent}>
           <ConfigEditor agentConfig={config} handleAgentConfigChange={handleConfigChange} />
