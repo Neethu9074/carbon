@@ -6,6 +6,7 @@
   "labelAnalytic": "分析",
   "labelCall": "呼び出し",
   "labelTrace": "トレース",
+  "labelSubtrace": "サブトレース",
   "labelStatus": "状況",
   "linkDownload": "ダウンロード",
   "linkDownloadCalls": "呼び出しのダウンロード",
@@ -92,6 +93,7 @@
   "buttonInspectIssue_1": "{{count}} 件の問題を検査する",
   "buttonInspectIssue_2": "{{count}} 件の問題を検査する",
   "buttonAnalyzeCalls": "呼び出しの分析",
+  "buttonAnalyzeSubtraces": "サブトレースの分析",
   "buttonAnalyzeServices": "分析サービス",
   "buttonAnalyzeEndpoints": "エンドポイントの分析",
   "buttonClear": "クリア",
@@ -255,6 +257,7 @@
     "endpoints": "エンドポイント",
     "types": "タイプ",
     "technologies": "テクノロジー",
+    "NumberOfSubCalls": "Nr. サブコールの",
     "httpStatusCode": "HTTP状況",
     "hiddenCalls": "非表示の呼び出し",
     "fastQueryMode": "高速照会モード",
@@ -721,7 +724,8 @@
     "traces_traces": "トレース",
     "traces_latency": "待ち時間",
     "traces_erroneousCalls": "エラーのあるトレース数",
-    "traces_errors": "エラーのあるトレース率"
+    "traces_errors": "エラーのあるトレース率",
+    "subtraces_subtraceDuration": "期間"
   },
   "viewLists": {
     "application": "アプリケーション",

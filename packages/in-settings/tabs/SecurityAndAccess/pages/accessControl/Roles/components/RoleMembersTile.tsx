@@ -31,7 +31,7 @@ interface RoleMembersTileProps {
 export default function RoleMembersTile({ role, status }: RoleMembersTileProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { id: roleId, members, teams } = role ?? {};
+  const { id: roleId, name, members, teams } = role ?? {};
   const filteredMembers = filterMembersByNameAndEmail(members ?? [], searchQuery);
   const filteredMembersInTeams = (teams ?? []).map<FilteredTeam>(team => {
     const filteredMembers = filterMembersByNameAndEmail(team.members ?? [], searchQuery);
@@ -76,6 +76,7 @@ export default function RoleMembersTile({ role, status }: RoleMembersTileProps) 
                 teamId={id}
                 teamTag={tag}
                 status={status}
+                roleName={name}
               />
             )
         )}

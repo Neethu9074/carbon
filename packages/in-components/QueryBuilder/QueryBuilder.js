@@ -73,7 +73,8 @@ function QueryBuilder({
   getTagCatalog,
   additionalGetTagCatalogProps,
   addTagDefinitionToFormModel,
-  disableEntitySelection
+  disableEntitySelection,
+  source
 }) {
   const [draggedFormModelIndex$] = useState(create());
 
@@ -179,6 +180,7 @@ function QueryBuilder({
               elements={renderModel}
               onRemove={onRemove}
               focus={focus}
+              source={source}
               formModel={currentFormModel}
               withoutOrConjunction={withoutOrConjunction}
               withoutBrackets={withoutBrackets}
@@ -345,7 +347,8 @@ function Elements({
   getTagCatalog,
   additionalGetTagCatalogProps,
   addTagDefinitionToFormModel,
-  disableEntitySelection
+  disableEntitySelection,
+  source
 }) {
   return (
     <>
@@ -386,6 +389,7 @@ function Elements({
                 }
                 focus={focus}
                 depth={depth}
+                source={source}
                 dragAndDropProps={dragAndDropProps}
                 draggedFormModelIndex$={draggedFormModelIndex$}
                 formModel={formModel}
@@ -455,7 +459,8 @@ QueryBuilder.propTypes = {
   getTagCatalog: rpt.func,
   additionalGetTagCatalogProps: rpt.object,
   addTagDefinitionToFormModel: rpt.bool,
-  disableEntitySelection: rpt.bool
+  disableEntitySelection: rpt.bool,
+  source: rpt.string
 };
 
 function shouldAutomaticallyAddAConjunction(formModel, newElement, newElementIndex) {

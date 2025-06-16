@@ -452,6 +452,17 @@ export const SLO_CONFIG_DELETE_START = 'slo.config.delete.start';
 export const SLO_CONFIG_DELETE_ERROR = 'slo.config.delete.error';
 export const SLO_CONFIG_DELETE_FINISH = 'slo.config.delete.finish';
 
+export const SLO_CORRECTION_WINDOW_DIALOG_OPEN = 'slo.correction.window.dialog.open';
+export const SLO_CORRECTION_WINDOW_DIALOG_CLOSE = 'slo.correction.window.dialog.close';
+export const SLO_CORRECTION_WINDOW_DIALOG_ERROR = 'slo.correction.window.dialog.error';
+export const SLO_CORRECTION_WINDOW_DIALOG_FINISH = 'slo.correction.window.dialog.finish';
+export const SLO_CORRECTION_WINDOW_DELETE_START = 'slo.correction.window.delete.start';
+export const SLO_CORRECTION_WINDOW_DELETE_ERROR = 'slo.correction.window.delete.error';
+export const SLO_CORRECTION_WINDOW_DELETE_FINISH = 'slo.correction.window.delete.finish';
+export const SLO_CORRECTION_WINDOW_TOGGLE_START = 'slo.correction.window.toggle.start';
+export const SLO_CORRECTION_WINDOW_TOGGLE_ERROR = 'slo.correction.window.toggle.error';
+export const SLO_CORRECTION_WINDOW_TOGGLE_FINISH = 'slo.correction.window.toggle.finish';
+
 // Logging
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
 export const ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED = 'analyze.logging.queryBuilder.group.added';

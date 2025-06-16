@@ -26,6 +26,7 @@ import http from 'in-services/http';
 
 const refreshSignal = create<string>().emit('');
 
+const sloConfigurationUrl = '/api/settings/slo' as const;
 export interface GetAllSloConfigurationsArguments {
   ids?: string[];
   page?: number;
@@ -58,7 +59,7 @@ function getAllSloConfigurationsInternal({
     http<PaginatedResult<ServiceLevelObjectiveConfiguration>>({
       method: 'GET',
       maxRetries: 3,
-      url: '/api/settings/slo',
+      url: sloConfigurationUrl,
       mapToResultObject: true,
       queryParams: {
         sloIds: ids,
@@ -88,7 +89,7 @@ function getAllSloGroupsInternal({
     http<PaginatedResult<ServiceLevelObjectiveConfiguration>>({
       method: 'GET',
       maxRetries: 3,
-      url: '/api/settings/slo',
+      url: sloConfigurationUrl,
       mapToResultObject: true,
       queryParams: {
         tag: tags,
@@ -107,7 +108,6 @@ export const getAllSloGroups = memoize<
   Result<InquiryResult<ServiceLevelObjectiveConfiguration>>
 >(getAllSloGroupsInternal, args => generateStableHash(args), minutes.toMillis(1));
 
-
 export const getAllSloConfigurations = memoize<
   GetAllSloConfigurationsArguments,
   Result<PaginatedResult<ServiceLevelObjectiveConfiguration>>
@@ -118,7 +118,7 @@ function getSloTagsInternal() {
     http<string[]>({
       method: 'GET',
       maxRetries: 3,
-      url: '/api/settings/slo/tags',
+      url: `${sloConfigurationUrl}/tags`,
       mapToResultObject: true
     })
   );
@@ -131,7 +131,7 @@ function getSloConfigurationInternal(id: string) {
     http<ServiceLevelObjectiveConfiguration>({
       method: 'GET',
       maxRetries: 3,
-      url: `/api/settings/slo/${encodeURIComponent(id)}`,
+      url: `${sloConfigurationUrl}/${encodeURIComponent(id)}`,
       mapToResultObject: true
     })
   );
@@ -158,7 +158,7 @@ export function createSloConfiguration(
   return http<ServiceLevelObjectiveConfiguration>({
     method: 'POST',
     maxRetries: 3,
-    url: `/api/settings/slo`,
+    url: sloConfigurationUrl,
     headers: getCsrfHeader(),
     data: sloConfig,
     treat400AsError: true,
@@ -182,7 +182,7 @@ export function updateSloConfiguration(
   return http<ServiceLevelObjectiveConfiguration>({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/settings/slo/${encodeURIComponent(id)}`,
+    url: `${sloConfigurationUrl}/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     data: sloConfig,
     treat400AsError: true,
@@ -198,7 +198,7 @@ export function deleteSloConfiguration(id: string): Observable<true> {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/settings/slo/${encodeURIComponent(id)}`,
+    url: `${sloConfigurationUrl}/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     treat400AsError: true
   }).map(() => {

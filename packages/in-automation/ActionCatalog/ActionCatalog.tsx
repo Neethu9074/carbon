@@ -213,6 +213,14 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
               </MoreMenuButton>
             )}
+            {role?.canConfigureAutomationPolicies && isUserActions && (
+              <MoreMenuButton
+                icon="lib_openclose_add_circle_outline"
+                onClick={() => openPolicyTearsheet({ actionId: action?.id })}
+              >
+                {t('in-automation:createPolicy')}
+              </MoreMenuButton>
+            )}
             {isUserActions && role?.canConfigureAutomationActions && (
               <MoreMenuButton
                 disabled={isNotEditable(action, false) && action.type !== ACTION_TYPE.ANSIBLE}
@@ -220,14 +228,6 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 onClick={() => showConfirmationDialog(action)}
               >
                 {t('in-automation:delete')}
-              </MoreMenuButton>
-            )}
-            {role?.canConfigureAutomationPolicies && isUserActions && (
-              <MoreMenuButton
-                icon="lib_openclose_add_circle_outline"
-                onClick={() => openPolicyTearsheet({ actionId: action?.id })}
-              >
-                {t('in-automation:createPolicy')}
               </MoreMenuButton>
             )}
           </MoreMenu>

@@ -1,0 +1,50 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  #correction-windows-table-container {
+    :global(.cds--data-table) tbody.empty-table-body tr {
+      height: 14rem;
+    }
+
+    :global(.cds--data-table) tbody.empty-table-body tr td {
+      display: flex;
+      align-items: flex-start;
+      padding-top: 2rem;
+      border-block-end: 0;
+    }
+
+    :global(.cds--data-table).empty-table-wrapper tbody th,
+    :global(.cds--data-table).empty-table-wrapper tbody tr:hover td {
+      border-block-end: 0;
+    }
+
+    :global(.cds--data-table) tbody.empty-table-body,
+    :global(.cds--data-table) tbody.empty-table-body tr:not([data-child-row]):hover,
+    :global(.cds--data-table) tbody.empty-table-body tr[data-child-row]:hover > td {
+      background-color: transparent;
+    }
+
+    :global(.cds--data-table) td .empty-table {
+      position: absolute;
+      max-width: 265px;
+    }
+
+    .table-fixed-layout {
+      table-layout: fixed;
+    }
+    each(range(1%, 100%, 1), {
+    .w-@{index} {
+      width: @value;
+    }
+  });
+
+    .empty-column {
+      block-size: 3rem;
+      inline-size: 3rem;
+    }
+  }
+}

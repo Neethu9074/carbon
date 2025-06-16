@@ -10,6 +10,7 @@
     "namespace": "Spazio dei nomi",
     "node": "Nodo",
     "pod": "Pod",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "Servizio K8s"
   },
   "clusterBadgeNameOpenShift": "OpenShift",
@@ -29,6 +30,7 @@
     "summary": "Riepilogo",
     "details": "Dettagli",
     "hostCoverage": "Copertura host",
+    "k8SensorVersion": "Versione del sensore K8s",
     "clusterUuid": "UUID cluster",
     "agentMonitor": "Monitoraggio agent",
     "controlPlane": "Piano di controllo",
@@ -55,9 +57,17 @@
     "cpuUsage": "Utilizzo della CPU",
     "memoryUsage": "Utilizzo della memoria",
     "phase": "Fase",
-    "reclaimPolicy": "Politica di recupero",
-    "storageCapacity": "Capacità di memoria",
     "storageClassName": "Nome classe di archiviazione",
+    "capacityStorage": "Archiviazione della capacità",
+    "storageTotalCapacity": "Capacità totale",
+    "storageUsedCapacity": "Capacità utilizzata",
+    "storageUtilization": "Utilizzo",
+    "storageUsedTotalCapacity": "su {{total}} totale",
+    "total": "Totale",
+    "reclaimPolicy": "Politica di recupero",
+    "accessMode": "Modalità di accesso",
+    "volumeMode": "Modalità volume",
+    "creationTimestamp": "Data/ora creazione",
     "cpuRequests": "Richieste CPU",
     "cpuRequestsMultiMetric": "Richieste CPU",
     "cpuLimitsAlloc": "Assegnazione limiti CPU",
@@ -160,6 +170,8 @@
     "lastJobDuration": "Durata ultimo lavoro",
     "kubernetesDaemonSet": "Set Daemon Kubernetes",
     "k8SDaemonSet": "Set Daemon K8s",
+    "kubernetesPersistentVolume": "Kubernetes PersistentVolume",
+    "k8SPersistentVolume": "K8s PersistentVolume",
     "unscheduled": "Non pianificato",
     "unready": "Non pronto",
     "available": "Disponibile",
@@ -277,12 +289,12 @@
       "idleCost": "Costo di inattività",
       "viewInKubeCost": "Vista su Kubecost",
       "coreCountByCluster": "vCPU",
-      "noKubecostData": "Attivare l'osservabilità e l'allocazione dei costi con Kubecost. Per configurare l'integrazione, seguire questi [passi][Docs].\n\n[Docs]:https://ibm.biz/kubecost",
+      "noKubecostData": "Abilita il monitoraggio dei costi per questo cluster con Kubecost.\n Per configurare l'integrazione, [seguire questa procedura] nella documentazione.\n\n[seguire questa procedura]:https://ibm.biz/kubecost",
       "totalClusterCost": "Costo totale del cluster (ultimi 14 giorni)",
       "workloadEfficiency": "Efficienza del carico di lavoro",
       "estimatedMonthlySavings": "Risparmio mensile stimato",
-      "totalClusterCostTooltipinfo": "Il costo totale del cluster per il periodo di tempo selezionato. Nota: se si dispone di meno di 14 giorni di dati, la cifra verrà visualizzata finché non sarà trascorso un ciclo completo di 14 giorni.",
-      "workloadEfficiencyTooltipinfo": "L'efficienza media di ogni carico di lavoro nella finestra scelta. L'efficienza del carico di lavoro è il rapporto, ponderato in base ai costi, tra l'utilizzo di RAM e CPU e le richieste di RAM e CPU configurate.",
+      "totalClusterCostTooltipinfo": "Il costo totale del cluster negli ultimi 14 giorni. Se sono disponibili meno di 14 giorni di dati, questa cifra verrà visualizzata finché non sarà trascorso un ciclo completo di 14 giorni.",
+      "workloadEfficiencyTooltipinfo": "L'efficienza media di ciascun carico di lavoro negli ultimi 14 giorni. L'efficienza del carico di lavoro è il rapporto ponderato in base ai costi tra l'utilizzo di RAM e CPU e le richieste di RAM e CPU configurate.",
       "estimatedMonthlySavingsTooltipinfo": "Il risparmio mensile stimato disponibile per il vostro cluster, determinato in base ai dati storici dell'intervallo di tempo selezionato.",
       "deploymentInfoNotRetrieving": "Kubecost non recupera le informazioni sulle distribuzioni",
       "notRetrievingData": "Kubecost non recupera i dati",
@@ -331,7 +343,10 @@
       "title": "Accedere più velocemente alle informazioni importanti",
       "content": "La visualizzazione a schede fornisce maggiori dettagli sui cluster e sui spazi dei nomi in un colpo d'occhio e rimanda direttamente alla pagina di ciascuna scheda del dashboard per un'indagine mirata. <br /><br />È possibile spostarsi facilmente tra queste nuove visualizzazioni e le visualizzazioni delle tabelle facendo clic sul selettore dei contenuti.",
       "button": "Ok"
-    }
+    },
+    "nodes": "Nodi",
+    "pods": "Pod",
+    "containers": "Contenitori"
   },
   "viewAllEntityName_unknownEntity_plural": "tutti",
   "viewAllEntityName_unknownEntity_0": "tutti",
@@ -421,5 +436,18 @@
     "days": "giorni fa",
     "close": "Chiudi",
     "branch": "Ramo"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Agent Instana",
+      "description": "Visualizza le informazioni basate sui dati raccolti dall'agent Instana."
+    },
+    "otelCollector": {
+      "text": "Raccoglitore OpenTelemetry",
+      "description": "Visualizza le informazioni basate sui dati raccolti dal raccoglitore Instana OpenTelemetry."
+    },
+    "additionalMetrics": {
+      "title": "Aggiuntivo"
+    }
   }
 }

@@ -27,6 +27,7 @@
         "popSubTitle": "Point of presence",
         "uploadScriptTitle": "Upload the script",
         "failureToReadFileContent": "Failed to read file content: {{error}}",
+        "unsupportedFileFormat": ".{{extension}} file is not supported",
         "emptyScriptFileError": "Empty code. Nothing to validate.",
         "enterTheScriptMessage": "Enter the script here",
         "privatePoPLabel": "Private",
@@ -191,7 +192,7 @@
           "buttonBack": "Back",
           "buttonSave": "Save",
           "uploadFileLabel": "Upload file",
-          "uploadFileDescription": "You can upload either a single .js file or a .zip file of bundled .js files.",
+          "uploadFileDescription": "You can upload either a single .js, or .cjs file, or a .zip file containing bundled .js, or .cjs files.",
           "node22UploadFileDescription": "You can upload either a single .js, .cjs, or .mjs file, or a .zip file containing bundled .js, .cjs, or .mjs files.",
           "scriptDescription": "Your uploaded script will appear here or you can manually enter it below.",
           "validScriptMessage": "Script is valid.",
@@ -200,7 +201,7 @@
           "mainFileNameLabel": "Enter main file name",
           "invalidMainFileName": "Main file name not valid",
           "webpageUrl": "Webpage URL",
-          "browserUploadFileDescription": "You can upload either a single .js file, a .zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
+          "browserUploadFileDescription": "You can upload either a single .js, or .cjs file, a .zip file containing bundled .js, or .cjs files, or a .side script recorded by Selenium IDE.",
           "node22BrowserUploadFileDescription": "You can upload either a single .js, .cjs, or .mjs file, a .zip file containing bundled .js, .cjs, or .mjs files, or a .side script recorded by Selenium IDE.",
           "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
           "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in advanced mode.",
@@ -340,7 +341,8 @@
         "applicationsTableTitle": "Application(s)",
         "websitesTableTitle": "Website(s)",
         "mobileAppsTableTitle": "Mobile App(s)"
-      }
+      },
+      "createSyntheticTest": "Create synthetic test"
     },
     "httpMethods": {
       "get": "GET",
@@ -572,7 +574,8 @@
         "title": "Column customization",
         "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed."
       },
-      "searchSyntheticTests" :"Search synthetic tests"
+      "searchSyntheticTests": "Search synthetic tests",
+      "failedToLoadTestsTitle": "Failed to load synthetic tests"
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",

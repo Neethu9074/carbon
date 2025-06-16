@@ -30,11 +30,7 @@ export default function BlueprintFilter({ value, onChange, groups }: BlueprintFi
       name="slo-blueprint-radio-button-group"
       orientation="vertical"
     >
-      <RadioButtonWithCount
-        labelText={t('in-service-levels:sloList.components.statusFilter.sloStatusAll')}
-        value={undefined}
-        count={allCount}
-      />
+      <RadioButtonWithCount labelText={t('in-service-levels:general.all')} value={undefined} count={allCount} />
       <RadioButtonWithCount
         labelText={t('in-service-levels:general.indicator.blueprint', { context: 'availability' })}
         value="availability"

@@ -13,7 +13,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { turboActionCategoryMap } from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
-import WithSubscript from 'in-settings/components/WithSubscript';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 

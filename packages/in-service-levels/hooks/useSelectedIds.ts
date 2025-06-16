@@ -13,7 +13,7 @@ import { just } from '@instana/observables';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { SloData, sloConfigsToSloData } from 'in-service-levels/hooks/usePaginatedSloList';
-import { getAllSloConfigurations } from 'in-service-levels/api/configuration';
+import { getAllSloConfigurations } from 'in-service-levels/api/sloConfiguration';
 import { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';
 

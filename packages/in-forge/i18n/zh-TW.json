@@ -84,6 +84,16 @@
   "pluginName_application_1": "應用程式",
   "pluginName_application_2": "應用程式",
   "pluginName_application": "應用程式",
+  "pluginName_argocdCluster_plural": "Argo CD 叢集",
+  "pluginName_argocdCluster_0": "Argo CD 叢集",
+  "pluginName_argocdCluster_1": "Argo CD 叢集",
+  "pluginName_argocdCluster_2": "Argo CD 叢集",
+  "pluginName_argocdCluster": "Argo CD 叢集",
+  "pluginName_argocdApplication_plural": "Argo CD 應用程式",
+  "pluginName_argocdApplication_0": "Argo CD 應用程式",
+  "pluginName_argocdApplication_1": "Argo CD 應用程式",
+  "pluginName_argocdApplication_2": "Argo CD 應用程式",
+  "pluginName_argocdApplication": "Argo CD 應用程式",
   "pluginName_availabilityZone_plural": "可用性區域",
   "pluginName_availabilityZone_0": "可用性區域",
   "pluginName_availabilityZone_1": "可用性區域",
@@ -1018,6 +1028,11 @@
   "pluginName_ibmiActiveJobsInfo_1": "IBM i 上的作用中工作資訊",
   "pluginName_ibmiActiveJobsInfo_2": "IBM i 上的作用中工作資訊",
   "pluginName_ibmiActiveJobsInfo": "IBM i 上的作用中工作資訊",
+  "pluginName_ibmiAuditJournalsInfo_plural": "IBM i 上的審核日誌資訊",
+  "pluginName_ibmiAuditJournalsInfo_0": "IBM i 上的審核日誌資訊",
+  "pluginName_ibmiAuditJournalsInfo_1": "IBM i 上的審核日誌資訊",
+  "pluginName_ibmiAuditJournalsInfo_2": "IBM i 上的審核日誌資訊",
+  "pluginName_ibmiAuditJournalsInfo": "IBM i 上的審核日誌資訊",
   "pluginName_ibmiDiskInfo_plural": "IBM i 上的磁碟資訊",
   "pluginName_ibmiDiskInfo_0": "IBM i 上的磁碟資訊",
   "pluginName_ibmiDiskInfo_1": "IBM i 上的磁碟資訊",
@@ -1295,6 +1310,11 @@
   "pluginName_lxc_1": "LXC 儲存器",
   "pluginName_lxc_2": "LXC 儲存器",
   "pluginName_lxc": "LXC 儲存器",
+  "pluginName_mapRNode": "MapR 節點",
+  "pluginName_mapRNode_plural": "MapR 節點",
+  "pluginName_mapRNode_0": "MapR 節點",
+  "pluginName_mapRNode_1": "MapR 節點",
+  "pluginName_mapRNode_2": "MapR 節點",
   "pluginName_mariaDbDatabase_plural": "MariaDBs",
   "pluginName_mariaDbDatabase_0": "MariaDBs",
   "pluginName_mariaDbDatabase_1": "MariaDBs",
@@ -1401,11 +1421,13 @@
   "pluginName_oTelLLM_1": "OTel LLMonitor",
   "pluginName_oTelLLM_2": "OTel LLMonitor",
   "pluginName_oTelLLM": "OTel LLMonitor",
+  "pluginName_oTelVLLM": "OTel vLLM 伺服器",
   "pluginName_oTelVLLM_plural": "OTel vLLM 伺服器",
   "pluginName_oTelVLLM_0": "OTel vLLM 伺服器",
   "pluginName_oTelVLLM_1": "OTel vLLM 伺服器",
   "pluginName_oTelVLLM_2": "OTel vLLM 伺服器",
-  "pluginName_oTelVLLM": "OTel vLLM 伺服器",
+  "pluginName_genai": "GenAI",
+  "pluginName_genai_plural": "GenAI",
   "pluginName_oTelDcgm_plural": "OTel Dcgm",
   "pluginName_oTelDcgm_0": "OTel Dcgm",
   "pluginName_oTelDcgm_1": "OTel Dcgm",
@@ -1889,6 +1911,11 @@
   "pluginName_nutanixDatacenter_1": "Nutanix 資料中心",
   "pluginName_nutanixDatacenter_2": "Nutanix 資料中心",
   "pluginName_nutanixDatacenter": "Nutanix 資料中心",
+  "pluginName_linuxKVMHypervisorHost": "Linux KVM Hypervisor 主機",
+  "pluginName_linuxKVMHypervisorHost_plural": "Linux KVM Hypervisor 主機",
+  "pluginName_linuxKVMHypervisorHost_0": "Linux KVM Hypervisor 主機",
+  "pluginName_linuxKVMHypervisorHost_1": "Linux KVM Hypervisor 主機",
+  "pluginName_linuxKVMHypervisorHost_2": "Linux KVM Hypervisor 主機",
   "pluginName_xenServerHost_plural": "XenServer 主機",
   "pluginName_xenServerHost_0": "XenServer 主機",
   "pluginName_xenServerHost_1": "XenServer 主機",
@@ -9859,7 +9886,11 @@
         "allocatedSize": "配置的大小",
         "freeSize": "可用大小",
         "sharedMemoryStats": "共用的記憶體",
-        "rowStoreMemoryStats": "列儲存記憶體"
+        "rowStoreMemoryStats": "列儲存記憶體",
+        "upTime": "執行時間",
+        "totalCpuUsage": "CPU 使用率",
+        "totalMemoryUsage": "記憶體用量",
+        "totalConnections": "作用中連線"
       },
       "systemId": "系統 ID",
       "databaseName": "資料庫名稱",
@@ -9909,7 +9940,6 @@
       "tcpSegmentsSentOut": "已傳送",
       "tcpSegmentsRetransmitted": "重新傳輸",
       "tcpBadSegmentsReceived": "已岔斷",
-      "upTime": "正常運作時間",
       "installTime": "資料庫安裝於"
     },
     "service": {
@@ -11059,7 +11089,7 @@
         "aixDeviceInterrupts": "裝置中斷數",
         "avgRunQueue": "平均執行佇列 (1h)",
         "notCollected": "未收集",
-        "systemCalls": "系統呼叫/秒",
+        "systemCalls": "呼叫數/秒",
         "systemReads": "讀取數/秒",
         "systemWrites": "寫入數/秒",
         "blockReads": "區塊讀取/秒",
@@ -11078,6 +11108,9 @@
         "processesIdle": "閒置",
         "processesStopped": "已停止",
         "CpuProcess": "程序統計資料",
+        "stolenIdleCyclesPct": "遭竊的閒置週期",
+        "physicalConsumption": "實體 CPU 消耗量",
+        "userSessions": "使用者階段作業",
         "load": "負載",
         "memory": "記憶體",
         "used": "已用",
@@ -11215,15 +11248,6 @@
       "aixDeviceInterrupts": "裝置中斷數",
       "avgRunQueue": "平均執行佇列 (1h)",
       "notCollected": "未收集",
-      "systemCalls": "系統呼叫/秒",
-      "systemReads": "讀取數/秒",
-      "systemWrites": "寫入數/秒",
-      "blockReads": "區塊讀取/秒",
-      "blockWrites": "區塊寫入/秒",
-      "nonBlockReads": "非區塊讀取/秒",
-      "nonBlockWrites": "非區塊寫入/秒",
-      "logicalBlockReads": "邏輯區塊讀取/秒",
-      "logicalBlockWrites": "邏輯區塊寫入/秒",
       "hypv": "Hypervisor",
       "user": "使用者",
       "system": "系統",
@@ -11953,6 +11977,23 @@
       },
       "sidebar": {
         "ibmiActiveJobsInfo": "IBM i 資訊",
+        "hostName": "主機名稱"
+      }
+    },
+    "ibmiAuditJournalsInfo": {
+      "name": "IBM i 上的審核日誌資訊",
+      "dashboard": {
+        "tables": {
+          "auditJournals": {
+            "name": "審核日誌",
+            "entryType": "項目類型",
+            "entryTypeDetail": "輸入類型詳細資料",
+            "entryCount": "項目計數"
+          }
+        }
+      },
+      "sidebar": {
+        "ibmiAuditJournalsInfo": "IBM i 資訊",
         "hostName": "主機名稱"
       }
     },
@@ -13266,7 +13307,12 @@
       }
     },
     "kubecost": {
-      "label": "Kubecost"
+      "label": "Kubecost",
+      "instanaKubecostDocumentationUrl": "https://ibm.biz/kubecost",
+      "kubecostInvalidUrl": "Kubecost：所提供的 URL <code>{{connectionUrl}}</code> 似乎無效或格式錯誤。 請檢查是否有拼寫錯誤或遺漏主機資訊。",
+      "kubecostUnknownCluster": "Kubecost：在 Kubecost 回應中未找到叢集 ID <code>{{clusterId}}</code>。 它可能不正確或未受到主動監視。",
+      "kubecostUnableToConnect": "Kubecost：<code>{{connectionUrl}}</code> 的連線失敗，狀態碼為 {{statusCode}}。 檢查 URL 是否有效且可連接。",
+      "kubecostUnableToAuthenticate": "Kubecost：無法鑑別。 請確保已配置有效的 API 金鑰。"
     },
     "kubernetesCluster": {
       "noActivity": "無活動",
@@ -13518,7 +13564,8 @@
       "cpuLimits": "CPU 限制",
       "memoryRequests": "記憶體要求",
       "memoryLimits": "記憶體限制",
-      "conditionNotReady": "Pod 條件未備妥"
+      "conditionNotReady": "Pod 條件未備妥",
+      "cpuUsageToCpuRequests": "CPU 要求分配"
     },
     "kubernetesService": {
       "kubernetesService": "Kubernetes 服務"
@@ -13834,6 +13881,18 @@
       "gcBeforePercentage": "GC 前百分比",
       "gcAfterPercentage": "GC 後百分比"
     },
+    "nutanixHost": {
+      "cpuUsage": "CPU 使用率",
+      "memoryUsage": "記憶體用量",
+      "datacenterAverageIoLatency": "主機平均 IO 延遲時間",
+      "totalIoSizeBytes": "傳輸的主機 IO 位元組",
+      "datacenterIoOps": "資料中心作業",
+      "controllerReadIops": "控制器讀取作業",
+      "controllerWriteIops": "控制器寫入作業",
+      "contentCacheHitPpm": "內容快取命中百分比",
+      "contentCacheLookups": "內容快取查閱",
+      "contentCacheMemoryUsage": "內容快取記憶體使用情形"
+    },
     "oTelDatabase": {
       "name": "資料庫名稱",
       "kind": "類型",
@@ -14000,8 +14059,19 @@
         "totalCountByService": "依服務的總要求數"
       }
     },
+    "genai": {
+      "genai": "GenAI",
+      "watsonx": "Watsonx",
+      "bedrock": "Bedrock",
+      "crewai": "工作人員 AI",
+      "langchain": "Langchain",
+      "groq": "Groq",
+      "anthropic": "Anthropic",
+      "sagemaker": "Sagemaker"
+    },
     "oTelVLLM": {
       "oTelVLLM": "OTel vLLM 伺服器",
+      "vllm": "vLLM",
       "kind": "類型",
       "serviceName": "服務名稱",
       "entityType": "實體類型",
@@ -14510,6 +14580,19 @@
       "labelDatabaseDiskWrites": "資料庫磁碟寫入",
       "labelDatabaseBytesReceived": "已接收的資料庫位元組數",
       "labelDatabaseBytesSent": "已傳送的資料庫位元組數"
+    },
+    "maprNode": {
+      "pluginName": "MapR 節點",
+      "pid": "程序 ID",
+      "nodeName": "節點名稱",
+      "health": "性能",
+      "utilization": "使用率",
+      "configuredService": "配置的服務",
+      "rackTopology": "機架拓樸",
+      "healthDesc": "性能說明",
+      "cpus": "CPU 數目",
+      "disks": "磁碟數目",
+      "connectErrorIssueDescription": "代理程式無法連接到 MapR"
     },
     "tibcoASNode": {
       "connectErrorIssueDescription": "代理程式無法連接至 FTL 領域服務。 連線失敗，錯誤為：<code>{{error}}</code>",
@@ -17791,7 +17874,17 @@
       "traceState": "追蹤狀態",
       "error": "錯誤",
       "tags": "標籤",
-      "resource": "Resource"
+      "resource": "Resource",
+      "events": "跨距事件",
+      "eventName": "事件名稱",
+      "timestamp": "時間戳記",
+      "links": "跨距鏈結",
+      "traceId": "追蹤 ID",
+      "spanId": "跨距 ID",
+      "eventNamePrefix": "名稱： ",
+      "traceIdPrefix": "追蹤 ID： ",
+      "eventDetails": "事件詳細資料",
+      "linkDetails": "鏈結詳細資料"
     },
     "otelBatchSynthetic": {
       "indexReturn": "內部觸發程式",

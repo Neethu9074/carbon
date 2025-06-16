@@ -27,6 +27,10 @@
       "sloLimitReachedError": "サービス・レベル目標構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
     },
     "traffic": "トラフィック",
+    "statuses": {
+      "label_red": "ターゲット外",
+      "label_green": "ターゲット内"
+    },
     "indicator": {
       "type": "不明なタイプ",
       "type_eventBased": "イベント・カウント",
@@ -242,7 +246,7 @@
   "sloChart": {
     "sloFormatter": {
       "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
-      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}\" })"
     },
     "sloChartSummary": {
       "status": "状況",
@@ -271,17 +275,40 @@
   },
   "sloList": {
     "components": {
+      "sloListTable": {
+        "serviceLevelsCreateButton": "サービス・レベル目標を作成する",
+        "filterLabel": "フィルター",
+        "clearLabel": "クリア",
+        "filterClose": "閉じる",
+        "sloListErrorTitle": "何らかの問題が発生しました",
+        "sloListErrorDescription": "予期しないエラーが発生しました。 ページを最新表示するか、後で再試行してください。",
+        "emptyListStateTitle": "結果が見つかりません",
+        "emptyListStateSubtitle": "探しているものが見つかるように検索基準またはフィルターのオプションを調整してみてください。",
+        "emptyListStateIllustrationDescription": "使用可能なデータが表示されていません"
+      },
+      "sloListFilters": {
+        "filterStatus": "状況",
+        "filterTags": "タグ",
+        "filterBlueprint": "ブループリント",
+        "filterEntity": "エンティティー"
+      },
       "sloEntityInfo": {
         "service": "サービス: {{label}}",
         "endpoint": "エンドポイント: {{label}}",
         "tooltip": "{{context}} SLO"
       },
-      "entityTypeFilter": {
-        "placeholder": "エンティティー・タイプ"
+      "statusFilter": {
+        "sloStatusAll": "すべて"
       },
       "sloTagFilter": {
-        "placeholder": "タグ",
-        "noTagsInfo": "使用可能なタグがありません"
+        "placeholder": "タグの選択",
+        "noTagsInfo": "使用可能なタグがありません",
+        "clearFilters": "フィルターの消去",
+        "filters": "不明フィルター",
+        "filters_entityType": "エンティティ・タイプ: $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
+        "filters_blueprint": "Blueprint: $t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
+        "filters_sloStatus": "ステータス: $t(in-service-levels:general.statuses.label, {\"context\":\"{{value}}\"})",
+        "filters_tags": "タグ: {{value}}"
       },
       "sloStatusColumnContent": {
         "target": "ターゲット {{target}}"
@@ -341,7 +368,7 @@
         "totalTraffic": "合計: {{value}}"
       },
       "burnRateKpiCard": {
-        "burnRateInfo": "選択したSLO時間枠における燃焼率"
+        "burnRateInfo": "選択した SLO 時間ウィンドウでの燃焼率"
       },
       "errorBudgetChart": {
         "title": "エラー予算"

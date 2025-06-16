@@ -6,6 +6,7 @@
   "labelAnalytic": "分析",
   "labelCall": "呼叫",
   "labelTrace": "追蹤",
+  "labelSubtrace": "子追蹤",
   "labelStatus": "狀態",
   "linkDownload": "下載",
   "linkDownloadCalls": "下載呼叫",
@@ -92,6 +93,7 @@
   "buttonInspectIssue_1": "檢驗 {{count}} 個問題",
   "buttonInspectIssue_2": "檢驗 {{count}} 個問題",
   "buttonAnalyzeCalls": "分析呼叫",
+  "buttonAnalyzeSubtraces": "分析子追蹤",
   "buttonAnalyzeServices": "分析服務",
   "buttonAnalyzeEndpoints": "分析端點",
   "buttonClear": "清除",
@@ -255,6 +257,7 @@
     "endpoints": "端點",
     "types": "類型",
     "technologies": "技術",
+    "NumberOfSubCalls": "Nr. 子呼叫數",
     "httpStatusCode": "HTTP 狀態",
     "hiddenCalls": "隱藏呼叫",
     "fastQueryMode": "快速查詢模式",
@@ -721,7 +724,8 @@
     "traces_traces": "追蹤",
     "traces_latency": "延遲",
     "traces_erroneousCalls": "錯誤追蹤",
-    "traces_errors": "錯誤追蹤率"
+    "traces_errors": "錯誤追蹤率",
+    "subtraces_subtraceDuration": "持續時間"
   },
   "viewLists": {
     "application": "應用程式",

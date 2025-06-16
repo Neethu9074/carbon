@@ -10,7 +10,7 @@ import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Stack, IconButton } from '@instana/components';
 
 import useDoDeleteSloConfiguration from 'in-service-levels/hooks/useDoDeleteSloConfiguration';
-import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
+import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
 import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -35,13 +35,13 @@ export default function SloActionButtons({ configuration, editDisabled }: SloAct
 
   const openCloneDialog = () => {
     addActiveDialog(
-      <CreateSloDialog
+      <ConfigureSloDialog
         mode="CLONE"
         configuration={{
           ...configuration,
           id: undefined,
           lastUpdated: undefined,
-          name: t('in-service-levels:createSloDialog.sloNameCopyTemplate', { name: configuration.name })
+          name: t('in-service-levels:general.nameCopyTemplate', { name: configuration.name })
         }}
         trackingMeta={meta}
       />
@@ -49,7 +49,7 @@ export default function SloActionButtons({ configuration, editDisabled }: SloAct
   };
 
   const openEditDialog = () => {
-    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);
+    addActiveDialog(<ConfigureSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);
   };
 
   return (

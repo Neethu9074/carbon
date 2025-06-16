@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "Nível de alerta",
     "alertPropertyInfosLabelTriggersIncident": "Incidente de acionadores",
     "alertPropertyInfosLabelDescription": "Descrição",
-    "noChannelSelectedText": "Atualmente, você não selecionou um canal de alerta e não receberá nenhum alerta.",
+    "noChannelSelectedText": "Nenhum canal incluído. Comece clicando em Selecionar canais de alerta.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros adicionais",
     "groupBy": "Agrupar por",
     "noChannelAvailable": "Não há nenhum canal de alerta disponível",
@@ -167,6 +167,7 @@
     "titleNoSmartAlertsCreated": "Nenhum Alerta inteligente criado",
     "titleCopyOf": "(Cópia de) {{smartAlertTitle}}",
     "smartAlertsTitle": "Alertas inteligentes",
+    "titleNoSmartAlertsConfiguredFound": "Nenhuma configuração de Alerta inteligente localizada",
     "alertChannelList": {
       "selectAllWarning": "Selecionar todos os avisos",
       "selectAllCritical": "Selecione todos os críticos",
@@ -912,7 +913,6 @@
         "criticalAlertPreviewLabel": "Visualização crítica",
         "alertPreviewMissingThresholdInfo": "Nenhuma visualização disponível. Selecione pelo menos um valor de limite para ver a visualização.",
         "alertPropertiesAlertProperties": "Propriedades de alerta",
-        "alertPreviewDefaultTitle": "Título da notificação",
         "groupingPlaceholdersMissingTooltip": "Para incluir mais itens temporários, configure os agrupamentos",
         "buttonSave": "Salvar",
         "buttonCreate": "Criar",
@@ -998,7 +998,8 @@
         "title": "Período de carência (opcional)",
         "description": "Selecione por quanto tempo um problema deve permanecer aberto depois que o limite de violação não for mais atingido. Depois de decorrido esse tempo, o problema será automaticamente encerrado.",
         "label": "Selecionar",
-        "summary": "Feche automaticamente um problema depois que o limite de violação não for mais atingido <strong>para {{gracePeriodValue}}</strong>."
+        "defaultGracePeriod": "Padrão",
+        "summary": "Encerrar automaticamente um problema depois que o limite de violação não for mais atingido para"
       },
       "tearSheet": {
         "cancelModalTitle": "Tem certeza de que deseja cancelar?",
@@ -1008,12 +1009,15 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "As violações persistem em intervalos aleatórios",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "As violações persistem continuamente",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "Quando um número mínimo de rastros é afetado",
+          "labelUserImpactOfViolationsInSequence": "Quando um determinado número de usuários é afetado",
           "granularity": {
             "description": "As chamadas são feitas em janelas de {{granularity}}-minuto; a cada {{granularity}} minutos, um valor de métrica é calculado para essa janela"
           },
           "triggerAlert": "Acionar alerta",
           "triggerAfter": "Acionar após",
           "tracesImpacted": "rastros serem afetados",
+          "numberOfUserImpactPostLabel": "ou um número maior de usuários é afetado",
+          "percentageOfUserImpactPostLabel": "ou um percentual maior de usuários é afetado",
           "outOfConsecutiveEvaluations": "de um total de",
           "persistenceType": "Tipo de persistência",
           "numberOfConsecutiveViolationsPostLabel": "Janelas consecutivas de {{granularity}}-minuto têm violações",
@@ -1163,7 +1167,7 @@
         },
         "step5": {
           "title": "Definir canais de alerta",
-          "description": "Selecione onde você deseja ser notificado sobre esse alerta"
+          "description": "Selecione onde você deseja ser notificado sobre esse alerta."
         },
         "slowness": {
           "headline": "Alertas automáticos para tempo de onLoad ou latência HTTP",
@@ -1349,7 +1353,7 @@
           "header": "Quais propriedades você deseja configurar para esse alerta?"
         },
         "step4": {
-          "header": "Selecione onde você deseja ser notificado sobre esse alerta"
+          "header": "Selecione onde você deseja ser notificado sobre esse alerta."
         }
       }
     },
@@ -1494,7 +1498,7 @@
         },
         "step5": {
           "title": "Definir canais de alerta",
-          "description": "Selecione onde você deseja ser notificado sobre esse alerta"
+          "description": "Selecione onde você deseja ser notificado sobre esse alerta."
         },
         "slowness": {
           "headline": "Alertas automáticos para latência HTTP",
@@ -1904,22 +1908,29 @@
         "blueprint_STATUS": "Status",
         "blueprint_BURNED_PERCENTAGE": "Orçamento com erro",
         "blueprint_BURN_RATE": "Taxa de queima",
+        "blueprint_BURN_RATE_V2": "Taxa de queima",
         "blueprintDescription": "",
+        "burnRateAlertTypeLabel": "Tipo de janela de alerta",
+        "burnRateAlertTypeLabel_SINGLE_WINDOW": "Janela de alerta única",
+        "burnRateAlertTypeLabel_MULTI_WINDOW": "Janela de alerta longa e curta",
         "blueprintDescription_STATUS": "Receba um alerta quando o status de SLO estiver abaixo de um limite.",
         "blueprintDescription_BURNED_PERCENTAGE": "Receba um alerta quando uma porcentagem do orçamento de erro for consumida.",
-        "blueprintDescription_BURN_RATE": "A taxa de queima é um valor que indica a rapidez com que o orçamento de erros é consumido em relação ao comprimento de destino do SLO.",
+        "blueprintDescription_BURN_RATE_V2": "A taxa de queima é um valor que indica a rapidez com que o orçamento de erros é consumido em relação ao comprimento de destino do SLO. ",
         "burnRateShortWindowTitle": "Janela de alerta curta",
-        "burnRateShortWindowDescription": "Esses alertas serão acionados quando a taxa de erro exceder o limite mais rapidamente em um período mais curto. Isso pode ajudar a capturar um aumento repentino de erros ou tempo de inatividade devido a um erro crítico.",
+        "burnRateShortWindowDescription": "Os alertas são acionados quando a taxa de erro excede o limite mais rapidamente em um período mais curto. Isso pode ajudar a capturar um aumento repentino de erros ou tempo de inatividade devido a um erro crítico.",
         "burnRateDescription": "Notifique-me quando a taxa de queima for <1/> <2/>",
-        "burnRateLongWindowTitle": "Janela de alerta longa",
-        "burnRateLongWindowDescription": "Esses alertas serão acionados quando a taxa de erro exceder o limite em um período de tempo mais longo. Isso ajuda a identificar problemas acumulados ao longo do tempo que podem causar problemas no futuro se não forem resolvidos.",
-        "burnRateShortWindowLongerThanLongWindowError": "A janela curta não pode exceder a janela longa. Ajuste qualquer um dos valores.",
+        "burnRateWindowTitle_SINGLE_WINDOW": "Janela de alerta",
+        "burnRateWindowTitle_MULTI_WINDOW": "Janela de alerta longa",
+        "burnRateSingleWindowDescription": "Os alertas são acionados quando a taxa de erro excede o limite em um período de tempo especificado. Isso ajuda a identificar problemas acumulados ao longo do tempo que podem causar problemas no futuro se não forem resolvidos.",
+        "burnRateLongWindowDescription": "Os alertas são acionados quando a taxa de erro excede o limite em um período de tempo mais longo. Isso ajuda a identificar problemas acumulados ao longo do tempo que podem causar problemas no futuro se não forem resolvidos.",
+        "burnRateShortWindowLongerThanLongWindowError": "A janela curta deve ser menor que a janela longa. Ajuste qualquer um dos valores.",
         "burnRateTimeWindowTooLongError": "A janela de alerta não pode exceder a janela de tempo de um SLO selecionado. Verifique o seguinte SLO: {{value}}.",
         "thresholdTitle": "Limite: quando deseja ser alertado?",
         "thresholdInputDescription": "",
         "thresholdInputDescription_BURNED_PERCENTAGE": "Quando <1/> <2/> por cento do orçamento de erro é consumido",
         "thresholdInputDescription_STATUS": "Quando o status de SLO é <1/> <2/> por cento",
         "thresholdInputDescription_BURN_RATE": "Avalie o último <1/> do SLO.",
+        "thresholdInputDescription_BURN_RATE_V2": "Avalie o último <1/> do SLO.",
         "timeThresholdType_gracePeriod": "Quando a condição persistir por uma quantidade especificada de tempo",
         "timeThresholdTypeTitle_gracePeriod": "Alertar quando a condição for violada para $t (in-components:time.minutes, {\"count\": {{minutes}} }) consecutivos",
         "timeThresholdTypeTitle_cooldownPeriod": "Pelo menos $t(in-components:time.minutes, {\"count\": {{minutes}} }) devem ter passado para o evento terminar",
@@ -1928,7 +1939,11 @@
         "alertPropertiesTitlePlaceholder_STATUS": "Status de SLO é baixo",
         "alertPropertiesDescriptionPlaceholder_STATUS": "O status de SLO é {{operator}} {{percentage}}.",
         "alertPropertiesTitlePlaceholder_BURN_RATE": "A taxa de queima foi excedida",
-        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "A taxa de queima de SLO é {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE_V2": "A taxa de queima foi excedida",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "A taxa de queima do SLO é {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2": "A taxa de queima do SLO é {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_SINGLE": "A taxa de queima do SLO é {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_MULTI": "A taxa de queima da janela longa do SLO é {{longWindowOperator}} {{longWindowPercentage}} e da janela curta é {{shortWindowOperator}} {{shortWindowPercentage}}.",
         "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "O orçamento de erro restante é baixo",
         "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Consumiu {{operator}} {{percentage}} do orçamento de erros.",
         "alertPropertiesIncidentWarning": "Incidentes são aplicáveis apenas a SLOs associados a aplicativos"
@@ -1944,8 +1959,10 @@
         "blueprintLabel": "Blueprint",
         "blueprintInfo": "",
         "blueprintInfo_BURN_RATE": "Taxa de queima",
+        "blueprintInfo_BURN_RATE_V2": "Taxa de queima",
         "blueprintInfo_BURNED_PERCENTAGE": "Orçamento de erro consumido",
         "blueprintInfo_STATUS": "Status",
+        "singleWindowLabel": "Janela de alerta",
         "longWindowLabel": "Janela longa",
         "shortWindowLabel": "Janela curta",
         "timeWindowInfo_minute": "{{count}} minuto",
@@ -1966,10 +1983,14 @@
         "coolDownPeriodDescription": "No mínimo {{value}} deve ser transmitido para que o evento seja concluído."
       },
       "alertList": {
-        "threshold": "Limite: {{value}}",
-        "threshold_BURN_RATE": "Taxa de queima: {{value}}",
-        "threshold_BURNED_PERCENTAGE": "Limite: {{value}}",
-        "threshold_STATUS": "Limite: {{value}}",
+        "threshold": "{{metric}}, limite {{operator}} {{value}}",
+        "threshold_BURN_RATE": "{{metric}}, limite {{operator}} {{value}}",
+        "singleWindowThreshold_BURN_RATE_V2": "{{metric}}, limite {{operator}} {{value}}",
+        "longWindowThreshold_BURN_RATE_V2": "{{metric}}, limite (Longo) {{longWindowOperator}} {{longWindowValue}}, (Curto) {{shortWindowoperator}} {{shortWindowValue}}",
+        "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, limite (Longo) {{operator}} {{value}} & (Curto) < 1",
+        "threshold_BURNED_PERCENTAGE": "{{metric}}, limite {{operator}} {{value}}",
+        "threshold_STATUS": "{{metric}}, limite {{operator}} {{value}}",
+        "alertListSloAppliedColumnName": "SLOs aplicados",
         "sloApplied": "SLOs aplicados",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
@@ -1978,8 +1999,13 @@
         "sloCount_2": "{{count}} SLOs",
         "title": "",
         "title_BURN_RATE": "Taxa de queima",
+        "title_BURN_RATE_V2": "Taxa de queima",
         "title_BURNED_PERCENTAGE": "Orçamento de erro consumido",
-        "title_STATUS": "Status"
+        "title_STATUS": "Status",
+        "errorBudgetLabel": "Orçamento errado",
+        "deprecatedLabel": "Descontinuado",
+        "noDataHeader": "Nenhum Alerta inteligente de SLO",
+        "noDataDescription": "Para começar a usar, clique em <strong>Criar alerta inteligente</strong>."
       },
       "messages": {
         "successTitle": "",

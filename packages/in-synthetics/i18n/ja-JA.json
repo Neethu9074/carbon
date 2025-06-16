@@ -38,7 +38,7 @@
         "webpageActionTitle": "このブラウザー・シンプル (Web ページ・アクション) テストの名前",
         "browserScriptTitle": "このブラウザー・スクリプト・テストの名前",
         "labelName": "テストの名前",
-        "labelDescription": "説明",
+        "labelDescription": "説明（オプション）",
         "labelFrequency": "頻度 (分)",
         "labelFrequencyHour": "頻度 (時間)",
         "labelApplication": "アプリケーションの選択",
@@ -150,14 +150,13 @@
         "locationsLabel": "ロケーション",
         "locationsTitle": "ロケーション: このテストはどこで実行されますか?",
         "scheduleLabel": "スケジュール",
-        "scheduleTitle": "スケジュール: このテストはいつ実行されますか?",
+        "scheduleTitle": "スケジュール: このテストはどのように実行されますか?",
         "identifyLabel": "識別",
         "identifyTitle": "識別: テストは何を行いますか?",
-        "customPropertiesTitle": "カスタム・プロパティー",
+        "customPropertiesTitle": "カスタム・プロパティー(オプション)",
         "frequency": "このテストは {{frequencyValue}} 分ごとに実行されます。",
         "frequencyHours": "このテストは、{{frequencyHours}}時間ごとに実行されます。",
         "frequencyHoursAndMinutes": "このテストは、 {{frequencyHours}}時間と{{frequencyMinutes}}分ごとに実行されます。",
-        "simultaneous": "同時",
         "simultaneousDescription": "このテストは、選択した各ロケーションで同時に実行されます。",
         "configStep": {
           "allowInsecure": "非セキュアを許可",
@@ -204,7 +203,7 @@
           "node22BrowserUploadFileDescription": "単一の.js、.cjs、もしくは.mjsファイル、またはバンドルされた.js、.cjs、もしくは.mjsファイルを含む.zipファイル、またはSelenium IDEによって記録された.sideスクリプトのいずれかをアップロードできます。",
           "sideFileUploadedMessage": "Selenium スクリプトは変更も検証もできません。",
           "bundleFileNotSupportedMessage": "サポートされないファイルが選択されました。 バンドルは拡張モードでのみサポートされます。",
-          "timeoutFieldLabel": "Timeout",
+          "timeoutFieldLabel": "タイムアウト (オプション)",
           "timeUnitsLabel": "時間単位",
           "timeoutFieldOptionMinutes": "分 (m)",
           "timeoutFieldOptionSeconds": "秒 (s)",
@@ -213,7 +212,7 @@
           "invalidTimeoutvalue": "タイムアウト値が無効です",
           "invalidTimeoutUnit": "タイムアウト単位が無効です",
           "timeoutFieldDescription": "このテストは次の後に失敗します",
-          "retryFieldLabel": "再試行戦略",
+          "retryFieldLabel": "リトライ戦略 (オプション)",
           "retryFieldOptionNone": "なし",
           "retryFieldOptionOnce": "1 回再試行",
           "retryFieldOptionTwice": "2 回再試行",
@@ -224,6 +223,13 @@
           "mainFileNameHelperText": "この .zip ファイル内の、テストのエントリー・ポイントを含むファイル名を指定してください",
           "recordVideo": "失敗時にユーザーアクションを記録する",
           "acceptSelfSignedCertificate": "自己署名証明書を受け入れる",
+          "operatorLabel": "条件",
+          "operatorOptionMatches": "一致",
+          "operatorOptionContains": "次を含む",
+          "operatorOptionIs": "次と一致",
+          "operatorOptionNotMatches": "マッチしない",
+          "deleteButtonLabel": "削除",
+          "addFieldLabel": "フィールドの追加",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL は、DNS 解決のためにテストされているドメイン名です",
@@ -237,14 +243,7 @@
             "assertionsTitle": "アサーション (オプション)",
             "assertionsSubtitle": "これらのフィールドは任意ですが、記入する場合は、テストを成功させるにはすべて「true」にする必要があります。",
             "recordTypeLabel": "レコード・タイプ",
-            "operatorLabel": "条件",
-            "operatorOptionMatches": "一致",
-            "operatorOptionContains": "次を含む",
-            "operatorOptionIs": "次と一致",
-            "operatorOptionNotMatches": "マッチしない",
             "resolutionRecordLabel": "解像度記録",
-            "deleteButtonLabel": "削除",
-            "addRecordTypeLabel": "フィールドの追加",
             "recursiveLookupLabel": "再帰的ルックアップ",
             "dnsRadioButtonOnLabel": "オン",
             "dnsRadioButtonOffLabel": "オフ",
@@ -262,7 +261,25 @@
             },
             "assertionsNotificationTitle": "必要なアサーション",
             "assertionsNotificationDescription": "「アサーションに関連付けられたすべてのもの」のクエリー・タイプを使用する場合は、少なくとも1つのアサーションを追加します。"
-          }
+          },
+          "ssl": {
+            "attributeLabel": "属性",
+            "valueLabel": "値",
+            "attributeValueLabel": "属性値",
+            "invalidAttributeValue": "属性値が無効です",
+            "assertion": {
+              "commonName": "issuedTo.commonName",
+              "alternativeName": "issuedTo.alternativeName",
+              "organization": "issuedBy.organization",
+              "tlsVersion": "tls.version"
+            }
+          },
+          "hostDetailsSectionLabel": "ホストの詳細",
+          "headerSectionLabel": "ヘッダーの追加 (オプション)",
+          "testCriteriaLabel": "テスト基準",
+          "validationsSectionLabel": "バリデーションの追加 (オプション)",
+          "timeoutAndRetrySectionLabel": "タイムアウトとリトライ戦略 (オプション)",
+          "additionalOptionsSectionLabel": "追加のオプション"
         },
         "loadMore": "さらにロード",
         "selectTests": {
@@ -294,7 +311,7 @@
         "associationsLabel": "アソシエイト",
         "applicationsTitle": "関連付け: この合成テストに関連付けるアプリケーションを選択します",
         "applicationsDescription": "合成テストをアプリケーションに関連付けると、そのアプリケーションにアクセスできるすべてのユーザーにアクセ ス権が付与されます。",
-        "associationsTitle": "関連付け: この合成テストに関連付けたいものを選択します",
+        "associationsTitle": "関連: この合成テストに関連付けたいものを選択してください (オプション)",
         "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。"
       },
       "associations": {
@@ -474,11 +491,16 @@
         "tests": "テスト",
         "locations": "ロケーション",
         "smartAlerts": "スマート・アラート",
-        "credentials": "資格情報"
+        "credentials": "資格情報",
+        "syntheticTests": "合成テスト"
       },
       "options": {
+        "scheduledMenuLabel": "スケジュール済み",
+        "onDemandMenuLabel": "オンデマンド",
+        "allLabel": "すべて",
         "scheduledLabel": "データ範囲: 予定",
-        "onDemandLabel": "データ範囲: オンデマンド"
+        "onDemandLabel": "データ範囲: オンデマンド",
+        "dashboardHeaderLabel": "{dataScopeLabel} に基づくデータ"
       },
       "popDialog": {
         "popUpDialogTitle": "合成モニタリングのための権限",
@@ -521,6 +543,7 @@
       "paused": "中止",
       "deleted": "削除",
       "type": "タイプ",
+      "sslDaysRemaining": "有効期限: {{daysRemaining}} 日",
       "successRate": "成功率",
       "successRuns": "{{successRuns}} / {{totalRuns}} 件の結果",
       "latency": "平均応答時間",
@@ -537,7 +560,11 @@
       "health": "正常性",
       "action": "アクション",
       "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> テストを削除してもよろしいですか。 この操作は元に戻せません。",
-      "na": "該当なし"
+      "na": "該当なし",
+      "configureColumns": {
+        "title": "列のカスタマイズ",
+        "description": "これで、合成テスト・データの表をカスタマイズできます。 これにより、表示する列を柔軟に選択し、必要に応じて並べ替えることができます。"
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "ライブ・モードは「合成ロケーション」ページには適用されません",
@@ -886,6 +913,7 @@
       "noMobileAppAssociated": "モバイル・アプリは関連なし",
       "recordVideo": "失敗時にユーザーアクションを記録する",
       "acceptSelfSignedCertificate": "自己署名証明書を受け入れる",
+      "operatorLabel": "条件",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "照会タイプ",
@@ -895,7 +923,6 @@
         "responseTimeDescription": "応答時間は {{responseTime}} ミリ秒未満です",
         "assertionsTitle": "アサーション",
         "recordTypeLabel": "レコード・タイプ",
-        "operatorLabel": "条件",
         "resolutionRecordLabel": "解像度記録",
         "recursiveLookupLabel": "再帰的ルックアップ",
         "dnsRadioButtonOnLabel": "オン",
@@ -904,6 +931,10 @@
         "acceptCNAMELabel": "CNAME を受け入れる",
         "lookupServerNamelabel": "サーバー名を検索",
         "serverRetriesLabel": "サーバー再試行"
+      },
+      "ssl": {
+        "attributeLabel": "属性",
+        "valueLabel": "値"
       }
     },
     "credentialList": {

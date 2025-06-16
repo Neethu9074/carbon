@@ -17,10 +17,10 @@ import {
 import AlternativeServicesTopList from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesTopList';
 import { AggregationType, PaginatedResult, Result, ServiceItem, TagFilterEntity, TimeConfig } from 'in-types';
 import getServicesCorrelatedByTag from 'in-applications/subscriptions/getServicesCorrelatedByTag';
+import { MultiMetricRenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import { OverlayContentProps } from 'in-components/overlays/Overlay/types';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { Renderer } from 'in-components/Chart/renderer/types';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -33,7 +33,7 @@ export interface MetricDefinition {
   metric: string;
   aggregation: AggregationType;
   formatter: FormatterFn;
-  renderer: Renderer;
+  renderer: Renderer<MultiMetricRenderProps>;
   fallbackMetricValue?: [number, number][];
 }
 

@@ -53,9 +53,9 @@ import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/ge
 import List, { CreateNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
-import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { toHtml } from 'in-services/formatters/markdown';
 import { pendingResult } from 'in-services/fixedObjects';

@@ -12,7 +12,7 @@ import { Observable } from '@instana/observables';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 import { ParameterDefinition } from 'in-stores/navigation/types';
-import { Nullish, PaginatedResult, Result } from 'in-types';
+import { PaginatedResult, Result } from 'in-types';
 
 export type Ellipsis = string | boolean | undefined;
 export type Width = string | number | undefined;
@@ -38,12 +38,16 @@ export interface CarbonDataTableWithUrlStateProps<
   timeConfig: TimeConfig;
   isSearchable?: boolean;
   searchText?: string;
+  noDataHeader?: string;
+  noDataDescription?: string;
+  toolBarContent?: JSX.Element | boolean;
+  actionButtonContent?: JSX.Element | boolean;
 }
 
 export interface CarbonDataTablePresenterProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>
   extends CarbonDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>,
     ServerTableUrlState {
-  result: Result<PaginatedResult<ITEM_TYPE>> | Nullish;
+  result: Result<PaginatedResult<ITEM_TYPE>>;
   onChange: (change: Partial<ServerTableUrlState>) => void;
 }
 
@@ -74,6 +78,13 @@ export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PropsType exte
   query: string;
   isSearchable?: boolean;
   searchText?: string;
+  toolBarContent?: JSX.Element | boolean;
+  actionButtonContent?: JSX.Element | boolean;
   filterRows?: (value: React.ChangeEvent<HTMLInputElement>) => void;
   sortRow?: (sortState: { sortDirection: string; sortHeaderKey: string }) => void;
+  errorContent?: JSX.Element | boolean;
+  noDataHeader?: string;
+  noDataDescription?: string;
+  errorHeader?: string;
+  result: Result<PaginatedResult<ITEM_TYPE>>;
 }

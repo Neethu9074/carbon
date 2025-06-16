@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "警报级别",
     "alertPropertyInfosLabelTriggersIncident": "触发突发事件",
     "alertPropertyInfosLabelDescription": "描述",
-    "noChannelSelectedText": "当前，您尚未选择警报通道，并且不会接收任何警报。",
+    "noChannelSelectedText": "未添加通道。 要开始操作，请单击“选择警报通道”。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他过滤器",
     "groupBy": "分组依据",
     "noChannelAvailable": "没有可用的警报通道",
@@ -167,6 +167,7 @@
     "titleNoSmartAlertsCreated": "未创建智能警报",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "smartAlertsTitle": "智能警报",
+    "titleNoSmartAlertsConfiguredFound": "未找到智能警报配置。",
     "alertChannelList": {
       "selectAllWarning": "选择所有警告",
       "selectAllCritical": "选择所有关键的",
@@ -912,7 +913,6 @@
         "criticalAlertPreviewLabel": "关键阈值预览",
         "alertPreviewMissingThresholdInfo": "无可用预览。 请选择至少一个阈值以查看预览。",
         "alertPropertiesAlertProperties": "警报属性",
-        "alertPreviewDefaultTitle": "通知标题",
         "groupingPlaceholdersMissingTooltip": "要包含更多占位符，请配置分组",
         "buttonSave": "保存",
         "buttonCreate": "创建",
@@ -998,7 +998,8 @@
         "title": "宽限期（可选）",
         "description": "选择在不再满足违例阈值后，问题应保持打开状态的时间。 经过此时间之后，将自动关闭该问题。",
         "label": "选择",
-        "summary": "<strong>当 {{gracePeriodValue}}</strong> 不再满足违规阈值后，将自动关闭问题。"
+        "defaultGracePeriod": "缺省值",
+        "summary": "在不再满足违例阈值后自动关闭问题"
       },
       "tearSheet": {
         "cancelModalTitle": "确定要取消吗？",
@@ -1008,12 +1009,15 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "违例以随机时间间隔发生",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "违例持续存在",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "当最小数量的跟踪受影响时",
+          "labelUserImpactOfViolationsInSequence": "当一定数量的用户受到影响时",
           "granularity": {
             "description": "调用以 {{granularity}} 分钟为时间窗口发出；每 {{granularity}} 分钟，针对此窗口计算一次指标值"
           },
           "triggerAlert": "触发警报",
           "triggerAfter": "触发后",
           "tracesImpacted": "个跟踪受到影响",
+          "numberOfUserImpactPostLabel": "或更多数量的用户受到影响",
+          "percentageOfUserImpactPostLabel": "或更多比例的用户受到影响",
           "outOfConsecutiveEvaluations": "个（共  个）",
           "persistenceType": "持久类型",
           "numberOfConsecutiveViolationsPostLabel": "连续 {{granularity}} 分钟时间窗口有违例",
@@ -1163,7 +1167,7 @@
         },
         "step5": {
           "title": "定义警报通道",
-          "description": "选择要在何处收到此警报的通知"
+          "description": "选择要在何处收到此警报的通知。"
         },
         "slowness": {
           "headline": "onLoad 时间或 HTTP 等待时间的自动警报",
@@ -1349,7 +1353,7 @@
           "header": "要为此警报设置哪些属性？"
         },
         "step4": {
-          "header": "选择要在何处收到此警报的通知"
+          "header": "选择要在何处收到此警报的通知。"
         }
       }
     },
@@ -1494,7 +1498,7 @@
         },
         "step5": {
           "title": "定义警报通道",
-          "description": "选择要在何处收到此警报的通知"
+          "description": "选择要在何处收到此警报的通知。"
         },
         "slowness": {
           "headline": "HTTP 延迟自动警报",
@@ -1904,22 +1908,29 @@
         "blueprint_STATUS": "状态",
         "blueprint_BURNED_PERCENTAGE": "错误预算",
         "blueprint_BURN_RATE": "燃损率",
+        "blueprint_BURN_RATE_V2": "燃损率",
         "blueprintDescription": "",
+        "burnRateAlertTypeLabel": "警报窗口类型",
+        "burnRateAlertTypeLabel_SINGLE_WINDOW": "单一警报窗口",
+        "burnRateAlertTypeLabel_MULTI_WINDOW": "长短警报窗口",
         "blueprintDescription_STATUS": "当 SLO 状态低于阈值时接收警报。",
         "blueprintDescription_BURNED_PERCENTAGE": "在使用一定百分比的错误预算时接收警报。",
-        "blueprintDescription_BURN_RATE": "烧损率是一个值，表示相对于 SLO 目标长度，误差预算消耗的速度。",
+        "blueprintDescription_BURN_RATE_V2": "烧损率是一个值，表示相对于 SLO 目标长度，误差预算消耗的速度。 ",
         "burnRateShortWindowTitle": "短警报窗口",
-        "burnRateShortWindowDescription": "当错误率在较短时间内以较快的速度超过阈值时，就会触发这些警报。 这有助于捕获因关键错误而突然激增的错误或停机时间。",
+        "burnRateShortWindowDescription": "当错误率在较短时间内以较快的速度超过阈值时，就会触发警报。 这有助于捕获因关键错误而突然激增的错误或停机时间。",
         "burnRateDescription": "当烧损率为 <1/> <2/>  时通知我",
-        "burnRateLongWindowTitle": "长警报窗口",
-        "burnRateLongWindowDescription": "当错误率在较长时间内超过阈值时，就会触发这些警报。 这有助于发现日积月累的问题，如果不加以解决，将来可能会造成问题。",
-        "burnRateShortWindowLongerThanLongWindowError": "短窗口不能超过长窗口。 请调整任一值。",
+        "burnRateWindowTitle_SINGLE_WINDOW": "警报窗口",
+        "burnRateWindowTitle_MULTI_WINDOW": "长警报窗口",
+        "burnRateSingleWindowDescription": "当错误率在指定时间内超过阈值时，就会触发警报。 这有助于发现日积月累的问题，如果不加以解决，将来可能会造成问题。",
+        "burnRateLongWindowDescription": "当错误率在较长时间内超过阈值时，就会触发警报。 这有助于发现日积月累的问题，如果不加以解决，将来可能会造成问题。",
+        "burnRateShortWindowLongerThanLongWindowError": "短窗口应小于长窗口。 请调整任一值。",
         "burnRateTimeWindowTooLongError": "警报窗口不能超过所选 SLO 的时间窗口。 请检查以下 SLO：{{value}}。",
         "thresholdTitle": "阈值：您希望何时收到警报？",
         "thresholdInputDescription": "",
         "thresholdInputDescription_BURNED_PERCENTAGE": "当使用 <1/> <2/>% 的错误预算时",
         "thresholdInputDescription_STATUS": "当 SLO 状态为 <1/> <2/>% 时",
         "thresholdInputDescription_BURN_RATE": "评估 SLO 的最后一个 <1/>。",
+        "thresholdInputDescription_BURN_RATE_V2": "评估 SLO 的最后一个 <1/>。",
         "timeThresholdType_gracePeriod": "当条件在指定时长后持续存在时",
         "timeThresholdTypeTitle_gracePeriod": "当针对连续 $t(in-components:time.minutes, {\"count\": {{minutes}} }) 的条件违例时发出警报",
         "timeThresholdTypeTitle_cooldownPeriod": "必须至少要经过 $t(in-components:time.minutes, {\"count\": {{minutes}} })，事件才会结束",
@@ -1928,7 +1939,11 @@
         "alertPropertiesTitlePlaceholder_STATUS": "SLO 状态较低",
         "alertPropertiesDescriptionPlaceholder_STATUS": "SLO 状态为 {{operator}} {{percentage}}。",
         "alertPropertiesTitlePlaceholder_BURN_RATE": "超过烧损率",
-        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "SLO 的烧损率为 {{operator}} {{percentage}}。",
+        "alertPropertiesTitlePlaceholder_BURN_RATE_V2": "超过烧损率",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "SLO 的烧损率为 {{singleWindowOperator}} {{singleWindowPercentage}}。",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2": "SLO 的烧损率为 {{singleWindowOperator}} {{singleWindowPercentage}}。",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_SINGLE": "SLO 的烧损率为 {{singleWindowOperator}} {{singleWindowPercentage}}。",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_MULTI": "SLO 长窗口的烧损率为 {{longWindowOperator}} {{longWindowPercentage}}，短窗口的烧损率为 {{shortWindowOperator}} {{shortWindowPercentage}}。",
         "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "剩余错误预算较低",
         "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "消耗了误差预算的 {{operator}} {{percentage}}。",
         "alertPropertiesIncidentWarning": "突发事件仅适用于与应用程序关联的 SLO"
@@ -1944,8 +1959,10 @@
         "blueprintLabel": "蓝图",
         "blueprintInfo": "",
         "blueprintInfo_BURN_RATE": "燃损率",
+        "blueprintInfo_BURN_RATE_V2": "燃损率",
         "blueprintInfo_BURNED_PERCENTAGE": "使用的错误预算",
         "blueprintInfo_STATUS": "状态",
+        "singleWindowLabel": "警报窗口",
         "longWindowLabel": "长窗口",
         "shortWindowLabel": "短窗口",
         "timeWindowInfo_minute": "{{count}} 分钟",
@@ -1966,10 +1983,14 @@
         "coolDownPeriodDescription": "必须至少要经过 {{value}}，事件才会结束。"
       },
       "alertList": {
-        "threshold": "阈值：{{value}}",
-        "threshold_BURN_RATE": "烧损率：{{value}}",
-        "threshold_BURNED_PERCENTAGE": "阈值：{{value}}",
-        "threshold_STATUS": "阈值：{{value}}",
+        "threshold": "{{metric}}，阈值 {{operator}}{{value}}",
+        "threshold_BURN_RATE": "{{metric}}，阈值 {{operator}}{{value}}",
+        "singleWindowThreshold_BURN_RATE_V2": "{{metric}}，阈值 {{operator}}{{value}}",
+        "longWindowThreshold_BURN_RATE_V2": "{{metric}}, 阈值（长）{{longWindowOperator}} {{longWindowValue}}，（短）{{shortWindowoperator}} {{shortWindowValue}}",
+        "shortWindowThreshold_BURN_RATE_V2": "{{metric}}，阈值（长）{{operator}} {{value}} &（短）< 1",
+        "threshold_BURNED_PERCENTAGE": "{{metric}}，阈值 {{operator}}{{value}}",
+        "threshold_STATUS": "{{metric}}，阈值 {{operator}}{{value}}",
+        "alertListSloAppliedColumnName": "已应用 SLO",
         "sloApplied": "已应用 SLO",
         "sloCount": "{{count}} 个 SLO",
         "sloCount_plural": "{{count}} 个 SLO",
@@ -1978,8 +1999,13 @@
         "sloCount_2": "{{count}} 个 SLO",
         "title": "",
         "title_BURN_RATE": "燃损率",
+        "title_BURN_RATE_V2": "燃损率",
         "title_BURNED_PERCENTAGE": "使用的错误预算",
-        "title_STATUS": "状态"
+        "title_STATUS": "状态",
+        "errorBudgetLabel": "错误预算",
+        "deprecatedLabel": "已弃用",
+        "noDataHeader": "无 SLO 智能警报",
+        "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       },
       "messages": {
         "successTitle": "",

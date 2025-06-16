@@ -11,6 +11,7 @@ import { WebsiteSloEntity } from '@instana/types';
 import type { SloDashboardMarkerLanesProps } from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
 // @ts-expect-error -- Ts migration already in progress
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
+import CorrectionWindowsLane from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/CorrectionWindowsLane';
 // @ts-expect-error -- Ts migration already in progress
 import AlertsLane from 'in-components/Chart/markerLanes/AlertsLane/AlertsLane';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -51,6 +52,7 @@ export default function WebsiteSloMarkerLanes({
         }}
         getAlerts={getWebsiteAlertClusters}
       />
+      <CorrectionWindowsLane chartContentPosition={chartContentPosition} />
     </MarkerLanesPresenter>
   );
 }

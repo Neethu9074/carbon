@@ -6,11 +6,11 @@
 
 import React from 'react';
 
+import { SloListItem, SelectSloListItem } from 'in-service-levels/types';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
-import { SloListItem } from 'in-service-levels/types';
 
 interface Props {
-  item: SloListItem;
+  item: SloListItem | SelectSloListItem;
 }
 
 export default function SloEntityColumnContent({ item }: Props) {

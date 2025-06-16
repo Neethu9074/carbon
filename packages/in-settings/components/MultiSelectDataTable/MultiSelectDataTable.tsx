@@ -356,7 +356,7 @@ export default function MultiSelectDataTable<
             title={notification.title}
             subtitle={notification.subtitle}
             lowContrast
-            // timeout={notification.timeout}
+            timeout={notification.timeout}
             caption={notification.caption}
           />
         </div>

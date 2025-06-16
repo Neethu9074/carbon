@@ -14,7 +14,7 @@ import { createEntityIdUrlParameter, createTagsUrlParameter } from 'in-service-l
 import SloEntityColumnContent from 'in-service-levels/components/SloList/components/SloEntityColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
+import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import { serviceLevelsAlertDetailsSegment } from 'in-service-levels/navigation/path';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';

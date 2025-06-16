@@ -69,7 +69,7 @@ interface UnifiedMetricsChartProps extends BaseChartConfig {
   hasButtonInActionslane?: boolean;
   bulkRequest?: boolean;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
-  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string, id: string) => void;
   facets?: Facets;
   formModel?: FormModelElement;
   tableOpen?: boolean;

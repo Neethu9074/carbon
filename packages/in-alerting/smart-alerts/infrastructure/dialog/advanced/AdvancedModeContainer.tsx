@@ -35,8 +35,8 @@ import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiTh
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting';
@@ -200,10 +200,12 @@ export default function AdvancedModeContainer(
                       onChange={onChange}
                       getTitlePlaceholder={() => ''}
                       titlePlaceholder={alertNameValue ?? generateTitle(alertTitle)}
-                      placeholders={placeholders}
-                      placeholderTooltipContent={t(
-                        'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
-                      )}
+                      placeholderData={{
+                        placeholders,
+                        tooltip: t(
+                          'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
+                        )
+                      }}
                     />
                   )}
                   displayTriggerIncident={incidentTriggeringInfraSaEnabled}

@@ -39,9 +39,10 @@
   "namespace": "Espace de nom",
   "deployment": "Déploiement",
   "pod": "Pod",
+  "deleteLogsTootilpSuccess": "Succès",
   "tooltipEntityHealthNoIssues": "Aucun problème",
-  "tooltipEntityHealthInProgress": "En cours",
-  "tooltipEntityHealthFailed": "Échec",
+  "deleteLogsTooltipInProgress": "En cours",
+  "deleteLogsTooltipFailed": "Échec",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problèmes",
   "endOfInfiniteScroll": "Aucun autre journal disponible",
   "liveModeDisabled": "Le mode actif n'est pas pris en charge lors de l'analyse des journaux",
@@ -81,9 +82,23 @@
       "logIntegrations": "Intégrations de journaux",
       "logIntegrationsDescription": "Connectez vos solutions de gestion des journaux et configurez-les en fonction de vos besoins.",
       "retentionPeriod": "Durée de conservation",
-      "retentionPeriodDescription": "La modification de la période de conservation a une incidence sur la durée pendant laquelle les journaux sont conservés et disponibles dans les applications, les tableaux de bord et les analyses, et a un impact sur les coûts et la facturation.",
+      "retentionPeriodDescription": "Modifiez la durée de conservation et la disponibilité des journaux dans les applications, les tableaux de bord et les analyses. Cela peut affecter le coût et la facturation.",
       "patternRecognition": "Reconnaissance des modèles de journal",
-      "patternRecognitionDescription": "Fonctionnalité d'IA qui identifie des schémas récurrents dans vos journaux. Les modèles fournissent une vue d'ensemble de vos journaux et contribuent à la réduction du temps de résolution des problèmes."
+      "patternRecognitionDescription": "Fonctionnalité d'IA qui identifie des schémas récurrents dans vos journaux. Les modèles fournissent une vue d'ensemble de vos journaux et contribuent à la réduction du temps de résolution des problèmes.",
+      "patternRecognitionSet": {
+        "gotIt": "J'ai compris",
+        "cancel": "Annuler",
+        "gettingStarted": "Mise en route",
+        "howDoesItWorks": "Comment cela fonctionne-t-il ?",
+        "firstDescription_0": "La reconnaissance des modèles de journal entraîne un algorithme d'IA à découvrir des modèles récurrents dans vos journaux. En analysant de grands volumes de journaux, il est capable de reconnaître les parties variables et statiques des journaux et d'y découvrir des modèles. \n\n L'algorithme d'IA se base uniquement sur les messages de votre journal et ne les partage pas avec les journaux d'autres clients. Cela assure la confidentialité et la sécurité de vos données.",
+        "howWillHelpMe": "Comment cela va-t-il m'aider ?",
+        "secondDescription_0": "Reconnaître des schémas dans vos journaux peut aider à réduire le temps nécessaire pour résoudre un problème lors du dépannage. Vous pouvez filtrer un modèle spécifique ou regrouper un grand nombre de journaux. \n\n Le regroupement peut fournir une vue d'ensemble des journaux que vous ingérez et vous aider à affiner votre configuration de télémétrie ouverte afin d'éviter d'ingérer des journaux non pertinents, ce qui vous permet de réduire les coûts de stockage et d'ingestion.",
+        "learnMore": "En savoir plus",
+        "popHoverSecondDescription": "En analysant de grands volumes de journaux, il est capable de reconnaître les parties variables et statiques des journaux et d'y découvrir des modèles.\n\nL'algorithme d'IA se base uniquement sur les messages de votre journal et ne les partage pas avec les journaux d'autres clients. Cela assure la confidentialité et la sécurité de vos données",
+        "hotItWorks": "Fonctionnement",
+        "popHoverFirstDescription": "La reconnaissance des modèles de journal entraîne un algorithme d'IA à découvrir des modèles récurrents dans vos journaux. ",
+        "aiExpained": "Explication de l'IA"
+      }
     }
   }
 }

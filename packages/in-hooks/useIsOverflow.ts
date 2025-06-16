@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react';
 
-export interface UseIsOverflowParams {
+interface UseIsOverflowParams {
   ref: React.RefObject<HTMLDivElement | undefined>;
   measureRef: React.RefObject<HTMLDivElement | undefined>;
   measurementOffset?: number;
   maxVisibleCount?: number;
+  callback?: (hasOverflow: boolean) => void;
   overflowTag: React.RefObject<HTMLDivElement | undefined>;
 }
 
@@ -18,6 +19,7 @@ export default function useIsOverflow({
   ref,
   measureRef,
   measurementOffset = 0,
+  callback,
   maxVisibleCount = 10,
   overflowTag
 }: UseIsOverflowParams) {
@@ -70,15 +72,18 @@ export default function useIsOverflow({
   useLayoutEffect(() => {
     const trigger = () => {
       if (!measureRef.current || !ref.current) return;
+
       const hasOverflow = measureRef.current.offsetWidth > ref.current.offsetWidth - measurementOffset;
 
       setIsOverflow(hasOverflow);
+
+      if (callback) callback(hasOverflow);
     };
 
     if (ref.current) {
       trigger();
     }
-  }, [ref, measureRef, measurementOffset]);
+  }, [callback, ref, measureRef, measurementOffset]);
 
   return {
     isOverflow,

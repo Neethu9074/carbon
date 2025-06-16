@@ -38,7 +38,7 @@
         "webpageActionTitle": "Wie lautet der Name dieses Browser-Simple-Tests (Webseitenaktion)?",
         "browserScriptTitle": "Wie lautet der Name dieses Browser-Script-Tests?",
         "labelName": "Name des Tests",
-        "labelDescription": "Beschreibung",
+        "labelDescription": "Beschreibung (optional)",
         "labelFrequency": "Häufigkeit (Minute)",
         "labelFrequencyHour": "Häufigkeit (Stunde)",
         "labelApplication": "Anwendung auswählen",
@@ -150,14 +150,13 @@
         "locationsLabel": "Standort(e)",
         "locationsTitle": "Standort(e): Wo wird dieser Test ausgeführt?",
         "scheduleLabel": "Planen",
-        "scheduleTitle": "Zeitplan: Wann wird dieser Test ausgeführt?",
+        "scheduleTitle": "Zeitplan: Wie wird dieser Test durchgeführt?",
         "identifyLabel": "Identifizieren",
         "identifyTitle": "Ermitteln: Was wird der Test tun?",
-        "customPropertiesTitle": "Benutzerdefinierte Eigenschaften",
+        "customPropertiesTitle": "Angepasste Eigenschaften (optional)",
         "frequency": "Dieser Test wird alle {{frequencyValue}} Minuten ausgeführt.",
         "frequencyHours": "Dieser Test wird alle {{frequencyHours}} Stunden ausgeführt.",
         "frequencyHoursAndMinutes": "Dieser Test wird alle {{frequencyHours}} Stunden und {{frequencyMinutes}} Minuten ausgeführt.",
-        "simultaneous": "Simultan",
         "simultaneousDescription": "Dieser Test wird gleichzeitig an jeder ausgewählten Position ausgeführt.",
         "configStep": {
           "allowInsecure": "Unsichere zulassen",
@@ -204,7 +203,7 @@
           "node22BrowserUploadFileDescription": "Sie können entweder eine einzelne.js-,.cjs- oder.mjs-Datei, eine.zip-Datei mit gebündelten.js-,.cjs- oder.mjs-Dateien oder ein von Selenium IDE aufgezeichnetes.side-Skript hochladen.",
           "sideFileUploadedMessage": "Selenium-Scripts können nicht geändert oder validiert werden.",
           "bundleFileNotSupportedMessage": "Nicht unterstützte Datei ausgewählt. Bundles werden nur im erweiterten Modus unterstützt.",
-          "timeoutFieldLabel": "Zeitlimit",
+          "timeoutFieldLabel": "Zeitlimit (optional)",
           "timeUnitsLabel": "Zeiteinheiten",
           "timeoutFieldOptionMinutes": "Minuten (m)",
           "timeoutFieldOptionSeconds": "Sekunden (s)",
@@ -213,7 +212,7 @@
           "invalidTimeoutvalue": "Ungültiger Zeitlimitwert",
           "invalidTimeoutUnit": "Ungültige Zeitlimiteinheit",
           "timeoutFieldDescription": "Dieser Test schlägt fehl nach",
-          "retryFieldLabel": "Wiederholungsstrategie",
+          "retryFieldLabel": "Wiederholungsstrategie (optional)",
           "retryFieldOptionNone": "Keine",
           "retryFieldOptionOnce": "Einmal wiederholen",
           "retryFieldOptionTwice": "Zweimal wiederholen",
@@ -224,6 +223,13 @@
           "mainFileNameHelperText": "Geben Sie den Namen der Datei in dieser ZIP-Datei an, die den Einstiegspunkt des Tests enthält",
           "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen",
           "acceptSelfSignedCertificate": "Selbstsigniertes Zertifikat akzeptieren",
+          "operatorLabel": "Bedingt",
+          "operatorOptionMatches": "Übereinstimmungen",
+          "operatorOptionContains": "Enthält",
+          "operatorOptionIs": "Ist",
+          "operatorOptionNotMatches": "Keine Treffer",
+          "deleteButtonLabel": "Löschen",
+          "addFieldLabel": "Feld hinzufügen",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "Die E-Mail-Adresse URL ist der Domainname, der auf DNS-Auflösung getestet wird",
@@ -237,14 +243,7 @@
             "assertionsTitle": "Behauptungen (optional)",
             "assertionsSubtitle": "Diese Felder sind optional, aber wenn sie ausgefüllt werden, müssen sie alle wahr sein, damit der Test erfolgreich ist.",
             "recordTypeLabel": "Datensatztyp",
-            "operatorLabel": "Bedingt",
-            "operatorOptionMatches": "Übereinstimmungen",
-            "operatorOptionContains": "Enthält",
-            "operatorOptionIs": "Ist",
-            "operatorOptionNotMatches": "Keine Treffer",
             "resolutionRecordLabel": "Beschlussprotokoll",
-            "deleteButtonLabel": "Löschen",
-            "addRecordTypeLabel": "Feld hinzufügen",
             "recursiveLookupLabel": "Rekursiver Abruf",
             "dnsRadioButtonOnLabel": "Ein",
             "dnsRadioButtonOffLabel": "Aus",
@@ -262,7 +261,25 @@
             },
             "assertionsNotificationTitle": "Erforderliche Behauptungen",
             "assertionsNotificationDescription": "Fügen Sie mindestens eine Behauptung hinzu, wenn Sie den Abfragetyp \"ALL associated with assertions\" verwenden."
-          }
+          },
+          "ssl": {
+            "attributeLabel": "Attribut",
+            "valueLabel": "Wert",
+            "attributeValueLabel": "Attributwert",
+            "invalidAttributeValue": "Attributwert nicht gültig",
+            "assertion": {
+              "commonName": "issuedTo.commonName",
+              "alternativeName": "issuedTo.alternativeName",
+              "organization": "issuedBy.organisation",
+              "tlsVersion": "tls.version"
+            }
+          },
+          "hostDetailsSectionLabel": "Hostdetails",
+          "headerSectionLabel": "Kopfzeilen hinzufügen (optional)",
+          "testCriteriaLabel": "Testkriterien",
+          "validationsSectionLabel": "Validierungen hinzufügen (optional)",
+          "timeoutAndRetrySectionLabel": "Zeitüberschreitungs- und Wiederholungsstrategie (optional)",
+          "additionalOptionsSectionLabel": "Zusätzliche Optionen"
         },
         "loadMore": "Weitere laden",
         "selectTests": {
@@ -294,7 +311,7 @@
         "associationsLabel": "Zuordnen",
         "applicationsTitle": "Zuordnen: Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
         "applicationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung gewährt allen Benutzern Zugriffsrechte, die Zugriff auf diese Anwendung haben.",
-        "associationsTitle": "Zuordnen: Wählen Sie aus, was Sie mit diesem synthetischen Test verknüpfen möchten",
+        "associationsTitle": "Zuordnen: Wählen Sie aus, was mit diesem synthetischen Test verknüpft werden soll (optional)",
         "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte."
       },
       "associations": {
@@ -474,11 +491,16 @@
         "tests": "Tests",
         "locations": "Standorte",
         "smartAlerts": "Smart Alerts",
-        "credentials": "Berechtigungsnachweise"
+        "credentials": "Berechtigungsnachweise",
+        "syntheticTests": "Synthetische Tests"
       },
       "options": {
+        "scheduledMenuLabel": "Geplant",
+        "onDemandMenuLabel": "Bedarfsgesteuert",
+        "allLabel": "Alle",
         "scheduledLabel": "Datenumfang : Geplant",
-        "onDemandLabel": "Datenumfang : Auf Anfrage"
+        "onDemandLabel": "Datenumfang : Auf Anfrage",
+        "dashboardHeaderLabel": "Daten basieren auf: {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "Berechtigungen für synthetische Überwachung",
@@ -521,6 +543,7 @@
       "paused": "Angehalten",
       "deleted": "Gelöscht",
       "type": "Typ",
+      "sslDaysRemaining": "Läuft ab in {{daysRemaining}} Tagen",
       "successRate": "Erfolgsquote",
       "successRuns": "{{successRuns}} / {{totalRuns}} Ergebnisse",
       "latency": "Durchschn. Antwortzeit",
@@ -537,7 +560,11 @@
       "health": "Status",
       "action": "Aktion",
       "labelConfirmRemoveTest": "Soll der Test <strong>{{testLabel}}</strong> wirklich entfernt werden? Diese Aktion kann nicht rückgängig gemacht werden.",
-      "na": "Nicht zutreffend"
+      "na": "Nicht zutreffend",
+      "configureColumns": {
+        "title": "Spaltenanpassung",
+        "description": "Sie können jetzt Ihre Tabelle mit synthetischen Testdaten anpassen. Mit dieser Funktion haben Sie die Flexibilität, die anzuzeigenden Spalten auszuwählen und sie nach Bedarf neu anzuordnen."
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "Der Livemodus ist auf der Seite „Synthetic Locations“ nicht anwendbar.",
@@ -886,6 +913,7 @@
       "noMobileAppAssociated": "Keine zugeordneten Mobile Apps",
       "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen",
       "acceptSelfSignedCertificate": "Selbstsigniertes Zertifikat akzeptieren",
+      "operatorLabel": "Bedingt",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Abfragetyp",
@@ -895,7 +923,6 @@
         "responseTimeDescription": "Die Antwortzeit beträgt weniger als {{responseTime}} ms",
         "assertionsTitle": "Zusicherungen",
         "recordTypeLabel": "Datensatztyp",
-        "operatorLabel": "Bedingt",
         "resolutionRecordLabel": "Beschlussprotokoll",
         "recursiveLookupLabel": "Rekursiver Abruf",
         "dnsRadioButtonOnLabel": "Ein",
@@ -904,6 +931,10 @@
         "acceptCNAMELabel": "CNAME akzeptieren",
         "lookupServerNamelabel": "Servername suchen",
         "serverRetriesLabel": "Server-Wiederholungen"
+      },
+      "ssl": {
+        "attributeLabel": "Attribut",
+        "valueLabel": "Wert"
       }
     },
     "credentialList": {

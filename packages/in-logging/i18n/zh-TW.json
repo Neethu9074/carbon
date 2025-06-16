@@ -39,9 +39,10 @@
   "namespace": "名稱空間",
   "deployment": "部署",
   "pod": "Pod",
+  "deleteLogsTootilpSuccess": "成功",
   "tooltipEntityHealthNoIssues": "沒有問題",
-  "tooltipEntityHealthInProgress": "進行中",
-  "tooltipEntityHealthFailed": "失敗",
+  "deleteLogsTooltipInProgress": "進行中",
+  "deleteLogsTooltipFailed": "失敗",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 個問題",
   "endOfInfiniteScroll": "沒有其他可用的日誌",
   "liveModeDisabled": "分析日誌時不支援即時模式",
@@ -81,9 +82,23 @@
       "logIntegrations": "日誌整合",
       "logIntegrationsDescription": "連接您的日誌管理解決方案並配置它們以符合您的需求。",
       "retentionPeriod": "保留期間",
-      "retentionPeriodDescription": "變更保留期間會影響日誌在應用程式、儀表板和分析中保留和提供使用的時間，並對成本和計費產生影響。",
+      "retentionPeriodDescription": "變更應用程式、儀表板和分析中日誌的保留時間和可用性。 這可能會影響成本和計費。",
       "patternRecognition": "日誌型樣辨識",
-      "patternRecognitionDescription": "AI 功能可在您的日誌中探索到重複出現的型樣。 型樣提供日誌的高層次概觀，有助於減少疑難排解的時間。"
+      "patternRecognitionDescription": "AI 功能可在您的日誌中探索到重複出現的型樣。 型樣提供日誌的高層次概觀，有助於減少疑難排解的時間。",
+      "patternRecognitionSet": {
+        "gotIt": "瞭解",
+        "cancel": "取消",
+        "gettingStarted": "入門",
+        "howDoesItWorks": "這是如何運作的？",
+        "firstDescription_0": "日誌型樣辨識訓練 AI 演算法，以從您的日誌中發現重複出現的型樣。 透過分析大量日誌，它能夠識別日誌的可變部分和靜態部分並探索其中的型樣。 \n\n AI 演算法僅依賴您的日誌訊息，不會與其他用戶端的日誌共用。 這確保了您資料的隱私和安全。",
+        "howWillHelpMe": "這對我有什麼幫助？",
+        "secondDescription_0": "辨識日誌中的型樣有助於縮短疑難排解時解決問題所需的時間。 您可以過濾特定型樣或從大量日誌中進行分組。 \n\n 群組可以提供您正在汲取的日誌的高層次概觀，並協助完善您的開放式遙測配置，以避免汲取不相關的日誌，從而節省儲存體和汲取成本。",
+        "learnMore": "進一步瞭解",
+        "popHoverSecondDescription": "透過分析大量日誌，它能夠識別日誌的可變部分和靜態部分並探索其中的型樣。\n\nAI 演算法僅依賴您的日誌訊息，不會與其他用戶端的日誌共用。 這確保了您資料的隱私和安全",
+        "hotItWorks": "如何運作",
+        "popHoverFirstDescription": "日誌型樣辨識訓練 AI 演算法，以從您的日誌中發現重複出現的型樣。 ",
+        "aiExpained": "AI 說明"
+      }
     }
   }
 }

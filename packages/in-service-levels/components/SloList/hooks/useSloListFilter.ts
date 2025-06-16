@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ColumnFilter } from '@tanstack/react-table';
 
 import { generateStableHash } from '@instana/utils';
 
 import { SloListFilterPartialProps } from 'in-service-levels/components/SloList/components/SloListFilters';
+import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { SloListFilterState } from 'in-service-levels/hooks/useSloListFilterUrlState';
 import useSloGroups from 'in-service-levels/hooks/useSloGroups';
 import { t } from 'in-i18n';
@@ -17,11 +18,13 @@ import { t } from 'in-i18n';
 export interface SloListFilterPanelProps {
   filterUrlPathParams: SloListFilterState;
   setFilterUrlPathParams: (change: Partial<SloListFilterState>) => void;
+  setServerTableState: (change: Partial<ServerTableUrlState>) => void;
   query: string;
 }
 export default function useSloListFilter({
   filterUrlPathParams,
   setFilterUrlPathParams,
+  setServerTableState,
   query
 }: SloListFilterPanelProps) {
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -59,8 +62,13 @@ export default function useSloListFilter({
 
   const resetFilters = useCallback(() => {
     setLocalFilters([]);
-    setFilterUrlPathParams({ entityType: undefined, sloStatus: undefined, tags: [], blueprint: undefined });
-  }, [setFilterUrlPathParams]);
+    setFilterUrlPathParams({ entityType: undefined, sloStatus: undefined, tags: undefined, blueprint: undefined });
+    // reset page to default
+    setServerTableState({
+      orderBy: 'name',
+      page: 1
+    });
+  }, [setServerTableState, setFilterUrlPathParams]);
 
   const setFilterFromColumnFilters = useCallback(
     (columnFilter: ColumnFilter[]) => setFilterUrlPathParams(mapColumnFiltersToUrlState(columnFilter)),
@@ -85,6 +93,14 @@ export default function useSloListFilter({
     []
   );
 
+  const isFiltersEmpty = useMemo(
+    () =>
+      !localFilters.some(
+        filter => filter.value !== undefined && (!Array.isArray(filter.value) || filter.value.length > 0)
+      ),
+    [localFilters]
+  );
+
   return {
     filterPanelProps: {
       popoverOpen,
@@ -94,7 +110,8 @@ export default function useSloListFilter({
       localFilters,
       setLocalFilters,
       setLocalFilterChange,
-      resetFilters
+      resetFilters,
+      isFiltersEmpty
     },
     groups
   };

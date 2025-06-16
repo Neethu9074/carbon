@@ -24,6 +24,7 @@ import {
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { useLineWithThresholdAndMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThresholdAndMissingDataIndicator';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
+import { overlappingSectionsMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
@@ -31,12 +32,15 @@ import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useConte
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useTimeBasedIndicatorMetrics from 'in-service-levels/hooks/useTimeBasedIndicatorMetrics';
+import useCorrectionWindowOverlay from 'in-service-levels/hooks/useCorrectionWindowOverlay';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { percentage } from 'in-services/formatters/number';
+import { lighten } from 'in-services/formatters/color';
+import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 const metricId = 'availability';
@@ -51,6 +55,7 @@ interface TimeBasedAvailabilityIndicatorChartProps {
   title?: string;
   configuration: ServiceLevelObjectiveConfiguration;
 }
+
 export default function TimeBasedAvailabilityIndicatorChart({
   automaticallySize,
   customHeight,
@@ -72,13 +77,14 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
   const metricLabel = getMetricLabel(entity);
-
   const filteredData = filterMetricValuesWithinTimeWindow(metricValues, timeConfig);
 
   const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(filteredData, timeWindows);
   const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
   const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
   const normalizedData = isSyntheticSloEntity(entity) ? invertSyntheticPercentageMetrics(filteredData) : filteredData;
+
+  const { onLegendItemToggle, groups, overlappingSections } = useCorrectionWindowOverlay();
 
   const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
@@ -100,12 +106,52 @@ export default function TimeBasedAvailabilityIndicatorChart({
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
         granularity: result.data?.[0]?.granularity ?? granularity,
+        reverseLegendOrder: true,
+        onLegendItemToggle: (_, __, id) => onLegendItemToggle(id),
         y1: {
-          colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
+          icons: {
+            colors: [
+              ...groups.map((_, i) =>
+                lighten(chartColors.strokeColors100[i % chartColors.strokeColors100.length], 0.25)
+              ),
+              '',
+              themes.default.ids.color.option.red['500'],
+              ...windowColorsWithData
+            ],
+            types: [
+              ...groups.map(() => 'lib_actions_stop'),
+              '',
+              'lib_circle_fill',
+              ...timeWindowsWithData.map(() => 'lib_circle_fill')
+            ]
+          },
+          colors: [
+            ...groups.map((_, i) => lighten(chartColors.strokeColors100[i % chartColors.strokeColors100.length], 0.25)),
+            '',
+            themes.default.ids.color.option.red['500'],
+            ...windowColorsWithData
+          ],
           formatter: percentage.detailed,
-          labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
-          metrics: [...normalizedData.slice(timeWindowStartIndex), thresholdMetrics],
-          metricIds: [...timeWindowsWithData.map(() => metricId), thresholdMetricId],
+          labels: [
+            ...groups.map(({ name }) => name),
+            overlappingSectionsMetricId,
+            t('in-service-levels:general.metrics.threshold'),
+            ...timeWindowsWithData.map(() => metricLabel)
+          ],
+          excludedLabelsFromTooltip: [...groups.map(({ name }) => name), overlappingSectionsMetricId],
+          excludedLabelsFromLegend: [overlappingSectionsMetricId],
+          metrics: [
+            ...groups.map(({ metrics }) => metrics),
+            overlappingSections,
+            thresholdMetrics,
+            ...normalizedData.slice(timeWindowStartIndex)
+          ],
+          metricIds: [
+            ...groups.map(({ id }) => `correctionWindow-${id}`),
+            overlappingSectionsMetricId,
+            thresholdMetricId,
+            ...timeWindowsWithData.map(() => metricId)
+          ],
           renderer
         },
         timeConfig,

@@ -1,4 +1,6 @@
 {
+  "cancel": "キャンセル",
+  "save": "保存",
   "editor": {
     "copyOf": "{{title}} のコピー"
   },
@@ -10,6 +12,13 @@
         "dashboardAJson": "JSON 形式のダッシュボード",
         "editDashboard": "ダッシュボードの編集"
       }
+    },
+    "editTeamsDialog": {
+      "title": "編集チーム",
+      "description": "このダッシュボードに関連付けるチームを選択します。",
+      "calloutMessage": "チームを追加することで、チーム・メンバーはこのダッシュボードを表示および編集できます。 設定のチーム・ページにも反映されます。",
+      "selectorLabel": "チーム",
+      "chooseTeams": "チームを選択する"
     },
     "grid": {
       "grid": {
@@ -84,6 +93,7 @@
       "addWidget": "ウィジェットの追加",
       "tvMode": "TV モード",
       "editName": "名前の編集",
+      "editTeams": "編集チーム",
       "editAsJson": "JSON として編集",
       "viewAsJson": "JSON として表示",
       "copyAllWidgets": "すべてのウィジェットのコピー",

@@ -116,7 +116,7 @@ export interface ChartConfig {
   shareMaxAxisDomain?: boolean;
 
   width: number;
-  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string, id: string) => void;
 }
 
 export type Config = ResultAwareChartConfig &
@@ -157,7 +157,7 @@ export type AxisName = 'y1' | 'y2';
 export type DatapointsDistancePerSeries = { [id: string]: number };
 
 export interface AxisConfiguration {
-  renderer: Renderer;
+  renderer: Renderer<RenderProps | MultiMetricRenderProps>;
   metrics: MetricDataSeries[];
   timeShifts?: TimeShift[] | null;
   metricIds: string[];
@@ -191,6 +191,7 @@ export interface AxisConfiguration {
 
   valuesDependOnEachOther?: boolean;
   valuesNeedToBeStacked?: boolean;
+  manualRenderLoop?: boolean;
 
   maxDataPoints?: number;
   minPixelsPerBlock?: number;

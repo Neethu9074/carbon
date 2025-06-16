@@ -8,7 +8,8 @@
   "pageStructure": {
     "headerAriaLabel": "Cabecera de página",
     "contentAriaLabel": "Contenido",
-    "filterAriaLabel": "Filtrar"
+    "filterAriaLabel": "Filtrar",
+    "pageTabsAriaLabel": "Separadores de páginas"
   },
   "fileInputButton": {
     "label": {
@@ -139,6 +140,7 @@
   },
   "downloadPdf": {
     "downloadPdfFile": "Descargar archivo PDF",
+    "downloadPdfLabel": "Descargar PDF",
     "settings": "Valores",
     "pdfOrientation": "Orientación",
     "portrait": "Vertical",
@@ -496,6 +498,7 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelWindowsHypervisor": "Hipervisor de Windows",
     "viewSwitcherLabelXenServer": "XenServer",
+    "viewSwitcherLabelLinuxKVMHypervisor": "Hipervisor KVM de Linux",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plataformas",
     "viewSwitcherCustomDashboards": "Paneles de control personalizados",
@@ -512,8 +515,8 @@
     "profileMenu_saasConsole": "Consola de IBM SaaS",
     "profileMenu_privacy": "Privacidad",
     "profileMenu_logOut": "Cerrar sesión",
-    "teamFocus_title": "Enfoque de equipo",
-    "teamFocus_entireUnit": "Unidad completa"
+    "scope_title": "Ámbito",
+    "scope_defaultScope": "Ámbito predeterminado"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Seleccionar métricas",

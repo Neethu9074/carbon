@@ -21,7 +21,6 @@ import {
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
@@ -67,7 +66,6 @@ export default function Alerts({ isEventsView = false }: { isEventsView?: boolea
       getSubtitle={config => getSubtitle(config.rule, config.threshold, config.forecastingConfig)}
       sortOptions={sortOptions}
       alertsTab={isEventsView ? eventsPath : infraSmartAlerts}
-      renderName={replaceTitlePlaceholdersWithMarkup}
       hideAlertIcon
       // for carbon table
       displayCarbonTable={smartAlertCarbonTableEnabled}

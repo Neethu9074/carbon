@@ -1,79 +1,73 @@
 {
-    "mainNavigation": {
-      "monitoringObservability": "監控和可觀察性",
-      "criticalEvents": "關鍵事件",
-      "warningEvents": "警告事件",
-      "incident": "事件",
-      "activeTotal": "活動/總計",
-      "shared": "共享",
-      "customerDashboard": "自訂儀表板",
-      "owner": "所有者",
-      "viewSwitcherCustomDashboards": "自訂儀表板",
-      "viewSwitcherLabelWebsitesAndMobileApps": "網站與行動應用程式",
-      "viewSwitcherLabelWebsites": "網站",
-      "viewSwitcherLabelMobileApps": "行動應用程式",
-      "viewSwitcherLabelApplications": "應用程式",
-      "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-      "viewSwitcherLabelphmc": "IBM Power HMC",
-      "viewSwitcherLabelPowervc": "IBM PowerVC",
-      "viewSwitcherLabelzhmc": "IBM Z HMC",
-      "viewSwitcherLabelOpenstack": "OpenStack",
-      "viewSwitcherLabelKubernetes": "Kubernetes",
-      "viewSwitcherLabelNutanix": "Nutanix",
-      "viewSwitcherLabelSap": "SAP",
-      "viewSwitcherLabelvSphere": "vSphere",
-      "viewSwitcherlabelInfrastructure": "基礎架構",
-      "viewSwitcherLabelAnalytics": "分析",
-      "viewVulnerabilityCenter": "漏洞",
-      "viewSwitcherLabelEvents": "事件",
-      "viewSwitcherLabelSlo": "服務水準",
-      "viewSwitcherLabelLogs": "日誌",
-      "viewSwitcherLabelInternal": "內部",
-      "viewSwitcherLabelSettings": "設定",
-      "viewSwitcherLabelTenants": "租戶",
-      "viewSwitcherLabelAgents": "代理程式",
-      "viewSwitcherLabelReleaseNotes": "版本注意事項",
-      "viewSwitcherLabelDocumentation": "說明文件",
-      "viewSwitcherLabelSupport": "支援",
-      "viewSwitcherLabelAboutInstana": "關於 Instana",
-      "viewSwitcherButtonSignOut": "登出",
-      "profileMenu_tooltip": "設定檔功能表",
-      "viewSwitcherLabelPlatforms": "平台",
-      "home": "首頁",
-      "businessMonitoring": "商業監視",
-      "labelSyntheticMonitoring": "綜合監視",
-      "automation": "自動化",
-      "viewSwitcherLabelMore": "更多",
-      "viewSwitcherLabelTools": "Tools",
-      "viewSwitcherLabelAdministration": "Administration"
+  "mainNavigation": {
+    "monitoringObservability": "監視與觀察",
+    "criticalEvents": "重大事件",
+    "warningEvents": "警告事件",
+    "incident": "事故",
+    "activeTotal": "作用中/總數",
+    "shared": "共用",
+    "customerDashboard": "自訂儀表板",
+    "owner": "擁有者",
+    "viewSwitcherCustomDashboards": "自訂儀表板",
+    "viewSwitcherLabelWebsitesAndMobileApps": "網站與行動應用程式",
+    "viewSwitcherLabelWebsites": "網站",
+    "viewSwitcherLabelMobileApps": "行動應用程式",
+    "viewSwitcherLabelApplications": "應用程式",
+    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM Power HMC",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
+    "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelKubernetes": "Kubernetes",
+    "viewSwitcherLabelNutanix": "Nutanix",
+    "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherlabelInfrastructure": "基礎架構",
+    "viewSwitcherLabelAnalytics": "分析",
+    "viewVulnerabilityCenter": "漏洞",
+    "viewSwitcherLabelEvents": "事件",
+    "viewSwitcherLabelSlo": "服務水準",
+    "viewSwitcherLabelLogs": "日誌",
+    "viewSwitcherLabelInternal": "內部",
+    "viewSwitcherLabelSettings": "設定",
+    "viewSwitcherLabelAgents": "代理程式",
+    "viewSwitcherLabelDocumentation": "文件",
+    "profileMenu_tooltip": "設定檔功能表",
+    "viewSwitcherLabelPlatforms": "平台",
+    "home": "首頁",
+    "businessMonitoring": "商業監視",
+    "labelSyntheticMonitoring": "綜合監視",
+    "automation": "自動化",
+    "viewSwitcherLabelTools": "工具",
+    "viewSwitcherLabelAdministration": "管理"
+  },
+  "errorPages": {
+    "404": {
+      "title": "找不到頁面",
+      "label": "錯誤 404",
+      "description": "您所要求的頁面已移動或無法使用，或者指定的 URL 無效。 請檢查 URL 或搜尋網站上所要求的內容。"
     },
-        "errorPages": {
-      "404": {
-        "title": "Page not found",
-        "label": "Error 404",
-        "description": "The page you requested has moved or is unavailable, or the specified URL is not valid. Please check the URL or search the site for the requested content."
-      },
-      "403": {
-        "title": "Access denied",
-        "label": "Error 403",
-        "description": "You are not authorized to access the requested page. Please verify that you are logged in to the hosting environment and your access permissions are correct."
-      },
-      "500": {
-        "title": "Internal server error",
-        "label": "Error 500",
-        "description": "An undefined server-side error has occurred and the server is unable to fulfill your request. Please refresh the page or try again later."
-      },
-      "maintenance": {
-        "title": "Page unavailable",
-        "label": "Maintenance",
-        "description": "We are currently busy upgrading the system. Your environment will be back shortly."
-      },
-      "links": {
-        "statusLink": "Instana status page",
-        "supportLink": "Support",
-        "homeLink": "Home",
-        "adminLink": "Contact administrator for access",
-        "signoutButtonLabel": "Sign out"
-      }
+    "403": {
+      "title": "拒絕存取",
+      "label": "錯誤 403",
+      "description": "您無權存取所要求的頁面。 請驗證您已登入託管環境且您的存取權限正確。"
+    },
+    "500": {
+      "title": "內部伺服器錯誤",
+      "label": "錯誤 500",
+      "description": "發生未定義的伺服器端錯誤，伺服器無法滿足您的要求。 請重新整理頁面或稍後重試。"
+    },
+    "maintenance": {
+      "title": "頁面無法使用",
+      "label": "維護",
+      "description": "我們目前正忙於升級系統。 您的環境很快就會恢復。"
+    },
+    "links": {
+      "statusLink": "Instana 狀態頁面",
+      "supportLink": "支援",
+      "homeLink": "首頁",
+      "adminLink": "請聯絡管理者以取得存取權限",
+      "signoutButtonLabel": "登出"
     }
+  }
 }

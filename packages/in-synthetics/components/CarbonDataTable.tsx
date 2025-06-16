@@ -19,11 +19,13 @@ import {
   TableToolbarContent,
   TableToolbarSearch
 } from '@instana/carbon';
+import { ErrorEmptyState, NoDataEmptyState } from '@instana/ibm-products';
 import { TableSkeleton } from '@instana/components';
 
 import { CarbonHeader, ListItem, CarbonDataTableProps } from 'in-synthetics/components/constants';
 import { getNextSortDirection } from 'in-synthetics/components/utils';
 import { TableProps } from 'in-components/tables/ServerTable/types';
+import { hasError } from 'in-services/util/result';
 
 import locals from 'in-synthetics/components/CarbonDataTable.mless';
 
@@ -35,10 +37,15 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
   isSearchable,
   filterRows,
   searchText,
-  sortRow
+  sortRow,
+  toolBarContent,
+  actionButtonContent,
+  result,
+  noDataHeader,
+  noDataDescription,
+  errorHeader
 }: CarbonDataTableProps<ITEM_TYPE, PropsType>) => {
-  const showToolbar = isSearchable;
-
+  const showToolbar = isSearchable || toolBarContent || actionButtonContent;
   const handleHeaderClick = (
     header: CarbonHeader<ITEM_TYPE, PropsType>,
     headers: CarbonHeader<ITEM_TYPE, PropsType>[],
@@ -67,6 +74,8 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
                       placeholder={searchText}
                     />
                   )}
+                  {toolBarContent ?? null}
+                  {actionButtonContent ?? null}
                 </TableToolbarContent>
               </TableToolbar>
             )}
@@ -106,6 +115,25 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
                       ))}
                     </TableRow>
                   ))}
+                  {rows.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={headers.length}>
+                        {hasError(result) ? (
+                          <ErrorEmptyState
+                            title={errorHeader}
+                            subtitle={result?.errors[0].message}
+                            className={locals.noDataTile}
+                          />
+                        ) : (
+                          <NoDataEmptyState
+                            title={noDataHeader}
+                            subtitle={noDataDescription}
+                            className={locals.noDataTile}
+                          />
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               </Table>
             )}

@@ -84,6 +84,16 @@
   "pluginName_application_1": "Application",
   "pluginName_application_2": "Applications",
   "pluginName_application": "Application",
+  "pluginName_argocdCluster_plural": "Clusters Argo CD",
+  "pluginName_argocdCluster_0": "Clusters Argo CD",
+  "pluginName_argocdCluster_1": "Clusters Argo CD",
+  "pluginName_argocdCluster_2": "Clusters Argo CD",
+  "pluginName_argocdCluster": "Cluster Argo CD",
+  "pluginName_argocdApplication_plural": "Applications Argo CD",
+  "pluginName_argocdApplication_0": "Applications Argo CD",
+  "pluginName_argocdApplication_1": "Applications Argo CD",
+  "pluginName_argocdApplication_2": "Applications Argo CD",
+  "pluginName_argocdApplication": "Application Argo CD",
   "pluginName_availabilityZone_plural": "Zones de disponibilité",
   "pluginName_availabilityZone_0": "Zone de disponibilité",
   "pluginName_availabilityZone_1": "Zone de disponibilité",
@@ -1018,6 +1028,11 @@
   "pluginName_ibmiActiveJobsInfo_1": "Informations sur les travaux actifs sur IBM i",
   "pluginName_ibmiActiveJobsInfo_2": "Informations sur les travaux actifs sur IBM i",
   "pluginName_ibmiActiveJobsInfo": "Informations sur les travaux actifs sur IBM i",
+  "pluginName_ibmiAuditJournalsInfo_plural": "Informations des journaux d'audit sur IBM i",
+  "pluginName_ibmiAuditJournalsInfo_0": "Informations des journaux d'audit sur IBM i",
+  "pluginName_ibmiAuditJournalsInfo_1": "Informations des journaux d'audit sur IBM i",
+  "pluginName_ibmiAuditJournalsInfo_2": "Informations des journaux d'audit sur IBM i",
+  "pluginName_ibmiAuditJournalsInfo": "Informations du journal d'audit sur IBM i",
   "pluginName_ibmiDiskInfo_plural": "Informations sur les disques sur IBM i",
   "pluginName_ibmiDiskInfo_0": "Informations sur les disques sur IBM i",
   "pluginName_ibmiDiskInfo_1": "Informations sur les disques sur IBM i",
@@ -1295,6 +1310,11 @@
   "pluginName_lxc_1": "Conteneur LXC",
   "pluginName_lxc_2": "Conteneurs LXC",
   "pluginName_lxc": "Conteneur LXC",
+  "pluginName_mapRNode": "Nœud MapR",
+  "pluginName_mapRNode_plural": "Nœuds MapR",
+  "pluginName_mapRNode_0": "Nœud MapR",
+  "pluginName_mapRNode_1": "Nœud MapR",
+  "pluginName_mapRNode_2": "Nœud MapR",
   "pluginName_mariaDbDatabase_plural": "Bases de données MariaDB",
   "pluginName_mariaDbDatabase_0": "Base de données MariaDB",
   "pluginName_mariaDbDatabase_1": "Base de données MariaDB",
@@ -1401,11 +1421,13 @@
   "pluginName_oTelLLM_1": "OTel LLMonitors",
   "pluginName_oTelLLM_2": "OTel LLMonitors",
   "pluginName_oTelLLM": "OTel LLMonitor",
+  "pluginName_oTelVLLM": "Serveur OTel vLLM",
   "pluginName_oTelVLLM_plural": "Serveurs OTel vLLM",
   "pluginName_oTelVLLM_0": "Serveurs OTel vLLM",
   "pluginName_oTelVLLM_1": "Serveurs OTel vLLM",
   "pluginName_oTelVLLM_2": "Serveurs OTel vLLM",
-  "pluginName_oTelVLLM": "Serveur OTel vLLM",
+  "pluginName_genai": "GenAI",
+  "pluginName_genai_plural": "GenAI",
   "pluginName_oTelDcgm_plural": "Dcgms OTel",
   "pluginName_oTelDcgm_0": "Dcgms OTel",
   "pluginName_oTelDcgm_1": "Dcgms OTel",
@@ -1889,6 +1911,11 @@
   "pluginName_nutanixDatacenter_1": "Centres de données Nutanix",
   "pluginName_nutanixDatacenter_2": "Centres de données Nutanix",
   "pluginName_nutanixDatacenter": "Centre de données Nutanix",
+  "pluginName_linuxKVMHypervisorHost": "Hôte de l'hyperviseur Linux KVM",
+  "pluginName_linuxKVMHypervisorHost_plural": "Hôtes de l'hyperviseur Linux KVM",
+  "pluginName_linuxKVMHypervisorHost_0": "Hôtes de l'hyperviseur Linux KVM",
+  "pluginName_linuxKVMHypervisorHost_1": "Hôtes de l'hyperviseur Linux KVM",
+  "pluginName_linuxKVMHypervisorHost_2": "Hôtes de l'hyperviseur Linux KVM",
   "pluginName_xenServerHost_plural": "Hôtes XenServer",
   "pluginName_xenServerHost_0": "Hôtes XenServer",
   "pluginName_xenServerHost_1": "Hôtes XenServer",
@@ -9859,7 +9886,11 @@
         "allocatedSize": "Taille allouée",
         "freeSize": "Taille disponible",
         "sharedMemoryStats": "Mémoire partagée",
-        "rowStoreMemoryStats": "Mémoire de stockage des lignes"
+        "rowStoreMemoryStats": "Mémoire de stockage des lignes",
+        "upTime": "Temps d'activité",
+        "totalCpuUsage": "Utilisation de l'UC",
+        "totalMemoryUsage": "Utilisation de la mémoire",
+        "totalConnections": "Connexions actives"
       },
       "systemId": "ID de système",
       "databaseName": "Nom de base de données",
@@ -9909,7 +9940,6 @@
       "tcpSegmentsSentOut": "Envoyé",
       "tcpSegmentsRetransmitted": "Retransmis",
       "tcpBadSegmentsReceived": "Rompu",
-      "upTime": "Temps d'activité",
       "installTime": "Base de données installée sur"
     },
     "service": {
@@ -11059,7 +11089,7 @@
         "aixDeviceInterrupts": "Interruptions d'unité",
         "avgRunQueue": "File d'attente d'exécution moyenne (1h)",
         "notCollected": "Non collecté",
-        "systemCalls": "Appels système/s",
+        "systemCalls": "Appels/s",
         "systemReads": "Lectures/s",
         "systemWrites": "Ecritures/s",
         "blockReads": "Lectures de bloc/s",
@@ -11078,6 +11108,9 @@
         "processesIdle": "En veille",
         "processesStopped": "Arrêté",
         "CpuProcess": "Statistiques relatives aux processus",
+        "stolenIdleCyclesPct": "Cycles d'inactivité détournés",
+        "physicalConsumption": "Consommation d'UC physique",
+        "userSessions": "Sessions utilisateur",
         "load": "Charge",
         "memory": "Mémoire",
         "used": "Utilisé",
@@ -11215,15 +11248,6 @@
       "aixDeviceInterrupts": "Interruptions d'unité",
       "avgRunQueue": "File d'attente d'exécution moyenne (1h)",
       "notCollected": "Non collecté",
-      "systemCalls": "Appels système/s",
-      "systemReads": "Lectures/s",
-      "systemWrites": "Ecritures/s",
-      "blockReads": "Lectures de bloc/s",
-      "blockWrites": "Ecritures de bloc/s",
-      "nonBlockReads": "Lectures autres que lectures de bloc/s",
-      "nonBlockWrites": "Ecritures autres qu'écritures de bloc/s",
-      "logicalBlockReads": "Lectures de bloc logique/s",
-      "logicalBlockWrites": "Ecritures de bloc logique/s",
       "hypv": "Hyperviseur",
       "user": "Utilisateur",
       "system": "Système",
@@ -11953,6 +11977,23 @@
       },
       "sidebar": {
         "ibmiActiveJobsInfo": "Informations IBM i",
+        "hostName": "Host Name"
+      }
+    },
+    "ibmiAuditJournalsInfo": {
+      "name": "Informations des journaux d'audit sur IBM i",
+      "dashboard": {
+        "tables": {
+          "auditJournals": {
+            "name": "Journal d'audit",
+            "entryType": "Type d'entrée",
+            "entryTypeDetail": "Détail du type d'entrée",
+            "entryCount": "Nombre d'entrées"
+          }
+        }
+      },
+      "sidebar": {
+        "ibmiAuditJournalsInfo": "Informations IBM i",
         "hostName": "Host Name"
       }
     },
@@ -13266,7 +13307,12 @@
       }
     },
     "kubecost": {
-      "label": "Kubecost"
+      "label": "Kubecost",
+      "instanaKubecostDocumentationUrl": "https://ibm.biz/kubecost",
+      "kubecostInvalidUrl": "Kubecost : L'URL <code>{{connectionUrl}}</code> fournie semble être non valide ou syntaxiquement incorrecte. Veuillez vérifier s'il y a des fautes de frappe ou des informations manquantes concernant l'hôte.",
+      "kubecostUnknownCluster": "Kubecost : ID de cluster <code>{{clusterId}}</code> introuvable dans la réponse de Kubecost. Il peut être incorrecte ou ne pas être activement surveillé.",
+      "kubecostUnableToConnect": "Kubecost : Échec de la connexion pour <code>{{connectionUrl}}</code> avec le code de statut {{statusCode}}. Vérifiez si l'URL est valide et accessible.",
+      "kubecostUnableToAuthenticate": "Kubecost : Authentification impossible. Assurez-vous qu'une clé d'API valide est bien configurée."
     },
     "kubernetesCluster": {
       "noActivity": "Aucune activité",
@@ -13518,7 +13564,8 @@
       "cpuLimits": "Limites d'UC",
       "memoryRequests": "Demandes de mémoire",
       "memoryLimits": "Limites de mémoire",
-      "conditionNotReady": "Condition de pod non prête"
+      "conditionNotReady": "Condition de pod non prête",
+      "cpuUsageToCpuRequests": "Allocation des requêtes d'UC"
     },
     "kubernetesService": {
       "kubernetesService": "Service Kubernetes"
@@ -13834,6 +13881,18 @@
       "gcBeforePercentage": "Pourcentage avant récupération de place",
       "gcAfterPercentage": "Pourcentage après récupération de place"
     },
+    "nutanixHost": {
+      "cpuUsage": "Utilisation de l'UC",
+      "memoryUsage": "Utilisation de la mémoire",
+      "datacenterAverageIoLatency": "Temps d'attente moyen des E-S de l'hôte",
+      "totalIoSizeBytes": "Octets des E-S de l'hôte transférés",
+      "datacenterIoOps": "Opérations du centre de données",
+      "controllerReadIops": "Opérations de lecture du contrôleur",
+      "controllerWriteIops": "Opérations d'écriture du contrôleur",
+      "contentCacheHitPpm": "Pourcentage de réussite en mémoire cache du contenu",
+      "contentCacheLookups": "Recherches dans le cache du contenu",
+      "contentCacheMemoryUsage": "Utilisation de la mémoire cache du contenu"
+    },
     "oTelDatabase": {
       "name": "Nom de la base de données",
       "kind": "Catégorie",
@@ -14000,8 +14059,19 @@
         "totalCountByService": "Nombre total de demandes par service"
       }
     },
+    "genai": {
+      "genai": "GenAI",
+      "watsonx": "Watsonx",
+      "bedrock": "Bedrock",
+      "crewai": "Équipe IA",
+      "langchain": "Langchain",
+      "groq": "Groq",
+      "anthropic": "Anthropic",
+      "sagemaker": "Sagemaker"
+    },
     "oTelVLLM": {
       "oTelVLLM": "Serveur OTel vLLM",
+      "vllm": "vLLM",
       "kind": "Catégorie",
       "serviceName": "Nom du service",
       "entityType": "Type d'entité",
@@ -14510,6 +14580,19 @@
       "labelDatabaseDiskWrites": "Ecritures sur le disque de base de données",
       "labelDatabaseBytesReceived": "Octets de base de données reçus",
       "labelDatabaseBytesSent": "Octets de base de données envoyés"
+    },
+    "maprNode": {
+      "pluginName": "Nœud MapR",
+      "pid": "ID du processus",
+      "nodeName": "Nom du noeud",
+      "health": "Intégrité",
+      "utilization": "Utilisation",
+      "configuredService": "Service configuré",
+      "rackTopology": "Topologie de l'armoire",
+      "healthDesc": "Description d'état",
+      "cpus": "Nombre d'UC",
+      "disks": "Nombre de disques",
+      "connectErrorIssueDescription": "L'agent n'a pas pu se connecter à MapR"
     },
     "tibcoASNode": {
       "connectErrorIssueDescription": "L'agent n'est pas parvenu à se connecter au service de domaine FTL. La connexion a échoué avec l'erreur suivante : <code>{{error}}</code>",
@@ -17791,7 +17874,17 @@
       "traceState": "État de trace",
       "error": "Erreur",
       "tags": "Étiquettes",
-      "resource": "Ressource"
+      "resource": "Ressource",
+      "events": "Evénements d'étendue",
+      "eventName": "Nom de l'événement",
+      "timestamp": "Horodatage",
+      "links": "Liens d'étendue",
+      "traceId": "ID de trace",
+      "spanId": "ID d'étendue",
+      "eventNamePrefix": "Nom : ",
+      "traceIdPrefix": "ID de trace : ",
+      "eventDetails": "Détails d'événement",
+      "linkDetails": "Détails du lien"
     },
     "otelBatchSynthetic": {
       "indexReturn": "Déclencheur interne",

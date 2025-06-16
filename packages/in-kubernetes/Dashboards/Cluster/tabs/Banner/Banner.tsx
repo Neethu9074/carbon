@@ -9,11 +9,6 @@ import React, { useState } from 'react';
 import { Spacer, Typography, Link } from '@instana/components';
 import { Button, Stack, Tag } from '@instana/carbon';
 
-// When converting to typescript, it would require a valid svg structure that was not given, so kept is as a js file
-// @ts-expect-error the file was not converted to typescript yet, and it would not make much sense
-import BannerSvg from 'in-kubernetes/Dashboards/Cluster/tabs/Banner/Banner.svg';
-// @ts-expect-error the file was not converted to typescript yet, and it would not make much sense
-import LogoSvg from 'in-kubernetes/Dashboards/Cluster/tabs/Banner/Logo.svg';
 import {
   KUBECOST_BANNER_CONFIGURE_NOW_CLICK,
   KUBECOST_BANNER_LEARN_MORE_CLICK,
@@ -21,7 +16,9 @@ import {
 } from 'in-services/tracking/eventNames';
 // eslint-disable-next-line no-restricted-imports
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
+import BannerSvg from 'in-kubernetes/Dashboards/Cluster/tabs/Banner/Banner.svg';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import LogoSvg from 'in-kubernetes/Dashboards/Cluster/tabs/Banner/Logo.svg';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { t } from 'in-i18n';
 

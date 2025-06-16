@@ -10,14 +10,15 @@ import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import useSloFormSideEffects, { SloFormSideEffectsReturnType } from 'in-service-levels/hooks/useSloFormSideEffects';
-import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { createSloConfiguration, updateSloConfiguration } from 'in-service-levels/api/configuration';
+import { createSloConfiguration, updateSloConfiguration } from 'in-service-levels/api/sloConfiguration';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { ConfigureDialogMode } from 'in-service-levels/types';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import { FetchStatus } from 'in-hooks/utils/types';
 
 export interface UseHandleSloFormProps {
-  mode: CreateSloDialogMode;
+  mode: ConfigureDialogMode;
   configuration?: ServiceLevelObjectiveConfiguration;
 }
 
@@ -52,7 +53,7 @@ export default function useHandleSloForm({ mode, configuration }: UseHandleSloFo
   };
 }
 
-function getFormSubmitAction(mode: CreateSloDialogMode): SloFormSubmissionAction {
+function getFormSubmitAction(mode: ConfigureDialogMode): SloFormSubmissionAction {
   switch (mode) {
     case 'NEW':
     case 'CLONE':

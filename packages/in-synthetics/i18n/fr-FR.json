@@ -38,7 +38,7 @@
         "webpageActionTitle": "Quel est le nom de ce test de navigateur simple (action de page Web)",
         "browserScriptTitle": "Quel est le nom de ce test de script de navigateur",
         "labelName": "Nom du test",
-        "labelDescription": "Description",
+        "labelDescription": "Description (facultatif)",
         "labelFrequency": "Fréquence (minutes)",
         "labelFrequencyHour": "Fréquence (heure)",
         "labelApplication": "Sélectionner une application",
@@ -150,14 +150,13 @@
         "locationsLabel": "Emplacement(s)",
         "locationsTitle": "Emplacement(s) : Où ce test s'exécutera-t-il ?",
         "scheduleLabel": "Planifier",
-        "scheduleTitle": "Planification : Quand ce test s'exécutera-t-il ?",
+        "scheduleTitle": "Calendrier : Comment se déroulera ce test ?",
         "identifyLabel": "S'identifier",
         "identifyTitle": "Identification : Que va faire le test ?",
-        "customPropertiesTitle": "Propriétés personnalisées",
+        "customPropertiesTitle": "Propriétés personnalisées (facultatif)",
         "frequency": "Ce test s'exécutera toutes les {{frequencyValue}} minutes.",
         "frequencyHours": "Ce test s'exécutera toutes les {{frequencyHours}} heures.",
         "frequencyHoursAndMinutes": "Ce test s'exécutera toutes les {{frequencyHours}} heures et {{frequencyMinutes}} minutes.",
-        "simultaneous": "Simultanée",
         "simultaneousDescription": "Ce test s'exécutera simultanément à chaque emplacement sélectionné.",
         "configStep": {
           "allowInsecure": "Autoriser un accès non sécurisé",
@@ -204,7 +203,7 @@
           "node22BrowserUploadFileDescription": "Vous pouvez transférer un fichier .js, .cjs ou.mjs unique, un fichier.zip contenant des fichiers .js, .cjs ou.mjs regroupés ou un script .side enregistré par Selenium IDE.",
           "sideFileUploadedMessage": "Les scripts Selenium ne peuvent pas être modifiés ou validés",
           "bundleFileNotSupportedMessage": "Un fichier non pris en charge est sélectionné. Les bundles sont uniquement pris en charge en mode avancé.",
-          "timeoutFieldLabel": "Dépassements du délai d'attente",
+          "timeoutFieldLabel": "Délai d'attente (facultatif)",
           "timeUnitsLabel": "Unité de temps",
           "timeoutFieldOptionMinutes": "minutes (m)",
           "timeoutFieldOptionSeconds": "secondes (s)",
@@ -213,7 +212,7 @@
           "invalidTimeoutvalue": "Valeur de délai d'attente non valide",
           "invalidTimeoutUnit": "Unité de délai d'attente non valide",
           "timeoutFieldDescription": "Ce test échouera après",
-          "retryFieldLabel": "Stratégie de relance",
+          "retryFieldLabel": "Stratégie de relance (facultatif)",
           "retryFieldOptionNone": "Aucun",
           "retryFieldOptionOnce": "Réessayer une fois",
           "retryFieldOptionTwice": "Réessayer deux fois",
@@ -224,6 +223,13 @@
           "mainFileNameHelperText": "Fournir le nom du fichier dans ce fichier .zip qui contient le point d'entrée du test",
           "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec",
           "acceptSelfSignedCertificate": "Accepter le certificat autosigné",
+          "operatorLabel": "Conditionnel",
+          "operatorOptionMatches": "Correspond",
+          "operatorOptionContains": "Contient",
+          "operatorOptionIs": "Désigne",
+          "operatorOptionNotMatches": "Ne correspond pas à",
+          "deleteButtonLabel": "Supprimer",
+          "addFieldLabel": "Ajouter une zone",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL est le nom de domaine testé pour la résolution DNS",
@@ -237,14 +243,7 @@
             "assertionsTitle": "Affirmations (facultatif)",
             "assertionsSubtitle": "Ces zones sont facultatives, mais lorsqu'elles sont renseignées, elles doivent tous être remplies pour que le test soit réussi.",
             "recordTypeLabel": "Type d'enregistrement",
-            "operatorLabel": "Conditionnel",
-            "operatorOptionMatches": "Correspond",
-            "operatorOptionContains": "Contient",
-            "operatorOptionIs": "Désigne",
-            "operatorOptionNotMatches": "Ne correspond pas à",
             "resolutionRecordLabel": "Compte rendu de la résolution",
-            "deleteButtonLabel": "Supprimer",
-            "addRecordTypeLabel": "Ajouter une zone",
             "recursiveLookupLabel": "Recherche récursive",
             "dnsRadioButtonOnLabel": "Activé",
             "dnsRadioButtonOffLabel": "Désactivé",
@@ -262,7 +261,25 @@
             },
             "assertionsNotificationTitle": "Assertions requises",
             "assertionsNotificationDescription": "Ajoutez au moins une assertion si vous utilisez le type de requête \"TOUS les éléments associés à des assertions\"."
-          }
+          },
+          "ssl": {
+            "attributeLabel": "Attribut",
+            "valueLabel": "Valeur",
+            "attributeValueLabel": "Valeur de l'attribut",
+            "invalidAttributeValue": "La valeur de l'attribut n'est pas valide",
+            "assertion": {
+              "commonName": "issuedTo.commonName",
+              "alternativeName": "issuedTo.alternativeName",
+              "organization": "issuedBy.organisation",
+              "tlsVersion": "tls.version"
+            }
+          },
+          "hostDetailsSectionLabel": "Détails de l'hôte",
+          "headerSectionLabel": "Ajouter des en-têtes (facultatif)",
+          "testCriteriaLabel": "Tester les critères",
+          "validationsSectionLabel": "Ajouter des validations (facultatif)",
+          "timeoutAndRetrySectionLabel": "Stratégie de délai d'attente et de relance (facultatif)",
+          "additionalOptionsSectionLabel": "Options supplémentaires"
         },
         "loadMore": "Charger plus",
         "selectTests": {
@@ -294,7 +311,7 @@
         "associationsLabel": "Associer",
         "applicationsTitle": "Associer : Sélectionnez les applications à associer à ce test synthétique",
         "applicationsDescription": "L'association d'un test synthétique à une application donne des droits d'accès à tous les utilisateurs qui ont accès à cette application.",
-        "associationsTitle": "Associer : Sélectionnez les éléments que vous souhaitez associer à ce test synthétique",
+        "associationsTitle": "Associer : Sélectionnez ce que vous souhaitez associer à ce test synthétique (facultatif)",
         "associationsDescription": "L'association d'un test synthétique à une application, un site Web ou une application mobile donne des droits d'accès à tous les utilisateurs qui ont accès à ces entités."
       },
       "associations": {
@@ -474,11 +491,16 @@
         "tests": "Tests",
         "locations": "Emplacements",
         "smartAlerts": "Alertes intelligentes",
-        "credentials": "Données d'identification"
+        "credentials": "Données d'identification",
+        "syntheticTests": "Tests synthétiques"
       },
       "options": {
+        "scheduledMenuLabel": "Planifiée",
+        "onDemandMenuLabel": "A la demande",
+        "allLabel": "Tous",
         "scheduledLabel": "Portée des données : planifiée",
-        "onDemandLabel": "Portée des données : à la demande"
+        "onDemandLabel": "Portée des données : à la demande",
+        "dashboardHeaderLabel": "Données basées sur : {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "Droits d'accès pour la surveillance synthétique",
@@ -521,6 +543,7 @@
       "paused": "Suspendu",
       "deleted": "Supprimé",
       "type": "Type",
+      "sslDaysRemaining": "Expire dans {{daysRemaining}} jours",
       "successRate": "Taux de réussite",
       "successRuns": "{{successRuns}} / {{totalRuns}} résultats",
       "latency": "Temps de réponse moyen",
@@ -537,7 +560,11 @@
       "health": "Intégrité",
       "action": "Action",
       "labelConfirmRemoveTest": "Voulez-vous vraiment supprimer le test <strong>{{testLabel}}</strong>  ? Cette action ne peut pas être annulée.",
-      "na": "Non disponible"
+      "na": "Non disponible",
+      "configureColumns": {
+        "title": "Personnalisation des colonnes",
+        "description": "Vous pouvez désormais personnaliser votre table de données de test Synthetic. Vous avez ainsi la possibilité de sélectionner les colonnes à afficher et de les réorganiser selon vos besoins."
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "Le mode interactif n'est pas applicable dans la page Emplacements synthétiques",
@@ -886,6 +913,7 @@
       "noMobileAppAssociated": "Aucune application mobile associée",
       "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec",
       "acceptSelfSignedCertificate": "Accepter le certificat autosigné",
+      "operatorLabel": "Conditionnel",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Type de requête",
@@ -895,7 +923,6 @@
         "responseTimeDescription": "Le temps de réponse est inférieur à {{responseTime}} ms",
         "assertionsTitle": "Assertions",
         "recordTypeLabel": "Type d'enregistrement",
-        "operatorLabel": "Conditionnel",
         "resolutionRecordLabel": "Compte rendu de la résolution",
         "recursiveLookupLabel": "Recherche récursive",
         "dnsRadioButtonOnLabel": "Activé",
@@ -904,6 +931,10 @@
         "acceptCNAMELabel": "Accepter CNAME",
         "lookupServerNamelabel": "Recherche du nom du serveur",
         "serverRetriesLabel": "Nouvelles tentatives du serveur"
+      },
+      "ssl": {
+        "attributeLabel": "Attribut",
+        "valueLabel": "Valeur"
       }
     },
     "credentialList": {

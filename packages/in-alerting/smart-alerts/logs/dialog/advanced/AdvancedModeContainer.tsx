@@ -19,6 +19,10 @@ import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import {
+  getAllowedPlaceholders,
+  groupbyForPlaceholder
+} from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import { LogMultiThresholdAlertPreview } from 'in-alerting/smart-alerts/logs/dialog/advanced/LogMultiThresholdAlertPreview';
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
@@ -28,7 +32,6 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
-import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
 import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
@@ -68,6 +71,8 @@ export default function AdvancedModeContainer(
   } = props;
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
+  const groupBy = form.get('groupBy').value;
+  const placeholders = getAllowedPlaceholders({ groupBy: groupbyForPlaceholder(groupBy) });
 
   return (
     <StepsContainer
@@ -182,14 +187,23 @@ export default function AdvancedModeContainer(
                       form={form}
                       onChange={onChange}
                       getTitlePlaceholder={getTitlePlaceholder}
-                      placeholders={severityPlaceholderList}
+                      placeholderData={{
+                        placeholders,
+                        tooltip: t(
+                          'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
+                        )
+                      }}
                     />
                   )}
                   shouldDisplayAlertLevelSelection={false}
                 />
               )}
               renderAlertPreview={() => (
-                <LogMultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
+                <LogMultiThresholdAlertPreview
+                  form={form}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  allowedPlaceholders={placeholders}
+                />
               )}
             />
           )

@@ -41,24 +41,25 @@ export default function LogVolumeDetails({ data, timePeriod, progress, groupingT
   if (isLoading || !data) {
     return <Skeletons />;
   }
-
   return (
     <section aria-label={localisationStrings.content}>
-      {sortMonths(data)
-        .slice(0, timePeriod)
-        .map((item: LogVolumeUsageItem, index: number) => {
-          const { numberOfMonth, logVolume, retentionPeriods } = item;
-          return (
-            <MonthReport
-              groupingTag={groupingTag}
-              expandedState={expandedState}
-              key={`${numberOfMonth}_${index}`}
-              numberOfMonth={numberOfMonth}
-              logVolume={logVolume}
-              retentionPeriods={retentionPeriods}
-            />
-          );
-        })}
+      {(() => {
+        return sortMonths(data)
+          .slice(0, timePeriod)
+          .map((item: LogVolumeUsageItem, index: number) => {
+            const { numberOfMonth, logVolume, retentionPeriods } = item;
+            return (
+              <MonthReport
+                groupingTag={groupingTag}
+                expandedState={expandedState}
+                key={`${numberOfMonth}_${index}`}
+                numberOfMonth={numberOfMonth}
+                logVolume={logVolume}
+                retentionPeriods={retentionPeriods}
+              />
+            );
+          });
+      })()}
     </section>
   );
 }
@@ -82,10 +83,6 @@ function MonthReport({ expandedState, logVolume, numberOfMonth, retentionPeriods
   const { amount, localizedUnit } = bytesToLargerUnit(logVolume, 2);
   const refinedRetentionPeriodData = refineRetentionPeriodData(retentionPeriods);
   const monthString = t('in-settings:maintenanceWindow.months', { context: getMonthName(numberOfMonth) });
-
-  if (refinedRetentionPeriodData.length === 0) {
-    return null;
-  }
 
   return (
     <div role="listitem" aria-label={monthString} className={locals.LogVolumeDetailsContainer}>

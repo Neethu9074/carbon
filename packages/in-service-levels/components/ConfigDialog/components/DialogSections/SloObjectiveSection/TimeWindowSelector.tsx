@@ -11,10 +11,10 @@ import { DurationUnitType, TimeWindowType } from '@instana/types';
 import { Select, NumberInput } from '@instana/carbon';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import DateInput from 'in-components/form/DateInput/DateInput';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import TimeInput from 'in-components/TimeInput/TimeInput';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';

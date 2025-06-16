@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item } from 'formalistic';
-
 import {
   ApplicationSloEntity,
   FixedTimeWindow,
@@ -27,10 +25,6 @@ import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/empty
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { parseDateTime } from 'in-services/formatters/date';
-
-export function isFieldValid(field: Item): boolean {
-  return field.valid || !field.touched;
-}
 
 export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevelObjectiveConfiguration {
   return {

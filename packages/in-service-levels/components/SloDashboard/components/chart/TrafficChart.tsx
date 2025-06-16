@@ -21,18 +21,22 @@ import {
   findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
+import { overlappingSectionsMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { applicationMetrics, sloMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
+import useCorrectionWindowOverlay from 'in-service-levels/hooks/useCorrectionWindowOverlay';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { number } from 'in-services/formatters/number';
+import { lighten } from 'in-services/formatters/color';
+import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 interface TrafficChartProps {
@@ -61,8 +65,10 @@ export default function TrafficChart({
     timeWindows,
     granularity
   });
-
   const label = getMetricLabels({ entity, indicator });
+
+  const { onLegendItemToggle, groups, overlappingSections } = useCorrectionWindowOverlay();
+
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: createdDate
   });
@@ -85,13 +91,39 @@ export default function TrafficChart({
         primaryContextMenuAction: sloZoomInAction.name,
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
+        reverseLegendOrder: true,
+        onLegendItemToggle: (_, __, id) => onLegendItemToggle(id),
         y1: {
-          metrics,
-          metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
+          metrics: [...groups.map(({ metrics }) => metrics), overlappingSections, ...metrics],
+          metricIds: [
+            ...groups.map(({ id }) => `correctionWindow-${id}`),
+            overlappingSectionsMetricId,
+            ...timeWindowsWithData.map((_, index) => `timeWindows${index}`)
+          ],
           min: Math.max(0, min),
           max,
-          labels: timeWindowsWithData.map(() => label),
-          colors: windowColorsWithData,
+          excludedLabelsFromTooltip: [...groups.map(({ name }) => name), overlappingSectionsMetricId],
+          excludedLabelsFromLegend: [overlappingSectionsMetricId],
+          labels: [
+            ...groups.map(({ name }) => name),
+            overlappingSectionsMetricId,
+            ...timeWindowsWithData.map(() => label)
+          ],
+          icons: {
+            colors: [
+              ...groups.map((_, i) =>
+                lighten(chartColors.strokeColors100[i % chartColors.strokeColors100.length], 0.25)
+              ),
+              '',
+              ...windowColorsWithData
+            ],
+            types: [...groups.map(() => 'lib_actions_stop'), '', 'lib_circle_fill', 'lib_circle_fill']
+          },
+          colors: [
+            ...groups.map((_, i) => lighten(chartColors.strokeColors100[i % chartColors.strokeColors100.length], 0.25)),
+            '',
+            ...windowColorsWithData
+          ],
           formatter: number.compact,
           renderer
         },

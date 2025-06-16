@@ -29,7 +29,7 @@ import { infraSmartAlertFullScreenDesignEnabled, infraSmartAlertDialogViewEnable
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import AlertConfigDialog from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
-import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/AlertConfiguration';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';

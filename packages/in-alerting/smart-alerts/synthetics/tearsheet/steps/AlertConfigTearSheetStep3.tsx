@@ -52,7 +52,7 @@ export default function AlertConfigTearSheetStep3({
                   form={form}
                   onChange={onChange}
                   getTitlePlaceholder={getTitlePlaceholder}
-                  placeholders={allowedPlaceholders}
+                  placeholderData={{ placeholders: allowedPlaceholders }}
                 />
               )}
               shouldDisplayAlertLevelSelection

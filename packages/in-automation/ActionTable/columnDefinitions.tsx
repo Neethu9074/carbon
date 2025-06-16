@@ -19,7 +19,7 @@ import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWr
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
-import WithSubscript from 'in-settings/components/WithSubscript';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { actionCatalog } from 'in-automation/navigation/paths';
 import { useSegmentTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';

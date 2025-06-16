@@ -188,7 +188,7 @@ function getHasDataToRender() {
 const managedby: string = t('in-kubernetes:dashboards.managedby');
 
 function ClusterManagedByWithIcon({ clusterManagement }: { clusterManagement?: KubernetesClusterManagement }) {
-  if (!clusterManagement || clusterManagement.shortName === 'none') {
+  if (!clusterManagement || clusterManagement.shortName === 'none' || clusterManagement?.shortName === '') {
     return null;
   }
   return (

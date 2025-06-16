@@ -12,6 +12,9 @@ export const REMOVING = 'removing';
 export const CRITICAL = 'CRITICAL';
 export const WARNING = 'WARNING';
 
+export const CRITICAL_THRESHOLD = 'criticalThreshold';
+export const WARNING_THRESHOLD = 'warningThreshold';
+
 export function getFilteredChannels(enabledList, thresholdType, filteredChannelList, condition = REMAINING) {
   const filteredIds = new Set(filteredChannelList.map(item => item.id));
   const items = enabledList?.[thresholdType];

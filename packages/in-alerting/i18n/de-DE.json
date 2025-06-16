@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "Alertstufe",
     "alertPropertyInfosLabelTriggersIncident": "Löst Vorfall aus",
     "alertPropertyInfosLabelDescription": "Beschreibung",
-    "noChannelSelectedText": "Derzeit haben Sie keinen Alertkanal ausgewählt und erhalten keine Alerts.",
+    "noChannelSelectedText": "Keine Kanäle hinzugefügt. Beginnen Sie, indem Sie auf 'Alertkanäle auswählen' klicken.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Zusätzliche Filter",
     "groupBy": "Gruppieren nach",
     "noChannelAvailable": "Keine Alertkanäle verfügbar",
@@ -167,6 +167,7 @@
     "titleNoSmartAlertsCreated": "Keine Smart Alerts erstellt",
     "titleCopyOf": "(Kopie von) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart Alerts",
+    "titleNoSmartAlertsConfiguredFound": "Keine Smart Alert-Konfigurationen gefunden",
     "alertChannelList": {
       "selectAllWarning": "Alle Warnungen auswählen",
       "selectAllCritical": "Wählen Sie alle kritischen",
@@ -912,7 +913,6 @@
         "criticalAlertPreviewLabel": "Kritische Vorschau",
         "alertPreviewMissingThresholdInfo": "Keine Vorschau verfügbar. Bitte wählen Sie mindestens einen Schwellenwert aus, um die Vorschau zu sehen.",
         "alertPropertiesAlertProperties": "Alerteigenschaften",
-        "alertPreviewDefaultTitle": "Benachrichtigungstitel",
         "groupingPlaceholdersMissingTooltip": "Um mehr Platzhalter einzubeziehen, konfigurieren Sie die Gruppierung(en)",
         "buttonSave": "Speichern",
         "buttonCreate": "Erstellen",
@@ -998,7 +998,8 @@
         "title": "Nachfrist (optional)",
         "description": "Wählen Sie aus, wie lange ein Problem offen bleiben soll, nachdem der Schwellenwert für Verstöße nicht mehr erreicht wurde. Nach Ablauf dieser Zeit wird das Thema automatisch geschlossen.",
         "label": "Wählen",
-        "summary": "Schließen Sie ein Problem automatisch, nachdem der Grenzwert für Verstöße <strong>für {{gracePeriodValue}}</strong> nicht mehr erreicht wurde."
+        "defaultGracePeriod": "Standard",
+        "summary": "Schließen Sie ein Problem automatisch, nachdem der Schwellenwert für Verstöße nicht mehr erreicht wurde für"
       },
       "tearSheet": {
         "cancelModalTitle": "Wollen Sie wirklich abbrechen?",
@@ -1008,12 +1009,15 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Verstöße bleiben in unregelmäßigen Abständen bestehen",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Verstöße bleiben kontinuierlich bestehen",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "Wenn eine minimale Anzahl von Rückverfolgungen betroffen ist",
+          "labelUserImpactOfViolationsInSequence": "Wenn eine bestimmte Anzahl von Benutzern betroffen ist",
           "granularity": {
             "description": "Aufrufe werden in {{granularity}}-Minuten-Fenstern platziert; alle {{granularity}} Minuten wird ein Messwert für dieses Fenster berechnet"
           },
           "triggerAlert": "Alert auslösen",
           "triggerAfter": "Auslöser nach",
           "tracesImpacted": "Traces sind betroffen",
+          "numberOfUserImpactPostLabel": "oder eine größere Anzahl von Benutzern betroffen sind",
+          "percentageOfUserImpactPostLabel": "oder ein größerer Prozentsatz von Benutzern betroffen sind",
           "outOfConsecutiveEvaluations": "von",
           "persistenceType": "Persistenztyp",
           "numberOfConsecutiveViolationsPostLabel": "aufeinanderfolgende {{granularity}}-Minutenfenster haben Verstöße",
@@ -1163,7 +1167,7 @@
         },
         "step5": {
           "title": "Alertkanäle definieren",
-          "description": "Wählen Sie aus, wo Sie über diese Warnmeldung benachrichtigt werden möchten"
+          "description": "Wählen Sie aus, wo Sie für diesen Alert benachrichtigt werden möchten."
         },
         "slowness": {
           "headline": "Automatische Warnmeldungen für OnLoad-Zeit oder HTTP-Latenz",
@@ -1349,7 +1353,7 @@
           "header": "Welche Eigenschaften möchten Sie für diese Warnmeldung festlegen?"
         },
         "step4": {
-          "header": "Wählen Sie aus, wo Sie über diese Warnmeldung benachrichtigt werden möchten"
+          "header": "Wählen Sie aus, wo Sie für diesen Alert benachrichtigt werden möchten."
         }
       }
     },
@@ -1494,7 +1498,7 @@
         },
         "step5": {
           "title": "Alertkanäle definieren",
-          "description": "Wählen Sie aus, wo Sie über diese Warnmeldung benachrichtigt werden möchten"
+          "description": "Wählen Sie aus, wo Sie für diesen Alert benachrichtigt werden möchten."
         },
         "slowness": {
           "headline": "Automatische Warnungen bei HTTP Latenzzeit",
@@ -1904,22 +1908,29 @@
         "blueprint_STATUS": "Status",
         "blueprint_BURNED_PERCENTAGE": "Fehlerbudget",
         "blueprint_BURN_RATE": "Verbrennungsrate",
+        "blueprint_BURN_RATE_V2": "Verbrennungsrate",
         "blueprintDescription": "",
+        "burnRateAlertTypeLabel": "Typ des Alertfensters",
+        "burnRateAlertTypeLabel_SINGLE_WINDOW": "Einzelnes Alertfenster",
+        "burnRateAlertTypeLabel_MULTI_WINDOW": "Langes und kurzes Alertfenster",
         "blueprintDescription_STATUS": "Einen Alert empfangen, wenn der SLO-Status unter einen Schwellenwert fällt.",
         "blueprintDescription_BURNED_PERCENTAGE": "Einen Alert empfangen, wenn ein Prozentsatz des Fehlerbudgets verbraucht ist.",
-        "blueprintDescription_BURN_RATE": "Die Verbrennungsrate ist ein Wert, der angibt, wie schnell Ihr Fehlerbudget im Verhältnis zur Ziellänge Ihres SLOs verbraucht wird.",
+        "blueprintDescription_BURN_RATE_V2": "Die Verbrennungsrate ist ein Wert, der angibt, wie schnell Ihr Fehlerbudget im Verhältnis zur Ziellänge Ihres SLOs verbraucht wird. ",
         "burnRateShortWindowTitle": "Kurzes Alarmierungsfenster",
-        "burnRateShortWindowDescription": "Diese Warnungen werden ausgelöst, wenn die Fehlerquote den Schwellenwert über einen kürzeren Zeitraum hinweg schneller überschreitet. Dies kann helfen, eine plötzliche Fehlerspitze oder Ausfallzeiten aufgrund eines kritischen Fehlers zu erfassen.",
+        "burnRateShortWindowDescription": "Alerts werden ausgelöst, wenn die Fehlerquote den Schwellenwert über einen kürzeren Zeitraum hinweg schneller überschreitet. Dies kann helfen, eine plötzliche Fehlerspitze oder Ausfallzeiten aufgrund eines kritischen Fehlers zu erfassen.",
         "burnRateDescription": "Benachrichtigen Sie mich, wenn die Verbrennungsrate <1/> <2/> beträgt",
-        "burnRateLongWindowTitle": "Langes Alarmfenster",
-        "burnRateLongWindowDescription": "Diese Warnungen werden ausgelöst, wenn die Fehlerquote über einen längeren Zeitraum hinweg den Schwellenwert überschreitet. Auf diese Weise lassen sich Probleme erkennen, die sich im Laufe der Zeit angesammelt haben und die in Zukunft zu Problemen führen könnten, wenn sie nicht behoben werden.",
-        "burnRateShortWindowLongerThanLongWindowError": "Das kurze Fenster kann das lange Fenster nicht überschreiten. Bitte passen Sie einen der beiden Werte an.",
+        "burnRateWindowTitle_SINGLE_WINDOW": "Alertfenster",
+        "burnRateWindowTitle_MULTI_WINDOW": "Langes Alarmfenster",
+        "burnRateSingleWindowDescription": "Alerts werden ausgelöst, wenn die Fehlerquote den Schwellenwert über einen festgelegten Zeitraum überschreitet. Auf diese Weise lassen sich Probleme erkennen, die sich im Laufe der Zeit angesammelt haben und die in Zukunft zu Problemen führen könnten, wenn sie nicht behoben werden.",
+        "burnRateLongWindowDescription": "Alerts werden ausgelöst, wenn die Fehlerquote den Schwellenwert über einen längeren Zeitraum überschreitet. Auf diese Weise lassen sich Probleme erkennen, die sich im Laufe der Zeit angesammelt haben und die in Zukunft zu Problemen führen könnten, wenn sie nicht behoben werden.",
+        "burnRateShortWindowLongerThanLongWindowError": "Das kurze Fenster sollte kleiner sein als das lange Fenster. Bitte passen Sie einen der beiden Werte an.",
         "burnRateTimeWindowTooLongError": "Das Alarmfenster kann das Zeitfenster eines ausgewählten SLO nicht überschreiten. Bitte überprüfen Sie die folgende SLO: {{value}}.",
         "thresholdTitle": "Schwellenwert: Wann möchten Sie benachrichtigt werden?",
         "thresholdInputDescription": "",
         "thresholdInputDescription_BURNED_PERCENTAGE": "Wenn <1/> <2/> Prozent des Fehlerbudgets verbraucht sind",
         "thresholdInputDescription_STATUS": "Wenn der SLO-Status <1/> <2/> Prozent ist",
         "thresholdInputDescription_BURN_RATE": "Bewerten Sie die letzte <1/> des SLO.",
+        "thresholdInputDescription_BURN_RATE_V2": "Bewerten Sie die letzte <1/> des SLO.",
         "timeThresholdType_gracePeriod": "Wenn die Bedingung über einen angegebenen Zeitraum bestehen bleibt",
         "timeThresholdTypeTitle_gracePeriod": "Alert bei Verletzung der Bedingung für aufeinanderfolgende $t (in-components:time.minutes, {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "Mindestens $t (in-components:time.minutes, {\"count\": {{minutes}} }) muss verstrichen sein, damit das Ereignis beendet wird",
@@ -1928,7 +1939,11 @@
         "alertPropertiesTitlePlaceholder_STATUS": "SLO-Status ist niedrig",
         "alertPropertiesDescriptionPlaceholder_STATUS": "Der SLO-Status ist {{operator}} {{percentage}}.",
         "alertPropertiesTitlePlaceholder_BURN_RATE": "Verbrennungsrate wird überschritten",
-        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "Die Verbrennungsrate des SLO ist {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE_V2": "Verbrennungsrate wird überschritten",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "Die Verbrauchsrate des SLO beträgt {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2": "Die Verbrauchsrate des SLO beträgt {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_SINGLE": "Die Verbrauchsrate des SLO beträgt {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_MULTI": "Die Verbrauchsrate des langen Fensters für das SLO beträgt {{longWindowOperator}} {{longWindowPercentage}} und die des kurzen Fensters beträgt {{shortWindowOperator}} {{shortWindowPercentage}}.",
         "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "Verbleibendes Fehlerbudget ist niedrig",
         "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Verbraucht {{operator}} {{percentage}} des Fehlerbudgets.",
         "alertPropertiesIncidentWarning": "Vorfälle gelten nur für Service-Level-Ziele, die Anwendungen zugeordnet sind."
@@ -1944,8 +1959,10 @@
         "blueprintLabel": "Entwurf",
         "blueprintInfo": "",
         "blueprintInfo_BURN_RATE": "Verbrennungsrate",
+        "blueprintInfo_BURN_RATE_V2": "Verbrennungsrate",
         "blueprintInfo_BURNED_PERCENTAGE": "Fehlerbudget verbraucht",
         "blueprintInfo_STATUS": "Status",
+        "singleWindowLabel": "Alertfenster",
         "longWindowLabel": "Langes Fenster",
         "shortWindowLabel": "Kurzes Zeitfenster",
         "timeWindowInfo_minute": "{{count}} Minute",
@@ -1966,10 +1983,14 @@
         "coolDownPeriodDescription": "Mindestens {{value}} muss übergeben werden, damit das Ereignis abgeschlossen werden kann."
       },
       "alertList": {
-        "threshold": "Schwellenwert: {{value}}",
-        "threshold_BURN_RATE": "Verbrennungsrate: {{value}}",
-        "threshold_BURNED_PERCENTAGE": "Schwellenwert: {{value}}",
-        "threshold_STATUS": "Schwellenwert: {{value}}",
+        "threshold": "{{metric}}, Schwellenwert {{operator}} {{value}}",
+        "threshold_BURN_RATE": "{{metric}}, Schwellenwert {{operator}} {{value}}",
+        "singleWindowThreshold_BURN_RATE_V2": "{{metric}}, Schwellenwert {{operator}} {{value}}",
+        "longWindowThreshold_BURN_RATE_V2": "{{metric}}, Schwellenwert (lang) {{longWindowOperator}} {{longWindowValue}}, (kurz) {{shortWindowoperator}} {{shortWindowValue}}",
+        "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, Schwellenwert (lang) {{operator}} {{value}} & (kurz) < 1",
+        "threshold_BURNED_PERCENTAGE": "{{metric}}, Schwellenwert {{operator}} {{value}}",
+        "threshold_STATUS": "{{metric}}, Schwellenwert {{operator}} {{value}}",
+        "alertListSloAppliedColumnName": "Angewendete SLOs",
         "sloApplied": "SLOs angewendet",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
@@ -1978,8 +1999,13 @@
         "sloCount_2": "{{count}} SLOs",
         "title": "",
         "title_BURN_RATE": "Verbrennungsrate",
+        "title_BURN_RATE_V2": "Verbrennungsrate",
         "title_BURNED_PERCENTAGE": "Fehlerbudget verbraucht",
-        "title_STATUS": "Status"
+        "title_STATUS": "Status",
+        "errorBudgetLabel": "Fehlerbudget",
+        "deprecatedLabel": "Veraltet",
+        "noDataHeader": "Keine Slo Smart Alerts",
+        "noDataDescription": "Klicken Sie auf <strong>Smart Alert erstellen</strong>, um zu beginnen."
       },
       "messages": {
         "successTitle": "",

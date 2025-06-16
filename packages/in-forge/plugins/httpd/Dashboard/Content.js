@@ -195,5 +195,5 @@ function getModStatusDoc(v) {
   } else if (v && semver.satisfies(v, '>=2.0.0')) {
     return 'https://httpd.apache.org/docs/2.0/mod/core.html#extendedstatus';
   }
-  return 'http://httpd.apache.org/docs/current/mod/mod_status.html#extendedstatus';
+  return 'https://httpd.apache.org/docs/current/mod/mod_status.html#extendedstatus';
 }

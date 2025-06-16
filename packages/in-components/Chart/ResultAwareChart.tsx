@@ -31,7 +31,7 @@ interface Props {
   config: ResultAwareChartConfig;
   renderLegend?: boolean;
   result: Result<unknown>;
-  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string, id: string) => void;
   tableOpen?: boolean;
   tableCloseHandler?: Function;
 }

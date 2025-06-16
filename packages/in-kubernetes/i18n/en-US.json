@@ -438,6 +438,7 @@
     "branch": "Branch"
   },
   "sourceSelector": {
+    "label": "Data source switcher",
     "instanaAgent": {
       "text": "Instana agent",
       "description": "View information based on data collected by the Instana agent."

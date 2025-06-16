@@ -19,8 +19,8 @@ import {
   UnstableTrackingFunction,
   useSegmentTracking
 } from 'in-services/tracking/useSegmentTracking';
-import { deleteSloConfiguration } from 'in-service-levels/api/configuration';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
+import { deleteSloConfiguration } from 'in-service-levels/api/sloConfiguration';
 import { DELETED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -70,7 +70,7 @@ function showConfirmationDialog(
       }
       confirmButtonLabel={t('in-service-levels:general.deleteDialog.delete')}
       onSubmit={() => {
-        close();
+        closeDialog();
         onDelete(configuration, meta, onComplete, unstable_trackEvent);
       }}
     />
