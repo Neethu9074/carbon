@@ -131,6 +131,8 @@
     "loading": "Loading",
     "ready": "Ready",
     "restarts": "Restarts",
+    "onlineContainers": "Online containers",
+    "desiredContainers": "Desired containers",
     "serviceLocation": "Service location",
     "intEndpoints": "Int. endpoints",
     "extEndpoints": "External endpoints",
