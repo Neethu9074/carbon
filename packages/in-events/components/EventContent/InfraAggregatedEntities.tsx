@@ -12,6 +12,7 @@ import { useObservable } from '@instana/hooks';
 
 import {
   AggregationType,
+  ApiTag,
   Cursor,
   Cursorific,
   EntityHealthInfo,
@@ -33,17 +34,18 @@ import { getMetricsColumn } from 'in-infrastructure/Explore/components/GroupedIn
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 //@ts-expect-error
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import useMetricMetadatas, { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { getEntitiesData } from 'in-events/components/util/getEntitiesForAggregatedEntity';
 import { getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
-import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeInfraEventButton';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { useLinkToNavigate } from 'in-events/components/AnalyzeInfraEventButton';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink, { SnapshotMap } from 'in-components/EntityLink/EntityLink';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { t } from 'in-i18n';
@@ -56,6 +58,8 @@ interface AggregatedEntitiesProps {
   timeConfig: TimeConfig;
   ruleWithThreshold: RuleWithThreshold<GenericInfraAlertRule>;
   tagFilterExpression: TagFilterExpressionElementUnion;
+  groupingTags: Record<string, string>;
+  tagsFromTagCatalog: ApiTag[] | undefined;
   metricLabel: string;
   aggregatedEntitiesOpen: boolean;
   setAggregatedEntitiesOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -73,6 +77,8 @@ export function InfraAggregatedEntitiesTablePresenter({
   timeConfig,
   ruleWithThreshold,
   tagFilterExpression,
+  groupingTags,
+  tagsFromTagCatalog,
   metricLabel,
   aggregatedEntitiesOpen,
   setAggregatedEntitiesOpen
@@ -93,6 +99,8 @@ export function InfraAggregatedEntitiesTablePresenter({
       timeConfig={timeConfig}
       ruleWithThreshold={ruleWithThreshold}
       tagFilterExpression={tagFilterExpression}
+      groupingTags={groupingTags}
+      tagsFromTagCatalog={tagsFromTagCatalog}
       metricLabel={metricLabel}
       aggregatedEntitiesOpen={aggregatedEntitiesOpen}
       setAggregatedEntitiesOpen={setAggregatedEntitiesOpen}
@@ -105,6 +113,8 @@ const InfraAggregatedEntities = ({
   timeConfig,
   ruleWithThreshold,
   tagFilterExpression,
+  groupingTags,
+  tagsFromTagCatalog,
   metricLabel,
   aggregatedEntitiesOpen,
   setAggregatedEntitiesOpen
@@ -173,6 +183,8 @@ const InfraAggregatedEntities = ({
           crossSeriesAggregation={crossSeriesAggregation}
           rule={rule}
           tagFilterExpression={tagFilterExpression}
+          groupingTags={groupingTags}
+          tagsFromTagCatalog={tagsFromTagCatalog}
           granularity={adjustedGranularityForChart}
           errors={result.errors}
           order={order}
@@ -195,6 +207,8 @@ interface AggregatedEntitiesTableProps {
   crossSeriesAggregation: AggregationType;
   rule: GenericInfraAlertRule;
   tagFilterExpression: TagFilterExpressionElementUnion;
+  groupingTags: Record<string, string>;
+  tagsFromTagCatalog: ApiTag[] | undefined;
   granularity: number;
   errors: Error[];
   order: Order;
@@ -213,20 +227,13 @@ const AggregatedEntitiesTable: React.FC<AggregatedEntitiesTableProps> = ({
   crossSeriesAggregation,
   rule,
   tagFilterExpression,
+  groupingTags,
+  tagsFromTagCatalog,
   granularity,
   errors,
   order
 }) => {
-  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
-
-  const linkToUA = getLinkToUnboundAnalytics(
-    rule,
-    tagFilterExpression,
-    getLinkToInfraEntityExplore,
-    timeConfig,
-    [],
-    order
-  );
+  const { navigate } = useNavigation();
 
   const columnDefinitions = getColumnDefinitions(
     timeConfig,
@@ -238,6 +245,7 @@ const AggregatedEntitiesTable: React.FC<AggregatedEntitiesTableProps> = ({
     label
   );
 
+  const getLinkToUA = useLinkToNavigate(tagFilterExpression, rule, timeConfig, groupingTags, tagsFromTagCatalog, order);
   return (
     <>
       <CursorPaginatedTable
@@ -254,7 +262,13 @@ const AggregatedEntitiesTable: React.FC<AggregatedEntitiesTableProps> = ({
       />
       {canLoadMore && (
         <Stack align="center">
-          <Link href={linkToUA}>
+          <Link
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              navigate(parseUrl(getLinkToUA(), true));
+            }}
+          >
             {t('in-events:infraSmartAlerts.aggregatedEntityEvent.viewAllEntitiesInScope', { count: totalHits })}
           </Link>
         </Stack>
