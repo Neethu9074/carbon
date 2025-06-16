@@ -210,5 +210,5 @@ module.exports = {
   openTelemetryKubernetesNodesViewEnabled: false,
   openTelemetryKubernetesPodsViewEnabled: false,
   newOTelPageEnabled: false,
-  otelCollectorConfigEditorEnabled: false
+  otelCollectorViewEnabled: false
 };

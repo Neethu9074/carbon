@@ -14,7 +14,7 @@ import SampleConfig from 'in-infrastructure/agentView/ConfigurationEditor/Sample
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ConfigFlowChart from 'in-infrastructure/agentView/ConfigurationEditor/ConfigFlowChart';
 import ConfigEditor from 'in-infrastructure/agentView/ConfigurationEditor/ConfigEditor';
-import { otelCollectorConfigEditorEnabled } from 'in-services/featureFlags';
+import { otelCollectorViewEnabled } from 'in-services/featureFlags';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
@@ -28,7 +28,7 @@ export default function UpdateConfigurationDialog() {
   };
 
   return (
-    otelCollectorConfigEditorEnabled && (
+    otelCollectorViewEnabled && (
       <Modal
         className={locals.editorDialog}
         modalHeading={t('in-infrastructure:collectorView.updateConfig')}
