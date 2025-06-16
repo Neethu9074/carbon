@@ -7,7 +7,7 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 import { GetTagSuggestionsQuery, Result, TagSuggestions } from 'in-types';
 
 export default createResultSubscriptionFactory<GetTagSuggestionsQuery, Result<TagSuggestions>>({
-  eventId: 'getSubtraceSideFilter',
+  eventId: 'getSubtraceTagSuggestion',
   memoizeFor: 5000,
   trackSubscriptionStatistics: true
 });

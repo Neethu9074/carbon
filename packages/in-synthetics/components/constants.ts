@@ -48,6 +48,7 @@ export interface CarbonDataTablePresenterProps<ITEM_TYPE extends ListItem, PROPS
   extends CarbonDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>,
     ServerTableUrlState {
   result: Result<PaginatedResult<ITEM_TYPE>>;
+  getRowDetails?: ((result: any) => ReactNode) | ReactNode;
   onChange: (change: Partial<ServerTableUrlState>) => void;
 }
 
@@ -78,6 +79,7 @@ export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PropsType exte
   query: string;
   isSearchable?: boolean;
   searchText?: string;
+  isExpandable?: boolean;
   toolBarContent?: JSX.Element | boolean;
   actionButtonContent?: JSX.Element | boolean;
   filterRows?: (value: React.ChangeEvent<HTMLInputElement>) => void;
