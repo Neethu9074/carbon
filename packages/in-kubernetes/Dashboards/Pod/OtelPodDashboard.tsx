@@ -27,8 +27,7 @@ import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/Dashb
 // @ts-expect-error TS migration
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
-// @ts-expect-error TS migration
-import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
+import tabs from 'in-kubernetes/Dashboards/Pod/tabs/otelIndex';
 // @ts-expect-error TS migration
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import getOtelKubernetesPod from 'in-kubernetes/subscriptions/getOtelKubernetesPod';

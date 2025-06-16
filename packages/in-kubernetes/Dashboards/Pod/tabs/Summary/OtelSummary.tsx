@@ -55,7 +55,7 @@ interface SummaryProps {
   timeConfig: TimeConfig;
 }
 
-export default function Summary({ data: pod, timeConfig }: SummaryProps) {
+export default function OtelSummary({ data: pod, timeConfig }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = pod.id;
 
