@@ -135,7 +135,8 @@ export default function useSloListTable({
       pageSize,
       orderBy,
       orderDirection,
-      query
+      query,
+      setServerTableState
     },
     result
   };
