@@ -14,6 +14,7 @@ import {
   SyntheticTest,
   TagFilterExpression,
   TagFilterOperator,
+  TestResultListItem,
   TimeConfig
 } from '@instana/types';
 import { Message as CarbonMessage } from '@instana/components';
@@ -229,7 +230,7 @@ const TestSummaryList = () => {
           </div>
         )}
         {syntheticCarbonTableEnabled ? (
-          <CarbonDataTableWithUrlState<any, any>
+          <CarbonDataTableWithUrlState<TestResultListItem, any>
             get={getTestSummaryListData}
             paginationResettingUrlParameters={[...timeConfigUrlParameters]}
             columnDefinitions={columnDefinitions}
@@ -256,6 +257,9 @@ const TestSummaryList = () => {
                 />
               )
             }
+            noDataHeader={t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle')}
+            noDataDescription={t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')}
+            errorHeader={t('in-synthetics:dashboard.testList.failedToLoadTestsTitle')}
             runType={runType}
             actionButtonContent={role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
           />
