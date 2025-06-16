@@ -6,7 +6,7 @@
 import { uniqueId } from 'lodash';
 import React from 'react';
 
-import { Checkbox } from '@instana/carbon';
+import { CarbonCheckbox as Checkbox } from '@instana/components';
 
 import { approximateValueIndicator } from 'in-components/AnalyzeView/FacetedFilters/approximateValueIndicator';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
