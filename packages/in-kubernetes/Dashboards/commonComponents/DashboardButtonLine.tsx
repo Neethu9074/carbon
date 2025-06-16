@@ -8,10 +8,7 @@ import React from 'react';
 
 import { TimeConfig, KubernetesPod } from '@instana/types';
 
-import HealthIndicatorButtonPresenter, {
-  HealthIndicatorButtonPresenterProps
-} from 'in-components/health/HealthIndicatorButtonPresenter';
-import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 // @ts-expect-error
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import ArgoCDCluster from 'in-kubernetes/Dashboards/ArgoCD/ArgoCDCluster';
@@ -26,19 +23,11 @@ interface DashboardButtonLineProps {
   pod?: KubernetesPod;
 }
 
-export default function DashboardButtonLine({
-  snapshotId,
-  timeConfig,
-  tagFilters,
-  plugin,
-  pod
-}: DashboardButtonLineProps) {
+export default function DashboardButtonLine({ snapshotId, timeConfig, tagFilters, plugin }: DashboardButtonLineProps) {
   return (
     <>
       <EntityHealthIndicator
-        IndicatorPresenter={(props: HealthIndicatorButtonPresenterProps) => (
-          <HealthIndicatorButtonPresenter {...getIndicatorPresenter({ plugin, pod, ...props })} />
-        )}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
         snapshotId={snapshotId}
         timeConfig={timeConfig}
       />
@@ -47,29 +36,4 @@ export default function DashboardButtonLine({
       <ContextGuide id={snapshotId} plugin={plugin} timeConfig={timeConfig} tagFilters={tagFilters} />
     </>
   );
-}
-
-export function getIndicatorPresenter({ plugin, pod, ...props }: any) {
-  if (plugin !== 'kubernetesPod') {
-    return props;
-  }
-
-  const { conditions, status } = pod;
-  const { maxSeverity: baseMaxSeverity, openIssues } = props;
-
-  const { maxSeverity, openIssuesCount } = getHealthyStatus({
-    statusSummary: status?.statusSummary || '',
-    podConditions: conditions,
-    entityHealthInfo: {
-      maxSeverity: baseMaxSeverity,
-      openIssues
-    }
-  });
-
-  return {
-    ...props,
-    maxSeverity,
-    openIssues: openIssuesCount && null,
-    openIncidents: null
-  };
 }

@@ -28,7 +28,6 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
@@ -52,20 +51,14 @@ const allColumnDefinitions = [
   {
     id: 'label',
     label: t('in-kubernetes:dashboards.name'),
-    getContent({ entityHealthInfo, pod, statusSummary }, { deploymentId, serviceId, nodeId }) {
+    getContent({ entityHealthInfo, pod }, { deploymentId, serviceId, nodeId }) {
       const { label: podLabel, id: podId } = pod;
-
-      const { maxSeverity } = getHealthyStatus({
-        podConditions: pod.conditions,
-        entityHealthInfo,
-        statusSummary
-      });
 
       const props = {
         deploymentId,
         serviceId,
         nodeId,
-        maxSeverity,
+        severity: entityHealthInfo.maxSeverity,
         podLabel,
         podId
       };
@@ -180,19 +173,11 @@ const allColumnDefinitions = [
   {
     id: 'health',
     label: t('in-kubernetes:dashboards.health'),
-    getContent({ pod, entityHealthInfo, statusSummary }, { timeConfig }) {
-      const { conditions, id: podId } = pod;
-
-      const { maxSeverity, openIssuesCount } = getHealthyStatus({
-        podConditions: conditions,
-        entityHealthInfo,
-        statusSummary
-      });
-
+    getContent({ pod: { id: podId }, entityHealthInfo }, { timeConfig }) {
       return (
         <EntityHealthIndicator
-          openIssues={openIssuesCount}
-          maxSeverity={maxSeverity}
+          openIssues={entityHealthInfo.openIssues.length}
+          maxSeverity={entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           snapshotId={podId}
@@ -295,7 +280,7 @@ export default function Pods(props) {
   );
 }
 
-function PodLink({ podId, deploymentId, serviceId, nodeId, podLabel, maxSeverity }) {
+function PodLink({ podId, deploymentId, serviceId, nodeId, podLabel, severity }) {
   const href = usePodDashboard(podId, { deploymentId, serviceId, nodeId });
-  return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={podLabel} href={href} severity={maxSeverity} />;
+  return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={podLabel} href={href} severity={severity} />;
 }
