@@ -4,15 +4,15 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Result, Team, TeamDetails, TeamMember } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { TeamDetails } from '@instana/types';
 
 import { refresh as refreshTags } from 'in-settings/tabs/SecurityAndAccess/api/tags';
+import { refreshRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { Response } from 'in-services/http/types';
 import { refreshSignal } from 'in-api/teams';
 import http from 'in-services/http';
-import { User } from 'in-types';
 
 const basePath = '/api/settings/rbac/teams';
 /**
@@ -66,26 +66,40 @@ export function deleteTeams(ids: string[]) {
   });
 }
 
-export function removeUserFromTeam(teamId: string, userId: string) {
+interface RemoveUserFromTeamProps {
+  teamId: string;
+  userId: string;
+}
+
+export function removeUserFromTeam({ teamId, userId }: RemoveUserFromTeamProps) {
   return http<void>({
     method: 'DELETE',
     maxRetries: 3,
     url: `${basePath}/${encodeURIComponent(teamId)}/user/${encodeURIComponent(userId)}`,
-    headers: getCsrfHeader()
+    headers: getCsrfHeader(),
+    mapToResultObject: true
   }).map(v => {
+    refreshRole();
     refreshSignal.emit(teamId);
     return v;
   });
 }
 
-export function addUsersToTeam(teamId: string, users: User[]) {
-  return http<void>({
+interface AddUsersToTeamProps {
+  teamId: string;
+  memberDetails: TeamMember[];
+}
+
+export function addUsersToTeam({ teamId, memberDetails }: AddUsersToTeamProps): Observable<Result<Team>> {
+  return http<Team>({
     method: 'PUT',
     maxRetries: 3,
     url: `${basePath}/${encodeURIComponent(teamId)}/users`,
     headers: getCsrfHeader(),
-    data: users
+    data: memberDetails,
+    mapToResultObject: true
   }).map(v => {
+    refreshRole();
     refreshSignal.emit(teamId);
     return v;
   });
@@ -104,6 +118,9 @@ export function saveTeam(team: TeamDetails): Observable<Response<TeamDetails>> {
 
     // Team name is saved as tag, therefore also refresh tags
     refreshTags();
+
+    // refresh role details view, when roles are added to a team
+    refreshRole();
 
     return v;
   });

@@ -8,10 +8,11 @@ import React, { useState } from 'react';
 
 import { Stack, Button, ContainedList, ContainedListItem, InlineLoading, Layer } from '@instana/carbon';
 import { IconButton, Link, LoadingSkeleton, Typography } from '@instana/components';
-import { Member } from '@instana/types';
+import { Member, TeamRole } from '@instana/types';
 
 import SelectUserDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/components/SelectUserDialog';
 import { addRoleMembers, removeMemberFromRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
+import { addUsersToTeam, removeUserFromTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { securityAndAccessAccessControlUserEdit } from 'in-settings/navigation/paths';
 import useUserList from 'in-settings/tabs/SecurityAndAccess/hooks/useUserList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -53,6 +54,7 @@ interface TeamsAndMembersListProps {
    **/
   members: Array<Member>;
   roleId?: string;
+  roleName?: string;
   status: FetchStatus;
   teamId?: string;
   teamTag?: string;
@@ -64,18 +66,130 @@ export default function TeamsAndMembersList({
   roleId,
   status,
   teamId,
-  teamTag
+  teamTag,
+  roleName
 }: TeamsAndMembersListProps) {
   const { createHrefToPath } = useNavigation();
   const [, doAddMember] = useFormSubmission(addRoleMembers);
+  const [, doAddMemberToTeam] = useFormSubmission(addUsersToTeam);
   const [deleteStatus, doRemoveMember] = useFormSubmission(removeMemberFromRole);
+  const [deleteStatusTeam, doRemoveMemberFromTeam] = useFormSubmission(removeUserFromTeam);
   const [lastInteractedUserId, setLastInteractedUserId] = useState<string>();
 
   const scopeTitle = t('in-settings:details.role.scopeTitle', {
     context: teamId ? 'teamScope' : 'entireTu',
     teamTag: teamTag ?? `${config.tenantUnit}-${config.tenant}`
   });
+  const onAddmemberToTeam = (roleId: string, roleName: string | undefined, userIds: string[], teamId: string) => {
+    const roles: TeamRole[] = [
+      {
+        roleId,
+        roleName,
+        viaIdP: false
+      }
+    ];
+    const memberDetails = userIds.map(userId => {
+      return {
+        userId: userId,
+        roles: roles
+      };
+    });
 
+    doAddMemberToTeam({
+      payload: { teamId, memberDetails },
+      onSuccess: () => {
+        addMessage({
+          title: t('in-settings:components.successTitle'),
+          content: t('in-settings:details.role.successfullyAddedMemberToTeam', {
+            count: userIds.length,
+            teamName: teamTag
+          }),
+          type: 'success',
+          timeout: seconds.toMillis(4)
+        });
+        close();
+      },
+      onError: () => {
+        addMessage({
+          title: t('in-settings:components.errorTitle'),
+          content: t('in-components:error.serverErrorInfo'),
+          timeout: seconds.toMillis(6),
+          type: 'danger'
+        });
+      }
+    });
+  };
+
+  const onAddmemberToRole = (roleId: string, userIds: string[]) => {
+    doAddMember({
+      payload: { roleId, userIds },
+      onSuccess: () => {
+        addMessage({
+          title: t('in-settings:components.successTitle'),
+          content: t('in-settings:details.role.successfullyAddedMemberToRole', { count: userIds.length }),
+          type: 'success',
+          timeout: seconds.toMillis(4)
+        });
+        close();
+      },
+      onError: () => {
+        addMessage({
+          title: t('in-settings:components.errorTitle'),
+          content: t('in-components:error.serverErrorInfo'),
+          timeout: seconds.toMillis(6),
+          type: 'danger'
+        });
+      }
+    });
+  };
+  const onRemoveMemberFromTeam = (teamId: string, userId: string) => {
+    doRemoveMemberFromTeam({
+      payload: { teamId, userId },
+      onSuccess: () => {
+        addMessage({
+          title: t('in-settings:components.successTitle'),
+          content: t('in-settings:details.role.successfullyRemovedMemberFromTeam', {
+            teamName: teamTag
+          }),
+          timeout: seconds.toMillis(4),
+          type: 'success'
+        });
+        close();
+      },
+      onError: () => {
+        addMessage({
+          title: t('in-settings:components.errorTitle'),
+          content: t('in-components:error.serverErrorInfo'),
+          timeout: seconds.toMillis(6),
+          type: 'danger'
+        });
+        close();
+      }
+    });
+  };
+  const onRemoveMemberFromRole = (roleId: string, userId: string) => {
+    doRemoveMember({
+      payload: { roleId, userId },
+      onSuccess: () => {
+        addMessage({
+          title: t('in-settings:components.successTitle'),
+          content: t('in-settings:details.role.successfullyRemovedMemberFromRole'),
+          timeout: seconds.toMillis(4),
+          type: 'success'
+        });
+        close();
+      },
+      onError: () => {
+        addMessage({
+          title: t('in-settings:components.errorTitle'),
+          content: t('in-components:error.serverErrorInfo'),
+          timeout: seconds.toMillis(6),
+          type: 'danger'
+        });
+        close();
+      }
+    });
+  };
   return (
     <Layer level={2}>
       <ContainedList
@@ -86,25 +200,11 @@ export default function TeamsAndMembersList({
             status={status}
             onUpdateTeamMembers={userIds => {
               if (!roleId) return;
-
-              doAddMember({
-                payload: { roleId, userIds },
-                onSuccess: () => {
-                  addMessage({
-                    content: t('in-settings:details.role.successfullyAddedMemberToRole', { count: userIds.length }),
-                    type: 'success',
-                    timeout: seconds.toMillis(4)
-                  });
-                  close();
-                },
-                onError: () => {
-                  addMessage({
-                    content: t('in-components:error.serverErrorInfo'),
-                    timeout: seconds.toMillis(6),
-                    type: 'danger'
-                  });
-                }
-              });
+              if (teamId) {
+                onAddmemberToTeam(roleId, roleName, userIds, teamId);
+              } else {
+                onAddmemberToRole(roleId, userIds);
+              }
             }}
           />
         }
@@ -122,7 +222,8 @@ export default function TeamsAndMembersList({
                 </Typography>
               </Stack>
               <div className={locals.alignRight}>
-                {deleteStatus === 'pending' && lastInteractedUserId === userId ? (
+                {(deleteStatus === 'pending' && lastInteractedUserId === userId) ||
+                (deleteStatusTeam === 'pending' && lastInteractedUserId === userId) ? (
                   <InlineLoading />
                 ) : (
                   <IconButton
@@ -135,31 +236,15 @@ export default function TeamsAndMembersList({
                       showDeleteConfirmationDialog(
                         function onConfirm() {
                           if (!roleId) return;
-
                           setLastInteractedUserId(userId);
-
-                          doRemoveMember({
-                            payload: { roleId, userId },
-                            onSuccess: () => {
-                              addMessage({
-                                content: t('in-settings:details.role.successfullyRemovedMemberFromRole'),
-                                timeout: seconds.toMillis(4),
-                                type: 'success'
-                              });
-                              close();
-                            },
-                            onError: () => {
-                              addMessage({
-                                content: t('in-components:error.serverErrorInfo'),
-                                timeout: seconds.toMillis(6),
-                                type: 'danger'
-                              });
-                              close();
-                            }
-                          });
+                          if (teamId) {
+                            onRemoveMemberFromTeam(teamId, userId);
+                          } else {
+                            onRemoveMemberFromRole(roleId, userId);
+                          }
                         },
                         userName,
-                        deleteStatus === 'pending'
+                        teamId ? deleteStatusTeam === 'pending' : deleteStatus === 'pending'
                       );
                     }}
                     type="lib_actions_delete"
