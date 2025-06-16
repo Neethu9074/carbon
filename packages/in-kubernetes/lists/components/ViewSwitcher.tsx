@@ -22,9 +22,9 @@ import {
   playwithEnabled,
   openTelemetryKubernetesUnifiedViewEnabled
 } from 'in-services/featureFlags';
+import KubernetesSourceSelector from 'in-kubernetes/lists/components/KubernetesSourceSelector/KubernetesSourceSelector';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
-import KubernetesSourceSelector from 'in-kubernetes/lists/components/KubernetesSourceSelector';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';

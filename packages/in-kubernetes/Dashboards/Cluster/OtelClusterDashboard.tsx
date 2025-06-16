@@ -202,7 +202,7 @@ export default function ClusterDashboard() {
             clusterDistributionName: clusterBadgeName(clusterDistribution)
           })}
         />
-        {clusterManagement && clusterManagement?.shortName !== 'none' && (
+        {clusterManagement && clusterManagement?.shortName !== 'none' && clusterManagement?.shortName !== '' && (
           <EntityWithTypeAndIcon
             iconType={`lib_${clusterManagement?.shortName}`}
             label={t('in-kubernetes:dashboards.managedby', {
