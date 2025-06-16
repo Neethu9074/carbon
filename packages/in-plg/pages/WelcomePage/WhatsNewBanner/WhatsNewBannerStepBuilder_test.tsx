@@ -19,6 +19,9 @@ jest.mock('in-components/ViewTrackingMeta', () => ({
     productArea: 'instana'
   })
 }));
+jest.mock('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks', () => ({
+  useKubernetesClustersConfigs: () => [[{ cluster: 'test-cluster' }]] // Non-empty to trigger Kubecost tile
+}));
 
 describe('in-plg/pages/WelcomePage/WhatsNewBanner/WhatsNewBannerStepBuilder', () => {
   const kubecostText = 'Cost visibility with IBM Kubecost';
