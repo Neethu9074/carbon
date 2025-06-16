@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import type { Error as InstanaError } from '@instana/types/typeDefinitions';
+import type { Error as InstanaError } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error TS migration
@@ -76,10 +76,18 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
     return <LoadingIndicator />;
   }
 
+  interface DashboardTab {
+    label: string;
+    path: string;
+    component: (props: any) => JSX.Element;
+    header?: (props: any) => JSX.Element;
+    [key: string]: unknown;
+  }
+
   const hasPrometheusEndpoints = prometheusEndpoints?.data?.items.length > 0;
   const allTabs = hasPrometheusEndpoints
     ? tabs
-    : tabs.filter((tab: any) => tab.label !== t('in-kubernetes:dashboards.prometheusMetrics'));
+    : tabs.filter((tab: DashboardTab) => tab.label !== t('in-kubernetes:dashboards.prometheusMetrics'));
 
   return (
     <>
@@ -110,9 +118,7 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
           timeConfig: props.timeConfig
         })}
         HeaderComponent={props => (
-          props.result !== undefined && props.result !== null
-            ? <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} result={props.result} />
-            : null
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} result={props.result ?? pendingResult} />
         )}
         location={location}
         tabs={allTabs}

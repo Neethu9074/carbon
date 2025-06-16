@@ -49,6 +49,7 @@ import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 
 import locals from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods.mless';
 
@@ -125,7 +126,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'online',
-    label: 'Online Containers',
+    label: t('in-kubernetes:dashboards.onlineContainers'),
     optional: true,
     sortable: false,
     getContent(item: { pod: { status: { containerStatuses?: Array<{ ready: boolean }> } } }) {
@@ -135,7 +136,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'desired',
-    label: 'Desired Containers',
+    label: t('in-kubernetes:dashboards.desiredContainers'),
     optional: true,
     sortable: false,
     getContent(item: { pod: { status: { containerStatuses?: Array<{ ready: boolean }> } } }) {
@@ -265,7 +266,7 @@ interface TableComponentProps {
 
 type TableComponentType = React.ComponentType<TableComponentProps>;
 
-function createTable(columnDefinitions: Array<any>): TableComponentType {
+function createTable(columnDefinitions: Array<ColumnDefinition<any, any>>): TableComponentType {
   return createServerTableWithUrlState({
     Renderer: withEmptyTableState({
       columnDefinitions,
