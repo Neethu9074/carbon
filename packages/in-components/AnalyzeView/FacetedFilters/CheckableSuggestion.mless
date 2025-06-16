@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: space-between;
 
-    // since we use a smaller font size, we need to center it vertically
+    // since we use a smaller font size for the label, we need to center it vertically
     :global .cds--checkbox-label-text {
       display: flex;
       align-items: center;
