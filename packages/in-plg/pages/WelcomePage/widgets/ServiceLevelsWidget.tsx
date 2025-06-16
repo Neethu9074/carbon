@@ -7,16 +7,24 @@
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { IconButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import {
+  GetAllSloConfigurationsArguments,
+  getAllSloConfigurations,
+  getSloConfiguration
+} from 'in-service-levels/api/sloConfiguration';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import SloErrorBudgetColumnContent from 'in-service-levels/components/SloList/components/SloErrorBudgetColumnContent';
-import { GetAllSloConfigurationsArguments, getAllSloConfigurations } from 'in-service-levels/api/sloConfiguration';
 import { ColumnDefinitionItem, WidgetProps } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import SloBlueprintColumnContent from 'in-service-levels/components/SloList/components/SloBlueprintColumnContent';
 import SloStatusColumnContent from 'in-service-levels/components/SloList/components/SloStatusColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
+import { service as sloType } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { buildSloListItem } from 'in-service-levels/hooks/useSloListItems';
@@ -26,14 +34,14 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { SloListItem } from 'in-service-levels/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { role } from 'in-stores/user';
 
 type CellRendererProps = {
   item: ServiceLevelObjectiveConfiguration;
-  isMediumWidth?: boolean;
-  render: (sloListItem: any) => JSX.Element;
+  render: (sloListItem: SloListItem) => JSX.Element;
 };
 
 const SloCellRenderer = ({ item, render }: CellRendererProps) => {
@@ -47,6 +55,20 @@ function getSloListItem(item: ServiceLevelObjectiveConfiguration) {
   const [metrics] = useSloListMetrics([item]);
   const configuration = item;
   return buildSloListItem({ configuration, labels, metrics, timeConfig });
+}
+
+function handleFavoriteClick(item: any, isFavourite: boolean, type: string) {
+  const id = item?.configuration?.id;
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id, type });
+  } else {
+    add({
+      id,
+      label: item.configuration.name,
+      type
+    });
+  }
 }
 
 export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
@@ -78,6 +100,10 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
       {
         header: t('in-service-levels:sloList.columnLabels.status'),
         key: 'status'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
@@ -112,7 +138,6 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
         return (
           <SloCellRenderer
             item={item}
-            isMediumWidth={isMediumWidth}
             render={sloListItem => <SloErrorBudgetColumnContent item={sloListItem} showSparkChart={isMediumWidth} />}
           />
         );
@@ -122,6 +147,29 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
       key: 'status',
       getContent({ item }) {
         return <SloCellRenderer item={item} render={sloListItem => <SloStatusColumnContent item={sloListItem} />} />;
+      }
+    },
+    {
+      key: 'favourite',
+      getContent({ item, isDisabled = false, isFavourite = false }) {
+        return (
+          <SloCellRenderer
+            item={item}
+            render={sloListItem => (
+              <IconButton
+                aria-label={
+                  isFavourite
+                    ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                    : t('in-plg:welcomepage.favouriteButton.aria')
+                }
+                type={isFavourite ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
+                onClick={() => handleFavoriteClick(sloListItem, isFavourite, sloType)}
+                iconSize="xs"
+                disabled={isDisabled}
+              />
+            )}
+          />
+        );
       }
     }
   ];
@@ -147,6 +195,9 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
       getItems={(params: any) => {
         return getAllSloConfigurations({ ...params, ...sloConfigurationsArguments });
       }}
+      getItem={(id: any) => {
+        return getSloConfiguration(id);
+      }}
       hasAddPermission={role?.canConfigureServiceLevelIndicators}
       hasAddMore={role?.canConfigureServiceLevelIndicators}
       viewAll
@@ -155,6 +206,7 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
       href={createHrefToPath(serviceLevelsOverview)}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      pinnedItemTypes={[sloType]}
       searchPlaceholderLabel={t('in-plg:welcomepage.component.serviceLevelsWidget.searchPlaceholderLabel')}
       addButtonLabel={t('in-plg:welcomepage.component.serviceLevelsWidget.addButtonLabel')}
       viewAllLabel={t('in-plg:welcomepage.component.serviceLevelsWidget.viewAllLabel')}
