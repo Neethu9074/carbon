@@ -11,6 +11,7 @@ import AzureContainerApps from 'in-plg/pages/onboarding/AgentList/Azure/Containe
 import LinuxElasticComputing from 'in-plg/pages/onboarding/AgentList/Linux/LinuxElasticComputing';
 import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
 import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
+import LinuxAutomaticOTel from 'in-plg/pages/onboarding/AgentList/LinuxOTel/LinuxAutomaticOTel';
 import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
 import AzureAppService from 'in-plg/pages/onboarding/AgentList/Azure/AppService/AppService';
 import WindowsZipArchive from 'in-plg/pages/onboarding/AgentList/Windows/WindowsZipArchive';
@@ -566,9 +567,9 @@ interface FreeTrialEntry {
   data: ContentProps[];
 }
 
-export interface FreeTrialEntries {
-  [key: string]: FreeTrialEntry;
-}
+export type FreeTrialEntries = {
+  [key in datasource]: FreeTrialEntry;
+};
 
 export function getEntriesForFreeTrialV2() {
   let freeTrialEntries: FreeTrialEntries = {
@@ -586,7 +587,7 @@ export function getEntriesForFreeTrialV2() {
           subTechnology: {
             label: t('in-waiting-for-deployment:content.automaticInstallationOneLiner'),
             keyWords: 'linuxautomaticoneliner',
-            Content: LinuxAutomatic
+            Content: LinuxAutomaticOTel
           }
         }
       ]

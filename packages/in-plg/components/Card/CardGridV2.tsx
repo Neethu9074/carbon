@@ -43,7 +43,7 @@ export default function CardGridV2({ data, fromOnboarding = false }: CardGridPro
                       title={item.label}
                       icon={item.icon}
                       content={item.subTechnology?.label ?? ''}
-                      href={`/agents${fromOnboarding ? '/onboarding' : ''}/installation/${item?.id}`}
+                      href={`/datasources${fromOnboarding ? '/onboarding' : ''}/installation/${item?.id}`}
                     />
                   </Column>
                 ))}

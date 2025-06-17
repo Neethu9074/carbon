@@ -46,14 +46,14 @@ export const QuickLinks = () => {
       <Stack gap="disabled" direction="horizontal">
         {!playwithEnabled && role?.canConfigureAgents && (
           <QuickLinkButton
-            icon="lib_datasource"
+            icon={newOTelPageEnabled ? 'lib_datasource' : 'lib_actions_settings'}
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.settings')}
             buttonName={
               newOTelPageEnabled
-                ? t('in-plg:welcomepage.quickLinks.buttonNames.installDataSource')
+                ? t('in-plg:welcomepage.quickLinks.buttonNames.setUpADataSource')
                 : t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')
             }
-            href={createHrefToPath('/agents/installation')}
+            href={newOTelPageEnabled ? createHrefToPath('/datasources') : createHrefToPath('/agents/installation')}
             onClick={() => {
               trackCta(
                 newOTelPageEnabled ? WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK : WELCOME_PAGE_DEPLOY_AGENT_CLICK,

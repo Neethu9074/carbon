@@ -28,7 +28,7 @@ export default function AgentCatalogV2(props: any) {
     setQuery(newQuery);
     let filteredEntitiesLocal = entities;
     if (newQuery !== '') {
-      Object.keys(entities).forEach(datasource => {
+      (Object.keys(entities) as Array<keyof typeof entities>).forEach(datasource => {
         filteredEntitiesLocal = {
           ...filteredEntitiesLocal,
           [datasource]: {

@@ -1,9 +1,9 @@
 {
   "welcomeToInstana": "Welcome to Instana!",
-  "installYourFirstDataSource": "Install your first data source",
+  "setUpYourFirstDataSource": "Set up your first data source",
   "home": "Home",
   "getStartedAndInstallYourFirstAgent": "Get started and install your first agent.",
-  "selectADataSourceAndFollowTheStepsForInstallation": "Select a data source and follow the steps for installation.",
+  "installinOpenTelemetryCollectorOrInstanaAgentToStartCollectingData": "Install an OpenTelemetry collector or Instana agent to start collecting data.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Your trial has expired",
     "titleAfterTrialPeriodEnd": "Your trial period has ended",
@@ -103,6 +103,7 @@
       "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map.",
       "downloadKey": "Download key",
       "support": "Support",
+      "SupportLinks": "Support links",
       "sideCard": {
         "prerequisites": "Prerequisites",
         "documentation": "Documentation"
@@ -362,6 +363,13 @@
         "configurationParameters": "Configuration parameters",
         "troubleshootingInstallation": "Troubleshooting installation",
         "runningTheAgent": "Running the agent"
+      },
+      "linux_auto_otel": {
+        "learnMoreAboutInstanaOtelCollector": "Learn more about Instana OTel collector",
+        "gitHubInstanaOtelCollector": "GitHub: instana-otel-collector",
+        "networkRequirements": "Network requirements",
+        "step1SelectTheCollectorPackagingMode": "Step 1: Select the collector packaging mode.",
+        "step2RunTheOpenTelemetryDeploymentCode": "Step 2: Run the OpenTelemetry deployment code."
       },
       "linux_deb_rpm": {
         "configureTheAgent": "Step 1: Configure the agent",
@@ -822,7 +830,7 @@
       },
       "buttonNames": {
         "deployAgent": "Deploy agent",
-        "installDataSource": "Install a data source",
+        "setUpADataSource": "Set up a data source",
         "addUser": "Add user",
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
@@ -893,15 +901,15 @@
     "description": "View and update your profile, adjust privacy settings, and log out — all in one place.",
     "buttonText": "Done"
   },
-  "trialNoviceToProDialog":{
+  "trialNoviceToProDialog": {
     "welcometitle": "Welcome, {{username}}!",
     "description": "First, what best describes your role?",
     "getStarted": "Ready to get started?",
     "descriptionFreeTrial": "Deploy an agent to see your own data in action.",
     "descriptionSandbox": "Or explore Instana in the Sandbox – our interactive demo environment with sample data.",
-    "trialButtonData" : "Start with my own data",
-    "sandboxButtonData" : "Start with sample data",
-    "roles":{
+    "trialButtonData": "Start with my own data",
+    "sandboxButtonData": "Start with sample data",
+    "roles": {
       "frontendDeveloper": "Frontend developer",
       "backendDeveloper": "Backend developer",
       "businessManager": "Business manager",
@@ -911,10 +919,10 @@
       "itDecisionMaker": "IT decision maker",
       "support": "Support",
       "productManager": "Product manager",
-      "preferNotToSay" : "Prefer not to say",
+      "preferNotToSay": "Prefer not to say",
       "other": "Other"
     },
-    "steps":{
+    "steps": {
       "stepOne": "Role",
       "stepTwo": "Getting started"
     },

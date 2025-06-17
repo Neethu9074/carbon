@@ -23,11 +23,11 @@ const WelcomeToInstanaBanner = () => {
       <div className={locals.verticalPadding}>
         <Stack gap="disabled">
           <Typography variant="heading-600">
-            {newOTelPageEnabled ? t('in-plg:installYourFirstDataSource') : t('in-plg:welcomeToInstana')}
+            {newOTelPageEnabled ? t('in-plg:setUpYourFirstDataSource') : t('in-plg:welcomeToInstana')}
           </Typography>
           <Typography variant="body-large">
             {newOTelPageEnabled
-              ? t('in-plg:selectADataSourceAndFollowTheStepsForInstallation')
+              ? t('in-plg:installinOpenTelemetryCollectorOrInstanaAgentToStartCollectingData')
               : t('in-plg:getStartedAndInstallYourFirstAgent')}
           </Typography>
         </Stack>
