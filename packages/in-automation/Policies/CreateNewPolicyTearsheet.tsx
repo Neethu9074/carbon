@@ -64,6 +64,15 @@ const cancelButton = {
   }
 };
 
+interface CreateNewPolicyTearsheetProps {
+  policyId?: string;
+  actionId?: string;
+  triggerDetails?: TriggerDetailsProps;
+  copy?: boolean;
+  isFromDashboard?: boolean;
+  inEventPage?: boolean;
+}
+
 export default function CreateNewPolicyTearsheet({
   policyId,
   actionId,
@@ -71,14 +80,7 @@ export default function CreateNewPolicyTearsheet({
   copy = false,
   isFromDashboard = false,
   inEventPage = false
-}: {
-  policyId?: string;
-  actionId?: string;
-  triggerDetails?: TriggerDetailsProps;
-  copy?: boolean;
-  isFromDashboard?: boolean;
-  inEventPage?: boolean;
-}) {
+}: CreateNewPolicyTearsheetProps) {
   const { isCopy, id, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
   const policy = usePolicy({ id, isCopy });
   const actions = useActions();
@@ -227,11 +229,42 @@ function TearSheetLoader({
             actions={actions}
             triggers={triggers}
             result={result}
-            copy={copy}
             inEventPage={inEventPage}
           />
         </>
       </Tearsheet>
+    </>
+  );
+}
+
+function PolicyDetailsLoader({
+  form,
+  setForm,
+  actions,
+  triggers,
+  result,
+  inEventPage
+}: {
+  form: PolicyForm;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
+  actions: Action[];
+  triggers: Triggers;
+  result: Result<any> | null;
+  inEventPage: boolean;
+}) {
+  const errored = hasError(result!);
+  const errors = errored ? result!.errors : null;
+  return (
+    <>
+      {errors && (
+        <LeftRightPadding>
+          <ErroneousResultPresenter errors={errors} />
+        </LeftRightPadding>
+      )}
+
+      <Form form={form} setForm={form => setForm(form as PolicyForm)} onSubmit={() => {}}>
+        <PolicyFormBody actions={actions} triggers={triggers} inEventPage={inEventPage} />
+      </Form>
     </>
   );
 }
@@ -353,60 +386,6 @@ function onEditFailure(errors: Error[] | undefined) {
       'policy-edit-failure'
     );
   }
-}
-
-function PolicyDetailsLoader({
-  form,
-  setForm,
-  actions,
-  triggers,
-  result,
-  copy,
-  inEventPage
-}: Readonly<{
-  form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
-  actions: Action[];
-  triggers: Triggers;
-  result: Result<any> | null;
-  copy: boolean;
-  inEventPage: boolean;
-}>) {
-  const errored = hasError(result!);
-  const errors = errored ? result!.errors : null;
-  return (
-    <>
-      {errors && (
-        <LeftRightPadding>
-          <ErroneousResultPresenter errors={errors} />
-        </LeftRightPadding>
-      )}
-      <PolicyDetails
-        key={String(copy)}
-        actions={actions}
-        triggers={triggers}
-        form={form}
-        setForm={form => setForm(form as PolicyForm)}
-        inEventPage={inEventPage}
-      />
-    </>
-  );
-}
-
-interface PolicyDetailsProps {
-  actions: Action[];
-  form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
-  triggers: Triggers;
-  inEventPage: boolean;
-}
-
-function PolicyDetails({ actions, form, setForm, triggers, inEventPage }: PolicyDetailsProps) {
-  return (
-    <Form form={form} setForm={form => setForm(form as PolicyForm)} onSubmit={() => {}}>
-      <PolicyFormBody actions={actions} triggers={triggers} inEventPage={inEventPage} />
-    </Form>
-  );
 }
 
 interface useOnSubmitProps {
