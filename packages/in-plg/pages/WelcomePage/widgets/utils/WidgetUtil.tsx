@@ -111,6 +111,8 @@ export const getItemId = (item: any, widgetName?: string) => {
       return item?.businessProcess?.definitionId;
     case 'dashboardWidget':
       return item?.id;
+    case 'serviceLevelWidget':
+      return item?.configuration?.id;
     default:
       return null;
   }
