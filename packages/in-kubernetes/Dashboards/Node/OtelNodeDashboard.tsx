@@ -147,7 +147,7 @@ function renderButtonLine({ nodeId, timeConfig, result }: RenderButtonLineProps)
     <DashboardButtonLine
       snapshotId={nodeId}
       timeConfig={timeConfig}
-      plugin={plugins.kubernetesNode}
+      plugin={plugins.oTelK8sCluster} /* hide health indicator for now */
       tagFilters={[
         {
           name: 'kubernetes.node.name',
