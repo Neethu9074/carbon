@@ -18,7 +18,7 @@ import locals from './CheckableSuggestion.mless';
 export function CheckableSuggestion({ label, count, checked, onChange }) {
   const id = uniqueId('suglab_');
   const cid = uniqueId('sugchk_');
-  const labelText = <div className={locals.label}>{label}</div>;
+  const labelText = <span className={locals.label}>{label}</span>;
   return (
     <Tooltip content={`${label}`} align="rightMiddle" delay={1000} overwriteBlock>
       <div className={locals.checkableSuggestion}>
