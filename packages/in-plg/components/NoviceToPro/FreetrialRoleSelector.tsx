@@ -11,6 +11,7 @@ import { Tearsheet } from '@instana/ibm-products';
 import { Typography } from '@instana/components';
 
 import RoleSelector from 'in-plg/components/NoviceToPro/assets/RoleSelector.png';
+import { triggerSendNextFreeTrial } from 'in-plg/components/NoviceToPro/segment';
 import { StepOne } from 'in-plg/components/NoviceToPro/RoleSelector/StepOne';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -46,6 +47,7 @@ export default function FreetrialRoleSelector({
 
   const handleNext = () => {
     if (selectedRole) {
+      triggerSendNextFreeTrial();
       handleSubmit();
     }
   };
