@@ -90,6 +90,7 @@
     "type": "Type",
     "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service level objective",
+    "timePickerDisabledTooltip": "Data shown on this page always reflects the most recent SLO time window for each SLO.",
     "timeWindow": {
       "type": "unknown",
       "type_fixed": "Fixed",
