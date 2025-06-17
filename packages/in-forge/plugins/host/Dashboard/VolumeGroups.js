@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { number, percentageTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
@@ -50,6 +50,56 @@ const cols = [
         return row.vol.get('free_size');
       },
       getContent: bytesTwoDecimalPlaces
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.usedPct'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.vol.get('used_pct');
+      },
+      getContent: percentageTwoDecimalPlaces
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.freePct'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.vol.get('free_pct');
+      },
+      getContent: percentageTwoDecimalPlaces
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.activePhysicalVolumes'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.vol.get('active_physical_volumes');
+      },
+      getContent: number.compact
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.physicalVolumes'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.vol.get('physical_volumes');
+      },
+      getContent: number.compact
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.logicalVolumes'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.vol.get('logical_volumes');
+      },
+      getContent: number.compact
     }
   },
   {
