@@ -156,10 +156,10 @@ class InfrastructureMetricChartBehavior extends React.Component {
     this.setupMetricSubscriptionsForAxis(this.y2, queues.y2);
 
     this.subscriptions.push(
-      this.queues$.throttle(1000).subscribe(({ queues, dataHolders, pollRate }) => {
+      this.queues$.throttle(1000).subscribe(({ queues, dataHolders }) => {
         const y1Metrics = this.getMetricsFromQueue(queues.y1, dataHolders.y1, this.y1);
         const y2Metrics = this.getMetricsFromQueue(queues.y2, dataHolders.y2, this.y2);
-        this.setState({ y1Metrics, y2Metrics, pollRate });
+        this.setState({ y1Metrics, y2Metrics });
       })
     );
   };
@@ -189,10 +189,8 @@ class InfrastructureMetricChartBehavior extends React.Component {
   onNewDataPoints = (dataPoints, axisIndex, queue) => {
     // data points are not guaranteed to be filled
     if (dataPoints) {
-      let data = dataPoints.data ?? dataPoints;
-      let pollRate = dataPoints.pollRate ?? 1;
-      queue.addDataPoints(axisIndex, data);
-      this.queues$.emit({ queues: this.queues, dataHolders: this.dataHolders, pollRate: pollRate });
+      queue.addDataPoints(axisIndex, dataPoints);
+      this.queues$.emit({ queues: this.queues, dataHolders: this.dataHolders });
     }
   };
 
@@ -249,7 +247,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
       hasActionlane,
       distanceBetweenDatapointsInMillis
     } = this;
-    const { y1Metrics = [], y2Metrics = [], pollRate } = this.state;
+    const { y1Metrics = [], y2Metrics = [] } = this.state;
 
     y1.metrics = y1Metrics;
     if (y2) {
@@ -273,20 +271,10 @@ class InfrastructureMetricChartBehavior extends React.Component {
         originalTimeConfig={originalTimeConfig ?? this.props.timeConfig}
         additionalContextMenuButtons={additionalContextMenuButtons}
         wiggleRoom={10000}
-        distanceBetweenDatapointsInMillis={getDistanceBetweenDataPointsInMillis(
-          distanceBetweenDatapointsInMillis,
-          pollRate
-        )}
+        distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
       />
     );
   }
-}
-
-function getDistanceBetweenDataPointsInMillis(distanceBetweenDataPoints, pollRate) {
-  if (distanceBetweenDataPoints) {
-    return distanceBetweenDataPoints;
-  }
-  return pollRate ? pollRate * 1000 : undefined;
 }
 
 function mapAxis(axis) {

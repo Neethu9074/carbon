@@ -10,10 +10,10 @@ import { beeInstanaInfraMetricsEnabled, highResolutionInfrastructureMetricsEnabl
 import { fixateTimeConfig, timeConfig$, timeConfigShiftedForIngestion } from 'in-stores/time/config';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
-import createMetricsObservable from 'in-subscription/metricsWithMetadata';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { days, hours, minutes, seconds } from 'in-services/time';
+import createMetricsObservable from 'in-subscription/metrics';
 import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
 
