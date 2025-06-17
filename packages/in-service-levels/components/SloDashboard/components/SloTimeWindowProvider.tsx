@@ -7,7 +7,7 @@
 import React, { ReactNode, createContext, useMemo } from 'react';
 import _ from 'lodash';
 
-import { Progress, TimeConfig, TimeWindow } from '@instana/types';
+import { Progress, Result, TimeConfig, TimeWindow } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
 import useCorrectionWindows, {
@@ -41,7 +41,7 @@ export interface TimeWindowContext {
   selectedTimeWindowType: AvailableTimeWindowTypes;
   updateSelectedTimeWindowType: (timeWindowType: AvailableTimeWindowTypes) => void;
   progress: Progress;
-  correctionData: CorrectionWithConfiguration | undefined;
+  correctionData: Result<CorrectionWithConfiguration>;
 }
 
 const defaultTimeWindowType = SloTimeWindowTypes.SELECTED_TIME;
@@ -100,7 +100,7 @@ function useSelectedTimeWindowContext({
 
   const [currentTimeWindow] = timeWindows ?? [];
   const correctionTimeConfig = selectedTimeWindowType === 'SLO_TIME_WINDOW' ? currentTimeWindow : timeConfig;
-  const [correctionData, , , correctionProgress] = useCorrectionWindows({
+  const correctionData = useCorrectionWindows({
     sloConfigId,
     timeConfig: correctionTimeConfig
   });
@@ -123,7 +123,7 @@ function useSelectedTimeWindowContext({
     themes,
     timeWindowTypeParameterDefinition,
     loading,
-    correctionProgress.loading
+    correctionData.progress.loading
   ]);
 }
 

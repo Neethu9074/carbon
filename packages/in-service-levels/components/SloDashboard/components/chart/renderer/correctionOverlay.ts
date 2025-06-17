@@ -6,12 +6,11 @@
 
 import { Renderer, RenderProps } from 'in-components/Chart/renderer/types';
 
-export const overlappingSectionsMetricId = 'overlappingSections';
-export const isCorrectionWindowMetricId = (id: string) => id.startsWith('correctionWindow');
+export const correctionWindowMetricId = 'correctionWindow';
 
 export const correctionOverlay: Renderer<RenderProps> = {
   id: 'correctionOverlay',
-  render: ({ color, config, dataSeries, metricId }) => {
+  render: ({ config, dataSeries, color }) => {
     const { backBufferCtx, xScaleBackBuffer } = config;
     const height = config.height - config.markerPaneHeight - config.timeAxisHeight;
     backBufferCtx.save();
@@ -21,7 +20,7 @@ export const correctionOverlay: Renderer<RenderProps> = {
       const startX = xScaleBackBuffer.getRange(startTimestamp);
       const endX = xScaleBackBuffer.getRange(endTimestamp);
 
-      backBufferCtx.fillStyle = metricId === overlappingSectionsMetricId ? 'grey' : color;
+      backBufferCtx.fillStyle = color;
       backBufferCtx.fillRect(startX, config.markerPaneHeight, endX - startX, height);
       backBufferCtx.restore();
     }

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, Fragment, ReactNode, useMemo, useState } from 'react';
 
 import {
   DataTable,
@@ -12,6 +12,9 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableExpandedRow,
+  TableExpandHeader,
+  TableExpandRow,
   TableHead,
   TableHeader,
   TableRow,
@@ -37,6 +40,7 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
   isSearchable,
   filterRows,
   searchText,
+  isExpandable,
   sortRow,
   toolBarContent,
   actionButtonContent,
@@ -46,6 +50,18 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
   errorHeader
 }: CarbonDataTableProps<ITEM_TYPE, PropsType>) => {
   const showToolbar = isSearchable || toolBarContent || actionButtonContent;
+  const [expandedRowIds, setExpandedRowIds] = useState(new Set());
+
+  const rowIdToExpanded = useMemo(() => {
+    const map: Record<string, ReactNode> = {};
+    rows.forEach(row => {
+      if (row.expanded) {
+        map[row.id] = row.expanded;
+      }
+    });
+    return map;
+  }, [rows]);
+
   const handleHeaderClick = (
     header: CarbonHeader<ITEM_TYPE, PropsType>,
     headers: CarbonHeader<ITEM_TYPE, PropsType>[],
@@ -59,7 +75,7 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
 
   return (
     <DataTable rows={rows} headers={headers}>
-      {({ rows, headers, getHeaderProps, onInputChange }) => (
+      {({ rows, headers, getHeaderProps, onInputChange, getRowProps }) => (
         <TableContainer>
           <>
             {showToolbar && (
@@ -85,6 +101,7 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
               <Table>
                 <TableHead>
                   <TableRow>
+                    {isExpandable && <TableExpandHeader aria-label="expand row" />}
                     {headers.map((header: CarbonHeader<ITEM_TYPE, PropsType>) => (
                       <TableHeader
                         {...getHeaderProps?.({
@@ -108,13 +125,41 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
                 </TableHead>
 
                 <TableBody>
-                  {rows.map(row => (
-                    <TableRow key={row.id}>
-                      {row.cells.map(cell => (
-                        <TableCell key={cell.id}>{cell.value}</TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
+                  {isExpandable &&
+                    rows.map(row => {
+                      const isExpanded = expandedRowIds.has(row.id);
+                      return (
+                        <Fragment key={row.id}>
+                          <TableExpandRow
+                            {...getRowProps({ row })}
+                            isExpanded={isExpanded}
+                            onExpand={() => {
+                              const newIds = new Set(expandedRowIds);
+                              if (isExpanded) newIds.delete(row.id);
+                              else newIds.add(row.id);
+                              setExpandedRowIds(newIds);
+                            }}
+                          >
+                            {row.cells.map(cell => (
+                              <TableCell key={cell.id}>{cell.value}</TableCell>
+                            ))}
+                          </TableExpandRow>
+                          {isExpanded && (
+                            <TableExpandedRow colSpan={headers.length + 2}>
+                              {rowIdToExpanded[row.id] ?? ''}
+                            </TableExpandedRow>
+                          )}
+                        </Fragment>
+                      );
+                    })}
+                  {!isExpandable &&
+                    rows.map(row => (
+                      <TableRow key={row.id}>
+                        {row.cells.map(cell => (
+                          <TableCell key={cell.id}>{cell.value}</TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
                   {rows.length === 0 && (
                     <TableRow>
                       <TableCell colSpan={headers.length}>

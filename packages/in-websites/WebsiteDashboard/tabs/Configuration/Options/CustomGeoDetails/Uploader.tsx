@@ -5,8 +5,8 @@
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-import { Card, Stack, Link, Button } from '@instana/components';
-import { FileInputButton } from '@instana/components';
+import { Card, Stack, Link, Button, FileInputButton} from '@instana/components';
+import { Form } from '@instana/carbon';
 
 import { put } from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/CustomGeoDetails/apiCall';
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
@@ -33,7 +33,7 @@ export default function Uploader({ apiUrl, documentationUrl }: Props) {
 
   return (
     <OptionsRow>
-      <form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit}>
         <Card title={t('in-websites:websiteDashboard.tabs.configuration.customGeoDetails.uploader.title')}>
           <HelpParagraph>
             <Trans
@@ -49,7 +49,12 @@ export default function Uploader({ apiUrl, documentationUrl }: Props) {
           </HelpParagraph>
 
           <Stack direction="horizontal" align="start">
-            <FileInputButton accept="text/csv,.csv" onChange={onChange} disabled={state.loading} />
+            <FileInputButton
+              accept="text/csv,.csv"
+              onChange={onChange}
+              disabled={state.loading}
+              aria-label={t('in-websites:websiteDashboard.tabs.configuration.customGeoDetails.uploader.title')}
+            />
             <Button
               type="submit"
               kind="create"
@@ -62,7 +67,7 @@ export default function Uploader({ apiUrl, documentationUrl }: Props) {
             {state.errorMessage && <SaveError>{state.errorMessage}</SaveError>}
           </Stack>
         </Card>
-      </form>
+      </Form>
     </OptionsRow>
   );
 

@@ -14,6 +14,10 @@ import { user } from 'in-stores/user';
 
 const baseUrl = '/api/tracking/freeTrialSelection';
 
+const pageLoadUrl = '/api/tracking/freeTrialSelectionPageLoad';
+
+const nextUrl = '/api/tracking/freeTrialNext';
+
 export function sendFreeTrialSelectionSegmentEvent(data: segmentWithMetaData): Observable<segmentWithMetaData> {
   return http<segmentData>({
     method: 'POST',
@@ -31,5 +35,45 @@ export function triggerFreeTrialSelectionSegmentEvent(data: segmentData) {
   const logger = createLogger('in-plg/components/NoviceToPro/GetStartedFreetrial');
   result$.errors().once(error => {
     logger.error(`Failed to send ${data?.type} cta event : ${error}`, error);
+  });
+}
+
+export function sendPageLoadFreeTrial(data: segmentWithMetaData): Observable<segmentWithMetaData> {
+  return http<segmentData>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${pageLoadUrl}`,
+    data
+  }).map(response => response.body);
+}
+
+export function triggerPageLoadFreeTrial() {
+  //@ts-expect-error
+  const payload = { altUserId: user?.id };
+  const result$ = sendPageLoadFreeTrial(payload);
+  const logger = createLogger('in-plg/components/NoviceToPro/FreetrialRoleSelector');
+  result$.errors().once(error => {
+    logger.error(`Failed to send Page Load event : ${error}`, error);
+  });
+}
+
+export function sendNextSegmentEvent(data: segmentWithMetaData): Observable<segmentWithMetaData> {
+  return http<segmentData>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${nextUrl}`,
+    data
+  }).map(response => response.body);
+}
+
+export function triggerSendNextFreeTrial() {
+  //@ts-expect-error
+  const payload = { altUserId: user?.id };
+  const result$ = sendNextSegmentEvent(payload);
+  const logger = createLogger('in-plg/components/NoviceToPro/GetStartedFreetrial');
+  result$.errors().once(error => {
+    logger.error(`Failed to send Page Load event : ${error}`, error);
   });
 }

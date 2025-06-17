@@ -13,19 +13,19 @@ import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import { overlappingSectionsMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
+import { correctionWindowMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import { ResultAwareChartMetrics } from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import { Group } from 'in-service-levels/hooks/useCorrectionWindowOverlay';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes, number } from 'in-services/formatters/number';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { hexToRGBA } from 'in-services/formatters/color';
 import { sloMetrics } from 'in-service-levels/metrics';
-import { lighten } from 'in-services/formatters/color';
-import { chartColors } from 'in-themes/chartColors';
+import { carbonAlert } from 'in-themes/chartColors';
+import { t } from 'in-i18n';
 
 interface ControlledSloErrorBudgetChartProps {
   automaticallySize?: boolean;
@@ -40,9 +40,7 @@ interface ControlledSloErrorBudgetChartProps {
   metrics?: ResultAwareChartMetrics;
   title?: string;
   renderPostChartContent?: Parameters<typeof ResultAwareChart>[0]['config']['renderPostChartContent'];
-  onLegendItemToggle?: (id: string) => void;
-  groups?: Group[];
-  overlappingSections?: MetricDataSeries;
+  correctionWindowMetrics?: MetricDataSeries;
 }
 
 export default function ControlledSloErrorBudgetChart({
@@ -58,9 +56,7 @@ export default function ControlledSloErrorBudgetChart({
   errors,
   title,
   renderPostChartContent,
-  onLegendItemToggle,
-  groups = [],
-  overlappingSections = []
+  correctionWindowMetrics
 }: ControlledSloErrorBudgetChartProps) {
   const { indicator, createdDate } = configuration;
 
@@ -78,7 +74,7 @@ export default function ControlledSloErrorBudgetChart({
   const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
   const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
 
-  const hasCorrectionWindows = groups.length > 0;
+  const hasCorrectionWindows = correctionWindowMetrics !== undefined && correctionWindowMetrics.length > 0;
   return (
     <ResultAwareChart
       config={{
@@ -90,54 +86,27 @@ export default function ControlledSloErrorBudgetChart({
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
         reverseLegendOrder: hasCorrectionWindows,
-        onLegendItemToggle: (_, __, id) => onLegendItemToggle?.(id),
         y1: {
           metricIds: [
-            ...(hasCorrectionWindows
-              ? [...groups.map(({ id }) => `correctionWindow-${id}`), overlappingSectionsMetricId]
-              : []),
+            ...(hasCorrectionWindows ? [correctionWindowMetricId] : []),
             ...timeWindowsWithData.map((_, index) => `timeWindows${index}`)
           ],
-          metrics: [
-            ...(hasCorrectionWindows ? [...groups.map(({ metrics }) => metrics), overlappingSections] : []),
-            ...chartMetrics
-          ],
+          metrics: [...(hasCorrectionWindows ? [correctionWindowMetrics] : []), ...chartMetrics],
           min,
           max,
-          excludedLabelsFromTooltip: [...groups.map(({ name }) => name), overlappingSectionsMetricId],
-          excludedLabelsFromLegend: [overlappingSectionsMetricId],
+          excludedLabelsFromTooltip: [t('in-service-levels:general.metrics.correctionWindows')],
           labels: [
-            ...(hasCorrectionWindows ? [...groups.map(({ name }) => name), overlappingSectionsMetricId] : []),
+            ...(hasCorrectionWindows ? [t('in-service-levels:general.metrics.correctionWindows')] : []),
             ...timeWindowsWithData.map(() => sloMetrics.remainingBudget.label)
           ],
           icons: {
-            colors: [
-              ...(hasCorrectionWindows
-                ? [
-                    ...groups.map((_, i) =>
-                      lighten(chartColors.strokeColors100[i % chartColors.strokeColors100.length], 0.25)
-                    ),
-                    ''
-                  ]
-                : []),
-              ...windowColorsWithData
-            ],
+            colors: [...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []), ...windowColorsWithData],
             types: [
-              ...(hasCorrectionWindows ? [...groups.map(() => 'lib_actions_stop'), ''] : []),
-              ...timeWindowsWithData.map(() => 'lib_circle_fill')
+              ...(hasCorrectionWindows ? ['lib_actions_stop'] : []),
+              ...timeWindowsWithData.map(() => 'lib_legend_line_chart')
             ]
           },
-          colors: [
-            ...(hasCorrectionWindows
-              ? [
-                  ...groups.map((_, i) =>
-                    lighten(chartColors.strokeColors100[i % chartColors.strokeColors100.length], 0.25)
-                  ),
-                  ''
-                ]
-              : []),
-            ...windowColorsWithData
-          ],
+          colors: [...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []), ...windowColorsWithData],
           renderer,
           formatter
         },

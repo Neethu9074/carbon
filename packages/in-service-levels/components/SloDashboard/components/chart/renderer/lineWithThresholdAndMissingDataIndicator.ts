@@ -5,14 +5,13 @@
  */
 
 import {
-  correctionOverlay,
-  isCorrectionWindowMetricId,
-  overlappingSectionsMetricId
-} from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
-import {
   timeWindowIncludesFirstCollectionTimestamp,
   renderMissingDataIndicator
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
+import {
+  correctionOverlay,
+  correctionWindowMetricId
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 import { RenderWithMissingDataIndicatorProps } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import { lineWithThreshold } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { RenderProps, Renderer } from 'in-components/Chart/renderer/types';
@@ -26,7 +25,7 @@ function createLineWithThresholdAndMissingDataIndicatorRenderer({
   return {
     id: 'lineWithThresholdAndMissingDataIndicator',
     render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {
-      if (metricId === overlappingSectionsMetricId || (metricId && isCorrectionWindowMetricId(metricId))) {
+      if (metricId === correctionWindowMetricId) {
         correctionOverlay.render({ color, scale, config, dataSeries, metricId });
         return;
       }

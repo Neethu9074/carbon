@@ -62,7 +62,6 @@ export default function AgentViewRouter({
     trackingService.agentDetailsPageOpened();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <Stack>
       <ViewTrackingMeta

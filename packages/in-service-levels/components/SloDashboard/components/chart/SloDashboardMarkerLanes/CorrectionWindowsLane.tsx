@@ -19,6 +19,7 @@ import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowCon
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 import { ChartContentPostition } from 'in-components/Chart/types';
+import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 export type CorrectionWindowWithName = CorrectionWindow & { name?: string };
@@ -32,9 +33,9 @@ function useCorrectionWindowMarkerLaneEvents(clusterSizeMillis: number): Correct
   return useMemo(
     () => {
       const correctionWindowsWithNames =
-        correctionData?.correction?.correctionWindows?.map(window => {
+        correctionData.data?.correction?.correctionWindows?.map(window => {
           const [id] = window.correctionConfigs ?? [];
-          const config = correctionData?.configurations?.find(config => config.id === id)!;
+          const config = correctionData.data?.configurations?.find(config => config.id === id)!;
           return {
             name: config.name,
             ...window
@@ -73,6 +74,7 @@ export default function CorrectionWindowsLane({ chartContentPosition, ...remaini
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const { clusterSizeMillis } = remainingProps as PresentedLaneProps;
   const events = useCorrectionWindowMarkerLaneEvents(clusterSizeMillis);
+  const { correctionData } = useSloTimeWindowContext();
 
   return (
     <MarkersLane<CorrectionWindowMarkerLaneEvent>
@@ -83,6 +85,7 @@ export default function CorrectionWindowsLane({ chartContentPosition, ...remaini
       chartContentPosition={chartContentPosition}
       LaneItem={CorrectionWindowsLaneItem}
       isClustered
+      isLoading={isLoading(correctionData)}
       HoverOverlay={HoverLine}
       TooltipContent={CorrectionWindowsLaneTooltipContent}
     />
@@ -102,7 +105,7 @@ const CorrectionWindowsLaneItem = forwardRef(function CorrectionWindowsLaneItem(
           iconConfig={{
             type: 'lib_correction_window',
             typeCluster: 'lib_correction_window_multiple',
-            color: themes.default.ids.color.option.blue['500']
+            color: themes.default.cds.icon.primary
           }}
         />
       )}

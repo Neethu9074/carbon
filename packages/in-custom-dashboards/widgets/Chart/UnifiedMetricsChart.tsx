@@ -17,6 +17,12 @@ import {
 import { useObservable } from '@instana/hooks';
 
 import {
+  awsMetricStreamsPlugin,
+  DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS,
+  DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL,
+  oTelPlugins
+} from 'in-forge/constants';
+import {
   applyFilteredConfiguration,
   FilterResult,
   summarizeFilterResult,
@@ -46,7 +52,6 @@ import { enrichBySettingDataSource } from 'in-custom-dashboards/widgets/_shared/
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
-import { DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL, oTelPlugins } from 'in-forge/constants';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
@@ -445,7 +450,8 @@ function addForAxis(
       timeShift,
       unit,
       type,
-      ...(type in oTelPlugins && { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL })
+      ...((type in oTelPlugins && { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL }) ||
+        (type in awsMetricStreamsPlugin && { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS }))
     };
 
     // For grouped metrics one metric configuration will result in multiple data series and

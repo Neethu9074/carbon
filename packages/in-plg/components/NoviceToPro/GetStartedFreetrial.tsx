@@ -5,14 +5,14 @@
  */
 
 import { ArrowRight, Launch } from '@carbon/icons-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Button, ProgressIndicator, ProgressStep, Stack } from '@instana/carbon';
 import { Tearsheet } from '@instana/ibm-products';
 import { Typography } from '@instana/components';
 
+import { triggerFreeTrialSelectionSegmentEvent, triggerPageLoadFreeTrial } from 'in-plg/components/NoviceToPro/segment';
 import { UserSettings, userSettings as userSettingsGlobal } from 'in-services/userSettings/globals';
-import { triggerFreeTrialSelectionSegmentEvent } from 'in-plg/components/NoviceToPro/segment';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import GetStarted from 'in-plg/components/NoviceToPro/assets/GetStarted.png';
 import { saveUserSettings } from 'in-services/userSettings';
@@ -48,6 +48,10 @@ export default function GetStartedFreetrial({ handleButtonClick }: GetStartedFre
       window.instana.termsAndPrivacySettings = savedBackendSettings as UserSettings;
     });
   };
+
+  useEffect(() => {
+    triggerPageLoadFreeTrial();
+  }, []);
 
   return (
     //@ts-expect-error: Suppressing this error as the `children` prop is unsupported in the type definitions.

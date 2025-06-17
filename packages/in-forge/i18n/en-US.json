@@ -269,6 +269,11 @@
   "pluginName_awsDocumentDbElasticCluster_1": "AWS DocumentDB Elastic Cluster",
   "pluginName_awsDocumentDbElasticCluster_2": "AWS DocumentDB Elastic Clusters",
   "pluginName_awsDocumentDbElasticCluster": "AWS DocumentDB Elastic Cluster",
+  "pluginName_awsMetricStreams_plural": "AWS Metric Streams Entities",
+  "pluginName_awsMetricStreams_0": "AWS Metric Streams Entities",
+  "pluginName_awsMetricStreams_1": "AWS Metric Streams Entity",
+  "pluginName_awsMetricStreams_2": "AWS Metric Streams Entities",
+  "pluginName_awsMetricStreams": "AWS Metric Streams Entity",
   "pluginName_azure_plural": "Azure Instances",
   "pluginName_azure_0": "Azure Instances",
   "pluginName_azure_1": "Azure Instances",
@@ -5436,6 +5441,16 @@
       "labelPredictiveScalingLoadForecast": "Predictive Scaling Load Forecast",
       "labelPredictiveScalingCapacityForecast": "Predictive Scaling Capacity Forecast",
       "labelPredictiveScalingMetricPairCorrelation": "Predictive Scaling Metric Pair Correlation"
+    },
+    "awsMetricStreams": {
+      "infoTitle": {
+        "arn": "ARN",
+        "region": "Region",
+        "accountId": "Account ID",
+        "namespace": "Namespace",
+        "exporterArn": "AWS Exporter ARN"
+      },
+      "headerInfo": "AWS Metric Streams Entity info"
     },
     "azure": {
       "dashboard": {
