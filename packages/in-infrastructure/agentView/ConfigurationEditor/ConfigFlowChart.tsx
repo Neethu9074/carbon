@@ -10,7 +10,6 @@ import { path as d3Path } from 'd3-path';
 import YAML from 'yaml';
 
 import { Edge } from '@instana/carbon-charts';
-import '@instana/carbon-charts/lib/index.css';
 
 import ProcessorNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ProcessorNode';
 import ReceiverNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ReceiverNode';
@@ -18,6 +17,10 @@ import ExporterNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/
 import PipelineNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/PipelineNode';
 import { PipeNode, PipeEdge } from 'in-infrastructure/agentView/ConfigurationEditor/types';
 import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
+
+interface EditorConfig {
+  config: string;
+}
 
 function Link({ link }: { link: ElkExtendedEdge }) {
   const sections = link.sections![0];
@@ -35,7 +38,7 @@ function Link({ link }: { link: ElkExtendedEdge }) {
   return <Edge path={path.toString()} markerEnd="arrow" variant="dash-sm" />;
 }
 
-function parseNodeData(editorValue: any) {
+function parseNodeData(editorValue: EditorConfig) {
   if (editorValue.config == '') {
     return [];
   }
@@ -141,7 +144,7 @@ function calcEdges(pipelineData: PipeNode[]) {
   return edges;
 }
 
-export default function ConfigFlowChart(config: string) {
+export default function ConfigFlowChart(config: EditorConfig) {
   const [positions, setPositions] = useState<PipeNode>();
   let nodeData: PipeNode[] = [];
   let edgeData: PipeEdge[] = [];
