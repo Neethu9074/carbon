@@ -315,7 +315,12 @@
       "hideTask": "Hide",
       "showEnterprise": "See the value of Kubecost Enterprise",
       "configureforFree": "Configure Kubecost for free"
-    }
+    },
+    "filesystemCapacity": "Filesystem capacity",
+    "filesystemAvailable": "Filesystem available",
+    "filesystemResources": "Filesystem resources",
+    "memoryAvailable": "Memory available",
+    "cpuUtilization": "CPU utilization"
   },
   "cloudNative": {
     "unhealthyNodes": "Unhealthy nodes",

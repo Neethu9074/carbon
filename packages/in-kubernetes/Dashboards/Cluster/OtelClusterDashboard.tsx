@@ -177,7 +177,7 @@ export default function ClusterDashboard() {
       <>
         <DashboardButtonLine
           snapshotId={clusterId}
-          plugin={plugins.kubernetesCluster}
+          plugin={plugins.oTelK8sCluster}
           timeConfig={timeConfig}
           tagFilters={[]}
         />

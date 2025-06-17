@@ -54,13 +54,15 @@ export default function KubernetesViewSwitcher() {
             label={clusterLabel}
             isActive={matchLocation(clusterListFullyQualified)}
           />
-          <SecondLevelNavigationItem
-            href={createHrefToPath(namespaceListFullyQualified)}
-            icon="lib_kubernetes_namespace"
-            label={namespacesLabel}
-            isActive={matchLocation(namespaceListFullyQualified)}
-          />
-          {kubernetesExploreEnabled && !playwithEnabled && (
+          {!isOtelCluster && (
+            <SecondLevelNavigationItem
+              href={createHrefToPath(namespaceListFullyQualified)}
+              icon="lib_kubernetes_namespace"
+              label={namespacesLabel}
+              isActive={matchLocation(namespaceListFullyQualified)}
+            />
+          )}
+          {kubernetesExploreEnabled && !playwithEnabled && !isOtelCluster && (
             <SecondLevelNavigationItem
               href={createHrefToPath(exploreFullyQualified)}
               icon="lib_kubernetes"
