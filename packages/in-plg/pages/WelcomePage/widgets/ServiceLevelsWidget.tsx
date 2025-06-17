@@ -112,7 +112,9 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
     {
       key: 'name',
       getContent({ item }) {
-        return <SloCellRenderer item={item} render={sloListItem => <SloNameColumnContent item={sloListItem} />} />;
+        return (
+          <SloCellRenderer item={item} render={sloListItem => <SloNameColumnContent item={sloListItem} isLink />} />
+        );
       }
     },
     {
@@ -195,7 +197,7 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
       getItems={(params: any) => {
         return getAllSloConfigurations({ ...params, ...sloConfigurationsArguments });
       }}
-      getItem={(id: any) => {
+      getItem={(id: string) => {
         return getSloConfiguration(id);
       }}
       hasAddPermission={role?.canConfigureServiceLevelIndicators}
