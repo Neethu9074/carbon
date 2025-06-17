@@ -552,7 +552,8 @@
     "efficiency_improvement": "Efficiency improvement",
     "savings": "Savings",
     "performance": "Performance",
-    "performance_assurance": "Performance assurance"
+    "performance_assurance": "Performance assurance",
+    "unknown": "Unknown"
   },
   "resourceOptimization": {
     "details": "Resource optimization details",
