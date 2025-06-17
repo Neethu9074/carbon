@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -16,6 +16,7 @@ import { t } from 'in-i18n';
 interface AutomationCardButtonGroupProps {
   recommendedActionsCount: number | undefined;
   actionHistoryCount: number | undefined;
+  hasRCA: boolean;
 }
 
 type ButtonKey = 'recommendedActions' | 'actionHistory';
@@ -35,9 +36,13 @@ export const setActiveKey = (activeKey: ButtonKey) => activeKeyStore.mutateTo(ac
 
 export default function AutomationCardButtonGroup({
   recommendedActionsCount,
-  actionHistoryCount
+  actionHistoryCount,
+  hasRCA
 }: AutomationCardButtonGroupProps) {
   const activeKey = useActiveKey();
+  useEffect(() => {
+    if (hasRCA) setActiveKey('actionHistory');
+  }, [hasRCA]);
   const { recommendedActionsTabClickTrackerSegment } = useSegmentTracker();
 
   const buttonProps = [
@@ -61,6 +66,9 @@ export default function AutomationCardButtonGroup({
       onClick: () => setActiveKey('actionHistory')
     }
   ];
+  if (hasRCA) {
+    return null;
+  }
 
   return <ButtonGroup buttonPropsList={buttonProps} activeKey={activeKey} segmented />;
 }
