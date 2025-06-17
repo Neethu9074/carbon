@@ -142,7 +142,8 @@
       "goodEvents": "Good events",
       "badEvents": "Bad events",
       "erroneousCalls": "Erroneous calls",
-      "beaconErrorCount": "Beacon error count"
+      "beaconErrorCount": "Beacon error count",
+      "correctionWindows": "Correction windows"
     },
     "frequency": {
       "label": "Unknown",

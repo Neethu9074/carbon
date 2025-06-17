@@ -8,8 +8,8 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 
+import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
-import useCorrectionWindowOverlay from 'in-service-levels/hooks/useCorrectionWindowOverlay';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import SloBurnRateChart from 'in-service-levels/components/Shared/SloBurnRateChart';
 
@@ -28,9 +28,9 @@ export default function BurnRateChart({
   configuration,
   title
 }: BurnRateChartProps) {
-  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, correctionData } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
-  const { onLegendItemToggle, groups, overlappingSections } = useCorrectionWindowOverlay();
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data);
 
   return (
     <SloBurnRateChart
@@ -39,9 +39,7 @@ export default function BurnRateChart({
       customChartSkeletonHeight={customChartSkeletonHeight}
       timeConfig={timeConfig}
       timeWindows={timeWindows}
-      onLegendItemToggle={onLegendItemToggle}
-      groups={groups}
-      overlappingSections={overlappingSections}
+      correctionWindowMetrics={correctionWindowMetrics}
       timeWindowColors={timeWindowColors}
       configuration={configuration}
       title={title}

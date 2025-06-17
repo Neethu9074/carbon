@@ -17,7 +17,6 @@ import {
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import { pendingResult } from 'in-services/fixedObjects';
-import { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';
 
 export interface CorrectionWithConfiguration {
@@ -28,7 +27,7 @@ export interface CorrectionWithConfiguration {
 export default function useCorrectionWindows({
   sloConfigId,
   timeConfig
-}: GetCorrectionWindowsArguments): FetchedState<CorrectionWithConfiguration> {
+}: GetCorrectionWindowsArguments): Result<CorrectionWithConfiguration> {
   const result =
     useObservable(() => {
       if (!sloConfigId || !timeConfig) return just(success<Correction>({}));
@@ -45,13 +44,12 @@ export default function useCorrectionWindows({
     resultToFetchedStateResponse(configurationsResult);
   const progress = allProgress(configurationsProgress, correctionProgress);
   const errors = [...configurationsErrors, ...correctionErrors];
-  return [
-    {
+  return {
+    progress,
+    data: {
       correction: correction!,
       configurations: configurations?.items!
     },
-    'resolved',
-    errors,
-    progress
-  ];
+    errors
+  };
 }

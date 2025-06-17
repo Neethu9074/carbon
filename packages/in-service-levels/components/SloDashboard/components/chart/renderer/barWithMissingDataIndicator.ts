@@ -5,14 +5,13 @@
  */
 
 import {
-  correctionOverlay,
-  isCorrectionWindowMetricId,
-  overlappingSectionsMetricId
-} from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
-import {
   timeWindowIncludesFirstCollectionTimestamp,
   renderMissingDataIndicator
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
+import {
+  correctionOverlay,
+  correctionWindowMetricId
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 import { RenderWithMissingDataIndicatorProps } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import { MultiMetricRenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import Configuration from 'in-components/Chart/Configuration';
@@ -39,7 +38,7 @@ function createBarWithMissingDataIndicatorRenderer({
           continue;
         }
         const color = colors100[i]!;
-        if (metricId === overlappingSectionsMetricId || (metricId && isCorrectionWindowMetricId(metricId))) {
+        if (metricId === correctionWindowMetricId) {
           correctionOverlay.render({ color, scale, config, dataSeries, metricId });
         } else {
           filteredMetricIds.push(metricId);

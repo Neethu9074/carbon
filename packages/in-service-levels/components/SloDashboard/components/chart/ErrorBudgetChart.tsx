@@ -8,8 +8,8 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 
+import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
-import useCorrectionWindowOverlay from 'in-service-levels/hooks/useCorrectionWindowOverlay';
 import SloErrorBudgetChart from 'in-service-levels/components/Shared/SloErrorBudgetChart';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 
@@ -28,9 +28,9 @@ export default function ErrorBudgetChart({
   configuration,
   title
 }: ErrorBudgetChartProps) {
-  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, correctionData } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
-  const { onLegendItemToggle, groups, overlappingSections } = useCorrectionWindowOverlay();
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data);
 
   return (
     <SloErrorBudgetChart
@@ -39,9 +39,7 @@ export default function ErrorBudgetChart({
       customChartSkeletonHeight={customChartSkeletonHeight}
       timeConfig={timeConfig}
       timeWindows={timeWindows}
-      onLegendItemToggle={onLegendItemToggle}
-      groups={groups}
-      overlappingSections={overlappingSections}
+      correctionWindowMetrics={correctionWindowMetrics}
       timeWindowColors={timeWindowColors}
       configuration={configuration}
       title={title}

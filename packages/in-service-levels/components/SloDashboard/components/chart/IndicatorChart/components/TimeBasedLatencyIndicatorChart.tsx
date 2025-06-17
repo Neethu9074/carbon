@@ -15,7 +15,6 @@ import {
   ServiceLevelObjectiveConfiguration,
   SloEntityUnion
 } from '@instana/types';
-import { themes } from '@instana/design-tokens';
 
 import { useLineWithThresholdAndMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThresholdAndMissingDataIndicator';
 import {
@@ -23,23 +22,23 @@ import {
   filterMetricValuesWithinTimeWindow
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
-import { overlappingSectionsMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
+import { correctionWindowMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
+import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useTimeBasedIndicatorMetrics from 'in-service-levels/hooks/useTimeBasedIndicatorMetrics';
-import useCorrectionWindowOverlay from 'in-service-levels/hooks/useCorrectionWindowOverlay';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
+import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { hexToRGBA } from 'in-services/formatters/color';
 import { millis } from 'in-services/formatters/number';
-import { lighten } from 'in-services/formatters/color';
-import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 const metricId = 'latency';
@@ -66,7 +65,7 @@ export default function TimeBasedLatencyIndicatorChart({
 }: TimeBasedLatencyIndicatorChartProps) {
   const { threshold, aggregation } = indicator;
   const sloZoomInAction = useSloZoomInAction();
-  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, correctionData } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
   const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows, aggregation, timeConfig });
@@ -83,12 +82,13 @@ export default function TimeBasedLatencyIndicatorChart({
   const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
   const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
 
-  const { onLegendItemToggle, groups, overlappingSections } = useCorrectionWindowOverlay();
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data) ?? [];
 
   const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
   });
 
+  const hasCorrectionWindows = correctionWindowMetrics.length > 0;
   return (
     <ResultAwareChart
       config={{
@@ -106,48 +106,38 @@ export default function TimeBasedLatencyIndicatorChart({
         excludedContextMenuActions: [zoomInAction.name],
         granularity: result.data?.[0]?.granularity ?? granularity,
         reverseLegendOrder: true,
-        onLegendItemToggle: (_, __, id) => onLegendItemToggle(id),
         y1: {
           icons: {
             colors: [
-              ...groups.map((_, i) =>
-                lighten(chartColors.strokeColors100[i % chartColors.strokeColors100.length], 0.25)
-              ),
-              '',
-              themes.default.ids.color.option.red['500'],
+              ...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []),
+              carbonCategorical.red50,
               ...windowColorsWithData
             ],
             types: [
-              ...groups.map(() => 'lib_actions_stop'),
-              '',
-              'lib_circle_fill',
-              ...timeWindowsWithData.map(() => 'lib_circle_fill')
+              ...(hasCorrectionWindows ? ['lib_actions_stop'] : []),
+              'lib_legend_threshold',
+              ...timeWindowsWithData.map(() => 'lib_legend_line_chart')
             ]
           },
           colors: [
-            ...groups.map((_, i) => lighten(chartColors.strokeColors100[i % chartColors.strokeColors100.length], 0.25)),
-            '',
-            themes.default.ids.color.option.red['500'],
+            ...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []),
+            carbonCategorical.red50,
             ...windowColorsWithData
           ],
           formatter: millis.forcedCompactOnMs,
           labels: [
-            ...groups.map(({ name }) => name),
-            overlappingSectionsMetricId,
+            ...(hasCorrectionWindows ? [t('in-service-levels:general.metrics.correctionWindows')] : []),
             t('in-service-levels:general.metrics.threshold'),
             ...timeWindowsWithData.map(() => metricLabel)
           ],
-          excludedLabelsFromTooltip: [...groups.map(({ name }) => name), overlappingSectionsMetricId],
-          excludedLabelsFromLegend: [overlappingSectionsMetricId],
+          excludedLabelsFromTooltip: [t('in-service-levels:general.metrics.correctionWindows')],
           metrics: [
-            ...groups.map(({ metrics }) => metrics),
-            overlappingSections,
+            ...(hasCorrectionWindows ? [correctionWindowMetrics] : []),
             thresholdMetrics,
             ...filteredData.slice(timeWindowStartIndex)
           ],
           metricIds: [
-            ...groups.map(({ id }) => `correctionWindow-${id}`),
-            overlappingSectionsMetricId,
+            ...(hasCorrectionWindows ? [correctionWindowMetricId] : []),
             thresholdMetricId,
             ...timeWindowsWithData.map(() => metricId)
           ],
