@@ -23,8 +23,8 @@ import SloBlueprintColumnContent from 'in-service-levels/components/SloList/comp
 import SloStatusColumnContent from 'in-service-levels/components/SloList/components/SloStatusColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
+import { serviceLevelObjective } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
-import { service as sloType } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { buildSloListItem } from 'in-service-levels/hooks/useSloListItems';
@@ -163,7 +163,7 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
                     : t('in-plg:welcomepage.favouriteButton.aria')
                 }
                 type={isFavourite ? 'lib_actions_favorite_filled' : 'lib_actions_favorite'}
-                onClick={() => handleFavoriteClick(sloListItem, isFavourite, sloType)}
+                onClick={() => handleFavoriteClick(sloListItem, isFavourite, serviceLevelObjective)}
                 iconSize="xs"
                 disabled={isDisabled}
               />
@@ -206,7 +206,7 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
       href={createHrefToPath(serviceLevelsOverview)}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
-      pinnedItemTypes={[sloType]}
+      pinnedItemTypes={[serviceLevelObjective]}
       searchPlaceholderLabel={t('in-plg:welcomepage.component.serviceLevelsWidget.searchPlaceholderLabel')}
       addButtonLabel={t('in-plg:welcomepage.component.serviceLevelsWidget.addButtonLabel')}
       viewAllLabel={t('in-plg:welcomepage.component.serviceLevelsWidget.viewAllLabel')}
