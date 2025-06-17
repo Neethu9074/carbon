@@ -8,7 +8,7 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { IconButton } from '@instana/components';
-import { t } from '@instana/i18n-react';
+import { t } from 'in-i18n';
 
 import {
   GetAllSloConfigurationsArguments,
