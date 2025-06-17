@@ -651,6 +651,10 @@ export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
 export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
 export const EVENT_AI_CLICK_EPWT_LINK = 'event.ai.click.epwt.link';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
+export const EVENT_AI_CHAT_OPEN = 'event.ai.chat.open';
+export const EVENT_AI_CHAT_CLOSE = 'event.ai.chat.close';
+export const EVENT_AI_CHAT_APPLICATION = 'event.ai.chat.application';
+export const EVENT_AI_CHAT_INFRASTRUCTURE = 'event.ai.chat.infrastructure';
 
 // Notes and Activity Summary Feedback Tracking
 export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';

@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { EVENT_AI_CHAT_APPLICATION, EVENT_AI_CHAT_INFRASTRUCTURE } from 'in-services/tracking/tracking';
+import { handleTracking } from 'in-events/components/AIChat/utils';
 import { t } from 'in-i18n';
 
 import locals from './EditableOptions.mless';
@@ -34,12 +36,16 @@ export default function EditableOptions({ messageItem, instance }) {
   return (
     <div className={`${locals.editable} WAC__button-holder`}>
       <ul>
-        {options.map(i => (
+        {options.map((i, index) => (
           <li key={i.key}>
             <button
               disabled={selectedType?.key === i.key || disable}
               onClick={() => {
                 setSelectedType(i);
+                // Application is the first index value and infrastructure is the second
+                // This is temporary because we are moving from this over to prompt library
+                // but until that happens this is good to have
+                handleTracking((i == 0 && EVENT_AI_CHAT_APPLICATION) || EVENT_AI_CHAT_INFRASTRUCTURE);
               }}
               className={classNames(buttonStyle, {
                 'cds--chat-btn--quick-action--selected': selectedType?.key === i.key
