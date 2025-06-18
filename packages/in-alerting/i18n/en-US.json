@@ -1912,7 +1912,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "Long & short alert window",
         "blueprintDescription_STATUS": "Receive an alert when the SLO status falls below a threshold.",
         "blueprintDescription_BURNED_PERCENTAGE": "Receive an alert when a percentage of the error budget is consumed.",
-        "blueprintDescription_BURN_RATE_V2": "Burn rate is a value that indicates how fast your error budget is consumed relative to your SLO's target length. ",
+        "blueprintDescription_BURN_RATE_V2": "Burn rate indicates how fast your error budget is consumed relative to your SLO's target length. It is calculated using the following formula : Burn rate = (error budget consumed * SLO time window) / alerting window.",
         "burnRateShortWindowTitle": "Short alert window",
         "burnRateShortWindowDescription": "Alerts are triggered when the error rate exceeds the threshold faster over a shorter period. This can help capture a sudden spike of errors or downtime due to a critical bug.",
         "burnRateDescription": "Notify me when the burn rate is <1/> <2/>",
