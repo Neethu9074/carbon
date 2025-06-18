@@ -114,12 +114,8 @@ export default function Summary({ data }: { data: SnapshotData }) {
             timeConfig={timeConfig}
             y1={{
               formatter: megaBytes.detailed,
-              metrics: [
-                'customMetrics.memory.allocated',
-                'customMetrics.memory.available',
-                'customMetrics.memory.used'
-              ],
-              labels: [t('in-sap:dashboards.allocated'), t('in-sap:dashboards.available'), t('in-sap:dashboards.used')],
+              metrics: ['customMetrics.memory.allocated', 'customMetrics.memory.used'],
+              labels: [t('in-sap:dashboards.allocated'), t('in-sap:dashboards.used')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -737,7 +737,6 @@
     "info": "Info",
     "warning": "Warning",
     "allocated": "Allocated",
-    "available": "Available",
     "used": "Used",
     "memoryMetrics": "Memory",
     "cpuUsageKpi": "CPU usage",
