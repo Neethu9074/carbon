@@ -1037,6 +1037,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'overrideAdaptiveBaselineSmoothingParamsEnabled',
+    instanaCtlKey: 'feature.override.adaptive.baseline.smoothing.params.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'newOTelPageEnabled',
     instanaCtlKey: 'feature.new.otel.page.enabled',
     defaultValue: false

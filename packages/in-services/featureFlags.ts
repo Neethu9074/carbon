@@ -412,4 +412,7 @@ export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
   'openTelemetryKubernetesUnifiedViewEnabled',
   false
 );
+export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabled(
+  'overrideAdaptiveBaselineSmoothingParamsEnabled'
+);
 export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);
