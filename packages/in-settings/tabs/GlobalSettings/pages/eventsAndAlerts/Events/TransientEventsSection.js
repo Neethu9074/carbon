@@ -4,26 +4,27 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import { union } from 'lodash';
 
 import {
-  Spacer,
   Toggle,
   CarbonRadioButton as RadioButton,
   CarbonRadioButtonGroup as RadioButtonGroup,
-  Dropdown,
-  StackItem
+  Dropdown
 } from '@instana/components';
-import { Stack } from '@instana/carbon';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import HelpText from 'in-components/form/HelpText';
+import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
+
+import locals from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/TransientEventsSection.mless';
 
 /**
  * Field names used in the form-definition file.
@@ -33,13 +34,33 @@ const TRANSIENT_ENABLED = 'transientEnabled';
 const TRANSIENT_THRESHOLD = 'transientThreshold';
 const TRANSIENT_NOTIFICATION = 'transientEventAlertMuted';
 
+const DurationUnit = {
+  minutes: 'MINUTES',
+  hours: 'HOURS'
+};
+
+export const durationToMillis = ({ amount = 0, unit = DurationUnit.minutes }) => {
+  switch (unit) {
+    case DurationUnit.hours:
+      return amount * 60 * 1000;
+    default:
+      return amount * 1000;
+  }
+};
+
+const maxForUnit = unit => (unit === DurationUnit.hours ? 23 : 59);
+
 export default function TransientEventsSection({ form, onChange, disabled }) {
   const enabledField = form.get(TRANSIENT_ENABLED);
   const thresholdField = form.get(TRANSIENT_THRESHOLD);
   const notificationField = form.get(TRANSIENT_NOTIFICATION);
-  const notificationScope = notificationField.value ?? false;
 
-  const enabled = enabledField?.value === true;
+  const enabled = Boolean(enabledField?.value);
+  const alertMuted = Boolean(notificationField?.value);
+  const threshold = thresholdField?.value ?? {
+    amount: '',
+    unit: DurationUnit.minutes
+  };
 
   return (
     <>
@@ -68,43 +89,46 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
       </Row>
 
       <Row>
-        <Col lg={3}>
+        <Col lg={4}>
           {thresholdField && (
             <FormGroup>
               <Label htmlFor="transient-threshold" hasError={!thresholdField.valid && thresholdField.touched}>
                 {t('in-settings:tabs.transientThreshold')}
               </Label>
-              <Input
-                id="transient-threshold"
-                type="number"
-                disabled={disabled || !enabled}
-                value={thresholdField.value ?? ''}
-                onChange={e => onChange(TRANSIENT_THRESHOLD, e.target.value)}
-                hasError={!thresholdField.valid && thresholdField.touched}
-              />
+              <HorizontalFlexWrapper className={locals.gap}>
+                <Input
+                  id="transient-threshold"
+                  type="number"
+                  size={3}
+                  max={maxForUnit(threshold.unit)}
+                  placeholder="#"
+                  disabled={disabled || !enabled}
+                  value={thresholdField.value ?? ''}
+                  onChange={e => onChange(TRANSIENT_THRESHOLD, e.target.value)}
+                  hasError={!thresholdField.valid && thresholdField.touched}
+                />
+                <ComboBox
+                  isClearable={false}
+                  isDisabled={disabled || !enabled}
+                  value={threshold.unit}
+                  options={[
+                    { value: DurationUnit.minutes, label: 'Minutes' },
+                    { value: DurationUnit.hours, label: 'Hours' }
+                  ]}
+                  onChange={v =>
+                    onChange(TRANSIENT_THRESHOLD, {
+                      ...threshold,
+                      unit: v.value
+                    })
+                  }
+                />
+              </HorizontalFlexWrapper>
+
               <TouchedMessages field={thresholdField} />
               <HelpText>{t('in-settings:tabs.thresholdHint')}</HelpText>
               <HelpText>{t('in-settings:tabs.thresholdRecommend')}</HelpText>
             </FormGroup>
           )}
-          <Dropdown
-            itemToString={() => {}}
-            initialSelectedItem={{
-              label: 'Minutes'
-            }}
-            items={[
-              {
-                label: 'Milliseconds'
-              },
-              {
-                label: 'Seconds'
-              },
-              {
-                label: 'Minutes'
-              }
-            ]}
-            label="Minutes"
-          />
         </Col>
       </Row>
 
@@ -118,16 +142,12 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
               <RadioButtonGroup
                 legendText={t('in-settings:tabs.transientNotification')}
                 name="transient-events-notification-radio-button-vertical-group"
-                value={notificationScope ? 'EACH' : 'PERSIST_ONLY'}
+                value={String(alertMuted)}
                 onChange={value => onChange(TRANSIENT_NOTIFICATION, value === 'EACH')}
                 orientation="vertical"
               >
-                <RadioButton
-                  labelText={t('in-settings:tabs.transientNotifyPersistOnly')}
-                  value="PERSIST_ONLY"
-                  id="radio-1"
-                />
-                <RadioButton labelText={t('in-settings:tabs.transientNotifyEach')} value="EACH" id="radio-2" />
+                <RadioButton labelText={t('in-settings:tabs.transientNotifyPersistOnly')} value="true" />
+                <RadioButton labelText={t('in-settings:tabs.transientNotifyEach')} value="false" />
               </RadioButtonGroup>
               <TouchedMessages field={notificationField} />
             </FormGroup>
