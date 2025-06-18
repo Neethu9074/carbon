@@ -4,5 +4,5 @@
  * Copyright IBM Corp. 2025
  */
 
-import Details from '../Dashboard/Sidebar';
+import Details from 'in-forge/plugins/ibmiLicensedProgramInfo/Dashboard/Sidebar';
 export default Details;
