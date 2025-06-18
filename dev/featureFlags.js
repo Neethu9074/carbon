@@ -33,6 +33,7 @@ module.exports = {
   phmcEnabled: true,
   powervcEnabled: true,
   sapEnabled: true,
+  netweaverEnabled: true,
   releaseNotesEnabled: true,
   routeIdOverPathTplEnabled: false,
   skipOnboardingDialog: false,

@@ -10,6 +10,8 @@ import SapMainView from 'promise-loader?global,sap!in-sap/SapMainView';
 import SapAbapInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapInstanceSensor/SapAbapInstanceSensorDashboard';
 import AbapCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapCentralInstance/AbapCentralInstanceDashboard';
 import SapAbapSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapSystemSensor/SapAbapSystemSensorDashboard';
+import SapJavaNetWeaverInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/SapJavaNetWeaverInstanceSensorDashboard';
+import SapJavaNetWeaverSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverSystemSensor/SapJavaNetWeaverSystemSensorDashboard';
 import SapWebDispatcherDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapWebDispatcher/SapWebDispatcherDashboard';
 import SapJavaInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaInstance/SapJavaInstanceDashboard';
 import SapJavaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaSystem/SapJavaSystemDashboard';
@@ -38,7 +40,9 @@ import {
   sapDbTenantDashboardFullyQualified,
   sapDbInstanceDashboardFullyQualified,
   sapAbapInstanceSensorDashboardFullyQualified,
-  sapAbapSystemSensorDashboardFullyQualified
+  sapAbapSystemSensorDashboardFullyQualified,
+  sapJavaNetWeaverInstanceSensorDashboardFullyQualified,
+  sapJavaNetWeaverSystemSensorDashboardFullyQualified
 } from 'in-sap/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
@@ -112,6 +116,16 @@ export default [
     key="sapAbapInstanceSensorDashboard"
     path={sapAbapInstanceSensorDashboardFullyQualified}
     component={createAsyncViewComponent(SapAbapInstanceSensorDashboard)}
+  />,
+  <Route
+    key="sapJavaNetWeaverSystemSensorDashboard"
+    path={sapJavaNetWeaverSystemSensorDashboardFullyQualified}
+    component={createAsyncViewComponent(SapJavaNetWeaverSystemSensorDashboard)}
+  />,
+  <Route
+    key="sapJavaNetWeaverInstanceSensorDashboard"
+    path={sapJavaNetWeaverInstanceSensorDashboardFullyQualified}
+    component={createAsyncViewComponent(SapJavaNetWeaverInstanceSensorDashboard)}
   />,
   <Route key="sapMainView" path={sap} component={createAsyncViewComponent(SapMainView)} />
 ];

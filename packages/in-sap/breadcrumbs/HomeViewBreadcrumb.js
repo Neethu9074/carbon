@@ -21,6 +21,7 @@ export default function HomeViewBreadcrumb(props) {
     case 'abapinstances.':
     case 'sapjavainstances.':
     case 'abapinstancessensor.':
+    case 'javanetweaverinstancessensor.':
       return (
         <Breadcrumb href={createHrefToPath(sapInstanceListFullyQualified)} icon="lib_sap_instances">
           {t('in-sap:breadcrumbs.sapInstances')}
@@ -40,6 +41,7 @@ export default function HomeViewBreadcrumb(props) {
     case 'saphanasystems.':
     case 'sapwebdispatchers.':
     case 'abapsystemssensor.':
+    case 'javanetweaversystemssensor.':
       return (
         <Breadcrumb href={createHrefToPath(sapSystemListFullyQualified)} icon="lib_sap_host">
           {t('in-sap:breadcrumbs.abapSystems')}

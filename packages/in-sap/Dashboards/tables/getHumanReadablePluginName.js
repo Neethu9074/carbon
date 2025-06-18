@@ -18,8 +18,10 @@ export const getHumanReadablePluginName = function (value) {
     case 'sapHanaPlatform':
       return 'HANA';
     case 'sapJavaInstance':
+    case 'sapJavaNetWeaverInstanceSensor':
       return 'Java Instance';
     case 'sapJavaSystem':
+    case 'sapJavaNetWeaverSystemSensor':
       return 'Java System';
     case 'sapHanaSystem':
       return 'Hana System';

@@ -614,6 +614,16 @@
   "pluginName_sapAbapSystemSensor_1": "SAP ABAP Systems",
   "pluginName_sapAbapSystemSensor_2": "SAP ABAP Systems",
   "pluginName_sapAbapSystemSensor": "SAP ABAP System",
+  "pluginName_sapJavaNetWeaverInstanceSensor_plural": "SAP Java NetWeaver Instances",
+  "pluginName_sapJavaNetWeaverInstanceSensor_0": "SAP Java NetWeaver Instances",
+  "pluginName_sapJavaNetWeaverInstanceSensor_1": "SAP Java NetWeaver Instances",
+  "pluginName_sapJavaNetWeaverInstanceSensor_2": "SAP Java NetWeaver Instances",
+  "pluginName_sapJavaNetWeaverInstanceSensor": "SAP Java NetWeaver Instance",
+  "pluginName_sapJavaNetWeaverSystemSensor_plural": "SAP Java NetWeaver Systems",
+  "pluginName_sapJavaNetWeaverSystemSensor_0": "SAP Java NetWeaver Systems",
+  "pluginName_sapJavaNetWeaverSystemSensor_1": "SAP Java NetWeaver Systems",
+  "pluginName_sapJavaNetWeaverSystemSensor_2": "SAP Java NetWeaver Systems",
+  "pluginName_sapJavaNetWeaverSystemSensor": "SAP Java NetWeaver System",
   "pluginName_db2Database_plural": "DB2s",
   "pluginName_db2Database_0": "DB2s",
   "pluginName_db2Database_1": "DB2s",
@@ -17182,6 +17192,16 @@
       "severity2": "Severity 2",
       "systemLogErrors": "System Log Errors",
       "processingTime": "Processing Time"
+    },
+    "sapJavaNetWeaverInstanceSensor": {
+      "label": "SAP Java NetWeaver Instance",
+      "systemLabel": "SAP Java NetWeaver System",
+      "hostName": "Host Name",
+      "sapVersion": "SAP Basis Version",
+      "instanceName": "Instance Name",
+      "cpuUsage": "CPU Usage",
+      "memoryUsage": "Memory Usage",
+      "numberOfInstances": "Number of Instance"
     },
     "syntheticPoP": {
       "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in agent configuration.",

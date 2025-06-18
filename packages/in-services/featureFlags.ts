@@ -57,6 +57,7 @@ export const linuxkvmhypervisorEnabled = isFeatureFlagEnabled('linuxkvmhyperviso
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
+export const netweaverEnabled = isFeatureFlagEnabled('netweaverEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const regexMatchEnabled = isFeatureFlagEnabled('regexMatchEnabled');
 export const logFilterSaving = isFeatureFlagEnabled('logFilterSaving');

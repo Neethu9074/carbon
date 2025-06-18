@@ -111,6 +111,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'netweaverEnabled',
+    instanaCtlKey: 'feature.netweaver.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'kubecostEnabled',
     instanaCtlKey: 'feature.kubecost.enabled',
     defaultValue: true

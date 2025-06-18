@@ -150,6 +150,26 @@ export default connectTo(
             {name}
           </Breadcrumb>
         );
+      case 'javanetweaverinstancessensor.':
+         return (
+           <Breadcrumb
+             label={label}
+             icon={getIconType(plugins.sapJavaNetWeaverInstanceSensor)}
+             href={getDashboardForEntity(id, plugins.sapJavaNetWeaverInstanceSensor, label)}
+           >
+            {name}
+             </Breadcrumb>
+          );
+      case 'javanetweaversystemssensor.':
+          return (
+           <Breadcrumb
+                  label={label}
+                  icon={getIconType(plugins.sapJavaNetWeaverSystemSensor)}
+                  href={getDashboardForEntity(id, plugins.sapJavaNetWeaverSystemSensor, label)}
+           >
+             {name}
+            </Breadcrumb>
+          );
     }
   }
 );

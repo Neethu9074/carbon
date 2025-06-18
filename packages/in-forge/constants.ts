@@ -410,6 +410,8 @@ export const nonServicePlugins = {
   sapWebDispatcher: 'sapWebDispatcher',
   sapAbapInstanceSensor: 'sapAbapInstanceSensor',
   sapAbapSystemSensor: 'sapAbapSystemSensor',
+  sapJavaNetWeaverInstanceSensor: 'sapJavaNetWeaverInstanceSensor',
+  sapJavaNetWeaverSystemSensor: 'sapJavaNetWeaverSystemSensor',
   remoteHost: 'remoteHost',
   processGroup: 'processGroup'
 };
@@ -892,6 +894,8 @@ export const fullyQualifiedPlugins = {
   sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher',
   sapAbapInstanceSensor: 'com.instana.forge.infrastructure.paas.sapjco.SapAbapInstanceSensor',
   sapAbapSystemSensor: 'com.instana.forge.infrastructure.paas.sapjco.derivedentity.system.SapAbapSystemSensor',
+  sapJavaNetWeaverInstanceSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.SapJavaNetWeaverInstanceSensor',
+  sapJavaNetWeaverSystemSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.derivedentity.system.SapJavaNetWeaverSystemSensor',
   remoteHost: 'com.instana.forge.infrastructure.remote.remotehost.RemoteHost',
   processGroup: 'com.instana.forge.infrastructure.remote.processgroup.ProcessGroup'
 };
