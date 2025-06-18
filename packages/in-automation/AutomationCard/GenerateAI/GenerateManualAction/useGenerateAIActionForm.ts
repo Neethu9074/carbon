@@ -70,7 +70,7 @@ export function getActionFromForm(form: GenerateAIActionForm): NewAction {
   };
 }
 
-const defaultActionTags = ['watsonx'];
+const defaultActionTags = ['ai'];
 const defaultActionType: ActionType = 'MANUAL';
 
 interface UseGenerateAIActionFormParams {
