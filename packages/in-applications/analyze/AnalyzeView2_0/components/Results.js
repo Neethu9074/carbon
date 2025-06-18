@@ -254,9 +254,9 @@ function getColumnDefinitions(dataSource) {
     ...(subtraceType
       ? [
           {
-            id: 'subCalls',
+            id: 'subtraceCalls',
             label: t('in-applications:subtraces.labelCallsPerSubtrace'),
-            sortable: false,
+            sortable: true,
             getContent(item) {
               return <span>{item.subtraceCalls}</span>;
             }
