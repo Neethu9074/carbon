@@ -23,8 +23,12 @@ export const validateReason = (value: string) =>
   value.trim() ? null : [{ severity: 'error' as Severity, message: modalLocalisationStrings.reasonRequired }];
 
 export const validateDate = (value: string) => {
-  const today = new Date(new Date().setHours(0, 0, 0, 0));
-  const input = new Date(new Date(value).setHours(0, 0, 0, 0));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const input = parseLocalDateFromYYYYMMDD(value);
+  input.setHours(0, 0, 0, 0);
+
   return input <= today ? null : [{ severity: 'error' as Severity, message: modalLocalisationStrings.untilDate }];
 };
 
@@ -37,16 +41,21 @@ export const validateTime = (value: string) => {
 
 const createTodayDateWithTime = (time: string) => {
   const [hours, minutes] = time.split(':').map(Number);
-  return new Date(new Date().setHours(hours, minutes, 0, 0));
+  const now = new Date();
+  now.setHours(hours, minutes, 0, 0);
+  return now;
 };
 
 export const validateEndTimeLogic = (dateStr: string, timeStr: string) => {
-  const date = new Date(new Date(dateStr).setHours(0, 0, 0, 0));
-  const today = new Date(new Date().setHours(0, 0, 0, 0));
+  const inputDate = parseLocalDateFromYYYYMMDD(dateStr);
+  inputDate.setHours(0, 0, 0, 0);
 
-  if (date.getTime() === today.getTime()) {
-    const time = createTodayDateWithTime(timeStr);
-    if (time > new Date()) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (inputDate.getTime() === today.getTime()) {
+    const inputTime = createTodayDateWithTime(timeStr);
+    if (inputTime > new Date()) {
       return modalLocalisationStrings.untilTime;
     }
   }
@@ -87,3 +96,8 @@ export const showToast = (
     id
   );
 };
+
+export function parseLocalDateFromYYYYMMDD(str: string): Date {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
