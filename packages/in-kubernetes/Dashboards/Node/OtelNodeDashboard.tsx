@@ -44,8 +44,9 @@ import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function OtelNodeDashboard({ location }: { location: Location }) {
+  const rawNodeId = getMatrixParameter(location, nodeDashboard, matrixNodeId);
   const props = {
-    nodeId: getMatrixParameter(location, nodeDashboard, matrixNodeId),
+    nodeId: rawNodeId === null ? undefined : rawNodeId,
     viewPath: nodeOtelDashboard,
     timeConfig: getTimeConfig(location)
   };
