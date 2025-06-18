@@ -342,7 +342,7 @@ function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel, no
     <Link
       className={noEllipsis ? locals.noEllipsis : locals.link}
       href={
-        beacon.performanceSubtype != PERFORMANCE_SUBTYPES.ENU
+        beacon.sessionId
           ? getHrefToDetailId(
               {
                 sessionId: beacon.sessionId,
