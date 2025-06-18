@@ -125,10 +125,10 @@ export default [
     metric: getDynamicMetricMatch(
       'tombstoneCount',
       'tombstone',
-      t('in-forge:plugins.cassandraNode.labelkeyspaceTable')
+      t('in-forge:plugins.cassandraNode.labelKeyspaceTable')
     ),
     label: t('in-forge:plugins.cassandraNode.labeltombstoneCount'),
-    category: [t('in-forge:plugins.cassandraNode.labelkeyspaceTable')],
+    category: [t('in-forge:plugins.cassandraNode.labelKeyspaceTable')],
     min: 0,
     formatter: number
   }

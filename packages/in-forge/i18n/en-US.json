@@ -7019,7 +7019,7 @@
       "labelReads": "Reads",
       "labelWrites": "Writes",
       "labeltombstoneCount": "Tombestone Count",
-      "labelkeyspaceTable":"KeyspacesTable",
+      "labelKeyspaceTable":"KeyspacesTable",
       "dashboard": {
         "labelReadRequests": "Read Requests",
         "labelReadLatency": "Read latency",
@@ -7068,8 +7068,7 @@
       "tokens": "Tokens",
       "latency": "Latency",
       "keyspaces": "Keyspaces",
-      "keyspace": "Keyspace",
-      "keyspacesTable":"keyspacesTableList"
+      "keyspace": "Keyspace"
     },
     "ceph": {
       "infoProcessID": "Process ID",

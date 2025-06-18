@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
@@ -52,5 +53,5 @@ export default function TombstoneCountTable({ snapshot, timeConfig }) {
         snapshotId
       };
     });
-  return <Table withoutPadding cardTitle={`Keyspaces/Table ${rows.length}`} cols={cols} rows={rows} />;
+  return <Table withoutPadding cardTitle={'in-forge:plugins.cassandraNode.dashboard.labelKeyspaceTable'} />;
 }
