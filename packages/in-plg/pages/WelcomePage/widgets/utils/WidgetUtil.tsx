@@ -112,7 +112,7 @@ export const getItemId = (item: any, widgetName?: string) => {
     case 'dashboardWidget':
       return item?.id;
     case 'serviceLevelWidget':
-      return item?.configuration?.id;
+      return item?.id;
     default:
       return null;
   }

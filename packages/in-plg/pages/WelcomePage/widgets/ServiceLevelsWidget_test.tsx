@@ -7,9 +7,8 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { t } from 'in-i18n';
-
 import ServiceLevelsWidget from 'in-plg/pages/WelcomePage/widgets/ServiceLevelsWidget';
+import { t } from 'in-i18n';
 
 describe('Service Levels Widget Tests', () => {
   const mockDashboardTileProps = {
@@ -28,7 +27,6 @@ describe('Service Levels Widget Tests', () => {
     expect(screen.getByText(t('in-service-levels:sloList.columnLabels.blueprint'))).toBeInTheDocument();
     expect(screen.getByText(t('in-service-levels:sloList.columnLabels.errorBudget'))).toBeInTheDocument();
     expect(screen.getByText(t('in-service-levels:sloList.columnLabels.status'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-service-levels:sloList.columnLabels.tags'))).toBeInTheDocument();
   });
 
   it('Check if search is renedered', () => {

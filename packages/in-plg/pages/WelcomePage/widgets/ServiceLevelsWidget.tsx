@@ -8,7 +8,6 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { IconButton } from '@instana/components';
-import { t } from 'in-i18n';
 
 import {
   GetAllSloConfigurationsArguments,
@@ -38,6 +37,7 @@ import { SloListItem } from 'in-service-levels/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 type CellRendererProps = {
   item: ServiceLevelObjectiveConfiguration;
@@ -71,44 +71,35 @@ function handleFavoriteClick(item: any, isFavourite: boolean, type: string) {
   }
 }
 
-export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
-  const { createHrefToPath } = useNavigation();
+const columnHeaders = [
+  {
+    header: t('in-service-levels:sloList.columnLabels.name'),
+    key: 'name'
+  },
+  {
+    header: t('in-service-levels:sloList.columnLabels.entity'),
+    key: 'entity'
+  },
+  {
+    header: t('in-service-levels:sloList.columnLabels.blueprint'),
+    key: 'blueprint'
+  },
+  {
+    header: t('in-service-levels:sloList.columnLabels.errorBudget'),
+    key: 'errorBudgetRemaining'
+  },
+  {
+    header: t('in-service-levels:sloList.columnLabels.status'),
+    key: 'status'
+  },
+  {
+    key: 'favourite',
+    header: ''
+  }
+];
 
-  const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
-  const openCreateSloDialog = () => addActiveDialog(<ConfigureSloDialog mode="NEW" trackingMeta={meta} />);
-
-  const isMediumWidth = useMediaQuery('(min-width: 1560px)');
-
-  const getHeaders = () => {
-    return [
-      {
-        header: t('in-service-levels:sloList.columnLabels.name'),
-        key: 'name'
-      },
-      {
-        header: t('in-service-levels:sloList.columnLabels.entity'),
-        key: 'entity'
-      },
-      {
-        header: t('in-service-levels:sloList.columnLabels.blueprint'),
-        key: 'blueprint'
-      },
-      {
-        header: t('in-service-levels:sloList.columnLabels.errorBudget'),
-        key: 'errorBudgetRemaining'
-      },
-      {
-        header: t('in-service-levels:sloList.columnLabels.status'),
-        key: 'status'
-      },
-      {
-        key: 'favourite',
-        header: ''
-      }
-    ];
-  };
-
-  const columnDefinitions: ColumnDefinitionItem[] = [
+function getColumnDefinitions(isMediumWidth: boolean): ColumnDefinitionItem[] {
+  return [
     {
       key: 'name',
       getContent({ item }) {
@@ -175,13 +166,16 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
       }
     }
   ];
+}
 
-  const generalProps = {
-    ...config,
-    timeConfig,
-    headers: getHeaders(),
-    columnDefinitions
-  };
+export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
+  const { createHrefToPath } = useNavigation();
+
+  const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
+  const openCreateSloDialog = () => addActiveDialog(<ConfigureSloDialog mode="NEW" trackingMeta={meta} />);
+
+  const isMediumWidth = useMediaQuery('(min-width: 1560px)');
+  const columnDefinitions = getColumnDefinitions(isMediumWidth);
 
   const sloConfigurationsArguments: GetAllSloConfigurationsArguments = {
     page: 1,
@@ -192,9 +186,12 @@ export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, d
 
   return (
     <DatatableWrapper
-      {...generalProps}
+      config={config}
+      timeConfig={timeConfig}
+      headers={columnHeaders}
+      columnDefinitions={columnDefinitions}
       tableType="serviceLevelWidget"
-      getItems={(params: any) => {
+      getItems={(params: GetAllSloConfigurationsArguments) => {
         return getAllSloConfigurations({ ...params, ...sloConfigurationsArguments });
       }}
       getItem={(id: string) => {
