@@ -4,14 +4,16 @@
  */
 
 :local {
-  .lettering {
-    width: 10rem;
-    height: 1.5rem;
-    filter: brightness(0);
+  .fontColor {
+    :global .typography-body-01 {
+      color: var(--cds-text-secondary);
+    }
   }
-
-  .maxMindAttribution {
-    display: inline-flex;
-    align-items: center;
+  .alignTitle {
+    display: flex;
+    align-items: baseline;
+  }
+  .fontWeight {
+    font-weight: 600;
   }
 }
