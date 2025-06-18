@@ -102,7 +102,6 @@ export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatCon
           </>
         )
       }}
-      forceReact17Mode
     />
   );
 };
