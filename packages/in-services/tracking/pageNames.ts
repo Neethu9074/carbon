@@ -156,6 +156,7 @@ export const pageNames = Object.freeze({
   nutanix: 'Nutanix',
   xenserver: 'XenServer',
   xenserver_host: 'XenServer Host',
+  xenserver_vm: 'XenServer VM',
   windowshypervisor: 'Windows Hypervisor',
   linuxkvmhypervisor: 'Linux KVM Hypervisor',
   linuxkvmhypervisor_host: 'Linux KVM Hypervisor Host'

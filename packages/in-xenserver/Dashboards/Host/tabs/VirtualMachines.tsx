@@ -63,7 +63,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'vcpucount',
+    id: 'vcpu',
     label: t('in-xenserver:dashboards.vm.vcpu'),
     getContent(item: VMRowData) {
       return item.vcpu || valueMissingPlaceholder;
