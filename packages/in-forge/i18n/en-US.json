@@ -7033,6 +7033,8 @@
       "labelAverageWriteLatency": "Average Write Latency",
       "labelReads": "Reads",
       "labelWrites": "Writes",
+      "labeltombstoneCount": "Tombestone Count",
+      "labelKeyspaceTable":"KeyspacesTable",
       "dashboard": {
         "labelReadRequests": "Read Requests",
         "labelReadLatency": "Read latency",
@@ -7071,7 +7073,9 @@
         "titleDiskSize": "Disk Size",
         "titleKeyspacesCount": "Keyspaces {{keyspacesCount}}",
         "labelAverageReadLatency": "Average Read Latency",
-        "labelAverageWriteLatency": "Average Write Latency"
+        "labelAverageWriteLatency": "Average Write Latency",
+        "tombstoneCount": "Tombstone Count",
+        "keyspaceTable": "Keyspace/Table"
       },
       "info": "Info",
       "topology": "Topology",
