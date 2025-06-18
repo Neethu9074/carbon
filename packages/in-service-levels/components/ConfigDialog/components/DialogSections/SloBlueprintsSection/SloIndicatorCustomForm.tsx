@@ -12,7 +12,7 @@ import SloIndicatorTypeSelectorFormSection from 'in-service-levels/components/Co
 import CustomFiltersFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/CustomFiltersFormSection';
 import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import { isFieldValid } from 'in-service-levels/utils/form';
 
 export default function SloIndicatorCustomForm() {
   const { form } = useContext(SloFormContext);

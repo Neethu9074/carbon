@@ -57,6 +57,6 @@
     // Don't emit .js files. Babel/webpack takes care of this.
     "noEmit": true
   },
-  "include": ["packages/**/*.ts", "packages/**/*.tsx"],
+  "include": ["packages/**/*.ts", "packages/**/*.tsx", "global.d.ts"],
   "exclude": ["node_modules/**/*", "packages/in-server/node_modules/**/*"]
 }

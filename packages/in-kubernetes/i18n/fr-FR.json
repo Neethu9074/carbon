@@ -10,6 +10,7 @@
     "namespace": "Espace de nom",
     "node": "Noeud",
     "pod": "Pod",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "Service K8s"
   },
   "clusterBadgeNameOpenShift": "OpenShift",
@@ -29,6 +30,7 @@
     "summary": "Récapitulatif",
     "details": "Informations",
     "hostCoverage": "Couverture de l'hôte",
+    "k8SensorVersion": "Version du capteur K8s",
     "clusterUuid": "UUID de cluster",
     "agentMonitor": "Moniteur d'agent",
     "controlPlane": "Plan de contrôle",
@@ -55,9 +57,17 @@
     "cpuUsage": "Utilisation de l'UC",
     "memoryUsage": "Utilisation de la mémoire",
     "phase": "Phase",
-    "reclaimPolicy": "Stratégie de récupération",
-    "storageCapacity": "Capacité de stockage",
     "storageClassName": "Nom de la classe de stockage",
+    "capacityStorage": "Stockage de capacité",
+    "storageTotalCapacity": "Capacité totale",
+    "storageUsedCapacity": "Capacité utilisée",
+    "storageUtilization": "Utilisation",
+    "storageUsedTotalCapacity": "sur {{total}} au total",
+    "total": "Total",
+    "reclaimPolicy": "Stratégie de récupération",
+    "accessMode": "Mode d'accès",
+    "volumeMode": "Mode de volume",
+    "creationTimestamp": "Horodatage de création",
     "cpuRequests": "Demandes d'UC",
     "cpuRequestsMultiMetric": "Demandes d'UC",
     "cpuLimitsAlloc": "Allocation des limites d'UC",
@@ -160,6 +170,8 @@
     "lastJobDuration": "Durée du dernier travail",
     "kubernetesDaemonSet": "Kubernetes DaemonSet",
     "k8SDaemonSet": "DaemonSet K8s",
+    "kubernetesPersistentVolume": "Kubernetes PersistentVolume",
+    "k8SPersistentVolume": "K8s PersistentVolume",
     "unscheduled": "Non planifié",
     "unready": "Non prêt",
     "available": "Disponible",
@@ -277,12 +289,12 @@
       "idleCost": "Coût d'inactivité",
       "viewInKubeCost": "Afficher dans Kubecost",
       "coreCountByCluster": "vCPU",
-      "noKubecostData": "Activez l'observabilité et l'affectation des coûts avec Kubecost. Pour configurer l'intégration, suivez ces [étapes][Docs].\n\n[Docs]:https://ibm.biz/kubecost",
+      "noKubecostData": "Activez la surveillance des coûts pour ce cluster avec Kubecost.\\\n Pour configurer l'intégration, [suivez ces étapes] dans la documentation.\n\n[suivez ces étapes]:https://ibm.biz/kubecost",
       "totalClusterCost": "Coût total du cluster (14 derniers jours)",
       "workloadEfficiency": "Efficience de la charge de travail",
       "estimatedMonthlySavings": "Estimation des économies mensuelles",
-      "totalClusterCostTooltipinfo": "Coût total de votre cluster pour la période sélectionnée. Remarque : si vous disposez de données pour moins de 14 jours, vous verrez ce chiffre jusqu'à ce qu'un cycle complet de 14 jours se soit écoulé.",
-      "workloadEfficiencyTooltipinfo": "Efficience moyenne de chaque charge de travail dans la fenêtre choisie. L'efficience de la charge de travail est le rapport de coût pondéré entre l'utilisation de la mémoire RAM et de l'unité centrale et les demandes de mémoire RAM et d'unité centrale configurées.",
+      "totalClusterCostTooltipinfo": "Le coût total de votre cluster pour les 14 derniers jours. Si vous avez moins de 14 jours de données, vous verrez ce chiffre jusqu'à ce qu'un cycle complet de 14 jours soit écoulé.",
+      "workloadEfficiencyTooltipinfo": "L'efficacité moyenne de chaque charge de travail au cours des 14 derniers jours. L'efficience de la charge de travail est le rapport de coût pondéré entre l'utilisation de la mémoire RAM et de l'unité centrale et les demandes de mémoire RAM et d'unité centrale configurées.",
       "estimatedMonthlySavingsTooltipinfo": "Estimation des économies mensuelles disponible pour votre cluster, déterminée à l'aide des données historiques de la période sélectionnée.",
       "deploymentInfoNotRetrieving": "Kubecost ne récupère pas les informations sur les déploiements",
       "notRetrievingData": "Kubecost ne récupère pas les données",
@@ -331,7 +343,10 @@
       "title": "Accéder plus rapidement aux informations importantes",
       "content": "La vue de carte fournit plus de détails sur vos clusters et espaces de noms en un coup d'œil et renvoie directement à chaque page d'onglet du tableau de bord pour une recherche plus ciblée. <br /><br />Vous pouvez facilement vous déplacer entre ces nouvelles vues et les vues de table en cliquant sur le sélecteur de contenu.",
       "button": "J'ai compris"
-    }
+    },
+    "nodes": "Noeuds",
+    "pods": "Pods",
+    "containers": "Conteneurs"
   },
   "viewAllEntityName_unknownEntity_plural": "tout",
   "viewAllEntityName_unknownEntity_0": "tout",
@@ -421,5 +436,18 @@
     "days": "jours plus tôt",
     "close": "Fermer",
     "branch": "Branche"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Agent Instana",
+      "description": "Voir les informations basées sur les données recueillies par l'agent Instana."
+    },
+    "otelCollector": {
+      "text": "Collecteur OpenTelemetry",
+      "description": "Affichez les informations basées sur les données collectées par le collecteur Instana OpenTelemetry."
+    },
+    "additionalMetrics": {
+      "title": "Détails supplémentaires"
+    }
   }
 }

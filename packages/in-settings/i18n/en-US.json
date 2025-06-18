@@ -397,7 +397,10 @@
       "successfullyAddedMemberToRole_plural": "Successfully added members to role.",
       "successfullyAddedMemberToRole_1": "Successfully added member to role.",
       "successfullyAddedMemberToRole_2": "Successfully added members to role.",
-      "successfullyRemovedMemberFromRole": "Successfully removed member from role."
+      "successfullyRemovedMemberFromRole": "Successfully removed member from role.",
+      "successfullyAddedMemberToTeam": "Successfully added member to team {{teamName}}.",
+      "successfullyAddedMemberToTeam_plural": "Successfully added members to team {{teamName}}.",
+      "successfullyRemovedMemberFromTeam": "Successfully removed member from team {{teamName}}."
     }
   },
   "dialogs": {
@@ -548,6 +551,7 @@
       "mobileAppsSectionTitle": "Mobile apps",
       "noActionTypeSelectedError": "At least one type needs to be selected.",
       "noActionTagSelectedError": "At least one tag needs to be selected.",
+      "noApplicationContributionFilterTagExpressionError": "A valid contribution filter needs to be added.",
       "infrastructureSectionDescription": "Infrastructure entities and agents related to scope defined on other Instana areas are added automatically to the scope.",
       "infrastructureLimitAccessSwitchLabel": "Limited infrastructure",
       "infrastructureAllowAccessSwitchLabel": "Allow additional access using dynamic focus query(DFQ)",
@@ -571,7 +575,9 @@
     "role": {
       "deprecated": "limited scope",
       "newRole": "New role",
-      "permissionsCount": "Permissions"
+      "permissionsCount": "Permissions",
+      "roleDeleteTooltip_Default": "Default role is a built-in role and can't be deleted or renamed.",
+      "roleDeleteTooltip_Owner": "Owner role is a built-in role and can't be deleted or renamed."
     },
     "team": {
       "events": {
@@ -1389,8 +1395,14 @@
     "slackBDReAuth": "Reauthenticate in Slack",
     "slackBDDesc": "Integrate with the Slack app to enable bidirectional communication and synchronize incident notes between Slack and Instana.",
     "slackBDHelp": "To create or edit this channel, you must authorize the connection in Slack.",
+    "teamsBD": "Teams app",
+    "teamsAlertChannelName": "Alert channel name",
+    "teamsChannelLink": "Channel link",
+    "teamsChannelName": "Channel name",
+    "teamsLinkMsg": "You are about to link alerts to this channel. Is this correct?",
     "slackAlertChannel": "Slack alert channel",
     "channelName": "Channel name",
+    "teamsChannelLinkPlaceholder": "Teams channel link",
     "alertChannelName": "alert-channel-name",
     "doneButton": "Done",
     "displayEmojis": "Display emojis",

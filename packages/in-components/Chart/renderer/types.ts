@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Axis, AxisColor, AxisConfiguration, Config, MetricDataSeries } from 'in-components/Chart/types';
+import { Axis, AxisColor, AxisConfiguration, AxisName, Config, MetricDataSeries } from 'in-components/Chart/types';
 import Configuration from 'in-components/Chart/Configuration';
 import { ScaleType } from 'in-services/scale';
 
@@ -51,6 +51,10 @@ export interface MultiMetricRenderProps extends BaseProps {
   colors50: AxisColor[];
   colors100: AxisColor[];
   metrics: MetricDataSeries[];
+  axisName: AxisName;
+  axis: AxisConfiguration;
+  metricIds: string[];
+  colors: AxisColor[];
   /*
   Unused parameters:
   To have a slim interface, they are not part of the interface yet, even

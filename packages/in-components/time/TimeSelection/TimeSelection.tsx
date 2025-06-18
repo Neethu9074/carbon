@@ -30,13 +30,17 @@ export interface TimeSelectionProps {
   darkTheme: boolean;
   liveModeDisabled?: boolean;
   liveModeDisabledTooltip?: string;
+  timePickerDisabled?: boolean;
+  timePickerDisabledTooltip?: string;
 }
 
 export default function TimeSelection({
   isHidden,
   darkTheme,
   liveModeDisabled,
-  liveModeDisabledTooltip
+  liveModeDisabledTooltip,
+  timePickerDisabled,
+  timePickerDisabledTooltip
 }: TimeSelectionProps) {
   // NOTE: this specifically needs to grab the user selected timeConfig from in-stores/time/config
   // instead of the default useTimeConfig, because the analyze view employs a fixed timeConfig context,
@@ -65,6 +69,8 @@ export default function TimeSelection({
             refSetter={refSetter}
             liveModeDisabled={liveModeDisabled}
             liveModeDisabledTooltip={liveModeDisabledTooltip}
+            timePickerDisabled={timePickerDisabled}
+            timePickerDisabledTooltip={timePickerDisabledTooltip}
           />
         )}
       </Overlay>
@@ -80,6 +86,8 @@ interface TimePresenterWrapperProps {
   refSetter?: React.MutableRefObject<HTMLElement> | ((instance: HTMLElement | null) => void);
   liveModeDisabled?: boolean;
   liveModeDisabledTooltip?: string;
+  timePickerDisabled?: boolean;
+  timePickerDisabledTooltip?: string;
 }
 
 function TimePresenterWrapper({
@@ -89,7 +97,9 @@ function TimePresenterWrapper({
   darkTheme,
   refSetter,
   liveModeDisabled,
-  liveModeDisabledTooltip
+  liveModeDisabledTooltip,
+  timePickerDisabled,
+  timePickerDisabledTooltip
 }: TimePresenterWrapperProps) {
   return (
     <>
@@ -99,6 +109,8 @@ function TimePresenterWrapper({
         onClick={toggle}
         refSetter={refSetter}
         darkTheme={darkTheme}
+        timePickerDisabled={timePickerDisabled}
+        timePickerDisabledTooltip={timePickerDisabledTooltip}
       />
       <LiveModeToggle
         isLive={timeConfig.autoRefresh}

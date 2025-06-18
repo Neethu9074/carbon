@@ -39,9 +39,10 @@
   "namespace": "名前空間",
   "deployment": "デプロイメント",
   "pod": "ポッド",
+  "deleteLogsTootilpSuccess": "成功",
   "tooltipEntityHealthNoIssues": "問題なし",
-  "tooltipEntityHealthInProgress": "進行中",
-  "tooltipEntityHealthFailed": "失敗",
+  "deleteLogsTooltipInProgress": "進行中",
+  "deleteLogsTooltipFailed": "失敗",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 個の問題",
   "endOfInfiniteScroll": "ログはこれ以上ありません",
   "liveModeDisabled": "ログの分析時にライブ・モードはサポートされません",
@@ -81,9 +82,23 @@
       "logIntegrations": "ログ統合",
       "logIntegrationsDescription": "ログ管理ソリューションを接続し、ニーズに合わせて設定します。",
       "retentionPeriod": "保存期間",
-      "retentionPeriodDescription": "保持期間を変更すると、ログが保持され、アプリケーション、ダッシュボード、およびアナリティクスで利用できるようになる時間に影響し、コストと請求に影響します。",
+      "retentionPeriodDescription": "アプリケーション、ダッシュボード、および分析でのログの保存期間と利用可能期間を変更します。 これはコストと請求に影響する可能性があります。",
       "patternRecognition": "ログ・パターン認識",
-      "patternRecognitionDescription": "ログ内の繰り返しパターンを検出するAI機能。 パターンはログの概要を提供し、トラブルシューティングの解決時間を短縮するのに役立ちます。"
+      "patternRecognitionDescription": "ログ内の繰り返しパターンを検出するAI機能。 パターンはログの概要を提供し、トラブルシューティングの解決時間を短縮するのに役立ちます。",
+      "patternRecognitionSet": {
+        "gotIt": "了解",
+        "cancel": "キャンセル",
+        "gettingStarted": "始めに",
+        "howDoesItWorks": "これはどのように機能しますか?",
+        "firstDescription_0": "ログ・パターン認識は、AI アルゴリズムを学習させて、ログ内の繰り返し出現するパターンを発見する技術です。 大量のログを分析することで、ログの可変部分と固定部分を認識し、その中に隠れたパターンを発見することができます。 \n\n AI アルゴリズムはあなたのログ・メッセージのみに依存し、他のクライアントのログと共有することはありません。 これにより、あなたのデータのプライバシーと安全性が確保されます。",
+        "howWillHelpMe": "どのように役立つのでしょうか?",
+        "secondDescription_0": "ログ内のパターンを認識することで、トラブルシューティング時の問題解決に必要な時間を短縮することができます。 特定のパターンまたはグループを大量のログでフィルタリングすることができます。 \n\n ログのグルーピングにより、取り込んでいるログの全体像を把握し、不要なログの取り込みを避けるために OpenTelemetry の設定を最適化できます。これにより、ストレージとインジェストコストを削減できます。",
+        "learnMore": "詳細情報",
+        "popHoverSecondDescription": "大量のログを分析することで、ログの可変部分と固定部分を認識し、その中に隠れたパターンを発見することができます。\n\nAI アルゴリズムはあなたのログ・メッセージのみに依存し、他のクライアントのログと共有することはありません。 これにより、データのプライバシーと安全性が確保されます",
+        "hotItWorks": "仕組み",
+        "popHoverFirstDescription": "ログ・パターン認識は、AI アルゴリズムを学習させて、ログ内の繰り返し出現するパターンを発見する技術です。 ",
+        "aiExpained": "AI の説明"
+      }
     }
   }
 }

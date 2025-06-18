@@ -173,7 +173,7 @@ function generateAIActionForm({
               item.setValue(`This resolves event: ${eventDescription}`).setTouched(false)
             )
             .updateIn(['action', 'content'], item => item.setValue(res.data?.content!))
-            .updateIn(['action', 'tags'], item => item.setValue(['watsonx']).setTouched(true))
+            .updateIn(['action', 'tags'], item => item.setValue(['ai']).setTouched(true))
             .updateIn(['action', 'type'], item => item.setValue('MANUAL').setTouched(true))
             .updateIn(['action', 'script'], item => item.setValue(''))
             .updateIn(['action', 'aiGeneratedContent'], item => item.setValue(res.data?.content!))
@@ -311,6 +311,7 @@ export default function PromptStep({
                 // @ts-expect-error
                 <Link
                   external
+                  linkIconType={'lib_views_external_link'}
                   href="https://www.ibm.com/docs/en/instana-observability/latest?topic=ma-intelligent-remediation-live-action-generation-watsonx-public-preview"
                 />
               )

@@ -10,7 +10,7 @@ import { Message, Stack } from '@instana/components';
 import { create } from '@instana/observables';
 
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
-import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/useTagBasedPayoadConfigurator';
 import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -18,7 +18,6 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
-import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
@@ -194,7 +193,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
           alertConfig={alertConfig}
           disableTrigger
           shouldDisplayAlertLevelSection={false}
-          renderCustomTitle={() => replacePlaceholdersWithMarkup(severityPlaceholderList, alertConfig.name)}
+          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig.name, alertConfig.groupBy)}
         />
       </ExpandableLightCard>
 

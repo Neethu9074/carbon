@@ -132,7 +132,7 @@ function findFocusedNode(options: Options[]): Options | undefined {
     return undefined;
   }
   if (options[0].children?.length == 1) {
-    return options[0].children[0];
+    return undefined;
   }
   return findFocusedNode(options[0].children);
 }

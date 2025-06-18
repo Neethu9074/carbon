@@ -40,6 +40,7 @@ const TimePicker = ({ ...props }: TimePickerProps): JSX.Element => {
       setIsInvalidTimeFormat(true);
       setInvalidTimeFormatText(errors[0]?.message);
       setTimeInput(time);
+      onChange(time);
     } else {
       setIsInvalidTimeFormat(false);
       setInvalidTimeFormatText(undefined);

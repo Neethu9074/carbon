@@ -6,6 +6,7 @@
   "labelAnalytic": "Analyse",
   "labelCall": "Aufruf",
   "labelTrace": "Trace",
+  "labelSubtrace": "Subtrace",
   "labelStatus": "Status",
   "linkDownload": "Herunterladen",
   "linkDownloadCalls": "Download-Aufrufe",
@@ -92,6 +93,7 @@
   "buttonInspectIssue_1": "{{count}} Problem untersuchen",
   "buttonInspectIssue_2": "{{count}} Probleme untersuchen",
   "buttonAnalyzeCalls": "Aufrufe analysieren",
+  "buttonAnalyzeSubtraces": "Subtraces analysieren",
   "buttonAnalyzeServices": "Services analysieren",
   "buttonAnalyzeEndpoints": "Endpunkte analysieren",
   "buttonClear": "Löschen",
@@ -255,6 +257,7 @@
     "endpoints": "Endpunkte",
     "types": "Typen",
     "technologies": "Technologien",
+    "NumberOfSubCalls": "Nr. von Unteraufrufen",
     "httpStatusCode": "HTTP-Status",
     "hiddenCalls": "Verdeckte Aufrufe",
     "fastQueryMode": "Schneller Abfragemodus",
@@ -721,7 +724,8 @@
     "traces_traces": "Traces",
     "traces_latency": "Latenzzeit",
     "traces_erroneousCalls": "Fehlerhafte Traces",
-    "traces_errors": "Rate fehlerhafter Traces"
+    "traces_errors": "Rate fehlerhafter Traces",
+    "subtraces_subtraceDuration": "Dauer"
   },
   "viewLists": {
     "application": "Anwendungen",

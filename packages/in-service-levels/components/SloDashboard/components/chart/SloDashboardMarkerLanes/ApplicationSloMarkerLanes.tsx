@@ -13,6 +13,7 @@ import type { SloDashboardMarkerLanesProps } from 'in-service-levels/components/
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 // @ts-expect-error -- Typescript migration is already in progress
 import AlertsLane from 'in-components/Chart/markerLanes/AlertsLane/AlertsLane';
+import CorrectionWindowsLane from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/CorrectionWindowsLane';
 import getApplicationAlertClusters from 'in-applications/subscriptions/getApplicationAlertClusters';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 
@@ -46,6 +47,7 @@ export default function ApplicationSloMarkerLanes({
     >
       <ReleasesLane applicationId={applicationId} serviceId={serviceId} />
       <AlertsLane getAlerts={getApplicationAlertClusters} config={{ applicationId, serviceId, endpointId }} />
+      <CorrectionWindowsLane chartContentPosition={chartContentPosition} />
     </MarkerLanesPresenter>
   );
 }

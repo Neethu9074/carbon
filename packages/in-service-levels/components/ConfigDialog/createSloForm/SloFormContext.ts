@@ -6,16 +6,13 @@
 
 import { createContext } from 'react';
 
-import {
-  CreateSloDialogMode,
-  SloForm,
-  SloFormOnChange
-} from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { ConfigureDialogMode } from 'in-service-levels/types';
 
 interface SloFormContextProps {
   form: SloForm;
-  mode: CreateSloDialogMode;
+  mode: ConfigureDialogMode;
   onChange: SloFormOnChange;
   setForm: (form: SloForm) => void;
 }

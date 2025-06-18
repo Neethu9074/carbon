@@ -139,6 +139,8 @@ export const pageNames = Object.freeze({
   service_level_objective: 'Service Level Objective',
   slo_summary: 'Service Level Objective > Summary',
   slo_config: 'Service Level Objective > Configuration',
+  slo_correction_windows: 'Service Level Objective > Correction windows',
+  correction_windows: 'Correction windows',
   automation_action_catalog: 'Automation > Action Catalog',
   automation_action_view: 'Automation > Action Catalog > Action details',
   automation_action_create: 'Automation > Action Catalog > New or Edit Action',
@@ -154,6 +156,7 @@ export const pageNames = Object.freeze({
   nutanix: 'Nutanix',
   xenserver: 'XenServer',
   xenserver_host: 'XenServer Host',
+  xenserver_vm: 'XenServer VM',
   windowshypervisor: 'Windows Hypervisor',
   linuxkvmhypervisor: 'Linux KVM Hypervisor',
   linuxkvmhypervisor_host: 'Linux KVM Hypervisor Host'

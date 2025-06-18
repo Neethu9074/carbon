@@ -9,9 +9,9 @@ import React from 'react';
 import { InquiryResult, ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
 import { RadioButtonGroup } from '@instana/carbon';
 
+import RadioButtonWithCount from 'in-service-levels/components/SloList/components/RadioButtonWithCount';
 import { sloEntityTypes } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
-import RadioButtonWithCount from 'in-service-levels/components/SloList/components/RadioButtonWithCount';
 
 interface EntityTypeFilterProps {
   value: SloEntityType | undefined;
@@ -30,7 +30,7 @@ export default function EntityTypeFilter({ value, onChange, groups }: EntityType
       name="slo-entity-type-radio-button-group"
       orientation="vertical"
     >
-      <RadioButtonWithCount labelText="All" value={undefined} count={allCount} />
+      <RadioButtonWithCount labelText={t('in-service-levels:general.all')} value={undefined} count={allCount} />
       {sloEntityTypes.map(entityType => (
         <RadioButtonWithCount
           key={entityType}
@@ -42,4 +42,3 @@ export default function EntityTypeFilter({ value, onChange, groups }: EntityType
     </RadioButtonGroup>
   );
 }
-

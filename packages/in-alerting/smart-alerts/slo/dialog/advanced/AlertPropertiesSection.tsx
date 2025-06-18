@@ -54,7 +54,7 @@ export default function AlertPropertiesSection() {
         <Sections>
           <AlertPropertiesTitleRow
             form={form}
-            placeholders={[]}
+            placeholderData={{ placeholders: [] }}
             onChange={onChange as OnChangeType}
             getTitlePlaceholder={() => titlePlaceholder}
           />

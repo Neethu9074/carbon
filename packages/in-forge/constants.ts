@@ -8,6 +8,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 // host: "region" - pluginId: "com.instana.forge.selfmonitoring.RegionEntity" - steadyId: "region"
 export const ID_OF_REGION = '7c238Z6UhpGTsuCTCehWnBoiaxs';
 export const DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL = 120_000;
+export const DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS = 300_000;
 
 export const oTelPlugins = {
   openTelemetry: 'openTelemetry',
@@ -22,6 +23,10 @@ export const oTelPlugins = {
   oTelK8sCluster: 'oTelK8sCluster',
   oTelK8sNode: 'oTelK8sNode',
   oTelK8sContainer: 'oTelK8sContainer'
+};
+
+export const awsMetricStreamsPlugin = {
+  awsMetricStreams: 'awsMetricStreams'
 };
 
 export const nonServicePlugins = {
@@ -297,6 +302,7 @@ export const nonServicePlugins = {
   openLDAP: 'openLDAP',
   openshiftDeploymentConfig: 'openshiftDeploymentConfig',
   ...oTelPlugins,
+  ...awsMetricStreamsPlugin,
   packet: 'packet',
   pCFApplication: 'pCFApplication',
   pCFOrganization: 'pCFOrganization',
@@ -502,6 +508,7 @@ export const fullyQualifiedPlugins = {
   awsTimestream: 'com.instana.forge.hardware.virtual.aws.timestream.AwsTimestream',
   awsEbs: 'com.instana.forge.hardware.virtual.aws.ebs.AwsEbs',
   awsApiGateway: 'com.instana.forge.hardware.virtual.aws.apigateway.AwsApiGateway',
+  awsMetricStreams: 'com.instana.forge.hardware.virtual.aws.metricstreams.AwsMetricStreams',
   azure: 'com.instana.forge.hardware.virtual.azure.Azure',
   azureApiManagement: 'com.instana.forge.hardware.virtual.azure.apimanagement.AzureApiManagement',
   azureAppService: 'com.instana.forge.hardware.virtual.azure.appservice.AzureAppService',

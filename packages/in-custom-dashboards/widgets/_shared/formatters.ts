@@ -55,6 +55,8 @@ export function getFormatter(
       return baseUnit ? getInfrastructureMetricFormatter(baseUnit) : publicFormatters;
     case 'SLO':
       return getSloMetricFormatter(metric);
+    case 'BUSINESS_METRICS':
+      return getCustomUnitFormatter();
   }
   return publicFormatters;
 }
@@ -102,6 +104,10 @@ function getSloMetricFormatter(metric: string): Formatter[] {
     return [numberCompact];
   }
   return publicFormatters;
+}
+
+function getCustomUnitFormatter(): Formatter[] {
+  return [defaultFormatter, numberCompact];
 }
 
 const logFormattersByAggregation: Partial<Record<AggregationType, Formatter[]>> = {

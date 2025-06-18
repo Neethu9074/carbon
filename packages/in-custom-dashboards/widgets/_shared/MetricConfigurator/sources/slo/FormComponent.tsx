@@ -19,7 +19,7 @@ import SloEntityTypeSelector from 'in-service-levels/components/Shared/SloEntity
 import { SLO2_BIG_NUMBER_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { getSloConfiguration } from 'in-service-levels/api/configuration';
+import { getSloConfiguration } from 'in-service-levels/api/sloConfiguration';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';

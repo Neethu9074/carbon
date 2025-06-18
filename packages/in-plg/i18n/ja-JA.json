@@ -68,7 +68,8 @@
       "runTheInstanaAgentContainerImage": "Instana エージェント・コンテナー・イメージの実行",
       "upgradeTheInstanaAgentContainerImage": "Instana エージェント・コンテナー・イメージのアップグレード",
       "installAgentOnDocker": "Docker へのエージェントのインストール",
-      "configurationOptions": "構成オプション"
+      "configurationOptions": "構成オプション",
+      "optionallyEnterTheAgentZone": "オプションで、エージェントが属するゾーンを入力してください。"
     },
     "jvmVendor": {
       "azulZulu11": "Azul Zulu 11",
@@ -208,7 +209,6 @@
       },
       "iamPermissions": "IAM 権限",
       "trustRelationships": "信頼関係",
-      "enterAClusterNameAndOptionallyTheAgentZone": "クラスター名を入力し、オプションで、クラスターをその一部にするエージェント・ゾーンを入力します。",
       "awsLambdaNodeJsAutotrace": "Node.js 10.x (以降) ベースの AWS Lambda 関数をトレースの対象として構成する方法として推奨されているのは、Instana Lambda レイヤーと AutoTrace です。",
       "selectAwsRegionAndLambdaHandler": "AWS 領域を選択し、現在の Lambda ハンドラーを入力します",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Instana 自動ラップ・ハンドラーを Lambda 関数のハンドラーとして設定します。",
@@ -539,11 +539,21 @@
     "kubecost": {
       "title": "IBM Kubecostによるコストの可視化",
       "description": "無料で開始して、お客様のコスト分析情報と推定節約額を確認してください。",
-      "buttonName": "詳細はこちら"
+      "buttonName": "詳細情報"
     },
     "logging": {
       "title": "Instanaロギング",
       "description": "現在、OTelを通じてどこからでもログを受け入れることができ、アドオン機能として最大90日間の長期保存が可能です。",
+      "buttonName": "詳細はこちら"
+    },
+    "turbonomic": {
+      "title": "Turbonomicによるリソー・・アクション",
+      "description": "リソース・アクションがアプリケーションをどのようにサポートするかを確認してください。",
+      "buttonName": "詳細情報"
+    },
+    "concert": {
+      "title": "IBM Concert を使用して CVE に優先順位を付ける",
+      "description": "運用状況に関する重要なインサイトを発見し、アクションを自動化します。",
       "buttonName": "詳細情報"
     },
     "startIntegrating": {
@@ -728,6 +738,7 @@
         "name": "名前",
         "owner": "所有者",
         "permissions": "権限",
+        "teams": "チーム",
         "searchPlaceholderLabel": "ダッシュボード",
         "addButtonLabel": "ダッシュボード",
         "viewAllLabel": "ダッシュボード"
@@ -804,6 +815,7 @@
       },
       "buttonNames": {
         "deployAgent": "エージェントのデプロイ",
+        "installDataSource": "データ・ソースをインストールする",
         "addUser": "ユーザーの追加",
         "documentation": "IBM 資料",
         "releaseNotes": "リリース情報",
@@ -873,5 +885,36 @@
     "title": "プロファイルの管理",
     "description": "プロフィールを表示および更新したり、プライバシー設定を調整したり、ログアウトしたりするなど、すべてを 1 ヶ所で行うことができます。",
     "buttonText": "完了"
+  },
+  "trialNoviceToProDialog": {
+    "welcometitle": "ようこそ、{{userName}}さん。",
+    "description": "まず、あなたの役割を最もよく表しているものは何ですか？",
+    "getStarted": "始めに",
+    "descriptionFreeTrial": "エージェントを展開して、実際にご自身のデータを確認してください。",
+    "descriptionSandbox": "Instana をサンドボックスでお試しください。サンプル・データを含むインタラクティブなデモ環境です。",
+    "trialButtonData": "自分のデータから始める",
+    "sandboxButtonData": "サンプル・データから始める",
+    "roles": {
+      "frontendDeveloper": "フロントエンド開発者",
+      "backendDeveloper": "バックエンド開発者",
+      "businessManager": "ビジネス管理職",
+      "devOpsEngineer": "DevOps エンジニア",
+      "siteReliabilityEngineer": "サイト信頼性エンジニア",
+      "itOperations": "IT 運用",
+      "itDecisionMaker": "IT 意思決定者",
+      "support": "サポート",
+      "productManager": "製品管理者",
+      "preferNotToSay": "回答したくない",
+      "other": "その他"
+    },
+    "steps": {
+      "stepOne": "役割",
+      "stepTwo": "始めに"
+    },
+    "checkboxText": "このチェックボックスを選択すると、製品チームとの任意のインタビューや調査に参加できます",
+    "specifyRole": "役割を指定します",
+    "roleName": "役割名",
+    "yourRole": "お客様の役割",
+    "next": "次へ"
   }
 }

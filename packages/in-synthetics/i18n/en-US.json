@@ -27,6 +27,7 @@
         "popSubTitle": "Point of presence",
         "uploadScriptTitle": "Upload the script",
         "failureToReadFileContent": "Failed to read file content: {{error}}",
+        "unsupportedFileFormat": ".{{extension}} file is not supported",
         "emptyScriptFileError": "Empty code. Nothing to validate.",
         "enterTheScriptMessage": "Enter the script here",
         "privatePoPLabel": "Private",
@@ -153,6 +154,7 @@
         "scheduleTitle": "Schedule: How will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Credentials with teams associated will also be reflected in the teams page in settings.",
         "customPropertiesTitle": "Custom properties (optional)",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
         "frequencyHours": "This test will run every {{frequencyHours}} hours.",
@@ -190,7 +192,7 @@
           "buttonBack": "Back",
           "buttonSave": "Save",
           "uploadFileLabel": "Upload file",
-          "uploadFileDescription": "You can upload either a single .js file or a .zip file of bundled .js files.",
+          "uploadFileDescription": "You can upload either a single .js, or .cjs file, or a .zip file containing bundled .js, or .cjs files.",
           "node22UploadFileDescription": "You can upload either a single .js, .cjs, or .mjs file, or a .zip file containing bundled .js, .cjs, or .mjs files.",
           "scriptDescription": "Your uploaded script will appear here or you can manually enter it below.",
           "validScriptMessage": "Script is valid.",
@@ -199,7 +201,7 @@
           "mainFileNameLabel": "Enter main file name",
           "invalidMainFileName": "Main file name not valid",
           "webpageUrl": "Webpage URL",
-          "browserUploadFileDescription": "You can upload either a single .js file, a .zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
+          "browserUploadFileDescription": "You can upload either a single .js, or .cjs file, a .zip file containing bundled .js, or .cjs files, or a .side script recorded by Selenium IDE.",
           "node22BrowserUploadFileDescription": "You can upload either a single .js, .cjs, or .mjs file, a .zip file containing bundled .js, .cjs, or .mjs files, or a .side script recorded by Selenium IDE.",
           "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
           "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in advanced mode.",
@@ -312,7 +314,11 @@
         "applicationsTitle": "Associate: Select applications to associate with this synthetic test",
         "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application.",
         "associationsTitle": "Associate: Select what you want to associate with this synthetic test (optional)",
-        "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities."
+        "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities.",
+        "teamsLabel": "Teams",
+        "teamsTitle": "Teams: Select teams to associate with this test (optional)",
+        "teamsDescription": "Select teams to associate with this test.",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Tests with teams associated will also be reflected in the teams page in settings."
       },
       "associations": {
         "applicationsTitle": "Select applications to associate with this synthetic test",
@@ -335,7 +341,8 @@
         "applicationsTableTitle": "Application(s)",
         "websitesTableTitle": "Website(s)",
         "mobileAppsTableTitle": "Mobile App(s)"
-      }
+      },
+      "createSyntheticTest": "Create synthetic test"
     },
     "httpMethods": {
       "get": "GET",
@@ -447,6 +454,7 @@
       "createButton": "New Credential",
       "nameValue": "Name and value",
       "associations": "Associations",
+      "teams": "Teams",
       "newCredentials": "Create a synthetic credential",
       "steps": {
         "textInput": {
@@ -459,7 +467,8 @@
           "placeholder": "Credential value",
           "labelText": "Value"
         },
-        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
+        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities.",
+        "teamsStepDescription": "Select teams to associate with this credential."
       },
       "feedback": {
         "successMessage": "Successfully created credential",
@@ -564,7 +573,9 @@
       "configureColumns": {
         "title": "Column customization",
         "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed."
-      }
+      },
+      "searchSyntheticTests": "Search synthetic tests",
+      "failedToLoadTestsTitle": "Failed to load synthetic tests"
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",
@@ -904,6 +915,7 @@
       "daysRemaining": "Failure configuration",
       "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
       "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration",
+      "teams": "Teams",
       "associations": "Associations",
       "associatedApplications": "Associated Applications",
       "noApplicationsAssociated": "No Applications associated",

@@ -15,6 +15,7 @@
   "testAction": "測試動作",
   "targetAgent": "目標代理程式",
   "triggeringAgent": "{{hostname}}（觸發代理程式）",
+  "agentEmpty": "您尚未配置任何代理程式",
   "targetAgentDescription": "代理程式封裝 1..* 感應器，進而能夠將「事件」提升至 Instana 後端。 觸發代理程式包含引發此特定事件的感應器。",
   "chosenToRun": "執行動作 {{actionName}}",
   "viewManualAction": "檢視手動動作 {{actionName}}",
@@ -46,7 +47,6 @@
   "description": "說明",
   "automation": "自動化",
   "failedToResolveDynamicParameters": "無法解析動態參數。",
-  "deletePolicyWithName": "刪除原則 {{actionName}}",
   "jobTemplate": "工作範本",
   "workflowJobTemplate": "工作流程工作範本",
   "hostsLimit": "主機限制（選用）",
@@ -83,14 +83,10 @@
   "actionCategory": "動作種類",
   "value": "值",
   "type": "類型",
-  "automationPoliciesWithCount": "自動化原則 ({{count}})",
-  "automationPolicies": "自動化原則",
   "copyOf": "（副本）{{name}}",
   "searchActions": "搜尋動作",
   "searchOptimizations": "搜尋最佳化",
   "hostsLimitHelpText": "將執行限制為指定的目標主機。 選取符合 Ansible 庫存中系統呈現方式的值，或輸入 Ansible 限制語法所支援的字串。",
-  "aiEngine": "AI 引擎",
-  "engine": "引擎",
   "eventSimilarity": "事件相似性",
   "close": "關閉",
   "tag": "標籤",
@@ -111,6 +107,34 @@
   "triggeringEvent": "觸發事件",
   "probableRootCause": "可能的主要原因",
   "contextFor": "環境定義為：",
+  "backToPolicies": "回到原則",
+  "backToEvent": "回到事件",
+  "recommendation": "建議",
+  "userCreated": "已建立使用者",
+  "successRate": "成功率",
+  "optimization": "最佳化",
+  "viewRunAction": "檢視與執行動作",
+  "viewRunPolicy": "檢視和執行原則",
+  "viewPolicyDashboard": "檢視原則儀表板",
+  "editPolicy": "編輯原則",
+  "deletePolicy": "刪除原則",
+  "viewActionDashboard": "檢視動作儀表板",
+  "createPolicy": "建立原則",
+  "recommendedActionsExplanability": {
+    "linkExplanation": "Instana 使用演算法和整合來建議事件動作。",
+    "link": "進一步瞭解每種推薦類型。",
+    "algorithmSectionText1": "<strong>事件相似性 -</strong> 發生事件觸發的事件簽章與原則中配置的事件簽章相符。 會計算分數並加以標準化。 原則中配置的動作，會依據事件與事件之間的評分來進行判定。",
+    "algorithmSectionText2": "<strong>NLP（自然語言處理）-</strong> 發生事件觸發的事件簽名會與動作型錄中的動作簽名進行比對。 簽名包括名稱、說明、實體類型和標籤。 會計算分數並加以標準化。",
+    "algorithmSectionText3": "<strong>成功率 -</strong> 根據過去發生的事件的成功率對動作進行評分。",
+    "sectionDescription": "Instana 使用基於事件簽章的預先定義演算法，這些簽章是在發生事件發生時建立的。 有三種類型：",
+    "sectionHeading": "Instana 建議",
+    "optimizations": "最佳化",
+    "optimizationsExplanation": "如果發生事件所參照的實體具有與其關聯的 IBM Turbonomic 動作，則會根據其 NLP 分數建議這些動作。",
+    "algorithms": "演算法",
+    "policiesExplanation": " 當發生符合原則觸發器中指定條件的事件時，該原則會被列為建議的動作。",
+    "learnMoreLink": "進一步瞭解 IBM Docs 中的動作建議。"
+  },
+  "triggerType": "觸發類型",
   "GenerateAIActionDialog": {
     "actionConfiguration": "動作配置",
     "actionDetails": "提供動作詳細資料",
@@ -246,7 +270,6 @@
     "confidence_high": "高",
     "bodyDescription": "與 HTTP 要求相關聯的資料。",
     "confidence": "{{context}}",
-    "confidenceHelpText": "根據 {{source}} 建議此動作",
     "http": "HTTP",
     "confidenceTitle": "信賴度",
     "run": "執行",
@@ -433,8 +456,11 @@
     "createANewPolicy": "建立新的原則",
     "configurePolicyEntityName": "配置原則：{{entityName}}",
     "1PolicyDetails": "1. 原則詳細資料",
+    "policyDetails": "原則詳細資料",
     "2TriggerConfiguration": "2. 觸發程式配置",
+    "triggerConfiguration": "觸發器配置",
     "3ActionConfiguration": "3. 動作配置",
+    "actionConfiguration": "動作配置",
     "showsUpInTheListOfPolicies": "顯示在原則清單中。 應該是唯一且有意義的。",
     "showsUpInThePolicyDescription": "顯示在原則說明中。 應該盡可能具敘述性。",
     "manual": "手動",
@@ -493,23 +519,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "已順利建立原則。",
-        "content": "已順利建立 {{count}} 個原則。",
         "content_plural": "已順利建立 {{count}} 個原則。",
         "content_0": "已順利建立 {{count}} 個原則。",
         "content_1": "已順利建立 {{count}} 個原則。",
         "content_2": "已順利建立 {{count}} 個原則。"
-      },
-      "failure": {
-        "title": "無法建立原則。",
-        "content": "建立原則時發生問題：{{error}}"
       }
     },
     "deleteDialog": {
       "success": "已順利刪除原則。",
       "failure": "無法刪除原則。"
     },
-    "createPolicies": "建立原則",
     "websiteSmartAlert": "網站智慧型警示"
   },
   "infoPanel": {
@@ -593,9 +612,9 @@
       },
       "section2": {
         "section2Title": "輸入提示欄位",
-        "section2EventName": "<strong>事件名稱。</strong> 發生事件、事件或警示的名稱。",
-        "section2Description": "<strong>活動說明。</strong> 發生事件或事件的說明。",
-        "section2Entitytype": "<strong>事件實體類型。</strong> 與發生事件或事件相關聯的實體類型。"
+        "section2EventName": "<strong>事件名稱 -</strong> 發生事件、事件或警示的名稱。",
+        "section2Description": "<strong>事件說明 -</strong> 發生事件或事件的說明。",
+        "section2Entitytype": "<strong>事件實體類型 -</strong> 與發生事件或事件相關的實體類型。"
       },
       "section3": {
         "AIModel": "AI 模型"

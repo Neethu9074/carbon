@@ -24,8 +24,8 @@ import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-
 import List, { CreateNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
 import PropertyInTable from 'in-settings/tabs/GlobalSettings/components/PropertyInTable';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
-import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';

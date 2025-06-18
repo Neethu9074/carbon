@@ -10,10 +10,13 @@ import { TeamDetails } from '@instana/types';
 import { Modal } from '@instana/carbon';
 
 import NameForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameForm';
+import { getEntityHref, securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { SETTINGS_TEAM_CREATE } from 'in-services/tracking/eventNames';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { close } from 'in-components/DialogPresenter/store';
 import { CREATED_OBJECT } from 'in-services/util/constants';
 import { t } from 'in-i18n';
@@ -25,6 +28,7 @@ interface CreateTeamDialogProps {
 const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
   const [isValid, setValid] = useState(false);
   const { unstable_trackEvent } = useSegmentTracking();
+  const { navigate } = useNavigation();
   const [team, setTeam] = useState<TeamDetails>({
     id: '',
     tag: '',
@@ -49,6 +53,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
   const save = () => {
     saveTeam(team).once(
       savedTeam => {
+        const teamId = savedTeam?.body?.id;
         setMessage({
           kind: 'success',
           title: t('in-settings:components.successTitle'),
@@ -58,10 +63,10 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
 
         // Track team creation via Segment
         const customData = {
-          id: savedTeam?.body?.id
+          id: teamId
         };
         unstable_trackEvent(CREATED_OBJECT, { objectType: SETTINGS_TEAM_CREATE }, customData);
-
+        navigate(parseUrl(getEntityHref(securityAndAccessAccessControlTeams, teamId ?? ''), true));
         // Close dialog after successful save
         close();
       },

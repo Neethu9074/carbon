@@ -7,7 +7,7 @@
 import { InquiryResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { getAllSloGroups, GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
+import { getAllSloGroups, GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { FetchedState } from 'in-hooks/utils/types';
 

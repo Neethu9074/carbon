@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { MapForm } from 'formalistic';
+import { Field, MapForm, MapFormItems, UpdatedMapForm } from 'formalistic';
 
 import {
   AdaptiveThresholdRule,
@@ -14,7 +14,14 @@ import {
   StaticThresholdRule,
   ThresholdType
 } from 'in-types';
+import {
+  shiftDecimalLeft,
+  shiftDecimalRight,
+  increaseBy,
+  increaseByForPercentageMetric
+} from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { CRITICAL_THRESHOLD } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 
 export function mapToThresholdRuleInfo(rule: SmartAlertThresholdRuleUnion): ThresholdRuleInfo {
@@ -137,4 +144,79 @@ export function populateRulesInConfig(alertConfig: any) {
   }
 
   return alertConfig;
+}
+
+export interface SetValidNextValueProps {
+  isChecked: boolean;
+  thresholdValue: number;
+  thresholdType: string;
+  updateForm: (form: MapForm<any>) => void;
+  updatedThresholdValue: (
+    targetValue: number | null,
+    thresholdType: string
+  ) => UpdatedMapForm<any, string, UpdatedMapForm<MapFormItems, string, UpdatedMapForm<any, string, Field<any>>>>;
+  percentageMetric: boolean;
+  operator: string;
+}
+
+export function setValidNextValue({
+  isChecked,
+  thresholdValue,
+  thresholdType,
+  updateForm,
+  updatedThresholdValue,
+  percentageMetric,
+  operator
+}: SetValidNextValueProps) {
+  if (!isChecked) {
+    // update the field to null if threshold is unchecked
+    return updateForm(updatedThresholdValue(null, thresholdType));
+  }
+
+  const nextValue = getNextValue(percentageMetric, thresholdValue, operator, thresholdType);
+  return updateForm(updatedThresholdValue(Number(nextValue), thresholdType));
+}
+
+export function getNextValue(
+  percentageMetric: boolean,
+  thresholdValue: number,
+  operator: string,
+  thresholdType: string
+) {
+  if (thresholdValue === null) {
+    // if warning threshold is not enabled, set the value as 0 for the critical field
+    return 0;
+  }
+
+  let nextValue: string | number | null;
+  if (percentageMetric) {
+    if (thresholdValue === 0) {
+      nextValue = getAdjustedValue(0, operator, increaseByForPercentageMetric, thresholdType);
+    } else if (Math.floor(thresholdValue) === thresholdValue) {
+      nextValue = getAdjustedValue(thresholdValue, operator, increaseByForPercentageMetric, thresholdType);
+    } else {
+      // if warning threshold is a decimal number
+      const valueShifted = shiftDecimalRight(thresholdValue, 2, percentageMetric);
+      const incremented = valueShifted
+        ? getAdjustedValue(Number(valueShifted), operator, increaseBy, thresholdType)
+        : 0;
+      nextValue = shiftDecimalLeft(incremented, 2, percentageMetric);
+    }
+  } else {
+    nextValue = getAdjustedValue(thresholdValue, operator, increaseBy, thresholdType);
+  }
+  return nextValue;
+}
+
+function getAdjustedValue(value: number, operator: string, increaseBy: number, thresholdType: string) {
+  switch (operator) {
+    case '>':
+    case '>=':
+      return thresholdType === CRITICAL_THRESHOLD ? value + increaseBy : value < 1 ? 0 : value - increaseBy;
+    case '<':
+    case '<=':
+      return thresholdType === CRITICAL_THRESHOLD ? (value < 1 ? 0 : value - increaseBy) : value + increaseBy;
+    default:
+      throw Error('unexpected error : value cannot be shifted');
+  }
 }

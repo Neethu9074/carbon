@@ -79,13 +79,8 @@ function getLabelsMapFromAxis(
   facets,
   formModel
 ) {
-  const axisLabels =
-    axis?.excludedLabelsFromLegend?.length > 0
-      ? axis.labels.filter(label => axis.excludedLabelsFromLegend.indexOf(label) == -1)
-      : axis?.labels;
-
   return (
-    axisLabels?.map((label, i) => {
+    axis?.labels?.map((label, i) => {
       const isToggleable =
         !axis.nonToggleableSeries ||
         !(axis.nonToggleableSeries.has(label) || axis.nonToggleableSeries.has(axis.metricIds[i]));
@@ -110,7 +105,7 @@ function getLabelsMapFromAxis(
         metricId: axis.metricIds[i],
         onToggle: () => {
           if (isToggleable) {
-            onToggle(chart.config, axisLabels[i]);
+            onToggle(chart.config, axis.labels[i], axis.metricIds[i]);
             chart.config.toggleDataSeries(`${axisName}-${i}`);
             chart.renderScheduler.forceRender();
           }

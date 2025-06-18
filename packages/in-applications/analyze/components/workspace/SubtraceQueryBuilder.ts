@@ -5,7 +5,7 @@
  */
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
-import getSubtraceSideFilter from 'in-applications/subscriptions/getSubtraceSideFilter';
+import getSubtraceTagSuggestion from 'in-applications/subscriptions/getSubtraceTagSuggestion';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { AdditionalTagSuggestionProps } from 'in-applications/types';
@@ -23,7 +23,7 @@ const {
   getSuggestions: args => {
     return isIdTag(args.name) || (args.propose === 'VALUES' && args.key === '')
       ? null
-      : getSubtraceSideFilter({
+      : getSubtraceTagSuggestion({
           entity: args.entity,
           tagFilterExpression: args.tagFilterExpression,
           tagName: args.name,

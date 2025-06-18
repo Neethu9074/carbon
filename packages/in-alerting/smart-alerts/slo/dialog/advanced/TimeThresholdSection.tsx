@@ -11,8 +11,8 @@ import { RestrictedSlider, Typography } from '@instana/components';
 
 import TabSelect, { TabSelectItem, TabSelectMenu, TabSelectPanel, TabSelectPanels } from 'in-components/TabSelect';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { Shape } from 'in-components/Slider/proptypes';
 import { noop } from 'in-services/fixedObjects';
 import { minutes } from 'in-services/time/time';

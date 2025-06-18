@@ -61,3 +61,6 @@ export function shiftDecimalLeft(
 
   return Number(intPart.slice(0, -places) + '.' + intPart.slice(-places) + decPart);
 }
+
+export const increaseBy = 1;
+export const increaseByForPercentageMetric = 0.01;

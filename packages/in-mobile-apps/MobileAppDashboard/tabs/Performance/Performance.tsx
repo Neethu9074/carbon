@@ -42,6 +42,8 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
   const tagFiltersForRequests = tagFilters.slice();
   const tagFiltersForColdStart = tagFilters.slice();
   const tagFiltersForAnr = tagFilters.slice();
+  const tagFiltersForOom = tagFilters.slice();
+  const tagFiltersForEnu = tagFilters.slice();
   tagFiltersForColdStart.push({
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
@@ -53,6 +55,20 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
     stringValue: 'App not responding or freezing',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
+  tagFiltersForOom.push({
+    name: 'mobileBeacon.performanceSubtype',
+    operator: 'EQUALS',
+    stringValue: 'Low memory',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
+  tagFiltersForEnu.push({
+    name: 'mobileBeacon.performanceSubtype',
+    operator: 'EQUALS',
+    stringValue: 'Excessive network usage',
     type: 'TAG_FILTER',
     entity: 'NOT_APPLICABLE'
   });
@@ -224,7 +240,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             }}
             metricsConfiguration={{
               timeConfig,
-              tagFilters: tagFiltersForRequests,
+              tagFilters: tagFiltersForColdStart,
               metrics: {
                 coldStartAndroid: {
                   metric: 'coldStartAndroid',
@@ -260,7 +276,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             }}
             metricsConfiguration={{
               timeConfig,
-              tagFilters: tagFiltersForRequests,
+              tagFilters: tagFiltersForAnr,
               metrics: {
                 anrAndroidCount: {
                   metric: 'anrAndroidCount',
@@ -296,7 +312,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             }}
             metricsConfiguration={{
               timeConfig,
-              tagFilters: tagFiltersForRequests,
+              tagFilters: tagFiltersForOom,
               metrics: {
                 androidLowMemoryCount: {
                   metric: 'androidLowMemoryCount',
@@ -322,6 +338,8 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
         <Row>
           <Col lg={4}>
             <MobileAppChartWrapper
+              toolTipIcon="lib_help_error_info_outline"
+              tooltipContent={t('in-mobile-apps:dashboard.tabs.excessiveNetworkUsageTooltip')}
               title={t('in-mobile-apps:dashboard.tabs.excessiveNetworkUsageTitle')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
@@ -334,14 +352,13 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
               }}
               metricsConfiguration={{
                 timeConfig,
-                tagFilters: tagFiltersForRequests,
+                tagFilters: tagFiltersForEnu,
                 metrics: {
                   androidEnuCount: {
                     metric: 'androidEnuCount',
                     granularity,
                     aggregation: 'SUM',
-                    beaconType: 'perf',
-                    omitMetricInAnalytics: true
+                    beaconType: 'perf'
                   }
                 }
               }}

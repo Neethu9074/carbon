@@ -29,6 +29,7 @@ import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/ta
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { customDashboardsFastQueryModeEnabled } from 'in-services/featureFlags';
+import { createUnitFormatter, getFormatter } from 'in-stores/metric/formatters';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { useLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
@@ -36,7 +37,6 @@ import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import { isParseableAsNumber } from 'in-services/util/number';
 import { close } from 'in-components/DialogPresenter/store';
-import { getFormatter } from 'in-stores/metric/formatters';
 import { operators } from 'in-analyze/applicationFilter';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -166,7 +166,11 @@ export function ListWidgetRenderer({
   const isFormattingFn = typeof config.formatter === 'function';
   // experimental support for formatter functions, additional:
   // Warning! Atm. this could break easily won't be supported except for the use case of OtelLLM !
-  const formatter = isFormattingFn ? config.formatter : getFormatter(config.formatter);
+  let formatter = isFormattingFn ? config.formatter : getFormatter(config.formatter);
+
+  // create the unit formatter for use if it is enabled via unitFormatterEnabled
+  const unitFormatterEnabled = config?.metricConfiguration?.unitFormatterEnabled;
+  if (unitFormatterEnabled) formatter = createUnitFormatter(config.formatter, config?.metricConfiguration?.unit);
 
   return (
     <TopListCardPresenter

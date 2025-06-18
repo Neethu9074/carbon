@@ -6,6 +6,7 @@
   "labelAnalytic": "분석",
   "labelCall": "호출",
   "labelTrace": "추적",
+  "labelSubtrace": "하위 추적",
   "labelStatus": "상태",
   "linkDownload": "다운로드",
   "linkDownloadCalls": "다운로드 호출",
@@ -92,6 +93,7 @@
   "buttonInspectIssue_1": "{{count}}개 문제 검사",
   "buttonInspectIssue_2": "{{count}}개 문제 검사",
   "buttonAnalyzeCalls": "호출 분석",
+  "buttonAnalyzeSubtraces": "서브트레이스 분석",
   "buttonAnalyzeServices": "서비스 분석",
   "buttonAnalyzeEndpoints": "엔드포인트 분석",
   "buttonClear": "지우기",
@@ -255,6 +257,7 @@
     "endpoints": "엔드포인트",
     "types": "유형",
     "technologies": "기술",
+    "NumberOfSubCalls": "개수 - 서브콜 중",
     "httpStatusCode": "HTTP 상태",
     "hiddenCalls": "숨겨진 호출",
     "fastQueryMode": "빠른 조회 모드",
@@ -721,7 +724,8 @@
     "traces_traces": "추적",
     "traces_latency": "대기 시간",
     "traces_erroneousCalls": "잘못된 추적",
-    "traces_errors": "잘못된 추적 비율"
+    "traces_errors": "잘못된 추적 비율",
+    "subtraces_subtraceDuration": "지속 기간"
   },
   "viewLists": {
     "application": "애플리케이션",

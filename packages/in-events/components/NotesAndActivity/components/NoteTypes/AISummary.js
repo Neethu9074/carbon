@@ -23,8 +23,10 @@ import {
 import {
   convertIncidentSummaryToString,
   convertActionsToString,
+  convertTopActionsToString,
   convertNotesSummaryToString
 } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
+import useScoredActions, { useUserRecommendedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import FeedbackModal from 'in-events/components/NotesAndActivity/components/NoteTypes/FeedbackModal';
 import { TopThreeActions } from 'in-events/components/NotesAndActivity/components/TopThreeActions';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
@@ -33,6 +35,7 @@ import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { incidentNotesTopActionsEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import useAction from 'in-automation/ActionCatalog/useAction';
 import { eventsPath } from 'in-events/navigation/paths';
 import { getEvent } from 'in-stores/events';
@@ -67,6 +70,10 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
   const lastRelated = subArray(relatedEventSummary, 5, relatedEventSummary.size);
   const actionHistory = noteObj?.data?.get('actionHistorySummary') || [];
   const triggeringEvent = useObservable(getEvent(event?.get('triggeringEvent')), [event?.get('triggeringEvent')]);
+  const trigger = useTrigger({ event: event?.toJS() || {} });
+  const userActions = useScoredActions({ trigger, event: event?.toJS() || {}, type: 'default' });
+  const recommendedActions = useUserRecommendedScoredActions({ actions: userActions });
+  const firstThreeActions = (recommendedActions?.data || []).slice(0, 3);
   const firstFiveAction = subArray(actionHistory, 0, 5);
   const lastAction = subArray(actionHistory, 5, actionHistory.size);
   // Only one entry so dont need show more
@@ -75,7 +82,9 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
   // Used for copy and share button
   const incidentSummary = convertIncidentSummaryToString(relatedEventSummary);
   const notesSummary = convertNotesSummaryToString(notesSummaryData);
-  const actionHistorySummary = convertActionsToString(actionHistory);
+  const actionHistorySummary = incidentNotesTopActionsEnabled
+    ? convertTopActionsToString(recommendedActions?.data || [])
+    : convertActionsToString(actionHistory);
   const fullSummaryText = `${incidentSummary}${notesSummary}\n${actionHistorySummary}`;
 
   //Feedback collection
@@ -132,7 +141,12 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
         </div>
       )}
       {incidentNotesTopActionsEnabled && (
-        <TopThreeActions event={event?.toJS()} triggeringEvent={triggeringEvent?.toJS()} actions={firstFiveAction} />
+        <TopThreeActions
+          recommendedActions={recommendedActions}
+          firstThreeActions={firstThreeActions}
+          triggeringEvent={triggeringEvent?.toJS()}
+          trigger={trigger}
+        />
       )}
 
       <div className={locals.shareCopyWrapper}>

@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import yaml from 'js-yaml';
 import React from 'react';
+
+import { Typography } from '@instana/components';
 
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -24,9 +25,10 @@ export default connectTo(
     }
 
     return (
-      <Card title={t('in-kubernetes:dashboards.spec')}>
+      <>
+        <Typography variant="heading-03">{t('in-kubernetes:dashboards.spec')}</Typography>
         <Code showLineNumbers={false} code={yaml.safeDump(spec.toJS())} lang="yaml" />
-      </Card>
+      </>
     );
   }
 );

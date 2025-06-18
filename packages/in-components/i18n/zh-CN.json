@@ -8,7 +8,8 @@
   "pageStructure": {
     "headerAriaLabel": "页眉",
     "contentAriaLabel": "内容",
-    "filterAriaLabel": "过滤"
+    "filterAriaLabel": "过滤",
+    "pageTabsAriaLabel": "页面选项卡"
   },
   "fileInputButton": {
     "label": {
@@ -139,6 +140,7 @@
   },
   "downloadPdf": {
     "downloadPdfFile": "下载 PDF 文件",
+    "downloadPdfLabel": "下载 PDF",
     "settings": "设置",
     "pdfOrientation": "定向",
     "portrait": "纵向",
@@ -496,6 +498,7 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelWindowsHypervisor": "Windows 系统管理程序",
     "viewSwitcherLabelXenServer": "XenServer",
+    "viewSwitcherLabelLinuxKVMHypervisor": "Linux KVM 系统管理程序",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherCustomDashboards": "定制仪表板",
@@ -512,8 +515,8 @@
     "profileMenu_saasConsole": "IBM SaaS 控制台",
     "profileMenu_privacy": "隐私",
     "profileMenu_logOut": "注销",
-    "teamFocus_title": "团队焦点",
-    "teamFocus_entireUnit": "整个单元"
+    "scope_title": "作用域",
+    "scope_defaultScope": "缺省作用域"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "选择指标",

@@ -22,9 +22,9 @@ import {
   playwithEnabled,
   openTelemetryKubernetesUnifiedViewEnabled
 } from 'in-services/featureFlags';
+import KubernetesSourceSelector from 'in-kubernetes/lists/components/KubernetesSourceSelector/KubernetesSourceSelector';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
-import KubernetesSourceSelector from 'in-kubernetes/lists/components/KubernetesSourceSelector';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
@@ -54,13 +54,15 @@ export default function KubernetesViewSwitcher() {
             label={clusterLabel}
             isActive={matchLocation(clusterListFullyQualified)}
           />
-          <SecondLevelNavigationItem
-            href={createHrefToPath(namespaceListFullyQualified)}
-            icon="lib_kubernetes_namespace"
-            label={namespacesLabel}
-            isActive={matchLocation(namespaceListFullyQualified)}
-          />
-          {kubernetesExploreEnabled && !playwithEnabled && (
+          {!isOtelCluster && (
+            <SecondLevelNavigationItem
+              href={createHrefToPath(namespaceListFullyQualified)}
+              icon="lib_kubernetes_namespace"
+              label={namespacesLabel}
+              isActive={matchLocation(namespaceListFullyQualified)}
+            />
+          )}
+          {kubernetesExploreEnabled && !playwithEnabled && !isOtelCluster && (
             <SecondLevelNavigationItem
               href={createHrefToPath(exploreFullyQualified)}
               icon="lib_kubernetes"

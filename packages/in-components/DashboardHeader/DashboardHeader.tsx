@@ -63,6 +63,8 @@ export interface DashboardHeaderProps {
   onHeaderClick?: (params: any) => any;
   liveModeDisabled?: boolean;
   liveModeDisabledTooltip?: string;
+  timePickerDisabled?: boolean;
+  timePickerDisabledTooltip?: string;
   ariaLabel?: string;
 }
 
@@ -85,7 +87,9 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     isBeta = false,
     onHeaderClick = () => {},
     liveModeDisabled = false,
-    liveModeDisabledTooltip
+    liveModeDisabledTooltip,
+    timePickerDisabled = false,
+    timePickerDisabledTooltip
   } = props;
   let {
     label,
@@ -173,6 +177,8 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
               darkTheme={theme === themes.dark}
               liveModeDisabled={liveModeDisabled}
               liveModeDisabledTooltip={liveModeDisabledTooltip}
+              timePickerDisabled={timePickerDisabled}
+              timePickerDisabledTooltip={timePickerDisabledTooltip}
             />
           )}
         </div>

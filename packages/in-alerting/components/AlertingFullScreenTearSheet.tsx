@@ -75,7 +75,6 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
   const { goToPath } = useNavigation();
   const { trackCta } = useSegmentTracking();
 
-  const simulatedDelay = 750;
   const lastStepIndex = stepConfigs.length - 1;
 
   const [stepValid, setStepValid] = useState(true);
@@ -193,10 +192,8 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
    */
   const handleNext = (index: number, validateIntermediately?: string[][], valid?: boolean, validator?: () => void) =>
     new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        if (!validateCurrentStep(index, validateIntermediately, valid, validator)) return reject();
-        resolve();
-      }, simulatedDelay);
+      if (!validateCurrentStep(index, validateIntermediately, valid, validator)) return reject();
+      resolve();
     });
 
   return (

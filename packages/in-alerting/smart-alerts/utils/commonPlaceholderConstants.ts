@@ -4,8 +4,16 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { t } from 'in-i18n';
+
+export interface Placeholder {
+  template: string;
+  name: string;
+}
+export interface PlaceholderListWithTooltip {
+  placeholders: ReadonlyArray<Readonly<Placeholder>>;
+  tooltip?: string;
+}
 
 export const severityPlaceholder: Readonly<Placeholder> = Object.freeze({
   template: '${severity}',

@@ -17,7 +17,6 @@ import {
   SLO_CONFIG_DIALOG_FINISH
 } from 'in-services/tracking/eventNames';
 import SloFormStepsContainer from 'in-service-levels/components/ConfigDialog/components/SloFormStepsContainer';
-import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { SlideInViewContentProps } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/types';
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -25,12 +24,14 @@ import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloF
 import { resetChildrenScrollPosition } from 'in-custom-dashboards/widgets/Slo/utils/slideInView';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
+import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { CreateSloFormSlideState } from 'in-custom-dashboards/widgets/Slo/types';
 import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useHandleSloForm from 'in-service-levels/hooks/useHandleSloForm';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+import { ConfigureDialogMode } from 'in-service-levels/types';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -44,7 +45,7 @@ const MIN_VIEW_HEIGHT = 522;
 // on footer
 const MIN_FOOTER_HEIGHT = 65;
 
-const FORM_MODE: CreateSloDialogMode = 'NEW';
+const FORM_MODE: ConfigureDialogMode = 'NEW';
 
 interface CreateSloFormSlideProps extends SlideInViewContentProps<CreateSloFormSlideState> {
   onCreationSuccessful: (sloConfig: ServiceLevelObjectiveConfiguration) => void;

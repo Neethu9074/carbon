@@ -134,7 +134,9 @@ export const createNavItems = (form: MapForm<ScopeFormFields>, teamTag: string, 
       label: t('in-settings:dialogs.scope.applicationsSectionTitle'),
       scrollId: 'applications-section',
       title: t('in-settings:dialogs.scope.applicationsSectionTitle'),
-      valid: true
+      valid: !form
+        ?.getIn(['applicationFilterForm'])
+        .messages?.some(message => message.path === 'filterName' || message.path === 'filterExpression')
     },
     {
       content: (

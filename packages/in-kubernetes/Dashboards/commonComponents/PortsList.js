@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Card, DataTable as CarbonDataTable } from '@instana/components';
+import { DataTable as CarbonDataTable, Typography } from '@instana/components';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import WithIcon from 'in-components/WithIcon';
@@ -54,8 +54,9 @@ export default function PortsList({ resource }) {
   }));
 
   return (
-    <Card title={t('in-kubernetes:dashboards.ports')} disableLayer>
+    <>
+      <Typography variant="heading-03">{t('in-kubernetes:dashboards.ports')}</Typography>
       <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-    </Card>
+    </>
   );
 }

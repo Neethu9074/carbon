@@ -363,12 +363,12 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppScreenRenderingDurationEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.screen.rendering.duration.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'mobileAppExcessiveNetworkUsageEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.excessive.network.usage.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'controlPlaneEnabled',
@@ -664,7 +664,7 @@ module.exports = exports = [
   {
     uiClientKey: 'incidentNotesTopActionsEnabled',
     instanaCtlKey: 'feature.incident.notes.top.actions.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
@@ -725,6 +725,11 @@ module.exports = exports = [
     uiClientKey: 'bidirectionalSlackEnabled',
     instanaCtlKey: 'feature.alert.channel.bidirectional.slack.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'msTeamsApp',
+    instanaCtlKey: 'feature.alert.channel.bidirectional.ms.teams.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',

@@ -11,6 +11,7 @@ import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_share
 
 interface State {
   unit: string;
+  unitFormatterEnabled: boolean;
   compareToTimeShifted: boolean;
   label: string;
   source: string;
@@ -18,10 +19,17 @@ interface State {
 }
 
 export function createForm(form: MapForm<any>, savedState: State) {
-  return addTagFilterExpressionField(form, savedState).put(
-    'unit',
-    createField({
-      value: savedState?.unit || ''
-    })
-  );
+  return addTagFilterExpressionField(form, savedState)
+    .put(
+      'unit',
+      createField({
+        value: savedState?.unit || ''
+      })
+    )
+    .put(
+      'unitFormatterEnabled',
+      createField({
+        value: savedState?.unitFormatterEnabled || false
+      })
+    );
 }

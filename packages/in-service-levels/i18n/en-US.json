@@ -1,7 +1,14 @@
 {
   "general": {
+    "errorEmptyListStateTitle": "Something went wrong",
+    "errorEmptyListStateSubtitle": "An unexpected error occurred. Please refresh the page or try again later.",
+    "errorEmptyListStateIllustrationDescription": "Showing no data available",
+    "noDataEmptyListStateTitle": "No results found",
+    "noDataEmptyListStateSubtitle": "Try adjusting your search to find what you're looking for.",
+    "noDataEmptyListStateIllustrationDescription": "Showing no data available",
     "addButtonLabel": "Add",
     "addButtonLabel_slo": "Add service level objective",
+    "addButtonLabel_correctionWindow": "Add correction window",
     "addButtonLabel_smartAlert": "Add Smart Alert",
     "aggregation": "Aggregation",
     "availability": "Availability",
@@ -11,11 +18,16 @@
     "custom": "Custom",
     "duration": "Duration",
     "from": "From",
+    "all": "All",
+    "createButtonLabel": "Create",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "editButtonLabel": "Edit",
     "copyButtonLabel": "Copy",
+    "nextButtonLabel": "Next",
+    "backButtonLabel": "Back",
     "deleteButtonLabel": "Delete",
+    "nameCopyTemplate": "Copy of {{name}}",
     "select": "Select $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "None selected",
     "loadMore": "Load more",
@@ -78,6 +90,7 @@
     "type": "Type",
     "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service level objective",
+    "timePickerDisabledTooltip": "Data shown on this page always reflects the most recent SLO time window for each SLO.",
     "timeWindow": {
       "type": "unknown",
       "type_fixed": "Fixed",
@@ -108,6 +121,12 @@
       "size_day_1": "{{count}} day",
       "size_day_2": "{{count}} days"
     },
+    "filtering": {
+      "clearFilters": "Clear filters",
+      "filterLabel": "Filter",
+      "clearLabel": "Clear",
+      "filterClose": "Close"
+    },
     "metrics": {
       "status": "Status",
       "remainingBudget": "Remaining",
@@ -124,7 +143,51 @@
       "goodEvents": "Good events",
       "badEvents": "Bad events",
       "erroneousCalls": "Erroneous calls",
-      "beaconErrorCount": "Beacon error count"
+      "beaconErrorCount": "Beacon error count",
+      "correctionWindows": "Correction windows"
+    },
+    "frequency": {
+      "label": "Unknown",
+      "label_0": "Yearly",
+      "label_1": "Monthly",
+      "label_2": "Weekly",
+      "label_3": "Daily",
+      "label_ONE_TIME": "One time only"
+    },
+    "durationUnit": {
+      "label_minute": "Minutes",
+      "label_hour": "Hours",
+      "label_day": "Days"
+    },
+    "daysOfTheWeek": {
+      "label_0": "Monday",
+      "label_1": "Tuesday",
+      "label_2": "Wednesday",
+      "label_3": "Thursday",
+      "label_4": "Friday",
+      "label_5": "Saturday",
+      "label_6": "Sunday"
+    },
+    "dayInterval": {
+      "label_1": "First",
+      "label_2": "Second",
+      "label_3": "Third",
+      "label_4": "Fourth",
+      "label_-1": "Last"
+    },
+    "month": {
+      "label_1": "January",
+      "label_2": "February",
+      "label_3": "March",
+      "label_4": "April",
+      "label_5": "May",
+      "label_6": "June",
+      "label_7": "July",
+      "label_8": "August",
+      "label_9": "September",
+      "label_10": "October",
+      "label_11": "November",
+      "label_12": "December"
     },
     "format": {
       "unit_application": "call",
@@ -162,6 +225,7 @@
       "filterAbscenseExplanation": "No custom filter has been configured"
     }
   },
+
   "createSloDialog": {
     "customFilter": "Custom filter",
     "custom": "Custom",
@@ -202,7 +266,6 @@
     "nameAndTagsTitle": "Set details",
     "sloNameLabel": "SLO name",
     "sloNamePlaceholder": "Enter name",
-    "sloNameCopyTemplate": "Copy of {{name}}",
     "tagsLabel": "Tags (optional)",
     "messages": {
       "creationSuccessfulTitle": "SLO configuration was created successfully",
@@ -244,6 +307,15 @@
     }
   },
   "sloChart": {
+    "correctionWindowsLane": {
+      "correctionWindows": "Correction windows",
+      "correctionWindow": "correction window",
+      "correctionWindow_plural": "correction windows",
+      "correctionWindow_0": "correction windows",
+      "correctionWindow_1": "correction window",
+      "correctionWindow_2": "correction windows",
+      "tootltipMessage": "+{{count}} more $t(in-service-levels:sloChart.correctionWindowsLane.correctionWindow, {\"count\": \"{{count}}\"})"
+    },
     "sloFormatter": {
       "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
       "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}\" })"
@@ -277,9 +349,6 @@
     "components": {
       "sloListTable": {
         "serviceLevelsCreateButton": "Create service level objective",
-        "filterLabel": "Filter",
-        "clearLabel": "Clear",
-        "filterClose": "Close",
         "sloListErrorTitle": "Something went wrong",
         "sloListErrorDescription": "An unexpected error occurred. Please refresh the page or try again later.",
         "emptyListStateTitle": "No results found",
@@ -297,13 +366,9 @@
         "endpoint": "Endpoint: {{label}}",
         "tooltip": "{{context}} SLO"
       },
-      "statusFilter": {
-        "sloStatusAll": "All"
-      },
       "sloTagFilter": {
         "placeholder": "Select tags",
         "noTagsInfo": "No tags available",
-        "clearFilters": "Clear filters",
         "filters": "Unknown filter",
         "filters_entityType": "Entity type: $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
         "filters_blueprint": "Blueprint: $t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
@@ -338,7 +403,16 @@
   "hooks": {
     "useDoDeleteSloConfiguration": {
       "success": "SLO configuration was successfully deleted.",
-      "failure": "Failed to delete the SLO"
+      "failure": "Failed to delete the SLO."
+    },
+    "useDoDeleteCorrectionConfiguration": {
+      "success": "Correction window was successfully deleted.",
+      "failure": "Failed to delete the correction window."
+    },
+    "useToggleCorrectionConfiguration": {
+      "success_enabled": "Correction window \"{{name}}\" was successfully enabled.",
+      "success_disabled": "Correction window \"{{name}}\" was successfully disabled.",
+      "failure": "Failed to toggle the correction window"
     }
   },
   "sloDashboard": {
@@ -348,7 +422,8 @@
     "tabs": {
       "summaryLabel": "Summary",
       "configurationLabel": "Configuration",
-      "smartAlertsLabel": "Smart Alerts"
+      "smartAlertsLabel": "Smart Alerts",
+      "correctionWindowsLabel": "Correction windows"
     },
     "timeWindowSelection": {
       "timeWindow": "Unknown selection",
@@ -438,5 +513,89 @@
         "startTimeLabel": "Start time"
       }
     }
+  },
+  "correctionWindowsList": {
+    "createButtonLabel": "Create correction window",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "recurrent": "Recurrent",
+    "oneTime": "One time",
+    "slosAppliedSubtitle": "{{count}} SLO applied",
+    "slosAppliedSubtitle_plural": "{{count}} SLOs applied",
+    "columnLabels": {
+      "name": "Name",
+      "recurrence": "Recurrence",
+      "nextOccurrence": "Next start date and time",
+      "duration": "Duration",
+      "state": "State",
+      "stateTooltip": "Active correction windows apply a correction calculation. This does not change data collection."
+    },
+    "schedule": "Schedule",
+    "description": "Description",
+    "slosApplied": "SLOs applied ({{count}})",
+    "searchSlosApplied": "Search service level objectives",
+    "searchCorrectionWindows": "Search correction windows"
+  },
+  "configureCorrectionWindowDialog": {
+    "validators": {
+      "daysOfTheWeek": "Must select atleast one day.",
+      "startAndEndDate": "The end date must be after the start date."
+    },
+    "components": {
+      "scopeSection": {
+        "title": "Define scope",
+        "secondaryLabel": "Optional",
+        "subtitle": "Which service level objective(s) should this window be applied to?"
+      },
+      "scheduleSection": {
+        "title": "Schedule window",
+        "subtitle": "When should the correction window take place?",
+        "stepDescription": "Correction windows are scheduled to fix errors and prevent utilization of the error budget. Any alerts during this time will be suppressed.",
+        "startDate": "Start date",
+        "frequency": "Correction window recurrence",
+        "allDay": "All day",
+        "startTime": "Start time",
+        "windowDuration": "Window duration",
+        "correctionWindowName": "Correction window name",
+        "name": "Name",
+        "description": "Description",
+        "recurrenceOptions": "Recurrence options",
+        "repeatUntil": "Repeat until",
+        "endDate": "End date",
+        "numberOfOccurrences": "Number of occurrences",
+        "forever": "Forever",
+        "occurrences": "Occurrences",
+        "month": "Month",
+        "select": "Select",
+        "date": "Date",
+        "byDate": "By date",
+        "byDay": "By day",
+        "repeatEvery": "Repeat every",
+        "repeatOnEvery": "Repeat on every",
+        "days": "Day(s)",
+        "weeks": "Week(s)",
+        "day": "Day",
+        "ofTheMonth": "of the month",
+        "daysOfTheWeek": "Days of the week"
+      }
+    },
+    "title": {
+      "create": "Create correction window",
+      "edit": "Edit correction window"
+    },
+    "messages": {
+      "successfulTitle_NEW": "Correction window was created successfully",
+      "successfulContent_NEW": "Correction window \"{{name}}\" has been created.",
+      "successfulTitle_CLONE": "$t(in-service-levels:configureCorrectionWindowDialog.messages.successfulTitle, {\"context\":\"NEW\"})",
+      "successfulContent_CLONE": "$t(in-service-levels:configureCorrectionWindowDialog.messages.successfulContent, {\"context\":\"NEW\", \"name\":\"{{name}}\"})",
+      "successfulTitle_EDIT": "Correction window was edited successfully",
+      "successfulContent_EDIT": "Correction window \"{{name}}\" has been edited."
+    }
+  },
+  "sloListSelection": {
+    "filters": "Unknown",
+    "filters_entityType": "Entity type: $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "entityType": "Entity type",
+    "searchSlos": "Search service level objectives"
   }
 }

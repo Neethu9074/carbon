@@ -6,8 +6,6 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
@@ -91,11 +89,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function Infrastructure(props) {
-  return (
-    <Card>
-      <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} clusterId={props.clusterId} />
-    </Card>
-  );
+  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} clusterId={props.clusterId} />;
 }
 
 function getTableData({

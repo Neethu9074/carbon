@@ -12,6 +12,7 @@ import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/c
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import ControlledSloBurnRateChart from 'in-service-levels/components/Shared/ControlledSloBurnRateChart';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import { MetricDataSeries } from 'in-components/Chart/types';
 import { sloMetrics } from 'in-service-levels/metrics';
 
 interface SloBurnRateChartPeops {
@@ -23,6 +24,7 @@ interface SloBurnRateChartPeops {
   timeWindowColors: string[];
   configuration: ServiceLevelObjectiveConfiguration;
   title?: string;
+  correctionWindowMetrics?: MetricDataSeries;
 }
 
 export default function SloBurnRateChart({
@@ -33,7 +35,8 @@ export default function SloBurnRateChart({
   timeWindows,
   timeWindowColors,
   configuration,
-  title
+  title,
+  correctionWindowMetrics
 }: SloBurnRateChartPeops) {
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
@@ -66,6 +69,7 @@ export default function SloBurnRateChart({
       metrics={metricsWithGranularity}
       errors={errors}
       progress={progress}
+      correctionWindowMetrics={correctionWindowMetrics}
       renderPostChartContent={props => <SloDashboardMarkerLanes entity={configuration.entity} {...props} />}
     />
   );

@@ -94,81 +94,87 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger,
       }
     });
   };
+  const excludedLabelsFromLegend = axis.excludedLabelsFromLegend ?? [];
 
   return (
     <ul className={locals.metricList} ref={ref}>
-      {(reverseLegendOrder ? rangeRight(labels.length) : range(labels.length)).map(i => {
-        const timeShift = labels[i].timeShift || defaultTimeShift;
-        const { isDisabled, isToggleable, onToggle, dataSeriesName, name, metricId, renderLabel = true } = labels[i];
-        const slice = slices?.[i];
+      {(reverseLegendOrder ? rangeRight(labels.length) : range(labels.length))
+        .map(i => {
+          if (excludedLabelsFromLegend.includes(axis.labels[i])) {
+            return null;
+          }
 
-        const content = (
-          <li
-            key={dataSeriesName}
-            className={classNames({
-              [locals.metric]: true,
-              [locals.disabledMetric]: isDisabled,
-              [locals.toggleable]: isToggleable
-            })}
-            onClick={onToggle}
-            onDoubleClick={() => {
-              toggleOthers(labels[i]);
-            }}
-          >
-            {icons ? (
-              <SvgIcon
-                className={classNames({
-                  [locals.disabledIcon]: isDisabled
-                })}
-                size="xs"
-                color={icons.colors ? icons.colors[i] : axis.colors100[i]}
-                type={icons.types[i]}
-              />
-            ) : (
-              <div
-                className={classNames('legend-dot', {
-                  [locals.dot]: true,
-                  [locals.disabledDot]: isDisabled
-                })}
-                style={{
-                  background: axis.colors100[i]
-                }}
-              />
-            )}
+          const timeShift = labels[i].timeShift || defaultTimeShift;
+          const { isDisabled, isToggleable, onToggle, dataSeriesName, name, metricId, renderLabel = true } = labels[i];
+          const slice = slices?.[i];
+          const content = (
+            <li
+              key={dataSeriesName}
+              className={classNames({
+                [locals.metric]: true,
+                [locals.disabledMetric]: isDisabled,
+                [locals.toggleable]: isToggleable
+              })}
+              onClick={onToggle}
+              onDoubleClick={() => {
+                toggleOthers(labels[i]);
+              }}
+            >
+              {icons ? (
+                <SvgIcon
+                  className={classNames({
+                    [locals.disabledIcon]: isDisabled
+                  })}
+                  size="xs"
+                  color={icons.colors ? icons.colors[i] : axis.colors100[i]}
+                  type={icons.types[i]}
+                />
+              ) : (
+                <div
+                  className={classNames('legend-dot', {
+                    [locals.dot]: true,
+                    [locals.disabledDot]: isDisabled
+                  })}
+                  style={{
+                    background: axis.colors100[i]
+                  }}
+                />
+              )}
 
-            {name !== 'no_group' ? (
-              <span
-                className={classNames('legend-label', {
-                  [locals.legendLabel]: true
-                })}
-              >
-                {name}
-              </span>
-            ) : (
-              <span className={locals.legendLabelBlank}>{t('in-components:chart.chartLegendBlankLabel')}</span>
-            )}
+              {name !== 'no_group' ? (
+                <span
+                  className={classNames('legend-label', {
+                    [locals.legendLabel]: true
+                  })}
+                >
+                  {name}
+                </span>
+              ) : (
+                <span className={locals.legendLabelBlank}>{t('in-components:chart.chartLegendBlankLabel')}</span>
+              )}
 
-            {slice && <LegendValue slice={slice} timeConfig={timeConfig} />}
+              {slice && <LegendValue slice={slice} timeConfig={timeConfig} />}
 
-            {timeShift && timeShift.offset !== 0 && (
-              <Tooltip
-                content={t('in-components:chart.chartLendMetricTimeShifted', {
-                  timeShiftedLabel: getTimeShiftLabel(timeShift)
-                })}
-              >
-                <SvgIcon className={locals.timeShift} size="xxs" type="lib_datetime_time" />
-              </Tooltip>
-            )}
-          </li>
-        );
-        return isToggleable
-          ? renderLabel && content
-          : renderLabel && (
-              <Tooltip key={name} content={axis.nonToggleableSeries.get(metricId)}>
-                {content}
-              </Tooltip>
-            );
-      })}
+              {timeShift && timeShift.offset !== 0 && (
+                <Tooltip
+                  content={t('in-components:chart.chartLendMetricTimeShifted', {
+                    timeShiftedLabel: getTimeShiftLabel(timeShift)
+                  })}
+                >
+                  <SvgIcon className={locals.timeShift} size="xxs" type="lib_datetime_time" />
+                </Tooltip>
+              )}
+            </li>
+          );
+          return isToggleable
+            ? renderLabel && content
+            : renderLabel && (
+                <Tooltip key={name} content={axis.nonToggleableSeries.get(metricId)}>
+                  {content}
+                </Tooltip>
+              );
+        })
+        .filter(Boolean)}
     </ul>
   );
 }

@@ -68,7 +68,7 @@ export default function AlertConfigTearSheetStep4({
                   form={form}
                   onChange={onChange}
                   getTitlePlaceholder={getTitlePlaceholder}
-                  placeholders={severityPlaceholderList}
+                  placeholderData={{ placeholders: severityPlaceholderList }}
                 />
               )}
               isTearSheet

@@ -20,9 +20,6 @@ export const actionHistoryPath = `${automationRoot}${actionHistory}` as const;
 export const policies = '/policies';
 export const policiesFullyQualified = `${automationRoot}${policies}` as const;
 
-export const policiesDetails = '/details';
-export const policiesDetailsFullyQualified = `${policiesFullyQualified}${policiesDetails}` as const;
-
 export const isAutomationView = getRootPathPredicate(automationRoot);
 
 export const actionDashboard = '/actionDashboard';

@@ -8,7 +8,8 @@
   "pageStructure": {
     "headerAriaLabel": "Seitenheader",
     "contentAriaLabel": "Inhalt",
-    "filterAriaLabel": "Filter"
+    "filterAriaLabel": "Filter",
+    "pageTabsAriaLabel": "Seitenregisterkarten"
   },
   "fileInputButton": {
     "label": {
@@ -139,6 +140,7 @@
   },
   "downloadPdf": {
     "downloadPdfFile": "PDF-Datei herunterladen",
+    "downloadPdfLabel": "PDF herunterladen",
     "settings": "Einstellungen",
     "pdfOrientation": "Ausrichtung",
     "portrait": "Hochformat",
@@ -496,6 +498,7 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelWindowsHypervisor": "Windows-Hypervisor",
     "viewSwitcherLabelXenServer": "XenServer",
+    "viewSwitcherLabelLinuxKVMHypervisor": "Linux KVM-Hypervisor",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plattformen",
     "viewSwitcherCustomDashboards": "Benutzerdefinierte Dashboards",
@@ -512,8 +515,8 @@
     "profileMenu_saasConsole": "IBM SaaS-Konsole",
     "profileMenu_privacy": "Datenschutz",
     "profileMenu_logOut": "Abmelden",
-    "teamFocus_title": "Team Fokus",
-    "teamFocus_entireUnit": "Gesamte Einheit"
+    "scope_title": "Umfang",
+    "scope_defaultScope": "Standardbereich"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Messdaten auswählen",

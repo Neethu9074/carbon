@@ -6,12 +6,14 @@
 
 import React from 'react';
 
+import { Button as CarbonButton } from '@instana/carbon';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import CreateSyntheticTestDialog from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialog';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { syntheticCreateButtonClick } from 'in-synthetics/tracking/tracker';
+import { syntheticCarbonTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
 interface CreateSyntheticTestProps {
@@ -26,7 +28,9 @@ const CreateSyntheticTest = ({ onClose }: CreateSyntheticTestProps) => {
     addActiveDialog(<CreateSyntheticTestDialog onClose={onClose} />);
   };
 
-  return (
+  return syntheticCarbonTableEnabled ? (
+    <CarbonButton onClick={handleClick}>{t('in-synthetics:dialog.createTest.createSyntheticTest')}</CarbonButton>
+  ) : (
     <Button onClick={handleClick} icon="lib_openclose_add_box" kind="primaryv2">
       {t('in-synthetics:dialog.createTest.buttonLabel')}
     </Button>

@@ -15,6 +15,7 @@
   "testAction": "Testaktion",
   "targetAgent": "Zielagent",
   "triggeringAgent": "{{hostname}} (Auslöseagent)",
+  "agentEmpty": "Es sind keine Agenten konfiguriert",
   "targetAgentDescription": "Ein Agent kapselt 1 .. * Sensoren, die wiederum Ereignisse an das Instana-Back-End auslösen können. Ein auslösender Agent enthält den Sensor, der dieses Ereignis ausgelöst hat.",
   "chosenToRun": "Aktion ausführen {{actionName}}",
   "viewManualAction": "Manuelle Aktion {{actionName}} anzeigen",
@@ -46,7 +47,6 @@
   "description": "Beschreibung",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Dynamische Parameter konnten nicht aufgelöst werden.",
-  "deletePolicyWithName": "Richtlinie {{actionName}} löschen",
   "jobTemplate": "Jobvorlage",
   "workflowJobTemplate": "Workflow-Jobvorlage",
   "hostsLimit": "Hostgrenzwert (optional)",
@@ -83,14 +83,10 @@
   "actionCategory": "Aktionskategorien",
   "value": "Wert",
   "type": "Typ",
-  "automationPoliciesWithCount": "Automationsrichtlinien ({{count}})",
-  "automationPolicies": "Automatisierungsrichtlinien",
   "copyOf": "(Kopie von) {{name}}",
   "searchActions": "Aktionen im Menü \"Suchen\"",
   "searchOptimizations": "Optimierungen der Suche",
   "hostsLimitHelpText": "Begrenzt die Ausführung auf den angegebenen Zielhost. Wählen Sie den Wert aus, der mit der Darstellung des Systems im Ansible-Bestand übereinstimmt, oder geben Sie eine Zeichenfolge ein, die von der Ansible-Grenzwertsyntax unterstützt wird.",
-  "aiEngine": "KI-Engine",
-  "engine": "Engine",
   "eventSimilarity": "Ereignisähnlichkeit",
   "close": "Schließen",
   "tag": "Tag",
@@ -111,6 +107,34 @@
   "triggeringEvent": "Triggerereignis",
   "probableRootCause": "Wahrscheinliche Fehlerursache",
   "contextFor": "Kontext für:",
+  "backToPolicies": "Zurück zu Richtlinien",
+  "backToEvent": "Zurück zur Ereignis",
+  "recommendation": "Empfehlung",
+  "userCreated": "Benutzer erstellt",
+  "successRate": "Erfolgsquote",
+  "optimization": "Optimierung",
+  "viewRunAction": "Aktion anzeigen und ausführen",
+  "viewRunPolicy": "Richtlinie anzeigen und ausführen",
+  "viewPolicyDashboard": "Dashboard für Richtlinien anzeigen",
+  "editPolicy": "Richtlinie bearbeiten",
+  "deletePolicy": "Richtlinie löschen",
+  "viewActionDashboard": "Dashboard für Aktionen anzeigen",
+  "createPolicy": "Richtlinie erstellen",
+  "recommendedActionsExplanability": {
+    "linkExplanation": "Instana nutzt Algorithmen und Integrationen, um Aktionen für Ereignisse zu empfehlen.",
+    "link": "Erfahren Sie mehr über die verschiedenen Arten von Empfehlungen.",
+    "algorithmSectionText1": "<strong>Ereignisähnlichkeit -</strong> Durch Vorfälle ausgelöste Ereignissignaturen werden mit den Ereignissignaturen der in Richtlinien konfigurierten Ereignisse abgeglichen. Eine Bewertung wird berechnet und normalisiert. Die in der Richtlinie konfigurierte Aktion erhält diese Bewertung zwischen Ereignissen.",
+    "algorithmSectionText2": "<strong>NLP (Natural Language Processing) -</strong> Die durch einen Vorfall ausgelösten Ereignissignaturen werden mit den Aktionssignaturen im Aktionskatalog abgeglichen. Die Signaturen umfassen den Namen, die Beschreibung, den Entitätstyp und Tags. Eine Bewertung wird berechnet und normalisiert.",
+    "algorithmSectionText3": "<strong>Erfolgsquote -</strong> Aktionen erhalten eine Bewertung, die auf der Erfolgsquote der Aktion basiert, wenn sie für ein früheres Auftreten eines Ereignissen ausgeführt wird.",
+    "sectionDescription": "Instana verwendet vordefinierte Algorithmen auf Basis von Ereignissignaturen, die beim Auftreten eines Vorfalls erstellt werden. Es gibt die folgenden drei Typen:",
+    "sectionHeading": "Instana-Empfehlungen",
+    "optimizations": "Optimierungen",
+    "optimizationsExplanation": "Wenn die Entität, auf die ein Vorfall verweist, IBM Turbonomic-Aktionen enthält, die damit verbunden sind, werden diese Aktionen basierend auf ihrer NLP-Bewertung empfohlen.",
+    "algorithms": "Algorithmen",
+    "policiesExplanation": " Wenn ein Ereignis ausgelöst wird, das die in einem Richtlinienauslöser angegebenen Bedingungen erfüllt, wird die Richtlinie als empfohlene Aktion aufgeführt.",
+    "learnMoreLink": "Erfahren Sie mehr über die Handlungsempfehlungen in IBM Docs."
+  },
+  "triggerType": "Triggertyp",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Aktionskonfiguration",
     "actionDetails": "Details zur Aktion bereitstellen",
@@ -246,7 +270,6 @@
     "confidence_high": "Hoch",
     "bodyDescription": "Daten, die der HTTP-Anforderung zugeordnet sind.",
     "confidence": "{{context}}",
-    "confidenceHelpText": "Diese Aktion wurde basierend auf {{source}} empfohlen.",
     "http": "HTTP",
     "confidenceTitle": "Zuverlässigkeit",
     "run": "Ausführen",
@@ -433,8 +456,11 @@
     "createANewPolicy": "Neue Richtlinie erstellen",
     "configurePolicyEntityName": "Richtlinie konfigurieren: {{entityName}}",
     "1PolicyDetails": "1. Richtliniendetails",
+    "policyDetails": "Richtliniendetails",
     "2TriggerConfiguration": "2. Auslöserkonfiguration",
+    "triggerConfiguration": "Auslöserkonfiguration",
     "3ActionConfiguration": "3. Aktionskonfiguration",
+    "actionConfiguration": "Aktionskonfiguration",
     "showsUpInTheListOfPolicies": "Wird in der Liste der Richtlinien angezeigt Sollte eindeutig und aussagekräftig sein.",
     "showsUpInThePolicyDescription": "Wird in der Richtlinienbeschreibung angezeigt. Sollte so beschreibend wie möglich sein.",
     "manual": "Manuell",
@@ -493,23 +519,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "Richtlinien wurden erfolgreich erstellt.",
-        "content": "{{count}} Richtlinie wurde erstellt.",
         "content_plural": "{{count}} Richtlinien wurden erfolgreich erstellt.",
         "content_0": "{{count}} Richtlinien wurden erfolgreich erstellt.",
         "content_1": "{{count}} Richtlinien wurden erfolgreich erstellt.",
         "content_2": "{{count}} Richtlinien wurden erfolgreich erstellt."
-      },
-      "failure": {
-        "title": "Erstellen von Richtlinien fehlgeschlagen.",
-        "content": "Beim Erstellen der Richtlinien ist ein Fehler aufgetreten: {{error}}"
       }
     },
     "deleteDialog": {
       "success": "Die Richtlinie wurde gelöscht.",
       "failure": "Die Richtlinie konnte nicht gelöscht werden."
     },
-    "createPolicies": "Richtlinien erstellen",
     "websiteSmartAlert": "Website-Smart Alert"
   },
   "infoPanel": {
@@ -593,9 +612,9 @@
       },
       "section2": {
         "section2Title": "Eingabeaufforderungsfelder",
-        "section2EventName": "<strong>Name der Veranstaltung.</strong> Der Name des Vorfalls, des Ereignisses oder der Warnung.",
-        "section2Description": "<strong>Ereignisbeschreibung.</strong> Die Beschreibung des Vorfalls oder Ereignisses.",
-        "section2Entitytype": "<strong>Typ der Veranstaltungseinheit.</strong> Die Art der mit dem Vorfall oder Ereignis verbundenen Entität."
+        "section2EventName": "<strong>Ereignisname - </strong>Der Name des Vorfalls, Ereignisses oder Alerts.",
+        "section2Description": "<strong>Ereignisbeschreibung -</strong> Die Beschreibung des Vorfalls oder Ereignisses.",
+        "section2Entitytype": "<strong>Entitätstyp des Ereignisses -</strong> Der Typ der Entität, die mit dem Vorfall oder Ereignis verbunden ist."
       },
       "section3": {
         "AIModel": "KI-Modell"

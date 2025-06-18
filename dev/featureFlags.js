@@ -76,8 +76,8 @@ module.exports = {
   mobileAppPerfBeaconEnabled: true,
   mobileAppPerformanceTabEnabled: true,
   mobileAppDroppedBeaconsEnabled: true,
-  mobileAppScreenRenderingDurationEnabled: false,
-  mobileAppExcessiveNetworkUsageEnabled: false,
+  mobileAppScreenRenderingDurationEnabled: true,
+  mobileAppExcessiveNetworkUsageEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
   eumImpactedUsersForAppAlertEnabled: true,
   eumImpactedUsersForWebsiteAndMobileAlertEnabled: true,
@@ -129,7 +129,7 @@ module.exports = {
   syntheticRunNowEnabled: true,
   syntheticNodeJs22Enabled: true,
   syntheticSslImprovementEnabled: true,
-  syntheticCarbonTableEnabled: true,
+  syntheticCarbonTableEnabled: false,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
@@ -186,7 +186,6 @@ module.exports = {
   sloLiteEnabled: true,
   sloFullEnabled: true,
   solisEnabled: false,
-  sloBurnRateEnabled: true,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
   tealiumPrivacyEnabled: true,
   relatedEventsDatagridEnabled: true,
@@ -210,5 +209,6 @@ module.exports = {
   blockLogDeletionsEnabled: false,
   logFormattingEnabled: true,
   openTelemetryKubernetesUnifiedViewEnabled: false,
-  newOTelPageEnabled: false
+  newOTelPageEnabled: false,
+  msTeamsAppEnabled: false
 };

@@ -20,7 +20,7 @@ export interface SelectedMetric extends Group {
 //  function converts the groupy {} to a tagFilterExpression for Infra events.
 export function getExpressionWithGroupingTags(
   tagFilterExpression: TagFilterExpression,
-  groupingTags: GroupingTag[],
+  groupingTags: Record<string, string | number>,
   isInfraSmartAlert: boolean = false
 ): TagFilterExpression {
   const groupingKeys = Object.keys(groupingTags);

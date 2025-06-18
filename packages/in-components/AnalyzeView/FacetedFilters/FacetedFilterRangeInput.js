@@ -57,6 +57,14 @@ export default function FacetedFilterRangeInput({
   const subTitle =
     !isErroneous && isValidNumberRange(minInput, maxInput) ? t('in-components:analyze.rangeSelected') : undefined;
 
+  // isOutsideInputDiv function is a workaround to a problem with Carbon NumberInput.
+  //  +/- buttons are clicked on number input. Prevent onBlur call if inside the Number Input
+  // add check to see if outside the parent.
+  // return true if the parent focus is lost.
+  const isOutsideInputDiv = e => {
+    return !e.currentTarget.contains(e.relatedTarget);
+  };
+
   return (
     <FacetedExpandableCard
       title={title}
@@ -75,41 +83,46 @@ export default function FacetedFilterRangeInput({
               <Label htmlFor="range-min" hasError={isErroneous}>
                 {unit ? t('in-components:analyze.fromUnit', { unit: unit }) : t('in-components:analyze.from')}
               </Label>
-              <Input
-                id="range-min"
-                className={locals.rangeInput}
-                value={minInput}
-                type="number"
-                hasError={isErroneous}
-                onChange={e => (Number(e.target.value) > 0 ? setMinInput(Number(e.target.value)) : setMinInput(''))}
-                onBlur={() =>
-                  (effectiveRange.from !== minInput || isErroneous) &&
-                  validateInputAndSetFacetFilter(
-                    tag,
-                    minInput,
-                    maxInput,
-                    facets,
-                    updateFacets,
-                    setError,
-                    dataSource,
-                    trackUa2FacetedSearchFilterAdded
-                  )
-                }
-                onKeyDown={e =>
-                  isReturn(e) &&
-                  (effectiveRange.from !== minInput || isErroneous) &&
-                  validateInputAndSetFacetFilter(
-                    tag,
-                    minInput,
-                    maxInput,
-                    facets,
-                    updateFacets,
-                    setError,
-                    dataSource,
-                    trackUa2FacetedSearchFilterAdded
-                  )
-                }
-              />
+              <div
+                onBlur={e => {
+                  if (isOutsideInputDiv(e)) {
+                    (effectiveRange.from !== minInput || isErroneous) &&
+                      validateInputAndSetFacetFilter(
+                        tag,
+                        minInput,
+                        maxInput,
+                        facets,
+                        updateFacets,
+                        setError,
+                        dataSource,
+                        trackUa2FacetedSearchFilterAdded
+                      );
+                  }
+                }}
+              >
+                <Input
+                  id="range-min"
+                  className={locals.rangeInput}
+                  value={minInput}
+                  type="number"
+                  hasError={isErroneous}
+                  onChange={e => (Number(e.target.value) > 0 ? setMinInput(Number(e.target.value)) : setMinInput(''))}
+                  onKeyDown={e =>
+                    isReturn(e) &&
+                    (effectiveRange.from !== minInput || isErroneous) &&
+                    validateInputAndSetFacetFilter(
+                      tag,
+                      minInput,
+                      maxInput,
+                      facets,
+                      updateFacets,
+                      setError,
+                      dataSource,
+                      trackUa2FacetedSearchFilterAdded
+                    )
+                  }
+                />
+              </div>
             </div>
           </Col>
 
@@ -118,41 +131,46 @@ export default function FacetedFilterRangeInput({
               <Label htmlFor="range-max" hasError={isErroneous}>
                 {unit ? t('in-components:analyze.toUnit', { unit: unit }) : t('in-components:analyze.to')}
               </Label>
-              <Input
-                id="range-max"
-                className={locals.rangeInput}
-                value={maxInput}
-                type="number"
-                hasError={isErroneous}
-                onChange={e => (Number(e.target.value) > 0 ? setMaxInput(Number(e.target.value)) : setMaxInput(''))}
-                onBlur={() =>
-                  (effectiveRange.to !== maxInput || isErroneous) &&
-                  validateInputAndSetFacetFilter(
-                    tag,
-                    minInput,
-                    maxInput,
-                    facets,
-                    updateFacets,
-                    setError,
-                    dataSource,
-                    trackUa2FacetedSearchFilterAdded
-                  )
-                }
-                onKeyDown={e =>
-                  isReturn(e) &&
-                  (effectiveRange.to !== maxInput || isErroneous) &&
-                  validateInputAndSetFacetFilter(
-                    tag,
-                    minInput,
-                    maxInput,
-                    facets,
-                    updateFacets,
-                    setError,
-                    dataSource,
-                    trackUa2FacetedSearchFilterAdded
-                  )
-                }
-              />
+              <div
+                onBlur={e => {
+                  if (isOutsideInputDiv(e)) {
+                    (effectiveRange.to !== maxInput || isErroneous) &&
+                      validateInputAndSetFacetFilter(
+                        tag,
+                        minInput,
+                        maxInput,
+                        facets,
+                        updateFacets,
+                        setError,
+                        dataSource,
+                        trackUa2FacetedSearchFilterAdded
+                      );
+                  }
+                }}
+              >
+                <Input
+                  id="range-max"
+                  className={locals.rangeInput}
+                  value={maxInput}
+                  type="number"
+                  hasError={isErroneous}
+                  onChange={e => (Number(e.target.value) > 0 ? setMaxInput(Number(e.target.value)) : setMaxInput(''))}
+                  onKeyDown={e =>
+                    isReturn(e) &&
+                    (effectiveRange.to !== maxInput || isErroneous) &&
+                    validateInputAndSetFacetFilter(
+                      tag,
+                      minInput,
+                      maxInput,
+                      facets,
+                      updateFacets,
+                      setError,
+                      dataSource,
+                      trackUa2FacetedSearchFilterAdded
+                    )
+                  }
+                />
+              </div>
             </div>
           </Col>
           {isErroneous && (

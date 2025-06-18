@@ -14,6 +14,7 @@ import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearShe
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import EvaluationWindow from 'in-alerting/smart-alerts/components/tearSheet/EvaluationWindow';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
+import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
@@ -101,6 +102,7 @@ export default function ThresholdSection({
           metricUnitPostfix={metricUnitPostfix}
           alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
           showSuggestedValueButton={!isPerEntityEvaluation && !groupBy?.length}
+          setValidNextValue={setValidNextValue}
         />
       </Section>
 

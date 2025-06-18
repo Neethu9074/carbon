@@ -14,6 +14,7 @@ import {
   SyntheticTest,
   TagFilterExpression,
   TagFilterOperator,
+  TestResultListItem,
   TimeConfig
 } from '@instana/types';
 import { Message as CarbonMessage } from '@instana/components';
@@ -65,8 +66,8 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
-import SyntheticDataTableWithUrlState from 'in-synthetics/components/SyntheticDataTableWithUrlState';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -229,7 +230,7 @@ const TestSummaryList = () => {
           </div>
         )}
         {syntheticCarbonTableEnabled ? (
-          <SyntheticDataTableWithUrlState
+          <CarbonDataTableWithUrlState<TestResultListItem, any>
             get={getTestSummaryListData}
             paginationResettingUrlParameters={[...timeConfigUrlParameters]}
             columnDefinitions={columnDefinitions}
@@ -238,6 +239,29 @@ const TestSummaryList = () => {
             pathSegment={pathSegment}
             matrixPrefix={matrixPrefix}
             timeConfig={timeConfig}
+            isSearchable
+            searchText={t('in-synthetics:dashboard.testList.searchSyntheticTests')}
+            toolBarContent={
+              syntheticRunNowEnabled && (
+                <Dropdown
+                  className={locals.dropdownWidth}
+                  items={datascopeRunTypes}
+                  onChange={({ selectedItem }) => {
+                    setFilter({ runType: selectedItem?.value! });
+                  }}
+                  label=""
+                  id="runType"
+                  titleText=""
+                  selectedItem={datascopeRunTypes.find(item => item.value === runType)}
+                  initialSelectedItem={datascopeRunTypes[0]}
+                />
+              )
+            }
+            noDataHeader={t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle')}
+            noDataDescription={t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')}
+            errorHeader={t('in-synthetics:dashboard.testList.failedToLoadTestsTitle')}
+            runType={runType}
+            actionButtonContent={role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
           />
         ) : (
           <ServerTableWithUrlState
@@ -272,15 +296,16 @@ const TestSummaryList = () => {
       </LeftRightPadding>
       <Footer />
 
-      {(role?.canConfigureSyntheticTests || role?.canConfigureGlobalSyntheticSmartAlerts) && (
-        <FloatingActionButtons>
-          <FloatingActionButtonMenu>
-            {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
+      {!syntheticCarbonTableEnabled &&
+        (role?.canConfigureSyntheticTests || role?.canConfigureGlobalSyntheticSmartAlerts) && (
+          <FloatingActionButtons>
+            <FloatingActionButtonMenu>
+              {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
 
-            {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
-          </FloatingActionButtonMenu>
-        </FloatingActionButtons>
-      )}
+              {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
+            </FloatingActionButtonMenu>
+          </FloatingActionButtons>
+        )}
     </Sticky>
   );
 };

@@ -8,7 +8,8 @@
   "pageStructure": {
     "headerAriaLabel": "ページ・ヘッダー",
     "contentAriaLabel": "内容",
-    "filterAriaLabel": "フィルター"
+    "filterAriaLabel": "フィルター",
+    "pageTabsAriaLabel": "ページ・タブ"
   },
   "fileInputButton": {
     "label": {
@@ -139,6 +140,7 @@
   },
   "downloadPdf": {
     "downloadPdfFile": "PDF ファイルをダウンロード",
+    "downloadPdfLabel": "PDFのダウンロード",
     "settings": "設定",
     "pdfOrientation": "方向",
     "portrait": "縦長",
@@ -496,6 +498,7 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelWindowsHypervisor": "Windowsハイパーバイザー",
     "viewSwitcherLabelXenServer": "XenServer",
+    "viewSwitcherLabelLinuxKVMHypervisor": "Linux KVM ハイパーバイザー",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "プラットフォーム",
     "viewSwitcherCustomDashboards": "カスタム・ダッシュボード",
@@ -512,8 +515,8 @@
     "profileMenu_saasConsole": "IBM SaaS コンソール",
     "profileMenu_privacy": "プライバシー",
     "profileMenu_logOut": "ログアウト",
-    "teamFocus_title": "チーム・フォーカス",
-    "teamFocus_entireUnit": "ユニット全体"
+    "scope_title": "範囲",
+    "scope_defaultScope": "デフォルト・スコープ"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "メトリックの選択",

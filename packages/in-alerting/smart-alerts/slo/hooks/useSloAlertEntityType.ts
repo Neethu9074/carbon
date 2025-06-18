@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { getSloConfiguration } from 'in-service-levels/api/configuration';
+import { getSloConfiguration } from 'in-service-levels/api/sloConfiguration';
 import { pendingResult } from 'in-services/fixedObjects';
 import { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';

@@ -4,6 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import { string } from 'prop-types';
+
+import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import { t } from 'in-i18n';
 
 // Converting the incident summary
@@ -47,5 +50,37 @@ export function convertActionsToString(data) {
     stringSummary += `type: ${actionType}\n`;
   });
 
+  return stringSummary;
+}
+
+// Return summary of top three recommended actions
+export function convertTopActionsToString(actions) {
+  // Omit from summary if no actions are found
+  if (!actions || actions.length == 0) {
+    return '';
+  }
+  let stringSummary = '';
+  const highConfidenceCount = actions.filter(x => x.confidence === 'high').length;
+  const totalCount = actions.length;
+  if (highConfidenceCount === 0) {
+    if (totalCount === 1) {
+      // "There is one recommended action.",
+      stringSummary += t('in-events:notes.introRecActionSingularNoLevel');
+    } else {
+      // "There are {{number}} recommended actions."
+      stringSummary += t('in-events:notes.introRecActionPluralNoLevel', { number: totalCount });
+    }
+  } else if (highConfidenceCount === 1) {
+    // "There is one recommended action with a high confidence level."
+    stringSummary += t('in-events:notes.introRecActionSingular');
+  } else {
+    // "There are {{number}} recommended actions with a high confidence level."
+    stringSummary += t('in-events:notes.introRecActionPlural', { number: highConfidenceCount });
+  }
+  stringSummary += ` ${t('in-events:notes.sumActionsTitle')}\n\n`;
+  actions.slice(0, 3).forEach((entry, index) => {
+    stringSummary += `${index + 1}: ${entry.entity?.name} `;
+    stringSummary += `(${entry.entity?.description})\n`;
+  });
   return stringSummary;
 }

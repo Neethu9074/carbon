@@ -57,6 +57,12 @@ const columnsPerDataSource = {
   subtraces: getColumnDefinitions('subtraces')
 };
 
+const iconTypePerDataSource = {
+  calls: 'lib_application_call',
+  traces: 'lib_application_trace',
+  subtraces: 'lib_application_call'
+};
+
 export default function Results(props) {
   const {
     Chart = ChartsPresenter,
@@ -209,7 +215,7 @@ function getColumnDefinitions(dataSource) {
         const label = subtraceType ? item.subtraceName : item[type].label; //TODO Add link for detailview for subtraces
         return (
           <div className={locals.batchedLine}>
-            <SvgIcon type={`lib_application_${type}`} color="var(--cds-link-primary)" size="s" />
+            <SvgIcon type={iconTypePerDataSource[dataSource]} color="var(--cds-link-primary)" size="s" />
             <Spacer horizontal="xsmall" />
             {!subtraceType ? (
               <LinkToDetailPage

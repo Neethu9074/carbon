@@ -8,6 +8,7 @@ import React from 'react';
 
 import { SvgIcon, Button } from '@instana/components';
 
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './ProgressInformation.mless';
@@ -27,10 +28,22 @@ export default function ProgressInformation({ getRedirectButtonProperties, isBac
           />
           <div className={locals.stepSpacer} />
           <Step
-            text={t('in-waiting-for-deployment:agentDeployed')}
+            text={
+              newOTelPageEnabled
+                ? t('in-waiting-for-deployment:dataSourceInstalled')
+                : t('in-waiting-for-deployment:agentDeployed')
+            }
             disabled={!isAgentDeployed}
             spinning={isBackendAvailable && !isAgentDeployed}
-            icon={isBackendAvailable ? (isAgentDeployed ? 'lib_check' : 'lib_actions_loading') : 'lib_actions_settings'}
+            icon={
+              isBackendAvailable
+                ? isAgentDeployed
+                  ? 'lib_check'
+                  : 'lib_actions_loading'
+                : newOTelPageEnabled
+                ? 'lib_datasource'
+                : 'lib_actions_settings'
+            }
           />
         </div>
         <div className={locals.progressBarWrapper}>
@@ -51,7 +64,10 @@ export default function ProgressInformation({ getRedirectButtonProperties, isBac
 
 function Step({ icon, text, spinning, disabled }) {
   return (
-    <div style={{ opacity: disabled ? 0.5 : 1 }} className={locals.step}>
+    <div
+      style={{ opacity: disabled ? 0.5 : 1 }}
+      className={classNames({ [locals.step]: true, [locals.extraWidth]: newOTelPageEnabled })}
+    >
       <SvgIcon className={locals.icon} type={icon} size="l" spinning={spinning} />
       <span className={locals.stepText}>{text}</span>
     </div>

@@ -19,8 +19,10 @@ import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SlideInConfig, SliderState } from 'in-synthetics/utils/constants';
+import StepThree from 'in-synthetics/createCredentials/steps/StepThree';
 import StepOne from 'in-synthetics/createCredentials/steps/StepOne';
 import StepTwo from 'in-synthetics/createCredentials/steps/StepTwo';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { createCredential } from 'in-synthetics/api';
 import { noop } from 'in-services/fixedObjects';
 import { SyntheticCredential } from 'in-types';
@@ -53,7 +55,8 @@ const CreateCredentialDialog = ({ credentialNames, onClose }: Props) => {
 
   const stepConfigs = [
     { title: t('in-synthetics:dialog.createCredential.nameValue') },
-    { title: t('in-synthetics:dialog.createCredential.associations') }
+    { title: t('in-synthetics:dialog.createCredential.associations') },
+    ...(rbacTeamsEnabled ? [{ title: t('in-synthetics:dialog.createCredential.teams') }] : [])
   ];
 
   const onCreate = () => {
@@ -116,6 +119,12 @@ const CreateCredentialDialog = ({ credentialNames, onClose }: Props) => {
                     <StepTwo form={form} updateForm={updateForm} setSliderState={setSliderState} />
                   </SimpleModeStepContentWrapper>
                 );
+              case 2:
+                return rbacTeamsEnabled ? (
+                  <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createCredential.teams')}>
+                    <StepThree form={form} updateForm={updateForm} />
+                  </SimpleModeStepContentWrapper>
+                ) : null;
               default:
                 return null;
             }

@@ -155,7 +155,7 @@ function renderNetworkPartitionWarn(netPartitions) {
           <Trans
             i18nKey="in-forge:plugins.rabbitMqCluster.dashboard.networkPartitionWarnFooter"
             components={{
-              link: <a href="http://www.rabbitmq.com/partitions.html" />
+              link: <a href="https://www.rabbitmq.com/partitions.html" />
             }}
           />
         </p>

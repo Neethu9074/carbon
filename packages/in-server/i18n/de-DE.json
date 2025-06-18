@@ -1,79 +1,73 @@
 {
-    "mainNavigation": {
-      "monitoringObservability": "Überwachung und Beobachtbarkeit",
-      "criticalEvents": "Kritische Ereignisse",
-      "warningEvents": "Warnereignisse",
-      "incident": "Vorfall",
-      "activeTotal": "Aktiv/Gesamt",
-      "shared": "Geteilt",
-      "customerDashboard": "Benutzerdefiniertes Dashboard",
-      "owner": "Besitzer",
-      "viewSwitcherCustomDashboards": "Benutzerdefinierte Dashboards",
-      "viewSwitcherLabelWebsitesAndMobileApps": "Websites und mobile Apps",
-      "viewSwitcherLabelWebsites": "Websites",
-      "viewSwitcherLabelMobileApps": "Mobile Apps",
-      "viewSwitcherLabelApplications": "Anwendungen",
-      "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-      "viewSwitcherLabelphmc": "IBM Power HMC",
-      "viewSwitcherLabelPowervc": "IBM PowerVC",
-      "viewSwitcherLabelzhmc": "IBM Z HMC",
-      "viewSwitcherLabelOpenstack": "OpenStack",
-      "viewSwitcherLabelKubernetes": "Kubernetes",
-      "viewSwitcherLabelNutanix": "Nutanix",
-      "viewSwitcherLabelSap": "SAP",
-      "viewSwitcherLabelvSphere": "vSphere",
-      "viewSwitcherlabelInfrastructure": "Infrastruktur",
-      "viewSwitcherLabelAnalytics": "Analyse",
-      "viewVulnerabilityCenter": "Sicherheitslücken",
-      "viewSwitcherLabelEvents": "Ereignisse",
-      "viewSwitcherLabelSlo": "Service-Levels",
-      "viewSwitcherLabelLogs": "Protokolle",
-      "viewSwitcherLabelInternal": "Intern",
-      "viewSwitcherLabelSettings": "Einstellungen",
-      "viewSwitcherLabelTenants": "Tenants",
-      "viewSwitcherLabelAgents": "Agenten",
-      "viewSwitcherLabelReleaseNotes": "Releaseinformationen",
-      "viewSwitcherLabelDocumentation": "Dokumentation",
-      "viewSwitcherLabelSupport": "Support",
-      "viewSwitcherLabelAboutInstana": "Informationen zu Instana",
-      "viewSwitcherButtonSignOut": "Abmelden",
-      "profileMenu_tooltip": "Profilmenü",
-      "viewSwitcherLabelPlatforms": "Plattformen",
-      "home": "Home",
-      "businessMonitoring": "Business Monitoring",
-      "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen",
-      "automation": "Automation",
-      "viewSwitcherLabelMore": "Mehr",
-      "viewSwitcherLabelTools": "Tools",
-      "viewSwitcherLabelAdministration": "Administration"
+  "mainNavigation": {
+    "monitoringObservability": "Überwachung und Beobachtbarkeit",
+    "criticalEvents": "Kritische Ereignisse",
+    "warningEvents": "Warnungsereignisse",
+    "incident": "Vorfall",
+    "activeTotal": "Aktiv/Gesamt",
+    "shared": "Gemeinsam genutzt",
+    "customerDashboard": "Angepasstes Dashboard",
+    "owner": "Eigner",
+    "viewSwitcherCustomDashboards": "Benutzerdefinierte Dashboards",
+    "viewSwitcherLabelWebsitesAndMobileApps": "Websites und mobile Apps",
+    "viewSwitcherLabelWebsites": "Websites",
+    "viewSwitcherLabelMobileApps": "Mobile Apps",
+    "viewSwitcherLabelApplications": "Anwendungen",
+    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM Power HMC",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
+    "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelKubernetes": "Kubernetes",
+    "viewSwitcherLabelNutanix": "Nutanix",
+    "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherlabelInfrastructure": "Infrastruktur",
+    "viewSwitcherLabelAnalytics": "Analyse",
+    "viewVulnerabilityCenter": "Sicherheitslücken",
+    "viewSwitcherLabelEvents": "Ereignisse",
+    "viewSwitcherLabelSlo": "Service-Levels",
+    "viewSwitcherLabelLogs": "Protokolle",
+    "viewSwitcherLabelInternal": "Intern",
+    "viewSwitcherLabelSettings": "Einstellungen",
+    "viewSwitcherLabelAgents": "Agenten",
+    "viewSwitcherLabelDocumentation": "Dokumentation",
+    "profileMenu_tooltip": "Profilmenü",
+    "viewSwitcherLabelPlatforms": "Plattformen",
+    "home": "Ausgangsverzeichnis",
+    "businessMonitoring": "Business Monitoring",
+    "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen",
+    "automation": "Automation",
+    "viewSwitcherLabelTools": "Tools",
+    "viewSwitcherLabelAdministration": "Verwaltung"
+  },
+  "errorPages": {
+    "404": {
+      "title": "Seite nicht gefunden",
+      "label": "Fehlercode 404",
+      "description": "Die von Ihnen angeforderte Seite wurde verschoben oder ist nicht verfügbar, oder die angegebene URL ist ungültig. Bitte überprüfen Sie die E-Mail-Adresse URL oder suchen Sie auf der Website nach dem gewünschten Inhalt."
     },
-    "errorPages": {
-      "404": {
-        "title": "Page not found",
-        "label": "Error 404",
-        "description": "The page you requested has moved or is unavailable, or the specified URL is not valid. Please check the URL or search the site for the requested content."
-      },
-      "403": {
-        "title": "Access denied",
-        "label": "Error 403",
-        "description": "You are not authorized to access the requested page. Please verify that you are logged in to the hosting environment and your access permissions are correct."
-      },
-      "500": {
-        "title": "Internal server error",
-        "label": "Error 500",
-        "description": "An undefined server-side error has occurred and the server is unable to fulfill your request. Please refresh the page or try again later."
-      },
-      "maintenance": {
-        "title": "Page unavailable",
-        "label": "Maintenance",
-        "description": "We are currently busy upgrading the system. Your environment will be back shortly."
-      },
-      "links": {
-        "statusLink": "Instana status page",
-        "supportLink": "Support",
-        "homeLink": "Home",
-        "adminLink": "Contact administrator for access",
-        "signoutButtonLabel": "Sign out"
-      }
+    "403": {
+      "title": "Zugriff verweigert",
+      "label": "Fehler 403",
+      "description": "Sie sind nicht berechtigt, auf die angeforderte Seite zuzugreifen. Bitte überprüfen Sie, ob Sie in der Hosting-Umgebung angemeldet sind und ob Ihre Zugriffsberechtigungen korrekt sind."
+    },
+    "500": {
+      "title": "Interner Serverfehler",
+      "label": "Fehler 500",
+      "description": "Es ist ein undefinierter serverseitiger Fehler aufgetreten und der Server kann Ihre Anfrage nicht erfüllen. Aktualisieren Sie die Seite oder versuchen Sie es später erneut."
+    },
+    "maintenance": {
+      "title": "Seite nicht verfügbar",
+      "label": "Wartung",
+      "description": "Wir sind derzeit damit beschäftigt, das System zu verbessern. Ihre Umgebung wird in Kürze wieder verfügbar sein."
+    },
+    "links": {
+      "statusLink": "Instana-Statusseite",
+      "supportLink": "Unterstützung",
+      "homeLink": "Ausgangsverzeichnis",
+      "adminLink": "Kontaktieren Sie den Administrator, um Zugriff zu erhalten",
+      "signoutButtonLabel": "Abmelden"
     }
   }
+}

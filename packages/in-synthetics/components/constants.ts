@@ -12,7 +12,7 @@ import { Observable } from '@instana/observables';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 import { ParameterDefinition } from 'in-stores/navigation/types';
-import { Nullish, PaginatedResult, Result } from 'in-types';
+import { PaginatedResult, Result } from 'in-types';
 
 export type Ellipsis = string | boolean | undefined;
 export type Width = string | number | undefined;
@@ -21,7 +21,7 @@ export interface ListItem extends Object {
   id?: string;
 }
 
-export interface SyntheticDataTableWithUrlStateProps<
+export interface CarbonDataTableWithUrlStateProps<
   ITEM_TYPE extends ListItem,
   PROPS_TYPE extends TableProps<ITEM_TYPE>
 > {
@@ -36,12 +36,19 @@ export interface SyntheticDataTableWithUrlStateProps<
   pathSegment: string;
   matrixPrefix: string;
   timeConfig: TimeConfig;
+  isSearchable?: boolean;
+  searchText?: string;
+  noDataHeader?: string;
+  noDataDescription?: string;
+  toolBarContent?: JSX.Element | boolean;
+  actionButtonContent?: JSX.Element | boolean;
 }
 
-export interface SyntheticDataTablePresenterProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>
-  extends SyntheticDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>,
+export interface CarbonDataTablePresenterProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>
+  extends CarbonDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>,
     ServerTableUrlState {
-  result: Result<PaginatedResult<ITEM_TYPE>> | Nullish;
+  result: Result<PaginatedResult<ITEM_TYPE>>;
+  getRowDetails?: ((result: any) => ReactNode) | ReactNode;
   onChange: (change: Partial<ServerTableUrlState>) => void;
 }
 
@@ -49,7 +56,7 @@ export interface CarbonHeader<ITEM_TYPE extends ListItem, PROPS_TYPE extends Tab
   key: string;
   header: string | ReactNode;
   isSortable?: boolean;
-  getContent: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>['getContent'];
+  getContent?: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>['getContent'];
   sortDirection?: OrderDirection | 'NONE';
   defaultOrderDirection?: OrderDirection;
   noWrap?: boolean;
@@ -63,4 +70,23 @@ export interface CarbonHeader<ITEM_TYPE extends ListItem, PROPS_TYPE extends Tab
 export interface CarbonRow {
   id: string;
   [key: string]: string;
+}
+
+export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PropsType extends TableProps<ITEM_TYPE>> {
+  rows: CarbonRow[];
+  headers: CarbonHeader<ITEM_TYPE, PropsType>[];
+  isLoading: boolean;
+  query: string;
+  isSearchable?: boolean;
+  searchText?: string;
+  isExpandable?: boolean;
+  toolBarContent?: JSX.Element | boolean;
+  actionButtonContent?: JSX.Element | boolean;
+  filterRows?: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  sortRow?: (sortState: { sortDirection: string; sortHeaderKey: string }) => void;
+  errorContent?: JSX.Element | boolean;
+  noDataHeader?: string;
+  noDataDescription?: string;
+  errorHeader?: string;
+  result: Result<PaginatedResult<ITEM_TYPE>>;
 }

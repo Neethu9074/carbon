@@ -8,6 +8,10 @@ import {
   renderMissingDataIndicator,
   timeWindowIncludesFirstCollectionTimestamp
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
+import {
+  correctionOverlay,
+  correctionWindowMetricId
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 import { Renderer, RenderProps } from 'in-components/Chart/renderer/types';
 import renderer from 'in-components/Chart/renderer/Renderer';
 
@@ -25,6 +29,10 @@ function createLineWithMissingDataIndicatorRenderer({
   return {
     id: 'lineWithMissingDataIndicator',
     render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {
+      if (metricId === correctionWindowMetricId) {
+        correctionOverlay.render({ color, scale, config, dataSeries, metricId });
+        return;
+      }
       renderer.line.render({ color, scale, config, dataSeries, metricId });
 
       if (timeWindowIncludesFirstCollectionTimestamp(firstCollectedMetricTimestamp, config.timeConfig)) {

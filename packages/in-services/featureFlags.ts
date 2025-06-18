@@ -68,6 +68,7 @@ export const incidentNotesTopActionsEnabled = isFeatureFlagEnabled('incidentNote
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
+export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled', false);
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
 export const blockLogDeletionsEnabled = isFeatureFlagEnabled('blockLogDeletionsEnabled');
 export const logFormattingEnabled = isFeatureFlagEnabled('logFormattingEnabled');
@@ -99,14 +100,17 @@ export const mobileAppPerformanceTabEnabled = isFeatureFlagEnabled('mobileAppPer
 export const mobileAppDroppedBeaconsEnabled = isFeatureFlagEnabled('mobileAppDroppedBeaconsEnabled', true);
 export const mobileAppScreenRenderingDurationEnabled = isFeatureFlagEnabled(
   'mobileAppScreenRenderingDurationEnabled',
-  false
+  true
 );
 export const mobileAppExcessiveNetworkUsageEnabled = isFeatureFlagEnabled(
   'mobileAppExcessiveNetworkUsageEnabled',
-  false
+  true
 );
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
-export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForWebsiteAndMobileAlertEnabled', true);
+export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled(
+  'eumImpactedUsersForWebsiteAndMobileAlertEnabled',
+  true
+);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
 
@@ -394,7 +398,6 @@ export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbo
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', true);
 export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
 export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
-export const sloBurnRateEnabled = isFeatureFlagEnabled('sloBurnRateEnabled', true);
 export const solisEnabled = isFeatureFlagEnabled('solisEnabled', false);
 export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);
 export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);

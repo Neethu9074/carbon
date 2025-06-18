@@ -23,6 +23,7 @@ import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/us
 import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUrlParams';
 import { generateNavItems } from 'in-automation/Policies/usePolicyForm/validationUtils';
+import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import usePolicyForm from 'in-automation/Policies/usePolicyForm/usePolicyForm';
@@ -63,19 +64,23 @@ const cancelButton = {
   }
 };
 
-export default function CreateNewPolicyTearsheet({
-  policyId,
-  actionId,
-  copy = false,
-  isFromDashboard = false,
-  inEventPage = false
-}: {
+interface CreateNewPolicyTearsheetProps {
   policyId?: string;
   actionId?: string;
+  triggerDetails?: TriggerDetailsProps;
   copy?: boolean;
   isFromDashboard?: boolean;
   inEventPage?: boolean;
-}) {
+}
+
+export default function CreateNewPolicyTearsheet({
+  policyId,
+  actionId,
+  triggerDetails,
+  copy = false,
+  isFromDashboard = false,
+  inEventPage = false
+}: CreateNewPolicyTearsheetProps) {
   const { isCopy, id, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
   const policy = usePolicy({ id, isCopy });
   const actions = useActions();
@@ -152,6 +157,7 @@ export default function CreateNewPolicyTearsheet({
         triggers={triggers}
         inEventPage={inEventPage}
         isFromDashboard={isFromDashboard}
+        triggerDetails={triggerDetails}
       />
     </>
   );
@@ -166,6 +172,7 @@ interface TearSheetProps {
   isFromDashboard?: boolean;
   inEventPage: boolean;
   actionId?: string;
+  triggerDetails?: TriggerDetailsProps;
 }
 
 function TearSheetLoader({
@@ -176,10 +183,11 @@ function TearSheetLoader({
   triggers,
   isFromDashboard,
   inEventPage,
-  actionId
+  actionId,
+  triggerDetails
 }: TearSheetProps) {
   const { isCopy, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
-  const [form, setForm] = usePolicyForm(policy, actions, triggers);
+  const [form, setForm] = usePolicyForm(policy, actions, triggers, triggerDetails);
   const { onSubmit, result } = useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEventPage });
   const policyButtons = [
     {
@@ -221,11 +229,42 @@ function TearSheetLoader({
             actions={actions}
             triggers={triggers}
             result={result}
-            copy={copy}
             inEventPage={inEventPage}
           />
         </>
       </Tearsheet>
+    </>
+  );
+}
+
+function PolicyDetailsLoader({
+  form,
+  setForm,
+  actions,
+  triggers,
+  result,
+  inEventPage
+}: {
+  form: PolicyForm;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
+  actions: Action[];
+  triggers: Triggers;
+  result: Result<any> | null;
+  inEventPage: boolean;
+}) {
+  const errored = hasError(result!);
+  const errors = errored ? result!.errors : null;
+  return (
+    <>
+      {errors && (
+        <LeftRightPadding>
+          <ErroneousResultPresenter errors={errors} />
+        </LeftRightPadding>
+      )}
+
+      <Form form={form} setForm={form => setForm(form as PolicyForm)} onSubmit={() => {}}>
+        <PolicyFormBody actions={actions} triggers={triggers} inEventPage={inEventPage} />
+      </Form>
     </>
   );
 }
@@ -349,60 +388,6 @@ function onEditFailure(errors: Error[] | undefined) {
   }
 }
 
-function PolicyDetailsLoader({
-  form,
-  setForm,
-  actions,
-  triggers,
-  result,
-  copy,
-  inEventPage
-}: Readonly<{
-  form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
-  actions: Action[];
-  triggers: Triggers;
-  result: Result<any> | null;
-  copy: boolean;
-  inEventPage: boolean;
-}>) {
-  const errored = hasError(result!);
-  const errors = errored ? result!.errors : null;
-  return (
-    <>
-      {errors && (
-        <LeftRightPadding>
-          <ErroneousResultPresenter errors={errors} />
-        </LeftRightPadding>
-      )}
-      <PolicyDetails
-        key={String(copy)}
-        actions={actions}
-        triggers={triggers}
-        form={form}
-        setForm={form => setForm(form as PolicyForm)}
-        inEventPage={inEventPage}
-      />
-    </>
-  );
-}
-
-interface PolicyDetailsProps {
-  actions: Action[];
-  form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
-  triggers: Triggers;
-  inEventPage: boolean;
-}
-
-function PolicyDetails({ actions, form, setForm, triggers, inEventPage }: PolicyDetailsProps) {
-  return (
-    <Form form={form} setForm={form => setForm(form as PolicyForm)} onSubmit={() => {}}>
-      <PolicyFormBody actions={actions} triggers={triggers} inEventPage={inEventPage} />
-    </Form>
-  );
-}
-
 interface useOnSubmitProps {
   copy: boolean;
   policyId?: string;
@@ -450,7 +435,9 @@ function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEve
             createPolicyTrackerSegment(trackerDetails);
             onSaveSuccess(result.data?.name!);
             close();
-            if (!isActionPreSelected) navigateToPolicyPolicies();
+            if (inEventPage) {
+              refreshScoredActions();
+            } else if (!isActionPreSelected) navigateToPolicyPolicies();
             if (!isFromDashboard && !isActionPreSelected) refresh();
           },
           result => {

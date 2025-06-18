@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Card, TableEntityCounter } from '@instana/components';
+import { TableEntityCounter } from '@instana/components';
 
 import {
   clusterIdUrlParameter,
@@ -134,9 +134,7 @@ export default function ServiceTable(props) {
   return (
     <>
       <K8sAgentMonitoringIssueNotifications {...props} entityName="services" />
-      <Card>
-        <ServerTableWithUrlState get={getTableData} {...props} />
-      </Card>
+      <ServerTableWithUrlState get={getTableData} {...props} />
     </>
   );
 }

@@ -13,7 +13,7 @@ import SparkChart from 'in-components/SparkChart/SparkChartReactComponent';
 import { minutes, number } from 'in-services/formatters/number';
 import { SloListItem } from 'in-service-levels/types';
 
-import locals from './SloAlignContent.mless';
+import locals from 'in-service-levels/styles/SloAlignContent.mless';
 
 interface SloErrorBudgetColumnContentProps {
   item: SloListItem;

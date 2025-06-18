@@ -6,8 +6,8 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-import { Toggle, Spacer, Message } from '@instana/components';
-import { Select } from '@instana/components';
+import { Spacer, Message, Select } from '@instana/components';
+import { Toggle } from '@instana/carbon';
 
 import {
   pageTransitionMethods,
@@ -135,8 +135,9 @@ export default function TrackingSnippetPresenter({
           <SubHeading text={t('in-websites:trackingSnippet.trackingSnippetPresenterLabelSRI')} />
           <div className={locals.toggle}>
             <Toggle
-              id="sri"
-              checked={enableSRI}
+              id="enable-sri-in-tracking-snippet-toggle"
+              size="sm"
+              toggled={enableSRI}
               onToggle={e => {
                 const enableProp = {
                   onButtonClick: () => {
@@ -175,7 +176,6 @@ export default function TrackingSnippetPresenter({
             label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
             linkText={t('in-websites:trackingSnippet.autoPageTransition.subresourceIntegrityText')}
             url={subresourceIntegrityURL}
-            externalWithIcon
           />
 
           {enableSRI && (
@@ -208,8 +208,9 @@ export default function TrackingSnippetPresenter({
         <SubHeading text={t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')} />
         <div className={locals.toggle}>
           <Toggle
-            id="trackSessions"
-            checked={trackSessions}
+            id="enable-trackSessions-in-tracking-snippet-toggle"
+            size="sm"
+            toggled={trackSessions}
             onToggle={toggleSessionTracking}
             labelA={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
             labelB={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')}
@@ -222,7 +223,6 @@ export default function TrackingSnippetPresenter({
         label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
         linkText={t('in-websites:trackingSnippet.autoPageTransition.trackingSessionsText')}
         url={sessionTrackingURL}
-        externalWithIcon
       />
       {weaselVersionNumber > MIN_SUPPORTED_REGEX_VERSION && (
         <FrameworkTypeSelection

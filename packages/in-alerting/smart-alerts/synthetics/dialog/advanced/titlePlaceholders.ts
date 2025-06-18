@@ -5,13 +5,8 @@
  */
 
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
-import { severityPlaceholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
+import { severityPlaceholder, Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { t } from 'in-i18n';
-
-export interface Placeholder {
-  template: string;
-  name: string;
-}
 
 const syntheticTestNamePlaceholder: Readonly<Placeholder> = Object.freeze({
   template: '${synthetic.testName}',

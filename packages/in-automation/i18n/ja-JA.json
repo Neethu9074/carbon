@@ -15,6 +15,7 @@
   "testAction": "テスト・アクション",
   "targetAgent": "ターゲット・エージェント",
   "triggeringAgent": "{{hostname}} (エージェントのトリガー)",
+  "agentEmpty": "エージェントが設定されていません",
   "targetAgentDescription": "エージェントは 1 ..* をカプセル化します。 センサーは、Instana バックエンドにイベントを発生させることができます。 トリガー・エージェントには、この特定のイベントを発生させたセンサーが含まれています。",
   "chosenToRun": "アクションの実行 {{actionName}}",
   "viewManualAction": "手動アクション {{actionName}} の表示",
@@ -46,7 +47,6 @@
   "description": "説明",
   "automation": "自動化",
   "failedToResolveDynamicParameters": "動的パラメーターの解決に失敗しました。",
-  "deletePolicyWithName": "ポリシー {{actionName}} の削除",
   "jobTemplate": "ジョブ・テンプレート",
   "workflowJobTemplate": "ワークフロー・ジョブ・テンプレート",
   "hostsLimit": "ホスト制限 (オプション)",
@@ -83,14 +83,10 @@
   "actionCategory": "行動カテゴリー",
   "value": "値",
   "type": "タイプ",
-  "automationPoliciesWithCount": "自動化ポリシー ({{count}})",
-  "automationPolicies": "自動化ポリシー",
   "copyOf": "{{name}}(のコピー)",
   "searchActions": "検索アクション",
   "searchOptimizations": "検索の最適化",
   "hostsLimitHelpText": "指定されたターゲット・ホストに実行を制限します。 Ansible インベントリーでのシステムの表示方法に一致する値を選択するか、Ansible 制限構文でサポートされるストリングを入力します。",
-  "aiEngine": "AI エンジン",
-  "engine": "エンジン",
   "eventSimilarity": "イベントの類似性",
   "close": "閉じる",
   "tag": "タグ",
@@ -111,6 +107,34 @@
   "triggeringEvent": "トリガー・イベント",
   "probableRootCause": "推定根本原因",
   "contextFor": "コンテキスト:",
+  "backToPolicies": "ポリシーに戻る",
+  "backToEvent": "イベントに戻る",
+  "recommendation": "推奨",
+  "userCreated": "ユーザーが作成されました",
+  "successRate": "成功率",
+  "optimization": "最適化",
+  "viewRunAction": "アクションを表示して実行する",
+  "viewRunPolicy": "ポリシーを表示して実行する",
+  "viewPolicyDashboard": "ポリシー・ダッシュボードを表示する",
+  "editPolicy": "ポリシーの編集",
+  "deletePolicy": "ポリシーの削除",
+  "viewActionDashboard": "アクション・ダッシュボードを表示する",
+  "createPolicy": "ポリシーの作成",
+  "recommendedActionsExplanability": {
+    "linkExplanation": "Instana は、アルゴリズムと統合機能を使用して、イベントに対するアクションを推奨します。",
+    "link": "さまざまな推奨タイプについて詳しく知る",
+    "algorithmSectionText1": "<strong>イベントの類似性 -</strong> インシデントでトリガーされたイベントのシグネチャは、ポリシーで設定されたイベントのシグネチャと照合されます。 スコアが計算され、正規化されます。 ポリシーで設定されたアクションには、このイベント間のスコアが与えられます。",
+    "algorithmSectionText2": "<strong>NLP (自然言語処理) -</strong> インシデントをトリガーとするイベント・シグネチャは、アクション・カタログ内のアクション・シグネチャと照合されます。 署名には、名前、説明、エンティティの種類、およびタグが含まれます。 スコアが計算され、正規化されます。",
+    "algorithmSectionText3": "<strong>成功率 -</strong> アクションは、過去のイベントの発生に対して実行された際の成功率に基づいてスコアが付けられます。",
+    "sectionDescription": "Instana は、インシデントが発生した際に作成されるイベント・シグネチャに基づいて、事前に定義されたアルゴリズムを使用します。 期間には以下の 3 つのタイプがあります。",
+    "sectionHeading": "Instana 推奨事項",
+    "optimizations": "最適化",
+    "optimizationsExplanation": "インシデントで参照されたエンティティに関連する IBM Turbonomic アクションがある場合、これらのアクションは NLP スコアに基づいて推奨されます。",
+    "algorithms": "アルゴリズム",
+    "policiesExplanation": " ポリシー・トリガーで指定された条件に一致するイベントが発生した場合、そのポリシーは推奨されるアクションとしてリストされます。",
+    "learnMoreLink": "IBM Docs のアクション推奨事項の詳細については、こちらをご覧ください。"
+  },
+  "triggerType": "トリガー・タイプ",
   "GenerateAIActionDialog": {
     "actionConfiguration": "アクション構成",
     "actionDetails": "アクションの詳細を指定",
@@ -246,7 +270,6 @@
     "confidence_high": "高",
     "bodyDescription": "HTTP 要求に関連付けられたデータ。",
     "confidence": "{{context}}",
-    "confidenceHelpText": "このアクションは、以下に基づいて推奨されました: {{source}}",
     "http": "HTTP",
     "confidenceTitle": "信頼度",
     "run": "実行",
@@ -433,8 +456,11 @@
     "createANewPolicy": "新規ポリシーを作成します。",
     "configurePolicyEntityName": "ポリシーの構成: {{entityName}}",
     "1PolicyDetails": "1. ポリシーの詳細",
+    "policyDetails": "ポリシーの詳細",
     "2TriggerConfiguration": "2. トリガー構成",
+    "triggerConfiguration": "トリガー設定",
     "3ActionConfiguration": "3. アクション構成",
+    "actionConfiguration": "アクション構成",
     "showsUpInTheListOfPolicies": "ポリシーのリストに表示されます。 固有で、かつ意味のあるものでなければなりません。",
     "showsUpInThePolicyDescription": "ポリシーの説明に表示されます。 できるだけ分かりやすいものにする必要があります。",
     "manual": "手動",
@@ -493,23 +519,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "ポリシーが正常に作成されました。",
-        "content": "{{count}} 個のポリシーが正常に作成されました。",
         "content_plural": "{{count}} 個のポリシーが正常に作成されました。",
         "content_0": "{{count}} 個のポリシーが正常に作成されました。",
         "content_1": "{{count}} 個のポリシーが正常に作成されました。",
         "content_2": "{{count}} 個のポリシーが正常に作成されました。"
-      },
-      "failure": {
-        "title": "ポリシーの作成に失敗しました。",
-        "content": "ポリシーの作成中に問題が発生しました: {{error}}"
       }
     },
     "deleteDialog": {
       "success": "ポリシーは正常に削除されました。",
       "failure": "ポリシーを削除できませんでした。"
     },
-    "createPolicies": "ポリシーの作成",
     "websiteSmartAlert": "Web サイト・スマート・アラート"
   },
   "infoPanel": {
@@ -593,9 +612,9 @@
       },
       "section2": {
         "section2Title": "入力プロンプト・フィールド",
-        "section2EventName": "<strong>イベント名。</strong> インシデント、イベント、またはアラートの名前。",
-        "section2Description": "<strong>イベントの説明。</strong> インシデントまたはイベントの説明。",
-        "section2Entitytype": "<strong>イベント・エンティティ・タイプ。</strong> インシデントまたはイベントに関連するエンティティの種類。"
+        "section2EventName": "<strong>イベント名 -</strong> インシデント、イベント、またはアラートの名前。",
+        "section2Description": "<strong>イベントの説明 -</strong> インシデントまたはイベントの説明。",
+        "section2Entitytype": "<strong>イベント・エンティティ・タイプ -</strong> インシデントまたはイベントに関連するエンティティのタイプ。"
       },
       "section3": {
         "AIModel": "AI モデル"

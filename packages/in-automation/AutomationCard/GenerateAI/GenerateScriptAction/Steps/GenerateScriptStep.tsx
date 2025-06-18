@@ -265,6 +265,7 @@ export default function GenerateScriptStep({
                 // @ts-expect-error
                 <Link
                   external
+                  linkIconType={'lib_views_external_link'}
                   href="https://www.ibm.com/docs/en/instana-observability/latest?topic=ma-intelligent-remediation-live-action-generation-watsonx-public-preview"
                 />
               )

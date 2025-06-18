@@ -177,7 +177,7 @@ export default function ClusterDashboard() {
       <>
         <DashboardButtonLine
           snapshotId={clusterId}
-          plugin={plugins.kubernetesCluster}
+          plugin={plugins.oTelK8sCluster}
           timeConfig={timeConfig}
           tagFilters={[]}
         />
@@ -202,7 +202,7 @@ export default function ClusterDashboard() {
             clusterDistributionName: clusterBadgeName(clusterDistribution)
           })}
         />
-        {clusterManagement && clusterManagement?.shortName !== 'none' && (
+        {clusterManagement && clusterManagement?.shortName !== 'none' && clusterManagement?.shortName !== '' && (
           <EntityWithTypeAndIcon
             iconType={`lib_${clusterManagement?.shortName}`}
             label={t('in-kubernetes:dashboards.managedby', {

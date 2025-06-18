@@ -17,8 +17,11 @@ import { VMBreadcrumbProps } from 'in-xenserver/breadcrumbs/VMBreadcrumb';
 import getXenServerVM from 'in-xenserver/subscriptions/getXenServerVM';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { vmDashboard } from 'in-xenserver/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import tabs from 'in-xenserver/Dashboards/VM/tabs/index';
 import { VMBreadcrumbs } from 'in-xenserver/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -40,6 +43,12 @@ export default function VMDashboard({ location }: VMDashboardProps) {
   return (
     <>
       <Breadcrumbs items={VMBreadcrumbs(vmProps)} />
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.xenserver,
+          pageRootName: pageNames.xenserver_vm
+        }}
+      />
       <TabView
         result$={getXenServerVM({
           filter: {
@@ -71,7 +80,6 @@ export default function VMDashboard({ location }: VMDashboardProps) {
           </CenterAlignmentColumn>
         )}
       />
-
       <Footer />
     </>
   );

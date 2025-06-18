@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { has } from 'lodash';
 
 import {
   Card,
@@ -41,7 +42,6 @@ import { handleTracking } from 'in-events/components/NotesAndActivity/components
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import AutomationCardForPRC from 'in-automation/AutomationCard/AutomationCardForPRC';
 import { EVENT_AI_GENERATE_SUBMIT_OVERVIEW } from 'in-services/tracking/eventNames';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import EventListProviders from 'in-events/components/providers/EventListProviders';
@@ -88,7 +88,9 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
     'rootCause',
     'probableRootCauseSnapshotMetadata'
   ]);
-
+  const hasRootCauses = has(incident, 'metadata.rootCause.currentRootCause')
+    ? 'metadata.rootCause.currentRootCause'
+    : 'metadata.rootCause';
   const { location } = useNavigation();
 
   useEffect(() => {
@@ -130,14 +132,8 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
         />
       )}
 
-      {/* Automations */}
-      {rcaUIEnabled && !rootCauseHasOldSnapshotMetadata ? (
-        <AutomationCardForPRC
-          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-          incident={incident}
-          event={triggeringEvent?.toJS()}
-        />
-      ) : (
+      {/* Automations - display both recommended actions and history when no PRC is present*/}
+      {!hasRootCauses && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
       )}
 
@@ -151,7 +147,18 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       )}
 
       {/* Investigation Workflow */}
-      {rcaAgenticEnabled && <AgenticInvestigationWorkflow incident={incident} rcaRef={rcaSectionRef} />}
+      {rcaAgenticEnabled && hasRootCauses && (
+        <AgenticInvestigationWorkflow
+          incident={incident}
+          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+          rcaRef={rcaSectionRef}
+          event={triggeringEvent?.toJS()}
+        />
+      )}
+      {/* Display Incident action history  separately when PRC ise present*/}
+      {rcaAgenticEnabled && hasRootCauses && (
+        <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} hasRCA />
+      )}
     </EventListProviders>
   );
 }

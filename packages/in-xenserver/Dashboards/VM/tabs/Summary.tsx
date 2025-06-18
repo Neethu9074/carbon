@@ -11,7 +11,7 @@ import { Card } from '@instana/components';
 
 import VirtualNetworkInterfacesTable from 'in-xenserver/Dashboards/VM/tabs/VirtualNetworkInterfacesTable';
 import InfrastructureMetricChart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { number, kiloBytesTwoDecimalPlaces, bytes } from 'in-services/formatters/number';
+import { kiloBytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import BlockDeviceTable from 'in-xenserver/Dashboards/VM/tabs/BlockDeviceTable';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -42,7 +42,7 @@ export default function Summary({ timeConfig, data: vm }: SummaryData) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number.detailed,
+                formatter: percentage.compact,
                 metrics: ['cpu_usage'],
                 labels: [t('in-xenserver:dashboards.cpuUsage')],
                 type: 'line'
@@ -59,7 +59,7 @@ export default function Summary({ timeConfig, data: vm }: SummaryData) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: bytes.compact,
+                formatter: kiloBytesTwoDecimalPlaces,
                 metrics: ['memory'],
                 labels: [t('in-xenserver:dashboards.memoryTotal')],
                 type: 'line'

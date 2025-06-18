@@ -68,7 +68,8 @@
       "runTheInstanaAgentContainerImage": "Container-Image 'Instana Agent' ausführen",
       "upgradeTheInstanaAgentContainerImage": "Upgrade für Instana-Agentencontainer-Image durchführen",
       "installAgentOnDocker": "Agenten in Docker installieren",
-      "configurationOptions": "Konfigurationsoptionen"
+      "configurationOptions": "Konfigurationsoptionen",
+      "optionallyEnterTheAgentZone": "Geben Sie optional die Zone an, der der Agent angehören soll."
     },
     "jvmVendor": {
       "azulZulu11": "Azul Zulu 11",
@@ -208,7 +209,6 @@
       },
       "iamPermissions": "IAM-Berechtigungen",
       "trustRelationships": "Vertrauensbeziehungen",
-      "enterAClusterNameAndOptionallyTheAgentZone": "Geben Sie einen Clusternamen und optional die Agentenzone ein, zu der der Cluster gehören soll.",
       "awsLambdaNodeJsAutotrace": "Die bevorzugte Methode zur Konfiguration von AWS-Lambda-Funktionen auf der Basis von Node.js 10.x. (oder aktueller) für Tracing ist das Instana-Lambda-Layer mit automatischem Tracing.",
       "selectAwsRegionAndLambdaHandler": "Wählen Sie die Region AWS aus und geben Sie den aktuellen Lambda-Handler ein",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Legen Sie 'Instana auto-wrap handler' als Handler für die Lambda-Funktion fest.",
@@ -539,11 +539,21 @@
     "kubecost": {
       "title": "Kostentransparenz mit IBM Kubecost",
       "description": "Starten Sie kostenlos und erhalten Sie Einblicke in die Kosten und geschätzten Einsparungen für Ihre Cluster.",
-      "buttonName": "Jetzt ansehen"
+      "buttonName": "Weitere Informationen"
     },
     "logging": {
       "title": "Instana-Protokollierung",
       "description": "Jetzt können Logs überall über OTel angenommen werden, und die Aufbewahrungszeit kann als Zusatzfunktion auf bis zu 90 Tage verlängert werden.",
+      "buttonName": "Jetzt ansehen"
+    },
+    "turbonomic": {
+      "title": "Ressourcenaktionen, unterstützt von Turbonomic",
+      "description": "Sehen Sie, wie Ressourcenaktionen Ihre Anwendungen unterstützen können.",
+      "buttonName": "Weitere Informationen"
+    },
+    "concert": {
+      "title": "CVEs mit IBM Concert priorisieren",
+      "description": "Erhalten Sie entscheidende Einblicke in Ihre Operationen und automatisieren Sie Aktionen.",
       "buttonName": "Weitere Informationen"
     },
     "startIntegrating": {
@@ -728,6 +738,7 @@
         "name": "Name",
         "owner": "Eigner",
         "permissions": "Berechtigungen",
+        "teams": "Teams",
         "searchPlaceholderLabel": "Dashboards",
         "addButtonLabel": "Dashboard",
         "viewAllLabel": "Dashboards"
@@ -804,6 +815,7 @@
       },
       "buttonNames": {
         "deployAgent": "Agenten implementieren",
+        "installDataSource": "Datenquelle installieren",
         "addUser": "Benutzer hinzufügen",
         "documentation": "IBM Dokumentation",
         "releaseNotes": "Releaseinformationen",
@@ -873,5 +885,36 @@
     "title": "Profil verwalten",
     "description": "Sie können Ihr Profil anzeigen und aktualisieren, Ihre Datenschutzeinstellungen anpassen und sich abmelden – alles an einem Ort.",
     "buttonText": "Erledigt"
+  },
+  "trialNoviceToProDialog": {
+    "welcometitle": "Willkommen, {{username}}!",
+    "description": "Zunächst: Was beschreibt Ihre Rolle am besten?",
+    "getStarted": "Sind Sie bereit, loszulegen?",
+    "descriptionFreeTrial": "Stellen Sie einen Agenten bereit, um Ihre eigenen Daten in Aktion zu erleben.",
+    "descriptionSandbox": "Oder erkunden Sie Instana in der Sandbox – unserer interaktiven Demoumgebung mit Beispieldaten.",
+    "trialButtonData": "Mit meinen eigenen Daten starten",
+    "sandboxButtonData": "Mit Beispieldaten starten",
+    "roles": {
+      "frontendDeveloper": "Front-End-Entwickler",
+      "backendDeveloper": "Back-End-Entwickler",
+      "businessManager": "Bereichsleiter",
+      "devOpsEngineer": "DevOps-Ingenieur",
+      "siteReliabilityEngineer": "Site Reliability Engineer (SRE)",
+      "itOperations": "IT-Operationen",
+      "itDecisionMaker": "IT-Entscheider",
+      "support": "Unterstützung",
+      "productManager": "Produktmanager",
+      "preferNotToSay": "Ich möchte diese Angabe nicht machen",
+      "other": "Andere"
+    },
+    "steps": {
+      "stepOne": "Rolle",
+      "stepTwo": "Einführung"
+    },
+    "checkboxText": "Aktivieren Sie dieses Kontrollkästchen, wenn Sie an optionalen Interviews und Umfragen mit unserem Produktteam teilnehmen möchten",
+    "specifyRole": "Geben Sie Ihre Rolle an",
+    "roleName": "Rollenname",
+    "yourRole": "Ihre Rolle",
+    "next": "Weiter"
   }
 }

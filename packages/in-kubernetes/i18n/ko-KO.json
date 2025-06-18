@@ -10,6 +10,7 @@
     "namespace": "네임스페이스",
     "node": "노드",
     "pod": "팟(Pod)",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "K8s 서비스"
   },
   "clusterBadgeNameOpenShift": "OpenShift",
@@ -29,6 +30,7 @@
     "summary": "요약",
     "details": "세부사항",
     "hostCoverage": "호스트 적용 범위",
+    "k8SensorVersion": "K8s 센서 버전",
     "clusterUuid": "클러스터 UUID",
     "agentMonitor": "에이전트 모니터",
     "controlPlane": "제어 플레인",
@@ -55,9 +57,17 @@
     "cpuUsage": "CPU 사용량",
     "memoryUsage": "메모리 사용량",
     "phase": "단계",
-    "reclaimPolicy": "재확보 정책",
-    "storageCapacity": "스토리지 용량",
     "storageClassName": "스토리지 클래스 이름",
+    "capacityStorage": "용량 스토리지",
+    "storageTotalCapacity": "총 용량",
+    "storageUsedCapacity": "사용된 용량",
+    "storageUtilization": "활용도",
+    "storageUsedTotalCapacity": "총 {{total}} 중",
+    "total": "총계",
+    "reclaimPolicy": "재확보 정책",
+    "accessMode": "액세스 모드",
+    "volumeMode": "볼륨 모드",
+    "creationTimestamp": "작성 시간소인",
     "cpuRequests": "CPU 요청",
     "cpuRequestsMultiMetric": "CPU 요청",
     "cpuLimitsAlloc": "CPU 한계 할당",
@@ -160,6 +170,8 @@
     "lastJobDuration": "마지막 작업 기간",
     "kubernetesDaemonSet": "Kubernetes DaemonSet",
     "k8SDaemonSet": "K8s DaemonSet",
+    "kubernetesPersistentVolume": "Kubernetes PersistentVolume",
+    "k8SPersistentVolume": "K8s PersistentVolume",
     "unscheduled": "스케줄되지 않음",
     "unready": "준비되지 않음",
     "available": "사용 가능",
@@ -277,12 +289,12 @@
       "idleCost": "대기 비용",
       "viewInKubeCost": "Kubecost에서 보기",
       "coreCountByCluster": "vCPU",
-      "noKubecostData": "Kubecost와 함께 비용 가시성 및 할당을 사용으로 설정하십시오. 통합을 구성하려면 다음 [단계][Docs]를 따르십시오.\n\n[Docs]:https://ibm.biz/kubecost",
+      "noKubecostData": "이 클러스터에 대한 비용 모니터링을 Kubecost를 사용하여 활성화하십시오.\\\n 통합을 구성하려면 설명서의 [다음 단계]를 따르십시오.\n\n[다음 단계]:https://ibm.biz/kubecost",
       "totalClusterCost": "총 클러스터 비용(지난 14일)",
       "workloadEfficiency": "워크로드 효율성",
       "estimatedMonthlySavings": "월 예상 절감액",
-      "totalClusterCostTooltipinfo": "선택한 기간 동안의 클러스터의 총 비용입니다. 참고: 14일 미만의 데이터가 있는 경우 14일 주기가 완전히 경과될 때까지 해당 수치가 표시됩니다.",
-      "workloadEfficiencyTooltipinfo": "선택한 기간 동안 각 워크로드의 평균 효율성입니다. 워크로드 효율성은 구성된 RAM 및 CPU 요청에 대한 RAM 및 CPU 사용량의 비용 가중값 비율입니다.",
+      "totalClusterCostTooltipinfo": "지난 14일 동안의 클러스터 총 비용입니다. 데이터가 14일 미만인 경우, 14일 주기가 완전히 경과할 때까지 해당 수치가 표시됩니다.",
+      "workloadEfficiencyTooltipinfo": "지난 14일 동안 각 작업의 평균 효율성입니다. 워크로드 효율성은 구성된 RAM 및 CPU 요청에 대한 RAM 및 CPU 사용량의 비용 가중값 비율입니다.",
       "estimatedMonthlySavingsTooltipinfo": "선택한 기간의 과거 데이터를 사용하여 결정된 클러스터에 사용할 수 있는 예상 월별 절감액입니다.",
       "deploymentInfoNotRetrieving": "Kubecost가 배치 정보를 검색하지 않음",
       "notRetrievingData": "Kubecost가 데이터를 검색하지 않음",
@@ -331,7 +343,10 @@
       "title": "중요한 정보에 더 빠르게 액세스",
       "content": "카드 보기는 클러스터와 네임스페이스에 대한 자세한 정보를 한 눈에 볼 수 있고 대시보드에서 각 탭 페이지로 바로 연결되어 집중적으로 조사할 수 있습니다. <br /><br />컨텐츠 전환기를 클릭하여 이러한 새 보기와 테이블 보기 간에 쉽게 이동할 수 있습니다.",
       "button": "확인"
-    }
+    },
+    "nodes": "노드",
+    "pods": "팟(Pod)",
+    "containers": "컨테이너"
   },
   "viewAllEntityName_unknownEntity_plural": "모두",
   "viewAllEntityName_unknownEntity_0": "모두",
@@ -421,5 +436,18 @@
     "days": "며칠 전",
     "close": "닫기",
     "branch": "분기"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Instana 에이전트",
+      "description": "Instana 에이전트가 수집한 데이터를 기반으로 정보를 확인합니다."
+    },
+    "otelCollector": {
+      "text": "OpenTelemetry 콜렉터",
+      "description": "Instana OpenTelemetry 콜렉터를 통해 수집된 데이터를 기반으로 정보를 확인하십시오."
+    },
+    "additionalMetrics": {
+      "title": "추가"
+    }
   }
 }

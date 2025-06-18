@@ -72,3 +72,8 @@ export const LEAST_ROLE_PERMISSIONS = Object.freeze([
   LimitedAccessScope.LIMITED_XENSERVER_SCOPE,
   LimitedAccessScope.LIMITED_ZHMC_SCOPE
 ] as const);
+
+export const STATIC_ROLES = Object.freeze({
+  DEFAULT: 'Default',
+  OWNER: 'Owner'
+} as const);

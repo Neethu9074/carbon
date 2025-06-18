@@ -144,6 +144,12 @@ export function createForm(
       })
     )
     .put(
+      'rbacTags',
+      createField({
+        value: savedState?.rbacTags ?? []
+      })
+    )
+    .put(
       'customProperties',
       createField({
         value: savedState?.customProperties ?? {}

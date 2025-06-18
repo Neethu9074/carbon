@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -22,7 +22,7 @@ export default function Details({ data: cluster, timeConfig }) {
     ) ?? pendingResult;
 
   return (
-    <Fragment>
+    <>
       <Row>
         <Col lg={12}>
           <Debugging cluster={cluster} counters={counters?.data} />
@@ -34,6 +34,6 @@ export default function Details({ data: cluster, timeConfig }) {
           <ComponentStatusTable cluster={cluster} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

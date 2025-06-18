@@ -8,15 +8,13 @@ import React from 'react';
 
 import { TimeConfig, KubernetesPod } from '@instana/types';
 
-import HealthIndicatorButtonPresenter, {
-  HealthIndicatorButtonPresenterProps
-} from 'in-components/health/HealthIndicatorButtonPresenter';
-import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 // @ts-expect-error
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import ArgoCDCluster from 'in-kubernetes/Dashboards/ArgoCD/ArgoCDCluster';
 import { ApplicationTagFilter } from 'in-analyze/applicationFilter';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
+import { plugins } from 'in-forge/constants';
 
 interface DashboardButtonLineProps {
   snapshotId: string;
@@ -26,50 +24,19 @@ interface DashboardButtonLineProps {
   pod?: KubernetesPod;
 }
 
-export default function DashboardButtonLine({
-  snapshotId,
-  timeConfig,
-  tagFilters,
-  plugin,
-  pod
-}: DashboardButtonLineProps) {
+export default function DashboardButtonLine({ snapshotId, timeConfig, tagFilters, plugin }: DashboardButtonLineProps) {
   return (
     <>
-      <EntityHealthIndicator
-        IndicatorPresenter={(props: HealthIndicatorButtonPresenterProps) => (
-          <HealthIndicatorButtonPresenter {...getIndicatorPresenter({ plugin, pod, ...props })} />
-        )}
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-      />
+      {plugin != plugins.oTelK8sCluster && (
+        <EntityHealthIndicator
+          IndicatorPresenter={HealthIndicatorButtonPresenter}
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+        />
+      )}
       <ArgoCDCluster buttonSize="normal" snapshotId={snapshotId} timeConfig={timeConfig} />
 
       <ContextGuide id={snapshotId} plugin={plugin} timeConfig={timeConfig} tagFilters={tagFilters} />
     </>
   );
-}
-
-export function getIndicatorPresenter({ plugin, pod, ...props }: any) {
-  if (plugin !== 'kubernetesPod') {
-    return props;
-  }
-
-  const { conditions, status } = pod;
-  const { maxSeverity: baseMaxSeverity, openIssues } = props;
-
-  const { maxSeverity, openIssuesCount } = getHealthyStatus({
-    statusSummary: status?.statusSummary || '',
-    podConditions: conditions,
-    entityHealthInfo: {
-      maxSeverity: baseMaxSeverity,
-      openIssues
-    }
-  });
-
-  return {
-    ...props,
-    maxSeverity,
-    openIssues: openIssuesCount && null,
-    openIncidents: null
-  };
 }

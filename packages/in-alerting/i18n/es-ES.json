@@ -24,7 +24,7 @@
     "alertPropertyInfosLabelAlertLevel": "Nivel de alerta",
     "alertPropertyInfosLabelTriggersIncident": "Incidencia de activadores",
     "alertPropertyInfosLabelDescription": "Descripción",
-    "noChannelSelectedText": "Actualmente, no ha seleccionado un canal de alertas y no recibirá ninguna alerta.",
+    "noChannelSelectedText": "No se han añadido canales. Para empezar, haga clic en Seleccionar canales de alerta.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros adicionales",
     "groupBy": "Agrupar por",
     "noChannelAvailable": "No hay canales de alerta disponibles",
@@ -167,6 +167,7 @@
     "titleNoSmartAlertsCreated": "No se han creado alertas inteligentes",
     "titleCopyOf": "(Copia de) {{smartAlertTitle}}",
     "smartAlertsTitle": "Alertas inteligentes",
+    "titleNoSmartAlertsConfiguredFound": "No se han encontrado configuraciones de alerta inteligente",
     "alertChannelList": {
       "selectAllWarning": "Seleccionar todas las advertencias",
       "selectAllCritical": "Seleccionar todo lo crítico",
@@ -912,7 +913,6 @@
         "criticalAlertPreviewLabel": "Vista previa crítica",
         "alertPreviewMissingThresholdInfo": "No hay ninguna vista previa disponible. Seleccione al menos un valor de umbral para ver la vista previa.",
         "alertPropertiesAlertProperties": "Propiedades de alerta",
-        "alertPreviewDefaultTitle": "Título de notificación",
         "groupingPlaceholdersMissingTooltip": "Para incluir más marcadores de posición, configure agrupaciones",
         "buttonSave": "Guardar",
         "buttonCreate": "Crear",
@@ -998,7 +998,8 @@
         "title": "Periodo de gracia (opcional)",
         "description": "Seleccione el tiempo que debe permanecer abierto un problema después de que ya no se cumpla el umbral de infracción. Una vez transcurrido este tiempo, el problema se cerrará automáticamente.",
         "label": "Select",
-        "summary": "Cerrar automáticamente un problema después de que no se cumpla el umbral de infracción <strong>durante {{gracePeriodValue}}</strong>."
+        "defaultGracePeriod": "Valor predeterminado",
+        "summary": "Cerrar automáticamente un problema cuando deje de cumplirse el umbral de infracción para"
       },
       "tearSheet": {
         "cancelModalTitle": "¿Está seguro de que desea cancelar?",
@@ -1008,12 +1009,15 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Las infracciones persisten a intervalos aleatorios",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Las infracciones persisten continuamente",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "Cuando se ve afectado un número mínimo de rastreos",
+          "labelUserImpactOfViolationsInSequence": "Cuando afecta a un determinado número de usuarios",
           "granularity": {
             "description": "Las llamadas se realizan en ventanas de {{granularity}} minutos; cada {{granularity}} minutos se calcula un valor métrico para esa ventana"
           },
           "triggerAlert": "Activar alerta",
           "triggerAfter": "Activar después de",
           "tracesImpacted": "los rastreos se ven afectados",
+          "numberOfUserImpactPostLabel": "o más usuarios se ven afectados",
+          "percentageOfUserImpactPostLabel": "o más del % de los usuarios se ven afectados",
           "outOfConsecutiveEvaluations": "de",
           "persistenceType": "Tipo de persistencia",
           "numberOfConsecutiveViolationsPostLabel": "ventanas consecutivas de {{granularity}} de minutos tienen infracciones",
@@ -1163,7 +1167,7 @@
         },
         "step5": {
           "title": "Definir canales de alerta",
-          "description": "Seleccione dónde desea que se le notifique esta alerta"
+          "description": "Seleccione dónde desea recibir notificaciones para esta alerta."
         },
         "slowness": {
           "headline": "Alertas automáticas para tiempo de onLoad o latencia de HTTP",
@@ -1349,7 +1353,7 @@
           "header": "¿Qué propiedades quiere establecer para esta alerta?"
         },
         "step4": {
-          "header": "Seleccione dónde desea que se le notifique esta alerta"
+          "header": "Seleccione dónde desea recibir notificaciones para esta alerta."
         }
       }
     },
@@ -1494,7 +1498,7 @@
         },
         "step5": {
           "title": "Definir canales de alerta",
-          "description": "Seleccione dónde desea que se le notifique esta alerta"
+          "description": "Seleccione dónde desea recibir notificaciones para esta alerta."
         },
         "slowness": {
           "headline": "Alertas automáticas para latencia de HTTP",
@@ -1904,22 +1908,29 @@
         "blueprint_STATUS": "Estado",
         "blueprint_BURNED_PERCENTAGE": "Margen de error",
         "blueprint_BURN_RATE": "Tasa de consumo",
+        "blueprint_BURN_RATE_V2": "Tasa de consumo",
         "blueprintDescription": "",
+        "burnRateAlertTypeLabel": "Tipo de ventana de alerta",
+        "burnRateAlertTypeLabel_SINGLE_WINDOW": "Ventana de alerta única",
+        "burnRateAlertTypeLabel_MULTI_WINDOW": "Ventana de alerta larga y corta",
         "blueprintDescription_STATUS": "Recibir una alerta cuando el estado de SLO esté por debajo de un umbral.",
         "blueprintDescription_BURNED_PERCENTAGE": "Recibir una alerta cuando se consume un porcentaje del presupuesto de errores.",
-        "blueprintDescription_BURN_RATE": "La tasa de consumo es un valor que indica la rapidez con la que se consume el presupuesto de errores en relación con la longitud objetivo de su SLO.",
+        "blueprintDescription_BURN_RATE_V2": "La tasa de consumo es un valor que indica la rapidez con la que se consume el presupuesto de errores en relación con la longitud objetivo de su SLO. ",
         "burnRateShortWindowTitle": "Ventana de alerta corta",
-        "burnRateShortWindowDescription": "Estas alertas se activarán cuando la tasa de error supere el umbral más rápidamente durante un periodo más corto. Esto puede ayudar a capturar un repentino pico de errores o tiempo de inactividad debido a un fallo crítico.",
+        "burnRateShortWindowDescription": "Se activarán alertas cuando la tasa de errores supere el umbral más rápidamente durante un periodo más corto. Esto puede ayudar a capturar un repentino pico de errores o tiempo de inactividad debido a un fallo crítico.",
         "burnRateDescription": "Avísame cuando la tasa de consumo sea <1/> <2/>",
-        "burnRateLongWindowTitle": "Ventana de alerta larga",
-        "burnRateLongWindowDescription": "Estas alertas se activarán cuando la tasa de errores supere el umbral durante un periodo de tiempo prolongado. Esto ayuda a identificar problemas acumulados a lo largo del tiempo que podrían causar problemas en el futuro si no se abordan.",
-        "burnRateShortWindowLongerThanLongWindowError": "La ventana corta no puede superar a la ventana larga. Por favor, ajuste cualquiera de los valores.",
+        "burnRateWindowTitle_SINGLE_WINDOW": "Ventana de alerta",
+        "burnRateWindowTitle_MULTI_WINDOW": "Ventana de alerta larga",
+        "burnRateSingleWindowDescription": "Se activan alertas cuando la tasa de errores supera el umbral durante un periodo de tiempo especificado. Esto ayuda a identificar problemas acumulados a lo largo del tiempo que podrían causar problemas en el futuro si no se abordan.",
+        "burnRateLongWindowDescription": "Se activan alertas cuando la tasa de errores supere el umbral durante un periodo de tiempo prolongado. Esto ayuda a identificar problemas acumulados a lo largo del tiempo que podrían causar problemas en el futuro si no se abordan.",
+        "burnRateShortWindowLongerThanLongWindowError": "La ventana corta debe ser más menor que la ventana larga. Por favor, ajuste cualquiera de los valores.",
         "burnRateTimeWindowTooLongError": "La ventana de alerta no puede exceder la ventana de tiempo de un SLO seleccionado. Por favor, compruebe el siguiente SLO: {{value}}.",
         "thresholdTitle": "Umbral: ¿Cuándo desea que se le avise?",
         "thresholdInputDescription": "",
         "thresholdInputDescription_BURNED_PERCENTAGE": "Cuando se consume <1/> <2/> por ciento del presupuesto de errores",
         "thresholdInputDescription_STATUS": "Cuando el estado de SLO es <1/> <2/> por ciento",
         "thresholdInputDescription_BURN_RATE": "Evalúe el último <1/> del SLO.",
+        "thresholdInputDescription_BURN_RATE_V2": "Evalúe el último <1/> del SLO.",
         "timeThresholdType_gracePeriod": "Cuando la condición persiste durante un periodo de tiempo especificado",
         "timeThresholdTypeTitle_gracePeriod": "Alertar cuando se infrinja la condición para $t(in-components:time.minutes, consecutivos {\"count\": {{minutes}} })",
         "timeThresholdTypeTitle_cooldownPeriod": "Deben haber pasado al menos $t(in-components:time.minutes, {\"count\": {{minutes}} }) para que el suceso finalice",
@@ -1928,7 +1939,11 @@
         "alertPropertiesTitlePlaceholder_STATUS": "El estado de SLO es bajo",
         "alertPropertiesDescriptionPlaceholder_STATUS": "El estado de SLO es {{operator}} {{percentage}}.",
         "alertPropertiesTitlePlaceholder_BURN_RATE": "Se supera la tasa de consumo",
-        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "La tasa de consumo del SLO es {{operator}} {{percentage}}.",
+        "alertPropertiesTitlePlaceholder_BURN_RATE_V2": "Se supera la tasa de consumo",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "La tasa de consumo del SLO es {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2": "La tasa de consumo del SLO es {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_SINGLE": "La tasa de consumo del SLO es {{singleWindowOperator}} {{singleWindowPercentage}}.",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE_V2_MULTI": "La tasa de consumo de la ventana larga de SLO es {{longWindowOperator}} {{longWindowPercentage}} y la de la ventana corta es {{shortWindowOperator}} {{shortWindowPercentage}}.",
         "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "El presupuesto de errores restante es bajo",
         "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "Se ha consumido {{operator}} {{percentage}} del presupuesto de errores.",
         "alertPropertiesIncidentWarning": "Las incidencias solo son aplicables a los SLO asociados a aplicaciones"
@@ -1944,8 +1959,10 @@
         "blueprintLabel": "Anteproyecto",
         "blueprintInfo": "",
         "blueprintInfo_BURN_RATE": "Tasa de consumo",
+        "blueprintInfo_BURN_RATE_V2": "Tasa de consumo",
         "blueprintInfo_BURNED_PERCENTAGE": "Presupuesto de errores consumido",
         "blueprintInfo_STATUS": "Estado",
+        "singleWindowLabel": "Ventana de alerta",
         "longWindowLabel": "Ventana larga",
         "shortWindowLabel": "Ventana corta",
         "timeWindowInfo_minute": "{{count}} minuto",
@@ -1966,10 +1983,14 @@
         "coolDownPeriodDescription": "Se debe pasar un mínimo de {{value}} para que el suceso concluya."
       },
       "alertList": {
-        "threshold": "Umbral: {{value}}",
-        "threshold_BURN_RATE": "Tasa de consumo: {{value}}",
-        "threshold_BURNED_PERCENTAGE": "Umbral: {{value}}",
-        "threshold_STATUS": "Umbral: {{value}}",
+        "threshold": "{{metric}}, umbral {{operator}} {{value}}",
+        "threshold_BURN_RATE": "{{metric}}, umbral {{operator}} {{value}}",
+        "singleWindowThreshold_BURN_RATE_V2": "{{metric}}, umbral {{operator}} {{value}}",
+        "longWindowThreshold_BURN_RATE_V2": "{{metric}}, umbral (Largo) {{longWindowOperator}} {{longWindowValue}}, (Corto) {{shortWindowoperator}} {{shortWindowValue}}",
+        "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, umbral (Largo) {{operator}} {{value}} y (Corto) < 1",
+        "threshold_BURNED_PERCENTAGE": "{{metric}}, umbral {{operator}} {{value}}",
+        "threshold_STATUS": "{{metric}}, umbral {{operator}} {{value}}",
+        "alertListSloAppliedColumnName": "SLO aplicados",
         "sloApplied": "SLO aplicados",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLO",
@@ -1978,8 +1999,13 @@
         "sloCount_2": "{{count}} SLO",
         "title": "",
         "title_BURN_RATE": "Tasa de consumo",
+        "title_BURN_RATE_V2": "Tasa de consumo",
         "title_BURNED_PERCENTAGE": "Presupuesto de errores consumido",
-        "title_STATUS": "Estado"
+        "title_STATUS": "Estado",
+        "errorBudgetLabel": "Presupuesto de error",
+        "deprecatedLabel": "En desuso",
+        "noDataHeader": "No hay alertas inteligentes de SLO",
+        "noDataDescription": "Para empezar, haga clic en <strong>Crear alerta inteligente</strong>."
       },
       "messages": {
         "successTitle": "",

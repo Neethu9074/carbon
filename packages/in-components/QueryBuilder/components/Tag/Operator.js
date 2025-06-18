@@ -15,7 +15,7 @@ import Overlay from 'in-components/overlays/Overlay';
 import locals from './Operator.mless';
 
 export default React.forwardRef(function Operator(
-  { element: { operator, renderModelIndex }, allowedOperators, tagType, onChange, focus },
+  { element: { operator, renderModelIndex }, allowedOperators, tagType, onChange, focus, source },
   ref
 ) {
   if (!tagType) {
@@ -26,7 +26,7 @@ export default React.forwardRef(function Operator(
     <Overlay
       withoutWrapper
       content={OperatorSelectorOverlay}
-      props={{ value: operator, onChange, allowedOperators, tagType }}
+      props={{ value: operator, onChange, allowedOperators, tagType, source }}
       align="bottomMiddle"
       onCloseSideEffect={e => {
         // Ensure the element retains its focus when closing the overlay with the escape key.

@@ -38,7 +38,7 @@
         "webpageActionTitle": "Qual é o nome desse teste simples do navegador (ação da página da web)",
         "browserScriptTitle": "Qual é o nome desse teste de script do navegador?",
         "labelName": "Nome do teste",
-        "labelDescription": "Descrição",
+        "labelDescription": "Descrição (opcional)",
         "labelFrequency": "Frequência (minuto)",
         "labelFrequencyHour": "Frequência (hora)",
         "labelApplication": "Selecionar um aplicativo",
@@ -150,14 +150,13 @@
         "locationsLabel": "Locais",
         "locationsTitle": "Locais: onde esse teste será executado?",
         "scheduleLabel": "Planejar",
-        "scheduleTitle": "Planejamento: quando esse teste será executado?",
+        "scheduleTitle": "Planejamento: Como este teste será executado?",
         "identifyLabel": "Identificar",
         "identifyTitle": "Identificar: o que o teste vai fazer?",
-        "customPropertiesTitle": "Propriedades customizadas",
+        "customPropertiesTitle": "Propriedades customizadas (opcional)",
         "frequency": "Esse teste será executado a cada {{frequencyValue}} minutos.",
         "frequencyHours": "Este teste será executado a cada {{frequencyHours}} horas.",
         "frequencyHoursAndMinutes": "Esse teste será executado a cada {{frequencyHours}} horas e {{frequencyMinutes}} minutos.",
-        "simultaneous": "Simultânea",
         "simultaneousDescription": "Esse teste será executado simultaneamente em cada local selecionado.",
         "configStep": {
           "allowInsecure": "Permitir inseguro",
@@ -204,7 +203,7 @@
           "node22BrowserUploadFileDescription": "É possível fazer upload de um único arquivo .js, .cjs ou .mjs, um arquivo .zip contendo arquivos .js, .cjs ou .mjs em um pacote configurável ou um script .side gravado pelo Selenium IDE.",
           "sideFileUploadedMessage": "Os scripts Selenium não podem ser modificados ou validados",
           "bundleFileNotSupportedMessage": "O arquivo não suportado é selecionado. Os pacotes configuráveis são suportados somente no modo avançado.",
-          "timeoutFieldLabel": "Tempo limite",
+          "timeoutFieldLabel": "Tempo limite (opcional)",
           "timeUnitsLabel": "Unidades de tempo",
           "timeoutFieldOptionMinutes": "minutos (m)",
           "timeoutFieldOptionSeconds": "segundos (s)",
@@ -213,7 +212,7 @@
           "invalidTimeoutvalue": "Valor de tempo limite inválido",
           "invalidTimeoutUnit": "Unidade de tempo limite inválida",
           "timeoutFieldDescription": "Este teste falhará após",
-          "retryFieldLabel": "Estratégia de nova tentativa",
+          "retryFieldLabel": "Estratégia de nova tentativa (opcional)",
           "retryFieldOptionNone": "Nenhum",
           "retryFieldOptionOnce": "Tentar novamente uma vez",
           "retryFieldOptionTwice": "Tentar novamente duas vezes",
@@ -224,6 +223,13 @@
           "mainFileNameHelperText": "Forneça o nome do arquivo dentro desse arquivo zip que contém o ponto de entrada do teste",
           "recordVideo": "Registre as ações do usuário em caso de falha",
           "acceptSelfSignedCertificate": "Aceitar certificado autoassinado",
+          "operatorLabel": "Condicional",
+          "operatorOptionMatches": "Correspondências",
+          "operatorOptionContains": "Contém",
+          "operatorOptionIs": "É",
+          "operatorOptionNotMatches": "Não corresponde",
+          "deleteButtonLabel": "Excluir",
+          "addFieldLabel": "Incluir campo",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "A URL é o nome de domínio que está sendo testado para resolução de DNS",
@@ -237,14 +243,7 @@
             "assertionsTitle": "Asserções (opcional)",
             "assertionsSubtitle": "Esses campos são opcionais, mas, quando preenchidos, todos precisam ser verdadeiros para que o teste seja bem-sucedido.",
             "recordTypeLabel": "Tipo de registro",
-            "operatorLabel": "Condicional",
-            "operatorOptionMatches": "Correspondências",
-            "operatorOptionContains": "Contém",
-            "operatorOptionIs": "É",
-            "operatorOptionNotMatches": "Não corresponde",
             "resolutionRecordLabel": "Registro de resolução",
-            "deleteButtonLabel": "Excluir",
-            "addRecordTypeLabel": "Incluir campo",
             "recursiveLookupLabel": "Consulta recursiva",
             "dnsRadioButtonOnLabel": "ON",
             "dnsRadioButtonOffLabel": "Desligado",
@@ -262,7 +261,25 @@
             },
             "assertionsNotificationTitle": "Asserções necessárias",
             "assertionsNotificationDescription": "Inclua pelo menos uma asserção ao usar o tipo de consulta \"TODOS associados a asserções\"."
-          }
+          },
+          "ssl": {
+            "attributeLabel": "Atributo",
+            "valueLabel": "Valor",
+            "attributeValueLabel": "Valor do atributo",
+            "invalidAttributeValue": "Valor do atributo não válido",
+            "assertion": {
+              "commonName": "issuedTo.commonName",
+              "alternativeName": "issuedTo.alternativeName",
+              "organization": "issuedBy.organization",
+              "tlsVersion": "tls.version"
+            }
+          },
+          "hostDetailsSectionLabel": "Detalhes do host",
+          "headerSectionLabel": "Incluir cabeçalhos (opcional)",
+          "testCriteriaLabel": "Critérios de teste",
+          "validationsSectionLabel": "Incluir validações (opcional)",
+          "timeoutAndRetrySectionLabel": "Estrategia de tempo limite e nova tentativa (opcional)",
+          "additionalOptionsSectionLabel": "Opções adicionais"
         },
         "loadMore": "Carregar mais",
         "selectTests": {
@@ -294,7 +311,7 @@
         "associationsLabel": "Associar",
         "applicationsTitle": "Associar: selecione os aplicativos a serem associados a este teste sintético",
         "applicationsDescription": "A associação de um teste sintético a um aplicativo concede direitos de acesso a todos os usuários que têm acesso a esse aplicativo.",
-        "associationsTitle": "Associar: selecione o que você deseja associar a esse teste sintético",
+        "associationsTitle": "Associar: selecione o que você deseja associar a este teste sintético (opcional)",
         "associationsDescription": "A associação de um teste sintético a um aplicativo, site ou aplicativo móvel concede direitos de acesso a todos os usuários que têm acesso a essas entidades."
       },
       "associations": {
@@ -474,11 +491,16 @@
         "tests": "Testes",
         "locations": "Locais",
         "smartAlerts": "Alertas inteligentes",
-        "credentials": "Credenciais"
+        "credentials": "Credenciais",
+        "syntheticTests": "Testes sintéticos"
       },
       "options": {
+        "scheduledMenuLabel": "Planejado",
+        "onDemandMenuLabel": "Sob demanda",
+        "allLabel": "Todos",
         "scheduledLabel": "Escopo de dados: planejado",
-        "onDemandLabel": "Escopo de dados: sob demanda"
+        "onDemandLabel": "Escopo de dados: sob demanda",
+        "dashboardHeaderLabel": "Dados baseados em: {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissões para o monitoramento sintético",
@@ -521,6 +543,7 @@
       "paused": "Pausar",
       "deleted": "Excluídas",
       "type": "Tipo",
+      "sslDaysRemaining": "Expira em {{daysRemaining}} dias",
       "successRate": "Pontuação de sucesso",
       "successRuns": "{{successRuns}} / {{totalRuns}} resultados",
       "latency": "Tempo médio de resposta",
@@ -537,7 +560,11 @@
       "health": "Funcionamento",
       "action": "Ação",
       "labelConfirmRemoveTest": "Tem certeza de que deseja remover o teste <strong>{{testLabel}}</strong>? Essa ação não pode ser desfeita",
-      "na": "N/D"
+      "na": "N/D",
+      "configureColumns": {
+        "title": "Customização de coluna",
+        "description": "Agora é possível customizar sua tabela de dados de teste sintético. Com isso, você tem a flexibilidade de escolher quais colunas deseja exibir e reorganizá-las conforme necessário."
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "O modo em tempo real não é aplicável na página de locais sintéticos",
@@ -886,6 +913,7 @@
       "noMobileAppAssociated": "Nenhum aplicativo móvel associado",
       "recordVideo": "Registre as ações do usuário em caso de falha",
       "acceptSelfSignedCertificate": "Aceitar certificado autoassinado",
+      "operatorLabel": "Condicional",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Tipo de consulta",
@@ -895,7 +923,6 @@
         "responseTimeDescription": "O tempo de resposta é menor que {{responseTime}} ms",
         "assertionsTitle": "Asserções",
         "recordTypeLabel": "Tipo de registro",
-        "operatorLabel": "Condicional",
         "resolutionRecordLabel": "Registro de resolução",
         "recursiveLookupLabel": "Consulta recursiva",
         "dnsRadioButtonOnLabel": "ON",
@@ -904,6 +931,10 @@
         "acceptCNAMELabel": "Aceitar CNAME",
         "lookupServerNamelabel": "Nome do servidor de consulta",
         "serverRetriesLabel": "Novas tentativas do servidor"
+      },
+      "ssl": {
+        "attributeLabel": "Atributo",
+        "valueLabel": "Valor"
       }
     },
     "credentialList": {

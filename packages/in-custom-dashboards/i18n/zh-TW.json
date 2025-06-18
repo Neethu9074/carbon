@@ -1,4 +1,6 @@
 {
+  "cancel": "取消",
+  "save": "儲存",
   "editor": {
     "copyOf": "{{title}} 副本"
   },
@@ -10,6 +12,13 @@
         "dashboardAJson": "JSON 形式的儀表板",
         "editDashboard": "編輯儀表板"
       }
+    },
+    "editTeamsDialog": {
+      "title": "編輯團隊",
+      "description": "選取要與此儀表板關聯的團隊。",
+      "calloutMessage": "新增團隊後，團隊成員將能夠檢視和編輯此儀表板。 這也在設定中的團隊頁面。",
+      "selectorLabel": "團隊",
+      "chooseTeams": "選擇團隊"
     },
     "grid": {
       "grid": {
@@ -84,6 +93,7 @@
       "addWidget": "新增小組件",
       "tvMode": "TV 模式",
       "editName": "編輯名稱",
+      "editTeams": "編輯團隊",
       "editAsJson": "以 JSON 形式編輯",
       "viewAsJson": "以 JSON 檢視",
       "copyAllWidgets": "複製所有小組件",

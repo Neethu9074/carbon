@@ -15,6 +15,7 @@
   "testAction": "测试操作",
   "targetAgent": "目标代理程序",
   "triggeringAgent": "{{hostname}} (触发代理程序)",
+  "agentEmpty": "您尚未配置任何代理",
   "targetAgentDescription": "代理程序封装 1 ..* 个传感器，这些传感器进而能够向 Instana 后端发出事件。 触发代理程序包含发出此特定事件的传感器。",
   "chosenToRun": "运行操作 {{actionName}}",
   "viewManualAction": "查看手动操作 {{actionName}}",
@@ -46,7 +47,6 @@
   "description": "描述",
   "automation": "自动化",
   "failedToResolveDynamicParameters": "未能解析动态参数。",
-  "deletePolicyWithName": "删除策略 {{actionName}}",
   "jobTemplate": "作业模板",
   "workflowJobTemplate": "工作流程作业模板",
   "hostsLimit": "主机限制（可选）",
@@ -83,14 +83,10 @@
   "actionCategory": "操作类别",
   "value": "值",
   "type": "Type",
-  "automationPoliciesWithCount": "自动化策略（{{count}} 个）",
-  "automationPolicies": "自动化策略",
   "copyOf": "{{name}}（的副本）",
   "searchActions": "搜索操作",
   "searchOptimizations": "搜索优化",
   "hostsLimitHelpText": "将执行限制为指定的目标主机。 选择与系统在 Ansible 清单中的表示方式相匹配的值，或者输入 Ansible 限制语法支持的字符串。",
-  "aiEngine": "AI 引擎",
-  "engine": "引擎",
   "eventSimilarity": "事件相似性",
   "close": "关闭",
   "tag": "标记",
@@ -111,6 +107,34 @@
   "triggeringEvent": "正在触发的事件",
   "probableRootCause": "可能的根本原因",
   "contextFor": "相关上下文：",
+  "backToPolicies": "返回至策略",
+  "backToEvent": "返回至事件",
+  "recommendation": "建议",
+  "userCreated": "已创建用户",
+  "successRate": "成功率",
+  "optimization": "优化",
+  "viewRunAction": "查看和运行操作",
+  "viewRunPolicy": "查看和运行策略",
+  "viewPolicyDashboard": "查看策略仪表板",
+  "editPolicy": "编辑策略",
+  "deletePolicy": "删除策略",
+  "viewActionDashboard": "查看操作仪表板",
+  "createPolicy": "创建策略",
+  "recommendedActionsExplanability": {
+    "linkExplanation": "Instana 使用算法和集成来推荐事件的应对措施。",
+    "link": "了解更多关于每种推荐类型的信息。",
+    "algorithmSectionText1": "<strong>事件相似性 - </strong>事件触发的事件特征与策略中配置的事件特征相匹配。 计算分数并将其归一化。 在策略中配置的操作会获得此事件到事件的评分。",
+    "algorithmSectionText2": "<strong>NLP（自然语言处理）-</strong> 事件触发的事件特征与操作目录中的操作特征相匹配。 特征包括名称、描述、实体类型和标记。 计算分数并将其归一化。",
+    "algorithmSectionText3": "<strong>成功率 - </strong>当针对过去发生的事件运行操作时，会根据该操作的成功率给操作一个分数。",
+    "sectionDescription": "Instana 使用基于事件发生时创建的事件特征的预定义算法。 共有三种类型：",
+    "sectionHeading": "Instana 建议",
+    "optimizations": "优化",
+    "optimizationsExplanation": "如果事件引用的实体与 IBM Turbonomic 操作相关联，则会根据其 NLP 分数推荐这些操作。",
+    "algorithms": "算法",
+    "policiesExplanation": " 当发生的事件与策略触发器中指定的条件相匹配时，该策略将被列为推荐操作。",
+    "learnMoreLink": "要了解有关操作建议的更多信息，请访问 IBM Docs。"
+  },
+  "triggerType": "触发器类型",
   "GenerateAIActionDialog": {
     "actionConfiguration": "操作配置",
     "actionDetails": "提供操作详细信息",
@@ -246,7 +270,6 @@
     "confidence_high": "高级",
     "bodyDescription": "与 HTTP 请求关联的数据。",
     "confidence": "{{context}}",
-    "confidenceHelpText": "建议基于以下内容执行此操作：{{source}}",
     "http": "HTTP",
     "confidenceTitle": "置信度",
     "run": "运行",
@@ -433,8 +456,11 @@
     "createANewPolicy": "创建新策略",
     "configurePolicyEntityName": "配置策略：{{entityName}}",
     "1PolicyDetails": "1. 策略详细信息",
+    "policyDetails": "策略详细信息",
     "2TriggerConfiguration": "2. 触发器配置",
+    "triggerConfiguration": "触发器配置",
     "3ActionConfiguration": "3. 操作配置",
+    "actionConfiguration": "操作配置",
     "showsUpInTheListOfPolicies": "显示在策略列表中。 应该唯一且有意义。",
     "showsUpInThePolicyDescription": "显示在策略描述中。 应尽可能具有描述性。",
     "manual": "手动",
@@ -493,23 +519,16 @@
     },
     "createBulkDialog": {
       "success": {
-        "title": "已成功创建策略。",
-        "content": "已成功创建 {{count}} 个策略。",
         "content_plural": "已成功创建 {{count}} 个策略。",
         "content_0": "已成功创建 {{count}} 个策略。",
         "content_1": "已成功创建 {{count}} 个策略。",
         "content_2": "已成功创建 {{count}} 个策略。"
-      },
-      "failure": {
-        "title": "未能创建策略。",
-        "content": "创建策略时发生问题：{{error}}"
       }
     },
     "deleteDialog": {
       "success": "已成功删除策略。",
       "failure": "未能删除策略。"
     },
-    "createPolicies": "创建策略",
     "websiteSmartAlert": "Web 站点智能警报"
   },
   "infoPanel": {
@@ -593,9 +612,9 @@
       },
       "section2": {
         "section2Title": "输入提示字段",
-        "section2EventName": "<strong>事件名称。</strong> 突发事件、事件或警报的名称。",
-        "section2Description": "<strong>事件描述。</strong> 突发事件或事件的描述。",
-        "section2Entitytype": "<strong>事件实体类型。</strong> 与突发事件或事件相关的实体类型。"
+        "section2EventName": "<strong>事件名称 -</strong> 事故、事件或警报的名称。",
+        "section2Description": "<strong>事件描述 -</strong> 事故或事件的描述。",
+        "section2Entitytype": "<strong>事件实体类型 -</strong> 与事故或事件相关的实体类型。"
       },
       "section3": {
         "AIModel": "AI 模型"

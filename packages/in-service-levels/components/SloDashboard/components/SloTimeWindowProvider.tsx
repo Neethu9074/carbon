@@ -7,9 +7,12 @@
 import React, { ReactNode, createContext, useMemo } from 'react';
 import _ from 'lodash';
 
-import { Progress, TimeConfig, TimeWindow } from '@instana/types';
+import { Progress, Result, TimeConfig, TimeWindow } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
+import useCorrectionWindows, {
+  CorrectionWithConfiguration
+} from 'in-service-levels/features/CorrectionWindows/hooks/useCorrectionWindows';
 import { AvailableTimeWindowTypes, isAvailableTimeWindowType } from 'in-service-levels/types';
 import { setTimeWindowTypeUrlParameter } from 'in-service-levels/navigation/urlParameters';
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
@@ -38,6 +41,7 @@ export interface TimeWindowContext {
   selectedTimeWindowType: AvailableTimeWindowTypes;
   updateSelectedTimeWindowType: (timeWindowType: AvailableTimeWindowTypes) => void;
   progress: Progress;
+  correctionData: Result<CorrectionWithConfiguration>;
 }
 
 const defaultTimeWindowType = SloTimeWindowTypes.SELECTED_TIME;
@@ -87,13 +91,19 @@ function useSelectedTimeWindowContext({
     setTimeWindowTypeUrlParameter(location, timeWindowType, timeWindowTypeParameterDefinition);
     navigate(location);
   };
-
   const timeConfig = useMemo(
     () => getTimeConfigBySelectedType(selectedTimeWindowType, selectedTimeConfig, sloTimeWindow),
     [selectedTimeWindowType, selectedTimeConfig, sloTimeWindow]
   );
 
   const [timeWindows, , , loading] = useOverlappingTimeWindows({ sloConfigId, timeConfig });
+
+  const [currentTimeWindow] = timeWindows ?? [];
+  const correctionTimeConfig = selectedTimeWindowType === 'SLO_TIME_WINDOW' ? currentTimeWindow : timeConfig;
+  const correctionData = useCorrectionWindows({
+    sloConfigId,
+    timeConfig: correctionTimeConfig
+  });
 
   return useMemo(() => {
     return {
@@ -102,11 +112,19 @@ function useSelectedTimeWindowContext({
       timeWindowColors: timeWindows?.map((_, index) => getColorByTimeWindowIndex(index, themes)) ?? [],
       timeWindowTypeParameterDefinition,
       progress: loading,
-      updateSelectedTimeWindowType
+      updateSelectedTimeWindowType,
+      correctionData
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedTimeWindowType, timeWindows, themes, timeWindowTypeParameterDefinition, loading]);
+  }, [
+    selectedTimeWindowType,
+    timeWindows,
+    themes,
+    timeWindowTypeParameterDefinition,
+    loading,
+    correctionData.progress.loading
+  ]);
 }
 
 function getTimeConfigBySelectedType(

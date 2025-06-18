@@ -21,6 +21,7 @@ import {
   isAutomatic,
   isManual
 } from 'in-automation/utils/policy';
+import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import { ApplyOn, PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
@@ -65,24 +66,37 @@ function parsePolicy(policy: PolicyFormEntity) {
   };
 }
 
-function parseTrigger(policy: PolicyFormEntity, triggers: Triggers): { triggerId: string; triggerType: TriggerType } {
+function parseTrigger(
+  policy: PolicyFormEntity,
+  triggers: Triggers,
+  triggerDetails?: TriggerDetailsProps
+): { triggerId: string; triggerType: TriggerType } {
   const trigger = getPolicyTriggerFromTriggers(triggers, policy);
+  if (triggerDetails && triggerDetails.triggerId && triggerDetails.triggerType) {
+    return triggerDetails;
+  }
   if (!trigger) {
     return {
       triggerType: 'builtinEvent',
       triggerId: ''
     };
   }
+
   return {
     triggerType: policy.trigger.type,
     triggerId: policy.trigger.id
   };
 }
 
-function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[], triggers: Triggers): PolicyForm {
+function createPolicyFormDefinition(
+  policy: PolicyFormEntity,
+  actions: Action[],
+  triggers: Triggers,
+  triggerDetails?: TriggerDetailsProps
+): PolicyForm {
   const { name, description, actionId, agentId, applyOn, query, inputParameterValues, tags, manual, automatic } =
     parsePolicy(policy);
-  const { triggerType, triggerId } = parseTrigger(policy, triggers);
+  const { triggerType, triggerId } = parseTrigger(policy, triggers, triggerDetails);
 
   return createMapForm({
     items: {
@@ -153,8 +167,13 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
   });
 }
 
-export default function usePolicyForm(policy: PolicyFormEntity, actions: Action[], triggers: Triggers) {
-  return useState(createPolicyFormDefinition(policy, actions, triggers));
+export default function usePolicyForm(
+  policy: PolicyFormEntity,
+  actions: Action[],
+  triggers: Triggers,
+  triggerDetails?: TriggerDetailsProps
+) {
+  return useState(createPolicyFormDefinition(policy, actions, triggers, triggerDetails));
 }
 
 interface PolicyFormContext {

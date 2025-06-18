@@ -7,8 +7,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 import {
   clusterIdUrlParameter,
   serviceIdUrlParameter,
@@ -145,17 +143,15 @@ export default function WorkloadControllersTable(props) {
   return (
     <>
       <K8sAgentMonitoringIssueNotifications {...props} />
-      <Card>
-        <ServerTableWithUrlState
-          get={getWorkloadData}
-          filterColumnDefinitions={() => {
-            const shouldShowDurationColumn =
-              props.workloadControllerType === 'deployment' || props.workloadControllerType === 'deploymentConfig';
-            return columnDefinition => shouldShowDurationColumn || columnDefinition.id !== 'duration';
-          }}
-          {...props}
-        />
-      </Card>
+      <ServerTableWithUrlState
+        get={getWorkloadData}
+        filterColumnDefinitions={() => {
+          const shouldShowDurationColumn =
+            props.workloadControllerType === 'deployment' || props.workloadControllerType === 'deploymentConfig';
+          return columnDefinition => shouldShowDurationColumn || columnDefinition.id !== 'duration';
+        }}
+        {...props}
+      />
     </>
   );
 }
