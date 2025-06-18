@@ -103,7 +103,6 @@ export default function SingleWindowBurnRate() {
                 invalid={alertTimeWindowDurationValue > maxAllowedTimeWindow || !isSingleTimeWindowDurationFieldValid}
                 value={alertTimeWindowDurationValue}
                 min={0}
-                max={1000}
                 onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
                   onChange(['burnRateConfig', singleWindowBurnRateFormIndex, 'duration'], () =>
                     alertTimeWindowDurationField.setValue(+value).setTouched(true)
@@ -163,7 +162,6 @@ export default function SingleWindowBurnRate() {
               invalid={!isAlertThresholdFieldValid}
               value={burnRateAlertThresholdField.value}
               min={0}
-              max={100}
               onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(['burnRateConfig', singleWindowBurnRateFormIndex, 'threshold', 'value'], () =>
                   burnRateAlertThresholdField.setValue(+value).setTouched(true)
