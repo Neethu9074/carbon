@@ -301,7 +301,6 @@ interface PhaseUrlState {
 }
 
 export default function Pods(props: PodsProps) {
-  console.log('Sophia Pods component rendered with props:', props);
   const {
     timeConfig,
     namespaceId,
