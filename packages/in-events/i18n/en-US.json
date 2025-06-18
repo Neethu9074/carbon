@@ -400,6 +400,7 @@
   },
   "aichat": {
     "unableToFindError": "Unable to find that information",
+    "problemError": "There was a problem. Please try again or ask another question.",
     "host": "Host",
     "name": "Name",
     "count": "Count",
