@@ -29,8 +29,8 @@ import {
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import { customEventRulesValidator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getFormatterType, positiveNumber } from 'in-services/formatters/number';
 import { notBlankValidator } from 'in-services/validators/string';
-import { getFormatterType } from 'in-services/formatters/number';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import { plugins } from 'in-forge/constants';
@@ -204,6 +204,25 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
       createField({
         value: dataSource,
         validator: notBlankValidator
+      })
+    )
+    .put(
+      'transientEnabled',
+      createField({
+        value: false
+      })
+    )
+    .put(
+      'transientThreshold',
+      createField({
+        value: 0,
+        validator: positiveNumber
+      })
+    )
+    .put(
+      'transientEventAlertMuted',
+      createField({
+        value: false
       })
     );
 

@@ -21,6 +21,7 @@ import {
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getSelectedApplicationConfigsByName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/components/Applications';
 import { isEntityCountSystemRule } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import TransientEventsSection from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/TransientEventsSection';
 import { getEntityTypeOptionsOfBuiltInMetrics } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import { EventDetailsSection } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/EventDetailsSection';
 import { ConditionsSection } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/ConditionsSection';
@@ -101,6 +102,9 @@ export default function CustomEventForm({ form, setForm, onChange, hideLegacyApp
           />
         </>
       )}
+
+      <SectionHeading>{t('in-settings:tabs.4TransientEvents')}</SectionHeading>
+      <TransientEventsSection disabled={disabled} form={form} onChange={onChange} />
     </fieldset>
   );
 }

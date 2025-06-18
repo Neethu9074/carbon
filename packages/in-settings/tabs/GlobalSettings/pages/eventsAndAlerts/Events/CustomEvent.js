@@ -198,6 +198,7 @@ function save(event, form, trackCta) {
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn')?.value ?? null;
 
+  // TODO: Update cta later
   trackCta(SETTINGS_EVENT_SUBMIT, {
     scopeType,
     entityType,
@@ -345,6 +346,9 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
   const rulesForm = form.get('rules');
   const rules = rulesForm?.map(formToRuleMapper({ entityType, severity }));
   const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
+  const transientEventEnabled = form.get('transientEventEnabled').value ?? false;
+  const transientEventThreshold = form.get('transientEventThreshold').value ?? 0;
+  const transientEventAlertMuted = form.get('transientEventAlertMuted').value ?? false;
 
   return createCustomMultiThresholdBasedEventSpecification(
     event?.id ?? null,
@@ -356,7 +360,10 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
     form.get('description').value,
     query,
     form.get('triggering').value,
-    event?.enabled
+    event?.enabled,
+    transientEventEnabled,
+    transientEventThreshold,
+    transientEventAlertMuted
   );
 }
 
