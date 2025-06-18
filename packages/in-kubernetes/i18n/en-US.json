@@ -320,7 +320,8 @@
     "filesystemAvailable": "Filesystem available",
     "filesystemResources": "Filesystem resources",
     "memoryAvailable": "Memory available",
-    "cpuUtilization": "CPU utilization"
+    "cpuUtilization": "CPU utilization",
+    "preview": "Preview"
   },
   "cloudNative": {
     "unhealthyNodes": "Unhealthy nodes",

@@ -7,6 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 // @ts-expect-error TS migration
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
@@ -202,6 +204,9 @@ export default function ClusterDashboard() {
             clusterDistributionName: clusterBadgeName(clusterDistribution)
           })}
         />
+        <Pill type="blue" size="md">
+          {t('in-kubernetes:dashboards.preview')}
+        </Pill>
         {clusterManagement && clusterManagement?.shortName !== 'none' && clusterManagement?.shortName !== '' && (
           <EntityWithTypeAndIcon
             iconType={`lib_${clusterManagement?.shortName}`}
