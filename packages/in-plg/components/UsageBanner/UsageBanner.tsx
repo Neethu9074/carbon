@@ -61,7 +61,9 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const { createHref } = useNavigation();
   const { trackCta } = useSegmentTracking();
   //@ts-expect-error
-  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesOfEnvironmentAsResultObservable(1, 5), []);
+  const queuedLicenseDetails: Result<any> = role?.canViewAccountAndBillingInformation
+    ? useObservable(getQueuedLicensesOfEnvironmentAsResultObservable(1, 5), [])
+    : false;
   const { activeLicense, remainingDays, content } = message;
   const isQuota = activeLicense === 'quota';
   const isSelfService = activeLicense === 'selfService';
@@ -72,7 +74,12 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const queuedUpLicense = queuedLicenseDetails?.data?.items[0]?.license.type;
   const noQueuedLicense =
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
-  const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
+  const needToShowReminder =
+    role?.canViewAccountAndBillingInformation &&
+    queuedLicenseDetails &&
+    isRemainingDaysLimited &&
+    isPaidLicenseUsage &&
+    noQueuedLicense;
   const termsAndPrivacySettingsStore = useObservable(termsAndPrivacySettingsStore$, []);
 
   const invitePermissions = role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled);
