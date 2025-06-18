@@ -221,6 +221,7 @@ export const nonServicePlugins = {
   ibmIOs: 'ibmIOs',
   ibmIms: 'ibmIms',
   ibmiNetworkInfo: 'ibmiNetworkInfo',
+  ibmiLicensedProgramInfo: 'ibmiLicensedProgramInfo',
   ibmInfosphereCdc: 'ibmInfosphereCdc',
   ibmInfosphereCdcSubscription: 'ibmInfosphereCdcSubscription',
   ibmMqCluster: 'ibmMqCluster',
@@ -666,6 +667,7 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.activeJobsInfo.IbmiActiveJobsInfo',
   ibmiAuditJournalsInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.auditJournal.IbmiAuditJournalInfo',
+  ibmiLicensedProgramInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.licensedprograminfo.IbmiLicensedProgramInfo',
   ibmIMessageQueueInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.messageQueue.IbmIMessageQueueInfo',
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',
