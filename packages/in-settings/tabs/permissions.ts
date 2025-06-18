@@ -18,11 +18,12 @@ import {
   securityAndAccessSaml,
   securityAndAccessLdap,
   securityAndAccessGroupMapping,
+  securityAndAccessRoleMapping,
   securityAndAccessTimeouts,
   securityAndAccessIdentityProviders
 } from 'in-settings/navigation/paths';
 import { productOwnerPermissions } from 'in-stores/permission';
-import { idpConfigV2Enabled } from 'in-services/featureFlags';
+import { idpConfigV2Enabled, rbacRoleMappingEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export function roleHasAnyGlobalPermissions(): boolean {
@@ -111,7 +112,10 @@ export function findFirstPermittedSecurityAndAccessPage(
       }
     }
   }
-  if (role?.canConfigureTeams) {
+  if (role?.canConfigureTeams && rbacRoleMappingEnabled) {
+    return securityAndAccessRoleMapping;
+  }
+  if (role?.canConfigureTeams && !rbacRoleMappingEnabled) {
     return securityAndAccessGroupMapping;
   }
   if (role?.canConfigureSessionSettings) {

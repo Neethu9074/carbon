@@ -292,7 +292,7 @@ export default function GroupMapping(props: ViewProps) {
           [GROUP_MAPPINGS],
           (f: Item): Item =>
             (f as ListForm<any>)
-              .unshift(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId }))
+              .unshift(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId, teamId: '' }))
               .setTouched(true)
         )
       );

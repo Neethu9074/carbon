@@ -927,6 +927,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'rbacRoleMappingEnabled',
+    instanaCtlKey: 'feature.rbac.role.mapping.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'accessControlCarbonTable',
     instanaCtlKey: 'feature.accessControl.carbonTable.enabled',
     defaultValue: true

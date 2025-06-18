@@ -830,6 +830,15 @@
       "teamTagUsedOnAlertChannels": "Alert channels",
       "teamTagUsedOnCustomDashboards": "Custom dashboards"
     },
+    "roleMapping": {
+      "newMappingRule": "Create mapping rule",
+      "roleMappingTitle": "Role mappings",
+      "roleMappingWithName": "Role mapping {{name}}",
+      "roleColumn": "Role",
+      "keyColumn": "Key",
+      "teamColumn": "Team",
+      "valueColumn": "Value"
+    },
     "auditTrail": "Audit trail",
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP metadata file is required",
@@ -1270,6 +1279,7 @@
     "oidc": "OpenID connect",
     "ldap": "LDAP",
     "groupMapping": "Group mapping",
+    "roleMappingNavigationItem": "Role mapping",
     "configureGroupMapping": "Configure group mapping",
     "deleteGroupMapping": "Delete group mapping",
     "groupMappingKey": "Key",
