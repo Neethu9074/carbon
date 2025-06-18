@@ -22,25 +22,5 @@ export default [
     metric: 'freeStorageSpace',
     label: t('in-windowshypervisor:dashboards.storageSpaceUsed'),
     formatter: kiloBytesTwoDecimalPlaces
-  },
-  {
-    metric: 'freeRAM',
-    label: t('in-windowshypervisor:dashboards.freeRAM'),
-    formatter: kiloBytesTwoDecimalPlaces
-  },
-  {
-    metric: 'totalRAM',
-    label: t('in-windowshypervisor:dashboards.totalRAM'),
-    formatter: kiloBytesTwoDecimalPlaces
-  },
-  {
-    metric: 'logicalCpuUsage',
-    label: t('in-windowshypervisor:dashboards.logicalCpuUsage'),
-    formatter: percentage.detailed
-  },
-  {
-    metric: 'virtualCpuUsage',
-    label: t('in-windowshypervisor:dashboards.virtualCpuUsage'),
-    formatter: percentage.detailed
   }
 ];

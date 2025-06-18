@@ -8,15 +8,15 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+import { kiloBytes, number } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { kiloBytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 interface StorageDisk {
-  drive: string;
-  fileSystem: string;
-  freeSpace: number;
+  controllerType: string;
+  controllerNumber: number;
+  path: string;
   size: number;
 }
 
@@ -32,39 +32,39 @@ interface TableRow {
   data: StorageDiskData['data'];
 }
 
-const driveColumn = {
-  title: t('in-windowshypervisor:dashboards.drive'),
+const controllerTypeColumn = {
+  title: t('in-windowshypervisor:dashboards.vm.controllerType'),
   type: 'string',
   typeArgs: {
     getValue(row: TableRow) {
-      return row.storagedisk.drive;
+      return row.storagedisk.controllerType;
     }
   }
 };
 
-const fileSystemColumn = {
-  title: t('in-windowshypervisor:dashboards.fileSystem'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: TableRow) {
-      return row.storagedisk.fileSystem;
-    }
-  }
-};
-
-const freeSpaceColumn = {
-  title: t('in-windowshypervisor:dashboards.freeSpace'),
+const controllerNumberColumn = {
+  title: t('in-windowshypervisor:dashboards.vm.controllerNumber'),
   type: 'number',
   typeArgs: {
     getValue(row: TableRow) {
-      return row.storagedisk.freeSpace;
+      return row.storagedisk.controllerNumber;
     },
-    getContent: kiloBytes.detailed
+    getContent: number.compact
+  }
+};
+
+const pathColumn = {
+  title: t('in-windowshypervisor:dashboards.vm.path'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: TableRow) {
+      return row.storagedisk.path;
+    }
   }
 };
 
 const sizeColumn = {
-  title: t('in-windowshypervisor:dashboards.size'),
+  title: t('in-windowshypervisor:dashboards.vm.size'),
   type: 'number',
   typeArgs: {
     getValue(row: TableRow) {
@@ -76,7 +76,7 @@ const sizeColumn = {
 
 export default function StorageDisksTable({ data, timeConfig }: StorageDiskData) {
   const rows: TableRow[] = data.disks.map((storagedisk: any) => ({
-    key: storagedisk.drive,
+    key: storagedisk.path,
     storagedisk,
     timeConfig,
     data
@@ -86,7 +86,7 @@ export default function StorageDisksTable({ data, timeConfig }: StorageDiskData)
     return null;
   }
 
-  const cols = [driveColumn, fileSystemColumn, freeSpaceColumn, sizeColumn];
+  const cols = [controllerTypeColumn, controllerNumberColumn, pathColumn, sizeColumn];
 
   return (
     <Table
@@ -95,7 +95,7 @@ export default function StorageDisksTable({ data, timeConfig }: StorageDiskData)
       cols={cols}
       rows={rows}
       initialSortDirection="desc"
-      initialSortColumn={cols.indexOf(freeSpaceColumn)}
+      initialSortColumn={cols.indexOf(sizeColumn)}
     />
   );
 }

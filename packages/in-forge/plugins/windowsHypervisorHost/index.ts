@@ -7,10 +7,12 @@
 // @ts-expect-error needs TS migration
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/windowsHypervisorHost/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/windowsHypervisorHost/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.windowsHypervisorHost,
   metricDefinitions,
+  kpiDefinitions,
   getIconType: () => 'windows'
 });

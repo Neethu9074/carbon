@@ -6,10 +6,13 @@
 
 // @ts-expect-error needs TS migration
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import metricDefinitions from 'in-forge/plugins/windowsHypervisorVM/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/windowsHypervisorVM/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.windowsHypervisorVM,
-  //TODO: display the icon based on the VM operating system
+  metricDefinitions,
+  kpiDefinitions,
   getIconType: () => 'windows'
 });
