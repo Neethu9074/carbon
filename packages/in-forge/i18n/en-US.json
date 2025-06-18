@@ -1043,6 +1043,11 @@
   "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_2": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo": "Disk Information on IBM i",
+  "pluginName_ibmiLicensedProgramInfo_plural": "Licensed Program Information on IBM i",
+  "pluginName_ibmiLicensedProgramInfo_0": "Licensed Program Information on IBM i",
+  "pluginName_ibmiLicensedProgramInfo_1": "Licensed Program Information on IBM i",
+  "pluginName_ibmiLicensedProgramInfo_2": "Licensed Program Information on IBM i",
+  "pluginName_ibmiLicensedProgramInfo": "Licensed Program Information on IBM i",
   "pluginName_ibmInfosphereCdc_plural": "IBM InfoSphere CDCs",
   "pluginName_ibmInfosphereCdc_0": "IBM InfoSphere CDCs",
   "pluginName_ibmInfosphereCdc_1": "IBM InfoSphere CDCs",
@@ -12080,6 +12085,27 @@
         "elapsedWriteRequests": "Writes/s",
         "elapsedDataRead": "Bytes Read/s",
         "elapsedDataWritten": "Bytes Written/s"
+      }
+    },
+    "ibmiLicensedProgramInfo": {
+      "name": "Licensed Program Information on IBM i",
+      "sidebar": {
+        "ibmiLicensedProgramInfo": "IBM i Info",
+        "hostName": "Host Name"
+      },
+      "dashboard": {
+        "tables": {
+          "licenseInfo": {
+            "name": "License Information",
+            "productId": "Product ID",
+            "licenseTerm": "License Term",
+            "licenseExpiration": "License Expiration",
+            "featureId": "Feature ID",
+            "installed": "Installed",
+            "productText": "Product Text",
+            "daysToExpire": "Days To Expire"
+          }
+        }
       }
     },
     "ibmiNetworkInfo": {

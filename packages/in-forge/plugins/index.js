@@ -75,6 +75,7 @@ import './awsDocumentDbInstance';
 import './snowflakeOrganization';
 import './windowsHypervisorHost';
 import './ibmiAuditJournalsInfo';
+import './ibmiLicensedProgramInfo';
 import './azureEventHubCluster';
 import './redisEnterpriseShard';
 import './tuxedoAppApplication';
