@@ -104,7 +104,7 @@ export const mobileAppScreenRenderingDurationEnabled = isFeatureFlagEnabled(
 );
 export const mobileAppExcessiveNetworkUsageEnabled = isFeatureFlagEnabled(
   'mobileAppExcessiveNetworkUsageEnabled',
-  false
+  true
 );
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled(

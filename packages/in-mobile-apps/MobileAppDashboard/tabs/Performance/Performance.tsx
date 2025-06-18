@@ -338,6 +338,8 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
         <Row>
           <Col lg={4}>
             <MobileAppChartWrapper
+              toolTipIcon="lib_help_error_info_outline"
+              tooltipContent={t('in-mobile-apps:dashboard.tabs.excessiveNetworkUsageTooltip')}
               title={t('in-mobile-apps:dashboard.tabs.excessiveNetworkUsageTitle')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}

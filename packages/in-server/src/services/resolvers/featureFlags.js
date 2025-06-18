@@ -368,7 +368,7 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppExcessiveNetworkUsageEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.excessive.network.usage.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'controlPlaneEnabled',
