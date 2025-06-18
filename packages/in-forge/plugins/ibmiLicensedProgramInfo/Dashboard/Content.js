@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import LicenseInfoTable from './LicenseInfoTable';
+import LicenseInfoTable from 'in-forge/plugins/ibmiLicensedProgramInfo/Dashboard/LicenseInfoTable';
 
 export default function IbmILicensedProgramInfoDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
