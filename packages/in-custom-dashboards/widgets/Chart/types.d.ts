@@ -53,6 +53,8 @@ export interface Metric extends BaseMetric {
   defaultDisabled?: boolean;
   grouping?: Grouping[];
   unit?: string;
+  // set to true if you want the chart to display the unit prop in the formatter
+  unitFormatterEnabled?: boolean;
 
   // other properties may be sent to the backend
   [k: string]: any;
