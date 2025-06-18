@@ -4,17 +4,56 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
+import {
+  ChatContainer,
+  ChatInstance,
+  MessageResponseTypes,
+  PublicConfig,
+  RenderUserDefinedState,
+  TextItem,
+  UserDefinedItem
+} from '@instana/ai-chat';
 import { PreviewPill, Typography } from '@instana/components';
-import { ChatContainer, TextItem } from '@instana/ai-chat';
 import { Widget } from '@instana/types';
 
-import { InferredSlotConfig, PossibleSlotConfig } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
+import {
+  InferredSlotConfig,
+  PossibleSlotConfig,
+  UserDefinedType
+} from 'in-custom-dashboards/CustomDashboard/AiChat/types';
+import { ExampleMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/ExampleMessage';
+// @ts-expect-error needs TS migration
+import { enabledWidgets } from 'in-custom-dashboards/widgets';
 import { ConfigMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/ConfigMessage';
 import { customSendMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/customSendMessage';
 
-const chatConfig = {
+// no translation because only English is possible as of now.
+const LAUNCHER_GREETING = 'Hello, you can create some widgets via chat too!';
+
+// You can also use markdown in the string.
+const WELCOME_MESSAGE = `Hello and welcome.
+
+AI-assisted widget creation is currently available for the following parameters:
+- **languages:**
+    - English
+- **widget types:**
+    - Big Number
+    - Time Series chart
+    - SLO (_not SLO legacy_)
+- **data sources:**
+    - Applications (_all metrics_)
+- **filters:**
+    - Application Name
+    - Call Erroneous
+    - Call Type
+    - Endpoint Name
+    - Service Name
+    - Technology Name
+`;
+
+const chatConfig: PublicConfig = {
   namespace: 'custom-dashboards',
   messaging: { customSendMessage }
 };
@@ -25,28 +64,12 @@ interface AiChatContainerProps {
 }
 
 export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatContainerProps) => {
-  return (
-    <ChatContainer
-      config={chatConfig}
-      onBeforeRender={instance => {
-        beforeRender();
-        instance.updateLauncherGreetingMessage('Hello, you can create some widgets via chat too!');
-        // TODO: improve style modification - maybe check with @carbon/ai-chat team
-        instance.updateCSSVariables({ 'BASE-width': '700px', 'BASE-max-height': '950px' });
-        instance.messaging.addMessage({
-          output: {
-            generic: [
-              {
-                response_type: 'text',
-                // no translation because only English is possible as of now.
-                text: 'Hi, I am here to help you with creating widgets'
-              } as TextItem
-            ]
-          }
-        });
-      }}
-      renderUserDefinedResponse={({ messageItem }) => {
-        if (messageItem?.user_defined) {
+  const renderUserDefinedResponse = useCallback(
+    ({ messageItem }: RenderUserDefinedState, instance: ChatInstance) => {
+      switch (messageItem?.user_defined?.user_defined_type) {
+        case UserDefinedType.EXAMPLES:
+          return <ExampleMessage instance={instance} />;
+        case UserDefinedType.SLOTS: {
           const { inferredSlotConfig, possibleSlotConfig } = messageItem.user_defined;
           return (
             <ConfigMessage
@@ -56,8 +79,21 @@ export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatCon
             />
           );
         }
-        return null;
+        default:
+          return undefined;
+      }
+    },
+    [onAddPromptedWidget]
+  );
+
+  return (
+    <ChatContainer
+      config={chatConfig}
+      onBeforeRender={instance => {
+        beforeRender();
+        configureInstance(instance);
       }}
+      renderUserDefinedResponse={renderUserDefinedResponse}
       renderWriteableElements={{
         beforeInputElement: () => (
           <>
@@ -69,4 +105,34 @@ export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatCon
       forceReact17Mode
     />
   );
+};
+
+const configureInstance = (instance: ChatInstance) => {
+  instance.updateLauncherGreetingMessage(LAUNCHER_GREETING);
+  // TODO: improve style modification - maybe check with @carbon/ai-chat team
+  instance.updateCSSVariables({ 'BASE-width': '700px', 'BASE-max-height': '950px' });
+  instance.messaging.addMessage({
+    id: 'welcome',
+    output: {
+      generic: [
+        {
+          response_type: MessageResponseTypes.TEXT,
+          text: WELCOME_MESSAGE
+        } as TextItem
+      ]
+    }
+  });
+  instance.messaging.addMessage({
+    id: 'examples',
+    output: {
+      generic: [
+        {
+          response_type: MessageResponseTypes.USER_DEFINED,
+          user_defined: {
+            user_defined_type: UserDefinedType.EXAMPLES
+          }
+        } as UserDefinedItem
+      ]
+    }
+  });
 };

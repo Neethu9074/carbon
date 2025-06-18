@@ -15,6 +15,7 @@ import {
   UserDefinedItem
 } from '@instana/ai-chat';
 
+import { UserDefinedType } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 import { promptSlots } from 'in-custom-dashboards/api';
 import { hasError } from 'in-services/util/result';
 
@@ -70,7 +71,7 @@ async function customSendMessage(request: MessageRequest, _: CustomSendMessageOp
               generic: [
                 {
                   response_type: MessageResponseTypes.USER_DEFINED,
-                  user_defined: { inferredSlotConfig, possibleSlotConfig }
+                  user_defined: { user_defined_type: UserDefinedType.SLOTS, inferredSlotConfig, possibleSlotConfig }
                 } as UserDefinedItem
               ]
             }
