@@ -120,5 +120,16 @@ export default [
     category: [t('in-forge:plugins.cassandraNode.keyspaces')],
     min: 0,
     formatter: muSecondsToMillis
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'tombstoneCount',
+      'tombstone',
+      t('in-forge:plugins.cassandraNode.labelkeyspaceTable')
+    ),
+    label: t('in-forge:plugins.cassandraNode.labeltombstoneCount'),
+    category: [t('in-forge:plugins.cassandraNode.labelkeyspaceTable')],
+    min: 0,
+    formatter: number
   }
 ];
