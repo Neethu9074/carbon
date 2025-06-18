@@ -59,7 +59,7 @@ packages/in-forge/plugins/aws*                                  @Instana-IBM-Git
 packages/in-forge/plugins/azure                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
 packages/in-forge/plugins/beeInstanaNode                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-infrastructure
 packages/in-forge/plugins/bizTalk                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
-packages/in-forge/plugins/cassandra*                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/cassandra*                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system @instana/eng-infrastructure
 packages/in-forge/plugins/ceph                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/clickHouse*                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/clrRuntimePlatform                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
