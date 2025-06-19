@@ -269,7 +269,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const dashboardAddMoreLabel = t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel');
   const serviceLevelsWidgetLabel = t('in-plg:welcomepage.component.serviceLevelsWidget.addButtonLabel');
   const addMorePrefix =
-    addButtonLabel === dashboardAddMoreLabel || serviceLevelsWidgetLabel
+    addButtonLabel === dashboardAddMoreLabel || addButtonLabel === serviceLevelsWidgetLabel
       ? t('in-plg:welcomepage.create')
       : t('in-plg:welcomepage.addMore');
   return (
