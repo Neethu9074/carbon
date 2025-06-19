@@ -22,14 +22,10 @@ import { resourceQuotaBytes, resourceQuotaPercentage } from 'in-kubernetes/forma
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
 import { bytes, percentage } from 'in-services/formatters/number';
-import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { formatDuration } from 'in-services/formatters/date';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
-import { capitalizeValue } from 'in-components/Capitalize';
 import { getChartGranularity } from 'in-stores/metric';
 import { Col, Row } from 'in-components/layout/Grid';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -86,30 +82,6 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={node.id} timeConfig={timeConfig} />
-      <KpiGridRow sizes={[4, 4, 4]}>
-        <KpiCard
-          title={t('in-kubernetes:dashboards.status')}
-          value={node.status}
-          renderValue={capitalizeValue}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-kubernetes:dashboards.roles')}
-          value={node.roles}
-          renderValue={capitalizeValue}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-kubernetes:dashboards.age')}
-          value={node.age}
-          renderValue={nodeAge => capitalizeValue(formatDuration(nodeAge))}
-          raw
-          borderless
-        />
-      </KpiGridRow>
-      {/* required_cpu_percentage add in percentage metric instead of capacity */}
       <Row>
         <Col lg={kpiWidth}>
           <MultiMetricBigNumberKpiCard
