@@ -320,7 +320,11 @@
     "filesystemAvailable": "Filesystem available",
     "filesystemResources": "Filesystem resources",
     "memoryAvailable": "Memory available",
-    "cpuUtilization": "CPU utilization"
+    "cpuUtilization": "CPU utilization",
+    "preview": "Preview",
+    "cpuTime": "CPU time",
+    "memoryWorkingset": "Memory working set",
+    "memoryRss": "Memory RSS"
   },
   "cloudNative": {
     "unhealthyNodes": "Unhealthy nodes",
