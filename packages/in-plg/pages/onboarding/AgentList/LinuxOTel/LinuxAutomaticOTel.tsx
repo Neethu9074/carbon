@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Code } from '@instana/components';
 
@@ -15,7 +15,12 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { t } from 'in-i18n';
 
-const LinuxAutomaticOTel = ({ agentKey, agentEndpoint, agentEndpointPort, fromOnboarding }: OnboardingProps) => {
+const OTelLinuxConfigUrl =
+  'https://raw.githubusercontent.com/instana/instana-otel-collector/refs/heads/main/config/linux/config.yaml';
+
+const LinuxAutomaticOTel = ({ agentKey, agentEndpoint, fromOnboarding, region, butlerDomain }: OnboardingProps) => {
+  const [linuxConfigYaml, setLinuxConfigYaml] = useState('');
+
   const sideCardData = [
     {
       title: t('in-plg:agentDetails.common.SupportLinks'),
@@ -36,39 +41,91 @@ const LinuxAutomaticOTel = ({ agentKey, agentEndpoint, agentEndpointPort, fromOn
     }
   ];
 
+  const { otlpHttpEndpointWithPort, otlpGrpcEndpointWithPort } = generateOtlpEndpointWithPort({
+    agentEndpoint,
+    region
+  });
+
+  let deploymentCodeWithAddedConfig = linuxConfigYaml
+    .replaceAll('${env:INSTANA_OTEL_ENDPOINT_GRPC:-localhost:4317}', otlpGrpcEndpointWithPort)
+    .replaceAll('${env:INSTANA_OTEL_ENDPOINT_HTTP:-http://localhost:8992}', otlpHttpEndpointWithPort)
+    .replaceAll('${env:INSTANA_KEY:-instanalocal}', agentKey ?? '<INSTANA_KEY>')
+    .replaceAll('${env:INSTANA_HOST:-"yourhost.ibm.com"}', butlerDomain ?? '<INSTANA_HOST>');
+
+  useEffect(() => {
+    (async () => {
+      // fetch the yaml file
+      setLinuxConfigYaml((await fetchOtelLinuxConfigYaml(OTelLinuxConfigUrl)) || '');
+    })();
+  }, []);
+
   return (
     <Container>
       <MainBody>
         <LayoutSection title={t('in-plg:agentDetails.linux.linux_auto_otel.step1SelectTheCollectorPackagingMode')}>
           <Code
             lang="bash"
-            code={`curl - Lo setup.sh https://github.com/instana/instana-otel-collector/releases/latest/download/instana-collector-installer-latest.sh && chmod +x setup.sh && ./setup.sh -a ${agentKey} ${agentEndpoint}:${agentEndpointPort}`}
+            code={`curl - Lo setup.sh https://github.com/instana/instana-otel-collector/releases/latest/download/instana-collector-installer-latest.sh && chmod +x setup.sh && ./setup.sh -a ${agentKey} -e ${otlpGrpcEndpointWithPort} -H ${otlpHttpEndpointWithPort}`}
             softWrap
           />
         </LayoutSection>
 
         <LayoutSection title={t('in-plg:agentDetails.linux.linux_auto_otel.step2RunTheOpenTelemetryDeploymentCode')}>
-          <Code
-            lang="bash"
-            code={`exporters:
-  otlp:
-    endpoint: ‘http://instana-agent.instana-agent:4317’
-      tls:
-        insecurw: true
-  otlpttp:
-    endpoint: ‘http://instana-agent.instana-agent:4318’
-      tls:
-       insecurw: true`}
-            showLineNumbers
-          />
+          <Code lang="yaml" code={deploymentCodeWithAddedConfig} showLineNumbers withExpandButton />
         </LayoutSection>
-        <GetDeployedAgents agent="linux" fromOnboarding={fromOnboarding} />
+        <GetDeployedAgents agent="otel" fromOnboarding={fromOnboarding} datasource="collector" />
       </MainBody>
       <SidePanel>
         <SupportViewSectionV2 items={sideCardData} />
       </SidePanel>
     </Container>
   );
+};
+
+interface generateOtlpEndpointProps {
+  agentEndpoint: string | undefined | null;
+  region: string | undefined | null;
+}
+
+const generateOtlpEndpointWithPort = ({ agentEndpoint, region }: generateOtlpEndpointProps) => {
+  let otlpHttpEndpointWithPort = '';
+  let otlpGrpcEndpointWithPort = '';
+  const specialRegionPort = 443;
+  const httpPort = 4318;
+  const grpcPort = 4317;
+  const specialRegions = ['teal', 'mizu', 'pumpkin'];
+
+  if (!agentEndpoint || !region)
+    return {
+      otlpHttpEndpointWithPort: '<INSTANA_OTEL_ENDPOINT_HTTP>',
+      otlpGrpcEndpointWithPort: '<INSTANA_OTEL_ENDPOINT_GRPC>'
+    };
+
+  if (specialRegions.includes(region)) {
+    otlpHttpEndpointWithPort = agentEndpoint.replace('ingress', 'otlp-http');
+    otlpHttpEndpointWithPort = `${otlpHttpEndpointWithPort}:${specialRegionPort}`;
+    otlpGrpcEndpointWithPort = agentEndpoint.replace('ingress', 'otlp-grpc');
+    otlpGrpcEndpointWithPort = `${otlpGrpcEndpointWithPort}:${specialRegionPort}`;
+  } else {
+    otlpHttpEndpointWithPort = agentEndpoint.replace('ingress', 'otlp');
+    otlpHttpEndpointWithPort = `${otlpHttpEndpointWithPort}:${httpPort}`;
+    otlpGrpcEndpointWithPort = agentEndpoint.replace('ingress', 'otlp');
+    otlpGrpcEndpointWithPort = `${otlpGrpcEndpointWithPort}:${grpcPort}`;
+  }
+
+  return {
+    otlpHttpEndpointWithPort,
+    otlpGrpcEndpointWithPort
+  };
+};
+
+const fetchOtelLinuxConfigYaml = async (apiUrl: string) => {
+  return fetch(apiUrl)
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch OTel linux config YAML');
+      return res.text();
+    })
+    .catch(() => undefined);
 };
 
 export default LinuxAutomaticOTel;

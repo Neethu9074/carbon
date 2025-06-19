@@ -24,10 +24,11 @@ export default function CardGridV2({ data, fromOnboarding = false }: CardGridPro
 
   return (
     <Accordion>
-      {datasources.map((datasource, index) => {
+      {datasources.map((datasource, datasourceIndex) => {
         if (datasource?.data.length)
           return (
             <AccordionItem
+              key={datasourceIndex}
               className={locals.carbonAccordionItem}
               title={
                 <Typography variant="heading-02">{`${datasource.accordionTitle} (${datasource.data.length})`}</Typography>
@@ -36,10 +37,9 @@ export default function CardGridV2({ data, fromOnboarding = false }: CardGridPro
             >
               <Typography variant="body-01">{datasource.accordionDesciption}</Typography>
               <Grid className={locals.grid} fullWidth narrow>
-                {datasource.data.map(item => (
-                  <Column key={index} sm={4} className={locals.carbonColumn}>
+                {datasource.data.map((item, itemIndex) => (
+                  <Column key={itemIndex} sm={4} className={locals.carbonColumn}>
                     <AgentCatalogCard
-                      key={index}
                       title={item.label}
                       icon={item.icon}
                       content={item.subTechnology?.label ?? ''}

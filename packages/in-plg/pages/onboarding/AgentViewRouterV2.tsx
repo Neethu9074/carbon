@@ -54,7 +54,7 @@ const AgentViewRouterV2 = ({
         breadcrumb={[
           { title: 'Data sources', href: '/datasources/onboarding/installation' },
           {
-            title: selectedEntity?.id ?? '',
+            title: selectedEntity?.title ?? '',
             href: `/datasources/onboarding/installation/${selectedEntity?.id}` ?? ''
           }
         ]}
@@ -74,6 +74,7 @@ const AgentViewRouterV2 = ({
             serverlessEndpoint={config.serverlessEndpoint}
             instanaDomain={config.agentInstallDomain ?? 'io'}
             fromOnboarding={fromOnboarding}
+            region={config.region}
           />
         )}
       </Stack>

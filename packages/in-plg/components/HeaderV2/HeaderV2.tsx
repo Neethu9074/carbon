@@ -30,9 +30,13 @@ const HeaderV2 = ({ breadcrumb, title }: HeaderV2) => {
       <Stack gap={4}>
         {breadcrumb.length && (
           <Breadcrumb>
-            {breadcrumb.map(item => {
+            {breadcrumb.map((item, index) => {
               let href = item.href;
-              return <BreadcrumbItem {...(href ? { href: createHrefToPath(href) } : {})}>{item?.title}</BreadcrumbItem>;
+              return (
+                <BreadcrumbItem key={index} {...(href ? { href: createHrefToPath(href) } : {})}>
+                  {item?.title}
+                </BreadcrumbItem>
+              );
             })}
           </Breadcrumb>
         )}

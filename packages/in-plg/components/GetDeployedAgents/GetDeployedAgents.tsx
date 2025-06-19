@@ -18,11 +18,16 @@ import { t } from 'in-i18n';
 interface GetDeployedAgentsProps {
   agent: string;
   fromOnboarding?: boolean;
+  datasource?: 'agent' | 'collector';
 }
 
 const trackingService = createTracker('agent.installation');
 
-const GetDeployedAgents = ({ agent, fromOnboarding = false }: GetDeployedAgentsProps): JSX.Element | null => {
+const GetDeployedAgents = ({
+  agent,
+  fromOnboarding = false,
+  datasource = 'agent'
+}: GetDeployedAgentsProps): JSX.Element | null => {
   const DEPLOYED_AGENT_CHECK_INTERVAL: number = 10000;
   const [deployedAgentsCount, setDeployedAgentsCount] = useState<number>(0);
   const [intervalCounter, setIntervalCounter] = useState<number>(0);
@@ -62,7 +67,9 @@ const GetDeployedAgents = ({ agent, fromOnboarding = false }: GetDeployedAgentsP
           href={`/#/physical?q=${agent}&timeline.to&timeline.fm&timeline.ar=true`}
           onClick={() => trackingService.deployAgentsButtonClicked()}
         >
-          {t('in-plg:agentDetails.common.viewDeployedAgents')}
+          {datasource === 'agent'
+            ? t('in-plg:agentDetails.common.viewDeployedAgents')
+            : t('in-plg:agentDetails.common.viewInstalledCollector')}
         </Button>
       ) : null}
     </LayoutSection>
