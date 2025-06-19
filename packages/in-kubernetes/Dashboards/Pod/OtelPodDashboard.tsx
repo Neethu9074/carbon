@@ -27,7 +27,6 @@ import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/Dashb
 // @ts-expect-error TS migration
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
-import tabs from 'in-kubernetes/Dashboards/Pod/tabs/otelIndex';
 // @ts-expect-error TS migration
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import getOtelKubernetesPod from 'in-kubernetes/subscriptions/getOtelKubernetesPod';
@@ -41,6 +40,7 @@ import { LOG_KUBERNETES_POD_NAME } from 'in-logging/queryBuilder';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
+import tabs from 'in-kubernetes/Dashboards/Pod/tabs/otelIndex';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import { TimeConfig, Result, KubernetesPod } from 'in-types';
@@ -189,7 +189,7 @@ function renderButtonLine({ podId, timeConfig, result }: RenderButtonLineProps) 
       <DashboardButtonLine
         snapshotId={podId}
         timeConfig={timeConfig}
-        plugin={plugins.kubernetesPod}
+        plugin={plugins.oTelK8sCluster} /* hide health indicator for now */
         tagFilters={[]}
         pod={result.data}
       />
