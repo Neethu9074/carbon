@@ -18,12 +18,14 @@ import {
   hasBizOpsAccess,
   hasInfrastructureAccess,
   hasSyntheticsAccess,
-  hasEventsAccess
+  hasEventsAccess,
+  hasSloAccess
 } from 'in-stores/permission';
 import WebsitesAndMobileListWidget from 'in-plg/pages/WelcomePage/widgets/WebsitesAndMobileListWidget';
 import SyntheticMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/SyntheticMonitoringWidget';
 import BusinessMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/BusinessMonitoringWidget';
 import InfrastructureWidget from 'in-plg/pages/WelcomePage/widgets/InfrastructureWidget';
+import ServiceLevelsWidget from 'in-plg/pages/WelcomePage/widgets/ServiceLevelsWidget';
 import ApplicationWidget from 'in-plg/pages/WelcomePage/widgets/ApplicationWidget';
 import EventsChartWidget from 'in-plg/pages/WelcomePage/widgets/EventsChartWidget';
 import IncidentsWidget from 'in-plg/pages/WelcomePage/widgets/IncidentsWidget';
@@ -151,6 +153,12 @@ const widgetData = [
     key: 'eventsWidget',
     label: t('in-plg:welcomepage.component.eventWidget.label'),
     icon: 'lib_actions_reorder'
+  },
+  {
+    key: 'serviceLevelsWidget',
+    label: t('in-plg:welcomepage.component.serviceLevelsWidget.label'),
+    icon: 'lib_actions_reorder',
+    widget: ServiceLevelsWidget
   }
 ];
 
@@ -166,7 +174,8 @@ const tableEntryArray: any[] = widgetData
       (ele.key === 'mobileListWidget' && hasMobileAppsAccess) ||
       (ele.key === 'infrastructureWidget' && hasInfrastructureAccess) ||
       (ele.key === 'syntheticWidget' && hasSyntheticsAccess) ||
-      (ele.key === 'dashboardWidget' && !playwithEnabled)
+      (ele.key === 'dashboardWidget' && !playwithEnabled) ||
+      (ele.key === 'serviceLevelsWidget' && hasSloAccess)
   )
   .map(ele => {
     itemIds.push({ id: ele.key });
@@ -194,7 +203,8 @@ function filterItems(orderedItems: WidgetOrdering[]): WidgetOrdering[] {
       (id === 'platformsWidget' && !hasAPlatformAccess) ||
       (id === 'infrastructureWidget' && !hasInfrastructureAccess) ||
       (id === 'syntheticWidget' && !hasSyntheticsAccess) ||
-      (id === 'eventsWidget' && !hasEventsAccess)
+      (id === 'eventsWidget' && !hasEventsAccess) ||
+      (id === 'serviceLevelsWidget' && !hasSloAccess)
     ) {
       return false;
     }
