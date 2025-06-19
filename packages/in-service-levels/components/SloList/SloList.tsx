@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Filter, Close, Add, ArrowUp, ArrowDown, ArrowsVertical } from '@carbon/icons-react';
 import { flexRender, createColumnHelper } from '@tanstack/react-table';
-import React, { useMemo, useState } from 'react';
+import { Filter, Close, Add } from '@carbon/icons-react';
+import React, { useMemo } from 'react';
 import cx from 'classnames';
 
 import {
@@ -70,48 +70,48 @@ export function getColumnDefinitions({ isMediumWidth, isSmallWidth, showEntityIn
       cell: props => <SloNameColumnContent isLink item={props.row.original} />,
       header: t('in-service-levels:sloList.columnLabels.name'),
       enableSorting: true,
-      size: 200
+      size: 22
     }),
     columnHelper.accessor(row => row.configuration.entity.type, {
       id: 'entityName',
       header: t('in-service-levels:sloList.columnLabels.entity'),
       cell: props => <SloEntityColumnContent item={props.row.original} />,
-      enableSorting: true
-      //size: 18.5,
+      enableSorting: true,
+      maxSize: 15
     }),
     columnHelper.accessor(row => row.configuration.indicator.blueprint, {
       id: 'blueprint',
       header: t('in-service-levels:sloList.columnLabels.blueprint'),
       cell: props => <SloBlueprintColumnContent item={props.row.original} />,
       enableSorting: true,
-      size: 75
+      maxSize: 10
     }),
     columnHelper.display({
       id: 'errorBudget',
       header: t('in-service-levels:sloList.columnLabels.errorBudget'),
       cell: props => <SloErrorBudgetColumnContent item={props.row.original} showSparkChart={isMediumWidth} />,
-      enableSorting: false
-      //size: 18.5,
+      enableSorting: false,
+      maxSize: 15
     }),
     columnHelper.accessor(row => row.status, {
       id: 'sloStatus',
       header: t('in-service-levels:sloList.columnLabels.status'),
       cell: props => <SloStatusColumnContent item={props.row.original} />,
       enableSorting: true,
-      size: 100
+      maxSize: 10
     }),
     columnHelper.accessor(row => row.configuration.tags, {
       id: 'tags',
       header: t('in-service-levels:sloList.columnLabels.tags'),
       cell: props => <SloTagsColumnContent item={props.row.original} />,
       enableSorting: false,
-      size: 150
+      maxSize: 18
     }),
     columnHelper.display({
       id: 'actions',
       cell: props => <SloActions item={props.row.original} />,
       enableSorting: false,
-      size: 50
+      maxSize: 5
     })
   ];
 
@@ -140,7 +140,6 @@ export default function SloList({
   const isSmallWidth = useMediaQuery('(min-width: 1200px)');
 
   const [filterUrlPathParams, setFilterUrlPathParams] = useSloListFilterUrlState({ pathSegment, matrixPrefix });
-  const [hoveredColumnId, setHoveredColumnId] = useState('');
 
   const {
     table,
@@ -181,7 +180,7 @@ export default function SloList({
 
   return (
     <div ref={tableContainerRef}>
-      <TableContainer className={cx({ [locals['slo-table-container']]: true, [locals['popover-open']]: popoverOpen })}>
+      <TableContainer className={cx({ [locals['popover-open']]: popoverOpen })} id={locals['slo-table-container']}>
         <TableToolbar>
           {!isDashboard && (
             <TableToolbarContent className={locals['toolbar-content']}>
@@ -311,55 +310,22 @@ export default function SloList({
                   {headerGroup.headers.map(header => (
                     <TableHeader
                       key={header.id}
+                      colSpan={header.colSpan}
                       className={cx({
-                        [locals['table-sortable-header']]:
-                          table.getRowModel().rows.length !== 0 &&
-                          (header.id === orderBy || (hoveredColumnId === header.id && header.column.getCanSort()))
+                        [locals[`w-${header.column.getSize()}`]]: true,
+                        [locals['empty-column']]: header.id === 'actions'
                       })}
                       style={{
-                        width: header.getSize()
+                        width: `${header.column.getCanSort() ? '100%' : undefined}`
                       }}
+                      isSortHeader={orderBy === header.column.id}
+                      isSortable={header.column.getCanSort() && table.getRowModel().rows.length !== 0}
+                      sortDirection={orderDirection}
+                      onClick={
+                        table.getRowModel().rows.length !== 0 ? header.column.getToggleSortingHandler() : undefined
+                      }
                     >
-                      <div
-                        role="button"
-                        tabIndex={header.column.getCanSort() ? 0 : -1}
-                        aria-pressed={orderBy === header.id}
-                        aria-disabled={!header.column.getCanSort() || table.getRowModel().rows.length === 0}
-                        aria-label={`Sort by ${header.id}`}
-                        className={cx({
-                          [locals['table-header-row-wrapper']]: true
-                        })}
-                        style={{
-                          cursor:
-                            header.column.getCanSort() && table.getRowModel().rows.length !== 0 ? 'pointer' : 'default'
-                        }}
-                        onKeyDown={event => {
-                          if (event.key !== 'Enter' && event.key !== ' ') {
-                            return;
-                          }
-                          table.getRowModel().rows.length !== 0 && header.column.toggleSorting();
-                        }}
-                        onClick={
-                          table.getRowModel().rows.length !== 0 ? header.column.getToggleSortingHandler() : undefined
-                        }
-                        onMouseEnter={() => setHoveredColumnId(header.id)}
-                        onMouseLeave={() => setHoveredColumnId('')}
-                      >
-                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                        {header.column.getCanSort() && table.getRowModel().rows.length !== 0 ? (
-                          <span>
-                            {orderBy === header.id ? (
-                              orderDirection === 'ASC' ? (
-                                <ArrowUp />
-                              ) : (
-                                <ArrowDown />
-                              )
-                            ) : (
-                              hoveredColumnId === header.id && <ArrowsVertical />
-                            )}
-                          </span>
-                        ) : null}
-                      </div>
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHeader>
                   ))}
                 </TableRow>

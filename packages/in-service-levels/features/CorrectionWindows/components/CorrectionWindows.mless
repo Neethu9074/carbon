@@ -45,6 +45,7 @@
     .empty-column {
       block-size: 3rem;
       inline-size: 3rem;
+      width: 0;
     }
   }
 }
