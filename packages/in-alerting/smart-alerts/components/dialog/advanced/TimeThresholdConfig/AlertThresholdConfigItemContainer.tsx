@@ -3,17 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
 
+export interface AlertThresholdConfigItemContainerProps {
+  children: ReactNode;
+  hasExtraColumnOnRight?: boolean;
+  noIcon?: boolean;
+  isTearSheet?: boolean;
+  isTwoColumns?: boolean;
+  isFourColumns?: boolean;
+  isColumns3WithError?: boolean;
+  isTSFiveColumn?: boolean;
+  isTSColumn5WithErrorOnBothField?: boolean;
+  isTSColumn5WithErrorOn1stField?: boolean;
+  iconType?: string;
+}
+
 export default function AlertThresholdConfigItemContainer({
   children,
-  iconType,
+  iconType = '',
   hasExtraColumnOnRight,
   noIcon,
   isTearSheet,
@@ -23,7 +36,7 @@ export default function AlertThresholdConfigItemContainer({
   isTSFiveColumn,
   isTSColumn5WithErrorOnBothField,
   isTSColumn5WithErrorOn1stField
-}) {
+}: AlertThresholdConfigItemContainerProps) {
   return (
     <div
       className={classNames({
@@ -47,17 +60,3 @@ export default function AlertThresholdConfigItemContainer({
     </div>
   );
 }
-
-AlertThresholdConfigItemContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  hasExtraColumnOnRight: PropTypes.bool,
-  noIcon: PropTypes.bool,
-  isTearSheet: PropTypes.bool,
-  isTwoColumns: PropTypes.bool,
-  isFourColumns: PropTypes.bool,
-  isColumns3WithError: PropTypes.bool,
-  isTSFiveColumn: PropTypes.bool,
-  isTSColumn5WithErrorOnBothField: PropTypes.bool,
-  isTSColumn5WithErrorOn1stField: PropTypes.bool,
-  iconType: PropTypes.string
-};

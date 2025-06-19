@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import PropTypes from 'prop-types';
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { Toggle } from '@instana/components';
@@ -17,6 +17,22 @@ import Input from 'in-components/form/Input';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
 import toogleLocals from 'in-alerting/smart-alerts/components/dialog/advanced/Toogle.mless';
+
+export interface UserImpactInputProps {
+  label: string;
+  toggleName: string;
+  toggleChecked: boolean;
+  onToggle: () => void;
+  inputValue: number | undefined;
+  inputName: string;
+  inputPlaceholder: string;
+  inputOnChange: (e: any) => void;
+  inputDisabled: boolean;
+  postLabel: string;
+  inputType: string;
+  timeThresholdForm: MapForm<any>;
+  inputMax?: number;
+}
 
 export default function UserImpactInput({
   label,
@@ -32,7 +48,7 @@ export default function UserImpactInput({
   postLabel,
   inputType,
   timeThresholdForm
-}) {
+}: UserImpactInputProps) {
   return (
     <AlertThresholdConfigItemContainer noIcon isTearSheet isFourColumns>
       <AlertTypography variant={'body-regular'} color={'color900'} content={label} noMargin />
@@ -66,19 +82,3 @@ export default function UserImpactInput({
     </AlertThresholdConfigItemContainer>
   );
 }
-
-UserImpactInput.propTypes = {
-  label: PropTypes.string.isRequired,
-  toggleName: PropTypes.string.isRequired,
-  toggleChecked: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  inputMax: PropTypes.number,
-  inputValue: PropTypes.number,
-  inputName: PropTypes.string.isRequired,
-  inputPlaceholder: PropTypes.string.isRequired,
-  inputOnChange: PropTypes.func.isRequired,
-  inputDisabled: PropTypes.bool.isRequired,
-  postLabel: PropTypes.string.isRequired,
-  inputType: PropTypes.string.isRequired,
-  timeThresholdForm: PropTypes.object.isRequired
-};

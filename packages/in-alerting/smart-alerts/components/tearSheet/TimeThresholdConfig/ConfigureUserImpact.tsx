@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import PropTypes from 'prop-types';
+import { MapForm, Field, Item } from 'formalistic';
 import React from 'react';
 
 import { CarbonDropdown } from '@instana/components';
@@ -22,6 +22,13 @@ import { getValueRoundedToDecimals, round } from 'in-alerting/smart-alerts/compo
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
+export interface ConfigureUserImpactProps {
+  form: MapForm<any>;
+  updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+}
+type DropdownItem = { value: string; label: string };
+
 const options = [
   {
     label: t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodAggregated'),
@@ -35,15 +42,15 @@ const options = [
 
 const PERCENTAGE_OF_USERS = 'percentageOfUsers';
 export const NUMBER_OF_USERS = 'numberOfUsers';
-export default function ConfigureUserImpact({ form, onChange, updateForm }) {
+export default function ConfigureUserImpact({ form, onChange, updateForm }: ConfigureUserImpactProps) {
   const timeThresholdForm = form.get('timeThreshold');
   const impactMeasurementMethod = timeThresholdForm.get('impactMeasurementMethod')?.value;
   const alertByPercentageOfUsersChecked = timeThresholdForm.containsKey('userPercentage');
   const alertByNumberOfUsersChecked = timeThresholdForm.containsKey('users');
 
-  const onSelect = ({ selectedItem }) => {
+  const onSelect = ({ selectedItem }: { selectedItem: DropdownItem }) => {
     onChange(['timeThreshold', 'impactMeasurementMethod'], field =>
-      field.setValue(selectedItem?.value).setTouched(true)
+      (field as Field<string>).setValue(selectedItem?.value).setTouched(true)
     );
   };
 
@@ -81,10 +88,12 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
         onToggle={onToggleCallback(NUMBER_OF_USERS)}
         inputValue={timeThresholdForm.get('users')?.value ?? ''}
         inputName="users"
-        inputPlaceholder={numberOfUsersDefault}
+        inputPlaceholder={numberOfUsersDefault as unknown as string}
         inputOnChange={e =>
           onChange(['timeThreshold', 'users'], field =>
-            field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
+            (field as Field<number | null>)
+              .setValue(e.target.value !== '' ? Math.abs(e.target.value) : null)
+              .setTouched(true)
           )
         }
         inputDisabled={!alertByNumberOfUsersChecked}
@@ -102,14 +111,16 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
         inputMax={100}
         inputValue={
           timeThresholdForm.containsKey('userPercentage')
-            ? getValueRoundedToDecimals(timeThresholdForm.get('userPercentage').value, true)
-            : ''
+            ? (getValueRoundedToDecimals(timeThresholdForm.get('userPercentage').value, true) as number)
+            : undefined
         }
         inputName={'userPercentage'}
-        inputPlaceholder={getValueRoundedToDecimals(percentageOfUserDefault, true)}
+        inputPlaceholder={getValueRoundedToDecimals(percentageOfUserDefault, true) as unknown as string}
         inputOnChange={e => {
           onChange(['timeThreshold', 'userPercentage'], field =>
-            field.setValue(e.target.value !== '' ? round(Math.abs(e.target.value) / 100, 3) : '').setTouched(true)
+            (field as Field<number | null>)
+              .setValue(e.target.value !== '' ? round(Math.abs(e.target.value) / 100, 3) : null)
+              .setTouched(true)
           );
         }}
         inputDisabled={!alertByPercentageOfUsersChecked}
@@ -120,7 +131,7 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
     </>
   );
 
-  function onToggleCallback(inputType) {
+  function onToggleCallback(inputType: string) {
     if (inputType == PERCENTAGE_OF_USERS) {
       return () => {
         let updatedTimeThresholdForm = timeThresholdForm;
@@ -158,9 +169,3 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
     }
   }
 }
-
-ConfigureUserImpact.propTypes = {
-  form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  updateForm: PropTypes.func.isRequired
-};
