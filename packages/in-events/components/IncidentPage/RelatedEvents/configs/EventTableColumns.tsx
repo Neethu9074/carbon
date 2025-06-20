@@ -13,6 +13,9 @@ import { RawEvent } from '@instana/types';
 import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
 import { OnEntity, getEndValue, getStateBadge } from 'in-events/components/EventsListRow';
 import TimelineCell from 'in-events/components/EventsPage/EventsTable/TimelineCell';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -47,7 +50,21 @@ export const title: ColumnDefinition = {
   width: 350,
   Cell: props => {
     const event = props.cell.row.original;
-    const { onItemClicked } = props.initialState;
+    const { location, createHref } = useNavigation();
+
+    function getEventUrl(eventId: string): string {
+      // clicking into event list should re-enable tracking Event page view
+      setOrDeleteMatrixKey(location, eventsPath, 'track', true);
+
+      setOrDeleteMatrixKey(location, eventsPath, 'eventId', eventId);
+      // remove referrer from URL as it already has been recorded
+      const referrer = location.query['ref'];
+      if (referrer) {
+        delete location.query['ref'];
+      }
+
+      return createHref(location);
+    }
 
     return (
       <Link
@@ -57,7 +74,7 @@ export const title: ColumnDefinition = {
         }}
         // @ts-expect-error
         tabIndex={0}
-        onClick={() => onItemClicked(event.id || '')}
+        href={getEventUrl(event.id || '')}
       >
         {event.title}
       </Link>
