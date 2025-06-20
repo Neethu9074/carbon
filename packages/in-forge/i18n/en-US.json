@@ -7034,12 +7034,12 @@
       "labelReads": "Reads",
       "labelWrites": "Writes",
       "labeltombstoneCount": "Tombestone Count",
-      "labelKeyspaceTable":"KeyspacesTable",
       "dashboard": {
         "labelReadRequests": "Read Requests",
         "labelReadLatency": "Read latency",
         "labelWriteRequests": "Write Requests",
         "labelWriteLatency": "Write latency",
+        "labelKeyspaceTable": "Tombstone details",
         "titleRequests": "Requests",
         "labelReads": "Reads",
         "labelWrites": "Writes",

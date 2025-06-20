@@ -53,5 +53,12 @@ export default function TombstoneCountTable({ snapshot, timeConfig }) {
         snapshotId
       };
     });
-  return <Table withoutPadding cardTitle={'in-forge:plugins.cassandraNode.dashboard.labelKeyspaceTable'} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.cassandraNode.dashboard.labelKeyspaceTable')}
+      cols={cols}
+      rows={rows}
+    />
+  );
 }
