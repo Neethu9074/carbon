@@ -30,11 +30,12 @@ export default function TableNameColumnCell<AlertConfig extends AlertConfigType>
   const { location, createHref } = useNavigation();
   return (
     <Stack direction="vertical" gap="disabled">
-      <Tooltip content={config.name} align="auto" delay={500} overwriteBlock>
-        <div className={locals.name}>
+      <div className={locals.name}>
+        <Tooltip content={config.name} align="mousePosition" delay={500} overwriteBlock>
           <a href={createRowLinkLocation && createHref(createRowLinkLocation(config, location))}>{config.name}</a>
-        </div>
-      </Tooltip>
+        </Tooltip>
+      </div>
+
       {getNameSubtitle && <span>{getNameSubtitle(config, isCategoryGlobal)}</span>}
     </Stack>
   );
