@@ -164,8 +164,8 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
           {tearSheetTitle} <AlertingMessage messages={messages} />
         </Stack>
       ),
-      modalDangerButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle'),
-      modalSecondaryButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.closeTitle'),
+      modalDangerButtonText: t('in-alerting:smartAlerts.components.tearSheet.cancelEditingTitle'),
+      modalSecondaryButtonText: t('in-alerting:smartAlerts.components.tearSheet.continueEditingTitle'),
       modalTitle: t('in-alerting:smartAlerts.components.tearSheet.cancelModalTitle'),
       modalDescription: t('in-alerting:smartAlerts.components.tearSheet.cancelModalDescription')
     }),

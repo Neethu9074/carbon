@@ -796,7 +796,6 @@
         "proceedTitle": "Proceed",
         "previousTitle": "Previous",
         "nextTitle": "Next",
-        "closeTitle": "Close",
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageComputedOnApproximateData": "The baseline is computed based on approximate data due to data retention settings. Therefore, it might not be accurate in case there are few calls matching selected filters.",
@@ -1005,8 +1004,10 @@
         "summary": "Automatically close an issue after the violation threshold is no longer met for"
       },
       "tearSheet": {
-        "cancelModalTitle": "Are you sure you want to cancel?",
-        "cancelModalDescription": "If you cancel, configuration details you have entered wont be saved.",
+        "cancelModalTitle": "Confirm cancellation",
+        "continueEditingTitle": "Continue editing",
+        "cancelEditingTitle": "Cancel smart alert configuration",
+        "cancelModalDescription": "Are you sure you want to cancel the editting of this smart alert configuration? If you proceed, any information you have entered will be lost. This action cannot be undone.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "When violations persist over time",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Violations persist at random intervals",
