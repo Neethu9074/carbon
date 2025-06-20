@@ -256,8 +256,9 @@ const EventsTable = (props: EventsTableProps) => {
       loadMoreThreshold: 30,
       // currently its set to a static height until you refresh.
       // TODO: change it to be more dynamic if requested
-      virtualHeight: window.innerHeight - 550
+      virtualHeight: window.innerHeight - 550,
       // end infinite scroll
+      emptyStateTitle: t('in-events:noDataAvailable')
     },
     useFiltering,
     useInfiniteScroll,
