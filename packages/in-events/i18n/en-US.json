@@ -7,11 +7,10 @@
   },
   "affectedApplications": {
     "noAffectedApplications": "No affected applications found.",
-    "title": "Tittle",
+    "title": "Title",
     "totalcalls": "Affected Calls",
     "errorLoadingData": "Error loading data."
   },
-  "noDataAvailable": "No data available",
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of service:",
   "titleDetail": "Detail",
@@ -89,6 +88,7 @@
   "stateActive": "Active",
   "stateClosedByInstana": "Closed by Instana",
   "stateManuallyClosed": "Manually closed",
+  "stateTransient": "Transient",
   "markerServiceImpact": "SERVICE IMPACT",
   "incidentHeader": "`incident: {{incidentName}} - {{label}} ({{eventsLength}} event)",
   "incidentHeader_plural": "`incident: {{incidentName}} - {{label}} ({{eventsLength}} events)",
@@ -316,14 +316,13 @@
   },
   "dataGridEventTable": {
     "apply": "Apply",
-    "cancel": "Cancel",
-    "closeFilters": "Close filters",
     "openFilters": "Open filters",
     "title": "Title",
     "on": "On",
     "started": "Started",
     "end": "End",
     "state": "State",
+    "timeline": "Timeline",
     "eventType": "Event type",
     "builtIn": "Built-in",
     "custom": "Custom",
@@ -334,7 +333,12 @@
     "mobileSA": "Mobile Smart Alert",
     "logSA": "Log Smart Alert",
     "sloSa": "SLO Smart Alert",
-    "filterTitle": "Filter"
+    "transient": "Transient events",
+    "filterTitle": "Event filters",
+    "clearAll": "Clear filters",
+    "selectAll": "Select all",
+    "selectEvent": "Select event",
+    "showTransient": "Show transient events"
   },
   "eventsSmartAlerts": {
     "globalApplicationSmartAlert": "Global Application Smart Alerts",

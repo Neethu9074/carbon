@@ -177,7 +177,7 @@ const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
         <Collapsible.Content>
           {!isEmpty(healthInfo?.data?.openIssues) && (
             <EventsDatagrid
-              headers={['severity', 'title']}
+              headers={['severity', 'problem.problemText']}
               events={convertEventsToRawEvents(healthInfo?.data?.openIssues) || []}
               loading={healthInfo?.progress.loading || false}
               canLoadMore={false}

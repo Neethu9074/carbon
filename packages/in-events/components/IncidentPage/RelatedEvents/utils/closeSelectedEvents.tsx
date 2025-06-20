@@ -20,13 +20,8 @@ type EVENT_KINDS = 'issue' | 'incident' | 'change' | 'agent_monitoring_issue' | 
  * Function to give a notice of confirmation and close the issues or incidents given the selected rows
  * @param eventType type of event
  * @param selectedFlatRows ids of selected events
- * @param toggleAllRowsSelected function to set all rows selection
  */
-const closeSelectedEvents = (
-  eventType: EVENT_KINDS,
-  selectedRowIds: string[],
-  toggleAllRowsSelected: (toggle: boolean) => void
-) => {
+const closeSelectedEvents = (eventType: EVENT_KINDS, selectedRowIds: string[]) => {
   addActiveDialog(
     <MultiCloseIssueConfigForm
       onSaveSuccess={() => {
@@ -56,7 +51,6 @@ const closeSelectedEvents = (
 
         // manually change the state of closed ids
 
-        toggleAllRowsSelected(false);
         setTimeout(() => {
           // TODO: reload function from prop is not working
           window.location.reload();

@@ -1045,5 +1045,10 @@ module.exports = exports = [
     uiClientKey: 'newOTelPageEnabled',
     instanaCtlKey: 'feature.new.otel.page.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'eventsTransientEventEnabled',
+    instanaCtlKey: 'feature.events.transient.events.enabled',
+    defaultValue: false
   }
 ];
