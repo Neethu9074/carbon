@@ -15,6 +15,11 @@ export enum PromptableWidgetType {
   slo2 = 'SLO'
 }
 
+export enum IsLoadingCounterType {
+  INCREASE = 'increase',
+  DECREASE = 'decrease'
+}
+
 export interface ChatMessage {
   type: 'user' | 'system';
   content: ReactNode;

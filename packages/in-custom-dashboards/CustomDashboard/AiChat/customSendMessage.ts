@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-import { uniqueId } from 'lodash';
-
 import {
   ChatInstance,
   CustomSendMessageOptions,
@@ -15,9 +13,12 @@ import {
   UserDefinedItem
 } from '@instana/ai-chat';
 
-import { UserDefinedType } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
+import { IsLoadingCounterType, UserDefinedType } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 import { promptSlots } from 'in-custom-dashboards/api';
 import { hasError } from 'in-services/util/result';
+
+const RESTRICTION_TEXT: string =
+  'Sorry, I can only handle widget creation on custom dashboards. Please use a more specific prompt.';
 
 export async function sleep(milliseconds: number) {
   await new Promise(resolve => {
@@ -40,31 +41,31 @@ async function customSendMessage(request: MessageRequest, _: CustomSendMessageOp
     });
   };
 
-  const loadingMessageId = uniqueId('nl2widget-load-');
-  const sendLoading = () => {
-    instance.messaging.addMessage({
-      id: loadingMessageId,
-      output: {
-        // @ts-expect-error stream_loading is not typed
-        generic: [{ response_type: 'stream_loading' }]
-      }
-    });
-  };
-
   const userQuery = request.input.text;
   if (userQuery) {
-    sendLoading();
+    instance.updateIsLoadingCounter(IsLoadingCounterType.INCREASE);
     promptSlots(userQuery).subscribe(
       result => {
         if (hasError(result)) {
-          instance.messaging.removeMessages([loadingMessageId]);
+          instance.updateIsLoadingCounter(IsLoadingCounterType.DECREASE);
           sendError(`Something went wrong. ${result.errors[0].message}`);
         }
 
         if (result.data) {
-          instance.messaging.removeMessages([loadingMessageId]);
-
+          instance.updateIsLoadingCounter(IsLoadingCounterType.DECREASE);
           const { inferredSlotConfig, possibleSlotConfig } = result.data;
+
+          // if widget type could not be inferred, we can assume that user didn't prompt anything meaningful
+          if (inferredSlotConfig?.widgetType == null) {
+            instance.messaging.addMessage({
+              id: crypto.randomUUID(),
+              output: {
+                generic: [{ response_type: MessageResponseTypes.TEXT, text: RESTRICTION_TEXT } as TextItem]
+              }
+            });
+            return;
+          }
+
           instance.messaging.addMessage({
             id: crypto.randomUUID(),
             output: {
@@ -80,7 +81,7 @@ async function customSendMessage(request: MessageRequest, _: CustomSendMessageOp
       },
       // On Error
       error => {
-        instance.messaging.removeMessages([loadingMessageId]);
+        instance.updateIsLoadingCounter(IsLoadingCounterType.DECREASE);
         const msg = error.toString ? error.toString() : JSON.stringify(error);
         sendError(msg);
       }
