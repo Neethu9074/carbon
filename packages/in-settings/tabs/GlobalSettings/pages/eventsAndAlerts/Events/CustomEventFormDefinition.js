@@ -207,16 +207,16 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
       })
     )
     .put(
-      'transientEnabled',
+      'transientEventEnabled',
       createField({
         value: false
       })
     )
     .put(
-      'transientThreshold',
+      'transientEventThreshold',
       createField({
-        value: 0,
-        validator: positiveNumber
+        value: { amount: 5, unit: 'MINUTES' },
+        validator: ({ amount }) => positiveNumber(amount)
       })
     )
     .put(

@@ -46,6 +46,7 @@ import {
   APPLICATIONS_ALERTING_DEPRECATED_EVENT_OPEN
 } from 'in-services/tracking/tracking';
 import { entityCountDetection } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { durationToMillis } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/TransientEventsSection.js';
 import CustomEventForm from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
@@ -347,7 +348,8 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
   const rules = rulesForm?.map(formToRuleMapper({ entityType, severity }));
   const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
   const transientEventEnabled = form.get('transientEventEnabled').value ?? false;
-  const transientEventThreshold = form.get('transientEventThreshold').value ?? 0;
+  const thresholdObj = form.get('transientEventThreshold').value ?? { amount: 5, unit: 'MINUTES' };
+  const transientEventThreshold = durationToMillis(thresholdObj);
   const transientEventAlertMuted = form.get('transientEventAlertMuted').value ?? false;
 
   return createCustomMultiThresholdBasedEventSpecification(

@@ -26,12 +26,8 @@ import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/TransientEventsSection.mless';
 
-/**
- * Field names used in the form-definition file.
- */
-
-const TRANSIENT_ENABLED = 'transientEnabled';
-const TRANSIENT_THRESHOLD = 'transientThreshold';
+const TRANSIENT_ENABLED = 'transientEventEnabled';
+const TRANSIENT_THRESHOLD = 'transientEventThreshold';
 const TRANSIENT_NOTIFICATION = 'transientEventAlertMuted';
 
 const DurationUnit = {
@@ -39,14 +35,8 @@ const DurationUnit = {
   hours: 'HOURS'
 };
 
-export const durationToMillis = ({ amount = 0, unit = DurationUnit.minutes }) => {
-  switch (unit) {
-    case DurationUnit.hours:
-      return amount * 60 * 1000;
-    default:
-      return amount * 1000;
-  }
-};
+export const durationToMillis = ({ amount = 0, unit = DurationUnit.minutes }) =>
+  unit === DurationUnit.hours ? amount * 60 * 60000 : amount * 60000;
 
 const maxForUnit = unit => (unit === DurationUnit.hours ? 23 : 59);
 
@@ -58,7 +48,7 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
   const enabled = Boolean(enabledField?.value);
   const alertMuted = Boolean(notificationField?.value);
   const threshold = thresholdField?.value ?? {
-    amount: '',
+    amount: 5,
     unit: DurationUnit.minutes
   };
 
@@ -104,7 +94,7 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
                   placeholder="#"
                   disabled={disabled || !enabled}
                   value={thresholdField.value ?? ''}
-                  onChange={e => onChange(TRANSIENT_THRESHOLD, e.target.value)}
+                  onChange={e => onChange(TRANSIENT_THRESHOLD, { ...threshold, amount: e.target.valueAsNumber })}
                   hasError={!thresholdField.valid && thresholdField.touched}
                 />
                 <ComboBox
@@ -143,7 +133,7 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
                 legendText={t('in-settings:tabs.transientNotification')}
                 name="transient-events-notification-radio-button-vertical-group"
                 value={String(alertMuted)}
-                onChange={value => onChange(TRANSIENT_NOTIFICATION, value === 'EACH')}
+                onChange={value => onChange(TRANSIENT_NOTIFICATION, value === 'true')}
                 orientation="vertical"
               >
                 <RadioButton labelText={t('in-settings:tabs.transientNotifyPersistOnly')} value="true" />
