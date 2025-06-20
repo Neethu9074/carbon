@@ -38,7 +38,7 @@ const DurationUnit = {
 export const durationToMillis = ({ amount = 0, unit = DurationUnit.minutes }) =>
   unit === DurationUnit.hours ? amount * 60 * 60000 : amount * 60000;
 
-const maxForUnit = unit => (unit === DurationUnit.hours ? 23 : 59);
+// const maxForUnit = unit => (unit === DurationUnit.hours ? 23 : 59);
 
 export default function TransientEventsSection({ form, onChange, disabled }) {
   const enabledField = form.get(TRANSIENT_ENABLED);
@@ -90,10 +90,10 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
                   id="transient-threshold"
                   type="number"
                   size={3}
-                  max={maxForUnit(threshold.unit)}
+                  // max={maxForUnit(threshold.unit)}
                   placeholder="#"
                   disabled={disabled || !enabled}
-                  value={thresholdField.value ?? ''}
+                  value={thresholdField.value ?? 5}
                   onChange={e => onChange(TRANSIENT_THRESHOLD, { ...threshold, amount: e.target.valueAsNumber })}
                   hasError={!thresholdField.valid && thresholdField.touched}
                 />
@@ -114,7 +114,7 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
                 />
               </HorizontalFlexWrapper>
 
-              <TouchedMessages field={thresholdField} />
+              {/* <TouchedMessages field={thresholdField} /> */}
               <HelpText>{t('in-settings:tabs.thresholdHint')}</HelpText>
               <HelpText>{t('in-settings:tabs.thresholdRecommend')}</HelpText>
             </FormGroup>
