@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import { Map } from 'immutable';
@@ -23,7 +23,7 @@ registerSnapshotDefinition({
       Environment: snapshot.getIn(['data', 'env'])
     });
   },
-  getIconType: () => 'ai',
+  getIconType: () => 'vllm',
   technologyDescriptor: {
     label: t('in-forge:plugins.oTelVLLM.vllm')
   }

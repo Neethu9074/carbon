@@ -21,7 +21,7 @@ registerSnapshotDefinition({
 
 registerSnapshotDefinition({
   plugin: 'watsonx',
-  getIconType: () => 'ai',
+  getIconType: () => 'watsonx',
   technologyDescriptor: {
     label: t('in-forge:plugins.genai.watsonx')
   }
@@ -29,7 +29,7 @@ registerSnapshotDefinition({
 
 registerSnapshotDefinition({
   plugin: 'crewai',
-  getIconType: () => 'ai',
+  getIconType: () => 'crewai',
   technologyDescriptor: {
     label: t('in-forge:plugins.genai.crewai')
   }
@@ -37,14 +37,14 @@ registerSnapshotDefinition({
 
 registerSnapshotDefinition({
   plugin: 'bedrock',
-  getIconType: () => 'ai',
+  getIconType: () => 'bedrock',
   technologyDescriptor: {
     label: t('in-forge:plugins.genai.bedrock')
   }
 });
 registerSnapshotDefinition({
   plugin: 'langchain',
-  getIconType: () => 'ai',
+  getIconType: () => 'lanchain',
   technologyDescriptor: {
     label: t('in-forge:plugins.genai.langchain')
   }
@@ -52,7 +52,7 @@ registerSnapshotDefinition({
 
 registerSnapshotDefinition({
   plugin: 'groq',
-  getIconType: () => 'ai',
+  getIconType: () => 'groq',
   technologyDescriptor: {
     label: t('in-forge:plugins.genai.groq')
   }
@@ -60,7 +60,7 @@ registerSnapshotDefinition({
 
 registerSnapshotDefinition({
   plugin: 'anthropic',
-  getIconType: () => 'ai',
+  getIconType: () => 'anthropic',
   technologyDescriptor: {
     label: t('in-forge:plugins.genai.anthropic')
   }
@@ -68,7 +68,7 @@ registerSnapshotDefinition({
 
 registerSnapshotDefinition({
   plugin: 'sagemaker',
-  getIconType: () => 'ai',
+  getIconType: () => 'sagemaker',
   technologyDescriptor: {
     label: t('in-forge:plugins.genai.sagemaker')
   }

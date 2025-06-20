@@ -343,8 +343,9 @@ packages/in-forge/plugins/openTelemetry @Instana-IBM-GitHub-Enterprise @instana/
 packages/in-forge/plugins/otelHost      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
 packages/in-forge/plugins/otelProcess   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
 packages/in-forge/plugins/oTelDatabase  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
-packages/in-forge/plugins/oTelLLM       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
-packages/in-forge/plugins/oTelVLLM       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
+packages/in-forge/plugins/oTelLLM       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel @instana/ai-observability
+packages/in-forge/plugins/oTelVLLM      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel @instana/ai-observability
+packages/in-forge/plugins/genai         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/ai-observability
 
 # Vulnerability Center
 packages/in-vulnerability-center        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-integrations
