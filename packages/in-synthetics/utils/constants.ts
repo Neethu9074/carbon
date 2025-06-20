@@ -137,6 +137,13 @@ export interface DataScopeType {
   label: string;
   value: string;
 }
+
+export interface CreateSyntheticOnDemandTestDialogProps {
+  readonly testId: string;
+  readonly testLocations: string[];
+  readonly testType: string;
+}
+
 export const AssertionFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
   {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.operatorOptionContains'),

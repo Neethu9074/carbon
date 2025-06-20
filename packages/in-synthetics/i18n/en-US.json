@@ -344,6 +344,17 @@
       },
       "createSyntheticTest": "Create synthetic test"
     },
+    "createOnDemandTest":{
+      "buttonLabel": "Run now",
+      "createButtonLabel": "Run test",
+      "cancel":"Cancel",
+      "properties":"Configuration properties",
+      "location":"Location",
+      "iconLabel":"Test is running",
+      "runnowTitle":"Run test now",
+      "multiSelectLabel":"All assigned locations",
+      "retryInterval": "This test will retry {{retryCount}} after "
+    },
     "httpMethods": {
       "get": "GET",
       "post": "POST",
@@ -360,7 +371,9 @@
       "failureMessageUpdate": "Failed to update the synthetic test: {{errorMessage}}",
       "failureMesssageDelete": "Failed to delete the synthetic test: {{errorMessage}}",
       "successMessageCICDRerun": "Successfully reran the synthetic test",
-      "failureMesssageCICDRerun": "Failed to rerun the synthetic test: {{errorMessage}}"
+      "failureMesssageCICDRerun": "Failed to rerun the synthetic test: {{errorMessage}}",
+      "successMessageCICDCreate": "Successfully created the synthetic run now test",
+      "failureMesssageCICDCreate": "Failed to create the synthetic run now test: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
