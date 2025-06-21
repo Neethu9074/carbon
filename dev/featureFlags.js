@@ -218,4 +218,5 @@ module.exports = {
   msTeamsAppEnabled: false,
   newOTelPageEnabled: false,
   eventsTransientEventEnabled: true,
+  newAccountAndBillingPageEnabled: false
 };

@@ -473,6 +473,7 @@
   "mainNavigation": {
     "skipToMainContent": "Skip to main content",
     "viewSwitcherLabelSettings": "Settings",
+     "viewSwitcherLabelAccountAndBilling": "Account and billing",
     "viewSwitcherLabelMore": "More",
     "viewSwitcherLabelAgents": "Agents",
     "viewSwitcherLabelDataSources": "Data sources",

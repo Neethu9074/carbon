@@ -9,12 +9,19 @@ import React from 'react';
 import { MenuItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  newOTelPageEnabled,
+  playwithEnabled,
+  ampEnabled,
+  newAccountAndBillingPageEnabled
+} from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { locationWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
+import AccountBillingMenuItem from 'in-client/js/CarbonUIShell/AccountBillingMenuItem';
 import DataSourcesMenuItem from 'in-client/js/CarbonUIShell/DataSourceMenuItem';
-import { newOTelPageEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 function InternalView() {
@@ -37,6 +44,7 @@ function InternalView() {
 }
 
 export default function SettingsMenuItem() {
+  const accountPageVisible = newAccountAndBillingPageEnabled && ampEnabled && role?.canViewAccountAndBillingInformation;
   const { matchLocation, createHrefToPath } = useNavigation();
   if (playwithEnabled) return null;
 
@@ -51,6 +59,7 @@ export default function SettingsMenuItem() {
       />
       {newOTelPageEnabled && <DataSourcesMenuItem />}
 
+      {accountPageVisible && <AccountBillingMenuItem />}
       <InternalView />
     </>
   );

@@ -417,3 +417,4 @@ export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabl
 );
 export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);
 export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', false);
+export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', false);
