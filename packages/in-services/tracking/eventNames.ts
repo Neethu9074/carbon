@@ -655,6 +655,8 @@ export const EVENT_AI_CHAT_OPEN = 'event.ai.chat.open';
 export const EVENT_AI_CHAT_CLOSE = 'event.ai.chat.close';
 export const EVENT_AI_CHAT_APPLICATION = 'event.ai.chat.application';
 export const EVENT_AI_CHAT_INFRASTRUCTURE = 'event.ai.chat.infrastructure';
+export const EVENT_AI_LIBRARY_OPEN = 'event.ai.library.open';
+export const EVENT_AI_LIBRARY_RESPONSE_OPEN = 'event.ai.library.response.open';
 
 // Notes and Activity Summary Feedback Tracking
 export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';

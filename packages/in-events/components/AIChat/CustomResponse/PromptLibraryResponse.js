@@ -8,6 +8,8 @@ import React from 'react';
 
 import { Tag } from '@instana/carbon';
 
+import { EVENT_AI_LIBRARY_RESPONSE_OPEN } from 'in-services/tracking/tracking';
+import { handleTracking } from 'in-events/components/AIChat/utils';
 import { t } from 'in-i18n';
 
 import locals from './PromptLibraryResponse.mless';
@@ -23,6 +25,7 @@ export default function PromptLibraryResponse({ instance }) {
           title: t('in-events:aichat.promptLibrary')
         };
         customPanel.open(panelOptions);
+        handleTracking(EVENT_AI_LIBRARY_RESPONSE_OPEN);
       }}
     >
       {t('in-events:aichat.promptLibrary')}

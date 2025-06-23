@@ -8,10 +8,10 @@ import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { SvgIcon, CarbonButton } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 
+import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE, EVENT_AI_LIBRARY_OPEN } from 'in-services/tracking/tracking';
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/CustomResponse/TableChartSwitcher';
 import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
-import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tracking';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import PromptLibrary from 'in-events/components/AIChat//CustomPanels/PromptLibrary';
 import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
@@ -144,7 +144,13 @@ export function AIChat() {
             title: t('in-events:aichat.promptLibrary')
           };
           instance.updateCustomMenuOptions([
-            { text: t('in-events:aichat.promptLibrary'), handler: () => customPanel.open(panelOptions) }
+            {
+              text: t('in-events:aichat.promptLibrary'),
+              handler: () => {
+                customPanel.open(panelOptions);
+                handleTracking(EVENT_AI_LIBRARY_OPEN);
+              }
+            }
           ]);
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
           const draggableIcon = document.getElementById(DRAGGABLE_ICON);

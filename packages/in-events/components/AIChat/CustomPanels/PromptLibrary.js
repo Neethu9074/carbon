@@ -21,7 +21,7 @@ import { promptLibrary } from 'in-events/components/AIChat/DefinedQuestions';
 
 import locals from './PromptLibrary.mless';
 
-const PromptLibrary = ({ instance, chatInstance }) => {
+const PromptLibrary = ({ instance }) => {
   const [search, setSearch] = useState('');
 
   return (
