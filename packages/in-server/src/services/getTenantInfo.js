@@ -18,6 +18,7 @@ exports.getTenantInfoFromUiBackend = async (req, tenant, unitName) => {
 
     if (!response.ok) {
       req.log.error(`Could not load internal ids from uiBackend. Got status: %s`, response.status);
+      throw new Error(`Failed to fetch internal ids: ${response.status}`);
     }
 
     const tenantWithUnits = await response.json();
