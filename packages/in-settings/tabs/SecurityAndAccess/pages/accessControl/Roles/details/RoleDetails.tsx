@@ -14,6 +14,7 @@ import { generateStableHash } from '@instana/utils';
 
 import RolePermissionsAccordionTile from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/RolePermissionsAccordionTile';
 import RolesAndAccessScopeTile from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/RoleAccessScopeTile';
+import EditRoleScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleScopeDialog';
 import usePermissionCount from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/hooks/usePermissionCount';
 import RoleMembersTile from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/RoleMembersTile';
 import { RoleDetailsWithPermissions } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
@@ -25,7 +26,6 @@ import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
 import locals from './RoleDetails.mless';
-import EditRoleScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleScopeDialog';
 
 export default function RoleDetails() {
   const { id: roleId } = useParams<{ id: string }>();
@@ -73,13 +73,13 @@ export default function RoleDetails() {
       <Column md={8}>
         <FloatingMenuButtons status={status} role={role} />
         {hasScope && (
-          <AccesScopeTabs
+          <AccessScopeTabs
             availablePermissions={availablePermissions}
             enabledPermissions={enabledPermissions}
             roleId={roleId}
           >
             {permissionsAccordion}
-          </AccesScopeTabs>
+          </AccessScopeTabs>
         )}
         {!hasScope && permissionsAccordion}
       </Column>
@@ -96,7 +96,7 @@ interface AccessScopeTabsProps {
   roleId: string;
 }
 
-function AccesScopeTabs({
+function AccessScopeTabs({
   availablePermissions,
   children,
   enabledPermissions,
@@ -138,11 +138,13 @@ function FloatingMenuButtons({ role, status }: FloatingMenuButtonsProps) {
             <InlineLoading />
           ) : (
             <MoreMenu>
-              <MoreMenuButton
-                onClick={() => addActiveDialog(<EditRoleDialog mode={FORM_MODE.EDIT} formValues={role} />)}
-              >
-                {t('in-settings:details.role.editPermissionsButton')}
-              </MoreMenuButton>
+              {!role?.hasScope && (
+                <MoreMenuButton
+                  onClick={() => addActiveDialog(<EditRoleDialog mode={FORM_MODE.EDIT} formValues={role} />)}
+                >
+                  {t('in-settings:details.role.editPermissionsButton')}
+                </MoreMenuButton>
+              )}
               {role?.hasScope && (
                 <MoreMenuButton onClick={() => addActiveDialog(<EditRoleScopeDialog roleId={role.id!} />)}>
                   {t('in-settings:details.role.editAsGroupButton')}
