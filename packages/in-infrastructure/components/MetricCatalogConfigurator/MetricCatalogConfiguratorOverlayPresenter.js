@@ -95,7 +95,11 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
 }
 
 function metricEventPayload(formMetric) {
-  return { metric: formMetric.get('metric').value, aggregation: formMetric.get('aggregation').value };
+  return {
+    metric: formMetric.get('metric')?.value,
+    aggregation: formMetric.get('aggregation')?.value,
+    crossSeriesAggregation: formMetric.get('crossSeriesAggregation')?.value
+  };
 }
 
 function Content({
@@ -128,7 +132,22 @@ function Content({
               if (onChangeAggregation) {
                 onChangeAggregation(metricEventPayload(metric), aggregation);
               }
-              onChange([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true));
+              onChange([], form => {
+                let updatedForm = form;
+                updatedForm = updatedForm.updateIn([i, 'aggregation'], field =>
+                  field.setValue(aggregation).setTouched(true)
+                );
+                if (aggregation === 'SUM') {
+                  updatedForm = updatedForm.updateIn([i, 'crossSeriesAggregation'], field =>
+                    field.setValue('SUM').setTouched(true)
+                  );
+                } else {
+                  updatedForm = updatedForm.updateIn([i, 'crossSeriesAggregation'], field =>
+                    field.setValue(undefined).setTouched(true)
+                  );
+                }
+                return updatedForm;
+              });
             }}
             className={locals.aggregations}
             hasError={!field.valid && field.touched}
@@ -144,15 +163,17 @@ function Content({
           </Select>
         ))}
       </Col>
+
       {infraExploreFilterEmptyValueEnabled && (
         <RequiredToggle
           metric={metric}
           onChange={required => onChange([i, 'required'], field => field.setValue(required).setTouched(true))}
         />
       )}
+
       {MetricCatalogConfiguratorHint && (
         <Col xs={1}>
-          <MetricCatalogConfiguratorHint metricId={metric.get('metric').value} />
+          <MetricCatalogConfiguratorHint metricId={metric.get('metric')?.value} />
         </Col>
       )}
     </>
