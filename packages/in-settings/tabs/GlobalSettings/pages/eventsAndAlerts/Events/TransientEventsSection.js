@@ -93,7 +93,7 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
                   // max={maxForUnit(threshold.unit)}
                   placeholder="#"
                   disabled={disabled || !enabled}
-                  value={thresholdField.value ?? 5}
+                  value={thresholdField.value.amount ?? 5}
                   onChange={e => onChange(TRANSIENT_THRESHOLD, { ...threshold, amount: e.target.valueAsNumber })}
                   hasError={!thresholdField.valid && thresholdField.touched}
                 />
@@ -133,11 +133,12 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
                 legendText={t('in-settings:tabs.transientNotification')}
                 name="transient-events-notification-radio-button-vertical-group"
                 value={String(alertMuted)}
+                defaultSelected="true"
                 onChange={value => onChange(TRANSIENT_NOTIFICATION, value === 'true')}
                 orientation="vertical"
               >
-                <RadioButton labelText={t('in-settings:tabs.transientNotifyPersistOnly')} value="true" />
-                <RadioButton labelText={t('in-settings:tabs.transientNotifyEach')} value="false" />
+                <RadioButton labelText={t('in-settings:tabs.transientNotifyPersistOnly')} value="true" id="true" />
+                <RadioButton labelText={t('in-settings:tabs.transientNotifyEach')} value="false" id="false" />
               </RadioButtonGroup>
               <TouchedMessages field={notificationField} />
             </FormGroup>
