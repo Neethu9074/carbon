@@ -15,10 +15,8 @@ import {
   AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED,
   AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED
 } from 'in-services/tracking/tracking';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AgentBasedIntegrationView from 'in-infrastructure/agentView/components/AgentBasedIntegrationView';
-import AgentInstallationView from 'in-infrastructure/agentView/components/AgentInstallationView';
 import AgentsPresenceChart from 'in-infrastructure/agentView/components/AgentsPresenceChart';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getAgentSnapshotsInTimeframe from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -28,12 +26,12 @@ import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis'
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import { infraEventCTAClicked } from 'in-infrastructure/tracking/tracking';
+import AgentViewRouterV2 from 'in-plg/pages/onboarding/AgentViewRouterV2';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AgentViewRouter from 'in-plg/pages/onboarding/AgentViewRouter';
-import { agentInstallationV2Enabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -89,33 +87,45 @@ export default connectTo(
         <Switch>
           <Route path={'*/dashboard'} component={Dashboard} />
 
-          {agentInstallationV2Enabled && (
-            <Route
-              exact
-              path="/agents/installation/:selectedservice"
-              render={({ match }) => (
-                <AgentViewRouter
-                  selectedService={match.params.selectedservice}
-                  agentKey={unitKeys.agentKey}
-                  downloadKey={unitKeys.downloadKey}
-                />
-              )}
-            />
-          )}
+          <Route
+            exact
+            path="/agents/installation/:selectedservice"
+            render={({ match }) => (
+              <AgentViewRouter
+                selectedService={match.params.selectedservice}
+                agentKey={unitKeys.agentKey}
+                downloadKey={unitKeys.downloadKey}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path="/datasources/installation/:selectedservice"
+            render={({ match }) => (
+              <AgentViewRouterV2
+                selectedService={match.params.selectedservice}
+                agentKey={unitKeys.agentKey}
+                downloadKey={unitKeys.downloadKey}
+              />
+            )}
+          />
 
           <Route path="/agents/installation">
-            {agentInstallationV2Enabled ? (
-              <AgentInstallationViewV2 />
-            ) : (
-              <MaxWidthFullscreenContainer>
-                <AgentInstallationView />
-              </MaxWidthFullscreenContainer>
-            )}
+            <AgentInstallationViewV2 />
+          </Route>
+
+          <Route path="/datasources/installation">
+            <AgentInstallationViewV2 />
           </Route>
 
           <Route path="/agents/onboarding/installation/:selectedservice" render={() => <Redirect to="/home" />} />
 
           <Route path="/agents/onboarding/installation" render={() => <Redirect to="/home" />} />
+
+          <Route path="/datasources/onboarding/installation/:selectedservice" render={() => <Redirect to="/home" />} />
+
+          <Route path="/datasources/onboarding/installation" render={() => <Redirect to="/home" />} />
 
           <Route path="/agents">
             <Sticky

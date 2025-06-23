@@ -52,7 +52,7 @@ const AgentViewRouterV2 = ({
       />
       <HeaderV2
         breadcrumb={[
-          { title: 'Data sources', href: '/datasources/onboarding/installation' },
+          { title: 'Data sources', href: `/datasources${fromOnboarding ? '/onboarding' : ''}/installation` },
           {
             title: selectedEntity?.title ?? '',
             href: `/datasources/onboarding/installation/${selectedEntity?.id}` ?? ''

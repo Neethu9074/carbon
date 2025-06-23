@@ -53,7 +53,11 @@ export const QuickLinks = () => {
                 ? t('in-plg:welcomepage.quickLinks.buttonNames.setUpADataSource')
                 : t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')
             }
-            href={newOTelPageEnabled ? createHrefToPath('/datasources') : createHrefToPath('/agents/installation')}
+            href={
+              newOTelPageEnabled
+                ? createHrefToPath('/datasources/installation')
+                : createHrefToPath('/agents/installation')
+            }
             onClick={() => {
               trackCta(
                 newOTelPageEnabled ? WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK : WELCOME_PAGE_DEPLOY_AGENT_CLICK,
