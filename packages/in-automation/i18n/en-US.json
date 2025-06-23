@@ -121,6 +121,9 @@
   "deletePolicy": "Delete policy",
   "viewActionDashboard": "View action dashboard",
   "createPolicy": "Create policy",
+  "triggeringEvent": "Triggering event",
+  "probableRootCause": "Probable root cause",
+  "contextFor": "Context for:",
   "recommendedActionsExplanability": {
     "linkExplanation": "Instana uses algorithms and integrations to recommend actions for events.",
     "link": "Learn more about each type of recommendation.",
