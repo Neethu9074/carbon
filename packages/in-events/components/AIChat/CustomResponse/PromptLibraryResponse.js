@@ -4,20 +4,19 @@
  * Copyright IBM Corp. 2025
  */
 
-import classNames from 'classnames';
 import React from 'react';
+
+import { Tag } from '@instana/carbon';
 
 import { t } from 'in-i18n';
 
 import locals from './PromptLibraryResponse.mless';
 
 export default function PromptLibraryResponse({ instance }) {
-  const buttonStyle =
-    'WAC__button-0 cds--chat-btn cds--chat-btn--quick-action cds--btn cds--btn--sm cds--layout--size-sm cds--btn--ghost';
-
   return (
-    <button
-      className={classNames(buttonStyle, locals.promptButton)}
+    <Tag
+      size="lg"
+      className={locals.tagStyle}
       onClick={() => {
         const customPanel = instance?.customPanels?.getPanel();
         const panelOptions = {
@@ -27,6 +26,6 @@ export default function PromptLibraryResponse({ instance }) {
       }}
     >
       {t('in-events:aichat.promptLibrary')}
-    </button>
+    </Tag>
   );
 }
