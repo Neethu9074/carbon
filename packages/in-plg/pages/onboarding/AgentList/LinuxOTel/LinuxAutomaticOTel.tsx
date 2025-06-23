@@ -6,13 +6,12 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Code } from '@instana/components';
-
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import SupportViewSectionV2 from 'in-plg/pages/onboarding/Layout/SupportViewSectionV2';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
+import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
 const OTelLinuxConfigUrl =
@@ -65,13 +64,14 @@ const LinuxAutomaticOTel = ({ agentKey, agentEndpoint, fromOnboarding, region, b
         <LayoutSection title={t('in-plg:agentDetails.linux.linux_auto_otel.step1SelectTheCollectorPackagingMode')}>
           <Code
             lang="bash"
-            code={`curl - Lo setup.sh https://github.com/instana/instana-otel-collector/releases/latest/download/instana-collector-installer-latest.sh && chmod +x setup.sh && ./setup.sh -a ${agentKey} -e ${otlpGrpcEndpointWithPort} -H ${otlpHttpEndpointWithPort}`}
-            softWrap
+            code={[
+              `curl - Lo setup.sh https://github.com/instana/instana-otel-collector/releases/latest/download/instana-collector-installer-latest.sh && chmod +x setup.sh && ./setup.sh -a ${agentKey} -e ${otlpGrpcEndpointWithPort} -H ${otlpHttpEndpointWithPort}`
+            ]}
           />
         </LayoutSection>
 
         <LayoutSection title={t('in-plg:agentDetails.linux.linux_auto_otel.step2RunTheOpenTelemetryDeploymentCode')}>
-          <Code lang="yaml" code={deploymentCodeWithAddedConfig} showLineNumbers withExpandButton />
+          <Code lang="yaml" code={deploymentCodeWithAddedConfig.split('\n')} withExpandButton showLineNumbers />
         </LayoutSection>
         <GetDeployedAgents agent="otel" fromOnboarding={fromOnboarding} datasource="collector" />
       </MainBody>
