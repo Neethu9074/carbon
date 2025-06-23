@@ -45,4 +45,10 @@
     background: var(--cds-button-primary);
     cursor: move;
   }
+
+  .previewPill {
+    position: absolute;
+    margin-top: -1.9rem;
+    right: 5rem;
+  }
 }

@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
+import { PreviewPill } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 
 import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tracking';
@@ -31,7 +32,7 @@ export function MoveAIChatLauncher(pixel) {
 }
 
 function setDragListener() {
-  const elements = document.getElementsByTagName('cds-aichat-internal');
+  const elements = document.getElementsByTagName('cds-aichat-react');
   const selector = '.WACBotContainer .WACHeader__CenterContainer';
   if (elements.length !== 1) {
     return;
@@ -102,10 +103,18 @@ export function AIChat() {
   MoveAIChatLauncher('50px');
   const { trackCta } = useSegmentTracking();
 
+  const renderWriteableElements = useMemo(
+    () => ({
+      headerBottomElement: <PreviewPill className={locals.previewPill} />
+    }),
+    []
+  );
+
   return (
     <>
       <ChatContainer
         config={config}
+        renderWriteableElements={renderWriteableElements}
         renderUserDefinedResponse={({ messageItem }, instance) => {
           if (!messageItem) {
             return;
