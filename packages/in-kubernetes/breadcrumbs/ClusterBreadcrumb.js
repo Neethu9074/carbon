@@ -13,10 +13,10 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default connectTo(
-  props => ({
-    cluster: getKubernetesCluster({
-      id: props.clusterId,
-      timeConfig: props.timeConfig
+  ({ clusterId: id, timeConfig, subscription = getKubernetesCluster }) => ({
+    cluster: subscription({
+      id,
+      timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
   function ClusterBreadcrumb({ clusterId, cluster, href }) {

@@ -13,8 +13,8 @@ import { SLIThresholdOperator } from '@instana/types';
 import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
 import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents/OperatorDropdown/OperatorDropdown';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { sliThresholdOperators } from 'in-service-levels/constants';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { Trans, t } from 'in-i18n';
 
 import locals from './AggregationAndThresholdFormSection.mless';

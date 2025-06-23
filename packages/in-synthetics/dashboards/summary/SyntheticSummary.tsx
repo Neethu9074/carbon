@@ -8,8 +8,8 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import { MenuButton, MenuItem } from '@instana/carbon';
+import { Button, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -22,13 +22,15 @@ import {
   clickSyntheticMonitoringConfigurationTabTracker,
   clickSyntheticMonitoringResultsTabTracker
 } from 'in-synthetics/tracking/tracker';
+import { rbacTeamsEnabled, smartAlertCarbonTableEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { TestResponse, dummyTest, dataScopes, DataScopeType } from 'in-synthetics/utils/constants';
-import { smartAlertCarbonTableEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
+import CreateSyntheticOnDemandTest from 'in-synthetics/createTests/CreateSyntheticOnDemandTest';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
+import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -166,16 +168,21 @@ const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
 
-  return errorCode === 'NOT_FOUND' ? (
-    <div className={locals.metaInformation}>
-      <span className={locals.label}>{t('in-synthetics:dashboard.testList.deleted')}</span>
-    </div>
-  ) : (
-    <div className={locals.metaInformation}>
-      <span className={locals.label}>
-        {isActive ? t('in-synthetics:dashboard.testList.active') : t('in-synthetics:dashboard.testList.paused')}
-      </span>
-    </div>
+  return (
+    <Stack direction="horizontal">
+      {errorCode === 'NOT_FOUND' ? (
+        <div className={locals.metaInformation}>
+          <span className={locals.label}>{t('in-synthetics:dashboard.testList.deleted')}</span>
+        </div>
+      ) : (
+        <div className={locals.metaInformation}>
+          <span className={locals.label}>
+            {isActive ? t('in-synthetics:dashboard.testList.active') : t('in-synthetics:dashboard.testList.paused')}
+          </span>
+        </div>
+      )}
+      {rbacTeamsEnabled && test.data?.rbacTags && <TagsInTable tags={test.data?.rbacTags} />}
+    </Stack>
   );
 };
 
@@ -226,14 +233,23 @@ const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
     </Button>
   ) : (
     //If a test has no location(s) associated with it, disable Pause/Resume button
-    <Button
-      kind="primary"
-      icon={isActive ? 'lib_actions_pause' : 'lib_actions_play'}
-      onClick={() => pauseOrResume(test.data)}
-      disabled={totalLocations <= 0}
-    >
-      {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
-    </Button>
+    <>
+      <Button
+        kind="primary"
+        icon={isActive ? 'lib_actions_pause' : 'lib_actions_play'}
+        onClick={() => pauseOrResume(test.data)}
+        disabled={totalLocations <= 0}
+      >
+        {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
+      </Button>
+      {syntheticRunNowEnabled && (
+        <CreateSyntheticOnDemandTest
+          testId={test.data?.id!}
+          testLocations={test.data?.locations ?? []}
+          testType={test.data?.configuration?.syntheticType}
+        />
+      )}
+    </>
   );
 };
 

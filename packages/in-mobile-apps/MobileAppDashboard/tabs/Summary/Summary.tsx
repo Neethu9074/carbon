@@ -52,6 +52,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
   const tagCatalogCrash = useTagCatalog('crash');
   const MarkerLane = MobileAppMarkerLane({ mobileAppId });
   const thinWidgetWidth = viewId == null ? 4 : 6;
+  const setChartWidgetWidth = mobileAppScreenRenderingDurationEnabled ? 4 : thinWidgetWidth;
 
   function setSizeKPICard(viewId: string | undefined) {
     if (mobileAppScreenRenderingDurationEnabled) {
@@ -67,8 +68,8 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         tagFilters,
         timeConfig,
         metrics: {
-          beaconDuration: {
-            metric: 'beaconDuration',
+          viewChangeDuration: {
+            metric: 'viewChangeDuration',
             aggregation: 'P75'
           }
         }
@@ -91,14 +92,14 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             },
             fields: [
               {
-                metricId: 'beaconDuration',
+                metricId: 'viewChangeDuration',
                 aggregationId: 'P75',
                 type: metricType
               }
             ],
             chartedMetrics: [
               {
-                metricId: 'beaconDuration',
+                metricId: 'viewChangeDuration',
                 aggregationId: 'P75'
               }
             ]
@@ -339,7 +340,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
       )}
 
       <Row>
-        <Col lg={mobileAppCrashBeaconEnabled ? thinWidgetWidth : 12}>
+        <Col lg={viewId ? setChartWidgetWidth : thinWidgetWidth}>
           <MobileAppChartWrapper
             title={t('in-mobile-apps:dashboard.tabs.activityCardTitle')}
             timeConfig={timeConfig}
@@ -392,7 +393,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
           </Col>
         )}
         {mobileAppCrashBeaconEnabled && (
-          <Col lg={thinWidgetWidth}>
+          <Col lg={viewId ? setChartWidgetWidth : thinWidgetWidth}>
             <MobileAppChartWrapper
               title={t('in-mobile-apps:dashboard.tabs.crashActivityTitle')}
               timeConfig={timeConfig}
@@ -415,6 +416,38 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                     granularity,
                     aggregation: 'DISTINCT_COUNT',
                     beaconType: 'crash',
+                    omitMetricInAnalytics: true
+                  }
+                }
+              }}
+              renderPostChartContent={MarkerLane}
+            />
+          </Col>
+        )}
+        {viewId && mobileAppScreenRenderingDurationEnabled && (
+          <Col lg={setChartWidgetWidth}>
+            <MobileAppChartWrapper
+              title={t('in-mobile-apps:dashboard.tabs.screenRenderingDuration')}
+              timeConfig={timeConfig}
+              viewInAnalytics={{
+                mobileAppLabel
+              }}
+              y1={{
+                renderer: Renderer.line,
+                formatter: ms.compact,
+                labels: [t('in-mobile-apps:dashboard.tabs.screenRenderingDuration')],
+                metricIds: ['viewChangeDuration'],
+                colors: [carbonAlert.purple50]
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                tagFilters,
+                metrics: {
+                  viewChangeDuration: {
+                    metric: 'viewChangeDuration',
+                    granularity,
+                    aggregation: 'P75',
+                    beaconType: 'viewChange',
                     omitMetricInAnalytics: true
                   }
                 }

@@ -19,6 +19,7 @@ export default [
     rules: {
       'no-console': 0,
       'new-cap': 0,
+      'react/jsx-filename-extension': ['warn', {'allow': 'as-needed'}],
       strict: 0,
       ...createImportRestrictionRule({
         allowedInPackages: []

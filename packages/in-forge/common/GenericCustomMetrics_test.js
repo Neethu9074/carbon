@@ -14,7 +14,6 @@ import GenericCustomMetrics from 'in-forge/common/GenericCustomMetrics';
 
 // Mock dependencies
 jest.mock('in-sdk/components/dashboard/CustomMetricsV2', () => jest.fn(() => <div data-testid="custom-metrics" />));
-jest.mock('in-sdk/components/dashboard/DashboardNotification', () => jest.fn(({ children }) => <div>{children}</div>));
 jest.mock('in-services/formatters/number', () => ({
   number: {
     detailed: jest.fn()
@@ -59,20 +58,10 @@ describe('GenericCustomMetrics', () => {
     expect(screen.getByTestId('custom-metrics')).toBeInTheDocument();
   });
 
-  it('renders DashboardNotification when no metrics exist', () => {
-    render(
+  it('renders nothing when no metrics exist', () => {
+    const { container } = render(
       <GenericCustomMetrics snapshot={snapshotWithoutMetrics} timeConfig={timeConfig} titlePrefix={titlePrefix} />
     );
-    expect(screen.getByText('in-sdk:dashboard.customMetricsV2.noMetrics')).toBeInTheDocument();
-  });
-  it('renders DashboardNotification when no metric IDs are present', () => {
-    const mockSnapshot = {
-      get: jest.fn().mockReturnValue({
-        size: 0
-      })
-    };
-
-    const { getByText } = render(<GenericCustomMetrics snapshot={mockSnapshot} timeConfig={{}} />);
-    expect(getByText('in-sdk:dashboard.customMetricsV2.noMetrics')).toBeInTheDocument();
+    expect(container).toBeEmptyDOMElement();
   });
 });

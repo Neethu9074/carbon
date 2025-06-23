@@ -11,9 +11,9 @@ import { TextInput } from '@instana/carbon';
 
 import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';

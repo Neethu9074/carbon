@@ -489,7 +489,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   }
 
   // agents
-  if (role?.canConfigureAgents) {
+  if (role?.canConfigureAgents && !features.newOTelPageEnabled) {
     toolItems.push({
       icon_name: 'settings--services',
       label: t('in-server:mainNavigation.viewSwitcherLabelAgents'),

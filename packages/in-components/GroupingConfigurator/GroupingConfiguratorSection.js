@@ -25,6 +25,7 @@ export default function GroupBySection({
   withOptionalMarker,
   hasError,
   additionalGetTagCatalogProps,
+  getSuggestionsProps,
   SectionWrapper = Section
 }) {
   const title = withOptionalMarker ? (
@@ -45,6 +46,7 @@ export default function GroupBySection({
         tracking={tracking}
         tagCatalog={tagCatalog}
         additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+        getSuggestionsProps={getSuggestionsProps}
       />
       {additionalContent}
     </SectionWrapper>

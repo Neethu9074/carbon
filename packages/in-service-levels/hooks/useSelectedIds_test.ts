@@ -6,10 +6,10 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import { getAllSloConfigurations } from 'in-service-levels/api/configuration';
+import { getAllSloConfigurations } from 'in-service-levels/api/sloConfiguration';
 import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 
-jest.mock('in-service-levels/api/configuration');
+jest.mock('in-service-levels/api/sloConfiguration');
 const mockGetSloConfigurations = getAllSloConfigurations as jest.MockedFunction<typeof getAllSloConfigurations>;
 
 describe('in-service-levels/hooks/useSelectedIds', () => {

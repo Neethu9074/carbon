@@ -32,6 +32,8 @@ import {
   hasLinuxKVMHypervisorAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { internalMonitoringUnit, newOTelPageEnabled } from 'in-services/featureFlags';
+import { agentsPath, datasourcePath } from 'in-stores/navigation/paths/mainPaths';
 import linuxkvmhypervisorRoutes from 'in-linuxkvmhypervisor/navigation/routes';
 import windowsHypervisorRoutes from 'in-windowshypervisor/navigation/routes';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
@@ -41,8 +43,6 @@ import { role, canSeeExtendedInternalMonitoring } from 'in-stores/user';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
-import { internalMonitoringUnit } from 'in-services/featureFlags';
-import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
@@ -71,7 +71,7 @@ export default (
     {hasInfrastructureAccess && infrastructureRoutes}
     {configurationRoutes}
     {role.canConfigureAgents && (
-      <Route path={agentsPath} windowTitle="Instana Agents">
+      <Route path={newOTelPageEnabled ? datasourcePath : agentsPath} windowTitle="Instana Agents">
         {renderAsyncRouteChildren(AgentView)}
       </Route>
     )}

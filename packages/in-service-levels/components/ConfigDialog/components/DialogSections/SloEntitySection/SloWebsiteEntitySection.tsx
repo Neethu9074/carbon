@@ -16,9 +16,9 @@ import SloEntityTable, {
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import useWebsiteEntities from 'in-service-levels/hooks/useWebsiteEntities';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useWebsite from 'in-websites/hooks/useWebsite';

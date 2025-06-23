@@ -9,6 +9,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 
 export const homePath = '/';
 export const agentsPath = '/agents';
+export const datasourcePath = '/datasources';
 export const settingsPath = '/config';
 export const containerPath = '/container';
 export const graphPath = '/graph';

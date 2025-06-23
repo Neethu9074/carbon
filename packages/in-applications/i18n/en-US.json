@@ -257,7 +257,7 @@
     "endpoints": "Endpoints",
     "types": "Types",
     "technologies": "Technologies",
-    "NumberOfSubCalls": "Nr. of subcalls",
+    "NumberOfSubCalls": "No. of subcalls",
     "httpStatusCode": "HTTP status",
     "hiddenCalls": "Hidden calls",
     "fastQueryMode": "Fast query mode",
@@ -725,6 +725,7 @@
     "traces_latency": "Latency",
     "traces_erroneousCalls": "Erroneous traces",
     "traces_errors": "Erroneous traces rate",
+    "subtraces_latency": "Duration",
     "subtraces_subtraceDuration": "Duration"
   },
   "viewLists": {

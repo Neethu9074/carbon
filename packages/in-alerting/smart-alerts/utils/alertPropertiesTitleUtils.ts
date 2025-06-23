@@ -6,6 +6,8 @@
 
 import { Item, Field } from 'formalistic';
 
+import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+
 export function insertPlaceholderText(
   value: string,
   placeholderString: string,
@@ -31,4 +33,11 @@ export function insertPlaceholderText(
       textarea.focus();
     }, 0);
   };
+}
+
+export function getTruncatedText(text: string | HighlightedPlaceholders, limit: number) {
+  const textWithPlaceHolder = Array.isArray(text) ? text.join(' ') : text;
+  const truncatedText =
+    textWithPlaceHolder.length > limit ? textWithPlaceHolder.slice(0, limit) + '...' : textWithPlaceHolder;
+  return truncatedText;
 }

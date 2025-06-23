@@ -9,6 +9,7 @@ import React from 'react';
 import { timeDisplayBottomFormat, timeDisplayTopFormat } from 'in-components/time/timeframeFormatter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import Tooltip from 'in-components/Tooltip';
 import { TimeConfig } from 'in-types';
 
 import locals from './TimePresenter.mless';
@@ -19,31 +20,44 @@ export interface TimePresenterProps {
   expanded: boolean;
   refSetter?: React.MutableRefObject<HTMLElement> | ((instance: HTMLElement | null) => void);
   darkTheme?: boolean;
+  timePickerDisabled?: boolean;
+  timePickerDisabledTooltip?: string;
 }
 
 type FirstArgumentType<T> = T extends (first: infer ArgType, ...args: any[]) => any ? ArgType : never;
 
-export default function TimePresenter({ onClick, timeConfig, expanded, refSetter, darkTheme }: TimePresenterProps) {
+export default function TimePresenter({
+  onClick,
+  timeConfig,
+  expanded,
+  refSetter,
+  darkTheme,
+  timePickerDisabled,
+  timePickerDisabledTooltip
+}: TimePresenterProps) {
   return (
-    <div className={darkTheme ? locals.dark : undefined}>
-      <DropdownButton
-        data-test-id="time-picker"
-        expanded={expanded}
-        kind="tertiary"
-        darkTheme={darkTheme}
-        onClick={(e: FirstArgumentType<typeof stopPropagationAndPreventDefault>) => {
-          stopPropagationAndPreventDefault(e);
-          onClick();
-        }}
-        ref={refSetter as React.MutableRefObject<HTMLButtonElement>}
-        className={locals.carbonTimePicker}
-        noAutoMargin
-      >
-        <div className={locals.carbonDisplayTimeWrapper}>
-          <div className={locals.carbonTimeSettingTop}>{timeDisplayTopFormat(timeConfig)}</div>
-          <div className={locals.carbonTimeSetting}>{timeDisplayBottomFormat(timeConfig)}</div>
-        </div>
-      </DropdownButton>
-    </div>
+    <Tooltip align="bottomRight" content={timePickerDisabledTooltip}>
+      <div className={darkTheme ? locals.dark : undefined}>
+        <DropdownButton
+          disabled={timePickerDisabled}
+          data-test-id="time-picker"
+          expanded={expanded}
+          kind="tertiary"
+          darkTheme={darkTheme}
+          onClick={(e: FirstArgumentType<typeof stopPropagationAndPreventDefault>) => {
+            stopPropagationAndPreventDefault(e);
+            onClick();
+          }}
+          ref={refSetter as React.MutableRefObject<HTMLButtonElement>}
+          className={locals.carbonTimePicker}
+          noAutoMargin
+        >
+          <div className={locals.carbonDisplayTimeWrapper}>
+            <div className={locals.carbonTimeSettingTop}>{timeDisplayTopFormat(timeConfig)}</div>
+            <div className={locals.carbonTimeSetting}>{timeDisplayBottomFormat(timeConfig)}</div>
+          </div>
+        </DropdownButton>
+      </div>
+    </Tooltip>
   );
 }

@@ -8,26 +8,23 @@
 import AboutInstanaDialog from 'promise-loader?global!in-components/AboutInstanaDialog';
 import React from 'react';
 
-import { MenuItem, SideNavMenu, SvgIcon, CarbonSideNavLink } from '@instana/components';
+import { MenuItem, SideNavMenu, SvgIcon, CarbonSideNavLink, useUIShellContext } from '@instana/components';
 
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
+import { newOTelPageEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { releaseNotesEnabled } from 'in-services/featureFlags';
 import AsyncComponent from 'in-components/AsyncComponent';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import local from './MoreMenuItem.mless';
 
-interface MoreMenuItemProps {
-  isSideNavExpanded: boolean;
-}
-
-export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
+export default function MoreMenuItem() {
   const { matchLocation, createHrefToPath } = useNavigation();
+  const { isSideNavExpanded } = useUIShellContext();
 
   return (
     <SideNavMenu
@@ -35,7 +32,8 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
       renderIcon={() => <SvgIcon size="s" type="lib_menu_additional_resources" />}
       title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
     >
-      {role?.canConfigureAgents && (
+      {/* Only show the Agents menu item if the new OpenTelemetry page is NOT enabled */}
+      {role?.canConfigureAgents && !newOTelPageEnabled && (
         <MenuItem
           id="main-nav-agents"
           key="main-nav-agents"
@@ -44,6 +42,7 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
           isActive={matchLocation(agentsPath)}
         />
       )}
+
       {releaseNotesEnabled && (
         <MenuItem
           id="main-nav-release-notes"

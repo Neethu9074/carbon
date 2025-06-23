@@ -36,7 +36,8 @@
     line-height: 1.15rem; /* fallback */
     max-height: 4.6rem; /* fallback, line-height x number of lines */
     margin: 0.25rem 0;
-    word-break: break-word;
+    .breakWord();
+    white-space: normal;
   }
 
   .ellipsis {

@@ -121,14 +121,14 @@ interface TearSheetProps {
 }
 
 function TearSheetLoader({ action, actionFilter, copy, actionId, isFromDashboard }: TearSheetProps) {
-  const { isCopy } = useActionDetailsUrlParams({ copy });
+  const { isCopy, isNew } = useActionDetailsUrlParams({ actionId, copy });
   const [form, setForm] = useActionForm({ action, actionFilter });
   const { onSubmit, result } = useOnSubmit({ actionId, copy, isFromDashboard });
 
   const actionButtons = [
     {
       kind: 'primary',
-      label: t('in-automation:actionHistory.saveButton'),
+      label: isNew ? t('forms.actions.create') : t('in-automation:actionHistory.saveButton'),
       onClick: () => {
         onSubmit({ form, action, setForm });
       }

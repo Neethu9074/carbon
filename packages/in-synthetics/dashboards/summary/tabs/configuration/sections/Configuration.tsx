@@ -22,8 +22,10 @@ import { t } from '@instana/i18n-react';
 
 import { DNSAdditionalProperties } from 'in-synthetics/dashboards/summary/tabs/configuration/sections/DNSAdditionalProperties';
 import { DNSAssertions } from 'in-synthetics/dashboards/summary/tabs/configuration/sections/DNSAssertions';
+import { SSLAssertions } from 'in-synthetics/dashboards/summary/tabs/configuration/sections/SSLAssertions';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { syntheticSslImprovementEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import CodeInput from 'in-synthetics/packages/Code/CodeInput';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -323,7 +325,12 @@ const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfig
         />
       </Col>
     </Row>,
-    showTimeoutAndRetryOptions(configuration)
+    showTimeoutAndRetryOptions(configuration),
+    syntheticSslImprovementEnabled && configuration.validationRules && configuration.validationRules?.length > 0 && (
+      <Row key={'assertions'} className={locals.configRow}>
+        <SSLAssertions assertions={configuration.validationRules} />
+      </Row>
+    )
   ];
   if (configuration.acceptSelfSignedCertificate) {
     content.push(

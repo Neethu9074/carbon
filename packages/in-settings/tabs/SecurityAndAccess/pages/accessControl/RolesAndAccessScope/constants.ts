@@ -79,6 +79,7 @@ export const ProductArea = Object.freeze({
   DASHBOARD: 'DASHBOARD',
   SYNTHETICS: 'SYNTHETICS',
   AGENTS: 'AGENTS',
+  DATASOURCE: 'DATASOURCE',
   ACCESS_CONTROL: 'ACCESS_CONTROL',
   AUTOMATION: 'AUTOMATION',
   LOGS: 'LOGS',
@@ -364,6 +365,7 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.LOGS]: { capabilities: logCapabilities },
   [ProductArea.DASHBOARD]: { capabilities: customDashboardCapabilities },
   [ProductArea.AGENTS]: { capabilities: agentsCapabilities },
+  [ProductArea.DATASOURCE]: { capabilities: agentsCapabilities },
   [ProductArea.ACCESS_CONTROL]: { capabilities: accessControlCapabilities },
   [ProductArea.AUTOMATION]: {
     limitation: LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,

@@ -4,19 +4,16 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useContext } from 'react';
 import { get, isEmpty } from 'lodash';
+import React from 'react';
 
-import { CarbonMenuItemDivider, Collapsible, Stack } from '@instana/components';
+import { CarbonMenuItemDivider, Collapsible, Stack, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 // import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
 import getEntityHealthInfo from 'in-kubernetes/subscriptions/getEntityHealthInfo';
-import {
-  RCATopologyAPContext,
-  RCATopologyTimeWindowContext
-} from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologyDialog';
+import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
 import { createTagFilterExpressionForAnalysisOfApplicationSA } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 //@ts-expect-error
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
@@ -64,8 +61,7 @@ function SparkChartWithMetric(props: SparkChartWithMetricProps) {
   );
 }
 
-function MetricDisplay({ metricResult }: { metricResult: any }) {
-  const timeConfig = useContext(RCATopologyTimeWindowContext);
+function MetricDisplay({ metricResult, timeConfig }: { metricResult: any; timeConfig: TimeConfig | null }) {
   if (!timeConfig) return null;
 
   const rollup = getSparkChartGranularity(timeConfig);
@@ -115,8 +111,19 @@ function getIssueLabel(count: number): string {
 
 const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
   const { entityType, id } = node;
-  const timeConfig = useContext(RCATopologyTimeWindowContext) as TimeConfig;
-  const relatedAP = useContext(RCATopologyAPContext)[0];
+  const { timeConfig, relatedAPInfo } = useRootCauseTopologyDataContext();
+  const relatedAP = relatedAPInfo ? relatedAPInfo[0] : null;
+
+  // If timeConfig is null, we can't proceed with metrics
+  if (!timeConfig) {
+    return (
+      <React.Fragment>
+        <div className={locals.popoverMainContentTopology}>
+          <Typography variant="body-01">Time configuration not available</Typography>
+        </div>
+      </React.Fragment>
+    );
+  }
 
   // TODO: convert the data conversion to a hook
   const filterFormModel = createTagFilterExpressionForAnalysisOfApplicationSA(
@@ -161,7 +168,7 @@ const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
             {badgeTypes?.length > 0 && <BadgeList type="" types={badgeTypes} getColor={getColor} limit={2} />}
             {technologies?.length > 0 && <TechnologyIndicatorList limit={2} technologies={technologies} />}
           </Stack>
-          {realTimeMetrics && <MetricDisplay metricResult={realTimeMetrics} />}
+          {realTimeMetrics && <MetricDisplay metricResult={realTimeMetrics} timeConfig={timeConfig} />}
         </Stack>
       </div>
       <CarbonMenuItemDivider />
@@ -170,7 +177,7 @@ const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
         <Collapsible.Content>
           {!isEmpty(healthInfo?.data?.openIssues) && (
             <EventsDatagrid
-              headers={['severity', 'title']}
+              headers={['severity', 'problem.problemText']}
               events={convertEventsToRawEvents(healthInfo?.data?.openIssues) || []}
               loading={healthInfo?.progress.loading || false}
               canLoadMore={false}

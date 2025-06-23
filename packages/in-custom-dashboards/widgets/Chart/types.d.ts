@@ -53,6 +53,8 @@ export interface Metric extends BaseMetric {
   defaultDisabled?: boolean;
   grouping?: Grouping[];
   unit?: string;
+  // set to true if you want the chart to display the unit prop in the formatter
+  unitFormatterEnabled?: boolean;
 
   // other properties may be sent to the backend
   [k: string]: any;
@@ -69,7 +71,7 @@ interface UnifiedMetricsChartProps extends BaseChartConfig {
   hasButtonInActionslane?: boolean;
   bulkRequest?: boolean;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
-  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string, id: string) => void;
   facets?: Facets;
   formModel?: FormModelElement;
   tableOpen?: boolean;

@@ -22,7 +22,8 @@ import {
   logSmartAlertsEnabled,
   applicationSubtracesEnabled,
   nutanixEnabled,
-  linuxkvmhypervisorEnabled
+  linuxkvmhypervisorEnabled,
+  newOTelPageEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -393,15 +394,23 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForApiTokenApi: 'canInstallNewAgents',
     label: t('in-stores:permissionCanInstallNewAgentsLabel'),
     description: t('in-stores:permissionCanInstallNewAgentsDescription'),
-    category: t('in-stores:permissionCanInstallNewAgentsCategory'),
+    category: newOTelPageEnabled
+      ? t('in-stores:permissionCanConfigureDatasourceCategory')
+      : t('in-stores:permissionCanInstallNewAgentsCategory'),
     isOwnerPermission: false
   },
   [Capability.CAN_CONFIGURE_AGENTS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_AGENTS,
     keyForApiTokenApi: 'canConfigureAgents',
-    label: t('in-stores:permissionCanConfigureAgentsLabel'),
-    description: t('in-stores:permissionCanConfigureAgentsDescription'),
-    category: t('in-stores:permissionCanConfigureAgentsCategory'),
+    label: newOTelPageEnabled
+      ? t('in-stores:permissionCanConfigureAgentsAndCollectorsLabel')
+      : t('in-stores:permissionCanConfigureAgentsLabel'),
+    description: newOTelPageEnabled
+      ? t('in-stores:permissionCanConfigureAgentsAndCollectorsDescription')
+      : t('in-stores:permissionCanConfigureAgentsDescription'),
+    category: newOTelPageEnabled
+      ? t('in-stores:permissionCanConfigureDatasourceCategory')
+      : t('in-stores:permissionCanConfigureAgentsCategory'),
     isOwnerPermission: false
   },
   [Capability.CAN_CONFIGURE_AGENT_RUN_MODE]: {
@@ -409,7 +418,9 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForApiTokenApi: 'canConfigureAgentRunMode',
     label: t('in-stores:permissionCanConfigureAgentRunModeLabel'),
     description: t('in-stores:permissionCanConfigureAgentRunModeDescription'),
-    category: t('in-stores:permissionCanConfigureAgentRunModeCategory'),
+    category: newOTelPageEnabled
+      ? t('in-stores:permissionCanConfigureDatasourceCategory')
+      : t('in-stores:permissionCanConfigureAgentRunModeCategory'),
     isOwnerPermission: false
   },
   /* Events */

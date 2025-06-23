@@ -79,6 +79,7 @@ export const securityAndAccessSaml = `${securityAndAccessAuth}/saml`;
 export const securityAndAccessOidc = `${securityAndAccessAuth}/oidc`;
 export const securityAndAccessLdap = `${securityAndAccessAuth}/ldap`;
 export const securityAndAccessGroupMapping = `${securityAndAccessAuth}/groupMapping`;
+export const securityAndAccessRoleMapping = `${securityAndAccessAuth}/roleMapping`;
 
 const session = `${authSettings}/session`;
 export const timeouts = `${session}/timeouts`;

@@ -5,6 +5,7 @@
  */
 
 import { Field, Item, MapForm, ValidationResult } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import { IconButton, Stack, Button } from '@instana/components';
@@ -30,6 +31,7 @@ interface Props {
   setCustomProperties: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
   invalidCustomProperty: Invalid;
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
+  runNow?: boolean;
 }
 
 export default function CustomPropertiesSection({
@@ -38,7 +40,8 @@ export default function CustomPropertiesSection({
   customProperties,
   setCustomProperties,
   invalidCustomProperty,
-  setInvalidCustomProperty
+  setInvalidCustomProperty,
+  runNow = false
 }: Props) {
   function addNewCustomPropertyRow() {
     setCustomProperties([
@@ -130,7 +133,12 @@ export default function CustomPropertiesSection({
   }
 
   return (
-    <div className={locals.propertiesContainer}>
+    <div
+      className={classNames({
+        [locals.propertiesContainer]: true,
+        [locals.runNow]: runNow
+      })}
+    >
       {customProperties.map(customProperty => {
         return (
           <Stack direction="horizontal" component="li" key={customProperty.id}>

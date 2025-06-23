@@ -21,7 +21,7 @@ export default function MetricLabel({
   label: Result<string | undefined>;
   aggregation: string;
 }) {
-  if (isLoading(label)) {
+  if (isLoading(label) || !label.data) {
     return (
       <div className={locals.content}>
         <LoadingSkeleton className={locals.skeleton} />

@@ -6,9 +6,7 @@
 import { sortBy } from 'lodash';
 import React from 'react';
 
-import { KeyValue } from '@instana/components';
-import { Li, Ul } from '@instana/components';
-import { Card } from '@instana/components';
+import { KeyValue, Typography, Li, Ul } from '@instana/components';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 
@@ -19,14 +17,16 @@ export default function KeyValueList({ title, items, onEmptyText }) {
     }
 
     return (
-      <Card title={title}>
+      <>
+        <Typography variant="heading-03">{title}</Typography>
         <NoDataAvailable height={160} text={onEmptyText} />
-      </Card>
+      </>
     );
   }
 
   return (
-    <Card title={title}>
+    <>
+      <Typography variant="heading-03">{title}</Typography>
       <Ul>
         {sortBy(items, item => item.key).map((item, key) => (
           <Li key={key}>
@@ -34,6 +34,6 @@ export default function KeyValueList({ title, items, onEmptyText }) {
           </Li>
         ))}
       </Ul>
-    </Card>
+    </>
   );
 }

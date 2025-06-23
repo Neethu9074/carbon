@@ -10,6 +10,7 @@ import { parse } from 'qs';
 import { AccessRestriction, ApiApplicationScope, RestrictedApplicationFilter, TeamScope } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import { contributionFilterNameValidator } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { LimitedAccessScope } from 'in-stores/permission';
@@ -57,14 +58,14 @@ const scopeValidator = ({ accessPermissions, actionTags, actionTypes }: ScopeFor
 
   // Validate automation action type and tag filter
   if (accessPermissions?.value?.includes(LimitedAccessScope.LIMITED_AUTOMATION_SCOPE)) {
-    if (actionTags?.value?.length === 0) {
+    if (actionTags?.value === undefined || actionTags?.value?.length === 0) {
       errors.push({
         severity: 'error',
         message: t('in-settings:dialogs.scope.noActionTagSelectedError'),
         path: 'actionTags'
       });
     }
-    if (actionTypes?.value?.length === 0) {
+    if (actionTypes?.value === undefined || actionTypes?.value?.length === 0) {
       errors.push({
         severity: 'error',
         message: t('in-settings:dialogs.scope.noActionTypeSelectedError'),
@@ -124,6 +125,54 @@ export type ApplicationFilterFormItems = {
 
 export type ApplicationFilterForm = MapForm<ApplicationFilterFormItems>;
 
+export const resetApplicationFields = (
+  form: MapForm<ScopeFormFields>,
+  resetSelectedApplications: boolean
+): MapForm<ScopeFormFields> => {
+  // Reset contribution filter fields
+  const updatedForm = form
+    .updateIn(['applicationFilterForm', 'filterName'], f => f.setValue('').setTouched(true))
+    .updateIn(['applicationFilterForm', 'filterExpression'], f =>
+      f.setValue(fromBackendModel(emptyTagFilterExpression)).setTouched(true)
+    )
+    .updateIn(['applicationFilterForm', 'scope'], f => f.setValue('INCLUDE_NO_DOWNSTREAM').setTouched(true))
+    .updateIn(['applicationFilterForm', 'isFilterEnabled'], f => f.setValue(false).setTouched(true));
+
+  return resetSelectedApplications
+    ? updatedForm.updateIn(['applications'], f => f.setValue(undefined).setTouched(true))
+    : updatedForm;
+};
+
+const contributionFilterValidator = ({
+  filterName,
+  filterExpression,
+  isFilterEnabled
+}: ApplicationFilterFormItems): ValidationResult => {
+  let errors: ValidationMessage[] = [];
+
+  // Validate application contribution filter
+  if (isFilterEnabled?.value) {
+    const filterNameResult = contributionFilterNameValidator(filterName?.value);
+    if (filterNameResult && filterNameResult?.length > 0) {
+      errors.push({ ...filterNameResult[0], path: 'filterName' });
+    }
+
+    if (
+      filterExpression?.value === undefined ||
+      filterExpression?.value?.length === 0 ||
+      filterExpression?.value === fromBackendModel(emptyTagFilterExpression)
+    ) {
+      errors.push({
+        severity: 'error',
+        message: t('in-settings:dialogs.scope.noApplicationContributionFilterTagExpressionError'),
+        path: 'filterExpression'
+      });
+    }
+  }
+
+  return errors;
+};
+
 export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields> {
   // Parse action filter string into action types and action tags
   const { actionTags, actionTypes } = parseActionFilter(initValues?.actionFilter ?? '');
@@ -158,7 +207,8 @@ export function createScopeForm(initValues?: TeamScope): MapForm<ScopeFormFields
           scope: createField({
             value: initValues?.restrictedApplicationFilter?.scope ?? 'INCLUDE_NO_DOWNSTREAM'
           })
-        }
+        },
+        validator: contributionFilterValidator
       }),
       applications: createField({
         value: initValues?.applications ?? undefined

@@ -18,7 +18,8 @@ export const metricRenderers = {
   viewChange: {
     beaconCount: 'stackedBar',
     views: 'stackedBar',
-    uniqueUsersOrSessions: 'stackedBar'
+    uniqueUsersOrSessions: 'stackedBar',
+    viewChangeDuration: 'stackedArea'
   },
   httpRequest: {
     beaconCount: 'stackedBar',

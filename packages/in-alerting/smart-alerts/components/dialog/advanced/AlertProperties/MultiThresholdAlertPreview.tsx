@@ -10,8 +10,8 @@ import React from 'react';
 import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
-import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
+import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { t } from 'in-i18n';
 

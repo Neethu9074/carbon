@@ -15,6 +15,7 @@ import {
   TURBONOMIC_OPTIMIZATION_BUTTON_CLICKED,
   CONCERT_INTEGRATION_BUTTON_CLICKED
 } from 'in-services/tracking/eventNames';
+import { useKubernetesClustersConfigs } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
 import { hasKubernetesAccess, hasApplicationsAccess } from 'in-stores/permission';
 import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -26,6 +27,8 @@ import { role } from 'in-stores/user';
 
 export default function WhatsNewBannerStepBuilder() {
   const { trackCta } = useSegmentTracking();
+  const [clusters] = useKubernetesClustersConfigs();
+  const clusterNumber = clusters?.length ?? 0;
   const tileData: TileDataType[] = [
     {
       key: 'logging',
@@ -57,21 +60,25 @@ export default function WhatsNewBannerStepBuilder() {
         WalkMeAPI.startFlowById(2103008);
       }
     },
-    {
-      key: 'kubecost',
-      title: t('in-plg:welcomepage.kubecost.title'),
-      description: t('in-plg:welcomepage.kubecost.description'),
-      buttonName: t('in-plg:welcomepage.kubecost.buttonName'),
-      hasPermission: hasKubernetesAccess,
-      buttonType: 'ghost',
-      onButtonClick: () => {
-        trackCta(KUBECOST_INTEGRATION_BUTTON_CLICKED);
-        startRecording();
-        //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
-        //the id of the smart walk-thru is taken from walkme editor
-        WalkMeAPI.startFlowById(2093256);
-      }
-    },
+    ...(clusterNumber > 0
+      ? [
+          {
+            key: 'kubecost',
+            title: t('in-plg:welcomepage.kubecost.title'),
+            description: t('in-plg:welcomepage.kubecost.description'),
+            buttonName: t('in-plg:welcomepage.kubecost.buttonName'),
+            hasPermission: hasKubernetesAccess,
+            buttonType: 'ghost',
+            onButtonClick: () => {
+              trackCta(KUBECOST_INTEGRATION_BUTTON_CLICKED);
+              startRecording();
+              //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
+              //the id of the smart walk-thru is taken from walkme editor
+              WalkMeAPI.startFlowById(2093256);
+            }
+          }
+        ]
+      : []),
     {
       key: 'concert',
       title: t('in-plg:welcomepage.concert.title'),

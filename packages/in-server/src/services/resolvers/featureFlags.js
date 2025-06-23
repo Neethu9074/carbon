@@ -111,6 +111,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'netweaverEnabled',
+    instanaCtlKey: 'feature.netweaver.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'kubecostEnabled',
     instanaCtlKey: 'feature.kubecost.enabled',
     defaultValue: true
@@ -356,9 +361,19 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'eumImpactedUsersForWebsiteAndMobileAlertEnabled',
+    instanaCtlKey: 'feature.eum.impacted.users.for.website.and.mobile.alert.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'mobileAppScreenRenderingDurationEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.screen.rendering.duration.enabled',
-    defaultValue: false
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'mobileAppExcessiveNetworkUsageEnabled',
+    instanaCtlKey: 'feature.eum.mobile.app.excessive.network.usage.enabled',
+    defaultValue: true
   },
   {
     uiClientKey: 'controlPlaneEnabled',
@@ -378,7 +393,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsBusinessMetricsCustomDashboardEnabled',
     instanaCtlKey: 'feature.bizops.business.metrics.custom.dashboard.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -520,6 +535,11 @@ module.exports = exports = [
     instanaCtlKey: 'feature.custom.dashboards.fast.query.mode.enabled',
     defaultValue: false
   },
+  {
+    uiClientKey: 'customDashboardsPromptingEnabled',
+    instanaCtlKey: 'feature.custom.dashboards.prompting.enabled',
+    defaultValue: false
+  },
 
   {
     uiClientKey: 'playwithTestEnabled',
@@ -574,6 +594,11 @@ module.exports = exports = [
   {
     uiClientKey: 'rcaAiAutomatedInvestigationEnabled',
     instanaCtlKey: 'feature.ai.automated.investigation.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'rcaAgenticEnabled',
+    instanaCtlKey: 'feature.ai.rca.agentic.workflow.enabled',
     defaultValue: false
   },
   {
@@ -642,6 +667,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'incidentNotesTopActionsEnabled',
+    instanaCtlKey: 'feature.incident.notes.top.actions.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
     instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
     defaultValue: false
@@ -700,6 +730,11 @@ module.exports = exports = [
     uiClientKey: 'bidirectionalSlackEnabled',
     instanaCtlKey: 'feature.alert.channel.bidirectional.slack.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'msTeamsApp',
+    instanaCtlKey: 'feature.alert.channel.bidirectional.ms.teams.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
@@ -859,7 +894,7 @@ module.exports = exports = [
   {
     uiClientKey: 'perEntityInfraSmartAlertsEnabled',
     instanaCtlKey: 'feature.per.entity.infra.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'aqmDataGridEventTableEnabled',
@@ -889,6 +924,11 @@ module.exports = exports = [
   {
     uiClientKey: 'rbacTeamsEnabled',
     instanaCtlKey: 'feature.rbac.teams.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'rbacRoleMappingEnabled',
+    instanaCtlKey: 'feature.rbac.role.mapping.enabled',
     defaultValue: false
   },
   {
@@ -989,6 +1029,31 @@ module.exports = exports = [
   {
     uiClientKey: 'logFormattingEnabled',
     instanaCtlKey: 'feature.log.formatting.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'openTelemetryKubernetesUnifiedViewEnabled',
+    instanaCtlKey: 'feature.open.telemetry.kubernetes.unified.view.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'overrideAdaptiveBaselineSmoothingParamsEnabled',
+    instanaCtlKey: 'feature.override.adaptive.baseline.smoothing.params.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'newOTelPageEnabled',
+    instanaCtlKey: 'feature.new.otel.page.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'eventsTransientEventEnabled',
+    instanaCtlKey: 'feature.events.transient.events.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'newAccountAndBillingPageEnabled',
+    instanaCtlKey: 'feature.new.account.and.billing.page.enabled',
     defaultValue: false
   }
 ];

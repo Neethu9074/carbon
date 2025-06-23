@@ -286,6 +286,7 @@ export const UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK = 'unitOnboarding.startMo
 export const UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK = 'unitOnboarding.inviteTeammates.click';
 
 export const WELCOME_PAGE_DEPLOY_AGENT_CLICK = 'welcomePage.deployAgent.click';
+export const WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK = 'welcomePage.installdatasource.click';
 export const WELCOME_PAGE_ADD_USER_CLICK = 'welcomePage.addUser.click';
 export const WELCOME_PAGE_IBM_DOCUMENTATION_CLICK = 'welcomePage.ibmDocumentation.click';
 export const WELCOME_PAGE_RELEASE_NOTES_CLICK = 'welcomePage.releaseNotes.click';
@@ -450,6 +451,17 @@ export const SLO_CONFIG_DIALOG_FINISH = 'slo.config.dialog.finish';
 export const SLO_CONFIG_DELETE_START = 'slo.config.delete.start';
 export const SLO_CONFIG_DELETE_ERROR = 'slo.config.delete.error';
 export const SLO_CONFIG_DELETE_FINISH = 'slo.config.delete.finish';
+
+export const SLO_CORRECTION_WINDOW_DIALOG_OPEN = 'slo.correction.window.dialog.open';
+export const SLO_CORRECTION_WINDOW_DIALOG_CLOSE = 'slo.correction.window.dialog.close';
+export const SLO_CORRECTION_WINDOW_DIALOG_ERROR = 'slo.correction.window.dialog.error';
+export const SLO_CORRECTION_WINDOW_DIALOG_FINISH = 'slo.correction.window.dialog.finish';
+export const SLO_CORRECTION_WINDOW_DELETE_START = 'slo.correction.window.delete.start';
+export const SLO_CORRECTION_WINDOW_DELETE_ERROR = 'slo.correction.window.delete.error';
+export const SLO_CORRECTION_WINDOW_DELETE_FINISH = 'slo.correction.window.delete.finish';
+export const SLO_CORRECTION_WINDOW_TOGGLE_START = 'slo.correction.window.toggle.start';
+export const SLO_CORRECTION_WINDOW_TOGGLE_ERROR = 'slo.correction.window.toggle.error';
+export const SLO_CORRECTION_WINDOW_TOGGLE_FINISH = 'slo.correction.window.toggle.finish';
 
 // Logging
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
@@ -639,6 +651,10 @@ export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
 export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
 export const EVENT_AI_CLICK_EPWT_LINK = 'event.ai.click.epwt.link';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
+export const EVENT_AI_CHAT_OPEN = 'event.ai.chat.open';
+export const EVENT_AI_CHAT_CLOSE = 'event.ai.chat.close';
+export const EVENT_AI_CHAT_APPLICATION = 'event.ai.chat.application';
+export const EVENT_AI_CHAT_INFRASTRUCTURE = 'event.ai.chat.infrastructure';
 
 // Notes and Activity Summary Feedback Tracking
 export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';

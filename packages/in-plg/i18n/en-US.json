@@ -1,7 +1,9 @@
 {
   "welcomeToInstana": "Welcome to Instana!",
+  "setUpYourFirstDataSource": "Set up your first data source",
   "home": "Home",
   "getStartedAndInstallYourFirstAgent": "Get started and install your first agent.",
+  "installinOpenTelemetryCollectorOrInstanaAgentToStartCollectingData": "Install an OpenTelemetry collector or Instana agent to start collecting data.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Your trial has expired",
     "titleAfterTrialPeriodEnd": "Your trial period has ended",
@@ -77,6 +79,7 @@
     },
     "common": {
       "agentDeployment": "Agent deployment",
+      "dataSources": "Data sources",
       "step1": "Step 1: ",
       "step2": "Step 2: ",
       "step3": "Step 3: ",
@@ -97,13 +100,19 @@
       "runtime": "Runtime",
       "prerequisitesTitle": "Prerequisites",
       "viewDeployedAgents": "View Deployed agents",
+      "viewInstalledCollector": "View installed collector",
       "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map.",
       "downloadKey": "Download key",
       "support": "Support",
+      "SupportLinks": "Support links",
       "sideCard": {
         "prerequisites": "Prerequisites",
         "documentation": "Documentation"
-      }
+      },
+      "openTelemetryCollectors": "OpenTelemetry Collectors",
+      "openTelemetryCollectorsDesciption": "OpenTelemetry Collectors are a standardized way to collect and export telemetry data from applications. They can be used as an alternative to native agents, providing a flexible and scalable solution for observability.",
+      "instanaAgents": "Instana agents",
+      "instanaAgentsDesciption": "Instana agents collect data from various platforms and services, including hosts, cloud services, serverless platforms, and website and mobile applications. They run as a separate process and automatically deploy sensors that send metrics back to the agent for analysis and visualization."
     },
     "kubernetes": {
       "kubernetes": {
@@ -356,6 +365,13 @@
         "troubleshootingInstallation": "Troubleshooting installation",
         "runningTheAgent": "Running the agent"
       },
+      "linux_auto_otel": {
+        "learnMoreAboutInstanaOtelCollector": "Learn more about Instana OTel collector",
+        "gitHubInstanaOtelCollector": "GitHub: instana-otel-collector",
+        "networkRequirements": "Network requirements",
+        "step1SelectTheCollectorPackagingMode": "Step 1: Select the collector packaging mode.",
+        "step2RunTheOpenTelemetryDeploymentCode": "Step 2: Run the OpenTelemetry deployment code."
+      },
       "linux_deb_rpm": {
         "configureTheAgent": "Step 1: Configure the agent",
         "installUsingAPackage": "Install using a package",
@@ -534,7 +550,7 @@
       "showOnboardingTasks": "Show onboarding tasks",
       "hideOnboardingTasks": "Hide onboarding tasks",
       "showWhatsNew": "Show what's new",
-      "hideWhatsNew":"Hide what's new"
+      "hideWhatsNew": "Hide what's new"
     },
     "kubecost": {
       "title": "Cost visibility with IBM Kubecost",
@@ -742,6 +758,12 @@
         "searchPlaceholderLabel": "dashboards",
         "addButtonLabel": "dashboard",
         "viewAllLabel": "dashboards"
+      },
+      "serviceLevelsWidget": {
+        "label": "Service level objectives",
+        "viewAllLabel": "service level objectives",
+        "addButtonLabel": "service level objective",
+        "searchPlaceholderLabel": "service level objectives"
       }
     },
     "noData": {
@@ -803,6 +825,10 @@
       "dashboardWidget": {
         "header": "No custom dashboards",
         "description": "Custom dashboards provide a more tailored view of the information that's important to you.<br><br>To get started, click <strong>Create dashboard</strong>."
+      },
+      "serviceLevelsWidget": {
+        "header": "No service level objectives",
+        "description": "Service level objectives help you set and track performance targets for your services.<br><br>To get started, click <strong>Add service level objectives</strong>."
       }
     },
     "quickLinks": {
@@ -815,6 +841,7 @@
       },
       "buttonNames": {
         "deployAgent": "Deploy agent",
+        "setUpADataSource": "Set up a data source",
         "addUser": "Add user",
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
@@ -880,9 +907,35 @@
     "otherGoalPlaceholder": "For example, Gain visibility across my environment",
     "otherGoalToAccomplish": "What other goals are you trying to accomplish?"
   },
-  "privacyNotification": {
-    "title": "Manage your profile",
-    "description": "View and update your profile, adjust privacy settings, and log out — all in one place.",
-    "buttonText": "Done"
+  "trialNoviceToProDialog": {
+    "welcometitle": "Welcome, {{username}}!",
+    "description": "First, what best describes your role?",
+    "getStarted": "Ready to get started?",
+    "descriptionFreeTrial": "Deploy an agent to see your own data in action.",
+    "descriptionSandbox": "Or explore Instana in the Sandbox – our interactive demo environment with sample data.",
+    "trialButtonData": "Start with my own data",
+    "sandboxButtonData": "Start with sample data",
+    "roles": {
+      "frontendDeveloper": "Frontend developer",
+      "backendDeveloper": "Backend developer",
+      "businessManager": "Business manager",
+      "devOpsEngineer": "DevOps engineer",
+      "siteReliabilityEngineer": "Site reliability engineer",
+      "itOperations": "IT operations",
+      "itDecisionMaker": "IT decision maker",
+      "support": "Support",
+      "productManager": "Product manager",
+      "preferNotToSay": "Prefer not to say",
+      "other": "Other"
+    },
+    "steps": {
+      "stepOne": "Role",
+      "stepTwo": "Getting started"
+    },
+    "checkboxText": "Select this checkbox if you want to participate in optional interviews and surveys with our product team",
+    "specifyRole": "Specify your role",
+    "roleName": "Role name",
+    "yourRole": "Your role",
+    "next": "Next"
   }
 }

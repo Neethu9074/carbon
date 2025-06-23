@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
-import { isEqual } from 'lodash';
+import { isEqual, kebabCase } from 'lodash';
 
 import {
   ColumnizedContent,
@@ -105,8 +105,13 @@ export default function GroupedInfrastructure(props) {
   const [cachedCursor, setCachedCursor] = useState(undefined);
 
   const { totalHits, items, cursor, progress, ...cursorPaginatedProps } = useCursorPagination(
-    ({ cursor }) =>
-      getGroups({
+    ({ cursor }) => {
+      let retrievalSizeBasedOnCachedCursor = retrievalSize;
+
+      if (isLiveModeEnabled && cachedCursor && !cursor) {
+        retrievalSizeBasedOnCachedCursor = cachedCursor.offset + retrievalSize;
+      }
+      return getGroups({
         timeConfig,
         backendQueryModel,
         groupBy: backendGroupBy,
@@ -115,9 +120,10 @@ export default function GroupedInfrastructure(props) {
         metrics,
         granularity,
         cursor,
-        retrievalSize,
+        retrievalSize: retrievalSizeBasedOnCachedCursor,
         missingPlaceholder: showGroupsWithMissingTags ? tag_not_present_group : undefined
-      }),
+      });
+    },
     [timeConfig, backendQueryModel, backendGroupBy, order, type, showGroupsWithMissingTags, ...dependencies]
   );
 
@@ -738,7 +744,10 @@ function getHeaderActions(props) {
         cursor={cursor}
       />
       <DownloadPdfButton
-        options={{ pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}` }}
+        options={{
+          pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}`,
+          filename: kebabCase(pluginName)
+        }}
       />
       <MetricCatalogAndSortingConfigurator {...props} showTagCatalog={false} />
     </>

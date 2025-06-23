@@ -6,37 +6,39 @@
 
 import React from 'react';
 
-import { SloEntityType } from '@instana/types';
+import { InquiryResult, ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
+import { RadioButtonGroup } from '@instana/carbon';
 
-import ComboBox, { hasMultipleValuesSelected, Option } from 'in-components/ComboBox/ComboBox';
+import RadioButtonWithCount from 'in-service-levels/components/SloList/components/RadioButtonWithCount';
 import { sloEntityTypes } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 interface EntityTypeFilterProps {
   value: SloEntityType | undefined;
-  onChange: (value: SloEntityType | undefined) => void;
+  onChange: (value: SloEntityType | '') => void;
+  groups: InquiryResult<ServiceLevelObjectiveConfiguration> | undefined;
 }
 
-const options: Option[] = sloEntityTypes.map(entityType => ({
-  value: entityType,
-  label: t('in-service-levels:general.entityTypes.label', { context: entityType })
-}));
-
-export default function EntityTypeFilter({ value, onChange }: EntityTypeFilterProps) {
+export default function EntityTypeFilter({ value, onChange, groups }: EntityTypeFilterProps) {
+  const entityTypeGroup = groups?.grouping?.entityType;
+  const allCount =
+    value === undefined ? Object.values(entityTypeGroup ?? {}).reduce((total, count) => total + count, 0) : undefined;
   return (
-    <ComboBox
-      options={options}
-      placeholder={t('in-service-levels:sloList.components.entityTypeFilter.placeholder')}
-      value={value}
-      onChange={newValue => {
-        if (!newValue) {
-          onChange(undefined);
-        } else if (hasMultipleValuesSelected(newValue)) {
-          onChange(newValue[0].value as SloEntityType);
-        } else {
-          onChange(newValue.value as SloEntityType);
-        }
-      }}
-    />
+    <RadioButtonGroup
+      onChange={entityType => onChange(entityType as SloEntityType | '')}
+      valueSelected={value}
+      name="slo-entity-type-radio-button-group"
+      orientation="vertical"
+    >
+      <RadioButtonWithCount labelText={t('in-service-levels:general.all')} value={undefined} count={allCount} />
+      {sloEntityTypes.map(entityType => (
+        <RadioButtonWithCount
+          key={entityType}
+          labelText={t('in-service-levels:general.entityTypes.label', { context: entityType })}
+          value={entityType}
+          count={entityTypeGroup?.[entityType]}
+        />
+      ))}
+    </RadioButtonGroup>
   );
 }

@@ -13,7 +13,7 @@ export interface LogsDistributionChartSectionProps extends UngroupedViewProps {
   disableClose?: boolean;
   hideRenderer?: boolean;
   showHeader?: boolean;
-  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string, id: string) => void;
   isDashboard?: boolean;
   deleteLogsFormValues?: InputValues;
   canGoNextStep?: boolean;

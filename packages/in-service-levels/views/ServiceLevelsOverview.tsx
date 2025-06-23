@@ -11,16 +11,17 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/compo
 import {
   serviceLevelsOverview,
   serviceLevelsAlertsFullyQualified,
-  serviceLevelsAlertDetailsFullyQualified
+  serviceLevelsAlertDetailsFullyQualified,
+  serviceLevelsCorrectionWindowsFullyQualified
 } from 'in-service-levels/navigation/path';
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
+import CorrectionWindows from 'in-service-levels/features/CorrectionWindows/components/CorrectionWindows';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import FloatingSloButtons from 'in-service-levels/components/FloatingSloButtons';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
@@ -37,7 +38,9 @@ import { t } from 'in-i18n';
 export default function ServiceLevelsOverview() {
   const { createHrefToPath, matchLocation } = useNavigation();
   const isServiceLevelsAlertsActive = matchLocation(serviceLevelsAlertsFullyQualified);
-  const isSloSmartAlertDetails = matchLocation(serviceLevelsAlertDetailsFullyQualified);
+  const isServiceLevelsCorrectionWindowsActive = matchLocation(serviceLevelsCorrectionWindowsFullyQualified);
+  const isServiceLevelsListActive = !isServiceLevelsAlertsActive && !isServiceLevelsCorrectionWindowsActive;
+  const isServiceLevelsAlertDetailsActive = matchLocation(serviceLevelsAlertDetailsFullyQualified);
 
   return (
     <Sticky
@@ -48,19 +51,26 @@ export default function ServiceLevelsOverview() {
             label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
             title={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
             labelForTitle={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
+            liveModeDisabled={isServiceLevelsListActive}
+            timePickerDisabled={isServiceLevelsListActive}
+            timePickerDisabledTooltip={t('in-service-levels:general.timePickerDisabledTooltip')}
           />
           <DashboardHeaderModule>
             <SecondLevelNavigation>
               <SecondLevelNavigationItem
                 href={createHrefToPath(serviceLevelsOverview)}
                 label={t('in-service-levels:sloList.title')}
-                isActive={!isServiceLevelsAlertsActive}
+                isActive={isServiceLevelsListActive}
               />
-
               <SecondLevelNavigationItem
                 href={createHrefToPath(serviceLevelsAlertsFullyQualified)}
                 label={t('in-service-levels:sloDashboard.tabs.smartAlertsLabel')}
                 isActive={isServiceLevelsAlertsActive}
+              />
+              <SecondLevelNavigationItem
+                href={createHrefToPath(serviceLevelsCorrectionWindowsFullyQualified)}
+                label={t('in-service-levels:sloDashboard.tabs.correctionWindowsLabel')}
+                isActive={isServiceLevelsCorrectionWindowsActive}
               />
             </SecondLevelNavigation>
           </DashboardHeaderModule>
@@ -70,12 +80,12 @@ export default function ServiceLevelsOverview() {
     >
       <LeftRightPadding>
         <ViewTrackingMeta data={{ productArea: productAreas.slo, pageRootName: pageNames.service_levels }} />
-        {!isServiceLevelsAlertsActive && <SloList pathSegment={serviceLevelsOverview} />}
+        {isServiceLevelsListActive && <SloList pathSegment={serviceLevelsOverview} />}
         {isServiceLevelsAlertsActive && <SloSmartAlerts />}
+        {isServiceLevelsCorrectionWindowsActive && <CorrectionWindows />}
       </LeftRightPadding>
       <Footer />
-      {!isServiceLevelsAlertsActive && <FloatingSloButtons />}
-      {((isServiceLevelsAlertsActive && !smartAlertCarbonTableEnabled) || isSloSmartAlertDetails) && (
+      {isServiceLevelsAlertsActive && !smartAlertCarbonTableEnabled && !isServiceLevelsAlertDetailsActive && (
         <FloatingActionButtons>
           <FloatingActionButton
             icon="lib_alerts_create"

@@ -271,16 +271,16 @@ export default function MobileAnalyzeView() {
 
 function createMetricCatalogTransformer(dataSource) {
   return metricDefinition => {
-    if (metricDefinition.metricId == 'appVersionNumber') {
+    if (metricDefinition?.metricId == 'appVersionNumber') {
       // exclude mobile app version number from analyze charts because it doesn't make sense to show
       return null;
     }
-    if (metricDefinition.secondaryBeaconTypes.length > 0) {
+    if (metricDefinition?.secondaryBeaconTypes?.length > 0) {
       // exclude metric since secondary beacon type is required
       // future: figure out if metric can be displayed by making use of secondary beacon types
       return null;
     }
-    return metricDefinition.beaconTypes.includes(dataSource) ? metricDefinition : null;
+    return metricDefinition?.beaconTypes.includes(dataSource) ? metricDefinition : null;
   };
 }
 

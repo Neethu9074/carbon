@@ -9,7 +9,8 @@ import React from 'react';
 import { CarbonContainedList, CarbonContainedListItem, LoadingSkeleton } from '@instana/components';
 
 import { ProductAreaPermissionUnion } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
-import { LimitedAccessScopeType } from 'in-stores/permission';
+import { Capability, LimitedAccessScopeType } from 'in-stores/permission';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
@@ -62,7 +63,12 @@ export default function PermissionList({
     <CarbonContainedList label={label} kind="disclosed">
       {permissionList.map((permission, index) => (
         <CarbonContainedListItem key={`permission-list-item-${index}`}>
-          {t('in-settings:dialogs.role.permissionLabel', { context: permission })}
+          {t('in-settings:dialogs.role.permissionLabel', {
+            context:
+              newOTelPageEnabled && permission === Capability.CAN_CONFIGURE_AGENTS
+                ? 'CAN_CONFIGURE_AGENTS_AND_COLLECTORS'
+                : permission
+          })}
         </CarbonContainedListItem>
       ))}
     </CarbonContainedList>

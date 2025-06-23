@@ -21,6 +21,7 @@ export declare const detailsPath: string;
 export declare const mobileAppPathFullyQualified: string;
 export declare const mobileAppSmartAlerts: string;
 export declare const mobileAppSmartAlertsFullScreenFullyQualified: string;
+export declare const mobileAppPath: string;
 
 export declare const isAnalyzeView: Observable<any>;
 

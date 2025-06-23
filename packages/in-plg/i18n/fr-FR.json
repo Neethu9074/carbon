@@ -68,7 +68,8 @@
       "runTheInstanaAgentContainerImage": "Exécuter l'image de conteneur de l'agent Instana",
       "upgradeTheInstanaAgentContainerImage": "Mise à niveau de l'image de conteneur de l'agent Instana",
       "installAgentOnDocker": "Installer l'agent sur Docker",
-      "configurationOptions": "Options de configuration"
+      "configurationOptions": "Options de configuration",
+      "optionallyEnterTheAgentZone": "Vous pouvez également saisir la zone d'agent à laquelle vous souhaitez que l'agent appartienne."
     },
     "jvmVendor": {
       "azulZulu11": "Azul Zulu 11",
@@ -208,7 +209,6 @@
       },
       "iamPermissions": "Autorisations IAM",
       "trustRelationships": "Relations de confiance",
-      "enterAClusterNameAndOptionallyTheAgentZone": "Entrez un nom de cluster et éventuellement la zone d'agent à laquelle le cluster doit appartenir.",
       "awsLambdaNodeJsAutotrace": "La méthode privilégiée pour configurer les fonctions AWS Lambda en fonction de Node.js 10.x (ou version ultérieure) pour le traçage est la couche Instana Lambda avec AutoTrace.",
       "selectAwsRegionAndLambdaHandler": "Sélectionnez la région AWS et entrez le gestionnaire Lambda en cours",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Définissez le gestionnaire d'encapsulage automatique Instana comme gestionnaire de la fonction Lambda.",
@@ -539,11 +539,21 @@
     "kubecost": {
       "title": "Visibilité des coûts avec IBM Kubecost",
       "description": "Initiez-vous gratuitement et affichez des informations ainsi qu'une estimation des économies pour vos clusters.",
-      "buttonName": "Découvrir maintenant"
+      "buttonName": "En savoir plus"
     },
     "logging": {
       "title": "Journalisation Instana",
       "description": "Désormais, les journaux sont acceptés partout grâce à OTel, avec une durée de conservation plus longue, jusqu'à 90 jours, en tant que fonction du module complémentaire.",
+      "buttonName": "Découvrir maintenant"
+    },
+    "turbonomic": {
+      "title": "Actions de ressource, optimisées par Turbonomic",
+      "description": "Découvrez comment les actions de ressource peuvent améliorer vos applications.",
+      "buttonName": "En savoir plus"
+    },
+    "concert": {
+      "title": "Hiérarchiser les CVE avec IBM Concert",
+      "description": "Découvrez des informations essentielles sur vos opérations et automatisez vos actions.",
       "buttonName": "En savoir plus"
     },
     "startIntegrating": {
@@ -728,6 +738,7 @@
         "name": "Nom",
         "owner": "Propriétaire",
         "permissions": "Droits",
+        "teams": "Equipes",
         "searchPlaceholderLabel": "tableaux de bord",
         "addButtonLabel": "tableau de bord",
         "viewAllLabel": "tableaux de bord"
@@ -804,6 +815,7 @@
       },
       "buttonNames": {
         "deployAgent": "Déployer l'agent",
+        "installDataSource": "Installez une source de données",
         "addUser": "Ajouter un utilisateur",
         "documentation": "Documentation IBM",
         "releaseNotes": "Notes d'édition",
@@ -873,5 +885,36 @@
     "title": "Gestion de votre profil",
     "description": "Consultez et mettez à jour votre profil, ajustez vos paramètres de confidentialité et déconnectez-vous, le tout en un seul endroit.",
     "buttonText": "Terminé"
+  },
+  "trialNoviceToProDialog": {
+    "welcometitle": "Bienvenue {{username}} !",
+    "description": "Tout d'abord, comment décririez-vous le mieux votre rôle ?",
+    "getStarted": "Vous êtes prêts ?",
+    "descriptionFreeTrial": "Déployez un agent pour voir vos données en action.",
+    "descriptionSandbox": "Ou explorez Instana dans le bac à sable – notre environnement de démonstration interactif avec des données d'échantillon.",
+    "trialButtonData": "Commencer avec mes propres données",
+    "sandboxButtonData": "Commencez avec des données d'échantillon",
+    "roles": {
+      "frontendDeveloper": "Développeur front-end",
+      "backendDeveloper": "Développeur back-end",
+      "businessManager": "Gestionnaire d'entreprise",
+      "devOpsEngineer": "Ingénieur DevOps",
+      "siteReliabilityEngineer": "Ingénieur en fiabilité de site",
+      "itOperations": "Opérations informatiques",
+      "itDecisionMaker": "Décisionnaire informatique",
+      "support": "Support",
+      "productManager": "Responsable produit",
+      "preferNotToSay": "Ne souhaite pas répondre",
+      "other": "Autre"
+    },
+    "steps": {
+      "stepOne": "Rôle",
+      "stepTwo": "Mise en route"
+    },
+    "checkboxText": "Sélectionnez cette case à cocher si vous souhaitez participer à des enquêtes et des entretiens facultatifs avec notre équipe produits",
+    "specifyRole": "Précisez votre rôle",
+    "roleName": "Nom du rôle",
+    "yourRole": "Votre rôle",
+    "next": "Suivant"
   }
 }

@@ -8,27 +8,35 @@ import React from 'react';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 
 import {
-  useKubernetesClustersConfigs,
-  useKubernetesNamespacesConfigs
+  useKubernetesNamespacesConfigs,
+  useCombinedKubernetesClustersConfigs
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
 import {
   clusterListFullyQualified,
   namespaceListFullyQualified,
-  exploreFullyQualified
+  exploreFullyQualified,
+  clusterOtelListFullyQualified
 } from 'in-kubernetes/navigation/paths';
+import {
+  kubernetesExploreEnabled,
+  playwithEnabled,
+  openTelemetryKubernetesUnifiedViewEnabled
+} from 'in-services/featureFlags';
+import KubernetesSourceSelector from 'in-kubernetes/lists/components/KubernetesSourceSelector/KubernetesSourceSelector';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
-import { kubernetesExploreEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
 
 export default function KubernetesViewSwitcher() {
   const { matchLocation, createHrefToPath } = useNavigation();
-  const [clusters] = useKubernetesClustersConfigs();
+  const isOtelCluster = matchLocation(clusterOtelListFullyQualified);
+  const { k8s, otel } = useCombinedKubernetesClustersConfigs();
   const [namespaces] = useKubernetesNamespacesConfigs();
-  const clusterLabel = `${t('in-kubernetes:clusters')} (${clusters?.length ?? 0})`;
   const namespacesLabel = `${t('in-kubernetes:namespaces')} (${namespaces?.length ?? 0})`;
+  const clusterLength = isOtelCluster ? otel?.data?.length : k8s?.data?.length;
+  const clusterLabel = `${t('in-kubernetes:clusters')} (${clusterLength ?? 0})`;
 
   return (
     <>
@@ -36,6 +44,7 @@ export default function KubernetesViewSwitcher() {
         icon="lib_kubernetes_inverted"
         label={t('in-kubernetes:kubernetesHeader')}
         title={t('in-kubernetes:kubernetesHeader')}
+        renderButtonLineSecondary={openTelemetryKubernetesUnifiedViewEnabled ? KubernetesSourceSelector : undefined}
       />
       <DashboardHeaderModule theme={themes.light}>
         <SecondLevelNavigation>
@@ -45,13 +54,15 @@ export default function KubernetesViewSwitcher() {
             label={clusterLabel}
             isActive={matchLocation(clusterListFullyQualified)}
           />
-          <SecondLevelNavigationItem
-            href={createHrefToPath(namespaceListFullyQualified)}
-            icon="lib_kubernetes_namespace"
-            label={namespacesLabel}
-            isActive={matchLocation(namespaceListFullyQualified)}
-          />
-          {kubernetesExploreEnabled && !playwithEnabled && (
+          {!isOtelCluster && (
+            <SecondLevelNavigationItem
+              href={createHrefToPath(namespaceListFullyQualified)}
+              icon="lib_kubernetes_namespace"
+              label={namespacesLabel}
+              isActive={matchLocation(namespaceListFullyQualified)}
+            />
+          )}
+          {kubernetesExploreEnabled && !playwithEnabled && !isOtelCluster && (
             <SecondLevelNavigationItem
               href={createHrefToPath(exploreFullyQualified)}
               icon="lib_kubernetes"

@@ -267,6 +267,7 @@
       "appStartTimeLabel": "App start or launch time",
       "lowMemoryLabel": "Low memory",
       "appNotRespondingLabel": "App not responding or freezing",
+      "excessiveNetworkLabel": "Excessive network usage",
       "coldStartTimeLabel": "Cold start time",
       "warmStartTimeLabel": "Warm start time",
       "hotStartTimeLabel": "Hot start time",
@@ -316,7 +317,8 @@
     "tabsSumViewChangeBeacon": {
       "viewTransitionLabel": "View transition",
       "startTimeLabel": "Start time",
-      "appStatusLabel": "App state"
+      "appStatusLabel": "App state",
+      "renderingDurationlabel": "Rendering duration"
     }
   },
   "dashboard": {
@@ -379,6 +381,8 @@
       "coldStartTimeGridTitle": "Cold start time",
       "appNotRespondingGridTitle": "App not responding or freezing",
       "lowMemoryGridTitle": "Low memory",
+      "excessiveNetworkUsageTitle": "Excessive background network usage",
+      "excessiveNetworkUsageTooltip": "This metric is not collected on the iOS platform due to OS restrictions.",
       "androidLabel": "Android",
       "iosLabel": "iOS",
       "50thLabel": "50th",

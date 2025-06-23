@@ -209,7 +209,7 @@ export function getEndValue(event, isChangeEvent, end, start, headers, isPreview
   return start !== endTime ? formatDisplayDateTime(endTime, headers, isPreview) : valueMissingPlaceholder;
 }
 
-function getColorForState(event) {
+export function getColorForState(event) {
   if (event.state === 'open') {
     return 'cyan';
   }

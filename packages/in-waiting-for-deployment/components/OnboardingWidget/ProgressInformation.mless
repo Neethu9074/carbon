@@ -37,6 +37,10 @@
     width: 4rem;
   }
 
+  .extraWidth {
+    width: 5rem;
+  }
+
   .stepSpacer {
     height: 3.5rem;
     width: 1px;

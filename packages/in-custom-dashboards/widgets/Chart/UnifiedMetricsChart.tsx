@@ -17,6 +17,12 @@ import {
 import { useObservable } from '@instana/hooks';
 
 import {
+  awsMetricStreamsPlugin,
+  DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS,
+  DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL,
+  oTelPlugins
+} from 'in-forge/constants';
+import {
   applyFilteredConfiguration,
   FilterResult,
   summarizeFilterResult,
@@ -46,12 +52,12 @@ import { enrichBySettingDataSource } from 'in-custom-dashboards/widgets/_shared/
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
-import { DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL, oTelPlugins } from 'in-forge/constants';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { customDashboardsFastQueryModeEnabled } from 'in-services/featureFlags';
+import { createUnitFormatter, getFormatter } from 'in-stores/metric/formatters';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
@@ -59,7 +65,6 @@ import { AxisNames } from 'in-components/Chart/data/dataSearchUtils';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { getFormatter } from 'in-stores/metric/formatters';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -445,7 +450,8 @@ function addForAxis(
       timeShift,
       unit,
       type,
-      ...(type in oTelPlugins && { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL })
+      ...((type in oTelPlugins && { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL }) ||
+        (type in awsMetricStreamsPlugin && { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS }))
     };
 
     // For grouped metrics one metric configuration will result in multiple data series and
@@ -537,9 +543,14 @@ export function toAxisConfiguration(
     });
   }
 
+  // create the unit formatter for use if it is enabled via unitFormatterEnabled
+  let axisFormatter = getFormatter(axis.formatter);
+  const unitFormatterEnabled = axis.metrics[0]?.unitFormatterEnabled;
+  if (unitFormatterEnabled) axisFormatter = createUnitFormatter(axis.formatter, axis.metrics[0]?.unit);
+
   return {
     renderer: (availableRenderers.find(({ id }) => id === axis.renderer) || defaultRenderer).renderer,
-    formatter: getFormatter(axis.formatter),
+    formatter: axisFormatter,
     tooltipFormatter: axis.tooltipFormatter,
     outlineForColor: axis.outlineForColor,
     labels: axis.metrics.flatMap((metric: Metric, i: number): string[] => {

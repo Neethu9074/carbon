@@ -9,6 +9,10 @@ import React from 'react';
 
 import EditSelectedCredential from 'in-synthetics/dashboards/global/tabs/credentials/components/EditSelectedCredential';
 
+jest.mock('in-services/featureFlags', () => ({
+  rbacTeamsEnabled: true
+}));
+
 describe(EditSelectedCredential, () => {
   const dummyCredentialData = {
     credentialName: 'credTest',
@@ -28,7 +32,7 @@ describe(EditSelectedCredential, () => {
   });
 
   it('Should render the Edit Credential dialog correctly', () => {
-    const { getByText } = render(<EditSelectedCredential item={dummyCredentialData} />);
+    const { getByText, getAllByText } = render(<EditSelectedCredential item={dummyCredentialData} />);
     expect(getByText('Edit synthetic credential credTest')).toBeVisible();
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Value')).toBeInTheDocument();
@@ -37,6 +41,8 @@ describe(EditSelectedCredential, () => {
     expect(getByText('Application(s)')).toBeTruthy();
     expect(getByText('Website(s)')).toBeTruthy();
     expect(getByText('Mobile App(s)')).toBeTruthy();
+    expect(getAllByText('Teams')).toHaveLength(2);
+    expect(getByText('Choose Teams')).toBeTruthy();
 
     expect(screen.getByRole('button', { name: 'Select Applications' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Select Applications' })).not.toBeDisabled();

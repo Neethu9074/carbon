@@ -16,6 +16,7 @@ import {
   deploymentId as matrixDeploymentId,
   deploymentConfigId as matrixDeploymentConfigId,
   daemonSetId as matrixDaemonSetId,
+  persistentVolumeId as matrixPersistentVolumeId,
   statefulSetId as matrixStatefulSetId
 } from 'in-kubernetes/navigation/matrix';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -45,8 +46,11 @@ export const serviceDashboardDetailsFullyQualified = `${serviceDashboardFullyQua
 
 export const clusterList = '/clusters';
 export const clusterDashboard = `/cluster`;
+export const clusterOtelDashboard = `/cluster/otel`;
 export const clusterListFullyQualified = `${kubernetes}${clusterList}`;
+export const clusterOtelListFullyQualified = `${kubernetes}${clusterList}/otel`;
 export const clusterDashboardFullyQualified = `${kubernetes}${clusterDashboard}`;
+export const clusterOtelDashboardFullyQualified = `${kubernetes}${clusterOtelDashboard}`;
 export const clusterDashboardDetailsFullyQualified = `${clusterDashboardFullyQualified}/details`;
 
 export const namespaceList = '/namespaces';
@@ -58,14 +62,23 @@ export const namespaceDashboardDetailsFullyQualified = `${namespaceDashboardFull
 export const explore = '/explore';
 export const exploreFullyQualified = `${kubernetes}${explore}`;
 
+export const containerDashboard = `/container`;
+export const containersDashboard = `/containers`;
+export const containerDashboardFullyQualified = `${kubernetes}${containersDashboard}`;
+export const containerDashboardDetailsFullyQualified = `${containerDashboardFullyQualified}/details`;
+
 export const podDashboard = `/pod`;
 export const podsDashboard = `/pods`;
+export const podOtelDashboard = `/pod/otel`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
+export const podOtelDashboardFullyQualified = `${kubernetes}${podOtelDashboard}`;
 export const podDashboardDetailsFullyQualified = `${podDashboardFullyQualified}/details`;
 
 export const nodeDashboard = `/node`;
+export const nodeOtelDashboard = `/node/otel`;
 export const nodesDashboard = '/nodes';
 export const nodeDashboardFullyQualified = `${kubernetes}${nodeDashboard}`;
+export const nodeOtelDashboardFullyQualified = `${kubernetes}${nodeOtelDashboard}`;
 export const nodeDashboardDetailsFullyQualified = `${nodeDashboardFullyQualified}/details`;
 
 export const cronJobDashboard = `/cronjob`;
@@ -91,6 +104,11 @@ export const statefulSetDashboard = `/statefulset`;
 export const statefulSetsDashboard = `/statefulsets`;
 export const statefulSetDashboardFullyQualified = `${kubernetes}${statefulSetDashboard}`;
 export const statefulSetDashboardDetailsFullyQualified = `${statefulSetDashboardFullyQualified}/details`;
+
+export const persistentVolumeDashboard = `/persistentvolume`;
+export const persistentVolumesDashboard = `/persistentvolumes`;
+export const persistentVolumeDashboardFullyQualified = `${kubernetes}${persistentVolumeDashboard}`;
+export const persistentVolumeDashboardDetailsFullyQualified = `${persistentVolumeDashboardFullyQualified}/details`;
 
 export const summaryTab = '/summary';
 
@@ -146,29 +164,39 @@ export function useClusterDashboard(clusterId: string, { tab, tabMatrix, timeCon
   });
 }
 
-export const useGetClusterDashboard = () => {
+export function useOtelClusterDashboard(clusterId: string, { tab, tabMatrix, timeConfig }: BaseProps = emptyObject) {
+  return useNavigateToDashboard({
+    base: clusterOtelDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: clusterDashboard,
+    matrixParam: matrixClusterId,
+    id: clusterId
+  });
+}
+
+export const useGetClusterDashboard = (clusterType: string) => {
   const { createHref, location } = useNavigation();
+
+  const base = clusterType === 'otelcluster' ? clusterOtelDashboardFullyQualified : clusterDashboardFullyQualified;
 
   return (
     clusterId: string,
     { tab = summaryTab, tabMatrix, timeConfig }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
   ) => {
-    const base = clusterDashboardFullyQualified;
     const matrixSegment = clusterDashboard;
     const matrixParam = matrixClusterId;
     const id = clusterId;
     const paramsCallback = (params: any) => {
       setOrDeleteMatrixKey(params, namespaceDashboard, matrixClusterId, clusterId);
     };
-
     location.pathname = `${base}${tab}`;
-
     setOrDeleteMatrixKey(location, matrixSegment, matrixParam, id);
 
     if (timeConfig != null) {
       setTimeConfig(location, timeConfig);
     }
-
     // @ts-expect-error
     location.matrix[tab] = tabMatrix;
 
@@ -263,6 +291,37 @@ export function usePodDashboard(
   });
 }
 
+export function useOtelPodDashboard(
+  podId: string,
+  {
+    tab,
+    tabMatrix,
+    timeConfig,
+    clusterId,
+    namespaceId,
+    deploymentId,
+    nodeId,
+    cronJobId
+  }: BaseProps & IdsProps = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: podOtelDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: podDashboard,
+    matrixParam: matrixPodId,
+    id: podId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixClusterId, clusterId);
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixNamespaceId, namespaceId);
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixDeploymentId, deploymentId);
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixCronJobId, cronJobId);
+      setOrDeleteMatrixKey(params, podOtelDashboard, matrixNodeId, nodeId);
+    }
+  });
+}
+
 export function useNodeDashboard(
   nodeId: string,
   { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
@@ -277,6 +336,24 @@ export function useNodeDashboard(
     id: nodeId,
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, nodeDashboard, matrixClusterId, clusterId);
+    }
+  });
+}
+
+export function useOtelNodeDashboard(
+  nodeId: string,
+  { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: nodeOtelDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: nodeDashboard,
+    matrixParam: matrixNodeId,
+    id: nodeId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, nodeOtelDashboard, matrixClusterId, clusterId);
     }
   });
 }
@@ -371,6 +448,24 @@ export function useDaemonSetDashboard(
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, daemonSetDashboard, matrixClusterId, clusterId);
       setOrDeleteMatrixKey(params, daemonSetDashboard, matrixNamespaceId, namespaceId);
+    }
+  });
+}
+
+export function usePersistentVolumeDashboard(
+  persistentVolumeId: string,
+  { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: persistentVolumeDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: persistentVolumeDashboard,
+    matrixParam: matrixPersistentVolumeId,
+    id: persistentVolumeId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, persistentVolumeDashboard, matrixClusterId, clusterId);
     }
   });
 }

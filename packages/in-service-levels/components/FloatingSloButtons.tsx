@@ -12,8 +12,8 @@ import { Button } from '@instana/carbon';
 // eslint-disable-next-line no-restricted-imports
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -21,7 +21,7 @@ import { t } from 'in-i18n';
 
 export default function FloatingSloButtons() {
   const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
-  const openCreateSloDialog = () => addActiveDialog(<CreateSloDialog mode="NEW" trackingMeta={meta} />);
+  const openCreateSloDialog = () => addActiveDialog(<ConfigureSloDialog mode="NEW" trackingMeta={meta} />);
   const openCreateSmartAlertDialog = () => addActiveDialog(<CreateSmartAlertDialog />);
 
   return (

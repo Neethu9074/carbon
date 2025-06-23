@@ -43,6 +43,7 @@ const helpTexts = {
   'entity.aws.documentdb.instance': t('in-stores:search.fieldsEntityAwsDocumentdbInstance'),
   'entity.aws.documentdb.elastic.cluster': t('in-stores:search.fieldsEntityAwsDocumentdbElasticCluster'),
   'entity.aws.sns': t('in-stores:search.fieldsEntityAwsSns'),
+  'entity.aws.metricstreams': t('in-stores:search.fieldsEntityAwsMetricStreams'),
   'entity.azure.service': t('in-stores:search.fieldsEntityAzureService'),
   'entity.azure.service.apim': t('in-stores:search.fieldsEntityAzureServiceApim'),
   'entity.azure.service.apim.api': t('in-stores:search.fieldsEntityAzureServiceApimApi'),

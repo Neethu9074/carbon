@@ -11,6 +11,7 @@ import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.oTelLLM,
@@ -20,5 +21,8 @@ registerSnapshotDefinition({
       Environment: snapshot.getIn(['data', 'env'])
     });
   },
-  getIconType: () => 'ai'
+  getIconType: () => 'ai',
+  technologyDescriptor: {
+    label: t('in-forge:plugins.oTelLLM.oTelLLM')
+  }
 });

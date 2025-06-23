@@ -21,8 +21,10 @@ import {
   findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
+import { correctionWindowMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
+import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import { applicationMetrics, sloMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
@@ -32,7 +34,9 @@ import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+import { hexToRGBA } from 'in-services/formatters/color';
 import { number } from 'in-services/formatters/number';
+import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 interface TrafficChartProps {
@@ -51,7 +55,7 @@ export default function TrafficChart({
   const { entity, createdDate, indicator } = configuration;
   const configId = configuration.id!;
   const sloZoomInAction = useSloZoomInAction();
-  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, correctionData } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
@@ -61,8 +65,10 @@ export default function TrafficChart({
     timeWindows,
     granularity
   });
-
   const label = getMetricLabels({ entity, indicator });
+
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data) ?? [];
+
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: createdDate
   });
@@ -73,6 +79,7 @@ export default function TrafficChart({
   const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
   const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
 
+  const hasCorrectionWindows = correctionWindowMetrics.length > 0;
   return (
     <ResultAwareChart
       config={{
@@ -85,13 +92,28 @@ export default function TrafficChart({
         primaryContextMenuAction: sloZoomInAction.name,
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
+        reverseLegendOrder: true,
         y1: {
-          metrics,
-          metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
+          metrics: [...(hasCorrectionWindows ? [correctionWindowMetrics] : []), ...metrics],
+          metricIds: [
+            ...(hasCorrectionWindows ? [correctionWindowMetricId] : []),
+            ...timeWindowsWithData.map((_, index) => `timeWindows${index}`)
+          ],
           min: Math.max(0, min),
           max,
-          labels: timeWindowsWithData.map(() => label),
-          colors: windowColorsWithData,
+          excludedLabelsFromTooltip: [t('in-service-levels:general.metrics.correctionWindows')],
+          labels: [
+            ...(hasCorrectionWindows ? [t('in-service-levels:general.metrics.correctionWindows')] : []),
+            ...timeWindowsWithData.map(() => label)
+          ],
+          icons: {
+            colors: [...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []), ...windowColorsWithData],
+            types: [
+              ...(hasCorrectionWindows ? ['lib_actions_stop'] : []),
+              ...timeWindowsWithData.map(() => 'lib_legend_line_chart')
+            ]
+          },
+          colors: [...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []), ...windowColorsWithData],
           formatter: number.compact,
           renderer
         },

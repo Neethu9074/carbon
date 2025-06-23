@@ -50,7 +50,7 @@ interface SummaryProps {
 
 export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
-  const snapshotId = cluster.id;
+  const snapshotId = cluster?.id;
 
   const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.cluster', snapshotId, timeConfig);
 
@@ -93,19 +93,19 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
-  const allItemsNodesHrefs = useClusterDashboard(cluster.id, {
+  const allItemsNodesHrefs = useClusterDashboard(cluster?.id, {
     tab: '/nodes'
   });
 
-  const allItemsNamespacesHrefs = useClusterDashboard(cluster.id, {
+  const allItemsNamespacesHrefs = useClusterDashboard(cluster?.id, {
     tab: '/namespaces'
   });
 
-  const allItemsDeploymentsHrefs = useClusterDashboard(cluster.id, {
+  const allItemsDeploymentsHrefs = useClusterDashboard(cluster?.id, {
     tab: '/deployments'
   });
 
-  const allItemsDeploymentsConfigsHrefs = useClusterDashboard(cluster.id, {
+  const allItemsDeploymentsConfigsHrefs = useClusterDashboard(cluster?.id, {
     tab: '/deploymentconfigs'
   });
 
@@ -331,14 +331,14 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
 
       <Row verticallyStretchColumns>
         <Col lg={4}>
-          <TopNodesList clusterId={cluster.id} timeConfig={timeConfig} allItemsHref={allItemsNodesHrefs} />
+          <TopNodesList clusterId={cluster?.id} timeConfig={timeConfig} allItemsHref={allItemsNodesHrefs} />
         </Col>
         <Col lg={4}>
-          <TopNamespacesList clusterId={cluster.id} timeConfig={timeConfig} allItemsHref={allItemsNamespacesHrefs} />
+          <TopNamespacesList clusterId={cluster?.id} timeConfig={timeConfig} allItemsHref={allItemsNamespacesHrefs} />
         </Col>
         <Col lg={4}>
           <TopDeploymentsList
-            clusterId={cluster.id}
+            clusterId={cluster?.id}
             timeConfig={timeConfig}
             allItemsHrefs={{
               deployments: allItemsDeploymentsHrefs,

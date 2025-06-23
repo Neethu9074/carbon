@@ -27,6 +27,7 @@
         "popSubTitle": "Point of presence",
         "uploadScriptTitle": "Upload the script",
         "failureToReadFileContent": "Failed to read file content: {{error}}",
+        "unsupportedFileFormat": ".{{extension}} file is not supported",
         "emptyScriptFileError": "Empty code. Nothing to validate.",
         "enterTheScriptMessage": "Enter the script here",
         "privatePoPLabel": "Private",
@@ -153,6 +154,7 @@
         "scheduleTitle": "Schedule: How will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Credentials with teams associated will also be reflected in the teams page in settings.",
         "customPropertiesTitle": "Custom properties (optional)",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
         "frequencyHours": "This test will run every {{frequencyHours}} hours.",
@@ -190,7 +192,7 @@
           "buttonBack": "Back",
           "buttonSave": "Save",
           "uploadFileLabel": "Upload file",
-          "uploadFileDescription": "You can upload either a single .js file or a .zip file of bundled .js files.",
+          "uploadFileDescription": "You can upload either a single .js, or .cjs file, or a .zip file containing bundled .js, or .cjs files.",
           "node22UploadFileDescription": "You can upload either a single .js, .cjs, or .mjs file, or a .zip file containing bundled .js, .cjs, or .mjs files.",
           "scriptDescription": "Your uploaded script will appear here or you can manually enter it below.",
           "validScriptMessage": "Script is valid.",
@@ -199,7 +201,7 @@
           "mainFileNameLabel": "Enter main file name",
           "invalidMainFileName": "Main file name not valid",
           "webpageUrl": "Webpage URL",
-          "browserUploadFileDescription": "You can upload either a single .js file, a .zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
+          "browserUploadFileDescription": "You can upload either a single .js, or .cjs file, a .zip file containing bundled .js, or .cjs files, or a .side script recorded by Selenium IDE.",
           "node22BrowserUploadFileDescription": "You can upload either a single .js, .cjs, or .mjs file, a .zip file containing bundled .js, .cjs, or .mjs files, or a .side script recorded by Selenium IDE.",
           "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
           "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in advanced mode.",
@@ -222,7 +224,7 @@
           "downloadZip": "Download .zip file",
           "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
           "recordVideo": "Record user actions on failure",
-          "acceptSelfSignedCertificate":"Accept self-signed certificate",
+          "acceptSelfSignedCertificate": "Accept self-signed certificate",
           "operatorLabel": "Conditional",
           "operatorOptionMatches": "Matches",
           "operatorOptionContains": "Contains",
@@ -262,12 +264,12 @@
             "assertionsNotificationTitle": "Assertions required",
             "assertionsNotificationDescription": "Add at least one assertion when using the \"ALL associated with assertions\" query type."
           },
-          "ssl":{
+          "ssl": {
             "attributeLabel": "Attribute",
             "valueLabel": "Value",
             "attributeValueLabel": "Attribute Value",
             "invalidAttributeValue": "Attribute value not valid",
-            "assertion" :{
+            "assertion": {
               "commonName": "issuedTo.commonName",
               "alternativeName": "issuedTo.alternativeName",
               "organization": "issuedBy.organization",
@@ -312,7 +314,11 @@
         "applicationsTitle": "Associate: Select applications to associate with this synthetic test",
         "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application.",
         "associationsTitle": "Associate: Select what you want to associate with this synthetic test (optional)",
-        "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities."
+        "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities.",
+        "teamsLabel": "Teams",
+        "teamsTitle": "Teams: Select teams to associate with this test (optional)",
+        "teamsDescription": "Select teams to associate with this test.",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Tests with teams associated will also be reflected in the teams page in settings."
       },
       "associations": {
         "applicationsTitle": "Select applications to associate with this synthetic test",
@@ -335,7 +341,19 @@
         "applicationsTableTitle": "Application(s)",
         "websitesTableTitle": "Website(s)",
         "mobileAppsTableTitle": "Mobile App(s)"
-      }
+      },
+      "createSyntheticTest": "Create synthetic test"
+    },
+    "createOnDemandTest":{
+      "buttonLabel": "Run now",
+      "createButtonLabel": "Run test",
+      "cancel":"Cancel",
+      "properties":"Configuration properties",
+      "location":"Location",
+      "iconLabel":"Test is running",
+      "runnowTitle":"Run test now",
+      "multiSelectLabel":"All assigned locations",
+      "retryInterval": "This test will retry {{retryCount}} after "
     },
     "httpMethods": {
       "get": "GET",
@@ -353,7 +371,9 @@
       "failureMessageUpdate": "Failed to update the synthetic test: {{errorMessage}}",
       "failureMesssageDelete": "Failed to delete the synthetic test: {{errorMessage}}",
       "successMessageCICDRerun": "Successfully reran the synthetic test",
-      "failureMesssageCICDRerun": "Failed to rerun the synthetic test: {{errorMessage}}"
+      "failureMesssageCICDRerun": "Failed to rerun the synthetic test: {{errorMessage}}",
+      "successMessageCICDCreate": "Successfully created the synthetic run now test",
+      "failureMesssageCICDCreate": "Failed to create the synthetic run now test: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
@@ -447,6 +467,7 @@
       "createButton": "New Credential",
       "nameValue": "Name and value",
       "associations": "Associations",
+      "teams": "Teams",
       "newCredentials": "Create a synthetic credential",
       "steps": {
         "textInput": {
@@ -459,7 +480,8 @@
           "placeholder": "Credential value",
           "labelText": "Value"
         },
-        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
+        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities.",
+        "teamsStepDescription": "Select teams to associate with this credential."
       },
       "feedback": {
         "successMessage": "Successfully created credential",
@@ -491,15 +513,16 @@
         "tests": "Tests",
         "locations": "Locations",
         "smartAlerts": "Smart Alerts",
-        "credentials": "Credentials"
+        "credentials": "Credentials",
+        "syntheticTests": "Synthetic tests"
       },
-      "options":{
-        "scheduledMenuLabel":"Scheduled",
-        "onDemandMenuLabel":"On demand",
-        "allLabel":"All",
-        "scheduledLabel":"Data scope : Scheduled",
-        "onDemandLabel":"Data scope : On demand",
-        "dashboardHeaderLabel" :"Data based on : {{dataScopeLabel}}"
+      "options": {
+        "scheduledMenuLabel": "Scheduled",
+        "onDemandMenuLabel": "On demand",
+        "allLabel": "All",
+        "scheduledLabel": "Data scope : Scheduled",
+        "onDemandLabel": "Data scope : On demand",
+        "dashboardHeaderLabel": "Data based on : {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissions for synthetic monitoring",
@@ -542,7 +565,7 @@
       "paused": "Paused",
       "deleted": "Deleted",
       "type": "Type",
-      "sslDaysRemaining":"Expires in {{daysRemaining}} days",
+      "sslDaysRemaining": "Expires in {{daysRemaining}} days",
       "successRate": "Success rate",
       "successRuns": "{{successRuns}} / {{totalRuns}} results",
       "latency": "Avg. response time",
@@ -559,7 +582,13 @@
       "health": "Health",
       "action": "Action",
       "labelConfirmRemoveTest": "Are you sure you want to remove <strong>{{testLabel}}</strong> test? This action cannot be undone.",
-      "na": "N/A"
+      "na": "N/A",
+      "configureColumns": {
+        "title": "Column customization",
+        "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed."
+      },
+      "searchSyntheticTests": "Search synthetic tests",
+      "failedToLoadTestsTitle": "Failed to load synthetic tests"
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",
@@ -899,6 +928,7 @@
       "daysRemaining": "Failure configuration",
       "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
       "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration",
+      "teams": "Teams",
       "associations": "Associations",
       "associatedApplications": "Associated Applications",
       "noApplicationsAssociated": "No Applications associated",
@@ -907,7 +937,8 @@
       "associatedMobileApps": "Associated Mobile Apps",
       "noMobileAppAssociated": "No Mobile Apps associated",
       "recordVideo": "Record user actions on failure",
-      "acceptSelfSignedCertificate":"Accept self-signed certificate",
+      "acceptSelfSignedCertificate": "Accept self-signed certificate",
+      "operatorLabel": "Conditional",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Query type",
@@ -917,7 +948,6 @@
         "responseTimeDescription": "Response time is less than {{responseTime}}ms",
         "assertionsTitle": "Assertions",
         "recordTypeLabel": "Record type",
-        "operatorLabel": "Conditional",
         "resolutionRecordLabel": "Resolution record",
         "recursiveLookupLabel": "Recursive lookup",
         "dnsRadioButtonOnLabel": "On",
@@ -926,6 +956,10 @@
         "acceptCNAMELabel": "Accept CNAME",
         "lookupServerNamelabel": "Lookup server name",
         "serverRetriesLabel": "Server retries"
+      },
+      "ssl": {
+        "attributeLabel": "Attribute",
+        "valueLabel": "Value"
       }
     },
     "credentialList": {

@@ -53,7 +53,7 @@ export const DNSAssertions = ({ assertions }: { assertions: DNSFilterTargetValue
           <KeyValue value={t('in-synthetics:dashboard.configuration.dns.recordTypeLabel')} />
         </Column>
         <Column sm={3}>
-          <KeyValue value={t('in-synthetics:dashboard.configuration.dns.operatorLabel')} />
+          <KeyValue value={t('in-synthetics:dashboard.configuration.operatorLabel')} />
         </Column>
         <Column sm={3}>
           <KeyValue value={t('in-synthetics:dashboard.configuration.dns.resolutionRecordLabel')} />

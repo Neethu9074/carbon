@@ -9,13 +9,13 @@ import React, { useMemo } from 'react';
 import { KeyValue } from '@instana/components';
 import { Stack } from '@instana/carbon';
 
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { formatSloStatus } from 'in-service-levels/utils/format';
 import { calculateSeverity } from 'in-service-levels/utils/math';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import { SloListItem } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
-import locals from './SloAlignContent.mless';
+import locals from 'in-service-levels/styles/SloAlignContent.mless';
 
 interface SloStatusColumnContentProps {
   item: SloListItem;

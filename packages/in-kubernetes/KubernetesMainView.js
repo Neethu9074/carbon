@@ -8,11 +8,14 @@ import React from 'react';
 
 import {
   clusterListFullyQualified,
+  clusterOtelListFullyQualified,
   namespaceListFullyQualified,
   exploreFullyQualified
 } from 'in-kubernetes/navigation/paths';
+import { kubernetesCloudNativeExperience, openTelemetryKubernetesUnifiedViewEnabled } from 'in-services/featureFlags';
+import OtelClusterCardView from 'in-kubernetes/lists/OtelCluster/OtelClusterCardView';
+import OtelClusterTable from 'in-kubernetes/lists/ClusterTable/OtelClusterTable';
 import NamespaceTable from 'in-kubernetes/lists/NamespaceTable/NamespaceTable';
-import { kubernetesCloudNativeExperience } from 'in-services/featureFlags';
 import ClusterTable from 'in-kubernetes/lists/ClusterTable/ClusterTable';
 import KubernetesExplore from 'in-kubernetes/explore/KubernetesExplore';
 import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
@@ -29,6 +32,16 @@ export default function KubernetesMainView(props) {
         <LeftRightPadding>
           <Switch>
             <Route
+              path={
+                openTelemetryKubernetesUnifiedViewEnabled
+                  ? `${clusterOtelListFullyQualified}/table`
+                  : `${clusterOtelListFullyQualified}`
+              }
+              exact
+            >
+              <OtelClusterTable {...props} />
+            </Route>
+            <Route
               path={kubernetesCloudNativeExperience ? `${clusterListFullyQualified}/table` : clusterListFullyQualified}
               exact
             >
@@ -44,12 +57,19 @@ export default function KubernetesMainView(props) {
             </Route>
             {kubernetesCloudNativeExperience && (
               <>
-                <Route path={clusterListFullyQualified || `${clusterListFullyQualified}`}>
-                  <ClusterCardView {...props} />
-                </Route>
-                <Route path={namespaceListFullyQualified || `${namespaceListFullyQualified}`}>
-                  <NamespaceCardView {...props} />
-                </Route>
+                {openTelemetryKubernetesUnifiedViewEnabled && (
+                  <Route exact path={`${clusterOtelListFullyQualified}`}>
+                    <OtelClusterCardView {...props} />
+                  </Route>
+                )}
+                <>
+                  <Route exact path={clusterListFullyQualified || `${clusterListFullyQualified}`}>
+                    <ClusterCardView {...props} />
+                  </Route>
+                  <Route path={namespaceListFullyQualified || `${namespaceListFullyQualified}`}>
+                    <NamespaceCardView {...props} />
+                  </Route>
+                </>
               </>
             )}
             <Route path={exploreFullyQualified}>

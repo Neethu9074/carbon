@@ -150,6 +150,10 @@ const SelectEntitiesTable = <I,>({
         tableHeaders={SELECT_ENTITIES_TABLE_HEADERS}
         tableRows={createTableRows(scopeEntities)}
         title={tableTitle}
+        emptyStateMessage={t('in-settings:dialogs.selectEntities.emptyStateMessage', {
+          entityType: tableTitle.toLowerCase(),
+          addButtonLabel: tableAddLabel
+        })}
       />
     </div>
   );

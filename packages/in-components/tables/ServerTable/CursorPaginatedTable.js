@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { Button, HorizontalIndicator, Stack } from '@instana/components';
 
@@ -53,13 +53,13 @@ export default function CursorPaginatedTable(props) {
     // so converting to the format thats needed.
     const newHeader = { ...header };
     if (header?.label?.data) {
-      newHeader.label = header.label.data;
+      newHeader.label = isLoading ? { data: undefined } : header.label.data;
     }
     return newHeader;
   });
 
   return (
-    <Fragment>
+    <>
       <ServerTablePresenter
         {...props}
         pendingResult={pendingResult}
@@ -93,7 +93,7 @@ export default function CursorPaginatedTable(props) {
         filterByLabel={t('in-components:tables.serverTable.cursorPaginatedTableFilterByLabel')}
         filterByHref={filterByHref}
       />
-    </Fragment>
+    </>
   );
 }
 

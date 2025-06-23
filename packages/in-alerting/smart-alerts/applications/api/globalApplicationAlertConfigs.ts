@@ -70,7 +70,7 @@ export function getAllGlobalAlertConfigs(
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 
-function getAllGlobalAlertConfigsForApplications(): Observable<
+export function getAllGlobalAlertConfigsForApplications(): Observable<
   Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>
 > {
   const request = http<GlobalApplicationsSmartAlertConfigWithMetadata[]>({

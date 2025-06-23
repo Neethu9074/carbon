@@ -24,13 +24,16 @@ interface GetInfraAlertConfigStatsResponse extends Result<InfraAlertStats> {}
 interface GetSyntheticAlertConfigStatsResponse extends Result<SyntheticAlertStats> {}
 interface GetLogAlertConfigStatsResponse extends Result<LogAlertStats> {}
 
+const memoizeFor = 0;
+
 // Get count of Global and local Application smart alerts
 export const getApplicationAlertConfigStats = createResultSubscriptionFactory<
   GetAlertConfigStatsRequest,
   GetApplicationAlertConfigStatsResponse
 >({
   eventId: 'getApplicationAlertConfigStats',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: memoizeFor
 });
 
 // Get count of Website smart alerts
@@ -39,7 +42,8 @@ export const getWebsiteAlertConfigStats = createResultSubscriptionFactory<
   GetWebsiteAlertConfigStatsResponse
 >({
   eventId: 'getWebsiteAlertConfigStats',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: memoizeFor
 });
 
 // Get count of Mobile-app smart alerts
@@ -48,7 +52,8 @@ export const getMobileAppAlertConfigStats = createResultSubscriptionFactory<
   GetMobileAppAlertConfigStatsResponse
 >({
   eventId: 'getMobileAppAlertConfigStats',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: memoizeFor
 });
 
 // Get count of Infra smart alerts
@@ -57,7 +62,8 @@ export const getInfraAlertConfigStats = createResultSubscriptionFactory<
   GetInfraAlertConfigStatsResponse
 >({
   eventId: 'getInfraAlertConfigStats',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: memoizeFor
 });
 
 // Get count of Synthetic smart alerts
@@ -66,7 +72,8 @@ export const getSyntheticAlertConfigStats = createResultSubscriptionFactory<
   GetSyntheticAlertConfigStatsResponse
 >({
   eventId: 'getSyntheticAlertConfigStats',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: memoizeFor
 });
 
 // Get count of Logs smart alerts
@@ -75,5 +82,6 @@ export const getLogAlertConfigStats = createResultSubscriptionFactory<
   GetLogAlertConfigStatsResponse
 >({
   eventId: 'getLogAlertConfigStats',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: memoizeFor
 });

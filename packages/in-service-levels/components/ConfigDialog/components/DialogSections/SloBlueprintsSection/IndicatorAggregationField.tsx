@@ -12,9 +12,9 @@ import { AggregationType } from '@instana/types';
 
 import AggregationSelectorInput from 'in-service-levels/components/Shared/AggregationSelectorInput/AggregationSelectorInput';
 import { SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { timeAggregationOptions } from 'in-service-levels/constants';
 import { TimeAggregationOptions } from 'in-service-levels/types';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { t } from 'in-i18n';
 
 interface IndicatorAggregationFieldProps {

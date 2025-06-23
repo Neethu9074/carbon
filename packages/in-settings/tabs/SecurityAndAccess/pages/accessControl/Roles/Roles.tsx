@@ -17,7 +17,8 @@ import {
   ROLES_TABLE_HEADERS,
   ROLES_TABLE_PAGE_SIZES,
   ROLES_TABLE_ORDER,
-  LEAST_ROLE_PERMISSIONS
+  LEAST_ROLE_PERMISSIONS,
+  STATIC_ROLES
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.constants';
 import MultiSelectDataTable, {
   DataTableRow,
@@ -34,9 +35,10 @@ import { deleteRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { DELETED_OBJECT } from 'in-services/util/constants';
-import { STATIC_GROUP_NAMES } from 'in-settings/constants';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
+
+const isDisabledDelete = (roleName: string) => Object.values<string>(STATIC_ROLES).includes(roleName);
 
 function createMenuItemsForRow(
   loadedRoles: RoleOverview[],
@@ -51,8 +53,8 @@ function createMenuItemsForRow(
       ...ROLES_TABLE_DELETE_MENU_ITEM,
       icon: <TrashCan />,
       isDisabledMenuItem: disabled,
-      label: Object.values<string>(STATIC_GROUP_NAMES).includes(role.name)
-        ? t('in-settings:tabs.groupDeleteTooltip', { context: role.name })
+      label: Object.values<string>(STATIC_ROLES).includes(role.name)
+        ? t('in-settings:tabs.role.roleDeleteTooltip', { context: role.name })
         : t('in-settings:components.deleteEntity', { entity: role.name })
     }
   ];
@@ -67,12 +69,11 @@ function createTableRowsForRoles(
     const { hasScope } = role;
     const roleLocation = {
       ...location,
-      pathname: securityAndAccessAccessControlRoleEdit,
-      query: { hasScope: hasScope ? '1' : null }
+      pathname: securityAndAccessAccessControlRoleEdit
     };
     return {
       ...role,
-      disabled: false,
+      disabled: isDisabledDelete(role.name),
       isLimited: role.isLimited ? t('in-settings:tabs.limitedAccess') : t('in-settings:tabs.accessAll'),
       name: (
         <CarbonStack>

@@ -49,7 +49,8 @@ export default function Tag(props) {
     autoFocusInput = false,
     getSuggestionLabel,
     allowEmptyKey,
-    disableEntitySelection
+    disableEntitySelection,
+    source
   } = props;
   const { renderModelIndex, formModelIndex, name: tagName } = element;
   const form = createTagForm(tagCatalog, element, allowEmptyKey, disableEntitySelection);
@@ -140,6 +141,7 @@ export default function Tag(props) {
         tagType={tagType}
         focus={() => focusField('operator', true)}
         ref={autoFocusTargets.operator}
+        source={source}
       />
       <SuspendDraggable draggableElement={draggableElement}>
         <ValueInput

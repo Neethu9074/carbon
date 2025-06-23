@@ -13,15 +13,16 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
+  DEFAULT_NUMBER_ROWS,
+  MAX_NUMBER_ROWS,
+  getNoDataDescription,
+  getNoDataHeader
+} from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
+import {
   DatatableWidgetProps,
   StarredItemWithIdsType,
   StarredItemType
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-import {
-  DEFAULT_NUMBER_ROWS,
-  getNoDataDescription,
-  getNoDataHeader
-} from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 //@ts-expect-error no declaration file found
 import { starredItems$ } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/PinnedItemList';
@@ -32,10 +33,12 @@ import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemL
 import { DashboardTable } from 'in-plg/components/DashboardTable/DashboardTable';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
+import { CustomDashboardWithUserSpecificInformation } from 'in-types';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
 import { hasError } from 'in-services/util/result';
+import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper.mless';
@@ -102,22 +105,36 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     mainPage
   } = props;
 
-  const [query, setQuery] = useState<string>('');
+  const [{ query }, setQuery] = useUrlState({
+    //useState<string>(urlQuery || '');
+    bind: [
+      {
+        path: '/customDashboards',
+        name: 'query',
+        initialState: ''
+      }
+    ]
+  });
   const [page, setPage] = useState(1);
   const pageSizes = [10, 20, 30];
   const [pageSize, setPageSize] = useState(pageSizes[0]);
   const header = dashboardTileProps?.header ?? '';
+  let teamsSearch: string | RegExpMatchArray | null = query.match(/:teams:(.+)!/);
+  if (teamsSearch) {
+    teamsSearch = teamsSearch[1];
+  }
+  const maxQuery = isDashboardWidget && teamsSearch;
   let hits = 0;
   const hitsRef = useRef<number>(0);
   let hasContent = false;
   let result = useObservable(
     getItems({
       timeConfig,
-      query,
+      query: teamsSearch ? '' : query, //will use client-side search in teamsSearch mode
       infraType,
       syntheticType,
-      page: mainPage ? page : 1,
-      pageSize: mainPage ? pageSize : DEFAULT_NUMBER_ROWS
+      page: mainPage && !maxQuery ? page : 1,
+      pageSize: maxQuery ? MAX_NUMBER_ROWS : mainPage ? pageSize : DEFAULT_NUMBER_ROWS
     }).startWith(pendingResult),
     [timeConfig, query, infraType, syntheticType, page, pageSize]
   );
@@ -133,17 +150,20 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           isDashboardWidget,
           isSmartAlerts,
           allItems: result.data,
+          teamsSearch,
+          page: mainPage ? page : 1,
+          pageSize: mainPage ? pageSize : DEFAULT_NUMBER_ROWS,
           query
         })
       : null;
 
-    const items = searchData ?? resultDataItems;
+    const items = searchData?.items ?? resultDataItems;
     numberOfRegularItemsToShow = Math.max(
       0,
       maxItems ? maxItems - (nonDeletedFavoriteCount ?? favIds.length) : items.length
     );
     hasContent = items.length > 0 ? true : false;
-    hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
+    hits = searchData?.hits ?? result?.data?.totalHits ?? result.data.length;
     hitsRef.current = hits ?? 0;
     //For custom dashboard searching
     result = {
@@ -247,8 +267,11 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const dataLoading = result?.progress?.loading;
   const showPagination = mainPage && (dataLoading || hits > pageSizes[0]);
   const dashboardAddMoreLabel = t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel');
+  const serviceLevelsWidgetLabel = t('in-plg:welcomepage.component.serviceLevelsWidget.addButtonLabel');
   const addMorePrefix =
-    addButtonLabel === dashboardAddMoreLabel ? t('in-plg:welcomepage.create') : t('in-plg:welcomepage.addMore');
+    addButtonLabel === dashboardAddMoreLabel || addButtonLabel === serviceLevelsWidgetLabel
+      ? t('in-plg:welcomepage.create')
+      : t('in-plg:welcomepage.addMore');
   return (
     <section
       className={classNames({
@@ -275,7 +298,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           noDataHeader={getNoDataHeader(label)}
           noDataDescription={getNoDataDescription(label)}
           onSearch={debounce((searchQuery: string) => {
-            setQuery(searchQuery);
+            setQuery({ query: searchQuery });
             setPage(1);
           }, 500)}
           buttonName={`${addMorePrefix} ${addButtonLabel ?? ''}`.trim()}
@@ -303,13 +326,46 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
 interface SearchDataProps {
   isDashboardWidget?: boolean;
   isSmartAlerts: boolean;
+  teamsSearch: string | null;
+  page: number;
+  pageSize: number;
   query: string;
   allItems: any;
 }
+interface TeamTagEx {
+  tag_id?: string;
+  id?: string;
+  entity_id: string;
+  displayName: string;
+}
+interface customDashboardConfig extends CustomDashboardWithUserSpecificInformation {
+  rbacTags: TeamTagEx[];
+}
 
-function getSearchData({ isSmartAlerts, allItems, query }: SearchDataProps) {
+function getSearchData({
+  isSmartAlerts,
+  isDashboardWidget,
+  teamsSearch,
+  page,
+  pageSize,
+  allItems,
+  query
+}: SearchDataProps) {
   if (isSmartAlerts) {
-    return getResultsToDisplay(allItems, query, [() => '']);
+    const items = getResultsToDisplay(allItems, query, [() => '']);
+    return { hits: items.length, items: items };
+  }
+  if (isDashboardWidget && teamsSearch && allItems.totalHits) {
+    const filteredRes = allItems?.items.filter((item: customDashboardConfig) => {
+      return item.rbacTags?.some((tag: TeamTagEx) => {
+        return tag.displayName == teamsSearch;
+      });
+    });
+    let pageStart = (page - 1) * pageSize;
+    if (pageStart >= filteredRes.length) {
+      pageStart = 0;
+    }
+    return { hits: filteredRes.length, items: filteredRes.splice(pageStart, pageSize) };
   }
 
   return;

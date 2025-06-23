@@ -27,6 +27,10 @@
       "sloLimitReachedError": "已达到最大服务级别目标配置数 ({{0}})。 请联系 Instana 支持人员以请求提高此限量。"
     },
     "traffic": "流量",
+    "statuses": {
+      "label_red": "超出目标范围",
+      "label_green": "在目标范围内"
+    },
     "indicator": {
       "type": "未知类型",
       "type_eventBased": "事件计数",
@@ -107,7 +111,7 @@
     "metrics": {
       "status": "状态",
       "remainingBudget": "剩余",
-      "burnRate": "烧损率",
+      "burnRate": "燃损率",
       "totalBudget": "错误预算",
       "beaconCount": "信标计数",
       "calls": "调用数",
@@ -242,7 +246,7 @@
   "sloChart": {
     "sloFormatter": {
       "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
-      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}\" })"
     },
     "sloChartSummary": {
       "status": "状态",
@@ -271,17 +275,40 @@
   },
   "sloList": {
     "components": {
+      "sloListTable": {
+        "serviceLevelsCreateButton": "创建服务级别目标",
+        "filterLabel": "过滤",
+        "clearLabel": "清除",
+        "filterClose": "关闭",
+        "sloListErrorTitle": "出错了！",
+        "sloListErrorDescription": "发生意外错误。 请刷新页面或稍后重试。",
+        "emptyListStateTitle": "找不到结果",
+        "emptyListStateSubtitle": "尝试调整搜索或过滤选项以查找所需内容。",
+        "emptyListStateIllustrationDescription": "显示无数据可用"
+      },
+      "sloListFilters": {
+        "filterStatus": "状态",
+        "filterTags": "标记",
+        "filterBlueprint": "蓝图",
+        "filterEntity": "实体"
+      },
       "sloEntityInfo": {
         "service": "服务：{{label}}",
         "endpoint": "端点: {{label}}",
         "tooltip": "{{context}} SLO"
       },
-      "entityTypeFilter": {
-        "placeholder": "实体类型"
+      "statusFilter": {
+        "sloStatusAll": "全部"
       },
       "sloTagFilter": {
-        "placeholder": "标记",
-        "noTagsInfo": "没有可用的标记"
+        "placeholder": "选择标记",
+        "noTagsInfo": "没有可用的标记",
+        "clearFilters": "清除过滤器",
+        "filters": "未知过滤器",
+        "filters_entityType": "实体类型：$t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
+        "filters_blueprint": "蓝图：$t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
+        "filters_sloStatus": "状态：$t(in-service-levels:general.statuses.label, {\"context\":\"{{value}}\"})",
+        "filters_tags": "标记：{{value}}"
       },
       "sloStatusColumnContent": {
         "target": "目标 {{target}}"
@@ -341,7 +368,7 @@
         "totalTraffic": "总计：{{value}}"
       },
       "burnRateKpiCard": {
-        "burnRateInfo": "所选 SLO 时间窗口内的烧损率"
+        "burnRateInfo": "选定 SLO 时间窗口内的烧损率"
       },
       "errorBudgetChart": {
         "title": "错误预算"
@@ -350,7 +377,7 @@
         "title": "流量"
       },
       "burnRateChart": {
-        "title": "烧损率"
+        "title": "燃损率"
       },
       "indicatorChart": {
         "title": "指标",

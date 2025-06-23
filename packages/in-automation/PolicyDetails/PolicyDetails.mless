@@ -67,4 +67,19 @@
       }
     }
   }
+  .triggerName {
+    &:hover {
+      text-decoration: none;
+    }
+    :global span[aria-describedby] {
+      font-family: var(--cds-body-01-font-family);
+      color: var(--cds-link-primary);
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    :global div:hover {
+      text-decoration: none;
+    }
+  }
 }

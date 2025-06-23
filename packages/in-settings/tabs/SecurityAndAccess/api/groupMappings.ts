@@ -7,6 +7,7 @@ import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 import { Result } from 'in-types';
 
@@ -22,6 +23,7 @@ export interface IdpGroupMapping {
   key: string;
   value: string;
   groupId: string;
+  teamId: string;
 }
 
 export interface IdentityProviderPatch {
@@ -71,5 +73,46 @@ export function setIdpRestriction(value: IdentityProviderPatch) {
     url: basePath + '/identityProvider/restrictEmptyIdpGroups',
     headers: getCsrfHeader(),
     data: value
+  });
+}
+
+export function deleteMapping(id: string): Observable<Response<void>> {
+  return http<void>({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `${basePath}/${encodeURIComponent(id)}`,
+    headers: getCsrfHeader()
+  }).map(v => {
+    refreshSignal.emit(id);
+    return v;
+  });
+}
+
+export function deleteMappings(ids: string[]): Observable<Response<void>> {
+  return http<void>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${basePath}/delete`,
+    data: ids,
+    treat400AsError: true
+  }).map(v => {
+    refreshSignal.emit(ids);
+    return v;
+  });
+}
+
+export function saveMapping(mapping: IdpGroupMapping): Observable<Response<IdpGroupMapping>> {
+  const method = mapping?.id ? 'PUT' : 'POST';
+  const url = mapping?.id ? `${basePath}/${encodeURIComponent(mapping.id)}` : basePath;
+  return http<IdpGroupMapping>({
+    method: method,
+    url: url,
+    headers: getCsrfHeader(),
+    data: mapping
+  }).map(v => {
+    if (v?.body?.id) refreshSignal.emit(v?.body?.id);
+
+    return v;
   });
 }

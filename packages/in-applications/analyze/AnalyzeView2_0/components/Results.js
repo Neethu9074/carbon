@@ -57,6 +57,12 @@ const columnsPerDataSource = {
   subtraces: getColumnDefinitions('subtraces')
 };
 
+const iconTypePerDataSource = {
+  calls: 'lib_application_call',
+  traces: 'lib_application_trace',
+  subtraces: 'lib_application_call'
+};
+
 export default function Results(props) {
   const {
     Chart = ChartsPresenter,
@@ -206,32 +212,35 @@ function getColumnDefinitions(dataSource) {
       label: namePerDataSource[dataSource],
       sortable: false,
       getContent(item, { getHrefToDetailId, groupLabel }) {
-        const label = subtraceType ? item.subtraceName : item[type].label; //TODO Add link for detailview for subtraces
         return (
           <div className={locals.batchedLine}>
-            <SvgIcon type={`lib_application_${type}`} color="var(--cds-link-primary)" size="s" />
-            <Spacer horizontal="xsmall" />
-            {!subtraceType ? (
-              <LinkToDetailPage
-                item={item}
-                dataSource={dataSource}
-                getHrefToDetailId={getHrefToDetailId}
-                linkLabel={label}
-                groupLabel={groupLabel}
-              />
+            {subtraceType ? (
+              <>
+                <SvgIcon type={iconTypePerDataSource[dataSource]} size="s" />
+                <Spacer horizontal="xsmall" />
+                <span>{item.subtraceName}</span>
+              </>
             ) : (
-              <span>{label}</span>
-            )}
-            {!subtraceType && (
-              <BatchingIndicator
-                batchCount={item[type].batchCount}
-                tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
-                  type: getTypeTextByCount(type, 1),
-                  batchCount: item[type].batchCount,
-                  types: getTypeTextByCount(type, item[type].batchCount)
-                })}
-                noTopPosition
-              />
+              <>
+                <SvgIcon type={iconTypePerDataSource[dataSource]} color="var(--cds-link-primary)" size="s" />
+                <Spacer horizontal="xsmall" />
+                <LinkToDetailPage
+                  item={item}
+                  dataSource={dataSource}
+                  getHrefToDetailId={getHrefToDetailId}
+                  linkLabel={item[type].label}
+                  groupLabel={groupLabel}
+                />
+                <BatchingIndicator
+                  batchCount={item[type].batchCount}
+                  tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
+                    type: getTypeTextByCount(type, 1),
+                    batchCount: item[type].batchCount,
+                    types: getTypeTextByCount(type, item[type].batchCount)
+                  })}
+                  noTopPosition
+                />
+              </>
             )}
           </div>
         );
@@ -248,9 +257,9 @@ function getColumnDefinitions(dataSource) {
     ...(subtraceType
       ? [
           {
-            id: 'subCalls',
+            id: 'subtraceCalls',
             label: t('in-applications:subtraces.labelCallsPerSubtrace'),
-            sortable: false,
+            sortable: true,
             getContent(item) {
               return <span>{item.subtraceCalls}</span>;
             }

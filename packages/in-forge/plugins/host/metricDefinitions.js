@@ -168,33 +168,6 @@ export default [
     formatter: number
   },
   {
-    metrics: [
-      'cpu.systemCalls',
-      'cpu.systemReads',
-      'cpu.systemWrites',
-      'cpu.blockReads',
-      'cpu.blockWrites',
-      'cpu.nonBlockReads',
-      'cpu.nonBlockWrites',
-      'cpu.logicalBlockReads',
-      'cpu.logicalBlockWrites'
-    ],
-    labels: [
-      t('in-forge:plugins.host.systemCalls'),
-      t('in-forge:plugins.host.systemReads'),
-      t('in-forge:plugins.host.systemWrites'),
-      t('in-forge:plugins.host.blockReads'),
-      t('in-forge:plugins.host.blockWrites'),
-      t('in-forge:plugins.host.nonBlockReads'),
-      t('in-forge:plugins.host.nonBlockWrites'),
-      t('in-forge:plugins.host.logicalBlockReads'),
-      t('in-forge:plugins.host.logicalBlockWrites')
-    ],
-    category: [t('in-forge:plugins.host.cpu')],
-    min: 0,
-    formatter: number.compact
-  },
-  {
     metrics: ['cpu.usersysratio'],
     labels: [t('in-forge:plugins.host.usersysratio')],
     category: [t('in-forge:plugins.host.cpu')],

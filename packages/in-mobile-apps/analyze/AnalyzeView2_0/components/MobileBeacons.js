@@ -11,6 +11,7 @@ import {
   getLabel as getDroppedBeaconLabel,
   getDurationTime
 } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/DroppedBeacon';
+import { PERFORMANCE_SUBTYPES } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import { getLabel } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
@@ -340,14 +341,18 @@ function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel, no
   return (
     <Link
       className={noEllipsis ? locals.noEllipsis : locals.link}
-      href={getHrefToDetailId(
-        {
-          sessionId: beacon.sessionId,
-          beaconId: beacon.beaconId,
-          beaconTimestamp: beacon.timestamp
-        },
-        groupLabel
-      )}
+      href={
+        beacon.sessionId
+          ? getHrefToDetailId(
+              {
+                sessionId: beacon.sessionId,
+                beaconId: beacon.beaconId,
+                beaconTimestamp: beacon.timestamp
+              },
+              groupLabel
+            )
+          : null
+      }
     >
       {linkLabel}
     </Link>

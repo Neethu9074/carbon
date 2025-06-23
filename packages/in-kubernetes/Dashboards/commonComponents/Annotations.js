@@ -7,6 +7,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -43,11 +44,13 @@ export default connectTo(
 
 function formatAnnotation(value) {
   const code = parseAnnotation(value);
-  return (
-    <div className={locals.noLeftPadding}>
-      <code>{code.formatted}</code>
-    </div>
-  );
+  let formattedValue;
+  if (!code?.formatted?.trim()) {
+    formattedValue = valueMissingPlaceholder;
+  } else {
+    formattedValue = <code>{code.formatted}</code>;
+  }
+  return <div className={locals.noLeftPadding}>{formattedValue}</div>;
 }
 
 function parseAnnotation(value) {

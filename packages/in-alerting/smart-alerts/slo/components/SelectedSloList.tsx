@@ -14,15 +14,15 @@ import { createEntityIdUrlParameter, createTagsUrlParameter } from 'in-service-l
 import SloEntityColumnContent from 'in-service-levels/components/SloList/components/SloEntityColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
+import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import { serviceLevelsAlertDetailsSegment } from 'in-service-levels/navigation/path';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { buildSloListItem } from 'in-service-levels/hooks/useSloListItems';
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import { pathSegment } from 'in-synthetics/utils/constants';
+import { SloListItem } from 'in-service-levels/types';
 import { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';

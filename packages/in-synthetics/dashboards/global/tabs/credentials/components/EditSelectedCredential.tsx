@@ -20,8 +20,10 @@ import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SlideInConfig, SliderState } from 'in-synthetics/utils/constants';
+import TeamsStep from 'in-synthetics/createTests/wizard/TeamsStep';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { close } from 'in-components/DialogPresenter/store';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import CancelButton from 'in-components/form/CancelButton';
 import { updateCredential } from 'in-synthetics/api';
 import Actions from 'in-components/Dialog/Actions';
@@ -90,6 +92,12 @@ const EditSelectedCredential = ({ item }: Props) => {
           <Typography variant="heading-400">{t('in-synthetics:dialog.createCredential.edit.associations')}</Typography>
           <AssociationsCommonSection form={form} updateForm={updateForm} setSliderState={setSliderState} />
         </Stack>
+        {rbacTeamsEnabled && (
+          <Stack gap="xsmall">
+            <Typography variant="heading-400">{t('in-synthetics:dialog.createCredential.teams')}</Typography>
+            <TeamsStep form={form} updateForm={updateForm} />
+          </Stack>
+        )}
         <Actions>
           <CancelButton onClick={close} />
           <SaveButton

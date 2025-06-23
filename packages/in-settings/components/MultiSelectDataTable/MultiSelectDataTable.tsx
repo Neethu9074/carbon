@@ -130,6 +130,7 @@ interface MultiSelectDataTableProps<
   getEntityName: (element: ROW_DATA_TYPE) => string;
   message?: Notification | null;
   searchAttributes: Array<keyof ROW_DATA_TYPE>;
+  emptyStateMessage?: string;
 }
 
 const logger = createLogger('SettingsList');
@@ -160,7 +161,8 @@ export default function MultiSelectDataTable<
     customDialogMessage,
     customBatchDeleteMessage,
     searchAttributes,
-    message
+    message,
+    emptyStateMessage
   } = props;
 
   if (!searchAttributes.length) throw new Error('At least one search attribute must be defined.');
@@ -189,6 +191,7 @@ export default function MultiSelectDataTable<
   const [notification, setNotification] = useState<Notification>();
   const isLoading = loading && tableRows?.length == 0;
   const isEmptyState = !loading && tableRows?.length == 0;
+  const isErrorState = message?.kind === 'error';
 
   const filteredRows = tableRows.filter(item => {
     return searchAttributes.some(key => {
@@ -353,7 +356,7 @@ export default function MultiSelectDataTable<
             title={notification.title}
             subtitle={notification.subtitle}
             lowContrast
-            // timeout={notification.timeout}
+            timeout={notification.timeout}
             caption={notification.caption}
           />
         </div>
@@ -476,8 +479,12 @@ export default function MultiSelectDataTable<
                           <TableCell colSpan={tableHeaders.length}>
                             <CarbonEmptyState
                               icon="lib_carbon_empty_state"
-                              title={message?.kind === 'error' ? t('in-settings:components.errorTitle') : ''}
-                              text={t('in-settings:components.noDataAvailable')}
+                              title={isErrorState ? t('in-settings:components.errorTitle') : ''}
+                              text={
+                                !isErrorState && emptyStateMessage
+                                  ? emptyStateMessage
+                                  : t('in-settings:components.noDataAvailable')
+                              }
                               className={locals.emptyState}
                             />
                           </TableCell>

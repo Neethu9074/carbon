@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, notBlankValidator } from 'formalistic';
+import { createField } from 'formalistic';
 
 import {
   ServiceLevelIndicatorType,
@@ -27,9 +27,7 @@ import createSloFormFromPreviousForm from 'in-service-levels/components/ConfigDi
 import { createSloFormFromSloConfig } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromSloConfig';
 import { createSloFormFromForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
 import { createDefaultSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
-import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { stringValidator } from 'in-services/validators/jsonType';
+import { nameValidator } from 'in-service-levels/utils/validators';
 
 interface CreateSloFormProps {
   entityType?: SloEntityType;
@@ -57,7 +55,7 @@ export function createSloNameTagsFields({
   return {
     name: createField({
       value: name,
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      validator: nameValidator
     }),
     tags: createField({ value: tags })
   };

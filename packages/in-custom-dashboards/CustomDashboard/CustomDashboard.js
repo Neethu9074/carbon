@@ -41,12 +41,14 @@ import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/Custo
 import EditTeamsDialog from 'in-custom-dashboards/CustomDashboard/EditTeamsDialog/EditTeamsDialog';
 import { FilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import DownloadPdfDialog from 'in-components/DownloadPdf/DownloadPdfDialog/DownloadPdfDialog';
+import { AiChatContainer } from 'in-custom-dashboards/CustomDashboard/AiChat/AiChatContainer';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
+import { customDashboardsPromptingEnabled } from 'in-services/featureFlags';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -72,6 +74,8 @@ export default function CustomDashboardLoader(props) {
   const [config, setConfig] = useState(getInitialState(result).config);
   const [isSaving, setSaving] = useState(getInitialState(result).isSaving);
   const [downloadDashboard, setDownloadDashboard] = useState(false);
+  const [prompting, setPrompting] = useState(false);
+
   const activeDialogs = useObservable(activeDialogs$, []) ?? [];
 
   const { location, navigate } = useNavigation();
@@ -82,6 +86,16 @@ export default function CustomDashboardLoader(props) {
     tagFilterExpression => setUrlState({ tagFilterExpression }),
     [setUrlState]
   );
+
+  const onAddPromptedWidget = useCallback(
+    widget => {
+      const newConfig = deepCopy(config);
+      newConfig.widgets.push(widget);
+      setConfig(newConfig);
+    },
+    [config]
+  );
+
   useEffect(() => setTopLevelFilters(tagFilterExpression), [tagFilterExpression]);
 
   useEffect(() => {
@@ -91,7 +105,7 @@ export default function CustomDashboardLoader(props) {
 
   useEffect(() => {
     const handlePasteAnywhere = event => {
-      if (activeDialogs.length === 0) {
+      if (!prompting && activeDialogs.length === 0) {
         const input = JSON.parse(event.clipboardData.getData('text'));
         const newConfig = deepCopy(config);
         const widgets = Array.isArray(input) ? input : [input];
@@ -108,7 +122,7 @@ export default function CustomDashboardLoader(props) {
     return () => {
       window.removeEventListener('paste', handlePasteAnywhere);
     };
-  }, [config, activeDialogs.length]);
+  }, [config, activeDialogs.length, prompting]);
 
   const exportWidgetToPdf = useCallback(
     ({ target, tooltipRef, isHistogram, pdfHeaderTitle }) => {
@@ -174,6 +188,10 @@ export default function CustomDashboardLoader(props) {
         onTopLevelFiltersChange={onTopLevelFiltersChange}
       />
       {PdfExportRenderer}
+      {config && // workaround to render chat only after a dashboard config is present otherwise it messes with onAddPromptedWidget.
+        customDashboardsPromptingEnabled && (
+          <AiChatContainer beforeRender={() => setPrompting(true)} onAddPromptedWidget={onAddPromptedWidget} />
+        )}
     </CustomDashboardContext.Provider>
   );
 

@@ -12,6 +12,7 @@ import { t } from '@instana/i18n-react';
 import {
   WELCOME_PAGE_ADD_USER_CLICK,
   WELCOME_PAGE_DEPLOY_AGENT_CLICK,
+  WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK,
   WELCOME_PAGE_IBM_DOCUMENTATION_CLICK,
   WELCOME_PAGE_RELEASE_NOTES_CLICK,
   WELCOME_PAGE_WHATS_NEW_LINK_CLICK
@@ -24,11 +25,11 @@ import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
 import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
+import { newOTelPageEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 import { MakeDefaulButtonProps } from 'in-plg/pages/WelcomePage/quickLinks/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { getPageType } from 'in-plg/Demo/NewPlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -45,12 +46,23 @@ export const QuickLinks = () => {
       <Stack gap="disabled" direction="horizontal">
         {!playwithEnabled && role?.canConfigureAgents && (
           <QuickLinkButton
-            icon="lib_actions_settings"
+            icon={newOTelPageEnabled ? 'lib_datasource' : 'lib_actions_settings'}
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.settings')}
-            buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')}
-            href={createHrefToPath('/agents/installation')}
+            buttonName={
+              newOTelPageEnabled
+                ? t('in-plg:welcomepage.quickLinks.buttonNames.setUpADataSource')
+                : t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')
+            }
+            href={
+              newOTelPageEnabled
+                ? createHrefToPath('/datasources/installation')
+                : createHrefToPath('/agents/installation')
+            }
             onClick={() => {
-              trackCta(WELCOME_PAGE_DEPLOY_AGENT_CLICK, getPageType(location.pathname));
+              trackCta(
+                newOTelPageEnabled ? WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK : WELCOME_PAGE_DEPLOY_AGENT_CLICK,
+                getPageType(location.pathname)
+              );
             }}
           />
         )}

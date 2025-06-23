@@ -49,7 +49,7 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
                 <AlertPropertiesTitleRow
                   form={form}
                   onChange={onChange}
-                  placeholders={placeholdersByEvaluationTypeAndSeverity(evaluationType)}
+                  placeholderData={{ placeholders: placeholdersByEvaluationTypeAndSeverity(evaluationType) }}
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}

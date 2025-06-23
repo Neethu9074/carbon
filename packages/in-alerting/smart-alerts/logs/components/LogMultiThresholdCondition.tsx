@@ -19,8 +19,13 @@ import {
   getMaxMetricValue,
   getThresholdTypeOptions
 } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
+import {
+  WARNING_THRESHOLD,
+  CRITICAL_THRESHOLD
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -49,6 +54,7 @@ export default function LogMultiThresholdCondition({
   const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
   const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
   const alertChannelSelection = form.get('alertChannels').value;
+  const operator = form.get('threshold').get('operator').value;
 
   useEffect(() => {
     updateAlertChannelSelectionOnWarningThresholdFieldChange(
@@ -85,7 +91,17 @@ export default function LogMultiThresholdCondition({
         label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
         size="large"
         checked={warningThresholdValuePresent}
-        onChange={() => updateForm(updatedThresholdCheckboxSelection(warningThresholdValuePresent, 'warningThreshold'))}
+        onChange={({ target }) => {
+          setValidNextValue({
+            isChecked: target.checked,
+            thresholdValue: criticalThresholdValue,
+            thresholdType: WARNING_THRESHOLD,
+            updateForm,
+            updatedThresholdValue,
+            percentageMetric,
+            operator
+          });
+        }}
       />
       <Stack direction="horizontal" align="center">
         <ThresholdValueInputWithValidationMessage
@@ -111,9 +127,17 @@ export default function LogMultiThresholdCondition({
         label={t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')}
         size="large"
         checked={criticalThresholdValuePresent}
-        onChange={() =>
-          updateForm(updatedThresholdCheckboxSelection(criticalThresholdValuePresent, 'criticalThreshold'))
-        }
+        onChange={({ target }) => {
+          setValidNextValue({
+            isChecked: target.checked,
+            thresholdValue: warningThresholdValue,
+            thresholdType: CRITICAL_THRESHOLD,
+            updateForm,
+            updatedThresholdValue,
+            percentageMetric,
+            operator
+          });
+        }}
       />
       <ThresholdValueInputWithValidationMessage
         max={maxValue}
@@ -142,9 +166,5 @@ export default function LogMultiThresholdCondition({
         (item as Field<any>).setValue(targetValue).setTouched(true)
       )
     );
-  }
-
-  function updatedThresholdCheckboxSelection(isChecked: boolean, thresholdType: string) {
-    return updatedThresholdValue(isChecked ? null : 0, thresholdType);
   }
 }

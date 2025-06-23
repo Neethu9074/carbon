@@ -19,6 +19,7 @@ export default connectTo(
         clusterId: props.clusterId,
         serviceId: props.serviceId,
         nodeId: props.nodeId,
+        persistentVolumeId: props.persistentVolumeId,
         podId: props.podId,
         statefulSetId: props.statefulSetId,
         cronJobId: props.cronJobId,

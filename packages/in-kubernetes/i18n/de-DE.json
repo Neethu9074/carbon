@@ -10,6 +10,7 @@
     "namespace": "Namensbereich",
     "node": "Knoten",
     "pod": "Pod",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "K8s-Service"
   },
   "clusterBadgeNameOpenShift": "OpenShift",
@@ -29,6 +30,7 @@
     "summary": "Zusammenfassung",
     "details": "Details",
     "hostCoverage": "Hostabdeckung",
+    "k8SensorVersion": "K8s Sensor-Version",
     "clusterUuid": "Cluster-UUID",
     "agentMonitor": "Agent Monitor",
     "controlPlane": "Steuerebene",
@@ -55,9 +57,17 @@
     "cpuUsage": "CPU-Auslastung",
     "memoryUsage": "Speicherbelegung",
     "phase": "Phase",
-    "reclaimPolicy": "Rückforderungsrichtlinie",
-    "storageCapacity": "Speicherkapazität",
     "storageClassName": "Speicherklassenname",
+    "capacityStorage": "Kapazitätsspeicher",
+    "storageTotalCapacity": "Gesamtkapazität",
+    "storageUsedCapacity": "Verwendete Kapazität",
+    "storageUtilization": "Auslastung",
+    "storageUsedTotalCapacity": "von insgesamt {{total}}",
+    "total": "Gesamtzahl",
+    "reclaimPolicy": "Rückforderungsrichtlinie",
+    "accessMode": "Zugriffsmodus",
+    "volumeMode": "Datenträgermodus",
+    "creationTimestamp": "Erstellungszeitmarke",
     "cpuRequests": "CPU-Anforderungen",
     "cpuRequestsMultiMetric": "CPU-Anforderungen",
     "cpuLimitsAlloc": "Zuordnung von CPU-Limits",
@@ -160,6 +170,8 @@
     "lastJobDuration": "Dauer des letzten Jobs",
     "kubernetesDaemonSet": "Kubernetes-DaemonSet",
     "k8SDaemonSet": "K8s-DaemonSet",
+    "kubernetesPersistentVolume": "Kubernetes PersistentVolume",
+    "k8SPersistentVolume": "K8s PersistentVolume",
     "unscheduled": "Nicht geplant",
     "unready": "Nicht bereit",
     "available": "Verfügbar",
@@ -277,12 +289,12 @@
       "idleCost": "Leerkosten",
       "viewInKubeCost": "Ansicht in Kubecost",
       "coreCountByCluster": "vCPU",
-      "noKubecostData": "Ermöglichung der Kostenbeobachtung und -zuweisung mit Kubecost. Um die Integration zu konfigurieren, folgen Sie diesen [Schritten][Docs].\n\n[Docs] :https://ibm.biz/kubecost",
+      "noKubecostData": "Aktivieren Sie die Kostenüberwachung für diesen Cluster mit Kubecost.\\\n Um die Integration zu konfigurieren, [befolgen Sie diese Schritte] in der Dokumentation.\n\n[befolgen Sie diese Schritte]:https://ibm.biz/kubecost",
       "totalClusterCost": "Gesamtkosten des Clusters (letzte 14 Tage)",
       "workloadEfficiency": "Effizienz der Arbeitsbelastung",
       "estimatedMonthlySavings": "Geschätzte monatliche Einsparungen",
-      "totalClusterCostTooltipinfo": "Die Gesamtkosten Ihres Clusters für den gewählten Zeitraum. Hinweis: Wenn Sie weniger als 14 Tage an Daten haben, wird diese Zahl so lange angezeigt, bis ein vollständiger 14-Tage-Zyklus verstrichen ist.",
-      "workloadEfficiencyTooltipinfo": "Die durchschnittliche Effizienz jedes Workloads über das gewählte Zeitfenster. Die Workload-Effizienz ist das kostengewichtete Verhältnis der RAM- und CPU-Nutzung zu den konfigurierten RAM- und CPU-Anforderungen.",
+      "totalClusterCostTooltipinfo": "Die Gesamtkosten Ihres Clusters für die letzten 14 Tage. Wenn Sie weniger als 14 Tage an Daten haben, wird diese Zahl angezeigt, bis ein vollständiger Zyklus mit 14 Tagen verstrichen ist.",
+      "workloadEfficiencyTooltipinfo": "Die durchschnittliche Effizienz jeder Workload in den letzten 14 Tagen. Die Workloadeffizienz ist das kostengewichtete Verhältnis der RAM- und CPU-Nutzung zu den konfigurierten RAM- und CPU-Anforderungen.",
       "estimatedMonthlySavingsTooltipinfo": "Die geschätzten monatlichen Einsparungen für Ihren Cluster, die anhand historischer Daten aus dem ausgewählten Zeitraum ermittelt wurden.",
       "deploymentInfoNotRetrieving": "Kubecost ruft keine Bereitstellungsinformationen ab",
       "notRetrievingData": "Kubecost ruft keine Daten ab",
@@ -331,7 +343,10 @@
       "title": "Schnellerer Zugriff auf wichtige Informationen",
       "content": "Die Kartenansicht bietet mehr Details zu Ihren Clustern und Namespaces auf einen Blick und verlinkt direkt zu jeder Registerkarte im Dashboard, um gezielte Untersuchungen durchzuführen. <br /><br />Sie können ganz einfach zwischen diesen neuen Ansichten und Tabellenansichten wechseln, indem Sie auf den Inhaltswechsler klicken.",
       "button": "Verstanden"
-    }
+    },
+    "nodes": "Knoten",
+    "pods": "Pods",
+    "containers": "Container"
   },
   "viewAllEntityName_unknownEntity_plural": "Alle",
   "viewAllEntityName_unknownEntity_0": "Alle",
@@ -421,5 +436,18 @@
     "days": "Tage vorher",
     "close": "Schließen",
     "branch": "Filiale"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Instana-Agent",
+      "description": "Zeigen Sie Informationen auf Basis der vom Instana-Agenten erfassten Daten an."
+    },
+    "otelCollector": {
+      "text": "OpenTelemetry-Collector",
+      "description": "Zeigen Sie Informationen auf Basis der vom Instana OpenTelemetry-Collector erfassten Daten an."
+    },
+    "additionalMetrics": {
+      "title": "Zusätzlich"
+    }
   }
 }

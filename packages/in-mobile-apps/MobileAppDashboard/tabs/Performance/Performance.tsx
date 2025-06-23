@@ -17,6 +17,7 @@ import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
 import { number, percentage, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import { mobileAppExcessiveNetworkUsageEnabled } from 'in-services/featureFlags';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -41,6 +42,8 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
   const tagFiltersForRequests = tagFilters.slice();
   const tagFiltersForColdStart = tagFilters.slice();
   const tagFiltersForAnr = tagFilters.slice();
+  const tagFiltersForOom = tagFilters.slice();
+  const tagFiltersForEnu = tagFilters.slice();
   tagFiltersForColdStart.push({
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
@@ -52,6 +55,20 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
     stringValue: 'App not responding or freezing',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
+  tagFiltersForOom.push({
+    name: 'mobileBeacon.performanceSubtype',
+    operator: 'EQUALS',
+    stringValue: 'Low memory',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
+  tagFiltersForEnu.push({
+    name: 'mobileBeacon.performanceSubtype',
+    operator: 'EQUALS',
+    stringValue: 'Excessive network usage',
     type: 'TAG_FILTER',
     entity: 'NOT_APPLICABLE'
   });
@@ -223,7 +240,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             }}
             metricsConfiguration={{
               timeConfig,
-              tagFilters: tagFiltersForRequests,
+              tagFilters: tagFiltersForColdStart,
               metrics: {
                 coldStartAndroid: {
                   metric: 'coldStartAndroid',
@@ -259,7 +276,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             }}
             metricsConfiguration={{
               timeConfig,
-              tagFilters: tagFiltersForRequests,
+              tagFilters: tagFiltersForAnr,
               metrics: {
                 anrAndroidCount: {
                   metric: 'anrAndroidCount',
@@ -295,7 +312,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             }}
             metricsConfiguration={{
               timeConfig,
-              tagFilters: tagFiltersForRequests,
+              tagFilters: tagFiltersForOom,
               metrics: {
                 androidLowMemoryCount: {
                   metric: 'androidLowMemoryCount',
@@ -317,6 +334,39 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
           />
         </Col>
       </Row>
+      {mobileAppExcessiveNetworkUsageEnabled && (
+        <Row>
+          <Col lg={4}>
+            <MobileAppChartWrapper
+              toolTipIcon="lib_help_error_info_outline"
+              tooltipContent={t('in-mobile-apps:dashboard.tabs.excessiveNetworkUsageTooltip')}
+              title={t('in-mobile-apps:dashboard.tabs.excessiveNetworkUsageTitle')}
+              timeConfig={timeConfig}
+              viewInAnalytics={viewInAnalytics}
+              y1={{
+                renderer: Renderer.bar,
+                formatter: number.compact,
+                labels: [t('in-mobile-apps:dashboard.tabs.androidLabel')],
+                metricIds: ['androidEnuCount'],
+                colors: [carbonCategorical.purple50]
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                tagFilters: tagFiltersForEnu,
+                metrics: {
+                  androidEnuCount: {
+                    metric: 'androidEnuCount',
+                    granularity,
+                    aggregation: 'SUM',
+                    beaconType: 'perf'
+                  }
+                }
+              }}
+              renderPostChartContent={MarkerLane}
+            />
+          </Col>
+        </Row>
+      )}
     </Fragment>
   );
 }

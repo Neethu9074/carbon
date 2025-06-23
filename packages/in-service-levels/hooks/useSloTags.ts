@@ -7,7 +7,7 @@
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { getSloTags } from 'in-service-levels/api/configuration';
+import { getSloTags } from 'in-service-levels/api/sloConfiguration';
 import { FetchedState } from 'in-hooks/utils/types';
 
 export default function useSloTags(): FetchedState<string[]> {

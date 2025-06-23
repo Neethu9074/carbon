@@ -13,6 +13,7 @@ import Alerts from 'in-alerting/smart-alerts/mobileApp/Alerts';
 export interface AlertsProps {
   mobileAppId: string;
   mobileAppLabel: string;
+  isEventsView?: boolean;
 }
 
 export default function AlertsIndex(props: AlertsProps) {

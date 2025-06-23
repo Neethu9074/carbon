@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { isEqual } from 'lodash';
 
 // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
@@ -116,33 +116,39 @@ export default function useUrlState<State extends StateWithoutGuarantees>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
+  const exposedSetState = useCallback(
+    (change: Partial<State>) => {
+      // Users of useUrlState might memoize an older variant of useUrlState. If we wouldn't use this function variant
+      // of setState, we could be losing some prior state updates.
+      setState(prev => {
+        // Synchronously update the state to ensure that quick user interaction will correctly
+        // be reflected within the React state tree. The successive URL update will
+        // (asynchronously) update the state again. This state update will be a noop in all interaction
+        // cases that happen via the Instana user interface. Cases in which this is not a noop are
+        // URL changes caused by the browser itself, e.g. browser back button.
+        return {
+          ...reducer(prev as State, change),
+          // We need to instruct our URL-updating useEffect call that a change in state must result in a location update.
+          __writeToUrl: true
+        };
+      });
+    },
+    [reducer]
+  );
+
+  const exposedGetStateChangeUrl = useCallback(
+    (change: Partial<State>) => {
+      // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+      // eslint-disable-next-line import/no-deprecated
+      return getModifiedUrl(location, location => {
+        const newState = reducer(state as State, change);
+        modifyLocation(bind, newState, location);
+      });
+    },
+    [state, reducer, bind, location]
+  );
+
   return [state as State, exposedSetState, exposedGetStateChangeUrl];
-
-  function exposedSetState(change: Partial<State>): void {
-    // Users of useUrlState might memoize an older variant of useUrlState. If we wouldn't use this function variant
-    // of setState, we could be losing some prior state updates.
-    setState(prev => {
-      // Synchronously update the state to ensure that quick user interaction will correctly
-      // be reflected within the React state tree. The successive URL update will
-      // (asynchronously) update the state again. This state update will be a noop in all interaction
-      // cases that happen via the Instana user interface. Cases in which this is not a noop are
-      // URL changes caused by the browser itself, e.g. browser back button.
-      return {
-        ...reducer(prev as State, change),
-        // We need to instruct our URL-updating useEffect call that a change in state must result in a location update.
-        __writeToUrl: true
-      };
-    });
-  }
-
-  function exposedGetStateChangeUrl(change: Partial<State>): string {
-    // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
-    // eslint-disable-next-line import/no-deprecated
-    return getModifiedUrl(location, location => {
-      const newState = reducer(state as State, change);
-      modifyLocation(bind, newState, location);
-    });
-  }
 }
 
 function getBind(binds: ParameterDefinition<any>[], as: string): ParameterDefinition<any> | undefined {

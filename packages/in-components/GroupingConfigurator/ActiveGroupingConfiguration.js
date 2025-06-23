@@ -22,6 +22,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
     tagFilterExpression,
     tagCatalog,
     getSuggestions,
+    getSuggestionsProps,
     onChange,
     onGroupRemoved,
     toggle,
@@ -88,7 +89,8 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
                 name: groupbyTag,
                 entity: groupbyTagEntity,
                 timeConfig,
-                propose: 'KEYS'
+                propose: 'KEYS',
+                ...getSuggestionsProps
               })
             }
             fieldsToWatch={[tagFilterExpression, groupbyTag, groupbyTagEntity, timeConfig]}

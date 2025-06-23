@@ -21,6 +21,7 @@ import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
+import CreateNewPolicyTearsheet from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -176,10 +177,9 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:test')}
               </MoreMenuButton>
             )}
-
             {role?.canConfigureAutomationActions && isUserActions && (
               <MoreMenuButton
-                icon="lib_actions_edit "
+                icon="lib_actions_edit"
                 disabled={action.metadata?.builtIn}
                 onClick={() => handleButtonClick({ actionId: action?.id })}
               >
@@ -211,6 +211,14 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 }}
               >
                 {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+              </MoreMenuButton>
+            )}
+            {role?.canConfigureAutomationPolicies && isUserActions && (
+              <MoreMenuButton
+                icon="lib_openclose_add_circle_outline"
+                onClick={() => openPolicyTearsheet({ actionId: action?.id })}
+              >
+                {t('in-automation:createPolicy')}
               </MoreMenuButton>
             )}
             {isUserActions && role?.canConfigureAutomationActions && (
@@ -314,4 +322,8 @@ function onDeleteFailed(error: Error) {
 
 const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
   addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} />);
+};
+
+export const openPolicyTearsheet = ({ actionId }: { actionId?: string }) => {
+  addActiveDialog(<CreateNewPolicyTearsheet actionId={actionId} />);
 };

@@ -4,15 +4,15 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
+import { TimeConfig } from '@instana/types';
+
 // @ts-expect-error this was not migrated yet, because underlying types are not clear defined:
 import * as GENERIC_COLS from 'in-forge/common/GenericCustomColumns';
+import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { number } from 'in-services/formatters/number';
-import { TimeConfig } from '@instana/types';
-import { Map } from 'immutable';
 import { t } from 'in-i18n';
 
 type GenericCustomMetricsProps = { snapshot: Map<string, any>; timeConfig: TimeConfig; titlePrefix?: string };
@@ -30,7 +30,7 @@ export default function GenericCustomMetrics({ snapshot, timeConfig, titlePrefix
       />
     );
   }
-  return <DashboardNotification type="info">{t('in-sdk:dashboard.customMetricsV2.noMetrics')}</DashboardNotification>;
+  return null;
 }
 
 export const SPECS = [

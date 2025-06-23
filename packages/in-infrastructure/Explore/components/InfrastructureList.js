@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { isEqual } from 'lodash';
+import { isEqual, kebabCase } from 'lodash';
 import rpt from 'prop-types';
 
 import { LoadingSpinner, Ul } from '@instana/components';
@@ -181,11 +181,12 @@ export default function InfrastructureList({
     getLabelColumn(tracking?.onNavigateToEntity, isPreview, timeConfig),
     ...tags.map(tag => {
       const path = (tagCatalog.tagsByName && tagCatalog.tagsByName[tag]?.path?.map(node => node.label)) || [];
+      const label = { data: path };
 
       return {
         id: tag,
-        label: { data: path },
-        renderLabel: ({ label }) => <TagLabel label={{ data: label }} />,
+        label,
+        renderLabel: () => <TagLabel label={label} />,
         width: '12rem',
         widthInAbsoluteUnit: true,
         sortable: showHeader || sortableTags,
@@ -627,7 +628,10 @@ function getHeaderActions(props) {
         columns={columns}
       />
       <DownloadPdfButton
-        options={{ pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}` }}
+        options={{
+          filename: kebabCase(pluginName),
+          pdfHeaderTitle: `${t('in-infrastructure:explore.analyzeInfrastructure')}: ${pluginName}`
+        }}
       />
       <MetricCatalogAndSortingConfigurator {...props} metrics={metrics.filter(m => !m.removeFromTable)} />
     </>

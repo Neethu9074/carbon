@@ -14,8 +14,10 @@ import {
   SyntheticTest,
   TagFilterExpression,
   TagFilterOperator,
+  TestResultListItem,
   TimeConfig
 } from '@instana/types';
+import { Message as CarbonMessage } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Dropdown } from '@instana/carbon';
 
@@ -44,19 +46,28 @@ import {
   runTypeTagName,
   typeTagName
 } from 'in-synthetics/tags';
+import {
+  addColumnCustomizationNotification,
+  removeColumncustomizationNotification
+} from 'in-synthetics/utils/setTestsColumnConfigurationMessage';
 import showNotification, {
   calculateNextOccurrence,
   setReminder,
   storedAlarmTimeOrNull,
   timeExpired
 } from 'in-synthetics/utils/setReminders';
+import {
+  syntheticCarbonTableEnabled,
+  syntheticRbacLimitedEnabled,
+  syntheticRunNowEnabled
+} from 'in-services/featureFlags';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
-import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
+import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -162,6 +173,7 @@ const TestSummaryList = () => {
   const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType }, setFilter] =
     useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
+  const showTestsColumnCustomizationMessage = addColumnCustomizationNotification();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
   if (syntheticRbacLimitedEnabled && !syntheticTests?.progress?.loading) {
     syntheticTests?.data?.forEach(function (item: SyntheticTest) {
@@ -205,46 +217,95 @@ const TestSummaryList = () => {
             pageRootName: pageNames.synthetic_monitoring_tests
           }}
         />
-        <ServerTableWithUrlState
-          get={getTestSummaryListData}
-          timeConfig={timeConfig}
-          rightHeader={rightHeader}
-          cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
-          toolBarContent={
-            syntheticRunNowEnabled && (
-              <Dropdown
-                className={locals.dropdownWidth}
-                items={datascopeRunTypes}
-                onChange={({ selectedItem }) => {
-                  setFilter({ runType: selectedItem?.value! });
-                }}
-                label=""
-                id="runType"
-                titleText=""
-                selectedItem={datascopeRunTypes.find(item => item.value === runType)}
-                initialSelectedItem={datascopeRunTypes[0]}
-              />
-            )
-          }
-          runType={runType}
-          syntheticTypes={syntheticTypes}
-          locationIds={locationIds}
-          applicationIds={applicationIds}
-          entityIds={entityIds}
-          associations={associations}
-        />
+        {showTestsColumnCustomizationMessage && (
+          <div className={locals.flyout}>
+            <CarbonMessage
+              className={locals.toastMessage}
+              title={t('in-synthetics:dashboard.testList.configureColumns.title')}
+              inline={false}
+              dismissible
+              onClose={removeColumncustomizationNotification}
+              description={t('in-synthetics:dashboard.testList.configureColumns.description')}
+            />
+          </div>
+        )}
+        {syntheticCarbonTableEnabled ? (
+          <CarbonDataTableWithUrlState<TestResultListItem, any>
+            get={getTestSummaryListData}
+            paginationResettingUrlParameters={[...timeConfigUrlParameters]}
+            columnDefinitions={columnDefinitions}
+            defaultOrderBy="successRate"
+            defaultOrderDirection="ASC"
+            pathSegment={pathSegment}
+            matrixPrefix={matrixPrefix}
+            timeConfig={timeConfig}
+            isSearchable
+            searchText={t('in-synthetics:dashboard.testList.searchSyntheticTests')}
+            toolBarContent={
+              syntheticRunNowEnabled && (
+                <Dropdown
+                  className={locals.dropdownWidth}
+                  items={datascopeRunTypes}
+                  onChange={({ selectedItem }) => {
+                    setFilter({ runType: selectedItem?.value! });
+                  }}
+                  label=""
+                  id="runType"
+                  titleText=""
+                  selectedItem={datascopeRunTypes.find(item => item.value === runType)}
+                  initialSelectedItem={datascopeRunTypes[0]}
+                />
+              )
+            }
+            noDataHeader={t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle')}
+            noDataDescription={t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')}
+            errorHeader={t('in-synthetics:dashboard.testList.failedToLoadTestsTitle')}
+            runType={runType}
+            actionButtonContent={role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
+          />
+        ) : (
+          <ServerTableWithUrlState
+            get={getTestSummaryListData}
+            timeConfig={timeConfig}
+            rightHeader={rightHeader}
+            cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
+            toolBarContent={
+              syntheticRunNowEnabled && (
+                <Dropdown
+                  className={locals.dropdownWidth}
+                  items={datascopeRunTypes}
+                  onChange={({ selectedItem }) => {
+                    setFilter({ runType: selectedItem?.value! });
+                  }}
+                  label=""
+                  id="runType"
+                  titleText=""
+                  selectedItem={datascopeRunTypes.find(item => item.value === runType)}
+                  initialSelectedItem={datascopeRunTypes[0]}
+                />
+              )
+            }
+            runType={runType}
+            syntheticTypes={syntheticTypes}
+            locationIds={locationIds}
+            applicationIds={applicationIds}
+            entityIds={entityIds}
+            associations={associations}
+          />
+        )}
       </LeftRightPadding>
       <Footer />
 
-      {(role?.canConfigureSyntheticTests || role?.canConfigureGlobalSyntheticSmartAlerts) && (
-        <FloatingActionButtons>
-          <FloatingActionButtonMenu>
-            {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
+      {!syntheticCarbonTableEnabled &&
+        (role?.canConfigureSyntheticTests || role?.canConfigureGlobalSyntheticSmartAlerts) && (
+          <FloatingActionButtons>
+            <FloatingActionButtonMenu>
+              {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
 
-            {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
-          </FloatingActionButtonMenu>
-        </FloatingActionButtons>
-      )}
+              {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
+            </FloatingActionButtonMenu>
+          </FloatingActionButtons>
+        )}
     </Sticky>
   );
 };

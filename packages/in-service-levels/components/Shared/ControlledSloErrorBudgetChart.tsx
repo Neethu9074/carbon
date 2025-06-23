@@ -13,6 +13,7 @@ import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import { correctionWindowMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
@@ -20,7 +21,11 @@ import { ResultAwareChartMetrics } from 'in-service-levels/hooks/useTimeWindowAw
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes, number } from 'in-services/formatters/number';
+import { MetricDataSeries } from 'in-components/Chart/types';
+import { hexToRGBA } from 'in-services/formatters/color';
 import { sloMetrics } from 'in-service-levels/metrics';
+import { carbonAlert } from 'in-themes/chartColors';
+import { t } from 'in-i18n';
 
 interface ControlledSloErrorBudgetChartProps {
   automaticallySize?: boolean;
@@ -35,6 +40,7 @@ interface ControlledSloErrorBudgetChartProps {
   metrics?: ResultAwareChartMetrics;
   title?: string;
   renderPostChartContent?: Parameters<typeof ResultAwareChart>[0]['config']['renderPostChartContent'];
+  correctionWindowMetrics?: MetricDataSeries;
 }
 
 export default function ControlledSloErrorBudgetChart({
@@ -49,13 +55,15 @@ export default function ControlledSloErrorBudgetChart({
   progress,
   errors,
   title,
-  renderPostChartContent
+  renderPostChartContent,
+  correctionWindowMetrics
 }: ControlledSloErrorBudgetChartProps) {
   const { indicator, createdDate } = configuration;
 
   const sloZoomInAction = useSloZoomInAction();
 
   const formatter = indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact;
+
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: createdDate
   });
@@ -66,6 +74,7 @@ export default function ControlledSloErrorBudgetChart({
   const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
   const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
 
+  const hasCorrectionWindows = correctionWindowMetrics !== undefined && correctionWindowMetrics.length > 0;
   return (
     <ResultAwareChart
       config={{
@@ -76,13 +85,28 @@ export default function ControlledSloErrorBudgetChart({
         primaryContextMenuAction: sloZoomInAction.name,
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
+        reverseLegendOrder: hasCorrectionWindows,
         y1: {
-          metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
-          metrics: chartMetrics,
+          metricIds: [
+            ...(hasCorrectionWindows ? [correctionWindowMetricId] : []),
+            ...timeWindowsWithData.map((_, index) => `timeWindows${index}`)
+          ],
+          metrics: [...(hasCorrectionWindows ? [correctionWindowMetrics] : []), ...chartMetrics],
           min,
           max,
-          labels: timeWindowsWithData.map(() => sloMetrics.remainingBudget.label),
-          colors: windowColorsWithData,
+          excludedLabelsFromTooltip: [t('in-service-levels:general.metrics.correctionWindows')],
+          labels: [
+            ...(hasCorrectionWindows ? [t('in-service-levels:general.metrics.correctionWindows')] : []),
+            ...timeWindowsWithData.map(() => sloMetrics.remainingBudget.label)
+          ],
+          icons: {
+            colors: [...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []), ...windowColorsWithData],
+            types: [
+              ...(hasCorrectionWindows ? ['lib_actions_stop'] : []),
+              ...timeWindowsWithData.map(() => 'lib_legend_line_chart')
+            ]
+          },
+          colors: [...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []), ...windowColorsWithData],
           renderer,
           formatter
         },

@@ -6,7 +6,7 @@
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t } from 'in-i18n';
 
-type ActionType = 'create' | 'delete' | 'update' | 'deactivate' | 'activate' | 'cicd-rerun';
+type ActionType = 'create' | 'delete' | 'update' | 'deactivate' | 'activate' | 'cicd-rerun' | 'cicd-create';
 
 const getDeletionFailureMessage = (context?: string, error?: string) => {
   if (context === 'locations')
@@ -51,13 +51,16 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
     case 'cicd-rerun':
       message = t('in-synthetics:dialog.feedback.successMessageCICDRerun');
       break;
+    case 'cicd-create':
+      message = t('in-synthetics:dialog.feedback.successMessageCICDCreate');
+      break;
     default:
       message = '';
       break;
   }
   addMessage({
     type: 'info',
-    timeout: 4000,
+    timeout: type === 'cicd-create' ? 10000 : 4000,
     title: t('in-synthetics:dialog.feedback.successTitle'),
     content: message
   });
@@ -89,6 +92,9 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
       break;
     case 'cicd-rerun':
       message = t('in-synthetics:dialog.feedback.failureMesssageCICDRerun', { errorMessage: error });
+      break;
+    case 'cicd-create':
+      message = t('in-synthetics:dialog.feedback.failureMesssageCICDCreate', { errorMessage: error });
       break;
     default:
       message = '';
@@ -125,3 +131,7 @@ export const showLocationActivateErrorMessage = (error: string) => showErrorMess
 export const showCICDRerunSuccessMessage = () => showSuccessMessage('cicd-rerun');
 
 export const showCICDRerunErrorMessage = (error: string) => showErrorMessage('cicd-rerun', undefined, error);
+
+export const showCICDCreateSuccessMessage = () => showSuccessMessage('cicd-create');
+
+export const showCICDCreateErrorMessage = (error: string) => showErrorMessage('cicd-create', undefined, error);

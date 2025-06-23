@@ -10,6 +10,7 @@
     "namespace": "名前空間",
     "node": "ノード",
     "pod": "ポッド",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "K8s サービス"
   },
   "clusterBadgeNameOpenShift": "オープンシフト",
@@ -29,6 +30,7 @@
     "summary": "サマリー",
     "details": "詳細",
     "hostCoverage": "ホスト・カバレッジ",
+    "k8SensorVersion": "K8s センサー・バージョン",
     "clusterUuid": "クラスターUUID",
     "agentMonitor": "エージェント・モニター",
     "controlPlane": "制御プレーン",
@@ -55,9 +57,17 @@
     "cpuUsage": "CPU 使用率",
     "memoryUsage": "メモリー使用率",
     "phase": "フェーズ",
-    "reclaimPolicy": "再利用ポリシー",
-    "storageCapacity": "ストレージ容量",
     "storageClassName": "ストレージ・クラス名",
+    "capacityStorage": "容量ストレージ",
+    "storageTotalCapacity": "合計容量",
+    "storageUsedCapacity": "使用容量",
+    "storageUtilization": "使用率",
+    "storageUsedTotalCapacity": "{{total}} 合計のうち",
+    "total": "合計",
+    "reclaimPolicy": "再利用ポリシー",
+    "accessMode": "アクセス・モード",
+    "volumeMode": "ボリューム・モード",
+    "creationTimestamp": "作成タイム・スタンプの作成",
     "cpuRequests": "CPU 要求",
     "cpuRequestsMultiMetric": "CPU 要求",
     "cpuLimitsAlloc": "CPU 制限の割り当て",
@@ -277,12 +287,12 @@
       "idleCost": "アイドル・コスト",
       "viewInKubeCost": "Kubecostに表示",
       "coreCountByCluster": "vCPU",
-      "noKubecostData": "Kubecost でコストの監視と割り当てを有効にします。 この統合を設定するには、次の [steps][Docs] に従ってください。\n\n[Docs]:https://ibm.biz/kubecost",
+      "noKubecostData": "Kubecost を使用してこのクラスターのコスト監視を有効化します。\n 統合を設定するには、ドキュメントの [以下の手順に従ってください]\n\n[次の手順に従います]:https://ibm.biz/kubecost",
       "totalClusterCost": "クラスター・コスト合計(直近14日間)",
       "workloadEfficiency": "ワークロードの効率性",
       "estimatedMonthlySavings": "毎月の推定節約額",
-      "totalClusterCostTooltipinfo": "選択した期間におけるクラスターの合計コスト。 注: データが14日未満の場合、14日間のサイクルが経過するまでその数字が表示されます。",
-      "workloadEfficiencyTooltipinfo": "選択したウィンドウにおける各ワークロードの平均効率。 ワークロード効率は、構成されたRAMおよびCPU要求に対するRAMおよびCPU使用量のコスト加重比率です。",
+      "totalClusterCostTooltipinfo": "クラスタの過去 14 日間の総コスト。 データが 14 日未満の場合、完全な 14 日間のサイクルが経過するまでこの数値が表示されます。",
+      "workloadEfficiencyTooltipinfo": "過去 14 日間の各ワークロードの平均効率です。 ワークロード効率とは、設定された RAM および CPU 要求に対する RAM および CPU 使用量のコスト加重比率です。",
       "estimatedMonthlySavingsTooltipinfo": "選択した期間の履歴データを使用して決定された、クラスターで利用できる推定月間節約額。",
       "deploymentInfoNotRetrieving": "Kubecostがデプロイメント情報を取得しない",
       "notRetrievingData": "Kubecostがデータを取得しない",
@@ -331,7 +341,10 @@
       "title": "重要な情報により早くアクセスする",
       "content": "カード・ビューは、クラスタと名前空間に関する詳細情報を一見で把握でき、ダッシュボードから各タブページに直接リンクして、集中的な調査を行うことができます。 <br /><br />コンテンツ・スイッチャーをクリックすると、これらの新しいビューとテーブル・ビューを簡単に移動できます。",
       "button": "了解"
-    }
+    },
+    "nodes": "ノード",
+    "pods": "ポッド数",
+    "containers": "コンテナー"
   },
   "viewAllEntityName_unknownEntity_plural": "すべて",
   "viewAllEntityName_unknownEntity_0": "すべて",
@@ -421,5 +434,18 @@
     "days": "日前",
     "close": "閉じる",
     "branch": "ブランチ"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Instana エージェント",
+      "description": "Instana エージェントによって収集されたデータに基づく情報を表示します。"
+    },
+    "otelCollector": {
+      "text": "OpenTelemetry コレクター",
+      "description": "Instana OpenTelemetry コレクターによって収集されたデータに基づいて情報を表示します。"
+    },
+    "additionalMetrics": {
+      "title": "追加"
+    }
   }
 }

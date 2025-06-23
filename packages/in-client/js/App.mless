@@ -14,8 +14,12 @@
 
   .content {
     position: relative;
-    margin-left: 48px;
+
     margin-top: 48px;
+
+    @media (min-width: 1056px) {
+      margin-left: 48px;
+    }
 
     .print();
   }

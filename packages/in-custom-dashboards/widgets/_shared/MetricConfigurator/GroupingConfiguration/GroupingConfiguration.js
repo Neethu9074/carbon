@@ -32,7 +32,8 @@ export default function GroupingConfiguration({
   withOptionalMarker,
   hideIncludeOthersToggle,
   maxGrouping = 20,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  getSuggestionsProps
 }) {
   return (
     <>
@@ -48,6 +49,7 @@ export default function GroupingConfiguration({
             additionalContent={additionalContent}
             withOptionalMarker={withOptionalMarker}
             additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+            getSuggestionsProps={getSuggestionsProps}
             withoutIcon
           />
 

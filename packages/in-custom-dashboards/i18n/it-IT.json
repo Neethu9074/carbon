@@ -1,4 +1,6 @@
 {
+  "cancel": "Annulla",
+  "save": "Salva",
   "editor": {
     "copyOf": "Copia di {{title}}"
   },
@@ -10,6 +12,13 @@
         "dashboardAJson": "Dashboard come JSON",
         "editDashboard": "Modifica dashboard"
       }
+    },
+    "editTeamsDialog": {
+      "title": "Modifica team",
+      "description": "Selezionare i team da associare a questo dashboard.",
+      "calloutMessage": "L'aggiunta di team consentirà ai membri di visualizzare e modificare questo dashboard. Sarà anche visibile nella pagina dei team nelle impostazioni.",
+      "selectorLabel": "Team",
+      "chooseTeams": "Scegli team"
     },
     "grid": {
       "grid": {
@@ -84,6 +93,7 @@
       "addWidget": "Aggiungi widget",
       "tvMode": "Modalità TV",
       "editName": "Modifica nome",
+      "editTeams": "Modifica team",
       "editAsJson": "Modifica come JSON",
       "viewAsJson": "Visualizza come JSON",
       "copyAllWidgets": "Copia tutti i widget",

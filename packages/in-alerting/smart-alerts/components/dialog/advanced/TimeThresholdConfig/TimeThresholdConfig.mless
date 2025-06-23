@@ -93,7 +93,7 @@
   }
 
   .input {
-    width: 5.625rem;
+    width: 9rem;
   }
   .inputTearSheet {
     width: 10rem;

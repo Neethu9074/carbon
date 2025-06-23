@@ -39,9 +39,10 @@
   "namespace": "Spazio dei nomi",
   "deployment": "Distribuzione",
   "pod": "Pod",
+  "deleteLogsTootilpSuccess": "Riuscito",
   "tooltipEntityHealthNoIssues": "Nessun problema",
-  "tooltipEntityHealthInProgress": "In corso",
-  "tooltipEntityHealthFailed": "Non riuscito",
+  "deleteLogsTooltipInProgress": "In corso",
+  "deleteLogsTooltipFailed": "Non riuscito",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemi",
   "endOfInfiniteScroll": "Nessun altro log disponibile",
   "liveModeDisabled": "La modalità live non è supportata durante l'analisi dei log",
@@ -81,9 +82,23 @@
       "logIntegrations": "Integrazioni log",
       "logIntegrationsDescription": "Collegare le soluzioni di gestione dei log e configurarle in base alle proprie esigenze.",
       "retentionPeriod": "Periodo di conservazione",
-      "retentionPeriodDescription": "La modifica del periodo di conservazione influisce sul tempo in cui i log vengono conservati e sono disponibili nelle applicazioni, nei dashboard e nelle analisi e ha un impatto sui costi e sulla fatturazione.",
+      "retentionPeriodDescription": "Modificare la durata di conservazione dei log e la loro disponibilità in Applicazioni, Dashboard e Analisi. Ciò può influire sui costi e sulla fatturazione.",
       "patternRecognition": "Riconoscimento del modello di log",
-      "patternRecognitionDescription": "Funzionalità AI che scoprono modelli ricorrenti nei vostri log. I modelli forniscono una panoramica di alto livello dei log e aiutano a ridurre i tempi di risoluzione dei problemi."
+      "patternRecognitionDescription": "Funzionalità AI che scoprono modelli ricorrenti nei vostri log. I modelli forniscono una panoramica di alto livello dei log e aiutano a ridurre i tempi di risoluzione dei problemi.",
+      "patternRecognitionSet": {
+        "gotIt": "Ok",
+        "cancel": "Annulla",
+        "gettingStarted": "Guida introduttiva",
+        "howDoesItWorks": "Come funziona?",
+        "firstDescription_0": "Il riconoscimento dei modelli di log addestra un algoritmo di AI a scoprire i modelli ricorrenti nei propri log. Analizzando grandi volumi di log, è in grado di riconoscere le porzioni variabili e statiche dei log e di scoprirne i modelli. \n\n L'algoritmo di AI si basa esclusivamente sui messaggi di log del cliente e non li condivide con i log di altri clienti. Questo garantisce la privacy e la sicurezza dei dati del cliente.",
+        "howWillHelpMe": "In che modo sarà utile?",
+        "secondDescription_0": "Riconoscere i modelli nei registri può aiutare a ridurre il tempo necessario per risolvere un problema in fase di analisi di un malfunzionamento. È possibile filtrare un gran numero di log in base a uno schema specifico o raggrupparli. \n\n Il raggruppamento può fornire una panoramica di generale dei log di cui si sta effettuando l'inserimento e aiutare a perfezionare la configurazione della telemetria aperta per evitare di inserire log irrilevanti, risparmiando sui costi di archiviazione e di inserimento.",
+        "learnMore": "Ulteriori informazioni",
+        "popHoverSecondDescription": "Analizzando grandi volumi di log, è in grado di riconoscere le porzioni variabili e statiche dei log e di scoprirne i modelli.\n\nL'algoritmo di AI si basa esclusivamente sui messaggi di log del cliente e non li condivide con i log di altri clienti. Questo garantisce la privacy e la sicurezza dei propri dati.",
+        "hotItWorks": "Modalità di funzionamento",
+        "popHoverFirstDescription": "Il riconoscimento dei modelli di log addestra un algoritmo di AI a scoprire i modelli ricorrenti nei propri log. ",
+        "aiExpained": "AI spiegata"
+      }
     }
   }
 }

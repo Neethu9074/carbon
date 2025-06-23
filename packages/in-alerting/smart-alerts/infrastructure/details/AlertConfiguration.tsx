@@ -22,10 +22,10 @@ import {
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import ForecastAlertingDescription from 'in-alerting/smart-alerts/infrastructure/details/ForecastAlertingDescription';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { alertChannelPerSeverityInfraSaEnabled, incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
@@ -253,7 +253,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
       >
         <AlertPropertyInfos
           alertConfig={alertConfig}
-          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig)}
+          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig.name, alertConfig.groupBy)}
           disableTrigger={!incidentTriggeringInfraSaEnabled}
           shouldDisplayAlertLevelSection={false}
         />

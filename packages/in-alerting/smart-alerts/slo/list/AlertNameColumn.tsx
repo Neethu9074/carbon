@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { Tooltip } from '@instana/components';
 
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
-import WithSubscript from 'in-settings/components/WithSubscript';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import AlertIcon from 'in-alerting/components/AlertIcon';
 import { t } from 'in-i18n';
 

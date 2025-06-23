@@ -41,7 +41,8 @@ export const turboActionCategoryMap = {
   SAVINGS: t('in-automation:turboActionCategories.savings'),
   PERFORMANCE_ASSURANCE: t('in-automation:turboActionCategories.performance'),
   PERFORMANCE_ASSURANCE_FULL: t('in-automation:turboActionCategories.performance_assurance'),
-  EFFICIENCY_IMPROVEMENT_FULL: t('in-automation:turboActionCategories.efficiency_improvement')
+  EFFICIENCY_IMPROVEMENT_FULL: t('in-automation:turboActionCategories.efficiency_improvement'),
+  UNKNOWN: t('in-automation:turboActionCategories.unknown')
 };
 
 export default function RecommendedOptimizations({

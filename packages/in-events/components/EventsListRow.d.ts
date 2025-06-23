@@ -18,6 +18,9 @@ declare module 'in-events/components/EventsListRow' {
   export { OnEntity };
 
   export function getStateBadge(event: RawEvent): React.ReactElement;
+
+  export function getColorForState(event: RawEvent): string;
+
   export function getEndValue(
     event: RawEvent,
     isChangeEvent: boolean,

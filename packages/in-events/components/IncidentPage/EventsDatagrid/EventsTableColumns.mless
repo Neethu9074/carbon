@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
-  .title {
-    display: block;
-    width: 200px;
+  .titleLink {
+    .ellipsis();
   }
 }

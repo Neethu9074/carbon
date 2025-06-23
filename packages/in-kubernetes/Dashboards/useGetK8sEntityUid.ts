@@ -23,6 +23,7 @@ type K8sEntityType =
   | 'kubernetes.statefulSet'
   | 'kubernetes.daemonSet'
   | 'kubernetes.service'
+  | 'kubernetes.persistentVolume'
   | 'openshift.deploymentConfig';
 
 export function useGetK8sEntityUid(

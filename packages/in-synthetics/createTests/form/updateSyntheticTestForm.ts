@@ -98,6 +98,12 @@ export function updateForm(savedState: Record<string, any>) {
       })
     )
     .put(
+      'rbacTags',
+      createField({
+        value: savedState?.rbacTags ?? []
+      })
+    )
+    .put(
       'customProperties',
       createField({
         value: savedState?.customProperties ?? {}

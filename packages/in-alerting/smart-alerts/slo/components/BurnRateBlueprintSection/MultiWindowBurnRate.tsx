@@ -16,10 +16,10 @@ import {
 import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents/OperatorDropdown/OperatorDropdown';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import TimeOptionsDropdown from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { sloAlertThresholdOperators } from 'in-alerting/smart-alerts/slo/constants';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { Trans, t } from 'in-i18n';
 
 import locals from './BurnRateBlueprintSection.mless';
@@ -122,7 +122,6 @@ export default function MultiWindowBurnRate() {
                 }
                 value={longTimeWindowDurationValue}
                 min={0}
-                max={1000}
                 onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
                   onChange(['burnRateConfig', longWindowBurnRateFormIndex, 'duration'], () =>
                     longTimeWindowDurationField.setValue(+value).setTouched(true)
@@ -182,7 +181,6 @@ export default function MultiWindowBurnRate() {
               invalid={!isLongWindowThresholdFieldValid}
               value={longWindowThreshold.value}
               min={0}
-              max={100}
               onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(['burnRateConfig', longWindowBurnRateFormIndex, 'threshold', 'value'], () =>
                   longWindowThreshold.setValue(+value).setTouched(true)
@@ -220,7 +218,6 @@ export default function MultiWindowBurnRate() {
                 }
                 value={shortTimeWindowDurationValue}
                 min={0}
-                max={10000}
                 onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
                   onChange(['burnRateConfig', shortWindowBurnRateFormIndex, 'duration'], () =>
                     shortTimeWindowDurationField.setValue(+value).setTouched(true)
@@ -284,7 +281,6 @@ export default function MultiWindowBurnRate() {
               invalid={!isShortWindowThresholdFieldValid}
               value={shortWindowThreshold.value}
               min={0}
-              max={100}
               onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(['burnRateConfig', shortWindowBurnRateFormIndex, 'threshold', 'value'], () =>
                   shortWindowThreshold.setValue(+value).setTouched(true)

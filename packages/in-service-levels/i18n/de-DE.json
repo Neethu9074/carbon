@@ -27,6 +27,10 @@
       "sloLimitReachedError": "Die maximale Anzahl von Service-Level-Zielkonfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern."
     },
     "traffic": "Datenverkehr",
+    "statuses": {
+      "label_red": "Außerhalb des Ziels",
+      "label_green": "Im Ziel"
+    },
     "indicator": {
       "type": "Unbekannter Typ",
       "type_eventBased": "Ereigniszähler",
@@ -242,7 +246,7 @@
   "sloChart": {
     "sloFormatter": {
       "thousandCallsFormat": "$tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}}, \"formatted\":{{formattedCount}}\" })",
-      "callsFormat": "$tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}}, \"formatted\":{{formatted}}\" })"
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}\" })"
     },
     "sloChartSummary": {
       "status": "Status",
@@ -271,17 +275,40 @@
   },
   "sloList": {
     "components": {
+      "sloListTable": {
+        "serviceLevelsCreateButton": "Service-Level-Ziel erstellen",
+        "filterLabel": "Filter",
+        "clearLabel": "Löschen",
+        "filterClose": "Schließen",
+        "sloListErrorTitle": "Ein Fehler ist aufgetreten.",
+        "sloListErrorDescription": "Ein unerwarteter Fehler ist aufgetreten. Aktualisieren Sie die Seite oder versuchen Sie es später erneut.",
+        "emptyListStateTitle": "Keine Ergebnisse gefunden",
+        "emptyListStateSubtitle": "Versuchen Sie, Ihre Suche oder Filteroptionen anzupassen, damit Sie finden, wonach Sie suchen.",
+        "emptyListStateIllustrationDescription": "Keine Daten zur Anzeige verfügbar"
+      },
+      "sloListFilters": {
+        "filterStatus": "Status",
+        "filterTags": "Tags",
+        "filterBlueprint": "Entwurf",
+        "filterEntity": "Entität"
+      },
       "sloEntityInfo": {
         "service": "Service: {{label}}",
         "endpoint": "Endpunkt: {{label}}",
         "tooltip": "{{context}}-SLO"
       },
-      "entityTypeFilter": {
-        "placeholder": "Entitätstyp"
+      "statusFilter": {
+        "sloStatusAll": "Alle"
       },
       "sloTagFilter": {
-        "placeholder": "Tag",
-        "noTagsInfo": "Keine Tags verfügbar"
+        "placeholder": "Tags auswählen",
+        "noTagsInfo": "Keine Tags verfügbar",
+        "clearFilters": "Filter löschen",
+        "filters": "Unbekannter Filter",
+        "filters_entityType": "Entitätstyp: $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
+        "filters_blueprint": "Blueprint: $t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
+        "filters_sloStatus": "Status: $t(in-service-levels:general.statuses.label, {\"context\":\"{{value}}\"})",
+        "filters_tags": "Tag: {{value}}"
       },
       "sloStatusColumnContent": {
         "target": "Ziel {{target}}"
@@ -341,7 +368,7 @@
         "totalTraffic": "Gesamt: {{value}}"
       },
       "burnRateKpiCard": {
-        "burnRateInfo": "Verbrennungsrate über das ausgewählte SLO-Zeitfenster"
+        "burnRateInfo": "Verbrauchsrate im ausgewählten SLO-Zeitfenster"
       },
       "errorBudgetChart": {
         "title": "Fehlerbudget"

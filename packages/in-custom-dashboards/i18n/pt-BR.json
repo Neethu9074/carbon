@@ -1,4 +1,6 @@
 {
+  "cancel": "Cancelar",
+  "save": "Salvar",
   "editor": {
     "copyOf": "Cópia de {{title}}"
   },
@@ -10,6 +12,13 @@
         "dashboardAJson": "Painel como JSON",
         "editDashboard": "Editar painel"
       }
+    },
+    "editTeamsDialog": {
+      "title": "Editar equipes",
+      "description": "Selecione as equipes para associar a este painel.",
+      "calloutMessage": "A inclusão de equipes permitirá que os membros da equipe visualizem e editem este painel. Isso também será refletido na página de equipes nas configurações.",
+      "selectorLabel": "equipes",
+      "chooseTeams": "Escolher equipes"
     },
     "grid": {
       "grid": {
@@ -84,6 +93,7 @@
       "addWidget": "Incluir widget",
       "tvMode": "Modo TV",
       "editName": "Editar nome",
+      "editTeams": "Editar equipes",
       "editAsJson": "Editar como JSON",
       "viewAsJson": "Visualizar como JSON",
       "copyAllWidgets": "Copiar todos os widgets",

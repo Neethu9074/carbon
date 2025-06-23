@@ -26,7 +26,8 @@ import locals from './PerformanceBeacon.mless';
 export const PERFORMANCE_SUBTYPES = {
   AST: 'App start or launch time',
   OOM: 'Low memory',
-  ANR: 'App not responding or freezing'
+  ANR: 'App not responding or freezing',
+  ENU: 'Excessive network usage'
 };
 
 export function formatFileSize(fileSize: number) {
@@ -36,11 +37,11 @@ export function formatFileSize(fileSize: number) {
 const LABELS = {
   [PERFORMANCE_SUBTYPES.AST]: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.appStartTimeLabel'),
   [PERFORMANCE_SUBTYPES.OOM]: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.lowMemoryLabel'),
-  [PERFORMANCE_SUBTYPES.ANR]: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.appNotRespondingLabel')
+  [PERFORMANCE_SUBTYPES.ANR]: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.appNotRespondingLabel'),
+  [PERFORMANCE_SUBTYPES.ENU]: t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.excessiveNetworkLabel')
 };
 
 export const getLabel = (beacon: MobileAppMonitoringBeacon) => LABELS[beacon.performanceSubtype] || null;
-
 export const getAppStatusLabel = (beacon: MobileAppMonitoringBeacon) => beacon.currentAppState;
 
 export const getExtraTooltipFields = () => ({});

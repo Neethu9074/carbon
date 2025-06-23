@@ -10,25 +10,27 @@ import {
   securityAndAccessOidc,
   securityAndAccessLdap,
   securityAndAccessGroupMapping,
+  securityAndAccessRoleMapping,
   securityAndAccessTimeouts,
   securityAndAccessIdentityProviders
 } from 'in-settings/navigation/paths';
 //@ts-expect-error not migrated to typescript yet
 import SessionSettings from 'in-settings/tabs/SecurityAndAccess/pages/sessionSettings/SessionSettings';
 import GroupMapping from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMapping/GroupMapping';
+import RoleMapping from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping';
 import IdentityProviders from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/identityProviders';
 import GoogleSSO from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GoogleSSO/GoogleSSO';
 import Saml from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Ldap/Ldap';
+import { idpConfigV2Enabled, rbacRoleMappingEnabled } from 'in-services/featureFlags';
 import { isAnyIdpAvailable, isIdpAvailable } from 'in-settings/utils/idp';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
-import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: ViewProps) {
-  const authAvailable = (role as any).canConfigureAuthenticationMethods && isAnyIdpAvailable({ sso, ldap, oidc, saml });
+  const authAvailable = role?.canConfigureAuthenticationMethods && isAnyIdpAvailable({ sso, ldap, oidc, saml });
 
   if (idpConfigV2Enabled) {
     return [
@@ -41,13 +43,21 @@ export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: Vi
             component: IdentityProviders
           },
           authAvailable &&
-            (role as any).canConfigureTeams && {
+            !rbacRoleMappingEnabled &&
+            role?.canConfigureTeams && {
               path: securityAndAccessGroupMapping,
               label: t('in-settings:tabs.groupMapping'),
               component: GroupMapping
             },
+          authAvailable &&
+            rbacRoleMappingEnabled &&
+            role?.canConfigureTeams && {
+              path: securityAndAccessRoleMapping,
+              label: t('in-settings:tabs.roleMappingNavigationItem'),
+              component: RoleMapping
+            },
 
-          (role as any).canConfigureSessionSettings && {
+          role?.canConfigureSessionSettings && {
             path: securityAndAccessTimeouts,
             label: t('in-settings:tabs.sessionTimeouts'),
             component: SessionSettings
@@ -80,14 +90,21 @@ export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: Vi
             label: t('in-settings:tabs.ldap'),
             component: Ldap
           },
-          (role as any).canConfigureTeams && {
-            path: securityAndAccessGroupMapping,
-            label: t('in-settings:tabs.groupMapping'),
-            component: GroupMapping
-          }
+          role?.canConfigureTeams &&
+            !rbacRoleMappingEnabled && {
+              path: securityAndAccessGroupMapping,
+              label: t('in-settings:tabs.groupMapping'),
+              component: GroupMapping
+            },
+          role?.canConfigureTeams &&
+            rbacRoleMappingEnabled && {
+              path: securityAndAccessRoleMapping,
+              label: t('in-settings:tabs.roleMappingNavigationItem'),
+              component: RoleMapping
+            }
         ].filter(Boolean)
       },
-      (role as any).canConfigureSessionSettings && {
+      role?.canConfigureSessionSettings && {
         title: t('in-settings:tabs.session'),
         pages: [
           {

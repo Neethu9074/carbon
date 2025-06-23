@@ -20,9 +20,11 @@ import { useObservable } from '@instana/hooks';
 
 import { useBarWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/barWithMissingDataIndicator';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
+import { correctionWindowMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
+import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
@@ -32,14 +34,15 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
+import { hexToRGBA } from 'in-services/formatters/color';
 import { sloMetrics } from 'in-service-levels/metrics';
 import { number } from 'in-services/formatters/number';
+import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 const timeWindow = 'timeWindow';
 const goodEventsMetricId = `${timeWindow}-good`;
 const badEventsMetricId = `${timeWindow}-bad`;
-
 interface EventBasedIndicatorChartProps {
   automaticallySize?: boolean;
   customHeight?: number;
@@ -63,14 +66,21 @@ export default function EventBasedIndicatorChart({
 }: EventBasedIndicatorChartProps) {
   const sloZoomInAction = useSloZoomInAction();
   const timeConfig = useContextAwareSloTimeWindowConfig();
+  const { correctionData } = useSloTimeWindowContext();
+
   const granularity = calculateSloGranularity(timeConfig);
   const result = useEventBasedIndicatorMetrics({ configuration, granularity, timeConfig });
 
   const goodEventsMetricResult = result.data?.find(res => res.id === goodEventsMetricId);
   const badEventsMetricResult = result.data?.find(res => res.id === badEventsMetricId);
+
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data) ?? [];
+
   const renderer = useBarWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
   });
+
+  const hasCorrectionWindows = correctionWindowMetrics.length > 0;
   return (
     <ResultAwareChart
       config={{
@@ -83,14 +93,38 @@ export default function EventBasedIndicatorChart({
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
         granularity: goodEventsMetricResult?.granularity ?? granularity,
+        reverseLegendOrder: true,
         y1: {
-          metricIds: [badEventsMetricId, goodEventsMetricId],
+          manualRenderLoop: true,
+          metricIds: [
+            ...(hasCorrectionWindows ? [correctionWindowMetricId] : []),
+            badEventsMetricId,
+            goodEventsMetricId
+          ],
           metrics: [
+            ...(hasCorrectionWindows ? [correctionWindowMetrics] : []),
             (badEventsMetricResult?.values ?? []) as MetricDataSeries,
             (goodEventsMetricResult?.values ?? []) as MetricDataSeries
           ],
-          labels: [t('in-service-levels:general.metrics.badEvents'), t('in-service-levels:general.metrics.goodEvents')],
-          colors: [themes.default.ids.color.option.red['500'], themes.default.ids.color.option.green['500']],
+          labels: [
+            ...(hasCorrectionWindows ? [t('in-service-levels:general.metrics.correctionWindows')] : []),
+            t('in-service-levels:general.metrics.badEvents'),
+            t('in-service-levels:general.metrics.goodEvents')
+          ],
+          excludedLabelsFromTooltip: [t('in-service-levels:general.metrics.correctionWindows')],
+          icons: {
+            colors: [
+              ...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []),
+              themes.default.ids.color.option.red['500'],
+              themes.default.ids.color.option.green['500']
+            ],
+            types: [...(hasCorrectionWindows ? ['lib_actions_stop'] : []), 'lib_circle_fill', 'lib_circle_fill']
+          },
+          colors: [
+            ...(hasCorrectionWindows ? [hexToRGBA(carbonAlert.gray60, 0.6)] : []),
+            themes.default.ids.color.option.red['500'],
+            themes.default.ids.color.option.green['500']
+          ],
           formatter: number.compact,
           renderer
         },

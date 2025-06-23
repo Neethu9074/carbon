@@ -14,6 +14,7 @@ import {
   CarbonRow,
   CarbonStack,
   CarbonTile,
+  Link,
   Typography
 } from '@instana/components';
 
@@ -29,19 +30,34 @@ import {
   Triggers,
   TriggerSpecification
 } from 'in-automation/types';
+import {
+  useAlertConfig as useApplicationsAlertConfig,
+  useLinkToGlobalAlertConfigWithoutAPDashboard
+} from 'in-applications/navigation/paths';
+import {
+  getEntityIdView,
+  globalSettingsAlertingEventBuiltIn,
+  globalSettingsAlertingEventCustom
+} from 'in-settings/navigation/paths';
+import { useGetAlertConfigLink as useGetLogAlertConfigLink } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
+import { useGetAlertConfigLink as useGetServiceLevelAlertConfigLink } from 'in-service-levels/navigation/path';
+import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
+import { getTriggerType, TriggerTypeField } from 'in-automation/PolicyDetails/TriggerTypeField';
 import { EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
+import { useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
 import { usePolicyFormContext } from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
-import { TriggerTypeField } from 'in-automation/PolicyDetails/TriggerTypeField';
+import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
 import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
+import { useAlertConfigLink } from 'in-websites/navigation/paths';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
-import { Trigger } from 'in-types';
+import { Trigger, TriggerType } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';
@@ -60,7 +76,6 @@ export default function PolicyTriggerConfigurationCard({ data, triggers }: Polic
   const { form } = usePolicyFormContext();
   const automatic = form.getIn(['action', 'type', 'automatic']);
   const selectedTriggerType = triggers[data.type];
-
   // @ts-ignore
   const selectedTrigger = selectedTriggerType.data?.find(trigger => trigger.id === data.id);
   return (
@@ -72,11 +87,16 @@ export default function PolicyTriggerConfigurationCard({ data, triggers }: Polic
         <CarbonGrid fullWidth className={classNames(local.noHorizontalPaddings, local.customMarginY)}>
           <CarbonColumn span="100%">
             <CarbonFormGroup legendText={t('in-automation:name')}>
-              {selectedTrigger && getEventName(selectedTrigger)}
+              {selectedTrigger && (
+                <TriggerLink trigger={selectedTrigger} type={data.type} className={local.triggerName} />
+              )}
             </CarbonFormGroup>
           </CarbonColumn>
           <CarbonColumn span="100%">
             <CarbonFormGroup legendText={t('in-automation:description')}>{data?.description}</CarbonFormGroup>
+          </CarbonColumn>
+          <CarbonColumn span="100%">
+            <CarbonFormGroup legendText={t('in-automation:triggerType')}>{getTriggerType(data.type)}</CarbonFormGroup>
           </CarbonColumn>
           <CarbonColumn span="100%">
             {selectedTrigger && <TriggerTypeField trigger={selectedTrigger} type={data.type} />}
@@ -104,7 +124,7 @@ function ScopeSection() {
         <CarbonColumn span="100%">
           <CarbonFormGroup legendText={t('in-automation:policies.dynamicFocusQuery')}>
             {query.map(field => (
-              <div className={local.DfqSearchBarWrapper}>
+              <div className={local.DfqSearchBarWrapper} key={1}>
                 <DfqSearchBar
                   theme="light"
                   onQueryValueChange={() => {}}
@@ -152,13 +172,63 @@ function getEventName(item: TriggerSpecification) {
     );
   }
   if (isSloSmartAlert(item)) {
-    <NameColumnCell config={item} />;
+    return <NameColumnCell config={item} />;
   }
   if (isEventSpecification(item)) {
     return <EventName hasRowNavigation={false} entity={item} />;
   }
-  if (item && item.threshold) {
+  if (item?.threshold) {
     return <NameColumnCell config={item} getSubtitle={config => getSubtitleLog(config.threshold!)} />;
   }
   return null;
+}
+
+interface TriggerLinkProps {
+  trigger: TriggerSpecification;
+  type: TriggerType;
+  className?: string;
+}
+
+export function TriggerLink({ trigger, type, className }: TriggerLinkProps) {
+  const { id } = trigger;
+  let websiteId, applicationId, mobileAppId, created;
+  if (type === 'websiteSmartAlert' && 'websiteId' in trigger) {
+    websiteId = trigger.websiteId;
+  }
+  if (type === 'applicationSmartAlert' && 'applicationId' in trigger) {
+    applicationId = trigger.applicationId;
+  }
+  if (type === 'mobileAppSmartAlert' && 'mobileAppId' in trigger) {
+    mobileAppId = trigger.mobileAppId;
+  }
+  if (['infraSmartAlert', 'logSmartAlert', 'sloSmartAlert'].includes(type) && 'created' in trigger) {
+    created = trigger.created;
+  }
+
+  const getApplicationsAlertConfig = useApplicationsAlertConfig();
+  const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
+  const mobileAlertConfigLink = useGetAlertConfigLink();
+  const websiteAlertConfigLink = useAlertConfigLink(id, websiteId as string);
+  const getInfraAlertConfigLink = useGetInfraAlertConfigLink();
+  const getLinkToSyntheticAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutDashboard();
+  const getLogAlertConfigLink = useGetLogAlertConfigLink();
+  const getServiceLevelAlertConfigLink = useGetServiceLevelAlertConfigLink();
+
+  const fields = {
+    applicationSmartAlert: getApplicationsAlertConfig(id, applicationId as string),
+    globalApplicationSmartAlert: getLinkToGlobalAlertConfigWithoutAPDashboard(id),
+    websiteSmartAlert: websiteAlertConfigLink,
+    mobileAppSmartAlert: mobileAlertConfigLink(id, mobileAppId as string),
+    infraSmartAlert: getInfraAlertConfigLink(id, created),
+    syntheticsSmartAlert: getLinkToSyntheticAlertConfigWithoutAPDashboard(id),
+    logSmartAlert: getLogAlertConfigLink(id, created),
+    sloSmartAlert: getServiceLevelAlertConfigLink(id, created as number),
+    builtinEvent: getEntityIdView(globalSettingsAlertingEventBuiltIn, id),
+    customEvent: getEntityIdView(globalSettingsAlertingEventCustom, id)
+  };
+  return (
+    <Link href={fields[type]} className={className} external>
+      {getEventName(trigger)}
+    </Link>
+  );
 }

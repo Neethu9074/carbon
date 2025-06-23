@@ -7,7 +7,7 @@
 :local {
   .container {
     display: flex;
-    width: 100%;
+    width: 70%;
     align-items: center;
   }
 
@@ -29,13 +29,10 @@
 
   .columnsContainer {
     width: 100%;
+    max-width: 70%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    :global(.keyValue-value) {
-      max-width: 25vw;
-    }
   }
 
   .secondColumnContainer {

@@ -8,11 +8,11 @@ import React from 'react';
 
 import { Typography } from '@instana/components';
 
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
+import { SloListItem, SelectSloListItem } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 interface Props {
-  item: SloListItem;
+  item: SloListItem | SelectSloListItem;
 }
 
 export default function SloBlueprintColumnContent({ item }: Props) {

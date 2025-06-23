@@ -10,6 +10,17 @@ import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import {
+  runningPods,
+  unhealthyDeployments,
+  unhealthyNodes,
+  namespaces as namespacesLabel,
+  services as servicesLabel,
+  cronJobs as cronJobsLabel,
+  otelNodes,
+  otelPods,
+  otelContainers
+} from 'in-kubernetes/utils';
+import {
   BaseProps,
   cronJobsDashboard,
   deploymentsDashboard,
@@ -17,16 +28,9 @@ import {
   namespaceList,
   nodesDashboard,
   podsDashboard,
-  servicesDashboard
+  servicesDashboard,
+  containerDashboard
 } from 'in-kubernetes/navigation/paths';
-import {
-  runningPods,
-  unhealthyDeployments,
-  unhealthyNodes,
-  namespaces as namespacesLabel,
-  services as servicesLabel,
-  cronJobs as cronJobsLabel
-} from 'in-kubernetes/utils';
 import InfoCardHeader from 'in-kubernetes/lists/components/InfoCardHeader/InfoCardHeader';
 import { getKubernetesCounters } from 'in-kubernetes/lists/components/InfoCard/utils';
 import InfoCardTile from 'in-kubernetes/lists/components/InfoCard/InfoCardTile';
@@ -42,7 +46,7 @@ import locals from './InfoCard.mless';
 // It's used to add the + to the label in case there are more than 200 clusters.
 const maxTotalItems = 200;
 
-export type Workload = 'cluster' | 'namespace';
+export type Workload = 'cluster' | 'namespace' | 'otelcluster';
 
 interface InfoCardProps {
   type: Workload;
@@ -59,6 +63,9 @@ export interface KubernetesCountersProps {
   totalCronJobs?: number;
   hasNodesWithOnlyWarnings: boolean;
   hasDeploymentsWithOnlyWarnings: boolean;
+  totalNodes?: number;
+  totalPods?: number;
+  totalContainers?: number;
 }
 
 export default function InfoCard({ type, data, onDataFetched, getHrefs, workloads }: Readonly<InfoCardProps>) {
@@ -66,7 +73,7 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
   const { kubernetesCardClicked } = useKubernetesTracker();
   const namespaceId = data?.namespace?.id;
   const clusterId = data?.cluster?.id;
-  const isClusterType = type === 'cluster';
+  const isClusterType = type === 'cluster' || type === 'otelcluster';
 
   const result =
     useObservable(
@@ -92,11 +99,14 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
     totalUnhealthyNodes,
     totalUnhealthyDeployments,
     hasNodesWithOnlyWarnings,
-    hasDeploymentsWithOnlyWarnings
+    hasDeploymentsWithOnlyWarnings,
+    totalNodes,
+    totalPods,
+    totalContainers
   } = result as KubernetesCountersProps;
 
   const {
-    workloads: { pods, deployments },
+    workloads: { pods, deployments, containers },
     clusterName,
     label,
     nodes,
@@ -117,6 +127,7 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
   const namespacesHref = getHrefs(id, { tab: namespaceList });
   const servicesHref = getHrefs(id, { tab: servicesDashboard });
   const cronJobsHref = getHrefs(id, { tab: cronJobsDashboard });
+  const containersHref = getHrefs(id, { tab: containerDashboard });
 
   const shouldDisplayUnhealthyNodes = workloads.includes(unhealthyNodes) && nodesHref;
   const shouldDisplayUnhealthyDeployments = workloads.includes(unhealthyDeployments) && deploymentsHref;
@@ -124,6 +135,9 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
   const shouldDisplayNamespaces = workloads.includes(namespacesLabel) && namespacesHref;
   const shouldDisplayServices = workloads.includes(servicesLabel) && servicesHref;
   const shouldDisplayCronJobs = workloads.includes(cronJobsLabel) && cronJobsHref;
+  const shouldDisplayOtelNodes = workloads.includes(otelNodes) && nodesHref;
+  const shouldDisplayOtelPods = workloads.includes(otelPods) && podsHref;
+  const shouldDisplayOtelContainers = workloads.includes(otelContainers) && podsHref;
 
   const resourceName = isClusterType ? { cluster: name } : { namespace: label };
 
@@ -242,6 +256,51 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
                 ...resourceName,
                 cardTitle: t('in-kubernetes:cloudNative.cronJobs'),
                 href: cronJobsHref
+              });
+            }}
+          />
+        )}
+        {shouldDisplayOtelNodes && (
+          <InfoCardTile
+            title={t('in-kubernetes:cloudNative.nodes')}
+            isLoading={isLoadingData}
+            href={nodesHref}
+            counter={`${nodes ?? totalNodes}`}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.nodes'),
+                href: nodesHref
+              });
+            }}
+          />
+        )}
+        {shouldDisplayOtelPods && (
+          <InfoCardTile
+            title={t('in-kubernetes:cloudNative.pods')}
+            isLoading={isLoadingData}
+            href={podsHref}
+            counter={`${pods ?? totalPods}`}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.pods'),
+                href: podsHref
+              });
+            }}
+          />
+        )}
+        {shouldDisplayOtelContainers && (
+          <InfoCardTile
+            title={t('in-kubernetes:cloudNative.containers')}
+            isLoading={isLoadingData}
+            href={containersHref}
+            counter={`${containers ?? totalContainers}`}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.containers'),
+                href: containersHref
               });
             }}
           />

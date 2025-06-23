@@ -59,6 +59,8 @@ interface ResultsTopListProps {
   runType?: string;
 }
 export default function ResultsTopList({ testId, testType, runType }: ResultsTopListProps) {
+  //default runType value is Scheduled
+  runType = runType ?? runTypeScheduled;
   const timeConfig = useTimeConfig();
   const colors = [themes.default.ids.color.option.red['500'], null, null];
   const urlMatrixParamConfig = {
@@ -189,9 +191,10 @@ type LabelProps = {
   item: TestResultListItem;
   selectedMetric: string;
   testType: string;
+  runType: string;
 };
 
-function Label({ item, selectedMetric, testType }: LabelProps) {
+function Label({ item, selectedMetric, testType, runType }: LabelProps) {
   const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   const testId = item.testResultCommonProperties.testId;
@@ -207,7 +210,6 @@ function Label({ item, selectedMetric, testType }: LabelProps) {
   );
   const resultsLabel = testLocation + AdditionalLabel({ item, selectedMetric });
   const resultError = item?.testResultCommonProperties?.errors?.[0] ?? '';
-  const runType = getMatrixParameter(location, syntheticsDashboard, 'runType') ?? '';
   location.pathname = syntheticDetailsPath;
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', testId);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', resultId);

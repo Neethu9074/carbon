@@ -21,10 +21,10 @@ import {
 } from '@instana/components';
 
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
+import { openPolicyTearsheet, showConfirmationDialog } from 'in-automation/ActionCatalog/ActionCatalog';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
-import { showConfirmationDialog } from 'in-automation/ActionCatalog/ActionCatalog';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
@@ -117,6 +117,19 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
           renderIcon={() => <SvgIcon type="lib_launch_ai" size="xs" />}
         >
           {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+        </CarbonButton>
+      )}
+      {role?.canConfigureAutomationPolicies && isUserActions && (
+        <CarbonButton
+          className={classNames(local.ghostBtn, local.watsonxBtn)}
+          kind="ghost"
+          size="sm"
+          onClick={() => {
+            openPolicyTearsheet({ actionId });
+          }}
+          renderIcon={() => <SvgIcon type="lib_openclose_add_circle_outline" size="xs" />}
+        >
+          {t('in-automation:createPolicy')}
         </CarbonButton>
       )}
       {role?.canConfigureAutomationActions && (

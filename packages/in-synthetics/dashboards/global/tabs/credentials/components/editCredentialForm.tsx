@@ -31,6 +31,12 @@ const editCredentialForm = (item: SyntheticCredential) => {
       })
     )
     .put(
+      'rbacTags',
+      createField({
+        value: item?.rbacTags ?? []
+      })
+    )
+    .put(
       'applications',
       createField({
         value: item?.applications ?? [],

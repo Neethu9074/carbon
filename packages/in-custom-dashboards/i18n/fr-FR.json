@@ -1,4 +1,6 @@
 {
+  "cancel": "Annuler",
+  "save": "Sauvegarder",
   "editor": {
     "copyOf": "Copie de {{title}}"
   },
@@ -10,6 +12,13 @@
         "dashboardAJson": "Tableau de bord en tant que JSON",
         "editDashboard": "Editer le tableau de bord"
       }
+    },
+    "editTeamsDialog": {
+      "title": "Modifier les équipes",
+      "description": "Sélectionnez les équipes à associer à ce tableau de bord.",
+      "calloutMessage": "L'ajout d'équipes permettra aux membres de consulter et de modifier ce tableau de bord. Il sera également reflété sur la page des équipes dans les paramètres.",
+      "selectorLabel": "Equipes",
+      "chooseTeams": "Choisir des équipes"
     },
     "grid": {
       "grid": {
@@ -84,6 +93,7 @@
       "addWidget": "Ajouter un widget",
       "tvMode": "Mode TV",
       "editName": "Editer le nom",
+      "editTeams": "Modifier les équipes",
       "editAsJson": "Editer en tant que JSON",
       "viewAsJson": "Afficher en tant que JSON",
       "copyAllWidgets": "Copier tous les widgets",

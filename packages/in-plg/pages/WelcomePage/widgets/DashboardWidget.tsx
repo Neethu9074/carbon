@@ -45,6 +45,9 @@ export default function DashboardWidget({
   const users = useObservable(getUsers, []) ?? null;
   const { createHrefToPath } = useNavigation();
   const [currentFavoriteDashboardIds, setCurrentFavoriteDashboardIds] = useState<string[]>([]);
+  const searchParams = new URLSearchParams(window.location.search);
+  const queryParam = searchParams?.get('query');
+
   const getHeaders = () => {
     return [
       {
@@ -192,6 +195,7 @@ export default function DashboardWidget({
       hasAddPermission
       hasAddMore
       isDashboardWidget
+      urlQuery={queryParam}
       maxItems={maxItems}
       viewAll={viewAll}
       href={createHrefToPath(customDashboardsPath)}

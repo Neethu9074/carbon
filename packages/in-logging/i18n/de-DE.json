@@ -39,9 +39,10 @@
   "namespace": "Namensbereich",
   "deployment": "Implementierung",
   "pod": "Pod",
+  "deleteLogsTootilpSuccess": "Erfolgreich",
   "tooltipEntityHealthNoIssues": "Keine Probleme",
-  "tooltipEntityHealthInProgress": "In Bearbeitung",
-  "tooltipEntityHealthFailed": "Fehlgeschlagen",
+  "deleteLogsTooltipInProgress": "In Bearbeitung",
+  "deleteLogsTooltipFailed": "Fehlgeschlagen",
   "tooltipEntityHealthIssues": "{{numberOfIssues}}-Probleme",
   "endOfInfiniteScroll": "Keine weiteren Protokolle verfügbar",
   "liveModeDisabled": "Bei der Analyse von Protokollen wird der Livemodus nicht unterstützt",
@@ -81,9 +82,23 @@
       "logIntegrations": "Protokoll-Integrationen",
       "logIntegrationsDescription": "Verbinden Sie Ihre Protokollverwaltungslösungen und konfigurieren Sie sie entsprechend Ihren Anforderungen.",
       "retentionPeriod": "Aufbewahrungszeitraum",
-      "retentionPeriodDescription": "Die Änderung des Aufbewahrungszeitraums wirkt sich auf den Zeitraum aus, in dem Protokolle aufbewahrt werden und in Anwendungen, Dashboards und Analysen verfügbar sind, und hat Auswirkungen auf Kosten und Abrechnung.",
+      "retentionPeriodDescription": "Ändern Sie die Dauer, für die Protokolle in Anwendungen, Dashboards und Analysen aufbewahrt und verfügbar sind. Dies könnte die Kosten und die Abrechnung beeinflussen.",
       "patternRecognition": "Log-Mustererkennung",
-      "patternRecognitionDescription": "KI-Funktionen, die wiederkehrende Muster in Ihren Protokollen erkennen. Muster bieten einen umfassenden Überblick über Ihre Protokolle und tragen dazu bei, die Zeit für die Behebung von Problemen zu verkürzen."
+      "patternRecognitionDescription": "KI-Funktionen, die wiederkehrende Muster in Ihren Protokollen erkennen. Muster bieten einen umfassenden Überblick über Ihre Protokolle und tragen dazu bei, die Zeit für die Behebung von Problemen zu verkürzen.",
+      "patternRecognitionSet": {
+        "gotIt": "Verstanden",
+        "cancel": "Abbrechen",
+        "gettingStarted": "Einführung",
+        "howDoesItWorks": "Wie funktioniert das?",
+        "firstDescription_0": "Die Mustererkennung in Protokollen trainiert einen KI-Algorithmus, um wiederkehrende Muster in Ihren Protokollen zu entdecken. Durch die Analyse großer Mengen an Protokollen kann es variable und statische Teile der Protokolle erkennen und Muster darin entdecken. \n\n Der KI-Algorithmus verlässt sich ausschließlich auf Ihre Protokollnachrichten und teilt diese nicht mit den Protokollen anderer Kunden. Dadurch werden die Privatsphäre und die Sicherheit Ihrer Daten gewährleistet.",
+        "howWillHelpMe": "Wie kann er mir helfen?",
+        "secondDescription_0": "Das Erkennen von Mustern in Ihren Protokollen kann dazu beitragen, die Zeit zu verkürzen, die zur Lösung eines Problems bei der Fehlersuche benötigt wird. Sie können nach einem bestimmten Muster filtern oder eine große Menge an Protokollen gruppieren. \n\n Durch die Gruppierung erhalten Sie einen umfassenden Überblick über die Protokolle, die Sie aufnehmen, und können Ihre Open-Telemetry-Konfiguration verfeinern, um die Aufnahme irrelevanter Protokolle zu vermeiden und dadurch Speicher- und Aufnahmekosten zu sparen.",
+        "learnMore": "Weitere Informationen",
+        "popHoverSecondDescription": "Durch die Analyse großer Mengen an Protokollen kann es variable und statische Teile der Protokolle erkennen und Muster darin entdecken.\n\nDer KI-Algorithmus verlässt sich ausschließlich auf Ihre Protokollnachrichten und teilt diese nicht mit den Protokollen anderer Kunden. Dies gewährleistet die Privatsphäre und Sicherheit Ihrer Daten",
+        "hotItWorks": "Funktionsweise",
+        "popHoverFirstDescription": "Die Mustererkennung in Protokollen trainiert einen KI-Algorithmus, um wiederkehrende Muster in Ihren Protokollen zu entdecken. ",
+        "aiExpained": "KI erklärt"
+      }
     }
   }
 }

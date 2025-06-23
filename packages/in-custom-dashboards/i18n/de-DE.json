@@ -1,4 +1,6 @@
 {
+  "cancel": "Abbrechen",
+  "save": "Speichern",
   "editor": {
     "copyOf": "Kopie von {{title}}"
   },
@@ -10,6 +12,13 @@
         "dashboardAJson": "Dashboard als JSON",
         "editDashboard": "Dashboard bearbeiten"
       }
+    },
+    "editTeamsDialog": {
+      "title": "Teams bearbeiten",
+      "description": "Wählen Sie Teams aus, die Sie diesem Dashboard zuordnen möchten.",
+      "calloutMessage": "Das Hinzufügen von Teams ermöglicht es den Teammitgliedern, dieses Dashboard anzuzeigen und zu bearbeiten. Es wird auch auf der Seite \"Teams\" in den Einstellungen angezeigt.",
+      "selectorLabel": "Teams",
+      "chooseTeams": "Teams auswählen"
     },
     "grid": {
       "grid": {
@@ -84,6 +93,7 @@
       "addWidget": "Widget hinzufügen",
       "tvMode": "TV-Modus",
       "editName": "Namen bearbeiten",
+      "editTeams": "Teams bearbeiten",
       "editAsJson": "Als JSON bearbeiten",
       "viewAsJson": "Als JSON anzeigen",
       "copyAllWidgets": "Alle Widgets kopieren",

@@ -16,10 +16,10 @@ import {
 import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents/OperatorDropdown/OperatorDropdown';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import TimeOptionsDropdown from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { sloAlertThresholdOperators } from 'in-alerting/smart-alerts/slo/constants';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { Trans, t } from 'in-i18n';
 
 import locals from './BurnRateBlueprintSection.mless';
@@ -103,7 +103,6 @@ export default function SingleWindowBurnRate() {
                 invalid={alertTimeWindowDurationValue > maxAllowedTimeWindow || !isSingleTimeWindowDurationFieldValid}
                 value={alertTimeWindowDurationValue}
                 min={0}
-                max={1000}
                 onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
                   onChange(['burnRateConfig', singleWindowBurnRateFormIndex, 'duration'], () =>
                     alertTimeWindowDurationField.setValue(+value).setTouched(true)
@@ -163,7 +162,6 @@ export default function SingleWindowBurnRate() {
               invalid={!isAlertThresholdFieldValid}
               value={burnRateAlertThresholdField.value}
               min={0}
-              max={100}
               onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(['burnRateConfig', singleWindowBurnRateFormIndex, 'threshold', 'value'], () =>
                   burnRateAlertThresholdField.setValue(+value).setTouched(true)

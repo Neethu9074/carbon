@@ -17,6 +17,7 @@ import { RoleDetailsWithPermissions } from 'in-settings/tabs/SecurityAndAccess/p
 import PermissionList from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/PermissionList';
 import { AreaPermission, Capability, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
 import SpaceBetweenStack from 'in-settings/components/SpaceBetweenStack';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
@@ -215,7 +216,11 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_INSTALL_NEW_AGENTS
             ]}
             enabledPermissions={permissions}
-            label={t('in-settings:dialogs.role.agentDeploymentSectionTitle')}
+            label={
+              newOTelPageEnabled
+                ? t('in-settings:dialogs.role.datasourceSectionTitle')
+                : t('in-settings:dialogs.role.agentDeploymentSectionTitle')
+            }
             status={status}
           />
           <PermissionAccordionItem

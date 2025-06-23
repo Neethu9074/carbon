@@ -23,3 +23,9 @@ output.
 [pino]: https://github.com/pinojs/pino
 [pino-pretty]: https://github.com/pinojs/pino-pretty
 [pino-http]: https://github.com/pinojs/pino-http
+
+## Error pages to be used as static pages without SSR
+
+To make use of Carbon for IBM Product's error pages, there is a build step to
+generate static web pages via rendering react page to static html files.
+See [REadme in generate-error-page-content](./generate-error-page-content/README.md)

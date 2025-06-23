@@ -20,13 +20,15 @@ import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import { t } from 'in-i18n';
 
 interface AutomationCardProps {
   volatileId: VolatileId;
   event: Event;
+  hasRCA?: boolean;
 }
 
-function AutomationCard({ volatileId, event }: AutomationCardProps) {
+function AutomationCard({ volatileId, event, hasRCA = false }: AutomationCardProps) {
   const activeKey = useActiveKey();
   const historyCount = useHistory({ eventId: event.id });
   const trigger = useTrigger({ event });
@@ -41,6 +43,7 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
           <AutomationCardButtonGroup
             recommendedActionsCount={recommendedActions?.data?.length}
             actionHistoryCount={historyCount}
+            hasRCA={hasRCA}
           />
           {activeKey === 'recommendedActions' && (
             <RecommendedActions
@@ -54,7 +57,10 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
           {activeKey === 'actionHistory' && (
             <>
               <Spacer vertical="small" />
-              <ActionHistoryTable eventId={event.id} />
+              {!hasRCA && <ActionHistoryTable eventId={event.id} />}
+              {hasRCA && (
+                <ActionHistoryTable eventId={event.id} title={t('in-automation:actionHistory.incidentActionHistory')} />
+              )}
             </>
           )}
         </Card>
@@ -63,7 +69,7 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   );
 }
 
-export default function AutomationCardWrapper({ volatileId, event }: AutomationCardProps) {
+export default function AutomationCardWrapper({ volatileId, event, hasRCA = false }: AutomationCardProps) {
   if (!hasAutomationAccess) return null;
-  return <AutomationCard volatileId={volatileId} event={event} />;
+  return <AutomationCard volatileId={volatileId} event={event} hasRCA={hasRCA} />;
 }

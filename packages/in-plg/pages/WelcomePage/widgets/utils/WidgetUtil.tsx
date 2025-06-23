@@ -12,6 +12,7 @@ import { Link } from '@instana/components';
 import { role } from 'in-stores/user';
 
 export const DEFAULT_NUMBER_ROWS = 5;
+export const MAX_NUMBER_ROWS = 2000;
 
 export function getNoDataHeader(label: string) {
   switch (label) {
@@ -41,6 +42,8 @@ export function getNoDataHeader(label: string) {
       return t('in-plg:welcomepage.noData.syntheticWidget.smartalerts.header');
     case 'dashboardWidget':
       return t('in-plg:welcomepage.noData.dashboardWidget.header');
+    case 'serviceLevelsWidget':
+      return t('in-plg:welcomepage.noData.serviceLevelsWidget.header');
     default:
       return '';
   }
@@ -83,6 +86,8 @@ export function getNoDataDescription(label: string) {
       return <Trans i18nKey="in-plg:welcomepage.noData.syntheticWidget.smartalerts.description" />;
     case 'dashboardWidget':
       return <Trans i18nKey="in-plg:welcomepage.noData.dashboardWidget.description" />;
+    case 'serviceLevelsWidget':
+      return <Trans i18nKey="in-plg:welcomepage.noData.serviceLevelsWidget.description" />;
     default:
       return '';
   }
@@ -105,6 +110,8 @@ export const getItemId = (item: any, widgetName?: string) => {
     case 'businessMonitoringWidget':
       return item?.businessProcess?.definitionId;
     case 'dashboardWidget':
+      return item?.id;
+    case 'serviceLevelWidget':
       return item?.id;
     default:
       return null;

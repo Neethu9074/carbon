@@ -36,7 +36,7 @@ function SloDashboardList({ viewPath, location }: SloDashboardListProps) {
   return (
     <>
       <SloList pathSegment={serviceLevelsRoot} entityIds={entityIds} isDashboard showEntityInfo={showEntityInfo} />
-      <Spacer vertical="normal" />
+      <Spacer vertical="xlarge" />
     </>
   );
 }

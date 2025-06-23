@@ -86,13 +86,17 @@ export async function CustomSendMessages(
       { silent: false }
     );
 
-    await instance.messaging.addMessage(
-      {
-        output: {
-          generic: reprompt
-        }
-      },
-      { silent: false }
+    await setTimeout(
+      () =>
+        instance.messaging.addMessage(
+          {
+            output: {
+              generic: reprompt
+            }
+          },
+          { silent: false }
+        ),
+      500
     );
   }
 
@@ -140,6 +144,10 @@ export async function CustomSendMessages(
           sendError(nlgResponse, t('in-events:aichat.unableToFindError'));
           return;
         }
+        if (response.api?.api_endpoint === '/api/events') {
+          sendError(nlgResponse, t('in-events:aichat.unableToFindError'));
+          return;
+        }
         const statusMessageId = uniqueId('aichat_');
         instance.messaging.addMessage(
           {
@@ -184,17 +192,22 @@ export async function CustomSendMessages(
             }
             await instance.updateCSSVariables({ 'BASE-width': '700px' });
           },
+          //Public api call error
           apiError => {
             instance.messaging.removeMessages([statusMessageId]);
             sendError(nlgResponse, apiError);
           }
         );
       },
-      // On Error
+      // Query error
       error => {
         instance.messaging.removeMessages([loadingMessageId]);
         const msg = error.toString ? error.toString() : JSON.stringify(error);
-        sendError(msg);
+        if (msg.includes('HttpRequestTimeoutError')) {
+          sendError('', t('in-events:aichat.problemError'));
+        } else {
+          sendError('', msg);
+        }
       }
     );
   } else if (request.input.text === '') {

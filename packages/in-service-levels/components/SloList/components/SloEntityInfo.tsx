@@ -25,7 +25,7 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { t } from 'in-i18n';
 
-import locals from './SloAlignContent.mless';
+import locals from 'in-service-levels/styles/SloAlignContent.mless';
 
 interface Props {
   entities: LabeledEntity[];
@@ -56,8 +56,8 @@ export default function SloEntityInfo({ entities, entityType, service, endpoint,
   const hasMultipleEntities = entities.length > 1;
 
   return (
-    <Stack orientation="horizontal" className={locals.stackAlignCenter}>
-      <Stack orientation="horizontal" className={locals.stackAlignCenter} gap="0.25rem">
+    <Stack orientation="horizontal" className={locals.stackAlignCenter} gap={4}>
+      <Stack orientation="horizontal" className={locals.stackAlignCenter}>
         <Tooltip content={toolTipText}>
           <SvgIcon type={iconType} aria-label={toolTipText} />
         </Tooltip>

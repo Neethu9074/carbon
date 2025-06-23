@@ -8,6 +8,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 // host: "region" - pluginId: "com.instana.forge.selfmonitoring.RegionEntity" - steadyId: "region"
 export const ID_OF_REGION = '7c238Z6UhpGTsuCTCehWnBoiaxs';
 export const DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL = 120_000;
+export const DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS = 300_000;
 
 export const oTelPlugins = {
   openTelemetry: 'openTelemetry',
@@ -22,6 +23,10 @@ export const oTelPlugins = {
   oTelK8sCluster: 'oTelK8sCluster',
   oTelK8sNode: 'oTelK8sNode',
   oTelK8sContainer: 'oTelK8sContainer'
+};
+
+export const awsMetricStreamsPlugin = {
+  awsMetricStreams: 'awsMetricStreams'
 };
 
 export const nonServicePlugins = {
@@ -216,6 +221,7 @@ export const nonServicePlugins = {
   ibmIOs: 'ibmIOs',
   ibmIms: 'ibmIms',
   ibmiNetworkInfo: 'ibmiNetworkInfo',
+  ibmiLicensedProgramInfo: 'ibmiLicensedProgramInfo',
   ibmInfosphereCdc: 'ibmInfosphereCdc',
   ibmInfosphereCdcSubscription: 'ibmInfosphereCdcSubscription',
   ibmMqCluster: 'ibmMqCluster',
@@ -272,6 +278,7 @@ export const nonServicePlugins = {
   liferayApplicationContainer: 'liferayApplicationContainer',
   linuxKVMHypervisorHost: 'linuxKVMHypervisorHost',
   lxc: 'lxc',
+  mapRNode: 'mapRNode',
   mariaDbDatabase: 'mariaDbDatabase',
   memcached: 'memcached',
   mongoDb: 'mongoDb',
@@ -296,6 +303,7 @@ export const nonServicePlugins = {
   openLDAP: 'openLDAP',
   openshiftDeploymentConfig: 'openshiftDeploymentConfig',
   ...oTelPlugins,
+  ...awsMetricStreamsPlugin,
   packet: 'packet',
   pCFApplication: 'pCFApplication',
   pCFOrganization: 'pCFOrganization',
@@ -402,6 +410,8 @@ export const nonServicePlugins = {
   sapWebDispatcher: 'sapWebDispatcher',
   sapAbapInstanceSensor: 'sapAbapInstanceSensor',
   sapAbapSystemSensor: 'sapAbapSystemSensor',
+  sapJavaNetWeaverInstanceSensor: 'sapJavaNetWeaverInstanceSensor',
+  sapJavaNetWeaverSystemSensor: 'sapJavaNetWeaverSystemSensor',
   remoteHost: 'remoteHost',
   processGroup: 'processGroup'
 };
@@ -433,7 +443,9 @@ export const hiddenPlugins = [
   'entityStatisticsMember',
   'processingStatisticsMember',
   'steadyMetricExposureEntity',
-  'kubeCostPlatform'
+  'kubeCostPlatform',
+  'processingStatistics',
+  'componentMetricsEntity'
 ];
 
 export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
@@ -499,6 +511,7 @@ export const fullyQualifiedPlugins = {
   awsTimestream: 'com.instana.forge.hardware.virtual.aws.timestream.AwsTimestream',
   awsEbs: 'com.instana.forge.hardware.virtual.aws.ebs.AwsEbs',
   awsApiGateway: 'com.instana.forge.hardware.virtual.aws.apigateway.AwsApiGateway',
+  awsMetricStreams: 'com.instana.forge.hardware.virtual.aws.metricstreams.AwsMetricStreams',
   azure: 'com.instana.forge.hardware.virtual.azure.Azure',
   azureApiManagement: 'com.instana.forge.hardware.virtual.azure.apimanagement.AzureApiManagement',
   azureAppService: 'com.instana.forge.hardware.virtual.azure.appservice.AzureAppService',
@@ -656,6 +669,7 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.activeJobsInfo.IbmiActiveJobsInfo',
   ibmiAuditJournalsInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.auditJournal.IbmiAuditJournalInfo',
+  ibmiLicensedProgramInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.licensedprograminfo.IbmiLicensedProgramInfo',
   ibmIMessageQueueInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.messageQueue.IbmIMessageQueueInfo',
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',
@@ -729,6 +743,7 @@ export const fullyQualifiedPlugins = {
   linuxKVMHypervisorHost:
     'com.instana.forge.infrastructure.paas.linuxkvmhypervisor.derivedentity.host.LinuxKVMHypervisorHost',
   lxc: 'com.instana.forge.infrastructure.virtualization.lxc.Lxc',
+  mapRNode: 'com.instana.forge.infrastructure.database.mapr.MapRNode',
   mariaDbDatabase: 'com.instana.forge.infrastructure.database.mariadb.MariaDbDatabase',
   memcached: 'com.instana.forge.infrastructure.cache.memcached.Memcached',
   mongoDb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
@@ -879,6 +894,8 @@ export const fullyQualifiedPlugins = {
   sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher',
   sapAbapInstanceSensor: 'com.instana.forge.infrastructure.paas.sapjco.SapAbapInstanceSensor',
   sapAbapSystemSensor: 'com.instana.forge.infrastructure.paas.sapjco.derivedentity.system.SapAbapSystemSensor',
+  sapJavaNetWeaverInstanceSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.SapJavaNetWeaverInstanceSensor',
+  sapJavaNetWeaverSystemSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.derivedentity.system.SapJavaNetWeaverSystemSensor',
   remoteHost: 'com.instana.forge.infrastructure.remote.remotehost.RemoteHost',
   processGroup: 'com.instana.forge.infrastructure.remote.processgroup.ProcessGroup'
 };

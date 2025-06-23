@@ -24,7 +24,7 @@ const basePath = '/api/settings/rbac/groups';
 
 type ApiCreateGroup = Omit<ApiGroup, 'id'>;
 function isApiGroup(group: ApiGroup | ApiCreateGroup): group is ApiGroup {
-  return (group as ApiGroup).id !== undefined;
+  return (group as ApiGroup).id !== '';
 }
 
 const refreshSignalTeams = create().emit(true);

@@ -16,9 +16,9 @@ import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable'
 import { SETTINGS_ALERT_CHANNEL_CLICK } from 'in-services/tracking/eventNames';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
-import WithSubscript from 'in-settings/components/WithSubscript';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';

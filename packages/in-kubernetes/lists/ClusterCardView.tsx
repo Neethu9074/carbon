@@ -11,7 +11,7 @@ import ResourceCardList from 'in-kubernetes/lists/ResourceCardList/ResourceCardL
 import { useGetClusterDashboard } from 'in-kubernetes/navigation/paths';
 
 export default function ClusterCardView() {
-  const getClusterHrefs = useGetClusterDashboard();
+  const getClusterHrefs = useGetClusterDashboard('cluster');
   const workloads = ['unhealthyNodes', 'unhealthyDeployments', 'runningPods', 'namespaces', 'services', 'cronJobs'];
 
   return (

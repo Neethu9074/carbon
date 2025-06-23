@@ -56,6 +56,7 @@ phases:
       - npm install -g yarn@1.22.19
       # reduce redundant build output
       - yarn install --immutable
+      - yarn generate-error-pages
       - cd packages/in-server && yarn install --ignore-optional --frozen-lockfile && cd ../..
   build:
     commands:

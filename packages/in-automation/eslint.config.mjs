@@ -21,16 +21,21 @@ export default [
           'in-applications',
           'in-automation',
           'in-components',
+          'in-infrastructure',
           'in-events',
           'in-hoc',
           'in-hooks',
           'in-logging',
+          'in-mobile-apps',
           'in-sdk',
           'in-services',
+          'in-service-levels',
           'in-settings',
           'in-stores',
           'in-subscription',
-          'in-forge'
+          'in-synthetics',
+          'in-forge',
+          'in-websites'
         ]
       }),
       'react/function-component-definition': [

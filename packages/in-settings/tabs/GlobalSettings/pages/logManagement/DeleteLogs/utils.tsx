@@ -8,8 +8,8 @@ import { format } from 'date-fns';
 import React from 'react';
 
 import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
+import { DateFormatterOutput, formatDateTime } from '@instana/format-date';
 import { IconButton, LoadingSkeleton } from '@instana/components';
-import { DateFormatterOutput } from '@instana/format-date';
 import { themes } from '@instana/design-tokens';
 
 import { deleteLogsLocalisationStrings as literals } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
@@ -41,8 +41,7 @@ export interface DeleteLogsRequest {
 }
 
 export const timestampToLocaleDateTime = (timestamp: number) => {
-  const timestampDate = new Date(Math.round(timestamp / 1000000));
-  return timestampDate.toISOString().slice(0, 16).replace('T', ', ');
+  return formatDateTime(Math.floor(timestamp / 1000000));
 };
 
 export const renderIconsByStatus = (status: string) => {

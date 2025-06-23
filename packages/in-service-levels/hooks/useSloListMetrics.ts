@@ -31,8 +31,7 @@ export type SloMetricsResultMap = Record<string, SloMetricsResult>;
 const MetricResultIdMatcher = /(?<sloId>.*)-(?<metricType>(status)|(remainingBudget)|(remainingBudgetSpark))$/;
 
 export default function useSloListMetrics(
-  configurations: ServiceLevelObjectiveConfiguration[],
-  timeConfig: TimeConfig
+  configurations: ServiceLevelObjectiveConfiguration[]
 ): FetchedState<Record<string, SloMetricsResultMap>> {
   const configsHash = generateStableHash(configurations.map(c => c.id));
 
@@ -40,13 +39,11 @@ export default function useSloListMetrics(
     () =>
       combineLatest(
         configurations.map(sloConfig =>
-          getUnifiedMetrics({ metrics: getMetricConfig(sloConfig, timeConfig) }).map(
-            structureMetricsResults(sloConfig.id!)
-          )
+          getUnifiedMetrics({ metrics: getMetricConfig(sloConfig) }).map(structureMetricsResults(sloConfig.id!))
         )
       ),
 
-    [configsHash, generateStableHash(timeConfig)]
+    [configsHash]
   );
   const combinedResult = resultReducer(results);
   return resultToFetchedStateResponse(combinedResult);
@@ -74,11 +71,10 @@ export function resultReducer(
 }
 
 function getMetricConfig(
-  configuration: ServiceLevelObjectiveConfiguration,
-  selectedTimeConfig: TimeConfig
+  configuration: ServiceLevelObjectiveConfiguration
 ): Record<string, UnifiedMetricConfigurationUnion> {
-  // To make sure we only get a single time-window we need to limit the window-size to one hour for the metrics
-  const timeConfig = { ...selectedTimeConfig, windowSize: hours.toMillis(1) };
+  // For slo list make sure we always fetch the latest metrics(for past hour)
+  const timeConfig: TimeConfig = { autoRefresh: false, windowSize: hours.toMillis(1) };
 
   return {
     [`${configuration.id}-status`]: sloMetrics.status.singleNumber({
@@ -91,7 +87,7 @@ function getMetricConfig(
     }),
     [`${configuration.id}-remainingBudgetSpark`]: sloMetrics.remainingBudget.timeSeriesCompact({
       configId: configuration.id!,
-      timeConfig: selectedTimeConfig
+      timeConfig: timeConfig
     })
   };
 }

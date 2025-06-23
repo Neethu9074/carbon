@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Card, SearchInput, Stack } from '@instana/components';
+import { SearchInput, Stack } from '@instana/components';
 
 import { urlStateDefinition, sortOptions } from 'in-kubernetes/Dashboards/CronJob/Jobs/utils';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
@@ -24,32 +24,30 @@ export default function Jobs(props: any) {
   // Here UL is returned if there is previously loaded data otherwise LoadingIndicator is returned
   const [{ orderBy, orderDirection, page, query }, setUrlState] = useUrlState(urlStateDefinition) as any;
   return (
-    <Card>
-      <Stack>
-        <HorizontalFlexWrapper className={locals.header}>
-          <div className={locals.wrapper}>
-            <SortingConfigurator
-              options={sortOptions}
-              orderBy={{
-                by: orderBy,
-                direction: orderDirection
-              }}
-              onChange={({ by, direction }) =>
-                setUrlState({
-                  orderBy: by,
-                  orderDirection: direction
-                })
-              }
-            />
-          </div>
-          <SearchInput
-            query={query}
-            onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })}
-            placeholder={t('in-components:searchInput.placeholderSearch')}
+    <Stack>
+      <HorizontalFlexWrapper className={locals.header}>
+        <div className={locals.wrapper}>
+          <SortingConfigurator
+            options={sortOptions}
+            orderBy={{
+              by: orderBy,
+              direction: orderDirection
+            }}
+            onChange={({ by, direction }) =>
+              setUrlState({
+                orderBy: by,
+                orderDirection: direction
+              })
+            }
           />
-        </HorizontalFlexWrapper>
-        <JobList {...props} page={page} query={query} orderBy={orderBy} orderDirection={orderDirection} />
-      </Stack>
-    </Card>
+        </div>
+        <SearchInput
+          query={query}
+          onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
+        />
+      </HorizontalFlexWrapper>
+      <JobList {...props} page={page} query={query} orderBy={orderBy} orderDirection={orderDirection} />
+    </Stack>
   );
 }

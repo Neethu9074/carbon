@@ -7,7 +7,7 @@
   },
   "affectedApplications": {
     "noAffectedApplications": "No affected applications found.",
-    "title": "Tittle",
+    "title": "Title",
     "totalcalls": "Affected Calls",
     "errorLoadingData": "Error loading data."
   },
@@ -20,6 +20,7 @@
   "titleTriggerEvent": "Triggering event",
   "titleRelatedEvents": "Related events ({{eventCount}})",
   "titleAffectedIncidents": "Affected Incidents",
+  "titleFaultProbabilityChart": "Probability of Failure Over Time",
   "noRelatedEvents": "No related events found",
   "noMetricsFound": "No metric found",
   "titleLastProcess": "Last process",
@@ -87,6 +88,7 @@
   "stateActive": "Active",
   "stateClosedByInstana": "Closed by Instana",
   "stateManuallyClosed": "Manually closed",
+  "stateTransient": "Transient",
   "markerServiceImpact": "SERVICE IMPACT",
   "incidentHeader": "`incident: {{incidentName}} - {{label}} ({{eventsLength}} event)",
   "incidentHeader_plural": "`incident: {{incidentName}} - {{label}} ({{eventsLength}} events)",
@@ -121,6 +123,7 @@
   "labelMonitoringIssues": "Monitoring issues",
   "labelCveIssue": "Vulnerabilities",
   "labelPrcIssue": "Probable root causes",
+  "labelFailureProbability": "Probability of Failure",
   "smartAlerts": "Smart Alerts",
   "labelAll": "All",
   "buttonViewCustomEvent": "View custom event",
@@ -132,6 +135,9 @@
   "buttonFollowReleaseLive": "Follow releases live",
   "linkViewLastProcess": "View last process",
   "linkGoToTheOfflineHost": "Go to the offline host",
+  "date": "Date",
+  "time": "Time",
+  "probability": "Probability",
   "headerStarted": "Started",
   "headerTitle": "Title",
   "headerEnd": "End",
@@ -310,14 +316,13 @@
   },
   "dataGridEventTable": {
     "apply": "Apply",
-    "cancel": "Cancel",
-    "closeFilters": "Close filters",
     "openFilters": "Open filters",
     "title": "Title",
     "on": "On",
     "started": "Started",
     "end": "End",
     "state": "State",
+    "timeline": "Timeline",
     "eventType": "Event type",
     "builtIn": "Built-in",
     "custom": "Custom",
@@ -328,14 +333,21 @@
     "mobileSA": "Mobile Smart Alert",
     "logSA": "Log Smart Alert",
     "sloSa": "SLO Smart Alert",
-    "filterTitle": "Filter"
+    "transient": "Transient events",
+    "filterTitle": "Event filters",
+    "clearAll": "Clear filters",
+    "selectAll": "Select all",
+    "selectEvent": "Select event",
+    "showTransient": "Show transient events"
   },
   "eventsSmartAlerts": {
     "globalApplicationSmartAlert": "Global Application Smart Alerts",
     "ApplicationSmartAlert": "Application Smart Alerts",
     "syntheticsSA": "Synthetics Smart Alerts",
     "infraSA": "Infrastructure Smart Alerts",
-    "logSA": "Log Smart Alerts"
+    "logSA": "Log Smart Alerts",
+    "websiteSA": "Website Smart Alerts",
+    "mobileSA": "Mobile Smart Alerts"
   },
   "feedback": {
     "skip": "Skip",
@@ -393,6 +405,7 @@
   },
   "aichat": {
     "unableToFindError": "Unable to find that information",
+    "problemError": "There was a problem. Please try again or ask another question.",
     "host": "Host",
     "name": "Name",
     "count": "Count",
@@ -418,6 +431,9 @@
     "showMore": "Show more"
   },
   "notes": {
+    "recommendedActions": "Recommended actions",
+    "aiEngine": "AI engine",
+    "viewAllRecActions": "View all recommended actions",
     "openNotes": "Open summary and notes",
     "notesActivity": "Summary and notes with AI",
     "confirmDelete": "Confirm deletion",
@@ -441,6 +457,11 @@
     "notesLabelText": "Add incident notes",
     "sumGenerated": "Summary of incident:",
     "sumActions": "Successful actions taken for similar incidents:",
+    "sumActionsTitle": "Top recommended actions for this incident:",
+    "introRecActionSingular": "There is one recommended action with a high confidence level.",
+    "introRecActionSingularNoLevel": "There is one recommended action.",
+    "introRecActionPlural": "There are {{number}} recommended actions with a high confidence level.",
+    "introRecActionPluralNoLevel": "There are {{number}} recommended actions.",
     "noSumActions": "No data available at the time the summary was generated.",
     "sumNotes": "Summary of notes:",
     "noSumNotes": "No notes available at the time the summary was generated.",

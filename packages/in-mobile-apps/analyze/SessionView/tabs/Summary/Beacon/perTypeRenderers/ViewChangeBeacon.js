@@ -11,7 +11,8 @@ import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beac
 import MapKeyToTranslatedDisplayName from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/EumTagMap';
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
 import EumMeta from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/EumMeta';
-import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import { millisToTwoDecimalSeconds, latencyFixed } from 'in-services/formatters/number';
+import { mobileAppScreenRenderingDurationEnabled } from 'in-services/featureFlags';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -37,6 +38,12 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
+    {mobileAppScreenRenderingDurationEnabled && (
+      <KeyValueHeader
+        label={t('in-mobile-apps:sessionView.tabsSumViewChangeBeacon.renderingDurationlabel')}
+        value={latencyFixed.compact(beacon.duration)}
+      />
+    )}
     {getAppStatusLabel(beacon) && (
       <KeyValueHeader
         label={t('in-mobile-apps:sessionView.tabsSumViewChangeBeacon.appStatusLabel')}

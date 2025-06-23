@@ -113,6 +113,7 @@ function resolveThresholdRequest(alertConfigWithFormModel, isGlobalSmartAlert, b
     },
     operator,
     seasonality: getSeasonality(),
+    adaptability: threshold.warningThreshold?.adaptability || threshold.criticalThreshold?.adaptability,
     evaluationType: type === ADAPTIVE_BASELINE ? null : evaluationType,
     fallbackOnError: isSimpleMode,
     type

@@ -13,10 +13,12 @@ import { SvgIcon, CarbonButton } from '@instana/components';
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/CustomResponse/TableChartSwitcher';
 import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
+import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tracking';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import PromptLibrary from 'in-events/components/AIChat//CustomPanels/PromptLibrary';
 import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { handleTracking } from 'in-events/components/AIChat/utils';
 import { custom } from 'in-websites/queryBuilder';
 
 import locals from './AIChat.mless';
@@ -154,6 +156,7 @@ export function AIChat() {
 
           // Listen to when the launcher is clicked and open mainWindow
           launcherElement.addEventListener('click', e => {
+            handleTracking(EVENT_AI_CHAT_OPEN);
             instance?.changeView('mainWindow');
             launcherElement.style.display = 'none';
             const elements = document.getElementsByTagName('cds-aichat-internal');
@@ -174,6 +177,8 @@ export function AIChat() {
               if (event.newViewState.mainWindow) {
                 launcherElement.style.display = 'none';
               } else {
+                // The AI Chat has been closed so we are no longer hiding the AI Launcher
+                handleTracking(EVENT_AI_CHAT_CLOSE);
                 launcherElement.style.display = '';
               }
             }

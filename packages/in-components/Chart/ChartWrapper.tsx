@@ -66,7 +66,7 @@ import { t } from 'in-i18n';
 interface Props extends ResultAwareChartConfig {
   result: Result<MetricData>;
   companionResult?: Result<MetricData>;
-  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string, id: string) => void;
 }
 
 export default function ChartWrapper({ result, companionResult, ...props }: Props): React.ReactElement {

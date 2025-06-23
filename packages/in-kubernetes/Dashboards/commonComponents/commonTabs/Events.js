@@ -8,7 +8,6 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { formatDateTime } from '@instana/format-date';
-import { Card } from '@instana/components';
 
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -141,20 +140,18 @@ function eventsTable(columnDefinitions) {
     ...props
   }) {
     return (
-      <Card>
-        <ServerTableWithUrlState
-          clusterId={clusterId}
-          daemonSetId={daemonSetId}
-          deploymentId={deploymentId}
-          deploymentConfigId={deploymentConfigId}
-          namespaceId={namespaceId}
-          podId={podId}
-          serviceId={serviceId}
-          statefulSetId={statefulSetId}
-          get={getTableData}
-          {...props}
-        />
-      </Card>
+      <ServerTableWithUrlState
+        clusterId={clusterId}
+        daemonSetId={daemonSetId}
+        deploymentId={deploymentId}
+        deploymentConfigId={deploymentConfigId}
+        namespaceId={namespaceId}
+        podId={podId}
+        serviceId={serviceId}
+        statefulSetId={statefulSetId}
+        get={getTableData}
+        {...props}
+      />
     );
   };
 }

@@ -12,6 +12,7 @@ import { TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 
 interface ImpactedUsersProps {
   entityType?: string | unknown;
+  eventId?: string;
   alertType?: string;
   timeConfig: TimeConfig;
   joinFilterForImpactedUsers: TagFilterExpressionElementUnion;
@@ -21,6 +22,7 @@ interface ImpactedUsersProps {
 
 export default function ImpactedUsers({
   entityType,
+  eventId,
   alertType,
   timeConfig,
   joinFilterForImpactedUsers,
@@ -39,10 +41,9 @@ export default function ImpactedUsers({
   return (
     <ImpactedUsersPresenter
       entityType={entityType}
-      alertType={alertType}
+      eventId={eventId}
       timeConfig={timeConfig}
       metricImpacts={metricImpacts}
-      downloadProp={{ tagFilterExpression: joinFilterForImpactedUsers }}
       isKPI={isKPI}
     />
   );

@@ -122,18 +122,21 @@ function createThresholdRuleForm(
 
 function createThresholdMapForm(
   threshold?: SmartAlertThresholdRule | ThresholdData,
-  seasonality?: Seasonality,
-  baseline?: BaselineDataSeries,
+  commonFields: {
+    seasonality?: Seasonality;
+    baseline?: BaselineDataSeries;
+    adaptability?: number;
+  } = {},
   editMode?: boolean
 ): MapForm<any> {
   if (!threshold || isStaticThresholdRule(threshold)) {
     return createStaticThresholdMapForm(threshold, editMode);
   }
   if (isStaticBaselineThresholdRule(threshold)) {
-    return createStaticBaselineMapForm(threshold, seasonality, baseline, editMode);
+    return createStaticBaselineMapForm(threshold, commonFields, editMode);
   }
   if (isAdaptiveBaselineData(threshold as ThresholdData)) {
-    return createAdaptiveBaselineMapForm(threshold as AdaptiveBaselineData, editMode);
+    return createAdaptiveBaselineMapForm(threshold as AdaptiveBaselineData, commonFields, editMode);
   }
   throw new Error(`Unknown threshold type ${threshold?.type}.`);
 }
@@ -151,8 +154,8 @@ function createStaticThresholdForm(
       operator: createField({
         value: ruleWithThreshold?.thresholdOperator ?? '>='
       }),
-      warningThreshold: createThresholdMapForm(warningThreshold, undefined, undefined, editMode),
-      criticalThreshold: createThresholdMapForm(criticalThreshold, undefined, undefined, editMode)
+      warningThreshold: createThresholdMapForm(warningThreshold, {}, editMode),
+      criticalThreshold: createThresholdMapForm(criticalThreshold, {}, editMode)
     }
   });
 }
@@ -233,6 +236,7 @@ function createStaticBaselineForm(
   const criticalThreshold = ruleWithThreshold?.thresholds?.CRITICAL as StaticBaselineThresholdRule;
   const commonSeasonality = warningThreshold?.seasonality ?? criticalThreshold?.seasonality ?? DAILY;
   const commonBaseline = warningThreshold?.baseline ?? criticalThreshold?.baseline ?? null;
+  const commonFields = { seasonality: commonSeasonality, baseline: commonBaseline as BaselineDataSeries };
 
   return createMapForm({
     validator: validateForm,
@@ -240,28 +244,21 @@ function createStaticBaselineForm(
       operator: createField({
         value: ruleWithThreshold?.thresholdOperator ?? '>='
       }),
-      warningThreshold: createThresholdMapForm(
-        warningThreshold,
-        commonSeasonality,
-        commonBaseline as BaselineDataSeries,
-        editMode
-      ),
-      criticalThreshold: createThresholdMapForm(
-        criticalThreshold,
-        commonSeasonality,
-        commonBaseline as BaselineDataSeries,
-        editMode
-      )
+      warningThreshold: createThresholdMapForm(warningThreshold, commonFields, editMode),
+      criticalThreshold: createThresholdMapForm(criticalThreshold, commonFields, editMode)
     }
   });
 }
 
 function createStaticBaselineMapForm(
   threshold?: StaticBaselineThresholdRule,
-  seasonality: string = DAILY,
-  baseline?: BaselineDataSeries,
+  commonFields: {
+    seasonality?: Seasonality;
+    baseline?: BaselineDataSeries;
+  } = {},
   editMode: boolean = false
 ): MapForm<any> {
+  const { seasonality, baseline } = commonFields;
   return createMapForm()
     .put(
       'type',
@@ -317,6 +314,11 @@ function createAdaptiveBaselineForm(
     (thresholdRule?.WARNING as AdaptiveBaselineData)?.baseline ??
     (thresholdRule?.CRITICAL as AdaptiveBaselineData)?.baseline ??
     [];
+  const commonAdaptability =
+    (thresholdRule?.WARNING as any)?.adaptability ?? (thresholdRule?.CRITICAL as any)?.adaptability;
+  const commonSeasonality =
+    (thresholdRule?.WARNING as any)?.seasonality ?? (thresholdRule?.CRITICAL as any)?.seasonality;
+  const commonFields = { seasonality: commonSeasonality, adaptability: commonAdaptability };
 
   return createMapForm({
     validator: validateForm,
@@ -327,13 +329,21 @@ function createAdaptiveBaselineForm(
       baseline: createField({
         value: commonBaseline
       }),
-      warningThreshold: createThresholdMapForm(warningThresholdFields, undefined, undefined, editMode),
-      criticalThreshold: createThresholdMapForm(criticalThresholdFields, undefined, undefined, editMode)
+      warningThreshold: createThresholdMapForm(warningThresholdFields, commonFields, editMode),
+      criticalThreshold: createThresholdMapForm(criticalThresholdFields, commonFields, editMode)
     }
   });
 }
 
-function createAdaptiveBaselineMapForm(threshold?: AdaptiveBaselineData, editMode: boolean = false): MapForm<any> {
+function createAdaptiveBaselineMapForm(
+  threshold?: AdaptiveBaselineData,
+  commonFields: {
+    seasonality?: Seasonality;
+    adaptability?: number;
+  } = {},
+  editMode: boolean = false
+): MapForm<any> {
+  const { seasonality, adaptability } = commonFields;
   return createMapForm()
     .put(
       'type',
@@ -346,6 +356,18 @@ function createAdaptiveBaselineMapForm(threshold?: AdaptiveBaselineData, editMod
       createField({
         value: threshold?.deviationFactor
       }).setTouched(editMode ? (threshold as any)?.isCheckboxSelected : false)
+    )
+    .put(
+      'seasonality',
+      createField({
+        value: seasonality
+      })
+    )
+    .put(
+      'adaptability',
+      createField({
+        value: adaptability
+      })
     )
     .put(
       'isCheckboxSelected',

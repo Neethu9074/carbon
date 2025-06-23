@@ -10,6 +10,10 @@ import classNames from 'classnames';
 import { SvgIcon } from '@instana/components';
 
 import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import { getTruncatedText } from 'in-alerting/smart-alerts/utils/alertPropertiesTitleUtils';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { toHtml } from 'in-services/formatters/markdown';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview.mless';
 
@@ -42,7 +46,12 @@ export function AlertPreview({
 }: AlertPreviewProps) {
   const description = form.get('description')?.value;
   const triggering = form.get('triggering')?.value;
-
+  const descriptionWithMarkdown = toHtml(
+    description ||
+      (isMultiThreshold
+        ? descriptionPlaceholder ?? getDescriptionPlaceholder(form, severity)
+        : getDescriptionPlaceholder(form))
+  );
   return (
     <div
       className={classNames({
@@ -88,12 +97,9 @@ export function AlertPreview({
             </span>
           )}
         </p>
-        <p>
-          {description ||
-            (isMultiThreshold
-              ? descriptionPlaceholder ?? getDescriptionPlaceholder(form, severity)
-              : getDescriptionPlaceholder(form))}
-        </p>
+        <span className={locals.description}>
+          <DangerousHtmlPresenter html={descriptionWithMarkdown} />
+        </span>
       </div>
     </div>
   );
@@ -107,5 +113,9 @@ function getIconType(severity: number, triggering: false): string {
 }
 
 export function AlertPreviewHeadline({ title }: { title: string | HighlightedPlaceholders }): JSX.Element {
-  return <h3 className={locals.alertPreviewHeadline}>{title}</h3>;
+  return (
+    <Tooltip align="auto" content={title}>
+      <h3 className={locals.alertPreviewHeadline}>{getTruncatedText(title, 256)}</h3>
+    </Tooltip>
+  );
 }

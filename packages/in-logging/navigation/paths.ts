@@ -98,8 +98,7 @@ export function getLogsHref(
 
 export function useLinkToLogsConsole() {
   const { createHrefToPath } = useNavigation();
-
-  return createHrefToPath(logsConsolePathWithDataSource);
+  return createHrefToPath(logsConsolePathWithDataSource).split('?')[0];
 }
 
 export function useLinkToLogs({ tagFilterExpression, timeConfig, groups }: GetLinkToLogsProps) {

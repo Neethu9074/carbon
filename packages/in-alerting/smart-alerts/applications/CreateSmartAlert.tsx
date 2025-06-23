@@ -12,7 +12,7 @@ import { generateAlertConfig as generateGlobalAlertConfig } from 'in-alerting/sm
 //@ts-expect-error need migration
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { CarbonTableCreateButton } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
@@ -193,6 +193,7 @@ export function CreateSmartAlertButtonForCarbonTable({
   buttonName: string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
+
   const createSmartAlertPath = getLinkToCreateSmartAlert({
     isGlobal: isGlobal,
     applicationId: !isGlobal ? applicationId : undefined,

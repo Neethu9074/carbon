@@ -6,27 +6,26 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import useGetHrefToSloDashboard from 'in-service-levels/navigation/hooks/useGetHrefToSloDashboard';
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
-import { calculateSeverity } from 'in-service-levels/utils/math';
+import { SloListItem, SelectSloListItem } from 'in-service-levels/types';
 
 interface Props {
-  item: SloListItem;
+  item: SloListItem | SelectSloListItem;
+  isLink?: boolean;
 }
 
-export default function SloNameColumnContent({ item }: Props) {
+export default function SloNameColumnContent({ item, isLink = false }: Props) {
   const hrefToSloDashboard = useGetHrefToSloDashboard();
-
-  const { configuration, status } = item;
-  const { name, target, id } = configuration;
-  return (
-    <SeverityIndicatorCellContentWrapper severity={status != null ? calculateSeverity({ status, target }) : undefined}>
+  const { configuration } = item;
+  const { name, id } = configuration;
+  if (isLink) {
+    return (
       <Link href={hrefToSloDashboard(id!)} ellipsis>
         {name}
       </Link>
-    </SeverityIndicatorCellContentWrapper>
-  );
+    );
+  }
+  return <Typography variant="body-regular">{name}</Typography>;
 }

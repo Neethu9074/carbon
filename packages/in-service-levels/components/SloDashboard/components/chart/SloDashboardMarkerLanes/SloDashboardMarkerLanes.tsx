@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { isApplicationSloEntity, isWebsiteSloEntity, SloEntityUnion } from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity, SloEntityUnion } from '@instana/types';
 
 import ApplicationSloMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/ApplicationSloMarkerLanes';
+import SyntheticSloMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SyntheticSloMarkerLanes';
 import WebsiteSloMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/WebsiteSloMarkerLanes';
 import { AdditionChartContentProps } from 'in-components/Chart/types';
 
@@ -23,6 +24,10 @@ export default function SloDashboardMarkerLanes({ entity, ...props }: SloDashboa
 
   if (isWebsiteSloEntity(entity)) {
     return <WebsiteSloMarkerLanes entity={entity} {...props} />;
+  }
+
+  if (isSyntheticSloEntity(entity)) {
+    return <SyntheticSloMarkerLanes {...props} />;
   }
 
   return null;

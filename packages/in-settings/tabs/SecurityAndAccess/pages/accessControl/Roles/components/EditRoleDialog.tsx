@@ -33,14 +33,18 @@ import MapFormProvider, {
   FormMode,
   useMapFormContext
 } from 'in-settings/components/MapFormProvider/MapFormProvider';
+import { getEntityHref, securityAndAccessAccessControlRoles } from 'in-settings/navigation/paths';
 import { AreaPermission, Capability, LimitedAccessScope } from 'in-stores/permission';
 import { createRole, updateRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { close as closeModal } from 'in-components/DialogPresenter/store';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SETTINGS_ROLE_SUBMIT } from 'in-services/tracking/eventNames';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import useDerivedState from 'in-hooks/useDerivedState';
 import { FetchStatus } from 'in-hooks/utils/types';
@@ -73,6 +77,7 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
   const [form, setForm] = useDerivedState(createRoleForm(formValues));
   const [status, submitForm] = useFormSubmission(ROLE_FORM_ACTIONS[mode]);
   const { unstable_trackEvent } = useSegmentTracking();
+  const { navigate } = useNavigation();
 
   function onSubmit() {
     if (!form.hierarchyValid) {
@@ -97,9 +102,10 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
           type: 'danger'
         });
       },
-      onSuccess: () => {
+      onSuccess: result => {
         const { permissions, ...customData } = payload;
         addMessage({
+          title: t('in-settings:components.successTitle'),
           content: t('in-settings:dialogs.role.roleSuccessfullySaved'),
           timeout: seconds.toMillis(4),
           type: 'success'
@@ -109,6 +115,9 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
           { objectType: SETTINGS_ROLE_SUBMIT },
           customData
         );
+        if (mode === FORM_MODE.NEW) {
+          navigate(parseUrl(getEntityHref(securityAndAccessAccessControlRoles, result.data?.id ?? ''), true));
+        }
         closeModal();
       }
     });
@@ -208,9 +217,13 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
     },
     {
       content: <AgentDeploymentSection />,
-      label: t('in-settings:dialogs.role.agentDeploymentSectionTitle'),
+      label: newOTelPageEnabled
+        ? t('in-settings:dialogs.role.datasourceSectionTitle')
+        : t('in-settings:dialogs.role.agentDeploymentSectionTitle'),
       scrollId: 'agent-deployment-section',
-      title: t('in-settings:dialogs.role.agentDeploymentSectionTitle'),
+      title: newOTelPageEnabled
+        ? t('in-settings:dialogs.role.datasourceSectionTitle')
+        : t('in-settings:dialogs.role.agentDeploymentSectionTitle'),
       valid: true
     },
     {

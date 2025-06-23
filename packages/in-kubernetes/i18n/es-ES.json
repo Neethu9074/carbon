@@ -10,6 +10,7 @@
     "namespace": "Espacio de nombres",
     "node": "Nodo",
     "pod": "Pod",
+    "persistentVolume": "PersistentVolume",
     "k8SService": "Servicio K8s"
   },
   "clusterBadgeNameOpenShift": "OpenShift",
@@ -29,6 +30,7 @@
     "summary": "Resumen",
     "details": "Detalles",
     "hostCoverage": "Cobertura de host",
+    "k8SensorVersion": "Versión del sensor K8s",
     "clusterUuid": "UUID de clúster",
     "agentMonitor": "Supervisor de agente",
     "controlPlane": "Panel de control",
@@ -55,9 +57,17 @@
     "cpuUsage": "Uso de CPU",
     "memoryUsage": "Uso de memoria",
     "phase": "Fase",
-    "reclaimPolicy": "Política de reclamación",
-    "storageCapacity": "Capacidad de almacenamiento",
     "storageClassName": "Nombre de clase de almacenamiento",
+    "capacityStorage": "Almacenamiento de capacidad",
+    "storageTotalCapacity": "Capacidad total",
+    "storageUsedCapacity": "Capacidad utilizada",
+    "storageUtilization": "Utilización",
+    "storageUsedTotalCapacity": "de un total de {{total}}",
+    "total": "Total",
+    "reclaimPolicy": "Política de reclamación",
+    "accessMode": "Modalidad de acceso",
+    "volumeMode": "Modalidad del volumen",
+    "creationTimestamp": "Indicación de fecha y hora de creación",
     "cpuRequests": "Solicitudes de CPU",
     "cpuRequestsMultiMetric": "Solicitudes de CPU",
     "cpuLimitsAlloc": "Asignación de límites de CPU",
@@ -160,6 +170,8 @@
     "lastJobDuration": "Duración del último trabajo",
     "kubernetesDaemonSet": "Kubernetes DaemonSet",
     "k8SDaemonSet": "K8s DaemonSet",
+    "kubernetesPersistentVolume": "Kubernetes PersistentVolume",
+    "k8SPersistentVolume": "K8s PersistentVolume",
     "unscheduled": "No planificado",
     "unready": "No preparado",
     "available": "Disponible",
@@ -277,12 +289,12 @@
       "idleCost": "Coste de desocupación",
       "viewInKubeCost": "Ver en Kubecost",
       "coreCountByCluster": "vCPU",
-      "noKubecostData": "Permitir la observabilidad y la asignación de costes con Kubecost. Para configurar la integración, siga estos [pasos][Docs].\n\n[Docs]:https://ibm.biz/kubecost",
+      "noKubecostData": "Habilite la supervisión de costes para este clúster con Kubecost.\\\n Para configurar la integración, [siga estos pasos] en la documentación.\n\n[siga estos pasos]:https://ibm.biz/kubecost",
       "totalClusterCost": "Coste total del clúster (últimos 14 días)",
       "workloadEfficiency": "Eficacia de la carga de trabajo",
       "estimatedMonthlySavings": "Ahorro mensual estimado",
-      "totalClusterCostTooltipinfo": "El coste total de su clúster para el periodo de tiempo seleccionado. Nota: si tiene menos de 14 días de datos, verá esa cifra hasta que haya transcurrido un ciclo completo de 14 días.",
-      "workloadEfficiencyTooltipinfo": "La eficiencia media de cada carga de trabajo a lo largo de la ventana elegida. La eficiencia de la carga de trabajo es la relación entre el coste ponderado del uso de RAM y CPU y las solicitudes de RAM y CPU configuradas.",
+      "totalClusterCostTooltipinfo": "El coste total de su clúster durante los últimos 14 días. Si tiene menos de 14 días de datos, verá esa cifra hasta que haya transcurrido un ciclo completo de 14 días.",
+      "workloadEfficiencyTooltipinfo": "La eficiencia media de cada carga de trabajo durante los últimos 14 días. La eficiencia de carga de trabajo es la relación ponderada por coste entre el uso de RAM y CPU y las solicitudes de RAM y CPU configuradas.",
       "estimatedMonthlySavingsTooltipinfo": "El ahorro mensual estimado disponible para su clúster, determinado utilizando datos históricos del periodo de tiempo seleccionado.",
       "deploymentInfoNotRetrieving": "Kubecost no está recuperando información de despliegues",
       "notRetrievingData": "Kubecost no está recuperando datos",
@@ -331,7 +343,10 @@
       "title": "Acceda más rápidamente a la información importante",
       "content": "La vista de tarjetas proporciona más información sobre sus clústeres y espacios de nombres de un vistazo y enlaza directamente con cada etiqueta desde el panel de control para una investigación centrada. <br /><br />Puede desplazarse fácilmente entre estas nuevas vistas y las vistas de tabla haciendo clic en el conmutador de contenidos.",
       "button": "Entendido"
-    }
+    },
+    "nodes": "Nodos",
+    "pods": "Pods",
+    "containers": "Contenedores"
   },
   "viewAllEntityName_unknownEntity_plural": "todos",
   "viewAllEntityName_unknownEntity_0": "todos",
@@ -421,5 +436,18 @@
     "days": "días antes",
     "close": "Cerrar",
     "branch": "Rama"
+  },
+  "sourceSelector": {
+    "instanaAgent": {
+      "text": "Agente de Instana",
+      "description": "Ver información basada en los datos recopilados por el agente de Instana."
+    },
+    "otelCollector": {
+      "text": "Recopilador de OpenTelemetry",
+      "description": "Ver información basada en los datos recopilados por el recopilador de Instana OpenTelemetry."
+    },
+    "additionalMetrics": {
+      "title": "Adicional"
+    }
   }
 }

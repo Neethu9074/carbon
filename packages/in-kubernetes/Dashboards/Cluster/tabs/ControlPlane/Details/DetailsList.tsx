@@ -32,6 +32,7 @@ export default function DetailsList({ clusterInfos }: DetailsListProps) {
   const uuid = getItem('UUID', clusterInfos);
   const leader = getItem('Leader', clusterInfos);
   const hostCoverage = getItem('Host Coverage', clusterInfos);
+  const k8SensorVersion = getItem('K8s Sensor Version', clusterInfos);
   location.pathname = `${kubernetes}${clusterDashboard}${phasePodListUrlParameter.path}`;
   setOrDeleteMatrixKey(location, phasePodListUrlParameter.path, 'pod.query', leader?.value);
   const leaderHref = createHref(location);
@@ -48,6 +49,11 @@ export default function DetailsList({ clusterInfos }: DetailsListProps) {
     {
       label: t('in-kubernetes:dashboards.agentMonitor'),
       value: <Link href={leaderHref}>{leader?.value}</Link>,
+      hasCopyToClipboard: true
+    },
+    {
+      label: t('in-kubernetes:dashboards.k8SensorVersion'),
+      value: k8SensorVersion?.value,
       hasCopyToClipboard: true
     }
   ];

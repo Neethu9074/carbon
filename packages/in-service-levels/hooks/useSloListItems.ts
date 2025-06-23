@@ -4,19 +4,17 @@
  * Copyright IBM Corp. 2023
  */
 
-import { PaginatedResult, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import { PaginatedResult, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
 import useSloListMetrics, { SloMetricsResultMap } from 'in-service-levels/hooks/useSloListMetrics';
 import { calculateSloGranularity, applyAdjustedTimeframe } from 'in-service-levels/utils/time';
-import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
+import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { getSingleNumberMetricValue } from 'in-service-levels/utils/format';
-import { SloListItem } from 'in-service-levels/components/SloList/SloList';
+import { LabeledEntity, SloListItem } from 'in-service-levels/types';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import { MetricDataSeries } from 'in-components/Chart/types';
-import { LabeledEntity } from 'in-service-levels/types';
-import { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function useSloListItems({
@@ -27,8 +25,10 @@ export default function useSloListItems({
   entityType,
   entityIds,
   orderBy,
-  orderDirection
-}: GetAllSloConfigurationsArguments): FetchedState<PaginatedResult<SloListItem>> {
+  orderDirection,
+  sloStatus,
+  blueprint
+}: GetAllSloConfigurationsArguments): Result<PaginatedResult<SloListItem>> {
   const timeConfig = useTimeConfig();
   const [configurationPage, , configurationErrors, configurationProgress] = useSloConfigurations({
     page,
@@ -36,26 +36,27 @@ export default function useSloListItems({
     query,
     tags,
     entityType,
+    sloStatus,
     entityIds,
     orderBy,
-    orderDirection
+    orderDirection,
+    blueprint
   });
   const configurations = configurationPage?.items ?? [];
 
   const [labels, , labelsErrors, labelsProgress] = useSloEntitiesLabels(configurations);
-  const [metrics, , , metricProgress] = useSloListMetrics(configurations, timeConfig);
-  const progress = allProgress(configurationProgress, labelsProgress, metricProgress);
+  const [metrics] = useSloListMetrics(configurations);
+  const progress = allProgress(configurationProgress, labelsProgress);
   const errors = [...configurationErrors, ...labelsErrors];
 
-  return [
-    {
+  return {
+    errors,
+    progress,
+    data: {
       ...configurationPage!,
       items: configurations.map(configuration => buildSloListItem({ configuration, labels, metrics, timeConfig }))
-    },
-    'resolved',
-    errors,
-    progress
-  ];
+    }
+  };
 }
 
 export function buildSloListItem({

@@ -5,6 +5,8 @@
 
 import { FormatLocaleDefinition } from 'd3-format';
 
+// CreateTearsheet component has a bug in its props type definition for children, this allows using it without losing typesafety of other props
+import '@instana/ibm-products';
 import { Tag } from '@instana/types';
 
 export interface UiSettings {
@@ -112,5 +114,11 @@ declare global {
   interface Window {
     instana: InstanaGlobals;
     analytics: Analytics;
+  }
+}
+
+declare module '@instana/ibm-products' {
+  interface CreateTearsheetProps {
+    children?: React.ReactNode;
   }
 }

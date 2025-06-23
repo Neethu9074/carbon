@@ -22,7 +22,7 @@ module.exports = {
   transformIgnorePatterns: [
     '.jest/register-context.js',
     'node_modules/jest-runner/build/runTest.js',
-    'node_modules/(?!(@instana/types)/)', // Specifically enable @instana/types to be transformed since its ts only
+    'node_modules/(?!(@instana/types|@instana/ai-chat)/)', // Enable both @instana/types and @instana/ai-chat to be transformed
     '/node_modules/jest-runner/build/index.js'
   ],
   transform: {

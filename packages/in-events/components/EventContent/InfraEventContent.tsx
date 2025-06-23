@@ -86,6 +86,8 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
 
   const [aggregatedEntitiesOpen, setAggregatedEntitiesOpen] = useState(true);
 
+  const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
+
   if (!alertConfig) {
     return <LoadingIndicator size="xxxl" />;
   }
@@ -95,7 +97,6 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
     ? getPluginName(entityType, 1)
     : event.getIn(['metadata', 'entityLabel'], '');
 
-  const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
   const predictions = event.getIn(['metadata', 'predictions'], emptyList).toJS();
   const lowerBound = event.getIn(['metadata', 'predictionsLowerBound'], emptyList).toJS();
   const upperBound = event.getIn(['metadata', 'predictionsUpperBound'], emptyList).toJS();
@@ -108,7 +109,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   const alertConfigWithGroupingExpression = {
     ...alertConfig,
     tagFilterExpression: {
-      ...getExpressionWithGroupingTags(deepCopy(tagFilterExpression) as TagFilterExpression, groupingTags)
+      ...getExpressionWithGroupingTags(deepCopy(tagFilterExpression) as TagFilterExpression, groupingTags, true)
     }
   };
 
@@ -156,7 +157,9 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                   alertConfigWithGroupingExpression.granularity
                 )}
                 ruleWithThreshold={ruleWithThreshold}
-                tagFilterExpression={alertConfigWithGroupingExpression.tagFilterExpression}
+                tagFilterExpression={alertConfig.tagFilterExpression}
+                groupingTags={groupingTags}
+                tagsFromTagCatalog={tagCatalog?.tags}
                 metricLabel={metricLabel}
                 aggregatedEntitiesOpen={aggregatedEntitiesOpen}
                 setAggregatedEntitiesOpen={setAggregatedEntitiesOpen}
@@ -171,8 +174,10 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                       <InfraAlertConfigButton alertConfig={alertConfig} />
                       <TriggeredIncidentButton event={event} />
                       <AnalyzeInfraEventButton
-                        alertConfig={alertConfigWithGroupingExpression}
+                        alertConfig={alertConfig}
                         timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
+                        groupingTags={groupingTags}
+                        tagsFromTagCatalog={tagCatalog?.tags}
                       />
                     </DescriptionButtons>
                   )}
@@ -196,8 +201,10 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                       <TriggeredIncidentButton event={event} />
                       <InfraAlertConfigButton alertConfig={alertConfig} />
                       <AnalyzeInfraEventButton
-                        alertConfig={alertConfigWithGroupingExpression}
+                        alertConfig={alertConfig}
                         timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
+                        groupingTags={groupingTags}
+                        tagsFromTagCatalog={tagCatalog?.tags}
                       />
                     </DescriptionButtons>
                   ) : (

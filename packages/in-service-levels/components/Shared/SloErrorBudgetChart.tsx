@@ -12,6 +12,7 @@ import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/c
 import ControlledSloErrorBudgetChart from 'in-service-levels/components/Shared/ControlledSloErrorBudgetChart';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import { MetricDataSeries } from 'in-components/Chart/types';
 import { sloMetrics } from 'in-service-levels/metrics';
 
 interface SloErrorBudgetChartProps {
@@ -23,6 +24,7 @@ interface SloErrorBudgetChartProps {
   timeWindowColors: string[];
   configuration: ServiceLevelObjectiveConfiguration;
   title?: string;
+  correctionWindowMetrics?: MetricDataSeries;
 }
 
 export default function SloErrorBudgetChart({
@@ -33,7 +35,8 @@ export default function SloErrorBudgetChart({
   timeWindows,
   timeWindowColors,
   configuration,
-  title
+  title,
+  correctionWindowMetrics
 }: SloErrorBudgetChartProps) {
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
@@ -66,6 +69,7 @@ export default function SloErrorBudgetChart({
       metrics={metricsWithGranularity}
       errors={errors}
       progress={progress}
+      correctionWindowMetrics={correctionWindowMetrics}
       renderPostChartContent={props => <SloDashboardMarkerLanes entity={configuration.entity} {...props} />}
     />
   );

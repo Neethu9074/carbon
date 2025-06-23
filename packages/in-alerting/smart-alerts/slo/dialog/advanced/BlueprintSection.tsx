@@ -19,10 +19,10 @@ import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents
 import BurnRateBlueprintSectionPanel from 'in-alerting/smart-alerts/slo/components/BurnRateBlueprintSectionPanel';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import BlueprintSectionPanel from 'in-alerting/smart-alerts/slo/components/BlueprintSectionPanel';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { sloAlertThresholdOperators } from 'in-alerting/smart-alerts/slo/constants';
 import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { SloAlertMetricTypes } from 'in-alerting/smart-alerts/slo/types';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/slo/dialog/advanced/BlueprintSection.mless';

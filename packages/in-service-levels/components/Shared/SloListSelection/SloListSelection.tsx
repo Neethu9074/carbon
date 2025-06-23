@@ -14,11 +14,11 @@ import { Search } from '@instana/carbon';
 
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
-import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import usePaginatedSloList, { SloData } from 'in-service-levels/hooks/usePaginatedSloList';
 import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 import Sections from 'in-components/workspace/Sections/Sections';
 import { removeAmbiguous } from 'in-service-levels/utils/array';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { t } from 'in-i18n';
 
