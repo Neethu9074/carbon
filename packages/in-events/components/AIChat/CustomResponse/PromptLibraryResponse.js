@@ -7,9 +7,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import locals from './PromptLibraryResponse.mless';
+import { t } from 'in-i18n';
 
-// import { t } from 'in-i18n';
+import locals from './PromptLibraryResponse.mless';
 
 export default function PromptLibraryResponse({ instance }) {
   const buttonStyle =
@@ -21,12 +21,12 @@ export default function PromptLibraryResponse({ instance }) {
       onClick={() => {
         const customPanel = instance?.customPanels?.getPanel();
         const panelOptions = {
-          title: 'Prompt library'
+          title: t('in-events:aichat.promptLibrary')
         };
         customPanel.open(panelOptions);
       }}
     >
-      {'Prompt library'}
+      {t('in-events:aichat.promptLibrary')}
     </button>
   );
 }

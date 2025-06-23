@@ -3,12 +3,10 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
-import { createPortal } from 'react-dom';
 import React, { useEffect, useMemo, useState, useRef } from 'react';
 
-// import { ChatContainer } from '@carbon/ai-chat';
-import { ChatContainer } from '@instana/ai-chat';
 import { SvgIcon, CarbonButton } from '@instana/components';
+import { ChatContainer } from '@instana/ai-chat';
 
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/CustomResponse/TableChartSwitcher';
@@ -19,7 +17,7 @@ import PromptLibrary from 'in-events/components/AIChat//CustomPanels/PromptLibra
 import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { handleTracking } from 'in-events/components/AIChat/utils';
-import { custom } from 'in-websites/queryBuilder';
+import { t } from 'in-i18n';
 
 import locals from './AIChat.mless';
 
@@ -143,9 +141,11 @@ export function AIChat() {
         onAfterRender={instance => {
           const customPanel = instance.customPanels.getPanel();
           const panelOptions = {
-            title: 'Prompt library'
+            title: t('in-events:aichat.promptLibrary')
           };
-          instance.updateCustomMenuOptions([{ text: 'Prompt library', handler: () => customPanel.open(panelOptions) }]);
+          instance.updateCustomMenuOptions([
+            { text: t('in-events:aichat.promptLibrary'), handler: () => customPanel.open(panelOptions) }
+          ]);
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
           const draggableIcon = document.getElementById(DRAGGABLE_ICON);
 

@@ -21,11 +21,8 @@ import { promptLibrary } from 'in-events/components/AIChat/DefinedQuestions';
 
 import locals from './PromptLibrary.mless';
 
-// import { t } from 'in-i18n';
-
 const PromptLibrary = ({ instance, chatInstance }) => {
   const [search, setSearch] = useState('');
-    console.log('instance in prompt library', instance, chatInstance)
 
   return (
     <div id="promptLibrary">
@@ -53,7 +50,8 @@ const PromptLibrary = ({ instance, chatInstance }) => {
                           onClick={() => {
                             const customPanel = instance?.customPanels?.getPanel();
                             const textField = instance?.elements?.getMessageInput?.();
-                            console.log('heyheyheyhey', instance)
+                            // On Click we want to take the value of the prompt
+                            // and then enter it into the textField
                             if (textField) {
                               textField.setValue(question);
                               customPanel.close();
