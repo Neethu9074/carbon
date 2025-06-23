@@ -3,9 +3,10 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
+import { PreviewPill } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 
 import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE, EVENT_AI_LIBRARY_OPEN } from 'in-services/tracking/tracking';
@@ -33,7 +34,7 @@ export function MoveAIChatLauncher(pixel) {
 }
 
 function setDragListener() {
-  const elements = document.getElementsByTagName('cds-aichat-internal');
+  const elements = document.getElementsByTagName('cds-aichat-react');
   const selector = '.WACBotContainer .WACHeader__CenterContainer';
   if (elements.length !== 1) {
     return;
@@ -107,7 +108,8 @@ export function AIChat() {
   const [instance, setInstance] = useState(null);
   const renderWriteableElements = useMemo(
     () => ({
-      customPanelElement: <PromptLibrary instance={instance} />
+      customPanelElement: <PromptLibrary instance={instance} />,
+      headerBottomElement: <PreviewPill className={locals.previewPill} />
     }),
     [instance]
   );
