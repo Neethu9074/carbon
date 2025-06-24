@@ -13,5 +13,11 @@
       max-height: 90vh;
       height: calc(100vh - 14rem);
     }
+    &.wizardDialog {
+      [class*='carbonHeader'],
+      [class*='carbonRightHeader'] {
+        z-index: inherit;
+      }
+    }
   }
 }
