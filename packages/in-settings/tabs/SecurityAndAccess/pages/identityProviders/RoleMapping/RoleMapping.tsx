@@ -7,8 +7,9 @@
 import { TrashCan } from '@carbon/icons-react';
 import React, { useState } from 'react';
 
-import { Link, Typography } from '@instana/components';
+import { Link, Typography, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Checkbox } from '@instana/carbon';
 
 import {
   ROLE_MAPPING_TABLE_ACTIONS,
@@ -22,14 +23,26 @@ import MultiSelectDataTable, {
   Notification,
   OverflowMenuItemProps
 } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
+import {
+  getMappings,
+  getIdpRestriction,
+  IdpGroupMapping,
+  setIdpRestriction
+} from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
+import { createRoleMappingForm } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.form';
 import { RoleMappingRow } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.types';
 import CreateTeamDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/CreateTeamDialog';
-import { getMappings, IdpGroupMapping } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
 import { getEntityIdView, securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { t } from 'in-i18n';
+import useDerivedState from 'in-hooks/useDerivedState';
+import { seconds } from 'in-services/time/time';
+import { t, Trans } from 'in-i18n';
+
+import locals from './RoleMapping.mless';
 
 const createMenuItemsForRow = (
   roleMappings: IdpGroupMapping[],
@@ -66,6 +79,11 @@ const createTableRows = (roleMappings: IdpGroupMapping[] = []): Array<RoleMappin
 };
 
 const RoleMapping = () => {
+  const [authOverview] = useAuthOverview();
+  const { defaultLogin } = authOverview ?? {};
+  const idpRestrictionResult = useObservable(getIdpRestriction, []) ?? pendingResult;
+  const [form, setForm] = useDerivedState(createRoleMappingForm(idpRestrictionResult?.data?.restrictEmptyIdpGroups));
+  const idpDenyAccessField = form.getIn(['restrictEmptyIdpRoles']);
   const dataTableResult = useObservable(getMappings, []) ?? pendingResult;
   const loading = isLoading(dataTableResult);
   const hasErrors = hasError(dataTableResult);
@@ -78,28 +96,98 @@ const RoleMapping = () => {
       }
     : undefined;
 
-  return (
-    <MultiSelectDataTable
-      boundedPath="/teams"
-      getBatchActionItems={() => ROLE_MAPPING_TABLE_BATCH_ACTIONS}
-      getEntityName={({ key }) => t('in-settings:tabs.roleMapping.roleMappingWithName', { name: key })}
-      getMenuItems={row => createMenuItemsForRow(dataTableResult.data, row)}
-      initalSortConfig={ROLE_MAPPING_TABLE_ORDER}
-      labelNew={t('in-settings:tabs.roleMapping.newMappingRule')}
-      loading={loading}
-      message={errorMessage || message}
-      onCreateNew={() => {
-        addActiveDialog(<CreateTeamDialog setMessage={setMessage} />);
-      }}
-      pageSizes={ROLE_MAPPING_TABLE_PAGE_SIZES}
-      searchAttributes={['key', 'value', 'groupId', 'teamId']}
-      searchPlaceholderText={t('in-settings:components.search')}
-      tableActions={ROLE_MAPPING_TABLE_ACTIONS}
-      tableHeaders={ROLE_MAPPING_TABLE_HEADERS}
-      tableRows={createTableRows(dataTableResult.data)}
-      title={t('in-settings:tabs.roleMapping.roleMappingTitle')}
-    />
-  );
+  if (defaultLogin) {
+    // Show message to configure IdP first as mapping can only be configured with an active IdP.
+    return (
+      <>
+        <Typography variant="heading-03">{t('in-settings:tabs.roleMapping.title')}</Typography>
+        <Spacer vertical="normal" />
+        <Typography variant="body-01">
+          <Trans
+            i18nKey="in-settings:tabs.roleMapping.roleMappingDisabledDescription"
+            components={{
+              docLinkMapping: (
+                // @ts-expect-error no children needed
+                <Link external href="https://ibm.biz/idp-group-mapping" />
+              ),
+              docLinkAuth: (
+                // @ts-expect-error no children needed
+                <Link external href="https://ibm.biz/configuring-authentication" />
+              )
+            }}
+          />
+        </Typography>
+      </>
+    );
+  } else {
+    return (
+      <div className={locals.hideRoleMappingTableHeader}>
+        <form>
+          <Typography variant="heading-03">{t('in-settings:tabs.roleMapping.title')}</Typography>
+          <Spacer vertical="normal" />
+          <Typography variant="body-01">
+            <Trans
+              i18nKey="in-settings:tabs.roleMapping.description"
+              components={{
+                docLink: (
+                  // @ts-expect-error no children needed
+                  <Link external href="https://ibm.biz/configuring-authentication" />
+                )
+              }}
+            />
+          </Typography>
+          <Spacer vertical="normal" />
+          <Checkbox
+            id="rbac-role-mapping-restrict-empty-idp-roles"
+            labelText={t('in-settings:tabs.roleMapping.restrictEmptyIdpRolesLabel')}
+            checked={idpDenyAccessField.value}
+            onChange={(_e, { checked: enabled }) => {
+              setForm(form.updateIn(['restrictEmptyIdpRoles'], f => f.setValue(enabled).setTouched(true)));
+              setIdpRestriction({ restrictEmptyIdpGroups: enabled }).once(
+                () =>
+                  addMessage({
+                    title: t('in-settings:components.successTitle'),
+                    content: t('in-settings:tabs.roleMapping.restrictEmptyIdpRolesSuccessfullySaved'),
+                    timeout: seconds.toMillis(4),
+                    type: 'success'
+                  }),
+                error =>
+                  addMessage({
+                    content: t('in-settings:tabs.roleMapping.restrictEmptyIdpRolesFailedToSave', {
+                      err: error.message
+                    }),
+                    timeout: seconds.toMillis(6),
+                    type: 'danger'
+                  })
+              );
+            }}
+          />
+          <Spacer vertical="normal" />
+        </form>
+
+        <MultiSelectDataTable
+          boundedPath="/roleMapping"
+          getBatchActionItems={() => ROLE_MAPPING_TABLE_BATCH_ACTIONS}
+          getEntityName={({ key }) => t('in-settings:tabs.roleMapping.roleMappingWithName', { name: key })}
+          getMenuItems={row => createMenuItemsForRow(dataTableResult.data, row)}
+          initalSortConfig={ROLE_MAPPING_TABLE_ORDER}
+          labelNew={t('in-settings:tabs.roleMapping.newMappingRule')}
+          loading={loading}
+          message={errorMessage || message}
+          onCreateNew={() => {
+            addActiveDialog(<CreateTeamDialog setMessage={setMessage} />);
+          }}
+          pageSizes={ROLE_MAPPING_TABLE_PAGE_SIZES}
+          searchAttributes={['key', 'value', 'groupId', 'teamId']}
+          searchPlaceholderText={t('in-settings:components.search')}
+          tableActions={ROLE_MAPPING_TABLE_ACTIONS}
+          tableHeaders={ROLE_MAPPING_TABLE_HEADERS}
+          tableRows={createTableRows(dataTableResult.data)}
+          title={t('in-settings:tabs.roleMapping.tableTitle')}
+        />
+      </div>
+    );
+  }
 };
 
 export default RoleMapping;

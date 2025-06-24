@@ -831,12 +831,18 @@
       "teamTagUsedOnCustomDashboards": "Custom dashboards"
     },
     "roleMapping": {
-      "newMappingRule": "Create mapping rule",
-      "roleMappingTitle": "Role mappings",
-      "roleMappingWithName": "Role mapping {{name}}",
-      "roleColumn": "Role",
+      "description": "Create mapping rules that define which Identity Provider (IdP) attributes are mapped to which Instana role. This setup can help significantly reduce your user management workload.<br/><br/> You can delete Identity provider configuration through the API using a token with enough permissions. See <docLink>configuring authentication</docLink> for details.",
       "keyColumn": "Key",
+      "newMappingRule": "Create mapping rule",
+      "restrictEmptyIdpRolesFailedToSave": "Failed to save IdP deny access without mapping: {{err}}",
+      "restrictEmptyIdpRolesLabel": "Deny access when no mapping is found. If unchecked, users with no mapped role will be assigned the default role.",
+      "restrictEmptyIdpRolesSuccessfullySaved": "IdP deny access without mapping was saved.",
+      "roleColumn": "Role",
+      "roleMappingDisabledDescription": "You can set up Instana to automatically provision users to certain Instana roles depending on the attributes they have set within your identity provider (IdP).<br/><br/> IdP configuration must be done first, before setting up the role mapping. See documentation for <docLinkMapping>role mapping</docLinkMapping> and <docLinkAuth>configuring authentication</docLinkAuth> for more details and guides.",
+      "roleMappingWithName": "Role mapping {{name}}",
+      "tableTitle": "Role mappings",
       "teamColumn": "Team",
+      "title": "Role mapping",
       "valueColumn": "Value"
     },
     "auditTrail": "Audit trail",
