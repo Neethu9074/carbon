@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-.gap {
-  gap: 1rem;
+:local {
+  .gap {
+    gap: 1rem;
+  }
 }

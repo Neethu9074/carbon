@@ -4,14 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState } from 'react';
-import { union } from 'lodash';
+import React from 'react';
 
 import {
   Toggle,
   CarbonRadioButton as RadioButton,
-  CarbonRadioButtonGroup as RadioButtonGroup,
-  Dropdown
+  CarbonRadioButtonGroup as RadioButtonGroup
 } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -38,6 +36,7 @@ const DurationUnit = {
 export const durationToMillis = ({ amount = 0, unit = DurationUnit.minutes }) =>
   unit === DurationUnit.hours ? amount * 60 * 60000 : amount * 60000;
 
+// TODO: should we add max for unit?
 // const maxForUnit = unit => (unit === DurationUnit.hours ? 23 : 59);
 
 export default function TransientEventsSection({ form, onChange, disabled }) {
@@ -126,11 +125,10 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
         <Col lg={6}>
           {notificationField && (
             <FormGroup>
-              {/* <Label htmlFor="transient-notification" hasError={!notificationField.valid && notificationField.touched}>
+              <Label htmlFor="transient-notification" hasError={!notificationField.valid && notificationField.touched}>
                 {t('in-settings:tabs.transientNotification')}
-              </Label> */}
+              </Label>
               <RadioButtonGroup
-                legendText={t('in-settings:tabs.transientNotification')}
                 name="transient-events-notification-radio-button-vertical-group"
                 value={String(alertMuted)}
                 defaultSelected="true"
