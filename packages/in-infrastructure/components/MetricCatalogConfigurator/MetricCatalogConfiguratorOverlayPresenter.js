@@ -137,7 +137,7 @@ function Content({
                 updatedForm = updatedForm.updateIn([i, 'aggregation'], field =>
                   field.setValue(aggregation).setTouched(true)
                 );
-                if (aggregation === 'SUM') {
+                if (aggregation === 'SUM' || aggregation === 'PER_SECOND' || aggregation === 'INCREASE') {
                   updatedForm = updatedForm.updateIn([i, 'crossSeriesAggregation'], field =>
                     field.setValue('SUM').setTouched(true)
                   );
