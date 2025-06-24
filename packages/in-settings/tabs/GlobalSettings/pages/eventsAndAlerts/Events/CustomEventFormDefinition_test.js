@@ -122,12 +122,12 @@ describe('in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEve
             },
           ],
           "severity": "10",
+          "transientEventAlertMuted": false,
           "transientEventEnabled": false,
           "transientEventThreshold": Object {
             "amount": 5,
             "unit": "MINUTES",
           },
-          "transientEventAlertMuted": false,
           "triggering": undefined,
         }
       `);
@@ -184,12 +184,12 @@ describe('in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEve
             },
           ],
           "severity": "10",
+          "transientEventAlertMuted": false,
           "transientEventEnabled": false,
           "transientEventThreshold": Object {
             "amount": 5,
             "unit": "MINUTES",
           },
-          "transientEventAlertMuted": false,
           "triggering": undefined,
         }
       `);
