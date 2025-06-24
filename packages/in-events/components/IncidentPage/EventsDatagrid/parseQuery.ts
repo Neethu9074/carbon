@@ -29,36 +29,39 @@ export function parseQueryToFilters(query: string | null | undefined, filterSect
     // Update the checked status in our filter sections copy
     filters.forEach((section: FilterSection) => {
       if (section.filters && Array.isArray(section.filters)) {
-        // First pass: handle the toggle for transient events
-        const showTransientToggleIndex = section.filters.findIndex(f => f.id === 'show-transient');
-        if (showTransientToggleIndex !== -1) {
-          // If "event.isTransient:false" is in the query, the toggle should be off
-          if (Object.prototype.hasOwnProperty.call(checkedFilters, 'hide-transient')) {
-            section.filters[showTransientToggleIndex].checked = false;
+        // First pass: handle radio buttons for transient events
+        const transientRadioGroup = section.filters.find(f => f.radioGroup === 'transient');
 
-            // Find and disable the transient checkbox
-            const transientCheckboxIndex = section.filters.findIndex(f => f.id === 'transient');
-            if (transientCheckboxIndex !== -1) {
-              section.filters[transientCheckboxIndex].disabled = true;
-              section.filters[transientCheckboxIndex].checked = false;
-            }
-          } else {
-            // Default is to show transient events (toggle on)
-            section.filters[showTransientToggleIndex].checked = true;
+        if (transientRadioGroup) {
+          // Default to "Show all" if no transient filter is specified
+          let selectedTransientOption = 'transient-all';
+
+          // Check if we have a transient filter in the query
+          if (Object.prototype.hasOwnProperty.call(checkedFilters, 'transient')) {
+            selectedTransientOption = 'transient-only';
+          } else if (Object.prototype.hasOwnProperty.call(checkedFilters, 'hide-transient')) {
+            selectedTransientOption = 'non-transient-only';
           }
+
+          // Update the checked status for all radio buttons in the transient group
+          section.filters.forEach((filter, index) => {
+            if (filter.radioGroup === 'transient') {
+              section.filters[index].checked = filter.id === selectedTransientOption;
+            }
+          });
         }
 
         // Second pass: handle all other filters
         section.filters.forEach((filter: FilterValue) => {
-          // Skip the show-transient toggle as we already handled it
-          if (filter.id === 'show-transient') {
+          // Skip radio buttons as we already handled them
+          if (filter.type === 'radio') {
             return;
           }
 
           // Extract the configuration name from the dfq
-          const dfqMatch = filter.dfq.match(/event\.configuration:"([^"]+)"|event\.isTransient:true/);
+          const dfqMatch = filter.dfq.match(/event\.configuration:"([^"]+)"|event\.isTransient:(true|false)/);
           if (dfqMatch) {
-            const configName = dfqMatch[1] || 'transient'; // Handle special case for transient
+            const configName = dfqMatch[1] || (dfqMatch[2] === 'true' ? 'transient' : 'hide-transient');
             // Update checked status if it exists in the parsed query
             if (Object.prototype.hasOwnProperty.call(checkedFilters, configName)) {
               filter.checked = checkedFilters[configName];
@@ -199,31 +202,57 @@ function parseQuery(query: string | null | undefined): Record<string, boolean> {
  * @returns A query string representing the checked filters
  */
 export function filtersToQuery(filters: FilterSections): string {
-  const checkedFilters: string[] = [];
+  // Array to hold each section's combined filters
+  const sectionQueries: string[] = [];
 
   filters.forEach((section: FilterSection) => {
     if (section.filters && Array.isArray(section.filters)) {
-      // Handle special case for show-transient toggle
-      const showTransientToggle = section.filters.find(f => f.id === 'show-transient');
+      // Array to hold all checked filters for this section
+      const sectionCheckedFilters: string[] = [];
 
-      // If the toggle exists and is off (hide transient events), add the filter
-      if (showTransientToggle && !showTransientToggle.checked) {
-        checkedFilters.push(showTransientToggle.dfq);
-      }
+      // Handle radio button groups
+      const radioGroups = new Set<string>();
+      section.filters.forEach(filter => {
+        if (filter.type === 'radio' && filter.radioGroup) {
+          radioGroups.add(filter.radioGroup);
+        }
+      });
 
-      // Add all other checked filters
+      // Process each radio group
+      radioGroups.forEach(groupName => {
+        const checkedRadio = section.filters.find(filter => filter.radioGroup === groupName && filter.checked);
+
+        // Only add non-empty dfq values to the filter query
+        // This handles the "Show all" case which has an empty dfq
+        if (checkedRadio && checkedRadio.dfq) {
+          sectionCheckedFilters.push(checkedRadio.dfq);
+        }
+      });
+
+      // Add all other checked filters (non-radio buttons)
       section.filters.forEach((filter: FilterValue) => {
-        // Skip the toggle since we handled it separately
-        if (filter.id === 'show-transient') {
+        // Skip radio buttons since we handled them separately
+        if (filter.type === 'radio') {
           return;
         }
 
         if (filter.checked) {
-          checkedFilters.push(filter.dfq);
+          sectionCheckedFilters.push(filter.dfq);
         }
       });
+
+      // If this section has any checked filters, add them to the section queries
+      // wrapped in parentheses and joined with OR
+      if (sectionCheckedFilters.length > 0) {
+        // Only add parentheses if there's more than one filter in the section
+        const sectionQuery =
+          sectionCheckedFilters.length > 1 ? `(${sectionCheckedFilters.join(' OR ')})` : sectionCheckedFilters[0];
+
+        sectionQueries.push(sectionQuery);
+      }
     }
   });
 
-  return checkedFilters.join(' OR ');
+  // Join all section queries with AND
+  return sectionQueries.join(' AND ');
 }

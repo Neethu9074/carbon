@@ -338,7 +338,9 @@
     "clearAll": "Clear filters",
     "selectAll": "Select all",
     "selectEvent": "Select event",
-    "showTransient": "Show transient events"
+    "showAll": "Show all",
+    "showTransientOnly": "Show transient only",
+    "showNonTransientOnly": "Show non-transient only"
   },
   "eventsSmartAlerts": {
     "globalApplicationSmartAlert": "Global Application Smart Alerts",

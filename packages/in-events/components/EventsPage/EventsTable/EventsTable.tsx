@@ -9,16 +9,17 @@
 // eslint-disable-next-line no-restricted-imports
 import { TableBatchAction } from '@carbon/react';
 import React, { useState, useMemo } from 'react';
+import { isNull, isUndefined } from 'lodash';
 import { Close } from '@carbon/icons-react';
 import { match } from 'react-router';
 import { History } from 'history';
-import { isNull } from 'lodash';
 
 import { RawEvent, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import closeSelectedEvents from 'in-events/components/IncidentPage/RelatedEvents/utils/closeSelectedEvents';
 import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
+import { EVENT_KINDS } from 'in-events/components/EventsPage/EventsTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { multiCloseEnabled } from 'in-services/featureFlags';
 import { Location } from 'in-stores/navigation/types';
@@ -26,10 +27,6 @@ import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
 type SortingMapperOgKeys = 'problem.problemText' | 'start' | 'state' | 'end';
-
-// END table configurations
-
-type EVENT_KINDS = 'issue' | 'incident' | 'change' | 'agent_monitoring_issue' | 'prc_issue' | undefined;
 
 const defaultSort = {
   orderBy: 'start',
@@ -89,6 +86,9 @@ const EventsTable: React.FC<EventsTableProps> = props => {
     return Object.keys(selectedRows).map(index => items[Number(index)]?.id);
   }, [selectedRows, items]);
 
+  // all | incident | issues
+  const shouldShowFilters = isUndefined(eventType) || eventType === 'incident' || eventType === 'issue';
+
   return (
     <div>
       <EventsDatagrid
@@ -99,6 +99,7 @@ const EventsTable: React.FC<EventsTableProps> = props => {
         events={props.items as unknown as RawEvent[]}
         loading={props.progress.loading}
         loadMore={props.loadMore}
+        eventType={eventType}
         canLoadMore={props.canLoadMore || false}
         showExpand={false}
         headers={['severity', 'problem.problemText', 'on', 'start', 'end', 'timeline', 'state']}
@@ -129,7 +130,7 @@ const EventsTable: React.FC<EventsTableProps> = props => {
               : t('in-events:multiClose.closeIssues')}
           </TableBatchAction>
         }
-        filtersEnabled
+        filtersEnabled={shouldShowFilters}
         onFilterChange={onFilterChange}
         currentFilters={filter}
         enableSorting
