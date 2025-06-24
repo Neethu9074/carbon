@@ -132,46 +132,13 @@ function Content({
               if (onChangeAggregation) {
                 onChangeAggregation(metricEventPayload(metric), aggregation);
               }
-              // onChange([], form => {
-              //   let updatedForm = form;
-              //   updatedForm = updatedForm.updateIn([i, 'aggregation'], field =>
-              //     field.setValue(aggregation).setTouched(true)
-              //   );
-              //   if (aggregation === 'SUM' || aggregation === 'PER_SECOND' || aggregation === 'INCREASE') {
-              //     updatedForm = updatedForm.updateIn([i, 'crossSeriesAggregation'], field =>
-              //       field.setValue('SUM').setTouched(true)
-              //     );
-              //   } else {
-              //     updatedForm = updatedForm.updateIn([i, 'crossSeriesAggregation'], field =>
-              //       field.setValue(undefined).setTouched(true)
-              //     );
-              //   }
-              //   return updatedForm;
-              //           onChange([], (form) => {
-              //   let updatedForm = form
-              //     .updateIn([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true))
-              //     .updateIn([i, 'crossSeriesAggregation'], field => {
-              //       const value = ['SUM', 'PER_SECOND', 'INCREASE'].includes(aggregation) ? 'SUM' : undefined;
-              //       return field.setValue(value).setTouched(true);
-              //     });
 
-              //   return updatedForm;
-              // });
               onChange([], form => {
                 const sumAggs = ['SUM', 'INCREASE', 'PER_SECOND'];
                 const defaultAggs = ['SUM', 'MEAN', 'MIN', 'MAX'];
-
                 let updatedForm = form
                   .updateIn([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true))
                   .updateIn([i, 'crossSeriesAggregation'], field => {
-                    // let value;
-                    // if (sumAggs.includes(aggregation)) {
-                    //   value = 'SUM';
-                    // } else if (!defaultAggs.includes(aggregation)) {
-                    //   value = aggregation;
-                    // } else {
-                    //   value = undefined;
-                    // }
                     const value = sumAggs.includes(aggregation)
                       ? 'SUM'
                       : !defaultAggs.includes(aggregation)
@@ -179,11 +146,8 @@ function Content({
                       : undefined;
                     return field.setValue(value).setTouched(true);
                   });
-
                 return updatedForm;
               });
-              // };
-              // });
             }}
             className={locals.aggregations}
             hasError={!field.valid && field.touched}
