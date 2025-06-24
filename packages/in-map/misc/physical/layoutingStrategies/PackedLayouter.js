@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { sortGroups, sortNodes } from 'in-map/misc/physical/layoutingStrategies/util.ts';
 import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import Packer from 'in-map/misc/physical/Packer';
 
+const MAX_VALUE = Number.MAX_VALUE;
 let groupMarginWidth;
 let groupMarginHeight;
 const groupPadding = 1;
@@ -14,9 +16,12 @@ const nodeMargin = 2;
 export default function applyLayout({ groups, packingXSpace = 1, packingYSpace = 1 }) {
   groupMarginWidth = packingXSpace;
   groupMarginHeight = packingYSpace;
+  const sortedGroups = sortGroups(groups);
 
-  const dimensions = calculateDimensions(groups);
-  groups.forEach(group => setGroupPosition(group, dimensions[group.id], -dimensions.width / 2, dimensions.height / 4));
+  const dimensions = calculateDimensions(sortedGroups);
+  sortedGroups.forEach(group =>
+    setGroupPosition(group, dimensions[group.id], -dimensions.width / 2, dimensions.height / 4)
+  );
 }
 
 function calculateDimensions(_groups) {
@@ -122,11 +127,6 @@ function setNodesPositions(_nodes, groupDimension, xOffset, yOffset) {
       nodeYCursor += nodeMargin + 1;
     }
   });
-}
-
-function sortNodes(_nodes) {
-  _nodes.sort((a, b) => a._cachedLabel.localeCompare(b._cachedLabel));
-  return _nodes;
 }
 
 function setDimensionsFromCurrentLayout(dimensions, _groups) {
