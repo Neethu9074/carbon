@@ -60,7 +60,4 @@
   .errorDiv {
     min-height: 1.5rem;
   }
-  .cpColumn {
-    padding-top: 1rem;
-  }
 }
