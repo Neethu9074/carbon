@@ -134,7 +134,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       )}
 
       {/* Automations - display both recommended actions and history when no PRC is present*/}
-      {!hasRootCauses && (
+      {rcaUIEnabled && rootCauseHasOldSnapshotMetadata && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
       )}
 
