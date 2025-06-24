@@ -15,3 +15,12 @@ export function useCockpitLink() {
 
   return createHref(location);
 }
+
+export const datasourceTypes = {
+  instana_agent: 'instanaagent',
+  otel_collector: 'otelcollector'
+} as const;
+export type SelectedDatasource = (typeof datasourceTypes)[keyof typeof datasourceTypes];
+const allowedDatasourceValues = Object.values(datasourceTypes).join('|');
+export const datasourcePath = `/datasources/:selecteddatasource(${allowedDatasourceValues})/installation`;
+export const datasourceItemPath = `/datasources/:selecteddatasource(${allowedDatasourceValues})/installation/:selectedservice`;

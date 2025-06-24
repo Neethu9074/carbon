@@ -13,7 +13,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 import locals from 'in-plg/components/HeaderV2/HeaderV2.mless';
 
-interface breadcrumb {
+export interface breadcrumb {
   title: string;
   href: string | null;
 }
