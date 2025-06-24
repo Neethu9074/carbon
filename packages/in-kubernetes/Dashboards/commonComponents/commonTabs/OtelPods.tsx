@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { filter } from 'lodash';
+import { get, filter } from 'lodash';
 import React from 'react';
 
 import {
@@ -37,18 +37,22 @@ import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter
 import { getOtelKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import { KubernetesClusterListItem, EntityHealthInfo, KubernetesCondition } from 'in-types';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useOtelPodDashboard } from 'in-kubernetes/navigation/paths';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods.mless';
+import locals from './Pods.mless';
 
-const pathSegment = '/otel/pods';
+const pathSegment = 'otel/pods';
 const matrixPrefix = 'pod.';
 
 const allColumnDefinitions = [
@@ -85,6 +89,114 @@ const allColumnDefinitions = [
       };
 
       return <PodLink {...props} />;
+    }
+  },
+  {
+    id: 'namespace',
+    label: t('in-kubernetes:dashboards.namespace'),
+    optional: true,
+    getContent({ pod }: { pod: { namespace: string } }) {
+      return pod.namespace;
+    }
+  },
+  {
+    id: 'status',
+    label: t('in-kubernetes:dashboards.status'),
+    optional: true,
+    getContent(item: { pod: { status: { statusSummary?: string } } }) {
+      return <span>{get(item, ['pod', 'status', 'statusSummary'], valueMissingPlaceholder)}</span>;
+    }
+  },
+  {
+    id: 'phase',
+    label: t('in-kubernetes:dashboards.phase'),
+    optional: true,
+    getContent(item: { pod: { status: { phase?: string } } }) {
+      return <span>{get(item, ['pod', 'status', 'phase'], valueMissingPlaceholder)}</span>;
+    }
+  },
+  {
+    id: 'online',
+    label: t('in-kubernetes:dashboards.onlineContainers'),
+    optional: true,
+    sortable: false,
+    getContent(item: { pod: { status: { containerStatuses?: Array<{ ready: boolean }> } } }) {
+      const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []) as Array<{ ready: boolean }>;
+      return <span>{containerStatuses.filter((c: { ready: boolean }) => c.ready).length}</span>;
+    }
+  },
+  {
+    id: 'desired',
+    label: t('in-kubernetes:dashboards.desiredContainers'),
+    optional: true,
+    sortable: false,
+    getContent(item: { pod: { status: { containerStatuses?: Array<{ ready: boolean }> } } }) {
+      const containerStatuses: Array<{ ready: boolean }> = get(item, ['pod', 'status', 'containerStatuses'], []);
+      return <span>{containerStatuses.length}</span>;
+    }
+  },
+  {
+    id: 'restartCount',
+    label: t('in-kubernetes:dashboards.restarts'),
+    optional: true,
+    sortable: true,
+    getContent(
+      item: { pod: { id: string }; sortedMetricValue?: number },
+      props: { orderBy: string },
+      columnId: string
+    ): React.ReactNode {
+      return (
+      <ServerSideSortedK8sMetricValue
+        snapshotId={item.pod.id}
+        metric={columnId}
+        sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+        formatter={zeroDecimalPlaces}
+      />
+      );
+    }
+  },
+  {
+    id: 'age',
+    label: t('in-kubernetes:dashboards.age'),
+    optional: true,
+    getContent(item: { pod: { age?: number } }): React.ReactNode {
+      return item.pod.age && formatDurationAccurately(item.pod.age);
+    }
+  },
+  {
+    id: 'cpuRequests',
+    label: t('in-kubernetes:dashboards.cpuRequests'),
+    optional: true,
+    sortable: true,
+    getContent(item: { pod: { id: string } }): React.ReactNode {
+      return <MetricValue snapshotId={item.pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />;
+    }
+  },
+  {
+    id: 'cpuLimits',
+    label: t('in-kubernetes:dashboards.cpuLimits'),
+    optional: true,
+    sortable: true,
+    getContent(item: { pod: { id: string } }): React.ReactNode {
+      return <MetricValue snapshotId={item.pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />;
+    }
+  },
+  {
+    id: 'memoryRequests',
+    label: t('in-kubernetes:dashboards.memoryRequests'),
+    optional: true,
+    sortable: true,
+    getContent(item: { pod: { id: string } }): React.ReactNode {
+      return <MetricValue snapshotId={item.pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />;
+    }
+  },
+  {
+    id: 'memoryLimits',
+    label: t('in-kubernetes:dashboards.memoryLimits'),
+    optional: true,
+    sortable: true,
+    getContent(item: { pod: { id: string } }): React.ReactNode {
+      return <MetricValue snapshotId={item.pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />;
     }
   },
   {
@@ -236,7 +348,7 @@ export default function Pods(props: PodsProps) {
         rightHeader={rightHeader}
         leftHeader={leftHeader}
         phase={phase ?? undefined}
-      />;
+      />
     </>
   );
 }
