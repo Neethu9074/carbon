@@ -49,7 +49,8 @@ export const convertEventToRawEvent = (e: Event | undefined): RawEvent => {
     smartAlert: isSmartAlert(e),
     description,
     title: description,
-    aggregated: isInfraSmartAlertEvent(e) ? get(e, 'metadata.aggregated', true) : null
+    aggregated: isInfraSmartAlertEvent(e) ? get(e, 'metadata.aggregated', true) : null,
+    transient: get(e, 'transient', false)
   };
 };
 
