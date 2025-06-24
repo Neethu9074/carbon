@@ -585,7 +585,21 @@
       "na": "N/A",
       "configureColumns": {
         "title": "Column customization",
-        "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed."
+        "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed.",
+        "dialog": {
+          "title": "Manage columns ({{enabledCount}}/{{totalCount}})",
+          "description": "Deselect columns to hide them. Click and drag the white box to reorder the columns. These specifications will be saved and persist if you leave and return to the data table.",
+          "configureButtonLabel": "Configure columns",
+          "columnNameLabel": "Column name",
+          "configurationSuccessTitle": "Display customized",
+          "configurationSuccessMessage": "The table “columns” has been customized.",
+          "configurationErrorTitle": "Display not customized",
+          "configurationErrorMessage": "The table “columns” has not been customized.",
+          "closeIconDescription": "Close",
+          "saveButtonLabel": "Save",
+          "cancelButtonLabel": "Cancel",
+          "searchPlaceholder": "Find columns"
+        }
       },
       "searchSyntheticTests": "Search synthetic tests",
       "failedToLoadTestsTitle": "Failed to load synthetic tests"

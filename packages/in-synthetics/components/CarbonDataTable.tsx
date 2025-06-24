@@ -43,6 +43,7 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
   isExpandable,
   sortRow,
   toolBarContent,
+  configureColumnContent,
   actionButtonContent,
   result,
   noDataHeader,
@@ -91,6 +92,7 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
                     />
                   )}
                   {toolBarContent ?? null}
+                  {configureColumnContent ?? null}
                   {actionButtonContent ?? null}
                 </TableToolbarContent>
               </TableToolbar>

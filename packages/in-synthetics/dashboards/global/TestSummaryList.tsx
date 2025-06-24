@@ -262,6 +262,12 @@ const TestSummaryList = () => {
             errorHeader={t('in-synthetics:dashboard.testList.failedToLoadTestsTitle')}
             runType={runType}
             actionButtonContent={role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
+            defaultDisabledColumns={[
+              'avg_response_time',
+              'location',
+              syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
+              'health'
+            ]}
           />
         ) : (
           <ServerTableWithUrlState
