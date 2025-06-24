@@ -63,6 +63,38 @@ export default {
       }
     },
     {
+      title: t('in-forge:plugins.process.normalizedCpuUser'),
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.snapshotId;
+        },
+        getMetricName() {
+          return 'normalizedCpu.user';
+        },
+        getContent: percentageZeroDecimalPlaces,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
+      }
+    },
+    {
+      title: t('in-forge:plugins.process.normalizedCpuSystem'),
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.snapshotId;
+        },
+        getMetricName() {
+          return 'normalizedCpu.sys';
+        },
+        getContent: percentageZeroDecimalPlaces,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
+      }
+    },
+    {
       title: t('in-forge:plugins.process.virtualMemory'),
       type: 'metric',
       typeArgs: {
