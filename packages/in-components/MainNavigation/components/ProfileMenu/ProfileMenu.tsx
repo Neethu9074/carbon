@@ -45,10 +45,10 @@ import local from 'in-components/MainNavigation/components/ProfileMenu/ProfileMe
 
 interface ProfileMenuProps {
   onClickSideNavExpand: VoidFunction;
-  isSideNavExpanded: boolean;
+  isHeaderExpanded: boolean;
 }
 
-export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }: ProfileMenuProps): JSX.Element {
+export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: ProfileMenuProps): JSX.Element {
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
   const { trackCta } = useSegmentTracking();
   const activeLicenseType = config.activeLicenseType;
@@ -72,12 +72,15 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
     document.body.appendChild(form);
     form.submit();
   };
+
+  if (!isHeaderExpanded) return <></>;
+
   return (
     <div className={local.profileMenu}>
       <Stack direction="vertical" gap="xsmall">
         <div className={local.profileMenu_header}>
           <Spacer vertical="xsmall" />
-          <Typography variant="heading-03" onDark noMargin>
+          <Typography variant="body-large" onDark noMargin>
             {user?.fullName}
           </Typography>
           <Spacer vertical="xsmall" />
@@ -142,16 +145,16 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
             </Typography>
           </div>
         ) : null}
-        <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
+        <Switcher aria-label={t('in-components:mainNavigation.profileMenu_switcherContainer')}>
           {!isControlledEnvEnabled && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
           {tealiumPrivacyEnabled && !isControlledEnvEnabled && (
             <SwitcherItem
-              href="#"
               data-autoid="dds--privacy-cp__link"
               onClick={() => {
                 (window as any)._dl?.fn?.trustarc?.cookiePreferencesClick?.();
               }}
               aria-label={t('in-components:mainNavigation.profileMenu_privacy')}
+              tabIndex={0}
             >
               <Typography variant="label-02" onDark>
                 {t('in-components:mainNavigation.profileMenu_privacy')}
@@ -168,6 +171,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
                 onClickSideNavExpand();
               }}
               aria-label={t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
+              tabIndex={0}
             >
               <Stack direction="horizontal" gap="xsmall" align="center">
                 <SvgIcon type="lib_views_external_link" size="xs" color="white" />
@@ -188,6 +192,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
                 onClickSideNavExpand?.(); // Ensure side nav expands if needed
               }}
               aria-label={t('in-components:mainNavigation.profileMenu_saasConsole')}
+              tabIndex={0}
             >
               <Stack direction="horizontal" gap="xsmall" align="center">
                 <SvgIcon type="lib_actions_settings" size="xs" color="white" />
@@ -198,7 +203,11 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
             </SwitcherItem>
           ) : null}
           {shouldShowMcspMenuItems && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
-          <SwitcherItem href="#" onClick={signOut} aria-label={t('in-components:mainNavigation.profileMenu_logOut')}>
+          <SwitcherItem
+            onClick={signOut}
+            aria-label={t('in-components:mainNavigation.profileMenu_logOut')}
+            tabIndex={0}
+          >
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type="lib_log_out" size="xs" color="white" />
               <Typography variant="label-02" onDark>
