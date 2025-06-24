@@ -34,17 +34,25 @@ function AutomationCardForPRC({ volatileId, event }: AutomationCardProps) {
   const selectedNodeInfo = selectedEntityId ? nodes[selectedEntityId] : undefined;
 
   const trigger = useTrigger({ event });
-  const userActions = useScoredActions({ event, trigger, type: 'default', selectedDescription });
-  const ootbActions = useScoredActions({ event, trigger, type: 'watsonx', selectedEntityType });
+  const userActions = useScoredActions({ event, trigger, type: 'default', selectedDescription, selectedEntityType });
+  const ootbActions = useScoredActions({ event, trigger, type: 'watsonx' });
   const recommendedActions = useUserRecommendedScoredActions({ actions: userActions });
   const ootbRecommendedActions = useAIRecommendedScoredActions({ actions: ootbActions });
   const isRootCause = selectedNodeInfo?.tags?.has('RCA');
+  const isTriggering = selectedNodeInfo?.tags?.has('TRIGGERING');
+
   useEffect(() => {
-    if (selectedEntityId && nodes && selectedNodeInfo && isRootCause) {
-      setSelectedDescription(selectedNodeInfo.label);
-      setSelectedEntityType(selectedNodeInfo.entityType);
+    if (selectedEntityId && nodes && selectedNodeInfo && (isRootCause || isTriggering)) {
+      if (isRootCause) {
+        setSelectedDescription(selectedNodeInfo.label);
+        setSelectedEntityType(selectedNodeInfo.entityType);
+      }
+      if (isTriggering) {
+        setSelectedDescription(null);
+        setSelectedEntityType(null);
+      }
     }
-  }, [selectedEntityId, nodes, selectedNodeInfo, isRootCause]);
+  }, [selectedEntityId, nodes, selectedNodeInfo, isTriggering, isRootCause]);
 
   return (
     <Row withoutSideMargin>
