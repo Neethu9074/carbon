@@ -30,6 +30,7 @@ import { MakeDefaulButtonProps } from 'in-plg/pages/WelcomePage/quickLinks/types
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { getPageType } from 'in-plg/Demo/NewPlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -55,7 +56,7 @@ export const QuickLinks = () => {
             }
             href={
               newOTelPageEnabled
-                ? createHrefToPath('/datasources/installation')
+                ? createHrefToPath(datasourceInstanaAgentPath)
                 : createHrefToPath('/agents/installation')
             }
             onClick={() => {

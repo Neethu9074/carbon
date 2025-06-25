@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Stack, Typography, SearchInput } from '@instana/components';
 
+import { datasourceInstanaAgentPath, datasourceOtelCollectorPath, datasourceTypes } from 'in-plg/navigation/paths';
 import { score, filter } from 'in-plg/pages/onboarding/content/ContentUtils';
 import { getEntriesForFreeTrialV2 } from 'in-plg/pages/onboarding/content';
 import HeaderV2, { breadcrumb } from 'in-plg/components/HeaderV2/HeaderV2';
@@ -17,7 +18,6 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import { pageNames } from 'in-services/tracking/pageNames';
 import CardGridV2 from 'in-plg/components/Card/CardGridV2';
-import { datasourceTypes } from 'in-plg/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function AgentCatalogV2(props: any) {
@@ -107,11 +107,13 @@ const getDatasourceHeadingContext = (type: string) => {
 };
 
 const getBreadcrump = (selectedDatasource: string) => {
-  const firstLevel: breadcrumb = { title: t('in-plg:agentDetails.common.dataSources'), href: `/datasources` };
+  let firstLevel: breadcrumb = { title: '', href: null };
   let secondLevel: breadcrumb = { title: '', href: null };
   if (selectedDatasource === datasourceTypes.instana_agent) {
+    firstLevel = { title: t('in-plg:agentDetails.common.dataSources'), href: datasourceInstanaAgentPath };
     secondLevel = { title: t('in-plg:agentDetails.common.instanaAgents'), href: null };
   } else if (selectedDatasource === datasourceTypes.otel_collector) {
+    firstLevel = { title: t('in-plg:agentDetails.common.dataSources'), href: datasourceOtelCollectorPath };
     secondLevel = { title: t('in-plg:agentDetails.common.openTelemetryCollectors'), href: null };
   }
   return [firstLevel, secondLevel];

@@ -6,12 +6,16 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { Button, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
+import { Button, Stack } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { datasourceOtemCollectorCatalog } from 'in-plg/navigation/paths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -36,6 +40,7 @@ const LOAD_CHUNK_SIZE = 10;
 
 const OTelCollector = () => {
   const timeConfig = useTimeConfig();
+  const { createHrefToPath } = useNavigation();
   const [loading, setLoading] = useState(true);
   const [retrievalSize, setRetrievalSize] = useState(LOAD_CHUNK_SIZE);
   const collectorsResult = useObservable(getCollectors({ timeConfig, retrievalSize }), [timeConfig, retrievalSize]);
@@ -95,30 +100,39 @@ const OTelCollector = () => {
 
   return (
     <LeftRightPadding>
-      <ServerTablePresenter<Collector, ServerTablePresenterProps<Collector>>
-        columnDefinitions={columnDefinitions}
-        result={{
-          progress: { loading },
-          errors: errors ?? [],
-          data: {
-            items: collectors ?? [],
-            page: 0,
-            pageSize: collectors?.length,
-            totalHits: collectors?.length
-          }
-        }}
-        page={0}
-        pageSize={collectors?.length}
-        orderBy="id"
-        orderDirection="ASC"
-      />
-      {canLoadMore && (
-        <div className={locals.loadMoreButton}>
-          <Button onClick={() => setRetrievalSize(size => size + LOAD_CHUNK_SIZE)} disabled={loading}>
-            {loading ? t('in-plg:datasources.loading') : t('in-plg:datasources.loadMore')}
-          </Button>
-        </div>
-      )}
+      <Stack gap="1rem">
+        <Button
+          kind="ghost"
+          renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
+          href={createHrefToPath(datasourceOtemCollectorCatalog)}
+        >
+          {t('in-plg:datasources.installACollector')}
+        </Button>
+        <ServerTablePresenter<Collector, ServerTablePresenterProps<Collector>>
+          columnDefinitions={columnDefinitions}
+          result={{
+            progress: { loading },
+            errors: errors ?? [],
+            data: {
+              items: collectors ?? [],
+              page: 0,
+              pageSize: collectors?.length,
+              totalHits: collectors?.length
+            }
+          }}
+          page={0}
+          pageSize={collectors?.length}
+          orderBy="id"
+          orderDirection="ASC"
+        />
+        {canLoadMore && (
+          <div className={locals.loadMoreButton}>
+            <Button onClick={() => setRetrievalSize(size => size + LOAD_CHUNK_SIZE)} disabled={loading}>
+              {loading ? t('in-plg:datasources.loading') : t('in-plg:datasources.loadMore')}
+            </Button>
+          </div>
+        )}
+      </Stack>
     </LeftRightPadding>
   );
 };

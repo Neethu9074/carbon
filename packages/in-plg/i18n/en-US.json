@@ -944,6 +944,7 @@
     "openTelemetryCollectors": "OpenTelemetry Collectors",
     "datasources": "Data Sources",
     "instanaAgents": "Instana Agents",
+    "installACollector": "Install a collector",
     "status": {
       "statusUnknown": "Unknown",
       "statusCritical": "Critical",
