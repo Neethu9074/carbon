@@ -4,3 +4,4 @@ serverConfig.yaml
 /.yarn/cache
 src/templates/generated
 assets/errorPages/css
+generate-error-page-content/dist
