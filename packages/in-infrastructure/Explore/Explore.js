@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { Message, Stack } from '@instana/components';
 import { just } from '@instana/observables';
@@ -84,13 +84,17 @@ const urlStateDefinition = {
   replaceHistory: false
 };
 
+export const RealTimeConfigContext = React.createContext();
+
 export default function InfraExploreView() {
   const realTimeConfig = useTimeConfig();
 
   return (
     <FixatedTimeConfigContextModification>
       {({ refresh }) => (
-        <InfraExploreViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} realTimeConfig={realTimeConfig} />
+        <RealTimeConfigContext.Provider value={realTimeConfig}>
+          <InfraExploreViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} />
+        </RealTimeConfigContext.Provider>
       )}
     </FixatedTimeConfigContextModification>
   );
@@ -108,7 +112,7 @@ function InfraExploreViewWithFixatedTimeConfig(props) {
     chartChangedTracker
   } = useSegmentTracker();
 
-  const { refreshFixatedTimeConfig, realTimeConfig } = props;
+  const { refreshFixatedTimeConfig } = props;
 
   const [
     {
@@ -209,7 +213,6 @@ function InfraExploreViewWithFixatedTimeConfig(props) {
             backendGroupBy={backendGroupBy}
             showGroupsWithMissingTags={showGroupsWithMissingTags}
             refreshFixatedTimeConfig={refreshFixatedTimeConfig}
-            realTimeConfig={realTimeConfig}
           />
         </Stack>
       </LeftRightPadding>
@@ -238,13 +241,13 @@ function Content({
   chartedMetrics,
   backendGroupBy,
   showGroupsWithMissingTags,
-  refreshFixatedTimeConfig,
-  realTimeConfig
+  refreshFixatedTimeConfig
 }) {
   const setMetrics = useCallback(
     metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }),
     [setUrl, order, backendGroupBy]
   );
+  const realTimeConfig = useContext(RealTimeConfigContext);
   const setTags = useCallback(tags => setUrl({ tags }), [setUrl]);
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
@@ -325,6 +328,7 @@ function Content({
           onGroupRemoved: groupRemovedTracker(getInfraExploreState)
         }}
         additionalGetTagCatalogProps={{ ownerType: type }}
+        realTimeConfig={realTimeConfig}
       />
 
       <ActionSection
@@ -380,7 +384,6 @@ function Content({
       chartedMetrics={chartedMetrics}
       showGroupsWithMissingTags={showGroupsWithMissingTags}
       refreshFixatedTimeConfig={refreshFixatedTimeConfig}
-      realTimeConfig={realTimeConfig}
     />
   );
 
@@ -417,11 +420,11 @@ function List({
   onChartedMetricsChange,
   chartedMetrics,
   showGroupsWithMissingTags,
-  refreshFixatedTimeConfig,
-  realTimeConfig
+  refreshFixatedTimeConfig
 }) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
+  const realTimeConfig = useContext(RealTimeConfigContext);
   const pluginName = getPluginName(type);
 
   const { sortingTracker, loadMoreTracker, groupFocusedOnTracker, groupExpandedTracker, groupCollapsedTracker } =
