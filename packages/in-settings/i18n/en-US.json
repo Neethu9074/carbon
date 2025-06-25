@@ -380,6 +380,8 @@
       "usersTitle_0": "Users ({{count}})",
       "usersTitle_1": "User ({{count}})",
       "permissionListHeader": "Permissions",
+      "permissionListHeader_noAccess": "No access",
+      "permissionListHeader_limitedAccess": "Limited access",
       "permissionCount": "{{actual}} / {{count}} permissions",
       "permissionCount_plural": "{{actual}} / {{count}} permissions",
       "permissionCount_0": "{{actual}} / {{count}} permissions",

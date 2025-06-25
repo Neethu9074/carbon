@@ -15,15 +15,33 @@ import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
 function getListHeaderLabel({
-  hasAccessPermission,
+  hasAreaAccess,
+  hasLimitedAccess,
+  hasScope,
   limitingAccessScope
-}: Pick<PermissionListProps, 'hasAccessPermission' | 'limitingAccessScope'>) {
+}: Pick<PermissionListProps, 'hasLimitedAccess' | 'limitingAccessScope' | 'hasScope' | 'hasAreaAccess'>) {
   if (!limitingAccessScope) {
     return t('in-settings:details.role.permissionListHeader');
   }
 
-  if (limitingAccessScope && !hasAccessPermission) {
-    return t('in-settings:productAreas.no_access');
+  /**
+   * <-- CONDITIONS TO SUPPORT LEGACY GROUP PERMISSIONS -->
+   **/
+
+  if (hasScope && hasLimitedAccess && hasAreaAccess) {
+    return t('in-settings:details.role.permissionListHeader', { context: 'limitedAccess' });
+  }
+
+  if (hasScope && hasLimitedAccess && !hasAreaAccess) {
+    return t('in-settings:details.role.permissionListHeader', { context: 'noAccess' });
+  }
+
+  /**
+   * <-- END -->
+   **/
+
+  if (hasLimitedAccess) {
+    return t('in-settings:details.role.permissionListHeader', { context: 'noAccess' });
   }
 
   return t('in-settings:dialogs.role.permissionLabel', { context: limitingAccessScope });
@@ -32,7 +50,15 @@ function getListHeaderLabel({
 interface PermissionListProps {
   availablePermissions: Array<ProductAreaPermissionUnion>;
   enabledPermissions?: Array<ProductAreaPermissionUnion>;
-  hasAccessPermission?: boolean;
+  /**
+   * @deprecated Can be removed as soon as the groups have been fully migrated to roles
+   **/
+  hasAreaAccess?: boolean;
+  hasLimitedAccess?: boolean;
+  /**
+   * @deprecated Can be removed as soon as the groups have been fully migrated to roles
+   **/
+  hasScope?: boolean;
   limitingAccessScope?: LimitedAccessScopeType;
   status: FetchStatus;
 }
@@ -40,11 +66,13 @@ interface PermissionListProps {
 export default function PermissionList({
   availablePermissions,
   enabledPermissions = [],
-  hasAccessPermission,
+  hasAreaAccess,
+  hasLimitedAccess,
+  hasScope,
   limitingAccessScope,
   status
 }: PermissionListProps) {
-  const label = getListHeaderLabel({ hasAccessPermission, limitingAccessScope });
+  const label = getListHeaderLabel({ hasAreaAccess, hasLimitedAccess, hasScope, limitingAccessScope });
   const permissionList = availablePermissions.filter(permission => enabledPermissions.includes(permission));
 
   if (status === 'pending') {

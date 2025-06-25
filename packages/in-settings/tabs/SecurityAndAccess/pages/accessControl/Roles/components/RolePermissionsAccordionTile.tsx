@@ -13,9 +13,15 @@ import {
   AddPermissionItemsFunction,
   PermissionMap
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/hooks/usePermissionCount';
+import {
+  AreaPermission,
+  AreaPermissionType,
+  Capability,
+  LimitedAccessScope,
+  LimitedAccessScopeType
+} from 'in-stores/permission';
 import { RoleDetailsWithPermissions } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 import PermissionList from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/PermissionList';
-import { AreaPermission, Capability, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
 import SpaceBetweenStack from 'in-settings/components/SpaceBetweenStack';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { FetchStatus } from 'in-hooks/utils/types';
@@ -63,8 +69,10 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_CONFIGURE_EUM_APPLICATIONS,
               Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS
             ]}
+            hasScope={role?.hasScope}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.websiteSectionTitle')}
+            legacyAreaPermission={AreaPermission.ACCESS_WEBSITES}
             limitingAccessScope={LimitedAccessScope.LIMITED_WEBSITES_SCOPE}
             status={status}
           />
@@ -74,16 +82,20 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING,
               Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS
             ]}
+            hasScope={role?.hasScope}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.mobileAppsSectionTitle')}
+            legacyAreaPermission={AreaPermission.ACCESS_MOBILE_APPS}
             limitingAccessScope={LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE}
             status={status}
           />
           <PermissionAccordionItem
             addPermissionItems={addPermissionItems}
             availablePermissions={[AreaPermission.ACCESS_BIZOPS]}
+            hasScope={role?.hasScope}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.businessMonitoringSectionTitle')}
+            legacyAreaPermission={AreaPermission.ACCESS_BIZOPS}
             limitingAccessScope={LimitedAccessScope.LIMITED_BIZOPS_SCOPE}
             status={status}
           />
@@ -96,8 +108,10 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
               Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS
             ]}
+            hasScope={role?.hasScope}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.applicationsSectionTitle')}
+            legacyAreaPermission={AreaPermission.ACCESS_APPLICATIONS}
             limitingAccessScope={LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE}
             status={status}
           />
@@ -126,8 +140,10 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_CREATE_HEAP_DUMP,
               Capability.CAN_CREATE_THREAD_DUMP
             ]}
+            hasScope={role?.hasScope}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.infrastructureSectionTitle')}
+            legacyAreaPermission={AreaPermission.ACCESS_INFRASTRUCTURE}
             limitingAccessScope={LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE}
             status={status}
           />
@@ -165,8 +181,10 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
               Capability.CAN_USE_SYNTHETIC_CREDENTIALS
             ]}
+            hasScope={role?.hasScope}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.syntheticMonitoringSectionTitle')}
+            legacyAreaPermission={AreaPermission.ACCESS_SYNTHETICS}
             limitingAccessScope={LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE}
             status={status}
           />
@@ -178,8 +196,10 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY,
               Capability.CAN_RUN_AUTOMATION_ACTIONS
             ]}
+            hasScope={role?.hasScope}
             enabledPermissions={permissions}
             label={t('in-settings:dialogs.role.automationSectionTitle')}
+            legacyAreaPermission={AreaPermission.ACCESS_AUTOMATION}
             limitingAccessScope={LimitedAccessScope.LIMITED_AUTOMATION_SCOPE}
             status={status}
           />
@@ -268,22 +288,48 @@ interface PermissionAccordionItemProps
    * in the headline of the tile.
    **/
   addPermissionItems: AddPermissionItemsFunction;
+  /**
+   * @deprecated Only necessary for sections that should indicate limited
+   * access permissions on legacy groups. Should only be used in combination
+   * with legacyAreaPermission. Can be removed as soon as the groups have been
+   * fully migrated to roles.
+   **/
+  hasScope?: boolean;
+  /**
+   * The label that should be shown on the accordion item
+   **/
   label: string;
+  /**
+   * @deprecated Only necessary for sections that should indicate limited
+   * access permissions on legacy groups. Should only be used in combination
+   * with hasScope. Can be removed as soon as the groups have been fully
+   * migrated to roles.
+   **/
+  legacyAreaPermission?: AreaPermissionType;
+  /**
+   * This prop takes an optional permission that is used to indicate if access
+   * to an item is limited.
+   **/
   limitingAccessScope?: LimitedAccessScopeType;
   /**
    * Permissions have a reverse logic and count as set if the corresponding
-   * LIMITED_ permission is NOT set. This option reflects the counting logic
-   * accordingly.
+   * LIMITED_ permission is NOT set. This option is to control the counting
+   * logic accordingly.
    */
   reversed?: boolean;
+  /**
+   * Status to control loading states
+   **/
   status: FetchStatus;
 }
 
 function PermissionAccordionItem({
   addPermissionItems,
+  hasScope,
   availablePermissions,
   enabledPermissions,
   label,
+  legacyAreaPermission,
   limitingAccessScope,
   reversed,
   status
@@ -320,7 +366,9 @@ function PermissionAccordionItem({
     >
       <Layer level={1}>
         <PermissionList
-          hasAccessPermission={limitingAccessScope && !enabledPermissions?.includes(limitingAccessScope)}
+          hasAreaAccess={legacyAreaPermission ? enabledPermissions?.includes(legacyAreaPermission) : undefined}
+          hasLimitedAccess={limitingAccessScope && enabledPermissions?.includes(limitingAccessScope)}
+          hasScope={hasScope}
           limitingAccessScope={limitingAccessScope}
           availablePermissions={availablePermissions}
           enabledPermissions={actualEnabledPermissions}
