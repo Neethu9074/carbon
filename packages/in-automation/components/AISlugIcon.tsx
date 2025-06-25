@@ -89,10 +89,10 @@ function AIExplainedContentManualAction() {
         <div>{t('in-automation:AITooltip.manualSection.section3.AIModel')}</div>
         <Link
           linkIconType={'lib_views_external_link'}
-          href="https://www.ibm.com/docs/en/watsonx/w-and-w/2.0.x?topic=models-granite-13b-chat-v2-model-card"
+          href="https://huggingface.co/ibm-granite/granite-3.3-8b-instruct"
           external
         >
-          ibm/granite-3-8b-instruct
+          ibm-granite/granite-3.3-8b-instruct
         </Link>
       </div>
       <div className={locals.aimodelLink}>
@@ -114,10 +114,10 @@ function AIExplainedContentScriptAction() {
         <div>{t('in-automation:AITooltip.manualSection.section3.AIModel')}</div>
         <Link
           linkIconType={'lib_views_external_link'}
-          href="https://www.ibm.com/docs/en/watsonx/w-and-w/2.0.x?topic=models-granite-34b-code-instruct-model-card"
+          href="https://huggingface.co/ibm-granite/granite-3.3-8b-instruct"
           external
         >
-          ibm/granite-34b-code-instruct
+          ibm-granite/granite-3.3-8b-instruct
         </Link>
       </div>
       <div className={locals.aimodelLink}>
