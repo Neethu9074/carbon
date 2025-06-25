@@ -34,6 +34,7 @@ import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScore
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
 import CreateNewPolicyTearsheet from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import CreatePolicyButton from 'in-automation/AutomationCard/CreatePolicyButton';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -50,6 +51,7 @@ import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { TagsFilter } from 'in-automation/components/tableFilters';
+import EmptyState from 'in-automation/AutomationCard/EmptyState';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { isManual } from 'in-automation/utils/policy';
@@ -629,6 +631,7 @@ export default function RecommendedActionsForLegacyPRC({
         pageSize={pageSize}
         query={query}
         result={result}
+        renderNoDataAvailable={() => <EmptyState event={event} />}
         rightHeader={
           <Stack direction="horizontal">
             {(showOotbActions || actionAiGenerationEnabled) && !isLoading(trigger) && (
@@ -640,6 +643,8 @@ export default function RecommendedActionsForLegacyPRC({
                 selectedEntityType={selectedEntityType}
               />
             )}
+
+            {role?.canConfigureAutomationPolicies && !isLoading(trigger) && <CreatePolicyButton event={event} />}
             <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
             <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
             <Spacer horizontal="small" />
