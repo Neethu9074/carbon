@@ -214,6 +214,6 @@ module.exports = {
   newOTelPageEnabled: false,
   eventsTransientEventEnabled: true,
   overrideAdaptiveBaselineSmoothingParamsEnabled: true,
-  msTeamsAppEnabled: false,
+  msTeamsAppEnabled: true,
   newAccountAndBillingPageEnabled: false
 };
