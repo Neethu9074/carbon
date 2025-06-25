@@ -34,15 +34,10 @@ import {
   EVENT_RCA_FEEDBACK_SUBMIT,
   EVENT_RCA_PANNEL_TAB_CLICK
 } from 'in-services/tracking/tracking';
-import {
-  rcaFailedStateEnabled,
-  rcaLogsEnabled,
-  rcaAiAutomatedInvestigationEnabled,
-  automationActionAiGenerationUnitEnabled
-} from 'in-services/featureFlags';
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import RootCauseInvestigation from 'in-events/components/RootCauseAnalysis/RootCauseInvestigation/RootCauseInvestigation';
 import getRootCauseTabSecondaryLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabSecondaryLabel';
+import { rcaFailedStateEnabled, rcaLogsEnabled, rcaAiAutomatedInvestigationEnabled } from 'in-services/featureFlags';
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 import getRootCauseTabLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabLabel';
 import RootCauseLogsSection from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsSection';
@@ -202,7 +197,7 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
 
             {!isNull(rootCauses[rootCauseTab]) && (
               <Stack gap="disabled">
-                {rcaAiAutomatedInvestigationEnabled && automationActionAiGenerationUnitEnabled && (
+                {rcaAiAutomatedInvestigationEnabled && (
                   <RootCauseInvestigation
                     openInvestigation={openInvestigation}
                     incident={incidentJSON}

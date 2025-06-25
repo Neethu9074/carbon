@@ -15,13 +15,7 @@ import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPo
 
 import locals from './QuickActions.mless';
 
-jest.mock('in-services/featureFlags');
-
-jest.mock('in-services/featureFlags', () => ({
-  get automationActionAiGenerationUnitEnabled() {
-    return true;
-  }
-}));
+jest.mock('in-services/featureFlags', () => ({}));
 
 describe('QuickActions', () => {
   it('renders without errors', () => {

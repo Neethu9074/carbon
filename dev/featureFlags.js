@@ -159,7 +159,6 @@ module.exports = {
   nutanixEnabled: true,
   xenserverEnabled: true,
   linuxkvmhypervisorEnabled: true,
-  automationActionAiGenerationUnitEnabled: true,
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,
@@ -214,6 +213,6 @@ module.exports = {
   newOTelPageEnabled: false,
   eventsTransientEventEnabled: true,
   overrideAdaptiveBaselineSmoothingParamsEnabled: true,
-  msTeamsAppEnabled: false,
+  msTeamsAppEnabled: true,
   newAccountAndBillingPageEnabled: false
 };

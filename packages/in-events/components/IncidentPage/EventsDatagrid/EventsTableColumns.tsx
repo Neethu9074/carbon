@@ -182,7 +182,6 @@ const useEventTableColumns = (
 };
 
 const getIsTransientBadge = (event: RawEvent) => {
-  // @ts-expect-error no def available yet.
   if (event?.transient) {
     return (
       <Tag size="sm" type={getColorForState(event)}>

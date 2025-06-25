@@ -734,7 +734,7 @@ module.exports = exports = [
   {
     uiClientKey: 'msTeamsApp',
     instanaCtlKey: 'feature.alert.channel.bidirectional.ms.teams.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
@@ -789,11 +789,6 @@ module.exports = exports = [
   {
     uiClientKey: 'windowsHypervisorEnabled',
     instanaCtlKey: 'feature.windowshypervisor.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'automationActionAiGenerationUnitEnabled',
-    instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
     defaultValue: false
   },
   {

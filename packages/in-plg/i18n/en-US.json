@@ -109,6 +109,8 @@
         "prerequisites": "Prerequisites",
         "documentation": "Documentation"
       },
+      "datasourceCatalogHeader_INSTANA_AGENT": "Instana agent installations",
+      "datasourceCatalogHeader_OTEL_COLLECTOR": "OpenTelemetry collector installations",
       "openTelemetryCollectors": "OpenTelemetry Collectors",
       "openTelemetryCollectorsDesciption": "OpenTelemetry Collectors are a standardized way to collect and export telemetry data from applications. They can be used as an alternative to native agents, providing a flexible and scalable solution for observability.",
       "instanaAgents": "Instana agents",
@@ -937,5 +939,22 @@
     "roleName": "Role name",
     "yourRole": "Your role",
     "next": "Next"
+  },
+  "datasources": {
+    "openTelemetryCollectors": "OpenTelemetry Collectors",
+    "datasources": "Data Sources",
+    "instanaAgents": "Instana Agents",
+    "installACollector": "Install a collector",
+    "status": {
+      "statusUnknown": "Unknown",
+      "statusCritical": "Critical",
+      "statusWarning": "Warning",
+      "statusHealthy": "Healthy",
+      "statusIssues": "Issues"
+    },
+    "health": "Health",
+    "collectorId": "Collector ID",
+    "loading": "Loading...",
+    "loadMore": "Load more"
   }
 }

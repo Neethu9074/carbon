@@ -9179,6 +9179,7 @@
       "cppCollectorNotInstalledIssueDescription": "The <code>libinstana_sensor.so</code> library is not installed in this C++ application, or it cannot announce itself to the host agent, for example due to networking issues.",
       "dashboard": {
         "cpuUsage": "CPU Usage",
+        "normalizedCpuUsage": "Normalized CPU Usage",
         "user": "User",
         "system": "System",
         "memory": "Memory",
@@ -9211,6 +9212,7 @@
       "memory": "Memory",
       "system": "System",
       "cpuUsage": "CPU Usage",
+      "normalizedCpuUsage": "Normalized CPU Usage",
       "voluntary": "Voluntary",
       "nonvoluntary": "Nonvoluntary",
       "contextSwitches": "Context switches",
@@ -9223,6 +9225,8 @@
       "host": "Host",
       "cpuUser": "CPU User",
       "cpuSystem": "CPU System",
+      "normalizedCpuUser": "Normalized CPU User",
+      "normalizedCpuSystem": "Normalized CPU System",
       "residentMemory": "Resident Memory",
       "sharedMemory": "Shared Memory"
     },

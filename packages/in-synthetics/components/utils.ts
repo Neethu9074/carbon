@@ -8,6 +8,7 @@ import { OrderDirection } from '@instana/types';
 
 import { ColumnDefinition, TableProps, TableState } from 'in-components/tables/ServerTable/types';
 import { CarbonHeader, Ellipsis, ListItem, Width } from 'in-synthetics/components/constants';
+import { tryGet } from 'in-services/localStorage';
 
 export const getEllipsisValue = (ellipsis: Ellipsis, width: Width) => {
   if (typeof ellipsis === 'string' || (width !== 'undefined' && ellipsis !== undefined)) {
@@ -74,8 +75,8 @@ export const getNextSortDirection = (
 export function sortHandler<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
   carbonHeaders: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[],
   onChange: (sortState: Partial<TableState>) => void,
-  query: string,
   pageSize: number,
+  query?: string,
   pageSizes?: number[]
 ): (sortState: { sortDirection: string; sortHeaderKey: string }) => void {
   return (sortState: { sortHeaderKey: string; sortDirection: string }) => {
@@ -93,4 +94,34 @@ export function sortHandler<ITEM_TYPE extends ListItem, PROPS_TYPE extends Table
     }
     onChange({ query, orderBy, orderDirection, page: 1, pageSize, pageSizes });
   };
+}
+
+export function getVisibleColumns<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
+  columnDefinitions: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[],
+  optionalColumns: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[],
+  disabledColumns: string[],
+  enabledColumns: string[]
+) {
+  const hasOptionalColumns = optionalColumns?.length > 0;
+
+  if (!hasOptionalColumns) {
+    return columnDefinitions;
+  }
+
+  return columnDefinitions.filter(def => {
+    const isDisabled = disabledColumns.includes(def.id);
+    const isEnabledExplicitly = enabledColumns.includes(def.id);
+    const isDefaultDisabled = !!def.defaultDisabled;
+
+    return !isDisabled && (!isDefaultDisabled || isEnabledExplicitly);
+  });
+}
+
+export function getFromLocalStorage<T>(key: string, fallback: T): T {
+  try {
+    const raw = tryGet(key);
+    return raw ? (JSON.parse(raw) as T) : fallback;
+  } catch {
+    return fallback;
+  }
 }

@@ -9,9 +9,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { ColumnDefinition, TrProps } from 'in-components/tables/ServerTable/types';
-import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
+import CustomPayloadList from 'in-alerting/components/CustomPayload/CustomPayloadList';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Nullish, PaginatedResult, Result } from 'in-types';
 import Section from 'in-settings/components/Section';
@@ -27,7 +26,7 @@ interface ListItem extends Object {
   id?: string;
 }
 //TODO refine, use correct type here
-type CustomPayloadItem = ListItem;
+export type CustomPayloadItem = ListItem;
 
 export interface AdditionalContentPropsType {
   deleteRow: (payloadField: MapForm<any>) => void;
@@ -38,16 +37,15 @@ export interface AdditionalContentPropsType {
   enabled?: boolean;
 }
 
-interface ServerTableCustomPayloadConfig
-  extends AdditionalContentPropsType,
-    ServerTablePresenterProps<CustomPayloadItem> {}
+interface ServerTableCustomPayloadConfig extends AdditionalContentPropsType {}
 
-interface CustomPayloadTableProps extends ServerTableCustomPayloadConfig {
-  columnDefinitions: ColumnDefinition<CustomPayloadItem, ServerTableCustomPayloadConfig>[];
+export interface CustomPayloadTableProps extends ServerTableCustomPayloadConfig {
+  columnDefinitions: ColumnDefinition<CustomPayloadItem>[];
   addRow: () => void;
   customPayloadForm: ListForm<any>;
   result?: Result<PaginatedResult<CustomPayloadItem>> | Nullish;
   canConfigureAlertPayload?: boolean;
+  leftHeader?: JSX.Element;
   isTearSheet?: boolean;
 }
 
@@ -74,13 +72,9 @@ export default function CustomPayloadTable(props: CustomPayloadTableProps) {
         [locals.tableContent]: true
       })}
     >
-      <ServerTablePresenter<CustomPayloadItem, ServerTableCustomPayloadConfig>
-        isScrollableTable={false}
+      <CustomPayloadList
         columnDefinitions={columnDefinitions}
-        getRowProps={getRowProps}
         result={result}
-        isSearchable={false}
-        leftHeader={leftHeader}
         rightHeader={
           <RightHeader
             canConfigureAlertPayload={canConfigureAlertPayload}
@@ -89,19 +83,16 @@ export default function CustomPayloadTable(props: CustomPayloadTableProps) {
             enabled={enabled}
           />
         }
-        noDataMessage={t('in-alerting:components.customPayload.noCustomPayloadConfigured')}
         getRowIndex={getRowIndex}
         deleteRow={deleteRow}
         updateIn={updateIn}
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         suggestionsAlignedLeft={suggestionsAlignedLeft}
         enabled={enabled}
-        orderBy={''}
-        orderDirection={'ASC'}
-        page={0}
-        pageSize={5}
-        renderNoDataAvailable={noDataMessage => <NoItemSelected text={noDataMessage} />}
+        isTearSheet={isTearSheet}
+        leftHeader={leftHeader}
       />
+
       <Section>
         <TouchedMessages field={customPayloadForm} />
       </Section>
@@ -126,7 +117,7 @@ function RightHeader({
         content={t('in-alerting:components.customPayload.theNumberOfRowsIsRestrictedToMaximumNumberOfRows', {
           maximumNumberOfRows: maximumNumberOfRows
         })}
-        align="bottomMiddle"
+        align="topRight"
       >
         <Button kind="action" icon="lib_openclose_add_circle_outline" disabled>
           {t('in-alerting:components.customPayload.addRow')}
@@ -140,11 +131,4 @@ function RightHeader({
   ) : (
     <span />
   );
-}
-
-function getRowProps(): TrProps {
-  return {
-    className: locals.row,
-    size: 'compact'
-  };
 }

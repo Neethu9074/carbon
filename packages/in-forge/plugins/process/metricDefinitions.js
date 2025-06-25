@@ -26,6 +26,13 @@ export default [
     formatter: percentage
   },
   {
+    metrics: ['normalizedCpu.user', 'normalizedCpu.sys'],
+    labels: [t('in-forge:plugins.process.user'), t('in-forge:plugins.process.system')],
+    min: 0,
+    category: [t('in-forge:plugins.process.normalizedCpuUsage')],
+    formatter: percentage
+  },
+  {
     metrics: ['ctx_switches.voluntary', 'ctx_switches.nonvoluntary'],
     labels: [t('in-forge:plugins.process.voluntary'), t('in-forge:plugins.process.nonvoluntary')],
     min: 0,

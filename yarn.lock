@@ -3519,10 +3519,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.299.851":
-  version: 1.299.851
-  resolution: "@instana/types@npm:1.299.851::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.299.851.tgz"
-  checksum: 23adce5d387b945747acb30ab243dfda4eb4db7cf4573d85b5d72cd18524c303a490cf5ada4845a219b07bf7aecf3ad04f3551acf06b6b7a175dd6c532169338
+"@instana/types@npm:1.299.1015":
+  version: 1.299.1015
+  resolution: "@instana/types@npm:1.299.1015::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.299.1015.tgz"
+  checksum: 19bf870f359c0fd66ee2e9108eb349a1cf4abe174f5b3519b40b827c75d0ecc460e1ee599bee64e2018f0434692412575b31604f1d552985ce0ec8e4ccf47992
   languageName: node
   linkType: hard
 
@@ -7860,9 +7860,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001272, caniuse-lite@npm:^1.0.30001274, caniuse-lite@npm:^1.0.30001280, caniuse-lite@npm:^1.0.30001517, caniuse-lite@npm:^1.0.30001688":
-  version: 1.0.30001722
-  resolution: "caniuse-lite@npm:1.0.30001722"
-  checksum: 318e40d938bbc6fe2e6b8524195622421588b43bfc3068d0ba24e1ffc6744ac032571181446f9f6a91c374755109af0520e06227fa70611c32252e0d71be24f8
+  version: 1.0.30001723
+  resolution: "caniuse-lite@npm:1.0.30001723"
+  checksum: 0acd7f33f15cfc6cf81a5155bb288afb34ce63cddd90bbf1740243b3c6c1de813ad10b393650f1c15e47f13ff4da61a8d14b02fac8e47e7367aede3ef162a1c6
   languageName: node
   linkType: hard
 
@@ -23307,7 +23307,7 @@ __metadata:
     "@instana/observables": ^1.8.3
     "@instana/pseudo-translation": 1.6.0
     "@instana/roemitter": ^1.4.4
-    "@instana/types": 1.299.851
+    "@instana/types": 1.299.1015
     "@instana/utils": ^1.5.4
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0

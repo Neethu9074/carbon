@@ -25,6 +25,7 @@ export default function CarbonDataTableWithUrlState<
     defaultPageSize,
     defaultPageSizes,
     defaultQuery,
+    defaultDisabledColumns,
     pathSegment,
     matrixPrefix = ''
   } = props;
@@ -37,6 +38,7 @@ export default function CarbonDataTableWithUrlState<
     defaultPageSize,
     defaultPageSizes,
     defaultQuery,
+    defaultDisabledColumns,
     paginationResettingUrlParameters
   });
 
@@ -54,9 +56,15 @@ export default function CarbonDataTableWithUrlState<
 
   const result = useObservable(observable, [propsForObservable]) ?? pendingResult;
 
+  const optionalColumns = useMemo(
+    () => props.columnDefinitions.filter(columnDefinition => columnDefinition.optional),
+    [props.columnDefinitions]
+  );
+
   const rendererProps = {
     ...propsForObservable,
     result: result,
+    optionalColumns,
     onChange: setUrlState
   };
   return <SyntheticDataTablePresenter {...rendererProps} />;

@@ -602,10 +602,6 @@
     "manualActionTip": "<strong>Tip</strong>: You can update the event information and generate again to see different results.",
     "scriptTip": "<strong>Tip</strong>: You can update the prompt and generate again to see different results."
   },
-  "consentForm": {
-    "consentButton": "Review consent form",
-    "consentText": "An administrator must consent to the Generative AI Assistance Preview privacy agreement to enable this feature."
-  },
   "AITooltip": {
     "aiExplained": "AI explained",
     "manualSection": {

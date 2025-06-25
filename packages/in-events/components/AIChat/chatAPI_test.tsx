@@ -187,13 +187,6 @@ const DATA = {
   }
 };
 
-const mockAIFeatureFlag = jest.fn();
-jest.mock('in-services/featureFlags', () => ({
-  get automationActionAiGenerationUnitEnabled() {
-    return mockAIFeatureFlag();
-  }
-}));
-
 const mockHttpFunc = jest.fn();
 jest.mock('in-services/http', () => ({
   __esModule: true,
@@ -223,13 +216,7 @@ describe('fetchAPIData', () => {
 });
 
 describe('sendAPIQuery', () => {
-  it('should return null if AI agreement is not signed', () => {
-    mockAIFeatureFlag.mockReturnValue(false);
-    const value = sendAPIQuery({});
-    expect(value).toBeNull();
-  });
   it('should correctly structure the request', () => {
-    mockAIFeatureFlag.mockReturnValue(true);
     mockHttpFunc.mockReturnValue(sampleReturn);
     const value = sendAPIQuery({ windowStart: 123 });
     expect(value).not.toBeNull();

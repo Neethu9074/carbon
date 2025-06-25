@@ -90,6 +90,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
       primaryButtonDisabled={!isValid}
       primaryButtonText={t('in-settings:tabs.save')}
       secondaryButtonText={t('in-settings:tabs.cancel')}
+      selectorPrimaryFocus="#rbac-team-name"
       size="sm"
     >
       <NameForm

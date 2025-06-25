@@ -518,6 +518,7 @@
     "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_privacy": "Privacy",
     "profileMenu_logOut": "Log out",
+    "profileMenu_switcherContainer": "Switcher container",
     "scope_title": "Scope",
     "scope_defaultScope": "Default scope"
   },

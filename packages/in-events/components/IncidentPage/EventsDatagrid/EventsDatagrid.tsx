@@ -48,6 +48,7 @@ import EventFiltersSidePanel from 'in-events/components/IncidentPage/EventsDatag
 import EventsAppliedFilters from 'in-events/components/IncidentPage/EventsDatagrid/EventsAppliedFilters';
 // @ts-expect-error no typedef available
 import { getEvent } from 'in-stores/events';
+import { EVENT_KINDS } from 'in-events/components/EventsPage/EventsTable/types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid.mless';
@@ -77,6 +78,7 @@ interface EventsDatagridProps {
   onSortChange?: (newVal: SortingState | null) => void;
   sortableHeaders?: EventHeaderType[];
   sortingState?: SortingState;
+  eventType?: EVENT_KINDS;
 }
 
 interface EventExpandedComponentProps {
@@ -118,7 +120,8 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
     onSortChange = () => {},
     sortableHeaders = [],
     sortingState = {},
-    enableSorting = false
+    enableSorting = false,
+    eventType = undefined
   } = props;
 
   const shouldShowBatchActions = Object.keys(multiSelectState).length > 0;
@@ -276,10 +279,11 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
           setIsFilterPanelOpen={setIsFilterPanelOpen}
           currentFilters={currentFilters}
           onFilterChange={onFilterChange}
+          eventType={eventType}
         />
       )}
       <div id="eventsTableContainer">
-        <EventsAppliedFilters currentFilters={currentFilters} onFilterChange={onFilterChange} />
+        <EventsAppliedFilters currentFilters={currentFilters} onFilterChange={onFilterChange} eventType={eventType} />
         {/* Sticky header */}
         <div className={locals.stickyHeader}>
           <Table size="md" className={locals.fixedTable}>

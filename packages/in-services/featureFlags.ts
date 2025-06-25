@@ -69,7 +69,7 @@ export const incidentNotesTopActionsEnabled = isFeatureFlagEnabled('incidentNote
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
-export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled', false);
+export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled', true);
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
 export const blockLogDeletionsEnabled = isFeatureFlagEnabled('blockLogDeletionsEnabled');
 export const logFormattingEnabled = isFeatureFlagEnabled('logFormattingEnabled');
@@ -380,10 +380,6 @@ export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetr
 export const graphViewFromAboutInstanaEnabled = isFeatureFlagEnabled('graphViewFromAboutInstanaEnabled', false);
 export const graphViewFromInfraMapEnabled = isFeatureFlagEnabled('graphViewFromInfraMapEnabled', false);
 export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');
-export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
-  'automationActionAiGenerationUnitEnabled',
-  false
-);
 export const actionAiGenerationEnabled = isFeatureFlagEnabled('actionAiGenerationEnabled', false);
 export const graphTabEnabled = isFeatureFlagEnabled('graphTabEnabled', true);
 export const applicationSubtracesEnabled = isFeatureFlagEnabled('applicationSubtracesEnabled', false);

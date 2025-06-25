@@ -83,7 +83,7 @@ export default function CarbonUIShell() {
       titleDetail={titleDetail}
       headerContent={<Header expanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />}
       headerPanelContent={
-        <ProfileMenu isSideNavExpanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />
+        <ProfileMenu isHeaderExpanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />
       }
       headerPanelExpanded={isHeaderExpanded}
     >

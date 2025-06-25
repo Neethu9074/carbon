@@ -246,6 +246,7 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
         primaryButtonDisabled={status === 'pending'}
         primaryButtonText={t('in-settings:tabs.save')}
         secondaryButtonText={t('in-settings:tabs.cancel')}
+        selectorPrimaryFocus="#rbac-role-name"
         size="lg"
       >
         <form>

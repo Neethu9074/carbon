@@ -338,7 +338,9 @@
     "clearAll": "Clear filters",
     "selectAll": "Select all",
     "selectEvent": "Select event",
-    "showTransient": "Show transient events"
+    "showAll": "Show all",
+    "showTransientOnly": "Show transient only",
+    "showNonTransientOnly": "Show non-transient only"
   },
   "eventsSmartAlerts": {
     "globalApplicationSmartAlert": "Global Application Smart Alerts",
@@ -416,7 +418,6 @@
     "meanLatency": "Mean latency",
     "youMustAccept": "You must accept the terms in the Generative AI Assistance Preview Program Agreement to use this feature.",
     "reviewAction": "Review agreement",
-    "openingAgreement": "Opening [consent form]({{href}}) in a new tab...",
     "findingInfoFrom": "Finding that info from {{endpoint}}",
     "noData": "No data returned from API",
     "whatToKnow": "What do you want to know about {{category}}?",
@@ -513,10 +514,6 @@
   },
   "relatedEvents": {
     "openEvent": "Open event"
-  },
-  "consentForm": {
-    "consentText": "You must accept the terms in the Generative AI Assistance Preview Program Agreement to use this feature.",
-    "consentButton": "Review agreement"
   },
   "affectedIncidents": {
     "affectedIncident": "Affected incident",
