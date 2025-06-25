@@ -14,6 +14,8 @@ import { ProductiveCard } from '@instana/ibm-products';
 
 import { TEAMTAG_USED_ENTITIES } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/TagUsedOnCard.constants';
 import NoTagUsedOn from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/NoTagUsedOn';
+import { TEAMS_ENTITY_LINKS } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Teams.constants';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { t } from 'in-i18n';
 
 import locals from './TagUsedOnCard.mless';
@@ -21,9 +23,11 @@ import locals from './TagUsedOnCard.mless';
 interface TagUsedOnCardProps {
   isLoading: boolean;
   entities?: TeamDetailsTeamEntityDetails[];
+  teamName?: string;
 }
 
-const TagUsedOnCard = ({ isLoading, entities }: TagUsedOnCardProps) => {
+const TagUsedOnCard = ({ isLoading, entities, teamName }: TagUsedOnCardProps) => {
+  const { createHrefToPath } = useNavigation();
   const isEmptyTagInUse = entities ? Object.values(entities).every(entity => entity.ids?.length === 0) : true;
 
   return (
@@ -35,10 +39,22 @@ const TagUsedOnCard = ({ isLoading, entities }: TagUsedOnCardProps) => {
           {TEAMTAG_USED_ENTITIES.map(teamTagUsedEntity => {
             const { id, title } = teamTagUsedEntity;
             const entityCount = entities?.find(entity => entity.name === id)?.ids?.length ?? 0;
+            const entityLinkInfo = TEAMS_ENTITY_LINKS[id];
+            let navLink = entityLinkInfo?.link;
+            if (navLink) {
+              navLink = navLink + ';' + entityLinkInfo?.paramName + '=:' + entityLinkInfo?.scope + ':' + teamName + '!';
+              navLink = createHrefToPath(navLink);
+            }
             return (
               entityCount > 0 && (
                 <Layer key={id}>
-                  <ClickableTile title={title} renderIcon={ArrowRight} id={id} className={locals.tagTile}>
+                  <ClickableTile
+                    title={title}
+                    renderIcon={ArrowRight}
+                    id={id}
+                    className={locals.tagTile}
+                    href={navLink}
+                  >
                     <Typography variant="body-01" component="p">
                       {title}
                     </Typography>

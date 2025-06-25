@@ -126,7 +126,7 @@ const TeamDetailsView = () => {
         </div>
       </div>
 
-      <TagUsedOnCard isLoading={isLoading} entities={team.entities} />
+      <TagUsedOnCard isLoading={isLoading} entities={team.entities} teamName={team.tag} />
     </div>
   );
 };
