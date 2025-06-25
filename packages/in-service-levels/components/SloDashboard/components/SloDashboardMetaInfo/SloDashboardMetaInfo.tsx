@@ -7,11 +7,11 @@
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { Stack } from '@instana/components';
+import { Column, Grid } from '@instana/carbon';
+import { TagSet } from '@instana/ibm-products';
 
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
 import { LabeledEntity } from 'in-service-levels/types';
-import TagList from 'in-components/TagsList/TagList';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 
 import locals from './SloDashboardMetaInfo.mless';
@@ -35,19 +35,30 @@ export default function SloDashboardMetaInfo({
 
   return (
     <div className={locals.metaInfo}>
-      <Stack direction="horizontal" align="center" distribution="start">
-        {entities && (
-          <SloEntityInfo
-            entities={entities}
-            entityType={sloEntity.type}
-            service={service}
-            endpoint={endpoint}
-            sloEntity={sloEntity}
-            metaInfo
-          />
-        )}
-        {showTag && <TagList tags={tags} />}
-      </Stack>
+      <Grid className={locals.gridContainer}>
+        <Column lg={5}>
+          {entities && (
+            <SloEntityInfo
+              entities={entities}
+              entityType={sloEntity.type}
+              service={service}
+              endpoint={endpoint}
+              sloEntity={sloEntity}
+              metaInfo
+            />
+          )}
+        </Column>
+        <Column lg={11}>
+          {showTag && (
+            <TagSet
+              overflowClassName={locals.tagSet}
+              tags={tags.map(item => {
+                return { label: item };
+              })}
+            />
+          )}
+        </Column>
+      </Grid>
     </div>
   );
 }

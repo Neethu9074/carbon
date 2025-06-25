@@ -1,16 +1,15 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 :local {
-  .metaInfo {
-    padding-top: 0.2rem;
-  }
-
-  .gridContainer {
-    padding-left: 15px;
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.45rem;
   }
 
   .tagSet {

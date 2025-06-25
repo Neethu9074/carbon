@@ -12,7 +12,7 @@ import {
   serviceLevelsObjectiveAlertsFullyQualified,
   serviceLevelsObjectiveCorrectionWindowsFullyQualified
 } from 'in-service-levels/navigation/path';
-import SloConfigurationDetails from 'in-service-levels/components/SloDashboard/components/SloConfigurationDetails';
+import SloConfigurationDetails from 'in-service-levels/components/SloDashboard/components/SloConfigurationDetails/SloConfigurationDetails';
 import CorrectionWindows from 'in-service-levels/features/CorrectionWindows/components/CorrectionWindows';
 import SloSmartAlerts from 'in-service-levels/components/SloDashboard/components/SloSmartAlerts';
 import SloSummary from 'in-service-levels/components/SloDashboard/components/SloSummary';
