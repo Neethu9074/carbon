@@ -30,7 +30,8 @@ export default function WebsiteSloMarkerLanes({
   chartBucketWidth = 0,
   chartHeight = 0,
   timeAxisHeight = 0,
-  markerPaneHeight = 0
+  markerPaneHeight = 0,
+  hideCorrectionWindowsLane
 }: WebsiteSloMarkerLanesProps) {
   const { websiteId } = entity;
 
@@ -52,7 +53,7 @@ export default function WebsiteSloMarkerLanes({
         }}
         getAlerts={getWebsiteAlertClusters}
       />
-      <CorrectionWindowsLane chartContentPosition={chartContentPosition} />
+      {!hideCorrectionWindowsLane && <CorrectionWindowsLane chartContentPosition={chartContentPosition} />}
     </MarkerLanesPresenter>
   );
 }
