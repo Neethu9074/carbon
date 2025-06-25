@@ -131,7 +131,7 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
                           header={t('in-settings:components.confirmRemove')}
                           description={
                             <Trans
-                              i18nKey="in-settings:components.confirmRemoveItem"
+                              i18nKey="in-settings:components.confirmRemoveItemNonCritical"
                               values={{
                                 itemName: t('in-settings:tabs.teams.memberWithName', {
                                   name: member?.name ? member?.name : member?.userId

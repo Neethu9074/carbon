@@ -342,6 +342,7 @@
     "backToParentViewName": "Back to {{parentViewName}}",
     "search": "Search...",
     "confirmRemoveItem": "Are you sure you want to remove <strong>{{itemName}}</strong>? This action cannot be undone.",
+    "confirmRemoveItemNonCritical": "Are you sure you want to remove <strong>{{itemName}}</strong>?",
     "confirmSaveGroup": "Saving these updates will delete the contribution filter.<br/>The contribution filter tags on <strong>{{numberOfContributorAPs}}</strong> application perspective configurations become editable by any user with owner access on the Applications section.<br/><br/>Make sure you have selected application perspectives to grant access in case of limited access scope.",
     "enable": "Enable",
     "disable": "Disable",
