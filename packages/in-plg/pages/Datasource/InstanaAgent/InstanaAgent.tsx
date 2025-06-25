@@ -11,6 +11,10 @@ import { Button } from '@instana/carbon';
 
 // @ts-expect-error typescript migration needed
 import AgentsPresenceChart from 'in-infrastructure/agentView/components/AgentsPresenceChart';
+import {
+  AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED,
+  AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED
+} from 'in-services/tracking/eventNames';
 // eslint-disable-next-line no-restricted-imports
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 // @ts-expect-error typescript migration needed
@@ -19,7 +23,6 @@ import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis'
 import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AgentBasedIntegrationView from 'in-infrastructure/agentView/components/AgentBasedIntegrationView';
-import { AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED } from 'in-services/tracking/eventNames';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { infraEventCTAClicked } from 'in-infrastructure/tracking/tracking';
