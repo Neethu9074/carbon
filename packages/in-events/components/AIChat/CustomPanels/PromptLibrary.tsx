@@ -18,33 +18,46 @@ import {
 } from '@instana/components';
 
 import { promptLibrary } from 'in-events/components/AIChat/DefinedQuestions';
+import { t } from 'in-i18n';
 
 import locals from './PromptLibrary.mless';
 
-const PromptLibrary = ({ instance }) => {
+interface PromptLibraryProps {
+  instance: {
+    customPanels: {
+      getPanel: Function;
+    };
+    elements: {
+      getMessageInput: Function;
+    };
+  };
+}
+
+const PromptLibrary = ({ instance }: PromptLibraryProps) => {
   const [search, setSearch] = useState('');
 
   return (
     <div id="promptLibrary">
       <CarbonTabs>
-        <CarbonTabList className={locals.tabsWidth}>
-          {promptLibrary.map(subject => {
+        <CarbonTabList className={locals.tabsWidth} aria-label={t('in-events:aichat.tabSelection')}>
+          {promptLibrary.map((subject: { kind: string }) => {
             return <CarbonTab className={locals.tabHeader}>{subject.kind}</CarbonTab>;
           })}
         </CarbonTabList>
         <CarbonSearch
+          labelText={t('in-events:aichat.search')}
           onChange={e => {
             setSearch(e.target.value);
           }}
         />
         <CarbonTabPanels>
-          {promptLibrary.map(subject => {
+          {promptLibrary.map((subject: { kind: string; questions: Array<string> }) => {
             return (
               <CarbonTabPanel className={locals.panel}>
                 <CarbonContainedList label={subject.kind} size="lg" className={locals.listHeader}>
                   {subject.questions
-                    .filter(question => question.includes(search))
-                    .map(question => {
+                    .filter((question: string) => question.includes(search))
+                    .map((question: string) => {
                       return (
                         <CarbonContainedListItem
                           onClick={() => {

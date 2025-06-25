@@ -14,7 +14,15 @@ import { t } from 'in-i18n';
 
 import locals from './PromptLibraryResponse.mless';
 
-export default function PromptLibraryResponse({ instance }) {
+interface PromptLibraryResponseProps {
+  instance: {
+    customPanels: {
+      getPanel: Function;
+    };
+  };
+}
+
+export default function PromptLibraryResponse({ instance }: PromptLibraryResponseProps) {
   return (
     <Tag
       size="lg"
