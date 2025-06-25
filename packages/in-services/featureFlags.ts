@@ -380,10 +380,6 @@ export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetr
 export const graphViewFromAboutInstanaEnabled = isFeatureFlagEnabled('graphViewFromAboutInstanaEnabled', false);
 export const graphViewFromInfraMapEnabled = isFeatureFlagEnabled('graphViewFromInfraMapEnabled', false);
 export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');
-export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
-  'automationActionAiGenerationUnitEnabled',
-  false
-);
 export const actionAiGenerationEnabled = isFeatureFlagEnabled('actionAiGenerationEnabled', false);
 export const graphTabEnabled = isFeatureFlagEnabled('graphTabEnabled', true);
 export const applicationSubtracesEnabled = isFeatureFlagEnabled('applicationSubtracesEnabled', false);

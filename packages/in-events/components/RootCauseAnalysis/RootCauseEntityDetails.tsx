@@ -28,11 +28,6 @@ import {
   EVENT_RCA_LLM_INVESTIGATION_START_CLICK,
   EVENT_RCA_TOPOLOGY_VIEW_CLICK
 } from 'in-services/tracking/tracking';
-import {
-  rcaTopologyEnabled,
-  rcaAiAutomatedInvestigationEnabled,
-  automationActionAiGenerationUnitEnabled
-} from 'in-services/featureFlags';
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import RootCauseTopologyDialog from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologyDialog';
@@ -40,6 +35,7 @@ import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hoo
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import { Application, EntityId, Event, Nullish, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
+import { rcaTopologyEnabled, rcaAiAutomatedInvestigationEnabled } from 'in-services/featureFlags';
 import AIProbabilityBadge from 'in-events/components/RootCauseAnalysis/AIProbabilityBadge';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
@@ -337,7 +333,7 @@ export default function RootCauseEntityDetails({
                   </Tearsheet>
                 </>
               )}
-              {rcaAiAutomatedInvestigationEnabled && automationActionAiGenerationUnitEnabled && (
+              {rcaAiAutomatedInvestigationEnabled && (
                 <Button
                   kind="tertiary"
                   icon="lib_launch_ai"

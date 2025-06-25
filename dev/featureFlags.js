@@ -159,7 +159,6 @@ module.exports = {
   nutanixEnabled: true,
   xenserverEnabled: true,
   linuxkvmhypervisorEnabled: true,
-  automationActionAiGenerationUnitEnabled: true,
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,

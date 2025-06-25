@@ -4,7 +4,6 @@
  */
 
 import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
@@ -12,11 +11,7 @@ import { t } from 'in-i18n';
 // The api query to the chat
 // Simply pass in the query string
 export function sendAPIQuery(query) {
-  if (!automationActionAiGenerationUnitEnabled) {
-    // Should not be accessable, prevent call to AI endpoint
-    // if user has not agreed to terms
-    return null;
-  }
+  // Feature flag removed, always allow API calls
   const obj = http({
     method: 'POST',
     maxRetries: 3,

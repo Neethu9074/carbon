@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
-import { EVENT_AI_CLICK_EPWT_LINK } from 'in-services/tracking/tracking';
 import { t } from 'in-i18n';
 
 const WELCOME_TEXT = t('in-events:aichat.welcome');
@@ -18,26 +16,6 @@ const CONSENT_PROMPT = {
 // These are the questions that will require additional questions to follow
 // Meaning we might have to ask specifics on Date and time
 export const DefinedTreeQuestions = [CONSENT_PROMPT.action];
-
-export const AIConsentPrompt = [
-  {
-    response_type: 'text',
-    text: CONSENT_PROMPT.text
-  },
-  {
-    response_type: 'option',
-    options: [
-      {
-        label: CONSENT_PROMPT.action,
-        value: {
-          input: {
-            text: CONSENT_PROMPT.action
-          }
-        }
-      }
-    ]
-  }
-];
 
 export const technologyOptions = {
   response_type: 'user_defined',
@@ -115,24 +93,7 @@ export const InitialLoadOptions = [
   technologyOptions
 ];
 
-export function handleDefinedTreeQuestions(request, instance, trackCta) {
-  if (!automationActionAiGenerationUnitEnabled) {
-    if (request.input.text === CONSENT_PROMPT.action) {
-      window.open(CONSENT_PROMPT.href, '_blank');
-      trackCta?.(EVENT_AI_CLICK_EPWT_LINK, {});
-      instance.messaging.addMessage({
-        output: {
-          generic: [
-            {
-              response_type: 'text',
-              text: t('in-events:aichat.openingAgreement', { href: CONSENT_PROMPT.href })
-            }
-          ]
-        }
-      });
-    }
-    return;
-  }
+export function handleDefinedTreeQuestions(request, instance) {
   switch (request.input.text) {
     default:
       instance.messaging.addMessage({

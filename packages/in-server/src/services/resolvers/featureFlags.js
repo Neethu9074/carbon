@@ -792,11 +792,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'automationActionAiGenerationUnitEnabled',
-    instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'actionAiGenerationEnabled',
     instanaCtlKey: 'feature.action.ai.generation.enabled',
     defaultValue: false

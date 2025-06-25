@@ -21,7 +21,6 @@ import { useObservable } from '@instana/hooks';
 import { EVENT_AI_GENERATE_SUBMIT, NOTES_SUMMARY_CLICK_EPWT_LINK } from 'in-services/tracking/eventNames';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { generateJournalSummary } from 'in-stores/events';
 import { t } from 'in-i18n';
@@ -58,21 +57,8 @@ export function QuickActions(props) {
 
   // Trigger only when the value of generateAISummary changes
   useEffect(() => {
-    // If the generate summary was triggered but the consent has not been accepted, highlight
-    // the button so they visually get attention brought to it.
-    if (generateAISummary == true && !automationActionAiGenerationUnitEnabled) {
-      const el = document.getElementById('generate_summary_consent');
-      if (el) {
-        // Pulse the border color once to get the users attention
-        setTimeout(() => {
-          el.style.transition = 'border-color 0.25s ease';
-          el.style.borderColor = 'white';
-          setTimeout(() => {
-            el.style.borderColor = '#0f62fe';
-          }, 250);
-        }, 500);
-      }
-    } else if (generateAISummary == true && automationActionAiGenerationUnitEnabled) {
+    // Feature flag removed, always handle summary generation
+    if (generateAISummary == true) {
       // Handle summary generation if the consent has been accepted
       handleSummaryGenerate();
       // Keep the side panel open but turn off the ai generation after its began and keep loading state
@@ -96,31 +82,6 @@ export function QuickActions(props) {
       setShowTimeoutMessage(true);
     }, 120000); // 2 mins
     setSummaryTimeout(id);
-  }
-
-  function consentSection() {
-    return (
-      <div className={locals.consentWrapper}>
-        <Typography variant="legal-02"> {t('in-events:consentForm.consentText')} </Typography>
-        <CarbonButton
-          kind="tertiary"
-          size={'sm'}
-          className={locals.actionsButton}
-          id="generate_summary_consent"
-          target="_blank"
-          onClick={e => {
-            handleTracking(incidentId, NOTES_SUMMARY_CLICK_EPWT_LINK);
-            e.stopPropagation();
-          }}
-          renderIcon={() => {
-            return <SvgIcon type={'lib_views_external_link'} color="currentColor" size="xs" />;
-          }}
-          href="https://early-access.ibm.com/software/support/trial/cst/welcomepage.wss?siteId=2175&tabId=6106&w=1&_gl=1*a8q9zh*_ga*NDA2OTcyMzgyLjE3MTEzODYwOTA.*_ga_FYECCCS21D*MTc0MTM0MzI4NS41MS4xLjE3NDEzNDM5NjUuMC4wLjA"
-        >
-          <div className={locals.quickActionButtonContents}>{t('in-events:consentForm.consentButton')}</div>
-        </CarbonButton>
-      </div>
-    );
   }
 
   function quickActionsContent() {
@@ -179,12 +140,10 @@ export function QuickActions(props) {
                 </Link>
               </div>
             </div>
-            {automationActionAiGenerationUnitEnabled && (
-              <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
-            )}
+            <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
           </>
         )}
-        {automationActionAiGenerationUnitEnabled ? quickActionsContent() : consentSection()}
+        {quickActionsContent()}
       </div>
     </div>
   );

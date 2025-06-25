@@ -7,14 +7,12 @@
 import { uniqueId } from 'lodash';
 
 import {
-  AIConsentPrompt,
   DefinedTreeQuestions,
   handleDefinedTreeQuestions,
   InitialLoadOptions,
   reprompt
 } from 'in-events/components/AIChat/DefinedQuestions';
 import { sendAPIQuery, fetchAPIData, formatForTable } from 'in-events/components/AIChat/chatAPI';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 // Params:
@@ -27,11 +25,8 @@ export async function CustomSendMessages(
   requestOptions,
   instance
 ) {
-  if (automationActionAiGenerationUnitEnabled) {
-    instance.updateAssistantInputFieldVisibility(true);
-  } else {
-    instance.updateAssistantInputFieldVisibility(false);
-  }
+  // Always show the assistant input field since the feature flag is removed
+  instance.updateAssistantInputFieldVisibility(true);
   async function sendTextMessage(nlg, text, restart) {
     await instance.messaging.addMessage(
       {
@@ -103,10 +98,7 @@ export async function CustomSendMessages(
   // If the input message is valid and not blank we will want to make an API call
   const userQuery = request.input.text;
   if (userQuery !== undefined && userQuery !== '' && !DefinedTreeQuestions.includes(userQuery)) {
-    if (!automationActionAiGenerationUnitEnabled) {
-      sendTextMessage(t('in-events:aichat.youMustAccept'), false);
-      return;
-    }
+    // Feature flag removed, always proceed with the query
 
     const loadingMessageId = uniqueId('aichat_');
     instance.messaging.addMessage(
@@ -212,22 +204,13 @@ export async function CustomSendMessages(
     );
   } else if (request.input.text === '') {
     // First render
-    if (!automationActionAiGenerationUnitEnabled) {
-      // Needs AI consent response
-      instance.messaging.addMessage({
-        output: {
-          generic: AIConsentPrompt
-        }
-      });
-    } else {
-      // Welcome message
-      instance.messaging.addMessage({
-        output: {
-          generic: InitialLoadOptions
-        }
-      });
-    }
+    // Feature flag removed, always show welcome message
+    instance.messaging.addMessage({
+      output: {
+        generic: InitialLoadOptions
+      }
+    });
   } else {
-    handleDefinedTreeQuestions(request, instance, instance.trackCta);
+    handleDefinedTreeQuestions(request, instance);
   }
 }

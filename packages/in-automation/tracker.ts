@@ -30,8 +30,7 @@ import {
   AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK,
   AUTOMATION_AI_GOOD_FEEDBACK,
   AUTOMATION_AI_BAD_FEEDBACK,
-  AUTOMATION_AI_GENERATE_STEP_ERROR,
-  AUTOMATION_CLICK_EPWT_LINK
+  AUTOMATION_AI_GENERATE_STEP_ERROR
 } from 'in-services/tracking/tracking';
 import { CREATED_OBJECT, STARTED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -65,7 +64,6 @@ export function useSegmentTracker(): {
   aiActionGoodFeedbackTrackerSegment: TrackingFunction;
   aiActionBadFeedbackTrackerSegment: TrackingFunction;
   aiActionGenerateErrorTrackerSegment: TrackingFunction;
-  clickEPWTLink: TrackingFunction;
 } {
   const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
@@ -172,10 +170,6 @@ export function useSegmentTracker(): {
     trackCta(AUTOMATION_AI_GENERATE_STEP_ERROR, customData);
   }
 
-  function clickEPWTLink(customData?: Object): void {
-    trackCta(AUTOMATION_CLICK_EPWT_LINK, customData);
-  }
-
   return {
     createActionTrackerSegment,
     editActionTrackerSegment,
@@ -202,7 +196,6 @@ export function useSegmentTracker(): {
     aiActionScriptGenerateStepNextClickTrackerSegment,
     aiActionGoodFeedbackTrackerSegment,
     aiActionBadFeedbackTrackerSegment,
-    aiActionGenerateErrorTrackerSegment,
-    clickEPWTLink
+    aiActionGenerateErrorTrackerSegment
   };
 }
