@@ -101,8 +101,8 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
                   isDisabled={disabled || !enabled}
                   value={threshold.unit}
                   options={[
-                    { value: DurationUnit.minutes, label: 'Minutes' },
-                    { value: DurationUnit.hours, label: 'Hours' }
+                    { value: DurationUnit.minutes, label: t('in-settings:tabs.transientMinutes') },
+                    { value: DurationUnit.hours, label: t('in-settings:tabs.transientHours') }
                   ]}
                   onChange={v =>
                     onChange(TRANSIENT_THRESHOLD, {
