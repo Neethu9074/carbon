@@ -22,5 +22,10 @@ export const datasourceTypes = {
 } as const;
 export type SelectedDatasource = (typeof datasourceTypes)[keyof typeof datasourceTypes];
 const allowedDatasourceValues = Object.values(datasourceTypes).join('|');
-export const datasourcePath = `/datasources/:selecteddatasource(${allowedDatasourceValues})/installation`;
+export const datasourceCatalogPath = `/datasources/:selecteddatasource(${allowedDatasourceValues})/installation`;
 export const datasourceItemPath = `/datasources/:selecteddatasource(${allowedDatasourceValues})/installation/:selectedservice`;
+export const datasourcePath = `/datasources/:selecteddatasource(${allowedDatasourceValues})`;
+export const datasourceInstanaAgentPath = `/datasources/${datasourceTypes.instana_agent}`;
+export const datasourceOtelCollectorPath = `/datasources/${datasourceTypes.otel_collector}`;
+export const datasourceInstanaAgentCatalog = `/datasources/${datasourceTypes.instana_agent}/installation`;
+export const datasourceOtemCollectorCatalog = `/datasources/${datasourceTypes.otel_collector}/installation`;

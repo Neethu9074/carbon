@@ -939,5 +939,21 @@
     "roleName": "Role name",
     "yourRole": "Your role",
     "next": "Next"
+  },
+  "datasources": {
+    "openTelemetryCollectors": "OpenTelemetry Collectors",
+    "datasources": "Data Sources",
+    "instanaAgents": "Instana Agents",
+    "status": {
+      "statusUnknown": "Unknown",
+      "statusCritical": "Critical",
+      "statusWarning": "Warning",
+      "statusHealthy": "Healthy",
+      "statusIssues": "Issues"
+    },
+    "health": "Health",
+    "collectorId": "Collector ID",
+    "loading": "Loading...",
+    "loadMore": "Load more"
   }
 }
