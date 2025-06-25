@@ -123,7 +123,7 @@ describe('in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEve
           ],
           "severity": "10",
           "transientEventAlertMuted": false,
-          "transientEventEnabled": false,
+          "transientEventEnabled": true,
           "transientEventThreshold": Object {
             "amount": 5,
             "unit": "MINUTES",
@@ -185,7 +185,7 @@ describe('in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEve
           ],
           "severity": "10",
           "transientEventAlertMuted": false,
-          "transientEventEnabled": false,
+          "transientEventEnabled": true,
           "transientEventThreshold": Object {
             "amount": 5,
             "unit": "MINUTES",

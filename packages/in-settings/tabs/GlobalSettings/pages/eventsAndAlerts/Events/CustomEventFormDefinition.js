@@ -159,7 +159,7 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
   }
 
   const {
-    transientEventEnabled = false,
+    transientEventEnabled = true,
     transientEventThreshold = 300000,
     transientEventAlertMuted = false
   } = mutableEvent;
