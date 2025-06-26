@@ -29,6 +29,7 @@ import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useRe
 import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import { ACTION_TYPE, EXECUTABLE_ACTIONS, ScoredActionsType } from 'in-automation/constants';
 import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
+import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
@@ -46,7 +47,6 @@ import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter } from 'in-automation/ActionTable/tableFilters';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
@@ -129,7 +129,7 @@ function showConfirmationDialog(policy: Policy) {
       }
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}
       onSubmit={() => {
-        close();
+        closeDialog();
         onDelete(id);
       }}
     />
