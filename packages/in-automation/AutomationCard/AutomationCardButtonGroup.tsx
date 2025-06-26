@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 interface AutomationCardButtonGroupProps {
   recommendedActionsCount: number | undefined;
   actionHistoryCount: number | undefined;
-  hasRCA: boolean;
+  hasRCA?: boolean;
 }
 
 type ButtonKey = 'recommendedActions' | 'actionHistory';
@@ -37,7 +37,7 @@ export const setActiveKey = (activeKey: ButtonKey) => activeKeyStore.mutateTo(ac
 export default function AutomationCardButtonGroup({
   recommendedActionsCount,
   actionHistoryCount,
-  hasRCA
+  hasRCA = false
 }: AutomationCardButtonGroupProps) {
   const activeKey = useActiveKey();
   useEffect(() => {

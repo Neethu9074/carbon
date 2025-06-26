@@ -35,6 +35,7 @@ import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEve
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
+import AutomationCardForLegacyPRC from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
@@ -133,8 +134,16 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       )}
 
       {/* Automations - display both recommended actions and history when no PRC is present*/}
-      {!hasRootCauses && (
+      {rcaUIEnabled && rootCauseHasOldSnapshotMetadata && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
+      )}
+
+      {!rcaAgenticEnabled && rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
+        <AutomationCardForLegacyPRC
+          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+          incident={incident}
+          event={triggeringEvent?.toJS()}
+        />
       )}
 
       {/* Business impact */}
