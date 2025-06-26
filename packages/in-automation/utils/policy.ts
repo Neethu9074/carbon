@@ -17,11 +17,11 @@ export const isAutomatic = (item: Policy | NewPolicy) =>
 export function getActionConfigurationFromPolicy(policy: Policy): ActionConfiguration;
 export function getActionConfigurationFromPolicy(policy: NewPolicy): NewActionConfiguration;
 export function getActionConfigurationFromPolicy(policy: Policy | NewPolicy) {
-  return policy.typeConfigurations[0].runnable.runConfiguration.actions[0];
+  return policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0];
 }
 
 export function getPolicyTriggerFromTriggers(triggers: Triggers, policy: Policy | NewPolicy) {
-  const { type, id } = policy.trigger;
+  const { type, id } = policy?.trigger ?? {};
   return (triggers[type]?.data as TriggerSpecification[])?.find(trigger => trigger.id === id);
 }
 

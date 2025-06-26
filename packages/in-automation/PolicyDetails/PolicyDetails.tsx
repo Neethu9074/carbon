@@ -4,13 +4,16 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
 import { CarbonColumn, CarbonGrid, CarbonRow, CarbonStack, Link, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
+import CreateNewPolicyTearsheet, {
+  CreateNewPolicyTearsheetProps
+} from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard/DefaultLoadingDashboard';
 import PolicyTriggerConfigurationCard from 'in-automation/PolicyDetails/PolicyTriggerConfigurationCard';
@@ -112,6 +115,11 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
     }),
     [actionForm]
   );
+  const [tearsheetProps, setTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
+  const tearsheetToggleHandler = ({ policyId, copy }: { policyId?: string; copy?: boolean }) => {
+    setTearsheetProps({ policyId, copy, open: true });
+  };
+
   const from = location.query.from;
   let backLable = from === eventsPath ? t('in-automation:backToEvent') : t('in-automation:backToPolicies');
 
@@ -138,7 +146,9 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
                   {backLable}
                 </Link>
               )}
-              {role?.canConfigureAutomationPolicies && <PolicyControls data={policy} />}
+              {role?.canConfigureAutomationPolicies && (
+                <PolicyControls data={policy} tearsheetToggleHandler={tearsheetToggleHandler} />
+              )}
             </div>
 
             <CarbonRow>
@@ -167,6 +177,7 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
             </CarbonRow>
           </CarbonStack>
         </section>
+        <CreateNewPolicyTearsheet {...tearsheetProps} closeHandler={() => setTearsheetProps({ open: false })} />
       </Form>
     </ActionFormContext.Provider>
   );

@@ -4,17 +4,17 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
+import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
 import { Result } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+import { aiOriginatedMetadata, isAIAction, isAIActionCopy, isNotEditable } from 'in-automation/utils/action';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
-import { aiOriginatedMetadata, isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { generateNavItems } from 'in-automation/ActionCatalog/useActionForm/validationUtils';
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { getActionFromForm } from 'in-automation/ActionCatalog/useActionForm/utils';
@@ -27,53 +27,79 @@ import { ActionFormBody } from 'in-automation/ActionCatalog/ActionForm';
 import { refreshAction } from 'in-automation/ActionDashboard/useAction';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import useActionFilter from 'in-automation/hooks/useActionFilter';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
-import DescriptionText from 'in-components/form/DescriptionText';
 import { refresh } from 'in-automation/ActionCatalog/useActions';
+import DescriptionText from 'in-components/form/DescriptionText';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { saveAction, saveNewAction } from 'in-automation/api';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
 import useAction from 'in-automation/ActionCatalog/useAction';
+import { saveAction, saveNewAction } from 'in-automation/api';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
-import { close } from 'in-components/DialogPresenter/store';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
-import Form from 'in-components/form/binding/Form';
 import { ActionFilter } from 'in-automation/types';
+import Form from 'in-components/form/binding/Form';
 import Title from 'in-components/Title/Title';
 import SideNav from 'in-components/SideNav';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
-export default function CreateNewActionTearsheet({
-  actionId,
-  copy = false,
-  isFromDashboard = false
-}: {
+import locals from 'in-automation/ActionCatalog/CreateNewActionTearsheet.mless';
+
+export type CreateNewActionTearsheetProps = {
   actionId?: string;
   copy?: boolean;
   isFromDashboard?: boolean;
-}) {
-  const { isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
+  open?: boolean;
+  closeHandler?: () => void;
+};
+
+export default function CreateNewActionTearsheet({
+  actionId,
+  copy = false,
+  isFromDashboard = false,
+  open = false,
+  closeHandler
+}: CreateNewActionTearsheetProps) {
+  const { isCopy, id, isNew } = useActionDetailsUrlParams({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
+
+  const [form, setForm, resetForm] = useActionForm({ action: action.data, actionFilter: actionFilter.data! || 'all' });
+  const { onSubmit, result } = useOnSubmit({ actionId, copy, isFromDashboard, closeHandler });
+  const actionButtons = [
+    {
+      kind: 'primary',
+      label: isNew ? t('forms.actions.create') : t('in-automation:actionHistory.saveButton'),
+      onClick: () => {
+        onSubmit({ form, action: action.data, setForm });
+      }
+    } as any,
+    {
+      kind: 'ghost',
+      label: t('in-automation:cancel'),
+      onClick: () => {
+        closeHandler?.();
+      }
+    }
+  ];
 
   const loading = isLoading(action, actionFilter);
   const errored = hasError(action, actionFilter);
 
-  if (loading) {
-    return <LoadingIndicator size={'xl'} />;
-  }
+  useEffect(() => {
+    if (!open) {
+      resetForm();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
-  if (errored) {
-    const errors = [...action.errors, ...actionFilter.errors];
-
-    return (
-      // @ts-expect-error
-
-      <Tearsheet open>
+  const renderContent = () => {
+    if (loading) return <LoadingIndicator size={'xl'} />;
+    if (errored) {
+      const errors = [...action.errors, ...actionFilter.errors];
+      return (
         <SettingsDetailPage>
           <SubViewHeader
             iconType="lib_help_error_error_circle"
@@ -88,10 +114,21 @@ export default function CreateNewActionTearsheet({
             {t('in-automation:ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
           </DescriptionText>
         </SettingsDetailPage>
-      </Tearsheet>
+      );
+    }
+    return (
+      <>
+        <Title title={t('in-automation:ActionCatalog.action')} />
+        <ActionDetailsLoader
+          form={form}
+          setForm={form => setForm(form as ActionForm)}
+          result={result}
+          copy={copy}
+          actionId={actionId}
+        />
+      </>
     );
-  }
-
+  };
   return (
     <>
       <ViewTrackingMeta
@@ -100,73 +137,30 @@ export default function CreateNewActionTearsheet({
           pageRootName: pageNames.automation_action_create
         }}
       />
-      <TearSheetLoader
-        key={String(isCopy)}
-        action={action.data}
-        actionFilter={actionFilter.data!}
-        copy={copy}
-        actionId={actionId}
-        isFromDashboard={isFromDashboard}
-      />
-    </>
-  );
-}
-
-interface TearSheetProps {
-  action?: ActionFormEntity;
-  actionFilter: 'all' | ActionFilter;
-  copy: boolean;
-  actionId?: string;
-  isFromDashboard?: boolean;
-}
-
-function TearSheetLoader({ action, actionFilter, copy, actionId, isFromDashboard }: TearSheetProps) {
-  const { isCopy, isNew } = useActionDetailsUrlParams({ actionId, copy });
-  const [form, setForm] = useActionForm({ action, actionFilter });
-  const { onSubmit, result } = useOnSubmit({ actionId, copy, isFromDashboard });
-
-  const actionButtons = [
-    {
-      kind: 'primary',
-      label: isNew ? t('forms.actions.create') : t('in-automation:actionHistory.saveButton'),
-      onClick: () => {
-        onSubmit({ form, action, setForm });
-      }
-    } as any,
-    {
-      kind: 'ghost',
-      label: t('in-automation:cancel'),
-      onClick: () => {
-        close();
-      }
-    }
-  ];
-
-  return (
-    <isNotEditableContext.Provider value={action ? isNotEditable(action, isCopy) : false}>
-      {/* @ts-expect-error */}
-      <Tearsheet
-        open
-        influencer={influencerContent(form)}
-        title={
-          actionId && !isCopy
-            ? t('in-automation:ActionCatalog.configureActionEntityName', { entityName: action?.name })
-            : t('in-automation:ActionCatalog.createANewAction')
+      <isNotEditableContext.Provider value={action.data ? isNotEditable(action.data, isCopy) : false}>
+        {
+          // @ts-expect-error
+          <Tearsheet
+            open={open}
+            influencer={influencerContent(form)}
+            title={
+              actionId && !isCopy ? (
+                <div className={locals.title}>
+                  {t('in-automation:ActionCatalog.configureActionEntityName', { entityName: action.data?.name })}
+                  {loading ? <LoadingSkeleton className={locals.labelSkeleton} /> : null}
+                </div>
+              ) : (
+                t('in-automation:ActionCatalog.createANewAction')
+              )
+            }
+            actions={actionButtons}
+            onClose={closeHandler}
+          >
+            {renderContent()}
+          </Tearsheet>
         }
-        actions={actionButtons}
-      >
-        <>
-          <Title title={t('in-automation:ActionCatalog.action')} />
-          <ActionDetailsLoader
-            form={form}
-            setForm={form => setForm(form as ActionForm)}
-            result={result}
-            copy={copy}
-            actionId={actionId}
-          />
-        </>
-      </Tearsheet>
-    </isNotEditableContext.Provider>
+      </isNotEditableContext.Provider>
+    </>
   );
 }
 
@@ -364,8 +358,9 @@ interface useOnSubmitProps {
   copy: boolean;
   actionId?: string;
   isFromDashboard?: boolean;
+  closeHandler?: () => void;
 }
-function useOnSubmit({ actionId, copy, isFromDashboard }: useOnSubmitProps) {
+function useOnSubmit({ actionId, copy, isFromDashboard, closeHandler }: useOnSubmitProps) {
   const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
   const { isNew, isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
@@ -402,7 +397,7 @@ function useOnSubmit({ actionId, copy, isFromDashboard }: useOnSubmitProps) {
             if (hasError(result)) return;
             createActionTrackerSegment(trackerDetails);
             onSaveSuccess(result.data?.name!);
-            close();
+            closeHandler?.();
             navigateToActionCatalog();
             if (!isFromDashboard) refresh();
           },
@@ -419,7 +414,7 @@ function useOnSubmit({ actionId, copy, isFromDashboard }: useOnSubmitProps) {
             if (hasError(result)) return;
             editActionTrackerSegment(trackerDetails);
             onEditSuccess(result.data?.name!);
-            close();
+            closeHandler?.();
             if (isFromDashboard) {
               refreshAction();
             } else {

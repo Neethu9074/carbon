@@ -4,30 +4,34 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, Spacer, Stack, Typography } from '@instana/components';
 import { Action, Error, Result } from '@instana/types';
 
 import {
+  createTabTypeUrlParameter,
   createTagsUrlParameter,
-  createTypeUrlParameter,
-  createTabTypeUrlParameter
+  createTypeUrlParameter
 } from 'in-automation/navigation/urlParameters';
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
+import CreateNewActionTearsheet, {
+  CreateNewActionTearsheetProps
+} from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
+import CreateNewPolicyTearsheet, {
+  CreateNewPolicyTearsheetProps
+} from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { getDocLinkFromFields, getManualContentFromFields, base64ToUtf8 } from 'in-automation/utils/actionField';
+import { base64ToUtf8, getDocLinkFromFields, getManualContentFromFields } from 'in-automation/utils/actionField';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
-import CreateNewPolicyTearsheet from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
@@ -69,57 +73,95 @@ export default function ActionCatalog({
 
   const [{ tags, types }, setFilter] = useActionCatalogFilterUrlState({ pathSegment, matrixPrefix });
   const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, types, tags });
+  const [tearsheetProps, setTearsheetProps] = useState<CreateNewActionTearsheetProps>({ open: false });
+  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
 
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
   const totalHits = paginatedActions.data?.totalHits;
 
-  const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({ isUserActions: isUserActions });
-  return (
-    <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
-      onChange={setServerTableUrlState}
-      pageSize={pageSize}
-      pageSizes={pageSizes}
-      page={page}
-      searchPlaceholder={t('in-automation:searchActions')}
-      searchMaxWidth={180}
-      cardTitle={
-        isLoading(paginatedActions)
-          ? t('in-automation:actions')
-          : t('in-automation:actionsWithCount', { count: totalHits })
-      }
-      rightHeader={
-        <>
-          {role?.canConfigureAutomationActions && isUserActions && (
-            <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
-              {t('in-automation:ActionCatalog.newAction')}
-            </Button>
-          )}
-          <>
-            <Spacer horizontal="small" />
-            <Stack direction="horizontal">
-              <TypeFilter
-                type={types ?? undefined} // Ensure `types` can be `string[]` or `null`
-                setType={params => setFilter({ types: params.types?.length ? params.types : undefined })} // Handle `types` correctly
-              />
+  const toggleActionTearsheet = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
+    setTearsheetProps({ actionId, copy, open: true });
+  };
+  const togglePolicyTearsheet = (actionId: string) => {
+    setPolicyTearsheetProps({ actionId, open: true });
+  };
 
-              <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
-            </Stack>
-            <Spacer horizontal="small" />
+  const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({
+    isUserActions: isUserActions,
+    toggleActionTearsheet,
+    togglePolicyTearsheet
+  });
+
+  return (
+    <>
+      <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
+        onChange={setServerTableUrlState}
+        pageSize={pageSize}
+        pageSizes={pageSizes}
+        page={page}
+        searchPlaceholder={t('in-automation:searchActions')}
+        searchMaxWidth={180}
+        cardTitle={
+          isLoading(paginatedActions)
+            ? t('in-automation:actions')
+            : t('in-automation:actionsWithCount', { count: totalHits })
+        }
+        rightHeader={
+          <>
+            {role?.canConfigureAutomationActions && isUserActions && (
+              <Button kind="action" onClick={() => toggleActionTearsheet({})} icon="lib_openclose_add_circle_outline">
+                {t('in-automation:ActionCatalog.newAction')}
+              </Button>
+            )}
+            <>
+              <Spacer horizontal="small" />
+              <Stack direction="horizontal">
+                <TypeFilter
+                  type={types ?? undefined} // Ensure `types` can be `string[]` or `null`
+                  setType={params => setFilter({ types: params.types?.length ? params.types : undefined })} // Handle `types` correctly
+                />
+
+                <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
+              </Stack>
+              <Spacer horizontal="small" />
+            </>
           </>
-        </>
-      }
-      orderBy={orderBy}
-      orderDirection={orderDirection}
-      query={query}
-      result={paginatedActions}
-      noDataMessage={t('in-automation:ActionCatalog.noActions')}
-      columnDefinitions={columnDefinitions}
-      fixedLayout
-    />
+        }
+        orderBy={orderBy}
+        orderDirection={orderDirection}
+        query={query}
+        result={paginatedActions}
+        noDataMessage={t('in-automation:ActionCatalog.noActions')}
+        columnDefinitions={columnDefinitions}
+        fixedLayout
+      />
+      <CreateNewActionTearsheet
+        {...tearsheetProps}
+        closeHandler={() => {
+          setTearsheetProps({ open: false });
+        }}
+      />
+      <CreateNewPolicyTearsheet
+        {...policyTearsheetProps}
+        closeHandler={() => {
+          setPolicyTearsheetProps({ open: false });
+        }}
+      />
+    </>
   );
 }
 
-function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
+function ActionCatalogMoreMenu({
+  action,
+  isUserActions,
+  toggleActionTearsheet,
+  togglePolicyTearsheet
+}: Readonly<{
+  action: Action;
+  isUserActions: boolean;
+  toggleActionTearsheet?: Function;
+  togglePolicyTearsheet: Function;
+}>) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   let manualContent = '';
@@ -181,7 +223,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
               <MoreMenuButton
                 icon="lib_actions_edit"
                 disabled={action.metadata?.builtIn}
-                onClick={() => handleButtonClick({ actionId: action?.id })}
+                onClick={() => toggleActionTearsheet?.({ actionId: action?.id })}
               >
                 {t('in-automation:edit')}
               </MoreMenuButton>
@@ -190,7 +232,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
               <MoreMenuButton
                 disabled={action.type === ACTION_TYPE.ANSIBLE}
                 icon="lib_actions_copy"
-                onClick={() => handleButtonClick({ actionId: action?.id, copy: true })}
+                onClick={() => toggleActionTearsheet?.({ actionId: action?.id, copy: true })}
               >
                 {t('in-automation:copy')}
               </MoreMenuButton>
@@ -216,7 +258,9 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
             {role?.canConfigureAutomationPolicies && isUserActions && (
               <MoreMenuButton
                 icon="lib_openclose_add_circle_outline"
-                onClick={() => openPolicyTearsheet({ actionId: action?.id })}
+                onClick={() => {
+                  togglePolicyTearsheet(action.id);
+                }}
               >
                 {t('in-automation:createPolicy')}
               </MoreMenuButton>
@@ -237,7 +281,15 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
   );
 }
 
-const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): ColumnDefinition<Action>[] => [
+const getColumnDefinitions = ({
+  isUserActions,
+  toggleActionTearsheet,
+  togglePolicyTearsheet
+}: {
+  isUserActions: boolean;
+  toggleActionTearsheet?: Function;
+  togglePolicyTearsheet: Function;
+}): ColumnDefinition<Action>[] => [
   nameColumn,
   descriptionColumn,
   lastModifiedColumn,
@@ -247,7 +299,14 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
     id: 'actions',
     sortable: false,
     width: 5,
-    getContent: action => <ActionCatalogMoreMenu action={action} isUserActions={isUserActions} />
+    getContent: action => (
+      <ActionCatalogMoreMenu
+        action={action}
+        isUserActions={isUserActions}
+        toggleActionTearsheet={toggleActionTearsheet}
+        togglePolicyTearsheet={togglePolicyTearsheet}
+      />
+    )
   }
 ];
 
@@ -319,11 +378,3 @@ function onDeleteFailed(error: Error) {
     'action-delete-error'
   );
 }
-
-const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
-  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} />);
-};
-
-export const openPolicyTearsheet = ({ actionId }: { actionId?: string }) => {
-  addActiveDialog(<CreateNewPolicyTearsheet actionId={actionId} />);
-};

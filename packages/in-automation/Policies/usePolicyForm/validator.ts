@@ -41,7 +41,7 @@ export function policyTypeValidator(form: PolicyTypeFormItems): ValidationResult
 }
 
 export function canAutomateActionValidator(form: ActionConfigurationFormItems, actions: Action[]): ValidationResult {
-  const action = actions.find(action => action.id === form.actionId.value);
+  const action = actions?.find(action => action.id === form.actionId.value);
   const isExecutableAction = action ? EXECUTABLE_ACTIONS.includes(action.type) : false;
 
   if (!isExecutableAction && form.type.get('automatic').value) {
@@ -56,7 +56,7 @@ export function canAutomateActionValidator(form: ActionConfigurationFormItems, a
 }
 
 export function parametersValidator(form: ActionConfigurationFormItems, actions: Action[]): ValidationResult {
-  const action = actions.find(action => action.id === form.actionId.value);
+  const action = actions?.find(action => action.id === form.actionId.value);
   const emptyRequiredParam =
     action?.inputParameters?.reduce((acc, parameter) => {
       // If the accumulator already found a missing parameter or the current parameter is hidden, skip further checks

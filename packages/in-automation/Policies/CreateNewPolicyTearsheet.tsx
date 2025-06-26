@@ -6,11 +6,11 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
+import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
 import { Action, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import {
   getPolicyActionFromActions,
@@ -37,14 +37,12 @@ import { PolicyFormBody } from 'in-automation/Policies/PolicyForm';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { productAreas } from 'in-services/tracking/productAreas';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { PolicyFormEntity } from 'in-automation/Policies/types';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
 import { refresh } from 'in-automation/Policies/usePolicies';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import SectionLine from 'in-settings/components/SectionLine';
 import { isAIActionCopy } from 'in-automation/utils/action';
-import { close } from 'in-components/DialogPresenter/store';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
 import usePolicy from 'in-automation/Policies/usePolicy';
@@ -56,21 +54,17 @@ import Title from 'in-components/Title/Title';
 import SideNav from 'in-components/SideNav';
 import { t, Trans } from 'in-i18n';
 
-const cancelButton = {
-  kind: 'ghost',
-  label: t('in-automation:cancel'),
-  onClick: () => {
-    close();
-  }
-};
+import locals from 'in-automation/ActionCatalog/CreateNewActionTearsheet.mless';
 
-interface CreateNewPolicyTearsheetProps {
+export interface CreateNewPolicyTearsheetProps {
   policyId?: string;
   actionId?: string;
   triggerDetails?: TriggerDetailsProps;
   copy?: boolean;
   isFromDashboard?: boolean;
   inEventPage?: boolean;
+  open?: boolean;
+  closeHandler?: () => void;
 }
 
 export default function CreateNewPolicyTearsheet({
@@ -79,48 +73,65 @@ export default function CreateNewPolicyTearsheet({
   triggerDetails,
   copy = false,
   isFromDashboard = false,
-  inEventPage = false
-}: CreateNewPolicyTearsheetProps) {
+  inEventPage = false,
+  closeHandler,
+  open
+}: Readonly<CreateNewPolicyTearsheetProps>) {
   const { isCopy, id, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
+
   const policy = usePolicy({ id, isCopy });
   const actions = useActions();
   const triggers = useTriggers();
-
   const loading = isLoading(policy, actions, ...Object.values(triggers));
   const errored = hasError(policy, actions);
+  const [form, setForm, resetForm] = usePolicyForm(policy.data!, actions.data!, triggers, triggerDetails, loading);
+  const { onSubmit, result } = useOnSubmit({
+    policyId,
+    copy,
+    actions: actions.data!,
+    triggers,
+    isFromDashboard,
+    inEventPage,
+    closeHandler
+  });
 
   const policyButtons = [
     {
       kind: 'primary',
       label: isNew ? t('forms.actions.create') : t('in-automation:actionHistory.saveButton'),
-      onClick: () => {}
+      onClick: () => {
+        onSubmit({ form, setForm });
+      }
     } as any,
-    cancelButton
+    {
+      kind: 'ghost',
+      label: t('in-automation:cancel'),
+      onClick: () => {
+        closeHandler?.();
+      }
+    }
   ];
 
-  if (loading) {
-    return (
-      // @ts-expect-error
-      <Tearsheet
-        open
-        influencer={influencerContent()}
-        title={
-          policyId && !isCopy
-            ? t('in-automation:policies.configurePolicyEntityName')
-            : t('in-automation:policies.createANewPolicy')
-        }
-        actions={policyButtons}
-      >
-        <LoadingIndicator size={'xl'} />
-      </Tearsheet>
-    );
-  }
+  useEffect(() => {
+    if (actionId) {
+      setForm(form => form.updateIn(['action', 'actionId'], item => item.setValue(actionId as string)));
+      setForm(form => form.updateIn(['action', 'isActionPreSelected'], item => item.setValue(true)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionId]);
 
-  if (errored) {
-    const errors = [...policy.errors, ...actions.errors];
-    return (
-      // @ts-expect-error
-      <Tearsheet open>
+  useEffect(() => {
+    if (!open) {
+      resetForm();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  const renderContent = () => {
+    if (loading) return <LoadingIndicator size={'xl'} />;
+    if (errored) {
+      const errors = [...policy.errors, ...actions.errors];
+      return (
         <SettingsDetailPage>
           <SubViewHeader
             iconType="lib_help_error_error_circle"
@@ -135,9 +146,23 @@ export default function CreateNewPolicyTearsheet({
             {t('in-automation:ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
           </DescriptionText>
         </SettingsDetailPage>
-      </Tearsheet>
+      );
+    }
+
+    return (
+      <>
+        <Title title={t('in-automation:policies.policy')} />
+        <PolicyDetailsLoader
+          form={form}
+          setForm={form => setForm(form as PolicyForm)}
+          actions={actions.data!}
+          triggers={triggers}
+          result={result}
+          inEventPage={inEventPage}
+        />
+      </>
     );
-  }
+  };
 
   return (
     <>
@@ -147,91 +172,24 @@ export default function CreateNewPolicyTearsheet({
           pageRootName: pageNames.automation_policy_create
         }}
       />
-      <TearSheetLoader
-        key={String(isCopy)}
-        actions={actions.data!}
-        copy={copy}
-        policyId={policyId}
-        policy={policy.data!}
-        actionId={actionId}
-        triggers={triggers}
-        inEventPage={inEventPage}
-        isFromDashboard={isFromDashboard}
-        triggerDetails={triggerDetails}
-      />
-    </>
-  );
-}
-
-interface TearSheetProps {
-  copy: boolean;
-  policyId?: string;
-  policy: PolicyFormEntity;
-  actions: Action[];
-  triggers: Triggers;
-  isFromDashboard?: boolean;
-  inEventPage: boolean;
-  actionId?: string;
-  triggerDetails?: TriggerDetailsProps;
-}
-
-function TearSheetLoader({
-  actions,
-  copy,
-  policy,
-  policyId,
-  triggers,
-  isFromDashboard,
-  inEventPage,
-  actionId,
-  triggerDetails
-}: TearSheetProps) {
-  const { isCopy, isNew } = usePolicyDetailsUrlParams({ policyId, copy });
-  const [form, setForm] = usePolicyForm(policy, actions, triggers, triggerDetails);
-  const { onSubmit, result } = useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEventPage });
-  const policyButtons = [
-    {
-      kind: 'primary',
-      label: isNew ? t('forms.actions.create') : t('in-automation:actionHistory.saveButton'),
-      onClick: () => {
-        onSubmit({ form, setForm });
-      }
-    } as any,
-    cancelButton
-  ];
-
-  useEffect(() => {
-    if (actionId) {
-      setForm(form => form.updateIn(['action', 'actionId'], item => item.setValue(actionId as string)));
-      setForm(form => form.updateIn(['action', 'isActionPreSelected'], item => item.setValue(true)));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actionId]);
-
-  return (
-    <>
       {/* @ts-expect-error */}
       <Tearsheet
-        open
+        open={open}
         influencer={influencerContent(form)}
         title={
-          policyId && !isCopy
-            ? t('in-automation:policies.configurePolicyEntityName', { entityName: policy?.name })
-            : t('in-automation:policies.createANewPolicy')
+          policyId && !isCopy ? (
+            <div className={locals.title}>
+              {t('in-automation:policies.configurePolicyEntityName', { entityName: policy.data?.name })}
+              {policy.progress.loading ? <LoadingSkeleton className={locals.labelSkeleton} /> : null}
+            </div>
+          ) : (
+            t('in-automation:policies.createANewPolicy')
+          )
         }
         actions={policyButtons}
+        onClose={closeHandler}
       >
-        <>
-          <Title title={t('in-automation:policies.policy')} />
-          <PolicyDetailsLoader
-            form={form}
-            setForm={form => setForm(form as PolicyForm)}
-            actions={actions}
-            triggers={triggers}
-            result={result}
-            inEventPage={inEventPage}
-          />
-        </>
+        {renderContent()}
       </Tearsheet>
     </>
   );
@@ -395,8 +353,17 @@ interface useOnSubmitProps {
   triggers: Triggers;
   isFromDashboard?: boolean;
   inEventPage: boolean;
+  closeHandler?: () => void;
 }
-function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEventPage }: useOnSubmitProps) {
+function useOnSubmit({
+  policyId,
+  copy,
+  actions,
+  triggers,
+  isFromDashboard,
+  inEventPage,
+  closeHandler
+}: useOnSubmitProps) {
   const { createPolicyTrackerSegment, editPolicyTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
   const { isNew, id } = usePolicyDetailsUrlParams({ policyId, copy });
@@ -434,7 +401,7 @@ function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEve
             if (hasError(result)) return;
             createPolicyTrackerSegment(trackerDetails);
             onSaveSuccess(result.data?.name!);
-            close();
+            closeHandler?.();
             if (inEventPage) {
               refreshScoredActions();
             } else if (!isActionPreSelected) navigateToPolicyPolicies();
@@ -453,7 +420,7 @@ function useOnSubmit({ policyId, copy, actions, triggers, isFromDashboard, inEve
             if (hasError(result)) return;
             editPolicyTrackerSegment(trackerDetails);
             onEditSuccess(result.data?.name!);
-            close();
+            closeHandler?.();
             if (inEventPage) {
               refreshScoredActions();
             } else {
