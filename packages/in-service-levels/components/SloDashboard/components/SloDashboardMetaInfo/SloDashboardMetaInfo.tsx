@@ -36,7 +36,7 @@ export default function SloDashboardMetaInfo({
   return (
     <div className={locals.metaInfo}>
       <Grid className={locals.gridContainer}>
-        <Column lg={5}>
+        <Column sm={4} md={6} lg={5}>
           {entities && (
             <SloEntityInfo
               entities={entities}
@@ -48,7 +48,7 @@ export default function SloDashboardMetaInfo({
             />
           )}
         </Column>
-        <Column lg={11}>
+        <Column sm={4} md={8} lg={11}>
           {showTag && (
             <TagSet
               overflowClassName={locals.tagSet}
