@@ -200,7 +200,7 @@ module.exports = {
   incidentTriggeringInfraSaEnabled: true,
   actionAiGenerationEnabled: true,
   logConsoleEnabled: true,
-  mobileAppSmartAlertSlownessBlueprintEnabled: false,
+  mobileAppSmartAlertSlownessBlueprintEnabled: true,
   regexMatchEnabled: true,
   whatsNewBannerEnabled: true,
   allSmartAlertsViewEnabled: true,
