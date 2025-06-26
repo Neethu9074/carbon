@@ -7,6 +7,7 @@
 import React, { useEffect } from 'react';
 
 import { Card, Ul } from '@instana/components';
+import { TagSet } from '@instana/ibm-products';
 
 import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection/ScopeSection';
 import ObjectiveSection from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
@@ -16,8 +17,9 @@ import EntitySection from 'in-service-levels/components/SloDashboard/components/
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_CONFIG_VIEW } from 'in-services/tracking/eventNames';
-import TagList from 'in-components/TagsList/TagList';
 import { Nullish } from 'in-types';
+
+import locals from './SloConfigurationDetails.mless';
 
 interface SloConfigurationDetailsProps {
   data?: SloTabData | Nullish;
@@ -53,12 +55,16 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
   }, [trackCta, configuration]);
 
   return (
-    <Card
-      leftHeaderContent={<TagList tags={configuration.tags} />}
-      rightHeaderContent={
+    <Card>
+      <div className={locals.cardHeader}>
+        <TagSet
+          overflowClassName={locals.tagSet}
+          tags={configuration.tags.map(item => {
+            return { label: item };
+          })}
+        />
         <SloActionButtons configuration={configuration} editDisabled={entities.some(({ deleted }) => deleted)} />
-      }
-    >
+      </div>
       <Ul space="medium">
         <EntitySection data={data} />
         <ScopeSection data={data} />
