@@ -956,5 +956,13 @@
     "collectorId": "Collector ID",
     "loading": "Loading...",
     "loadMore": "Load more"
+  },
+  "agentViewKpis": {
+    "agents": "agents",
+    "instanaAgents": "Instana agents",
+    "totalReportingAgents": "Total reporting agents",
+    "reportingStatus": "{{reporting}} {{datasource}} reporting ({{nonReporting}} not reporting)",
+    "reporting": "Reporting",
+    "notReporting": "Not reporting"
   }
 }

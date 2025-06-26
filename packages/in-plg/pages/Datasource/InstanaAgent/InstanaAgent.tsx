@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { Button, Column, Grid, Stack } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/carbon';
 
 // @ts-expect-error typescript migration needed
 import AgentsPresenceChart from 'in-infrastructure/agentView/components/AgentsPresenceChart';
@@ -18,14 +18,13 @@ import {
 // eslint-disable-next-line no-restricted-imports
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 // @ts-expect-error typescript migration needed
-import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis';
-// @ts-expect-error typescript migration needed
 import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AgentBasedIntegrationView from 'in-infrastructure/agentView/components/AgentBasedIntegrationView';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { infraEventCTAClicked } from 'in-infrastructure/tracking/tracking';
+import AgentViewKpis from 'in-plg/components/AgentViewKpis/AgentViewKpis';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { datasourceInstanaAgentCatalog } from 'in-plg/navigation/paths';
@@ -42,13 +41,27 @@ interface InstanaAgentProps {
 
 const InstanaAgent = ({ agentSnapshotsResult }: InstanaAgentProps) => {
   return (
-    <LeftRightPadding>
-      <SearchBar style={{ maxWidth: 'calc(100% - 5rem)' }} theme="light" />
-      <RenderButtonLine agentSnapshots={agentSnapshotsResult} />
-      <AgentViewKpis agentSnapshotsResult={agentSnapshotsResult} />
-      <AgentsPresenceChart />
-      <AgentsTable agentSnapshotsResult={agentSnapshotsResult} />
-    </LeftRightPadding>
+    <Stack gap="1rem">
+      <LeftRightPadding>
+        <SearchBar style={{ maxWidth: '100%' }} theme="light" />
+        <RenderButtonLine agentSnapshots={agentSnapshotsResult} />
+      </LeftRightPadding>
+      <Grid fullWidth narrow>
+        <Column sm={16} md={8} lg={4}>
+          <AgentViewKpis
+            heading={t('in-plg:agentViewKpis.instanaAgents')}
+            subHeading={t('in-plg:agentViewKpis.totalReportingAgents')}
+            agentSnapshotsResult={agentSnapshotsResult}
+          />
+        </Column>
+        <Column sm={16} md={8} lg={12}>
+          <AgentsPresenceChart />
+        </Column>
+        <Column sm={16} md={16} lg={16}>
+          <AgentsTable agentSnapshotsResult={agentSnapshotsResult} />
+        </Column>
+      </Grid>
+    </Stack>
   );
 };
 
