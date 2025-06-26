@@ -1050,5 +1050,10 @@ module.exports = exports = [
     uiClientKey: 'newAccountAndBillingPageEnabled',
     instanaCtlKey: 'feature.new.account.and.billing.page.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'eumSmartAlertCustomMetricsEnabled',
+    instanaCtlKey: 'feature.eum.smart.alert.custom.metrics.enabled',
+    defaultValue: false
   }
 ];

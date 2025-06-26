@@ -44,6 +44,11 @@ export const ruleMetricNameOptions = Object.freeze({
       value: 'pageTransitions',
       label: t('in-alerting:smartAlerts.websites.form.ruleMetricNameOptionThroughputPageTransitions')
     }
+  ],
+  customEvent: [
+    { value: 'beaconCount', label: t('in-alerting:smartAlerts.eum.data.customOccurrences') },
+    { value: 'customDuration', label: t('in-alerting:smartAlerts.eum.data.customDuration') },
+    { value: 'customMetric', label: t('in-alerting:smartAlerts.eum.data.customMetric') }
   ]
 });
 

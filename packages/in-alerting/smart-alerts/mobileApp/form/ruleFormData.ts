@@ -34,6 +34,11 @@ export const ruleMetricNameOptions = Object.freeze({
     { value: 'crashAffectedUserRate', label: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedUserRate') },
     { value: 'crashAffectedUserCount', label: t('in-alerting:smartAlerts.mobileApp.data.crashAffectedUserCount') },
     { value: 'crashFreeUserCount', label: t('in-alerting:smartAlerts.mobileApp.data.crashFreeUserCount') }
+  ],
+  customEvent: [
+    { value: 'beaconCount', label: t('in-alerting:smartAlerts.eum.data.customOccurrences') },
+    { value: 'customDuration', label: t('in-alerting:smartAlerts.eum.data.customDuration') },
+    { value: 'customMetric', label: t('in-alerting:smartAlerts.eum.data.customMetric') }
   ]
 });
 

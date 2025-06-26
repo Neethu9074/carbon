@@ -278,6 +278,9 @@ export const allSmartAlertsViewEnabled = isFeatureFlagEnabled('allSmartAlertsVie
 // Trigger Incident for Infra smart alert
 export const incidentTriggeringInfraSaEnabled = isFeatureFlagEnabled('incidentTriggeringInfraSaEnabled');
 
+// Custom metric for smart alerts
+export const eumSmartAlertCustomMetricsEnabled = isFeatureFlagEnabled('eumSmartAlertCustomMetricsEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

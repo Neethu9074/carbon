@@ -10,6 +10,7 @@ import {
   TagFilterOperator,
   MobileAppAlertRule,
   StatusCodeMobileAppAlertRule,
+  AggregationType,
   CustomEventMobileAppAlertRule
 } from '@instana/types';
 
@@ -83,23 +84,34 @@ function extendForStatusCode(
     );
 }
 
-function extendForCustomEvent(baseForm: MapForm<any>, rule: { customEventName?: string }): MapForm<any> {
-  return baseForm.put(
-    'customEventName',
-    createField({
-      value: rule.customEventName ?? '',
-      validator: (value: string) => {
-        if (isBlank(value)) {
-          return [
-            {
-              severity: 'error',
-              message: t('in-alerting:smartAlerts.mobileApp.form.errorPleaseProvideCustomEventName')
-            }
-          ];
-        } else {
-          return null;
+function extendForCustomEvent(
+  baseForm: MapForm<any>,
+  rule: { customEventName?: string; aggregation?: AggregationType; metricName: string }
+): MapForm<any> {
+  const aggregationValue = rule.metricName === 'beaconCount' ? 'SUM' : rule.aggregation ?? 'SUM';
+  return baseForm
+    .put(
+      'customEventName',
+      createField({
+        value: rule.customEventName ?? '',
+        validator: (value: string) => {
+          if (isBlank(value)) {
+            return [
+              {
+                severity: 'error',
+                message: t('in-alerting:smartAlerts.mobileApp.form.errorPleaseProvideCustomEventName')
+              }
+            ];
+          } else {
+            return null;
+          }
         }
-      }
-    })
-  );
+      })
+    )
+    .put(
+      'aggregation',
+      createField({
+        value: aggregationValue
+      })
+    );
 }

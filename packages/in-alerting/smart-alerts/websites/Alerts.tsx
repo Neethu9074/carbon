@@ -19,6 +19,11 @@ import {
   websiteId
 } from 'in-websites/navigation/matrix';
 import {
+  MetricName,
+  WebsitesAlertType,
+  getBlueprintConfig
+} from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import {
   getAllAlertConfigs,
   getAllAlertConfigsWithResult
 } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
@@ -27,7 +32,6 @@ import { useWebsiteData } from 'in-alerting/smart-alerts/websites/hooks/useWebsi
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
-import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/websites/hooks/useSmartAlertCreateUrl';
 import AlertBaseList, { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { alertsTab, alertsTabDetailsFullyQualified, websitePath } from 'in-websites/navigation/paths';
@@ -119,9 +123,7 @@ export function getSubtitle(rule: WebsiteAlertRuleUnion, rules: RuleWithThreshol
   const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(metricName as MetricName);
-  const formattedMetricLabel =
-    alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
-
+  const formattedMetricLabel = getFormattedMetricLabel(alertType, metricLabel, aggregation);
   const {
     thresholdOperator,
     thresholds: { WARNING, CRITICAL }
@@ -210,4 +212,15 @@ function getCarbonTableColumnDefinitions() {
 
 function getWebsiteSubtitle(websiteLabel: string) {
   return <ListSubtitle icon="lib_website" label={websiteLabel} />;
+}
+
+function getFormattedMetricLabel(
+  alertType: WebsitesAlertType,
+  metricLabel: string,
+  aggregation?: AggregationType
+): string {
+  if (alertType === 'slowness' || alertType === 'customEvent') {
+    return aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
+  }
+  return metricLabel;
 }

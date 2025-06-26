@@ -1,0 +1,8 @@
+:local {
+  .dropdownsm {
+    min-width: 6.75rem;
+  }
+  .dropdownmd {
+    min-width: 9.5rem;
+  }
+}

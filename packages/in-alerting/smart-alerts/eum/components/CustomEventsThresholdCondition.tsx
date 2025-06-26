@@ -4,20 +4,28 @@
  * Copyright IBM Corp. 2023
  */
 
-import { MapForm } from 'formalistic';
+import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
+//@ts-expect-error
+import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { BluePrint as MobileAppBlueprint } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { BluePrint as WebsiteBlueprint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
+import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { eumSmartAlertCustomMetricsEnabled } from 'in-services/featureFlags';
+import Dropdown from 'in-alerting/components/Dropdown';
+import { Option } from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/CustomEventsThresholdCondition.mless';
 
 interface CustomEventsThresholdConditionProps {
   form: MapForm<any>;
@@ -27,6 +35,9 @@ interface CustomEventsThresholdConditionProps {
   eumType: string;
   getMetricUnitPostfix: (arg: string) => string;
   isPercentageMetric: (arg: string) => boolean;
+  ruleMetricNameOptions: {
+    customEvent: Option[];
+  };
 }
 
 export default function CustomEventsThresholdCondition({
@@ -36,7 +47,8 @@ export default function CustomEventsThresholdCondition({
   editMode,
   eumType,
   getMetricUnitPostfix,
-  isPercentageMetric
+  isPercentageMetric,
+  ruleMetricNameOptions
 }: CustomEventsThresholdConditionProps) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -47,7 +59,44 @@ export default function CustomEventsThresholdCondition({
   return (
     <>
       <ThresholdConditionFormGroup>
-        <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
+        {eumSmartAlertCustomMetricsEnabled ? (
+          <>
+            <Dropdown
+              value={metricName}
+              items={ruleMetricNameOptions.customEvent}
+              className={locals.dropdownmd}
+              onChange={value => {
+                let updatedForm = form.updateIn(['rule', 'metricName'], f =>
+                  (f as Field<any>).setValue(value).setTouched(true)
+                );
+
+                if (value === 'beaconCount') {
+                  updatedForm = updatedForm.updateIn(['rule', 'aggregation'], f =>
+                    (f as Field<any>).setValue('SUM').setTouched(true)
+                  );
+                }
+
+                updateForm(updatedForm);
+              }}
+            />
+            {metricName !== 'beaconCount' && (
+              <Dropdown
+                value={getAggregationValue(form)}
+                //@ts-expect-error
+                items={getAggregationOptions(form)}
+                className={locals.dropdownsm}
+                onChange={value => {
+                  updateForm(
+                    form.updateIn(['rule', 'aggregation'], f => (f as Field<any>).setValue(value).setTouched(true))
+                  );
+                }}
+              />
+            )}
+          </>
+        ) : (
+          <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
+        )}
+
         <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
 
         <ThresholdTypeSelection

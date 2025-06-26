@@ -1069,7 +1069,6 @@
         "specificStatusCodeRate": "Status code rate",
         "pageLoads": "Page loads",
         "pageTransitions": "Page transitions",
-
         "slownessBlueprintConfigHeadline": "Automatic alerts for onLoad time or HTTP latency",
         "slownessBlueprintConfigTextP": "Receive an alert when the onLoad time or HTTP latency exceeds a specified threshold.",
         "slownessBlueprintConfigMetricLabel": "onLoad time",
@@ -1088,7 +1087,6 @@
         "customEventBlueprintConfigHeadline": "Automatic alerts for custom events",
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
-        "customEventBlueprintConfigMetricLabel": "Occurrences",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Low number of page loads",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatic alerts on anomalously low number of page loads",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Receive an alert when the number of Page Loads is significantly lower than expected compared to the available past data.",
@@ -1369,7 +1367,6 @@
         "statusCodeCount": "Status code count",
         "beaconRate": "Status code rate",
         "views": "Views",
-        "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions",
         "crashAffectedSessionRate": "Crash affected session rate",
         "crashFreeSessionRate": "Crash free session rate",
@@ -1538,6 +1535,7 @@
       }
     },
     "eum": {
+      "data": { "customMetric": "Custom Metric", "customDuration": "Duration", "customOccurrences": "Occurrences" },
       "slowness": {
         "blueprintConfigName": "Slowness",
         "httpLatencyMetricLabel": "HTTP latency"

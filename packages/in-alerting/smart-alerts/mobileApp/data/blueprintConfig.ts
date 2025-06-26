@@ -24,6 +24,7 @@ import getMobileAppMetricAlertsPreview from 'in-alerting/smart-alerts/mobileApp/
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { mobileAppSmartAlertSlownessBlueprintEnabled } from 'in-services/featureFlags';
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
@@ -63,6 +64,12 @@ const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
 const throughputMetricLabelsByName: Record<string, string> = Object.freeze({
   sessions: t('in-alerting:smartAlerts.mobileApp.data.sessions'),
   views: t('in-alerting:smartAlerts.mobileApp.data.views')
+});
+
+const customEventMetricLabelsByName: Record<string, string> = Object.freeze({
+  beaconCount: t('in-alerting:smartAlerts.eum.data.customOccurrences'),
+  customDuration: t('in-alerting:smartAlerts.eum.data.customDuration'),
+  customMetric: t('in-alerting:smartAlerts.eum.data.customMetric')
 });
 
 const crashMetricLabelsByName: Record<string, string> = Object.freeze({
@@ -232,8 +239,8 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   headline: t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigHeadline'),
   text: t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigText'),
   defaultMetric: 'beaconCount',
-  getMetricName: () => 'beaconCount',
-  getMetricLabel: () => t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigMetricLabel'),
+  getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
+  getMetricLabel: getCustomMetricLabel,
   getMetricFormat: () => number.forcedCompact,
   getRuleTagFilterFormModel: (alertRule: MobileAppAlertRule) =>
     joinExpressions({
@@ -255,6 +262,11 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
     text: t('in-alerting:smartAlerts.mobileApp.tearSheet.customEvent.text')
   }
 });
+
+function getCustomMetricLabel(metricName: MetricName, aggregation?: AggregationType) {
+  const metricLabel = customEventMetricLabelsByName[metricName];
+  return aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
+}
 
 const crashBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
