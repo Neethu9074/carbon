@@ -14,15 +14,15 @@
   }
 
   .tagSet {
-    :global(.c4p--tag-set-overflow__tag-list .cds--tag) {
-      padding-bottom: 12px !important;
-      font-size: 0.75rem !important;
+    :global(.c4p--tag-set-overflow__tag-item.c4p--tag-set-overflow__tag-item--default .cds--tag) {
+      padding-bottom: 12px;
+      font-size: 0.75rem;
     }
     :global(.c4p--tag-set-overflow__tag-list) {
-      margin-bottom: 0 !important;
+      margin-bottom: 0;
     }
     :global(.c4p--tag-set-overflow__show-all-tags-link) {
-      font-size: 0.75rem !important;
+      font-size: 0.75rem;
     }
   }
 }
