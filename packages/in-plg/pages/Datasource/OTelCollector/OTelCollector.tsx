@@ -18,6 +18,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { datasourceOtemCollectorCatalog } from 'in-plg/navigation/paths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -142,16 +143,23 @@ export default OTelCollector;
 function HealthStatus(props: { entityHealthInfo?: { maxSeverity: number } }) {
   const { entityHealthInfo } = props;
   if (!entityHealthInfo) {
-    return <span className={locals.healthUnknown}>{t('in-plg:datasources.status.statusUnknown')}</span>;
+    return <HealthColumn label={t('in-plg:datasources.status.statusUnknown')} severity={0.1} />;
   }
   if (entityHealthInfo.maxSeverity > 5) {
-    return <span className={locals.healthCritical}>{t('in-plg:datasources.status.statusCritical')}</span>;
+    return <HealthColumn label={t('in-plg:datasources.status.statusCritical')} severity={1} />;
   }
   if (entityHealthInfo.maxSeverity > 0) {
-    return <span className={locals.healthWarning}>{t('in-plg:datasources.status.statusWarning')}</span>;
+    return <HealthColumn label={t('in-plg:datasources.status.statusWarning')} severity={0.5} />;
   }
   if (entityHealthInfo.maxSeverity === 0) {
-    return <span className={locals.healthHealthy}>{t('in-plg:datasources.status.statusHealthy')}</span>;
+    return <HealthColumn label={t('in-plg:datasources.status.statusHealthy')} severity={0} />;
   }
-  return <span className={locals.healthUnknown}>{t('in-plg:datasources.status.statusIssues')}</span>;
+  return <HealthColumn label={t('in-plg:datasources.status.statusIssues')} severity={0.1} />;
 }
+
+const HealthColumn = ({ label, severity }: { label: string; severity: number }) => (
+  <Stack orientation="horizontal" className={locals.healthWrapper}>
+    <HealthDot severity={severity} />
+    <Typography variant="body-compact-01">{label}</Typography>
+  </Stack>
+);

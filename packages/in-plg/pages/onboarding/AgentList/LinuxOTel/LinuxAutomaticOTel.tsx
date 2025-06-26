@@ -65,7 +65,7 @@ const LinuxAutomaticOTel = ({ agentKey, agentEndpoint, fromOnboarding, region, b
           <Code
             lang="bash"
             code={[
-              `curl - Lo setup.sh https://github.com/instana/instana-otel-collector/releases/latest/download/instana-collector-installer-latest.sh && chmod +x setup.sh && ./setup.sh -a ${agentKey} -e ${otlpGrpcEndpointWithPort} -H ${otlpHttpEndpointWithPort}`
+              `curl -Lo setup.sh https://github.com/instana/instana-otel-collector/releases/latest/download/instana-collector-installer-latest.sh && chmod +x setup.sh && ./setup.sh -a ${agentKey} -e ${otlpGrpcEndpointWithPort} -H ${otlpHttpEndpointWithPort}`
             ]}
           />
         </LayoutSection>

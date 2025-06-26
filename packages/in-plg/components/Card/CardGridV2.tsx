@@ -18,7 +18,7 @@ import locals from 'in-plg/components/Card/CardGridV2.mless';
 interface CardGridProps {
   data: FreeTrialEntries;
   fromOnboarding?: boolean;
-  selectedDatasource: SelectedDatasource;
+  selectedDatasource?: SelectedDatasource;
 }
 
 export default function CardGridV2({ data, selectedDatasource, fromOnboarding = false }: CardGridProps) {
@@ -62,8 +62,8 @@ export default function CardGridV2({ data, selectedDatasource, fromOnboarding = 
 
 interface DatasourceItemsProps {
   datasource: FreeTrialEntry;
-  fromOnboarding: boolean;
-  selectedDatasource: SelectedDatasource;
+  fromOnboarding?: boolean;
+  selectedDatasource?: SelectedDatasource;
 }
 
 const DatasourceItems = ({ datasource, fromOnboarding, selectedDatasource }: DatasourceItemsProps) => (

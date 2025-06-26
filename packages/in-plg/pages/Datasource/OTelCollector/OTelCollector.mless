@@ -5,24 +5,11 @@
  */
 
 :local {
-  .healthUnknown {
-    color: var(--ids-color-option-neutral-400);
-  }
-
-  .healthCritical {
-    color: var(--ids-color-option-red-500);
-  }
-
-  .healthWarning {
-    color: var(--ids-color-option-yellow-500);
-  }
-
-  .healthHealthy {
-    color: var(--ids-color-option-green-800);
-  }
-
   .loadMoreButton {
     text-align: center;
     margin: 1rem;
+  }
+  .healthWrapper {
+    align-items: center;
   }
 }

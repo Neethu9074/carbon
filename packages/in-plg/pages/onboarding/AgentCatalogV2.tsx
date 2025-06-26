@@ -8,9 +8,14 @@ import React, { useEffect, useState } from 'react';
 
 import { Stack, Typography, SearchInput } from '@instana/components';
 
-import { datasourceInstanaAgentPath, datasourceOtelCollectorPath, datasourceTypes } from 'in-plg/navigation/paths';
+import {
+  SelectedDatasource,
+  datasourceInstanaAgentPath,
+  datasourceOtelCollectorPath,
+  datasourceTypes
+} from 'in-plg/navigation/paths';
+import { FreeTrialEntries, getEntriesForFreeTrialV2 } from 'in-plg/pages/onboarding/content';
 import { score, filter } from 'in-plg/pages/onboarding/content/ContentUtils';
-import { getEntriesForFreeTrialV2 } from 'in-plg/pages/onboarding/content';
 import HeaderV2, { breadcrumb } from 'in-plg/components/HeaderV2/HeaderV2';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -20,8 +25,12 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import CardGridV2 from 'in-plg/components/Card/CardGridV2';
 import { t } from 'in-i18n';
 
-export default function AgentCatalogV2(props: any) {
-  const { fromOnboarding, selectedDatasource } = props;
+interface AgentCatalogV2 {
+  fromOnboarding: boolean;
+  selectedDatasource?: SelectedDatasource;
+}
+
+export default function AgentCatalogV2({ fromOnboarding, selectedDatasource }: AgentCatalogV2) {
   const trackingService = !fromOnboarding ? createTracker('agent.installation') : createTracker('onboarding');
   const entities = getEntriesForFreeTrialV2();
 
@@ -72,21 +81,23 @@ export default function AgentCatalogV2(props: any) {
             <Typography variant="heading-04">{t('in-plg:agentDetails.common.dataSources')}</Typography>
           )}
 
-          <SearchInput
-            width="100%"
-            onChange={onQueryChange}
-            query={query}
-            autoFocus
-            onBlur={() => {
-              if (query) {
-                trackingService.catalogPageSearchUsed({ query });
-              }
-            }}
-            hasError={false}
-            placeholder={t('in-components:searchInput.placeholderSearch')}
-          />
+          {showSearch(filteredEntities, selectedDatasource, fromOnboarding) && (
+            <SearchInput
+              width="100%"
+              onChange={onQueryChange}
+              query={query}
+              autoFocus
+              onBlur={() => {
+                if (query) {
+                  trackingService.catalogPageSearchUsed({ query });
+                }
+              }}
+              hasError={false}
+              placeholder={t('in-components:searchInput.placeholderSearch')}
+            />
+          )}
 
-          <CardGridV2 data={filteredEntities} {...props} />
+          <CardGridV2 data={filteredEntities} fromOnboarding={fromOnboarding} selectedDatasource={selectedDatasource} />
         </Stack>
       </LeftRightPadding>
     </Stack>
@@ -117,4 +128,15 @@ const getBreadcrump = (selectedDatasource: string) => {
     secondLevel = { title: t('in-plg:agentDetails.common.openTelemetryCollectors'), href: null };
   }
   return [firstLevel, secondLevel];
+};
+
+const showSearch = (
+  filteredEntities: FreeTrialEntries,
+  selectedDatasource?: SelectedDatasource,
+  fromOnboarding?: boolean
+) => {
+  if (selectedDatasource && filteredEntities[selectedDatasource].data.length > 1) return true;
+  if (selectedDatasource && filteredEntities[selectedDatasource].data.length <= 1) return false;
+  if (!selectedDatasource && fromOnboarding) return true;
+  return false;
 };
