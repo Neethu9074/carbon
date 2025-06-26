@@ -17,6 +17,7 @@ import {
 } from 'in-services/tracking/tracking';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AgentBasedIntegrationView from 'in-infrastructure/agentView/components/AgentBasedIntegrationView';
+import { datasourceCatalogPath, datasourceItemPath, datasourcePagePath } from 'in-plg/navigation/paths';
 import AgentsPresenceChart from 'in-infrastructure/agentView/components/AgentsPresenceChart';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getAgentSnapshotsInTimeframe from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -33,10 +34,12 @@ import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AgentViewRouter from 'in-plg/pages/onboarding/AgentViewRouter';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import AgentCatalogV2 from 'in-plg/pages/onboarding/AgentCatalogV2';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { close } from 'in-components/DialogPresenter/store';
+import Datasource from 'in-plg/pages/Datasource/Datasource';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import getUsageInfo from 'in-subscription/getUsageInfo';
@@ -99,25 +102,39 @@ export default connectTo(
             )}
           />
 
-          <Route
+          <Route path="/agents/installation">
+            <AgentInstallationViewV2 />
+          </Route>
+
+          <Route // Route to the datasource page.
             exact
-            path="/datasources/installation/:selectedservice"
+            path={datasourcePagePath}
+            render={({ match }) => (
+              <Datasource
+                selectedDatasource={match.params.selecteddatasource}
+                agentSnapshotsResult={agentSnapshotsResult}
+              />
+            )}
+          />
+
+          <Route // Route to both instana agent and OTel collector catalog page.
+            exact
+            path={datasourceCatalogPath}
+            render={({ match }) => <AgentCatalogV2 selectedDatasource={match.params.selecteddatasource} />}
+          />
+
+          <Route // Route to both instana agent and OTel collector details page.
+            exact
+            path={datasourceItemPath}
             render={({ match }) => (
               <AgentViewRouterV2
+                selectedDatasource={match.params.selecteddatasource}
                 selectedService={match.params.selectedservice}
                 agentKey={unitKeys.agentKey}
                 downloadKey={unitKeys.downloadKey}
               />
             )}
           />
-
-          <Route path="/agents/installation">
-            <AgentInstallationViewV2 />
-          </Route>
-
-          <Route path="/datasources/installation">
-            <AgentInstallationViewV2 />
-          </Route>
 
           <Route path="/agents/onboarding/installation/:selectedservice" render={() => <Redirect to="/home" />} />
 

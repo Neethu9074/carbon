@@ -8,7 +8,8 @@ import React from 'react';
 import { MenuItem } from '@instana/components';
 
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
+import { datasourcePath } from 'in-stores/navigation/paths/mainPaths';
+import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -22,8 +23,8 @@ export default function DataSourcesMenuItem() {
       key="main-nav-agents"
       label={t('in-components:mainNavigation.viewSwitcherLabelDataSources')}
       icon="lib_datasource"
-      href={createHrefToPath(agentsPath)}
-      isActive={matchLocation(agentsPath)}
+      href={createHrefToPath(datasourceInstanaAgentPath)}
+      isActive={matchLocation(datasourcePath)}
     />
   );
 }

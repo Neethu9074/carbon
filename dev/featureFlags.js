@@ -210,7 +210,7 @@ module.exports = {
   blockLogDeletionsEnabled: false,
   logFormattingEnabled: true,
   openTelemetryKubernetesUnifiedViewEnabled: true,
-  newOTelPageEnabled: false,
+  newOTelPageEnabled: true,
   eventsTransientEventEnabled: true,
   overrideAdaptiveBaselineSmoothingParamsEnabled: true,
   msTeamsAppEnabled: true,
