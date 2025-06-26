@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import { Button, Spacer, Stack, Typography, CarbonButton } from '@instana/components';
 import { Event, Result, VolatileId, Action, Policy } from '@instana/types';
+import { TimeConfig } from '@instana/types';
 
 import {
   scoredActionTagsColumn,
@@ -19,6 +20,7 @@ import {
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import CreateNewPolicyTearsheet, {
   CreateNewPolicyTearsheetProps
 } from 'in-automation/Policies/CreateNewPolicyTearsheet';
@@ -30,10 +32,12 @@ import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/
 import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import { ACTION_TYPE, EXECUTABLE_ACTIONS, ScoredActionsType } from 'in-automation/constants';
+import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
+import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -47,12 +51,14 @@ import { AiEngineFilter } from 'in-automation/ActionTable/tableFilters';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import EmptyState from 'in-automation/AutomationCard/EmptyState';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { isManual } from 'in-automation/utils/policy';
 import { isLoading } from 'in-services/util/result';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { deletePolicy } from 'in-automation/api';
@@ -133,14 +139,14 @@ function showConfirmationDialog(policy: Policy) {
       }
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}
       onSubmit={() => {
-        onDelete(id);
         closeDialog();
+        onDelete(id);
       }}
     />
   );
 }
 
-export function RecActionsMoreMenu({
+function RecActionsMoreMenu({
   scoredAction,
   volatileId,
   event,
@@ -479,21 +485,30 @@ interface RecommendedActionsProps {
   recommendedActions: Result<ScoredAction[]>;
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
+  initialSnapshots?: ProcessedSnapshot[];
+  timeWindow?: TimeConfig;
   setSelectedDescription?: (a: string | null) => void;
   setSelectedEntityType?: (a: string | null) => void;
   selectedDescription?: string | null;
   selectedEntityType?: string | null;
 }
 
-export default function RecommendedActions({
+export default function RecommendedActionsForLegacyPRC({
   volatileId,
   event,
   recommendedActions,
   trigger,
   ootbRecommendedActions,
+  initialSnapshots,
+  timeWindow,
+  setSelectedDescription,
+  setSelectedEntityType,
   selectedDescription,
   selectedEntityType
 }: RecommendedActionsProps) {
+  const globalTimeConfig = useTimeConfig();
+  const [selectedRCA, setSelectedRCA] = useState<string>('triggeringEvent');
+
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -502,23 +517,7 @@ export default function RecommendedActions({
     defaultPageSize: 5,
     defaultPageSizes: [5, 10, 15, 20]
   });
-  const showOotbActions =
-    getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
 
-  const { page, pageSize, orderBy, orderDirection, query, pageSizes } = serverTableUrlState;
-  const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => ScoredActionsType[aiEngine]))];
-  const availableTags = Array.from(new Set(recommendedActions.data?.flatMap(item => item.entity?.tags ?? [])));
-
-  const { filteredActions, aiEngine, setAiEngine, tags, setTags } = useFilters({
-    recommendedActions,
-    setServerTableUrlState
-  });
-
-  const result = usePaginatedScoredActions({
-    actions: filteredActions,
-    serverTableUrlState,
-    setServerTableUrlState
-  });
   const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
 
   const togglePolicyTearsheet = ({
@@ -531,10 +530,99 @@ export default function RecommendedActions({
     setPolicyTearsheetProps({ triggerDetails, policyId, open: true });
   };
 
+  const showOotbActions =
+    getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
+
+  const { page, pageSize, orderBy, orderDirection, query, pageSizes } = serverTableUrlState;
+  const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => ScoredActionsType[aiEngine]))];
+  const availableTags = Array.from(new Set(recommendedActions.data?.flatMap(item => item.entity?.tags ?? [])));
+  const data = useMemo(() => {
+    const selectedSnapshot = initialSnapshots?.find(snapshot => snapshot.rcaSnapshotID === selectedRCA);
+
+    if (!selectedSnapshot) return null; // Return null if no matching RCA is found
+
+    return {
+      rcaEntityType: selectedSnapshot.rcaEntityType, // Get entity type
+      rcaSnapshotID: selectedRCA, // Use selected RCA ID
+      entityId: selectedSnapshot?.translationEntityType,
+      timeWindow // Ensure timeWindow is available in the scope
+    };
+  }, [selectedRCA, initialSnapshots, timeWindow]);
+
+  const { entityData, entityType } = useFetchAppropriateRCAEntityData(
+    data?.rcaEntityType ?? '', // Pass null if data is not available
+    data?.rcaSnapshotID ?? '',
+    data?.timeWindow ?? globalTimeConfig
+  );
+  const entityId = data?.entityId ?? 'process';
+
+  useEffect(() => {
+    if (
+      entityData &&
+      entityType &&
+      entityData.label &&
+      setSelectedDescription &&
+      setSelectedEntityType &&
+      selectedRCA !== 'triggeringEvent'
+    ) {
+      const entityTypeName =
+        entityType === 'infrastructure' || entityType === 'process'
+          ? translateFullyQualifiedPluginToShortPluginName(entityId) || ''
+          : entityType;
+
+      setSelectedDescription(entityData.label);
+      setSelectedEntityType(entityTypeName);
+    }
+  }, [entityData, entityType, setSelectedDescription, setSelectedEntityType, selectedRCA, entityId]);
+
+  const { filteredActions, aiEngine, setAiEngine, tags, setTags } = useFilters({
+    recommendedActions,
+    setServerTableUrlState
+  });
+
+  const result = usePaginatedScoredActions({
+    actions: filteredActions,
+    serverTableUrlState,
+    setServerTableUrlState
+  });
+
   const totalHits = result?.data?.totalHits;
 
   return (
     <>
+      {initialSnapshots && initialSnapshots?.length > 0 && (
+        <>
+          <Spacer vertical="small" />
+          <Stack direction="horizontal">
+            <Typography variant="body-regular">{t('in-automation:contextFor')}</Typography>
+            <ComboBox
+              id="contextmenu"
+              options={[
+                { label: t('in-automation:triggeringEvent'), value: 'triggeringEvent' },
+                ...initialSnapshots.map((item, index) => ({
+                  label:
+                    initialSnapshots.length === 1
+                      ? t('in-automation:probableRootCause')
+                      : `${t('in-automation:probableRootCause')} ${index + 1}`,
+                  value: item.rcaSnapshotID ?? ''
+                }))
+              ]}
+              value={selectedRCA}
+              isClearable={false}
+              onChange={o => {
+                if ((o as Option).value === 'triggeringEvent') {
+                  setSelectedDescription?.(null);
+                  setSelectedEntityType?.(null);
+                  setSelectedRCA((o as Option).value);
+                } else {
+                  setSelectedRCA((o as Option).value);
+                }
+              }}
+            />
+          </Stack>
+          <Spacer vertical="small" />
+        </>
+      )}
       <Spacer vertical="small" />
       <Stack direction="horizontal" gap="disabled">
         <Typography variant="body-regular">

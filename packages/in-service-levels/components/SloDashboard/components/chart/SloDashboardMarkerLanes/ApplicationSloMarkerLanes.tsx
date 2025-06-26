@@ -30,7 +30,8 @@ export default function ApplicationSloMarkerLanes({
   chartHeight = 0,
   chartBucketWidth = 0,
   timeAxisHeight = 0,
-  markerPaneHeight = 0
+  markerPaneHeight = 0,
+  hideCorrectionWindowsLane
 }: ApplicationSloMarkerLanesProps) {
   const { applicationId, serviceId, endpointId } = entity;
 
@@ -47,7 +48,7 @@ export default function ApplicationSloMarkerLanes({
     >
       <ReleasesLane applicationId={applicationId} serviceId={serviceId} />
       <AlertsLane getAlerts={getApplicationAlertClusters} config={{ applicationId, serviceId, endpointId }} />
-      <CorrectionWindowsLane chartContentPosition={chartContentPosition} />
+      {!hideCorrectionWindowsLane && <CorrectionWindowsLane chartContentPosition={chartContentPosition} />}
     </MarkerLanesPresenter>
   );
 }
