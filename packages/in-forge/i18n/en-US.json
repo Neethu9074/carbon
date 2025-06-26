@@ -3664,6 +3664,7 @@
       "flowName": "Flow Name",
       "serverName": "Server Name",
       "applicationName": "Application Name",
+      "hostName" : "Host Name",
       "type": "Type",
       "state": "State",
       "stateMetrics": "Message Flow State Metrics",
