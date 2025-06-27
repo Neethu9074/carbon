@@ -122,6 +122,7 @@ function resolveThresholdRequest(
     },
     operator,
     fallbackOnError: true,
+    adaptability: 1,
     type
   });
 }

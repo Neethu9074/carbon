@@ -470,9 +470,7 @@ function enrichWithDefaultThresholdValuesForBaselines(alertConfig: WebsiteSmartA
           WARNING: {
             ...rules[0]?.thresholds?.WARNING,
             value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null,
-            baseline:
-              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.baseline ??
-              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            baseline: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline,
             deviationFactor: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.deviationFactor ?? null
           },
           // @ts-expect-error-error needs to be refactored
@@ -480,8 +478,8 @@ function enrichWithDefaultThresholdValuesForBaselines(alertConfig: WebsiteSmartA
             ...rules[0]?.thresholds?.CRITICAL,
             value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null,
             baseline:
-              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.baseline ??
-              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline,
             deviationFactor: (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.deviationFactor ?? null
           }
         }

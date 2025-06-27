@@ -17,7 +17,8 @@ import {
   ThresholdData,
   StaticBaselineThresholdRule,
   Seasonality,
-  isAdaptiveBaselineData
+  isAdaptiveBaselineData,
+  AdaptiveThresholdRule
 } from '@instana/types/typeDefinitions';
 
 import { STATIC_THRESHOLD, HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -26,6 +27,10 @@ import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/histor
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
+
+export interface AdaptabilityBaselineThreshold extends AdaptiveThresholdRule {
+  readonly baseline?: number[][];
+}
 
 export const defaultDeviationFactor = 3;
 type Severity = 'error';
@@ -311,8 +316,8 @@ function createAdaptiveBaselineForm(
   const warningThresholdFields = thresholdRule?.WARNING;
   const criticalThresholdFields = thresholdRule?.CRITICAL;
   const commonBaseline =
-    (thresholdRule?.WARNING as AdaptiveBaselineData)?.baseline ??
-    (thresholdRule?.CRITICAL as AdaptiveBaselineData)?.baseline ??
+    (thresholdRule?.WARNING as AdaptabilityBaselineThreshold)?.baseline ??
+    (thresholdRule?.CRITICAL as AdaptabilityBaselineThreshold)?.baseline ??
     [];
   const commonAdaptability =
     (thresholdRule?.WARNING as any)?.adaptability ?? (thresholdRule?.CRITICAL as any)?.adaptability;

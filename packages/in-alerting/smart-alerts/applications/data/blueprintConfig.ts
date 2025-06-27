@@ -442,9 +442,7 @@ function enrichWithDefaultThresholdValuesForBaselines(
           WARNING: {
             ...rules[0]?.thresholds?.WARNING,
             value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null,
-            baseline:
-              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.baseline ??
-              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            baseline: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline,
             deviationFactor: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.deviationFactor ?? null
           },
           // @ts-expect-error-error needs to be refactored
@@ -452,8 +450,10 @@ function enrichWithDefaultThresholdValuesForBaselines(
             ...rules[0]?.thresholds?.CRITICAL,
             value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null,
             baseline:
-              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.baseline ??
-              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+              // during the initial creation of a local AP Smart Alert, the critical threshold doesn't yet have all the required fields. To ensure both thresholds are properly initialized, we use the warning threshold to initialize the critical one.
+              // However, this isn't the case for Global AP SAs. They begin with a static threshold (here), and once the threshold type is changed to adaptive, both the warning and critical thresholds are populated with the necessary fields from the start.
+              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline,
             deviationFactor: (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.deviationFactor ?? null
           }
         }

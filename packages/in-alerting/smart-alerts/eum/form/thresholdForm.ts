@@ -6,7 +6,6 @@
 import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
 
 import {
-  AdaptiveBaselineData,
   AdaptiveThresholdRule,
   MobileAppAlertRuleUnion,
   StaticBaselineThresholdRule,
@@ -30,6 +29,10 @@ import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
+
+export interface AdaptabilityBaselineThreshold extends AdaptiveThresholdRule {
+  readonly baseline?: number[][];
+}
 
 export default function createThresholdForm(
   ruleWithThreshold: RuleWithThreshold<WebsiteAlertRuleUnion> | RuleWithThreshold<MobileAppAlertRuleUnion> | undefined, // supporting old javascript based code
@@ -216,8 +219,8 @@ function createAdaptiveBaselineForm(
   const criticalThreshold = ruleWithThreshold?.thresholds?.CRITICAL as AdaptiveThresholdRule;
 
   const commonBaseline =
-    (thresholdRule?.WARNING as AdaptiveBaselineData)?.baseline ??
-    (thresholdRule?.CRITICAL as AdaptiveBaselineData)?.baseline ??
+    (thresholdRule?.WARNING as AdaptabilityBaselineThreshold)?.baseline ??
+    (thresholdRule?.CRITICAL as AdaptabilityBaselineThreshold)?.baseline ??
     [];
 
   return createMapForm({

@@ -11,15 +11,17 @@ import {
   Granularity,
   SmartAlertThresholdRuleUnion,
   StaticThresholdRule,
-  StaticBaselineThresholdRule,
-  AdaptiveThresholdRule
+  StaticBaselineThresholdRule
 } from 'in-types';
+import createThresholdForm, {
+  AdaptabilityBaselineThreshold,
+  defaultDeviationFactor
+} from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import {
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
-import createThresholdForm, { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { updateFormIfHistoricBaseline } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdUtil';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
@@ -97,8 +99,9 @@ function getMultithresholdThresholdRule(type: string, thresholdField: MapForm<an
       return {
         type: ADAPTIVE_BASELINE,
         deviationFactor: thresholdField.get('deviationFactor')?.value ?? defaultDeviationFactor,
-        isCheckboxSelected
-      } as AdaptiveThresholdRule;
+        isCheckboxSelected,
+        adaptability: 1
+      } as AdaptabilityBaselineThreshold;
     default:
       throw new Error('Unknown threshold type');
   }
