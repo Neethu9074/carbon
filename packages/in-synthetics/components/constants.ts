@@ -77,6 +77,13 @@ export interface CarbonRow {
   [key: string]: string;
 }
 
+export interface BatchActionItemProps {
+  renderIcon: React.ElementType<any> | undefined;
+  actionName: string;
+  actionType: string;
+  onClick: (selectedIds: string[]) => JSX.Element;
+}
+
 export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>> {
   rows: CarbonRow[];
   headers: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[];
@@ -85,6 +92,8 @@ export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PROPS_TYPE ext
   isSearchable?: boolean;
   searchText?: string;
   isExpandable?: boolean;
+  isSelectable?: boolean;
+  getBatchActionItems?: () => Readonly<BatchActionItemProps[]>;
   toolBarContent?: JSX.Element | boolean;
   configureColumnContent?: JSX.Element | boolean;
   actionButtonContent?: JSX.Element | boolean;

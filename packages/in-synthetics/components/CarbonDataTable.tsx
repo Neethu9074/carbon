@@ -9,6 +9,8 @@ import React, { ChangeEvent, Fragment, ReactNode, useMemo, useState } from 'reac
 import {
   DataTable,
   Table,
+  TableBatchAction,
+  TableBatchActions,
   TableBody,
   TableCell,
   TableContainer,
@@ -18,6 +20,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableSelectAll,
+  TableSelectRow,
   TableToolbar,
   TableToolbarContent,
   TableToolbarSearch
@@ -41,6 +45,8 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
   filterRows,
   searchText,
   isExpandable,
+  isSelectable,
+  getBatchActionItems,
   sortRow,
   toolBarContent,
   configureColumnContent,
@@ -50,7 +56,7 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
   noDataDescription,
   errorHeader
 }: CarbonDataTableProps<ITEM_TYPE, PropsType>) => {
-  const showToolbar = isSearchable || toolBarContent || actionButtonContent;
+  const showToolbar = isSearchable || toolBarContent || actionButtonContent || isSelectable;
   const [expandedRowIds, setExpandedRowIds] = useState(new Set());
 
   const rowIdToExpanded = useMemo(() => {
@@ -76,12 +82,40 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
 
   return (
     <DataTable rows={rows} headers={headers}>
-      {({ rows, headers, getHeaderProps, onInputChange, getRowProps }) => (
-        <TableContainer>
+      {({
+        rows,
+        headers,
+        getTableContainerProps,
+        getToolbarProps,
+        getHeaderProps,
+        getTableProps,
+        onInputChange,
+        getRowProps,
+        getSelectionProps,
+        getBatchActionProps,
+        getExpandHeaderProps,
+        getExpandedRowProps
+      }) => (
+        <TableContainer {...getTableContainerProps()}>
           <>
             {showToolbar && (
-              <TableToolbar>
-                <TableToolbarContent>
+              <TableToolbar {...getToolbarProps()}>
+                <TableBatchActions {...getBatchActionProps()} className={locals.tableBatchAction}>
+                  {getBatchActionItems?.()?.map(batchActionItem => (
+                    <TableBatchAction
+                      key={batchActionItem.actionName}
+                      renderIcon={batchActionItem.renderIcon}
+                      tabIndex={getBatchActionProps().shouldShowBatchActions ? 0 : -1}
+                      onClick={() => {
+                        const selectedIds = rows.filter(row => row.isSelected).map(row => row.id);
+                        batchActionItem.onClick(selectedIds);
+                      }}
+                    >
+                      {batchActionItem.actionName}
+                    </TableBatchAction>
+                  ))}
+                </TableBatchActions>
+                <TableToolbarContent aria-hidden={getBatchActionProps().shouldShowBatchActions}>
                   {isSearchable && (
                     <TableToolbarSearch
                       className={locals.searchBox}
@@ -100,10 +134,17 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
             {isLoading ? (
               <TableSkeleton showHeader={false} zebra showToolbar={false} columnCount={headers.length} />
             ) : (
-              <Table>
+              <Table {...getTableProps()}>
                 <TableHead>
                   <TableRow>
-                    {isExpandable && <TableExpandHeader aria-label="expand row" />}
+                    {isSelectable && rows.length !== 0 && (
+                      <TableSelectAll
+                        {...getSelectionProps({
+                          rows
+                        } as any)}
+                      />
+                    )}
+                    {isExpandable && <TableExpandHeader {...getExpandHeaderProps()} />}
                     {headers.map((header: CarbonHeader<ITEM_TYPE, PropsType>) => (
                       <TableHeader
                         {...getHeaderProps?.({
@@ -133,7 +174,8 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
                       return (
                         <Fragment key={row.id}>
                           <TableExpandRow
-                            {...getRowProps({ row })}
+                            aria-label="Row expander"
+                            {...getExpandedRowProps({ row })}
                             isExpanded={isExpanded}
                             onExpand={() => {
                               const newIds = new Set(expandedRowIds);
@@ -142,6 +184,13 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
                               setExpandedRowIds(newIds);
                             }}
                           >
+                            {isSelectable && (
+                              <TableSelectRow
+                                {...getSelectionProps({
+                                  row
+                                })}
+                              />
+                            )}
                             {row.cells.map(cell => (
                               <TableCell key={cell.id}>{cell.value}</TableCell>
                             ))}
@@ -156,7 +205,18 @@ export const CarbonDataTable = <ITEM_TYPE extends ListItem, PropsType extends Ta
                     })}
                   {!isExpandable &&
                     rows.map(row => (
-                      <TableRow key={row.id}>
+                      <TableRow
+                        {...getRowProps({
+                          row
+                        })}
+                      >
+                        {isSelectable && (
+                          <TableSelectRow
+                            {...getSelectionProps({
+                              row
+                            })}
+                          />
+                        )}
                         {row.cells.map(cell => (
                           <TableCell key={cell.id}>{cell.value}</TableCell>
                         ))}

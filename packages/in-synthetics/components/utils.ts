@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { OrderDirection } from '@instana/types';
+import { OrderDirection, TestResultListItem } from '@instana/types';
 
 import { ColumnDefinition, TableProps, TableState } from 'in-components/tables/ServerTable/types';
 import { CarbonHeader, Ellipsis, ListItem, Width } from 'in-synthetics/components/constants';
@@ -124,4 +124,9 @@ export function getFromLocalStorage<T>(key: string, fallback: T): T {
   } catch {
     return fallback;
   }
+}
+
+export function getRowId<ITEM_TYPE extends ListItem>(item: ITEM_TYPE) {
+  // needs to be updated in future
+  return (item as unknown as TestResultListItem).testResultCommonProperties.testId;
 }

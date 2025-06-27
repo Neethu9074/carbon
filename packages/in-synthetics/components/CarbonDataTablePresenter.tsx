@@ -14,6 +14,7 @@ import {
   getEllipsisValue,
   getFromLocalStorage,
   getHeader,
+  getRowId,
   getSortDirection,
   getVisibleColumns,
   getWidthInAbsoluteUnit,
@@ -107,7 +108,7 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
 
   const carbonRows: CarbonRow[] =
     result.data?.items.map((item: ITEM_TYPE, index: number) => {
-      const idObj = { id: item.id ?? String(index) };
+      const idObj = { id: item.id ?? getRowId(item) ?? String(index) };
       const expandedObj = {
         expanded: typeof getRowDetails === 'function' ? getRowDetails(item) : undefined
       };

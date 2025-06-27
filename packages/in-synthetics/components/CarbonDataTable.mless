@@ -14,4 +14,10 @@
   .noDataTile {
     padding: 2.5rem 2rem 2.5rem;
   }
+
+  .tableBatchAction {
+    :global .cds--batch-summary__para {
+      margin-bottom: 0;
+    }
+  }
 }
