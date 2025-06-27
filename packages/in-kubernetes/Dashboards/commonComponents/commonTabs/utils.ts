@@ -133,6 +133,7 @@ export function getOtelKubernetesPodsData({
   orderDirection = 'DESC',
   timeConfig,
   clusterId,
+  nodeId,
   workloadControllerId
 }: GetOtelKubernetesPodsQuery) {
   return getOtelKubernetesPods({
@@ -147,6 +148,7 @@ export function getOtelKubernetesPodsData({
     filter: {
       label: query,
       clusterId,
+      nodeId,
       workloadControllerId,
       timeConfig
     },

@@ -153,7 +153,7 @@ export default function ResourceCardList({
 
   return (
     <>
-      <Title title={t(`in-kubernetes:${isClusterType ? 'clusters' : 'namespaces'}`)} />
+      <Title title={t(`in-kubernetes:${isClusterType || isOtelClusterType ? 'clusters' : 'namespaces'}`)} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,

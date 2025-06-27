@@ -14,12 +14,14 @@ import {
 } from 'in-services/featureFlags';
 //@ts-expect-error TS migration
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
+// @ts-expect-error
+import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 import { nodesDashboard, podsDashboard, clusterOtelDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 //@ts-expect-error TS migration
-import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
-import OtelNodes from 'in-kubernetes/Dashboards/Cluster/tabs/OtelNodes';
-import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/OtelSummary';
-import OtelPods from 'in-kubernetes/Dashboards/Cluster/tabs/OtelPods';
+import { OtelClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
+import OtelNodes from 'in-kubernetes/Dashboards/OtelCluster/OtelNodes';
+import Summary from 'in-kubernetes/Dashboards/OtelCluster/OtelSummary';
+import OtelPods from 'in-kubernetes/Dashboards/OtelCluster/OtelPods';
 import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
@@ -44,7 +46,9 @@ export default [
     path: `${clusterOtelDashboardFullyQualified}${nodesDashboard}`,
     component: (props: { result?: Result<KubernetesClusterListItem>; tab?: DashboardTab; location?: Location }) => (
       <OtelNodes {...props} data={props.result?.data ?? {}} />
-    )
+    ),
+    header: (props: { result: Result<KubernetesClusterListItem>; tab: DashboardTab; location: Location }) =>
+      getCounterComponent(props, v => v.nodes)
   },
   openTelemetryKubernetesUnifiedViewEnabled && {
     label: t('in-kubernetes:dashboards.pods'),
@@ -52,6 +56,19 @@ export default [
     component: (props: { result?: Result<KubernetesClusterListItem>; tab?: DashboardTab; location?: Location }) =>
       props.location ? (
         <OtelPods {...props} data={props.result?.data ?? {}} timeConfig={getTimeConfig(props.location)} />
-      ) : null
+      ) : null,
+    header: (props: { result: Result<KubernetesClusterListItem>; tab: DashboardTab; location: Location }) =>
+      getCounterComponent(props, v => v.workloads.pods)
   }
 ].filter(Boolean);
+
+function getCounterComponent(
+  { result, tab, location }: { result: Result<KubernetesClusterListItem>; tab: DashboardTab; location: Location },
+  valueExtractor: (v: any) => number
+) {
+  const clusterId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
+  return (
+    <OtelClusterTab clusterId={clusterId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />
+  );
+}

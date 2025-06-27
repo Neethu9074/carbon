@@ -33,7 +33,7 @@ import { TrackingFunction, useKubernetesTracker } from 'in-kubernetes/tracker';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/OtelIndex';
+import tabs from 'in-kubernetes/Dashboards/OtelCluster/OtelIndex';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';

@@ -9,6 +9,7 @@ import React from 'react';
 
 import type { Error as InstanaError } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { Pill } from '@instana/components';
 
 // @ts-expect-error TS migration
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
@@ -58,6 +59,7 @@ import { t } from 'in-i18n';
 export default function OtelPodDashboard({ location }: { location: Location }) {
   const props = {
     podId: getMatrixParameter(location, podDashboard, matrixPodId),
+    isOtelCluster: true,
     cronJobId: getMatrixParameter(location, podDashboard, matrixCronJobId),
     viewPath: podOtelDashboard,
     timeConfig: getTimeConfig(location)
@@ -68,7 +70,8 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
   const { podId, timeConfig } = props;
 
   const prometheusEndpoints =
-    useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId: podId ?? '', timeConfig }), [podId]) ?? pendingResult;
+    useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId: podId ?? '', timeConfig }), [podId]) ??
+    pendingResult;
   const { loading } = prometheusEndpoints.progress;
 
   if (loading) {
@@ -99,11 +102,18 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
       <KubernetesIdsForBreadcrumb
         timeConfig={timeConfig}
         podId={podId}
-        renderBreadcrumbs={(clusterId: string, namespaceId: string, workloadControllerId: string, workloadControllerType: string) => (
+        renderBreadcrumbs={(
+          clusterId: string,
+          nodeId: string,
+          namespaceId: string,
+          workloadControllerId: string,
+          workloadControllerType: string
+        ) => (
           <Breadcrumbs
             items={PodBreadcrumbs({
               ...props,
               clusterId,
+              nodeId,
               namespaceId,
               workloadControllerId,
               workloadControllerType
@@ -117,7 +127,11 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
           timeConfig: props.timeConfig
         })}
         HeaderComponent={props => (
-          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} result={props.result ?? pendingResult} />
+          <Header
+            {...props}
+            kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker}
+            result={props.result ?? pendingResult}
+          />
         )}
         location={location}
         tabs={allTabs}
@@ -145,7 +159,11 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
   );
 }
 
-interface HeaderProps extends Omit<DashboardHeaderProps, 'title' | 'icon' | 'label' | 'renderButtonLine' | 'renderButtonLineSecondary' | 'renderMetaInformation'> {
+interface HeaderProps
+  extends Omit<
+    DashboardHeaderProps,
+    'title' | 'icon' | 'label' | 'renderButtonLine' | 'renderButtonLineSecondary' | 'renderMetaInformation'
+  > {
   result: Result<KubernetesPod>;
   kubernetesTimeShiftSelectTracker: (params: any) => void;
 }
@@ -164,7 +182,7 @@ interface RenderButtonLineSecondaryProps {
 }
 
 interface RenderMetaInformationProps {
-  result: Result< KubernetesPod>;
+  result: Result<KubernetesPod>;
 }
 
 function Header(props: HeaderProps) {
@@ -238,6 +256,9 @@ function renderMetaInformation({ result }: RenderMetaInformationProps) {
   return (
     <>
       <TypesBadgeList type={t('in-kubernetes:dashboards.k8SPod')} />
+      <Pill type="blue" size="md">
+        {t('in-kubernetes:dashboards.preview')}
+      </Pill>
       {result?.data && (
         <KubernetesIndicator
           result={{

@@ -210,10 +210,7 @@ export default function Pods(props: PodsProps) {
       isSearchable={false}
       onChange={option =>
         setPhase({
-          phase:
-            option && !Array.isArray(option)
-              ? (option as { value: string }).value
-              : null
+          phase: option && !Array.isArray(option) ? (option as { value: string }).value : null
         })
       }
       options={podPhases}
@@ -236,7 +233,7 @@ export default function Pods(props: PodsProps) {
         rightHeader={rightHeader}
         leftHeader={leftHeader}
         phase={phase ?? undefined}
-      />;
+      />
     </>
   );
 }

@@ -7,6 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 // @ts-expect-error TS migration
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 // @ts-expect-error TS migration
@@ -47,6 +49,7 @@ export default function OtelNodeDashboard({ location }: { location: Location }) 
   const rawNodeId = getMatrixParameter(location, nodeDashboard, matrixNodeId);
   const props = {
     nodeId: rawNodeId === null ? undefined : rawNodeId,
+    isOtelCluster: true,
     viewPath: nodeOtelDashboard,
     timeConfig: getTimeConfig(location)
   };
@@ -205,9 +208,12 @@ function RenderMetaInformation({ result }: Readonly<{ result: Result<KubernetesN
 
   return (
     <>
-      {version && <BadgeList type={version} types={[version]} getColor={() => 'blue'} />}
+      {version && version !== 'none' && <BadgeList type={version} types={[version]} getColor={() => 'blue'} />}
       <TypesBadgeList type={t('in-kubernetes:dashboards.k8SNode')} />
       {result && <KubernetesIndicator result={result} />}
+      <Pill type="blue" size="md">
+        {t('in-kubernetes:dashboards.preview')}
+      </Pill>
     </>
   );
 }

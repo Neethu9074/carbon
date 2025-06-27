@@ -8,6 +8,8 @@ import React from 'react';
 
 import {
   useClusterDashboard,
+  useOtelClusterDashboard,
+  useOtelNodeDashboard,
   useCronJobDashboard,
   useNamespaceDashboard,
   useDaemonSetDashboard,
@@ -25,6 +27,7 @@ import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
 import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';
 import ServiceBreadcrumb from 'in-kubernetes/breadcrumbs/ServiceBreadcrumb';
 import CronJobBreadcrumb from 'in-kubernetes/breadcrumbs/CronJobBreadcrumb';
+import OtelPodBreadcrumb from 'in-kubernetes/breadcrumbs/OtelPodBreadcrumb';
 import NodeBreadcrumb from 'in-kubernetes/breadcrumbs/NodeBreadcrumb';
 import PodBreadcrumb from 'in-kubernetes/breadcrumbs/PodBreadcrumb';
 import { fullyQualifiedPlugins } from 'in-forge/constants';
@@ -68,9 +71,9 @@ export function ServiceBreadcrumbs(props) {
 }
 
 export function NodeBreadcrumbs(props) {
-  const { nodeId, clusterId, namespaceId } = props;
+  const { nodeId, clusterId, namespaceId, isOtelCluster } = props;
 
-  const clusterHref = useClusterDashboard(clusterId);
+  const clusterHref = isOtelCluster ? useOtelClusterDashboard(clusterId) : useClusterDashboard(clusterId);
   const namespaceHref = useNamespaceDashboard(namespaceId);
 
   return [
@@ -108,9 +111,19 @@ export function CronJobBreadcrumbs(props) {
 }
 
 export function PodBreadcrumbs(props) {
-  const { podId, cronJobId, clusterId, namespaceId, workloadControllerId, workloadControllerType } = props;
+  const {
+    podId,
+    cronJobId,
+    clusterId,
+    namespaceId,
+    workloadControllerId,
+    workloadControllerType,
+    nodeId,
+    isOtelCluster
+  } = props;
 
-  const clusterHref = useClusterDashboard(clusterId);
+  const clusterHref = isOtelCluster ? useOtelClusterDashboard(clusterId) : useClusterDashboard(clusterId);
+  const nodeHref = useOtelNodeDashboard(nodeId);
   const namespaceHref = useNamespaceDashboard(namespaceId);
   const daemonSetHref = useDaemonSetDashboard(workloadControllerId);
   const statefulSetHref = useStatefulSetDashboard(workloadControllerId);
@@ -121,6 +134,7 @@ export function PodBreadcrumbs(props) {
   return [
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    isOtelCluster && nodeId && <NodeBreadcrumb {...props} href={nodeHref} />,
     namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     workloadControllerId && workloadControllerType === fullyQualifiedPlugins.kubernetesDaemonSet && (
       <WorkloadControllerBreadcrumb
@@ -159,7 +173,8 @@ export function PodBreadcrumbs(props) {
       />
     ),
     clusterId && cronJobId && <CronJobBreadcrumb {...props} href={cronJobHref} />,
-    podId && <PodBreadcrumb {...props} />
+    isOtelCluster && podId && <OtelPodBreadcrumb {...props} />,
+    !isOtelCluster && podId && <PodBreadcrumb {...props} />
   ];
 }
 
