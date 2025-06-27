@@ -159,7 +159,6 @@ module.exports = {
   nutanixEnabled: true,
   xenserverEnabled: true,
   linuxkvmhypervisorEnabled: true,
-  automationActionAiGenerationUnitEnabled: true,
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,
@@ -201,7 +200,7 @@ module.exports = {
   incidentTriggeringInfraSaEnabled: true,
   actionAiGenerationEnabled: true,
   logConsoleEnabled: true,
-  mobileAppSmartAlertSlownessBlueprintEnabled: false,
+  mobileAppSmartAlertSlownessBlueprintEnabled: true,
   regexMatchEnabled: true,
   whatsNewBannerEnabled: true,
   allSmartAlertsViewEnabled: true,
@@ -211,7 +210,10 @@ module.exports = {
   blockLogDeletionsEnabled: false,
   logFormattingEnabled: true,
   openTelemetryKubernetesUnifiedViewEnabled: true,
+  newOTelPageEnabled: true,
+  eventsTransientEventEnabled: true,
   overrideAdaptiveBaselineSmoothingParamsEnabled: true,
-  newOTelPageEnabled: false,
-  msTeamsAppEnabled: false
+  msTeamsAppEnabled: true,
+  newAccountAndBillingPageEnabled: false,
+  eumSmartAlertCustomMetricsEnabled: true
 };
