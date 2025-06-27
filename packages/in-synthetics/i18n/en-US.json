@@ -598,7 +598,8 @@
           "closeIconDescription": "Close",
           "saveButtonLabel": "Save",
           "cancelButtonLabel": "Cancel",
-          "searchPlaceholder": "Find columns"
+          "searchPlaceholder": "Find columns",
+          "selectAllLabel": "Select all"
         }
       },
       "searchSyntheticTests": "Search synthetic tests",

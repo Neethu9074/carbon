@@ -6,8 +6,8 @@
 
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { CheckboxChecked, Column, Draggable } from '@carbon/icons-react';
 import React, { ChangeEvent, CSSProperties, useState } from 'react';
+import { Column, Draggable } from '@carbon/icons-react';
 import { CSS } from '@dnd-kit/utilities';
 
 import {
@@ -29,6 +29,7 @@ import { TearsheetNarrow } from '@instana/ibm-products';
 
 import {
   CellValue,
+  ColumnState,
   ConfigureColumnsProps,
   ConfigureColumnsTearsheetProps,
   ListItem,
@@ -73,17 +74,21 @@ export function ConfigureColumns<ITEM_TYPE extends ListItem, PROPS_TYPE extends 
   );
 }
 
-const SortableItem = ({
+function SortableItem<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>({
   id,
   row,
-  setDisabledCols,
-  setEnabledColumns
+  columnDefinitions,
+  orderedRowIds,
+  setColumnStates,
+  setColDefinitions
 }: {
   id: string;
   row: Row | undefined;
-  setDisabledCols: React.Dispatch<React.SetStateAction<string[]>>;
-  setEnabledColumns: React.Dispatch<React.SetStateAction<string[]>>;
-}) => {
+  columnDefinitions: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
+  orderedRowIds: string[];
+  setColumnStates: React.Dispatch<React.SetStateAction<ColumnState[]>>;
+  setColDefinitions: React.Dispatch<React.SetStateAction<ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[]>>;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   const style = {
@@ -95,13 +100,18 @@ const SortableItem = ({
   } as CSSProperties;
 
   const handleColumnChecked = (columnId: string, checked: boolean) => {
-    if (checked) {
-      setDisabledCols(prev => prev.filter(id => id !== columnId));
-      setEnabledColumns(prev => (prev.includes(columnId) ? prev : [...prev, columnId]));
-    } else {
-      setEnabledColumns(prev => prev.filter(id => id !== columnId));
-      setDisabledCols(prev => (prev.includes(columnId) ? prev : [...prev, columnId]));
-    }
+    const isVisible = orderedRowIds.includes(columnId);
+    const column = columnDefinitions.find(col => col.id === columnId);
+
+    if (!isVisible || !column?.optional) return;
+
+    setColumnStates(prev => prev.map(col => (col.id === columnId ? { ...col, visible: checked } : col)));
+
+    const columnDefinitionsSorted = orderedRowIds
+      .map(id => columnDefinitions.find(col => col.id === id))
+      .filter(Boolean) as ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
+
+    setColDefinitions(columnDefinitionsSorted);
   };
 
   return (
@@ -151,18 +161,29 @@ const SortableItem = ({
       })}
     </tr>
   );
-};
+}
 
 function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>({
   columnDefinitions,
   visibleColumns,
-  disabledColumns,
   onSubmit,
   setIsOpen
 }: ConfigureColumnsTearsheetProps<ITEM_TYPE, PROPS_TYPE>) {
   const [colDefinitions, setColDefinitions] = useState<ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[]>(columnDefinitions);
-  const [enabledColumns, setEnabledColumns] = useState<string[]>(visibleColumns.map(col => col.id));
-  const [disabledCols, setDisabledCols] = useState<string[]>(disabledColumns);
+  const [columnStates, setColumnStates] = useState<ColumnState[]>(
+    columnDefinitions.map(col => ({
+      id: col.id,
+      visible: visibleColumns.some(vc => vc.id === col.id),
+      optional: col.optional
+    }))
+  );
+  const columnDefinitionsMap = React.useMemo(
+    () => Object.fromEntries(columnDefinitions.map(col => [col.id, col])),
+    [columnDefinitions]
+  );
+  const enabledColumns = columnStates.filter(cs => cs.visible).map(cs => cs.id);
+  const disabledCols = columnStates.filter(cs => !cs.visible).map(cs => cs.id);
+
   // maintains column order after drag-and-drop reordering
   const [orderedRowIds, setOrderedRowIds] = useState<string[]>(() =>
     colDefinitions
@@ -179,14 +200,15 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem, PROPS_TYPE extend
 
   const headers = [
     { key: 'icon', header: '' },
-    { key: 'action', header: '', icon: <CheckboxChecked /> },
+    { key: 'action', header: '' },
     { key: 'name', header: t('in-synthetics:dashboard.testList.configureColumns.dialog.columnNameLabel') }
   ];
 
   const rows = orderedRowIds
     .map(id => {
       const col = columnDefinitions.find(col => col.id === id)!;
-      const isChecked = !col.optional || enabledColumns.includes(id);
+      const colState = columnStates.find(cs => cs.id === id);
+      const isChecked = !col.optional || colState?.visible;
 
       return {
         id,
@@ -208,6 +230,13 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem, PROPS_TYPE extend
       )
     );
 
+  const { allRowsEnabled, someRowsEnabled } = React.useMemo(() => {
+    return {
+      allRowsEnabled: rows.every(row => columnStates.find(cs => cs.id === row.id)?.visible),
+      someRowsEnabled: rows.some(row => columnStates.find(cs => cs.id === row.id)?.visible)
+    };
+  }, [rows, columnStates]);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -226,16 +255,17 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem, PROPS_TYPE extend
     const newOrderIds = arrayMove(orderedRowIds, oldIndex, newIndex);
 
     setOrderedRowIds(newOrderIds);
-    const columnDefinitionsSorted = newOrderIds.flatMap(id => {
-      const col = columnDefinitions.find(col => col.id === id);
-      return col ? [col] : [];
-    });
+    const columnDefinitionsSorted = newOrderIds.map(id => columnDefinitionsMap[id]).filter(Boolean);
     setColDefinitions(columnDefinitionsSorted);
   };
 
   const handleSave = () => {
     try {
-      onSubmit({ enabledColumns, disabledColumns: disabledCols });
+      onSubmit({
+        enabledColumns: columnStates.filter(c => c.visible).map(c => c.id),
+        disabledColumns: columnStates.filter(c => !c.visible).map(c => c.id)
+      });
+
       trySet('disabledColumns', JSON.stringify(disabledCols));
       trySet('enabledColumns', JSON.stringify(enabledColumns));
       trySet('columnDefinitions', JSON.stringify(colDefinitions));
@@ -254,6 +284,18 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem, PROPS_TYPE extend
       });
     }
     setIsOpen(false);
+  };
+
+  const handleSelectAllCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const allRowIds = rows.map(row => row.id);
+    setColumnStates(prev =>
+      prev.map(col => {
+        if (!col.optional) return col;
+        if (!allRowIds.includes(col.id)) return col;
+
+        return { ...col, visible: e.target.checked };
+      })
+    );
   };
 
   return (
@@ -301,7 +343,20 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem, PROPS_TYPE extend
               <TableHead>
                 <TableRow>
                   {headers.map(header => (
-                    <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                    <TableHeader {...getHeaderProps({ header })}>
+                      {header.key === 'action' ? (
+                        <Checkbox
+                          id="select-all"
+                          checked={allRowsEnabled}
+                          indeterminate={someRowsEnabled && !allRowsEnabled}
+                          onChange={e => handleSelectAllCheck(e)}
+                          labelText=""
+                          aria-label={t('in-synthetics:dashboard.testList.configureColumns.dialog.selectAllLabel')}
+                        />
+                      ) : (
+                        header.header
+                      )}
+                    </TableHeader>
                   ))}
                 </TableRow>
               </TableHead>
@@ -316,8 +371,10 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem, PROPS_TYPE extend
                             id={orderedRowId}
                             key={orderedRowId}
                             row={row}
-                            setDisabledCols={setDisabledCols}
-                            setEnabledColumns={setEnabledColumns}
+                            columnDefinitions={colDefinitions}
+                            orderedRowIds={orderedRowIds}
+                            setColumnStates={setColumnStates}
+                            setColDefinitions={setColDefinitions}
                           />
                         )
                       );

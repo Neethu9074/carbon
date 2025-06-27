@@ -113,7 +113,7 @@ export interface ConfigureColumnsTearsheetProps<ITEM_TYPE extends ListItem, PROP
 export interface CellValue {
   id: string;
   optional?: boolean;
-  isChecked: boolean;
+  isChecked?: boolean;
 }
 
 export interface Row {
@@ -125,4 +125,10 @@ export interface Row {
     };
     value: string | CellValue;
   }[];
+}
+
+export interface ColumnState {
+  id: string;
+  visible: boolean;
+  optional?: boolean;
 }
