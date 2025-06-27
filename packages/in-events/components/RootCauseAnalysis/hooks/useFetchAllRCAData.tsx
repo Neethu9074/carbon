@@ -5,7 +5,7 @@
  */
 
 import React, { ReactNode, createContext, useMemo } from 'react';
-import { get, has, isEmpty, isNull } from 'lodash';
+import { get } from 'lodash';
 
 import useFetchAppropriateRCAEntityData, {
   NoAppropriateRCAEntityData,
@@ -15,24 +15,9 @@ import determineEntityTypeFromEntityIDMap, {
   QualifiedRCAEntityTypes
 } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
+import { getRootCauses } from 'in-events/components/RootCauseAnalysis/utils/getRootCauses';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import { Event } from 'in-types';
-
-const getRootCauses = (incident: Event) => {
-  const path = has(incident, 'metadata.rootCause.currentRootCause')
-    ? 'metadata.rootCause.currentRootCause'
-    : 'metadata.rootCause';
-
-  const rootCauses: RootCause[] = get(incident, path, []);
-  return rootCauses
-    .sort((a, b) => b.probFailure - a.probFailure)
-    .filter(rootCause => {
-      if (isEmpty(rootCause) || isNull(rootCause) || !has(rootCause, 'explainability')) {
-        return false;
-      }
-      return rootCause.explainability.some(ex => ex.connectedServiceId === 'all' && ex.percentageFailedThroughRC !== 0);
-    });
-};
 
 const getRCAProps = (
   rca: RootCause

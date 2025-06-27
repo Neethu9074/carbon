@@ -246,6 +246,7 @@
     "suggestionHelpfulText": "Was this suggestion helpful?",
     "thankYouForYourFeedback": "Thank you for your feedback!",
     "performanceConstantlyEvaluated": "Performance is being actively evaluated and improved during the Beta. Please leave feedback to help us better improve our AI",
+    "entityAtFault": "Entity at fault",
     "probableRootCauseLabel": "{{entity_type}} at fault:",
     "relatedEventsLabel": "Associated events ({{number_of_events}})",
     "relatedMessagesAndLogsLabel": "Errors & logs",

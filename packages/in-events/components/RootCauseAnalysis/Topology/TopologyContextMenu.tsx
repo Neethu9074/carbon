@@ -112,7 +112,7 @@ function getIssueLabel(count: number): string {
 const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
   const { entityType, id } = node;
   const { timeConfig, relatedAPInfo } = useRootCauseTopologyDataContext();
-  const relatedAP = relatedAPInfo ? relatedAPInfo[0] : null;
+  const relatedAP = relatedAPInfo || null;
 
   // If timeConfig is null, we can't proceed with metrics
   if (!timeConfig) {

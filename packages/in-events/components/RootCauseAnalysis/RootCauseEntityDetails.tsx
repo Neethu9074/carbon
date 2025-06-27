@@ -398,7 +398,7 @@ interface EntityPathProps {
   timeWindow: TimeConfig;
 }
 
-function EntityPath({
+export function EntityPath({
   rcaTrackingData,
   relatedApplicationInformation,
   entityInformation,
@@ -477,7 +477,7 @@ interface UnknownEntityPathProps {
   timeWindow: TimeConfig;
 }
 
-function UnknownEntityPath({
+export function UnknownEntityPath({
   rcaTrackingData,
   relatedApplicationInformation,
   entityType,
@@ -523,6 +523,7 @@ interface InfrastructureVisualHierarchyProps {
   entityId: EntityId;
   entityType: string;
   timeWindow: TimeConfig;
+  compact?: boolean;
 }
 interface RelevantSnapshotData {
   label: string;
@@ -530,7 +531,7 @@ interface RelevantSnapshotData {
   id: string;
 }
 
-const InfrastructureVisualHierarchy = ({
+export const InfrastructureVisualHierarchy = ({
   rcaTrackingData,
   relatedApplicationInformation,
   hierarchySnapshots,
@@ -539,7 +540,8 @@ const InfrastructureVisualHierarchy = ({
   serviceLabelInformation,
   entityId,
   entityType,
-  timeWindow
+  timeWindow,
+  compact = false
 }: InfrastructureVisualHierarchyProps) => {
   const { location } = useNavigation();
 
@@ -637,7 +639,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={relatedHostID}
           entityLabel={(hostDataFromHierarchy as RelevantSnapshotData).label}
           relatedAPID={relatedAPID}
-          displayLabel={t('in-events:RCA.runsOn')}
+          displayLabel={compact ? '' : t('in-events:RCA.runsOn')}
           renderIcon={
             <PluginIcon
               plugin={(hostDataFromHierarchy as RelevantSnapshotData).pluginType}
@@ -653,7 +655,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={relatedPodID}
           entityLabel={(podDataFromHierarchy as RelevantSnapshotData).label}
           relatedAPID={relatedAPID}
-          displayLabel={t('in-events:RCA.runningIn')}
+          displayLabel={compact ? '' : t('in-events:RCA.runningIn')}
           renderIcon={
             <PluginIcon
               plugin={(podDataFromHierarchy as RelevantSnapshotData).pluginType}
@@ -669,7 +671,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={relatedContainerdID}
           entityLabel={(containerDContainerFromHierarchy as RelevantSnapshotData).label}
           relatedAPID={relatedAPID}
-          displayLabel={t('in-events:RCA.runningIn')}
+          displayLabel={compact ? '' : t('in-events:RCA.runningIn')}
           renderIcon={
             <PluginIcon
               plugin={(containerDContainerFromHierarchy as RelevantSnapshotData).pluginType}
@@ -685,7 +687,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={firstServiceID}
           entityLabel={firstServiceLabel}
           relatedAPID={relatedAPID}
-          displayLabel={t('in-events:RCA.inService')}
+          displayLabel={compact ? '' : t('in-events:RCA.inService')}
           renderIcon={<SvgIcon type={getIconForRCADisplay('service')} color={themes.default.cds.link.primary} />}
           AdditionalServices={
             serviceLabelInformation && serviceLabelInformation?.length > 1 ? AdditionalServices() : undefined
@@ -699,7 +701,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={relatedAPID}
           entityLabel={relatedAPlabel}
           relatedAPID={null}
-          displayLabel={t('in-events:RCA.asPartOfApplicationPerspective')}
+          displayLabel={compact ? '' : t('in-events:RCA.asPartOfApplicationPerspective')}
           renderIcon={
             <SvgIcon type={getIconForRCADisplay('application')} color={themes.default.cds.link.primary} size="s" />
           }

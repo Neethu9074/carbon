@@ -10,10 +10,9 @@ import { ProductiveCard } from '@carbon/ibm-products';
 import { Tag } from '@carbon/react';
 import React from 'react';
 
-import { Typography } from '@instana/components';
-
 import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
+import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseEntityDetails';
 import TopologyContextMenu from 'in-events/components/RootCauseAnalysis/Topology/TopologyContextMenu';
 import { TopologyGraphNode } from 'in-events/components/RootCauseAnalysis/Topology/types';
 
@@ -48,7 +47,7 @@ const EntityDetails = () => {
         title={selectedNodeInfo?.label}
         description={<Tag type="purple">Root cause</Tag>}
       >
-        <Typography variant="body-01">This section is WIP.</Typography>
+        <RootCauseEntityDetails />
       </ProductiveCard>
     );
   }
