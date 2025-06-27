@@ -100,41 +100,43 @@ const OTelCollector = () => {
   }
 
   return (
-    <LeftRightPadding>
-      <Stack gap="1rem">
-        <Button
-          kind="ghost"
-          renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
-          href={createHrefToPath(datasourceOtemCollectorCatalog)}
-        >
-          {t('in-plg:datasources.installACollector')}
-        </Button>
-        <ServerTablePresenter<Collector, ServerTablePresenterProps<Collector>>
-          columnDefinitions={columnDefinitions}
-          result={{
-            progress: { loading },
-            errors: errors ?? [],
-            data: {
-              items: collectors ?? [],
-              page: 0,
-              pageSize: collectors?.length,
-              totalHits: collectors?.length
-            }
-          }}
-          page={0}
-          pageSize={collectors?.length}
-          orderBy="id"
-          orderDirection="ASC"
-        />
-        {canLoadMore && (
-          <div className={locals.loadMoreButton}>
-            <Button onClick={() => setRetrievalSize(size => size + LOAD_CHUNK_SIZE)} disabled={loading}>
-              {loading ? t('in-plg:datasources.loading') : t('in-plg:datasources.loadMore')}
-            </Button>
-          </div>
-        )}
-      </Stack>
-    </LeftRightPadding>
+    <section aria-label={t('in-plg:datasources.content')}>
+      <LeftRightPadding>
+        <Stack gap="1rem">
+          <Button
+            kind="ghost"
+            renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
+            href={createHrefToPath(datasourceOtemCollectorCatalog)}
+          >
+            {t('in-plg:datasources.installACollector')}
+          </Button>
+          <ServerTablePresenter<Collector, ServerTablePresenterProps<Collector>>
+            columnDefinitions={columnDefinitions}
+            result={{
+              progress: { loading },
+              errors: errors ?? [],
+              data: {
+                items: collectors ?? [],
+                page: 0,
+                pageSize: collectors?.length,
+                totalHits: collectors?.length
+              }
+            }}
+            page={0}
+            pageSize={collectors?.length}
+            orderBy="id"
+            orderDirection="ASC"
+          />
+          {canLoadMore && (
+            <div className={locals.loadMoreButton}>
+              <Button onClick={() => setRetrievalSize(size => size + LOAD_CHUNK_SIZE)} disabled={loading}>
+                {loading ? t('in-plg:datasources.loading') : t('in-plg:datasources.loadMore')}
+              </Button>
+            </div>
+          )}
+        </Stack>
+      </LeftRightPadding>
+    </section>
   );
 };
 

@@ -955,7 +955,10 @@
     "health": "Health",
     "collectorId": "Collector ID",
     "loading": "Loading...",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "pageHeader": "Page header",
+    "pageTabs": "Page tabs",
+    "content": "Content"
   },
   "agentViewKpis": {
     "agents": "agents",

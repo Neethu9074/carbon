@@ -21,14 +21,14 @@ export default function DatasourceHeader() {
   return (
     <Sticky
       header={
-        <>
+        <section aria-label={t('in-plg:datasources.pageHeader')}>
           <DashboardHeader
             icon="lib_datasource"
             label={t('in-plg:datasources.datasources')}
             title={t('in-plg:datasources.datasources')}
           />
-          <>
-            <DashboardHeaderModule>
+          <DashboardHeaderModule>
+            <nav aria-label={t('in-plg:datasources.pageTabs')}>
               <SecondLevelNavigation>
                 <SecondLevelNavigationItem
                   href={createHrefToPath(datasourceInstanaAgentPath)}
@@ -41,10 +41,11 @@ export default function DatasourceHeader() {
                   isActive={matchLocation(datasourceOtelCollectorPath)}
                 />
               </SecondLevelNavigation>
-            </DashboardHeaderModule>
-            <DashboardHeaderShadowModule />
-          </>
-        </>
+            </nav>
+          </DashboardHeaderModule>
+
+          <DashboardHeaderShadowModule />
+        </section>
       }
     />
   );

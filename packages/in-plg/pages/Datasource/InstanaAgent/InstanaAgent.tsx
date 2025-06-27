@@ -42,25 +42,27 @@ interface InstanaAgentProps {
 const InstanaAgent = ({ agentSnapshotsResult }: InstanaAgentProps) => {
   return (
     <Stack gap="1rem">
-      <LeftRightPadding>
-        <SearchBar style={{ maxWidth: '100%' }} theme="light" />
-        <RenderButtonLine agentSnapshots={agentSnapshotsResult} />
-      </LeftRightPadding>
-      <Grid fullWidth narrow>
-        <Column sm={16} md={8} lg={4}>
-          <AgentViewKpis
-            heading={t('in-plg:agentViewKpis.instanaAgents')}
-            subHeading={t('in-plg:agentViewKpis.totalReportingAgents')}
-            agentSnapshotsResult={agentSnapshotsResult}
-          />
-        </Column>
-        <Column sm={16} md={8} lg={12}>
-          <AgentsPresenceChart />
-        </Column>
-        <Column sm={16} md={16} lg={16}>
-          <AgentsTable agentSnapshotsResult={agentSnapshotsResult} />
-        </Column>
-      </Grid>
+      <section aria-label={t('in-plg:datasources.content')}>
+        <LeftRightPadding>
+          <SearchBar style={{ maxWidth: '100%' }} theme="light" />
+          <RenderButtonLine agentSnapshots={agentSnapshotsResult} />
+        </LeftRightPadding>
+        <Grid fullWidth narrow>
+          <Column sm={16} md={8} lg={4}>
+            <AgentViewKpis
+              heading={t('in-plg:agentViewKpis.instanaAgents')}
+              subHeading={t('in-plg:agentViewKpis.totalReportingAgents')}
+              agentSnapshotsResult={agentSnapshotsResult}
+            />
+          </Column>
+          <Column sm={16} md={8} lg={12}>
+            <AgentsPresenceChart />
+          </Column>
+          <Column sm={16} md={16} lg={16}>
+            <AgentsTable agentSnapshotsResult={agentSnapshotsResult} />
+          </Column>
+        </Grid>
+      </section>
     </Stack>
   );
 };
