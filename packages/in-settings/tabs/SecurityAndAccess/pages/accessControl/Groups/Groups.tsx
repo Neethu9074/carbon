@@ -48,16 +48,20 @@ const determineAccess = (permissionSet: PermissionSet) => {
   return t('in-settings:tabs.accessAll');
 };
 
-const getColumnDefinitions = (accessColumnHeadLabel: string) => [
+const getColumnDefinitions = (
+  accessColumnHeadLabel: string,
+  createHrefToPath: (path: string, params?: Record<string, string>) => string
+) => [
   {
     id: 'name',
     label: t('in-settings:tabs.name'),
     getContent: ({ name, id }: ApiGroup) => (
-      <Link href={getEntityIdView(securityAndAccessAccessControlGroups, id)}>
+      <Link href={getEntityIdView(securityAndAccessAccessControlGroups, id, createHrefToPath)}>
         <KeyValue value={name} label={''} inverted accentuated />
       </Link>
     )
   },
+
   {
     id: 'members',
     label: t('in-settings:tabs.numberOfMembers'),
@@ -86,14 +90,14 @@ const loadEntities = (): Observable<ApiGroup[]> => {
 };
 
 const Groups = () => {
-  const { goToPath } = useNavigation();
+  const { goToPath, createHrefToPath } = useNavigation();
   const showTenantInfo = useTenantUnitsInfo();
 
   const accessColumnHeadLabel = !showTenantInfo
     ? t('in-settings:tabs.access')
     : t('in-settings:tabs.accessForTenantUnit', { tenantUnit: config?.tenantUnit, tenant: config?.tenant });
 
-  const columnDefinitions = getColumnDefinitions(accessColumnHeadLabel);
+  const columnDefinitions = getColumnDefinitions(accessColumnHeadLabel, createHrefToPath);
 
   const getDialogMessage = (group: ApiGroup) => {
     const contributorApplicationIds = group?.permissionSet?.applicationIds?.filter(

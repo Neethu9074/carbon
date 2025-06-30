@@ -61,7 +61,6 @@ export default function AlertChannelsList({
   const { trackCta } = useSegmentTracking();
   const selectedChannels = form.get('alertChannels').value;
   const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
-
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}

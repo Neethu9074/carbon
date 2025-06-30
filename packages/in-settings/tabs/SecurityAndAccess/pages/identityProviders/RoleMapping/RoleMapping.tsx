@@ -43,6 +43,7 @@ import { seconds } from 'in-services/time/time';
 import { t, Trans } from 'in-i18n';
 
 import locals from './RoleMapping.mless';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 const createMenuItemsForRow = (
   roleMappings: IdpGroupMapping[],
@@ -59,10 +60,10 @@ const createMenuItemsForRow = (
   ];
 };
 
-const createTableRows = (roleMappings: IdpGroupMapping[] = []): Array<RoleMappingRow<IdpGroupMapping>> => {
+const createTableRows = (roleMappings: IdpGroupMapping[] = [], createHrefToPath: (path: string) => string): Array<RoleMappingRow<IdpGroupMapping>> => {
   return roleMappings?.map((roleMapping: IdpGroupMapping) => ({
     key: (
-      <Link href={getEntityIdView(securityAndAccessAccessControlTeams, roleMapping?.id ?? '')} ellipsis>
+      <Link href={getEntityIdView(securityAndAccessAccessControlTeams, roleMapping?.id ?? '', createHrefToPath)} ellipsis>
         {roleMapping.key}
       </Link>
     ),
@@ -88,6 +89,8 @@ const RoleMapping = () => {
   const loading = isLoading(dataTableResult);
   const hasErrors = hasError(dataTableResult);
   const [message, setMessage] = useState<Notification>();
+  const {createHrefToPath } = useNavigation()
+
   const errorMessage: Notification | undefined = hasErrors
     ? {
         title: t('in-settings:components.errorFailedToLoadData'),
@@ -96,7 +99,7 @@ const RoleMapping = () => {
       }
     : undefined;
 
-  if (defaultLogin) {
+  if (!defaultLogin) {
     // Show message to configure IdP first as mapping can only be configured with an active IdP.
     return (
       <>
@@ -182,7 +185,7 @@ const RoleMapping = () => {
           searchPlaceholderText={t('in-settings:components.search')}
           tableActions={ROLE_MAPPING_TABLE_ACTIONS}
           tableHeaders={ROLE_MAPPING_TABLE_HEADERS}
-          tableRows={createTableRows(dataTableResult.data)}
+          tableRows={createTableRows(dataTableResult.data, createHrefToPath)}
           title={t('in-settings:tabs.roleMapping.tableTitle')}
         />
       </div>

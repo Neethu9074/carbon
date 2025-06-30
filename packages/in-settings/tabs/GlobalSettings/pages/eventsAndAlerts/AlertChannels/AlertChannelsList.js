@@ -114,11 +114,12 @@ export function columnDefinitions(hasRowNavigation) {
       label: t('in-settings:tabs.name'),
       width: 35,
       ellipsis: true,
-      getContent(entity) {
+      getContent: function GetContent(entity) {
+        const { createHrefToPath } = useNavigation();
         return (
           <WithSubscript subscript={getKind(entity)}>
             {hasRowNavigation ? (
-              <Link href={getEntityIdView(globalSettingsAlertingAlertChannels, entity.id)} ellipsis>
+              <Link href={getEntityIdView(globalSettingsAlertingAlertChannels, entity.id, createHrefToPath)} ellipsis>
                 {entity.name}
               </Link>
             ) : (

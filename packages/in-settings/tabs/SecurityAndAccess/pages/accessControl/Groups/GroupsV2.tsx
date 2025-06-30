@@ -112,9 +112,14 @@ const createMenuItemsForRow = (
     }
   ];
 };
-const createTableRows = (groups: ApiGroup[] = []): Array<RowObject<GroupData>> => {
+const createTableRows = (
+  createHrefToPath: (path: string) => string,
+  groups: ApiGroup[] = []
+): Array<RowObject<GroupData>> => {
   return groups?.map((group: ApiGroup) => ({
-    name: <Link href={getEntityIdView(securityAndAccessAccessControlGroups, group.id)}>{group.name}</Link>,
+    name: (
+      <Link href={getEntityIdView(securityAndAccessAccessControlGroups, group.id, createHrefToPath)}>{group.name}</Link>
+    ),
     members: group.members.length,
     access: determineAccess(group.permissionSet),
     id: group.id,
@@ -124,7 +129,7 @@ const createTableRows = (groups: ApiGroup[] = []): Array<RowObject<GroupData>> =
 };
 
 const GroupsV2 = () => {
-  const { goToPath } = useNavigation();
+  const { goToPath, createHrefToPath } = useNavigation();
   const showTenantInfo = useTenantUnitsInfo();
   const dataTableResult = useObservable(getGroups, []) ?? pendingResult;
   const hasErrors = hasError(dataTableResult);
@@ -195,7 +200,7 @@ const GroupsV2 = () => {
     <MultiSelectDataTable
       title={t('in-settings:tabs.groups')}
       tableHeaders={headers}
-      tableRows={createTableRows(dataTableResult.data)}
+      tableRows={createTableRows(createHrefToPath, dataTableResult.data)}
       loading={loading}
       searchPlaceholderText={t('in-settings:components.search')}
       searchAttributes={['name']}

@@ -334,9 +334,8 @@ function AlertChannelLabel({ entity }) {
   const mobileAlertConfigLink = useGetAlertConfigLink();
   const getServiceLevelAlertConfigLink = useGetServiceLevelAlertConfigLink();
   const getLogAlertConfigLink = useGetLogAlertConfigLink();
-
+  const { createHrefToPath } = useNavigation();
   let href;
-  let href$;
   if (type === 'WebsiteSmartAlert') {
     href = websiteAlertConfigLink;
   } else if (type === 'MobileSmartAlert') {
@@ -354,12 +353,12 @@ function AlertChannelLabel({ entity }) {
   } else if (type == 'LogSmartAlert') {
     href = getLogAlertConfigLink(id, entity.created);
   } else {
-    href$ = getEntityIdView(teamSettingsAlertingAlerts, id);
+    href = getEntityIdView(teamSettingsAlertingAlerts, id, createHrefToPath);
   }
 
   return (
     <WithSubscript subscript={getSubscript(entity)}>
-      <Link href={href$ ?? href} ellipsis>
+      <Link href={href} ellipsis>
         {label}
       </Link>
     </WithSubscript>

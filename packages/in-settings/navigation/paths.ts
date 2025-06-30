@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Observable } from '@instana/observables';
-
 // eslint-disable-next-line
-import { getView, mutateUrl } from 'in-stores/navigation';
+import { mutateUrl } from 'in-stores/navigation';
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
@@ -245,12 +243,11 @@ export function getEntityHref(path: string, id: string): string {
   return path;
 }
 
-export function getEntityIdView(path: string, id: string): Observable<string> {
+export function getEntityIdView(path: string, id: string, createHrefToPath: (path: string) => string): string {
   if (id) {
     path = `${path}/${encodeURIComponent(id)}`;
   }
-  // eslint-disable-next-line
-  return getView(path);
+  return createHrefToPath(path);
 }
 
 export function goToIntegrationView(kind: string): void {

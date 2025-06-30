@@ -24,6 +24,7 @@ import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-
 import List, { CreateNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
 import PropertyInTable from 'in-settings/tabs/GlobalSettings/components/PropertyInTable';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { intersperse } from 'in-services/arrayUtils';
@@ -45,6 +46,7 @@ export default function Alerts() {
   const [enabled, setEnabled] = useState(null);
   //function for segment tracking
   const { trackCta } = useSegmentTracking();
+
   return (
     <List
       title={t('in-settings:tabs.alerts')}
@@ -72,20 +74,23 @@ export default function Alerts() {
   );
 }
 
+const EntityNameContent = ({ entity }) => {
+  const { createHrefToPath } = useNavigation();
+  return (
+    <WithSubscript subscript={getSubscript(entity)}>
+      <Link href={getEntityIdView(globalSettingsAlertingAlerts, entity.id, createHrefToPath)} ellipsis>
+        {entity.alertName}
+      </Link>
+    </WithSubscript>
+  );
+};
+
 const columnDefinitions = [
   {
     id: 'name',
     label: t('in-settings:tabs.name'),
     width: 40,
-    getContent(entity) {
-      return (
-        <WithSubscript subscript={getSubscript(entity)}>
-          <Link href={getEntityIdView(globalSettingsAlertingAlerts, entity.id)} ellipsis>
-            {entity.alertName}
-          </Link>
-        </WithSubscript>
-      );
-    }
+    getContent: entity => <EntityNameContent entity={entity} />
   },
   {
     id: 'scope',

@@ -14,11 +14,13 @@ import AddUserButton from 'in-settings/tabs/SecurityAndAccess/pages/accessContro
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { find } from 'in-services/arrayUtils';
 
 const columnDefinition = [iconColumn, labelColumn, idpGroupColumn];
 
 export default function Users({ members, addUsers, removeUser, groupId, noDelete = false }) {
+  const { createHrefToPath } = useNavigation();
   function renderAdditionalHeaderContent({ addUsers, members }) {
     return <AddUserButton addUsers={addUsers} members={members} groupId={groupId} />;
   }
@@ -37,7 +39,7 @@ export default function Users({ members, addUsers, removeUser, groupId, noDelete
       renderer={ListInsideACardRenderer}
       filterFunction={user => find(members, member => member.userId === user.id)}
       renderAdditionalHeaderContent={renderAdditionalHeaderContent}
-      getUserLink={user => getEntityIdView(securityAndAccessAccessControlUsers, user.id)}
+      getUserLink={user => getEntityIdView(securityAndAccessAccessControlUsers, user.id, createHrefToPath)}
       columnDefinitions={noDelete ? columnDefinition : columnDefinitionWithDelete}
       itemName="User"
       members={members}

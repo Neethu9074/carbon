@@ -61,6 +61,7 @@ import { Trigger, TriggerType } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 const applyOnValues = {
   [SCOPE.ALL]: t('in-automation:policies.allAvailableEntities'),
@@ -213,6 +214,7 @@ export function TriggerLink({ trigger, type, className }: TriggerLinkProps) {
   const getLinkToSyntheticAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutDashboard();
   const getLogAlertConfigLink = useGetLogAlertConfigLink();
   const getServiceLevelAlertConfigLink = useGetServiceLevelAlertConfigLink();
+  const { createHrefToPath } = useNavigation();
 
   const fields = {
     applicationSmartAlert: getApplicationsAlertConfig(id, applicationId as string),
@@ -223,8 +225,8 @@ export function TriggerLink({ trigger, type, className }: TriggerLinkProps) {
     syntheticsSmartAlert: getLinkToSyntheticAlertConfigWithoutAPDashboard(id),
     logSmartAlert: getLogAlertConfigLink(id, created),
     sloSmartAlert: getServiceLevelAlertConfigLink(id, created as number),
-    builtinEvent: getEntityIdView(globalSettingsAlertingEventBuiltIn, id),
-    customEvent: getEntityIdView(globalSettingsAlertingEventCustom, id)
+    builtinEvent: getEntityIdView(globalSettingsAlertingEventBuiltIn, id, createHrefToPath),
+    customEvent: getEntityIdView(globalSettingsAlertingEventCustom, id, createHrefToPath)
   };
   return (
     <Link href={fields[type]} className={className} external>

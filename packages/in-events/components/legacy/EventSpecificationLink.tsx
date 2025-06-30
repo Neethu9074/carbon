@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import {
   getEntityIdView,
@@ -35,13 +34,12 @@ export default function EventSpecificationLink({
 }) {
   const isCustom = isCustomEvent(event);
   const eventSpecificationId: string = event.metadata?.eventSpecificationId;
-
-  const resolvedURL = useObservable(
-    getEntityIdView(getEventSpecificationSettingsBasePath(isCustom), eventSpecificationId),
-    []
+  const { createHrefToPath, navigate } = useNavigation();
+  const resolvedURL = getEntityIdView(
+    getEventSpecificationSettingsBasePath(isCustom),
+    eventSpecificationId,
+    createHrefToPath
   );
-  const { navigate } = useNavigation();
-
   if (!role?.canConfigureEventsAndAlerts) {
     // at the moment the link of this button generally does not work when the canConfigureEventsAndAlerts permission is missing,
     // because we generally hide the Events & Alerts section, including the build-in events.

@@ -14,9 +14,10 @@ import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/page
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
+import List, { defaultHeaderWithCount, ColumnDefinition } from 'in-settings/components/List';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { USER_INVITE } from 'in-services/tracking/tracking';
@@ -28,7 +29,6 @@ export default function Users() {
   const [authOverview] = useAuthOverview();
   const { defaultLogin } = authOverview ?? {};
   const { trackCta } = useSegmentTracking();
-
   function customDialogMessage({ fullName }: UserResult) {
     return (
       <span>
@@ -87,7 +87,7 @@ const loadEntities = (): Observable<UserResult[]> => {
   return observer;
 };
 
-const columnDefinitions = [
+const columnDefinitions: ColumnDefinition<UserResult>[] = [
   {
     id: 'icon',
     sortable: false,
@@ -99,11 +99,9 @@ const columnDefinitions = [
   {
     id: 'fullName',
     label: t('in-settings:tabs.name'),
-    getContent: ({ fullName, email, id }: UserResult) => (
-      <Link href={getEntityIdView(securityAndAccessAccessControlUsers, id)} ellipsis>
-        <KeyValue value={fullName || t('in-settings:tabs.userDoesNotExist')} label={email} inverted accentuated />
-      </Link>
-    )
+    getContent: (userResult: UserResult) => {
+      return <UserFullName userResult={userResult} />;
+    }
   },
   {
     id: 'groupCount',
@@ -128,6 +126,17 @@ const columnDefinitions = [
     }
   }
 ];
+
+function UserFullName({ userResult }: { userResult: UserResult }) {
+  const { createHrefToPath } = useNavigation();
+  const { id, fullName, email } = userResult;
+
+  return (
+    <Link href={getEntityIdView(securityAndAccessAccessControlUsers, id, createHrefToPath)} ellipsis>
+      <KeyValue value={fullName || t('in-settings:tabs.userDoesNotExist')} label={email} inverted accentuated />
+    </Link>
+  );
+}
 
 const tableActions = {
   delete: {

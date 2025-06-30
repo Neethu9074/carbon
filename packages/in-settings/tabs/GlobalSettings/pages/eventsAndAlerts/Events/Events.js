@@ -53,6 +53,7 @@ import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/ge
 import List, { CreateNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
@@ -265,7 +266,7 @@ export function EventName({ entity, hasRowNavigation }) {
   const { trackCta } = useSegmentTracking();
   const { name } = entity;
   const icon = getIcon(entity, themes);
-
+  const { createHrefToPath } = useNavigation();
   const tooltipContent = needsMigrationAction(entity) ? (
     <>
       {name}
@@ -280,7 +281,7 @@ export function EventName({ entity, hasRowNavigation }) {
       <WithSubscript subscript={<Subscript entity={entity} />}>
         {hasRowNavigation ? (
           <Link
-            href={getEntityIdView(getDetailsPath(entity), entity.id)}
+            href={getEntityIdView(getDetailsPath(entity), entity.id, createHrefToPath)}
             ellipsis
             onClick={() =>
               trackCta(SETTINGS_EVENT_VIEW, {

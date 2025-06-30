@@ -15,6 +15,7 @@ import AddUserToGroupButton from 'in-settings/tabs/SecurityAndAccess/pages/acces
 import { getEntityIdView, securityAndAccessAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import ApiList from 'in-settings/components/ApiList';
 import { ownerRoleId } from 'in-stores/user';
@@ -105,13 +106,16 @@ const determineMessage = itemsResult => {
 
 function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeletingItemIds, itemsResult, page, setPage }) {
   const message = determineMessage(itemsResult);
-
+  const { createHrefToPath } = useNavigation();
   return (
     <>
       {message && <Message type="warning" title={message} />}
       <Ul>
         {items.map(group => (
-          <Li key={group.groupId} href$={getEntityIdView(securityAndAccessAccessControlGroups, group.groupId)}>
+          <Li
+            key={group.groupId}
+            href={getEntityIdView(securityAndAccessAccessControlGroups, group.groupId, createHrefToPath)}
+          >
             <ColumnizedContent
               columnDefinitions={columnDefinitions}
               group={group}

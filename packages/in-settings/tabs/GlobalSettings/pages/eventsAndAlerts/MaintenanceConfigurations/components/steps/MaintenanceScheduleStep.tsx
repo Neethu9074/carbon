@@ -12,7 +12,6 @@ import { RRule } from 'rrule';
 import { CarbonCheckbox, CarbonCheckboxGroup, Link, Message, Stack } from '@instana/components';
 import { Duration, MaintenanceConfigV2 } from '@instana/types';
 import { ButtonGroup } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import {
   createRRuleFreq,
@@ -24,6 +23,7 @@ import Recurring from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Mai
 import Timing from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/Timing';
 import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { retriggerOpenAlertsEnabled } from 'in-services/featureFlags';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -56,7 +56,7 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
   const dateStartField = (windowForm.getIn(['start', 'date']) as Field<String>).value;
   const timeField = (windowForm.getIn(['start', 'time']) as Field<String>).value;
   const duration = (windowForm.get('duration') as Field<Duration>).value;
-
+  const { createHrefToPath } = useNavigation();
   const TimezoneMessage = () => {
     //@ts-expect-error
     const timezoneIdFromEntity = entity.scheduling?.timezoneId;
@@ -65,8 +65,7 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
       ? 'UTC'
       : new Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    const settingsHref = useObservable(getEntityIdView(userSettingsGeneral, ''), []);
-
+    const settingsHref = getEntityIdView(userSettingsGeneral, '', createHrefToPath);
     const utcOffset = (timezoneID: string) => {
       if (timezoneID === 'UTC') return '+00:00';
       const pad = (val: number) => (val < 10 ? '0' + val : val);

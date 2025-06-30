@@ -234,9 +234,11 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-settings:tabs.name'),
     getContent: function Content(entity) {
+      const { createHrefToPath } = useNavigation();
+
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500} overwriteBlock caret={false}>
-          <Link href={getEntityIdView(globalSettingsAlertingMaintenanceConfigurations, entity.id)}>
+          <Link href={getEntityIdView(globalSettingsAlertingMaintenanceConfigurations, entity.id, createHrefToPath)}>
             <WithIcon icon="lib_actions_build_outline" iconColor={themes.default.ids.color.option.blue['500']} ellipsis>
               {entity.name}
             </WithIcon>

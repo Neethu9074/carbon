@@ -10,8 +10,8 @@ import { isEmpty } from 'lodash';
 
 import { ExpandableGroup, IconButton, Li, Link, Spacer, SvgIcon, Ul } from '@instana/components';
 import { ActionInstance, ActionType, ActorType, Field } from '@instana/types';
-import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   getEntityIdView,
@@ -52,7 +52,7 @@ export default function DetailTab({
   inActionLane?: boolean;
 }) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const { createHref, location } = useNavigation();
+  const { createHref, location, createHrefToPath } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
   const handleToggle = () => setIsExpanded(expanded => !expanded);
   function getPolicyView(id: string): string {
@@ -143,8 +143,7 @@ export default function DetailTab({
         ((actorType === 'USER' && role?.canConfigureUsers) ||
           (actorType === 'APITOKEN' && role?.canConfigureApiTokens) ||
           actorType === 'POLICY'),
-      ObservableLink: actorType === 'POLICY' ? undefined : getActorLink(actorType, actorId),
-      stringLink: actorType === 'POLICY' ? getPolicyView(actorId ?? '') : undefined
+      stringLink: actorType === 'POLICY' ? getPolicyView(actorId ?? '') : getActorLink(actorType, actorId)
     },
     {
       label: t('in-automation:actionHistory.event'),
@@ -270,11 +269,21 @@ export default function DetailTab({
     }
   }
 
+  function getActorLink(actorType?: ActorType, actorId?: string) {
+    switch (actorType) {
+      case 'USER':
+        return getEntityIdView(securityAndAccessAccessControlUsers, actorId ?? '', createHrefToPath);
+      case 'APITOKEN':
+        return getEntityIdView(securityAndAccessAccessControlApiTokens, actorId ?? '', createHrefToPath);
+      default:
+        return null;
+    }
+  }
+
   const renderRow = (
     label: string,
     value: React.ReactNode,
     isLink?: boolean,
-    ObservableLink?: Observable<string> | null,
     stringLink?: string | null,
     showCondition?: boolean,
     actionLane?: boolean,
@@ -287,7 +296,7 @@ export default function DetailTab({
         {/* <td>{label}</td> */}
 
         {isLink ? (
-          <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
+          <Link className={locals.detailsLink} target="_blank" href={stringLink ?? undefined}>
             {value} <SvgIcon size="xs" type="lib_views_external_link" color="var(--cds-link-primary)" />
           </Link>
         ) : (
@@ -304,9 +313,8 @@ export default function DetailTab({
       })}
     >
       <Dl>
-        {tableData.map(
-          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
-            renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
+        {tableData.map(({ label, value, isLink, stringLink, showCondition = true, actionLane = false }) =>
+          renderRow(label, value, isLink, stringLink, showCondition, actionLane, inActionLane)
         )}
       </Dl>
       <Spacer vertical="large" />
@@ -321,17 +329,6 @@ export default function DetailTab({
       )}
     </div>
   );
-}
-
-function getActorLink(actorType?: ActorType, actorId?: string) {
-  switch (actorType) {
-    case 'USER':
-      return getEntityIdView(securityAndAccessAccessControlUsers, actorId ?? '');
-    case 'APITOKEN':
-      return getEntityIdView(securityAndAccessAccessControlApiTokens, actorId ?? '');
-    default:
-      return null;
-  }
 }
 
 function ActionDetails({ type, actionSnapshot }: { type: ActionType; actionSnapshot: string }) {

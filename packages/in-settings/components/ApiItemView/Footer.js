@@ -6,7 +6,7 @@
 import React from 'react';
 
 import FormFooter, { SaveButton, CancelButton, DeleteButton } from 'in-components/form/FormFooter/FormFooter';
-import { getView } from 'in-stores/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 import locals from './Footer.mless';
 
@@ -23,10 +23,11 @@ export default function Footer({
   parentPath,
   form
 }) {
+  const { createHrefToPath } = useNavigation();
   return (
     <FormFooter className={locals.footer}>
       {(parentPath || onCancelClick) && (
-        <CancelButton href$={parentPath ? getView(parentPath) : undefined} onClick={onCancelClick} />
+        <CancelButton href={parentPath ? createHrefToPath(parentPath) : undefined} onClick={onCancelClick} />
       )}
       {saveButtonVisible && (
         <SaveButton onClick={onSaveClick} disabled={!canSaveItem} form={form} isSaving={isSaving}>
