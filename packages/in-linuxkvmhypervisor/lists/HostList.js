@@ -12,12 +12,12 @@ import InfrastructureMetricSparkChart from 'in-components/SparkChart/Infrastruct
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useLinuxKVMHypervisorEntityLink } from 'in-linuxkvmhypervisor/navigation/paths';
-import { kiloBytesTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { hostList } from 'in-linuxkvmhypervisor/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { percentage } from 'in-services/formatters/number';
 import { pageNames } from 'in-services/tracking/pageNames';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -53,7 +53,7 @@ const columnDefinitions = [
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={number.detailed}
+          formatter={percentage.compact}
           metric="cpuUsage"
         />
       );
@@ -68,8 +68,8 @@ const columnDefinitions = [
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={kiloBytesTwoDecimalPlaces}
-          metric="memoryUsage"
+          formatter={percentage.compact}
+          metric="memoryUsageRatio"
         />
       );
     }
