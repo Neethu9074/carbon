@@ -15980,7 +15980,6 @@
       "response_time_avg": "Average",
       "dbCacheHit": "DB Cache Hit",
       "db_cache_hit_rate": "Rate",
-      "port": "Port"
     },
     "mule": {
       "name": "Name",
