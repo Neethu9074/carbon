@@ -8,11 +8,15 @@
 import React, { useContext } from 'react';
 
 import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
+import EvidenceSection from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseSidebar/EvidenceSection';
+import MetricsSection from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseSidebar/MetricsSection';
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
 import EntityPath from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseSidebar/EntityPath';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import { useIncident } from 'in-events/components/providers/IncidentProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+
+import locals from './RootCauseEntityDetails.mless';
 
 const RootCauseEntityDetails: React.FC = () => {
   const { selectedEntityId } = useEntitySelection();
@@ -42,8 +46,10 @@ const RootCauseEntityDetails: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className={locals.rcDetailsContainer}>
       <EntityPath />
+      <EvidenceSection />
+      <MetricsSection />
     </div>
   );
 };
