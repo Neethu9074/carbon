@@ -28,6 +28,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
 import PhysicalVolume from 'in-forge/plugins/host/Dashboard/PhysicalVolume';
+import LogicalVolume from 'in-forge/plugins/host/Dashboard/LogicalVolume';
 import VolumeGroups from 'in-forge/plugins/host/Dashboard/VolumeGroups';
 import DiskTable from 'in-forge/plugins/host/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
@@ -525,10 +526,16 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      {isAixOs(snapshot) && <CpuProcessTable snapshot={snapshot} timeConfig={timeConfig} />}
-      {isAixOs(snapshot) && <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />}
-      {isAixOs(snapshot) && <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />}
-      {isAixOs(snapshot) && <Disks snapshot={snapshot} timeConfig={timeConfig} />}
+      {isAixOs(snapshot) && (
+        <>
+          <CpuProcessTable snapshot={snapshot} timeConfig={timeConfig} />
+          <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />
+          <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />
+          <LogicalVolume snapshot={snapshot} timeConfig={timeConfig} />
+          <Disks snapshot={snapshot} timeConfig={timeConfig} />
+        </>
+      )}
+
       {supportsOpenFiles(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.openFiles')}>
           <Chart
