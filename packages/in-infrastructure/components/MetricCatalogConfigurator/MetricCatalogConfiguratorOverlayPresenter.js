@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { Select, Toggle } from '@instana/components';
+import { Select } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
+import FilterEmptyValuesToggle from 'in-components/FilterEmptyValueToggle/FilterEmptyValueToggle';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import { infraExploreFilterEmptyValueEnabled } from 'in-services/featureFlags';
@@ -18,7 +19,6 @@ import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './MetricCatalogConfiguratorOverlayPresenter.mless';
@@ -181,12 +181,18 @@ function Content({
 }
 
 function RequiredToggle({ metric, onChange }) {
-  var required = metric.get('required').map(field => field.value);
+  const required = metric.get('required').map(field => field.value);
+  const handleToggle = () => {
+    const newRequired = !required;
+    onChange(newRequired);
+  };
+
   return (
-    <Tooltip content={t('in-components:metricConfigurator.labelFilterEmptyValue')} delay={500}>
-      <span>
-        <Toggle checked={required} onToggle={onChange} />
-      </span>
-    </Tooltip>
+    <FilterEmptyValuesToggle
+      value={required}
+      onToggle={handleToggle}
+      hideLabel="Hide Empty Values"
+      showLabel="Show Empty Values"
+    />
   );
 }
