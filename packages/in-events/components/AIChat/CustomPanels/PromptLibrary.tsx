@@ -23,6 +23,7 @@ import { t } from 'in-i18n';
 import locals from './PromptLibrary.mless';
 
 interface PromptLibraryProps {
+  setPopOpen: Function;
   instance: {
     customPanels: {
       getPanel: Function;
@@ -33,7 +34,7 @@ interface PromptLibraryProps {
   };
 }
 
-const PromptLibrary = ({ instance }: PromptLibraryProps) => {
+const PromptLibrary = ({ instance, setPopOpen }: PromptLibraryProps) => {
   const [search, setSearch] = useState('');
 
   return (
@@ -69,6 +70,9 @@ const PromptLibrary = ({ instance }: PromptLibraryProps) => {
                               textField.setValue(question);
                               customPanel.close();
                               textField.getHTMLElement?.()?.focus();
+                              setTimeout(() => {
+                                setPopOpen(true);
+                              }, 500);
                             }
                           }}
                         >

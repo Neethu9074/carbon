@@ -6,4 +6,5 @@
 
 declare module 'in-events/components/AIChat/utils' {
   export function handleTracking(trackingName: string);
+  export const AI_CHAT_TAG_NAME;
 }

@@ -10,6 +10,9 @@ import { CTA_CLICKED } from 'in-services/util/constants';
 import { track } from 'in-services/tracking/trackers';
 import { user } from 'in-stores/user';
 
+// This is the defined tag name <cds-aichat-react> used by the Carbon AI Chat
+export const AI_CHAT_TAG_NAME = 'cds-aichat-react';
+
 // Simple function to convert all string occurrences of
 // something.something (which is interpreted as a link) to instead
 // be `something.something`.

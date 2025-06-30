@@ -436,7 +436,10 @@
     "showLess": "Show less",
     "showMore": "Show more",
     "tabSelection": "Tab selection",
-    "search": "Search"
+    "search": "Search",
+    "prompting": "Prompting",
+    "editSample": "Edit this sample prompt by replacing the variables in < > with your details.",
+    "gotIt": "Got it"
   },
   "notes": {
     "recommendedActions": "Recommended actions",

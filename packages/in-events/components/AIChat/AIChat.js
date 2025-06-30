@@ -13,11 +13,12 @@ import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE, EVENT_AI_LIBRARY_OPEN } from '
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/CustomResponse/TableChartSwitcher';
 import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
+import InstructionPop from 'in-events/components/AIChat//CustomPanels/InstructionPop';
+import { handleTracking, AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import PromptLibrary from 'in-events/components/AIChat//CustomPanels/PromptLibrary';
 import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { handleTracking } from 'in-events/components/AIChat/utils';
 import { t } from 'in-i18n';
 
 import locals from './AIChat.mless';
@@ -34,7 +35,7 @@ export function MoveAIChatLauncher(pixel) {
 }
 
 function setDragListener() {
-  const elements = document.getElementsByTagName('cds-aichat-react');
+  const elements = document.getElementsByTagName(AI_CHAT_TAG_NAME);
   const selector = '.WACBotContainer .WACHeader__CenterContainer';
   if (elements.length !== 1) {
     return;
@@ -104,11 +105,12 @@ export function AIChat() {
   // This is needed because we need it to reset on page navigation
   MoveAIChatLauncher('50px');
   const { trackCta } = useSegmentTracking();
-
   const [instance, setInstance] = useState(null);
+  const [popOpen, setPopOpen] = useState(false);
+
   const renderWriteableElements = useMemo(
     () => ({
-      customPanelElement: <PromptLibrary instance={instance} />,
+      customPanelElement: <PromptLibrary instance={instance} setPopOpen={setPopOpen} />,
       headerBottomElement: <PreviewPill className={locals.previewPill} />
     }),
     [instance]
@@ -151,6 +153,7 @@ export function AIChat() {
               handler: () => {
                 customPanel.open(panelOptions);
                 handleTracking(EVENT_AI_LIBRARY_OPEN);
+                setPopOpen(false);
               }
             }
           ]);
@@ -188,6 +191,7 @@ export function AIChat() {
                 // The AI Chat has been closed so we are no longer hiding the AI Launcher
                 handleTracking(EVENT_AI_CHAT_CLOSE);
                 launcherElement.style.display = '';
+                setPopOpen(false);
               }
             }
           });
@@ -254,6 +258,7 @@ export function AIChat() {
           }
         }}
       />
+      {popOpen && <InstructionPop setPopOpen={setPopOpen} />}
       <CarbonButton className={locals.aiChatDraggableButton} id={LAUNCHER_BUTTON_ID}>
         <SvgIcon type={'lib_actions_chat_launch'} size="regular" />
         <SvgIcon type={'lib_actions_reorder'} size="xxs" className={locals.draggableSvg} id={DRAGGABLE_ICON} />
