@@ -9,8 +9,8 @@ import React, { useState, useMemo } from 'react';
 import { ContentSwitcher, Switch } from '@instana/carbon';
 import { SimpleBarChart } from '@instana/carbon-charts';
 
+import TableView from 'in-events/components/AIChat/CustomResponse/TableView';
 import { formatForBarChart } from 'in-events/components/AIChat/chatAPI';
-import TableView from 'in-events/components/AIChat/TableView';
 import { t } from 'in-i18n';
 
 import locals from './TableChartSwitcher.mless';

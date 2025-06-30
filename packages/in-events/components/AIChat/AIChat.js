@@ -3,20 +3,22 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
-
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
 import { PreviewPill } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 
-import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tracking';
+import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE, EVENT_AI_LIBRARY_OPEN } from 'in-services/tracking/tracking';
+import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
+import TableChartSwitcher from 'in-events/components/AIChat/CustomResponse/TableChartSwitcher';
+import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
-import TableChartSwitcher from 'in-events/components/AIChat/TableChartSwitcher';
+import PromptLibrary from 'in-events/components/AIChat//CustomPanels/PromptLibrary';
+import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import EditableOptions from 'in-events/components/AIChat/EditableOptions';
 import { handleTracking } from 'in-events/components/AIChat/utils';
-import NLGResponse from 'in-events/components/AIChat/NLGResponse';
+import { t } from 'in-i18n';
 
 import locals from './AIChat.mless';
 
@@ -103,11 +105,13 @@ export function AIChat() {
   MoveAIChatLauncher('50px');
   const { trackCta } = useSegmentTracking();
 
+  const [instance, setInstance] = useState(null);
   const renderWriteableElements = useMemo(
     () => ({
+      customPanelElement: <PromptLibrary instance={instance} />,
       headerBottomElement: <PreviewPill className={locals.previewPill} />
     }),
-    []
+    [instance]
   );
 
   return (
@@ -120,6 +124,8 @@ export function AIChat() {
             return;
           }
           switch (messageItem.user_defined?.user_defined_type) {
+            case 'prompt_library':
+              return <PromptLibraryResponse instance={instance} />;
             case `editable_options`:
               return <EditableOptions messageItem={messageItem} instance={instance} />;
             case 'table_chart':
@@ -132,8 +138,22 @@ export function AIChat() {
         }}
         onBeforeRender={instance => {
           instance.trackCta = trackCta;
+          setInstance(instance);
         }}
         onAfterRender={instance => {
+          const customPanel = instance.customPanels.getPanel();
+          const panelOptions = {
+            title: t('in-events:aichat.promptLibrary')
+          };
+          instance.updateCustomMenuOptions([
+            {
+              text: t('in-events:aichat.promptLibrary'),
+              handler: () => {
+                customPanel.open(panelOptions);
+                handleTracking(EVENT_AI_LIBRARY_OPEN);
+              }
+            }
+          ]);
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
           const draggableIcon = document.getElementById(DRAGGABLE_ICON);
 

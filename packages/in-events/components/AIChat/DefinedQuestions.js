@@ -17,6 +17,37 @@ const CONSENT_PROMPT = {
 // Meaning we might have to ask specifics on Date and time
 export const DefinedTreeQuestions = [CONSENT_PROMPT.action];
 
+export const promptLibrary = [
+  {
+    kind: 'Application',
+    questions: [
+      'Show me calls with high latency for service <service-name> in app <app-name>.',
+      'Show me erroneous calls for service <service-name>.',
+      'Show me calls with status code 5XX received by service <service-name>.',
+      'Show me calls which spiked in last <duration> minutes in service <service-name>.'
+    ]
+  },
+  {
+    kind: 'Infrastructure',
+    questions: [
+      'Show me the total number of failed queries to DB2 database with host name <host-name>.',
+      'Show me the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace <namespace-name>.',
+      'Show me the top <number> queues with highest queue depth for last <duration> minutes group. Group by queue name.',
+      'What is the sum of aggregated CPU requests for kubernetes deployment <app-name> in namespace <namespace-name> for last <duration> hours?',
+      'What is the count of pods for deployments labeled as environment=<environment-name> in the namespace <namespace-name>?'
+    ]
+  }
+];
+
+// This is our user type prompt_library that will ultimately invoke
+// our CustomResponse/PromptBubble
+export const promptLibraryBubble = {
+  response_type: 'user_defined',
+  user_defined: {
+    user_defined_type: 'prompt_library'
+  }
+};
+
 export const technologyOptions = {
   response_type: 'user_defined',
   user_defined: {
@@ -35,25 +66,27 @@ export const technologyOptions = {
     infra: [
       {
         key: 'DB2',
-        value: 'Show total number of failed queries to db2 database with host name ABC'
+        value: 'Show me the total number of failed queries to DB2 database with host name <host-name>'
       },
       {
         key: 'JVM Runtime',
         value:
-          'Get the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace XYZ.'
+          'Show me the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace <namespace-name>.'
       },
       {
         key: 'IBM MQ',
-        value: 'Show top 3 queues with highest queue depth for last 60 minutes group by queue name.'
+        value:
+          'Show me the top <number> queues with highest queue depth for last <duration> minutes group. Group by queue name.'
       },
       {
         key: 'K8s Deployment',
         value:
-          'What is the sum of aggregated cpu requests for kubernetes deployment APP-1 in namespace NAMESPACE-1 for last 2 hours?'
+          'What is the sum of aggregated CPU requests for kubernetes deployment <app-name> in namespace <namespace-name> for last <duration> hours?'
       },
       {
         key: 'K8s pod',
-        value: 'What is the count of pods for deployments labeled as environment=envABC in the namespace nameXYZ?'
+        value:
+          'What is the count of pods for deployments labeled as environment=<environment-name> in the namespace <namespace-name>?'
       }
     ],
     apps: [
@@ -63,15 +96,15 @@ export const technologyOptions = {
       },
       {
         key: 'Erroneous calls',
-        value: 'Show me erroneous calls for service <service-a>'
+        value: 'Show me erroneous calls for service <service-name>'
       },
       {
         key: 'HTTP status codes',
-        value: 'Show me calls with status code 5XX received by <service-a>'
+        value: 'Show me calls with status code 5XX received by service <service-name>'
       },
       {
         key: 'Throughput',
-        value: 'Show me calls which spiked in last <duration> minutes in <service-a> '
+        value: 'Show me calls which spiked in last <duration> minutes in service <service-name>'
       }
     ]
   }
@@ -81,8 +114,7 @@ export const reprompt = [
   {
     response_type: 'text',
     text: t('in-events:aichat.anyOtherQs')
-  },
-  technologyOptions
+  }
 ];
 
 export const InitialLoadOptions = [
@@ -90,7 +122,7 @@ export const InitialLoadOptions = [
     response_type: 'text',
     text: WELCOME_TEXT
   },
-  technologyOptions
+  promptLibraryBubble
 ];
 
 export function handleDefinedTreeQuestions(request, instance) {
