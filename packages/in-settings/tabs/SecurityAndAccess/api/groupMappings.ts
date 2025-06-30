@@ -23,7 +23,7 @@ export interface IdpGroupMapping {
   key: string;
   value: string;
   groupId: string;
-  teamId: string;
+  teamId?: string | null;
 }
 
 export interface IdentityProviderPatch {
@@ -102,17 +102,15 @@ export function deleteMappings(ids: string[]): Observable<Response<void>> {
   });
 }
 
-export function saveMapping(mapping: IdpGroupMapping): Observable<Response<IdpGroupMapping>> {
+export function saveMapping(mapping: IdpGroupMapping): Observable<Result<IdpGroupMapping>> {
   const method = mapping?.id ? 'PUT' : 'POST';
   const url = mapping?.id ? `${basePath}/${encodeURIComponent(mapping.id)}` : basePath;
   return http<IdpGroupMapping>({
     method: method,
     url: url,
     headers: getCsrfHeader(),
-    data: mapping
-  }).map(v => {
-    if (v?.body?.id) refreshSignal.emit(v?.body?.id);
-
-    return v;
+    data: mapping,
+    maxRetries: 3,
+    mapToResultObject: true
   });
 }

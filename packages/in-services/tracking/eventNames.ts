@@ -486,6 +486,7 @@ export const ENTERPRISE_IDP_MAPPING_CHANGED = 'enterprise.idp.mapping.changed';
 export const ENTERPRISE_IDP_MAPPING_REMOVED = 'enterprise.idp.mapping.removed';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS = 'enterprise.idp.mapping.restrictAccess';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE = 'enterprise.idp.mapping.restrictAccess.remove';
+export const ENTERPRISE_IDP_MAPPING_SUBMIT = 'enterprise.idp.mapping.submit';
 
 // Apdex Widget and Apdex Management
 export const APDEX_WIDGET_EDIT_START = 'apdex.widget.edit.start';

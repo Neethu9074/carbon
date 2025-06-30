@@ -55,6 +55,7 @@ export interface OverflowMenuItemProps {
   actionType: string;
   text?: string;
   icon?: JSX.Element;
+  onClick?: () => void;
 }
 
 export interface BatchActionItemProps {
@@ -532,8 +533,11 @@ export default function MultiSelectDataTable<
                                       <OverflowMenuItem
                                         key={index}
                                         onClick={() => {
-                                          if (item.actionType === 'delete')
+                                          if (item.actionType === 'delete') {
                                             handleDeleteActions(row as DataTableRow<COL_TYPE, ROW_DATA_TYPE>);
+                                          } else {
+                                            if (item?.onClick) item?.onClick();
+                                          }
                                         }}
                                         itemText={item.text}
                                         data-testid={`${item.actionType}Icon`}
@@ -570,8 +574,11 @@ export default function MultiSelectDataTable<
                                           label={item.label}
                                           key={index}
                                           onClick={() => {
-                                            if (item.actionType === 'delete')
+                                            if (item.actionType === 'delete') {
                                               handleDeleteActions(row as DataTableRow<COL_TYPE, ROW_DATA_TYPE>);
+                                            } else {
+                                              if (item?.onClick) item?.onClick();
+                                            }
                                           }}
                                           data-testid={`${item.actionType}Icon`}
                                           autoAlign

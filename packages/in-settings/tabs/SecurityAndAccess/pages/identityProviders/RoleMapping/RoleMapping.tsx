@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { TrashCan } from '@carbon/icons-react';
+import { Edit, TrashCan } from '@carbon/icons-react';
 import React, { useState } from 'react';
 
 import { Link, Typography, Spacer } from '@instana/components';
@@ -30,8 +30,8 @@ import {
   setIdpRestriction
 } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
 import { createRoleMappingForm } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.form';
+import RoleMappingTearsheet from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMappingTearsheet';
 import { RoleMappingRow } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.types';
-import CreateTeamDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/CreateTeamDialog';
 import { getEntityIdView, securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -47,11 +47,18 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 const createMenuItemsForRow = (
   roleMappings: IdpGroupMapping[],
-  row: Omit<DataTableRow<RoleMappingRow<IdpGroupMapping>[], IdpGroupMapping>, 'rowData'>
+  row: Omit<DataTableRow<RoleMappingRow<IdpGroupMapping>[], IdpGroupMapping>, 'rowData'>,
+  setMessage: React.Dispatch<React.SetStateAction<Notification | undefined>>
 ): Array<OverflowMenuItemProps> => {
   const roleMapping = roleMappings.filter(item => item.id === row.id)[0];
   const { key } = roleMapping;
   return [
+    {
+      actionType: 'edit',
+      icon: <Edit />,
+      label: t('in-settings:components.editEntity', { entity: key }),
+      onClick: () => addActiveDialog(<RoleMappingTearsheet roleMapping={roleMapping} setMessage={setMessage} />)
+    },
     {
       actionType: 'delete',
       icon: <TrashCan />,
@@ -172,13 +179,13 @@ const RoleMapping = () => {
           boundedPath="/roleMapping"
           getBatchActionItems={() => ROLE_MAPPING_TABLE_BATCH_ACTIONS}
           getEntityName={({ key }) => t('in-settings:tabs.roleMapping.roleMappingWithName', { name: key })}
-          getMenuItems={row => createMenuItemsForRow(dataTableResult.data, row)}
+          getMenuItems={row => createMenuItemsForRow(dataTableResult.data, row, setMessage)}
           initalSortConfig={ROLE_MAPPING_TABLE_ORDER}
           labelNew={t('in-settings:tabs.roleMapping.newMappingRule')}
           loading={loading}
           message={errorMessage || message}
           onCreateNew={() => {
-            addActiveDialog(<CreateTeamDialog setMessage={setMessage} />);
+            addActiveDialog(<RoleMappingTearsheet setMessage={setMessage} />);
           }}
           pageSizes={ROLE_MAPPING_TABLE_PAGE_SIZES}
           searchAttributes={['key', 'value', 'groupId', 'teamId']}
