@@ -4,13 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { TestResultListItem } from '@instana/types';
 
 import AssociationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContentPresenter';
 import ApplicationLabelContent from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationLabelContent';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
+import { AssociationsSidePanel } from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsSidePanel';
+import { syntheticCarbonTableEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
+import { t } from 'in-i18n';
 
 interface Props {
   item: TestResultListItem;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const AssociationsContent = ({ item, shouldDisplayLink }: Props) => {
+  const [associationsSidePanelOpen, setAssociationsSidePanelOpen] = useState(false);
   const applicationIdsCanBeLinked =
     shouldDisplayLink == undefined
       ? item?.testResultCommonProperties?.testCommonProperties?.accessScopeApplicationIds ?? []
@@ -28,7 +31,7 @@ const AssociationsContent = ({ item, shouldDisplayLink }: Props) => {
     const websiteLabels = item?.testResultCommonProperties?.testCommonProperties?.getWebsiteLabels ?? [];
     const websiteIds = item?.testResultCommonProperties?.testCommonProperties?.websiteIds ?? [];
     const mobileAppLabels = item?.testResultCommonProperties?.testCommonProperties?.mobileApplicationLabels ?? [];
-    const mobileAppsIds = item?.testResultCommonProperties?.testCommonProperties?.mobileApplicationIds ?? [];
+    const mobileAppIds = item?.testResultCommonProperties?.testCommonProperties?.mobileApplicationIds ?? [];
     const websiteIdsCanBeLinked =
       shouldDisplayLink == undefined
         ? item?.testResultCommonProperties?.testCommonProperties?.accessScopeWebsiteIds ?? []
@@ -37,14 +40,38 @@ const AssociationsContent = ({ item, shouldDisplayLink }: Props) => {
       shouldDisplayLink == undefined
         ? item?.testResultCommonProperties?.testCommonProperties?.accessScopeMobileApplicationIds ?? []
         : [];
+    const numberOfAssociations: number = applicationLabels.length + websiteLabels.length + mobileAppLabels.length;
 
-    return (
+    return syntheticCarbonTableEnabled ? (
+      <AssociationsSidePanel
+        associationsSidePanelOpen={associationsSidePanelOpen}
+        setAssociationsSidePanelOpen={setAssociationsSidePanelOpen}
+        associationsColumnText={
+          numberOfAssociations === 1
+            ? t('in-synthetics:dashboard.testList.multiAppDialog.singleAppHeader', {
+                number: numberOfAssociations
+              })
+            : t('in-synthetics:dashboard.testList.multiAppDialog.multiAppHeader', {
+                number: numberOfAssociations
+              })
+        }
+        applicationLabels={applicationLabels}
+        websiteLabels={websiteLabels}
+        mobileAppLabels={mobileAppLabels}
+        applicationIds={applicationIds}
+        websiteIds={websiteIds}
+        mobileAppIds={mobileAppIds}
+        applicationIdsCanBeLinked={applicationIdsCanBeLinked}
+        websiteIdsCanBeLinked={websiteIdsCanBeLinked}
+        mobileAppIdsCanBeLinked={mobileAppIdsCanBeLinked}
+      />
+    ) : (
       <AssociationsContentPresenter
         applicationIds={applicationIds}
         applicationLabels={applicationLabels}
         websiteIds={websiteIds}
         websiteLabels={websiteLabels}
-        mobileAppIds={mobileAppsIds}
+        mobileAppIds={mobileAppIds}
         mobileAppLabels={mobileAppLabels}
         applicationIdsCanBeLinked={applicationIdsCanBeLinked}
         websiteIdsCanBeLinked={websiteIdsCanBeLinked}

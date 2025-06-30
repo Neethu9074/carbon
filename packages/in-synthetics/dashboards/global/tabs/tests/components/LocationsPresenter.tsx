@@ -4,14 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { LocationStatus, TestResultListItem } from '@instana/types';
 import { Card, Li, Stack, SvgIcon, Ul } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
+import { LocationsSidePanel } from 'in-synthetics/dashboards/global/tabs/tests/components/LocationsSidePanel';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { syntheticCarbonTableEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { t } from 'in-i18n';
 
@@ -21,7 +24,16 @@ interface Props {
   item: TestResultListItem;
 }
 
+export const getLocationsColumnText = (totalLocations: number): string => {
+  if (totalLocations === 1) {
+    return t('in-synthetics:dashboard.testList.locationsColumn.singleLocation', { number: totalLocations });
+  }
+  return t('in-synthetics:dashboard.testList.locationsColumn.multipleLocations', { number: totalLocations });
+};
+
 const LocationsPresenter = ({ item }: Props) => {
+  const [locationsSidePanelOpen, setLocationsSidePanelOpen] = useState(false);
+
   const locationStatusList: LocationStatus[] =
     item?.testResultCommonProperties?.testCommonProperties?.locationStatusList ?? [];
   const totalLocations = locationStatusList.length;
@@ -34,14 +46,14 @@ const LocationsPresenter = ({ item }: Props) => {
     );
   }
 
-  const getLocationsColumnText = (): string => {
-    if (totalLocations === 1) {
-      return t('in-synthetics:dashboard.testList.locationsColumn.singleLocation', { number: totalLocations });
-    }
-    return t('in-synthetics:dashboard.testList.locationsColumn.multipleLocations', { number: totalLocations });
-  };
-
-  return (
+  return syntheticCarbonTableEnabled ? (
+    <LocationsSidePanel
+      locationStatusList={locationStatusList}
+      locationsSidePanelOpen={locationsSidePanelOpen}
+      setLocationsSidePanelOpen={setLocationsSidePanelOpen}
+      locationsColumnText={getLocationsColumnText(totalLocations)}
+    />
+  ) : (
     <Overlay
       props={{
         locationStatusList
@@ -54,7 +66,7 @@ const LocationsPresenter = ({ item }: Props) => {
           <SvgIcon type={'lib_synthetic_location'} />
           <div onClick={toggle}>
             <span data-test="locations-col-text" className={locals.labelApp}>
-              {getLocationsColumnText()}
+              {getLocationsColumnText(totalLocations)}
             </span>
           </div>
         </HorizontalFlexWrapper>
@@ -67,6 +79,59 @@ interface ContentProps {
   locationStatusList: LocationStatus[];
   close: () => void;
 }
+export const getContentBySeverity = (location: LocationStatus) => {
+  const severity = location.successRate == 1 ? 0 : 5;
+  const totalRuns = location.totalTestRuns;
+  if (severity === 0) {
+    return (
+      <>
+        {!syntheticCarbonTableEnabled && (
+          <span data-test="no-issues-span" className={locals.locationsLabel}>
+            {t('in-synthetics:dashboard.testList.locationsColumn.noIssues')}
+          </span>
+        )}
+        <HealthIndicatorPresenter
+          openIssues={severity}
+          maxSeverity={severity}
+          active={false}
+          iconOnly
+          iconOnlySize="s"
+        />
+      </>
+    );
+  } else {
+    if (totalRuns !== 0) {
+      return (
+        <>
+          {!syntheticCarbonTableEnabled && (
+            <span data-test="warning-span" className={locals.locationsLabel}>
+              {t('in-synthetics:dashboard.testList.locationsColumn.warning')}
+            </span>
+          )}
+          <HealthIndicatorPresenter
+            openIssues={severity}
+            maxSeverity={severity}
+            iconOnly
+            active={false}
+            iconOnlySize="s"
+          />
+        </>
+      );
+    } else {
+      return (
+        <span
+          data-test="no-health-span"
+          className={classNames({
+            [locals.locationsLabel]: !syntheticCarbonTableEnabled
+          })}
+        >
+          {t('in-synthetics:dashboard.testList.na')}
+        </span>
+      );
+    }
+  }
+};
+
 const Content = (props: ContentProps) => {
   const { locationStatusList, close } = props;
 
@@ -75,50 +140,6 @@ const Content = (props: ContentProps) => {
       return t('in-synthetics:dashboard.testList.locationsColumn.singleRun', { number: totalLocations });
     }
     return t('in-synthetics:dashboard.testList.locationsColumn.multipleRun', { number: totalLocations });
-  };
-
-  const getContentBySeverity = (location: LocationStatus) => {
-    const severity = location.successRate == 1 ? 0 : 5;
-    const totalRuns = location.totalTestRuns;
-    if (severity === 0) {
-      return (
-        <>
-          <span data-test="no-issues-span" className={locals.locationsLabel}>
-            {t('in-synthetics:dashboard.testList.locationsColumn.noIssues')}
-          </span>
-          <HealthIndicatorPresenter
-            openIssues={severity}
-            maxSeverity={severity}
-            active={false}
-            iconOnly
-            iconOnlySize="s"
-          />
-        </>
-      );
-    } else {
-      if (totalRuns !== 0) {
-        return (
-          <>
-            <span data-test="warning-span" className={locals.locationsLabel}>
-              {t('in-synthetics:dashboard.testList.locationsColumn.warning')}
-            </span>
-            <HealthIndicatorPresenter
-              openIssues={severity}
-              maxSeverity={severity}
-              iconOnly
-              active={false}
-              iconOnlySize="s"
-            />
-          </>
-        );
-      } else {
-        return (
-          <span data-test="no-health-span" className={locals.locationsLabel}>
-            {t('in-synthetics:dashboard.testList.na')}
-          </span>
-        );
-      }
-    }
   };
 
   return (

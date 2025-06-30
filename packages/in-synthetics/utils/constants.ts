@@ -23,7 +23,8 @@ import {
   SyntheticDatacenter,
   GroupPermissionEntity,
   DNSQueryType,
-  SyntheticTestFilterOperator
+  SyntheticTestFilterOperator,
+  LocationStatus
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
@@ -910,4 +911,48 @@ export interface CICDConfig {
     configuration: Record<string, any>;
     customProperties?: Record<string, string>;
   };
+}
+
+export interface LocationsSidePanelProps {
+  locationsColumnText: string;
+  locationsSidePanelOpen: boolean;
+  locationStatusList: LocationStatus[];
+  setLocationsSidePanelOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface JsxRow {
+  id: string;
+  [key: string]: string | JSX.Element;
+}
+
+export interface AssociationsSidePanelProps {
+  associationsColumnText: string;
+  associationsSidePanelOpen: boolean;
+  applicationLabels: string[];
+  websiteLabels: string[];
+  mobileAppLabels: string[];
+  applicationIds: string[];
+  websiteIds: string[];
+  mobileAppIds: string[];
+  applicationIdsCanBeLinked: string[];
+  websiteIdsCanBeLinked: string[];
+  mobileAppIdsCanBeLinked: string[];
+  setAssociationsSidePanelOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface RowProps {
+  cells: object[];
+  disabled: boolean;
+  id: string;
+  isExpanded: boolean;
+  isSelected: boolean;
+}
+
+export interface TabProps {
+  key: string;
+  label: string;
+  secondaryLabel: number;
+  labels: string[];
+  idsCanBeLinked: string[];
+  map: Map<any, any> | null;
 }

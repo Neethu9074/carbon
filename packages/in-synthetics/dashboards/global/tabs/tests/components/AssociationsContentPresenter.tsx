@@ -104,7 +104,7 @@ interface ContentProps {
   mobileAppIdsCanBeLinked: string[];
 }
 
-const constructAssociationsMap = (associationLabels: string[], associationIds: string[]) => {
+export const constructAssociationsMap = (associationLabels: string[], associationIds: string[]) => {
   if (associationLabels.length !== associationIds.length) {
     return null;
   }

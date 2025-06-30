@@ -344,15 +344,15 @@
       },
       "createSyntheticTest": "Create synthetic test"
     },
-    "createOnDemandTest":{
+    "createOnDemandTest": {
       "buttonLabel": "Run now",
       "createButtonLabel": "Run test",
-      "cancel":"Cancel",
-      "properties":"Configuration properties",
-      "location":"Location",
-      "iconLabel":"Test is running",
-      "runnowTitle":"Run test now",
-      "multiSelectLabel":"All assigned locations",
+      "cancel": "Cancel",
+      "properties": "Configuration properties",
+      "location": "Location",
+      "iconLabel": "Test is running",
+      "runnowTitle": "Run test now",
+      "multiSelectLabel": "All assigned locations",
       "retryInterval": "This test will retry {{retryCount}} after "
     },
     "httpMethods": {
@@ -545,15 +545,18 @@
         "filterLabel": "Applications",
         "singleAppHeader": "{{ number }} association",
         "multiAppHeader": "{{ number }} associations",
-        "noApplicationsAssociated": "No applications associated"
+        "noApplicationsAssociated": "No applications associated",
+        "noApplicationAssociatedWithTest": "No application associated with the selected test"
       },
       "multiWebDialog": {
         "filterLabel": "Websites",
-        "noWebsitesAssociated": "No websites associated."
+        "noWebsitesAssociated": "No websites associated.",
+        "noWebsiteAssociatedWithTest": "No website associated with the selected test"
       },
       "multiMobileDialog": {
         "filterLabel": "Mobile Apps",
-        "noMobileAppsAssociated": "No mobile apps associated."
+        "noMobileAppsAssociated": "No mobile apps associated.",
+        "nodMobileAppAssociatedWithTest": "No mobile app associated with the selected test"
       },
       "testLabel": "Name",
       "status": "Status",
@@ -576,7 +579,10 @@
         "singleRun": "Runs in {{number}} location",
         "multipleRun": "Runs in {{number}} locations",
         "warning": "Warning",
-        "noIssues": "No issues"
+        "noIssues": "No issues",
+        "locationsSidePanelTitle": "Locations ({{totalLocations}})",
+        "locationsNameHeader": "Name",
+        "locationsHealthHeader": "Health"
       },
       "associationLabel": "Associations",
       "health": "Health",
@@ -603,7 +609,11 @@
         }
       },
       "searchSyntheticTests": "Search synthetic tests",
-      "failedToLoadTestsTitle": "Failed to load synthetic tests"
+      "failedToLoadTestsTitle": "Failed to load synthetic tests",
+      "associationsColumn": {
+        "associationsSidePanelTitle": "Associations ({{totalAssociations}})",
+        "associationsNameHeader": "Name"
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",

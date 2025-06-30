@@ -104,4 +104,17 @@
     text-overflow: ellipsis;
     padding: 0 1rem 0 1rem;
   }
+
+  .associationsSidePanel {
+    :global .cds--tab-content {
+      padding: 0;
+    }
+    :global .cds--data-table th {
+      border-block-end: none !important;
+      border-block-start: none !important;
+    }
+    .noDataTile {
+      padding: 2.5rem 2rem 2.5rem;
+    }
+  }
 }
