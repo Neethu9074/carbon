@@ -19,8 +19,8 @@ import { usePersistentVolumeDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
-const pathSegment = '/nodes';
-const matrixPrefix = 'node.';
+const pathSegment = '/persistentvolumes';
+const matrixPrefix = 'persistentvolume.';
 
 const columnDefinitions = [
   {

@@ -159,7 +159,7 @@ export default [
   persistentVolumeSupportEnabled &&
     !playwithEnabled && {
       label: t('in-kubernetes:dashboards.persistentVolumes'),
-      path: `${clusterDashboardFullyQualified}/}${persistentVolumesDashboard}`,
+      path: `${clusterDashboardFullyQualified}${persistentVolumesDashboard}`,
       component: PersistentVolumes,
       header: props => getCounterComponent(props, v => v.persistentVolumes),
       stickToBottom: true
