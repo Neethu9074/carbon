@@ -958,7 +958,21 @@
     "loadMore": "Load more",
     "pageHeader": "Page header",
     "pageTabs": "Page tabs",
-    "content": "Content"
+    "content": "Content",
+    "noData": {
+      "instanaAgent": {
+        "emptyState_title": "Install an Instana agent to start viewing data",
+        "emptyState_linktext": "Learn more about Instana agents",
+        "emptyState_buttontext": "Install an agent",
+        "emptyState_subtitle": "Click Install an agent to find, deploy, and run an Instana agent "
+      },
+      "oTelCollector": {
+        "emptyState_title": "Install an OpenTelemetry collector to start viewing data",
+        "emptyState_linktext": "Learn more about Instana oTel collector",
+        "emptyState_buttontext": "Install a collector",
+        "emptyState_subtitle": "Click Install a collector to find, deploy, and run an OpenTelemetry Collector."
+      }
+    }
   },
   "agentViewKpis": {
     "agents": "agents",

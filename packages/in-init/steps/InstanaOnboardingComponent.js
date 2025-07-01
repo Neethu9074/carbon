@@ -70,7 +70,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
       type: 'openTelemetry',
       pagination: { retrievalSize: 1 } // We only need to check if atleast one entry is present.
     }).subscribe(result => {
-      if (result.data.items.length) {
+      if (result?.data?.items?.length) {
         onDialogSkip();
       } else {
         setOTelDataLoading(false);

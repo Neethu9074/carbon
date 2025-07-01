@@ -29,6 +29,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { businessProcessPath } from 'in-bizops/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import ViewSwitcher from 'in-bizops/components/ViewSwitcher';
 import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -62,7 +63,7 @@ export default function BizOpsList() {
 
   // Properly creating the URL for the Deploy Agent button
   const { createHref, location } = useNavigation();
-  const agentInstallationPath = '/agents/installation';
+  const agentInstallationPath = newOTelPageEnabled ? '/datasources/instanaagent/installation' : '/agents/installation';
   location.pathname = agentInstallationPath;
 
   const [queryTagFilter, setQueryTagFilter] = useState([]);

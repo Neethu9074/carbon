@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import React, { useState, useEffect } from 'react';
@@ -12,12 +12,14 @@ import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import NoDataEmptyState from 'in-plg/components/NoDataEmptyState/NoDataEmptyState';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { datasourceOtemCollectorCatalog } from 'in-plg/navigation/paths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -41,11 +43,11 @@ const LOAD_CHUNK_SIZE = 10;
 
 const OTelCollector = () => {
   const timeConfig = useTimeConfig();
-  const { createHrefToPath } = useNavigation();
+  const { createHrefToPath, goToPath } = useNavigation();
   const [loading, setLoading] = useState(true);
   const [retrievalSize, setRetrievalSize] = useState(LOAD_CHUNK_SIZE);
   const collectorsResult = useObservable(getCollectors({ timeConfig, retrievalSize }), [timeConfig, retrievalSize]);
-  //convert to unknown to avoid type error
+
   const collectors = collectorsResult?.data?.items as unknown as Collector[];
   const totalHits = collectorsResult?.data?.totalHits ?? 0;
   const errors = collectorsResult?.errors;
@@ -98,6 +100,28 @@ const OTelCollector = () => {
       pagination: { retrievalSize }
     });
   }
+
+  if (collectorsResult?.progress?.loading) return <LoadingIndicator />;
+
+  if (!collectorsResult?.progress?.loading && !collectorsResult?.data?.items?.length)
+    return (
+      <NoDataEmptyState
+        title={t('in-plg:datasources.noData.oTelCollector.emptyState_title')}
+        subtitle={t('in-plg:datasources.noData.oTelCollector.emptyState_subtitle')}
+        illustrationPosition="top"
+        link={{
+          text: t('in-plg:datasources.noData.oTelCollector.emptyState_linktext'),
+          href: 'https://ibm.biz/distribution-otel-collector'
+        }}
+        action={{
+          kind: 'primary',
+          text: t('in-plg:datasources.noData.oTelCollector.emptyState_buttontext'),
+          onClick: () => {
+            goToPath(datasourceOtemCollectorCatalog);
+          }
+        }}
+      />
+    );
 
   return (
     <section aria-label={t('in-plg:datasources.content')}>

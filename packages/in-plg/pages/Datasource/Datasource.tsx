@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
@@ -10,11 +10,11 @@ import OTelCollector from 'in-plg/pages/Datasource/OTelCollector/OTelCollector';
 import { SelectedDatasource, datasourceTypes } from 'in-plg/navigation/paths';
 import InstanaAgent from 'in-plg/pages/Datasource/InstanaAgent/InstanaAgent';
 import DatasourceHeader from 'in-plg/pages/Datasource/DatasourceHeader';
-import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
 interface DatasourceProps {
   selectedDatasource: SelectedDatasource;
-  agentSnapshotsResult: OUT | null | undefined;
+  agentSnapshotsResult: SnapshotData;
 }
 
 const Datasource = ({ selectedDatasource, agentSnapshotsResult }: DatasourceProps) => {
