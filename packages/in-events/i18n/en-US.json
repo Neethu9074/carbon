@@ -479,6 +479,8 @@
     "summaryAIGen": "This summary is AI generated",
     "noActivity": "No notes yet",
     "noActivityDetails": "There are no summaries or notes to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.",
+    "noResults": "Nothing found",
+    "noResultsDetails": "There are no results based on your query. Try updating the search terms.",
     "aiExplained": "AI explained",
     "summary": "Summarization",
     "summaryDescription": "To generate an incident summary we send incident and associated event data to watsonx. The data is processed using an AI model and watsonx returns a concise summary grouped by the affected entities.",

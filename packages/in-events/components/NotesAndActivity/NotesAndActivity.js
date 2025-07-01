@@ -95,6 +95,7 @@ export function NotesAndActivity(props) {
 
   const emptyList = notes?.length === 0;
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
+  const noResultsFound = !emptyList && filteredNotes.length === 0 && searchInput != '';
 
   return (
     <div id="NotesAndActivityWrapper">
@@ -169,6 +170,7 @@ export function NotesAndActivity(props) {
                 />
               )}
               {!incidentSummarizationEnabled && emptyList && <EmptyState />}
+              {noResultsFound && <NoResultsFound />}
               <CommentList
                 notes={filteredNotes}
                 displayQuickStart={displayQuickStart}
@@ -239,6 +241,16 @@ export function EmptyState() {
     <div className={locals.emptyWrapper}>
       <h3 className={locals.emptyHeader}>{t('in-events:notes.noActivity')}</h3>
       <p className={locals.emptyInfo}>{t('in-events:notes.noActivityDetails')}</p>
+    </div>
+  );
+}
+
+// Basic no results state for notes when searching
+export function NoResultsFound() {
+  return (
+    <div className={locals.emptyWrapper}>
+      <h3 className={locals.emptyHeader}>{t('in-events:notes.noResults')}</h3>
+      <p className={locals.emptyInfo}>{t('in-events:notes.noResultsDetails')}</p>
     </div>
   );
 }
