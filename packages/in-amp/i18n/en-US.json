@@ -174,5 +174,11 @@
         "notProvided": "(not provided)"
       }
     }
+  },
+  "accountAndBilling":{
+    "accountAndBilling": "Account and billing",
+    "tabs":{
+      "usage": "Usage"
+    }
   }
 }
