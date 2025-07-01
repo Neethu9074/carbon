@@ -29,10 +29,10 @@ export default function Summary({ timeConfig, data: vm }: SummaryData) {
   return (
     <>
       <KpiGridRow sizes={[3, 3, 3]}>
-        <KpiCard title={t('in-xenserver:dashboards.vm.vcpu')} value={vm.vcpu} />
-        <KpiCard title={t('in-xenserver:dashboards.vm.domId')} value={vm.domId} />
-        <KpiCard title={t('in-xenserver:dashboards.vm.domType')} value={vm.domType} />
-        <KpiCard title={t('in-xenserver:dashboards.vm.state')} value={vm.state} />
+        <KpiCard title={t('in-xenserver:dashboards.vm.vcpu')} value={vm.vcpu} raw />
+        <KpiCard title={t('in-xenserver:dashboards.vm.domId')} value={vm.domId} raw />
+        <KpiCard title={t('in-xenserver:dashboards.vm.domType')} value={vm.domType} raw />
+        <KpiCard title={t('in-xenserver:dashboards.vm.state')} value={vm.state} raw />
       </KpiGridRow>
       <Row verticallyStretchColumns>
         <Col lg={12}>
