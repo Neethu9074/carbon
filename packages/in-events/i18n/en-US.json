@@ -448,7 +448,15 @@
     "search": "Search",
     "prompting": "Prompting",
     "editSample": "Edit this sample prompt by replacing the variables in < > with your details.",
-    "gotIt": "Got it"
+    "gotIt": "Got it",
+    "on": "On",
+    "started": "Started",
+    "end": "End",
+    "state": "State",
+    "group": "Group",
+    "resetFilters": "Reset",
+    "applyFilter": "Apply",
+    "filtering": "Filters"
   },
   "notes": {
     "recommendedActions": "Recommended actions",

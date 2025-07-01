@@ -1,0 +1,5 @@
+:local {
+  .clickableRow {
+    cursor: pointer;
+  }
+}

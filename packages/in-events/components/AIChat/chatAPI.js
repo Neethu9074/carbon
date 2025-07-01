@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { formatDateTime } from '@instana/format-date';
+
 import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -27,12 +29,41 @@ export function sendAPIQuery(query) {
 export function fetchAPIData(chatPayload) {
   const endpoint = chatPayload.api_endpoint;
   delete chatPayload.api_endpoint;
-  const obj = http({
+  let obj = http({
     method: 'POST',
     maxRetries: 3,
     url: endpoint,
     headers: getCsrfHeader(),
     data: chatPayload
+  });
+  if (endpoint === '/api/events') {
+    obj = http({
+      method: 'GET',
+      maxRetries: 3,
+      url: endpoint,
+      headers: getCsrfHeader(),
+      queryParams: {
+        to: chatPayload.to,
+        windowSize: chatPayload.windowSize,
+        from: chatPayload.from,
+        filterEventUpdate: chatPayload.filterEventUpdate,
+        eventTypeFilters: chatPayload.eventTypeFilters,
+        excludeTriggeredBefore: chatPayload.excludeTriggeredBefore
+      }
+    });
+  }
+
+  return obj.map(response => response.body);
+}
+
+export function fetchEventsData(eventsPayload, apiPayload) {
+  const endpoint = '/api/chat/events';
+  const obj = http({
+    method: 'POST',
+    maxRetries: 3,
+    url: endpoint,
+    headers: getCsrfHeader(),
+    data: { eventData: eventsPayload, query: apiPayload }
   });
   return obj.map(response => response.body);
 }
@@ -163,6 +194,95 @@ export function formatForTable(nlg, apiResponse) {
       ]
     }
   };
+}
+
+export function formatForEventsTable(nlg, apiResponse) {
+  // Create response structure with NLG text
+  const createResponse = (headers, rows) => ({
+    output: {
+      generic: [
+        {
+          response_type: 'user_defined',
+          user_defined: { user_defined_type: 'nlg_response', text: nlg }
+        },
+        {
+          response_type: 'user_defined',
+          user_defined: { user_defined_type: 'events_table', headers, rows }
+        }
+      ]
+    }
+  });
+
+  // Empty result for invalid data
+  const emptyResult = createResponse([], []);
+
+  // Standard headers
+  const baseHeaders = [
+    { key: 'name', header: t('in-events:aichat.name') },
+    { key: 'on', header: t('in-events:aichat.on') },
+    { key: 'started', header: t('in-events:aichat.started') },
+    { key: 'end', header: t('in-events:aichat.end') },
+    { key: 'state', header: t('in-events:aichat.state') }
+  ];
+
+  // Headers with group column
+  const groupedHeaders = [
+    ...baseHeaders.slice(0, 2),
+    { key: 'group', header: t('in-events:aichat.group') },
+    ...baseHeaders.slice(2)
+  ];
+
+  // Extract events data
+  const events = apiResponse?.data?.events;
+  if (!events || !Array.isArray(events) || events.length === 0) {
+    return emptyResult;
+  }
+
+  // Case 1: Array of event objects directly
+  if (events[0].entityName || events[0].entityType || events[0].start) {
+    const rows = events.map((event, index) => ({
+      id: `row-${index}`,
+      name: event.problem || '',
+      on: event.entityLabel || '',
+      started: formatDateTime(event.start),
+      end: formatDateTime(event.end),
+      state: event.state || '',
+      eventId: event.eventId
+    }));
+
+    return createResponse(baseHeaders, rows);
+  }
+
+  // Case 2: Array with a single object containing grouped events
+  else {
+    const rows = [];
+    const firstItem = events[0];
+
+    // Check if the first item is an object with keys mapping to arrays
+    if (typeof firstItem === 'object' && firstItem !== null) {
+      Object.entries(firstItem).forEach(([groupKey, groupEvents]) => {
+        if (!Array.isArray(groupEvents)) return;
+
+        groupEvents.forEach((event, index) => {
+          rows.push({
+            id: `row-${groupKey}-${index}`,
+            name: event.problem || '',
+            on: event.entityLabel || '',
+            group: groupKey,
+            started: formatDateTime(event.start),
+            end: formatDateTime(event.end),
+            state: event.state || '',
+            eventId: event.eventId
+          });
+        });
+      });
+
+      if (rows.length === 0) return emptyResult;
+      return createResponse(groupedHeaders, rows);
+    }
+  }
+
+  return emptyResult;
 }
 
 /**

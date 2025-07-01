@@ -4,8 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error not ts file
-import { formatForTable, sendAPIQuery, fetchAPIData, formatForBarChart } from 'in-events/components/AIChat/chatAPI';
+//@ts-expect-error not ts file - temporary
+import { formatForTable, sendAPIQuery, fetchAPIData } from 'in-events/components/AIChat/chatAPI';
+//@ts-expect-error not ts file - temporary
+import { formatForBarChart, formatForEventsTable } from 'in-events/components/AIChat/chatAPI';
 
 const DATA = {
   emptyItems: {
@@ -393,5 +395,205 @@ describe('formatForBarChart', () => {
     expect(result?.data?.[0].group).toBe('POST');
     expect(result?.data[0].value).toBe(774);
     expect(result?.options).toEqual(chartOptions);
+  });
+});
+
+// Test data for formatForEventsTable
+const EVENTS_DATA = {
+  emptyEvents: {
+    data: {
+      events: []
+    }
+  },
+  nullEvents: {
+    data: {
+      events: null
+    }
+  },
+  arrayOfEvents: {
+    data: {
+      count: 2,
+      events: [
+        {
+          severity: 5,
+          eventId: 'I8RsDKG7RX67C_vu_ULD8Q',
+          fixSuggestion: 'Event with 2 conditions',
+          snapshotId: 'ldzVavfk_wMmovt6SA8FnMf1N5o',
+          entityType: 'INFRASTRUCTURE',
+          start: 1749763241000,
+          type: 'issue',
+          problem: 'Event with 2 conditions',
+          eventSpecificationId: 'tVrCdlcoG62w-2Aq',
+          entityName: 'JVM',
+          end: 1749763576000,
+          state: 'open',
+          detail: 'Event with 2 conditions'
+        },
+        {
+          severity: 10,
+          eventId: 'XZ1HcdrFTUOf61okTRr6xA',
+          fixSuggestion: 'Calls are slower or equal to 1 ms based on latency (90th).',
+          snapshotId: 'XV3A_Gi4dvSf3Zf3FcNJSK9DR6w',
+          entityType: 'ENDPOINT',
+          start: 1749757382004,
+          type: 'issue',
+          problem: 'Forced "Archive Invoice" activity alert',
+          eventSpecificationId: '_DDlqshtQgeCsssRZY2n3g',
+          entityName: 'Endpoint',
+          entityLabel: 'Archive Invoice',
+          end: 1749757472004,
+          state: 'closed',
+          detail: 'Calls are slower or equal to 1 ms based on latency (90th).'
+        }
+      ]
+    }
+  },
+  groupedEvents: {
+    data: {
+      count: 55,
+      events: [
+        {
+          errors: [
+            {
+              eventId: 'SeCVrkXWSvezckInfEmnhg',
+              start: 1749757862004,
+              end: 1749758192004,
+              type: 'issue',
+              state: 'closed',
+              problem: 'Test errors per service',
+              detail: 'Test errors per service',
+              severity: 10,
+              entityName: 'Service',
+              entityLabel: 'dev181183.service-now.com',
+              entityType: 'SERVICE',
+              fixSuggestion: 'Test errors per service'
+            },
+            {
+              eventId: 's3o4Dt_NSwyBEfMs_GISfw',
+              start: 1749757862004,
+              end: 1749759092004,
+              type: 'issue',
+              state: 'open',
+              problem: 'Test errors per service',
+              detail: 'Test errors per service',
+              severity: 10,
+              entityName: 'Service',
+              entityLabel: 'dev.api.ibm.com',
+              entityType: 'SERVICE',
+              fixSuggestion: 'Test errors per service'
+            }
+          ],
+          latency: [
+            {
+              eventId: '9BG5J4FKSoO4DdTw2HfsaQ',
+              start: 1749742262003,
+              end: 1749757487677,
+              type: 'issue',
+              state: 'closed',
+              problem: 'Calls are slower than usual',
+              detail: 'Calls are slower or equal to 33 ms based on latency (90th).',
+              severity: 10,
+              entityName: 'Application',
+              entityLabel: 'DO THIS',
+              entityType: 'APPLICATION',
+              fixSuggestion: 'Calls are slower or equal to 33 ms based on latency (90th).'
+            }
+          ]
+        }
+      ]
+    }
+  },
+  emptyGroupedEvents: {
+    data: {
+      count: 0,
+      events: [
+        {
+          errors: [],
+          latency: []
+        }
+      ]
+    }
+  }
+};
+
+describe('formatForEventsTable', () => {
+  const nlg = 'Test NLG response';
+
+  it('returns empty result for null events', () => {
+    const result = formatForEventsTable(nlg, EVENTS_DATA.nullEvents);
+    expect(result.output.generic[0].user_defined.text).toBe(nlg);
+    expect(result.output.generic[1].user_defined.headers).toEqual([]);
+    expect(result.output.generic[1].user_defined.rows).toEqual([]);
+  });
+
+  it('returns empty result for empty events array', () => {
+    const result = formatForEventsTable(nlg, EVENTS_DATA.emptyEvents);
+    expect(result.output.generic[0].user_defined.text).toBe(nlg);
+    expect(result.output.generic[1].user_defined.headers).toEqual([]);
+    expect(result.output.generic[1].user_defined.rows).toEqual([]);
+  });
+
+  it('correctly formats array of events', () => {
+    const result = formatForEventsTable(nlg, EVENTS_DATA.arrayOfEvents);
+    const userDefined = result.output.generic[1].user_defined;
+
+    // Check headers
+    expect(userDefined.headers.length).toBe(5);
+    expect(userDefined.headers[0].key).toBe('name');
+    expect(userDefined.headers[1].key).toBe('on');
+    expect(userDefined.headers[2].key).toBe('started');
+    expect(userDefined.headers[3].key).toBe('end');
+    expect(userDefined.headers[4].key).toBe('state');
+
+    // Check rows
+    expect(userDefined.rows.length).toBe(2);
+
+    // Check first row
+    expect(userDefined.rows[0].name).toBe('Event with 2 conditions');
+    expect(userDefined.rows[0].on).toBe('');
+    expect(userDefined.rows[0].state).toBe('open');
+
+    // Check second row
+    expect(userDefined.rows[1].name).toBe('Forced "Archive Invoice" activity alert');
+    expect(userDefined.rows[1].on).toBe('Archive Invoice');
+    expect(userDefined.rows[1].state).toBe('closed');
+  });
+
+  it('correctly formats grouped events', () => {
+    const result = formatForEventsTable(nlg, EVENTS_DATA.groupedEvents);
+    const userDefined = result.output.generic[1].user_defined;
+
+    // Check headers - should include group column
+    expect(userDefined.headers.length).toBe(6);
+    expect(userDefined.headers[0].key).toBe('name');
+    expect(userDefined.headers[1].key).toBe('on');
+    expect(userDefined.headers[2].key).toBe('group');
+    expect(userDefined.headers[3].key).toBe('started');
+    expect(userDefined.headers[4].key).toBe('end');
+    expect(userDefined.headers[5].key).toBe('state');
+
+    // Check rows
+    expect(userDefined.rows.length).toBe(3);
+
+    // Check rows have group information
+    expect(userDefined.rows[0].group).toBe('errors');
+    expect(userDefined.rows[1].group).toBe('errors');
+    expect(userDefined.rows[2].group).toBe('latency');
+
+    // Check specific row data
+    expect(userDefined.rows[0].name).toBe('Test errors per service');
+    expect(userDefined.rows[0].on).toBe('dev181183.service-now.com');
+    expect(userDefined.rows[0].state).toBe('closed');
+
+    expect(userDefined.rows[2].name).toBe('Calls are slower than usual');
+    expect(userDefined.rows[2].on).toBe('DO THIS');
+    expect(userDefined.rows[2].state).toBe('closed');
+  });
+
+  it('returns empty result for empty grouped events', () => {
+    const result = formatForEventsTable(nlg, EVENTS_DATA.emptyGroupedEvents);
+    expect(result.output.generic[0].user_defined.text).toBe(nlg);
+    expect(result.output.generic[1].user_defined.headers).toEqual([]);
+    expect(result.output.generic[1].user_defined.rows).toEqual([]);
   });
 });
