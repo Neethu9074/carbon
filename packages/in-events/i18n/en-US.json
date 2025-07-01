@@ -434,7 +434,7 @@
     "findingInfoFrom": "Finding that info from {{endpoint}}",
     "noData": "No data returned from API",
     "whatToKnow": "What do you want to know about {{category}}?",
-    "welcome": "Hello and welcome!  I'm happy to provide details about your environment, specifically your Applications and Infrastructure.  Ask a question or get started by exploring the prompt library.",
+    "welcome": "Hello and welcome!  I'm happy to provide details about your environment, specifically your Applications, Infrastructure and Events.  Ask a question or get started by exploring the prompt library.",
     "apps": "Applications",
     "infra": "Infrastructure",
     "tableView": "Table view",

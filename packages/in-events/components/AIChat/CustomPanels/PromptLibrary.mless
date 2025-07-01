@@ -30,6 +30,7 @@
   }
 
   .tabHeader {
+    flex: 1 !important;
     :global(.cds--tabs__nav-item-label-wrapper) {
       justify-content: center;
     }
