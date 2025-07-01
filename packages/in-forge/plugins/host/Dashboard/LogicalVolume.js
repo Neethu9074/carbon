@@ -5,11 +5,8 @@
  */
 
 import React from 'react';
-
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -55,7 +52,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.logVol.get('logical_volume_mount_point');
+        return row.logVol.get('logical_volume_mount_point') || 'N/A';
       }
     }
   },
@@ -64,44 +61,28 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.logVol.get('logical_volume_state');
+        return row.logVol.get('logical_volume_state') || 'UNKNOWN';
       }
     }
   }
 ];
 
-export default connectTo(
-  props => {
-    return {
-      rawPayloadWithTimestamp: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'logicalVolumes')
-    };
-  },
-  function LogicalVolumes({ snapshot, timeConfig, rawPayloadWithTimestamp }) {
-    if (!rawPayloadWithTimestamp || !rawPayloadWithTimestamp.get('raw_payload')) {
-      return null;
-    }
+export default function LogicalVolumes({ snapshot, timeConfig }) {
+  const logicalVolumes = snapshot.getIn(['data', 'logicalVolumes']);
 
-    const logicalVolumes = rawPayloadWithTimestamp.get('raw_payload', []);
-    if (logicalVolumes.size === 0) {
-      return null;
-    }
-
-    const rows = logicalVolumes
-      .keySeq()
-      .toArray()
-      .map(key => {
-        const logVol = logicalVolumes.get(key);
-        return {
-          key: String(key),
-          logVol,
-          timeConfig,
-          hostSnapshot: snapshot,
-          hostSnapshotId: snapshot.get('id')
-        };
-      });
-
-    return (
-      <Table cardTitle={t('in-forge:plugins.host.dashboard.logicalVolume')} withoutPadding cols={cols} rows={rows} />
-    );
+  if (!logicalVolumes || logicalVolumes.isEmpty()) {
+    return null;
   }
-);
+
+  const rows = logicalVolumes.valueSeq().map((logVol, index) => ({
+    key: `lv-${index}-${logVol.get('logical_volume_name')}`,
+    logVol,
+    timeConfig,
+    hostSnapshot: snapshot,
+    hostSnapshotId: snapshot.get('id')
+  })).toArray();
+
+  return (
+    <Table cardTitle={t('in-forge:plugins.host.dashboard.logicalVolume')} withoutPadding cols={cols} rows={rows} />
+  );
+}
