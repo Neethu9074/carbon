@@ -1,4 +1,7 @@
 {
+  "general": {
+    "region": "Region"
+  },
   "accessibility": {
     "opensNewTab": "Opens in a new tab"
   },
@@ -366,7 +369,11 @@
     "loadingIndicatorLoadingData": "Loading data",
     "tooltipResetView": "Reset view",
     "tooltipZoomIn": "Zoom in",
-    "tooltipZoomOut": "Zoom out"
+    "tooltipZoomOut": "Zoom out",
+    "openTable": "Open table",
+    "pageLoads": "Page loads",
+    "modalContent": "Modal content",
+    "unknownTitle": "Uncategorized"
   },
   "groupingConfigurator": {
     "exampleTagCatalogLabelKubernetes": "Kubernetes",
