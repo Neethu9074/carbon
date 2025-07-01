@@ -427,7 +427,6 @@ function useOnSubmit({
               if (isFromDashboard) {
                 refreshPolicy();
               } else {
-                navigateToPolicyPolicies();
                 refresh();
               }
             }

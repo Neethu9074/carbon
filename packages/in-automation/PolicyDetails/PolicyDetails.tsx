@@ -177,7 +177,11 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
             </CarbonRow>
           </CarbonStack>
         </section>
-        <CreateNewPolicyTearsheet {...tearsheetProps} closeHandler={() => setTearsheetProps({ open: false })} />
+        <CreateNewPolicyTearsheet
+          {...tearsheetProps}
+          closeHandler={() => setTearsheetProps({ open: false })}
+          isFromDashboard
+        />
       </Form>
     </ActionFormContext.Provider>
   );

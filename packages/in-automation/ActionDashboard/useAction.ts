@@ -14,7 +14,7 @@ export function refreshAction() {
   refreshSignal.emit(true);
 }
 
-const useAction = memoize(getActionAsResultObservableInternal, id => id, 60000);
+const useAction = memoize(getActionAsResultObservableInternal, id => id, 3000);
 
 function getActionAsResultObservableInternal(id: string) {
   return refreshSignal.flatMap(() => getAction(id));
