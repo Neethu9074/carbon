@@ -1,0 +1,5 @@
+:local {
+  .llmContainer {
+    padding-top: var(--cds-spacing-05);
+  }
+}

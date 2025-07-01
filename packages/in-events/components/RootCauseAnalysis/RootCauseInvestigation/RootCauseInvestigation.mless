@@ -7,4 +7,13 @@
       margin-top: 0.2rem;
     }
   }
+
+  .grid {
+    padding: 0;
+  }
+
+  .cardWithBorder {
+    border: 1px solid var(--cds-layer-accent);
+    height: 100%;
+  }
 }

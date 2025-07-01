@@ -5,47 +5,32 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { AILabel, AILabelContent, AISkeletonText, AccordionSkeleton, Accordion, AccordionItem } from '@carbon/react';
+import { AISkeletonText, AccordionSkeleton, Accordion, AccordionItem } from '@carbon/react';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import {
-  CarbonCallout,
-  CarbonLayer,
-  PreviewPill,
-  Stack,
-  TypographyProps,
-  Typography as TypographyWithMargin
-} from '@instana/components';
+import { CarbonCallout, CarbonLayer, PreviewPill, Stack } from '@instana/components';
 import { createLogger } from '@instana/logger';
-import { Trans, t } from '@instana/i18n-react';
+import { t } from '@instana/i18n-react';
 
 import {
   InvestigationResponse,
   startInvestigation as startInvestigationAPI
 } from 'in-events/subscriptions/rcaInvestigation';
+import SingleEntityOutput from 'in-events/components/RootCauseAnalysis/RootCauseInvestigation/SingleEntityOutput';
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
-import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
-import { toHtml } from 'in-services/formatters/markdown';
-import { Event } from 'in-types';
-
-import locals from 'in-events/components/RootCauseAnalysis/RootCauseInvestigation/RootCauseInvestigation.mless';
+import { useIncident } from 'in-events/components/providers/IncidentProvider';
 
 const logger = createLogger('in-events:RCA.Investigation');
 
-const Typography = (props: TypographyProps) => <TypographyWithMargin noMargin {...props} />;
-const MarkdownRenderer = (props: { html: string; className?: string }) => (
-  <DangerousHtmlPresenter className={locals.llmOutput} {...props} />
-);
-
 interface RootCauseInvestigationProps {
   openInvestigation: boolean;
-  incident: Event;
   setOpenInvestigation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RootCauseInvestigation = ({ openInvestigation, incident, setOpenInvestigation }: RootCauseInvestigationProps) => {
+const RootCauseInvestigation = ({ openInvestigation, setOpenInvestigation }: RootCauseInvestigationProps) => {
+  const { incident } = useIncident();
   const { selectedRootCause } = useContext(SelectedRootCauseContext);
   const { rootCauses, rootCauseMetadata } = useContext(RootCauseDataContext);
   const rootCause = rootCauses[selectedRootCause];
@@ -157,6 +142,7 @@ const RootCauseInvestigation = ({ openInvestigation, incident, setOpenInvestigat
               />
             )}
             <SingleEntityOutput
+              startInvestigation={startInvestigation}
               backendResponse={backendResponse[selectedRootCause]}
               backendLoading={backendLoading[selectedRootCause]}
               error={error[selectedRootCause]}
@@ -166,102 +152,6 @@ const RootCauseInvestigation = ({ openInvestigation, incident, setOpenInvestigat
       </Accordion>
     </CarbonLayer>
   );
-};
-
-const SingleEntityOutput = ({
-  backendResponse,
-  backendLoading,
-  error
-}: {
-  backendResponse: InvestigationResponse | null;
-  backendLoading: boolean;
-  error: String | null;
-}) => {
-  if (backendResponse === null) {
-    if (!backendLoading) {
-      return error === null ? (
-        <Typography variant="body-01">
-          <Trans i18nKey="in-events:RCA.singleEntityLLM.runInvestigationInstructions" />
-        </Typography>
-      ) : (
-        <></>
-      );
-    } else {
-      return <></>;
-    }
-  } else {
-    return (
-      <>
-        <Stack gap="xxsmall">
-          <Stack gap="xsmall" direction="horizontal">
-            <Typography variant="heading-compact-02">{t('in-events:RCA.singleEntityLLM.diagnosisTitle')}</Typography>
-            <AILabel>
-              <AILabelContent>
-                <Stack gap="small">
-                  <Stack gap="xxsmall">
-                    <Typography variant="body-compact-01">
-                      {t('in-events:RCA.singleEntityLLM.aiExplainedTitle')}
-                    </Typography>
-                    <Typography variant="heading-05">{backendResponse.fact_check.factuality_score * 100}%</Typography>
-                  </Stack>
-
-                  <Stack gap="xxsmall">
-                    <Typography variant="heading-compact-01">
-                      {t('in-events:RCA.singleEntityLLM.factualityScoreTitle')}
-                    </Typography>
-                    <Typography variant="body-compact-01">
-                      <MarkdownRenderer html={toHtml(backendResponse.fact_check.reasoning)} />
-                    </Typography>
-                  </Stack>
-
-                  <Stack gap="xxsmall">
-                    <Typography variant="heading-compact-01">
-                      {t('in-events:RCA.singleEntityLLM.reasoningTitle')}
-                    </Typography>
-                    <Typography variant="body-compact-01">
-                      <MarkdownRenderer
-                        html={toHtml(backendResponse.diagnosis.reasoning, {
-                          breaks: true,
-                          typographer: true,
-                          html: true
-                        })}
-                      />
-                    </Typography>
-                  </Stack>
-                </Stack>
-              </AILabelContent>
-            </AILabel>
-          </Stack>
-          <Typography variant="body-01">
-            <MarkdownRenderer html={toHtml(backendResponse.diagnosis.diagnosis)} />
-          </Typography>
-        </Stack>
-
-        <Stack gap="xxsmall">
-          <Typography variant="heading-01">{t('in-events:RCA.singleEntityLLM.errorLogSummaryTitle')}</Typography>
-          <Typography variant="body-01">
-            <MarkdownRenderer html={toHtml(backendResponse.trace_error_log_summary)} />
-          </Typography>
-        </Stack>
-
-        <Stack gap="xxsmall">
-          <Typography variant="heading-01">{t('in-events:RCA.singleEntityLLM.traceLogSummaryTitle')}</Typography>
-          <Typography variant="body-01">
-            <MarkdownRenderer html={toHtml(backendResponse.trace_log_summary)} />
-          </Typography>
-        </Stack>
-
-        <Stack gap="xxsmall">
-          <Typography variant="heading-01">
-            {t('in-events:RCA.singleEntityLLM.associatedEventsSummaryTitle')}
-          </Typography>
-          <Typography variant="body-01">
-            <MarkdownRenderer html={toHtml(backendResponse.event_summary)} />
-          </Typography>
-        </Stack>
-      </>
-    );
-  }
 };
 
 export default RootCauseInvestigation;

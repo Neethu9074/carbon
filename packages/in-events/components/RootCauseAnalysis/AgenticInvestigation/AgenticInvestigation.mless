@@ -9,9 +9,10 @@
 
   .cardWithBorder {
     border: 1px solid var(--cds-layer-accent);
+    height: 100%;
   }
 
-  .innerCardsLayout {
-    grid-template-columns: 20rem auto;
+  .grid {
+    padding: 0;
   }
 }

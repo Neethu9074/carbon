@@ -27,6 +27,8 @@ import { ServiceLabel } from 'in-types';
 
 import locals from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseSidebar/EntityLink.mless';
 
+const capatalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
 interface EntityLinkProps {
   label: string;
   tracking: TrackRcaClickProps;
@@ -82,7 +84,7 @@ const EntityLink: FC<EntityLinkProps> = ({
       <span className={locals.decorator}>
         <span className={locals.decoratorLabel}>
           <SvgIcon type={getIconForRCADisplay(type as string, plugin)} size="xxs" />
-          {type}
+          {plugin ? capatalize(plugin) : capatalize(type as string)}
         </span>
         <Link
           aria-label={label}

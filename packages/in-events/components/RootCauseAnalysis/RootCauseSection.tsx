@@ -200,7 +200,6 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
                 {rcaAiAutomatedInvestigationEnabled && (
                   <RootCauseInvestigation
                     openInvestigation={openInvestigation}
-                    incident={incidentJSON}
                     setOpenInvestigation={setOpenInvestigation}
                   />
                 )}

@@ -304,18 +304,27 @@
       "legendTrigger": "Triggering Event Entity"
     },
     "singleEntityLLM": {
-      "investigateButtonLabel": "Investigate for me",
+      "mainContainerTitle": "Investigate",
+      "mainContainerSubtitle": "Explore the incident topology to see the triggering event and the probable root cause. You can also see recommended actions from watsonx or investigate the incident further.",
+      "switcher": {
+        "automation": "Recommended actions",
+        "investigation": "Investigation"
+      },
+      "entityDetails": {
+        "noEntitySelectedTitle": "No entity selected",
+        "noEntitySelectedDescription": "Select an entity to view its details"
+      },
+      "investigateButtonLabel": "Run investigation",
       "investigationPanelTitle": "Agentic investigation",
       "errorTitle": "Error",
       "commonErrorMessage": "There was an unexpected error while investigating this root cause.",
       "diagnosisTitle": "Diagnosis",
-      "aiExplainedTitle": "AI explained",
       "factualityScoreTitle": "Factuality score",
       "reasoningTitle": "Reasoning",
       "errorLogSummaryTitle": "Error log summary",
       "traceLogSummaryTitle": "Trace log summary",
       "associatedEventsSummaryTitle": "Associated events summary",
-      "runInvestigationInstructions": "To launch an investigation, click <strong>Investigate for me</strong>."
+      "runInvestigationInstructions": "To see a detailed and comprehensive summary of the root cause, click <strong>Run investigation.<strong>"
     }
   },
   "dataGridEventTable": {
