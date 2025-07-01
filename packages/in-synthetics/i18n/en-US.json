@@ -1,4 +1,5 @@
 {
+  "tooltipCopyToClipboard": "Copy to clipboard",
   "dialog": {
     "createTest": {
       "buttonLabel": "Add synthetic test",
@@ -849,7 +850,43 @@
       "sslCertificate": {
         "daysRemaining": "Days remaining",
         "timeOfIssue": "Time of issue",
-        "timeOfExpiry": "Time of expiry"
+        "timeOfExpiry": "Time of expiry",
+        "customMetrics": {
+          "titles": {
+            "details": "Details",
+            "testDetails": "Test details",
+            "customMetrics": "Custom metrics",
+            "issuedTo": "Issued to",
+            "issuedBy": "Issued by",
+            "publicKeyInfo": "Public key information",
+            "fingerprints": "Fingerprints",
+            "tls": "Cipher & tls information",
+            "serialNumber": "Serial number",
+            "extKeyUsage": "Extended key usage"
+          },
+          "daysRemaining": "Days remaining:",
+          "valid": "Valid:",
+          "validFrom": "Valid from:",
+          "validTo": "Valid to:",
+          "commonName": "Common name:",
+          "alternativeName": "Alternative name:",
+          "locality": "Locality:",
+          "organizationUnit": "Organization unit:",
+          "organization": "Organization:",
+          "state": "State/province:",
+          "country": "Country:",
+          "standardName": "Standard name:",
+          "name": "Cipher name:",
+          "version": "TLS version:",
+          "fingerprint": "Fingerprint1:",
+          "fingerprint256": "Fingerprint2:",
+          "size": "Key size:",
+          "modulus": "Modulus:",
+          "algorithm": "Algorithm:",
+          "exponent": "Exponent:",
+          "serialNumber": "Serial number:",
+          "extKeyUsage": "Extended key usage:"
+        }
       },
       "failedRunErrorTypeTitle": "Error type",
       "viewRecordingLabel": "View recording",

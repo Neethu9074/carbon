@@ -147,14 +147,14 @@ export function formatErrorMessage(error: string, index: number) {
 }
 
 /**
- * Parses a string of custom DNS metrics into an array of objects.
+ * Parses a string of custom DNS metrics or SSL metrics into an array of objects.
  * Each object represents a metric with key-value pairs,
- * Handles nested braces as well.
+ * Handles nested braces and square brackets as well.
  *
- * @param customMetrics - The raw custom metrics string, potentially containing nested `{}` structures.
+ * @param customMetrics - The raw custom metrics string, potentially containing nested `{}`, `[]` structures.
  * @returns An array of parsed metric objects, or undefined if parsing fails.
  */
-export const parseDNSCustomMetrics = (customMetrics: string) => {
+export const parseIsmCustomMetrics = (customMetrics: string) => {
   try {
     const customMetricsArray = [];
     let customMetricElement = '',
@@ -203,16 +203,16 @@ export const parseDNSCustomMetrics = (customMetrics: string) => {
           continue;
         }
 
-        if (char === '{') depth++;
-        if (char === '}') depth--;
+        if (char === '{' || char === '[') depth++;
+        if (char === '}' || char === ']') depth--;
 
         token += char;
       }
 
       if (!readingKey) {
-        customMetricsObject[key] = token.trim();
+        token = token.trim();
+        customMetricsObject[key] = token.includes('[') ? token.slice(1, -1) : token;
       }
-
       return customMetricsObject;
     });
   } catch {

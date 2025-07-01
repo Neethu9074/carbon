@@ -18,7 +18,7 @@ import { PaginatedResult, Result, TestResultListItem } from '@instana/types';
 import { ProductiveCard } from '@instana/ibm-products';
 
 import { DNSRecordTable } from 'in-synthetics/dashboards/details/components/DNSRecordTable';
-import { parseDNSCustomMetrics } from 'in-synthetics/dashboards/details/utils';
+import { parseIsmCustomMetrics } from 'in-synthetics/dashboards/details/utils';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/details/components/DNSTestDetails.mless';
@@ -44,7 +44,7 @@ export const DNSTestDetails = ({ resultList }: { resultList: Result<PaginatedRes
             {Object.keys(dnsCustomMetrics).map(recordType => {
               const parsedDNSCustomMetrics =
                 dnsCustomMetrics[recordType] && typeof dnsCustomMetrics[recordType] === 'string'
-                  ? parseDNSCustomMetrics(dnsCustomMetrics[recordType])
+                  ? parseIsmCustomMetrics(dnsCustomMetrics[recordType])
                   : undefined;
               return (
                 parsedDNSCustomMetrics && (
