@@ -76,13 +76,10 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   const [scrolled, setScrolled] = useState(false);
   const rcaSectionRef = useRef();
 
-  const incidentHasRCAProperty =
-    incident.hasIn(['metadata', 'probableRootCause']) && !incident.getIn(['metadata', 'probableRootCause']).isEmpty();
-
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const eventType = getEventType(incident);
-  const hasRootCauses = get(incident, 'metadata.rootCause.found', false);
+  const hasRootCauses = incident.getIn(['metadata', 'rootCause', 'found']) ?? false;
 
   const { location } = useNavigation();
 
