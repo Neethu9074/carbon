@@ -15955,6 +15955,8 @@
       "schema": "Schema",
       "virtualFileReads": "Virtual File Reads",
       "virtualFileWrites": "Virtual File Writes",
+      "suspectState": "Suspect State",
+      "nonSynchronizingState": "Non Synchronizing State",
       "databasesWithCount": "Databases ({{len}})",
       "msSqlServer": "MS SQL Server",
       "totalTime": "Total Time",
@@ -15977,7 +15979,8 @@
       "responseTime": "Response Time",
       "response_time_avg": "Average",
       "dbCacheHit": "DB Cache Hit",
-      "db_cache_hit_rate": "Rate"
+      "db_cache_hit_rate": "Rate",
+      "port":"Port"
     },
     "mule": {
       "name": "Name",
