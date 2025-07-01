@@ -6,11 +6,6 @@
 import React from 'react';
 
 import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
-import {
-  smartAlertsLogsBlueprintEnabled,
-  alertChannelPerSeverityApplicationSaEnabled,
-  oneMinuteGranularityForStaticThresholdEnabled
-} from 'in-services/featureFlags';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import { placeholdersByEvaluationTypeAndSeverity } from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -21,6 +16,7 @@ import {
   fieldTouchedAndInvalid,
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { smartAlertsLogsBlueprintEnabled, alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/dialog/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreview';
@@ -185,9 +181,6 @@ export default function AdvancedModeContainer(props) {
             updateForm={updateForm}
             impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
             hasTraceImpactOption
-            oneMinuteGranularityAllowed={
-              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-            }
           />
           <GracePeriodWrapper form={form} updateForm={updateForm} />
         </>

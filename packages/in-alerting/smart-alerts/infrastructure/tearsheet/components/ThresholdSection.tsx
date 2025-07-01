@@ -21,12 +21,10 @@ import { t } from 'in-i18n';
 
 export default function ThresholdSection({
   form,
-  updateForm,
-  oneMinuteGranularityAllowed
+  updateForm
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  oneMinuteGranularityAllowed: boolean;
 }) {
   const groupBy = form.get('groupBy').value;
 
@@ -107,7 +105,7 @@ export default function ThresholdSection({
       </Section>
 
       {/* Time window */}
-      <EvaluationWindow form={form} updateForm={updateForm} oneMinuteGranularityAllowed={oneMinuteGranularityAllowed} />
+      <EvaluationWindow form={form} updateForm={updateForm} />
     </Stack>
   );
 }

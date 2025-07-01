@@ -15,8 +15,6 @@ import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/tearsheet/
 import ThresholdSection from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdSection';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
-import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigTearSheetStep2.mless';
@@ -38,10 +36,6 @@ export default function AlertConfigTearSheetStep2({
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
 }) {
-  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
-  const oneMinuteGranularityAllowed =
-    thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled;
-
   return (
     <>
       <div className={locals.container60_40}>
@@ -49,22 +43,14 @@ export default function AlertConfigTearSheetStep2({
           headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.step2.header')}
           description={t('in-alerting:smartAlerts.infrastructure.tearSheet.step2.description')}
         >
-          <ThresholdSection
-            form={form}
-            updateForm={updateForm}
-            oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
-          />
+          <ThresholdSection form={form} updateForm={updateForm} />
         </TearSheetStepTitleWrapper>
         <span className={locals.seperator} />
         <TearSheetStepTitleWrapper
           headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.timeThreshold.title')}
           description={t('in-alerting:smartAlerts.infrastructure.tearSheet.timeThreshold.description')}
         >
-          <ThresholdViolation
-            form={form}
-            updateForm={updateForm}
-            oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
-          />
+          <ThresholdViolation form={form} updateForm={updateForm} />
           <Spacer size="gutter" />
           <GracePeriodWrapper form={form} updateForm={updateForm} />
           <Spacer size="gutter" />

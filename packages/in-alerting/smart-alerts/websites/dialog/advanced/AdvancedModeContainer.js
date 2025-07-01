@@ -189,7 +189,6 @@ export default function AdvancedModeContainer(props) {
                 updateForm={updateForm}
                 impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
                 hasUserImpactOption
-                oneMinuteGranularityAllowed={thresholdType === STATIC_THRESHOLD}
               />
               <GracePeriodWrapper form={form} updateForm={updateForm} />
             </>

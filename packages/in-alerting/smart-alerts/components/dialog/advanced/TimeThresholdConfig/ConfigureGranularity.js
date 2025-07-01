@@ -10,36 +10,40 @@ import { Stack, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
-import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
-const defaultAllowedGranularity = [5, 10, 15, 20, 30];
+const defaultAllowedGranularity = [1, 5, 10, 15, 20, 30];
+const staticSeasonalAllowedGranularity = [5, 10, 15, 20, 30];
 const adaptiveBaselineAllowedGranularity = [10, 15, 20, 30];
 
-export function getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed) {
-  return getAllowedGranularities(thresholdType, oneMinuteGranularityAllowed).map(min => ({
+export function getMarksForThresholdType(thresholdType) {
+  return getAllowedGranularities(thresholdType).map(min => ({
     value: min,
     label: `${min} min`,
     millis: minutes.toMillis(min)
   }));
 }
 
-function getAllowedGranularities(thresholdType, oneMinuteGranularityAllowed) {
+function getAllowedGranularities(thresholdType) {
   if (thresholdType === ADAPTIVE_BASELINE) {
     return adaptiveBaselineAllowedGranularity;
   }
-  return oneMinuteGranularityAllowed ? [1].concat(defaultAllowedGranularity) : defaultAllowedGranularity;
+  if (thresholdType === HISTORIC_BASELINE) {
+    return staticSeasonalAllowedGranularity;
+  }
+  return defaultAllowedGranularity;
 }
 
 export function getDefaultMark(marks, thresholdType) {
   return thresholdType === ADAPTIVE_BASELINE ? 20 : 10;
 }
 
-export default function ConfigureGranularity({ onChange, granularity, thresholdType, oneMinuteGranularityAllowed }) {
-  const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
+export default function ConfigureGranularity({ onChange, granularity, thresholdType }) {
+  const marks = getMarksForThresholdType(thresholdType);
   const currentValue = marks.find((i => i.millis === granularity) ?? getDefaultMark(marks, thresholdType)).value;
 
   return (
@@ -74,6 +78,5 @@ export default function ConfigureGranularity({ onChange, granularity, thresholdT
 ConfigureGranularity.propTypes = {
   onChange: PropTypes.func,
   granularity: PropTypes.number.isRequired,
-  thresholdType: PropTypes.string,
-  oneMinuteGranularityAllowed: PropTypes.bool
+  thresholdType: PropTypes.string
 };

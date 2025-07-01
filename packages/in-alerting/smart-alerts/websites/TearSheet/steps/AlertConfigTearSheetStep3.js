@@ -15,10 +15,6 @@ import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
-import {
-  oneMinuteGranularityForStaticThresholdEnabled,
-  alertChannelPerSeverityWebsiteSaEnabled
-} from 'in-services/featureFlags';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import EvaluationGranularity from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGranularity';
@@ -28,7 +24,7 @@ import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/threshold
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import { days } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -98,9 +94,6 @@ export default function AlertConfigTearSheetStep3({
             <EvaluationGranularity
               form={form}
               updateForm={updateForm}
-              oneMinuteGranularityAllowed={
-                thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-              }
               thresholdType={thresholdType}
               titleWidth={getTitleWidth()}
             />
@@ -118,9 +111,6 @@ export default function AlertConfigTearSheetStep3({
             updateForm={updateForm}
             impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
             hasUserImpactOption
-            oneMinuteGranularityAllowed={
-              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-            }
           />
           <Spacer size="gutter" />
           <GracePeriodWrapper form={form} updateForm={updateForm} />

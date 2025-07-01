@@ -20,12 +20,12 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
 
-export default function ConfigureAlertingThreshold({ form, onChange, updateForm, oneMinuteGranularityAllowed }) {
+export default function ConfigureAlertingThreshold({ form, onChange, updateForm }) {
   const granularity = form.get('granularity')?.value;
   const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
   const timeThresholdForm = form.get('timeThreshold');
   const timeThresholdType = timeThresholdForm.get('type')?.value;
-  const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
+  const marks = getMarksForThresholdType(thresholdType);
   const granularityInMinutes = marks.find(
     (i => i.millis === granularity) ?? getDefaultMark(marks, thresholdType)
   ).value;
@@ -126,6 +126,5 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm,
 ConfigureAlertingThreshold.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  oneMinuteGranularityAllowed: PropTypes.bool
+  updateForm: PropTypes.func.isRequired
 };

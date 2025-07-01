@@ -100,7 +100,6 @@ module.exports = {
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
   systemRuleEntityCountEnabled: true,
   userSettingsThemeEnabled: true,
-  oneMinuteGranularityForStaticThresholdEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   customDashboardsExportPdfWidget: true,

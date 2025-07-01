@@ -27,19 +27,17 @@ interface Marks {
 
 export default function EvaluationWindow({
   form,
-  oneMinuteGranularityAllowed,
   updateForm,
   smartAlertType
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  oneMinuteGranularityAllowed: boolean;
   smartAlertType?: string;
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const granularity = form.get('granularity')?.value;
 
-  const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
+  const marks = getMarksForThresholdType(thresholdType);
   const foundMark = marks.find((i: Marks) => i.millis === granularity) ?? getDefaultMark(marks, thresholdType);
   const currentValue = foundMark.value;
   const helperText = getgranularityDescription(currentValue, smartAlertType);

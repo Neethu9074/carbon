@@ -348,10 +348,6 @@ export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEnti
 
 export const userSettingsThemeEnabled = isFeatureFlagEnabled('userSettingsThemeEnabled', false);
 
-export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnabled(
-  'oneMinuteGranularityForStaticThresholdEnabled',
-  true
-);
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 

@@ -9,17 +9,16 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 
 import {
-  infraPredictiveDetectionEnabled,
-  oneMinuteGranularityForStaticThresholdEnabled,
-  alertChannelPerSeverityInfraSaEnabled,
-  incidentTriggeringInfraSaEnabled
-} from 'in-services/featureFlags';
-import {
   useGetAlertTitle,
   useFormattedThresholdValue,
   generateTitle,
   getTitlePlaceholderData
 } from 'in-alerting/smart-alerts/infrastructure/hooks/useGetAlertTitle';
+import {
+  infraPredictiveDetectionEnabled,
+  alertChannelPerSeverityInfraSaEnabled,
+  incidentTriggeringInfraSaEnabled
+} from 'in-services/featureFlags';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
@@ -42,7 +41,6 @@ import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/Alert
 import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeSection';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -72,7 +70,6 @@ export default function AdvancedModeContainer(
     messages
   } = props;
   // For now, we support only static threshold. So taking type from warningThreshold/criticalThreshold would not change anything.
-  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const entityType = form.get('rule')?.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
   const isRegex = form.get('rule').get('regex')?.value;
@@ -140,14 +137,7 @@ export default function AdvancedModeContainer(
           valid: true,
           content: (
             <>
-              <TimeThreshold
-                form={form}
-                updateForm={updateForm}
-                onChange={onChange}
-                oneMinuteGranularityAllowed={
-                  thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-                }
-              />
+              <TimeThreshold form={form} updateForm={updateForm} onChange={onChange} />
               <GracePeriodWrapper form={form} updateForm={updateForm} />
               {infraPredictiveDetectionEnabled && <ForecastAlerting form={form} updateForm={updateForm} />}
             </>

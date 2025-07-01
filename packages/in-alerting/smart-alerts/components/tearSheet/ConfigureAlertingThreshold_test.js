@@ -19,9 +19,7 @@ describe('ConfigureAlertingThreshold : in-alerting/smart-alerts/components/tearS
   const user = userEvent.setup();
   const updateForm = jest.fn();
   it('should render correctly', async () => {
-    render(
-      <ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} oneMinuteGranularityAllowed />
-    );
+    render(<ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} />);
     expect(
       screen.getByText(t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.tracesImpacted'))
     ).toBeInTheDocument();
@@ -34,12 +32,7 @@ describe('ConfigureAlertingThreshold : in-alerting/smart-alerts/components/tearS
     };
     const formWithviolationsInSequence = createSmartAlertForm(alertConfig, true, true);
     render(
-      <ConfigureAlertingThreshold
-        form={formWithviolationsInSequence}
-        onChange={onChange}
-        updateForm={updateForm}
-        oneMinuteGranularityAllowed
-      />
+      <ConfigureAlertingThreshold form={formWithviolationsInSequence} onChange={onChange} updateForm={updateForm} />
     );
     expect(
       screen.getByText(
@@ -51,9 +44,7 @@ describe('ConfigureAlertingThreshold : in-alerting/smart-alerts/components/tearS
   });
 
   it('should allow user to change the tracer impact value and onchange should trigger', async () => {
-    render(
-      <ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} oneMinuteGranularityAllowed />
-    );
+    render(<ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} />);
 
     const timeThresholdField = screen.getByRole('spinbutton');
     await user.type(timeThresholdField, '5');

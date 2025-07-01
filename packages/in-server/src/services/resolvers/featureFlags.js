@@ -456,11 +456,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'oneMinuteGranularityForStaticThresholdEnabled',
-    instanaCtlKey: 'feature.app.smart.alerts.granularity1min.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'syntheticCustomDashboardEnabled',
     instanaCtlKey: 'feature.synthetic.custom.dashboard.enabled',
     defaultValue: false

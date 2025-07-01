@@ -32,7 +32,6 @@ import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/Gr
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
-import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -156,9 +155,6 @@ export default function AlertConfigTearSheetStep4(props) {
           <EvaluationGranularity
             form={form}
             updateForm={updateForm}
-            oneMinuteGranularityAllowed={
-              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-            }
             thresholdType={thresholdType}
             titleWidth="4.5rem"
           />
@@ -174,9 +170,6 @@ export default function AlertConfigTearSheetStep4(props) {
             updateForm={updateForm}
             impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
             hasTraceImpactOption
-            oneMinuteGranularityAllowed={
-              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-            }
           />
           <Spacer size="gutter" />
           <GracePeriodWrapper form={form} updateForm={updateForm} />

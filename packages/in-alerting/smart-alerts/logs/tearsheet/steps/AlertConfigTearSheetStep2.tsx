@@ -14,7 +14,6 @@ import ThresholdSection from 'in-alerting/smart-alerts/logs/tearsheet/components
 import ThresholdViolation from 'in-alerting/smart-alerts/components/tearSheet/ThresholdViolation';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
-import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/logs/tearsheet/steps/AlertConfigTearSheetStep2.mless';
@@ -37,22 +36,14 @@ export default function AlertConfigTearSheetStep2({
           headline={t('in-alerting:smartAlerts.logs.tearSheet.step2.header')}
           description={t('in-alerting:smartAlerts.logs.tearSheet.step2.description')}
         >
-          <ThresholdSection
-            form={form}
-            updateForm={updateForm}
-            oneMinuteGranularityAllowed={oneMinuteGranularityForStaticThresholdEnabled}
-          />
+          <ThresholdSection form={form} updateForm={updateForm} />
         </TearSheetStepTitleWrapper>
         <span className={locals.seperator} />
         <TearSheetStepTitleWrapper
           headline={t('in-alerting:smartAlerts.logs.tearSheet.timeThreshold.title')}
           description={t('in-alerting:smartAlerts.logs.tearSheet.timeThreshold.description')}
         >
-          <ThresholdViolation
-            form={form}
-            updateForm={updateForm}
-            oneMinuteGranularityAllowed={oneMinuteGranularityForStaticThresholdEnabled}
-          />
+          <ThresholdViolation form={form} updateForm={updateForm} />
           <Spacer size="gutter" />
           <GracePeriodWrapper form={form} updateForm={updateForm} />
         </TearSheetStepTitleWrapper>
