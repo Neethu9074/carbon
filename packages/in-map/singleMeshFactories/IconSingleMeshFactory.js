@@ -9,6 +9,7 @@ import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
 import vertexShader from 'in-map/singleMeshFactories/pointVertexShader.glsl';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import { Points, RawShaderMaterial } from 'in-map/3DLibProvider';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 
 export default class IconSingleMeshFactory extends ASingleMeshFactory {
   constructor(options) {
@@ -75,7 +76,9 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
 
       pointSizes[i++] = fragment.additionalParams.iconSize * this.pixelRatio;
 
-      const xy = config.LUT[fragment.additionalParams.type];
+      const pluginType = fragment.additionalParams.type;
+      const fullyQualifiedPluginType = fullyQualifiedPlugins[pluginType];
+      const xy = config.LUT[fullyQualifiedPluginType];
       if (xy) {
         // use right bottom UV coords to show nothing but emptiness
         uvCoords.push(xy.x / textureWidth, xy.y / textureWidth);

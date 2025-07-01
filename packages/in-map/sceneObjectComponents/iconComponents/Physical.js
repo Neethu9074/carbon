@@ -20,7 +20,7 @@ export default class PhysicalIconComponent extends IconComponent {
 
   snapshotChanged(snapshot) {
     const type = getIconType(snapshot) ?? '';
-    this.fragment.additionalParams.type = type.substr('lib_infra_'.length);
+    this.fragment.additionalParams.type = type.slice('lib_infra_'.length);
     this.factory.needsUpdate();
   }
 }
