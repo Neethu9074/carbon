@@ -7,6 +7,18 @@
 
 :local {
   .markdown {
+    // all the below styles are effected by Carbon so reverting the style for these elements
+    ul,
+    ol,
+    li,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      all: revert;
+    }
     p {
       margin-top: 0;
     }
