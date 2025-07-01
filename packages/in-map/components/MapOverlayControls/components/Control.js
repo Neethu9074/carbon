@@ -64,6 +64,7 @@ export default function Control(props) {
   return (
     <Tooltip content={tooltipText} align="topRight">
       <div
+        {...(id ? { id } : {})} //only add the `id` if it's defined
         className={controlClassName}
         onClick={() => {
           if (onClick) {

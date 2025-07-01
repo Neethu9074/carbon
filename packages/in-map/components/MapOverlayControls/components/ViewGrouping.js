@@ -37,6 +37,7 @@ const block = 'in-controls-view-grouping';
 export default function ViewGrouping() {
   return (
     <Control
+      id="grouping-btn"
       createMenuContent={() => <ViewGroupingMenu />}
       tooltipText={t('in-map:configurePerspectiveAndGrouping')}
       type="lib_views_grid"
