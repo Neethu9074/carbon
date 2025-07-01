@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { has } from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
+import { get } from 'lodash';
 
 import {
   Card,
@@ -32,10 +32,8 @@ import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/Even
 import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
-import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
-import AutomationCardForLegacyPRC from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
@@ -84,14 +82,8 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const eventType = getEventType(incident);
-  const rootCauseHasOldSnapshotMetadata = incident.hasIn([
-    'metadata',
-    'rootCause',
-    'probableRootCauseSnapshotMetadata'
-  ]);
-  const hasRootCauses = has(incident, 'metadata.rootCause.currentRootCause')
-    ? 'metadata.rootCause.currentRootCause'
-    : 'metadata.rootCause';
+  const hasRootCauses = get(incident, 'metadata.rootCause.found', false);
+
   const { location } = useNavigation();
 
   useEffect(() => {
@@ -120,30 +112,12 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
         triggeringEventId={triggeringEventId}
       />
 
-      {rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
-        <RootCauseSection incident={incident} rcaRef={rcaSectionRef} />
-      )}
-
-      {incidentHasRCAProperty && rcaUIEnabled && rootCauseHasOldSnapshotMetadata && (
-        <LegacyRootCauseSection
-          title={t('in-events:RCA.titlePRCA')}
-          incident={incident}
-          latestSnapshot={latestSnapshot}
-          incidentHasRCAProperty={incidentHasRCAProperty}
-        />
-      )}
+      {/* Without Agentic investigation */}
+      {rcaUIEnabled && hasRootCauses && <RootCauseSection incident={incident} rcaRef={rcaSectionRef} />}
 
       {/* Automations - display both recommended actions and history when no PRC is present*/}
-      {rcaUIEnabled && rootCauseHasOldSnapshotMetadata && (
+      {rcaUIEnabled && !hasRootCauses && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
-      )}
-
-      {!rcaAgenticEnabled && rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
-        <AutomationCardForLegacyPRC
-          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-          incident={incident}
-          event={triggeringEvent?.toJS()}
-        />
       )}
 
       {/* Business impact */}
@@ -155,7 +129,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
         />
       )}
 
-      {/* Investigation Workflow */}
+      {/* With agentic investigation Workflow */}
       {rcaAgenticEnabled && hasRootCauses && (
         <AgenticInvestigationWorkflow
           incident={incident}

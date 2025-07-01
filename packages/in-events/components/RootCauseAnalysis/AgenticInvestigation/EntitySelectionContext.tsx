@@ -5,6 +5,7 @@
  */
 
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { get } from 'lodash';
 
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { getRootCauses } from 'in-events/components/RootCauseAnalysis/utils/getRootCauses';
@@ -37,7 +38,9 @@ const determineEntitySelectionFromIncident = (incident: Event): string => {
 };
 
 export const EntitySelectionProvider: React.FC<EntitySelectionProviderProps> = ({ children, incident }) => {
-  const initialId = determineEntitySelectionFromIncident(incident);
+  const initialId = get(incident, 'metadata.rootCause.found', false)
+    ? determineEntitySelectionFromIncident(incident)
+    : null;
 
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(initialId);
 
