@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useRef } from 'react';
+import classNames from 'classnames';
 
 import { SvgIcon, Typography } from '@instana/components';
 import { MenuButton, MenuItem } from '@instana/carbon';
@@ -64,18 +65,18 @@ export default function DataSourceSelector() {
         menuAlignment="bottom-end"
       >
         <MenuItem
-          className={locals.menuitem}
+          className={classNames({ [locals.menuitem]: true, [locals.selectedOption]: selectedItem === INSTANA_AGENT })}
           //@ts-expect-error
-          label={renderMenuLabel(INSTANA_AGENT, selectedItem)}
+          label={renderMenuLabel(INSTANA_AGENT)}
           onClick={() => {
             setSelectedItem(INSTANA_AGENT);
             goToPath(clusterListFullyQualified);
           }}
         />
         <MenuItem
-          className={locals.menuitem}
+          className={classNames({ [locals.menuitem]: true, [locals.selectedOption]: selectedItem === OTEL_COLLECTOR })}
           //@ts-expect-error
-          label={renderMenuLabel(OTEL_COLLECTOR, selectedItem)}
+          label={renderMenuLabel(OTEL_COLLECTOR)}
           onClick={() => {
             setSelectedItem(OTEL_COLLECTOR);
             goToPath(clusterOtelListFullyQualified);
@@ -89,7 +90,7 @@ export default function DataSourceSelector() {
   function renderMenuLabel(item: KubernetesDataSource) {
     const { icon, text, description } = dataSources[item];
     return (
-      <div className={locals.option}>
+      <div className={locals.option} title={text}>
         <SvgIcon className={locals.optionIcon} type={icon} aria-label={text} />
         <div className={locals.optionText}>
           <Typography variant="heading-compact-02">

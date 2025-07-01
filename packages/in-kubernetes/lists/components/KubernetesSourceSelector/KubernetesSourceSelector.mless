@@ -51,6 +51,10 @@
     align-items: center;
   }
 
+  li.selectedOption {
+    background-color: var(--cds-layer-selected) !important;
+  }
+
   .selected-option .option-icon-container {
     margin-right: 0;
   }
