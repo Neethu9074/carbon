@@ -170,7 +170,7 @@ export function AIChat() {
             handleTracking(EVENT_AI_CHAT_OPEN);
             instance?.changeView('mainWindow');
             launcherElement.style.display = 'none';
-            const elements = document.getElementsByTagName('cds-aichat-internal');
+            const elements = document.getElementsByTagName(AI_CHAT_TAG_NAME);
             if (elements.length === 1) {
               const movable = elements[0].shadowRoot.getElementById('WACWidget');
               movable.style.right = `32px`;
