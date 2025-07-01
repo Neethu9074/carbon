@@ -33,7 +33,8 @@ export const productAreas = Object.freeze({
   agents: 'Agents',
   power_vc: 'PowerVC',
   automation: 'Automation',
-  vulnerability: 'Vulnerability'
+  vulnerability: 'Vulnerability',
+  data_sources: 'Data Sources'
 } as const);
 
 type ProductAreaKey = keyof typeof productAreas;
