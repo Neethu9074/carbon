@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -74,13 +75,15 @@ export default function LogicalVolumes({ snapshot, timeConfig }) {
     return null;
   }
 
-  const rows = logicalVolumes.valueSeq().map((logVol, index) => ({
-    key: `lv-${index}-${logVol.get('logical_volume_name')}`,
-    logVol,
-    timeConfig,
-    hostSnapshot: snapshot,
-    hostSnapshotId: snapshot.get('id')
-  })).toArray();
+  const rows = logicalVolumes
+    .map((logVol, index) => ({
+      key: `${logVol.get('volume_group_name')}-${logVol.get('logical_volume_name')}`,
+      logVol,
+      timeConfig,
+      hostSnapshot: snapshot,
+      hostSnapshotId: snapshot.get('id')
+    }))
+    .toArray();
 
   return (
     <Table cardTitle={t('in-forge:plugins.host.dashboard.logicalVolume')} withoutPadding cols={cols} rows={rows} />
