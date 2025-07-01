@@ -9,12 +9,17 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 import MetricValue from 'in-components/MetricValue';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number, percentagePlain } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Columize from 'in-sdk/components/dashboard/Columize';
+
+import CPUUtilizationChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/CPUUtilizationChart';
+import DiskUsageChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskUsageChart';
+import DiskReadWriteChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteChart';
+import DiskListTable from 'in-forge/plugins/mapRNode/Dashboard/Tables/DiskListTable';
 
 export default function MapRNodeDashboard({
   snapshot,
@@ -27,6 +32,12 @@ export default function MapRNodeDashboard({
   return (
     <div>
       <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.maprNode.mapRFSDisks')}>
+          <MetricValue snapshotId={snapshotId} metric="metrics.disk.mapRFSDisks" formatter={number.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.maprNode.failedDisks')}>
+          <MetricValue snapshotId={snapshotId} metric="metrics.disk.failedDisks" formatter={number.compact} />
+        </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.maprNode.disks')}>
           <MetricValue snapshotId={snapshotId} metric="metrics.disk.disks" formatter={number.compact} />
         </KpiKeyValue>
@@ -35,19 +46,13 @@ export default function MapRNodeDashboard({
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title={t('in-forge:plugins.maprNode.utilization')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['metrics.disk.utilization'],
-            labels: [
-              t('in-forge:plugins.maprNode.utilization')
-            ],
-            type: 'line',
-            formatter: percentagePlain.compact
-          }}
-        />
+      <CPUUtilizationChart snapshot={snapshot} timeConfig={timeConfig} />
+      <DashboardSection title={t('in-forge:plugins.maprNode.diskDetails')}>
+        <Columize>
+          <DiskUsageChart snapshot={snapshot} timeConfig={timeConfig} />
+          <DiskReadWriteChart snapshot={snapshot} timeConfig={timeConfig} />
+        </Columize>
+        <DiskListTable snapshot={snapshot} timeConfig={timeConfig} />
       </DashboardSection>
     </div>
   );

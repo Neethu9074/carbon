@@ -13,6 +13,8 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
+      <DescriptionItem title={t('in-forge:plugins.maprNode.clusterName')}>{data.get('clusterName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.maprNode.version')}>{data.get('version')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.maprNode.nodeName')}>{data.get('nodeName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.maprNode.pid')}>{data.get('pid')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.maprNode.rackTopology')}>{data.get('rackTopology')}</DescriptionItem>
