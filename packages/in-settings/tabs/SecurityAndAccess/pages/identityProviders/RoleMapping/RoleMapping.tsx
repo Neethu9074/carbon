@@ -12,28 +12,38 @@ import { useObservable } from '@instana/hooks';
 import { Checkbox } from '@instana/carbon';
 
 import {
-  ROLE_MAPPING_TABLE_ACTIONS,
   ROLE_MAPPING_TABLE_BATCH_ACTIONS,
   ROLE_MAPPING_TABLE_HEADERS,
   ROLE_MAPPING_TABLE_PAGE_SIZES,
   ROLE_MAPPING_TABLE_ORDER
 } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.constants';
-import MultiSelectDataTable, {
-  DataTableRow,
-  Notification,
-  OverflowMenuItemProps
-} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import {
+  ENTERPRISE_IDP_MAPPING_CREATE_CLICK,
+  ENTERPRISE_IDP_MAPPING_REMOVED,
+  ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS,
+  ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE
+} from 'in-services/tracking/tracking';
+import {
+  deleteMapping,
+  deleteMappings,
   getMappings,
   getIdpRestriction,
   IdpGroupMapping,
   setIdpRestriction
 } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
+import MultiSelectDataTable, {
+  DataTableRow,
+  Notification,
+  OverflowMenuItemProps,
+  TableActions
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { createRoleMappingForm } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.form';
 import RoleMappingTearsheet from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMappingTearsheet';
 import { RoleMappingRow } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.types';
 import { getEntityIdView, securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -43,7 +53,6 @@ import { seconds } from 'in-services/time/time';
 import { t, Trans } from 'in-i18n';
 
 import locals from './RoleMapping.mless';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 const createMenuItemsForRow = (
   roleMappings: IdpGroupMapping[],
@@ -67,10 +76,16 @@ const createMenuItemsForRow = (
   ];
 };
 
-const createTableRows = (roleMappings: IdpGroupMapping[] = [], createHrefToPath: (path: string) => string): Array<RoleMappingRow<IdpGroupMapping>> => {
+const createTableRows = (
+  roleMappings: IdpGroupMapping[] = [],
+  createHrefToPath: (path: string) => string
+): Array<RoleMappingRow<IdpGroupMapping>> => {
   return roleMappings?.map((roleMapping: IdpGroupMapping) => ({
     key: (
-      <Link href={getEntityIdView(securityAndAccessAccessControlTeams, roleMapping?.id ?? '', createHrefToPath)} ellipsis>
+      <Link
+        href={getEntityIdView(securityAndAccessAccessControlTeams, roleMapping?.id ?? '', createHrefToPath)}
+        ellipsis
+      >
         {roleMapping.key}
       </Link>
     ),
@@ -86,6 +101,23 @@ const createTableRows = (roleMappings: IdpGroupMapping[] = [], createHrefToPath:
   }));
 };
 
+const createRoleMappingTableActions = (trackCta: CtaTrackingFunction): TableActions<IdpGroupMapping> => {
+  return {
+    delete: {
+      deleteEntity: entity => {
+        // Segment tracking
+        trackCta(ENTERPRISE_IDP_MAPPING_REMOVED, { mappingId: entity.id });
+        return deleteMapping(entity?.id ?? '');
+      },
+      batchDeleteEntity: selectedIds => {
+        // Segment tracking
+        trackCta(ENTERPRISE_IDP_MAPPING_REMOVED, { mappingIds: selectedIds });
+        return deleteMappings(selectedIds);
+      }
+    }
+  };
+};
+
 const RoleMapping = () => {
   const [authOverview] = useAuthOverview();
   const { defaultLogin } = authOverview ?? {};
@@ -96,7 +128,8 @@ const RoleMapping = () => {
   const loading = isLoading(dataTableResult);
   const hasErrors = hasError(dataTableResult);
   const [message, setMessage] = useState<Notification>();
-  const {createHrefToPath } = useNavigation()
+  const { createHrefToPath } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   const errorMessage: Notification | undefined = hasErrors
     ? {
@@ -106,7 +139,7 @@ const RoleMapping = () => {
       }
     : undefined;
 
-  if (!defaultLogin) {
+  if (defaultLogin) {
     // Show message to configure IdP first as mapping can only be configured with an active IdP.
     return (
       <>
@@ -153,6 +186,14 @@ const RoleMapping = () => {
             checked={idpDenyAccessField.value}
             onChange={(_e, { checked: enabled }) => {
               setForm(form.updateIn(['restrictEmptyIdpRoles'], f => f.setValue(enabled).setTouched(true)));
+
+              // Segment tracking
+              if (enabled) {
+                trackCta(ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS);
+              } else {
+                trackCta(ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE);
+              }
+
               setIdpRestriction({ restrictEmptyIdpGroups: enabled }).once(
                 () =>
                   addMessage({
@@ -185,12 +226,14 @@ const RoleMapping = () => {
           loading={loading}
           message={errorMessage || message}
           onCreateNew={() => {
+            // Segment tracking
+            trackCta(ENTERPRISE_IDP_MAPPING_CREATE_CLICK);
             addActiveDialog(<RoleMappingTearsheet setMessage={setMessage} />);
           }}
           pageSizes={ROLE_MAPPING_TABLE_PAGE_SIZES}
           searchAttributes={['key', 'value', 'groupId', 'teamId']}
           searchPlaceholderText={t('in-settings:components.search')}
-          tableActions={ROLE_MAPPING_TABLE_ACTIONS}
+          tableActions={createRoleMappingTableActions(trackCta)}
           tableHeaders={ROLE_MAPPING_TABLE_HEADERS}
           tableRows={createTableRows(dataTableResult.data, createHrefToPath)}
           title={t('in-settings:tabs.roleMapping.tableTitle')}

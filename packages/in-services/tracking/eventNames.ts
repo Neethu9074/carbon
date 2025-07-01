@@ -481,6 +481,7 @@ export const LOGGING_MEZMO_BUTTON_CLICKED = 'logging.mezmo.clicked';
 export const LOGGING_INTEGRATIONS_INSTANCE_THIRD_PARTY_CLICKED = 'logging.integration.instance.third.party.clicked';
 
 // ENTERPRISE
+export const ENTERPRISE_IDP_MAPPING_CREATE_CLICK = 'enterprise.idp.mapping.create.mapping.click';
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
 export const ENTERPRISE_IDP_MAPPING_CHANGED = 'enterprise.idp.mapping.changed';
 export const ENTERPRISE_IDP_MAPPING_REMOVED = 'enterprise.idp.mapping.removed';
