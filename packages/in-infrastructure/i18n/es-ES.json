@@ -75,7 +75,6 @@
     "restartCount": "Recuento de reinicios",
     "kubernetesLabels": "Etiquetas de Kubernetes",
     "podmanAnnotations": "Anotaciones de Podman",
-    "metricExplosionBeeInstana": "Es posible que este panel de control no muestre todas las métricas, ya que se captura un máximo de {{numberOfMetrics}} métricas en un momento dado.",
     "metricExplosion": "Es posible que este panel de control no muestre todas las métricas, ya que se captura un máximo de {{numberOfMetrics}} métricas de alta resolución en un momento dado. Para ver métricas etiquetadas adicionales, utilice Analizar infraestructura o un panel de control personalizado."
   },
   "explore": {
