@@ -30,6 +30,7 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { base64ToUtf8 } from 'in-automation/utils/actionField';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
@@ -165,7 +166,9 @@ export default function DetailTab({
       isLink: true,
       isObservable: true,
       showCondition: !isEmpty(hostSnapshotId) && !isEmpty(snapshot),
-      stringLink: getDashboardLink(hostSnapshotId ?? '', { pathname: `${agentsPath}/dashboard` })
+      stringLink: getDashboardLink(hostSnapshotId ?? '', {
+        pathname: newOTelPageEnabled ? '/datasources/instanaagent/dashboard' : `${agentsPath}/dashboard`
+      })
     },
     {
       label: t('in-automation:titleActionType'),
