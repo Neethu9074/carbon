@@ -38,9 +38,9 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
 import DashboardHeader from 'in-components/DashboardHeader';
+import {getColorChart} from 'in-applications/endpointTypes';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
-import { getColor } from 'in-applications/endpointTypes';
 import { chartColors } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours, seconds } from 'in-services/time';
@@ -220,7 +220,7 @@ function getColorByEndpoint({ service, endpoint, traceId }: { service: Service; 
 }
 
 function getColorByEndpointType({ endpoint }: { endpoint: Endpoint }) {
-  return getColor(endpoint ? endpoint.type : 'UNDEFINED');
+  return getColorChart(endpoint ? endpoint.type : 'UNDEFINED');
 }
 
 function Header(props: DashboardButtonProps & { result: Result<TraceSummary> }) {
