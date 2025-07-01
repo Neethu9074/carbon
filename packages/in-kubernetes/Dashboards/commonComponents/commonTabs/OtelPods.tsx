@@ -48,7 +48,7 @@ import { t } from 'in-i18n';
 
 import locals from './Pods.mless';
 
-const pathSegment = 'otel/pods';
+const pathSegment = '/otel/pods';
 const matrixPrefix = 'pod.';
 
 const allColumnDefinitions = [

@@ -21,7 +21,7 @@ import { nodesDashboard, podsDashboard, clusterOtelDashboardFullyQualified } fro
 import { OtelClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import OtelNodes from 'in-kubernetes/Dashboards/OtelCluster/OtelNodes';
 import Summary from 'in-kubernetes/Dashboards/OtelCluster/OtelSummary';
-import OtelPods from 'in-kubernetes/Dashboards/OtelCluster/OtelPods';
+import OtelPods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/OtelPods';
 import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
