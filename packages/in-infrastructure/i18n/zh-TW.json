@@ -75,7 +75,6 @@
     "restartCount": "重新啟動計數",
     "kubernetesLabels": "Kubernetes 標籤",
     "podmanAnnotations": "Podman 註釋",
-    "metricExplosionBeeInstana": "此儀表板可能不會顯示所有指標，因為在任何給定時間最多只能擷取 {{numberOfMetrics}} 個指標。",
     "metricExplosion": "此儀表板可能不會顯示所有指標，因為在任何給定時間最多只能擷取 {{numberOfMetrics}} 個高解析度指標。 若要檢視其他已標記度量，請使用分析基礎架構或自訂儀表板。"
   },
   "explore": {
