@@ -23,6 +23,7 @@ interface StickyProps {
   useFixedLayout?: boolean;
   contentWidth?: string;
   backgroundColor?: string;
+  shouldWrapContentWithSection?: boolean;
 }
 export default class Sticky extends React.Component<StickyProps> {
   static displayName = 'Sticky';
@@ -120,6 +121,8 @@ export default class Sticky extends React.Component<StickyProps> {
   }
 
   render() {
+    const { shouldWrapContentWithSection = true } = this.props;
+
     return (
       <section
         ref={r => this.setWrapper(r!)}
@@ -130,9 +133,13 @@ export default class Sticky extends React.Component<StickyProps> {
         <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
           {this.props.header}
         </Header>
-        <section aria-label={t('in-components:pageStructure.contentAriaLabel')} ref={r => this.setContentWrapper(r!)}>
-          {this.props.children}
-        </section>
+        {shouldWrapContentWithSection ? (
+          <section aria-label={t('in-components:pageStructure.contentAriaLabel')} ref={r => this.setContentWrapper(r!)}>
+            {this.props.children}
+          </section>
+        ) : (
+          this.props.children
+        )}
       </section>
     );
   }

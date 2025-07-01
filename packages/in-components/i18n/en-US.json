@@ -9,7 +9,8 @@
     "headerAriaLabel": "Page header",
     "contentAriaLabel": "Content",
     "filterAriaLabel": "Filter",
-    "pageTabsAriaLabel": "Page tabs"
+    "pageTabsAriaLabel": "Page tabs",
+    "pageSubMenu": "Page sub-menu"
   },
   "fileInputButton": {
     "label": {
@@ -473,7 +474,7 @@
   "mainNavigation": {
     "skipToMainContent": "Skip to main content",
     "viewSwitcherLabelSettings": "Settings",
-     "viewSwitcherLabelAccountAndBilling": "Account and billing",
+    "viewSwitcherLabelAccountAndBilling": "Account and billing",
     "viewSwitcherLabelMore": "More",
     "viewSwitcherLabelAgents": "Agents",
     "viewSwitcherLabelDataSources": "Data sources",

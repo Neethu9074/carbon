@@ -70,6 +70,7 @@ export default function ConfigurationView<TAB_PROPS extends {}, EXTENSION_PROPS 
 
   return (
     <TabView
+      shouldWrapContentWithSection={false}
       HeaderComponent={Header}
       location={location}
       tabs={tabs}

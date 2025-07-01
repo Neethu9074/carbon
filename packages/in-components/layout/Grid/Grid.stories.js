@@ -86,6 +86,27 @@ export function ResponsiveGrid() {
   );
 }
 
+export function ColRenderedAsCustomComponent(props) {
+  const { lg, lgOffset, xs, xsOffset } = props;
+
+  return (
+    <Row>
+      <Col lg={lg} lgOffset={lgOffset} xs={xs} xsOffset={xsOffset} as="section">
+        <div
+          style={{
+            background: '#a8ecff',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            padding: '10px'
+          }}
+        >
+          This column will be a section, rather than a div
+        </div>
+      </Col>
+    </Row>
+  );
+}
+
 function ExampleCol(props) {
   const { lg, lgOffset, xs, xsOffset } = props;
   const label = Object.keys(props)

@@ -45,6 +45,7 @@ export interface TabViewProps<TabData, TabProps extends {}, ExtensionProps exten
    */
   additionalHeader?: ReactNode;
   warnMessage?: JSX.Element;
+  shouldWrapContentWithSection?: boolean;
 }
 
 export default function TabView<TabData, TabProps extends {} = {}, ExtensionProps extends {} = {}>({
@@ -61,7 +62,8 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
   tabChangeTracker,
   withProps: customWithPropsExtension,
   additionalHeader,
-  warnMessage
+  warnMessage,
+  shouldWrapContentWithSection = true
 }: TabViewProps<TabData, TabProps, ExtensionProps>) {
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
@@ -85,6 +87,7 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
   return (
     <section>
       <Sticky
+        shouldWrapContentWithSection={shouldWrapContentWithSection}
         header={
           <section aria-label={t('in-components:pageStructure.headerAriaLabel')}>
             {!withoutBreadcrumb && <BreadcrumbHeader />}
