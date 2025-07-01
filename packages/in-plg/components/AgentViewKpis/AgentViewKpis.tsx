@@ -37,56 +37,59 @@ const AgentViewKpis = ({ agentSnapshotsResult, heading, subHeading }: any) => {
   const agentSnapshots = agentSnapshotsResult.getIn(['data']);
   const reporting = agentSnapshots?.get('online', emptyList).size;
   const notreporting = agentSnapshots?.get('offline', emptyList).size || 0;
+  const total = reporting + notreporting;
   const group1 = t('in-plg:agentViewKpis.reporting');
   const group2 = t('in-plg:agentViewKpis.notReporting');
 
   return (
-    <Card title={heading} useMaxAvailableHeight={false} hasMarginBottom>
-      <Stack gap="0.85rem">
-        <Typography variant="body-compact-01">{subHeading}</Typography>
-        <Typography variant="heading-06">{`${reporting}/${reporting + notreporting}`}</Typography>
-        <MeterChart
-          data={[
-            {
-              group: group1,
-              value: reporting
-            },
-            {
-              group: group2,
-              value: notreporting
-            }
-          ]}
-          options={{
-            toolbar: {
-              enabled: false
-            },
-            meter: {
-              showLabels: false
-            },
-            color: {
-              scale: {
-                group1: 'var(--ids-color-option-green-800)',
-                group2: 'var(--ids-color-option-blue-400)'
+    <div data-testid="agent-view-kpis">
+      <Card title={heading} useMaxAvailableHeight={false} hasMarginBottom>
+        <Stack gap="0.85rem">
+          <Typography variant="body-compact-01">{subHeading}</Typography>
+          <Typography variant="heading-06">{`${reporting}/${total}`}</Typography>
+          <MeterChart
+            data={[
+              {
+                group: group1,
+                value: (reporting / total) * 100
+              },
+              {
+                group: group2,
+                value: (notreporting / total) * 100
               }
-            },
-            height: '50px',
-            legend: {
-              enabled: true
-            }
-          }}
-        />
-        <Typography variant="label-01">
-          <Trans
-            i18nKey={'in-plg:agentViewKpis.reportingStatus'}
-            components={{
-              reporting: reporting,
-              datasource: t('in-plg:agentViewKpis.agents'),
-              nonReporting: notreporting
+            ]}
+            options={{
+              toolbar: {
+                enabled: false
+              },
+              meter: {
+                showLabels: false
+              },
+              color: {
+                scale: {
+                  group1: 'var(--ids-color-option-green-800)',
+                  group2: 'var(--ids-color-option-blue-400)'
+                }
+              },
+              height: '50px',
+              legend: {
+                enabled: true
+              }
             }}
           />
-        </Typography>
-      </Stack>
-    </Card>
+          <Typography variant="label-01">
+            <Trans
+              i18nKey={'in-plg:agentViewKpis.reportingStatus'}
+              components={{
+                reporting: reporting,
+                datasource: t('in-plg:agentViewKpis.agents'),
+                nonReporting: notreporting
+              }}
+            />
+          </Typography>
+        </Stack>
+      </Card>
+    </div>
   );
 };
 

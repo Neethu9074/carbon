@@ -9,6 +9,8 @@ import React from 'react';
 import { t, Trans } from '@instana/i18n-react';
 import { Link } from '@instana/components';
 
+import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export const DEFAULT_NUMBER_ROWS = 5;
@@ -71,7 +73,10 @@ export function getNoDataDescription(label: string) {
           i18nKey="in-plg:welcomepage.noData.infrastructureWidget.description"
           components={{
             linkToAgents: (
-              <Link href="/#/agents/installation" disabled={!role?.canConfigureAgents}>
+              <Link
+                href={newOTelPageEnabled ? `/#${datasourceInstanaAgentPath}` : '/#/agents/installation'}
+                disabled={!role?.canConfigureAgents}
+              >
                 {t('in-plg:welcomepage.noData.infrastructureWidget.link')}
               </Link>
             )

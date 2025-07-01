@@ -81,7 +81,7 @@ export default function AgentCatalogV2({ fromOnboarding, selectedDatasource }: A
             <Typography variant="heading-04">{t('in-plg:agentDetails.common.dataSources')}</Typography>
           )}
 
-          {showSearch(filteredEntities, selectedDatasource, fromOnboarding) && (
+          {showSearch(entities, selectedDatasource, fromOnboarding) && (
             <SearchInput
               width="100%"
               onChange={onQueryChange}
@@ -130,13 +130,9 @@ const getBreadcrump = (selectedDatasource: string) => {
   return [firstLevel, secondLevel];
 };
 
-const showSearch = (
-  filteredEntities: FreeTrialEntries,
-  selectedDatasource?: SelectedDatasource,
-  fromOnboarding?: boolean
-) => {
-  if (selectedDatasource && filteredEntities[selectedDatasource].data.length > 1) return true;
-  if (selectedDatasource && filteredEntities[selectedDatasource].data.length <= 1) return false;
+const showSearch = (entities: FreeTrialEntries, selectedDatasource?: SelectedDatasource, fromOnboarding?: boolean) => {
+  if (selectedDatasource && entities[selectedDatasource].data.length > 1) return true;
+  if (selectedDatasource && entities[selectedDatasource].data.length <= 1) return false;
   if (!selectedDatasource && fromOnboarding) return true;
   return false;
 };

@@ -71,8 +71,8 @@ const InstanaAgent = ({ agentSnapshotsResult }: InstanaAgentProps) => {
     );
 
   return (
-    <Stack gap="1rem">
-      <section aria-label={t('in-plg:datasources.content')}>
+    <section aria-label={t('in-plg:datasources.content')}>
+      <Stack gap="1rem">
         <LeftRightPadding>
           <SearchBar style={{ maxWidth: '100%' }} theme="light" />
           <RenderButtonLine agentSnapshots={agentSnapshotsResult} />
@@ -92,8 +92,8 @@ const InstanaAgent = ({ agentSnapshotsResult }: InstanaAgentProps) => {
             <AgentsTable agentSnapshotsResult={agentSnapshotsResult} />
           </Column>
         </Grid>
-      </section>
-    </Stack>
+      </Stack>
+    </section>
   );
 };
 

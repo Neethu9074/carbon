@@ -941,8 +941,8 @@
     "next": "Next"
   },
   "datasources": {
+    "datasources": "Data sources",
     "openTelemetryCollectors": "OpenTelemetry Collectors",
-    "datasources": "Data Sources",
     "instanaAgents": "Instana Agents",
     "installACollector": "Install a collector",
     "status": {
