@@ -10,6 +10,7 @@ import { Button } from '@instana/components';
 
 import { track, AGENT_SUPPORT_DOWNLOAD_CLICKED } from 'in-services/tracking/tracking';
 import LogStreamer, { AggregateOptions, StateOptions } from './LogStreamer';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { close } from 'in-components/DialogPresenter/store';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
@@ -60,7 +61,9 @@ function getFormattedUrlForSupportInfoId(agentSnapshot: SnapshotData, supportInf
   if (!supportInfoId) {
     return '';
   }
-  return `/api/host-agent/${encodeURIComponent(
-    agentSnapshot?.get('volatileId')?.get('host_id')
-  )}/support-info?supportInfoId=${encodeURIComponent(supportInfoId)}`;
+  return formatPathWithTU(
+    `/api/host-agent/${encodeURIComponent(
+      agentSnapshot?.get('volatileId')?.get('host_id')
+    )}/support-info?supportInfoId=${encodeURIComponent(supportInfoId)}`
+  );
 }
