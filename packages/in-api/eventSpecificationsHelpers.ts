@@ -33,7 +33,10 @@ export function createCustomThresholdBasedEventSpecification(
   aggregation: AlertingAggregation | undefined,
   conditionOperator: AlertingConditionOperator,
   conditionValue: number,
-  severity: number = 5
+  severity: number = 5,
+  transientEventEnabled: boolean = true,
+  transientEventThreshold: number = 300000,
+  transientEventAlertMuted: boolean = false
 ) {
   const rule = createThresholdRule(
     metricName,
@@ -54,7 +57,10 @@ export function createCustomThresholdBasedEventSpecification(
     description,
     expirationTime,
     enabled,
-    rules: [rule]
+    rules: [rule],
+    transientEventEnabled,
+    transientEventThreshold,
+    transientEventAlertMuted
   };
 }
 
@@ -91,7 +97,10 @@ export function createCustomMultiThresholdBasedEventSpecification(
   description: string = '',
   query = '',
   triggering: boolean = false,
-  enabled: boolean = true
+  enabled: boolean = true,
+  transientEventEnabled: boolean = true,
+  transientEventThreshold: number = 300000,
+  transientEventAlertMuted: boolean = false
 ) {
   return {
     id: id ?? generateUniqueShortId(),
@@ -103,6 +112,9 @@ export function createCustomMultiThresholdBasedEventSpecification(
     expirationTime,
     enabled,
     rules,
-    ruleLogicalOperator
+    ruleLogicalOperator,
+    transientEventEnabled,
+    transientEventThreshold,
+    transientEventAlertMuted
   };
 }

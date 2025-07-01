@@ -46,7 +46,6 @@ import {
   APPLICATIONS_ALERTING_DEPRECATED_EVENT_OPEN
 } from 'in-services/tracking/tracking';
 import { entityCountDetection } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import { durationToMillis } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/TransientEventsSection.js';
 import CustomEventForm from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
@@ -84,6 +83,7 @@ export default function CustomEvent(props) {
 
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm(entityFormParam);
+
   useEffect(() => {
     if (entityId && entity) trackCta(SETTINGS_EVENT_VIEW, { entity, type: 'CUSTOM' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -338,6 +338,7 @@ function getEventSpecification(event, form) {
 
     return getCustomSystemRuleBasedEventSpecification(form, query, event);
   }
+
   return getCustomEventMultiRuleBasedEventSpecification(form, query, event);
 }
 
@@ -347,9 +348,8 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
   const rulesForm = form.get('rules');
   const rules = rulesForm?.map(formToRuleMapper({ entityType, severity }));
   const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
-  const transientEventEnabled = form.get('transientEventEnabled').value ?? false;
-  const thresholdObj = form.get('transientEventThreshold').value ?? { amount: 5, unit: 'MINUTES' };
-  const transientEventThreshold = durationToMillis(thresholdObj);
+  const transientEventEnabled = form.get('transientEventEnabled').value ?? true;
+  const transientEventThreshold = form.get('transientEventThreshold').value ?? 300000;
   const transientEventAlertMuted = form.get('transientEventAlertMuted').value ?? false;
 
   return createCustomMultiThresholdBasedEventSpecification(

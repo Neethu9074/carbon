@@ -154,17 +154,7 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
   const { applyOn, applicationName, applicationIds, tagValueForHostAvailability, tagOperatorForHostAvailability } =
     getScopeFields(isCreate, query, ruleType, tagFilter);
 
-  function millistoThresholdObj(ms = 300000) {
-    return ms % 3600000 === 0 ? { amount: ms / 3600000, unit: 'HOURS' } : { amount: ms / 60000, unit: 'MINUTES' };
-  }
-
-  const {
-    transientEventEnabled = true,
-    transientEventThreshold = 300000,
-    transientEventAlertMuted = false
-  } = mutableEvent;
-
-  const transientEventThresholdObj = millistoThresholdObj(transientEventThreshold);
+  const { transientEventEnabled, transientEventThreshold, transientEventAlertMuted } = mutableEvent;
 
   let form = createMapForm()
     .put(
@@ -221,20 +211,20 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
     .put(
       'transientEventEnabled',
       createField({
-        value: transientEventEnabled
+        value: transientEventEnabled ?? true
       })
     )
     .put(
       'transientEventThreshold',
       createField({
-        value: transientEventThresholdObj,
+        value: transientEventThreshold ?? 300000,
         validator: positiveNumber
       })
     )
     .put(
       'transientEventAlertMuted',
       createField({
-        value: transientEventAlertMuted
+        value: transientEventAlertMuted ?? false
       })
     );
 

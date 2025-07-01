@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Toggle,
@@ -36,6 +36,10 @@ const DurationUnit = {
 export const durationToMillis = ({ amount = 0, unit = DurationUnit.minutes }) =>
   unit === DurationUnit.hours ? amount * 60 * 60000 : amount * 60000;
 
+function millistoThresholdObj(ms) {
+  return ms % 3600000 === 0 ? { amount: ms / 3600000, unit: 'HOURS' } : { amount: ms / 60000, unit: 'MINUTES' };
+}
+
 // TODO: should we add max for unit?
 // const maxForUnit = unit => (unit === DurationUnit.hours ? 23 : 59);
 
@@ -44,11 +48,20 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
   const thresholdField = form.get(TRANSIENT_THRESHOLD);
   const notificationField = form.get(TRANSIENT_NOTIFICATION);
 
-  const enabled = Boolean(enabledField?.value);
-  const alertMuted = Boolean(notificationField?.value);
-  const threshold = thresholdField?.value ?? {
-    amount: 5,
-    unit: DurationUnit.minutes
+  // Create thresholdUnit state for the UI input
+  const [thresholdUnit, setThresholdUnit] = useState(() => millistoThresholdObj(thresholdField?.value ?? 5 * 60000));
+
+  // Sync UI state when backend form field value changes
+  useEffect(() => {
+    const rawValue = thresholdField?.value ?? 5 * 60000;
+    setThresholdUnit(millistoThresholdObj(rawValue));
+  }, [thresholdField?.value]);
+
+  // Handler when either amount or unit changes
+  const handleThresholdChange = next => {
+    setThresholdUnit(next);
+    const millis = durationToMillis(next);
+    onChange(TRANSIENT_THRESHOLD, millis);
   };
 
   return (
@@ -61,86 +74,89 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
 
       <Row>
         <Col lg={3}>
-          {enabledField && (
+          {enabledField.map(field => (
             <FormGroup>
               <Toggle
                 id="transient-enable"
                 name="transient-enable"
-                size="sm"
-                checked={enabled}
+                disabled={disabled}
+                checked={field.value}
                 onToggle={v => onChange(TRANSIENT_ENABLED, v)}
                 labelA={t('in-settings:tabs.enableTransientToggle')}
                 labelB={t('in-settings:tabs.enableTransientToggle')}
               />
             </FormGroup>
-          )}
+          ))}
         </Col>
       </Row>
 
       <Row>
         <Col lg={4}>
-          {thresholdField && (
-            <FormGroup>
-              <Label htmlFor="transient-threshold" hasError={!thresholdField.valid && thresholdField.touched}>
-                {t('in-settings:tabs.transientThreshold')}
-              </Label>
-              <HorizontalFlexWrapper className={locals.gap}>
-                <Input
-                  id="transient-threshold"
-                  type="number"
-                  size={3}
-                  // max={maxForUnit(threshold.unit)}
-                  placeholder="#"
-                  disabled={disabled || !enabled}
-                  value={thresholdField.value.amount ?? 5}
-                  onChange={e => onChange(TRANSIENT_THRESHOLD, { ...threshold, amount: e.target.valueAsNumber })}
-                  hasError={!thresholdField.valid && thresholdField.touched}
-                />
-                <ComboBox
-                  isClearable={false}
-                  isDisabled={disabled || !enabled}
-                  value={threshold.unit}
-                  options={[
-                    { value: DurationUnit.minutes, label: t('in-settings:tabs.transientMinutes') },
-                    { value: DurationUnit.hours, label: t('in-settings:tabs.transientHours') }
-                  ]}
-                  onChange={v =>
-                    onChange(TRANSIENT_THRESHOLD, {
-                      ...threshold,
-                      unit: v.value
-                    })
-                  }
-                />
-              </HorizontalFlexWrapper>
+          <FormGroup>
+            <Label htmlFor="transient-threshold" hasError={!thresholdField.valid && thresholdField.touched}>
+              {t('in-settings:tabs.transientThreshold')}
+            </Label>
+            <HorizontalFlexWrapper className={locals.gap}>
+              <Input
+                id="transient-threshold"
+                type="number"
+                size={3}
+                // max={maxForUnit(threshold.unit)}
+                placeholder="#"
+                disabled={disabled || !enabledField.value}
+                value={thresholdUnit.amount}
+                onChange={e =>
+                  handleThresholdChange({
+                    ...thresholdUnit,
+                    amount: e.target.valueAsNumber
+                  })
+                }
+                hasError={!thresholdField.valid && thresholdField.touched}
+              />
+              <ComboBox
+                isClearable={false}
+                isDisabled={disabled || !enabledField.value}
+                value={thresholdUnit.unit}
+                options={[
+                  { value: DurationUnit.minutes, label: t('in-settings:tabs.transientMinutes') },
+                  { value: DurationUnit.hours, label: t('in-settings:tabs.transientHours') }
+                ]}
+                onChange={v =>
+                  handleThresholdChange({
+                    ...thresholdUnit,
+                    unit: v.value
+                  })
+                }
+              />
+            </HorizontalFlexWrapper>
 
-              {/* <TouchedMessages field={thresholdField} /> */}
-              <HelpText>{t('in-settings:tabs.thresholdHint')}</HelpText>
-              <HelpText>{t('in-settings:tabs.thresholdRecommend')}</HelpText>
-            </FormGroup>
-          )}
+            {/* <TouchedMessages field={thresholdField} /> */}
+            <HelpText>{t('in-settings:tabs.thresholdHint')}</HelpText>
+            <HelpText>{t('in-settings:tabs.thresholdRecommend')}</HelpText>
+          </FormGroup>
         </Col>
       </Row>
 
       <Row>
         <Col lg={6}>
-          {notificationField && (
+          {notificationField.map(field => (
             <FormGroup>
-              <Label htmlFor="transient-notification" hasError={!notificationField.valid && notificationField.touched}>
+              <Label htmlFor="transient-notification" hasError={!field.valid && field.touched}>
                 {t('in-settings:tabs.transientNotification')}
               </Label>
               <RadioButtonGroup
                 name="transient-events-notification-radio-button-vertical-group"
-                value={String(alertMuted)}
-                defaultSelected="true"
-                onChange={value => onChange(TRANSIENT_NOTIFICATION, value === 'true')}
+                value={field.value}
+                defaultSelected="false"
+                onChange={value => onChange(TRANSIENT_NOTIFICATION, value)}
                 orientation="vertical"
               >
-                <RadioButton labelText={t('in-settings:tabs.transientNotifyPersistOnly')} value="true" id="true" />
                 <RadioButton labelText={t('in-settings:tabs.transientNotifyEach')} value="false" id="false" />
+                <RadioButton labelText={t('in-settings:tabs.transientNotifyPersistOnly')} value="true" id="true" />
               </RadioButtonGroup>
-              <TouchedMessages field={notificationField} />
+              <TouchedMessages field={field} />
             </FormGroup>
-          )}
+          ))}
         </Col>
       </Row>
     </>
