@@ -199,13 +199,15 @@ export default function CustomPropertiesSection({
                 <ValidationBlock>{customProperty.error['value'].message}</ValidationBlock>
               )}
             </FormGroup>
-            <div className={locals.deleteProperty}>
-              <IconButton
-                kind="action"
-                type="lib_actions_delete"
-                onClick={() => deleteCustomPropertyAction(customProperty.id)}
-              />
-            </div>
+            {customProperties.length > 1 && (
+              <div className={locals.deleteProperty}>
+                <IconButton
+                  kind="action"
+                  type="lib_actions_delete"
+                  onClick={() => deleteCustomPropertyAction(customProperty.id)}
+                />
+              </div>
+            )}
           </Stack>
         );
       })}

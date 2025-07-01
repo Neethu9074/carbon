@@ -296,9 +296,11 @@ export default function ConfigurationSection({
                   />
                   {header.error['value'].invalid && <ValidationBlock>{header.error['value'].message}</ValidationBlock>}
                 </FormGroup>
-                <div className={classNames(locals.deleteAction, locals.deleteHeader)}>
-                  <IconButton kind="action" type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
-                </div>
+                {headers.length > 1 && (
+                  <div className={classNames(locals.deleteAction, locals.deleteHeader)}>
+                    <IconButton kind="action" type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
+                  </div>
+                )}
               </Stack>
             );
           })}

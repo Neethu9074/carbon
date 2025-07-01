@@ -299,14 +299,16 @@ export default function SSLCertificateConfiguration({
                     invalid={selectedFilter.inValidResolutionRecord}
                     invalidText={selectedFilter.inValidResolutionRecord ? selectedFilter.error.value.message : ''}
                   />
-                  <IconButton
-                    kind="ghost"
-                    onClick={() => deleteTargetFilterRow(selectedFilter.id)}
-                    label={t('in-synthetics:dialog.createTest.advancedMode.configStep.deleteButtonLabel')}
-                    align="top"
-                  >
-                    <SvgIcon type="lib_actions_delete" />
-                  </IconButton>
+                  {validationFilters.length > 1 && (
+                    <IconButton
+                      kind="ghost"
+                      onClick={() => deleteTargetFilterRow(selectedFilter.id)}
+                      label={t('in-synthetics:dialog.createTest.advancedMode.configStep.deleteButtonLabel')}
+                      align="top"
+                    >
+                      <SvgIcon type="lib_actions_delete" />
+                    </IconButton>
+                  )}
                 </CarbonStack>
               );
             })}
