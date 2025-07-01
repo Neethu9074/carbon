@@ -10,13 +10,13 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
+import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/httpCalls';
 import RetentionPeriodDashboard from 'in-logging/dashboard/Summary/RetentionPeriod/RetentionPeriodDashboard';
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
-jest.mock('in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod', () => ({
+jest.mock('in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/httpCalls', () => ({
   retentionLogsGET: jest.fn()
 }));
 jest.mock('in-stores/user', () => ({
