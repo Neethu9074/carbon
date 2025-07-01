@@ -23,7 +23,7 @@ export const graphExplorerPath = '/graphExplorer';
 export const infraAlertsDetailsPath = '/infraAlertdetails';
 export const infraAlertDetailsFullyQualifiedPath = `${infraSmartAlerts}${infraAlertsDetailsPath}`;
 export const vulnerabilityPath = '/vulnerability-center';
-
+export const accountAndBillingPath = '/accountAndBilling';
 export const infraSmartAlertsFullScreen = '/infraSmartAlerts';
 
 export function useGetLinkToCurrentViewWithViewGrouping(view: string, vg: string) {

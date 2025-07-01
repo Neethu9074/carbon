@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import { settingsBasePath } from 'in-settings/navigation/paths';
+import { accountAndBillingPath } from 'in-stores/navigation/paths/mainPaths';
 
 // Account&Billing paths
-export const accountBillingBasePath = settingsBasePath;
+export const accountBillingBasePath = accountAndBillingPath;
 export const ampAccountAndBilling = `${accountBillingBasePath}/amp`;
 export const ampUsage = `${ampAccountAndBilling}/usage`;

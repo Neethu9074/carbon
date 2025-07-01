@@ -8,8 +8,8 @@ import React from 'react';
 
 import { MenuItem } from '@instana/components';
 
+import { accountAndBillingPath } from 'in-stores/navigation/paths/mainPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { ampUsage } from 'in-settings/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function AccountBillingMenuItem() {
@@ -20,8 +20,8 @@ export default function AccountBillingMenuItem() {
       id="main-nav-account-billing"
       label={t('in-components:mainNavigation.viewSwitcherLabelAccountAndBilling')}
       icon="lib_account"
-      isActive={matchLocation(ampUsage)}
-      href={createHrefToPath(ampUsage)}
+      isActive={matchLocation(accountAndBillingPath)}
+      href={createHrefToPath(accountAndBillingPath)}
     />
   );
 }

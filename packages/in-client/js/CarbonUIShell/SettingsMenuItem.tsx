@@ -43,8 +43,9 @@ function InternalView() {
   );
 }
 
+export const accountPageVisible =
+  newAccountAndBillingPageEnabled && ampEnabled && role?.canViewAccountAndBillingInformation;
 export default function SettingsMenuItem() {
-  const accountPageVisible = newAccountAndBillingPageEnabled && ampEnabled && role?.canViewAccountAndBillingInformation;
   const { matchLocation, createHrefToPath } = useNavigation();
   if (playwithEnabled) return null;
 

@@ -33,6 +33,7 @@ import {
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { internalMonitoringUnit, newOTelPageEnabled } from 'in-services/featureFlags';
+import { accountPageVisible } from 'in-client/js/CarbonUIShell/SettingsMenuItem.tsx';
 import { agentsPath, datasourcePath } from 'in-stores/navigation/paths/mainPaths';
 import linuxkvmhypervisorRoutes from 'in-linuxkvmhypervisor/navigation/routes';
 import windowsHypervisorRoutes from 'in-windowshypervisor/navigation/routes';
@@ -54,6 +55,7 @@ import profilingRoutes from 'in-profiling/navigation/routes';
 import openstackRoutes from 'in-openstack/navigation/routes';
 import xenserverRoutes from 'in-xenserver/navigation/routes';
 import sloRoutes from 'in-service-levels/navigation/routes';
+import accountBillingRoutes from 'in-amp/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
 import powervcRoutes from 'in-powervc/navigation/routes';
@@ -108,6 +110,7 @@ export default (
     {hasNutanixAccess && nutanixRoutes}
     {hasWindowsHypervisorAccess && windowsHypervisorRoutes}
     {hasLinuxKVMHypervisorAccess && linuxkvmhypervisorRoutes}
+    {accountPageVisible && accountBillingRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />
