@@ -39,7 +39,7 @@ const NLGResponse = ({ messageItem }) => {
     } else if (showMore) {
       // When the show more is clicked we display ALL the text
       setStreamedText(originalText);
-    } else if (!showMore) {
+    } else if (!showMore && originalText.length > MAX_TEXT) {
       // When the show less is clicked we display 250 + ...
       setStreamedText(`${originalText.substring(0, MAX_TEXT)}...`);
     }
