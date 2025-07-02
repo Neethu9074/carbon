@@ -541,8 +541,7 @@
     "aggregation_SUM": "sum",
     "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribution",
-    "aggregation_PERSECOND": "per second",
-    "labelFilterEmptyValue": "Filter empty values"
+    "aggregation_PERSECOND": "per second"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Used",
