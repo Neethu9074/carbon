@@ -191,8 +191,8 @@ function RequiredToggle({ metric, onChange }) {
     <FilterEmptyValuesToggle
       value={required}
       onToggle={handleToggle}
-      hideLabel="Hide Empty Values"
-      showLabel="Show Empty Values"
+      hideLabel={t('in-components:metricConfigurator.labelHideEmptyValues')}
+      showLabel={t('in-components:metricConfigurator.labelShowEmptyValues')}
     />
   );
 }
