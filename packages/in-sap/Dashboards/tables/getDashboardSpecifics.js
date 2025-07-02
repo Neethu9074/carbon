@@ -20,7 +20,9 @@ import {
   useSapHanaSystemDashboard,
   useSapWebDispatcherDashboard,
   useSapAbapInstanceSensorDashboard,
-  useSapAbapSystemSensorDashboard
+  useSapAbapSystemSensorDashboard,
+  useSapJavaNetWeaverInstanceSensorDashboard,
+  useSapJavaNetWeaverSystemSensorDashboard
 } from 'in-sap/navigation/paths';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
@@ -32,7 +34,7 @@ const DashboardLink = ({ label, id }) => {
   return <EntityLink label={label} href={href} />;
 };
 
-export const GetSpecificDashboard = function ({value, matrixPrefix, systemSnapshotId}) {
+export const GetSpecificDashboard = function ({ value, matrixPrefix, systemSnapshotId }) {
   const getAbapCentralInstanceDashboard = useAbapCentralInstanceDashboard;
   const getAbapInstanceDashboard = useAbapInstanceDashboard;
   const getAbapSystemDashboard = useAbapSystemDashboard;
@@ -47,6 +49,8 @@ export const GetSpecificDashboard = function ({value, matrixPrefix, systemSnapsh
   const getSapDbInstanceDashboard = useSapDbInstanceDashboard;
   const getSapAbapInstanceSensorDashboard = useSapAbapInstanceSensorDashboard;
   const getSapAbapSystemSensorDashboard = useSapAbapSystemSensorDashboard;
+  const getSapJavaNetWeaverInstanceSensorDashboard = useSapJavaNetWeaverInstanceSensorDashboard;
+  const getSapJavaNetWeaverSystemSensorDashboard = useSapJavaNetWeaverSystemSensorDashboard;
   switch (value.pluginName) {
     case plugins.abapInstance:
       if (value.label.includes('Central'))
@@ -159,6 +163,22 @@ export const GetSpecificDashboard = function ({value, matrixPrefix, systemSnapsh
         <EntityLink
           label={value.label}
           href={getSapAbapSystemSensorDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.sapJavaNetWeaverInstanceSensor:
+      return (
+        <EntityLink
+          label={value.label}
+          href={getSapJavaNetWeaverInstanceSensorDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.sapJavaNetWeaverSystemSensor:
+      return (
+        <EntityLink
+          label={value.label}
+          href={getSapJavaNetWeaverSystemSensorDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );

@@ -11,10 +11,10 @@ import { useObservable } from '@instana/hooks';
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { nanos, number, twoDecimalPlacesPerSecond, megaBytes, bytes } from 'in-services/formatters/number';
+import DiskUsageKPI from 'in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/tabs/DiskUsageKPI';
 import UpTimeKPI from 'in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/tabs/upTime';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { getMetricForFocusedMoment } from 'in-stores/metric/metric';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { SnapshotData, getSnapshot } from 'in-stores/snapshot';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -31,19 +31,6 @@ export default function Summary({ data }: { data: SnapshotData }) {
   const snapshotId = data.id;
   const snapshot = useObservable(getSnapshot(snapshotId, timeConfig), [snapshotId, timeConfig]);
 
-  const licenseValidity =
-    useObservable(
-      snapshotId
-        ? () =>
-            getMetricForFocusedMoment({
-              snapshotId: snapshotId,
-              metric: 'customMetrics.license.validity'
-            })
-              .map((v: [number, number]) => v[1])
-              .distinct()
-        : undefined,
-      [snapshotId, timeConfig]
-    ) ?? 0;
   if (!snapshot) {
     return null;
   }
@@ -57,10 +44,6 @@ export default function Summary({ data }: { data: SnapshotData }) {
       />
       <Columize>
         <UpTimeKPI data={data} />
-        <KpiCard title={t('in-sap:dashboards.licenseValidity')}>
-          <MetricValue snapshotId={snapshotId} metric={'customMetrics.license.validity'} formatter={number.compact} />
-          {licenseValidity == 1 ? t('in-sap:dashboards.oneday') : t('in-sap:dashboards.days')}
-        </KpiCard>
         <KpiCard title={t('in-sap:dashboards.cpuUsageKpi')}>
           <MetricValue snapshotId={snapshotId} metric={'customMetrics.kpi.cpuUsage'} formatter={percentage.detailed} />
         </KpiCard>
@@ -71,6 +54,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
             formatter={percentage.detailed}
           />
         </KpiCard>
+        <DiskUsageKPI data={data} />
       </Columize>
       <Columize>
         <KpiCard title={t('in-sap:dashboards.userLogins')}>
