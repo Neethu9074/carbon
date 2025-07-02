@@ -4,63 +4,43 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 
-import { Typography, CarbonLayer, Collapsible } from '@instana/components';
-import { Event } from '@instana/types';
+import { CarbonLayer } from '@instana/components';
 
-import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
-import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
+import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
+import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 //@ts-expect-error file needs to be converted
 import getRawEvents from 'in-subscription/getRawEvents';
 import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
-import { trackClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
-import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK } from 'in-services/tracking/tracking';
-import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { RawEvent } from 'in-types';
-import { t } from 'in-i18n';
 
-import locals from 'in-events/components/legacy/EventList.mless';
-
-interface AssociatedEventsProps {
-  rootCause: RootCause;
-  incident: Event;
-}
-
-export default function AssociatedEvents({ rootCause, incident }: AssociatedEventsProps) {
+const RootCauseAssociatedEvents: FC = () => {
   const userTimeConfig = useTimeConfig();
 
-  const { location } = useNavigation();
-  const steadyId = rootCause.entityID.steadyId;
-  const pluginId = rootCause.entityID.pluginId;
-  const hostIdValue = rootCause.entityID.host;
-  const rcaEntityType = determineEntityTypeFromEntityIDMap(rootCause.entityID);
-
-  const { selectedRootCause: rootCauseTab } = useContext(SelectedRootCauseContext);
-  const probabilityScore = rootCause.probFailure;
-  const rcaTrackingData = {
-    event: incident,
-    location,
-    rootCauseTab,
-    rcaEntityType,
-    probabilityScore
+  const { selectedEntityId } = useEntitySelection();
+  const { rootCauses, rootCauseMetadata } = useContext(RootCauseDataContext);
+  const rootCauseIndex = rootCauses.findIndex(rc => rc.entityData?.id === selectedEntityId);
+  const entityID = rootCauseMetadata[rootCauseIndex]?.entityID || {
+    steadyId: '',
+    pluginId: '',
+    host: ''
   };
+  const { steadyId, pluginId, host } = entityID;
 
   const {
     items: rawAssociatedEvents,
     canLoadMore,
     loadMore,
-    totalHits: rawAssociatedEventsCount,
     progress: { loading: rawAssociatedEventsLoading }
   } = useCursorPagination(
     ({ cursor }) =>
       getRawEvents({
         timeConfig: userTimeConfig,
         // TODO: enhance this query to add user changable filters
-        query: `(event.steadyId:"${steadyId}") AND (event.pluginId:"${pluginId}") AND (event.host:"${hostIdValue}") AND !event.type:prc_issue`,
+        query: `(event.steadyId:"${steadyId}") AND (event.pluginId:"${pluginId}") AND (event.host:"${host}") AND !event.type:prc_issue`,
         pagination: {
           cursor,
           retrievalSize: 20
@@ -70,35 +50,19 @@ export default function AssociatedEvents({ rootCause, incident }: AssociatedEven
           direction: 'DESC'
         }
       }),
-    [rootCause.entityID]
+    [entityID]
   );
 
   return (
     <CarbonLayer>
-      <Collapsible
-        onOpen={() => {
-          const payload = { expanded: true };
-          trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ASSOCIATED_EVENTS_CLICK, payload });
-        }}
-      >
-        <Collapsible.Header>
-          <Typography variant="body-regular">
-            {t('in-events:RCA.relatedEventsLabel', {
-              number_of_events: rawAssociatedEventsCount || 0
-            })}
-          </Typography>
-        </Collapsible.Header>
-        <Collapsible.Content>
-          <div className={locals.accordionContent}>
-            <EventsDatagrid
-              events={rawAssociatedEvents as RawEvent[]}
-              loading={rawAssociatedEventsLoading}
-              loadMore={loadMore}
-              canLoadMore={canLoadMore}
-            />
-          </div>
-        </Collapsible.Content>
-      </Collapsible>
+      <EventsDatagrid
+        events={rawAssociatedEvents as RawEvent[]}
+        loading={rawAssociatedEventsLoading}
+        loadMore={loadMore}
+        canLoadMore={canLoadMore}
+      />
     </CarbonLayer>
   );
-}
+};
+
+export default RootCauseAssociatedEvents;

@@ -10,6 +10,29 @@
   .cardWithBorder {
     border: 1px solid var(--cds-layer-accent);
     height: 100%;
+    :global .c4p--card__header-wrapper {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      :global .c4p--card__title-container {
+        width: 100%;
+
+        :global .c4p--card__title {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        :global .cds--tag {
+          margin: 0;
+        }
+      }
+
+      :global .c4p--card__body {
+        height: 100%;
+      }
+    }
   }
 
   .grid {

@@ -46,7 +46,8 @@ const EntityDetails = () => {
       <ProductiveCard
         className={locals.cardWithBorder}
         title={selectedNodeInfo?.label}
-        aiLabel={<Tag type="purple">{t('in-events:RCA.titlePRCA')}</Tag>}
+        description={<Tag type="purple">{t('in-events:RCA.titlePRCA')}</Tag>}
+        aiLabel={<></>}
       >
         <RootCauseEntityDetails />
       </ProductiveCard>

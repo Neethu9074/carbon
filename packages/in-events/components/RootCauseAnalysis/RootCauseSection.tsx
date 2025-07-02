@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+// eslint-disable-next-line no-restricted-imports
+import { Accordion, AccordionItem } from '@carbon/react';
 import React, { ReactNode, Ref, memo, useContext, useMemo, useState } from 'react';
 import { get, has, isEmpty, isNull } from 'lodash';
 
@@ -32,17 +34,18 @@ import {
   EVENT_FEEDBACK_SKIP,
   EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
   EVENT_RCA_FEEDBACK_SUBMIT,
-  EVENT_RCA_PANNEL_TAB_CLICK
+  EVENT_RCA_PANNEL_TAB_CLICK,
+  EVENT_RCA_ASSOCIATED_EVENTS_CLICK
 } from 'in-services/tracking/tracking';
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import RootCauseInvestigation from 'in-events/components/RootCauseAnalysis/RootCauseInvestigation/RootCauseInvestigation';
 import getRootCauseTabSecondaryLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabSecondaryLabel';
 import { rcaFailedStateEnabled, rcaLogsEnabled, rcaAiAutomatedInvestigationEnabled } from 'in-services/featureFlags';
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
+import RootCauseAssociatedEvents from 'in-events/components/RootCauseAnalysis/RootCauseAssociatedEvents';
 import getRootCauseTabLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabLabel';
 import RootCauseLogsSection from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsSection';
 import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/RootCauseEntityDetails';
-import AssociatedEvents from 'in-events/components/RootCauseAnalysis/RootCauseAssociatedEvents';
 import { trackClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
@@ -153,6 +156,14 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
     return null;
   }
 
+  const rcaTrackingData = {
+    event: incidentJSON,
+    location,
+    rootCauseTab,
+    rcaEntityType: determineEntityTypeFromEntityIDMap(rootCauses[rootCauseTab].entityID),
+    probabilityScore: rootCauses[rootCauseTab].probFailure
+  };
+
   return (
     <SelectedRootCauseContext.Provider
       value={{
@@ -208,7 +219,18 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
                 ) : (
                   <></>
                 )}
-                <AssociatedEvents rootCause={rootCauses[rootCauseTab]} incident={incidentJSON} />
+                <Accordion>
+                  <AccordionItem
+                    onClick={() => {
+                      const payload = { expanded: true };
+                      trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ASSOCIATED_EVENTS_CLICK, payload });
+                    }}
+                    title={t('in-events:RCA.relatedEventsLabel')}
+                    className={locals.removeAccordionPadding}
+                  >
+                    <RootCauseAssociatedEvents />
+                  </AccordionItem>
+                </Accordion>
                 <div className={locals.accordionContent}>
                   <FeedbackComponent incident={incidentJSON} rootCause={rootCauses[rootCauseTab]} />
                 </div>
