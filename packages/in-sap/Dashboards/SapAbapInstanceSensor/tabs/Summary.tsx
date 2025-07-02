@@ -130,6 +130,56 @@ export default function Summary({ data }: { data: SnapshotData }) {
         </Col>
       </Row>
       <Columize>
+        <DashboardSection title={t('in-sap:dashboards.totalcpuUtilization')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: t('in-sap:dashboards.viewCPUDetails'),
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
+            y1={{
+              min: 0,
+              metrics: ['cpuMetricStats.totalUtilization'],
+              labels: [t('in-sap:abapsensor.metrics.total')],
+              type: 'line',
+              formatter: percentagePlain.detailed
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.totalMemoryUtilization')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: t('in-sap:dashboards.viewCPUDetails'),
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
+            y1={{
+              min: 0,
+              metrics: ['swapmemory.usedMemory'],
+              labels: [t('in-sap:abapsensor.metrics.total')],
+              type: 'line',
+              // @ts-expect-error Module needs to be translated to TS
+              colors: [[themes.default.ids.color.option['deep-purple'][500]]],
+              formatter: percentage.detailed
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
         <DashboardSection title={t('in-sap:dashboards.workProcessState')}>
           <Chart
             snapshotId={snapshotId}
@@ -202,31 +252,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.totalcpuUtilization')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            primaryContextMenuAction="showStatistics"
-            additionalContextMenuButtons={[
-              {
-                name: 'showStatistics',
-                icon: 'lib_sap_abapTransaction',
-                label: t('in-sap:dashboards.viewCPUDetails'),
-                getHref$: () => just(getLinkToWorkload())
-              }
-            ]}
-            y1={{
-              min: 0,
-              metrics: ['cpuMetricStats.totalUtilization'],
-              labels: [t('in-sap:abapsensor.metrics.total')],
-              type: 'line',
-              formatter: percentagePlain.detailed
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
       </Columize>
-
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.workProcessType')}>
           <Chart
