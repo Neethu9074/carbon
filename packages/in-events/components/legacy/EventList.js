@@ -34,6 +34,7 @@ import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/compo
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
+import AutomationCardForLegacyPRC from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
@@ -112,20 +113,6 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {/* Without Agentic investigation */}
       {rcaUIEnabled && hasRootCauses && <RootCauseSection incident={incident} rcaRef={rcaSectionRef} />}
 
-      {/* Automations - display both recommended actions and history when no PRC is present*/}
-      {rcaUIEnabled && !hasRootCauses && (
-        <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
-      )}
-
-      {/* Business impact */}
-      {businessObservabilityEnabled && (
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={incident?.get('entityType', undefined)}
-          entityId={incident?.get('entityId', undefined)}
-        />
-      )}
-
       {/* With agentic investigation Workflow */}
       {rcaAgenticEnabled && hasRootCauses && (
         <AgenticInvestigationWorkflow
@@ -135,9 +122,32 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
           event={triggeringEvent?.toJS()}
         />
       )}
+
+      {/* Automations - display both recommended actions and history when no PRC is present*/}
+      {rcaUIEnabled && !hasRootCauses && (
+        <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
+      )}
+
       {/* Display Incident action history  separately when PRC ise present*/}
       {rcaAgenticEnabled && hasRootCauses && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} hasRCA />
+      )}
+
+      {!rcaAgenticEnabled && rcaUIEnabled && hasRootCauses && (
+        <AutomationCardForLegacyPRC
+          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+          incident={incident}
+          event={triggeringEvent?.toJS()}
+        />
+      )}
+
+      {/* Business impact */}
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={incident?.get('entityType', undefined)}
+          entityId={incident?.get('entityId', undefined)}
+        />
       )}
     </EventListProviders>
   );
