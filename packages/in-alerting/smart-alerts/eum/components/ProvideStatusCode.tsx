@@ -71,5 +71,5 @@ export default function ProvideStatusCode({ form, updateForm, tearSheetView = fa
 }
 
 function getOperatorForStatusCode(statusCode: string) {
-  return statusCode && statusCode.length === 3 ? operators.EQUALS : operators.STARTS_WITH;
+  return statusCode && (statusCode === '-1' || statusCode.length === 3) ? operators.EQUALS : operators.STARTS_WITH;
 }

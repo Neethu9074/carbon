@@ -77,7 +77,8 @@ export const ruleStatusCodeValueOptions: ReadonlyArray<Option> = Object.freeze([
   { value: '508', label: t('in-alerting:smartAlerts.form.ruleStatusCodeValueOption508') },
   { value: '510', label: t('in-alerting:smartAlerts.form.ruleStatusCodeValueOption510') },
   { value: '511', label: t('in-alerting:smartAlerts.form.ruleStatusCodeValueOption511') },
-  { value: '599', label: t('in-alerting:smartAlerts.form.ruleStatusCodeValueOption599') }
+  { value: '599', label: t('in-alerting:smartAlerts.form.ruleStatusCodeValueOption599') },
+  { value: '-1', label: t('in-alerting:smartAlerts.form.ruleStatusCodeValueOptionNone') }
 ]);
 
 const customOption = [

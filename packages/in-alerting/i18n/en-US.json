@@ -786,6 +786,7 @@
       "ruleStatusCodeValueOption510": "510 (Not Extended)",
       "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
       "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+      "ruleStatusCodeValueOptionNone": "No Status (Client Aborted / Failed)",
       "warningThresholdValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
       "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators.",
       "sensitivityValidator": "Critical sensitivity should be smaller than warning sensitivity."
@@ -1559,6 +1560,7 @@
         "JSErrors": "JS error(s): {{errorMessage}}",
         "customEvents": "Custom event: {{customEventName}}",
         "HTTPStatusCodes": "HTTP status code(s): {{statusCode}}",
+        "HTTPStatusCodeNone": "No Status",
         "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS errors have been detected.",
         "unsupportedOperator": "Unsupported operator: {{operator}}",
