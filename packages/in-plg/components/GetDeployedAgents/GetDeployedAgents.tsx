@@ -32,6 +32,11 @@ const GetDeployedAgents = ({
   const [deployedAgentsCount, setDeployedAgentsCount] = useState<number>(0);
   const [intervalCounter, setIntervalCounter] = useState<number>(0);
   const [timerActive, setTimerActive] = useState<boolean>(true);
+  let infraQuery = agent;
+
+  if (datasource === 'collector') {
+    infraQuery = 'entity.otel.attribute:entity.type=otel-collector';
+  }
 
   const agentSnapshots: AgentSnapshotResponse | null | undefined = useObservable<AgentSnapshotResponse, []>(
     getAgentSnapshots(agent),
@@ -64,7 +69,7 @@ const GetDeployedAgents = ({
       {!fromOnboarding ? (
         <Button
           disabled={!deployedAgentsCount}
-          href={`/#/physical?q=${agent}&timeline.to&timeline.fm&timeline.ar=true`}
+          href={`/#/physical?q=${infraQuery}&timeline.to&timeline.fm&timeline.ar=true`}
           onClick={() => trackingService.deployAgentsButtonClicked()}
         >
           {datasource === 'agent'

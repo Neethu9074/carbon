@@ -31,7 +31,9 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { datasourceInstanaAgentCatalog } from 'in-plg/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { getReportingDatasource } from 'in-plg/api/Datasource';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { pendingResult } from 'in-services/fixedObjects';
 import { emptyList } from 'in-services/fixedImmutables';
 import SearchBar from 'in-components/SearchBar';
 import { role } from 'in-stores/user';
@@ -43,14 +45,15 @@ interface InstanaAgentProps {
 
 const InstanaAgent = ({ agentSnapshotsResult }: InstanaAgentProps) => {
   const { goToPath } = useNavigation();
-  const loading = agentSnapshotsResult?.getIn(['progress', 'loading'], emptyList) ?? true;
-  const onlineAgents = agentSnapshotsResult?.getIn(['data', 'online'], emptyList) ?? emptyList;
-  const offlineAgents = agentSnapshotsResult?.getIn(['data', 'offline'], emptyList) ?? emptyList;
-  const agentCount = onlineAgents.size + offlineAgents.size || 0;
 
-  if (loading) return <LoadingIndicator />;
+  const reportingDatasource = useObservable(getReportingDatasource(), []) ?? pendingResult;
 
-  if (agentCount < 1)
+  if (reportingDatasource.progress.loading) return <LoadingIndicator />;
+
+  if (
+    !reportingDatasource.data.hasEntities ||
+    (reportingDatasource.data.hostCount <= 0 && reportingDatasource.data.serverlessCount <= 0)
+  )
     return (
       <NoDataEmptyState
         title={t('in-plg:datasources.noData.instanaAgent.emptyState_title')}
@@ -58,7 +61,7 @@ const InstanaAgent = ({ agentSnapshotsResult }: InstanaAgentProps) => {
         illustrationPosition="top"
         link={{
           text: t('in-plg:datasources.noData.instanaAgent.emptyState_linktext'),
-          href: 'https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-agents'
+          href: 'https://ibm.biz/Installing-Instana-agents'
         }}
         action={{
           kind: 'primary',
