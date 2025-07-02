@@ -35,6 +35,7 @@ import JobPorgressStatsList from 'in-forge/plugins/sapHana/Dashboard/JobProgress
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TableSizeStatsList from 'in-forge/plugins/sapHana/Dashboard/TableSizeStats';
+import DiskUsageStatsList from 'in-forge/plugins/sapHana/Dashboard/DiskUsageStats';
 import LockWaitStatsList from 'in-forge/plugins/sapHana/Dashboard/LockWaitStats';
 import UserLockStatsList from 'in-forge/plugins/sapHana/Dashboard/UserLockStats';
 import NetworkStatsList from 'in-forge/plugins/sapHana/Dashboard/NetworkStats';
@@ -299,6 +300,49 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
         </DashboardSection>
       </Columize>
       <Columize>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.columnStoreMetrics')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['stats.csReadCount', 'stats.csWriteCount', 'stats.csMergeCount', 'stats.csUnloadCount'],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.read'),
+                t('in-forge:plugins.sapHana.dashboard.write'),
+                t('in-forge:plugins.sapHana.dashboard.merge'),
+                t('in-forge:plugins.sapHana.dashboard.unload')
+              ],
+              type: 'area'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.networkUsage')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'stats.tcpSegmentsReceived',
+                'stats.tcpSegmentsSentOut',
+                'stats.tcpSegmentsRetransmitted',
+                'stats.tcpBadSegmentsReceived'
+              ],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsReceived'),
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsSentOut'),
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsRetransmitted'),
+                t('in-forge:plugins.sapHana.dashboard.tcpBadSegmentsReceived')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
         <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.requests')}>
           <Chart
             snapshotId={snapshot.get('id')}
@@ -381,29 +425,6 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.networkUsage')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.compact,
-              metrics: [
-                'stats.tcpSegmentsReceived',
-                'stats.tcpSegmentsSentOut',
-                'stats.tcpSegmentsRetransmitted',
-                'stats.tcpBadSegmentsReceived'
-              ],
-              labels: [
-                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsReceived'),
-                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsSentOut'),
-                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsRetransmitted'),
-                t('in-forge:plugins.sapHana.dashboard.tcpBadSegmentsReceived')
-              ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
       </Columize>
       <Columize>
         <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.threads')}>
@@ -470,6 +491,7 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <GarbageCollectionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ExpensiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ActiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <DiskUsageStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SqlPlanCacheStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <LockWaitStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <NetworkStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
