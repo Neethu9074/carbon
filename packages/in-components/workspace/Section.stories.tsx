@@ -8,7 +8,6 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-// @ts-expect-error import { ActionSection, Action } from 'in-components/workspace/ActionSection/ActionSection';
 import { ActionSection, Action } from 'in-components/workspace/ActionSection/ActionSection';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -79,14 +78,34 @@ export const Default = {
       <ActionSection
         left={
           <>
-            <Action icon="lib_help_error_help_outline">Add grouping</Action>
-            <Action icon="lib_bar_chart">Add Chart</Action>
+            <Action disabledTooltip={'Disabled tooltip text'} icon="lib_help_error_help_outline">
+              Add grouping
+            </Action>
+            <Action disabledTooltip={'Disabled tooltip text'} icon="lib_bar_chart">
+              Add Chart
+            </Action>
           </>
         }
-        right={<Action icon="lib_views_code">API Query</Action>}
+        right={
+          <Action disabledTooltip={'Disabled tooltip text'} icon="lib_views_code">
+            API Query
+          </Action>
+        }
       />
-      <ActionSection left={<Action icon="lib_views_code">Only Actions on left side</Action>} />
-      <ActionSection right={<Action icon="lib_views_code">Only Actions on right side</Action>} />
+      <ActionSection
+        left={
+          <Action disabledTooltip={'Disabled tooltip text'} icon="lib_views_code">
+            Only Actions on left side
+          </Action>
+        }
+      />
+      <ActionSection
+        right={
+          <Action disabledTooltip={'Disabled tooltip text'} icon="lib_views_code">
+            Only Actions on right side
+          </Action>
+        }
+      />
     </Sections>
   ),
 
