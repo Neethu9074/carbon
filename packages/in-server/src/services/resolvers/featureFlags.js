@@ -1045,5 +1045,10 @@ module.exports = exports = [
     uiClientKey: 'eumSmartAlertCustomMetricsEnabled',
     instanaCtlKey: 'feature.eum.smart.alert.custom.metrics.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'deleteLogsV3Enabled',
+    instanaCtlKey: 'feature.log.deleteLogsV3Enabled.enabled',
+    defaultValue: false
   }
 ];

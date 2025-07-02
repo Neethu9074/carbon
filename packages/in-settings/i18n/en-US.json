@@ -720,7 +720,11 @@
       "toastNoLogsMessage": "No log data to delete for the given timeframe.",
       "deletionAlreadyRunning": "Deletion for this tenant is already running",
       "requesting": "Requesting...",
-      "deletionStarted": "Deletion started"
+      "deletionStarted": "Deletion started",
+      "invalidTimeRange": "Start time must be before end time.",
+      "invalidTimeRangeSameMoment": "Start time must be different from end time.",
+      "invalidTimeRangeFuture": "Time range can’t be in the future.",
+      "filterLimitReached": "You’ve reached the 5-filter limit. Remove one before adding another."
     },
     "logVolume": {
       "logVolume": "Log volume",

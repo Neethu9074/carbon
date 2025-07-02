@@ -4,16 +4,21 @@
  * Copyright IBM Corp. 2024
  */
 
-import { format } from 'date-fns';
+import { differenceInMilliseconds, format, isAfter, isSameSecond, isValid, setHours, setMinutes } from 'date-fns';
 import React from 'react';
 
-import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
+import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result, TimeConfig } from '@instana/types';
 import { DateFormatterOutput, formatDateTime } from '@instana/format-date';
 import { IconButton, LoadingSkeleton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
-import { deleteLogsLocalisationStrings as literals } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
-import { deletionTableLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
+import {
+  deleteLogsLocalisationStrings as literals,
+  deletionTableLocalisationStrings,
+  modalLocalisationStrings
+} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
+import { InputValues } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/modalTypes';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { siPrefixCompact } from 'in-stores/metric/formatters';
@@ -28,6 +33,13 @@ export const DELETE_STATUS = {
   failed: 'Failed',
   done: 'Done'
 } as const;
+
+export interface DeleteLogsV3Request {
+  triggeredByUser: string;
+  reason: string;
+  timeConfig: Pick<TimeConfig, 'windowSize' | 'to'>;
+  tagFilterExpression: ReturnType<typeof toBackendQueryModel>;
+}
 
 export interface DeleteLogsRequest {
   triggeredByUser: string;
@@ -248,4 +260,77 @@ export function getDeletionStatus({ isDeleting, deletionInProgress, showFinished
     loadingStatus: 'inactive',
     loadingDescription: ''
   };
+}
+
+function createMomentFromDateTime(baseDate: Date, timeString: string): Date | null {
+  if (!isValid(baseDate)) {
+    return null;
+  }
+
+  const [hourStr, minuteStr] = timeString.split(':');
+  const hour = parseInt(hourStr, 10);
+  const minute = parseInt(minuteStr, 10);
+
+  if (isNaN(hour) || isNaN(minute) || hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+    return null;
+  }
+
+  let combinedMoment = setHours(baseDate, hour);
+  combinedMoment = setMinutes(combinedMoment, minute);
+
+  if (!isValid(combinedMoment)) {
+    return null;
+  }
+
+  return combinedMoment;
+}
+
+export function timeConfigFromTimeRange({
+  startDate,
+  startTime,
+  endDate,
+  endTime
+}: InputValues): Pick<TimeConfig, 'to' | 'windowSize'> | null {
+  const startMoment = createMomentFromDateTime(startDate, startTime);
+  const endMoment = createMomentFromDateTime(endDate, endTime);
+
+  const windowSize = differenceInMilliseconds(endMoment as Date, startMoment as Date);
+
+  if (endMoment && startMoment) {
+    return {
+      to: endMoment.getTime(),
+      windowSize: windowSize
+    };
+  }
+  return null;
+}
+
+export function getTimeRangeValidationMessage({ startDate, startTime, endDate, endTime }: InputValues) {
+  const startMoment = createMomentFromDateTime(startDate, startTime);
+  const endMoment = createMomentFromDateTime(endDate, endTime);
+  const now = new Date();
+
+  if (isSameSecond(startMoment as Date, endMoment as Date)) {
+    return modalLocalisationStrings.invalidTimeRangeSameMoment;
+  }
+
+  if (startMoment && endMoment && isAfter(startMoment, endMoment)) {
+    return modalLocalisationStrings.invalidTimeRange;
+  }
+
+  if ((startMoment && isAfter(startMoment, now)) || (endMoment && isAfter(endMoment, now))) {
+    return modalLocalisationStrings.invalidTimeRangeFuture;
+  }
+
+  return null;
+}
+
+export function getTagFilterExpressionValidationMessage(inputValues: InputValues) {
+  const { tagFilterExpression } = inputValues;
+
+  if (tagFilterExpression.filter(element => element.type === 'TAG_FILTER').length > 5) {
+    return modalLocalisationStrings.filterLimitReached;
+  }
+
+  return null;
 }

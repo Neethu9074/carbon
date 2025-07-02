@@ -73,6 +73,7 @@ export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled');
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
 export const blockLogDeletionsEnabled = isFeatureFlagEnabled('blockLogDeletionsEnabled');
 export const logFormattingEnabled = isFeatureFlagEnabled('logFormattingEnabled');
+export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
