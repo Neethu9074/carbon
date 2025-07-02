@@ -119,8 +119,8 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
               expanded="showKubeCostInfoPanel"
               variation="configure"
               headline={t('in-kubernetes:dashboards.kubecost.costKubernetes')}
-              tag={t('in-kubernetes:dashboards.kubecost.configureNow')}
-              showLabel={t('in-kubernetes:dashboards.kubecost.configureforFree')}
+              tag={t('in-kubernetes:dashboards.kubecost.cost')}
+              showLabel={t('in-kubernetes:dashboards.kubecost.showDetails')}
               description={t('in-kubernetes:dashboards.kubecost.configureKubecostForFree')}
               primaryCta={{
                 label: t('in-kubernetes:dashboards.kubecost.configureNow'),
@@ -129,12 +129,12 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
               }}
               secondaryCta={{
                 label: t('in-kubernetes:dashboards.kubecost.learnMore'),
-                href: 'https://www.kubecost.com',
+                href: 'https://www.apptio.com/products/kubecost/contact/?utm_medium=referral&utm_source=instana-app&utm_campaign=cloud-dvop_global-global-en_kubecost&utm_term=instana',
                 target: '_blank'
               }}
             />
           )}
-
+         <Spacer size="large" />
           <Li>
             <CenterAlignmentColumn>
               <EntityPageMainNotification

@@ -24,21 +24,17 @@ export default function KubeCostBanner({ coreCount }: KubeCostBannerProps) {
   return (
     <>
       <Banner
+        showSecondaryCta={false}
         targetProductName="KubeCost"
         expanded="showKubeCostInfoPanel"
         variation="upgrade"
         headline={t('in-kubernetes:dashboards.kubecost.upgradeLicense')}
-        tag={t('in-kubernetes:dashboards.kubecost.upgradeNow')}
-        showLabel={t('in-kubernetes:dashboards.kubecost.showEnterprise')}
+        tag={t('in-kubernetes:dashboards.kubecost.cost')}
+        showLabel={t('in-kubernetes:dashboards.kubecost.showDetails')}
         description={t('in-kubernetes:dashboards.kubecost.upgradeDescription')}
         primaryCta={{
           label: t('in-kubernetes:dashboards.kubecost.upgradeNow'),
           href: 'https://www.apptio.com/products/kubecost/contact/?utm_medium=referral&utm_source=instana-app&utm_campaign=cloud-dvop_global-global-en_kubecost&utm_term=instana',
-          target: '_blank'
-        }}
-        secondaryCta={{
-          label: t('in-kubernetes:dashboards.kubecost.learnMore'),
-          href: 'https://www.kubecost.com/pricing',
           target: '_blank'
         }}
       />

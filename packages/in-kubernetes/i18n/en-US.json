@@ -315,9 +315,8 @@
       "learnMore": "Learn more",
       "costKubernetes": "Cost visibility & insights for Kubernetes",
       "configureKubecostForFree": "Configure Kubecost for free to see real-time cluster cost, workload efficiency, estimated savings and more.",
-      "hideTask": "Hide",
-      "showEnterprise": "See the value of Kubecost Enterprise",
-      "configureforFree": "Configure Kubecost for free"
+      "hideDetails": "Hide details",
+      "showDetails": "Show details"
     },
     "filesystemCapacity": "Filesystem capacity",
     "filesystemAvailable": "Filesystem available",
