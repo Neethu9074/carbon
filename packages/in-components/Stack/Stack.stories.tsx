@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import StackPresenter from 'in-components/Stack/StackPresenter';
 import StackPresenter from 'in-components/Stack/StackPresenter';
 
 export default {

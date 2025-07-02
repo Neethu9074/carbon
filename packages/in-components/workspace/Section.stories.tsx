@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+// @ts-expect-error import { ActionSection, Action } from 'in-components/workspace/ActionSection/ActionSection';
 import { ActionSection, Action } from 'in-components/workspace/ActionSection/ActionSection';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
