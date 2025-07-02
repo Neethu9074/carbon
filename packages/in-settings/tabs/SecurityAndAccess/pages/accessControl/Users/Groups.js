@@ -8,15 +8,20 @@ import React from 'react';
 import { ColumnizedContent, KeyValue, Ul, Li, Message } from '@instana/components';
 
 import {
+  getEntityIdView,
+  securityAndAccessAccessControlGroups,
+  securityAndAccessAccessControlRoles
+} from 'in-settings/navigation/paths';
+import {
   removeUserFromGroup,
   getStrippedGroupsWithIdpFlagAsResultObservable
 } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import AddUserToGroupButton from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/AddUserToGroupButton';
-import { getEntityIdView, securityAndAccessAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import ApiList from 'in-settings/components/ApiList';
 import { ownerRoleId } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
@@ -114,7 +119,11 @@ function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeleting
         {items.map(group => (
           <Li
             key={group.groupId}
-            href={getEntityIdView(securityAndAccessAccessControlGroups, group.groupId, createHrefToPath)}
+            href={getEntityIdView(
+              rbacTeamsEnabled ? securityAndAccessAccessControlRoles : securityAndAccessAccessControlGroups,
+              group.groupId,
+              createHrefToPath
+            )}
           >
             <ColumnizedContent
               columnDefinitions={columnDefinitions}
