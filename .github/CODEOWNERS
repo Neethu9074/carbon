@@ -276,9 +276,13 @@ packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx             
 packages/in-server/src/services/resolvers/featureFlags.js
 packages/in-services/featureFlags.ts
 
-# to keep FEE in the loop - because they help keeping the packages up-to-date and handle security alerts
-package.json                 @Instana-IBM-GitHub-Enterprise @instana/eng-frontend-enablement
-yarn.lock                    @Instana-IBM-GitHub-Enterprise @instana/eng-frontend-enablement
+# to keep FEE in the loop - because they help keeping the packages up-to-date and handle security alerts,
+# please always discuss with the FEE team when adding new dependendencies
+#
+# A process will be defined - an RFD will be created for that. TBC.
+#
+package.json                 @Instana-IBM-GitHub-Enterprise @instana/eng-frontend-enablement @instana/eng-ui
+yarn.lock                    @Instana-IBM-GitHub-Enterprise @instana/eng-frontend-enablement @instana/eng-ui
 
 packages/in-services                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 # simplify creating / working with feature flags and eventnames - without eng-ui approval
