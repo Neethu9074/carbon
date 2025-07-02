@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BoundaryScope, TimeConfig, TurboActionCategory, Application } from '@instana/types';
 
@@ -16,10 +16,12 @@ import {
 //@ts-expect-error needs TS migration
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
+import OptimizationNudgesTable from 'in-applications/Dashboards/application/tabs/OptimizationNudgesTable';
 import { useResourceOptimization } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import { isTurboEnabled } from 'in-applications/Dashboards/application/tabs/utils';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
 import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -98,7 +100,8 @@ export default function ResourceOptimizationTab({
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
   const recommendedOptimizations = useResourceOptimization({ applicationId });
   const postChartContent = renderActionsLane({ applicationId, boundaryScope });
-  let tagFilters = [
+
+  const tagFilters = [
     boundaryScope === boundaryScopes.all
       ? { stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS }
       : {
@@ -111,19 +114,62 @@ export default function ResourceOptimizationTab({
 
   let pieLabels: string[] = [];
   let pieMetrics: MetricDataSeries[] = [];
-  let actionCategories = recommendedOptimizations?.data?.actionCategoriesCount;
-  if (actionCategories) {
-    pieLabels = Object.keys(actionCategories);
-    pieMetrics = pieLabels.map(x => {
-      let dataPoint = [];
-      dataPoint.push([0, actionCategories ? actionCategories[x as TurboActionCategory] : 0] as MetricDataPoint);
-      return dataPoint;
+  const actionCategoryCounts = recommendedOptimizations?.data?.actionCategoriesCount;
+
+  if (actionCategoryCounts) {
+    pieLabels = Object.keys(actionCategoryCounts);
+    pieMetrics = pieLabels.map(label => {
+      const value = actionCategoryCounts[label as TurboActionCategory] || 0;
+      return [[0, value] as MetricDataPoint];
     });
-    pieLabels = pieLabels.map(x => (x.indexOf('_') === -1 ? x : x.substring(0, x.indexOf('_')))); //Display labels before "_" only
+    pieLabels = pieLabels.map(label => (label.indexOf('_') === -1 ? label : label.split('_')[0]));
   }
+  const turboEnabled = isTurboEnabled();
+  const actionCount = Object.values(actionCategoryCounts || {}).reduce((sum, count) => sum + count, 0);
+  const hasRecommendations = actionCount > 0;
+
+  const [highUtilRows, setHighUtilRows] = useState(0);
+  const [lowUtilRows, setLowUtilRows] = useState(0);
+
+  const hasCpuUtilizationData = highUtilRows > 0 || lowUtilRows > 0;
+  const noCpuUtilizationData = highUtilRows === 0 && lowUtilRows === 0;
 
   return (
     <div className={locals.contentContainer}>
+      {solisEnabled && turboEnabled && (
+        // @ts-expect-error TS2304: Cannot find name solis
+        // component is loaded from a script in ui-client/packages/in-client/index.html
+        <solis-teaser
+          product="turbonomic"
+          type="banner"
+          variation="optimizations"
+          sub_variation={hasRecommendations ? 'trialConfig' : 'trialOnly'}
+        />
+      )}
+
+      {solisEnabled && !turboEnabled && hasCpuUtilizationData && (
+        // @ts-expect-error TS2304: Cannot find name solis
+        // component is loaded from a script in ui-client/packages/in-client/index.html
+        <solis-teaser
+          product="turbonomic"
+          type="banner"
+          variation="optimizations"
+          sub_variation="noTrialOptim"
+          product_context="instana"
+        />
+      )}
+
+      {solisEnabled && !turboEnabled && noCpuUtilizationData && (
+        // @ts-expect-error
+        <solis-teaser
+          product="turbonomic"
+          type="banner"
+          variation="optimizations"
+          sub_variation="noTrialNoOptim"
+          product_context="instana"
+        />
+      )}
+
       {!solisEnabled && (
         <InfoPanel
           expanded="showResourceActionInfoPanel"
@@ -169,46 +215,58 @@ export default function ResourceOptimizationTab({
           }}
         />
       )}
-      <div className={locals.charts}>
-        <div className={locals.categoriesChart}>
-          <ResultAwareChart
-            result={recommendedOptimizations}
-            config={{
-              customHeight: 256,
-              customChartSkeletonHeight: 200,
-              title: t('in-automation:actionCategory'),
-              timeConfig: generateTimeframe(minutes.toMillis(1)), //Not meaningful, but seems required.
-              y1: {
-                renderer: recommendedOptimizations?.progress?.loading ? Renderer.area : Renderer.pie,
-                labels: pieLabels,
-                metricIds: [],
-                metrics: pieMetrics,
-                colors: colorPalette,
-                formatter: ((x: any) => x) as unknown as FormatterObject
-              }
-            }}
-          />
+      {(!solisEnabled || turboEnabled) && (
+        <div className={locals.charts}>
+          <div className={locals.categoriesChart}>
+            <ResultAwareChart
+              result={recommendedOptimizations}
+              config={{
+                customHeight: 256,
+                customChartSkeletonHeight: 200,
+                title: t('in-automation:actionCategory'),
+                timeConfig: generateTimeframe(minutes.toMillis(1)),
+                y1: {
+                  renderer: recommendedOptimizations?.progress?.loading ? Renderer.area : Renderer.pie,
+                  labels: pieLabels,
+                  metricIds: [],
+                  metrics: pieMetrics,
+                  colors: colorPalette,
+                  formatter: ((x: any) => x) as unknown as FormatterObject
+                }
+              }}
+            />
+          </div>
+          <div className={locals.latencyAndDistributionChart}>
+            <LatencyAndDistribution
+              cardTitle={t('in-applications:labelLatency')}
+              applicationId={applicationId}
+              timeConfig={timeConfig}
+              boundaryScope={boundaryScope}
+              tagFilters={tagFilters}
+              percentileGroupBy={createGroupBy('service.name', DESTINATION)}
+              renderPostChartContent={postChartContent}
+              urlMatrixParamConfig={{
+                path: resourceOptimizationsTab,
+                paramTab: 'latencyTab',
+                paramMetric: 'latencyMetric'
+              }}
+              renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
+              customChartSkeletonHeight={200}
+            />
+          </div>
         </div>
-        <div className={locals.latencyAndDistributionChart}>
-          <LatencyAndDistribution
-            cardTitle={t('in-applications:labelLatency')}
-            applicationId={applicationId}
-            timeConfig={timeConfig}
-            boundaryScope={boundaryScope}
-            tagFilters={tagFilters}
-            percentileGroupBy={createGroupBy('service.name', DESTINATION)}
-            renderPostChartContent={postChartContent}
-            urlMatrixParamConfig={{
-              path: resourceOptimizationsTab,
-              paramTab: 'latencyTab',
-              paramMetric: 'latencyMetric'
-            }}
-            renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
-            customChartSkeletonHeight={200}
-          />
-        </div>
-      </div>
-      <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
+      )}
+
+      {(!solisEnabled || turboEnabled) && (
+        <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
+      )}
+
+      {solisEnabled && !turboEnabled && (
+        <>
+          <OptimizationNudgesTable applicationId={applicationId} metricType="HIGH" onRowCountUpdate={setHighUtilRows} />
+          <OptimizationNudgesTable applicationId={applicationId} metricType="LOW" onRowCountUpdate={setLowUtilRows} />
+        </>
+      )}
     </div>
   );
 }

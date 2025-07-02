@@ -790,5 +790,7 @@
   },
   "labelSyntheticMonitoring": "Synthetic monitoring",
   "labelServiceLevels": "Service Levels",
-  "labelResourceOptimizations": "Optimizations"
+  "labelResourceOptimizations": "Optimizations",
+  "titleResourceOverutilization" : "Overutilized resoures (over {{thresholdUpperLimit}}% CPU usage)",
+  "titleResourceUnderutilization" : "Underutilized resoures (over {{thresholdLowerLimit}}% CPU usage)"
 }

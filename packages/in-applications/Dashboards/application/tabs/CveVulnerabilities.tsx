@@ -4,12 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
-// import { vulnerabilitydetectionPath } from 'in-vulnerability-center/navigation/paths';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
@@ -17,7 +16,9 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 // @ts-expect-error Module needs to be translated to TS
 import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
 import DetectionColumnDefinitions from 'in-vulnerability-center/Dashboard/DetectionColumnDefinitions';
+import { isConcertEnabledFromToken } from 'in-applications/Dashboards/application/tabs/utils';
 import DetectionDetailDialog from 'in-vulnerability-center/Dashboard/DetectionDetailDialog';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConcertBanner from 'in-vulnerability-center/components/ConcertBanner';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -28,15 +29,25 @@ import { noop } from 'in-services/fixedObjects';
 import { RawEvent } from 'in-types';
 import { t } from 'in-i18n';
 
+interface CVEEventsResponse {
+  data?: CVEEventsResponseData;
+}
+
+interface CVEEventsResponseData {
+  totalHits?: number;
+}
+
 export default function AffectedCvePresenter() {
   const { location } = useNavigation();
-
   const eventType = 'cve_issue';
   const timeConfig = useTimeConfig();
   const appId = getMatrixParameter(location, '/application', 'appId') ?? '';
 
   const pathSegment = '/CveVulnerabilities';
   const matrixPrefix = '';
+
+  const [isTableEmpty, setIsTableEmpty] = useState<boolean | null>(null);
+  const isConcertEnabled = useMemo(() => isConcertEnabledFromToken(), []);
 
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
@@ -71,7 +82,9 @@ export default function AffectedCvePresenter() {
         searchQuery = searchQuery.replace(/-/g, ' ');
         query += ` AND (event.text:*${searchQuery}*)`;
       }
+
       const offset = page > 1 ? (page - 1) * pageSize - 1 : -1;
+
       return getRawCVEEvents({
         timeConfig,
         query,
@@ -92,21 +105,77 @@ export default function AffectedCvePresenter() {
     [timeConfig, appId, location]
   );
 
+  const query = `event.type:${eventType} AND entity.application.id:"${appId}"`;
+
+  const cveEventsData: CVEEventsResponse | undefined | null = useObservable(
+    getRawCVEEvents({
+      timeConfig,
+      query,
+      pagination: {
+        cursor: {
+          '@class': '.IngestionOffsetCursor',
+          ingestionTime: 0,
+          offset: -1
+        },
+        retrievalSize: 1
+      },
+      order: {
+        by: 'problem.problemText',
+        direction: 'ASC'
+      }
+    }),
+    [timeConfig, appId]
+  );
+
+  useEffect(() => {
+    const totalHits = cveEventsData?.data?.totalHits ?? 0;
+    totalHits > 0 ? setIsTableEmpty(false) : setIsTableEmpty(true);
+  }, [cveEventsData]);
+
   const handleOnRowClick = (item: RawEvent) => {
     addActiveDialog(<DetectionDetailDialog event={item} timeConfig={timeConfig} onClose={close} />);
   };
 
+  const renderBanner = () => {
+    if (!solisEnabled) {
+      return <ConcertBanner expanded="showVulnerabilityInfoPanel" />;
+    }
+
+    if (isConcertEnabled) {
+      const variation = isTableEmpty ? 'trialOnly' : 'trialConfig';
+      return (
+        // @ts-expect-error TS2304: Cannot find name solis
+        // component is loaded from a script in ui-client/packages/in-client/index.html
+        <solis-teaser product="concert" type="banner" variation="vulnerabilities" sub_variation={variation} />
+      );
+    }
+
+    return (
+      // @ts-expect-error TS2304: Cannot find name solis
+      // component is loaded from a script in ui-client/packages/in-client/index.html
+      <solis-teaser
+        product="concert"
+        type="banner"
+        variation="vulnerabilities"
+        sub_variation="noTrialNoOptim"
+        product_context="instana"
+      />
+    );
+  };
+
   return (
     <Stack gap="large">
-      {!solisEnabled && <ConcertBanner expanded="showVulnerabilityInfoPanel" />}
-      <ServerTableWithUrlState
-        get={fetchCVEEvents}
-        timeConfig={timeConfig}
-        title={t('in-vulnerability-center:detection.table.mainLabel')}
-        rightHeader={noop}
-        showHeaderCount
-        onRowClick={handleOnRowClick}
-      />
+      {renderBanner()}
+      {(!solisEnabled || isConcertEnabled) && (
+        <ServerTableWithUrlState
+          get={fetchCVEEvents}
+          timeConfig={timeConfig}
+          title={t('in-vulnerability-center:detection.table.mainLabel')}
+          rightHeader={noop}
+          showHeaderCount
+          onRowClick={handleOnRowClick}
+        />
+      )}
     </Stack>
   );
 }
