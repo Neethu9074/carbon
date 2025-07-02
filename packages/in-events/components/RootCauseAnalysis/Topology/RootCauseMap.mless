@@ -126,4 +126,22 @@
   .emptyStateContainer {
     padding: 8rem;
   }
+
+  .cardWithBorder {
+    border: 1px solid var(--cds-layer-accent);
+    height: 100%;
+
+    :global .c4p--card__header {
+      padding: 1rem;
+    }
+
+    :global .c4p--card__title-container {
+      width: 100%;
+    }
+  }
+
+  .titleStack {
+    width: 100%;
+    justify-content: space-between;
+  }
 }

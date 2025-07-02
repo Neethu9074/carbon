@@ -4,20 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
+// eslint-disable-next-line no-restricted-imports
+import { IconButton, OverflowMenu, OverflowMenuItem, Stack } from '@carbon/react';
+// eslint-disable-next-line no-restricted-imports
+import { ProductiveCard } from '@carbon/ibm-products';
 import React, { useState, useEffect, useRef, ReactNode } from 'react';
+import { DataClass, ZoomIn, ZoomOut } from '@carbon/icons-react';
 import { ZoomBehavior, zoom as d3Zoom } from 'd3-zoom';
 import { select as d3Select } from 'd3-selection';
-
-import {
-  CarbonIconButton,
-  CarbonOverflowMenu,
-  CarbonOverflowMenuItem,
-  CarbonTile,
-  Stack,
-  SvgIcon
-} from '@instana/components';
-
-import { t } from 'in-i18n';
 
 import locals from 'in-events/components/RootCauseAnalysis/Topology/RootCauseMap.mless';
 
@@ -36,7 +30,6 @@ export function RootCauseTopologySVGWrapper({
   children,
   width,
   height,
-  algorithm,
   setAlgorithm,
   containerId = `rootCauseTopologyContainer-${Math.random().toString(36).substr(2, 9)}`
 }: RootCauseTopologySVGWrapperProps) {
@@ -71,66 +64,27 @@ export function RootCauseTopologySVGWrapper({
   };
 
   return (
-    <Stack>
-      <CarbonTile>
-        <Stack direction="horizontal" distribution="spaceBetween">
-          <Stack direction="horizontal">
-            <CarbonOverflowMenu
-              aria-label="tree-kind"
-              align="bottom"
-              renderIcon={() => <SvgIcon size="s" type="lib_context_guide_downstream" />}
-            >
-              <CarbonOverflowMenuItem
-                itemText={
-                  <div className={locals.menuItemText}>
-                    Layered
-                    {algorithm === 'layered' && <SvgIcon type="lib_check" size="xs" />}
-                  </div>
-                }
-                onClick={() => setAlgorithm('layered')}
-              />
-              <CarbonOverflowMenuItem
-                itemText={
-                  <div className={locals.menuItemText}>
-                    Tree
-                    {algorithm === 'mrtree' && <SvgIcon type="lib_check" size="xs" />}
-                  </div>
-                }
-                onClick={() => setAlgorithm('mrtree')}
-              />
-              <CarbonOverflowMenuItem
-                itemText={
-                  <div className={locals.menuItemText}>
-                    Force
-                    {algorithm === 'force' && <SvgIcon type="lib_check" size="xs" />}
-                  </div>
-                }
-                onClick={() => setAlgorithm('force')}
-              />
-            </CarbonOverflowMenu>
-          </Stack>
-          <Stack direction="horizontal">
-            <CarbonIconButton
-              label={t('in-applications:applicationMap.tooltipZoomOut')}
-              onClick={() => handleZoomOut()}
-              align="bottom"
-              kind="ghost"
-              size="sm"
-            >
-              <SvgIcon type="lib_actions_zoom_out" color="black" size="s" />
-            </CarbonIconButton>
-            <CarbonIconButton
-              label={t('in-applications:applicationMap.tooltipZoomIn')}
-              onClick={() => handleZoomIn()}
-              align="bottom"
-              kind="ghost"
-              size="sm"
-            >
-              <SvgIcon type="lib_actions_zoom_in" color="black" size="s" />
-            </CarbonIconButton>
+    <ProductiveCard
+      title={
+        <Stack className={locals.titleStack} orientation="horizontal" gap={5}>
+          <h6 className="c4p--card__title">Topology</h6>
+          <Stack orientation="horizontal" gap={3}>
+            <OverflowMenu align="bottom" size="sm" renderIcon={DataClass}>
+              <OverflowMenuItem itemText="Layered" onClick={() => setAlgorithm('layered')} />
+              <OverflowMenuItem itemText="Tree" onClick={() => setAlgorithm('mrtree')} />
+              <OverflowMenuItem itemText="Force" onClick={() => setAlgorithm('force')} />
+            </OverflowMenu>
+            <IconButton kind="ghost" align="bottom" size="sm" onClick={handleZoomIn} label="Zoom in">
+              <ZoomIn />
+            </IconButton>
+            <IconButton kind="ghost" size="sm" align="bottom" label="Zoom out" onClick={handleZoomOut}>
+              <ZoomOut />
+            </IconButton>
           </Stack>
         </Stack>
-      </CarbonTile>
+      }
+      className={locals.cardWithBorder}
+    >
       <div id={containerId}>
         <svg
           ref={svgRef}
@@ -142,6 +96,6 @@ export function RootCauseTopologySVGWrapper({
           <g transform={`translate(${x},${y})scale(${k})`}>{children}</g>
         </svg>
       </div>
-    </Stack>
+    </ProductiveCard>
   );
 }
