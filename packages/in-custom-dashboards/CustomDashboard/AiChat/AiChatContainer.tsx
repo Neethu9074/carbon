@@ -28,29 +28,49 @@ import { ExampleMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/Mess
 import { enabledWidgets } from 'in-custom-dashboards/widgets';
 import { ConfigMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/ConfigMessage';
 import { customSendMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/customSendMessage';
+import { hours } from 'in-services/time/time';
+import { t } from 'in-i18n';
 
 // no translation because only English is possible as of now.
-const LAUNCHER_GREETING = 'Hello, you can create some widgets via chat too!';
+const LAUNCHER_GREETING = t('in-custom-dashboards:aiChat.launcherGreeting');
 
-// You can also use markdown in the string.
-const WELCOME_MESSAGE = `Hello and welcome.
+// *** Using translations makes this hard to read, please also update this comment:
+// Hello and welcome.
 
-AI-assisted widget creation is currently available for the following parameters:
-- **languages:**
-    - English
-- **widget types:**
-    - Big Number
-    - Time Series chart
-    - SLO (_not SLO legacy_)
-- **data sources:**
-    - Applications (_all metrics_)
-- **filters:**
-    - Application Name
-    - Call Erroneous
-    - Call Type
-    - Endpoint Name
-    - Service Name
-    - Technology Name
+// AI-assisted widget creation is currently available for the following parameters:
+// - **Language:**
+//     - English
+// - **Widget type:**
+//     - Big number
+//     - Chart: time series
+//     - SLO (_not SLO Legacy_)
+// - **Data source:**
+//     - Applications (traces and calls)
+// - **Filter:**
+//     - Application name
+//     - Call erroneous
+//     - Call type
+//     - Endpoint name
+//     - Service name
+//     - Technology name
+const WELCOME_MESSAGE = `${t('in-custom-dashboards:aiChat.welcome')}
+
+${t('in-custom-dashboards:aiChat.restrictions')}:
+- **${t('language')}:**
+    - ${t('language', { context: 'en-US' })}
+- **${t('in-custom-dashboards:aiChat.widgetType')}:**
+    - ${t('in-custom-dashboards:widgets.bigNumber.bigNumber')}
+    - ${t('in-custom-dashboards:widgets.index.chartTimeSeries')}
+    - ${t('in-custom-dashboards:widgets.slo.slo')} (_not ${t('in-custom-dashboards:widgets.slo.sloLegacy')}_)
+- **${t('in-custom-dashboards:widgets.metricConfigurator.ds')}:**
+    - ${t('in-custom-dashboards:widgets.srcApp.index.applicationsTracesAndCalls')}
+- **${t('in-custom-dashboards:aiChat.filter')}:**
+    - ${t('in-custom-dashboards:aiChat.filter', { context: 'application' })}
+    - ${t('in-custom-dashboards:aiChat.filter', { context: 'service' })}
+    - ${t('in-custom-dashboards:aiChat.filter', { context: 'endpoint' })}
+    - ${t('in-custom-dashboards:aiChat.filter', { context: 'erroneousCall' })}
+    - ${t('in-custom-dashboards:aiChat.filter', { context: 'callType' })}
+    - ${t('in-custom-dashboards:aiChat.filter', { context: 'technology' })}
 `;
 
 const chatConfig: PublicConfig = {
@@ -107,6 +127,7 @@ export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatCon
 };
 
 const configureInstance = (instance: ChatInstance) => {
+  instance.showLauncherGreetingMessage(hours.toMillis(24));
   instance.updateLauncherGreetingMessage(LAUNCHER_GREETING);
   // TODO: improve style modification - maybe check with @carbon/ai-chat team
   instance.updateCSSVariables({ 'BASE-width': '700px', 'BASE-max-height': '950px' });

@@ -17,11 +17,12 @@ import {
   PromptableWidgetType
 } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 import { ChatButtonGroup } from 'in-custom-dashboards/CustomDashboard/AiChat/components/ChatButtonGroup';
+import { t } from 'in-i18n';
 
 const promptableWidgetTypes: ChatButtonOption[] = [
-  { key: 'bigNumber', value: 'Big Number' },
-  { key: 'TIME_SERIES', value: 'Time Series chart' },
-  { key: 'slo2', value: 'SLO' }
+  { key: 'bigNumber', value: t('in-custom-dashboards:widgets.bigNumber.bigNumber') },
+  { key: 'TIME_SERIES', value: t('in-custom-dashboards:widgets.index.chartTimeSeries') },
+  { key: 'slo2', value: t('in-custom-dashboards:widgets.slo.slo') }
 ];
 
 interface ExampleMessageProps {
@@ -35,9 +36,7 @@ export const ExampleMessage = ({ instance }: ExampleMessageProps) => {
   );
   return (
     <Stack gap={2}>
-      <Typography variant="body-01">
-        Feel free to try out one of the example prompts by selecting the widget type below or use your own prompt.
-      </Typography>
+      <Typography variant="body-01">{t('in-custom-dashboards:aiChat.tryOutExamplePrompts')}</Typography>
       <ChatButtonGroup
         options={promptableWidgetTypes}
         onClick={({ key }) => {
