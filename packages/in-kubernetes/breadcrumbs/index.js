@@ -18,6 +18,7 @@ import {
   useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
+import PersistentVolumeClaimBreadcrumb from 'in-kubernetes/breadcrumbs/PersistentVolumeClaimBreadcrumb';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
 import PersistentVolumeBreadcrumb from 'in-kubernetes/breadcrumbs/PersistentVolumeBreadcrumb';
 import getOtelKubernetesCluster from 'in-kubernetes/subscriptions/getOtelKubernetesCluster';
@@ -93,6 +94,20 @@ export function PersistentVolumeBreadcrumbs(props) {
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
     persistentVolumeId && <PersistentVolumeBreadcrumb {...props} />
+  ];
+}
+
+export function PersistentVolumeClaimBreadcrumbs(props) {
+  const { persistentVolumeClaimId, clusterId, namespaceId } = props;
+
+  const clusterHref = useClusterDashboard(clusterId);
+  const namespaceHref = useNamespaceDashboard(namespaceId);
+
+  return [
+    <HomeViewBreadcrumb />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
+    persistentVolumeClaimId && <PersistentVolumeClaimBreadcrumb {...props} />
   ];
 }
 

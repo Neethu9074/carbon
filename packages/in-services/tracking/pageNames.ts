@@ -70,6 +70,7 @@ export const pageNames = Object.freeze({
   namespace_summary: 'Namespaces > Summary',
   node_summary: 'Nodes > Summary',
   persistent_volume_summary: 'PersistentVolumes > Summary',
+  persistent_volume_claim_summary: 'PersistentVolumeClaims > Summary',
   pod_summary: 'Pods >Summary',
   k8s_service_summary: 'K8s Services > Summary',
   map: 'Map',

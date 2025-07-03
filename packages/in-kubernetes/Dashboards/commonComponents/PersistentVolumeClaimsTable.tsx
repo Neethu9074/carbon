@@ -18,9 +18,12 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 //@ts-expect-error TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 //@ts-expect-error TS migration
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+//@ts-expect-error TS migration
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getKubernetesPersistentVolumeClaims from 'in-kubernetes/subscriptions/getKubernetesPersistentVolumeClaims';
 import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { usePersistentVolumeClaimDashboard } from 'in-kubernetes/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getInfraGranularity } from 'in-stores/metric/metric';
@@ -53,7 +56,7 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
     getContent(item: KubernetesPersistentVolumeClaimListItem) {
-      return item.name;
+      return <PersistentVolumeClaimLink {...item} />;
     }
   },
   {
@@ -195,4 +198,21 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
+}
+
+function PersistentVolumeClaimLink({
+  persistentVolumeClaim,
+  name,
+  entityHealthInfo
+}: Readonly<KubernetesPersistentVolumeClaimListItem>) {
+  const href = usePersistentVolumeClaimDashboard(persistentVolumeClaim.id);
+
+  return (
+    <SeverityAwareEntityLink
+      icon="lib_infra_kubernetesPersistentVolumeClaim"
+      label={name}
+      href={href}
+      severity={entityHealthInfo.maxSeverity}
+    />
+  );
 }

@@ -5,6 +5,7 @@
 
 // the following components are all part of the same bundle (kubernetes)
 import DeploymentConfigDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/DeploymentConfig/DeploymentConfigDashboard';
+import PersistentVolumeClaimDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/PersistentVolumeClaim/PersistentVolumeClaimDashboard';
 import PersistentVolumeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/PersistentVolume/PersistentVolumeDashboard';
 import StatefulSetDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/StatefulSet/StatefulSetDashboard';
 import OtelClusterDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/OtelCluster/OtelClusterDashboard';
@@ -31,6 +32,7 @@ import {
   podOtelDashboardFullyQualified,
   nodeDashboardFullyQualified,
   persistentVolumeDashboardFullyQualified,
+  persistentVolumeClaimDashboardFullyQualified,
   nodeOtelDashboardFullyQualified,
   daemonSetDashboardFullyQualified,
   deploymentDashboardFullyQualified,
@@ -62,6 +64,9 @@ export default [
   </Route>,
   <Route key="kubernetesPersistentVolumeDashboard" path={persistentVolumeDashboardFullyQualified}>
     {renderAsyncRouteChildren(PersistentVolumeDashboard)}
+  </Route>,
+  <Route key="kubernetesPersistentVolumeClaimDashboard" path={persistentVolumeClaimDashboardFullyQualified}>
+    {renderAsyncRouteChildren(PersistentVolumeClaimDashboard)}
   </Route>,
   <Route key="kubernetesOtelPodDashboard" path={podOtelDashboardFullyQualified}>
     {renderAsyncRouteChildren(OtelPodDashboard)}
