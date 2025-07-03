@@ -57,7 +57,7 @@ export interface Node {
   screenPosition: Vector3;
   children: Map<string, {}>;
   subscriber: SubscriberObject;
-  event$: RoEmitter<Topics>;
+  events$: RoEmitter<Topics>;
   dispose: VoidFunction;
 }
 
