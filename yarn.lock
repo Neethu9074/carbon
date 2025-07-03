@@ -3387,10 +3387,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/eslint-config-commons@npm:1.4.0":
-  version: 1.4.0
-  resolution: "@instana/eslint-config-commons@npm:1.4.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Feslint-config-commons%2F-%2F%40instana%2Feslint-config-commons-1.4.0.tgz"
-  checksum: 5b771f85b1280b2369a2146e332abce50e6f1e75b10023706a0e066f7c12b09336307507e792b73b1b56e626a64384bde1dda93a581fafea5207c68232bd9b37
+"@instana/eslint-config-commons@npm:1.4.1":
+  version: 1.4.1
+  resolution: "@instana/eslint-config-commons@npm:1.4.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Feslint-config-commons%2F-%2F%40instana%2Feslint-config-commons-1.4.1.tgz"
+  checksum: b2933d5f6cbf282b51c71f6179c775acdfe424af1789b01e615b50be4970551635ec48dd83d425768e550ac3ac85784b304d1e83976051aa64aef3953f7003ce
   languageName: node
   linkType: hard
 
@@ -23295,7 +23295,7 @@ __metadata:
     "@instana/carbon-charts": 0.10.0
     "@instana/components": 5.23.1
     "@instana/design-tokens": 1.29.0
-    "@instana/eslint-config-commons": 1.4.0
+    "@instana/eslint-config-commons": 1.4.1
     "@instana/format-date": 1.8.0
     "@instana/format-numbers": 1.7.0
     "@instana/hooks": 1.13.0
