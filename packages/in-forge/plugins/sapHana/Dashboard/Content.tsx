@@ -491,10 +491,10 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <GarbageCollectionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ExpensiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ActiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-      <DiskUsageStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SqlPlanCacheStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <LockWaitStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <NetworkStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <DiskUsageStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <TableSizeStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SharedMemoryStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <RowStoreMemoryStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />

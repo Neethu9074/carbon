@@ -14,7 +14,7 @@ import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 // @ts-expect-error Module needs to be translated to TS
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { megaBytes } from 'in-services/formatters/number';
+import { bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import Code from 'in-components/Code/Code';
 import { t } from 'in-i18n';
@@ -59,21 +59,22 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.diskTotalSize'),
+    title: t('in-forge:plugins.sapHana.dashboard.totalDeviceSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: DiskUsageStatsRow) {
         return row.snapshotId;
       },
       getMetricName(row: DiskUsageStatsRow) {
-        return `diskUsageStats.${row.key}.totalSize`;
+        return `diskUsageStats.${row.key}.totalDeviceSize`;
       },
-      getContent: megaBytes.detailed,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
+
   {
     title: t('in-forge:plugins.sapHana.dashboard.fileSystem'),
     type: 'string',
@@ -92,18 +93,17 @@ const cols = [
       }
     }
   },
-
   {
-    title: t('in-forge:plugins.sapHana.dashboard.totalDeviceSize'),
+    title: t('in-forge:plugins.sapHana.dashboard.diskTotalSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: DiskUsageStatsRow) {
         return row.snapshotId;
       },
       getMetricName(row: DiskUsageStatsRow) {
-        return `diskUsageStats.${row.key}.totalDeviceSize`;
+        return `diskUsageStats.${row.key}.totalSize`;
       },
-      getContent: megaBytes.detailed,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -119,7 +119,7 @@ const cols = [
       getMetricName(row: DiskUsageStatsRow) {
         return `diskUsageStats.${row.key}.usedSize`;
       },
-      getContent: megaBytes.detailed,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -195,7 +195,8 @@ export default function DiskUsageStatsList({ snapshotId, timeConfig }: DiskUsage
       cardTitle={t('in-forge:plugins.sapHana.dashboard.diskUsageStat')}
       cols={cols}
       rows={rows}
-      initialSortColumn={5}
+      initialSortColumn={7}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );
