@@ -47,7 +47,6 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
   const enabledField = form.get(TRANSIENT_ENABLED);
   const thresholdField = form.get(TRANSIENT_THRESHOLD);
   const notificationField = form.get(TRANSIENT_NOTIFICATION);
-
   // Create thresholdUnit state for the UI input
   const [thresholdUnit, setThresholdUnit] = useState(() => millistoThresholdObj(thresholdField?.value ?? 5 * 60000));
 
@@ -147,8 +146,11 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
               <RadioButtonGroup
                 name="transient-events-notification-radio-button-vertical-group"
                 value={field.value}
-                defaultSelected="false"
-                onChange={value => onChange(TRANSIENT_NOTIFICATION, value)}
+                defaultSelected={String(field.value)}
+                onChange={value => {
+                  const bool = value === 'true';
+                  onChange(TRANSIENT_NOTIFICATION, bool);
+                }}
                 orientation="vertical"
               >
                 <RadioButton labelText={t('in-settings:tabs.transientNotifyEach')} value="false" id="false" />

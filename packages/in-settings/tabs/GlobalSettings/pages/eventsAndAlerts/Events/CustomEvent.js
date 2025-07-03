@@ -207,8 +207,17 @@ function save(event, form, trackCta) {
     severity: getSeverityText(severity)
   });
 
-  const eventSpecification = getEventSpecification(event, form);
+  let eventSpecification = getEventSpecification(event, form);
+  eventSpecification = addTransientEventSetting(eventSpecification, form);
+  addTransientEventSetting(eventSpecification, form);
   return saveCustomEventSpecification(eventSpecification);
+}
+
+function addTransientEventSetting(eventSpecification, form) {
+  eventSpecification.transientEventEnabled = form.get('transientEventEnabled').value ?? true;
+  eventSpecification.transientEventThreshold = form.get('transientEventThreshold').value ?? 300000;
+  eventSpecification.transientEventAlertMuted = form.get('transientEventAlertMuted').value ?? false;
+  return eventSpecification;
 }
 
 function getTagFilterForHostAvailability(form) {
@@ -348,9 +357,6 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
   const rulesForm = form.get('rules');
   const rules = rulesForm?.map(formToRuleMapper({ entityType, severity }));
   const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
-  const transientEventEnabled = form.get('transientEventEnabled').value ?? true;
-  const transientEventThreshold = form.get('transientEventThreshold').value ?? 300000;
-  const transientEventAlertMuted = form.get('transientEventAlertMuted').value ?? false;
 
   return createCustomMultiThresholdBasedEventSpecification(
     event?.id ?? null,
@@ -362,10 +368,7 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
     form.get('description').value,
     query,
     form.get('triggering').value,
-    event?.enabled,
-    transientEventEnabled,
-    transientEventThreshold,
-    transientEventAlertMuted
+    event?.enabled
   );
 }
 
