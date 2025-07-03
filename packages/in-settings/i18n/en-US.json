@@ -864,7 +864,8 @@
       "mappingRuleMessage_updated": "Updates saved",
       "failedToSaveMapping": "Failed to save mapping rule",
       "loadingRoles": "Loading roles...",
-      "loadingTeams": "Loading teams..."
+      "loadingTeams": "Loading teams...",
+      "closeTearsheet": "Close"
     },
     "auditTrail": "Audit trail",
     "failedToSaveConfig": "Failed to save config: {{err}}",

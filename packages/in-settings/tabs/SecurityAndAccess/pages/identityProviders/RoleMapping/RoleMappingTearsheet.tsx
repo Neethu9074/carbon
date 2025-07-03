@@ -46,7 +46,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
 
   const [mappingRuleStatus, submitMappingForm] = useFormSubmission<IdpGroupMapping, IdpGroupMapping>(mappingConfig =>
     saveMapping(mappingConfig).map(result => {
-      // Send refrehs signal to groupmapping in order to refresh role mapping list
+      // Send refresh signal to refresh role mapping list
       if (!result.progress.loading && !result.errors.length) {
         refresh();
       }
@@ -102,7 +102,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
           kind: 'primary',
           label: roleMapping ? t('forms.actions.save') : t('forms.actions.create'),
           onClick: onCreateMappingRule,
-          loading: mappingRuleStatus
+          loading: mappingRuleStatus === 'pending'
         },
         {
           key: 2,
@@ -124,6 +124,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
         context: roleMapping ? 'edit' : ''
       })}
       selectorPrimaryFocus="#mappingKey"
+      closeIconDescription={t('in-settings:tabs.roleMapping.closeTearsheet')}
     >
       <Form aria-label="role-mapping-form" className={locals.roleMapping_form}>
         <Stack gap={6}>
@@ -159,7 +160,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
               selectedItem={selectedRole}
               itemToString={item => (item ? item.name : '')}
               onChange={({ selectedItem }) => {
-                setForm(form.updateIn(['groupId'], f => f.setValue(selectedItem?.id).setTouched(true)));
+                setForm(form.updateIn(['groupId'], f => f.setValue(selectedItem?.id ?? '').setTouched(true)));
               }}
             />
           )}
@@ -185,7 +186,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
                 </>
               }
               onChange={({ selectedItem }) => {
-                setForm(form.updateIn(['teamId'], f => f.setValue(selectedItem?.id).setTouched(true)));
+                setForm(form.updateIn(['teamId'], f => f.setValue(selectedItem?.id ?? null).setTouched(true)));
               }}
             />
           )}
