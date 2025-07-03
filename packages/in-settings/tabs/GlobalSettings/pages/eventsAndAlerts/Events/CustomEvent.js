@@ -207,7 +207,8 @@ function save(event, form, trackCta) {
     severity: getSeverityText(severity)
   });
 
-  const eventSpecification = getEventSpecification(event, form);
+  let eventSpecification = getEventSpecification(event, form);
+  eventSpecification = addTransientEventSetting(eventSpecification, form);
   addTransientEventSetting(eventSpecification, form);
   return saveCustomEventSpecification(eventSpecification);
 }
