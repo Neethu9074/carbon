@@ -165,12 +165,12 @@ function mergeResults<T extends Options>(matchAllTokens: boolean) {
 
 export function getKey(options: Options) {
   if (options.children && options.children.length > 0) {
-    return options.levelType ?? options.label;
+    return options.levelType ? `${options.levelType}-${options.label}` : options.label;
   }
   if (options.type === 'APPLICATION' || options.type === 'SERVICE' || options.type === 'ENDPOINT') {
     return options.label ?? null;
   }
-  return options.type === 'TAG' ? options.tagName : `${options.levelType}${options.metric}`;
+  return options.type === 'TAG' ? options.tagName : `${options.levelType}-${options.metric}`;
 }
 
 function mergeScores(previousScore: number = DEFAULT_SCORE, currentScore: number = DEFAULT_SCORE) {
