@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { get } from 'lodash';
 
 import { Card, DataTable as CarbonDataTable } from '@instana/components';
@@ -41,14 +41,15 @@ import Tooltip from 'in-components/Tooltip';
 // @ts-expect-error TS migration
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-import { TimeConfig } from 'in-types';
-
+import { TimeConfig, EntityHealthInfo } from 'in-types';
+import { isLoading, hasError } from 'in-services/util/result';
+import { Error as InstanaError } from '@instana/types/typeDefinitions';
 
 const pathSegment = '/containers';
 const matrixPrefix = 'container.';
 
 interface DashboardLinkProps {
-  item: any;
+  item: ContainerItem;
   timeConfig: TimeConfig;
 }
 
@@ -61,7 +62,7 @@ const DashboardLink = ({ item, timeConfig }: DashboardLinkProps) => {
 
   return (
     <SeverityAwareEntityLink
-      icon={getContainerIconByPlugin(get(item, ['container', 'plugin']))}
+      icon={getContainerIconByPlugin(get(item, ['container', 'plugin'], ''))}
       label={get(item, ['container', 'label'])}
       href={href}
       severity={item.entityHealthInfo.maxSeverity}
@@ -90,13 +91,10 @@ interface ContainerItem {
     label: string;
     plugin?: string;
   };
-  entityHealthInfo: {
-    openIssues: any[];
-    maxSeverity: number;
-  };
+  entityHealthInfo: EntityHealthInfo;
 }
 
-type ColumnDefinition = {
+interface ColumnDefinition {
   id: string;
   label: string;
   sortable?: boolean;
@@ -229,10 +227,7 @@ interface MonitoredContainersResultItem {
     label: string;
     plugin?: string;
   };
-  entityHealthInfo: {
-    openIssues: any[];
-    maxSeverity: number;
-  };
+  entityHealthInfo: EntityHealthInfo;
 }
 
 interface MonitoredContainersResult {
@@ -242,7 +237,7 @@ interface MonitoredContainersResult {
   progress?: {
     loading?: boolean;
   };
-  errors?: any[];
+  errors: InstanaError[];
 }
 
 interface UnmonitoredInfrastructureProps {
@@ -257,10 +252,7 @@ export default connectTo(
   }),
   function UnmonitoredInfrastructure(props: UnmonitoredInfrastructureProps) {
     const { data: pod, monitoredContainersResult } = props;
-    const isLoading = get(monitoredContainersResult, ['progress', 'loading']);
-    const hasErrors = get(monitoredContainersResult, ['errors', 'length'], 0);
-
-    if (isLoading || hasErrors) {
+    if (isLoading() || hasError()) {
       return <MonitoredContainers {...props} />;
     }
 
@@ -279,7 +271,7 @@ export default connectTo(
       return <MonitoredContainers {...props} />;
     }
     return (
-      <Fragment>
+      <>
         <Row>
           <Col lg={12}>
             <MonitoredContainers {...props} />
@@ -290,7 +282,7 @@ export default connectTo(
             <UnmonitoredContainers containerStatuses={containerStatuses} />
           </Col>
         </Row>
-      </Fragment>
+      </>
     );
   }
 );
