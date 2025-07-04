@@ -138,7 +138,7 @@ export default class Sticky extends React.Component<StickyProps> {
             {this.props.children}
           </section>
         ) : (
-          this.props.children
+          <div ref={r => this.setContentWrapper(r!)}>{this.props.children}</div>
         )}
       </section>
     );
