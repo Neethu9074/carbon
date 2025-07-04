@@ -182,10 +182,7 @@ function Content({
 
 function RequiredToggle({ metric, onChange }) {
   const required = metric.get('required').map(field => field.value);
-  const handleToggle = () => {
-    const newRequired = !required;
-    onChange(newRequired);
-  };
+  const handleToggle = () => onChange(!required);
 
   return (
     <FilterEmptyValuesToggle
