@@ -34,84 +34,72 @@ export default function AboutInstanaDialog() {
       closeIconDescription={t('in-components:aboutInstanaDialog.close')}
       content={
         <span className={locals.fontColor}>
-          <Stack component={'span'} gap="large" direction="vertical" align="start">
+          <Stack component="span" gap="large" direction="vertical" align="start">
             {instanaRegion && (
-              <Stack component={'span'} gap="xxsmall" direction="vertical" align="start">
-                <Typography component={'span'} variant="heading-03">
+              <Stack component="span" gap="xxsmall" direction="vertical" align="start">
+                <Typography component="span" variant="heading-03">
                   {t('in-components:aboutInstanaDialog.columnizedContentDeployment')}
                 </Typography>
-                <Typography component={'span'} noMargin variant="heading-01">
+                <Typography component="span" noMargin variant="heading-01">
                   {t('in-components:aboutInstanaDialog.labelRegion')}
                 </Typography>
-                {instanaRegion}
+                <Typography variant="body-01">{instanaRegion}</Typography>
               </Stack>
             )}
-            <Stack component={'span'} gap="small" direction="vertical" align="start">
-              <Typography component={'span'} variant="heading-03">
+            <Stack component="span" gap="small" direction="vertical" align="start">
+              <Typography component="span" variant="heading-03">
                 {t('in-components:aboutInstanaDialog.columnizedContentUserInterface')}
               </Typography>
               {build.tag && (
-                <Stack component={'span'} gap="disabled">
-                  <Typography component={'span'} noMargin variant="heading-01">
+                <Stack component="span" gap="disabled">
+                  <Typography component="span" noMargin variant="heading-01">
                     {t('in-components:aboutInstanaDialog.labelTag')}
                   </Typography>
-                  <Typography component={'span'} variant="body-01">
-                    {build.tag}
-                  </Typography>
+                  <Typography variant="body-01">{build.tag}</Typography>
                 </Stack>
               )}
 
               {build.revision && (
-                <Stack component={'span'} gap="disabled">
-                  <Typography component={'span'} noMargin variant="heading-01">
+                <Stack component="span" gap="disabled">
+                  <Typography component="span" noMargin variant="heading-01">
                     {t('in-components:aboutInstanaDialog.labelCommit')}
                   </Typography>
-                  <Typography component={'span'} variant="body-01">
-                    {build.revision.substring(0, 12)}
-                  </Typography>
+                  <Typography variant="body-01">{build.revision.substring(0, 12)}</Typography>
                 </Stack>
               )}
             </Stack>
+
             {uiBackendVersion && (
-              <Stack component={'span'} gap="small" direction="vertical" align="start">
-                (
-                <>
-                  <Typography component={'span'} variant="heading-03">
-                    {t('in-components:aboutInstanaDialog.columnizedContentBackend')}
+              <Stack component="span" gap="small" direction="vertical" align="start">
+                <Typography component="span" variant="heading-03">
+                  {t('in-components:aboutInstanaDialog.columnizedContentBackend')}
+                </Typography>
+                <Stack component="span" gap="disabled">
+                  <Typography component="span" noMargin variant="heading-01">
+                    {t('in-components:aboutInstanaDialog.labelTag')}
                   </Typography>
-                  <Stack component={'span'} gap="disabled">
-                    <Typography component={'span'} noMargin variant="heading-01">
-                      {t('in-components:aboutInstanaDialog.labelTag')}
-                    </Typography>
-                    <Typography component={'span'} variant="body-01">
-                      {' '}
-                      {uiBackendVersion?.imageTag}
-                    </Typography>
-                  </Stack>
-                  <Stack component={'span'} gap="disabled">
-                    <Typography component={'span'} noMargin variant="heading-compact-01">
-                      {t('in-components:aboutInstanaDialog.labelCommit')}
-                    </Typography>
-                    <Typography component={'span'} variant="body-01">
-                      {uiBackendVersion?.commit?.substring(0, 12)}
-                    </Typography>
-                  </Stack>
-                </>
-                )
+                  <Typography variant="body-01"> {uiBackendVersion?.imageTag}</Typography>
+                </Stack>
+                <Stack component="span" gap="disabled">
+                  <Typography component="span" noMargin variant="heading-compact-01">
+                    {t('in-components:aboutInstanaDialog.labelCommit')}
+                  </Typography>
+                  <Typography variant="body-01">{uiBackendVersion?.commit?.substring(0, 12)}</Typography>
+                </Stack>
               </Stack>
             )}
-            <Stack component={'span'} gap="small" direction="vertical" align="start">
-              <Typography component={'span'} variant="heading-03">
+            <Stack component="span" gap="small" direction="vertical" align="start">
+              <Typography component="span" variant="heading-03">
                 {t('in-components:aboutInstanaDialog.geo.title')}
               </Typography>
-              <Typography component={'span'} variant="body-01">
+              <Typography variant="body-01">
                 {t('in-components:aboutInstanaDialog.maxMindDescription')}{' '}
                 <Link href="https://www.maxmind.com" linkIconType="lib_views_external_link">
                   {t('in-components:aboutInstanaDialog.maxMind')}
                 </Link>
               </Typography>
               {graphViewFromAboutInstanaEnabled && (
-                <Typography component={'span'} variant="body-01">
+                <Typography variant="body-01">
                   {t('in-components:aboutInstanaDialog.dynamicGraphDescription')}{' '}
                   <Link href={createHrefToPath(graphPath)} onClick={() => close()} inline>
                     {t('in-components:aboutInstanaDialog.dynamicGraph')}
