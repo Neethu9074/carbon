@@ -54,6 +54,14 @@ export default function HardwareInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.host.bootId')}>{data.get('bootId')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.systemId')}>{data.get('systemSerialNumber')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.hostId')}>{volatileId.get('host_id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.biosVersion')}>{data.get('biosVersion')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.biosReleaseDate')}>
+        {data.get('biosReleaseDate')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.hardwareBrand')}>{data.get('hardwareBrand')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.hardwareModel')}>{data.get('hardwareModel')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.osVendorName')}>{data.get('osVendorName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.osVendorId')}>{data.get('osVendorId')}</DescriptionItem>
 
       {start && (
         <DescriptionItem title={t('in-forge:plugins.host.startedAt')}>
