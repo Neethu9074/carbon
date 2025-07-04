@@ -122,6 +122,9 @@ describe('in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEve
             },
           ],
           "severity": "10",
+          "transientEventAlertMuted": false,
+          "transientEventEnabled": true,
+          "transientEventThreshold": 300000,
           "triggering": undefined,
         }
       `);
@@ -178,6 +181,9 @@ describe('in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEve
             },
           ],
           "severity": "10",
+          "transientEventAlertMuted": false,
+          "transientEventEnabled": true,
+          "transientEventThreshold": 300000,
           "triggering": undefined,
         }
       `);
