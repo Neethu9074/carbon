@@ -57,6 +57,7 @@ import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { FeedbackComponents } from 'in-events/components/EventTable';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -237,6 +238,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
 const AggregatedInfraEntities = ({ incident }) => {
   const alertConfig = useInfraEventAlertConfig(incident);
   const entityType = alertConfig?.rule?.entityType ?? 'all';
+  const tagCatalog = useTagCatalog({ ownerType: entityType });
   const metricName = incident.getIn(['metadata', 'smartAlertInfo', 'metricName'], '');
   const aggregation = incident.getIn(['metadata', 'smartAlertInfo', 'metricAggregation'], '');
   const groupingTags = incident.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
@@ -263,7 +265,10 @@ const AggregatedInfraEntities = ({ incident }) => {
           tagFilterFormModel={tagFilterFormModel}
           timeConfig={getTimeConfigForAggregatedEntitiesTable(incident, alertConfigWithGroupingExpression.granularity)}
           ruleWithThreshold={ruleWithThreshold}
-          tagFilterExpression={alertConfigWithGroupingExpression.tagFilterExpression}
+          tagFilterExpression={alertConfig.tagFilterExpression}
+          groupedTagFilterExpression={alertConfigWithGroupingExpression.tagFilterExpression}
+          groupingTags={groupingTags}
+          tagsFromTagCatalog={tagCatalog?.tags}
           metricLabel={metricLabel}
           aggregatedEntitiesOpen={aggregatedEntitiesOpen}
           setAggregatedEntitiesOpen={setAggregatedEntitiesOpen}
