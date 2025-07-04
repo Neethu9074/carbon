@@ -465,7 +465,7 @@
       "failureMesssage": "{{errorMessage}}"
     },
     "createCredential": {
-      "createButton": "New Credential",
+      "createButton": "Create credential",
       "nameValue": "Name and value",
       "associations": "Associations",
       "teams": "Teams",
@@ -1027,7 +1027,7 @@
     },
     "credentialList": {
       "mainLabel": "Credentials",
-      "name": "Name",
+      "name": "Credential name",
       "associations": "Associations",
       "createdAt": "Created at",
       "createdBy": "Created by",

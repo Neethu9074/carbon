@@ -32,7 +32,7 @@ const CreateCredentialsButton = () => {
   };
 
   return (
-    <Button size="compact" kind="action" onClick={handleClick} icon="lib_synthetic_credential">
+    <Button size="compact" kind="primary" onClick={handleClick} icon="lib_synthetic_credential">
       {t('in-synthetics:dialog.createCredential.createButton')}
     </Button>
   );
