@@ -405,7 +405,7 @@ export const apMetricsDeltaFetchingEnabled = isFeatureFlagEnabled('apMetricsDelt
 export const isControlledEnvEnabled = isFeatureFlagEnabled('isControlledEnvEnabled', false);
 export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
   'openTelemetryKubernetesUnifiedViewEnabled',
-  false
+  true
 );
 export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabled(
   'overrideAdaptiveBaselineSmoothingParamsEnabled'

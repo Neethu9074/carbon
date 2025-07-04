@@ -1019,7 +1019,7 @@ module.exports = exports = [
   {
     uiClientKey: 'openTelemetryKubernetesUnifiedViewEnabled',
     instanaCtlKey: 'feature.open.telemetry.kubernetes.unified.view.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'overrideAdaptiveBaselineSmoothingParamsEnabled',
