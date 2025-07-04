@@ -30,7 +30,7 @@ describe('Synthetic New Location Dialog', () => {
         setSimpleModeStep={setSimpleModeStep}
       />
     );
-    expect(screen.getByText('New location')).toBeInTheDocument();
+    expect(screen.getByText('Add location')).toBeInTheDocument();
   });
 
   it('Renders PrivateLocation component correctly', () => {

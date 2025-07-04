@@ -26,7 +26,7 @@ describe('CreateNewLocationDialogPresenter', () => {
         setSimpleModeStep={setSimpleModeStep}
       />
     );
-    expect(screen.getByText('New location')).toBeInTheDocument();
+    expect(screen.getByText('Add location')).toBeInTheDocument();
   });
 
   // it('highlights Private type when Private Location is chosen', () => {

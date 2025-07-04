@@ -389,7 +389,7 @@
       "bundleSavedMessage": "Bundled scripts added"
     },
     "createLocation": {
-      "newLocation": "New location",
+      "newLocation": "Add location",
       "activate": "Activate",
       "done": "Done",
       "stepConfigs": {

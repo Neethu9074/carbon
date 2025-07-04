@@ -17,7 +17,7 @@ const NewLocationButton = () => {
     addActiveDialog(<CreateNewLocationDialog onClose={close} />);
   };
   return (
-    <Button onClick={handleClick} kind="action" icon="lib_synthetic_location" size="compact">
+    <Button onClick={handleClick} kind="primary" icon="lib_synthetic_location" size="compact">
       {t('in-synthetics:dialog.createLocation.newLocation')}
     </Button>
   );

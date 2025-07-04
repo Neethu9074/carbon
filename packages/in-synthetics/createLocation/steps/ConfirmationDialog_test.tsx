@@ -48,7 +48,7 @@ describe('Confirmation Dialog', () => {
   it('Confirmation dialog button get rendered correctly', () => {
     render(
       <ConfirmationDialog
-        header={'New Location'}
+        header={'Add location'}
         headerIcon="lib_synthetic_location"
         buttonLabel={'Done'}
         buttonKind="primary"
