@@ -27,7 +27,8 @@ module.exports = {
   ],
   transform: {
     '\\.[t|j]sx?$': 'babel-jest',
-    '\\.grammar$': '<rootDir>/packages/in-test/grammarTransformer.js'
+    '\\.grammar$': '<rootDir>/packages/in-test/grammarTransformer.js',
+    '\\.svg$': '<rootDir>/packages/in-test/svgTransform.js'
   },
   moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'd.ts', 'json', 'node'],
   moduleNameMapper: {
@@ -38,6 +39,7 @@ module.exports = {
     '\\.yaml$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.scss$': '<rootDir>/packages/in-test/styleMock.js',
     '^promise-loader?(.*)!(.*)': '$2',
-    'd3-(.*)': '<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js'
+    'd3-(.*)': '<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js',
+    '\\.svg': '<rootDir>/packages/in-test/svgMock.ts'
   }
 };
