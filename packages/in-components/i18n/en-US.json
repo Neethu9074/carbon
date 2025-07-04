@@ -299,11 +299,17 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Commit",
-    "buttonGraphShowcase": "Graph Showcase",
     "geo": {
-      "title": "Geo data",
-      "description": "This product includes GeoLite2 data created by MaxMind, available from <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
-    }
+      "title": "Geo data"
+    },
+    "ibm": "IBM",
+    "copyRights": "Copyright © IBM Corp. 2020, 2023",
+    "instana": "Instana",
+    "close": "Close",
+    "maxMindDescription":"This data includes GeoLite2 data created by",
+    "maxMind":"MaxMind.",
+    "dynamicGraphDescription":"See a visualization of your environment in the",
+    "dynamicGraph":"Dynamic Graph showcase."
   },
   "blueprintFormMultistep": {
     "buttonCancel": "Cancel",
