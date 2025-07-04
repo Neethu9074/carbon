@@ -25,12 +25,19 @@ import {
 import { NoDataEmptyState, SidePanel } from '@instana/ibm-products';
 import { generateUniqueShortId } from '@instana/utils';
 
+// @ts-expect-error needs migration to TS
+import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityHealthIndicatorBehavior';
+// @ts-expect-error needs migration to TS
+import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import { constructAssociationsMap } from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContentPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import { AssociationsSidePanelProps, JsxRow, TabProps } from 'in-synthetics/utils/constants';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
 import { Row } from 'in-synthetics/components/constants';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
@@ -61,8 +68,12 @@ const EntityRow = ({ row, tab }: { row: Row; tab: TabProps }) => {
         return (
           <TableCell key={cell.id}>
             {tab.idsCanBeLinked.includes(id) ? (
-              <Link inline href={href}>
-                <span className={locals.label}>{cell.value}</span>
+              <Link inline href={href} title={cell.value}>
+                <span className={locals.label}>
+                  {typeof cell.value === 'string' && cell.value.length > 30
+                    ? cell.value.slice(0, 30) + '...'
+                    : cell.value}
+                </span>
               </Link>
             ) : (
               <span className={locals.label}>{cell.value}</span>
@@ -88,10 +99,49 @@ export function AssociationsSidePanel({
   associationsSidePanelOpen,
   setAssociationsSidePanelOpen
 }: AssociationsSidePanelProps) {
+  const timeConfig = useTimeConfig();
   const headers = [
-    { key: 'name', header: t('in-synthetics:dashboard.testList.associationsColumn.associationsNameHeader') }
+    { key: 'name', header: t('in-synthetics:dashboard.testList.associationsColumn.associationsNameHeader') },
+    { key: 'health', header: t('in-synthetics:dashboard.testList.associationsColumn.associationsHealthHeader') }
   ];
   const numberOfAssociations: number = applicationLabels.length + websiteLabels.length + mobileAppLabels.length;
+
+  const getHealthIndication = (key: string, id: string) => {
+    switch (key) {
+      case 'websites':
+        return (
+          <WebsiteHealthIndicatorBehavior
+            IndicatorPresenter={HealthIndicatorPresenter}
+            websiteId={id}
+            timeConfig={timeConfig}
+          />
+        );
+      case 'mobileApps':
+        return (
+          <MobileHealthIndicatorBehavior
+            IndicatorPresenter={HealthIndicatorPresenter}
+            mobileAppId={id}
+            timeConfig={timeConfig}
+          />
+        );
+      default:
+        return (
+          <ApplicationEntityHealthIndicatorBehavior
+            IndicatorPresenter={HealthIndicatorPresenter}
+            applicationId={id}
+            timeConfig={timeConfig}
+          />
+        );
+    }
+  };
+
+  const constructAssociationsHealthMap = (associationIds: string[], context: string) => {
+    const map = new Map<string, JSX.Element>();
+    for (const associationId of associationIds) {
+      map.set(associationId, getHealthIndication(context, associationId));
+    }
+    return map;
+  };
 
   const associationTabs = [
     {
@@ -100,7 +150,8 @@ export function AssociationsSidePanel({
       secondaryLabel: applicationLabels.length,
       labels: applicationLabels,
       idsCanBeLinked: applicationIdsCanBeLinked,
-      map: constructAssociationsMap(applicationLabels, applicationIds)
+      map: constructAssociationsMap(applicationLabels, applicationIds),
+      healthMap: constructAssociationsHealthMap(applicationIds, 'applications')
     },
     {
       key: 'websites',
@@ -108,7 +159,8 @@ export function AssociationsSidePanel({
       secondaryLabel: websiteLabels.length,
       labels: websiteLabels,
       idsCanBeLinked: websiteIdsCanBeLinked,
-      map: constructAssociationsMap(websiteLabels, websiteIds)
+      map: constructAssociationsMap(websiteLabels, websiteIds),
+      healthMap: constructAssociationsHealthMap(websiteIds, 'websites')
     },
     {
       key: 'mobileApps',
@@ -116,14 +168,20 @@ export function AssociationsSidePanel({
       secondaryLabel: mobileAppLabels.length,
       labels: mobileAppLabels,
       idsCanBeLinked: mobileAppIdsCanBeLinked,
-      map: constructAssociationsMap(mobileAppLabels, mobileAppIds)
+      map: constructAssociationsMap(mobileAppLabels, mobileAppIds),
+      healthMap: constructAssociationsHealthMap(mobileAppIds, 'mobileApps')
     }
   ];
 
-  const generateRows = (labels: string[]): JsxRow[] =>
+  const generateRows = (
+    labels: string[],
+    map: Map<string, string> | null,
+    healthMap: Map<string, JSX.Element>
+  ): JsxRow[] =>
     labels.map(label => ({
       id: generateUniqueShortId(),
-      name: label ?? ''
+      name: label ?? '',
+      health: healthMap?.get(map?.get(label) ?? '') ?? ''
     }));
 
   const getNoDataTitle = (key: string) => {
@@ -193,7 +251,9 @@ export function AssociationsSidePanel({
               </TabList>
               <TabPanels>
                 {associationTabs.map(tab => (
-                  <TabPanel key={tab.key}>{renderTable(generateRows(tab.labels), tab)}</TabPanel>
+                  <TabPanel key={tab.key}>
+                    {renderTable(generateRows(tab.labels, tab.map, tab.healthMap), tab)}
+                  </TabPanel>
                 ))}
               </TabPanels>
             </Tabs>

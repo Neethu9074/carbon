@@ -613,7 +613,8 @@
       "failedToLoadTestsTitle": "Failed to load synthetic tests",
       "associationsColumn": {
         "associationsSidePanelTitle": "Associations ({{totalAssociations}})",
-        "associationsNameHeader": "Name"
+        "associationsNameHeader": "Name",
+        "associationsHealthHeader": "Health"
       }
     },
     "locationList": {

@@ -109,7 +109,7 @@ export const constructAssociationsMap = (associationLabels: string[], associatio
     return null;
   }
 
-  const map = new Map();
+  const map = new Map<string, string>();
   for (let i = 0; i < associationLabels.length; i++) {
     map.set(associationLabels[i], associationIds[i]);
   }
@@ -157,7 +157,7 @@ const Content = (props: ContentProps) => {
             </Li>
           ) : (
             applicationLabels.map(label => {
-              const applicationId = appsMap?.get(label);
+              const applicationId = appsMap?.get(label)!;
               return (
                 <Li key={generateUniqueShortId()} className={locals.issue}>
                   {applicationIdsCanBeLinked.includes(applicationId) ? (
@@ -185,7 +185,7 @@ const Content = (props: ContentProps) => {
             </Li>
           ) : (
             websiteLabels.map(label => {
-              const websiteId = websiteMap?.get(label);
+              const websiteId = websiteMap?.get(label)!;
               return (
                 <Li key={generateUniqueShortId()} className={locals.issue}>
                   {websiteIdsCanBeLinked.includes(websiteId) ? (
@@ -213,7 +213,7 @@ const Content = (props: ContentProps) => {
             </Li>
           ) : (
             mobileAppLabels.map(label => {
-              const mobileAppId = mobileAppsMap?.get(label);
+              const mobileAppId = mobileAppsMap?.get(label)!;
               return (
                 <Li key={generateUniqueShortId()} className={locals.issue}>
                   {mobileAppIdsCanBeLinked.includes(mobileAppId) ? (
