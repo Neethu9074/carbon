@@ -35,9 +35,9 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
-import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeSection';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
@@ -46,6 +46,7 @@ import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { MessageType } from 'in-components/MessageStack';
+import { InfraAlertEvaluationType } from 'in-types';
 import { t } from 'in-i18n';
 
 interface AdvancedModeContainerProp {
@@ -92,7 +93,9 @@ export default function AdvancedModeContainer(
     criticalThreshold
   );
 
-  const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy) });
+  const evaluationType = form.get('evaluationType').value;
+
+  const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy), evaluationType: evaluationType });
 
   return (
     <StepsContainer
@@ -192,9 +195,7 @@ export default function AdvancedModeContainer(
                       titlePlaceholder={alertNameValue ?? generateTitle(alertTitle)}
                       placeholderData={{
                         placeholders,
-                        tooltip: t(
-                          'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
-                        )
+                        tooltip: getTooltipContent(evaluationType)
                       }}
                     />
                   )}
@@ -249,4 +250,10 @@ export function isMetricAndEntityValid(form: MapForm<any>): boolean {
     !regexpValidator?.length &&
     !(metric.length && !entityType)
   );
+}
+export function getTooltipContent(evaluationType: InfraAlertEvaluationType): string | undefined {
+  if (evaluationType === 'PER_ENTITY') {
+    return undefined;
+  }
+  return t('in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip');
 }

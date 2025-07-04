@@ -176,7 +176,8 @@
       "warning": "Warning"
     },
     "placeholder": {
-      "severity": "severity"
+      "severity": "severity",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "Alert configuration",

@@ -20,4 +20,9 @@ export const severityPlaceholder: Readonly<Placeholder> = Object.freeze({
   name: t('in-alerting:smartAlerts.placeholder.severity')
 });
 
+export const entityLabelPlaceholder: Readonly<Placeholder> = Object.freeze({
+  template: '${entity.label}',
+  name: t('in-alerting:smartAlerts.placeholder.entityLabel')
+});
+
 export const severityPlaceholderList: Readonly<Array<Placeholder>> = [severityPlaceholder];

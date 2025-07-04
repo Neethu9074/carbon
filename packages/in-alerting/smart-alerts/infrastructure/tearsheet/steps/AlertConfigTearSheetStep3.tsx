@@ -21,9 +21,10 @@ import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import { getTooltipContent } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
@@ -43,7 +44,9 @@ export default function AlertConfigTearSheetStep3({
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }) {
   const groupBy = form.get('groupBy').value;
-  const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy) });
+  const evaluationType = form.get('evaluationType').value;
+
+  const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy), evaluationType: evaluationType });
 
   const alertConfigWithFormModel = form.toJS();
   const { rule } = alertConfigWithFormModel;
@@ -82,7 +85,7 @@ export default function AlertConfigTearSheetStep3({
                   onChange={onChange}
                   placeholderData={{
                     placeholders,
-                    tooltip: t('in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip')
+                    tooltip: getTooltipContent(evaluationType)
                   }}
                   getTitlePlaceholder={() => ''}
                   titlePlaceholder={alertNameValue ?? generateTitle(alertTitle)}
