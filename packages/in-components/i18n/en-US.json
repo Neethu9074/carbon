@@ -558,7 +558,8 @@
     "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribution",
     "aggregation_PERSECOND": "per second",
-    "labelFilterEmptyValue": "Filter empty values"
+    "labelHideEmptyValues": "Hide empty values",
+    "labelShowEmptyValues": "Show empty values"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Used",
