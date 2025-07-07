@@ -49,6 +49,7 @@ interface QueryParams {
 
 interface PersistentVolumeClaimsTableProps extends KubernetesQueryFilter {
   pathSegment?: string;
+  isSearchable?: boolean;
 }
 
 const columnDefinitions = [
@@ -144,7 +145,7 @@ const columnDefinitions = [
 ];
 
 export default function PersistentVolumeClaimsTable(props: PersistentVolumeClaimsTableProps) {
-  const { pathSegment } = props;
+  const { pathSegment, isSearchable = true } = props;
 
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
@@ -156,6 +157,7 @@ export default function PersistentVolumeClaimsTable(props: PersistentVolumeClaim
     columnDefinitions,
     defaultOrderBy: 'name',
     defaultOrderDirection: 'ASC',
+    isSearchable,
     pathSegment: pathSegment ?? defaultPathSegment,
     matrixPrefix
   });

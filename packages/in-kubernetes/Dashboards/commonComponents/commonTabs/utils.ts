@@ -20,7 +20,7 @@ interface KubernetesQuery {
   pageSize?: number;
 }
 
-interface GetKubernetesPodsData extends KubernetesQueryFilter, KubernetesQuery {}
+export interface GetKubernetesPodsData extends KubernetesQueryFilter, KubernetesQuery {}
 
 export function getKubernetesPodsData({
   query = '',
@@ -35,6 +35,7 @@ export function getKubernetesPodsData({
   workloadControllerId,
   nodeId,
   cronJobId,
+  persistentVolumeClaimId,
   phase
 }: GetKubernetesPodsData) {
   return getKubernetesPods({
@@ -54,6 +55,7 @@ export function getKubernetesPodsData({
       serviceId,
       nodeId,
       cronJobId,
+      persistentVolumeClaimId,
       timeConfig,
       phase
     },

@@ -8,17 +8,19 @@ import React from 'react';
 
 import { AggregationType, KubernetesPersistentVolumeClaim, MetricSource, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 
 import getKubernetesPersistentVolumeByPersistentVolumeClaim from 'in-kubernetes/subscriptions/getKubernetesPersistentVolumeByPersistentVolumeClaim';
-import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
-// @ts-expect-error
+// @ts-expect-error TS migration
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
+import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
 import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { percentageTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { resourceQuotaBytes, resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { usePersistentVolumeDashboard } from 'in-kubernetes/navigation/paths';
+import PodsTable from 'in-kubernetes/Dashboards/commonComponents/PodsTable';
 import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -230,6 +232,13 @@ export default function Summary(props: SummaryProps) {
             snapshotId={snapshotId}
             hasButtonInActionslane={false}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Card title={t('in-kubernetes:dashboards.associatedPods')}>
+            <PodsTable optionalColumns={false} pathSegment="/summary" persistentVolumeClaimId={snapshotId} {...props} />
+          </Card>
         </Col>
       </Row>
     </>

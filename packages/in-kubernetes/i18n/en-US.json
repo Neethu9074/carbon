@@ -53,6 +53,7 @@
     "persistentVolumes": "Persistent volumes",
     "persistentVolumeClaims": "Persistent volume claims",
     "associatedPersistentVolumeClaims": "Associated persistent volume claims",
+    "associatedPods": "Associated pods",
     "prometheusMetrics": "Prometheus metrics",
     "prometheusEndpoints": "Prometheus endpoints",
     "infrastructure": "Infrastructure",
