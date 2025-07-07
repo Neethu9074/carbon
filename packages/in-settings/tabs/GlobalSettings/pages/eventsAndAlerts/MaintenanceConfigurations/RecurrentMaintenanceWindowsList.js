@@ -59,7 +59,7 @@ export default function RecurrentMaintenanceWindowsList(props) {
   const [mwTypeView, setMwTypeView] = useState('ACTIVE');
   const [numbers, setNumbers] = useState({ active: 0, scheduled: 0, expired: 0 });
   const [settings, saveSetting] = useSettingsEditor();
-  const { location } = useNavigation();
+  const { location, createHrefToPath } = useNavigation();
 
   useEffect(() => {
     let initialNumState = { active: 0, scheduled: 0, expired: 0 };
@@ -86,6 +86,137 @@ export default function RecurrentMaintenanceWindowsList(props) {
       setSaved(false);
     }
   }, [saved, settings, saveSetting]);
+
+  const columnDefinitions = [
+    {
+      id: 'name',
+      label: t('in-settings:tabs.name'),
+      getContent: entity => {
+        return (
+          <Tooltip content={entity.name} align="topLeft" delay={500} overwriteBlock caret={false}>
+            <Link href={getEntityIdView(globalSettingsAlertingMaintenanceConfigurations, entity.id, createHrefToPath)}>
+              <WithIcon
+                icon="lib_actions_build_outline"
+                iconColor={themes.default.ids.color.option.blue['500']}
+                ellipsis
+              >
+                {entity.name}
+              </WithIcon>
+            </Link>
+          </Tooltip>
+        );
+      }
+    },
+    {
+      id: 'scope',
+      label: t('in-settings:tabs.scope'),
+      ellipsis: true,
+      getValue(entity) {
+        let txt = '';
+        const entityAppNames = entity?.applicationNames || [];
+        if (entityAppNames.length > 0) {
+          txt = t('in-settings:maintenanceWindow.appQuery', { numApps: entityAppNames.length });
+        } else if (entity?.query) {
+          txt = `${t('in-settings:maintenanceWindow.dfqColumn')}` + entity?.query;
+        } else if (entity?.tagFilterExpressionEnabled) {
+          txt = t('in-settings:tabs.syntheticTests');
+        } else if (!entityAppNames.length === 0 && !entity.query) {
+          txt = t('in-settings:maintenanceWindow.allEntitiesColumn');
+        }
+        return txt;
+      },
+      getContent(entity) {
+        let text = '',
+          tooltipContent = '';
+
+        const entityAppNames = entity?.applicationNames || [];
+        if (entityAppNames.length > 0) {
+          text = t('in-settings:maintenanceWindow.appQuery', { numApps: entityAppNames.length });
+          entityAppNames.forEach((app, idx) => {
+            if (idx < 5) tooltipContent = tooltipContent + app;
+            if (idx === 5) tooltipContent = tooltipContent + '...';
+
+            if (idx !== entityAppNames.length - 1) tooltipContent += ', ';
+          });
+        } else if (entity.query) {
+          text = t('in-settings:maintenanceWindow.dfqColumn');
+          tooltipContent = entity.query;
+        } else if (entity.tagFilterExpressionEnabled) {
+          text = t('in-settings:tabs.syntheticTests');
+          const tagFilterExpression = fromBackendModel(entity.tagFilterExpression);
+          const { QueryBuilder } = getQueryBuilder();
+          tooltipContent = (
+            <div>
+              <QueryBuilder value={tagFilterExpression} readOnly />
+            </div>
+          );
+        } else if (entityAppNames.length === 0 && !entity.query) {
+          text = t('in-settings:maintenanceWindow.allEntitiesColumn');
+        }
+        return (
+          <Tooltip content={tooltipContent} delay={500} themeStyle="light">
+            <span>{text}</span>
+          </Tooltip>
+        );
+      }
+    },
+    {
+      id: 'type',
+      label: t('in-settings:tabs.type'),
+      ellipsis: true,
+      getValue(entity) {
+        const mwType = entity.scheduling ? entity.scheduling.type : null;
+        return mwType ? startCase(mwType.toLowerCase()) : mwType;
+      },
+      getContent(entity) {
+        const mwType = entity.scheduling ? entity.scheduling.type : null;
+        return mwType ? startCase(mwType.toLowerCase()) : mwType;
+      }
+    },
+    {
+      id: 'starts',
+      label: t('in-settings:tabs.startTime'),
+      ellipsis: true,
+      getValue(entity) {
+        if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
+          return '';
+        }
+        return getDateTimeFromFirstWindow('start', entity);
+      },
+      getContent(entity) {
+        if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
+          return '';
+        }
+        return formatDateTime(new Date(entity.occurrence.start));
+      }
+    },
+    {
+      id: 'ends',
+      label: t('in-settings:tabs.endTime'),
+      ellipsis: true,
+      getValue(entity) {
+        return getEndTime(entity);
+      },
+      getContent(entity) {
+        if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
+          return '';
+        }
+        return formatDateTime(new Date(entity.occurrence.end));
+      }
+    },
+    {
+      id: 'status',
+      label: t('in-settings:tabs.status'),
+      ellipsis: true,
+      getValue: entity => (entity.paused ? 'PAUSED' : entity.state),
+      getContent: function Content(entity) {
+        const { paused, state } = entity;
+        if (!state) return;
+
+        return <RecurrentMaintenanceWindowStatusCell state={state} paused={paused} />;
+      }
+    }
+  ];
 
   const tableActions = {
     delete: {
@@ -228,135 +359,6 @@ export function RecurrentMaintenanceWindowStatusCell({ state, paused }) {
     return <Pill type={pillType()}>{mwStatusLabelText}</Pill>;
   }
 }
-
-const columnDefinitions = [
-  {
-    id: 'name',
-    label: t('in-settings:tabs.name'),
-    getContent: function Content(entity) {
-      const { createHrefToPath } = useNavigation();
-
-      return (
-        <Tooltip content={entity.name} align="topLeft" delay={500} overwriteBlock caret={false}>
-          <Link href={getEntityIdView(globalSettingsAlertingMaintenanceConfigurations, entity.id, createHrefToPath)}>
-            <WithIcon icon="lib_actions_build_outline" iconColor={themes.default.ids.color.option.blue['500']} ellipsis>
-              {entity.name}
-            </WithIcon>
-          </Link>
-        </Tooltip>
-      );
-    }
-  },
-  {
-    id: 'scope',
-    label: t('in-settings:tabs.scope'),
-    ellipsis: true,
-    getValue(entity) {
-      let txt = '';
-      const entityAppNames = entity?.applicationNames || [];
-      if (entityAppNames.length > 0) {
-        txt = t('in-settings:maintenanceWindow.appQuery', { numApps: entityAppNames.length });
-      } else if (entity?.query) {
-        txt = `${t('in-settings:maintenanceWindow.dfqColumn')}` + entity?.query;
-      } else if (entity?.tagFilterExpressionEnabled) {
-        txt = t('in-settings:tabs.syntheticTests');
-      } else if (!entityAppNames.length === 0 && !entity.query) {
-        txt = t('in-settings:maintenanceWindow.allEntitiesColumn');
-      }
-      return txt;
-    },
-    getContent(entity) {
-      let text = '',
-        tooltipContent = '';
-
-      const entityAppNames = entity?.applicationNames || [];
-      if (entityAppNames.length > 0) {
-        text = t('in-settings:maintenanceWindow.appQuery', { numApps: entityAppNames.length });
-        entityAppNames.forEach((app, idx) => {
-          if (idx < 5) tooltipContent = tooltipContent + app;
-          if (idx === 5) tooltipContent = tooltipContent + '...';
-
-          if (idx !== entityAppNames.length - 1) tooltipContent += ', ';
-        });
-      } else if (entity.query) {
-        text = t('in-settings:maintenanceWindow.dfqColumn');
-        tooltipContent = entity.query;
-      } else if (entity.tagFilterExpressionEnabled) {
-        text = t('in-settings:tabs.syntheticTests');
-        const tagFilterExpression = fromBackendModel(entity.tagFilterExpression);
-        const { QueryBuilder } = getQueryBuilder();
-        tooltipContent = (
-          <div>
-            <QueryBuilder value={tagFilterExpression} readOnly />
-          </div>
-        );
-      } else if (entityAppNames.length === 0 && !entity.query) {
-        text = t('in-settings:maintenanceWindow.allEntitiesColumn');
-      }
-      return (
-        <Tooltip content={tooltipContent} delay={500} themeStyle="light">
-          <span>{text}</span>
-        </Tooltip>
-      );
-    }
-  },
-  {
-    id: 'type',
-    label: t('in-settings:tabs.type'),
-    ellipsis: true,
-    getValue(entity) {
-      const mwType = entity.scheduling ? entity.scheduling.type : null;
-      return mwType ? startCase(mwType.toLowerCase()) : mwType;
-    },
-    getContent(entity) {
-      const mwType = entity.scheduling ? entity.scheduling.type : null;
-      return mwType ? startCase(mwType.toLowerCase()) : mwType;
-    }
-  },
-  {
-    id: 'starts',
-    label: t('in-settings:tabs.startTime'),
-    ellipsis: true,
-    getValue(entity) {
-      if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
-        return '';
-      }
-      return getDateTimeFromFirstWindow('start', entity);
-    },
-    getContent(entity) {
-      if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
-        return '';
-      }
-      return formatDateTime(new Date(entity.occurrence.start));
-    }
-  },
-  {
-    id: 'ends',
-    label: t('in-settings:tabs.endTime'),
-    ellipsis: true,
-    getValue(entity) {
-      return getEndTime(entity);
-    },
-    getContent(entity) {
-      if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
-        return '';
-      }
-      return formatDateTime(new Date(entity.occurrence.end));
-    }
-  },
-  {
-    id: 'status',
-    label: t('in-settings:tabs.status'),
-    ellipsis: true,
-    getValue: entity => (entity.paused ? 'PAUSED' : entity.state),
-    getContent: function Content(entity) {
-      const { paused, state } = entity;
-      if (!state) return;
-
-      return <RecurrentMaintenanceWindowStatusCell state={state} paused={paused} />;
-    }
-  }
-];
 
 const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
   const { trackCta } = useSegmentTracking();
