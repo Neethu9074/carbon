@@ -26,6 +26,7 @@ import { getEntityTypeOptionsOfBuiltInMetrics } from 'in-settings/tabs/GlobalSet
 import { EventDetailsSection } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/EventDetailsSection';
 import { ConditionsSection } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/ConditionsSection';
 import ScopeSelection from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/ScopeSelection';
+import { eventsTransientEventEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { containsMetricInList } from 'in-sdk/metrics';
 import { isBlank } from 'in-services/util/string';
@@ -102,9 +103,12 @@ export default function CustomEventForm({ form, setForm, onChange, hideLegacyApp
           />
         </>
       )}
-
-      <SectionHeading>{t('in-settings:tabs.4TransientEvents')}</SectionHeading>
-      <TransientEventsSection disabled={disabled} form={form} onChange={onChange} />
+      {eventsTransientEventEnabled && (
+        <>
+          <SectionHeading>{t('in-settings:tabs.4TransientEvents')}</SectionHeading>
+          <TransientEventsSection disabled={disabled} form={form} onChange={onChange} />
+        </>
+      )}
     </fieldset>
   );
 }

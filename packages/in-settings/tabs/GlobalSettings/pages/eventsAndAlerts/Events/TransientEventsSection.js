@@ -47,16 +47,13 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
   const enabledField = form.get(TRANSIENT_ENABLED);
   const thresholdField = form.get(TRANSIENT_THRESHOLD);
   const notificationField = form.get(TRANSIENT_NOTIFICATION);
-  // Create thresholdUnit state for the UI input
   const [thresholdUnit, setThresholdUnit] = useState(() => millistoThresholdObj(thresholdField?.value ?? 5 * 60000));
 
-  // Sync UI state when backend form field value changes
   useEffect(() => {
     const rawValue = thresholdField?.value ?? 5 * 60000;
     setThresholdUnit(millistoThresholdObj(rawValue));
   }, [thresholdField?.value]);
 
-  // Handler when either amount or unit changes
   const handleThresholdChange = next => {
     setThresholdUnit(next);
     const millis = durationToMillis(next);
@@ -129,7 +126,6 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
               />
             </HorizontalFlexWrapper>
 
-            {/* <TouchedMessages field={thresholdField} /> */}
             <HelpText>{t('in-settings:tabs.thresholdHint')}</HelpText>
             <HelpText>{t('in-settings:tabs.thresholdRecommend')}</HelpText>
           </FormGroup>
@@ -152,6 +148,7 @@ export default function TransientEventsSection({ form, onChange, disabled }) {
                   onChange(TRANSIENT_NOTIFICATION, bool);
                 }}
                 orientation="vertical"
+                disabled={disabled || !enabledField.value}
               >
                 <RadioButton labelText={t('in-settings:tabs.transientNotifyEach')} value="false" id="false" />
                 <RadioButton labelText={t('in-settings:tabs.transientNotifyPersistOnly')} value="true" id="true" />
