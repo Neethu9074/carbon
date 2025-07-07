@@ -50,10 +50,7 @@ const InstanaAgent = ({ agentSnapshotsResult }: InstanaAgentProps) => {
 
   if (reportingDatasource.progress.loading) return <LoadingIndicator />;
 
-  if (
-    !reportingDatasource.data.hasEntities ||
-    (reportingDatasource.data.hostCount <= 0 && reportingDatasource.data.serverlessCount <= 0)
-  )
+  if (reportingDatasource?.data?.hostCount <= 0 && reportingDatasource?.data?.serverlessCount <= 0)
     return (
       <NoDataEmptyState
         title={t('in-plg:datasources.noData.instanaAgent.emptyState_title')}

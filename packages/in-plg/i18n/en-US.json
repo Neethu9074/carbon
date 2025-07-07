@@ -102,6 +102,7 @@
       "viewDeployedAgents": "View Deployed agents",
       "viewInstalledCollector": "View installed collector",
       "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map.",
+      "openCollectorDashboardOptional": "Optional: After your collector deploys successfully, you can view it on the infrastructure map.",
       "downloadKey": "Download key",
       "support": "Support",
       "SupportLinks": "Support links",
