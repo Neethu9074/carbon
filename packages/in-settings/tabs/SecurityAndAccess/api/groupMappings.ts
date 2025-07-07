@@ -7,9 +7,11 @@ import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import { GroupMappingOverview, Result } from 'in-types';
 import { Response } from 'in-services/http/types';
+import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
-import { Result } from 'in-types';
 
 const basePath = '/api/settings/rbac/mappings';
 
@@ -52,6 +54,22 @@ export function setMappings(mappings: IdpGroupMapping[]) {
     data: mappings
   });
 }
+
+function getMappingsOverviewInternal(): Observable<Result<GroupMappingOverview[]>> {
+  return http<GroupMappingOverview[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${basePath}/overview`,
+    mapToResultObject: true,
+    treat400AsError: true
+  });
+}
+
+export const getMappingsOverview = memoize(
+  () => refreshSignal.flatMap(() => getMappingsOverviewInternal()),
+  () => 'RoleMappings',
+  minutes.toMillis(1)
+);
 
 export function getIdpRestriction(): Observable<Result<IdentityProviderPatch>> {
   return refreshSignal.flatMap(

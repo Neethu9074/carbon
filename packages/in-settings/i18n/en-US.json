@@ -846,6 +846,7 @@
       "newMappingRule": "Create mapping rule",
       "restrictEmptyIdpRolesFailedToSave": "Failed to save IdP deny access without mapping: {{err}}",
       "restrictEmptyIdpRolesLabel": "Deny access when no mapping is found. If unchecked, users with no mapped role will be assigned the default role.",
+      "restrictEmptyIdpRolesHelperText": "Define at least one mapping rule to enable setting deny access when no mapping is found.",
       "restrictEmptyIdpRolesSuccessfullySaved": "IdP deny access without mapping was saved.",
       "roleColumn": "Role",
       "roleMappingDisabledDescription": "You can set up Instana to automatically provision users to certain Instana roles depending on the attributes they have set within your identity provider (IdP).<br/><br/> IdP configuration must be done first, before setting up the role mapping. See documentation for <docLinkMapping>role mapping</docLinkMapping> and <docLinkAuth>configuring authentication</docLinkAuth> for more details and guides.",

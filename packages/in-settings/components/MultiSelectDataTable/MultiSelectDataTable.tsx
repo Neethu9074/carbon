@@ -56,6 +56,7 @@ export interface OverflowMenuItemProps {
   text?: string;
   icon?: JSX.Element;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export interface BatchActionItemProps {
@@ -541,6 +542,7 @@ export default function MultiSelectDataTable<
                                         }}
                                         itemText={item.text}
                                         data-testid={`${item.actionType}Icon`}
+                                        disabled={item?.disabled}
                                       >
                                         {item.text}
                                       </OverflowMenuItem>
@@ -555,12 +557,12 @@ export default function MultiSelectDataTable<
                                     <span key={`table-menu-${row.id}-${index}`}>
                                       {item.actionType === 'delete' && loadingRow === row.id ? (
                                         <InlineLoading className={locals.loadingIcon} />
-                                      ) : row.disabled ? (
+                                      ) : row.disabled || item.disabled ? (
                                         // as disabled icon button doesn't show the tooltip
                                         <Tooltip content={item.label} delay={500}>
                                           <IconButton
                                             label={item.label}
-                                            disabled={row.disabled}
+                                            disabled={row.disabled || item?.disabled}
                                             key={index}
                                             kind="ghost"
                                           >
@@ -569,7 +571,7 @@ export default function MultiSelectDataTable<
                                         </Tooltip>
                                       ) : (
                                         <IconButton
-                                          disabled={row.disabled}
+                                          disabled={row.disabled || item?.disabled}
                                           kind="ghost"
                                           label={item.label}
                                           key={index}

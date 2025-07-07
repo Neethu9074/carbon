@@ -8,6 +8,7 @@ import { Edit, TrashCan } from '@carbon/icons-react';
 import React, { useState } from 'react';
 
 import { Link, Typography, Spacer } from '@instana/components';
+import { GroupMappingOverview } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Checkbox } from '@instana/carbon';
 
@@ -23,27 +24,24 @@ import {
   ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS,
   ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE
 } from 'in-services/tracking/tracking';
-import {
-  deleteMapping,
-  deleteMappings,
-  getMappings,
-  getIdpRestriction,
-  IdpGroupMapping,
-  setIdpRestriction
-} from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
 import MultiSelectDataTable, {
   DataTableRow,
   Notification,
   OverflowMenuItemProps,
   TableActions
 } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
+import {
+  deleteMapping,
+  deleteMappings,
+  getMappingsOverview,
+  getIdpRestriction,
+  setIdpRestriction
+} from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
 import { createRoleMappingForm } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.form';
 import RoleMappingTearsheet from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMappingTearsheet';
 import { RoleMappingRow } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMapping.types';
-import { getEntityIdView, securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -55,8 +53,9 @@ import { t, Trans } from 'in-i18n';
 import locals from './RoleMapping.mless';
 
 const createMenuItemsForRow = (
-  roleMappings: IdpGroupMapping[],
-  row: Omit<DataTableRow<RoleMappingRow<IdpGroupMapping>[], IdpGroupMapping>, 'rowData'>,
+  roleMappings: GroupMappingOverview[],
+  row: Omit<DataTableRow<RoleMappingRow<GroupMappingOverview>[], GroupMappingOverview>, 'rowData'>,
+  idpDenyAccessWhenNoMappingFound: boolean,
   setMessage: React.Dispatch<React.SetStateAction<Notification | undefined>>
 ): Array<OverflowMenuItemProps> => {
   const roleMapping = roleMappings.filter(item => item.id === row.id)[0];
@@ -66,24 +65,29 @@ const createMenuItemsForRow = (
       actionType: 'edit',
       icon: <Edit />,
       label: t('in-settings:components.editEntity', { entity: key }),
+      //@ts-ignore needs to be fixed to new API call
       onClick: () => addActiveDialog(<RoleMappingTearsheet roleMapping={roleMapping} setMessage={setMessage} />)
     },
     {
       actionType: 'delete',
       icon: <TrashCan />,
-      label: t('in-settings:components.deleteEntity', { entity: key })
+      label: t('in-settings:components.deleteEntity', { entity: key }),
+      // Do not allow deleting when only one mapping exists and deny access with no mapping is enabled
+      disabled: idpDenyAccessWhenNoMappingFound && roleMappings.length === 1
     }
   ];
 };
 
 const createTableRows = (
-  roleMappings: IdpGroupMapping[] = [],
-  createHrefToPath: (path: string) => string
-): Array<RoleMappingRow<IdpGroupMapping>> => {
-  return roleMappings?.map((roleMapping: IdpGroupMapping) => ({
+  setMessage: React.Dispatch<React.SetStateAction<Notification | undefined>>,
+  roleMappings: GroupMappingOverview[] = []
+): Array<RoleMappingRow<GroupMappingOverview>> => {
+  return roleMappings?.map((roleMapping: GroupMappingOverview) => ({
     key: (
       <Link
-        href={getEntityIdView(securityAndAccessAccessControlTeams, roleMapping?.id ?? '', createHrefToPath)}
+        href=""
+        //@ts-expect-error needs to be fixed to new model (where tearsheet will load role mapping based on id)
+        onClick={() => addActiveDialog(<RoleMappingTearsheet roleMapping={roleMapping} setMessage={setMessage} />)}
         ellipsis
       >
         {roleMapping.key}
@@ -94,14 +98,14 @@ const createTableRows = (
         <Typography variant="body-regular">{roleMapping.value}</Typography>
       </span>
     ),
-    role: <span>{roleMapping.groupId}</span>,
-    team: <span>{roleMapping.teamId}</span>,
+    role: <span>{roleMapping.role}</span>,
+    team: <span>{roleMapping.team}</span>,
     id: roleMapping?.id ?? '',
     rowData: { ...roleMapping }
   }));
 };
 
-const createRoleMappingTableActions = (trackCta: CtaTrackingFunction): TableActions<IdpGroupMapping> => {
+const createRoleMappingTableActions = (trackCta: CtaTrackingFunction): TableActions<GroupMappingOverview> => {
   return {
     delete: {
       deleteEntity: entity => {
@@ -124,12 +128,12 @@ const RoleMapping = () => {
   const idpRestrictionResult = useObservable(getIdpRestriction, []) ?? pendingResult;
   const [form, setForm] = useDerivedState(createRoleMappingForm(idpRestrictionResult?.data?.restrictEmptyIdpGroups));
   const idpDenyAccessField = form.getIn(['restrictEmptyIdpRoles']);
-  const dataTableResult = useObservable(getMappings, []) ?? pendingResult;
+  const dataTableResult = useObservable(getMappingsOverview, []) ?? pendingResult;
   const loading = isLoading(dataTableResult);
   const hasErrors = hasError(dataTableResult);
   const [message, setMessage] = useState<Notification>();
-  const { createHrefToPath } = useNavigation();
   const { trackCta } = useSegmentTracking();
+  const isIdpDenyAccessCheckDisabled = idpDenyAccessField.value === false && dataTableResult?.data?.length === 0;
 
   const errorMessage: Notification | undefined = hasErrors
     ? {
@@ -184,6 +188,10 @@ const RoleMapping = () => {
             id="rbac-role-mapping-restrict-empty-idp-roles"
             labelText={t('in-settings:tabs.roleMapping.restrictEmptyIdpRolesLabel')}
             checked={idpDenyAccessField.value}
+            disabled={isIdpDenyAccessCheckDisabled} // Do not allow checking when no mapping exists as this could lock out users
+            helperText={
+              isIdpDenyAccessCheckDisabled ? t('in-settings:tabs.roleMapping.restrictEmptyIdpRolesHelperText') : null
+            }
             onChange={(_e, { checked: enabled }) => {
               setForm(form.updateIn(['restrictEmptyIdpRoles'], f => f.setValue(enabled).setTouched(true)));
 
@@ -220,7 +228,7 @@ const RoleMapping = () => {
           boundedPath="/roleMapping"
           getBatchActionItems={() => ROLE_MAPPING_TABLE_BATCH_ACTIONS}
           getEntityName={({ key }) => t('in-settings:tabs.roleMapping.roleMappingWithName', { name: key })}
-          getMenuItems={row => createMenuItemsForRow(dataTableResult.data, row, setMessage)}
+          getMenuItems={row => createMenuItemsForRow(dataTableResult.data, row, idpDenyAccessField?.value, setMessage)}
           initalSortConfig={ROLE_MAPPING_TABLE_ORDER}
           labelNew={t('in-settings:tabs.roleMapping.newMappingRule')}
           loading={loading}
@@ -231,11 +239,11 @@ const RoleMapping = () => {
             addActiveDialog(<RoleMappingTearsheet setMessage={setMessage} />);
           }}
           pageSizes={ROLE_MAPPING_TABLE_PAGE_SIZES}
-          searchAttributes={['key', 'value', 'groupId', 'teamId']}
+          searchAttributes={['key', 'value', 'role', 'team']}
           searchPlaceholderText={t('in-settings:components.search')}
           tableActions={createRoleMappingTableActions(trackCta)}
           tableHeaders={ROLE_MAPPING_TABLE_HEADERS}
-          tableRows={createTableRows(dataTableResult.data, createHrefToPath)}
+          tableRows={createTableRows(setMessage, dataTableResult.data)}
           title={t('in-settings:tabs.roleMapping.tableTitle')}
         />
       </div>
