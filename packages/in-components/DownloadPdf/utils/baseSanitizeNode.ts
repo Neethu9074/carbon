@@ -14,6 +14,11 @@ export const baseSanitizeNode = (node: Node): boolean => {
     node.setAttribute('href', '#');
   }
 
+  // Remove img from transformation
+  if (node instanceof HTMLElement && node.tagName === 'IMG') {
+    return false;
+  }
+
   // If exporting dashboards, remove any styles from the target
   if (node instanceof HTMLElement && node.classList.contains('sticky-wrapper')) {
     (node?.firstChild as Element)?.removeAttribute('style');

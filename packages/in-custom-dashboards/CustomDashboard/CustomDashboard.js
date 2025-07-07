@@ -126,9 +126,11 @@ export default function CustomDashboardLoader(props) {
 
   const exportWidgetToPdf = useCallback(
     ({ target, tooltipRef, isHistogram, pdfHeaderTitle }) => {
-      const { widgetNode, widgetType, widgetId } = getWidgetProperties(target);
+      const { widgetNode, widgetType, widgetId, shouldFitPdf } = getWidgetProperties(target);
       return exportWidgetAsPdf({
-        action: options => generatePdfFromElement(<PdfWidgetContainer widgetId={widgetId} />, options),
+        action: options => {
+          generatePdfFromElement(<PdfWidgetContainer widgetId={widgetId} />, { ...options, shouldFitPdf });
+        },
         widgetNode,
         widgetId,
         widgetType,

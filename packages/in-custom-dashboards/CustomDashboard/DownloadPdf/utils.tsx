@@ -121,9 +121,12 @@ export function getWidgetProperties(element: HTMLElement) {
   const widgetNode = element.closest('[id^="widget-"]') as HTMLElement;
   const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
   const widgetType = widgetNode?.dataset?.type ?? '';
+  const shouldFitPdf = widgetType !== 'markdown';
+
   return {
     widgetNode,
     widgetId,
-    widgetType
+    widgetType,
+    shouldFitPdf
   };
 }

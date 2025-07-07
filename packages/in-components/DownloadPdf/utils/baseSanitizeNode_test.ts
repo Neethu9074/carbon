@@ -31,4 +31,16 @@ describe('baseSanitizeNode', () => {
     expect(wrapper.style.padding).toBe('0px');
     expect(child.getAttribute('style')).toBeNull();
   });
+
+  it('should return false for IMG elements to indicate they should be removed', () => {
+    const img = document.createElement('img');
+    img.src = 'https://example.com/image.png';
+    img.alt = 'Example image';
+
+    const result = baseSanitizeNode(img);
+
+    expect(result).toBe(false);
+    expect(img.getAttribute('src')).toBe('https://example.com/image.png');
+    expect(img.getAttribute('alt')).toBe('Example image');
+  });
 });
