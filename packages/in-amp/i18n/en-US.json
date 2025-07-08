@@ -23,6 +23,7 @@
     },
     "learnMore":{
       "title": "Learn more about Instana’s Fair Use Policy",
+      "titleNew": "Learn more about data consumption",
       "leftTitle":"What is the Fair Use Policy?",
       "rightTitle":"How do I buy more data?",
       "leftBody":"Instana's Fair Use Policy outlines the monthly data allowance associated with your license type. To learn more and explore resource usage guidelines, check out the <fupDocLink>Fair Use Policy documentation</fupDocLink>.",
@@ -179,6 +180,7 @@
     "accountAndBilling": "Account and billing",
     "tabs": {
       "usage": "Usage",
+      "technologiesReporting": "Technologies reporting",
       "entitlements": "Entitlements",
       "activeEntitlements": "Active entitlements",
       "queuedEntitlements": "Queued entitlements",

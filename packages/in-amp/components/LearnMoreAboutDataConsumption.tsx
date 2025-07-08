@@ -12,6 +12,7 @@ import { ExpandableGroup, Typography, Stack, Link } from '@instana/components';
 import { getExpandState, setExpandState } from 'in-plg/components/DataConsumptionMessage/PushDataConsumptionMessage';
 import { FAIR_USE_POLICY_BLOG, CONTACT_SALES } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-amp/components/LearnMoreAboutDataConsumption.mless';
@@ -31,7 +32,14 @@ export default function LearnMoreAboutDataConsumption() {
 
   return (
     <div className={locals.learnMore}>
-      <ExpandableGroup title={t('in-amp:components.learnMore.title')} expanded={getExpandState()}>
+      <ExpandableGroup
+        title={
+          newAccountAndBillingPageEnabled
+            ? t('in-amp:components.learnMore.titleNew')
+            : t('in-amp:components.learnMore.title')
+        }
+        expanded={getExpandState()}
+      >
         <div className={locals.accordionBody}>
           <Stack direction="vertical">
             <Typography variant="body-bold">{t('in-amp:components.learnMore.leftTitle')}</Typography>

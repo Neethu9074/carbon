@@ -15,3 +15,4 @@ export const ampEntitlements = `${ampAccountAndBilling}/entitlements`;
 export const activeEntitlements = `${ampEntitlements}/activeEntitlements`;
 export const expiredEntitlements = `${ampEntitlements}/expiredEntitlements`;
 export const queuedEntitlements = `${ampEntitlements}/queuedEntitlements`;
+export const ampTechnologiesReporting = `${ampAccountAndBilling}/technologiesReporting`;
