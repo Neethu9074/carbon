@@ -484,6 +484,7 @@
       "permissionLabel_CAN_DELETE_AUTOMATION_ACTION_HISTORY": "Deletion of automation action history",
       "permissionLabel_CAN_CONFIGURE_INTEGRATIONS": "Configuration of alert channels",
       "permissionLabel_CAN_CONFIGURE_EVENTS_AND_ALERTS": "Configuration of Events and Alerts",
+      "permissionLabel_CAN_INVOKE_ALERT_CHANNEL": "Invoking an alert channel",
       "permissionLabel_CAN_CONFIGURE_MAINTENANCE_WINDOWS": "Configuration of Maintenance Windows",
       "permissionLabel_CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD": "Configuration of global custom payload for alerts",
       "permissionLabel_CAN_MANUALLY_CLOSE_ISSUE": "Manual closure of events (issues)",

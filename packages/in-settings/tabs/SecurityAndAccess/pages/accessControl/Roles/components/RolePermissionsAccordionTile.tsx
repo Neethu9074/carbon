@@ -210,6 +210,7 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
               Capability.CAN_CONFIGURE_INTEGRATIONS,
               Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS,
+              Capability.CAN_INVOKE_ALERT_CHANNEL,
               Capability.CAN_MANUALLY_CLOSE_ISSUE
             ]}
             enabledPermissions={permissions}
