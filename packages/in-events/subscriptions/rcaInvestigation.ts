@@ -39,6 +39,7 @@ export const startInvestigation = (props: InvestigationProps) => {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: 'api/automated-investigation/rca/investigation',
-    data: props
+    data: props,
+    timeout: 120000
   });
 };
