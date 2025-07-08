@@ -59,14 +59,13 @@ const createMenuItemsForRow = (
   setMessage: React.Dispatch<React.SetStateAction<Notification | undefined>>
 ): Array<OverflowMenuItemProps> => {
   const roleMapping = roleMappings.filter(item => item.id === row.id)[0];
-  const { key } = roleMapping;
+  const { key, id } = roleMapping;
   return [
     {
       actionType: 'edit',
       icon: <Edit />,
       label: t('in-settings:components.editEntity', { entity: key }),
-      //@ts-ignore needs to be fixed to new API call
-      onClick: () => addActiveDialog(<RoleMappingTearsheet roleMapping={roleMapping} setMessage={setMessage} />)
+      onClick: () => addActiveDialog(<RoleMappingTearsheet roleMappingId={id} setMessage={setMessage} />)
     },
     {
       actionType: 'delete',
@@ -78,21 +77,9 @@ const createMenuItemsForRow = (
   ];
 };
 
-const createTableRows = (
-  setMessage: React.Dispatch<React.SetStateAction<Notification | undefined>>,
-  roleMappings: GroupMappingOverview[] = []
-): Array<RoleMappingRow<GroupMappingOverview>> => {
+const createTableRows = (roleMappings: GroupMappingOverview[] = []): Array<RoleMappingRow<GroupMappingOverview>> => {
   return roleMappings?.map((roleMapping: GroupMappingOverview) => ({
-    key: (
-      <Link
-        href=""
-        //@ts-expect-error needs to be fixed to new model (where tearsheet will load role mapping based on id)
-        onClick={() => addActiveDialog(<RoleMappingTearsheet roleMapping={roleMapping} setMessage={setMessage} />)}
-        ellipsis
-      >
-        {roleMapping.key}
-      </Link>
-    ),
+    key: <span>{roleMapping.key}</span>,
     value: (
       <span>
         <Typography variant="body-regular">{roleMapping.value}</Typography>
@@ -243,7 +230,7 @@ const RoleMapping = () => {
           searchPlaceholderText={t('in-settings:components.search')}
           tableActions={createRoleMappingTableActions(trackCta)}
           tableHeaders={ROLE_MAPPING_TABLE_HEADERS}
-          tableRows={createTableRows(setMessage, dataTableResult.data)}
+          tableRows={createTableRows(dataTableResult.data)}
           title={t('in-settings:tabs.roleMapping.tableTitle')}
         />
       </div>

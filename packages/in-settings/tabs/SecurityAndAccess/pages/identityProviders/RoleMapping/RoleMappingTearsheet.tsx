@@ -9,17 +9,25 @@ import React from 'react';
 import { Dropdown, Form, InlineLoading, Stack, TextInput } from '@instana/carbon';
 import { TearsheetNarrow } from '@instana/ibm-products';
 import { Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
+import {
+  getMappingRuleById,
+  IdpGroupMapping,
+  refresh,
+  saveMapping
+} from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
 import { createMappingRuleForm } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/mappingRuleForm';
 import { useRolesSelectOptions } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useRolesSelectOptions';
 import { useTeamsSelectOptions } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useTeamsSelectOptions';
-import { IdpGroupMapping, refresh, saveMapping } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { ENTERPRISE_IDP_MAPPING_SUBMIT } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { close } from 'in-components/DialogPresenter/store';
 import useFormSubmission from 'in-hooks/useFormSubmission';
+import { pendingResult } from 'in-services/fixedObjects';
 import useDerivedState from 'in-hooks/useDerivedState';
 import { seconds } from 'in-services/time/time';
 import { t, Trans } from 'in-i18n';
@@ -27,15 +35,17 @@ import { t, Trans } from 'in-i18n';
 import locals from './RoleMappingTearsheet.mless';
 
 interface RoleMappingTearsheetProps {
-  roleMapping?: IdpGroupMapping;
+  roleMappingId?: string | null;
   setMessage: React.Dispatch<React.SetStateAction<Notification | undefined>>;
 }
 
 const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
-  const { roleMapping, setMessage } = props;
+  const { roleMappingId, setMessage } = props;
   const { unstable_trackEvent } = useSegmentTracking();
-
-  const [form, setForm] = useDerivedState(createMappingRuleForm(roleMapping));
+  const isEditMode = roleMappingId ?? false;
+  const roleMappingObservable =
+    useObservable(roleMappingId ? getMappingRuleById(roleMappingId) : just(null), []) ?? pendingResult;
+  const [form, setForm] = useDerivedState(createMappingRuleForm(roleMappingObservable.data ?? {}));
   const mappingKeyField = form.get('key');
   const mappingValueField = form.get('value');
   const teamIdField = form.get('teamId');
@@ -67,7 +77,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
           kind: 'success',
           title: t('in-settings:components.successTitle'),
           subtitle: t('in-settings:tabs.roleMapping.mappingRuleMessage', {
-            context: roleMapping ? 'updated' : ''
+            context: isEditMode ? 'updated' : ''
           }),
           timeout: seconds.toMillis(3)
         });
@@ -75,7 +85,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
           teamSelected: mappingConfig.teamId ? true : false
         };
         unstable_trackEvent(
-          roleMapping ? UPDATED_OBJECT : CREATED_OBJECT,
+          isEditMode ? UPDATED_OBJECT : CREATED_OBJECT,
           { objectType: ENTERPRISE_IDP_MAPPING_SUBMIT },
           trackEventPayload
         );
@@ -100,7 +110,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
         {
           key: 1,
           kind: 'primary',
-          label: roleMapping ? t('forms.actions.save') : t('forms.actions.create'),
+          label: isEditMode ? t('forms.actions.save') : t('forms.actions.create'),
           onClick: onCreateMappingRule,
           loading: mappingRuleStatus === 'pending'
         },
@@ -121,7 +131,7 @@ const RoleMappingTearsheet = (props: RoleMappingTearsheetProps) => {
       hasCloseIcon
       onClose={close}
       title={t('in-settings:tabs.roleMapping.mappingRuleTitle', {
-        context: roleMapping ? 'edit' : ''
+        context: isEditMode ? 'edit' : ''
       })}
       selectorPrimaryFocus="#mappingKey"
       closeIconDescription={t('in-settings:tabs.roleMapping.closeTearsheet')}

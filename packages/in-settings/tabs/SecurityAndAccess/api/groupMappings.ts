@@ -132,3 +132,13 @@ export function saveMapping(mapping: IdpGroupMapping): Observable<Result<IdpGrou
     mapToResultObject: true
   });
 }
+
+export function getMappingRuleById(mappingId: string): Observable<Result<IdpGroupMapping>> {
+  return http<IdpGroupMapping>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${basePath}/${mappingId}`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true
+  });
+}

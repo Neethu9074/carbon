@@ -12,7 +12,7 @@ import React from 'react';
 import RoleMappingTearsheet from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping/RoleMappingTearsheet';
 import { useRolesSelectOptions } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useRolesSelectOptions';
 import { useTeamsSelectOptions } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useTeamsSelectOptions';
-import { saveMapping } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
+import { getMappingRuleById, saveMapping } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
 import { ENTERPRISE_IDP_MAPPING_SUBMIT } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { successObservable } from 'in-services/util/result';
@@ -63,12 +63,12 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping
       groupId: '6PYmj11xSrKV',
       teamId: 'PlQFmI1srZt8sJIw'
     };
-
+    (getMappingRuleById as jest.Mock).mockReturnValue(successObservable(roleMapping));
     const setMessage = jest.fn();
 
     // When
     const { getByText, getByLabelText } = render(
-      <RoleMappingTearsheet roleMapping={roleMapping} setMessage={setMessage} />
+      <RoleMappingTearsheet roleMappingId={roleMapping.id} setMessage={setMessage} />
     );
 
     // Then
