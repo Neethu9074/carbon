@@ -10,3 +10,8 @@ import { accountAndBillingPath } from 'in-stores/navigation/paths/mainPaths';
 export const accountBillingBasePath = accountAndBillingPath;
 export const ampAccountAndBilling = `${accountBillingBasePath}/amp`;
 export const ampUsage = `${ampAccountAndBilling}/usage`;
+export const ampEntitlements = `${ampAccountAndBilling}/entitlements`;
+
+export const activeEntitlements = `${ampEntitlements}/activeEntitlements`;
+export const expiredEntitlements = `${ampEntitlements}/expiredEntitlements`;
+export const queuedEntitlements = `${ampEntitlements}/queuedEntitlements`;

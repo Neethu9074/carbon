@@ -177,8 +177,18 @@
   },
   "accountAndBilling":{
     "accountAndBilling": "Account and billing",
-    "tabs":{
-      "usage": "Usage"
+    "tabs": {
+      "usage": "Usage",
+      "entitlements": "Entitlements",
+      "activeEntitlements": "Active entitlements",
+      "queuedEntitlements": "Queued entitlements",
+      "expiredEntitlements": "Expired entitlements"
+    },
+    "entitlementsTableColumns":{
+      "startDate": "Start date",
+      "endDate":"End date",
+      "standardHosts":"Standard hosts",
+      "essentialHosts":"Essential hosts"
     }
   }
 }

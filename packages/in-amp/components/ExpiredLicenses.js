@@ -7,6 +7,7 @@ import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getExpiredLicensesAsResultObservable } from 'in-amp/api/account';
 import { columnDefinitions } from 'in-amp/components/ActiveLicenses';
 
@@ -14,7 +15,7 @@ const QueuedLicenseTable = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
   pathSegment: '/usage',
-  defaultPageSize: 5,
+  defaultPageSize: newAccountAndBillingPageEnabled ? 20 : 5,
   defaultOrderBy: 'start',
   defaultOrderDirection: 'DESC',
   isSearchable: false,
