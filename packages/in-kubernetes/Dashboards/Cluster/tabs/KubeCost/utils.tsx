@@ -54,7 +54,10 @@ function createMessage(
 ) {
   return (
     <Message type={type} fullInlineWidth className={locals.message} title={titleKey} description={descKey}>
-      <Link href="https://www.kubecost.com/contact/" onClick={() => trackCta(trackingKey)}>
+      <Link
+        href="https://www.apptio.com/products/kubecost/contact/?utm_medium=referral&utm_source=instana-app&utm_campaign=cloud-dvop_global-global-en_kubecost&utm_term=instana"
+        onClick={() => trackCta(trackingKey)}
+      >
         {t('in-kubernetes:dashboards.kubecost.upgradeNow')}
       </Link>
     </Message>

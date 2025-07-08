@@ -311,7 +311,7 @@
       "continueKubecostEnterprise": "To continue using Kubecost upgrade to Enterprise today.",
       "configureNow": "Configure now",
       "upgradeLicense": "Upgrade to an Enterprise License",
-      "upgradeDescription": "See more than 12 months of Kubecost data within Instana. Additionally, you can see cost optimization recommendations, chargeback, showback, and more by launching out to Kubecost Enterprise.",
+      "upgradeDescription": "See more than 15 days of data with unlimited cluster consumption. Additionally, manage cost optimization, chargeback, showback and more with a Kubecost Enterprise license.",
       "learnMore": "Learn more",
       "costKubernetes": "Cost visibility & insights for Kubernetes",
       "configureKubecostForFree": "Configure Kubecost for free to see real-time cluster cost, workload efficiency, estimated savings and more.",

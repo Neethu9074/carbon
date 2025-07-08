@@ -85,7 +85,7 @@ export default function Banner({
                 <Typography variant="body-02">{`IBM ${targetProductName}`}</Typography>
                 {tag && (
                   <Tag size="sm" type="purple">
-                    <div>{tag}</div>
+                    {tag}
                   </Tag>
                 )}
               </div>
@@ -148,7 +148,7 @@ export default function Banner({
                 <Typography variant="body-02">{`IBM ${targetProductName}`}</Typography>
                 {tag && (
                   <Tag size="sm" type="purple">
-                    <div>{tag}</div>
+                    {tag}
                   </Tag>
                 )}
               </div>

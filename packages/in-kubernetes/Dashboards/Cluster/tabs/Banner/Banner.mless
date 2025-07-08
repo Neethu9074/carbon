@@ -6,10 +6,10 @@
 
 :local {
   .bannerSection {
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
-    margin-top: -1.5rem;
-    background: var(--ids-color-option-neutral-100);
+    margin-left: calc(var(--cds-spacing-06) * -1);
+    margin-right: calc(var(--cds-spacing-06) * -1);
+    margin-top: calc(var(--cds-spacing-06) * -1);
+    background: var(--cds-field-03);
   }
 
   .banner {
@@ -42,19 +42,19 @@
       pointer-events: none;
     }
     :global .cds--tag {
-      margin-left: 0.5rem;
+      margin-left: var(--cds-spacing-03);
       vertical-align: top;
     }
   }
 
   .leftContainer {
-    margin-top: 3rem;
-    margin-left: 3rem;
+    margin-top: var(--cds-spacing-09);
+    margin-left: var(--cds-spacing-09);
   }
 
   .product {
     > svg {
-      margin-right: 0.5rem;
+      margin-right: var(--cds-spacing-03);
       vertical-align: text-bottom;
     }
   }
@@ -62,13 +62,13 @@
   .illustration {
     display: flex;
     justify-content: flex-end;
-    margin-right: 3rem;
+    margin-right: var(--cds-spacing-09);
   }
 
   .buttonSection {
     display: flex;
     justify-content: right;
-    background: var(--ids-color-option-neutral-100);
+    background: var(--cds-field-03);
   }
   .cutOffText {
     hyphens: none;
@@ -81,18 +81,18 @@
   }
 
   .leftCollapsibleTag {
-    margin-top: 1rem;
-    margin-left: 2rem;
-    padding-bottom: 0.5rem;
+    margin-top: var(--cds-spacing-05);
+    margin-left: var(--cds-spacing-07);
+    padding-bottom: var(--cds-spacing-03);
 
     :global .cds--tag {
-      margin-left: 0.5rem;
+      margin-left: var(--cds-spacing-03);
       vertical-align: top;
     }
   }
 
   .secondaryCta {
-    margin-left: 2rem;
+    margin-left: var(--cds-spacing-07);
   }
 
   .primaryCta {
