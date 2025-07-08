@@ -50,7 +50,7 @@ const RootCauseAssociatedEvents: FC = () => {
           direction: 'DESC'
         }
       }),
-    [entityID]
+    [steadyId, pluginId, host]
   );
 
   return (

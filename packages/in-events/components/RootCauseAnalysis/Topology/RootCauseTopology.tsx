@@ -113,7 +113,17 @@ function RootCauseTopologyPresenter({
   );
 
   useEffect(() => {
-    elk.layout(graph).then(g => setPositions(g as TopologyGraphNode));
+    let isMounted = true;
+
+    elk.layout(graph).then(g => {
+      if (isMounted) {
+        setPositions(g as TopologyGraphNode);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
   }, [graph, elk]);
 
   if (!positions) return <LoadingSkeleton />;

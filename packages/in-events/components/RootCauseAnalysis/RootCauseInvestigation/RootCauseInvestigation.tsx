@@ -5,10 +5,10 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { AISkeletonText, AccordionSkeleton, Accordion, AccordionItem } from '@carbon/react';
+import { AccordionSkeleton, Accordion, AccordionItem } from '@carbon/react';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import { CarbonCallout, CarbonLayer, PreviewPill, Stack } from '@instana/components';
+import { CarbonLayer, PreviewPill, Stack } from '@instana/components';
 import { createLogger } from '@instana/logger';
 import { t } from '@instana/i18n-react';
 
@@ -132,15 +132,6 @@ const RootCauseInvestigation = ({ openInvestigation, setOpenInvestigation }: Roo
           }}
         >
           <Stack gap="small">
-            {backendLoading[selectedRootCause] && <AISkeletonText lineCount={4} paragraph />}
-            {error[selectedRootCause] && (
-              <CarbonCallout
-                kind="error"
-                statusIconDescription="error"
-                title={t('in-events:RCA.singleEntityLLM.errorTitle')}
-                subtitle={error[selectedRootCause]}
-              />
-            )}
             <SingleEntityOutput
               startInvestigation={startInvestigation}
               backendResponse={backendResponse[selectedRootCause]}
