@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Card, CarbonTableCell, CarbonTableRow, Stack } from '@instana/components';
+import { Card, CarbonTableCell, CarbonTableRow, Stack, TableSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
@@ -29,9 +29,20 @@ const DataIngestTable = () => {
   const dataTable = dataTableResult?.data;
 
   const [header, rows] = useDatatIngestHeaderRows(dataTable, searchQuery);
+  const loading = dataTableResult?.progress?.loading;
+
+  if (loading) {
+    return (
+      <Card>
+        <Stack direction="vertical" gap="xxsmall">
+          <SubViewHeader>{t('in-amp:components.dataIngestTable.consumptionOverview')}</SubViewHeader>
+          <TableSkeleton headers={[]} rowCount={16} columnCount={12} compact />
+        </Stack>
+      </Card>
+    );
+  }
 
   if (!dataTable) {
-    // If there is no data to load, do not show the table. Perhaps to be replaced with loading animations.
     return null;
   }
 
