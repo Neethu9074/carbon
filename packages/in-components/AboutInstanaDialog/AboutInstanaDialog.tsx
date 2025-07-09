@@ -27,7 +27,6 @@ export default function AboutInstanaDialog() {
   ) as { imageTag: string; commit: string };
   const { createHrefToPath } = useNavigation();
   const [isOpen, setIsOpen] = useState(true);
-
   return (
     <AboutModal
       open={isOpen}
@@ -36,14 +35,17 @@ export default function AboutInstanaDialog() {
         <span className={locals.fontColor}>
           <Stack component="span" gap="large" direction="vertical" align="start">
             {instanaRegion && (
-              <Stack component="span" gap="xxsmall" direction="vertical" align="start">
+              <Stack component="span" gap="small" direction="vertical" align="start">
                 <Typography component="span" variant="heading-03">
                   {t('in-components:aboutInstanaDialog.columnizedContentDeployment')}
                 </Typography>
-                <Typography component="span" noMargin variant="heading-01">
-                  {t('in-components:aboutInstanaDialog.labelRegion')}
-                </Typography>
-                <Typography variant="body-01">{instanaRegion}</Typography>
+
+                <Stack component="span" gap="disabled">
+                  <Typography component="span" noMargin variant="heading-01">
+                    {t('in-components:aboutInstanaDialog.labelRegion')}
+                  </Typography>
+                  <Typography variant="body-01">{instanaRegion}</Typography>
+                </Stack>
               </Stack>
             )}
             <Stack component="span" gap="small" direction="vertical" align="start">
