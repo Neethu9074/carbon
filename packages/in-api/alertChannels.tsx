@@ -72,7 +72,7 @@ export function alertChannelTest(
 
 export function createAlertChannel(
   id: AbstractIntegration['id'] | null,
-  kind: AbstractIntegration['kind'],
+  kind: keyof configs,
   name: AbstractIntegration['name'] = ''
 ) {
   if (!kind) {

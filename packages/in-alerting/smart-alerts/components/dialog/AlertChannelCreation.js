@@ -15,7 +15,10 @@ import AlertChannelModificationForm, {
   createForm,
   save
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelModificationForm';
-import configs from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import {
+  configs,
+  getAvailableAlertChannelKinds
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -33,7 +36,7 @@ export default function AlertChannelCreation({
   setCreateDialogOpen,
   alertChannelPerSeverityEnabled
 }) {
-  const alertChannelConfigKeys = Object.keys(configs);
+  const alertChannelConfigKeys = getAvailableAlertChannelKinds();
 
   const [selectedAlertChannelKey, setSelectedAlertChannelKey] = useState(alertChannelConfigKeys[0]);
   const [message, setMessage] = useState();

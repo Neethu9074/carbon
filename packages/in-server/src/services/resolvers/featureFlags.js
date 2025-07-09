@@ -1045,5 +1045,10 @@ module.exports = exports = [
     uiClientKey: 'newOTelPageEnabled',
     instanaCtlKey: 'feature.new.otel.page.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'onlyFedRampAllowedAlertChannelsEnabled',
+    instanaCtlKey: 'feature.only.fed.ramp.allowed.alert.channels.enabled',
+    defaultValue: false
   }
 ];

@@ -215,5 +215,6 @@ module.exports = {
   overrideAdaptiveBaselineSmoothingParamsEnabled: true,
   msTeamsAppEnabled: true,
   newAccountAndBillingPageEnabled: false,
-  eumSmartAlertCustomMetricsEnabled: true
+  eumSmartAlertCustomMetricsEnabled: true,
+  onlyFedRampAllowedAlertChannelsEnabled: false
 };
