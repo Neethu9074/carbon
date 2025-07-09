@@ -1,0 +1,6 @@
+:local {
+  .labelSkeleton {
+    margin-left: 0.5rem;
+    height: 2rem;
+  }
+}
