@@ -11,6 +11,8 @@ import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
 const logger = createLogger('in-forge/instanaAgent/selfMonitoring');
 
+let curentClrStatus = true;
+
 export function setMode(snapshot: SnapshotData, mode: number) {
   createAgentResponseObservable({
     action: 'agent.mode',
@@ -131,4 +133,46 @@ export function loadDownloadableLogs([snapshot]: [snapshot: SnapshotData]) {
     target: snapshot.get('volatileId'),
     args: {}
   });
+}
+
+export function invokeLogCollectorPrepare(
+  snapshot: SnapshotData,
+  setPrepareClrLoggingEnvironmentButtonClick: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  return createAgentResponseObservable({
+    action: 'agent.clr.logs.prepare',
+    target: snapshot['volatileId'],
+    args: {}
+  }).once(response => {
+    if (response.data == 'Log Collector Finished') {
+      setPrepareClrLoggingEnvironmentButtonClick(state => (state ? false : state));
+    }
+    logger.info('Log Collector Prepare response', response);
+  });
+}
+
+export function isDotNetHostCollectorPrepared(
+  snapshot: SnapshotData,
+  clrLogState: boolean,
+  setPrepareClrLoggingEnvironmentButtonClick: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  if (curentClrStatus != clrLogState) {
+    snapshot['sensor_name'] = 'com.instana.agent';
+    return createAgentResponseObservable({
+      action: 'agent.clr.logs.status',
+      target: snapshot,
+      args: {}
+    }).once(response => {
+      logger.info('Log Collector Status', response);
+      const validState = new Set(['true', 'false']);
+      if(response.data){
+        const status = JSON.parse((response.data ?? '').trim().toLowerCase());
+        if (validState.has(response.data) && clrLogState !== status) {
+          setPrepareClrLoggingEnvironmentButtonClick(() => (response.data === "true") );
+          curentClrStatus = response.data;
+        }
+    }
+    });
+  }
+  return null;
 }

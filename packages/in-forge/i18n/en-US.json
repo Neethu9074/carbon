@@ -13030,6 +13030,8 @@
         "profileAgent": "Profile Agent",
         "collectSupportInformation": "Collect Support Information",
         "downloadSupportInformation": "Download Support Information",
+        "dotNetPrepareEnvironment": "Setup .NET Debug Env",
+        "dotNetCollectSupportInformation": "Download .Net Logs",
         "mode": "Mode",
         "changeMode": "Change Mode",
         "usageCount": "Usage Count",
