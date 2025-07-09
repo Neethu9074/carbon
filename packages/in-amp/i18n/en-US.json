@@ -181,6 +181,7 @@
     "tabs": {
       "usage": "Usage",
       "technologiesReporting": "Technologies reporting",
+      "accountInformation": "Account information",
       "entitlements": "Entitlements",
       "activeEntitlements": "Active entitlements",
       "queuedEntitlements": "Queued entitlements",

@@ -10,12 +10,13 @@ import { SvgIcon } from '@instana/components';
 import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
+// eslint-disable-next-line import/no-deprecated
+import ApiItemView from 'in-settings/components/ApiItemView';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getAccountAsResultObservable, refresh } from 'in-amp/api/account';
 import { notBlankValidator } from 'in-services/validators/string';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-components/layout/Grid';
 import Title from 'in-components/Title/Title';
 import { t, Trans } from 'in-i18n';
