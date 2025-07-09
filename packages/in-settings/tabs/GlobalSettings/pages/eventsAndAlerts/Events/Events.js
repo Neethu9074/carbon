@@ -127,9 +127,10 @@ export default function Events({
   const setEntityType = entityType => setState({ entityType });
   const setEnabled = enabled => setState({ enabled });
 
+  const hideAppDataLegacyOptions = type == customEnumValue;
   const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
   const allEntityTypeOptions = filterEntityTypeOptions(
-    withoutAppDataLegacyEvents,
+    hideAppDataLegacyOptions,
     combineAndSortByLabel(entityTypeOptionsOfBuiltInMetrics, entityTypeOptionsOfCustomMetrics)
   );
 
