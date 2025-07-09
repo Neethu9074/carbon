@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
 
-import { Link, Button } from '@instana/components';
+import { Link, Button, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
@@ -66,9 +66,14 @@ function ServiceLabelContent({ item }) {
   const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
   return (
     <SeverityIndicatorCellContentWrapper severity={maxSeverity}>
-      <Link href={item.service.id === 'ROOT' ? null : getLinkToServiceDashboard({ serviceId: item.service.id })}>
-        {item.service.label}
-      </Link>
+      <Tooltip content={item.service.label} overflowEllipsis>
+        <Link
+          href={item.service.id === 'ROOT' ? null : getLinkToServiceDashboard({ serviceId: item.service.id })}
+          ellipsis
+        >
+          {item.service.label}
+        </Link>
+      </Tooltip>
     </SeverityIndicatorCellContentWrapper>
   );
 }
@@ -76,6 +81,7 @@ function ServiceLabelContent({ item }) {
 const columnDefinitions = [
   {
     id: 'serviceLabel',
+    width: '10vw',
     label: t('in-applications:labelName'),
     getContent(item) {
       return <ServiceLabelContent item={item} />;
