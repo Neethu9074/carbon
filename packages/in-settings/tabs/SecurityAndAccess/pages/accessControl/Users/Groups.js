@@ -31,7 +31,7 @@ export default function Groups({ userId, refresh }) {
     <ApiList
       ListRenderer={ListRenderer}
       getItems={getStrippedGroupsWithIdpFlagAsResultObservable(userId)}
-      itemName="Group"
+      itemName={rbacTeamsEnabled ? 'Role' : 'Group'}
       orderBy="name"
       renderer={ListInsideACardRenderer}
       pageSize={5}

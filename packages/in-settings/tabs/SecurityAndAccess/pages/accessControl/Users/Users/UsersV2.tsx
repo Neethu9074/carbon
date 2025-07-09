@@ -28,6 +28,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { hasError, isLoading } from 'in-services/util/result';
 import { USER_INVITE } from 'in-services/tracking/tracking';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 import { Result } from 'in-types';
@@ -55,7 +56,7 @@ const headers = [
   },
   {
     key: 'groupCount',
-    header: t('in-settings:tabs.groupCountCol')
+    header: t('in-settings:tabs.groupCountCol', { context: rbacTeamsEnabled && 'teams' })
   },
   {
     key: 'tfaEnabled',

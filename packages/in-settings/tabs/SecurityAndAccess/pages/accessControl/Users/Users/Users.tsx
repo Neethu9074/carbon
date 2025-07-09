@@ -21,6 +21,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { USER_INVITE } from 'in-services/tracking/tracking';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { noop } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
@@ -105,7 +106,7 @@ const columnDefinitions: ColumnDefinition<UserResult>[] = [
   },
   {
     id: 'groupCount',
-    label: t('in-settings:tabs.groupCountCol'),
+    label: t('in-settings:tabs.groupCountCol', { context: rbacTeamsEnabled && 'teams' }),
     width: 10,
     getContent({ groupCount }: UserResult) {
       if (groupCount === undefined) {
