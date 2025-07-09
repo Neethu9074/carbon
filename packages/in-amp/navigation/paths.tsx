@@ -11,8 +11,11 @@ export const accountBillingBasePath = accountAndBillingPath;
 export const ampAccountAndBilling = `${accountBillingBasePath}/amp`;
 export const ampUsage = `${ampAccountAndBilling}/usage`;
 export const ampEntitlements = `${ampAccountAndBilling}/entitlements`;
+export const ampTechnologiesReporting = `${ampAccountAndBilling}/technologiesReporting`;
+export const ampActivationAdoption = `${ampAccountAndBilling}/activationAndAdoption`;
 
 export const activeEntitlements = `${ampEntitlements}/activeEntitlements`;
 export const expiredEntitlements = `${ampEntitlements}/expiredEntitlements`;
 export const queuedEntitlements = `${ampEntitlements}/queuedEntitlements`;
-export const ampTechnologiesReporting = `${ampAccountAndBilling}/technologiesReporting`;
+export const customerAdoption = `${ampActivationAdoption}/customerAdoption`;
+export const userUsage = `${ampActivationAdoption}/userUsage`;

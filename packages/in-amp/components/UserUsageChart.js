@@ -5,12 +5,17 @@
 
 import React from 'react';
 
+import { NoDataEmptyState } from '@instana/ibm-products';
+import { Typography } from '@instana/components';
+
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { formatDate } from 'in-services/formatters/date';
 import { number } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
+import { t } from 'in-i18n';
 
 /**
  * Renders a chart of user usage information, if data is supplied.
@@ -33,6 +38,16 @@ export default function UserUsageChart({ accountInfo, dataSetName, seriesLabel }
     to
   };
   const granularity = getChartGranularity(timeframe);
+  const hasData = times.length > 1 && times.some(ts => result[ts] != null && !isNaN(result[ts]) && result[ts] !== 0);
+
+  if (!hasData && newAccountAndBillingPageEnabled) {
+    return (
+      <NoDataEmptyState
+        title={<Typography variant="body-compact-02">{t('in-amp:accountAndBilling.emptyPage.subtitle')}</Typography>}
+        illustrationPosition="top"
+      />
+    );
+  }
 
   return (
     <ResultAwareChart

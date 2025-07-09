@@ -21,7 +21,7 @@
       "licensedApmHosts": "Licensed APM hosts",
       "licensedIqmHosts": "Licensed IQM hosts"
     },
-    "learnMore":{
+    "learnMore": {
       "title": "Learn more about Instana’s Fair Use Policy",
       "titleNew": "Learn more about data consumption",
       "leftTitle":"What is the Fair Use Policy?",
@@ -176,7 +176,7 @@
       }
     }
   },
-  "accountAndBilling":{
+  "accountAndBilling": {
     "accountAndBilling": "Account and billing",
     "tabs": {
       "usage": "Usage",
@@ -184,13 +184,19 @@
       "entitlements": "Entitlements",
       "activeEntitlements": "Active entitlements",
       "queuedEntitlements": "Queued entitlements",
-      "expiredEntitlements": "Expired entitlements"
+      "expiredEntitlements": "Expired entitlements",
+      "activationAdoption": "Activation & adoption",
+      "customerAdoption": "Customer adoption",
+      "userUsage": "User usage"
     },
     "entitlementsTableColumns":{
       "startDate": "Start date",
       "endDate":"End date",
       "standardHosts":"Standard hosts",
       "essentialHosts":"Essential hosts"
+    },
+    "emptyPage": {
+      "subtitle": "No data available"
     }
   }
 }
