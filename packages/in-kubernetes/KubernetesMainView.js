@@ -13,9 +13,9 @@ import {
   exploreFullyQualified
 } from 'in-kubernetes/navigation/paths';
 import { kubernetesCloudNativeExperience, openTelemetryKubernetesUnifiedViewEnabled } from 'in-services/featureFlags';
-import OtelClusterCardView from 'in-kubernetes/lists/OtelCluster/OtelClusterCardView';
 import OtelClusterTable from 'in-kubernetes/lists/ClusterTable/OtelClusterTable';
 import NamespaceTable from 'in-kubernetes/lists/NamespaceTable/NamespaceTable';
+import OtelClusterCardView from 'in-kubernetes/lists/OtelClusterCardView';
 import ClusterTable from 'in-kubernetes/lists/ClusterTable/ClusterTable';
 import KubernetesExplore from 'in-kubernetes/explore/KubernetesExplore';
 import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';

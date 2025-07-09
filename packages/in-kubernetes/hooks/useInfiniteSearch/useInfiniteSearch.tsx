@@ -7,18 +7,18 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { isEqual } from 'lodash';
 
-import { Result, PaginatedResult, KubernetesClusterListItem } from '@instana/types';
+import { Result, PaginatedResult, KubernetesClusterListItem, KubernetesNamespaceListItem } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { initialState, stateReducer, actions } from 'in-kubernetes/hooks/useInfiniteSearch/reducer';
 import { QueryParams } from 'in-kubernetes/subscriptions/getKubernetesClusters';
+import { FilterProps, mappedSortingOptions } from 'in-kubernetes/lists/utils';
 import { hasError, isLoading } from 'in-services/util/result';
 import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
 import useInfiniteScroll from 'in-hooks/useInfiniteScroll';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { FilterProps } from 'in-kubernetes/utils';
 import usePrevious from 'in-hooks/usePrevious';
 
 interface Props {
@@ -29,18 +29,30 @@ interface Props {
     orderBy,
     orderDirection,
     timeConfig
-  }: QueryParams) => Observable<Result<PaginatedResult<KubernetesClusterListItem>>>;
+  }: QueryParams) => Observable<Result<PaginatedResult<KubernetesClusterListItem | KubernetesNamespaceListItem>>>;
   urlStateDefinition: Options<FilterProps>;
 }
 
 export default function useInfiniteSearch({ subscription, urlStateDefinition }: Props) {
   const timeConfig = useTimeConfig();
   const previousTimeConfig = usePrevious(timeConfig);
-  const [{ result, page, isResettingState }, dispatch] = useReducer(stateReducer, initialState);
   const { kubernetesSearchQueryChanged } = useKubernetesTracker();
-  const [{ query }, setUrlState] = useUrlState(urlStateDefinition);
+  const [{ result, page, isResettingState }, dispatch] = useReducer(stateReducer, initialState);
+  const [{ query, orderBy: orderByFromUrl, orderDirection }, setUrlState] = useUrlState(urlStateDefinition);
+
+  const previousOrderDirection = usePrevious(orderDirection);
+  const previousOrderBy = usePrevious(orderByFromUrl);
+
+  const hasSortingChanged =
+    ((previousOrderDirection && !isEqual(orderDirection, previousOrderDirection)) ||
+      (previousOrderBy && !isEqual(orderByFromUrl, previousOrderBy))) ??
+    false;
+
   const { setResult, setPage, setResetState, setIsResettingState } = actions;
+  const orderBy = mappedSortingOptions[orderByFromUrl] ?? orderByFromUrl;
   const hasTimeConfigChanged: boolean = (previousTimeConfig && !isEqual(timeConfig, previousTimeConfig)) ?? false;
+
+  const shouldResetState = hasTimeConfigChanged || hasSortingChanged;
   const isLoadingData = isLoading(result);
 
   const resetState = () => dispatch({ type: setResetState });
@@ -51,7 +63,7 @@ export default function useInfiniteSearch({ subscription, urlStateDefinition }: 
     query ?? '',
     value => {
       resetState();
-      setUrlState({ query: value });
+      setUrlState({ query: value, orderBy: orderByFromUrl, orderDirection });
       dispatchResettingState(false);
       kubernetesSearchQueryChanged({
         query: value
@@ -64,25 +76,29 @@ export default function useInfiniteSearch({ subscription, urlStateDefinition }: 
     subscription({
       timeConfig,
       query,
+      orderBy,
+      orderDirection,
       page
     })
-      .filter((res: Result<PaginatedResult<KubernetesClusterListItem>>) => !isLoading(res))
-      .once((res: Result<PaginatedResult<KubernetesClusterListItem>>) => {
-        dispatch({ type: setResult, payload: { result: res, hasTimeConfigChanged } });
+      .filter(
+        (res: Result<PaginatedResult<KubernetesClusterListItem | KubernetesNamespaceListItem>>) => !isLoading(res)
+      )
+      .once((res: Result<PaginatedResult<KubernetesClusterListItem | KubernetesNamespaceListItem>>) => {
+        dispatch({ type: setResult, payload: { result: res } });
       });
 
-  // Fetch data
-  // isResettingState is used to prevent fetching data when query is getting changed
+  // Fetch data. isResettingState is used to prevent fetching data when query is getting changed
   useEffect(() => {
     if (isResettingState) return;
-    if (hasTimeConfigChanged) {
+    if (shouldResetState) {
       resetState();
       dispatchResettingState(false);
     } else {
       fetchData();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, query, hasTimeConfigChanged, isResettingState]);
+  }, [page, query, shouldResetState, isResettingState]);
 
   // Infinite scroll callback. It will increase the page number when the element is intersected.
   const infiniteScrollCallback = useCallback(

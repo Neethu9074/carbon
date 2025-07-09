@@ -24,48 +24,48 @@ import { t } from 'in-i18n';
 
 import locals from './InfoCardHeader.mless';
 
-interface InfoCardHeaderProps {
+export interface CardHeader {
   id: string;
-  label: string;
-  href: string;
+  title: string;
   icon: string;
-  clusterName: string;
-  clusterDistribution?: string;
-  version: string;
+  href: string;
+  subTitle?: string;
+  version?: string;
+  distribution?: string;
 }
 
 export default function InfoCardHeader({
   id,
-  label,
+  title,
   href,
   icon,
-  clusterName = '',
-  clusterDistribution,
+  subTitle = '',
+  distribution,
   version
-}: Readonly<InfoCardHeaderProps>) {
+}: Readonly<CardHeader>) {
   const timeConfig = useTimeConfig();
   return (
     <div id={id} className={locals.container}>
       <Stack direction="horizontal" align="center">
-        <span className={locals.icon} aria-label={label}>
-          <Tooltip content={label} delay={500}>
+        <span className={locals.icon} aria-label={title}>
+          <Tooltip content={title} delay={500}>
             <SvgIcon type={icon} />
           </Tooltip>
         </span>
         <Link href={href}>
           <Typography variant="heading-03" noMargin component="h2">
-            {label}
+            {title}
           </Typography>
         </Link>
-        {clusterName !== '' && (
+        {subTitle !== '' && (
           <Typography variant="body-compact-01" noMargin component="p">
-            <span className={locals.clusterName}>{clusterName}</span>
+            <span className={locals.subTitle}>{subTitle}</span>
           </Typography>
         )}
         {version && <BadgeList types={[version]} type={version} getColor={() => 'blue'} />}
         <TypesBadgeList
           type={t('in-kubernetes:dashboards.clusterDistributionBadgeType', {
-            clusterDistributionName: clusterBadgeName(clusterDistribution)
+            clusterDistributionName: clusterBadgeName(distribution)
           })}
         />
         <EntityHealthIndicator

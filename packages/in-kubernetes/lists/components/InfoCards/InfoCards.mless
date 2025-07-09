@@ -16,21 +16,13 @@
   }
 
   .tileContent {
-    padding-top: 0.5rem;
     height: 4.875rem;
+    padding-top: 0.5rem;
 
     p,
     .subtitle {
       color: var(--cds-text-secondary);
     }
-  }
-
-  .hasIssues {
-    color: var(--cds-text-error);
-  }
-
-  .hasWarnings {
-    color: var(--cds-support-warning);
   }
 
   .icon {

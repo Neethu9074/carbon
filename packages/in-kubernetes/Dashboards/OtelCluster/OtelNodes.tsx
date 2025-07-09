@@ -7,7 +7,6 @@
 import React from 'react';
 
 import type { KubernetesNode, EntityHealthInfo, TimeConfig } from '@instana/types';
-import { Card } from '@instana/components';
 
 // @ts-expect-error TS migration
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -95,9 +94,7 @@ export default function Nodes(props: any) {
   return (
     <>
       <K8sAgentMonitoringIssueNotifications {...props} entityName="nodes" />
-      <Card>
-        <ServerTableWithUrlState get={getOtelKubernetesNodesData} {...props} />
-      </Card>
+      <ServerTableWithUrlState get={getOtelKubernetesNodesData} {...props} />
     </>
   );
 }
