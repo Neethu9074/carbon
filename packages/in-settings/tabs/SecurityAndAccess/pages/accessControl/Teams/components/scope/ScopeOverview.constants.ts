@@ -101,9 +101,18 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     title: t('in-settings:tabs.teams.scopeApplications'),
     subtitle: scope => {
       const hasAccessToAllApplications = hasEntireUnitScope(scope, [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]);
+      const isParentContributorAP = scope?.restrictedApplicationFilter?.restrictingApplicationId;
+      const parentContributorAP = scope?.restrictedApplicationFilter?.label;
+
       if (hasAccessToAllApplications) {
         return t('in-settings:tabs.teams.scopeApplicationsSubtitleAll');
       } else {
+        if (isParentContributorAP) {
+          return t('in-settings:tabs.teams.scopeApplicationsContributorSubtitle', {
+            parentAP: parentContributorAP,
+            count: scope?.applications?.length ?? 0
+          });
+        }
         return t('in-settings:tabs.teams.scopeApplicationsSubtitle', {
           count: scope?.applications?.length ?? 0
         });
