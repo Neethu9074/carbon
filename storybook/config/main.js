@@ -13,8 +13,14 @@ module.exports = {
       titlePrefix: 'Getting Started',
       files: '*.mdx'
     },
+    {
+      directory: '../../storybook/componentTree',
+      titlePrefix: 'Component Dependencies',
+      files: '*.@(story.tsx|mdx)'
+    },
     '../../packages/**/*.@(mdx)',
-    '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx)'
+    '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx)',
+    '../../docs/**/*.(story|stories).@(js|jsx|ts|tsx)'
   ],
   staticDirs: ['../public'],
   core: {

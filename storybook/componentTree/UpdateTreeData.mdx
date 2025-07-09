@@ -1,0 +1,12 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="How to refresh data" />
+# Update Dependency Tree Data
+This storybook is for component dependency exploration in ui-client code base. The component tree data used in this story is static and needs update once in a while because the code updates frequently. The data are comprised by the three JSON files in this directory.
+Following are the steps needed to update the dependency data:
+* Install Madge: npm -g install madge
+* Remove all "promise-loader.*!" from the import statements in the code base. This is easy to do in VS Code with global regex search and replacement. The reason we need to do this is that madge doesn't recognize the promise loader syntax. Please be sure not to commit these changes (check out another branch for this if needed).
+* In ui-client root, run "madge packages > ./storybook/componentTree/processor/uiClientDepAll.txt".
+* cd storybook/componentTree/processor and run "python3 processDep.py". This generates three JSON files in the current directory.
+* Examine the generated three JSON files and make sure they have content. Replace the JSON files in the parent directory (storybook/componentTree) with the newly generated files. These are the files need to be checked in.
+* Use "yarn run storybook" to build and view the storybook. The storybook is under "Component Dependencies" section.
