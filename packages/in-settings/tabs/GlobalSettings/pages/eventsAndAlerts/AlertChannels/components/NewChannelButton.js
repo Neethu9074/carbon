@@ -8,10 +8,13 @@ import React from 'react';
 import { CarbonMenuButton, CarbonMenuItem, PreviewPill } from '@instana/components';
 
 import {
+  configs,
+  getAvailableAlertChannelKinds
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import {
   SETTINGS_ALERT_CHANNEL_ADD_CLICK,
   SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK
 } from 'in-services/tracking/eventNames';
-import configs from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertChannelCTATrackerSegment } from 'in-settings/tracker';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
@@ -36,7 +39,7 @@ export default function NewChannelButton() {
         });
       }}
     >
-      {Object.keys(configs).map(kind => (
+      {getAvailableAlertChannelKinds().map(kind => (
         <AlertChannelButton type={kind} />
       ))}
     </CarbonMenuButton>
