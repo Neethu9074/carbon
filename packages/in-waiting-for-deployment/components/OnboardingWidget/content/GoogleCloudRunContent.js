@@ -354,7 +354,7 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
 
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.integrateTheInstanaInProcessCollectorForGoogleCloudRunAsDescribedBelowMoreDetailsAreAvailableInThe"
-        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-google-cloud-run"
+        href="https://www.ibm.com/docs/en/instana-observability/latest?topic=agents-google-cloud-run"
       />
       <Spacer />
 

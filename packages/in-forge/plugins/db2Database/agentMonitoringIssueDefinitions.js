@@ -22,7 +22,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.db2Database.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-db2`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-db2`
   },
   db2luw_old_config_used: {
     issueDescription: {
@@ -31,6 +31,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.db2Database.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-db2`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-db2`
   }
 };

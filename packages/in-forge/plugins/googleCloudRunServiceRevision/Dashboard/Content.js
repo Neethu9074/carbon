@@ -30,7 +30,7 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
           linkToDocs: (
             <Link
               external
-              href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-google-cloud-run#gcp-agent-setup"
+              href="https://www.ibm.com/docs/en/instana-observability/latest?topic=agents-google-cloud-run#setting-up-the-gcp-agent"
             />
           )
         }}

@@ -70,7 +70,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#variable-not-defined`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-datapower#variable-not-defined`
   },
   ibmdatapower_var_invalid_value: {
     issueDescription: {
@@ -86,7 +86,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#variable-has-an-invalid-value`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-datapower#variable-has-an-invalid-value`
   },
   ibmdatapower_connection_error: {
     issueDescription: {
@@ -102,7 +102,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#connection-error`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-datapower#connection-error`
   },
   ibmdatapower_exception_error: {
     issueDescription: {
@@ -115,7 +115,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#other-exception`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-datapower#other-exception`
   },
   agent_process_lookup_prerequisites_failed: {
     issueDescription: {
@@ -146,7 +146,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#missing-configuration`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-integrating-apm-v8#missing-configuration`
   },
   apmproxy_connection_error: {
     issueDescription: {
@@ -159,7 +159,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#connection-error`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-integrating-apm-v8#connection-error`
   },
   apmproxy_exception_error: {
     issueDescription: {
@@ -172,7 +172,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#other-exception`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-integrating-apm-v8#other-exception`
   },
   agent_tls_cert_expired: {
     issueDescription: {
@@ -185,7 +185,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-host-configuration`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=agent-host-configuration`
   },
   agent_tls_cert_about_to_expire: {
     issueDescription: {
@@ -198,7 +198,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-host-configuration`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=agent-host-configuration`
   },
   agent_jvm_tls_1_3_missing: {
     issueDescription: {

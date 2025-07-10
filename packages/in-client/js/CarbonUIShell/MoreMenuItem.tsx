@@ -58,7 +58,7 @@ export default function MoreMenuItem() {
         className={local.externalLink}
         id="main-nav-documentation"
         key="main-nav-documentation"
-        href="https://www.ibm.com/docs/en/obi/current"
+        href="https://www.ibm.com/docs/en/instana-observability/latest"
         renderIcon={() => <SvgIcon size="xs" type="lib_views_external_link" />}
       >
         <span>{t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}</span>

@@ -128,7 +128,7 @@ function getActuatorConfiguredHint(snapshot, monitoringIssues) {
           components={{
             linkToSpringboot: (
               <Link
-                href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-spring-boot#configuration"
+                href="https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-spring-boot#configuring-spring-boot-monitoring"
                 external
               />
             )
