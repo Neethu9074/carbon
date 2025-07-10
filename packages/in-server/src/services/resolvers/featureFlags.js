@@ -1045,5 +1045,10 @@ module.exports = exports = [
     uiClientKey: 'deleteLogsV3Enabled',
     instanaCtlKey: 'feature.log.deleteLogsV3Enabled.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'onlyFedRampAllowedAlertChannelsEnabled',
+    instanaCtlKey: 'feature.only.fed.ramp.allowed.alert.channels.enabled',
+    defaultValue: false
   }
 ];
