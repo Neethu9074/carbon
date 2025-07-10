@@ -110,52 +110,47 @@ export default function OtelClusterTable() {
     return () => sub.dispose();
   }, [timeConfig]);
 
-  if (hasData === null) {
-    // Optionally show a loading spinner here
-    return null;
-  }
-
-  if (!hasData) {
-    return <KubernetesNoDataNotification icon="lib_kubernetes_cluster" />;
-  }
-
   return (
     <>
-      <Title title={t('in-kubernetes:clusters')} />
-      <ViewTrackingMeta
-        data={{
-          productArea: productAreas.kubernetes,
-          pageRootName: pageNames.kubernetes_clusters
-        }}
-      />
-      <div className={locals.table}>
-        {openTelemetryKubernetesUnifiedViewEnabled && (
-          <ServerTableWithUrlState
-            get={getTableData}
-            filterColumnDefinitions={createColumnFilter}
-            timeConfig={timeConfig}
-            toolBarContent={
-              kubernetesCloudNativeExperience ? (
-                <CarbonIconButton
-                  align="left"
-                  kind="ghost"
-                  size="lg"
-                  label={t('in-kubernetes:cloudNative.switchToCardView')}
-                  onClick={() => {
-                    kubernetesViewModeToggled({
-                      switchedToView: 'card',
-                      tab: 'cluster'
-                    });
-                    window.location.href = createHrefToPath(clusterOtelListFullyQualified);
-                  }}
-                >
-                  <SvgIcon type="lib_views_grid" size="s" />
-                </CarbonIconButton>
-              ) : null
-            }
+      {hasData === null ? null : (
+        <>
+          <Title title={t('in-kubernetes:clusters')} />
+          <ViewTrackingMeta
+            data={{
+              productArea: productAreas.kubernetes,
+              pageRootName: pageNames.kubernetes_clusters
+            }}
           />
-        )}
-      </div>
+          <div className={locals.table}>
+            {openTelemetryKubernetesUnifiedViewEnabled && (
+              <ServerTableWithUrlState
+                get={getTableData}
+                filterColumnDefinitions={createColumnFilter}
+                timeConfig={timeConfig}
+                toolBarContent={
+                  kubernetesCloudNativeExperience ? (
+                    <CarbonIconButton
+                      align="left"
+                      kind="ghost"
+                      size="lg"
+                      label={t('in-kubernetes:cloudNative.switchToCardView')}
+                      onClick={() => {
+                        kubernetesViewModeToggled({
+                          switchedToView: 'card',
+                          tab: 'cluster'
+                        });
+                        window.location.href = createHrefToPath(clusterOtelListFullyQualified);
+                      }}
+                    >
+                      <SvgIcon type="lib_views_grid" size="s" />
+                    </CarbonIconButton>
+                  ) : null
+                }
+              />
+            )}
+          </div>
+        </>
+      )}
     </>
   );
 }
