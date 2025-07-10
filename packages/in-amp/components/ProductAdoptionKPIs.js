@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import SparkChart from 'in-components/SparkChart';
@@ -64,6 +66,9 @@ function ProductAdoptionKPIs({ sparkchartMetrics }) {
                   />
                   {metricsPresent && (
                     <SparkChart
+                      {...(newAccountAndBillingPageEnabled && {
+                        rollup: getChartGranularity(timeConfig)
+                      })}
                       timeConfig={timeConfig}
                       metrics={sortedMetrics.map(metrics => [metrics.time, metrics.value])}
                       width={150}
