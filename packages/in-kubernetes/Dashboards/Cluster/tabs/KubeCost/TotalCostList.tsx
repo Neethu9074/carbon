@@ -64,7 +64,12 @@ export default function Summary({ currencyCode, url, clusterId, snapshotId, time
       <DashboardSection
         title={t('in-kubernetes:dashboards.kubecost.cost')}
         button={
-          <Link disabled={playwithEnabled} externalWithIcon href={kubecostClusterUrl}>
+          <Link
+            disabled={playwithEnabled}
+            externalWithIcon
+            href={kubecostClusterUrl}
+            linkIconType="lib_views_external_link"
+          >
             {t('in-kubernetes:dashboards.kubecost.viewInKubeCost')}
           </Link>
         }
