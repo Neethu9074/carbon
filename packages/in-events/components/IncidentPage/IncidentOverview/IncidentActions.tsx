@@ -9,7 +9,7 @@ import { noop } from 'lodash';
 import React from 'react';
 
 import { CarbonComboButton } from '@instana/components';
-import { Snapshot, TimeConfig } from '@instana/types';
+import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error No typedef available
@@ -69,7 +69,7 @@ import { role } from 'in-stores/user';
 interface IncidentActionsProps {
   incident: EventOrMap;
   triggeringEvent: EventOrMap;
-  latestSnapshot: Snapshot;
+  latestSnapshot?: Map<string, any>;
 }
 
 const IncidentActions = ({ incident, triggeringEvent, latestSnapshot }: IncidentActionsProps) => {

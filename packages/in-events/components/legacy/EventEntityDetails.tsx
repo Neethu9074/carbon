@@ -34,7 +34,7 @@ export default function EventEntityDetails({
   shouldDisplayDefaultLabel = true
 }: {
   triggeringEvent: EventOrMap;
-  timeConfig: TimeConfig;
+  timeConfig: TimeConfig | null;
   shouldDisplayDefaultLabel?: Boolean;
 }) {
   if (isSloSmartAlertEvent(triggeringEvent)) {

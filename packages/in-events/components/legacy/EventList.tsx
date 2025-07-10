@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useRef, useState } from 'react';
-import { get } from 'lodash';
+import React, { FC, useEffect, useRef, useState } from 'react';
+import { Map } from 'immutable';
 
 import {
   Card,
@@ -28,17 +28,28 @@ import {
   rcaAgenticEnabled
 } from 'in-services/featureFlags';
 import AgenticInvestigationWorkflow from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/AgenticInvestigation';
+// @ts-expect-error No typedef
+import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
+// @ts-expect-error No typedef
+import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
+// @ts-expect-error No typedef
+import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
 import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
+// @ts-expect-error No typedef
+import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
+// @ts-expect-error No typedef
+import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
+// @ts-expect-error No typedef
+import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+// @ts-expect-error No typedef
+import { FeedbackComponents } from 'in-events/components/EventTable';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import AutomationCardForLegacyPRC from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
-import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
-import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
-import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -48,13 +59,11 @@ import EventListProviders from 'in-events/components/providers/EventListProvider
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
+// @ts-expect-error No typedef
+import { getEvent } from 'in-stores/events';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
-import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
-import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
-import { FeedbackComponents } from 'in-events/components/EventTable';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -65,18 +74,26 @@ import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
 import { getEventType } from 'in-stores/events';
-import { getEvent } from 'in-stores/events';
+import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from './EventList.mless';
+import locals from 'in-events/components/legacy/EventList.mless';
 
-export default function IncidentEventList({ incident, latestSnapshot, snapshot }) {
-  const triggeringEvent = useObservable(getEvent(incident.getIn(['triggeringEvent'], '')), [incident]) ?? null;
-  const triggeringEventId = triggeringEvent?.get('id') || '';
+interface IncidentEventListProps {
+  incident: EventOrMap;
+  latestSnapshot?: Map<string, any>;
+  snapshot?: Map<string, any>;
+}
 
-  const [scrolled, setScrolled] = useState(false);
-  const rcaSectionRef = useRef();
+const IncidentEventList: FC<IncidentEventListProps> = ({ incident, latestSnapshot, snapshot }) => {
+  const triggeringEvent = useObservable<EventOrMap, any[]>(getEvent(incident.getIn(['triggeringEvent'], '')), [
+    incident
+  ]);
+  const triggeringEventId = triggeringEvent ? (triggeringEvent.get('id', '') as string) : '';
+
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const rcaSectionRef = useRef<HTMLDivElement>(null);
 
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
@@ -86,7 +103,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   const { location } = useNavigation();
 
   useEffect(() => {
-    const scrollToParam = getMatrixParameter(location, [eventsPath], 'scrollTo');
+    const scrollToParam = getMatrixParameter(location, eventsPath, 'scrollTo');
     if (scrollToParam === 'rca') {
       if (rcaSectionRef.current && !scrolled) {
         rcaSectionRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -120,25 +137,32 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
           incident={incident}
           volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
           rcaRef={rcaSectionRef}
-          event={triggeringEvent?.toJS()}
+          event={triggeringEvent?.toJS?.() ?? {}}
         />
       )}
 
       {/* Automations - display both recommended actions and history when no PRC is present*/}
       {rcaUIEnabled && !hasRootCauses && (
-        <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
+        <AutomationCard
+          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+          event={triggeringEvent?.toJS?.() ?? {}}
+        />
       )}
 
       {/* Display Incident action history  separately when PRC ise present*/}
       {rcaAgenticEnabled && hasRootCauses && (
-        <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} hasRCA />
+        <AutomationCard
+          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+          event={triggeringEvent?.toJS?.() ?? {}}
+          hasRCA
+        />
       )}
 
       {!rcaAgenticEnabled && rcaUIEnabled && hasRootCauses && (
         <AutomationCardForLegacyPRC
           volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
           incident={incident}
-          event={triggeringEvent?.toJS()}
+          event={triggeringEvent?.toJS?.() ?? {}}
         />
       )}
 
@@ -146,23 +170,64 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {businessObservabilityEnabled && (
         <ImpactedBusinessProcesses
           eventType={eventType}
-          entityType={incident?.get('entityType', undefined)}
-          entityId={incident?.get('entityId', undefined)}
+          entityType={incident?.get('entityType') as string}
+          entityId={incident?.get('entityId') as string}
         />
       )}
     </EventListProviders>
   );
+};
+
+export default IncidentEventList;
+
+interface IncidentOverviewProps {
+  incident: EventOrMap;
+  triggeringEvent: EventOrMap;
+  latestSnapshot?: Map<string, any>;
+  triggeringProblemId?: string;
+  triggeringEventId: string;
 }
 
-const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggeringProblemId, triggeringEventId }) => {
+const IncidentOverview: FC<IncidentOverviewProps> = ({
+  incident,
+  triggeringEvent,
+  latestSnapshot,
+  triggeringProblemId,
+  triggeringEventId
+}) => {
   const colourForCard = getTriggeringEventCardColor(incident);
   const { location, createHref } = useNavigation();
   const { windowSize } = useTimeConfig();
+
   const timeConfigLink = createHref(
     getEventViewWithTimeFocusedAt(incident.get('start'), windowSize, location, incident.get('id'), incident.get('type'))
   );
+
   // From the summaryNotes store we get the "open" value
   const summaryOpen = useObservable(summaryNotes$, [summaryNotes$])?.open || false;
+
+  // Create a React element for the left header content to fix type issues
+  const leftHeaderContent = notesAndActivityEnabled ? (
+    <CarbonButton
+      kind={'tertiary'}
+      className={locals.actionsButton}
+      size={'sm'}
+      id="generate_summary_ai_header"
+      disabled={summaryOpen}
+      renderIcon={() => {
+        // @ts-expect-error id not part of svg icon
+        return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
+      }}
+      onClick={() => {
+        // Open notes, generate summary
+        setSummaryNotes(true, true);
+        MoveAIChatLauncher('500px');
+        handleTracking(incident.get('id'), EVENT_AI_GENERATE_SUBMIT_OVERVIEW);
+      }}
+    >
+      <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>
+    </CarbonButton>
+  ) : undefined;
 
   return (
     <Row withoutSideMargin>
@@ -185,28 +250,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
               />
             </>
           }
-          leftHeaderContent={
-            notesAndActivityEnabled && (
-              <CarbonButton
-                kind={'tertiary'}
-                className={locals.actionsButton}
-                size={'sm'}
-                id="generate_summary_ai_header"
-                disabled={summaryOpen}
-                renderIcon={() => {
-                  return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
-                }}
-                onClick={() => {
-                  // Open notes, generate summary
-                  setSummaryNotes(true, true);
-                  MoveAIChatLauncher('500px');
-                  handleTracking(incident.get('id'), EVENT_AI_GENERATE_SUBMIT_OVERVIEW);
-                }}
-              >
-                <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>
-              </CarbonButton>
-            )
-          }
+          leftHeaderContent={leftHeaderContent}
         >
           <TriggeringEvent incident={incident} triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} />
         </Card>
@@ -235,7 +279,11 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
   );
 };
 
-const AggregatedInfraEntities = ({ incident }) => {
+interface AggregatedInfraEntitiesProps {
+  incident: EventOrMap;
+}
+
+const AggregatedInfraEntities = ({ incident }: AggregatedInfraEntitiesProps): JSX.Element | null => {
   const alertConfig = useInfraEventAlertConfig(incident);
   const entityType = alertConfig?.rule?.entityType ?? 'all';
   const tagCatalog = useTagCatalog({ ownerType: entityType });
@@ -243,18 +291,21 @@ const AggregatedInfraEntities = ({ incident }) => {
   const aggregation = incident.getIn(['metadata', 'smartAlertInfo', 'metricAggregation'], '');
   const groupingTags = incident.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
-  const [aggregatedEntitiesOpen, setAggregatedEntitiesOpen] = useState(true);
+  const [aggregatedEntitiesOpen, setAggregatedEntitiesOpen] = useState<boolean>(true);
   const tagFilterExpression = alertConfig?.tagFilterExpression;
   const [ruleWithThreshold] = alertConfig?.rules ?? [];
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
   const alertConfigWithGroupingExpression = {
     ...alertConfig,
     tagFilterExpression: {
+      // TODO: fix the below typescript error
+      // @ts-expect-error Type 'undefined' is not assignable to type 'TagFilterExpression'
       ...getExpressionWithGroupingTags(deepCopy(tagFilterExpression), groupingTags)
     }
   };
 
-  if (alertConfig?.evaluationType !== 'CUSTOM') {
+  if (!alertConfig || alertConfig.evaluationType !== 'CUSTOM') {
     return null;
   }
 
@@ -263,10 +314,13 @@ const AggregatedInfraEntities = ({ incident }) => {
       <CarbonLayer>
         <InfraAggregatedEntitiesTablePresenter
           tagFilterFormModel={tagFilterFormModel}
-          timeConfig={getTimeConfigForAggregatedEntitiesTable(incident, alertConfigWithGroupingExpression.granularity)}
+          timeConfig={getTimeConfigForAggregatedEntitiesTable(
+            incident,
+            alertConfigWithGroupingExpression?.granularity || 0
+          )}
           ruleWithThreshold={ruleWithThreshold}
           tagFilterExpression={alertConfig.tagFilterExpression}
-          groupedTagFilterExpression={alertConfigWithGroupingExpression.tagFilterExpression}
+          groupedTagFilterExpression={alertConfigWithGroupingExpression?.tagFilterExpression}
           groupingTags={groupingTags}
           tagsFromTagCatalog={tagCatalog?.tags}
           metricLabel={metricLabel}
@@ -278,7 +332,13 @@ const AggregatedInfraEntities = ({ incident }) => {
   );
 };
 
-const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
+interface TriggeringEventProps {
+  incident: EventOrMap;
+  triggeringEvent: EventOrMap;
+  latestSnapshot?: Map<string, any>;
+}
+
+const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }: TriggeringEventProps): JSX.Element => {
   const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
 
@@ -314,7 +374,13 @@ const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
   );
 };
 
-const MetricViolations = ({ triggeringEvent, latestSnapshot, incident }) => {
+interface MetricViolationsProps {
+  triggeringEvent: EventOrMap;
+  latestSnapshot?: Map<string, any>;
+  incident: EventOrMap;
+}
+
+const MetricViolations: FC<MetricViolationsProps> = ({ triggeringEvent, latestSnapshot, incident }) => {
   const rcaFound = incident.getIn(['rca', 'found'], false);
   return (
     <div className={locals.layerBackground}>
@@ -333,7 +399,7 @@ const MetricViolations = ({ triggeringEvent, latestSnapshot, incident }) => {
   );
 };
 
-function getTriggeringEventCardColor(incident) {
+function getTriggeringEventCardColor(incident: EventOrMap): string | undefined {
   const incidentSeverity = incident ? incident.getIn(['problem', 'severity'], 5) : null;
   const incidentStatus = incident ? incident.get('state', 'closed') : null;
 
