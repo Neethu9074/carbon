@@ -26,6 +26,7 @@ import { overrideAdaptiveBaselineSmoothingParamsEnabled } from 'in-services/feat
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Dropdown from 'in-alerting/components/Dropdown';
+import { SeasonalitySetting } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm.mless';
@@ -35,13 +36,17 @@ interface MultiThresholdDeviationSliderFormProps {
   updateForm: (form: MapForm<any>) => void;
   defaultValue: number;
   isTearSheet?: boolean;
+  supportedSeasonalities?: SeasonalitySetting[];
 }
+
+const defaultSupportedSeasonalities: SeasonalitySetting[] = ['AUTO', 'NONE', 'DAILY', 'WEEKLY'];
 
 export function MultiThresholdDeviationSliderForm({
   form,
   updateForm,
   defaultValue,
-  isTearSheet
+  isTearSheet,
+  supportedSeasonalities = defaultSupportedSeasonalities
 }: MultiThresholdDeviationSliderFormProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
@@ -160,7 +165,11 @@ export function MultiThresholdDeviationSliderForm({
             </Stack>
           </div>
           {thresholdType === ADAPTIVE_BASELINE && overrideAdaptiveBaselineSmoothingParamsEnabled && (
-            <AdvancedAdaptiveOptions form={form} updateForm={updateForm} />
+            <AdvancedAdaptiveOptions
+              form={form}
+              updateForm={updateForm}
+              supportedSeasonalities={supportedSeasonalities}
+            />
           )}
         </Stack>
       </div>
@@ -171,21 +180,25 @@ export function MultiThresholdDeviationSliderForm({
 interface AdvancedAdaptiveOptionsProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  supportedSeasonalities?: SeasonalitySetting[];
 }
 
-function AdvancedAdaptiveOptions({ form, updateForm }: AdvancedAdaptiveOptionsProps) {
+function AdvancedAdaptiveOptions({
+  form,
+  updateForm,
+  supportedSeasonalities = defaultSupportedSeasonalities
+}: AdvancedAdaptiveOptionsProps) {
   const warningThreshold = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThreshold = form.get('threshold').get('criticalThreshold') as MapForm<any>;
   const adaptability = warningThreshold.get('adaptability')?.value ?? criticalThreshold.get('adaptability')?.value;
   const seasonality = warningThreshold.get('seasonality')?.value ?? criticalThreshold.get('seasonality')?.value;
 
-  // Workaround until we can reference the seasonality options from the backend
   const seasonalityOptions = [
     { value: 'AUTO', label: t('in-alerting:smartAlerts.components.smartAlertDialog.seasonalityAuto') },
     { value: 'NONE', label: t('in-alerting:smartAlerts.components.smartAlertDialog.seasonalityNone') },
     { value: 'DAILY', label: t('in-alerting:smartAlerts.components.smartAlertDialog.seasonalityDaily') },
     { value: 'WEEKLY', label: t('in-alerting:smartAlerts.components.smartAlertDialog.seasonalityWeekly') }
-  ];
+  ].filter(option => supportedSeasonalities?.includes(option.value as SeasonalitySetting));
 
   const handleAdaptiveBaselineAdvancedSettingChange = (parameter: string, value: any) => {
     let updatedForm = form;
