@@ -248,7 +248,6 @@
   "aiGenerated": "AI-generated",
   "ActionCatalog": {
     "actionCatalog": "Action catalog",
-    "action": "action",
     "newAction": "New action",
     "createANewAction": "Create a new action",
     "configureActionEntityName": "Configure action: {{entityName}}",

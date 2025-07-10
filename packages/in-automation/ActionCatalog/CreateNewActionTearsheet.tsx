@@ -40,7 +40,6 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { ActionFilter } from 'in-automation/types';
 import Form from 'in-components/form/binding/Form';
-import Title from 'in-components/Title/Title';
 import SideNav from 'in-components/SideNav';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
@@ -117,16 +116,13 @@ export default function CreateNewActionTearsheet({
       );
     }
     return (
-      <>
-        <Title title={t('in-automation:ActionCatalog.action')} />
-        <ActionDetailsLoader
-          form={form}
-          setForm={form => setForm(form as ActionForm)}
-          result={result}
-          copy={copy}
-          actionId={actionId}
-        />
-      </>
+      <ActionDetailsLoader
+        form={form}
+        setForm={form => setForm(form as ActionForm)}
+        result={result}
+        copy={copy}
+        actionId={actionId}
+      />
     );
   };
   return (

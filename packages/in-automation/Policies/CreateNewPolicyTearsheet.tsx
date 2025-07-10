@@ -50,7 +50,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Form from 'in-components/form/binding/Form';
 import { seconds } from 'in-services/time/time';
 import { Triggers } from 'in-automation/types';
-import Title from 'in-components/Title/Title';
 import SideNav from 'in-components/SideNav';
 import { t, Trans } from 'in-i18n';
 
@@ -150,17 +149,14 @@ export default function CreateNewPolicyTearsheet({
     }
 
     return (
-      <>
-        <Title title={t('in-automation:policies.policy')} />
-        <PolicyDetailsLoader
-          form={form}
-          setForm={form => setForm(form as PolicyForm)}
-          actions={actions.data!}
-          triggers={triggers}
-          result={result}
-          inEventPage={inEventPage}
-        />
-      </>
+      <PolicyDetailsLoader
+        form={form}
+        setForm={form => setForm(form as PolicyForm)}
+        actions={actions.data!}
+        triggers={triggers}
+        result={result}
+        inEventPage={inEventPage}
+      />
     );
   };
 
