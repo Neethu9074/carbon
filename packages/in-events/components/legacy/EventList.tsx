@@ -129,7 +129,9 @@ const IncidentEventList: FC<IncidentEventListProps> = ({ incident, latestSnapsho
       />
 
       {/* Without Agentic investigation */}
-      {rcaUIEnabled && hasRootCauses && <RootCauseSection incident={incident} rcaRef={rcaSectionRef} />}
+      {!rcaAgenticEnabled && rcaUIEnabled && hasRootCauses && (
+        <RootCauseSection incident={incident} rcaRef={rcaSectionRef} />
+      )}
 
       {/* With agentic investigation Workflow */}
       {rcaAgenticEnabled && hasRootCauses && (

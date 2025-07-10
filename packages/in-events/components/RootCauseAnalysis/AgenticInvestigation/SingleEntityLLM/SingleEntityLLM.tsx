@@ -21,6 +21,7 @@ import SingleEntityOutput from 'in-events/components/RootCauseAnalysis/RootCause
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { useIncident } from 'in-events/components/providers/IncidentProvider';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/SingleEntityLLM/SingleEntityLLM.mless';
@@ -60,8 +61,9 @@ const SingleEntityLLM: FC = () => {
     const result = startInvestigationAPI({
       rcaEntityId: rootCauseMetadata[rootCauseIndex].entityID,
       triggeringEntityId: {
-        host: incident.metadata?.host,
-        pluginId: incident.plugin,
+        host: incident.metadata?.host || '',
+        // @ts-expect-error TODO: fix it
+        pluginId: fullyQualifiedPlugins[incident.plugin],
         steadyId: incident.metadata?.applicationId
       },
       eventId: incident.id,

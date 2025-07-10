@@ -5,7 +5,7 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { Tag, ContentSwitcher, Switch, Grid, Column, Stack } from '@carbon/react';
+import { ContentSwitcher, Switch, Grid, Column, Stack } from '@carbon/react';
 // eslint-disable-next-line no-restricted-imports
 import { ProductiveCard } from '@carbon/ibm-products';
 import React, { useMemo, useState } from 'react';
@@ -39,12 +39,7 @@ const AgenticInvestigation = ({ incident, volatileId, event }: AgenticInvestigat
   return (
     <div className={locals.investigateContainer}>
       <ProductiveCard
-        title={
-          <>
-            {t('in-events:RCA.singleEntityLLM.mainContainerTitle')}
-            <Tag type="green">Work in progress</Tag>
-          </>
-        }
+        title={<>{t('in-events:RCA.singleEntityLLM.mainContainerTitle')}</>}
         titleSize="large"
         description={t('in-events:RCA.singleEntityLLM.mainContainerSubtitle')}
       >
