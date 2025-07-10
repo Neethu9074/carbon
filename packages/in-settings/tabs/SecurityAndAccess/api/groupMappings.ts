@@ -1,14 +1,15 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
+import { GroupMappingOverview, Result } from '@instana/types';
 import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { GroupMappingOverview, Result } from 'in-types';
 import { Response } from 'in-services/http/types';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
@@ -56,20 +57,19 @@ export function setMappings(mappings: IdpGroupMapping[]) {
 }
 
 function getMappingsOverviewInternal(): Observable<Result<GroupMappingOverview[]>> {
-  return http<GroupMappingOverview[]>({
-    method: 'GET',
-    maxRetries: 3,
-    url: `${basePath}/overview`,
-    mapToResultObject: true,
-    treat400AsError: true
-  });
+  return refreshSignal.flatMap(() =>
+    http<GroupMappingOverview[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `${basePath}/overview`,
+      mapToResultObject: true,
+      treat400AsError: true
+    })
+  );
 }
 
-export const getMappingsOverview = memoize(
-  () => refreshSignal.flatMap(() => getMappingsOverviewInternal()),
-  () => 'RoleMappings',
-  minutes.toMillis(1)
-);
+// Cache role mappings for 1 minute
+export const getMappingsOverview = memoize(getMappingsOverviewInternal, () => 'RoleMappings', minutes.toMillis(1));
 
 export function getIdpRestriction(): Observable<Result<IdentityProviderPatch>> {
   return refreshSignal.flatMap(
