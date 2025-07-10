@@ -256,7 +256,9 @@ export default connectTo(
       return <MonitoredContainers {...props} />;
     }
 
-    const monitoredSnapshotIds = monitoredContainersResult.data.items.map(item => item.container.id);
+    const monitoredSnapshotIds = monitoredContainersResult.data && Array.isArray(monitoredContainersResult.data.items)
+    ? monitoredContainersResult.data.items.map(item => item.container.id)
+    : [];
     const containerStatuses: ContainerStatus[] = [
       ...get(pod, ['status', 'initContainerStatuses'], []),
       ...get(pod, ['status', 'containerStatuses'], [])
