@@ -652,11 +652,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonTableEnabled',
-    instanaCtlKey: 'feature.carbon.table.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: true

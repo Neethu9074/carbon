@@ -145,7 +145,6 @@ module.exports = {
   weaselSubresourceIntegrityEnabled: true,
   thresholdCustomDashboardsEnabled: true,
   thresholdCustomDashboardsTableWidgetEnabled: true,
-  carbonTableEnabled: true,
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: false,
   serverSideInfraTagSearchEnabled: true,

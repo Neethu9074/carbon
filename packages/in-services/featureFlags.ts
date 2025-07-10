@@ -67,7 +67,6 @@ export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled')
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const incidentNotesTopActionsEnabled = isFeatureFlagEnabled('incidentNotesTopActionsEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
-export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
 export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled');
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
