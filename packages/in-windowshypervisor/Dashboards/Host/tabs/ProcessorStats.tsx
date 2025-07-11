@@ -6,9 +6,11 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
+// @ts-expect-error needs TS migration
+import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -23,13 +25,14 @@ interface ProcessorStats {
 interface ProcessorStatsData {
   data: SnapshotData;
   timeConfig: TimeConfig;
+  snapshotId: string;
 }
 
 interface TableRow {
   key: string;
   processorstats: ProcessorStats;
-  timeConfig: TimeConfig;
   data: ProcessorStatsData['data'];
+  stats: SnapshotData;
 }
 
 const nameColumn = {
@@ -37,7 +40,7 @@ const nameColumn = {
   type: 'string',
   typeArgs: {
     getValue(row: TableRow) {
-      return row.processorstats.name;
+      return row.stats.get('name');
     }
   }
 };
@@ -47,7 +50,7 @@ const coresColumn = {
   type: 'number',
   typeArgs: {
     getValue(row: TableRow) {
-      return row.processorstats.numberOfCores;
+      return row.stats.get('numberOfCores');
     },
     getContent: number.compact
   }
@@ -58,7 +61,7 @@ const logicalProcessorsColumn = {
   type: 'number',
   typeArgs: {
     getValue(row: TableRow) {
-      return row.processorstats.numberOfLogicalProcessors;
+      return row.stats.get('numberOfLogicalProcessors');
     },
     getContent: number.compact
   }
@@ -69,25 +72,45 @@ const loadColumn = {
   type: 'number',
   typeArgs: {
     getValue(row: TableRow) {
-      return row.processorstats.loadPercentage;
+      return row.stats.get('loadPercentage');
     },
     getContent: number.compact
   }
 };
 
-export default function ProcessorStatsTable({ data, timeConfig }: ProcessorStatsData) {
-  const rows: TableRow[] = data.processorStats.map((processorstats: any) => ({
-    key: processorstats.name,
-    processorstats,
-    timeConfig,
-    data
-  }));
+const maxClockSpeedColumn = {
+  title: t('in-windowshypervisor:dashboards.maxClockSpeed'),
+  type: 'number',
+  typeArgs: {
+    getValue(row: TableRow) {
+      return row.stats.get('maxClockSpeed');
+    },
+    getContent: number.compact
+  }
+};
+
+const ProcessorStats = function ProcessorStats({ snapshotId, timeConfig }: ProcessorStatsData) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'processorStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
+  if (!data || null == (data as SnapshotData).get('raw_payload')) {
+    return null;
+  }
+
+  const TopProcessorStats: any = (data as SnapshotData).get('raw_payload');
+  const rows: ProcessorStatsData[] = TopProcessorStats.toArray().map((stats: SnapshotData, index: number) => {
+    return {
+      key: String(index),
+      stats
+    };
+  });
 
   if (rows.length === 0) {
     return null;
   }
 
-  const cols = [nameColumn, coresColumn, logicalProcessorsColumn, loadColumn];
+  const cols = [nameColumn, coresColumn, logicalProcessorsColumn, loadColumn, maxClockSpeedColumn];
 
   return (
     <Table
@@ -99,4 +122,6 @@ export default function ProcessorStatsTable({ data, timeConfig }: ProcessorStats
       initialSortColumn={cols.indexOf(loadColumn)}
     />
   );
-}
+};
+
+export default ProcessorStats;

@@ -32,9 +32,15 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
   return (
     <>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
-        <KpiCard title={t('in-windowshypervisor:dashboards.os')} value={host.os || 'N/A'} />
-        <KpiCard title={t('in-windowshypervisor:dashboards.ipAddress')} value={host.address || 'N/A'} />
-        <KpiCard title={t('in-windowshypervisor:dashboards.processorCount')} value={host.cpuCount || 'N/A'} />
+        <KpiCard title={t('in-windowshypervisor:dashboards.os')}>
+          <Capitalize>{host.os || 'N/A'}</Capitalize>
+        </KpiCard>
+        <KpiCard title={t('in-windowshypervisor:dashboards.ipAddress')}>
+          <Capitalize>{host.address || 'N/A'}</Capitalize>
+        </KpiCard>
+        <KpiCard title={t('in-windowshypervisor:dashboards.processorCount')}>
+          <Capitalize>{host.cpuCount || 'N/A'}</Capitalize>
+        </KpiCard>
         <InfraMetricKpiCard
           title={t('in-windowshypervisor:dashboards.storageSpaceUsed')}
           snapshotId={snapshotId}
@@ -97,7 +103,7 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
         </Col>
       </Row>
       <DatastoreTable data={host} timeConfig={timeConfig} />
-      <ProcessorStatsTable data={host} timeConfig={timeConfig} />
+      <ProcessorStatsTable data={host} snapshotId={snapshotId} timeConfig={timeConfig} />
     </>
   );
 }

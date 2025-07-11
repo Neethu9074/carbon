@@ -34,19 +34,32 @@ export default function Summary({ timeConfig, data: vm }: SummaryData) {
         <KpiCard title={t('in-windowshypervisor:dashboards.vm.macAddress')}>
           <Capitalize>{vm.macAddress || 'N/A'}</Capitalize>
         </KpiCard>
-        <KpiCard title={t('in-windowshypervisor:dashboards.vm.ramAssigned')} value={vm.memoryAssigned || 'N/A'} />
-        <KpiCard title={t('in-windowshypervisor:dashboards.vm.status')} value={vm.status || 'N/A'} />
-        <KpiCard title={t('in-windowshypervisor:dashboards.vm.state')} value={vm.state || 'N/A'} />
+        <KpiCard title={t('in-windowshypervisor:dashboards.vm.ramAssigned')}>
+          <Capitalize>{vm.memoryAssigned || 'N/A'}</Capitalize>
+        </KpiCard>
+        <KpiCard title={t('in-windowshypervisor:dashboards.vm.status')}>
+          <Capitalize>{vm.status || 'N/A'}</Capitalize>
+        </KpiCard>
+        <KpiCard title={t('in-windowshypervisor:dashboards.vm.state')}>
+          <Capitalize>{vm.state || 'N/A'}</Capitalize>
+        </KpiCard>
       </KpiGridRow>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
-        <KpiCard title={t('in-windowshypervisor:dashboards.vm.switchName')} value={vm.switchName || 'N/A'} />
+        <KpiCard title={t('in-windowshypervisor:dashboards.vm.switchName')}>
+          <Capitalize>{vm.switchName || 'N/A'}</Capitalize>
+        </KpiCard>
         <InfraMetricKpiCard
           title={t('in-windowshypervisor:dashboards.vm.totalDiskStorage')}
           snapshotId={snapshotId}
           metric="totalDiskStorage"
           formatter={kiloBytesTwoDecimalPlaces}
         />
-        <KpiCard title={t('in-windowshypervisor:dashboards.vm.virtualDiskPath')} value={vm.virtualDiskPath || 'N/A'} />
+        <InfraMetricKpiCard
+          title={t('in-windowshypervisor:cpuUsage')}
+          snapshotId={snapshotId}
+          metric="vmCpuUsage"
+          formatter={percentage.detailed}
+        />
         <KpiCard title={t('in-windowshypervisor:dashboards.vm.upTime')}>
           <Capitalize>{vm.upTime || 'N/A'}</Capitalize>
         </KpiCard>
