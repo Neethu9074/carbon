@@ -20,7 +20,6 @@ import { SETTINGS_ALERT_CHANNEL_CREATE } from 'in-services/tracking/eventNames';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
-import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -33,6 +32,7 @@ import Notification from 'in-components/form/Notification';
 import { pendingResult } from 'in-services/fixedObjects';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
+import { getTeamsByUserId } from 'in-api/teams';
 import entityForm from 'in-hoc/entityForm';
 import { t, Trans } from 'in-i18n';
 
@@ -54,21 +54,31 @@ function AlertChannelModificationForm(props) {
     setMinHeight = false
   } = props;
 
-  const dataResult = useObservable(getTagsResult, []) ?? pendingResult;
+  const dataResult = useObservable(getTeamsByUserId, []) ?? pendingResult;
   const teamsLoading = isLoading(dataResult);
   const teamsHasErrors = hasError(dataResult);
   const teamsList = !teamsLoading && !teamsHasErrors ? dataResult.data : [];
   const teamsAssigned = entity.get('rbacTags');
+  const teamsAssignedArray = teamsAssigned
+    ? Array.from(teamsAssigned, team => ({
+        id: team.get('id'),
+        displayName: team.get('displayName')
+      }))
+    : [];
+  const [teamsTagged, setTeamsTagged] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
   useEffect(() => {
     if (rbacTeamsEnabled && !teamsLoading && !teamsHasErrors) {
+      const isTeamsAssigned = teamsAssigned?.size > 0;
       const initialTeamSelected = teamsList.filter(team => team.id === window.instana.user.role.teamId);
-      const teamsSelected =
-        teamsAssigned?.size > 0
-          ? teamsList.filter(item => teamsAssigned.some(team => team.get('id') === item.id))
-          : initialTeamSelected;
+      const teamsSelected = isTeamsAssigned ? teamsAssignedArray : initialTeamSelected;
+      const teamsTaggedList = [...teamsAssignedArray, ...teamsList];
+      const uniqueTeamsTagged = teamsTaggedList.filter(
+        (team, index, self) => index === self.findIndex(t => t.id === team.id)
+      );
       setForm(form.put('rbacTags', teamsSelected));
       setSelectedList(teamsSelected);
+      setTeamsTagged(isTeamsAssigned ? uniqueTeamsTagged : teamsList);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamsAssigned, teamsList]);
@@ -176,7 +186,7 @@ function AlertChannelModificationForm(props) {
                 <CarbonMultiSelect
                   label={t('in-settings:tabs.chooseTeams')}
                   onChange={data => onSelectionChanged(data.selectedItems)}
-                  items={teamsList}
+                  items={teamsTagged}
                   selectedItems={selectedList}
                   itemToString={item => (item ? item.displayName : '')}
                 />
