@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Card, Typography } from '@instana/components';
 
 //@ts-expect-error - Cannot find module
 import ActivationChecklist from 'in-amp/components/ActivationChecklist';
@@ -19,12 +19,15 @@ export default function CustomerAdoption(props: any) {
   return (
     <>
       <Row>
-        <Col md={6}>
-          <Card title={t('in-amp:components.activationAdoption.activationChecklist')}>
+        <Col md={4}>
+          <Card>
+            <Typography variant="heading-03">
+              {t('in-amp:components.activationAdoption.activationChecklist')}
+            </Typography>
             <ActivationChecklist accountInfo={props.accountInfo} />
           </Card>
         </Col>
-        <Col md={6}>
+        <Col md={8}>
           <Card title={t('in-amp:components.activationAdoption.productAdoption')}>
             <ProductAdoptionKPIs accountInfo={props.accountInfo} />
           </Card>

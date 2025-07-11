@@ -129,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "2 application perspective created",
         "oneAlertSetUpAndActivated": "1 alert set up and activated",
         "oneWebsiteMonitored": "1 website monitored",
-        "fiveUsers": "5 users"
+        "fiveUsers": "5 users",
+        "notStarted":"Not started",
+        "tenantUnit":"Tenant Unit"
       },
       "adoptionKPIs": {
         "applicationPerspective": "Application perspective",
