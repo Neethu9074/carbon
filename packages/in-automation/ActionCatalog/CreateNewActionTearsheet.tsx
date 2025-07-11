@@ -66,7 +66,7 @@ export default function CreateNewActionTearsheet({
   const actionFilter = useActionFilter();
 
   const [form, setForm, resetForm] = useActionForm({ action: action.data, actionFilter: actionFilter.data! || 'all' });
-  const { onSubmit, result } = useOnSubmit({ actionId, copy, isFromDashboard, closeHandler });
+  const { onSubmit, result, setResult } = useOnSubmit({ actionId, copy, isFromDashboard, closeHandler });
   const actionButtons = [
     {
       kind: 'primary',
@@ -79,6 +79,7 @@ export default function CreateNewActionTearsheet({
       kind: 'ghost',
       label: t('in-automation:cancel'),
       onClick: () => {
+        setResult(null);
         closeHandler?.();
       }
     }
@@ -150,7 +151,10 @@ export default function CreateNewActionTearsheet({
               )
             }
             actions={actionButtons}
-            onClose={closeHandler}
+            onClose={() => {
+              setResult(null);
+              closeHandler?.();
+            }}
           >
             {renderContent()}
           </Tearsheet>
@@ -426,6 +430,7 @@ function useOnSubmit({ actionId, copy, isFromDashboard, closeHandler }: useOnSub
   }
   return {
     onSubmit,
-    result
+    result,
+    setResult
   };
 }
