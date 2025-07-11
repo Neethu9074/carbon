@@ -15,6 +15,7 @@ import { BluePrint as MobileAppBluePrint } from 'in-alerting/smart-alerts/mobile
 import { BluePrint as WebsiteBluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
+import { eumSupportedSeasonalities } from 'in-alerting/smart-alerts/eum/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { Option } from 'in-components/ComboBox';
@@ -85,7 +86,12 @@ export default function StatusCodeThresholdCondition({
         />
       )}
       {thresholdType !== STATIC_THRESHOLD && (
-        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm
+          form={form}
+          updateForm={updateForm}
+          defaultValue={defaultDeviationFactor}
+          supportedSeasonalities={eumSupportedSeasonalities}
+        />
       )}
     </>
   );

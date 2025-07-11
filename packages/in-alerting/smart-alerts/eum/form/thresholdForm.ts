@@ -11,7 +11,8 @@ import {
   MobileAppAlertRuleUnion,
   StaticBaselineThresholdRule,
   StaticThresholdRule,
-  WebsiteAlertRuleUnion
+  WebsiteAlertRuleUnion,
+  Seasonality
 } from '@instana/types';
 
 import {
@@ -219,6 +220,8 @@ function createAdaptiveBaselineForm(
     (thresholdRule?.WARNING as AdaptiveBaselineData)?.baseline ??
     (thresholdRule?.CRITICAL as AdaptiveBaselineData)?.baseline ??
     [];
+  const seasonality = (thresholdRule?.WARNING as any)?.seasonality ?? (thresholdRule?.CRITICAL as any)?.seasonality;
+  const adaptability = (thresholdRule?.WARNING as any)?.adaptability ?? (thresholdRule?.CRITICAL as any)?.adaptability;
 
   return createMapForm({
     validator: validateForm,
@@ -229,13 +232,17 @@ function createAdaptiveBaselineForm(
       baseline: createField({
         value: commonBaseline
       }),
-      warningThreshold: createAdaptiveBaselineMapForm(warningThreshold),
-      criticalThreshold: createAdaptiveBaselineMapForm(criticalThreshold)
+      warningThreshold: createAdaptiveBaselineMapForm(warningThreshold, seasonality, adaptability),
+      criticalThreshold: createAdaptiveBaselineMapForm(criticalThreshold, seasonality, adaptability)
     }
   });
 }
 
-function createAdaptiveBaselineMapForm(threshold?: AdaptiveThresholdRule): MapForm<any> {
+function createAdaptiveBaselineMapForm(
+  threshold?: AdaptiveThresholdRule,
+  seasonality?: Seasonality,
+  adaptability?: number
+): MapForm<any> {
   return createMapForm()
     .put(
       'type',
@@ -253,6 +260,18 @@ function createAdaptiveBaselineMapForm(threshold?: AdaptiveThresholdRule): MapFo
       'deviationFactor',
       createField({
         value: threshold?.deviationFactor ?? defaultDeviationFactor
+      })
+    )
+    .put(
+      'seasonality',
+      createField({
+        value: seasonality
+      })
+    )
+    .put(
+      'adaptability',
+      createField({
+        value: adaptability
       })
     );
 }

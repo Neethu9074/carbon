@@ -14,6 +14,26 @@ import { updateMultiThresholdInForm } from 'in-alerting/smart-alerts/components/
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
+// Remove thresholds with "Infinity" values to avoid chart rendering issues.
+// TODO: Remove this once the backend is fixed.
+const filterOutThresholdResultInfinityValues = thresholdResult => {
+  if (!Array.isArray(thresholdResult?.data?.baseline)) {
+    return thresholdResult;
+  }
+
+  const filteredBaseline = thresholdResult.data.baseline.filter(
+    ([timestamp, baseline, bound]) => Number.isFinite(baseline) && Number.isFinite(bound)
+  );
+
+  return {
+    ...thresholdResult,
+    data: {
+      ...thresholdResult.data,
+      baseline: filteredBaseline
+    }
+  };
+};
+
 export default function useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, config) {
   const { isValid, simpleMode, alertConfigWithFormModel, blueprintConfig } = config;
   const thresholdResult = useObservable(
@@ -24,8 +44,10 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
   useEffect(() => {
     if (!thresholdResult || thresholdResult.progress?.loading) return;
 
-    setThresholdResult(thresholdResult);
-    const { data, errors, time } = thresholdResult;
+    const patchedThresholdResult = filterOutThresholdResultInfinityValues(thresholdResult);
+
+    setThresholdResult(patchedThresholdResult);
+    const { data, errors, time } = patchedThresholdResult;
 
     if (isValid) {
       updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
@@ -79,6 +101,7 @@ function resolveThresholdRequest(alertConfigWithFormModel, blueprintConfig, isSi
     },
     operator,
     seasonality: getSeasonality(),
+    adaptability: warningThreshold?.adaptability || criticalThreshold?.adaptability,
     fallbackOnError: isSimpleMode,
     type: validThreshold?.type
   });
