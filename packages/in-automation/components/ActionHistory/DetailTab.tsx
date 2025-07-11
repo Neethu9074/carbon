@@ -239,7 +239,7 @@ export default function DetailTab({
     const ansibleJobId = metadata?.find(data => data.name === 'ansibleJobId');
     const ansibleWorkflowJobId = metadata?.find(data => data.name === 'ansibleWorkflowId');
     if (ansibleUrl && ansibleJobId) {
-      const isAnsibleWorkflow = ansibleWorkflowJobId?.value !== '';
+      const isAnsibleWorkflow = ansibleWorkflowJobId && ansibleWorkflowJobId?.value !== '';
       const templateName = isAnsibleWorkflow ? 'workflow' : 'playbook';
       const jobUrl = `${ansibleUrl.value}/#/jobs/${templateName}/${ansibleJobId.value}`;
       tableData.push({
