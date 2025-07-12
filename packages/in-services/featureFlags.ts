@@ -365,10 +365,6 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
 export const serviceNowAdvancedEnabled = isFeatureFlagEnabled('serviceNowAdvancedEnabled', true);
-export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
-  'automationActionInstanceFeedbackEnabled',
-  false
-);
 export const multiCloseEnabled = isFeatureFlagEnabled('multiCloseEnabled', false);
 export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', true);
 export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);

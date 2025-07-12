@@ -10,7 +10,6 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import ActionInstanceDetail from 'in-automation/components/ActionHistory/ActionInstanceDetail';
-import { automationActionInstanceFeedbackEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -19,9 +18,6 @@ jest.mock('@instana/hooks', () => ({
 }));
 jest.mock('in-automation/subscriptions/getActionInstance');
 jest.mock('in-hooks/useTimeConfig', () => jest.fn());
-jest.mock('in-services/featureFlags', () => ({
-  automationActionInstanceFeedbackEnabled: true
-}));
 
 describe('ActionInstanceDetail', () => {
   const mockId = '123';
@@ -55,9 +51,6 @@ describe('ActionInstanceDetail', () => {
     expect(screen.getByText(t('in-automation:actionHistory.properties'))).toBeInTheDocument();
     expect(screen.getByText(t('in-automation:actionHistory.output'))).toBeInTheDocument();
     expect(screen.getByText(t('in-automation:actionHistory.inputParameters'))).toBeInTheDocument();
-    if (automationActionInstanceFeedbackEnabled) {
-      expect(screen.getByText(t('in-automation:actionHistory.feedbackTab'))).toBeInTheDocument();
-    }
   });
 
   it('displays error messages when errors are present', () => {

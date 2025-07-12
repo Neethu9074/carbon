@@ -697,11 +697,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'automationActionInstanceFeedbackEnabled',
-    instanaCtlKey: 'automation.action.instance.feedback.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'infraExploreFilterEmptyValueEnabled',
     instanaCtlKey: 'feature.infrastructure.explore.filter.empty.value.enabled',
     defaultValue: false

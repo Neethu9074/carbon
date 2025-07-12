@@ -140,7 +140,6 @@ module.exports = {
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAdvancedEnabled: true,
   resourceOptimizationActionsEnabled: true,
-  automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   weaselSubresourceIntegrityEnabled: true,
   thresholdCustomDashboardsEnabled: true,
