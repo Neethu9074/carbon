@@ -10,7 +10,6 @@ import { Card, Typography } from '@instana/components';
 
 //@ts-expect-error - Cannot find module
 import ActivationChecklist from 'in-amp/components/ActivationChecklist';
-//@ts-expect-error - Cannot find module
 import ProductAdoptionKPIs from 'in-amp/components/ProductAdoptionKPIs';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { t } from 'in-i18n';
