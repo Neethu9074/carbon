@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error needs TS migration
-import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
 import {
   ampEntitlements,
   ampUsage,
@@ -13,11 +11,18 @@ import {
   ampActivationAdoption,
   ampAccountInformation
 } from 'in-amp/navigation/paths';
-import Entitlements from 'in-amp/pages/AccountAndBilling/tabs/EntitlementsView';
+// @ts-expect-error needs TS migration
+import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
+// @ts-expect-error needs TS migration
+import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
 import ActivationAdoption from 'in-amp/pages/AccountAndBilling/tabs/ActivationAdoption/ActivationAdoptionView';
 //@ts-expect-error - needs TS migration
 import AccountSettings from 'in-amp/components/AccountSettings';
+//@ts-expect-error - needs TS migration
+import RestrictedUsage from 'in-amp/components/RestrictedUsage';
+import Entitlements from 'in-amp/pages/AccountAndBilling/tabs/EntitlementsView';
 import Usage from 'in-amp/pages/AccountAndBilling/tabs/UsageView';
+import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { t } from 'in-i18n';
 
@@ -25,7 +30,7 @@ export default function getTabs(): Array<Tab<unknown, any>> {
   const usageTab: Tab<unknown, any> = {
     label: t('in-amp:accountAndBilling.tabs.usage'),
     path: ampUsage,
-    component: Usage
+    component: ampCompanyInfoEnabled ? Usage : RestrictedUsage
   };
   const entitlementsTab: Tab<unknown, any> = {
     label: t('in-amp:accountAndBilling.tabs.entitlements'),
@@ -40,14 +45,26 @@ export default function getTabs(): Array<Tab<unknown, any>> {
   const technologiesReportingTab: Tab<unknown, any> = {
     label: t('in-amp:accountAndBilling.tabs.technologiesReporting'),
     path: ampTechnologiesReporting,
-    component: TechnologiesReporting
+    component: ampCompanyInfoEnabled ? TechnologiesReporting : RestrictedTechnologiesReporting
   };
   const accountInformationTab: Tab<unknown, any> = {
     label: t('in-amp:accountAndBilling.tabs.accountInformation'),
     path: ampAccountInformation,
     component: AccountSettings
   };
-  return [usageTab, entitlementsTab, activationAdoptionTab, technologiesReportingTab, accountInformationTab].filter(
-    Boolean
-  ) as Array<Tab<unknown, any>>;
+  let accountAndBillingTabs = [];
+
+  if (ampCompanyInfoEnabled) {
+    accountAndBillingTabs.push(
+      usageTab,
+      entitlementsTab,
+      activationAdoptionTab,
+      technologiesReportingTab,
+      accountInformationTab
+    );
+  } else {
+    accountAndBillingTabs.push(usageTab, entitlementsTab, technologiesReportingTab);
+  }
+
+  return accountAndBillingTabs.filter(Boolean) as Array<Tab<unknown, any>>;
 }

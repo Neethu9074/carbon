@@ -20,18 +20,26 @@ import ExpiredLicenses from 'in-amp/components/ExpiredLicenses';
 import ActiveLicenses from 'in-amp/components/ActiveLicenses';
 //@ts-expect-error - needs TS migration
 import QueuedLicenses from 'in-amp/components/QueuedLicenses';
+import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-amp/pages/AccountAndBilling/AccountAndBilling.mless';
 
 export default function ViewContainer(props: any) {
-  return (
-    <WithAccountInformation>
-      {(accountInformationProps: { unitSelectorOptions: string | any[] }) =>
-        accountInformationProps.unitSelectorOptions?.length === 0 ? <NoLicenseAvailableMessage /> : <View {...props} />
-      }
-    </WithAccountInformation>
-  );
+  if (ampCompanyInfoEnabled) {
+    return (
+      <WithAccountInformation>
+        {(accountInformationProps: { unitSelectorOptions: string | any[] }) =>
+          accountInformationProps.unitSelectorOptions?.length === 0 ? (
+            <NoLicenseAvailableMessage />
+          ) : (
+            <View {...props} />
+          )
+        }
+      </WithAccountInformation>
+    );
+  }
+  return <View {...props} />;
 }
 
 function View(props: any) {
