@@ -10,6 +10,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 
 import { AIPopover, AIExplainedContent } from 'in-events/components/NotesAndActivity/components/AiPopover';
+import { t } from 'in-i18n';
 
 import locals from './AiPopover.mless';
 
@@ -43,7 +44,19 @@ describe('AIExplainedContent', () => {
   });
 
   it('renders the correct popup description text', () => {
-    const getByText = shallow(<AIExplainedContent />);
+    const getByText = shallow(
+      <AIExplainedContent
+        featureName={t('in-events:notes.summary')}
+        featureDescription={t('in-events:notes.summaryDescription')}
+        dataUsed={[
+          'in-events:notes.triggeringEvent',
+          'in-events:notes.relatedEvents',
+          'in-events:notes.affectedEntities'
+        ]}
+        modelTitle={t('in-events:notes.granite')}
+        modelLink={'https://ibm.biz/granite-instruct-models'}
+      />
+    );
     expect(getByText.find(`div.${locals.popupDescription}`)).toHaveLength(1);
     expect(getByText.find(`div.${locals.popupDescription}`).text()).toEqual(
       'AI explainedSummarizationTo generate an incident summary we send incident and associated event data to watsonx. The data is processed using an AI model and watsonx returns a concise summary grouped by the affected entities.'
@@ -57,14 +70,38 @@ describe('AIExplainedContent', () => {
   });
 
   it('renders the correct bullet info text', () => {
-    const getByText = shallow(<AIExplainedContent />);
+    const getByText = shallow(
+      <AIExplainedContent
+        featureName={t('in-events:notes.summary')}
+        featureDescription={t('in-events:notes.summaryDescription')}
+        dataUsed={[
+          'in-events:notes.triggeringEvent',
+          'in-events:notes.relatedEvents',
+          'in-events:notes.affectedEntities'
+        ]}
+        modelTitle={t('in-events:notes.granite')}
+        modelLink={'https://ibm.biz/granite-instruct-models'}
+      />
+    );
     expect(getByText.find(`div.${locals.bullet}`)).toHaveLength(3);
     expect(getByText.find(`div.${locals.bullet}`).first().text()).toEqual('- <Trans />');
     expect(getByText.find(`div.${locals.bullet}`).last().text()).toEqual('- <Trans />');
   });
 
   it('renders the correct ai model link info text', () => {
-    const getByText = shallow(<AIExplainedContent />);
+    const getByText = shallow(
+      <AIExplainedContent
+        featureName={t('in-events:notes.summary')}
+        featureDescription={t('in-events:notes.summaryDescription')}
+        dataUsed={[
+          'in-events:notes.triggeringEvent',
+          'in-events:notes.relatedEvents',
+          'in-events:notes.affectedEntities'
+        ]}
+        modelTitle={t('in-events:notes.granite')}
+        modelLink={'https://ibm.biz/granite-instruct-models'}
+      />
+    );
     expect(getByText.find(`div.${locals.aimodellink}`)).toHaveLength(1);
     expect(getByText.find(`div.${locals.aimodellink}`).text()).toEqual('AI modelgranite-3-8b-instruct');
   });
