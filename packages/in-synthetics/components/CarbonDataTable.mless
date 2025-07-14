@@ -20,4 +20,13 @@
       margin-bottom: 0;
     }
   }
+
+  .filterCloseWrapper:global(.cds--popover-container):not(:global(.cds--popover--auto-align)) {
+    position: absolute;
+    right: 0;
+  }
+
+  .filterCloseButton {
+    position: relative;
+  }
 }

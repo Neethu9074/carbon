@@ -104,8 +104,6 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
     })
   );
 
-  const loading = isLoading(result);
-
   const carbonRows: CarbonRow[] =
     result.data?.items.map((item: ITEM_TYPE, index: number) => {
       const idObj = { id: item.id ?? getRowId(item) ?? String(index) };
@@ -136,14 +134,14 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
     }) ?? [];
 
   const sortRow = sortHandler(carbonHeaders, onChange, pageSize, query, pageSizes);
-  const isConfigurationColumn = optionalColumns && optionalColumns.length ? true : false;
+  const isConfigurationColumn = !!optionalColumns?.length;
 
   return (
     <>
       <CarbonDataTable
         rows={carbonRows}
         headers={carbonHeaders}
-        isLoading={loading}
+        isLoading={isLoading(result) || props.loading}
         filterRows={e => filterRows(e?.target?.value)}
         sortRow={sortRow}
         configureColumnContent={

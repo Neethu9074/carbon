@@ -30,6 +30,7 @@ import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics
 import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { FilterId } from 'in-synthetics/components/constants';
 import { TableActions } from 'in-settings/components/List';
 import { Options } from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -955,4 +956,31 @@ export interface TabProps {
   labels: string[];
   idsCanBeLinked: string[];
   map: Map<any, any> | null;
+}
+
+interface Option {
+  label: string;
+  value: string;
+}
+
+export interface TestListFiltersProps {
+  filters: FilterState;
+  setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
+  result: Result<SyntheticTest[]>;
+  isAssociationsContext?: boolean;
+}
+
+export interface FilterCheckboxListProps {
+  selectedValues: string[];
+  options: Option[];
+  onChange: (newValues: string[]) => void;
+  groupId: string;
+}
+
+export interface FilterConfig {
+  id: FilterId;
+  title: string;
+  isOpen: boolean;
+  selectedOptions: string[];
+  options: { label: string; value: string }[];
 }

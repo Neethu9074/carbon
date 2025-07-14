@@ -71,7 +71,7 @@ export default function Filters({
   );
 }
 
-function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
+export function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
   // Get syntheticTypes from SyntheticTest
   // result can be undefined, isLoading(Result<x>) cannot be used here
   let syntheticTypes: string[];
@@ -105,7 +105,7 @@ function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
   return syntheticTypeOptions;
 }
 
-function getLocationLabels(result: Result<SyntheticTest[]> | undefined) {
+export function getLocationLabels(result: Result<SyntheticTest[]> | undefined) {
   // Get locationDisplayLabels and locationIds from SyntheticTest
   if (!result?.progress?.loading) {
     result?.data?.forEach((item: SyntheticTest) => {
@@ -135,7 +135,7 @@ function getLocationLabels(result: Result<SyntheticTest[]> | undefined) {
   return locationLabelOptions;
 }
 
-function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
+export function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
   // Get applicationLabels and applicationIds from SyntheticTest
   if (!result?.progress?.loading) {
     result?.data?.forEach(function (item: SyntheticTest) {
@@ -165,7 +165,7 @@ function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
   return applicationLabelOptions;
 }
 
-function getAssociationLabels(result: Result<SyntheticTest[]> | undefined) {
+export function getAssociationLabels(result: Result<SyntheticTest[]> | undefined) {
   const associationLabels: Option[] = [];
   let showApplications = false;
   let showWebsites = false;

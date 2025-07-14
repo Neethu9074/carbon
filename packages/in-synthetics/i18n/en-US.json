@@ -318,8 +318,7 @@
         "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities.",
         "teamsLabel": "Teams",
         "teamsTitle": "Teams: Select teams to associate with this test (optional)",
-        "teamsDescription": "Select teams to associate with this test.",
-        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Tests with teams associated will also be reflected in the teams page in settings."
+        "teamsDescription": "Select teams to associate with this test."
       },
       "associations": {
         "applicationsTitle": "Select applications to associate with this synthetic test",
@@ -615,6 +614,16 @@
         "associationsSidePanelTitle": "Associations ({{totalAssociations}})",
         "associationsNameHeader": "Name",
         "associationsHealthHeader": "Health"
+      },
+      "filterPanel": {
+        "typeLabel": "Type",
+        "locationLabel": "Location",
+        "associationLabel": "Association",
+        "applicationLabel": "Application",
+        "searchPlaceholder": "Find classification",
+        "sortLabel": "Sort",
+        "selectAllLabel": "Select all ({{totalEntityCount}})",
+        "viewAllLabel": "View all ({{totalEntityCount}})"
       }
     },
     "locationList": {
@@ -1048,6 +1057,16 @@
         "deleteButtonLabel": "Delete credential",
         "cancelButtonLabel": "Cancel",
         "deletionSuccess": "The credential has been deleted"
+      }
+    }
+  },
+  "components": {
+    "dataTable": {
+      "filterPanel": {
+        "title": "Filter",
+        "closeButtonLabel": "Close",
+        "cancelButtonLabel": "Cancel",
+        "applyButtonLabel": "Apply"
       }
     }
   }
