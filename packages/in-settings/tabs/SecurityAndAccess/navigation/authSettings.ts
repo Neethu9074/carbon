@@ -23,7 +23,7 @@ import GoogleSSO from 'in-settings/tabs/SecurityAndAccess/pages/identityProvider
 import Saml from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Ldap/Ldap';
-import { idpConfigV2Enabled, rbacRoleMappingEnabled } from 'in-services/featureFlags';
+import { idpConfigV2Enabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { isAnyIdpAvailable, isIdpAvailable } from 'in-settings/utils/idp';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { role } from 'in-stores/user';
@@ -43,14 +43,14 @@ export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: Vi
             component: IdentityProviders
           },
           authAvailable &&
-            !rbacRoleMappingEnabled &&
+            !rbacTeamsEnabled &&
             role?.canConfigureTeams && {
               path: securityAndAccessGroupMapping,
               label: t('in-settings:tabs.groupMapping'),
               component: GroupMapping
             },
           authAvailable &&
-            rbacRoleMappingEnabled &&
+            rbacTeamsEnabled &&
             role?.canConfigureTeams && {
               path: securityAndAccessRoleMapping,
               label: t('in-settings:tabs.roleMappingNavigationItem'),
@@ -91,13 +91,13 @@ export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: Vi
             component: Ldap
           },
           role?.canConfigureTeams &&
-            !rbacRoleMappingEnabled && {
+            !rbacTeamsEnabled && {
               path: securityAndAccessGroupMapping,
               label: t('in-settings:tabs.groupMapping'),
               component: GroupMapping
             },
           role?.canConfigureTeams &&
-            rbacRoleMappingEnabled && {
+            rbacTeamsEnabled && {
               path: securityAndAccessRoleMapping,
               label: t('in-settings:tabs.roleMappingNavigationItem'),
               component: RoleMapping

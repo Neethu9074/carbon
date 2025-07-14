@@ -9,8 +9,8 @@ import React, { useState } from 'react';
 
 import { Link, Typography, Spacer } from '@instana/components';
 import { GroupMappingOverview } from '@instana/types';
+import { Checkbox, Tag } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
-import { Checkbox } from '@instana/carbon';
 
 import {
   ROLE_MAPPING_TABLE_BATCH_ACTIONS,
@@ -86,7 +86,11 @@ const createTableRows = (roleMappings: GroupMappingOverview[] = []): Array<RoleM
       </span>
     ),
     role: <span>{roleMapping.role}</span>,
-    team: <span>{roleMapping.team}</span>,
+    team: roleMapping?.team ? (
+      <Tag type="blue" size="sm">
+        {roleMapping.team}
+      </Tag>
+    ) : null,
     id: roleMapping?.id ?? '',
     rowData: { ...roleMapping }
   }));
