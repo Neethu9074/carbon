@@ -44,7 +44,7 @@ export default function App() {
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">
-                  {window.RUNTIME_CONTEXT === 'solis' ? <solis-nav /> : <CarbonUIShell />}
+                  <CarbonUIShell />
                 </ErrorBoundary>
                 <div className={locals.content} role="main">
                   {/* For "Skip to main content" target */}
