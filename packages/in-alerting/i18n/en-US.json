@@ -1707,6 +1707,11 @@
           "header": "Where do you want to be notified for this alert?",
           "description": "Select the recipient(s) of this alert"
         },
+        "scopeEntity": {
+          "entityType": "Entity type",
+          "pleaseSelect": "Select entity",
+          "loadingEntities": "Loading entities..."
+        },
         "scopeFilter": {
           "title": "Choose the scope of the infrastructure",
           "filter": "Filter",
