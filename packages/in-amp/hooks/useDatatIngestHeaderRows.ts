@@ -47,7 +47,7 @@ interface DataTableProp {
   [key: string]: DataTableValueProp;
 }
 
-export default function useDatatIngestHeaderRows(dataTable: DataTableProp, searchQuery: string) {
+export default function useDatatIngestHeaderRows(dataTable: DataTableProp) {
   return useMemo(() => {
     let header: HeaderProp[] = [];
     let rows: RowProp[] = [];
@@ -175,12 +175,10 @@ export default function useDatatIngestHeaderRows(dataTable: DataTableProp, searc
           getOnDemandDataIngest,
           '(15)-(14)'
         )
-      ].filter(item => {
-        return item.title.toLowerCase().includes(searchQuery.toLowerCase());
-      });
+      ];
     }
     return [header, rows];
-  }, [dataTable, searchQuery]);
+  }, [dataTable]);
 }
 
 /**

@@ -14,7 +14,7 @@ export default [
       ...createImportRestrictionRule({
         enforceAbsoluteImportPaths: true,
 
-        allowedInPackages: ['in-amp', 'in-components', 'in-hooks', 'in-services', 'in-settings', 'in-stores', 'in-themes']
+        allowedInPackages: ['in-amp', 'in-components', 'in-hooks', 'in-plg', 'in-services', 'in-settings', 'in-stores', 'in-themes']
       })
     }
   }

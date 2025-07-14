@@ -67,7 +67,7 @@
       "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
       "actualDataIngest": "Actual data-ingest",
       "onDemandDataIngest": "On-Demand data-ingest",
-      "noData": "No data"
+      "csvExporter": "Export to CSV"
     },
     "timePresets": {
       "last7Days": "Last 7 days",
