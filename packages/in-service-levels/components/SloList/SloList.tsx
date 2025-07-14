@@ -93,7 +93,7 @@ export function getColumnDefinitions({ isMediumWidth, isSmallWidth, showEntityIn
       enableSorting: false,
       maxSize: 15
     }),
-    columnHelper.accessor(row => row.status, {
+    columnHelper.accessor(() => 'status', {
       id: 'sloStatus',
       header: t('in-service-levels:sloList.columnLabels.status'),
       cell: props => <SloStatusColumnContent item={props.row.original} />,

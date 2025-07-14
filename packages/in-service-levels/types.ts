@@ -16,7 +16,6 @@ import {
   Application,
   Website,
   ServiceLevelObjectiveConfiguration,
-  TimeConfig,
   CorrectionConfiguration
 } from '@instana/types';
 
@@ -27,7 +26,6 @@ import {
   timeAggregationOptions
 } from 'in-service-levels/constants';
 import { ProductArea } from 'in-services/tracking/productAreas';
-import { MetricDataSeries } from 'in-components/Chart/types';
 import { PageName } from 'in-services/tracking/pageNames';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
@@ -102,12 +100,8 @@ export type SloStatus = (typeof sloStatuses)[number];
 export interface SloListItem {
   configuration: ServiceLevelObjectiveConfiguration;
   entities: LabeledEntity[];
-  status?: number;
-  remainingBudget?: number;
-  burnDown: MetricDataSeries;
-  metricTimeConfig: TimeConfig;
-  metricGranularity: number;
 }
+
 export interface SelectSloListItem {
   configuration: ServiceLevelObjectiveConfiguration;
   entities: LabeledEntity[];

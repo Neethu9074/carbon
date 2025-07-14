@@ -27,7 +27,6 @@ import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEn
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { buildSloListItem } from 'in-service-levels/hooks/useSloListItems';
-import useSloListMetrics from 'in-service-levels/hooks/useSloListMetrics';
 import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -52,9 +51,8 @@ const SloCellRenderer = ({ item, render }: CellRendererProps) => {
 function getSloListItem(item: ServiceLevelObjectiveConfiguration) {
   const timeConfig = useTimeConfig();
   const [labels] = useSloEntitiesLabels([item]);
-  const [metrics] = useSloListMetrics([item]);
   const configuration = item;
-  return buildSloListItem({ configuration, labels, metrics, timeConfig });
+  return buildSloListItem({ configuration, labels, timeConfig });
 }
 
 function handleFavoriteClick(item: any, isFavourite: boolean, type: string) {
