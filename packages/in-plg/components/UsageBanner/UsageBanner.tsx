@@ -10,7 +10,7 @@ import { useHistory } from 'react-router';
 import React, { useEffect } from 'react';
 
 import { Link, SvgIcon, Stack, CarbonButton, Tooltip } from '@instana/components';
-import { Observable, create } from '@instana/observables';
+import { Observable, create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
@@ -44,6 +44,8 @@ import { Message } from 'in-components/MessageFlyout/stores/messages';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
+import { pendingResult } from 'in-services/fixedObjects';
+import { generateStableHash } from '@instana/utils';
 import { isLoading } from 'in-services/util/result';
 import { role, user } from 'in-stores/user';
 import http from 'in-services/http/http';
@@ -60,10 +62,12 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const history = useHistory();
   const { createHref } = useNavigation();
   const { trackCta } = useSegmentTracking();
-  //@ts-expect-error
-  const queuedLicenseDetails: Result<any> = role?.canViewAccountAndBillingInformation
-    ? useObservable(getQueuedLicensesOfEnvironmentAsResultObservable(1, 5), [])
-    : false;
+  const queuedLicenseDetails =
+    useObservable(() => {
+      if (!role?.canViewAccountAndBillingInformation) return just(undefined);
+
+      return getQueuedLicensesOfEnvironmentAsResultObservable(1, 5) as Observable<Result<any>>;
+    }, [generateStableHash(role)]) ?? pendingResult;
   const { activeLicense, remainingDays, content } = message;
   const isQuota = activeLicense === 'quota';
   const isSelfService = activeLicense === 'selfService';
