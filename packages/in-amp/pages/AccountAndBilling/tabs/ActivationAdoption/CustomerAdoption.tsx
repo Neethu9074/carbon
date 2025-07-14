@@ -14,24 +14,22 @@ import ProductAdoptionKPIs from 'in-amp/components/ProductAdoptionKPIs';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { t } from 'in-i18n';
 
+import locals from 'in-amp/pages/AccountAndBilling/AccountAndBilling.mless';
+
 export default function CustomerAdoption(props: any) {
   return (
-    <>
-      <Row>
-        <Col md={4}>
-          <Card>
-            <Typography variant="heading-03">
-              {t('in-amp:components.activationAdoption.activationChecklist')}
-            </Typography>
-            <ActivationChecklist accountInfo={props.accountInfo} />
-          </Card>
-        </Col>
-        <Col md={8}>
-          <Card title={t('in-amp:components.activationAdoption.productAdoption')}>
-            <ProductAdoptionKPIs accountInfo={props.accountInfo} />
-          </Card>
-        </Col>
-      </Row>
-    </>
+    <Row className={locals.bottomMargin}>
+      <Col md={4}>
+        <Card>
+          <Typography variant="heading-03">{t('in-amp:components.activationAdoption.activationChecklist')}</Typography>
+          <ActivationChecklist accountInfo={props.accountInfo} />
+        </Card>
+      </Col>
+      <Col md={8}>
+        <Card title={t('in-amp:components.activationAdoption.productAdoption')}>
+          <ProductAdoptionKPIs accountInfo={props.accountInfo} />
+        </Card>
+      </Col>
+    </Row>
   );
 }

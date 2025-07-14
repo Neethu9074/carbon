@@ -109,7 +109,7 @@ function ProductAdoptionKPIs({ sparkchartMetrics }: any) {
                       timeConfig={timeConfig}
                       metrics={sortedMetrics?.map(metrics => [metrics.time, metrics.value])}
                       width={150}
-                      height={newAccountAndBillingPageEnabled ? 48 : 70}
+                      height={70}
                     />
                   )}
                 </div>
