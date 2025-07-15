@@ -213,5 +213,6 @@ module.exports = {
   newAccountAndBillingPageEnabled: false,
   eumSmartAlertCustomMetricsEnabled: true,
   onlyFedRampAllowedAlertChannelsEnabled: false,
-  deleteLogsV3Enabled: true
+  deleteLogsV3Enabled: true,
+  fiveMinuteGranularityForAdaptiveThresholdEnabled: true
 };

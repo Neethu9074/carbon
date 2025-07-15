@@ -1040,5 +1040,10 @@ module.exports = exports = [
     uiClientKey: 'onlyFedRampAllowedAlertChannelsEnabled',
     instanaCtlKey: 'feature.only.fed.ramp.allowed.alert.channels.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'fiveMinuteGranularityForAdaptiveThresholdEnabled',
+    instanaCtlKey: 'feature.five.minute.granularity.for.adaptive.threshold.enabled',
+    defaultValue: false
   }
 ];

@@ -90,6 +90,10 @@ export const deprecateAppDataLegacyEventsEnabled = isFeatureFlagEnabled('depreca
 export const disallowAppDataLegacyEventsEnabled = isFeatureFlagEnabled('disallowAppDataLegacyEventsEnabled');
 export const hideAppDataLegacyEventsEnabled = isFeatureFlagEnabled('hideAppDataLegacyEventsEnabled');
 export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
+export const fiveMinuteGranularityForAdaptiveThresholdEnabled = isFeatureFlagEnabled(
+  'fiveMinuteGranularityForAdaptiveThresholdEnabled',
+  false
+);
 
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
