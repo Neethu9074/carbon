@@ -87,7 +87,7 @@ const createTableRows = (roleMappings: GroupMappingOverview[] = []): Array<RoleM
     ),
     role: <span>{roleMapping.role}</span>,
     team: roleMapping?.team ? (
-      <Tag type="blue" size="sm">
+      <Tag type="blue" size="md">
         {roleMapping.team}
       </Tag>
     ) : null,
