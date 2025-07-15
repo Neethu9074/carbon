@@ -4,18 +4,20 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import {
   ChatContainer,
   ChatInstance,
   MessageResponseTypes,
   PublicConfig,
+  RenderUserDefinedResponse,
   RenderUserDefinedState,
   TextItem,
-  UserDefinedItem
+  UserDefinedItem,
+  WriteableElementName
 } from '@instana/ai-chat';
-import { PreviewPill, Typography } from '@instana/components';
+import { PreviewPill } from '@instana/components';
 import { Widget } from '@instana/types';
 
 import {
@@ -30,6 +32,8 @@ import { ConfigMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/Messa
 import { customSendMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/customSendMessage';
 import { hours } from 'in-services/time/time';
 import { t } from 'in-i18n';
+
+import locals from './AiChatContainer.mless';
 
 // no translation because only English is possible as of now.
 const LAUNCHER_GREETING = t('in-custom-dashboards:aiChat.launcherGreeting');
@@ -84,7 +88,7 @@ interface AiChatContainerProps {
 }
 
 export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatContainerProps) => {
-  const renderUserDefinedResponse = useCallback(
+  const renderUserDefinedResponse: RenderUserDefinedResponse = useCallback(
     ({ messageItem }: RenderUserDefinedState, instance: ChatInstance) => {
       switch (messageItem?.user_defined?.user_defined_type) {
         case UserDefinedType.EXAMPLES:
@@ -106,6 +110,13 @@ export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatCon
     [onAddPromptedWidget]
   );
 
+  const renderWriteableElements: Partial<Record<WriteableElementName, React.ReactNode>> = useMemo(
+    () => ({
+      headerBottomElement: <PreviewPill className={locals.previewPill} />
+    }),
+    []
+  );
+
   return (
     <ChatContainer
       config={chatConfig}
@@ -114,14 +125,7 @@ export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatCon
         configureInstance(instance);
       }}
       renderUserDefinedResponse={renderUserDefinedResponse}
-      renderWriteableElements={{
-        beforeInputElement: () => (
-          <>
-            <PreviewPill />
-            <Typography variant="label-01">This is a preview feature powered by watsonx</Typography>
-          </>
-        )
-      }}
+      renderWriteableElements={renderWriteableElements}
     />
   );
 };

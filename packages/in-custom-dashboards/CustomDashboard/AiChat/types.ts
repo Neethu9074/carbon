@@ -6,7 +6,7 @@
 
 import { ReactNode } from 'react';
 
-import { TagFilterExpressionElementUnion, Widget } from '@instana/types';
+import { Result, TagFilterExpressionElementUnion, Widget } from '@instana/types';
 
 /** enum keys should be the format of backend-compatible chart types */
 export enum PromptableWidgetType {
@@ -57,7 +57,7 @@ export type SLOInferredConfig = {
 };
 
 export type InferredSlotConfig = {
-  widgetType: 'bigNumber' | 'TIME_SERIES' | 'slo2' | null;
+  widgetType: keyof typeof PromptableWidgetType | null;
   config?: CommonInferredConfig | SLOInferredConfig | null;
 };
 
@@ -80,6 +80,24 @@ export type SloSuggestion = {
 export type PossibleSlotConfig = {
   widgetTypes?: string[] | null;
   config?: CommonPossibleConfig | SLOPossibleConfig;
+};
+
+export type InferenceResponse = {
+  llmResponse?: LlmResponse;
+};
+
+export type LlmResponse = {
+  type: keyof typeof PromptableWidgetType;
+} & (CommonInferredConfig | SLOInferredConfig | null);
+
+export type InferredTagSuggestions = {
+  tagName: string;
+  suggestions: Readonly<Result<any>> | any[];
+};
+
+export type SlotsRequest = {
+  llmResponse: LlmResponse;
+  filterOptions: Record<string, any>;
 };
 
 export type SlotsResponse = {
