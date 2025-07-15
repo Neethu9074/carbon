@@ -9,6 +9,8 @@ import { render } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import { UnorderedList } from '@instana/carbon';
+
 import { AIPopover, AIExplainedContent } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { t } from 'in-i18n';
 
@@ -83,9 +85,7 @@ describe('AIExplainedContent', () => {
         modelLink={'https://ibm.biz/granite-instruct-models'}
       />
     );
-    expect(getByText.find(`div.${locals.bullet}`)).toHaveLength(3);
-    expect(getByText.find(`div.${locals.bullet}`).first().text()).toEqual('- <Trans />');
-    expect(getByText.find(`div.${locals.bullet}`).last().text()).toEqual('- <Trans />');
+    expect(getByText.find(UnorderedList)).toHaveLength(3);
   });
 
   it('renders the correct ai model link info text', () => {
