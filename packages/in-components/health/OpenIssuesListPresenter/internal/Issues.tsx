@@ -3,18 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { HorizontalIndicator } from '@instana/components';
-import { LoadingSkeleton } from '@instana/components';
+import { HorizontalIndicator, LoadingSkeleton } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import Issue from 'in-components/health/OpenIssuesListPresenter/internal/Issue';
+import { OpenIssuesResult } from 'in-components/health/OpenIssuesListPresenter';
 
 import locals from './Issues.mless';
 
-export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink }) {
-  if (openIssuesResult.progress.loading) {
+interface IssuesProps {
+  openIssuesResult: OpenIssuesResult;
+  maxIssuesToShow: number;
+  getIssueLink?: (issueId: string) => string;
+}
+
+export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink }: IssuesProps): ReactElement {
+  if (openIssuesResult?.progress?.loading) {
     return (
       <div>
         <HorizontalIndicator progress={openIssuesResult.progress} />
@@ -28,7 +34,7 @@ export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink
     return <ErroneousResultPresenter errors={openIssuesResult.errors} className={locals.errors} />;
   }
 
-  const openIssues = openIssuesResult.data;
+  const openIssues = openIssuesResult.data ?? [];
 
   return (
     <ol className={locals.issues}>
