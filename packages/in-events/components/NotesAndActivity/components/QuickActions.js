@@ -15,7 +15,7 @@ import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPo
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { generateJournalSummary } from 'in-stores/events';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './QuickActions.mless';
 
@@ -121,9 +121,9 @@ export function QuickActions(props) {
             featureName={t('in-events:notes.summary')}
             featureDescription={t('in-events:notes.summaryDescription')}
             dataUsed={[
-              'in-events:notes.triggeringEvent',
-              'in-events:notes.relatedEvents',
-              'in-events:notes.affectedEntities'
+              <Trans i18nKey={'in-events:notes.triggeringEvent'} />,
+              <Trans i18nKey={'in-events:notes.relatedEvents'} />,
+              <Trans i18nKey={'in-events:notes.affectedEntities'} />
             ]}
             modelTitle={t('in-events:notes.granite')}
             modelLink={'https://ibm.biz/granite-instruct-models'}

@@ -9,14 +9,14 @@ import React, { FC, useState } from 'react';
 import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, Link } from '@instana/components';
 import { UnorderedList, ListItem } from '@instana/carbon';
 
-import { Trans, t } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './AiPopover.mless';
 
 interface AIPopoverProps {
   featureName: string;
   featureDescription: string;
-  dataUsed: [string, string];
+  dataUsed: [React.ReactElement];
   modelTitle: string;
   modelLink: string;
 }
@@ -94,9 +94,7 @@ export const AIExplainedContent: FC<AIExplainedContentProps> = ({
           dataUsed.map(item => {
             return (
               <UnorderedList>
-                <ListItem>
-                  <Trans i18nKey={item} />
-                </ListItem>
+                <ListItem>{item}</ListItem>
               </UnorderedList>
             );
           })}
