@@ -61,7 +61,11 @@
         "progressBarTitle": "Step 2: Provide details",
         "headline": "Provide details",
         "perspectiveName": "Perspective name",
-        "perspectiveDescription": "Description"
+        "perspectiveDescription": "Description",
+        "failedToLoad": "Failed to load teams",
+        "selectTeams": "Select teams",
+        "teams": "Teams",
+        "information": "Information"
       }
     },
     "errorMessages": {
