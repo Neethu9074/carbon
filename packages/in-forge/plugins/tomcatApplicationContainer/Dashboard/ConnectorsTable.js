@@ -60,7 +60,7 @@ const colsWithoutConnections = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.connector.getIn(['threads', 'max']);
+        return row.connector.getIn(['threads', 'max']) !== -1 ? row.connector.getIn(['threads', 'max']) : null;
       },
       getContent: number.compact
     }
@@ -102,6 +102,7 @@ export default function ConnectorsTable({ snapshot, timeConfig }) {
   const rows = snapshot
     .getIn(['data', 'connector-config'], emptyMap)
     .filter(c => !c.get('executor'))
+    .filter(c => c.get('threadtype') !== 'Virtual')
     .map((connector, name) => {
       return {
         key: name,
