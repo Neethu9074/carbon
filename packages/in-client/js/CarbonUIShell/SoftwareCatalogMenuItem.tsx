@@ -7,10 +7,12 @@
 import React from 'react';
 
 import { MenuItemWithExternalLink } from 'in-client/js/CarbonUIShell/MenuItemWithExternalLink';
+import { solisTestCatalogEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 /**
  * temporary component, as requested while solis qa testing in July - will be removed for September solis release
+ * use feature flag to determine if test or production catalog link should be used
  */
 export default function SoftwareCatalogMenuItem() {
   return (
@@ -19,7 +21,9 @@ export default function SoftwareCatalogMenuItem() {
       key="main-nav-catalog"
       icon="lib_actions_catalog"
       label={t('in-components:mainNavigation.viewSwitcherLabelSoftwareCatalog')}
-      href="https://catalog.test.saas.ibm.com/search"
+      href={
+        solisTestCatalogEnabled ? 'https://catalog.test.saas.ibm.com/search' : 'https://catalog.saas.ibm.com/search'
+      }
     />
   );
 }
