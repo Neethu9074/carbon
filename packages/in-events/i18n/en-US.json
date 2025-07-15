@@ -11,6 +11,7 @@
     "totalcalls": "Affected Calls",
     "errorLoadingData": "Error loading data."
   },
+  "noDataAvailable": "No data available",
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of service:",
   "titleDetail": "Detail",

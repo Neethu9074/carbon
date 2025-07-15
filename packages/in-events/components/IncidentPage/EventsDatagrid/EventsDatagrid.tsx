@@ -35,7 +35,8 @@ import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { Filter } from '@carbon/icons-react';
 
-import { LoadingSkeleton } from '@instana/components';
+import { LoadingSkeleton, Typography } from '@instana/components';
+import { NoDataEmptyState } from '@instana/ibm-products';
 import { useObservable } from '@instana/hooks';
 import { RawEvent } from '@instana/types';
 
@@ -408,6 +409,16 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
               )}
             </TableBody>
           </Table>
+
+          {/* Empty Content */}
+          {rows.length === 0 && !loading && (
+            <div className={locals.emptyTable}>
+              <NoDataEmptyState
+                title={<Typography variant="body-compact-02">{t('in-events:noDataAvailable')}</Typography>}
+                illustrationPosition="top"
+              />
+            </div>
+          )}
         </div>
       </div>
     </TableContainer>
