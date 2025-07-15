@@ -10,6 +10,8 @@ const path = require('path');
 const i18next = require('i18next');
 const middleware = require('i18next-http-middleware');
 
+const relevantDocs = require('../solis/helpPanelArticles');
+
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers');
 const { solisHubRoute, createRequest } = require('./solis-hub');
@@ -88,7 +90,7 @@ router.get('/solis/nav', middleware.handle(i18next), async (req, res) => {
     }
 
     const navItems = {
-      top: [],
+      top: generateTopNavItems(t),
       side: generateSideNavItems(t, role, featureFlags, infraResource)
     };
 
@@ -205,6 +207,19 @@ function getUserPermissions(role, features) {
     hasSAPAccess,
     hasVSphereAccess
   };
+}
+function generateTopNavItems(t) {
+  let topNavItems = [];
+  topNavItems.push({
+    id: 'help',
+    type: 'icon_button',
+    mode: 'native',
+    icon_name: 'help',
+    properties: {
+      label: t('in-server:helpPanel.panelTitle')
+    }
+  });
+  return topNavItems;
 }
 
 function generateSideNavItems(t, role, features, infraResource) {
@@ -580,20 +595,13 @@ router.get('/solis/help', middleware.handle(i18next), (req, res) => {
 
 function getHelp(t) {
   let content = {
-    primary_content: {
-      title: 'Opening a support case',
-      description: 'To open a support case.',
-      learn_more_href: 'https://www.ibm.com/mysupport/s/?language=en_US'
-    },
-    addtl_docs_topics: [
+    sections: [
       {
-        label: t('in-server:mainNavigation.viewSwitcherLabelDocumentation'),
-        href: 'https://www.ibm.com/docs/en/instana-observability',
-        description: 'Instana Official documentation'
+        id: 'relevant_articles',
+        title: t('in-server:helpPanel.articleSectionTitle'),
+        tiles: relevantDocs(t)
       }
-    ],
-    contact_support_href: 'https://www.ibm.com/mysupport/s/?language=en_US',
-    feature_request_href: 'https://ideas.ibm.com/products/6922406837448488098'
+    ]
   };
   return JSON.stringify(content);
 }
