@@ -6,6 +6,13 @@
 
 import React from 'react';
 
-export default function NutanixHostSidebar() {
-  return <div />;
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import Info from 'in-forge/plugins/nutanixHost/Info';
+
+export default function WindowsHypervisorVMSidebar({ snapshot }: { snapshot: SnapshotData }) {
+  return (
+    <div>
+      <Info snapshot={snapshot} />
+    </div>
+  );
 }

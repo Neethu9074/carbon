@@ -15,6 +15,7 @@
   "memoryAllocated":"Memory allocated",
   "hypervisorTypes":"Hypervisor types",
   "clusterArch":"Cluster architecture",
+  "version":"Version",
   "dashboards": {
     "system":"System",
     "wait":"Wait",
