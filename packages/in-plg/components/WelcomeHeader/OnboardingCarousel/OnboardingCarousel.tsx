@@ -39,7 +39,8 @@ export default function OnboardingCarousel({
   const [isRightDisabled, setIsRightDisabled] = useState(true);
   const { trackCta } = useSegmentTracking();
   const { activeLicenseType } = config;
-  const showNewBanner = (whatsNewBannerEnabled && activeLicenseType !== 'selfService') || playwithEnabled;
+  const isTrial = activeLicenseType == 'selfService';
+  const showNewBanner = whatsNewBannerEnabled && (!isTrial || playwithEnabled);
   const collapsibleButton = {
     collapsedSegmentEvent: showNewBanner ? WHATS_NEW_OPENED : ONBOARDING_CHECKLIST_OPENED,
     expandedSegmentEvent: showNewBanner ? WHATS_NEW_CLOSED : ONBOARDING_CHECKLIST_CLOSED,
@@ -145,7 +146,7 @@ export default function OnboardingCarousel({
 
   return (
     <Stack direction="vertical" distribution="center">
-      {!showNewBanner && activationData && activation !== null && isExpanded && (
+      {!showNewBanner && isTrial && activationData && activation !== null && isExpanded && (
         <div className={locals.carouselStack}>
           <Stack direction="vertical" gap="medium">
             <div className={locals.carouselTitle}>
@@ -169,7 +170,7 @@ export default function OnboardingCarousel({
           </Stack>
         </div>
       )}
-      {((activationData && activation !== null) || showNewBanner) && (
+      {((activationData && activation !== null && isTrial) || showNewBanner) && (
         <div className={`${locals.toolbarSection} ${!isExpanded ? locals.expanded : ''}`}>
           <Stack direction="horizontal" align="center" distribution="spaceBetween">
             <Stack align="start">
