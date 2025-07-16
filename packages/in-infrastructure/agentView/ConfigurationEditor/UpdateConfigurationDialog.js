@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { CarbonModal as Modal } from '@instana/components';
+import { Modal } from '@instana/carbon';
 
 // @ts-ignore
 // temp yaml file import until collector management integration
