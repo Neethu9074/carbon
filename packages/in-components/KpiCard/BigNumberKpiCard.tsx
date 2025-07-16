@@ -5,7 +5,6 @@
 
 import React, { ReactNode } from 'react';
 
-import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import ResultAwareBigNumberKpiCard, {
@@ -29,6 +28,7 @@ import { FormatterFn } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
 import { ConversionFn } from 'in-stores/metric/units';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { generateStableHash } from '@instana/utils';
 
 export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
@@ -51,7 +51,7 @@ export interface BigNumberKpiCardProps {
   thresholdFn?: ThresholdFn;
   approximateTooltipText?: string;
   conversionFn?: ConversionFn;
-  extraOpts?: object;
+  extraOpts?: object
 }
 
 export default function BigNumberKpiCard({
@@ -105,10 +105,7 @@ export default function BigNumberKpiCard({
   const stableMetrics = useStableObjectInstance(metrics);
 
   const result: Result<MetricResult[]> =
-    useObservable(
-      () => getUnifiedMetrics({ metrics }, false, extraOpts),
-      [stableMetrics, generateStableHash(extraOpts)]
-    ) ?? pendingResult;
+    useObservable(() => getUnifiedMetrics({ metrics }, false, extraOpts), [stableMetrics, generateStableHash(extraOpts)]) ?? pendingResult;
 
   return (
     <ResultAwareBigNumberKpiCard

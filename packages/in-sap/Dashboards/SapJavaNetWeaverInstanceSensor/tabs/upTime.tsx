@@ -10,9 +10,9 @@ import { useObservable } from '@instana/hooks';
 
 import { t } from 'in-i18n'; // Assuming you're using the `t` function for translations
 import { getMetricForFocusedMoment } from 'in-stores/metric/metric';
+import { SnapshotData } from 'in-stores/snapshot';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { SnapshotData } from 'in-stores/snapshot';
 
 function getUpTime(uptime: number): string {
   const days = Math.floor(uptime / 86400);

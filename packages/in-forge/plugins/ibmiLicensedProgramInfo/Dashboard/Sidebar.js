@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
-import Info from 'in-forge/plugins/ibmiLicensedProgramInfo/Info';
 import { t } from 'in-i18n';
+import Info from 'in-forge/plugins/ibmiLicensedProgramInfo/Info';
 
 export default function IbmiLicensedProgramInfoSidebar({ snapshot }) {
   return (

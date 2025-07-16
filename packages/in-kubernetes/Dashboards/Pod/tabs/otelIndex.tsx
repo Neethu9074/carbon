@@ -17,8 +17,8 @@ import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events'
 import Details from 'in-kubernetes/Dashboards/Pod/tabs/Details/Details';
 import { podOtelDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import OtelSummary from 'in-kubernetes/Dashboards/Pod/tabs/Summary/OtelSummary';
-import OtelContainer from 'in-kubernetes/Dashboards/Pod/tabs/OtelContainer';
 import { t } from 'in-i18n';
+import OtelContainer from 'in-kubernetes/Dashboards/Pod/tabs/OtelContainer';
 
 export default [
   {
@@ -33,5 +33,5 @@ export default [
     label: t('in-kubernetes:dashboards.containers'),
     path: `${podOtelDashboardFullyQualified}/containers`,
     component: OtelContainer
-  }
+  },
 ].filter(Boolean);

@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import SapJavaNetWeaverInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/SapJavaNetWeaverInstanceSensorDashboard';
-import SapJavaNetWeaverSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverSystemSensor/SapJavaNetWeaverSystemSensorDashboard';
 import SapJavaCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaCentralInstance/SapJavaCentralInstanceDashboard';
 // the following components are all part of the same bundle (kubernetes)
 import SapMainView from 'promise-loader?global,sap!in-sap/SapMainView';
 import SapAbapInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapInstanceSensor/SapAbapInstanceSensorDashboard';
 import AbapCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapCentralInstance/AbapCentralInstanceDashboard';
 import SapAbapSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapSystemSensor/SapAbapSystemSensorDashboard';
+import SapJavaNetWeaverInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/SapJavaNetWeaverInstanceSensorDashboard';
+import SapJavaNetWeaverSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverSystemSensor/SapJavaNetWeaverSystemSensorDashboard';
 import SapWebDispatcherDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapWebDispatcher/SapWebDispatcherDashboard';
 import SapJavaInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaInstance/SapJavaInstanceDashboard';
 import SapJavaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaSystem/SapJavaSystemDashboard';

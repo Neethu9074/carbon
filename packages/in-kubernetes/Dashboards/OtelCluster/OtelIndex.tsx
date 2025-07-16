@@ -19,9 +19,9 @@ import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKub
 import { nodesDashboard, podsDashboard, clusterOtelDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 //@ts-expect-error TS migration
 import { OtelClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
-import OtelPods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/OtelPods';
 import OtelNodes from 'in-kubernetes/Dashboards/OtelCluster/OtelNodes';
 import Summary from 'in-kubernetes/Dashboards/OtelCluster/OtelSummary';
+import OtelPods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/OtelPods';
 import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';

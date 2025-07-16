@@ -151,25 +151,25 @@ export default connectTo(
           </Breadcrumb>
         );
       case 'javanetweaverinstancessensor.':
-        return (
-          <Breadcrumb
-            label={label}
-            icon={getIconType(plugins.sapJavaNetWeaverInstanceSensor)}
-            href={getDashboardForEntity(id, plugins.sapJavaNetWeaverInstanceSensor, label)}
-          >
+         return (
+           <Breadcrumb
+             label={label}
+             icon={getIconType(plugins.sapJavaNetWeaverInstanceSensor)}
+             href={getDashboardForEntity(id, plugins.sapJavaNetWeaverInstanceSensor, label)}
+           >
             {name}
-          </Breadcrumb>
-        );
+             </Breadcrumb>
+          );
       case 'javanetweaversystemssensor.':
-        return (
-          <Breadcrumb
-            label={label}
-            icon={getIconType(plugins.sapJavaNetWeaverSystemSensor)}
-            href={getDashboardForEntity(id, plugins.sapJavaNetWeaverSystemSensor, label)}
-          >
-            {name}
-          </Breadcrumb>
-        );
+          return (
+           <Breadcrumb
+                  label={label}
+                  icon={getIconType(plugins.sapJavaNetWeaverSystemSensor)}
+                  href={getDashboardForEntity(id, plugins.sapJavaNetWeaverSystemSensor, label)}
+           >
+             {name}
+            </Breadcrumb>
+          );
     }
   }
 );

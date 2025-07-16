@@ -10,11 +10,11 @@ import React from 'react';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { kiloBytes } from 'in-services/formatters/number';
-import { number } from 'in-services/formatters/number';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
+import { number } from 'in-services/formatters/number';
 
 export default function DiskReadWriteChart({
   snapshot,

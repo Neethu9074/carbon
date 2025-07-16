@@ -42,9 +42,9 @@ function DashboardHeader(props) {
   const { snapshot, title, snapshotId } = props;
   const { location } = useNavigation();
   const { trackAnalyzeInfrastructureButtonClicked: trackAnalyzeRelatedInstancesButtonClicked } = useSegmentTracker();
-  const [prepareClrLoggingEnvironmentButtonClicked, setPrepareClrLoggingEnvironmentButtonClicked] = useState(false);
-  const isInternalVisible = useObservable(() => isInternalVisible$, []);
-  const agentSnapshot = useObservable(() => {
+   const [prepareClrLoggingEnvironmentButtonClicked, setPrepareClrLoggingEnvironmentButtonClicked] = useState(false);
+   const isInternalVisible = useObservable(() => isInternalVisible$, []);
+   const agentSnapshot = useObservable(() => {
     return isInternalVisible$
       .flatMap(enabled => (enabled ? getAgentSnapshotId(snapshot) : alwaysNull))
       .flatMap(agentSnapshotId => (agentSnapshotId ? getSnapshot(agentSnapshotId) : alwaysNull));
@@ -79,17 +79,9 @@ function DashboardHeader(props) {
 }
 
 function renderButtonLine(props) {
-  const {
-    snapshot,
-    timeConfig,
-    path,
-    trackAnalyzeRelatedInstancesButtonClicked,
-    prepareClrLoggingEnvironmentButtonClicked,
-    setPrepareClrLoggingEnvironmentButtonClicked,
-    agentSnapshot
-  } = props;
+  const { snapshot, timeConfig, path, trackAnalyzeRelatedInstancesButtonClicked,prepareClrLoggingEnvironmentButtonClicked,setPrepareClrLoggingEnvironmentButtonClicked, agentSnapshot } = props;
 
-  if (
+    if (
     [plugins.clrRuntimePlatform].includes(snapshot.get('plugin')) ||
     [plugins.netCoreRuntimePlatform].includes(snapshot.get('plugin'))
   ) {
@@ -108,7 +100,8 @@ function renderButtonLine(props) {
   const capabilities = agentSnapshot && Map.isMap(agentSnapshot) ? agentSnapshot.getIn(['data', 'capabilities']) : null;
 
   var clrLogCollectorInfoCapabilityFound = false;
-  if (capabilities != null && capabilities.includes('clr_log_collector')) clrLogCollectorInfoCapabilityFound = true;
+  if(capabilities != null && capabilities.includes("clr_log_collector"))
+    clrLogCollectorInfoCapabilityFound = true;
   // eslint-disable-next-line no-console
   console.log('Capabilities from Agent Snapshot: ' + capabilities);
 
@@ -139,8 +132,7 @@ function renderButtonLine(props) {
       )}
 
       {([plugins.clrRuntimePlatform].includes(snapshot.get('plugin')) ||
-        [plugins.netCoreRuntimePlatform].includes(snapshot.get('plugin'))) &&
-        clrLogCollectorInfoCapabilityFound &&
+        [plugins.netCoreRuntimePlatform].includes(snapshot.get('plugin'))) && clrLogCollectorInfoCapabilityFound &&
         !prepareClrLoggingEnvironmentButtonClicked && (
           <PrepareClrLoggingEnvironmentButton
             snapshotId={snapshot.get('id')}
@@ -150,8 +142,7 @@ function renderButtonLine(props) {
         )}
 
       {([plugins.clrRuntimePlatform].includes(snapshot.get('plugin')) ||
-        [plugins.netCoreRuntimePlatform].includes(snapshot.get('plugin'))) &&
-        clrLogCollectorInfoCapabilityFound &&
+        [plugins.netCoreRuntimePlatform].includes(snapshot.get('plugin'))) && clrLogCollectorInfoCapabilityFound &&
         prepareClrLoggingEnvironmentButtonClicked && (
           <DownloadClrLogButton
             snapshotId={snapshot.get('id')}

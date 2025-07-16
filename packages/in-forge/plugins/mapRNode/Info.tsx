@@ -5,9 +5,7 @@
  */
 
 import React from 'react';
-
 import { DescriptionList, DescriptionItem } from '@instana/components';
-
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
@@ -20,9 +18,7 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
       <DescriptionItem title={t('in-forge:plugins.maprNode.nodeName')}>{data.get('nodeName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.maprNode.pid')}>{data.get('pid')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.maprNode.rackTopology')}>{data.get('rackTopology')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.maprNode.configuredService')}>
-        {data.get('configuredService')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.maprNode.configuredService')}>{data.get('configuredService')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.maprNode.health')}>{data.get('health')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.maprNode.healthDesc')}>{data.get('healthDesc')}</DescriptionItem>
     </DescriptionList>

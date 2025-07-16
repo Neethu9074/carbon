@@ -8,12 +8,14 @@ import React from 'react';
 
 import { CarbonTextInput, Card, Typography } from '@instana/components';
 
-import { ModalNotification } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/ModalNotification';
 import { ConfirmSelectionPageProps } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/modalTypes';
 // eslint-disable-next-line no-restricted-imports
 import { deleteLogsLocalisationStrings } from '../../localisationStrings';
 
 import locals from './ConfirmSelectionPage.mless';
+import {
+  ModalNotification
+} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/ModalNotification';
 
 export const ConfirmSelectionPage = ({
   inputValues,
@@ -30,18 +32,18 @@ export const ConfirmSelectionPage = ({
       </h2>
       <Card className={locals.confirmSelectionDetails} title={deleteLogsLocalisationStrings.deletionDetails}>
         <section className={locals.confirmSelectionDatesContainer}>
-          <div>
-            <span>{deleteLogsLocalisationStrings.deletionFromDate}</span>
-            <strong data-testid="fromDateValue">{inputValues.startDate.toLocaleDateString()}</strong>
-            <span>{deleteLogsLocalisationStrings.deletionUntilDate}</span>
-            <strong data-testid="untilTimeValue">{inputValues.endDate.toLocaleDateString()}</strong>
-          </div>
-          <div>
-            <span>{deleteLogsLocalisationStrings.deletionFromTime}</span>
-            <strong data-testid="fromTimeValue">{inputValues.startTime}</strong>
-            <span>{deleteLogsLocalisationStrings.deletionUntilTime}</span>
-            <strong data-testid="untilTimeValue">{inputValues.endTime}</strong>
-          </div>
+            <div>
+              <span>{deleteLogsLocalisationStrings.deletionFromDate}</span>
+              <strong data-testid="fromDateValue">{inputValues.startDate.toLocaleDateString()}</strong>
+              <span>{deleteLogsLocalisationStrings.deletionUntilDate}</span>
+              <strong data-testid="untilTimeValue">{inputValues.endDate.toLocaleDateString()}</strong>
+            </div>
+            <div>
+              <span>{deleteLogsLocalisationStrings.deletionFromTime}</span>
+              <strong data-testid="fromTimeValue">{inputValues.startTime}</strong>
+              <span>{deleteLogsLocalisationStrings.deletionUntilTime}</span>
+              <strong data-testid="untilTimeValue">{inputValues.endTime}</strong>
+            </div>
         </section>
       </Card>
       {/* Reason Input */}

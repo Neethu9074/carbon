@@ -11,7 +11,6 @@ import React, { useEffect } from 'react';
 
 import { Link, SvgIcon, Stack, CarbonButton, Tooltip } from '@instana/components';
 import { Observable, create, just } from '@instana/observables';
-import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
@@ -46,6 +45,7 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { pendingResult } from 'in-services/fixedObjects';
+import { generateStableHash } from '@instana/utils';
 import { isLoading } from 'in-services/util/result';
 import { role, user } from 'in-stores/user';
 import http from 'in-services/http/http';

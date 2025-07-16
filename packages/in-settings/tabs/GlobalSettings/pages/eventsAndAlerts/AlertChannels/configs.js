@@ -14,16 +14,16 @@ import msTeamsAppChannelConfig from 'in-settings/tabs/GlobalSettings/pages/event
 import office365ChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/office365ChannelConfig';
 import PagerdutyChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/pagerdutyChannelConfig';
 import victorOpsChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/victorOpsChannelConfig';
-import {
-  msTeamsAppEnabled,
-  bidirectionalSlackEnabled,
-  onlyFedRampAllowedAlertChannelsEnabled
-} from 'in-services/featureFlags';
 import opsgenieChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/opsgenieChannelConfig';
 import zChatOpsChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/zChatOpsChannelConfig';
 import webhookChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/webhookChannelConfig';
 import slackBDChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackBDChannelConfig';
 import splunkChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
+import {
+  msTeamsAppEnabled,
+  bidirectionalSlackEnabled,
+  onlyFedRampAllowedAlertChannelsEnabled
+} from 'in-services/featureFlags';
 import slackChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
 

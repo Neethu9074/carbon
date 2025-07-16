@@ -6,7 +6,10 @@
 
 // @ts-expect-error TS migration
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Node/tabs/SummaryWithoutTimeShift';
-import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
+import {
+  beeInstanaInfraMetricsEnabled,
+  beeinstanaInfraMetricsWithTimeshiftEnabled
+} from 'in-services/featureFlags';
 // @ts-expect-error TS migration
 import { NodePodTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import OtelPods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/OtelPods';
@@ -19,14 +22,12 @@ export default [
     label: t('in-kubernetes:dashboards.summary'),
     path: `${nodeOtelDashboardFullyQualified}/summary`,
     component:
-      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled
-        ? OtelSummary
-        : SummaryWithoutTimeShift
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? OtelSummary : SummaryWithoutTimeShift
   },
   {
-    label: t('in-kubernetes:dashboards.pods'),
-    path: `${nodeOtelDashboardFullyQualified}/pods`,
-    component: OtelPods,
-    header: NodePodTab
-  }
+      label: t('in-kubernetes:dashboards.pods'),
+      path: `${nodeOtelDashboardFullyQualified}/pods`,
+      component: OtelPods,
+      header: NodePodTab
+    }
 ].filter(Boolean);

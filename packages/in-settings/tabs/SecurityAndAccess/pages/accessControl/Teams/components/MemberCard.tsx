@@ -154,10 +154,7 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
               >
                 <div className={locals.memberContent}>
                   <span>
-                    <Link
-                      href={getEntityIdView(securityAndAccessAccessControlUsers, member.userId, createHrefToPath)}
-                      ellipsis
-                    >
+                    <Link href={getEntityIdView(securityAndAccessAccessControlUsers, member.userId, createHrefToPath)} ellipsis>
                       {member?.name ? member.name : member?.userId}
                     </Link>
                     <Typography variant="body-small" noMargin component="div">

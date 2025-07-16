@@ -10,7 +10,7 @@ import { themes } from '@instana/design-tokens';
 import TraceExamples from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/TraceExamplesComponent';
 import ServerIcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/ServerIcicleChart';
 import IcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart';
-import { getColorChart } from 'in-applications/endpointTypes';
+import {getColorChart} from 'in-applications/endpointTypes';
 import { always } from 'in-services/fixedStreams';
 
 export default {

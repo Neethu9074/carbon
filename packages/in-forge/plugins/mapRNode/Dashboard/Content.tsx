@@ -8,17 +8,18 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-import CPUUtilizationChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/CPUUtilizationChart';
-import DiskReadWriteChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteChart';
-import DiskUsageChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskUsageChart';
-import DiskListTable from 'in-forge/plugins/mapRNode/Dashboard/Tables/DiskListTable';
+import MetricValue from 'in-components/MetricValue';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { number } from 'in-services/formatters/number';
-import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Columize from 'in-sdk/components/dashboard/Columize';
+
+import CPUUtilizationChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/CPUUtilizationChart';
+import DiskUsageChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskUsageChart';
+import DiskReadWriteChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteChart';
+import DiskListTable from 'in-forge/plugins/mapRNode/Dashboard/Tables/DiskListTable';
 
 export default function MapRNodeDashboard({
   snapshot,

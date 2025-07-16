@@ -12,8 +12,8 @@ import { TimeConfig } from '@instana/types';
 
 import { track, DOTNET_SUPPORT_CLICKED } from 'in-services/tracking/tracking';
 import { SnapshotData, getSnapshot } from 'in-stores/snapshot/snapshot';
-import { formatPathWithTU } from 'in-services/formatters/url';
 import { t } from 'in-i18n';
+import { formatPathWithTU } from 'in-services/formatters/url';
 
 interface DownloadClrLogButtonProps {
   readonly snapshotId: string;
@@ -56,7 +56,7 @@ function getFormattedUrlForSupportInfoId(clrSnapshot: SnapshotData) {
     return '';
   }
 
-  return formatPathWithTU(
-    `/api/host-agent/${encodeURIComponent(clrSnapshot['volatileId']['host_id'])}/clr-logs?download=true`
-  );
+    return formatPathWithTU(
+      `/api/host-agent/${encodeURIComponent(clrSnapshot['volatileId']['host_id'])}/clr-logs?download=true`
+    );
 }

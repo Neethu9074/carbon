@@ -670,8 +670,7 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.activeJobsInfo.IbmiActiveJobsInfo',
   ibmiAuditJournalsInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.auditJournal.IbmiAuditJournalInfo',
-  ibmiLicensedProgramInfo:
-    'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.licensedprograminfo.IbmiLicensedProgramInfo',
+  ibmiLicensedProgramInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.licensedprograminfo.IbmiLicensedProgramInfo',
   ibmIMessageQueueInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.messageQueue.IbmIMessageQueueInfo',
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',
@@ -898,8 +897,7 @@ export const fullyQualifiedPlugins = {
   sapAbapInstanceSensor: 'com.instana.forge.infrastructure.paas.sapjco.SapAbapInstanceSensor',
   sapAbapSystemSensor: 'com.instana.forge.infrastructure.paas.sapjco.derivedentity.system.SapAbapSystemSensor',
   sapJavaNetWeaverInstanceSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.SapJavaNetWeaverInstanceSensor',
-  sapJavaNetWeaverSystemSensor:
-    'com.instana.forge.infrastructure.paas.sapnetweaver.derivedentity.system.SapJavaNetWeaverSystemSensor',
+  sapJavaNetWeaverSystemSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.derivedentity.system.SapJavaNetWeaverSystemSensor',
   remoteHost: 'com.instana.forge.infrastructure.remote.remotehost.RemoteHost',
   processGroup: 'com.instana.forge.infrastructure.remote.processgroup.ProcessGroup'
 };

@@ -6,17 +6,17 @@
 
 import React from 'react';
 
-import SapJavaNetWeaverSystemSensorBreadcrumb from 'in-sap/breadcrumbs/SapJavaNetWeaverSystemSensorBreadcrumb';
-import SapJavaNetWeaverSensorBreadcrumb from 'in-sap/breadcrumbs/SapJavaNetWeaverSensorBreadcrumb';
 import SapDbInstanceHomeViewBreadcrumb from 'in-sap/breadcrumbs/SapDbInstanceHomeViewBreadcrumb';
 import AbapInstanceHomeViewBreadcrumb from 'in-sap/breadcrumbs/AbapInstanceHomeViewBreadcrumb';
 import SapAbapSystemSensorBreadcrumb from 'in-sap/breadcrumbs/SapAbapSystemSensorBreadcrumb';
+import SapJavaNetWeaverSystemSensorBreadcrumb from 'in-sap/breadcrumbs/SapJavaNetWeaverSystemSensorBreadcrumb';
 import AbapSystemHomeViewBreadcrumb from 'in-sap/breadcrumbs/AbapSystemHomeViewBreadcrumb';
 import RelatedResourcesBreadcrumbs from 'in-sap/breadcrumbs/RelatedResourcesBreadcrumbs';
 import SapWebDispatcherBreadcrumb from 'in-sap/breadcrumbs/SapWebDispatcherBreadcrumb';
 import SapDbInstanceBreadcrumb from 'in-sap/breadcrumbs/SapDbInstanceBreadcrumb';
 import SapHanaSystemBreadcrumb from 'in-sap/breadcrumbs/SapHanaSystemBreadcrumb';
 import SapAbapSensorBreadcrumb from 'in-sap/breadcrumbs/SapAbapSensorBreadcrumb';
+import SapJavaNetWeaverSensorBreadcrumb from 'in-sap/breadcrumbs/SapJavaNetWeaverSensorBreadcrumb';
 import JavaInstanceBreadcrumb from 'in-sap/breadcrumbs/JavaInstanceBreadcrumb';
 import AbapInstanceBreadcrumb from 'in-sap/breadcrumbs/AbapInstanceBreadcrumb';
 import SapDbTenantBreadcrumb from 'in-sap/breadcrumbs/SapDbTenantBreadcrumb';
