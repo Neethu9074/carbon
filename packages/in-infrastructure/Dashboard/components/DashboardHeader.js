@@ -3,10 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { List, Map } from 'immutable';
 import React, { useState } from 'react';
+import { List, Map } from 'immutable';
+
+import { useObservable } from '@instana/hooks';
 
 import PrepareClrLoggingEnvironmentButton from 'in-forge/plugins/netCoreRuntimePlatform/Logging/PrepareClrLoggingEnvironmentButton';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
 import { analyzeRelatedInstancesButtonEnabled, vulnerabilityCenterEnabled } from 'in-services/featureFlags';
 import DownloadClrLogButton from 'in-forge/plugins/netCoreRuntimePlatform/Logging/DownloadClrLogButton';
@@ -24,16 +27,14 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import { getRelatedInstancesTagFilterCallback } from 'in-sdk/tagFilter';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
 import DashboardHeaderComponent from 'in-components/DashboardHeader';
+import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
-import PluginIcon from 'in-components/PluginIcon';
-import { plugins } from 'in-forge/constants';
-import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { alwaysNull } from 'in-services/fixedStreams';
+import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { plugins } from 'in-forge/constants';
 import connectTo from 'in-hoc/connectTo';
-import { useObservable } from '@instana/hooks';
 
 import locals from './DashboardHeader.mless';
 
@@ -101,6 +102,7 @@ function renderButtonLine(props) {
   var clrLogCollectorInfoCapabilityFound = false;
   if(capabilities != null && capabilities.includes("clr_log_collector"))
     clrLogCollectorInfoCapabilityFound = true;
+  // eslint-disable-next-line no-console
   console.log('Capabilities from Agent Snapshot: ' + capabilities);
 
   return (

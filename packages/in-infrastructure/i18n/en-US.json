@@ -150,5 +150,13 @@
     "label": "Threshold",
     "critical": "Critical when {{operator}} {{level}}",
     "warning": "Warning when {{operator}} {{level}}"
+  },
+  "collectorView": {
+    "exporter": "Exporter",
+    "processor": "Processor",
+    "receiver": "Receiver",
+    "updateConfig": "Update configuration",
+    "submit": "Submit",
+    "cancel": "Cancel"
   }
 }

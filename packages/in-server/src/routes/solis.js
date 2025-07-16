@@ -96,6 +96,7 @@ router.get('/solis/nav', middleware.handle(i18next), async (req, res) => {
 
     res.status(200).json(navItems);
   } catch (error) {
+    /* eslint-disable no-console */
     console.error('Error getting navigation:', error);
     res.sendStatus(500);
   }
@@ -115,6 +116,7 @@ async function getHostCount(req) {
 
     return [status, hostCount];
   } catch (error) {
+    /* eslint-disable no-console */
     console.error('Error fetching host data:', error);
     return [500, null];
   }
@@ -137,6 +139,7 @@ async function getIncidentCount(req) {
     }
     return [status, count];
   } catch (error) {
+    /* eslint-disable no-console */
     console.error('Error fetching incident data:', error);
     return [500, null];
   }
@@ -546,6 +549,7 @@ router.get('/solis/about', middleware.handle(i18next), async (req, res) => {
     const aboutInfo = getAbout(instanaVersion);
     res.json(aboutInfo);
   } catch (err) {
+    /* eslint-disable no-console */
     console.error('Unexpected error in /solis/about:', err);
     res.status(500).json({ error: 'Failed to fetch about information' });
   }
@@ -580,6 +584,7 @@ async function getInstanaVersion(req) {
     instanaVersion.version = versionData.branch || '';
     instanaVersion.build_number = versionData.imageTag || '';
   } catch (error) {
+    /* eslint-disable no-console */
     console.error('Error fetching Instana version:', error);
   }
 
