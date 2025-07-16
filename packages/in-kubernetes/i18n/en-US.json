@@ -350,7 +350,7 @@
     "switchToCardView": "Switch to card view",
     "switchToTableView": "Switch to table view",
     "sortingOptions": {
-      "unhealthyNodesCriticals": "Unhealthy nodes (Critical)",
+      "unhealthyNodesCritical": "Unhealthy nodes (Critical)",
       "unhealthyNodesWarnings": "Unhealthy nodes (Warnings)",
       "unhealthyDeploymentsCritical": "Unhealthy deployments (Critical)",
       "unhealthyDeploymentsWarnings": "Unhealthy deployments (Warnings)",
