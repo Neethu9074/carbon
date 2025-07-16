@@ -512,7 +512,7 @@
     "showAll": "Show all",
     "collapse": "Collapse",
     "aiModel": "AI model",
-    "granite": "granite-3-8b-instruct",
+    "granite": "granite-3.3-8b-instruct",
     "withManualEdits": "(with manual edits)",
     "shareIncidentSummarySubject": "Summarization of incident: {{problemText}}",
     "share": "Share",

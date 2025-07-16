@@ -126,7 +126,7 @@ export function QuickActions(props) {
               <Trans i18nKey={'in-events:notes.affectedEntities'} />
             ]}
             modelTitle={t('in-events:notes.granite')}
-            modelLink={'https://ibm.biz/granite-instruct-models'}
+            modelLink={'https://www.ibm.com/granite/docs/models/granite/#overview'}
           />
         </div>
       )}

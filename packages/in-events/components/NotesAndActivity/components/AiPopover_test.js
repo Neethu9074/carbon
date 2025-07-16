@@ -103,6 +103,6 @@ describe('AIExplainedContent', () => {
       />
     );
     expect(getByText.find(`div.${locals.aimodellink}`)).toHaveLength(1);
-    expect(getByText.find(`div.${locals.aimodellink}`).text()).toEqual('AI modelgranite-3-8b-instruct');
+    expect(getByText.find(`div.${locals.aimodellink}`).text()).toEqual('AI modelgranite-3.3-8b-instruct');
   });
 });
