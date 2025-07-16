@@ -92,7 +92,7 @@ export type LlmResponse = {
 
 export type InferredTagSuggestions = {
   tagName: string;
-  suggestions: Readonly<Result<any>> | any[];
+  suggestions: Readonly<Result<any>> | string[];
 };
 
 export type SlotsRequest = {

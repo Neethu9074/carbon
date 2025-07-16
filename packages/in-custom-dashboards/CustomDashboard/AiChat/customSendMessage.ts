@@ -97,7 +97,7 @@ function handleGenericWidget(llmResponse: LlmResponse, instance: ChatInstance) {
   }
 
   const filterKeys = Object.keys(filters);
-  combineLatest(getInferredTagSuggestions(filterKeys), true).subscribe(tagSuggestionsResult => {
+  const subscription = combineLatest(getInferredTagSuggestions(filterKeys), true).subscribe(tagSuggestionsResult => {
     const suggestions = tagSuggestionsResult.map(s => s.suggestions);
 
     if (!suggestions.every(Array.isArray)) {
@@ -107,15 +107,16 @@ function handleGenericWidget(llmResponse: LlmResponse, instance: ChatInstance) {
 
     const filterOptions = createFilterOptions(tagSuggestionsResult);
     processSlots(llmResponse, filterOptions, instance);
+    subscription.dispose();
   });
 }
 
 /**
- * Creates filter options from tag suggestions
+ * Creates filter options from tag suggestions for backend compatibility
  */
-function createFilterOptions(tagSuggestionsResult: InferredTagSuggestions[]): Record<string, any> {
-  return tagSuggestionsResult.reduce((options: Record<string, any>, suggestionObj) => {
-    options[suggestionObj.tagName] = suggestionObj.suggestions;
+function createFilterOptions(tagSuggestionsResult: InferredTagSuggestions[]): Record<string, string[]> {
+  return tagSuggestionsResult.reduce((options: Record<string, string[]>, suggestionObj) => {
+    options[suggestionObj.tagName] = suggestionObj.suggestions as string[];
     return options;
   }, {});
 }
@@ -124,7 +125,7 @@ function createFilterOptions(tagSuggestionsResult: InferredTagSuggestions[]): Re
  * Handles SLO widget type
  */
 function handleSloWidget(llmResponse: LlmResponse, instance: ChatInstance) {
-  getAllSloConfigurations({ page: 1, pageSize: 1000 }).subscribe(sloConfigsResult => {
+  const subscription = getAllSloConfigurations({ page: 1, pageSize: 1000 }).subscribe(sloConfigsResult => {
     if (isLoading(sloConfigsResult) || hasError(sloConfigsResult)) {
       return;
     }
@@ -134,6 +135,7 @@ function handleSloWidget(llmResponse: LlmResponse, instance: ChatInstance) {
     };
 
     processSlots(llmResponse, filterOptions, instance);
+    subscription.dispose();
   });
 }
 
