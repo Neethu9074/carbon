@@ -21,6 +21,7 @@ import DetectionDetailDialog from 'in-vulnerability-center/Dashboard/DetectionDe
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConcertBanner from 'in-vulnerability-center/components/ConcertBanner';
+import useSolisMetaLoading from 'in-applications/hooks/useSolisMetaLoading';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { solisEnabled } from 'in-services/featureFlags';
@@ -47,7 +48,14 @@ export default function AffectedCvePresenter() {
   const matrixPrefix = '';
 
   const [isTableEmpty, setIsTableEmpty] = useState<boolean | null>(null);
-  const isConcertEnabled = useMemo(() => isConcertEnabledFromToken(), []);
+  const isLoading = useSolisMetaLoading();
+  const isConcertEnabled = useMemo(() => {
+    if (!isLoading) {
+      return isConcertEnabledFromToken();
+    } else {
+      return false;
+    }
+  }, [isLoading]);
 
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
@@ -146,7 +154,13 @@ export default function AffectedCvePresenter() {
       return (
         // @ts-expect-error TS2304: Cannot find name solis
         // component is loaded from a script in ui-client/packages/in-client/index.html
-        <solis-teaser product="concert" type="banner" variation="vulnerabilities" sub_variation={variation} />
+        <solis-teaser
+          product="concert"
+          type="banner"
+          variation="vulnerabilities"
+          sub_variation={variation}
+          banner_expanded={isTableEmpty ? 'true' : 'false'}
+        />
       );
     }
 
@@ -159,23 +173,28 @@ export default function AffectedCvePresenter() {
         variation="vulnerabilities"
         sub_variation="noTrialNoOptim"
         product_context="instana"
+        banner_expanded="true"
       />
     );
   };
 
   return (
-    <Stack gap="large">
-      {renderBanner()}
-      {(!solisEnabled || isConcertEnabled) && (
-        <ServerTableWithUrlState
-          get={fetchCVEEvents}
-          timeConfig={timeConfig}
-          title={t('in-vulnerability-center:detection.table.mainLabel')}
-          rightHeader={noop}
-          showHeaderCount
-          onRowClick={handleOnRowClick}
-        />
+    <div>
+      {((solisEnabled && !isLoading) || !solisEnabled) && (
+        <Stack gap="large">
+          {renderBanner()}
+          {(!solisEnabled || isConcertEnabled) && (
+            <ServerTableWithUrlState
+              get={fetchCVEEvents}
+              timeConfig={timeConfig}
+              title={t('in-vulnerability-center:detection.table.mainLabel')}
+              rightHeader={noop}
+              showHeaderCount
+              onRowClick={handleOnRowClick}
+            />
+          )}
+        </Stack>
       )}
-    </Stack>
+    </div>
   );
 }

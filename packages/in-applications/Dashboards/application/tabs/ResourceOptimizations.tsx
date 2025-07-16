@@ -23,6 +23,7 @@ import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilte
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { isTurboEnabled } from 'in-applications/Dashboards/application/tabs/utils';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
+import useSolisMetaLoading from 'in-applications/hooks/useSolisMetaLoading';
 import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
@@ -124,6 +125,8 @@ export default function ResourceOptimizationTab({
     });
     pieLabels = pieLabels.map(label => (label.indexOf('_') === -1 ? label : label.split('_')[0]));
   }
+
+  const isLoading = useSolisMetaLoading();
   const turboEnabled = isTurboEnabled();
   const actionCount = Object.values(actionCategoryCounts || {}).reduce((sum, count) => sum + count, 0);
   const hasRecommendations = actionCount > 0;
@@ -136,7 +139,7 @@ export default function ResourceOptimizationTab({
 
   return (
     <div className={locals.contentContainer}>
-      {solisEnabled && turboEnabled && (
+      {solisEnabled && !isLoading && turboEnabled && (
         // @ts-expect-error TS2304: Cannot find name solis
         // component is loaded from a script in ui-client/packages/in-client/index.html
         <solis-teaser
@@ -144,10 +147,11 @@ export default function ResourceOptimizationTab({
           type="banner"
           variation="optimizations"
           sub_variation={hasRecommendations ? 'trialConfig' : 'trialOnly'}
+          banner_expanded={hasRecommendations ? 'false' : 'true'}
         />
       )}
 
-      {solisEnabled && !turboEnabled && hasCpuUtilizationData && (
+      {solisEnabled && !isLoading && !turboEnabled && hasCpuUtilizationData && (
         // @ts-expect-error TS2304: Cannot find name solis
         // component is loaded from a script in ui-client/packages/in-client/index.html
         <solis-teaser
@@ -156,10 +160,11 @@ export default function ResourceOptimizationTab({
           variation="optimizations"
           sub_variation="noTrialOptim"
           product_context="instana"
+          banner_expanded="true"
         />
       )}
 
-      {solisEnabled && !turboEnabled && noCpuUtilizationData && (
+      {solisEnabled && !isLoading && !turboEnabled && noCpuUtilizationData && (
         // @ts-expect-error
         <solis-teaser
           product="turbonomic"
@@ -167,6 +172,7 @@ export default function ResourceOptimizationTab({
           variation="optimizations"
           sub_variation="noTrialNoOptim"
           product_context="instana"
+          banner_expanded="true"
         />
       )}
 
@@ -261,7 +267,7 @@ export default function ResourceOptimizationTab({
         <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
       )}
 
-      {solisEnabled && !turboEnabled && (
+      {solisEnabled && !isLoading && !turboEnabled && (
         <>
           <OptimizationNudgesTable applicationId={applicationId} metricType="HIGH" onRowCountUpdate={setHighUtilRows} />
           <OptimizationNudgesTable applicationId={applicationId} metricType="LOW" onRowCountUpdate={setLowUtilRows} />

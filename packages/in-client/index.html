@@ -86,12 +86,16 @@
         // const solisUiHost = window.instana.config.solisUiHost || window.location.origin; // Default value if not set by config.js
         const solisUiHost = "http://localhost:3015"; //local test only
 
-        const mfes = ["login", "nav", "teaser"];
+        const mfes = ["login", "nav", "teaser","meta"];
 
         mfes.forEach((mfe) => {
           const script = document.createElement("script");
           script.type = "module";
+          if(mfe==='meta'){
+            script.src = `${solisUiHost}/meta.js`;
+          }else{
           script.src = `${solisUiHost}/${mfe}/solis-${mfe}.es.js`;
+          }
           document.head.appendChild(script);
         });
       }
