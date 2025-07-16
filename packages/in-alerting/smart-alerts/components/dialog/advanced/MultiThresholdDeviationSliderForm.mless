@@ -17,4 +17,11 @@
   .topSpace {
     padding: 1rem 0;
   }
+  .advancedOptionsContainer {
+    margin-top: 1rem;
+    margin-right: 1rem;
+  }
+  .betaPill {
+    margin-left: 0.5rem;
+  }
 }

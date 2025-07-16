@@ -16,6 +16,7 @@ import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/Thre
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
+import { eumSupportedSeasonalities } from 'in-alerting/smart-alerts/eum/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 
@@ -78,7 +79,12 @@ export default function CrashThresholdCondition({
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm
+          form={form}
+          updateForm={updateForm}
+          defaultValue={defaultDeviationFactor}
+          supportedSeasonalities={eumSupportedSeasonalities}
+        />
       )}
     </>
   );

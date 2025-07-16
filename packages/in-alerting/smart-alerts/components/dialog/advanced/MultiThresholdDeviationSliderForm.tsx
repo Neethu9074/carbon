@@ -10,7 +10,7 @@ import { Field, Item, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
-import { Checkbox, Stack } from '@instana/components';
+import { Checkbox, PreviewPill, Stack } from '@instana/components';
 
 import {
   updateAlertChannelSelectionOnWarningThresholdFieldChange,
@@ -30,43 +30,33 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm.mless';
 
-const getCommonAdaptiveBaselineFields = (form: MapForm<any>) => {
-  const warningThreshold = form.get('threshold').get('warningThreshold') as MapForm<any>;
-  const criticalThreshold = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const type = warningThreshold.get('type')?.value ?? criticalThreshold.get('type')?.value;
-  const adaptability = warningThreshold.get('adaptability')?.value ?? criticalThreshold.get('adaptability')?.value;
-  const seasonality = warningThreshold.get('seasonality')?.value ?? criticalThreshold.get('seasonality')?.value;
-  return { type, adaptability, seasonality };
-};
+export type SeasonalitySetting = 'AUTO' | 'NONE' | 'DAILY' | 'WEEKLY';
 
 interface MultiThresholdDeviationSliderFormProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   defaultValue: number;
   isTearSheet?: boolean;
+  supportedSeasonalities?: SeasonalitySetting[];
 }
+
+const defaultSupportedSeasonalities: SeasonalitySetting[] = ['AUTO', 'NONE', 'DAILY', 'WEEKLY'];
 
 export function MultiThresholdDeviationSliderForm({
   form,
   updateForm,
   defaultValue,
-  isTearSheet
+  isTearSheet,
+  supportedSeasonalities = defaultSupportedSeasonalities
 }: MultiThresholdDeviationSliderFormProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
+  const thresholdType = warningThresholdField.get('type')?.value ?? criticalThresholdField.get('type')?.value;
   const warningThresholdCheckBoxField = warningThresholdField.get('isCheckboxSelected');
   const criticalThresholdCheckBoxField = criticalThresholdField.get('isCheckboxSelected');
   const isWarningChecked = warningThresholdCheckBoxField?.value;
   const isCriticalChecked = criticalThresholdCheckBoxField?.value;
   const alertChannelSelection = form.get('alertChannels').value;
-  const { type: thresholdType, seasonality, adaptability } = getCommonAdaptiveBaselineFields(form);
-
-  // Workaround until we can reference the seasonality options from the backend
-  const seasonalityOptions = [
-    { value: 'AUTO', label: 'Auto' },
-    { value: 'DAILY', label: 'Daily' },
-    { value: 'WEEKLY', label: 'Weekly' }
-  ];
 
   useEffect(() => {
     updateAlertChannelSelectionOnWarningThresholdFieldChange(
@@ -124,19 +114,6 @@ export function MultiThresholdDeviationSliderForm({
     );
   };
 
-  const handleAdaptiveBaselineAdvancedSettingChange = (parameter: string, value: any) => {
-    let updatedForm = form;
-    const updateThreshold = (thresholdMapForm: Item) => {
-      const updated = (thresholdMapForm as MapForm<any>).updateIn([parameter], item =>
-        (item as Field<any>).setValue(value).setTouched(true)
-      );
-      return updated;
-    };
-    updatedForm = updatedForm.updateIn(['threshold', 'warningThreshold'], updateThreshold);
-    updatedForm = updatedForm.updateIn(['threshold', 'criticalThreshold'], updateThreshold);
-    updateForm(updatedForm);
-  };
-
   return (
     <ThresholdConditionFormGroup
       iconType="lib_threshold"
@@ -189,43 +166,91 @@ export function MultiThresholdDeviationSliderForm({
             </Stack>
           </div>
           {thresholdType === ADAPTIVE_BASELINE && overrideAdaptiveBaselineSmoothingParamsEnabled && (
-            <ExpandableTile>
-              <TileAboveTheFoldContent>
-                <div>{t('in-alerting:smartAlerts.components.smartAlertDialog.advancedSettingsTrayTitle')}</div>
-              </TileAboveTheFoldContent>
-              <TileBelowTheFoldContent>
-                <Stack gap="small">
-                  <label>{t('in-alerting:smartAlerts.components.smartAlertDialog.seasonality')}</label>
-                  <Dropdown
-                    value={seasonality ?? 'AUTO'}
-                    className={locals.dropdownxlg}
-                    items={seasonalityOptions}
-                    onChange={newSeasonality => {
-                      handleAdaptiveBaselineAdvancedSettingChange(
-                        'seasonality',
-                        newSeasonality === 'AUTO' ? null : newSeasonality
-                      );
-                    }}
-                  />
-                  <label>{t('in-alerting:smartAlerts.components.smartAlertDialog.adaptability')}</label>
-                  <DebouncedDistinctSlider
-                    min={0.01}
-                    max={1}
-                    step={0.01}
-                    value={adaptability ?? 1}
-                    onChange={(value: number) => handleAdaptiveBaselineAdvancedSettingChange('adaptability', value)}
-                    marks={[
-                      { value: 0.01, label: '0.01' },
-                      { value: 0.5, label: '0.5' },
-                      { value: 1, label: '1' }
-                    ]}
-                  />
-                </Stack>
-              </TileBelowTheFoldContent>
-            </ExpandableTile>
+            <AdvancedAdaptiveOptions
+              form={form}
+              updateForm={updateForm}
+              supportedSeasonalities={supportedSeasonalities}
+            />
           )}
         </Stack>
       </div>
     </ThresholdConditionFormGroup>
+  );
+}
+
+interface AdvancedAdaptiveOptionsProps {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  supportedSeasonalities?: SeasonalitySetting[];
+}
+
+function AdvancedAdaptiveOptions({
+  form,
+  updateForm,
+  supportedSeasonalities = defaultSupportedSeasonalities
+}: AdvancedAdaptiveOptionsProps) {
+  const warningThreshold = form.get('threshold').get('warningThreshold') as MapForm<any>;
+  const criticalThreshold = form.get('threshold').get('criticalThreshold') as MapForm<any>;
+  const adaptability = warningThreshold.get('adaptability')?.value ?? criticalThreshold.get('adaptability')?.value;
+  const seasonality = warningThreshold.get('seasonality')?.value ?? criticalThreshold.get('seasonality')?.value;
+
+  const seasonalityOptions = [
+    { value: 'AUTO', label: t('in-alerting:smartAlerts.components.smartAlertDialog.seasonalityAuto') },
+    { value: 'NONE', label: t('in-alerting:smartAlerts.components.smartAlertDialog.seasonalityNone') },
+    { value: 'DAILY', label: t('in-alerting:smartAlerts.components.smartAlertDialog.seasonalityDaily') },
+    { value: 'WEEKLY', label: t('in-alerting:smartAlerts.components.smartAlertDialog.seasonalityWeekly') }
+  ].filter(option => supportedSeasonalities?.includes(option.value as SeasonalitySetting));
+
+  const handleAdaptiveBaselineAdvancedSettingChange = (parameter: string, value: any) => {
+    let updatedForm = form;
+    const updateThreshold = (thresholdMapForm: Item) => {
+      const updated = (thresholdMapForm as MapForm<any>).updateIn([parameter], item =>
+        (item as Field<any>).setValue(value).setTouched(true)
+      );
+      return updated;
+    };
+    updatedForm = updatedForm.updateIn(['threshold', 'warningThreshold'], updateThreshold);
+    updatedForm = updatedForm.updateIn(['threshold', 'criticalThreshold'], updateThreshold);
+    updateForm(updatedForm);
+  };
+
+  return (
+    <ExpandableTile>
+      <TileAboveTheFoldContent>
+        {t('in-alerting:smartAlerts.components.smartAlertDialog.advancedSettingsTrayTitle')}
+        <PreviewPill className={locals.betaPill} />
+      </TileAboveTheFoldContent>
+      <TileBelowTheFoldContent>
+        <div className={locals.advancedOptionsContainer}>
+          <Stack gap="small">
+            <label>{t('in-alerting:smartAlerts.components.smartAlertDialog.seasonality')}</label>
+            <Dropdown
+              value={seasonality ?? 'AUTO'}
+              className={locals.dropdownxlg}
+              items={seasonalityOptions}
+              onChange={newSeasonality => {
+                handleAdaptiveBaselineAdvancedSettingChange(
+                  'seasonality',
+                  newSeasonality === 'AUTO' ? null : newSeasonality
+                );
+              }}
+            />
+            <label>{t('in-alerting:smartAlerts.components.smartAlertDialog.adaptability')}</label>
+            <DebouncedDistinctSlider
+              min={0.01}
+              max={1}
+              step={0.01}
+              value={adaptability ?? 1}
+              onChange={(value: number) => handleAdaptiveBaselineAdvancedSettingChange('adaptability', value)}
+              marks={[
+                { value: 0.01, label: '0.01' },
+                { value: 0.5, label: '0.5' },
+                { value: 1, label: '1' }
+              ]}
+            />
+          </Stack>
+        </div>
+      </TileBelowTheFoldContent>
+    </ExpandableTile>
   );
 }
