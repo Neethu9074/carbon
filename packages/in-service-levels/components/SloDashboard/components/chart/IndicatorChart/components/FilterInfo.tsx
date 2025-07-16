@@ -26,6 +26,8 @@ import { ServiceLevelErrors } from 'in-service-levels/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
+import locals from './FilterInfo.mless';
+
 interface FilterInfoProps {
   entity: SloEntityUnion;
   indicator: ServiceLevelIndicatorUnion;
@@ -43,7 +45,7 @@ export default function FilterInfo({ entity, indicator }: FilterInfoProps) {
   }
 
   return (
-    <Tooltip content={content} themeStyle="light" align="bottomRight">
+    <Tooltip content={content} align="bottomRight">
       <SvgIcon type="lib_help_error_info_outline" />
     </Tooltip>
   );
@@ -68,12 +70,16 @@ function FilterInfoContent({
   return (
     <Stack gap="disabled">
       <Typography variant="heading-100" component="h5">
-        {t('in-service-levels:sloDashboard.components.indicatorChart.components.filterInfo.goodEventFilters')}
+        <span className={locals.textInverse}>
+          {t('in-service-levels:sloDashboard.components.indicatorChart.components.filterInfo.goodEventFilters')}
+        </span>
       </Typography>
       <QueryBuilderComponent value={fromBackendModel(good)} readOnly />
       <Spacer size="normal" />
       <Typography variant="heading-100" component="h5">
-        {t('in-service-levels:sloDashboard.components.indicatorChart.components.filterInfo.badEventFilters')}
+        <span className={locals.textInverse}>
+          {t('in-service-levels:sloDashboard.components.indicatorChart.components.filterInfo.badEventFilters')}
+        </span>
       </Typography>
       <QueryBuilderComponent value={fromBackendModel(bad)} readOnly />
     </Stack>
