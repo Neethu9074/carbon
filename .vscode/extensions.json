@@ -14,6 +14,7 @@
     "suming.react-proptypes-generate",
     "unifiedjs.vscode-mdx",
     "Orta.vscode-jest",
+    "stylelint.vscode-stylelint",
     "genaitools.wca-at-ibm"
   ]
 }
