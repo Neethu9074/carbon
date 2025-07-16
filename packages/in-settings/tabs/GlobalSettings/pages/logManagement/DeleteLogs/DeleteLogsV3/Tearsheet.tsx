@@ -232,6 +232,7 @@ export default function DeleteLogsTearsheet({ isOpen, setIsOpen }: DeleteLogsTea
   return (
     // @ts-expect-error Tearsheet prop interface is incorrect, children are a valid prop
     <Tearsheet
+      hasCloseIcon
       className={locals.tearsheet}
       onClose={() => setIsOpen(false)}
       open={isOpen}
