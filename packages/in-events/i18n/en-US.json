@@ -318,13 +318,26 @@
       "investigationPanelTitle": "Agentic investigation",
       "errorTitle": "Error",
       "commonErrorMessage": "There was an unexpected error while investigating this root cause.",
-      "diagnosisTitle": "Diagnosis",
-      "factualityScoreTitle": "Factuality score",
-      "reasoningTitle": "Reasoning",
-      "errorLogSummaryTitle": "Error log summary",
-      "traceLogSummaryTitle": "Trace log summary",
-      "associatedEventsSummaryTitle": "Associated events summary",
-      "runInvestigationInstructions": "To see a detailed and comprehensive summary of the root cause, click <strong>Run investigation.<strong>"
+      "runInvestigationInstructions": "To see a detailed and comprehensive summary of the root cause, click <strong>Run investigation.<strong>",
+      "nonrcaInstructions": "Click on a root cause to get started",
+      "aiExplained": {
+        "datatypeIncident": "<strong>Incident.</strong> We use the incident problem description and details.",
+        "datatypeTracelogs": "<strong>Trace logs.</strong> We use log messages around the probable root cause entity.",
+        "datatypeTraceError": "<strong>Trace error messages.</strong> We use error messages around the probable root cause entity.",
+        "datatypeAssociatedEvents": "<strong>Associated events.</strong> We use the problem description and details of the associated events with the probable root cause entity.",
+        "datatypeInfrastructureStack": "<strong>Infrastructure stack topology.</strong> We use the entire infrastructure stack and health statuses of the probable root cause entity.",
+        "featureName": "Intelligent investigation",
+        "featureDescription": "To investigate, we send incident details and probable root cause information to watsonx. The data is processed using an AI model and various reasoning steps, as well as self-reflection. Watsonx returns a concise hypothesis for what may be failing, as well as each modality used in that reasoning."
+      },
+      "output": {
+        "diagnosis": "Diagnosis",
+        "summary": "Summary",
+        "errorLogSummaryTitle": "Error log summary",
+        "traceLogSummaryTitle": "Trace log summary",
+        "associatedEventsSummaryTitle": "Associated events summary",
+        "reasoningTitle": "Reasoning",
+        "factualityScoreTitle": "Factuality score"
+      }
     },
     "errorRates": "Erroneous call rates",
     "rootCause": "Root cause",

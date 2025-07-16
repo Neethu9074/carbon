@@ -20,9 +20,10 @@ import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/Agent
 import SingleEntityOutput from 'in-events/components/RootCauseAnalysis/RootCauseInvestigation/SingleEntityOutput';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
+import { AIExplainedContent } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { useIncident } from 'in-events/components/providers/IncidentProvider';
 import { fullyQualifiedPlugins } from 'in-forge/constants';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/SingleEntityLLM/SingleEntityLLM.mless';
 
@@ -105,16 +106,30 @@ const SingleEntityLLM: FC = () => {
   }, [incident, rootCauseMetadata, rootCauseIndex, serviceId]);
 
   if (rootCauseIndex < 0) {
-    return <div>Click on a root cause to get started</div>;
+    return <div>{t('in-events:RCA.singleEntityLLM.nonrcaInstructions')}</div>;
   }
 
   return (
     <Stack orientation="vertical" className={locals.llmContainer}>
       <Typography variant="heading-compact-02">
         <Stack orientation="horizontal" gap={3}>
-          Investigation
-          <AILabel>
-            <AILabelContent>Details on how we are using this will go here</AILabelContent>
+          {t('in-events:RCA.singleEntityLLM.switcher.investigation')}
+          <AILabel className={locals.aiLabel}>
+            <AILabelContent>
+              <AIExplainedContent
+                featureName={t('in-events:RCA.singleEntityLLM.aiExplained.featureName')}
+                featureDescription={t('in-events:RCA.singleEntityLLM.aiExplained.featureDescription')}
+                dataUsed={[
+                  <Trans i18nKey="in-events:RCA.singleEntityLLM.aiExplained.datatypeIncident" />,
+                  <Trans i18nKey="in-events:RCA.singleEntityLLM.aiExplained.datatypeTracelogs" />,
+                  <Trans i18nKey="in-events:RCA.singleEntityLLM.aiExplained.datatypeTraceError" />,
+                  <Trans i18nKey="in-events:RCA.singleEntityLLM.aiExplained.datatypeAssociatedEvents" />,
+                  <Trans i18nKey="in-events:RCA.singleEntityLLM.aiExplained.datatypeInfrastructureStack" />
+                ]}
+                modelTitle={t('in-events:notes.granite')}
+                modelLink="https://ibm.biz/granite-instruct-models"
+              />
+            </AILabelContent>
           </AILabel>
         </Stack>
       </Typography>

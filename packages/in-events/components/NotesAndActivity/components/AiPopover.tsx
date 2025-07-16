@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { FC, useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 
 import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, Link } from '@instana/components';
 import { UnorderedList, ListItem } from '@instana/carbon';
@@ -16,7 +16,7 @@ import locals from './AiPopover.mless';
 interface AIPopoverProps {
   featureName: string;
   featureDescription: string;
-  dataUsed: [React.ReactElement];
+  dataUsed: ReactElement[];
   modelTitle: string;
   modelLink: string;
 }
