@@ -28,18 +28,15 @@ interface AgenticInvestigationProps {
   event: Event;
 }
 
-// Using underscore prefix to indicate intentionally unused parameters
 const AgenticInvestigation = ({ incident, volatileId, event }: AgenticInvestigationProps) => {
   const incidentJSON: Event = useMemo(() => incident.toJS(), [incident]);
 
   const [indexForSwitch, setIndexForSwitch] = useState(0);
 
-  // Props are defined for future implementation but not used yet
-
   return (
     <div className={locals.investigateContainer}>
       <ProductiveCard
-        title={<>{t('in-events:RCA.singleEntityLLM.mainContainerTitle')}</>}
+        title={t('in-events:RCA.singleEntityLLM.mainContainerTitle')}
         titleSize="large"
         description={t('in-events:RCA.singleEntityLLM.mainContainerSubtitle')}
       >

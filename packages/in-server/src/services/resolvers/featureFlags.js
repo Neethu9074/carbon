@@ -974,7 +974,7 @@ module.exports = exports = [
   {
     uiClientKey: 'regexMatchEnabled',
     instanaCtlKey: 'feature.regex.match.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'blockLogDeletionsEnabled',

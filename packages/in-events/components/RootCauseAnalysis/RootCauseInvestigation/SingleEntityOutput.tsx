@@ -56,7 +56,11 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
       {backendResponse && (
         <Grid narrow className={locals.grid} fullWidth>
           <Column lg={4}>
-            <ProductiveCard aiLabel={<></>} className={locals.cardWithBorder} title="Diagnosis">
+            <ProductiveCard
+              aiLabel={<></>}
+              className={locals.cardWithBorder}
+              title={t('in-events:RCA.singleEntityLLM.output.diagnosis')}
+            >
               <Typography variant="body-01">
                 <MarkdownRenderer html={toHtml(backendResponse.diagnosis.diagnosis)} />
               </Typography>
@@ -64,11 +68,11 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
           </Column>
 
           <Column lg={12}>
-            <ProductiveCard title="Summary" className={locals.cardWithBorder}>
+            <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.summary')} className={locals.cardWithBorder}>
               <Stack orientation="vertical" gap={5}>
                 <Stack orientation="vertical" gap={3}>
                   <Typography variant="heading-01">
-                    {t('in-events:RCA.singleEntityLLM.errorLogSummaryTitle')}
+                    {t('in-events:RCA.singleEntityLLM.output.errorLogSummaryTitle')}
                   </Typography>
                   <Typography variant="body-01">
                     <MarkdownRenderer html={toHtml(backendResponse.trace_error_log_summary)} />
@@ -77,7 +81,7 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
 
                 <Stack orientation="vertical" gap={3}>
                   <Typography variant="heading-01">
-                    {t('in-events:RCA.singleEntityLLM.traceLogSummaryTitle')}
+                    {t('in-events:RCA.singleEntityLLM.output.traceLogSummaryTitle')}
                   </Typography>
                   <Typography variant="body-01">
                     <MarkdownRenderer html={toHtml(backendResponse.trace_log_summary)} />
@@ -86,7 +90,7 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
 
                 <Stack orientation="vertical" gap={3}>
                   <Typography variant="heading-01">
-                    {t('in-events:RCA.singleEntityLLM.associatedEventsSummaryTitle')}
+                    {t('in-events:RCA.singleEntityLLM.output.associatedEventsSummaryTitle')}
                   </Typography>
                   <Typography variant="body-01">
                     <MarkdownRenderer html={toHtml(backendResponse.event_summary)} />
@@ -94,11 +98,11 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
                 </Stack>
 
                 <Accordion>
-                  <AccordionItem title={t('in-events:RCA.singleEntityLLM.reasoningTitle')}>
+                  <AccordionItem title={t('in-events:RCA.singleEntityLLM.output.reasoningTitle')}>
                     <Stack gap={5} orientation="vertical">
                       <Stack gap={3}>
                         <Typography variant="heading-compact-01">
-                          {t('in-events:RCA.singleEntityLLM.factualityScoreTitle')}
+                          {t('in-events:RCA.singleEntityLLM.output.factualityScoreTitle')}
                         </Typography>
                         <Typography variant="heading-05">
                           {backendResponse.fact_check.factuality_score * 100}%
@@ -110,7 +114,7 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
 
                       <Stack gap={3}>
                         <Typography variant="heading-compact-01">
-                          {t('in-events:RCA.singleEntityLLM.reasoningTitle')}
+                          {t('in-events:RCA.singleEntityLLM.output.reasoningTitle')}
                         </Typography>
                         <Typography variant="body-compact-01">
                           <MarkdownRenderer html={toHtml(backendResponse.fact_check.reasoning)} />
@@ -144,12 +148,12 @@ const InitialState: FC<{
 const SingleEntityOutputSkeleton: FC = () => (
   <Grid narrow className={locals.grid} fullWidth>
     <Column lg={4}>
-      <ProductiveCard title={t('in-events:RCA.singleEntityLLM.diagnosisTitle')} className={locals.cardWithBorder}>
+      <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.diagnosis')} className={locals.cardWithBorder}>
         <AISkeletonText lineCount={3} />
       </ProductiveCard>
     </Column>
     <Column lg={12}>
-      <ProductiveCard title={t('in-events:labelSummary')} className={locals.cardWithBorder}>
+      <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.summary')} className={locals.cardWithBorder}>
         <AISkeletonText lineCount={3} />
       </ProductiveCard>
     </Column>

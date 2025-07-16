@@ -135,6 +135,17 @@ export function loadDownloadableLogs([snapshot]: [snapshot: SnapshotData]) {
   });
 }
 
+// This function is used to update the OTel collector configuration.
+// It uses the same action name 'agent.configuration.update' but with a different argument structure.
+export function updateOTelConfiguration(snapshot: SnapshotData, configString: string) {
+  return createAgentResponseObservable({
+    action: 'agent.configuration.update',
+    target: snapshot.get('volatileId'),
+    args: { configString }
+  }).once(response => {
+    logger.info('OTel collector configuration update response', response);
+  });
+}
 export function invokeLogCollectorPrepare(
   snapshot: SnapshotData,
   setPrepareClrLoggingEnvironmentButtonClick: React.Dispatch<React.SetStateAction<boolean>>
@@ -165,13 +176,13 @@ export function isDotNetHostCollectorPrepared(
     }).once(response => {
       logger.info('Log Collector Status', response);
       const validState = new Set(['true', 'false']);
-      if(response.data){
+      if (response.data) {
         const status = JSON.parse((response.data ?? '').trim().toLowerCase());
         if (validState.has(response.data) && clrLogState !== status) {
-          setPrepareClrLoggingEnvironmentButtonClick(() => (response.data === "true") );
+          setPrepareClrLoggingEnvironmentButtonClick(() => response.data === 'true');
           curentClrStatus = response.data;
         }
-    }
+      }
     });
   }
   return null;
