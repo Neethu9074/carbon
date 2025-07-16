@@ -14,7 +14,13 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/EmptyState.mless';
 
-export default function EmptyState({ event }: { event: Event }) {
+export default function EmptyState({
+  event,
+  togglePolicyTearsheet
+}: {
+  event: Event;
+  togglePolicyTearsheet: Function;
+}) {
   return (
     <div className={locals.emptyRecomendedActions}>
       <SvgIcon type={'lib_carbon_empty_state'} size="xxxl" />
@@ -27,7 +33,7 @@ export default function EmptyState({ event }: { event: Event }) {
             <Trans i18nKey="in-automation:emptyRecommendedActionsDescription2" />
           </p>
         }
-        <CreatePolicyButton event={event} />
+        <CreatePolicyButton event={event} togglePolicyTearsheet={togglePolicyTearsheet} />
       </div>
     </div>
   );

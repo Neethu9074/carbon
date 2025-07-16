@@ -49,11 +49,11 @@ export default function AlertChannelsList({
   getHeader = defaultGetHeader(inSelectListDialog, tableActions)
 }) {
   const BOUNDED_PATH = '/channels';
-  const { location } = useNavigation();
+  const { location, createHrefToPath } = useNavigation();
   const channelListColumnDefinitions =
     alertChannelPerSeverityEnabled && detailView
-      ? [...columnDefinitions(hasRowNavigation), ...columnDefinitionsAlertLevel(alertChannels)]
-      : columnDefinitions(hasRowNavigation);
+      ? [...columnDefinitions(hasRowNavigation, createHrefToPath), ...columnDefinitionsAlertLevel(alertChannels)]
+      : columnDefinitions(hasRowNavigation, createHrefToPath);
   const [{ query }] = useUrlState({
     bind: [
       {
@@ -107,18 +107,19 @@ export default function AlertChannelsList({
   );
 }
 
-export function columnDefinitions(hasRowNavigation) {
+// removed 'createHrefToPath', which was initialised within the GetContent, because UI was crashing with an error while searching: : Rendered more hooks than during the previous render.
+export function columnDefinitions(hasRowNavigation, createHrefToPath) {
   const columns = [
     {
       id: 'name',
       label: t('in-settings:tabs.name'),
       width: 35,
       ellipsis: true,
-      getContent(entity) {
+      getContent: entity => {
         return (
           <WithSubscript subscript={getKind(entity)}>
             {hasRowNavigation ? (
-              <Link href={getEntityIdView(globalSettingsAlertingAlertChannels, entity.id)} ellipsis>
+              <Link href={getEntityIdView(globalSettingsAlertingAlertChannels, entity.id, createHrefToPath)} ellipsis>
                 {entity.name}
               </Link>
             ) : (

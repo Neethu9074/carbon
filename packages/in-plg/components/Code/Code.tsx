@@ -11,6 +11,7 @@ import React from 'react';
 import { Stack, Button } from '@instana/components';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import CodeComponent from 'in-components/Code';
 import { t } from 'in-i18n';
 
@@ -25,6 +26,7 @@ export interface CodeProps {
   withoutCopyButton?: boolean;
   withExpandButton?: boolean;
   linesToShow?: number;
+  showLineNumbers?: boolean;
 }
 
 const Code: React.FC<CodeProps> = ({
@@ -33,7 +35,8 @@ const Code: React.FC<CodeProps> = ({
   withDownload,
   withExpandButton = false,
   withoutCopyButton = false,
-  linesToShow
+  linesToShow,
+  showLineNumbers
 }) => {
   let content = '';
   if (isArray(code)) {
@@ -53,33 +56,48 @@ const Code: React.FC<CodeProps> = ({
   };
 
   return (
-    <Stack direction="vertical" gap="xxsmall">
-      <Stack direction="horizontal" gap="xxsmall" distribution="end">
-        <Button
-          noAutoMargin
-          kind="action"
-          hidden={!withDownload}
-          disabled={withoutCopyButton}
-          size="compact"
-          onClick={() => {
-            downloadContent();
-          }}
-        >
-          {t('in-plg:agentDetails.common.download')}
-        </Button>
-        <CopyToClipboardButton size="compact" disabled={withoutCopyButton} kind="action" getText={() => content} />
-      </Stack>
-      <CodeComponent
-        code={content}
-        withoutCopyButton
-        wrapperClassName={locals.wrapper}
-        lang={lang}
-        withExpandButton={withExpandButton}
-        linesToShow={linesToShow}
-        softWrap
-        useDark
-      />
-    </Stack>
+    <>
+      {newOTelPageEnabled ? (
+        <CodeComponent
+          code={content}
+          withoutCopyButton={withoutCopyButton}
+          wrapperClassName={locals.wrapper}
+          lang={lang}
+          withExpandButton={withExpandButton}
+          linesToShow={linesToShow}
+          softWrap
+          showLineNumbers={showLineNumbers}
+        />
+      ) : (
+        <Stack direction="vertical" gap="xxsmall">
+          <Stack direction="horizontal" gap="xxsmall" distribution="end">
+            <Button
+              noAutoMargin
+              kind="action"
+              hidden={!withDownload}
+              disabled={withoutCopyButton}
+              size="compact"
+              onClick={() => {
+                downloadContent();
+              }}
+            >
+              {t('in-plg:agentDetails.common.download')}
+            </Button>
+            <CopyToClipboardButton size="compact" disabled={withoutCopyButton} kind="action" getText={() => content} />
+          </Stack>
+          <CodeComponent
+            code={content}
+            withoutCopyButton
+            wrapperClassName={locals.wrapper}
+            lang={lang}
+            withExpandButton={withExpandButton}
+            linesToShow={linesToShow}
+            softWrap
+            useDark
+          />
+        </Stack>
+      )}
+    </>
   );
 };
 

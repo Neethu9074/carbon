@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import SapJavaNetWeaverSystemSensorBreadcrumb from 'in-sap/breadcrumbs/SapJavaNetWeaverSystemSensorBreadcrumb';
+import SapJavaNetWeaverSensorBreadcrumb from 'in-sap/breadcrumbs/SapJavaNetWeaverSensorBreadcrumb';
 import SapDbInstanceHomeViewBreadcrumb from 'in-sap/breadcrumbs/SapDbInstanceHomeViewBreadcrumb';
 import AbapInstanceHomeViewBreadcrumb from 'in-sap/breadcrumbs/AbapInstanceHomeViewBreadcrumb';
 import SapAbapSystemSensorBreadcrumb from 'in-sap/breadcrumbs/SapAbapSystemSensorBreadcrumb';
@@ -39,6 +41,15 @@ export function SapAbapSystemSensorBreadcrumbs(props) {
     return RelatedResourcesBreadcrumbs(props);
   } else {
     return [<AbapSystemHomeViewBreadcrumb />, hostId && <SapAbapSystemSensorBreadcrumb {...props} />];
+  }
+}
+
+export function SapJavaNetWeaverSystemSensorBreadcrumbs(props) {
+  const { hostId, systemPrefix } = props;
+  if (systemPrefix) {
+    return RelatedResourcesBreadcrumbs(props);
+  } else {
+    return [<AbapSystemHomeViewBreadcrumb />, hostId && <SapJavaNetWeaverSystemSensorBreadcrumb {...props} />];
   }
 }
 
@@ -93,6 +104,15 @@ export function SapAbapSensorBreadcrumbs(props) {
     return RelatedResourcesBreadcrumbs(props);
   } else {
     return [<AbapInstanceHomeViewBreadcrumb />, hostId && <SapAbapSensorBreadcrumb {...props} />];
+  }
+}
+
+export function SapJavaNetWeaverSensorBreadcrumbs(props) {
+  const { hostId, systemPrefix } = props;
+  if (systemPrefix) {
+    return RelatedResourcesBreadcrumbs(props);
+  } else {
+    return [<AbapInstanceHomeViewBreadcrumb />, hostId && <SapJavaNetWeaverSensorBreadcrumb {...props} />];
   }
 }
 

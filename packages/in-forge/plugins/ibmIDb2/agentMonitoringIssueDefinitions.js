@@ -25,7 +25,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.ibmIDb2.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-db2-i#collection-services-configuring-and-startup`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-db2-i#collection-services-configuring-and-startup`
   },
   ibmi_unable_to_connect: {
     issueDescription: {

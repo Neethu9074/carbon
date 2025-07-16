@@ -12,7 +12,7 @@ interface ActionSectionProps {
 }
 
 interface ActionProps {
-  disabledTooltip: ReactNode;
+  disabledTooltip?: ReactNode;
   disabled?: boolean;
   children: ReactNode;
   [key: string]: unknown;

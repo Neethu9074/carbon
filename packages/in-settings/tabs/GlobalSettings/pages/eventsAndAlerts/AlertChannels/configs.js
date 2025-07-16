@@ -10,9 +10,15 @@ import serviceNowBDChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eve
 import googleChatChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/googleChatChannelConfig';
 import serviceNowChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/serviceNowChannelConfig';
 import salesforceChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/salesforceChannelConfig';
+import msTeamsAppChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/msTeamsAppChannelConfig';
 import office365ChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/office365ChannelConfig';
 import PagerdutyChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/pagerdutyChannelConfig';
 import victorOpsChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/victorOpsChannelConfig';
+import {
+  msTeamsAppEnabled,
+  bidirectionalSlackEnabled,
+  onlyFedRampAllowedAlertChannelsEnabled
+} from 'in-services/featureFlags';
 import opsgenieChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/opsgenieChannelConfig';
 import zChatOpsChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/zChatOpsChannelConfig';
 import webhookChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/webhookChannelConfig';
@@ -20,7 +26,6 @@ import slackBDChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAn
 import splunkChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
 import slackChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
-import { bidirectionalSlackEnabled } from 'in-services/featureFlags';
 
 export const configs = {
   email: emailChannelConfig,
@@ -29,6 +34,7 @@ export const configs = {
   opsgenie: opsgenieChannelConfig,
   pagerduty: PagerdutyChannelConfig,
   office365: office365ChannelConfig,
+  ...(msTeamsAppEnabled && { msTeams: msTeamsAppChannelConfig }),
   serviceNowWebhook: serviceNowChannelConfig,
   serviceNowBD: serviceNowBDChannelConfig,
   webhook: webhookChannelConfig,
@@ -41,6 +47,17 @@ export const configs = {
   zChatOps: zChatOpsChannelConfig,
   salesforceChannelConfig: salesforceChannelConfig
 };
+
+export const configsForFedRamp = {
+  webhook: webhookChannelConfig
+};
+
+export function getAvailableAlertChannelKinds() {
+  if (onlyFedRampAllowedAlertChannelsEnabled) {
+    return Object.keys(configsForFedRamp);
+  }
+  return Object.keys(configs);
+}
 
 export const fullyQualified = {
   [configs.email.name]: configs.email,
@@ -59,7 +76,8 @@ export const fullyQualified = {
   [configs.webexTeamsWebhook.name]: configs.webexTeamsWebhook,
   [configs.watsonAIOpsWebhook.name]: configs.watsonAIOpsWebhook,
   [configs.zChatOps.name]: configs.zChatOps,
-  [configs.salesforceChannelConfig.name]: configs.salesforceChannelConfig
+  [configs.salesforceChannelConfig.name]: configs.salesforceChannelConfig,
+  ...(msTeamsAppEnabled && { [configs.msTeams.name]: configs.msTeams })
 };
 
 export default configs;

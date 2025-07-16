@@ -58,6 +58,7 @@ interface AggregatedEntitiesProps {
   timeConfig: TimeConfig;
   ruleWithThreshold: RuleWithThreshold<GenericInfraAlertRule>;
   tagFilterExpression: TagFilterExpressionElementUnion;
+  groupedTagFilterExpression: TagFilterExpressionElementUnion;
   groupingTags: Record<string, string>;
   tagsFromTagCatalog: ApiTag[] | undefined;
   metricLabel: string;
@@ -77,6 +78,7 @@ export function InfraAggregatedEntitiesTablePresenter({
   timeConfig,
   ruleWithThreshold,
   tagFilterExpression,
+  groupedTagFilterExpression: groupedTagFilterExpression,
   groupingTags,
   tagsFromTagCatalog,
   metricLabel,
@@ -99,6 +101,7 @@ export function InfraAggregatedEntitiesTablePresenter({
       timeConfig={timeConfig}
       ruleWithThreshold={ruleWithThreshold}
       tagFilterExpression={tagFilterExpression}
+      groupedTagFilterExpression={groupedTagFilterExpression}
       groupingTags={groupingTags}
       tagsFromTagCatalog={tagsFromTagCatalog}
       metricLabel={metricLabel}
@@ -113,6 +116,7 @@ const InfraAggregatedEntities = ({
   timeConfig,
   ruleWithThreshold,
   tagFilterExpression,
+  groupedTagFilterExpression: groupedTagFilterExpression,
   groupingTags,
   tagsFromTagCatalog,
   metricLabel,
@@ -143,7 +147,7 @@ const InfraAggregatedEntities = ({
         crossSeriesAggregation,
         order,
         type: entityType,
-        tagFilterExpression,
+        tagFilterExpression: groupedTagFilterExpression,
         regex
       }),
     []

@@ -7,11 +7,14 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
+import { ComboBox } from '@instana/carbon';
 
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import activationStages from 'in-amp/api/activationStages';
 import { formatDate } from 'in-services/formatters/date';
 import Divider from 'in-components/workspace/Divider';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './ActivationChecklist.mless';
 
@@ -33,8 +36,60 @@ export default function ActivationChecklistWrapper({ accountInfo }) {
  * @param {object} accountInfo The retrieved account information, including the activation data.
  */
 function ActivationChecklist({ activation }) {
-  const [activeTenantUnit, setActiveTenantUnit] = useState(Object.keys(activation)[0]);
+  const tenantUnits = Object.keys(activation);
+  const [activeTenantUnit, setActiveTenantUnit] = useState(tenantUnits[0]);
 
+  if (newAccountAndBillingPageEnabled) {
+    const tenantOptions = tenantUnits.map(unit => ({
+      label: getUnitName(unit),
+      value: unit
+    }));
+
+    return (
+      <div>
+        <ComboBox
+          id="tenantUnitSelector"
+          name="tenantUnitSelector"
+          titleText={t('in-amp:components.activationAdoption.activationStages.tenantUnit')}
+          size="md"
+          items={tenantOptions}
+          selectedItem={tenantOptions.find(option => option.value === activeTenantUnit)}
+          itemToString={item => (item ? item.label : '')}
+          onChange={({ selectedItem }) => {
+            const selectedValue = selectedItem?.value || tenantUnits[0];
+            setActiveTenantUnit(selectedValue);
+          }}
+          className={locals.combocontainer}
+        />
+        <div className={locals.checklist_margin}>
+          {activationStages.map(stage => {
+            const stageValue = activation[activeTenantUnit][stage.key];
+            return (
+              <div key={stage.key} className={locals.comboboxEntry}>
+                <div className={locals.iconAndText}>
+                  <div className={locals.iconWrapper}>
+                    {stageValue?.status ? (
+                      <SvgIcon type="lib_uncheck" className={locals.CheckIconSuccess} size="s" />
+                    ) : (
+                      <SvgIcon type="lib_circle_dash" size="s" />
+                    )}
+                  </div>
+                  <div>
+                    <div>{stage.label}</div>
+                    <div className={locals.timestamp}>
+                      {stageValue?.timestamp
+                        ? formatDate(stageValue.timestamp)
+                        : t('in-amp:components.activationAdoption.activationStages.notStarted')}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={locals.container}>
       <div className={locals.sideEntriesContainer}>

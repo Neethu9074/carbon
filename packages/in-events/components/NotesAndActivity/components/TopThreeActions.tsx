@@ -7,44 +7,68 @@
 import React from 'react';
 
 import { Button, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, Layer } from '@instana/carbon';
-import { TableSkeleton } from '@instana/components';
-import { Event } from '@instana/types';
+import { TableSkeleton, Message } from '@instana/components';
+import { Event, Result } from '@instana/types';
 
-import useScoredActions, { useUserRecommendedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { scoredActionAiEngineColumn, scoredActionNameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { RecActionsMoreMenu } from 'in-automation/AutomationCard/RecommendedActions';
+import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { TableProps } from 'in-components/tables/ServerTable/types';
-import useTrigger from 'in-automation/AutomationCard/useTrigger';
-import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
 
 import locals from './ActionHistory.mless';
 
 interface TopThreeActionsProps {
-  event?: Event;
   triggeringEvent?: Event;
+  trigger: Result<TriggerSpecification>;
+  recommendedActions?: Result<ScoredAction[]>;
+  firstThreeActions: ScoredAction[];
 }
 
-export function TopThreeActions({ event, triggeringEvent }: TopThreeActionsProps) {
-  if (!event) {
-    return null;
+function Loading() {
+  return (
+    <div>
+      <div className={locals.title}>{t('in-events:notes.recommendedActions')}</div>
+      <TableSkeleton compact />
+      <Button className={locals.viewAll} kind="ghost" disabled size="sm">
+        {t('in-events:notes.viewAllRecActions')}
+      </Button>
+    </div>
+  );
+}
+
+export function TopThreeActions({
+  triggeringEvent,
+  trigger,
+  recommendedActions,
+  firstThreeActions
+}: TopThreeActionsProps) {
+  if (recommendedActions?.errors && recommendedActions.errors.length > 0) {
+    return (
+      <>
+        <div className={locals.title}>{t('in-events:notes.recommendedActions')}</div>
+        {recommendedActions.errors.map(err => (
+          <Message subtitle={err.code} type="error">
+            {err.message}
+          </Message>
+        ))}
+      </>
+    );
+  }
+  const isLoading = recommendedActions?.progress?.loading;
+  if (isLoading) {
+    return <Loading />;
   }
   if (!triggeringEvent) {
-    return null;
+    return <Loading />;
   }
-  const trigger = useTrigger({ event });
-  const userActions = useScoredActions({ event, trigger, type: 'default' });
-  const recommendedActions = useUserRecommendedScoredActions({ actions: userActions });
-  const isLoading = recommendedActions?.progress?.loading;
-  const firstThreeIfPresent = (recommendedActions?.data || []).slice(0, 3);
   const tableProps: TableProps<ScoredAction> = { columnDefinitions: [], orderBy: '', orderDirection: 'DESC' };
   const nameColumn = (action: ScoredAction) => scoredActionNameColumn.getContent(action, tableProps, '');
   const aiEngColumn = (action: ScoredAction) => scoredActionAiEngineColumn.getContent(action, tableProps, '');
   return (
     <div>
       <div className={locals.title}>{t('in-events:notes.recommendedActions')}</div>
-      {isLoading && <TableSkeleton compact />}
-      {firstThreeIfPresent.length > 0 && (
+      {firstThreeActions.length > 0 && (
         <Layer>
           <Table size="sm" className={locals.actionTable}>
             <TableHead>
@@ -56,7 +80,7 @@ export function TopThreeActions({ event, triggeringEvent }: TopThreeActionsProps
               </TableRow>
             </TableHead>
             <TableBody>
-              {firstThreeIfPresent.map(i => (
+              {firstThreeActions.map(i => (
                 <TableRow>
                   <TableCell className={locals.actionTitle}>{nameColumn(i)}</TableCell>
                   <TableCell>{aiEngColumn(i)}</TableCell>
@@ -70,20 +94,19 @@ export function TopThreeActions({ event, triggeringEvent }: TopThreeActionsProps
           </Table>
         </Layer>
       )}
-      <div className={locals.viewAll}>
-        <Button
-          kind="ghost"
-          size="sm"
-          onClick={() => {
-            window.scrollBy({
-              top: document.body.scrollHeight,
-              behavior: 'smooth'
-            });
-          }}
-        >
-          {t('in-events:notes.viewAllRecActions')}
-        </Button>
-      </div>
+      <Button
+        className={locals.viewAll}
+        kind="ghost"
+        size="sm"
+        onClick={() => {
+          window.scrollBy({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+          });
+        }}
+      >
+        {t('in-events:notes.viewAllRecActions')}
+      </Button>
     </div>
   );
 }

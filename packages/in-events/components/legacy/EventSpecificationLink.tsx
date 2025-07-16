@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import {
   getEntityIdView,
@@ -15,7 +14,6 @@ import {
   globalSettingsAlertingEventCustom
 } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { role } from 'in-stores/user';
 import { Event } from 'in-types';
 import { t } from 'in-i18n';
@@ -35,13 +33,13 @@ export default function EventSpecificationLink({
 }) {
   const isCustom = isCustomEvent(event);
   const eventSpecificationId: string = event.metadata?.eventSpecificationId;
+  const { createHrefToPath, goToPath } = useNavigation();
 
-  const resolvedURL = useObservable(
-    getEntityIdView(getEventSpecificationSettingsBasePath(isCustom), eventSpecificationId),
-    []
+  const resolvedURL = getEntityIdView(
+    getEventSpecificationSettingsBasePath(isCustom),
+    eventSpecificationId,
+    createHrefToPath
   );
-  const { navigate } = useNavigation();
-
   if (!role?.canConfigureEventsAndAlerts) {
     // at the moment the link of this button generally does not work when the canConfigureEventsAndAlerts permission is missing,
     // because we generally hide the Events & Alerts section, including the build-in events.
@@ -60,7 +58,7 @@ export default function EventSpecificationLink({
         renderIcon={() => <SvgIcon type="lib_views_show" size="xs" />}
         onClick={() => {
           if (resolvedURL) {
-            navigate(parseUrl(resolvedURL, true));
+            goToPath(resolvedURL);
           }
         }}
       />

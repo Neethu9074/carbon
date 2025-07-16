@@ -25,6 +25,7 @@ import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { netweaverEnabled } from 'in-services/featureFlags';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { timeConfig$ } from 'in-stores/time/config';
 import EntityLink from 'in-components/EntityLink';
@@ -73,50 +74,75 @@ const columnDefinitions = [
     id: 'cpu',
     label: t('in-sap:dashboards.cpuUsage'),
     getContent(item, { timeConfig }) {
-      return (
-        <InfrastructureMetricSparkChart
-          snapshotId={item.id}
-          timeConfig={timeConfig}
-          formatter={percentagePlain.compact}
-          metric="cpuMetricStats.totalUtilization"
-        />
-      );
+      if (item.pluginName == 'sapAbapInstanceSensor') {
+        return (
+          <InfrastructureMetricSparkChart
+            snapshotId={item.id}
+            timeConfig={timeConfig}
+            formatter={percentagePlain.compact}
+            metric="cpuMetricStats.totalUtilization"
+          />
+        );
+      } else {
+        return (
+          <InfrastructureMetricSparkChart
+            snapshotId={item.id}
+            timeConfig={timeConfig}
+            formatter={percentage.detailed}
+            metric="customMetrics.kpi.cpuUsage"
+          />
+        );
+      }
     }
   },
   {
     id: 'memory',
     label: t('in-sap:dashboards.memoryUsage'),
     getContent(item, { timeConfig }) {
-      return (
-        <InfrastructureMetricSparkChart
-          snapshotId={item.id}
-          timeConfig={timeConfig}
-          formatter={percentage.detailed}
-          metric="swapmemory.usedMemory"
-        />
-      );
+      if (item.pluginName == 'sapAbapInstanceSensor') {
+        return (
+          <InfrastructureMetricSparkChart
+            snapshotId={item.id}
+            timeConfig={timeConfig}
+            formatter={percentage.detailed}
+            metric="swapmemory.usedMemory"
+          />
+        );
+      } else {
+        return (
+          <InfrastructureMetricSparkChart
+            snapshotId={item.id}
+            timeConfig={timeConfig}
+            formatter={percentage.detailed}
+            metric="customMetrics.kpi.memoryUsage"
+          />
+        );
+      }
     }
   },
   {
     id: 'user',
     label: t('in-sap:dashboards.userLogins'),
     getContent(item, { timeConfig }) {
-      return (
-        <InfrastructureMetricSparkChart
-          snapshotId={item.id}
-          timeConfig={timeConfig}
-          formatter={number.compact}
-          metric="sapMetricsStats.userSession"
-        />
-      );
-    }
-  },
-  {
-    id: 'workProcess',
-    label: t('in-sap:dashboards.workProcess'),
-    sortable: false,
-    getContent(item) {
-      return getWorkProcessStatus(item);
+      if (item.pluginName == 'sapAbapInstanceSensor') {
+        return (
+          <InfrastructureMetricSparkChart
+            snapshotId={item.id}
+            timeConfig={timeConfig}
+            formatter={number.compact}
+            metric="sapMetricsStats.userSession"
+          />
+        );
+      } else {
+        return (
+          <InfrastructureMetricSparkChart
+            snapshotId={item.id}
+            timeConfig={timeConfig}
+            formatter={number.compact}
+            metric="customMetrics.session.loggedInUsers"
+          />
+        );
+      }
     }
   },
   {
@@ -182,13 +208,25 @@ export default connectTo(
           <ServerTableWithUrlState
             get={getTableData}
             filterColumnDefinitions={({ result }) => {
-              const instanceSensor =
-                result.data &&
-                result.data.items &&
-                Boolean(find(result.data.items, item => isInstanceSensor(get(item, ['pluginName']))));
-              if (instanceSensor) {
+              const pluginName =
+                result && result.data && Array.isArray(result.data.items)
+                  ? result.data.items.find(item => item && item.pluginName)?.pluginName
+                  : undefined;
+              if (pluginName == 'sapAbapInstanceSensor') {
                 return columnDefinition =>
                   columnDefinition.id !== 'overallRating' && columnDefinition.id !== 'hostName';
+              } else if (pluginName == 'sapJavaNetWeaverInstanceSensor') {
+                return columnDefinition =>
+                  columnDefinition.id !== 'overallRating' &&
+                  columnDefinition.id !== 'cpu' &&
+                  columnDefinition.id !== 'memory' &&
+                  columnDefinition.id !== 'numberOfDumps' &&
+                  columnDefinition.id !== 'inBoundIdoc' &&
+                  columnDefinition.id !== 'outBoundIdoc' &&
+                  columnDefinition.id !== 'status' &&
+                  columnDefinition.id !== 'user' &&
+                  columnDefinition.id !== 'workProcess' &&
+                  columnDefinition.id !== 'cancelledJob';
               } else {
                 return columnDefinition =>
                   columnDefinition.id !== 'cpuUsage' &&
@@ -207,12 +245,26 @@ export default connectTo(
   }
 );
 
-function isInstanceSensor(sapSystem) {
-  return sapSystem === 'sapAbapInstanceSensor';
-}
-
 function getTableData(params) {
-  return getAbapOrJavaInstanceListsWithDefaults(params);
+  if (netweaverEnabled) {
+    return getAbapOrJavaInstanceListsWithDefaults(params);
+  } else {
+    return getFilteredAbapInstances(params);
+  }
+}
+function getFilteredAbapInstances(params) {
+  return getAbapOrJavaInstanceListsWithDefaults(params).map(result => {
+    const filteredItems = (result?.data?.items || []).filter(item => {
+      return item.pluginName === 'sapAbapInstanceSensor';
+    });
+    return {
+      ...result,
+      data: {
+        ...result.data,
+        items: filteredItems
+      }
+    };
+  });
 }
 
 function getHasDataToRender() {

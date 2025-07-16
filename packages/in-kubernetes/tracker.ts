@@ -34,6 +34,7 @@ interface UIInteractionPayload extends Object {
   offset?: string;
   windowSize?: number;
   autoRefresh?: boolean;
+  context?: string;
 }
 
 export type TrackingFunction = (customData: UIInteractionPayload) => void;

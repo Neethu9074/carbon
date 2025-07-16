@@ -230,3 +230,16 @@ export function getFormatterById(formatterId?: string): Formatter | undefined {
 export function getFormatterIdByFn(formatterFn?: FormatterFn): string | undefined {
   return allFormatters.find(({ formatter }) => formatter === formatterFn)?.id;
 }
+
+/**
+ * Creates a formatter which can be adjusted at runtime based on a user selected unit.
+ * If the included numberFormatter is of any other type (percentage, bytes, etc) it would cause the
+ * formatter to be duplicated along with the passed in unit.  Therefore, we force only number formatters here.
+ */
+export function createUnitFormatter(formatterId?: string, unit?: string): FormatterFn {
+  let numberFormatter = defaultFormatter.formatter;
+  if (formatterId === 'number.detailed' || formatterId === 'number.compact') {
+    numberFormatter = getFormatter(formatterId);
+  }
+  return (metric: number) => `${numberFormatter(metric)} ${unit}`;
+}

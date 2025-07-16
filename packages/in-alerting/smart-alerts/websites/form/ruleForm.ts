@@ -8,9 +8,10 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 import {
   SpecificJsErrorsWebsiteAlertRule,
   StatusCodeWebsiteAlertRule,
-  CustomEventWebsiteAlertRule,
   TagFilterOperator,
-  WebsiteAlertRule
+  WebsiteAlertRule,
+  AggregationType,
+  CustomEventWebsiteAlertRule
 } from '@instana/types';
 
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -21,7 +22,6 @@ import { t } from 'in-i18n';
 
 export default function createRuleForm(rule: WebsiteAlertRule): MapForm<any> {
   const alertType = rule.alertType as WebsitesAlertType;
-
   const baseForm = createBaseForm(rule);
 
   switch (alertType) {
@@ -114,23 +114,34 @@ function extendForSpecificStatusCode(
     );
 }
 
-function extendForCustomEvent(baseForm: MapForm<any>, rule: { customEventName?: string }): MapForm<any> {
-  return baseForm.put(
-    'customEventName',
-    createField({
-      value: rule.customEventName ?? '',
-      validator: (value: string) => {
-        if (isBlank(value)) {
-          return [
-            {
-              severity: 'error',
-              message: t('in-alerting:smartAlerts.websites.form.errorPleaseProvideCustomEventName')
-            }
-          ];
-        } else {
-          return null;
+function extendForCustomEvent(
+  baseForm: MapForm<any>,
+  rule: { customEventName?: string; aggregation?: AggregationType; metricName: string }
+): MapForm<any> {
+  const aggregationValue = rule.metricName === 'beaconCount' ? 'SUM' : rule.aggregation ?? 'SUM';
+  return baseForm
+    .put(
+      'customEventName',
+      createField({
+        value: rule.customEventName ?? '',
+        validator: (value: string) => {
+          if (isBlank(value)) {
+            return [
+              {
+                severity: 'error',
+                message: t('in-alerting:smartAlerts.websites.form.errorPleaseProvideCustomEventName')
+              }
+            ];
+          } else {
+            return null;
+          }
         }
-      }
-    })
-  );
+      })
+    )
+    .put(
+      'aggregation',
+      createField({
+        value: aggregationValue
+      })
+    );
 }

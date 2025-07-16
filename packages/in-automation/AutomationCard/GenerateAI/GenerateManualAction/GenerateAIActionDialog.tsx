@@ -158,6 +158,7 @@ function useOnSubmit() {
             trackAction();
             createActionSuccessNotification(result.data?.name!, result.data?.id!);
             refreshScoredActions();
+            onClose();
           },
           () => {
             const err = error([

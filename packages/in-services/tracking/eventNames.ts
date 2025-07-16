@@ -406,6 +406,7 @@ export const AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED = 'agents.internal.update
 export const AGENT_PROFILER_CLICKED = 'agent.profiler.clicked';
 export const AGENT_SUPPORT_INFO_CLICKED = 'agent.support.info.clicked';
 export const AGENT_SUPPORT_DOWNLOAD_CLICKED = 'agent.support.download.clicked';
+export const DOTNET_SUPPORT_CLICKED = 'dotnet.support.clicked';
 
 // Potential Problems Marker Lane
 export const POTENTIAL_PROBLEMS_MARKER_HOVERED = 'potential.problems.marker.hovered';
@@ -481,11 +482,13 @@ export const LOGGING_MEZMO_BUTTON_CLICKED = 'logging.mezmo.clicked';
 export const LOGGING_INTEGRATIONS_INSTANCE_THIRD_PARTY_CLICKED = 'logging.integration.instance.third.party.clicked';
 
 // ENTERPRISE
+export const ENTERPRISE_IDP_MAPPING_CREATE_CLICK = 'enterprise.idp.mapping.create.mapping.click';
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
 export const ENTERPRISE_IDP_MAPPING_CHANGED = 'enterprise.idp.mapping.changed';
 export const ENTERPRISE_IDP_MAPPING_REMOVED = 'enterprise.idp.mapping.removed';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS = 'enterprise.idp.mapping.restrictAccess';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE = 'enterprise.idp.mapping.restrictAccess.remove';
+export const ENTERPRISE_IDP_MAPPING_SUBMIT = 'enterprise.idp.mapping.submit';
 
 // Apdex Widget and Apdex Management
 export const APDEX_WIDGET_EDIT_START = 'apdex.widget.edit.start';
@@ -541,7 +544,6 @@ export const AUTOMATION_AI_GENERATE_STEP_ERROR = 'automation.ai.generate.step.er
 
 export const AUTOMATION_AI_GOOD_FEEDBACK = 'automation.ai.good.feedback';
 export const AUTOMATION_AI_BAD_FEEDBACK = 'automation.ai.bad.feedback';
-export const AUTOMATION_CLICK_EPWT_LINK = 'automation.click.epwt.link';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 export const ISSUE_LINK_CLICK = 'issue.link.clicked';
@@ -649,8 +651,13 @@ export const EVENT_AI_SHOW_MORE_ACTIONS = 'event.ai.show.more.actions';
 export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
 export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
 export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
-export const EVENT_AI_CLICK_EPWT_LINK = 'event.ai.click.epwt.link';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
+export const EVENT_AI_CHAT_OPEN = 'event.ai.chat.open';
+export const EVENT_AI_CHAT_CLOSE = 'event.ai.chat.close';
+export const EVENT_AI_CHAT_APPLICATION = 'event.ai.chat.application';
+export const EVENT_AI_CHAT_INFRASTRUCTURE = 'event.ai.chat.infrastructure';
+export const EVENT_AI_LIBRARY_OPEN = 'event.ai.library.open';
+export const EVENT_AI_LIBRARY_RESPONSE_OPEN = 'event.ai.library.response.open';
 
 // Notes and Activity Summary Feedback Tracking
 export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';

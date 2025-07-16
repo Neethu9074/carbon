@@ -64,6 +64,9 @@ export default function ThresholdSelectionInteractiveSection({
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
             alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+            ruleMetricNameOptions={
+              eumType === websiteEum ? websiteRuleMetricNameOptions : mobileAppRuleMetricNameOptions
+            }
           >
             <InvalidFilterMessage
               isTagFilterFormModelValid={isTagFilterFormModelValid}

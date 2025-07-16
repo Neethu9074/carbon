@@ -8,6 +8,7 @@ import React from 'react';
 import { Collapsible } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import getRuntimesForGoogleCloudRunServiceRevision from 'in-subscription/getRuntimesForGoogleCloudRunServiceRevision';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
@@ -52,6 +53,7 @@ export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
       <RunningComponentsList snapshotId={snapshot.get('id')} />
 
       {arbitraryInstanceSnapshot && <ServiceInstancesList snapshot={arbitraryInstanceSnapshot} />}
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </>
   );
 }

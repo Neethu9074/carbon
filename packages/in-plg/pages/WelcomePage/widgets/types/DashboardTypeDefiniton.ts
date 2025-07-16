@@ -91,6 +91,7 @@ export interface StarredItemWithIdsType {
   website?: string[];
   mobileApp?: string[];
   businessProcess?: string[];
+  serviceLevelObjective?: string[];
 }
 
 export interface StarredItemType {

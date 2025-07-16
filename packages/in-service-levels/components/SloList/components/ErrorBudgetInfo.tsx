@@ -10,7 +10,6 @@ import { ServiceLevelIndicatorType, ServiceLevelObjectiveConfiguration, TimeConf
 import { formatDuration } from '@instana/format-date';
 import { KeyValue } from '@instana/components';
 
-import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { calculateAvailableErrorBudget } from 'in-service-levels/utils/math';
@@ -22,17 +21,17 @@ import { t } from 'in-i18n';
 interface ErrorBudgetInfoProps {
   configuration: ServiceLevelObjectiveConfiguration;
   remainingErrorBudget?: number;
+  timeWindows: TimeConfig[] | undefined;
 }
 
-export default function ErrorBudgetInfo({ configuration, remainingErrorBudget }: ErrorBudgetInfoProps) {
-  const { id: sloConfigId, indicator, entity, target, timeWindow } = configuration;
+export default function ErrorBudgetInfo({ timeWindows, configuration, remainingErrorBudget }: ErrorBudgetInfoProps) {
+  const { indicator, entity, target, timeWindow } = configuration;
   const { type: entityType } = entity;
   const { type: indicatorType } = indicator;
   const { type: timeWindowType, durationUnit, duration } = timeWindow;
   // For slo list make sure we always fetch the latest metrics(for past hour)
   const timeConfig: TimeConfig = { autoRefresh: false, windowSize: hours.toMillis(1) };
   const sloTimeConfig = useSloWindowTimeConfig(timeWindow);
-  const [timeWindows] = useOverlappingTimeWindows({ sloConfigId, timeConfig });
   const timeRemaining = calculateTimeRemaining(sloTimeConfig, timeConfig, timeWindow.type, timeWindows);
 
   // This is only accurate for time based configurations, thus event based configurations won't show an available budget in the status

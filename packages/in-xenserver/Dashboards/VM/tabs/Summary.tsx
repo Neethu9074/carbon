@@ -11,7 +11,7 @@ import { Card } from '@instana/components';
 
 import VirtualNetworkInterfacesTable from 'in-xenserver/Dashboards/VM/tabs/VirtualNetworkInterfacesTable';
 import InfrastructureMetricChart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { number, kiloBytesTwoDecimalPlaces, bytes } from 'in-services/formatters/number';
+import { kiloBytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import BlockDeviceTable from 'in-xenserver/Dashboards/VM/tabs/BlockDeviceTable';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -29,10 +29,10 @@ export default function Summary({ timeConfig, data: vm }: SummaryData) {
   return (
     <>
       <KpiGridRow sizes={[3, 3, 3]}>
-        <KpiCard title={t('in-xenserver:dashboards.vm.vcpu')} value={vm.vcpu} />
-        <KpiCard title={t('in-xenserver:dashboards.vm.domId')} value={vm.domId} />
-        <KpiCard title={t('in-xenserver:dashboards.vm.domType')} value={vm.domType} />
-        <KpiCard title={t('in-xenserver:dashboards.vm.state')} value={vm.state} />
+        <KpiCard title={t('in-xenserver:dashboards.vm.vcpu')} value={vm.vcpu} raw />
+        <KpiCard title={t('in-xenserver:dashboards.vm.domId')} value={vm.domId} raw />
+        <KpiCard title={t('in-xenserver:dashboards.vm.domType')} value={vm.domType} raw />
+        <KpiCard title={t('in-xenserver:dashboards.vm.state')} value={vm.state} raw />
       </KpiGridRow>
       <Row verticallyStretchColumns>
         <Col lg={12}>
@@ -42,7 +42,7 @@ export default function Summary({ timeConfig, data: vm }: SummaryData) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number.detailed,
+                formatter: percentage.compact,
                 metrics: ['cpu_usage'],
                 labels: [t('in-xenserver:dashboards.cpuUsage')],
                 type: 'line'
@@ -59,7 +59,7 @@ export default function Summary({ timeConfig, data: vm }: SummaryData) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: bytes.compact,
+                formatter: kiloBytesTwoDecimalPlaces,
                 metrics: ['memory'],
                 labels: [t('in-xenserver:dashboards.memoryTotal')],
                 type: 'line'

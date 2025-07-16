@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import VirtualThreadTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/VirtualThreadTable';
 import DataSourcesTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/DataSourcesTable';
 import ConnectorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ConnectorsTable';
 import ExecutorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ExecutorsTable';
@@ -43,6 +44,7 @@ export default function TomcatDashboard({ snapshot, timeConfig }) {
 
       <WebAppsTable snapshot={snapshot} timeConfig={timeConfig} />
       <ConnectorsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <VirtualThreadTable snapshot={snapshot} timeConfig={timeConfig} />
       <ExecutorsTable snapshot={snapshot} timeConfig={timeConfig} />
       <DataSourcesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>

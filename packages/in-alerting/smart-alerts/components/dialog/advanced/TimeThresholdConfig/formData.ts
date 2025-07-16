@@ -59,9 +59,9 @@ export const timeThresholdLabelsTearSheet: Record<TimeThresholdTypeTearSheet, st
     'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime'
   ),
   violationsInSequence: t(
-    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval'
+    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously'
   ),
   violationsInPeriod: t(
-    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously'
+    'in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval'
   )
 };

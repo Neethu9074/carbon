@@ -16,6 +16,7 @@ import { createForm } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlert
 //@ts-expect-error TS migration
 import { save } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelModificationForm';
 import { globalSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
+import { onlyFedRampAllowedAlertChannelsEnabled } from 'in-services/featureFlags';
 import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -32,7 +33,10 @@ interface AlertChannelModificationProps {
 }
 
 export default function AlertChannelModification(props: AlertChannelModificationProps) {
-  const kind = getMatrixParameter(props.location, '/channels', 'kind') as AbstractIntegration['kind'];
+  const kind = onlyFedRampAllowedAlertChannelsEnabled
+    ? 'webhook' // enforce webhook type for any given kind for FedRAMP, to prevent any other kind of fallback handling to email
+    : (getMatrixParameter(props.location, '/channels', 'kind') as AbstractIntegration['kind']);
+
   const entityId = props.match.params.id;
   const { goToPath } = useNavigation();
   const isCreate = entityId ? false : true;

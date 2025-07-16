@@ -7,10 +7,11 @@
   },
   "affectedApplications": {
     "noAffectedApplications": "No affected applications found.",
-    "title": "Tittle",
+    "title": "Title",
     "totalcalls": "Affected Calls",
     "errorLoadingData": "Error loading data."
   },
+  "noDataAvailable": "No data available",
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of service:",
   "titleDetail": "Detail",
@@ -88,6 +89,7 @@
   "stateActive": "Active",
   "stateClosedByInstana": "Closed by Instana",
   "stateManuallyClosed": "Manually closed",
+  "stateTransient": "Transient",
   "markerServiceImpact": "SERVICE IMPACT",
   "incidentHeader": "`incident: {{incidentName}} - {{label}} ({{eventsLength}} event)",
   "incidentHeader_plural": "`incident: {{incidentName}} - {{label}} ({{eventsLength}} events)",
@@ -245,9 +247,12 @@
     "suggestionHelpfulText": "Was this suggestion helpful?",
     "thankYouForYourFeedback": "Thank you for your feedback!",
     "performanceConstantlyEvaluated": "Performance is being actively evaluated and improved during the Beta. Please leave feedback to help us better improve our AI",
+    "entityAtFault": "Entity at fault",
     "probableRootCauseLabel": "{{entity_type}} at fault:",
-    "relatedEventsLabel": "Associated events ({{number_of_events}})",
+    "relatedEventsLabel": "Associated events",
+    "associatedEventsDescription": "Associated events are all recent events that occurred on the probable root cause entity. Using associated events you can quickly identify issues, incidents, or change events that might have caused the incident.",
     "relatedMessagesAndLogsLabel": "Errors & logs",
+    "close": "Close",
     "entitiesNumber": "Entities",
     "probabilityLevelText": "Probability level:",
     "highProbability": "HIGH",
@@ -299,30 +304,54 @@
       "legendTrigger": "Triggering Event Entity"
     },
     "singleEntityLLM": {
-      "investigateButtonLabel": "Investigate for me",
+      "mainContainerTitle": "Investigate",
+      "mainContainerSubtitle": "Explore the incident topology to see the triggering event and the probable root cause. You can also see recommended actions from watsonx or investigate the incident further.",
+      "switcher": {
+        "automation": "Recommended actions",
+        "investigation": "Investigation"
+      },
+      "entityDetails": {
+        "noEntitySelectedTitle": "No entity selected",
+        "noEntitySelectedDescription": "Select an entity to view its details"
+      },
+      "investigateButtonLabel": "Run investigation",
       "investigationPanelTitle": "Agentic investigation",
       "errorTitle": "Error",
       "commonErrorMessage": "There was an unexpected error while investigating this root cause.",
-      "diagnosisTitle": "Diagnosis",
-      "aiExplainedTitle": "AI explained",
-      "factualityScoreTitle": "Factuality score",
-      "reasoningTitle": "Reasoning",
-      "errorLogSummaryTitle": "Error log summary",
-      "traceLogSummaryTitle": "Trace log summary",
-      "associatedEventsSummaryTitle": "Associated events summary",
-      "runInvestigationInstructions": "To launch an investigation, click <strong>Investigate for me</strong>."
-    }
+      "runInvestigationInstructions": "To see a detailed and comprehensive summary of the root cause, click <strong>Run investigation.<strong>",
+      "nonrcaInstructions": "Click on a root cause to get started",
+      "aiExplained": {
+        "datatypeIncident": "<strong>Incident.</strong> We use the incident problem description and details.",
+        "datatypeTracelogs": "<strong>Trace logs.</strong> We use log messages around the probable root cause entity.",
+        "datatypeTraceError": "<strong>Trace error messages.</strong> We use error messages around the probable root cause entity.",
+        "datatypeAssociatedEvents": "<strong>Associated events.</strong> We use the problem description and details of the associated events with the probable root cause entity.",
+        "datatypeInfrastructureStack": "<strong>Infrastructure stack topology.</strong> We use the entire infrastructure stack and health statuses of the probable root cause entity.",
+        "featureName": "Intelligent investigation",
+        "featureDescription": "To investigate, we send incident details and probable root cause information to watsonx. The data is processed using an AI model and various reasoning steps, as well as self-reflection. Watsonx returns a concise hypothesis for what may be failing, as well as each modality used in that reasoning."
+      },
+      "output": {
+        "diagnosis": "Diagnosis",
+        "summary": "Summary",
+        "errorLogSummaryTitle": "Error log summary",
+        "traceLogSummaryTitle": "Trace log summary",
+        "associatedEventsSummaryTitle": "Associated events summary",
+        "reasoningTitle": "Reasoning",
+        "factualityScoreTitle": "Factuality score"
+      }
+    },
+    "errorRates": "Erroneous call rates",
+    "rootCause": "Root cause",
+    "otherEntities": "Other entities"
   },
   "dataGridEventTable": {
     "apply": "Apply",
-    "cancel": "Cancel",
-    "closeFilters": "Close filters",
     "openFilters": "Open filters",
     "title": "Title",
     "on": "On",
     "started": "Started",
     "end": "End",
     "state": "State",
+    "timeline": "Timeline",
     "eventType": "Event type",
     "builtIn": "Built-in",
     "custom": "Custom",
@@ -333,7 +362,14 @@
     "mobileSA": "Mobile Smart Alert",
     "logSA": "Log Smart Alert",
     "sloSa": "SLO Smart Alert",
-    "filterTitle": "Filter"
+    "transient": "Transient events",
+    "filterTitle": "Event filters",
+    "clearAll": "Clear filters",
+    "selectAll": "Select all",
+    "selectEvent": "Select event",
+    "showAll": "Show all",
+    "showTransientOnly": "Show transient only",
+    "showNonTransientOnly": "Show non-transient only"
   },
   "eventsSmartAlerts": {
     "globalApplicationSmartAlert": "Global Application Smart Alerts",
@@ -400,6 +436,7 @@
   },
   "aichat": {
     "unableToFindError": "Unable to find that information",
+    "problemError": "There was a problem. Please try again or ask another question.",
     "host": "Host",
     "name": "Name",
     "count": "Count",
@@ -410,19 +447,32 @@
     "meanLatency": "Mean latency",
     "youMustAccept": "You must accept the terms in the Generative AI Assistance Preview Program Agreement to use this feature.",
     "reviewAction": "Review agreement",
-    "openingAgreement": "Opening [consent form]({{href}}) in a new tab...",
     "findingInfoFrom": "Finding that info from {{endpoint}}",
     "noData": "No data returned from API",
     "whatToKnow": "What do you want to know about {{category}}?",
-    "welcome": "Hello and welcome. Get started with AI by exploring the varied examples below.",
+    "welcome": "Hello and welcome!\nI'm happy to provide details about your environment, specifically your applications, infrastructure and events.  Ask a question or get started by exploring the prompt library.",
     "apps": "Applications",
     "infra": "Infrastructure",
     "tableView": "Table view",
     "chartView": "Chart view",
+    "promptLibrary": "Open prompt library",
     "searchTable": "Search table",
     "download": "Download",
     "showLess": "Show less",
-    "showMore": "Show more"
+    "showMore": "Show more",
+    "tabSelection": "Tab selection",
+    "search": "Search",
+    "prompting": "Prompting",
+    "editSample": "Edit this sample prompt by replacing the variables in < > with your details.",
+    "gotIt": "Got it",
+    "on": "On",
+    "started": "Started",
+    "end": "End",
+    "state": "State",
+    "group": "Group",
+    "resetFilters": "Reset",
+    "applyFilter": "Apply",
+    "filtering": "Filters"
   },
   "notes": {
     "recommendedActions": "Recommended actions",
@@ -451,12 +501,19 @@
     "notesLabelText": "Add incident notes",
     "sumGenerated": "Summary of incident:",
     "sumActions": "Successful actions taken for similar incidents:",
+    "sumActionsTitle": "Top recommended actions for this incident:",
+    "introRecActionSingular": "There is one recommended action with a high confidence level.",
+    "introRecActionSingularNoLevel": "There is one recommended action.",
+    "introRecActionPlural": "There are {{number}} recommended actions with a high confidence level.",
+    "introRecActionPluralNoLevel": "There are {{number}} recommended actions.",
     "noSumActions": "No data available at the time the summary was generated.",
     "sumNotes": "Summary of notes:",
     "noSumNotes": "No notes available at the time the summary was generated.",
     "summaryAIGen": "This summary is AI generated",
     "noActivity": "No notes yet",
     "noActivityDetails": "There are no summaries or notes to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.",
+    "noResults": "Nothing found",
+    "noResultsDetails": "There are no results based on your query. Try updating the search terms.",
     "aiExplained": "AI explained",
     "summary": "Summarization",
     "summaryDescription": "To generate an incident summary we send incident and associated event data to watsonx. The data is processed using an AI model and watsonx returns a concise summary grouped by the affected entities.",
@@ -499,10 +556,6 @@
   },
   "relatedEvents": {
     "openEvent": "Open event"
-  },
-  "consentForm": {
-    "consentText": "You must accept the terms in the Generative AI Assistance Preview Program Agreement to use this feature.",
-    "consentButton": "Review agreement"
   },
   "affectedIncidents": {
     "affectedIncident": "Affected incident",

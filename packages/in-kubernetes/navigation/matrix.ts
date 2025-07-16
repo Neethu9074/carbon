@@ -15,3 +15,4 @@ export const deploymentConfigId = 'deploymentConfigId';
 export const daemonSetId = 'daemonSetId';
 export const statefulSetId = 'statefulSetId';
 export const persistentVolumeId = 'persistentVolumeId';
+export const persistentVolumeClaimId = 'persistentVolumeClaimId';

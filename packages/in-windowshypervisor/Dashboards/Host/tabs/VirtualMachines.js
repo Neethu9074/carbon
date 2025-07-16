@@ -47,13 +47,6 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'noOfCores',
-    label: t('in-windowshypervisor:dashboards.noOfCores'),
-    getContent(item) {
-      return item.noOfCores;
-    }
-  },
-  {
     id: 'noOfCpus',
     label: t('in-windowshypervisor:dashboards.noOfCpus'),
     getContent(item) {

@@ -1,4 +1,5 @@
 {
+  "tooltipCopyToClipboard": "Copy to clipboard",
   "dialog": {
     "createTest": {
       "buttonLabel": "Add synthetic test",
@@ -317,8 +318,7 @@
         "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities.",
         "teamsLabel": "Teams",
         "teamsTitle": "Teams: Select teams to associate with this test (optional)",
-        "teamsDescription": "Select teams to associate with this test.",
-        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Tests with teams associated will also be reflected in the teams page in settings."
+        "teamsDescription": "Select teams to associate with this test."
       },
       "associations": {
         "applicationsTitle": "Select applications to associate with this synthetic test",
@@ -344,6 +344,17 @@
       },
       "createSyntheticTest": "Create synthetic test"
     },
+    "createOnDemandTest": {
+      "buttonLabel": "Run now",
+      "createButtonLabel": "Run test",
+      "cancel": "Cancel",
+      "properties": "Configuration properties",
+      "location": "Location",
+      "iconLabel": "Test is running",
+      "runnowTitle": "Run test now",
+      "multiSelectLabel": "All assigned locations",
+      "retryInterval": "This test will retry {{retryCount}} after "
+    },
     "httpMethods": {
       "get": "GET",
       "post": "POST",
@@ -360,7 +371,9 @@
       "failureMessageUpdate": "Failed to update the synthetic test: {{errorMessage}}",
       "failureMesssageDelete": "Failed to delete the synthetic test: {{errorMessage}}",
       "successMessageCICDRerun": "Successfully reran the synthetic test",
-      "failureMesssageCICDRerun": "Failed to rerun the synthetic test: {{errorMessage}}"
+      "failureMesssageCICDRerun": "Failed to rerun the synthetic test: {{errorMessage}}",
+      "successMessageCICDCreate": "Successfully created the synthetic run now test",
+      "failureMesssageCICDCreate": "Failed to create the synthetic run now test: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
@@ -375,7 +388,7 @@
       "bundleSavedMessage": "Bundled scripts added"
     },
     "createLocation": {
-      "newLocation": "New location",
+      "newLocation": "Add location",
       "activate": "Activate",
       "done": "Done",
       "stepConfigs": {
@@ -451,7 +464,7 @@
       "failureMesssage": "{{errorMessage}}"
     },
     "createCredential": {
-      "createButton": "New Credential",
+      "createButton": "Create credential",
       "nameValue": "Name and value",
       "associations": "Associations",
       "teams": "Teams",
@@ -532,15 +545,18 @@
         "filterLabel": "Applications",
         "singleAppHeader": "{{ number }} association",
         "multiAppHeader": "{{ number }} associations",
-        "noApplicationsAssociated": "No applications associated"
+        "noApplicationsAssociated": "No applications associated",
+        "noApplicationAssociatedWithTest": "No application associated with the selected test"
       },
       "multiWebDialog": {
         "filterLabel": "Websites",
-        "noWebsitesAssociated": "No websites associated."
+        "noWebsitesAssociated": "No websites associated.",
+        "noWebsiteAssociatedWithTest": "No website associated with the selected test"
       },
       "multiMobileDialog": {
         "filterLabel": "Mobile Apps",
-        "noMobileAppsAssociated": "No mobile apps associated."
+        "noMobileAppsAssociated": "No mobile apps associated.",
+        "nodMobileAppAssociatedWithTest": "No mobile app associated with the selected test"
       },
       "testLabel": "Name",
       "status": "Status",
@@ -563,7 +579,10 @@
         "singleRun": "Runs in {{number}} location",
         "multipleRun": "Runs in {{number}} locations",
         "warning": "Warning",
-        "noIssues": "No issues"
+        "noIssues": "No issues",
+        "locationsSidePanelTitle": "Locations ({{totalLocations}})",
+        "locationsNameHeader": "Name",
+        "locationsHealthHeader": "Health"
       },
       "associationLabel": "Associations",
       "health": "Health",
@@ -572,10 +591,40 @@
       "na": "N/A",
       "configureColumns": {
         "title": "Column customization",
-        "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed."
+        "description": "You can now customize your Synthetic test data table. With this you have the flexibility to choose which columns to display and rearrange them as needed.",
+        "dialog": {
+          "title": "Manage columns ({{enabledCount}}/{{totalCount}})",
+          "description": "Deselect columns to hide them. Click and drag the white box to reorder the columns. These specifications will be saved and persist if you leave and return to the data table.",
+          "configureButtonLabel": "Configure columns",
+          "columnNameLabel": "Column name",
+          "configurationSuccessTitle": "Display customized",
+          "configurationSuccessMessage": "The table “columns” has been customized.",
+          "configurationErrorTitle": "Display not customized",
+          "configurationErrorMessage": "The table “columns” has not been customized.",
+          "closeIconDescription": "Close",
+          "saveButtonLabel": "Save",
+          "cancelButtonLabel": "Cancel",
+          "searchPlaceholder": "Find columns",
+          "selectAllLabel": "Select all"
+        }
       },
       "searchSyntheticTests": "Search synthetic tests",
-      "failedToLoadTestsTitle": "Failed to load synthetic tests"
+      "failedToLoadTestsTitle": "Failed to load synthetic tests",
+      "associationsColumn": {
+        "associationsSidePanelTitle": "Associations ({{totalAssociations}})",
+        "associationsNameHeader": "Name",
+        "associationsHealthHeader": "Health"
+      },
+      "filterPanel": {
+        "typeLabel": "Type",
+        "locationLabel": "Location",
+        "associationLabel": "Association",
+        "applicationLabel": "Application",
+        "searchPlaceholder": "Find classification",
+        "sortLabel": "Sort",
+        "selectAllLabel": "Select all ({{totalEntityCount}})",
+        "viewAllLabel": "View all ({{totalEntityCount}})"
+      }
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",
@@ -811,7 +860,43 @@
       "sslCertificate": {
         "daysRemaining": "Days remaining",
         "timeOfIssue": "Time of issue",
-        "timeOfExpiry": "Time of expiry"
+        "timeOfExpiry": "Time of expiry",
+        "customMetrics": {
+          "titles": {
+            "details": "Details",
+            "testDetails": "Test details",
+            "customMetrics": "Custom metrics",
+            "issuedTo": "Issued to",
+            "issuedBy": "Issued by",
+            "publicKeyInfo": "Public key information",
+            "fingerprints": "Fingerprints",
+            "tls": "Cipher & tls information",
+            "serialNumber": "Serial number",
+            "extKeyUsage": "Extended key usage"
+          },
+          "daysRemaining": "Days remaining:",
+          "valid": "Valid:",
+          "validFrom": "Valid from:",
+          "validTo": "Valid to:",
+          "commonName": "Common name:",
+          "alternativeName": "Alternative name:",
+          "locality": "Locality:",
+          "organizationUnit": "Organization unit:",
+          "organization": "Organization:",
+          "state": "State/province:",
+          "country": "Country:",
+          "standardName": "Standard name:",
+          "name": "Cipher name:",
+          "version": "TLS version:",
+          "fingerprint": "Fingerprint1:",
+          "fingerprint256": "Fingerprint2:",
+          "size": "Key size:",
+          "modulus": "Modulus:",
+          "algorithm": "Algorithm:",
+          "exponent": "Exponent:",
+          "serialNumber": "Serial number:",
+          "extKeyUsage": "Extended key usage:"
+        }
       },
       "failedRunErrorTypeTitle": "Error type",
       "viewRecordingLabel": "View recording",
@@ -951,7 +1036,7 @@
     },
     "credentialList": {
       "mainLabel": "Credentials",
-      "name": "Name",
+      "name": "Credential name",
       "associations": "Associations",
       "createdAt": "Created at",
       "createdBy": "Created by",
@@ -972,6 +1057,16 @@
         "deleteButtonLabel": "Delete credential",
         "cancelButtonLabel": "Cancel",
         "deletionSuccess": "The credential has been deleted"
+      }
+    }
+  },
+  "components": {
+    "dataTable": {
+      "filterPanel": {
+        "title": "Filter",
+        "closeButtonLabel": "Close",
+        "cancelButtonLabel": "Cancel",
+        "applyButtonLabel": "Apply"
       }
     }
   }

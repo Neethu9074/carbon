@@ -51,6 +51,10 @@ export default function SidebarTagList({ leftAligned = false, tags, noMargin }) 
   return null;
 }
 
+const joinIfArray = value => {
+  return typeof value === 'object' ? value.join(',') : value;
+};
+
 function TagLine({ name, value, leftAligned }) {
   const valueRef = useRef(null);
 
@@ -59,7 +63,7 @@ function TagLine({ name, value, leftAligned }) {
   return (
     <Li className={locals.root}>
       <section className={locals.tooltipWrapper}>
-        <Tooltip content={overflow ? value : undefined}>
+        <Tooltip content={overflow ? joinIfArray(value) : undefined}>
           <section className={locals.wrapper}>
             <div className={locals.key}>{name}</div>
             <div
@@ -69,10 +73,10 @@ function TagLine({ name, value, leftAligned }) {
                 [locals.leftAlignedValue]: leftAligned
               })}
             >
-              {value}
+              {joinIfArray(value)}
             </div>
             <div className={locals.clipboard}>
-              <CopyToClipboard getText={() => value}>
+              <CopyToClipboard getText={() => joinIfArray(value)}>
                 {ref => (
                   <span ref={ref}>
                     <Button kind="secondary" icon="lib_actions_copy" iconSize="xs" />

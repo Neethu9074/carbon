@@ -14,8 +14,12 @@ import { useObservable } from '@instana/hooks';
 import ChartingConfiguratorSection from 'in-components/ChartingConfigurator/ChartingConfiguratorSection';
 // @ts-expect-error needs TS migration
 import GroupedChartingConfigurator from 'in-components/ChartingConfigurator/GroupedChartingConfigurator';
+import {
+  getLogChartGranularity,
+  getLogsChartConfig,
+  getMetricConfig
+} from 'in-logging/analyze/AnalyzeView/components/Charts/utils';
 import { ChartProps, LogsDistributionChartSectionProps } from 'in-logging/analyze/AnalyzeView/components/Charts/types';
-import { getLogsChartConfig, getMetricConfig } from 'in-logging/analyze/AnalyzeView/components/Charts/utils';
 import { customChartHeight, logsChartOptions } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { useLoggingAnalyzeContext } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -108,6 +112,10 @@ function LogsChart({ backendQueryModelWithFacets, metric, rightHeaderContent, fa
     logGroupsResult.data &&
     getLogsChartConfig(backendQueryModelWithFacets as TagFilterExpression, metric, logGroupsResult.data.items);
 
+  if (config) {
+    config.granularity = getLogChartGranularity(timeConfig.windowSize);
+  }
+
   useEffect(() => {
     const prevExtraLogLevel = state.extraChartLogLevel;
     const nextExtraLogLevel = config?.y1.metrics[4]?.label;
@@ -188,6 +196,7 @@ function GroupedLogsChart({
       rightHeaderContent={rightHeaderContent}
       title={title}
       config={{
+        granularity: getLogChartGranularity(timeConfig.windowSize),
         y1: {
           colors,
           metrics: topGroups.map(label =>

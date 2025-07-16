@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import {
   Stack,
@@ -20,43 +20,21 @@ import {
 } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import {
-  cronJobs,
-  getUrlStateDefinition,
-  name,
-  namespaces,
-  runningPods,
-  services,
-  sortBy,
-  unhealthyDeployments,
-  unhealthyNodes,
-  ItemAdditionalInfo
-} from 'in-kubernetes/utils';
-import {
-  BaseProps,
-  clusterListFullyQualified,
-  IdsProps,
-  namespaceListFullyQualified,
-  clusterOtelListFullyQualified
-} from 'in-kubernetes/navigation/paths';
-import SortingConfigurator, {
-  DropdownItem
-} from 'in-kubernetes/lists/components/SortingConfigurator/SortingConfigurator';
-import InfoCard, { KubernetesCountersProps, Workload } from 'in-kubernetes/lists/components/InfoCard/InfoCard';
-import { KubernetesClusterListItem, KubernetesNamespaceListItem, PaginatedResult, Result } from 'in-types';
+import SortingConfigurator from 'in-kubernetes/lists/components/SortingConfigurator/SortingConfigurator';
 import InfoCardSkeleton from 'in-kubernetes/lists/components/InfoCardSkeleton/InfoCardSkeleton';
+import { CardProps, getSortingOptions, generateCard, Item } from 'in-kubernetes/lists/utils';
 import useInfiniteSearch from 'in-kubernetes/hooks/useInfiniteSearch/useInfiniteSearch';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { QueryParams } from 'in-kubernetes/subscriptions/getKubernetesClusters';
+import { TrackingFunction, useKubernetesTracker } from 'in-kubernetes/tracker';
+import InfoCards from 'in-kubernetes/lists/components/InfoCards/InfoCards';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import { useLocalStorage } from 'in-services/localStorage';
-import { pageNames } from 'in-services/tracking/pageNames';
-import { deepFreeze } from 'in-services/util/object';
+import { PaginatedResult, Result } from 'in-types';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import { t, Trans } from 'in-i18n';
@@ -72,28 +50,29 @@ interface ResourceCardListProps {
     orderDirection,
     timeConfig
   }: QueryParams) => Observable<Result<PaginatedResult<any>>>;
-  type: Workload;
-  getHrefs: (id: string, { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'>) => string;
-  workloads: string[];
-  hasSortingEnabled: boolean;
+  getHref: (id: string) => string;
+  cardDefinitions: CardProps[];
+  urlStateDefinition: any;
+  pathname: string;
+  pageTitle: string;
+  pageRootName: string;
 }
 
 export default function ResourceCardList({
   subscription,
-  type,
-  getHrefs,
-  workloads,
-  hasSortingEnabled
+  getHref,
+  pathname,
+  pageRootName,
+  pageTitle,
+  urlStateDefinition,
+  cardDefinitions
 }: Readonly<ResourceCardListProps>) {
-  const isClusterType = type === 'cluster';
-  const isOtelClusterType = type === 'otelcluster';
-  const urlStateDefinition = getUrlStateDefinition(isClusterType);
-  const { location, navigate } = useNavigation();
   const searchRef = useRef<HTMLDivElement>(null);
-  const { kubernetesViewModeToggled, kubernetesSearchBarCleared, kubernetesSortingChanged } = useKubernetesTracker();
+  const { location, navigate } = useNavigation();
   const [isTooltipSeen, setIsTooltipSeen] = useLocalStorage('k8sClusterNamespaceTooltipSeen', false);
   const [{ orderBy, orderDirection }, setUrlState] = useUrlState(urlStateDefinition);
-  const [itemsAdditionalInfo, setItemsAdditionalInfo] = useState<ItemAdditionalInfo>({});
+  const { kubernetesViewModeToggled, kubernetesCardClicked, kubernetesSearchBarCleared, kubernetesSortingChanged } =
+    useKubernetesTracker();
 
   const {
     debouncedQuery,
@@ -107,17 +86,6 @@ export default function ResourceCardList({
     items
   } = useInfiniteSearch({ subscription, urlStateDefinition });
 
-  // Sort the indices instead of the whole array of objects, to improve performance.
-  const sortedIndexes = useMemo(
-    () => sortByIndex(itemsAdditionalInfo, orderBy, orderDirection, items),
-    [items, orderBy, orderDirection, itemsAdditionalInfo]
-  );
-
-  const handleAdditionInfo = (id: string, data: KubernetesCountersProps) => {
-    if (itemsAdditionalInfo[id]) return;
-    setItemsAdditionalInfo(prev => ({ ...prev, [id]: data }));
-  };
-
   // Auto focus search bar input
   useEffect(() => {
     if (searchRef?.current) {
@@ -129,38 +97,20 @@ export default function ResourceCardList({
     return <LoadingIndicator />;
   }
 
-  const sortingOptions: DropdownItem[] = deepFreeze([
-    { label: t('in-kubernetes:cloudNative.sortingOptions.name'), value: name },
-    { label: t('in-kubernetes:cloudNative.sortingOptions.unhealthyNodes'), value: unhealthyNodes },
-    { label: t('in-kubernetes:cloudNative.sortingOptions.unhealthyDeployments'), value: unhealthyDeployments },
-    { label: t('in-kubernetes:cloudNative.sortingOptions.runningPods'), value: runningPods },
-    { label: t('in-kubernetes:cloudNative.sortingOptions.namespaces'), value: namespaces },
-    { label: t('in-kubernetes:cloudNative.sortingOptions.services'), value: services },
-    { label: t('in-kubernetes:cloudNative.sortingOptions.cronJobs'), value: cronJobs }
-  ]).filter(item => item.value === 'name' || workloads.includes(item.value));
-
-  let basePath;
-
-  if (isClusterType) {
-    basePath = clusterListFullyQualified;
-  } else if (isOtelClusterType) {
-    basePath = clusterOtelListFullyQualified;
-  } else {
-    basePath = namespaceListFullyQualified;
-  }
-
-  const pathname = `${basePath}/table`;
+  const onTracking = kubernetesCardClicked;
+  const sortingOptions = getSortingOptions(cardDefinitions, ['unhealthyNodes', 'unhealthyDeployments']);
+  const infoCards = getInfoCardData(getHref, cardDefinitions, onTracking, items);
 
   return (
     <>
-      <Title title={t(`in-kubernetes:${isClusterType ? 'clusters' : 'namespaces'}`)} />
+      <Title title={pageTitle} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,
-          pageRootName: isClusterType ? pageNames.kubernetes_clusters : pageNames.kubernetes_namespaces
+          pageRootName
         }}
       />
-      <CarbonTile>
+      <CarbonTile className={locals.tile}>
         <Stack direction="horizontal" align="center" distribution="spaceBetween" gap="xsmall">
           <div className={locals.searchBar} ref={searchRef}>
             <CarbonSearch
@@ -172,34 +122,32 @@ export default function ResourceCardList({
             />
           </div>
 
-          {hasSortingEnabled && (
-            <SortingConfigurator
-              options={sortingOptions}
-              order={{
-                by: orderBy,
-                direction: orderDirection
-              }}
-              onChange={event => {
-                const hasSelectedItem = 'selectedItem' in event;
-                const selectedOrderBy = hasSelectedItem ? event.selectedItem?.value : orderBy;
-                const selectedOrderDirection = hasSelectedItem
-                  ? orderDirection
-                  : orderDirection === 'ASC'
-                  ? 'DESC'
-                  : 'ASC';
+          <SortingConfigurator
+            options={sortingOptions}
+            order={{
+              by: orderBy,
+              direction: orderDirection
+            }}
+            onChange={event => {
+              const hasSelectedItem = 'selectedItem' in event;
+              const selectedOrderBy = hasSelectedItem ? event.selectedItem?.value : orderBy;
+              const selectedOrderDirection = hasSelectedItem
+                ? orderDirection
+                : orderDirection === 'ASC'
+                ? 'DESC'
+                : 'ASC';
 
-                setUrlState({
-                  orderBy: selectedOrderBy,
-                  orderDirection: selectedOrderDirection
-                });
+              setUrlState({
+                orderBy: selectedOrderBy,
+                orderDirection: selectedOrderDirection
+              });
 
-                kubernetesSortingChanged({
-                  orderBy: selectedOrderBy,
-                  orderDirection: selectedOrderDirection
-                });
-              }}
-            />
-          )}
+              kubernetesSortingChanged({
+                orderBy: selectedOrderBy,
+                orderDirection: selectedOrderDirection
+              });
+            }}
+          />
 
           <CarbonPopover open={!isTooltipSeen} autoAlign caret highContrast>
             <CarbonIconButton
@@ -210,7 +158,7 @@ export default function ResourceCardList({
               onClick={() => {
                 kubernetesViewModeToggled({
                   switchedToView: 'table',
-                  tab: type
+                  tab: pageTitle.toLowerCase()
                 });
                 navigate({ ...location, pathname }, true);
               }}
@@ -240,56 +188,57 @@ export default function ResourceCardList({
       {hasErrors && !isInitialLoading && <ErroneousResultPresenter errors={errors} />}
       {isLoadingData && (
         <>
-          <InfoCardSkeleton numberOfCards={workloads.length} />
-          <InfoCardSkeleton numberOfCards={workloads.length} />
+          <InfoCardSkeleton numberOfCards={cardDefinitions.length} />
+          <InfoCardSkeleton numberOfCards={cardDefinitions.length} />
         </>
       )}
 
-      {sortedIndexes?.map(index => (
-        <InfoCard
-          key={`${items?.[index].id}_${index}`}
-          type={type}
-          data={items?.[index]}
-          onDataFetched={handleAdditionInfo}
-          getHrefs={getHrefs}
-          workloads={workloads}
-        />
-      ))}
-
+      <InfoCards data={infoCards} />
       <div ref={loadMoreContainerRef as React.MutableRefObject<HTMLDivElement>} className={locals.loadMoreContainer} />
-
-      {canLoadMore && <InfoCardSkeleton numberOfCards={workloads.length} />}
+      {canLoadMore && <InfoCardSkeleton numberOfCards={cardDefinitions.length} />}
     </>
   );
 }
 
-export function sortByIndex(
-  itemsAdditionalInfo: ItemAdditionalInfo,
-  orderBy: string,
-  orderDirection: string,
-  items?: KubernetesClusterListItem[] | KubernetesNamespaceListItem[]
+function getInfoCardData(
+  getHref: (id: string) => string,
+  cardDefinitions: CardProps[],
+  onTracking: TrackingFunction,
+  items?: Item[]
 ) {
-  // Sometimes the itemsAdditionalInfo is not fully loaded (items are still not visible in the viewport)
-  // and the user triggers to fetch more data, preventing sorting to happen.
-  // This threshold will trigger the sorting if 90% of data is available.
-  const threshold = 0.9;
+  if (!items) {
+    return;
+  }
 
-  if (!items) return [];
+  return items?.map(item => {
+    const isCluster = 'cluster' in item;
+    const clusterOrNamespace = isCluster ? item.cluster : item.namespace;
+    const id = clusterOrNamespace?.id;
+    const title = (isCluster ? item?.name : item.label) ?? '';
+    const subTitle = !isCluster ? item.clusterName : '';
+    const distribution = clusterOrNamespace?.clusterDistribution ?? 'kubernetes';
+    const icon = isCluster ? `lib_${distribution}` : `lib_kubernetes_namespace`;
+    const version = isCluster ? item?.cluster.version : '';
+    const href = getHref(id);
+    const header = {
+      id,
+      icon,
+      href,
+      title,
+      subTitle,
+      version,
+      distribution
+    };
 
-  const indices = [...items].map((_, index) => index);
+    const cards = cardDefinitions.map((cardDefinition: CardProps) =>
+      generateCard({
+        item,
+        getHref,
+        onTracking,
+        ...cardDefinition
+      })
+    );
 
-  const enoughDataAvailable = Object.keys(itemsAdditionalInfo).length >= Math.floor(items.length * threshold);
-
-  return !enoughDataAvailable
-    ? indices
-    : indices.sort((current, next) => {
-        const sorted = sortBy({ orderBy, orderDirection, itemsAdditionalInfo })(items[current], items[next]);
-
-        // If has the same value, sort by name
-        if (sorted === 0) {
-          return sortBy({ orderBy: 'name', orderDirection: 'ASC', itemsAdditionalInfo })(items[current], items[next]);
-        }
-
-        return sorted;
-      });
+    return { header, cards };
+  });
 }

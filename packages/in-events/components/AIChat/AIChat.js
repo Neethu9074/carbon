@@ -3,17 +3,24 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { SvgIcon, CarbonButton } from '@instana/components';
+import { PreviewPill } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 
+import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE, EVENT_AI_LIBRARY_OPEN } from 'in-services/tracking/tracking';
+import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
+import TableChartSwitcher from 'in-events/components/AIChat/TableComponents/TableChartSwitcher';
+import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
+import InstructionPop from 'in-events/components/AIChat//CustomPanels/InstructionPop';
+import { handleTracking, AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
-import TableChartSwitcher from 'in-events/components/AIChat/TableChartSwitcher';
+import PromptLibrary from 'in-events/components/AIChat//CustomPanels/PromptLibrary';
+import EventsTable from 'in-events/components/AIChat/TableComponents/EventsTable';
+import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import EditableOptions from 'in-events/components/AIChat/EditableOptions';
-import NLGResponse from 'in-events/components/AIChat/NLGResponse';
+import { t } from 'in-i18n';
 
 import locals from './AIChat.mless';
 
@@ -29,7 +36,7 @@ export function MoveAIChatLauncher(pixel) {
 }
 
 function setDragListener() {
-  const elements = document.getElementsByTagName('cds-aichat-internal');
+  const elements = document.getElementsByTagName(AI_CHAT_TAG_NAME);
   const selector = '.WACBotContainer .WACHeader__CenterContainer';
   if (elements.length !== 1) {
     return;
@@ -99,30 +106,60 @@ export function AIChat() {
   // This is needed because we need it to reset on page navigation
   MoveAIChatLauncher('50px');
   const { trackCta } = useSegmentTracking();
+  const [instance, setInstance] = useState(null);
+  const [popOpen, setPopOpen] = useState(false);
+
+  const renderWriteableElements = useMemo(
+    () => ({
+      customPanelElement: <PromptLibrary instance={instance} setPopOpen={setPopOpen} />,
+      headerBottomElement: <PreviewPill className={locals.previewPill} />
+    }),
+    [instance]
+  );
 
   return (
     <>
       <ChatContainer
         config={config}
+        renderWriteableElements={renderWriteableElements}
         renderUserDefinedResponse={({ messageItem }, instance) => {
           if (!messageItem) {
             return;
           }
           switch (messageItem.user_defined?.user_defined_type) {
+            case 'prompt_library':
+              return <PromptLibraryResponse instance={instance} />;
             case `editable_options`:
               return <EditableOptions messageItem={messageItem} instance={instance} />;
             case 'table_chart':
               return <TableChartSwitcher messageItem={messageItem} />;
             case 'nlg_response':
               return <NLGResponse messageItem={messageItem} />;
+            case 'events_table':
+              return <EventsTable messageItem={messageItem} />;
             default:
               return undefined;
           }
         }}
         onBeforeRender={instance => {
           instance.trackCta = trackCta;
+          setInstance(instance);
         }}
         onAfterRender={instance => {
+          const customPanel = instance.customPanels.getPanel();
+          const panelOptions = {
+            title: t('in-events:aichat.promptLibrary')
+          };
+          instance.updateCustomMenuOptions([
+            {
+              text: t('in-events:aichat.promptLibrary'),
+              handler: () => {
+                customPanel.open(panelOptions);
+                handleTracking(EVENT_AI_LIBRARY_OPEN);
+                setPopOpen(false);
+              }
+            }
+          ]);
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
           const draggableIcon = document.getElementById(DRAGGABLE_ICON);
 
@@ -133,9 +170,10 @@ export function AIChat() {
 
           // Listen to when the launcher is clicked and open mainWindow
           launcherElement.addEventListener('click', e => {
+            handleTracking(EVENT_AI_CHAT_OPEN);
             instance?.changeView('mainWindow');
             launcherElement.style.display = 'none';
-            const elements = document.getElementsByTagName('cds-aichat-internal');
+            const elements = document.getElementsByTagName(AI_CHAT_TAG_NAME);
             if (elements.length === 1) {
               const movable = elements[0].shadowRoot.getElementById('WACWidget');
               movable.style.right = `32px`;
@@ -153,7 +191,10 @@ export function AIChat() {
               if (event.newViewState.mainWindow) {
                 launcherElement.style.display = 'none';
               } else {
+                // The AI Chat has been closed so we are no longer hiding the AI Launcher
+                handleTracking(EVENT_AI_CHAT_CLOSE);
                 launcherElement.style.display = '';
+                setPopOpen(false);
               }
             }
           });
@@ -220,6 +261,7 @@ export function AIChat() {
           }
         }}
       />
+      {popOpen && <InstructionPop setPopOpen={setPopOpen} />}
       <CarbonButton className={locals.aiChatDraggableButton} id={LAUNCHER_BUTTON_ID}>
         <SvgIcon type={'lib_actions_chat_launch'} size="regular" />
         <SvgIcon type={'lib_actions_reorder'} size="xxs" className={locals.draggableSvg} id={DRAGGABLE_ICON} />

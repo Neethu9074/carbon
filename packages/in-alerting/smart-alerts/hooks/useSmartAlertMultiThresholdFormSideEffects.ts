@@ -62,6 +62,10 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
       effects: [requestThresholdSuggestion, validateAggregation]
     },
     {
+      path: ['threshold', 'warningThreshold', 'adaptability'],
+      effects: [requestThresholdSuggestion]
+    },
+    {
       path: ['granularity'],
       effects: [requestThresholdSuggestion, resetGracePeriod]
     },

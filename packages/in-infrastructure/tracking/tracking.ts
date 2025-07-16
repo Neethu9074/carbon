@@ -95,7 +95,7 @@ function infrastructureEventTracker(props: UiInteractionProps | CtaClickedProps,
 
 interface Props {
   event: string;
-  customData: UiInteractionProps;
+  customData?: UiInteractionProps;
 }
 
 export const infraEventUIInteraction = ({ event, customData, ...props }: Props) => {

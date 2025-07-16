@@ -7,6 +7,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import { formatDateTime } from '@instana/format-date';
 import { IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
@@ -31,19 +32,20 @@ import locals from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLo
 describe('timestampToLocaleDateTime', () => {
   test('should convert nanosecond timestamp to formatted date string', () => {
     const timestamp = 1700000000000000;
-    const expectedDate = new Date(Math.round(timestamp / 1000000)).toISOString().slice(0, 16).replace('T', ', ');
-
+    const expectedDate = formatDateTime(Math.floor(timestamp / 1000000));
     expect(timestampToLocaleDateTime(timestamp)).toBe(expectedDate);
   });
+
   test('should correctly format a known timestamp', () => {
     const timestamp = 1700000000000000;
     const result = timestampToLocaleDateTime(timestamp);
 
-    expect(result).toMatch(/^\d{4}-\d{2}-\d{2}, \d{2}:\d{2}$/);
+    expect(result).toMatch(/^\d{4}-\d{2}-\d{2}, \d{2}:\d{2}(:\d{2})?$/);
   });
 
   test('should handle epoch timestamp (0 nanoseconds)', () => {
-    expect(timestampToLocaleDateTime(0)).toBe('1970-01-01, 00:00');
+    const expectedDate = formatDateTime(0);
+    expect(timestampToLocaleDateTime(0)).toBe(expectedDate);
   });
 });
 

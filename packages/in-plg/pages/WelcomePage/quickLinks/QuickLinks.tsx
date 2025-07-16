@@ -30,6 +30,7 @@ import { MakeDefaulButtonProps } from 'in-plg/pages/WelcomePage/quickLinks/types
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { getPageType } from 'in-plg/Demo/NewPlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -53,7 +54,11 @@ export const QuickLinks = () => {
                 ? t('in-plg:welcomepage.quickLinks.buttonNames.setUpADataSource')
                 : t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')
             }
-            href={newOTelPageEnabled ? createHrefToPath('/datasources') : createHrefToPath('/agents/installation')}
+            href={
+              newOTelPageEnabled
+                ? createHrefToPath(datasourceInstanaAgentPath)
+                : createHrefToPath('/agents/installation')
+            }
             onClick={() => {
               trackCta(
                 newOTelPageEnabled ? WELCOME_PAGE_DEPLOY_DATASOURCE_CLICK : WELCOME_PAGE_DEPLOY_AGENT_CLICK,
@@ -90,7 +95,7 @@ export const QuickLinks = () => {
           buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.documentation')}
           onClick={() => {
             trackCta(WELCOME_PAGE_IBM_DOCUMENTATION_CLICK, getPageType(location.pathname));
-            window.open('https://www.ibm.com/docs/en/obi/current', '_blank', 'noreferrer');
+            window.open('https://www.ibm.com/docs/en/instana-observability/latest', '_blank', 'noreferrer');
           }}
         />
         {releaseNotesEnabled && (

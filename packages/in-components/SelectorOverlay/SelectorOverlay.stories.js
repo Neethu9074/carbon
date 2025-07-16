@@ -82,6 +82,21 @@ const optionsFilteredOnALevel = [
   }
 ];
 
+const singleItemOptions = [
+  {
+    label: 'Root Level Node',
+    description: 'Some description - Root Level Node',
+    icon: 'plugin:neo4j',
+    children: [
+      {
+        label: 'First Level Leaf',
+        description: 'Some description - First Level Leaf',
+        icon: 'plugin:docker'
+      }
+    ]
+  }
+];
+
 export default {
   title: 'in-components/SelectorOverlay/SelectorOverlay'
 };
@@ -114,6 +129,16 @@ export const FilteredOnALevelWithNoBackButton = {
   ),
 
   name: 'filtered on a level with no back button'
+};
+
+export const SingleItem = {
+  render: () => (
+    <PermanentlyVisibleOverlay>
+      <SelectorOverlay onChange={storybookAction('onChange')} options={singleItemOptions} />
+    </PermanentlyVisibleOverlay>
+  ),
+
+  name: 'single item'
 };
 
 export const Loading = {

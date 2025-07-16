@@ -27,10 +27,13 @@ import {
   DeleteLogsRequest,
   getDeletionStatus
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
+import {
+  parseLocalDateFromYYYYMMDD,
+  showToast
+} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/utils';
 import { deleteLogsLocalisationStrings as t } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { ModalNotification } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/ModalNotification';
 import useDeleteLogsForm from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/useDeleteLogsForm';
-import { showToast } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/utils';
 import { NotificationState } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { formatDate, parseDateTime } from 'in-services/formatters/date';
@@ -172,7 +175,7 @@ export function DeleteLogsModal({
                   id="deletionUntilDate"
                   hasError={!!validationMessages.endDate}
                   disabled={isDeleting}
-                  value={new Date(inputValues.endDate as string)}
+                  value={parseLocalDateFromYYYYMMDD(inputValues.endDate as string)}
                   onChange={e => setInputValues.endDate(formatDate((e as Date[])[0])!)}
                   locale={activeLocale}
                   aria-labelledby="deletionUntilDateLabel"

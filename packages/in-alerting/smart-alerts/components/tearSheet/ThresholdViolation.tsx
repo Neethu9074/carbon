@@ -30,12 +30,10 @@ const maxTimeWindow = 12;
 
 export default function ThresholdViolation({
   form,
-  oneMinuteGranularityAllowed,
   updateForm
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  oneMinuteGranularityAllowed: boolean;
 }) {
   const granularity = form.get('granularity')?.value;
   const thresholdType = form.get('threshold').get('type')?.value;
@@ -43,7 +41,7 @@ export default function ThresholdViolation({
   const timeThresholdForm = form.get('timeThreshold');
   const timeThresholdTimeWindow = timeThresholdForm.get('timeWindow')?.value;
 
-  const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
+  const marks = getMarksForThresholdType(thresholdType);
   const foundMark = marks.find((i: Marks) => i.millis === granularity) ?? getDefaultMark(marks, thresholdType);
   const currentValue = foundMark.value;
 

@@ -10,7 +10,7 @@ import React from 'react';
 
 import { CarbonSearch, CarbonInlineLoading, CarbonModal } from '@instana/components';
 
-import { NotesAndActivity, EmptyState } from 'in-events/components/NotesAndActivity/NotesAndActivity';
+import { NotesAndActivity, EmptyState, NoResultsFound } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
 import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
@@ -100,6 +100,26 @@ describe('EmptyState', () => {
     expect(getByText.find(`p.${locals.emptyInfo}`)).toHaveLength(1);
     expect(getByText.find(`p.${locals.emptyInfo}`).text()).toEqual(
       'There are no summaries or notes to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.'
+    );
+  });
+});
+
+describe('NoResultsFound', () => {
+  it('renders correctly without errors', () => {
+    shallow(<NoResultsFound />);
+  });
+
+  it('renders the correct empty state header text', () => {
+    const getByText = shallow(<NoResultsFound />);
+    expect(getByText.find(`h3.${locals.emptyHeader}`)).toHaveLength(1);
+    expect(getByText.find(`h3.${locals.emptyHeader}`).text()).toEqual('Nothing found');
+  });
+
+  it('renders the correct empty state info text', () => {
+    const getByText = shallow(<NoResultsFound />);
+    expect(getByText.find(`p.${locals.emptyInfo}`)).toHaveLength(1);
+    expect(getByText.find(`p.${locals.emptyInfo}`).text()).toEqual(
+      'There are no results based on your query. Try updating the search terms.'
     );
   });
 });

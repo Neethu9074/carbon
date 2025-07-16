@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { sortGroups, sortNodes } from 'in-map/misc/physical/layoutingStrategies/util.ts';
 import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import Packer from 'in-map/misc/physical/Packer';
 
+const MAX_VALUE = Number.MAX_VALUE;
 let groupMarginWidth;
 let groupMarginHeight;
 const groupPadding = 1;
@@ -57,12 +59,38 @@ function calculateDimensions(_groups) {
       id: group.id,
       w: dim.width + groupMarginWidth,
       h: dim.height + groupMarginHeight,
-      numNodes: dim.numNodes
+      numNodes: dim.numNodes,
+      label: group._cachedLabel
     };
     blocks.push(block);
   });
 
   var packer = new Packer();
+
+  // Sort blocks by size (descending) to ensure consistent placement
+  // This ensures larger blocks are placed first
+  blocks.sort((a, b) => {
+    // Primary sort by area of group
+    const areaA = a.w * a.h;
+    const areaB = b.w * b.h;
+
+    if (areaB !== areaA) {
+      return areaB - areaA; // Descending by area
+    }
+
+    // Secondary sort by total number of nodes
+    if (a.numNodes !== undefined && b.numNodes !== undefined && a.numNodes !== b.numNodes) {
+      return b.numNodes - a.numNodes; // Descending by node count
+    }
+
+    // Tertiary sort by label if area or num nodes for some reason do not work out
+    if (a.label && b.label) {
+      return a.label.toLowerCase().localeCompare(b.label.toLowerCase());
+    }
+
+    return 0;
+  });
+
   blocks.sort((a, b) => b.numNodes - a.numNodes); // sort inputs for best results
   packer.fit(blocks);
 
@@ -122,11 +150,6 @@ function setNodesPositions(_nodes, groupDimension, xOffset, yOffset) {
       nodeYCursor += nodeMargin + 1;
     }
   });
-}
-
-function sortNodes(_nodes) {
-  _nodes.sort((a, b) => a._cachedLabel.localeCompare(b._cachedLabel));
-  return _nodes;
 }
 
 function setDimensionsFromCurrentLayout(dimensions, _groups) {

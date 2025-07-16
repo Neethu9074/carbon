@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { Select, Toggle } from '@instana/components';
+import { Select } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
+import FilterEmptyValuesToggle from 'in-components/FilterEmptyValueToggle/FilterEmptyValueToggle';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import { infraExploreFilterEmptyValueEnabled } from 'in-services/featureFlags';
@@ -18,7 +19,6 @@ import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './MetricCatalogConfiguratorOverlayPresenter.mless';
@@ -95,7 +95,11 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
 }
 
 function metricEventPayload(formMetric) {
-  return { metric: formMetric.get('metric').value, aggregation: formMetric.get('aggregation').value };
+  return {
+    metric: formMetric.get('metric')?.value,
+    aggregation: formMetric.get('aggregation')?.value,
+    crossSeriesAggregation: formMetric.get('crossSeriesAggregation')?.value
+  };
 }
 
 function Content({
@@ -128,7 +132,22 @@ function Content({
               if (onChangeAggregation) {
                 onChangeAggregation(metricEventPayload(metric), aggregation);
               }
-              onChange([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true));
+
+              onChange([], form => {
+                const sumAggs = ['SUM', 'INCREASE', 'PER_SECOND'];
+                const defaultAggs = ['SUM', 'MEAN', 'MIN', 'MAX'];
+                let updatedForm = form
+                  .updateIn([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true))
+                  .updateIn([i, 'crossSeriesAggregation'], field => {
+                    const value = sumAggs.includes(aggregation)
+                      ? 'SUM'
+                      : !defaultAggs.includes(aggregation)
+                      ? aggregation
+                      : undefined;
+                    return field.setValue(value).setTouched(true);
+                  });
+                return updatedForm;
+              });
             }}
             className={locals.aggregations}
             hasError={!field.valid && field.touched}
@@ -144,15 +163,17 @@ function Content({
           </Select>
         ))}
       </Col>
+
       {infraExploreFilterEmptyValueEnabled && (
         <RequiredToggle
           metric={metric}
           onChange={required => onChange([i, 'required'], field => field.setValue(required).setTouched(true))}
         />
       )}
+
       {MetricCatalogConfiguratorHint && (
         <Col xs={1}>
-          <MetricCatalogConfiguratorHint metricId={metric.get('metric').value} />
+          <MetricCatalogConfiguratorHint metricId={metric.get('metric')?.value} />
         </Col>
       )}
     </>
@@ -160,12 +181,15 @@ function Content({
 }
 
 function RequiredToggle({ metric, onChange }) {
-  var required = metric.get('required').map(field => field.value);
+  const required = metric.get('required').map(field => field.value);
+  const handleToggle = () => onChange(!required);
+
   return (
-    <Tooltip content={t('in-components:metricConfigurator.labelFilterEmptyValue')} delay={500}>
-      <span>
-        <Toggle checked={required} onToggle={onChange} />
-      </span>
-    </Tooltip>
+    <FilterEmptyValuesToggle
+      value={required}
+      onToggle={handleToggle}
+      hideLabel={t('in-components:metricConfigurator.labelHideEmptyValues')}
+      showLabel={t('in-components:metricConfigurator.labelShowEmptyValues')}
+    />
   );
 }

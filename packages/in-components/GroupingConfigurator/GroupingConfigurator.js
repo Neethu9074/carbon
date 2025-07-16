@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useEffect, useContext } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
@@ -32,7 +32,8 @@ export default function GroupingConfigurator({
   additionalGetTagCatalogProps,
   getSuggestionsProps,
   addTagDefinitionToFormModel,
-  disableEntitySelection
+  disableEntitySelection,
+  realTimeConfig
 }) {
   const autoFocus = useRef();
 
@@ -71,6 +72,14 @@ export default function GroupingConfigurator({
     [groups, onChange, multipleGroupsSupported]
   );
 
+  useEffect(() => {
+    // if there is something autofocused and auto refresh is on then
+    // we want to disable auto focus to prevent scroll jump between refresh
+    if (realTimeConfig && realTimeConfig.autoRefresh && autoFocus.current) {
+      autoFocus.current = undefined;
+    }
+  }, [realTimeConfig]);
+
   if (!tagCatalog) {
     return <LoadingIndicator text={loadingLabel} />;
   }
@@ -89,6 +98,7 @@ export default function GroupingConfigurator({
             onChange={onChange}
             tracking={tracking}
             fixOverlayLeftAlignment={fixOverlayLeftAlignment}
+            realTimeConfig={realTimeConfig}
           >
             {({ toggle, refSetter }) => (
               <ActiveGroupingConfiguration
@@ -119,6 +129,7 @@ export default function GroupingConfigurator({
           additionalGetTagCatalogProps={additionalGetTagCatalogProps}
           addTagDefinitionToFormModel={addTagDefinitionToFormModel}
           disableEntitySelection={disableEntitySelection}
+          realTimeConfig={realTimeConfig}
         >
           {({ toggle, refSetter }) => (
             <Button
@@ -153,7 +164,8 @@ function GroupingOverlay({
   getTagCatalog,
   additionalGetTagCatalogProps,
   addTagDefinitionToFormModel,
-  disableEntitySelection
+  disableEntitySelection,
+  realTimeConfig
 }) {
   return (
     <Overlay
@@ -161,7 +173,9 @@ function GroupingOverlay({
       props={{
         tagCatalog,
         onChange: ({ name, tagType, tagDefinition }) => {
-          autoFocus.current = Date.now();
+          // only want af if af is off
+          if (!realTimeConfig || !realTimeConfig.autoRefresh) autoFocus.current = Date.now();
+
           const selectedGroup = setEntityIfNecessary(name, tagType, tagDefinition);
           tracking?.onGroupAdded?.(selectedGroup);
           onChange(selectedGroup);

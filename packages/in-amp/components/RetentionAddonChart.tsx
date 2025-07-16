@@ -117,6 +117,7 @@ interface RetentionAddonChartProp {
   to: any;
   showAggregatedMetrics: any;
   hasLoggingAddon: HasLoggingAddonProp;
+  isCumulativeTimeRange: boolean;
 }
 
 type setLoggingRetentionType = React.Dispatch<

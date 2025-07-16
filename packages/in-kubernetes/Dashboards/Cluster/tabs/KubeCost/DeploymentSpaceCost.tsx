@@ -15,8 +15,8 @@ import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 // @ts-expect-error needs TS migration
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { KUBECOST_EXPORT_DEPLOYMENT_COST_CLICK } from 'in-services/tracking/eventNames';
+import { percentagePlain, twoDecimalPlaces } from 'in-services/formatters/number';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { percentagePlain } from 'in-services/formatters/number';
 import CsvExporter from 'in-components/CsvExporter/CsvExporter';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -284,7 +284,8 @@ export default function DeploymentCost({ currencyCode, snapshotId, timeConfig }:
 }
 
 function getCurrency(value: DeploymentCostRow) {
-  return `${currencyType} ${value}`;
+  const isValidNumber = typeof value === 'number' && !isNaN(value);
+  return isValidNumber ? `${currencyType} ${twoDecimalPlaces(value)}` : '-';
 }
 
 const CSVExportButton = ({ csvHeaders, csvData }: CSVExportProps) => {

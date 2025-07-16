@@ -10,12 +10,12 @@ import { ProductiveCard } from '@carbon/ibm-products';
 import { Tag } from '@carbon/react';
 import React from 'react';
 
-import { Typography } from '@instana/components';
-
 import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
+import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseEntityDetails';
 import TopologyContextMenu from 'in-events/components/RootCauseAnalysis/Topology/TopologyContextMenu';
 import { TopologyGraphNode } from 'in-events/components/RootCauseAnalysis/Topology/types';
+import { t } from 'in-i18n';
 
 import locals from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/AgenticInvestigation.mless';
 
@@ -27,8 +27,8 @@ const EntityDetails = () => {
     return (
       <ProductiveCard
         className={locals.cardWithBorder}
-        title="No entity selected"
-        description="Select an entity to view its details"
+        title={t('in-events:RCA.singleEntityLLM.entityDetails.noEntitySelectedTitle')}
+        description={t('in-events:RCA.singleEntityLLM.entityDetails.noEntitySelectedDescription')}
       >
         <div />
       </ProductiveCard>
@@ -46,9 +46,10 @@ const EntityDetails = () => {
       <ProductiveCard
         className={locals.cardWithBorder}
         title={selectedNodeInfo?.label}
-        description={<Tag type="purple">Root cause</Tag>}
+        description={<Tag type="purple">{t('in-events:RCA.titlePRCA')}</Tag>}
+        aiLabel={<></>}
       >
-        <Typography variant="body-01">This section is WIP.</Typography>
+        <RootCauseEntityDetails />
       </ProductiveCard>
     );
   }

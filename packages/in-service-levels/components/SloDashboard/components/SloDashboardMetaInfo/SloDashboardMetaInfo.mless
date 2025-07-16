@@ -8,4 +8,21 @@
   .metaInfo {
     padding-top: 0.2rem;
   }
+
+  .gridContainer {
+    padding-left: 15px;
+  }
+
+  .tagSet {
+    :global(.c4p--tag-set-overflow__tag-item.c4p--tag-set-overflow__tag-item--default .cds--tag) {
+      padding-bottom: 12px;
+      font-size: 0.75rem;
+    }
+    :global(.c4p--tag-set-overflow__tag-list) {
+      margin-bottom: 0;
+    }
+    :global(.c4p--tag-set-overflow__show-all-tags-link) {
+      font-size: 0.75rem;
+    }
+  }
 }

@@ -22,12 +22,13 @@ module.exports = {
   transformIgnorePatterns: [
     '.jest/register-context.js',
     'node_modules/jest-runner/build/runTest.js',
-    'node_modules/(?!(@instana/types)/)', // Specifically enable @instana/types to be transformed since its ts only
+    'node_modules/(?!(@instana/types|@instana/ai-chat)/)', // Enable both @instana/types and @instana/ai-chat to be transformed
     '/node_modules/jest-runner/build/index.js'
   ],
   transform: {
     '\\.[t|j]sx?$': 'babel-jest',
-    '\\.grammar$': '<rootDir>/packages/in-test/grammarTransformer.js'
+    '\\.grammar$': '<rootDir>/packages/in-test/grammarTransformer.js',
+    '\\.svg$': '<rootDir>/packages/in-test/svgTransform.js'
   },
   moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'd.ts', 'json', 'node'],
   moduleNameMapper: {
@@ -38,6 +39,7 @@ module.exports = {
     '\\.yaml$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.scss$': '<rootDir>/packages/in-test/styleMock.js',
     '^promise-loader?(.*)!(.*)': '$2',
-    'd3-(.*)': '<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js'
+    'd3-(.*)': '<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js',
+    '\\.svg': '<rootDir>/packages/in-test/svgMock.ts'
   }
 };

@@ -30,6 +30,7 @@ export default function SloExpandedErrorBudgetChart({
   return (
     <SloErrorBudgetChart
       title={title}
+      hideCorrectionWindowsLane
       timeConfig={getEntireTimeWindowConfigFromTimeWindows(timeWindows)}
       timeWindows={timeWindows}
       timeWindowColors={['default.ids.color.option.blue.400']}

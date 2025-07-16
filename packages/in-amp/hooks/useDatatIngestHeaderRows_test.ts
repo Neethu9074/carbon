@@ -32,7 +32,7 @@ describe('in-amp/components/DataIngestTable.js', () => {
         timestamp: 1701388800000
       }
     };
-    const { result } = renderHook(() => useDatatIngestHeaderRows(dataTable, ''));
+    const { result } = renderHook(() => useDatatIngestHeaderRows(dataTable));
     const [header, rows] = result.current;
 
     expect(header).toEqual([

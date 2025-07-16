@@ -70,6 +70,7 @@ export const pageNames = Object.freeze({
   namespace_summary: 'Namespaces > Summary',
   node_summary: 'Nodes > Summary',
   persistent_volume_summary: 'PersistentVolumes > Summary',
+  persistent_volume_claim_summary: 'PersistentVolumeClaims > Summary',
   pod_summary: 'Pods >Summary',
   k8s_service_summary: 'K8s Services > Summary',
   map: 'Map',
@@ -156,9 +157,11 @@ export const pageNames = Object.freeze({
   nutanix: 'Nutanix',
   xenserver: 'XenServer',
   xenserver_host: 'XenServer Host',
+  xenserver_vm: 'XenServer VM',
   windowshypervisor: 'Windows Hypervisor',
   linuxkvmhypervisor: 'Linux KVM Hypervisor',
-  linuxkvmhypervisor_host: 'Linux KVM Hypervisor Host'
+  linuxkvmhypervisor_host: 'Linux KVM Hypervisor Host',
+  otel_collector: 'OpenTelemetry Collectors'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

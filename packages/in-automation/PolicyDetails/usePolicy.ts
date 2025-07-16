@@ -16,7 +16,7 @@ export function refreshPolicy() {
   refreshSignal.emit(true);
 }
 
-const usePolicy = memoize(getActionAsResultObservableInternal, id => id, 60000);
+const usePolicy = memoize(getActionAsResultObservableInternal, id => id, 3000);
 
 function getActionAsResultObservableInternal(id: string) {
   return refreshSignal.flatMap(() => getPolicy(id) ?? (pendingResult as Result<Policy>));

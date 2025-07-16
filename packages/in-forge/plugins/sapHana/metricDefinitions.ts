@@ -173,6 +173,17 @@ export default [
     min: 0
   },
   {
+    formatter: number,
+    metrics: ['stats.csReadCount', 'stats.csWriteCount', 'stats.csMergeCount', 'stats.csUnloadCount'],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.read'),
+      t('in-forge:plugins.sapHana.dashboard.write'),
+      t('in-forge:plugins.sapHana.dashboard.merge'),
+      t('in-forge:plugins.sapHana.dashboard.unload')
+    ],
+    min: 0
+  },
+  {
     metrics: [
       getDynamicMetricMatch(
         'garbageCollectionStats',
@@ -676,6 +687,37 @@ export default [
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.usedMemorySize')],
     category: [t('in-forge:plugins.sapHana.dashboard.activeStatementStats')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'diskUsageStats',
+        'totalDeviceSize',
+        t('in-forge:plugins.sapHana.dashboard.totalDeviceSize')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.totalDeviceSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.diskUsageStat')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('diskUsageStats', 'diskUsedSize', t('in-forge:plugins.sapHana.dashboard.diskUsedSize'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.diskUsedSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.diskUsageStat')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('diskUsageStats', 'totalSize', t('in-forge:plugins.sapHana.dashboard.diskTotalSize'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.diskTotalSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.diskUsageStat')],
     min: 0,
     formatter: bytes
   },

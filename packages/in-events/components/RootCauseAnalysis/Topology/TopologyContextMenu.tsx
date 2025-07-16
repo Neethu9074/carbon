@@ -112,7 +112,7 @@ function getIssueLabel(count: number): string {
 const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
   const { entityType, id } = node;
   const { timeConfig, relatedAPInfo } = useRootCauseTopologyDataContext();
-  const relatedAP = relatedAPInfo ? relatedAPInfo[0] : null;
+  const relatedAP = relatedAPInfo || null;
 
   // If timeConfig is null, we can't proceed with metrics
   if (!timeConfig) {
@@ -177,7 +177,7 @@ const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
         <Collapsible.Content>
           {!isEmpty(healthInfo?.data?.openIssues) && (
             <EventsDatagrid
-              headers={['severity', 'title']}
+              headers={['severity', 'problem.problemText']}
               events={convertEventsToRawEvents(healthInfo?.data?.openIssues) || []}
               loading={healthInfo?.progress.loading || false}
               canLoadMore={false}

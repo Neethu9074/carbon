@@ -31,3 +31,6 @@ export const businessProcess = 'BUSINESS_PROCESS';
 
 //Custom dashboard
 export const customDashboard = 'CUSTOM_DASHBOARD';
+
+// Service Level Objectives
+export const serviceLevelObjective = 'SERVICE_LEVEL_OBJECTIVE';

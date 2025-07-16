@@ -65,8 +65,19 @@
       }
     }
 
-    &.markdown span {
-      white-space: normal;
+    &.markdown {
+      :global .scrollBox {
+        overflow: hidden;
+      }
+      span {
+        white-space: normal;
+      }
+      pre,
+      code {
+        white-space: break-spaces;
+        height: auto;
+        overflow: hidden;
+      }
     }
   }
 

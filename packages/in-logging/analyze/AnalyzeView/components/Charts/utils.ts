@@ -160,3 +160,9 @@ export function getTimeDifferenceInMilliseconds(data: DateFormatterOutput): numb
 
   return differenceInMilliseconds;
 }
+
+const NUMBER_OF_DATA_POINTS = 100;
+
+export function getLogChartGranularity(windowSize: number) {
+  return windowSize / NUMBER_OF_DATA_POINTS;
+}

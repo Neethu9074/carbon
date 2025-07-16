@@ -17,4 +17,8 @@
   .dropdownxlg {
     min-width: 13.5rem;
   }
+
+  .smallWidth {
+    width: 12rem;
+  }
 }

@@ -75,7 +75,6 @@
     "restartCount": "再実行カウント",
     "kubernetesLabels": "Kubernetes ラベル",
     "podmanAnnotations": "Podman 注釈",
-    "metricExplosionBeeInstana": "このダッシュボードは、最大 {{numberOfMetrics}} 個のメトリクスを常にキャプチャしているため、すべてのメトリクスを表示しない場合があります。",
     "metricExplosion": "このダッシュボードは、最大 {{numberOfMetrics}} 個の高解像度メトリクスを常にキャプチャしているため、すべてのメトリクスを表示しない場合があります。 追加のタグが指定されたメトリックを表示するには、Analyze Infrastructure またはカスタム・ダッシュボードを使用します。"
   },
   "explore": {

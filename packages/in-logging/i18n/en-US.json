@@ -65,7 +65,7 @@
   "stackTraceHeader": "Stacktrace Message",
   "dashboard": {
     "summary": "Summary",
-    "smartAlerts": "Smart alerts",
+    "smartAlerts": "Smart Alerts",
     "deleteLogs": "Delete logs",
     "management": "Management",
     "logVolume": {
@@ -96,10 +96,8 @@
         "learnMore": "Learn more",
         "popHoverSecondDescription": "By analyzing high volumes of logs, it is able to recognize variable and static portions of the logs and discover patterns in them.\n\nThe AI algorithm only relies on your log messages and does not share them with other client's logs. This ensures the privacy and security of your data",
         "hotItWorks": "How it works",
-        "popHoverFirstDescription":"Log pattern recognition trains an AI algorithm to discover recurrent patterns in your logs. ",
+        "popHoverFirstDescription": "Log pattern recognition trains an AI algorithm to discover recurrent patterns in your logs. ",
         "aiExpained": "AI explained"
-
-
       }
     }
   }

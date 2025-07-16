@@ -13,10 +13,13 @@ import {
   ServiceLevelObjectiveConfiguration,
   SloEntityUnion
 } from '@instana/types';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import { refreshSignal } from 'in-service-levels/api/correctionConfiguration';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
@@ -34,6 +37,10 @@ export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
   const configId = configuration.id!;
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const { timeWindows } = useSloTimeWindowContext();
+  const memoizeFor = useObservable(
+    refreshSignal.flatMap(() => just(0)),
+    []
+  );
 
   const [primaryMetricConfiguration, companionMetricConfiguration] = [
     isApplicationSloEntity(entity)
@@ -58,6 +65,7 @@ export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
         metricConfiguration: primaryMetricConfiguration,
         companionMetricConfiguration: companionMetricConfiguration
       }}
+      extraOpts={{ memoizeFor }}
     />
   );
 }

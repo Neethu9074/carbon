@@ -33,6 +33,8 @@ export const sapHanaSystemDashboard = `/saphanasystem`;
 export const sapWebDispatcherDashboard = `/sapwebdispatcher`;
 export const sapAbapInstanceSensorDashboard = `/sapabapjcoinstance`;
 export const sapAbapSystemSensorDashboard = `/sapabapjcosystem`;
+export const sapJavaNetWeaverInstanceSensorDashboard = `/sapjavanetweaverinstance`;
+export const sapJavaNetWeaverSystemSensorDashboard = `/sapjavanetweaversystem`;
 export const sapJavaInstanceDashboard = `/sapjavainstance`;
 export const sapJavaCentralInstanceDashboard = `/sapjavacentralinstance`;
 export const sapDbInstanceDashboard = `/sapdbinstance`;
@@ -47,6 +49,8 @@ export const sapHanaSystemDashboardFullyQualified = `${sap}${sapHanaSystemDashbo
 export const sapWebDispatcherDashboardFullyQualified = `${sap}${sapWebDispatcherDashboard}`;
 export const sapAbapInstanceSensorDashboardFullyQualified = `${sap}${sapAbapInstanceSensorDashboard}`;
 export const sapAbapSystemSensorDashboardFullyQualified = `${sap}${sapAbapSystemSensorDashboard}`;
+export const sapJavaNetWeaverInstanceSensorDashboardFullyQualified = `${sap}${sapJavaNetWeaverInstanceSensorDashboard}`;
+export const sapJavaNetWeaverSystemSensorDashboardFullyQualified = `${sap}${sapJavaNetWeaverSystemSensorDashboard}`;
 export const sapJavaInstanceDashboardFullyQualified = `${sap}${sapJavaInstanceDashboard}`;
 export const sapDbTenantDashboardFullyQualified = `${sap}${sapDbTenantDashboard}`;
 export const sapDbInstanceDashboardFullyQualified = `${sap}${sapDbInstanceDashboard}`;
@@ -327,6 +331,27 @@ export function useSapAbapInstanceSensorDashboard(
   });
 }
 
+export function useSapJavaNetWeaverInstanceSensorDashboard(
+  hostId,
+  matrixPrefix,
+  systemSnapshotId,
+  { tab, tabMatrix, timeConfig } = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: sapJavaNetWeaverInstanceSensorDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: sapJavaNetWeaverInstanceSensorDashboard,
+    matrixParam: matrixHostId,
+    id: hostId,
+    prefix: matrixPrefix,
+    systemPrefix: systemPrefix,
+    prefixSnapshot: systemSnapshotId,
+    systemSnapShotPrefix: systemSnapShotPrefix
+  });
+}
+
 export function useSapAbapSystemSensorDashboard(
   hostId,
   matrixPrefix,
@@ -347,6 +372,28 @@ export function useSapAbapSystemSensorDashboard(
     systemSnapShotPrefix: systemSnapShotPrefix
   });
 }
+
+export function useSapJavaNetWeaverSystemSensorDashboard(
+  hostId,
+  matrixPrefix,
+  systemSnapshotId,
+  { tab, tabMatrix, timeConfig } = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: sapJavaNetWeaverSystemSensorDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: sapJavaNetWeaverSystemSensorDashboard,
+    matrixParam: matrixHostId,
+    id: hostId,
+    prefix: matrixPrefix,
+    systemPrefix: systemPrefix,
+    prefixSnapshot: systemSnapshotId,
+    systemSnapShotPrefix: systemSnapShotPrefix
+  });
+}
+
 export function useDashboardForEntity(snapshotId, plugin, label) {
   const abapCentralInstanceDashboard = useAbapCentralInstanceDashboard(snapshotId);
   const abapInstanceDashboard = useAbapInstanceDashboard(snapshotId);
@@ -362,6 +409,8 @@ export function useDashboardForEntity(snapshotId, plugin, label) {
   const sapDbInstanceDashboard = useSapDbInstanceDashboard(snapshotId);
   const sapAbapInstanceSensorDashboard = useSapAbapInstanceSensorDashboard(snapshotId);
   const sapAbapSystemSensorDashboard = useSapAbapSystemSensorDashboard(snapshotId);
+  const sapJavaNetWeaverInstanceSensorDashboard = useSapJavaNetWeaverInstanceSensorDashboard(snapshotId);
+  const sapJavaNetWeaverSystemSensorDashboard = useSapJavaNetWeaverSystemSensorDashboard(snapshotId);
 
   switch (plugin) {
     case plugins.abapInstance:
@@ -390,6 +439,10 @@ export function useDashboardForEntity(snapshotId, plugin, label) {
       return sapAbapInstanceSensorDashboard;
     case plugins.sapAbapSystemSensor:
       return sapAbapSystemSensorDashboard;
+    case plugins.sapJavaNetWeaverInstanceSensor:
+      return sapJavaNetWeaverInstanceSensorDashboard;
+    case plugins.sapJavaNetWeaverSystemSensor:
+      return sapJavaNetWeaverSystemSensorDashboard;
   }
 }
 

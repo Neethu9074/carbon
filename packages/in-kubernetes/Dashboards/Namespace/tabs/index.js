@@ -18,6 +18,7 @@ import {
   useDeploymentConfigDashboard,
   useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
+import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PersistentVolumeClaims';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs$ from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Namespace/tabs/SummaryWithoutTimeShift';
@@ -25,7 +26,6 @@ import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponent
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
 import getKubernetesDeployments$ from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 import getKubernetesDaemonSets from 'in-kubernetes/subscriptions/getKubernetesDaemonSets';
-import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentVolumes';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import CronJobs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/CronJobs';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
@@ -130,9 +130,9 @@ export default [
   },
   persistentVolumeSupportEnabled &&
     !playwithEnabled && {
-      label: t('in-kubernetes:dashboards.persistentVolumes'),
-      path: `${namespaceDashboardFullyQualified}/persistentvolumes`,
-      component: PersistentVolumes,
+      label: t('in-kubernetes:dashboards.persistentVolumeClaims'),
+      path: `${namespaceDashboardFullyQualified}/persistentvolumeclaims`,
+      component: PersistentVolumeClaims,
       header: props => getCounterComponent(props, v => v.volumes),
       stickToBottom: true
     }

@@ -1,0 +1,6 @@
+{
+  "name": "filter-empty-value-toggle",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FilterEmptyValueToggle.js"
+}

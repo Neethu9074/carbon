@@ -47,6 +47,7 @@ function ServiceLabelContent({ item, applicationId, boundaryScope, endpointId })
       severity={maxSeverity}
       icon="lib_application_service"
       label={item.service.label}
+      tooltip={item.service.label}
       href={getLinkToServiceDashboard({
         applicationId,
         serviceId: item.service.id,
@@ -60,6 +61,7 @@ function ServiceLabelContent({ item, applicationId, boundaryScope, endpointId })
 const columnDefinitions = [
   {
     id: 'serviceLabel',
+    width: '10vw',
     label: t('in-applications:labelName'),
     getContent(item, { applicationId, endpointId, boundaryScope }) {
       return (

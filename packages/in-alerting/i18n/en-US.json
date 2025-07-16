@@ -176,7 +176,8 @@
       "warning": "Warning"
     },
     "placeholder": {
-      "severity": "severity"
+      "severity": "severity",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "Alert configuration",
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510 (Not Extended)",
       "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
       "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+      "ruleStatusCodeValueOptionNone": "No Status (Client Aborted / Failed)",
       "warningThresholdValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
       "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators.",
       "sensitivityValidator": "Critical sensitivity should be smaller than warning sensitivity."
@@ -796,7 +798,6 @@
         "proceedTitle": "Proceed",
         "previousTitle": "Previous",
         "nextTitle": "Next",
-        "closeTitle": "Close",
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageComputedOnApproximateData": "The baseline is computed based on approximate data due to data retention settings. Therefore, it might not be accurate in case there are few calls matching selected filters.",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}} standard deviations",
         "labelThreshold": "Threshold",
         "multiThresholdAlertNotificationInfo": "Your input of either threshold value triggers an alert notification.",
+        "advancedSettingsTrayTitle": "Advanced settings",
+        "seasonality": "Seasonality",
+        "seasonalityAuto": "Auto",
+        "seasonalityNone": "None",
+        "seasonalityDaily": "Daily",
+        "seasonalityWeekly": "Weekly",
+        "adaptability": "Adaptability",
         "warningThresholdLabel": "Warning",
         "criticalThresholdLabel": "Critical",
         "labelSensitivity": "Sensitivity",
@@ -1002,8 +1010,10 @@
         "summary": "Automatically close an issue after the violation threshold is no longer met for"
       },
       "tearSheet": {
-        "cancelModalTitle": "Are you sure you want to cancel?",
-        "cancelModalDescription": "If you cancel, configuration details you have entered wont be saved.",
+        "cancelModalTitle": "Confirm cancellation",
+        "continueEditingTitle": "Continue editing",
+        "cancelEditingTitle": "Cancel smart alert configuration",
+        "cancelModalDescription": "Are you sure you want to cancel the editting of this smart alert configuration? If you proceed, any information you have entered will be lost. This action cannot be undone.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "When violations persist over time",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Violations persist at random intervals",
@@ -1065,7 +1075,6 @@
         "specificStatusCodeRate": "Status code rate",
         "pageLoads": "Page loads",
         "pageTransitions": "Page transitions",
-
         "slownessBlueprintConfigHeadline": "Automatic alerts for onLoad time or HTTP latency",
         "slownessBlueprintConfigTextP": "Receive an alert when the onLoad time or HTTP latency exceeds a specified threshold.",
         "slownessBlueprintConfigMetricLabel": "onLoad time",
@@ -1084,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "Automatic alerts for custom events",
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
-        "customEventBlueprintConfigMetricLabel": "Occurrences",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Low number of page loads",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatic alerts on anomalously low number of page loads",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Receive an alert when the number of Page Loads is significantly lower than expected compared to the available past data.",
@@ -1365,7 +1373,6 @@
         "statusCodeCount": "Status code count",
         "beaconRate": "Status code rate",
         "views": "Views",
-        "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions",
         "crashAffectedSessionRate": "Crash affected session rate",
         "crashFreeSessionRate": "Crash free session rate",
@@ -1534,6 +1541,7 @@
       }
     },
     "eum": {
+      "data": { "customMetric": "Custom Metric", "customDuration": "Duration", "customOccurrences": "Occurrences" },
       "slowness": {
         "blueprintConfigName": "Slowness",
         "httpLatencyMetricLabel": "HTTP latency"
@@ -1557,6 +1565,7 @@
         "JSErrors": "JS error(s): {{errorMessage}}",
         "customEvents": "Custom event: {{customEventName}}",
         "HTTPStatusCodes": "HTTP status code(s): {{statusCode}}",
+        "HTTPStatusCodeNone": "No Status",
         "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS errors have been detected.",
         "unsupportedOperator": "Unsupported operator: {{operator}}",
@@ -1697,6 +1706,11 @@
         "step4": {
           "header": "Where do you want to be notified for this alert?",
           "description": "Select the recipient(s) of this alert"
+        },
+        "scopeEntity": {
+          "entityType": "Entity type",
+          "pleaseSelect": "Select entity",
+          "loadingEntities": "Loading entities..."
         },
         "scopeFilter": {
           "title": "Choose the scope of the infrastructure",
@@ -1912,7 +1926,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "Long & short alert window",
         "blueprintDescription_STATUS": "Receive an alert when the SLO status falls below a threshold.",
         "blueprintDescription_BURNED_PERCENTAGE": "Receive an alert when a percentage of the error budget is consumed.",
-        "blueprintDescription_BURN_RATE_V2": "Burn rate is a value that indicates how fast your error budget is consumed relative to your SLO's target length. ",
+        "blueprintDescription_BURN_RATE_V2": "Burn rate indicates how fast your error budget is consumed relative to your SLO's target length. It is calculated using the following formula : Burn rate = (error budget consumed * SLO time window) / alerting window.",
         "burnRateShortWindowTitle": "Short alert window",
         "burnRateShortWindowDescription": "Alerts are triggered when the error rate exceeds the threshold faster over a shorter period. This can help capture a sudden spike of errors or downtime due to a critical bug.",
         "burnRateDescription": "Notify me when the burn rate is <1/> <2/>",

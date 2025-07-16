@@ -43,11 +43,11 @@ import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/use
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
 import StepsContainer from 'in-components/StepsContainer';
@@ -196,7 +196,6 @@ export default function AdvancedModeContainer(
                 updateForm={updateForm}
                 impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
                 hasUserImpactOption
-                oneMinuteGranularityAllowed={thresholdType === STATIC_THRESHOLD}
               />
               <GracePeriodWrapper form={form} updateForm={updateForm} />
             </>

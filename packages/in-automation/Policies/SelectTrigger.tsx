@@ -66,7 +66,7 @@ export default function SelectTrigger({
   const triggerType = form.get('triggerType');
   const selectedTriggerType = triggers[triggerType.value];
   // @ts-ignore
-  const selectedTrigger = selectedTriggerType.data?.find(trigger => trigger.id === triggerId.value);
+  const selectedTrigger = selectedTriggerType?.data?.find(trigger => trigger.id === triggerId.value);
 
   const result = hasError(selectedTriggerType)
     ? {

@@ -83,6 +83,7 @@ export default function CustomEvent(props) {
 
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm(entityFormParam);
+
   useEffect(() => {
     if (entityId && entity) trackCta(SETTINGS_EVENT_VIEW, { entity, type: 'CUSTOM' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -198,6 +199,7 @@ function save(event, form, trackCta) {
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn')?.value ?? null;
 
+  // TODO: Update cta later
   trackCta(SETTINGS_EVENT_SUBMIT, {
     scopeType,
     entityType,
@@ -205,8 +207,17 @@ function save(event, form, trackCta) {
     severity: getSeverityText(severity)
   });
 
-  const eventSpecification = getEventSpecification(event, form);
+  let eventSpecification = getEventSpecification(event, form);
+  eventSpecification = addTransientEventSetting(eventSpecification, form);
+  addTransientEventSetting(eventSpecification, form);
   return saveCustomEventSpecification(eventSpecification);
+}
+
+function addTransientEventSetting(eventSpecification, form) {
+  eventSpecification.transientEventEnabled = form.get('transientEventEnabled').value ?? true;
+  eventSpecification.transientEventThreshold = form.get('transientEventThreshold').value ?? 300000;
+  eventSpecification.transientEventAlertMuted = form.get('transientEventAlertMuted').value ?? false;
+  return eventSpecification;
 }
 
 function getTagFilterForHostAvailability(form) {
@@ -336,6 +347,7 @@ function getEventSpecification(event, form) {
 
     return getCustomSystemRuleBasedEventSpecification(form, query, event);
   }
+
   return getCustomEventMultiRuleBasedEventSpecification(form, query, event);
 }
 

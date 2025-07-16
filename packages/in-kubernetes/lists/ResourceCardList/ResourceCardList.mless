@@ -10,11 +10,15 @@
     height: 10px;
   }
 
+  .tile {
+    min-width: 91.25rem;
+  }
+
   .searchBar {
     width: 100%;
     max-height: 2.5rem;
     display: flex;
-    flex: 2.3;
+    flex: 1.7;
   }
 
   .acknowledgment {

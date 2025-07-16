@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Col, Row } from 'in-components/layout/Grid';
+import { t } from 'in-i18n';
 
 import locals from './StickySidebarContainer.mless';
 
@@ -22,21 +23,23 @@ export default function StickySidebarContainer(props: StickySidebarContainerProp
   return (
     <Row>
       <Col
+        as="section"
         lg={sidebarWidth}
         md={sidebarWidth + 1}
         xs={sidebarWidth + 1}
         className={locals.sideBarSticky}
         style={{ '--topOffset': topOffset }}
-        ariaLabel={'Page menu'}
+        ariaLabel={t('in-components:pageStructure.pageSubMenu')}
       >
         {sidebar}
       </Col>
       <Col
-        ariaLabel="Content"
+        as="section"
         lg={12 - sidebarWidth}
         md={11 - sidebarWidth}
         xs={11 - sidebarWidth}
         className={locals.rightColumn}
+        ariaLabel={t('in-components:pageStructure.contentAriaLabel')}
       >
         {children}
       </Col>

@@ -64,6 +64,12 @@ const throughputMetricLabelsByName: Record<string, string> = Object.freeze({
   pageTransitions: t('in-alerting:smartAlerts.websites.data.pageTransitions')
 });
 
+const customEventMetricLabelsByName: Record<string, string> = Object.freeze({
+  beaconCount: t('in-alerting:smartAlerts.eum.data.customOccurrences'),
+  customDuration: t('in-alerting:smartAlerts.eum.data.customDuration'),
+  customMetric: t('in-alerting:smartAlerts.eum.data.customMetric')
+});
+
 export type MetricName =
   | 'specificJsErrorRate'
   | 'specificStatusCodeRate'
@@ -282,8 +288,8 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getAvailableTags: () => getIncludedTags(availableFilterTags.custom),
   baselineEnabled: true,
   defaultMetric: 'beaconCount',
-  getMetricName: () => 'beaconCount',
-  getMetricLabel: () => t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigMetricLabel'),
+  getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
+  getMetricLabel: getCustomMetricLabel,
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
@@ -359,6 +365,11 @@ function getSlownessMetricLabel(metricName: MetricName, aggregation?: Aggregatio
       ? t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')
       : t('in-alerting:smartAlerts.eum.slowness.httpLatencyMetricLabel');
 
+  return aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
+}
+
+function getCustomMetricLabel(metricName: MetricName, aggregation?: AggregationType) {
+  const metricLabel = customEventMetricLabelsByName[metricName];
   return aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 }
 
@@ -459,9 +470,7 @@ function enrichWithDefaultThresholdValuesForBaselines(alertConfig: WebsiteSmartA
           WARNING: {
             ...rules[0]?.thresholds?.WARNING,
             value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null,
-            baseline:
-              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.baseline ??
-              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            baseline: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline,
             deviationFactor: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.deviationFactor ?? null
           },
           // @ts-expect-error-error needs to be refactored
@@ -469,8 +478,8 @@ function enrichWithDefaultThresholdValuesForBaselines(alertConfig: WebsiteSmartA
             ...rules[0]?.thresholds?.CRITICAL,
             value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null,
             baseline:
-              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.baseline ??
-              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule | AdaptiveBaselineData)?.baseline,
             deviationFactor: (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.deviationFactor ?? null
           }
         }

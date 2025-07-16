@@ -48,7 +48,7 @@ const loadEntities = (): Observable<ApiTokenProps[]> => {
 };
 
 export default function ApiTokens() {
-  const { goToPath } = useNavigation();
+  const { goToPath, createHrefToPath } = useNavigation();
   const [filteredTokenId, setFilteredTokenId] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const searchAttributes = [
@@ -69,7 +69,10 @@ export default function ApiTokens() {
       useMinimumAmountOfHorizontalSpace: true,
       getContent(entity: ApiTokenProps) {
         return (
-          <Link href={getEntityIdView(securityAndAccessAccessControlApiTokens, entity.internalId)} ellipsis>
+          <Link
+            href={getEntityIdView(securityAndAccessAccessControlApiTokens, entity.internalId, createHrefToPath)}
+            ellipsis
+          >
             {entity.name}
           </Link>
         );

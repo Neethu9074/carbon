@@ -23,12 +23,14 @@ import {
   SyntheticDatacenter,
   GroupPermissionEntity,
   DNSQueryType,
-  SyntheticTestFilterOperator
+  SyntheticTestFilterOperator,
+  LocationStatus
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { FilterId } from 'in-synthetics/components/constants';
 import { TableActions } from 'in-settings/components/List';
 import { Options } from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -137,6 +139,13 @@ export interface DataScopeType {
   label: string;
   value: string;
 }
+
+export interface CreateSyntheticOnDemandTestDialogProps {
+  readonly testId: string;
+  readonly testLocations: string[];
+  readonly testType: string;
+}
+
 export const AssertionFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
   {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.operatorOptionContains'),
@@ -903,4 +912,75 @@ export interface CICDConfig {
     configuration: Record<string, any>;
     customProperties?: Record<string, string>;
   };
+}
+
+export interface LocationsSidePanelProps {
+  locationsColumnText: string;
+  locationsSidePanelOpen: boolean;
+  locationStatusList: LocationStatus[];
+  setLocationsSidePanelOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface JsxRow {
+  id: string;
+  [key: string]: string | JSX.Element;
+}
+
+export interface AssociationsSidePanelProps {
+  associationsColumnText: string;
+  associationsSidePanelOpen: boolean;
+  applicationLabels: string[];
+  websiteLabels: string[];
+  mobileAppLabels: string[];
+  applicationIds: string[];
+  websiteIds: string[];
+  mobileAppIds: string[];
+  applicationIdsCanBeLinked: string[];
+  websiteIdsCanBeLinked: string[];
+  mobileAppIdsCanBeLinked: string[];
+  setAssociationsSidePanelOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface RowProps {
+  cells: object[];
+  disabled: boolean;
+  id: string;
+  isExpanded: boolean;
+  isSelected: boolean;
+}
+
+export interface TabProps {
+  key: string;
+  label: string;
+  secondaryLabel: number;
+  labels: string[];
+  idsCanBeLinked: string[];
+  map: Map<any, any> | null;
+}
+
+interface Option {
+  label: string;
+  value: string;
+}
+
+export interface TestListFiltersProps {
+  filters: FilterState;
+  setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
+  result: Result<SyntheticTest[]>;
+  isAssociationsContext?: boolean;
+}
+
+export interface FilterCheckboxListProps {
+  selectedValues: string[];
+  options: Option[];
+  onChange: (newValues: string[]) => void;
+  groupId: string;
+}
+
+export interface FilterConfig {
+  id: FilterId;
+  title: string;
+  isOpen: boolean;
+  selectedOptions: string[];
+  options: { label: string; value: string }[];
 }

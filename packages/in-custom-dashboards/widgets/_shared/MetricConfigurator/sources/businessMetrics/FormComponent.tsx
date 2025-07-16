@@ -164,6 +164,10 @@ const FormComponent = ({
                     updatedForm = updatedForm.updateIn(['unit'], (field: Field<string>) =>
                       field.setValue(getMetricUnit(e.target.value)).setTouched(true)
                     );
+
+                    updatedForm = updatedForm.updateIn(['unitFormatterEnabled'], (field: Field<boolean>) =>
+                      field.setValue(true).setTouched(true)
+                    );
                   }
 
                   return updatedForm

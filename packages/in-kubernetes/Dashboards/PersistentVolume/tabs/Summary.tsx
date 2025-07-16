@@ -7,10 +7,12 @@
 import React from 'react';
 
 import { AggregationType, KubernetesPersistentVolume, MetricSource, TimeConfig } from '@instana/types';
+import { Card } from '@instana/components';
 
 import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
+import PersistentVolumeClaimsTable from 'in-kubernetes/Dashboards/commonComponents/PersistentVolumeClaimsTable';
 import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { percentageTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -32,7 +34,9 @@ interface SummaryProps {
   data: KubernetesPersistentVolume;
 }
 
-export default function Summary({ timeConfig, data: persistentVolume }: SummaryProps) {
+export default function Summary(props: SummaryProps) {
+  const { timeConfig, data: persistentVolume } = props;
+
   const timeShift = useTimeShiftConfig();
   const snapshotId = persistentVolume.id;
 
@@ -208,6 +212,13 @@ export default function Summary({ timeConfig, data: persistentVolume }: SummaryP
             snapshotId={snapshotId}
             hasButtonInActionslane={false}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Card title={t('in-kubernetes:dashboards.associatedPersistentVolumeClaims')}>
+            <PersistentVolumeClaimsTable pathSegment="/summary" {...props} />
+          </Card>
         </Col>
       </Row>
     </>

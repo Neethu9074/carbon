@@ -23,10 +23,12 @@ import { getUsersResult, removeUserFromTenant, removeUsersFromTenant, UserResult
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { hasError, isLoading } from 'in-services/util/result';
 import { USER_INVITE } from 'in-services/tracking/tracking';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 import { Result } from 'in-types';
@@ -54,7 +56,7 @@ const headers = [
   },
   {
     key: 'groupCount',
-    header: t('in-settings:tabs.groupCountCol')
+    header: t('in-settings:tabs.groupCountCol', { context: rbacTeamsEnabled && 'teams' })
   },
   {
     key: 'tfaEnabled',
@@ -87,7 +89,7 @@ const createMenuItemsForRow = (
 export default function UsersV2() {
   const [authOverview] = useAuthOverview();
   const { defaultLogin } = authOverview ?? {};
-
+  const { createHrefToPath } = useNavigation();
   const { trackCta } = useSegmentTracking();
   const pageSizes = [20, 50];
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
@@ -109,7 +111,7 @@ export default function UsersV2() {
         <UserAvatar />
         <Spacer horizontal="normal" />
         <div>
-          <Link href={getEntityIdView(securityAndAccessAccessControlUsers, user.id)} ellipsis>
+          <Link href={getEntityIdView(securityAndAccessAccessControlUsers, user.id, createHrefToPath)} ellipsis>
             {user.fullName || t('in-settings:tabs.userDoesNotExist')}
           </Link>
           <Typography variant="body-small" noMargin component="div">

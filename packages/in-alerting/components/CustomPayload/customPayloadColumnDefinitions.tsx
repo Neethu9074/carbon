@@ -7,7 +7,7 @@ import { Field, Item, MapForm, createField } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-import { IconButton, Select, Stack, Spacer } from '@instana/components';
+import { IconButton, Select, Stack } from '@instana/components';
 import { DynamicFieldValue } from '@instana/types';
 
 import {
@@ -41,20 +41,17 @@ export const deleteItemColumnDefinition = {
     { deleteRow, enabled }: { deleteRow: (itemForm: MapForm<any>) => void; enabled: boolean }
   ) {
     return (
-      <Stack gap="disabled">
-        <Tooltip content={t('in-alerting:components.customPayload.deleteRow')} delay={500}>
-          <IconButton
-            kind="primaryv2"
-            type="lib_actions_delete"
-            className={classNames({
-              [locals.delete]: true,
-              [locals.disabled]: !enabled
-            })}
-            onClick={() => enabled && deleteRow(itemForm)}
-          />
-        </Tooltip>
-        <Spacer size="xsmall" />
-      </Stack>
+      <Tooltip content={t('in-alerting:components.customPayload.deleteRow')} delay={500}>
+        <IconButton
+          kind="primaryv2"
+          type="lib_actions_delete"
+          className={classNames({
+            [locals.delete]: true,
+            [locals.disabled]: !enabled
+          })}
+          onClick={() => enabled && deleteRow(itemForm)}
+        />
+      </Tooltip>
     );
   }
 };
@@ -83,7 +80,7 @@ export const valueColumnDefinition = {
 
     if (type === staticType) {
       return (
-        <FormGroup withoutBottomMargin className={locals.cpColumn}>
+        <FormGroup withoutBottomMargin>
           <Stack gap="disabled">
             <Input
               disabled={!enabled}
@@ -103,7 +100,7 @@ export const valueColumnDefinition = {
 
     if (type === dynamicType) {
       return (
-        <FormGroup withoutBottomMargin className={locals.cpColumn}>
+        <FormGroup withoutBottomMargin>
           <Stack gap="disabled">
             {valueField.map((field: Field<DynamicFieldValue>) => {
               const value = field?.value;
@@ -147,7 +144,7 @@ export const keyColumnDefinition = {
     const value = valueField.value;
 
     return (
-      <FormGroup withoutBottomMargin className={locals.cpColumn}>
+      <FormGroup withoutBottomMargin>
         <Stack gap="disabled">
           <Stack direction="horizontal" align="center">
             <span className={locals.prefix}>{t('in-alerting:components.customPayload.customWithColon')}</span>
@@ -199,7 +196,7 @@ export const typeColumnDefinition = {
     };
 
     return (
-      <FormGroup withoutBottomMargin className={locals.cpColumn}>
+      <FormGroup withoutBottomMargin>
         <Stack direction="vertical" align="start" distribution="stretch">
           {item.get('type').map((field: Field<string>) => {
             return (
@@ -223,7 +220,6 @@ export const typeColumnDefinition = {
               </Select>
             );
           })}
-          <Spacer size="xsmall" />
         </Stack>
       </FormGroup>
     );

@@ -94,6 +94,19 @@ interface Analytics {
   track<T = Record<string, any>>(eventName: string, properties?: T): void;
   identify<T = Record<string, any>>(userId: string, traits?: T): void;
 }
+interface Concert {
+  instance_id?: string;
+  instance_url?: string;
+}
+interface Turbonomic {
+  instance_id?: string;
+  instance_url?: string;
+}
+interface Instances {
+  concert?: Concert;
+  turbonomic?: Turbonomic;
+}
+
 declare interface InstanaGlobals {
   reportingData?: ReportingData;
   user?: User;
@@ -114,6 +127,7 @@ declare global {
   interface Window {
     instana: InstanaGlobals;
     analytics: Analytics;
+    _solis_meta: Instances;
   }
 }
 

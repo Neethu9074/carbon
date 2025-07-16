@@ -104,7 +104,7 @@ function resolveThresholdRequest(
     groupBy
   } = alertConfigWithFormModel;
 
-  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel) || groupBy?.length > 0) {
+  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel) || groupBy?.length > 0 || !metricName) {
     return empty;
   }
 
@@ -122,6 +122,7 @@ function resolveThresholdRequest(
     },
     operator,
     fallbackOnError: true,
+    adaptability: 1,
     type
   });
 }

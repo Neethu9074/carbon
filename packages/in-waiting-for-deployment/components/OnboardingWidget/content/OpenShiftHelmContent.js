@@ -62,7 +62,7 @@ export default function OpenShiftHelmContent({ agentKey, downloadKey, agentEndpo
           <HelpBox>
             <TextWithLink
               i18nKey="in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitTheOpenShift"
-              href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-openshift"
+              href="https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-openshift"
             />
           </HelpBox>
         </>

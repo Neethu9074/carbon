@@ -10,7 +10,10 @@ import NoLicenseAvailableMessage from 'in-amp/components/NoLicenseAvailableMessa
 import { getReportingTechnologiesAsResultObservable } from 'in-amp/api/account';
 import AmpInformationModifier from 'in-amp/components/AmpInformationModifier';
 import WithAccountInformation from 'in-amp/components/WithAccountInformation';
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import useAmpUrlInformation from 'in-amp/hooks/useAmpUrlInformation';
+
+import locals from 'in-amp/pages/AccountAndBilling/AccountAndBilling.mless';
 
 export default function UsageWithAccountInfo() {
   return (
@@ -28,7 +31,34 @@ function TechnologiesReporting({ unitSelectorOptions, getCurrentTenantOption }) 
   );
   const [to] = useState(Date.now());
 
-  return (
+  return newAccountAndBillingPageEnabled ? (
+    <div className={locals.bottomMargin}>
+      <AmpInformationModifier
+        unitSelectorOptions={unitSelectorOptions}
+        windowSize={windowSize}
+        setWindowSize={setWindowSize}
+        tenantUnit={tenantUnit}
+        setTenantUnit={setTenantUnit}
+      />
+
+      <TechnologiesReportingTable
+        tenant={tenantUnit.tenant}
+        unit={tenantUnit.unit}
+        get={({ tenant, unit, page, pageSize, orderBy, orderDirection }) =>
+          getReportingTechnologiesAsResultObservable(
+            tenant,
+            unit,
+            to,
+            windowSize,
+            page,
+            pageSize,
+            orderBy,
+            orderDirection
+          )
+        }
+      />
+    </div>
+  ) : (
     <>
       <AmpInformationModifier
         unitSelectorOptions={unitSelectorOptions}

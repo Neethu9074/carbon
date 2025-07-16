@@ -7,6 +7,7 @@
 import {
   convertIncidentSummaryToString,
   convertActionsToString,
+  convertTopActionsToString,
   convertNotesSummaryToString
 } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
 
@@ -160,5 +161,97 @@ describe('convertNotesSummaryToString', () => {
     const result = convertNotesSummaryToString(notesSummaryData);
 
     expect(result).toBe('Summary of notes:\n\n');
+  });
+});
+
+describe('convertTopActionsToString', () => {
+  it('should handle empty state', () => {
+    const out1 = convertTopActionsToString(null);
+    const out2 = convertTopActionsToString([]);
+    expect(out1).toBe('');
+    expect(out2).toBe('');
+  });
+  it('should return a valid string', () => {
+    const input = [
+      {
+        entity: {
+          name: 'First action name',
+          description: 'action description',
+          typeConfigurations: [
+            {
+              name: 'manual',
+              runnable: {}
+            }
+          ]
+        },
+        confidence: 'high',
+        aiEngine: 'POLICY'
+      },
+      {
+        entity: {
+          name: 'Second',
+          description: 'Description number two',
+          typeConfigurations: [
+            {
+              name: 'manual',
+              runnable: {}
+            }
+          ]
+        },
+        confidence: 'high',
+        aiEngine: 'POLICY'
+      },
+      {
+        entity: {
+          name: 'Third policy',
+          description: 'Third description here.',
+          typeConfigurations: [
+            {
+              name: 'manual',
+              runnable: {}
+            }
+          ]
+        },
+        confidence: 'high',
+        aiEngine: 'POLICY'
+      },
+      {
+        entity: {
+          name: '4th policy',
+          description: '4th description here.',
+          typeConfigurations: [
+            {
+              name: 'manual',
+              runnable: {}
+            }
+          ]
+        },
+        confidence: 'high',
+        aiEngine: 'POLICY'
+      }
+    ];
+    // All "high"
+    let output = convertTopActionsToString(input);
+    let expected =
+      'There are 4 recommended actions with a high confidence level. Top recommended actions for this incident:\n\n1: First action name (action description)\n2: Second (Description number two)\n3: Third policy (Third description here.)\n';
+    expect(output).toBe(expected);
+    // All "medium"
+    input.forEach(x => (x.confidence = 'medium'));
+    output = convertTopActionsToString(input);
+    expected =
+      'There are 4 recommended actions. Top recommended actions for this incident:\n\n1: First action name (action description)\n2: Second (Description number two)\n3: Third policy (Third description here.)\n';
+    expect(output).toBe(expected);
+    // One "high"
+    input[0].confidence = 'high';
+    output = convertTopActionsToString(input);
+    expected =
+      'There is one recommended action with a high confidence level. Top recommended actions for this incident:\n\n1: First action name (action description)\n2: Second (Description number two)\n3: Third policy (Third description here.)\n';
+    expect(output).toBe(expected);
+    // Only 1 medium
+    input[0].confidence = 'medium';
+    output = convertTopActionsToString(input.slice(0, 1));
+    expected =
+      'There is one recommended action. Top recommended actions for this incident:\n\n1: First action name (action description)\n';
+    expect(output).toBe(expected);
   });
 });

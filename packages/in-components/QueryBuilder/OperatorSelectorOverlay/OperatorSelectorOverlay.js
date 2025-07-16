@@ -21,7 +21,7 @@ import locals from './OperatorSelectorOverlay.mless';
 export default function OperatorSelectorOverlay({ value, allowedOperators, onChange, close, tagType, source }) {
   const { matrix } = useLocation();
 
-  const isLogsRelated = Boolean(matrix['/logs'] || source === 'logs');
+  const isLogsRelated = Boolean(matrix['/logs'] || source === 'logs' || matrix['/logging']);
   const shouldFilterRegex = !regexMatchEnabled || !isLogsRelated;
 
   const filteredOperators = shouldFilterRegex

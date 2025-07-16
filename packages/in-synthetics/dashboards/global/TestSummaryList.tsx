@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   OrderDirection,
@@ -66,6 +66,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import TestListFilters from 'in-synthetics/dashboards/global/tabs/tests/components/TestListFilters';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
@@ -172,6 +173,12 @@ const TestSummaryList = () => {
   let associations;
   const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType }, setFilter] =
     useUrlState(urlStateDefinition);
+  const [filtersTemp, setFiltersTemp] = useState<FilterState>({
+    syntheticTypes,
+    locationIds,
+    applicationIds,
+    entityIds
+  });
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const showTestsColumnCustomizationMessage = addColumnCustomizationNotification();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
@@ -206,6 +213,15 @@ const TestSummaryList = () => {
   }, [storedDialogAlarm]);
 
   const rightHeader = useFilterHeader(true, syntheticTests, setFilter);
+
+  const onFilterApply = () => {
+    setFilter(filtersTemp);
+  };
+
+  const filterComponent = useMemo(() => {
+    if (syntheticTests.progress.loading) return null;
+    return <TestListFilters result={syntheticTests} filters={filtersTemp} setFilters={setFiltersTemp} />;
+  }, [syntheticTests, filtersTemp]);
 
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -262,6 +278,21 @@ const TestSummaryList = () => {
             errorHeader={t('in-synthetics:dashboard.testList.failedToLoadTestsTitle')}
             runType={runType}
             actionButtonContent={role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
+            defaultDisabledColumns={[
+              'avg_response_time',
+              'location',
+              syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
+              'health'
+            ]}
+            isFilterable
+            filters={filterComponent}
+            onFilterApply={onFilterApply}
+            syntheticTypes={syntheticTypes}
+            locationIds={locationIds}
+            applicationIds={applicationIds}
+            entityIds={entityIds}
+            associations={associations}
+            loading={syntheticTests.progress.loading}
           />
         ) : (
           <ServerTableWithUrlState

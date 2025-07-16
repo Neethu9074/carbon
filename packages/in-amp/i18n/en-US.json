@@ -21,12 +21,13 @@
       "licensedApmHosts": "Licensed APM hosts",
       "licensedIqmHosts": "Licensed IQM hosts"
     },
-    "learnMore":{
+    "learnMore": {
       "title": "Learn more about Instana’s Fair Use Policy",
-      "leftTitle":"What is the Fair Use Policy?",
-      "rightTitle":"How do I buy more data?",
-      "leftBody":"Instana's Fair Use Policy outlines the monthly data allowance associated with your license type. To learn more and explore resource usage guidelines, check out the <fupDocLink>Fair Use Policy documentation</fupDocLink>.",
-      "rightBody":"If you anticipate an ongoing need for additional data usage, reach out to your Instana sales representative to explore add-on options. Get in touch with Sales <salesLink>here</salesLink>."
+      "titleNew": "Learn more about data consumption",
+      "leftTitle": "What is the Fair Use Policy?",
+      "rightTitle": "How do I buy more data?",
+      "leftBody": "Instana's Fair Use Policy outlines the monthly data allowance associated with your license type. To learn more and explore resource usage guidelines, check out the <fupDocLink>Fair Use Policy documentation</fupDocLink>.",
+      "rightBody": "If you anticipate an ongoing need for additional data usage, reach out to your Instana sales representative to explore add-on options. Get in touch with Sales <salesLink>here</salesLink>."
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",
@@ -66,14 +67,14 @@
       "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
       "actualDataIngest": "Actual data-ingest",
       "onDemandDataIngest": "On-Demand data-ingest",
-      "noData": "No data"
+      "csvExporter": "Export to CSV"
     },
     "timePresets": {
       "last7Days": "Last 7 days",
       "last30Days": "Last 30 days",
       "last365Days": "Last 365 days",
-      "thisMonth": "This Month",
-      "lastMonth": "Last Month"
+      "thisMonth": "This month",
+      "lastMonth": "Last month"
     },
     "presentationPresets": {
       "distinct": "Distinct values",
@@ -128,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "2 application perspective created",
         "oneAlertSetUpAndActivated": "1 alert set up and activated",
         "oneWebsiteMonitored": "1 website monitored",
-        "fiveUsers": "5 users"
+        "fiveUsers": "5 users",
+        "notStarted": "Not started",
+        "tenantUnit": "Tenant Unit"
       },
       "adoptionKPIs": {
         "applicationPerspective": "Application perspective",
@@ -160,6 +163,17 @@
         "metric_custom_dashboards": "Custom dashboards",
         "metric_releases": "Releases"
       },
+      "sparkChartMetricsV2": {
+        "metric_applications": "APs",
+        "metric_reportingapplications": "Reporting APs",
+        "metric_websites": "Websites",
+        "metric_all_alerts": "Alerts",
+        "metric_active_alerts": "Active alerts",
+        "metric_mobile_apps": "Apps",
+        "metric_alert_channels": "Alert channels",
+        "metric_custom_dashboards": "Custom dashboards",
+        "metric_releases": "Release markers / releases"
+      },
       "userUsage": "User usage",
       "userSummary": "User summary",
       "totalUser": "Total user",
@@ -173,6 +187,38 @@
         "daysActive": "Days active",
         "notProvided": "(not provided)"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "Account and billing",
+    "tabs": {
+      "usage": "Usage",
+       "dataUsage": "Data usage",
+      "consumptionOverview": "Consumption overview",
+      "addOns": "Add-ons",
+      "technologiesReporting": "Technologies reporting",
+      "accountInformation": "Account information",
+      "entitlements": "Entitlements",
+      "activeEntitlements": "Active entitlements",
+      "queuedEntitlements": "Queued entitlements",
+      "expiredEntitlements": "Expired entitlements",
+      "activationAdoption": "Activation & adoption",
+      "customerAdoption": "Customer adoption",
+      "userUsage": "User usage"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "Start date",
+      "endDate": "End date",
+      "standardHosts": "Standard hosts",
+      "essentialHosts": "Essential hosts"
+    },
+    "emptyPage": {
+      "subtitle": "No data available"
+    },
+    "label": {
+      "unit": "Unit",
+      "timeRange": "Time range",
+      "values": "Values"
     }
   }
 }

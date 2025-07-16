@@ -120,7 +120,7 @@ function DefaultListRenderer({
         return (
           <Li
             key={user.id}
-            href$={getUserLink && user && getUserLink(user)}
+            href={getUserLink && user && getUserLink(user)}
             onClick={onUserClick && user ? () => onUserClick(user) : undefined}
           >
             <ColumnizedContent

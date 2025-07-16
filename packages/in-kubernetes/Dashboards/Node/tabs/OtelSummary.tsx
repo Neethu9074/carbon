@@ -15,24 +15,17 @@ import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonCo
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 // @ts-expect-error
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import {
-  andQuery,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
-import { bytes, number, percentage, zeroDecimalPlaces } from 'in-services/formatters/number';
-import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
-import { summaryTab, useOtelNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { resourceQuotaBytes, resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
-import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { bytes, percentage } from 'in-services/formatters/number';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { formatDuration } from 'in-services/formatters/date';
-import { capitalizeValue } from 'in-components/Capitalize';
+import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric';
 import { Col, Row } from 'in-components/layout/Grid';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -86,44 +79,17 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
-  const viewAllHref = useOtelNodeDashboard(snapshotId, { tab: '/conditions' });
-
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={node.id} timeConfig={timeConfig} />
-      <KpiGridRow sizes={[4, 4, 4]}>
-        <KpiCard
-          title={t('in-kubernetes:dashboards.status')}
-          value={node.status}
-          renderValue={capitalizeValue}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-kubernetes:dashboards.roles')}
-          value={node.roles}
-          renderValue={capitalizeValue}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-kubernetes:dashboards.age')}
-          value={node.age}
-          renderValue={nodeAge => capitalizeValue(formatDuration(nodeAge))}
-          raw
-          borderless
-        />
-      </KpiGridRow>
-      {/* required_cpu_percentage add in percentage metric instead of capacity */}
       <Row>
         <Col lg={kpiWidth}>
           <MultiMetricBigNumberKpiCard
-            title={t('in-kubernetes:dashboards.cpuRequestsMultiMetric')}
-            formatter={[resourceQuotaNumber, percentage.detailed]}
+            title={t('in-kubernetes:dashboards.cpuUtilization')}
+            formatter={[resourceQuotaPercentage, percentage.detailed]}
             config={[
               {
                 metricConfiguration: {
-
                   metric: 'k8s.node.cpu.utilization',
                   ...defaultBigNumberMetricConfig
                 },
@@ -131,7 +97,7 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
               },
               {
                 metricConfiguration: {
-                  metric: 'k8s.node.memory.usage',
+                  metric: 'required_cpu_percentage',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -142,12 +108,12 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
         </Col>
         <Col lg={kpiWidth}>
           <MultiMetricBigNumberKpiCard
-            title={t('in-kubernetes:dashboards.cpuLimitsMultiMetric')}
-            formatter={[resourceQuotaNumber, percentage.detailed]}
+            title={t('in-kubernetes:dashboards.memoryUsage')}
+            formatter={[resourceQuotaBytes, percentage.detailed]}
             config={[
               {
                 metricConfiguration: {
-                  metric: 'k8s.node.memory.available',
+                  metric: 'k8s.node.memory.usage',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -165,12 +131,12 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
         </Col>
         <Col lg={kpiWidth}>
           <MultiMetricBigNumberKpiCard
-            title={t('in-kubernetes:dashboards.memoryRequestsMultiMetric')}
+            title={t('in-kubernetes:dashboards.memoryAvailable')}
             formatter={[resourceQuotaBytes, percentage.detailed]}
             config={[
               {
                 metricConfiguration: {
-                  metric: 'required_mem',
+                  metric: 'k8s.node.memory.available',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -188,12 +154,12 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
         </Col>
         <Col lg={kpiWidth}>
           <MultiMetricBigNumberKpiCard
-            title={t('in-kubernetes:dashboards.memoryLimitsMultiMetric')}
+            title={t('in-kubernetes:dashboards.filesystemCapacity')}
             formatter={[resourceQuotaBytes, percentage.detailed]}
             config={[
               {
                 metricConfiguration: {
-                  metric: 'limit_mem',
+                  metric: 'k8s.node.filesystem.capacity',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -211,12 +177,12 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
         </Col>
         <Col lg={kpiWidth}>
           <MultiMetricBigNumberKpiCard
-            title={t('in-kubernetes:dashboards.podsAlloc')}
-            formatter={[zeroDecimalPlaces, percentage.detailed]}
+            title={t('in-kubernetes:dashboards.filesystemAvailable')}
+            formatter={[resourceQuotaBytes, percentage.detailed]}
             config={[
               {
                 metricConfiguration: {
-                  metric: 'allocatedPods',
+                  metric: 'k8s.node.filesystem.available',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -238,8 +204,8 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
-                metric: 'cpu.total_usage',
-                label: t('in-kubernetes:dashboards.usage'),
+                metric: 'k8s.node.cpu.utilization',
+                label: t('in-kubernetes:dashboards.cpuUtilization'),
                 color: usage,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
@@ -265,8 +231,8 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
             colors={[usage, requests, limits, capacity]}
-            formatter="number.detailed"
-            tooltipFormatter={number.detailed}
+            formatter="percentage.detailed"
+            tooltipFormatter={percentage.detailed}
             paramTab="cpuTab"
             paramMetric="cpuMetric"
             path={summaryTab}
@@ -279,15 +245,15 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
-                metric: 'memory.usage',
-                label: t('in-kubernetes:dashboards.usage'),
+                metric: 'k8s.node.memory.usage',
+                label: t('in-kubernetes:dashboards.memoryUsage'),
                 color: usage,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
-                metric: 'required_mem',
-                label: t('in-kubernetes:dashboards.requests'),
+                metric: 'k8s.node.memory.available',
+                label: t('in-kubernetes:dashboards.memoryAvailable'),
                 color: requests,
                 ...defaultChartMetricConfig
               },
@@ -320,22 +286,22 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
-                metric: 'allocatedPods',
-                label: t('in-kubernetes:dashboards.allocated'),
+                metric: 'k8s.node.filesystem.available',
+                label: t('in-kubernetes:dashboards.filesystemAvailable'),
                 color: usage,
                 ...defaultChartMetricConfig
               },
               {
-                metric: 'cap_pods',
-                label: t('in-kubernetes:dashboards.capacity'),
+                metric: 'k8s.node.filesystem.capacity',
+                label: t('in-kubernetes:dashboards.filesystemCapacity'),
                 color: capacity,
                 ...defaultChartMetricConfig
               }
             ]}
-            title={t('in-kubernetes:dashboards.podsAllocation')}
+            title={t('in-kubernetes:dashboards.filesystemResources')}
             colors={[usage, capacity]}
-            formatter="number.compact"
-            tooltipFormatter={number.compact}
+            formatter="bytes.detailed"
+            tooltipFormatter={bytes.detailed}
             paramTab="allocTab"
             paramMetric="allocMetric"
             path={summaryTab}
@@ -343,11 +309,6 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
             snapshotId={snapshotId}
             hasButtonInActionslane={false}
           />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ConditionsTableCard conditions={node.conditions} viewAllHref={viewAllHref} />
         </Col>
       </Row>
     </>

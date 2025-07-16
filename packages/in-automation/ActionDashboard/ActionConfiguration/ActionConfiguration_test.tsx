@@ -5,6 +5,7 @@
  */
 
 import { render, screen } from '@testing-library/react';
+import ResizeObserver from 'resize-observer-polyfill';
 import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
 
@@ -46,6 +47,7 @@ describe('ActionConfiguration', () => {
       return Buffer.from(buffer).toString('utf-8');
     }
   } as any;
+  global.ResizeObserver = ResizeObserver;
 
   const actionTypes = Object.keys(ACTION_TYPE);
 
@@ -53,13 +55,17 @@ describe('ActionConfiguration', () => {
     it(`renders ActionDetailsCard for type ${type}`, () => {
       mockData.type = ACTION_TYPE[type as ActionType];
       render(<ActionConfiguration data={mockData} />);
-      expect(screen.getByText('Action details')).toBeInTheDocument();
+      const headings = screen.queryAllByText('Action details');
+      const h2 = headings.find(el => el.tagName === 'H2');
+      expect(h2).toBeInTheDocument();
     });
   });
 
   it('renders ActionConfigurationCard when data is provided', () => {
     render(<ActionConfiguration data={mockData} />);
-    expect(screen.getByText('Action configuration')).toBeInTheDocument();
+    const headings = screen.queryAllByText('Action configuration');
+    const h2 = headings.find(el => el.tagName === 'H2');
+    expect(h2).toBeInTheDocument();
   });
 
   it('does not render ParameterDetailsCard when type is ACTION_TYPE.DOC_LINK or ACTION_TYPE.MANUAL', () => {

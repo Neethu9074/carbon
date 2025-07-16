@@ -23,6 +23,7 @@ import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { netweaverEnabled } from 'in-services/featureFlags';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -66,6 +67,13 @@ const columnDefinitions = [
           metric="numberOfInstances"
         />
       );
+    }
+  },
+  {
+    id: 'serviceName',
+    label: t('in-sap:instanceName'),
+    getContent(item) {
+      return item.serviceName;
     }
   },
   {
@@ -132,12 +140,20 @@ export default connectTo(
             get={getTableData}
             filterColumnDefinitions={({ result }) => {
               const systemSensor =
-                result.data &&
-                result.data.items &&
-                Boolean(find(result.data.items, item => isSystemSensor(get(item, ['pluginName']))));
-              if (systemSensor) {
+                result && result.data && Array.isArray(result.data.items)
+                  ? result.data.items.find(item => item && item.pluginName)?.pluginName
+                  : undefined;
+              if (systemSensor === 'sapAbapSystemSensor') {
                 return columnDefinition =>
-                  columnDefinition.id !== 'hostName' && columnDefinition.id !== 'overallRating';
+                  columnDefinition.id !== 'hostName' &&
+                  columnDefinition.id !== 'overallRating' &&
+                  columnDefinition.id !== 'serviceName';
+              } else if (systemSensor === 'sapJavaNetWeaverSystemSensor') {
+                return columnDefinition =>
+                  columnDefinition.id !== 'hostName' &&
+                  columnDefinition.id !== 'instances' &&
+                  columnDefinition.id !== 'overallRating' &&
+                  columnDefinition.id !== 'serviceName';
               } else {
                 return columnDefinition => columnDefinition.id !== 'instances';
               }
@@ -150,12 +166,27 @@ export default connectTo(
   }
 );
 
-function isSystemSensor(sapSystem) {
-  return sapSystem === 'sapAbapSystemSensor';
+function getTableData(params) {
+  if (netweaverEnabled) {
+    return getAbapSystemListsWithDefaults(params);
+  } else {
+    return getFilteredAbapInstances(params);
+  }
 }
 
-function getTableData(params) {
-  return getAbapSystemListsWithDefaults(params);
+function getFilteredAbapInstances(params) {
+  return getAbapSystemListsWithDefaults(params).map(result => {
+    const filteredItems = (result?.data?.items || []).filter(item => {
+      return item.pluginName === 'sapAbapSystemSensor';
+    });
+    return {
+      ...result,
+      data: {
+        ...result.data,
+        items: filteredItems
+      }
+    };
+  });
 }
 
 function getHasDataToRender() {

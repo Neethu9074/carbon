@@ -1,0 +1,15 @@
+:local {
+  .actionsSectionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .buttonStyle {
+    width: 100%;
+    height: 20px;
+  }
+
+  .tearsheetContent {
+    padding: 1rem;
+  }
+}

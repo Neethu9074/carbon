@@ -17,7 +17,7 @@ interface ThresholdTypesHelpProps {
 
 export function ThresholdTypesHelp({ trackHover }: ThresholdTypesHelpProps) {
   return (
-    <Tooltip align="bottomMiddle" content={<ThresholdTypesHint trackHover={trackHover} />}>
+    <Tooltip align="auto" content={<ThresholdTypesHint trackHover={trackHover} />}>
       <SvgIcon type="lib_help_error_help_outline" size="s" color={themes.default.ids.color.option.neutral['700']} />
     </Tooltip>
   );

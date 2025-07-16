@@ -8,6 +8,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import getKubernetesWorkloadControllerItemCounters from 'in-kubernetes/subscriptions/getKubernetesWorkloadControllerItemCounters';
+import getOtelKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getOtelKubernetesClusterItemCounters';
 import getKubernetesNamespaceItemCounters from 'in-kubernetes/subscriptions/getKubernetesNamespaceItemCounters';
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 import getKubernetesServiceItemCounters from 'in-kubernetes/subscriptions/getKubernetesServiceItemCounters';
@@ -40,6 +41,16 @@ export function ClusterTab({ clusterId, label, timeConfig, valueExtractor }) {
   const result =
     useObservableValues(
       () => clusterId && getKubernetesClusterItemCounters({ clusterId, timeConfig }),
+      [clusterId, timeConfig]
+    ) ?? pendingResult;
+
+  return <TabLabelWithCounter counters={result?.data} label={label} valueExtractor={valueExtractor} />;
+}
+
+export function OtelClusterTab({ clusterId, label, timeConfig, valueExtractor }) {
+  const result =
+    useObservableValues(
+      () => clusterId && getOtelKubernetesClusterItemCounters({ clusterId, timeConfig }),
       [clusterId, timeConfig]
     ) ?? pendingResult;
 

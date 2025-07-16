@@ -64,7 +64,7 @@ export default function CustomServiceMappingDialog() {
                   stepTitle: t('in-applications:forms.customService.stepTitle'),
                   content: (
                     <div>
-                      <DescriptionText>
+                      <DescriptionText className={locals.descriptionColor}>
                         <Trans
                           i18nKey="in-applications:forms.customService.descriptionTextFirstLine"
                           components={{ bold: <strong /> }}

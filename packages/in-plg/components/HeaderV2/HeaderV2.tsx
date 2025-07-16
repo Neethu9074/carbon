@@ -13,7 +13,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 import locals from 'in-plg/components/HeaderV2/HeaderV2.mless';
 
-interface breadcrumb {
+export interface breadcrumb {
   title: string;
   href: string | null;
 }
@@ -30,9 +30,13 @@ const HeaderV2 = ({ breadcrumb, title }: HeaderV2) => {
       <Stack gap={4}>
         {breadcrumb.length && (
           <Breadcrumb>
-            {breadcrumb.map(item => {
+            {breadcrumb.map((item, index) => {
               let href = item.href;
-              return <BreadcrumbItem {...(href ? { href: createHrefToPath(href) } : {})}>{item?.title}</BreadcrumbItem>;
+              return (
+                <BreadcrumbItem key={index} {...(href ? { href: createHrefToPath(href) } : {})}>
+                  {item?.title}
+                </BreadcrumbItem>
+              );
             })}
           </Breadcrumb>
         )}

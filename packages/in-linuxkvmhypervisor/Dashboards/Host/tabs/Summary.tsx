@@ -10,7 +10,7 @@ import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs migration
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import { kiloBytesTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import { kiloBytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -32,7 +32,7 @@ export default function Summary({ data: host }: SummaryData) {
       </KpiGridRow>
       <KpiGridRow sizes={[6, 6]}>
         <InfraMetricKpiCard
-          title={t('in-linuxkvmhypervisor:dashboards.memoryUsage')}
+          title={t('in-linuxkvmhypervisor:dashboards.usedPhysicalMemory')}
           snapshotId={snapshotId}
           metric="memoryUsage"
           formatter={kiloBytesTwoDecimalPlaces}
@@ -41,7 +41,7 @@ export default function Summary({ data: host }: SummaryData) {
           title={t('in-linuxkvmhypervisor:dashboards.cpuUsage')}
           snapshotId={snapshotId}
           metric="cpuUsage"
-          formatter={number.detailed}
+          formatter={percentage.compact}
         />
       </KpiGridRow>
     </>

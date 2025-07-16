@@ -10,9 +10,4 @@
   .staticSeverity {
     font-weight: bold;
   }
-
-  .staticDescription {
-    line-height: 1.25rem;
-    color: var(--ids-color-option-neutral-500);
-  }
 }

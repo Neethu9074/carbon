@@ -17,6 +17,7 @@ import {
   deploymentConfigId as matrixDeploymentConfigId,
   daemonSetId as matrixDaemonSetId,
   persistentVolumeId as matrixPersistentVolumeId,
+  persistentVolumeClaimId as matrixPersistentVolumeClaimId,
   statefulSetId as matrixStatefulSetId
 } from 'in-kubernetes/navigation/matrix';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -109,6 +110,11 @@ export const persistentVolumeDashboard = `/persistentvolume`;
 export const persistentVolumesDashboard = `/persistentvolumes`;
 export const persistentVolumeDashboardFullyQualified = `${kubernetes}${persistentVolumeDashboard}`;
 export const persistentVolumeDashboardDetailsFullyQualified = `${persistentVolumeDashboardFullyQualified}/details`;
+
+export const persistentVolumeClaimDashboard = `/persistentvolumeclaim`;
+export const persistentVolumeClaimsDashboard = `/persistentvolumeclaims`;
+export const persistentVolumeClaimDashboardFullyQualified = `${kubernetes}${persistentVolumeClaimDashboard}`;
+export const persistentVolumeClaimDashboardDetailsFullyQualified = `${persistentVolumeClaimDashboardFullyQualified}/details`;
 
 export const summaryTab = '/summary';
 
@@ -466,6 +472,31 @@ export function usePersistentVolumeDashboard(
     id: persistentVolumeId,
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, persistentVolumeDashboard, matrixClusterId, clusterId);
+    }
+  });
+}
+
+export function usePersistentVolumeClaimDashboard(
+  persistentVolumeClaimId: string,
+  {
+    tab,
+    tabMatrix,
+    timeConfig,
+    clusterId,
+    namespaceId
+  }: BaseProps & Pick<IdsProps, 'clusterId' | 'namespaceId'> = emptyObject
+) {
+  return useNavigateToDashboard({
+    base: persistentVolumeClaimDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: persistentVolumeClaimDashboard,
+    matrixParam: matrixPersistentVolumeClaimId,
+    id: persistentVolumeClaimId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, persistentVolumeClaimDashboard, matrixClusterId, clusterId);
+      setOrDeleteMatrixKey(params, persistentVolumeClaimDashboard, matrixClusterId, namespaceId);
     }
   });
 }

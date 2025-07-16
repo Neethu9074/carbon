@@ -56,16 +56,17 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
     query: `event.type:change AND ${entityFilter}`,
     granularity
   };
+  const dqfQuery = `(event.type:warning OR event.type:critical OR event.type:offline OR event.type:online OR event.type:change) AND ${entityFilter}`;
 
   const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
 
   const getHref = highlightedTime =>
     just(
       getEventsViewFilteredBy({
-        query: 'event.source:infra',
-        applicationId,
-        serviceId,
-        endpointId,
+        query: dqfQuery,
+        applicationId: '',
+        serviceId: '',
+        endpointId: '',
         timeConfig: highlightedTime
       })
     );

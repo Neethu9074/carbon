@@ -28,11 +28,6 @@ import {
   EVENT_RCA_LLM_INVESTIGATION_START_CLICK,
   EVENT_RCA_TOPOLOGY_VIEW_CLICK
 } from 'in-services/tracking/tracking';
-import {
-  rcaTopologyEnabled,
-  rcaAiAutomatedInvestigationEnabled,
-  automationActionAiGenerationUnitEnabled
-} from 'in-services/featureFlags';
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import RootCauseTopologyDialog from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologyDialog';
@@ -40,6 +35,7 @@ import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hoo
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import { Application, EntityId, Event, Nullish, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
+import { rcaTopologyEnabled, rcaAiAutomatedInvestigationEnabled } from 'in-services/featureFlags';
 import AIProbabilityBadge from 'in-events/components/RootCauseAnalysis/AIProbabilityBadge';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
@@ -337,7 +333,7 @@ export default function RootCauseEntityDetails({
                   </Tearsheet>
                 </>
               )}
-              {rcaAiAutomatedInvestigationEnabled && automationActionAiGenerationUnitEnabled && (
+              {rcaAiAutomatedInvestigationEnabled && (
                 <Button
                   kind="tertiary"
                   icon="lib_launch_ai"
@@ -402,7 +398,7 @@ interface EntityPathProps {
   timeWindow: TimeConfig;
 }
 
-function EntityPath({
+export function EntityPath({
   rcaTrackingData,
   relatedApplicationInformation,
   entityInformation,
@@ -481,7 +477,7 @@ interface UnknownEntityPathProps {
   timeWindow: TimeConfig;
 }
 
-function UnknownEntityPath({
+export function UnknownEntityPath({
   rcaTrackingData,
   relatedApplicationInformation,
   entityType,
@@ -527,6 +523,7 @@ interface InfrastructureVisualHierarchyProps {
   entityId: EntityId;
   entityType: string;
   timeWindow: TimeConfig;
+  compact?: boolean;
 }
 interface RelevantSnapshotData {
   label: string;
@@ -534,7 +531,7 @@ interface RelevantSnapshotData {
   id: string;
 }
 
-const InfrastructureVisualHierarchy = ({
+export const InfrastructureVisualHierarchy = ({
   rcaTrackingData,
   relatedApplicationInformation,
   hierarchySnapshots,
@@ -543,7 +540,8 @@ const InfrastructureVisualHierarchy = ({
   serviceLabelInformation,
   entityId,
   entityType,
-  timeWindow
+  timeWindow,
+  compact = false
 }: InfrastructureVisualHierarchyProps) => {
   const { location } = useNavigation();
 
@@ -641,7 +639,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={relatedHostID}
           entityLabel={(hostDataFromHierarchy as RelevantSnapshotData).label}
           relatedAPID={relatedAPID}
-          displayLabel={t('in-events:RCA.runsOn')}
+          displayLabel={compact ? '' : t('in-events:RCA.runsOn')}
           renderIcon={
             <PluginIcon
               plugin={(hostDataFromHierarchy as RelevantSnapshotData).pluginType}
@@ -657,7 +655,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={relatedPodID}
           entityLabel={(podDataFromHierarchy as RelevantSnapshotData).label}
           relatedAPID={relatedAPID}
-          displayLabel={t('in-events:RCA.runningIn')}
+          displayLabel={compact ? '' : t('in-events:RCA.runningIn')}
           renderIcon={
             <PluginIcon
               plugin={(podDataFromHierarchy as RelevantSnapshotData).pluginType}
@@ -673,7 +671,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={relatedContainerdID}
           entityLabel={(containerDContainerFromHierarchy as RelevantSnapshotData).label}
           relatedAPID={relatedAPID}
-          displayLabel={t('in-events:RCA.runningIn')}
+          displayLabel={compact ? '' : t('in-events:RCA.runningIn')}
           renderIcon={
             <PluginIcon
               plugin={(containerDContainerFromHierarchy as RelevantSnapshotData).pluginType}
@@ -689,7 +687,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={firstServiceID}
           entityLabel={firstServiceLabel}
           relatedAPID={relatedAPID}
-          displayLabel={t('in-events:RCA.inService')}
+          displayLabel={compact ? '' : t('in-events:RCA.inService')}
           renderIcon={<SvgIcon type={getIconForRCADisplay('service')} color={themes.default.cds.link.primary} />}
           AdditionalServices={
             serviceLabelInformation && serviceLabelInformation?.length > 1 ? AdditionalServices() : undefined
@@ -703,7 +701,7 @@ const InfrastructureVisualHierarchy = ({
           entityID={relatedAPID}
           entityLabel={relatedAPlabel}
           relatedAPID={null}
-          displayLabel={t('in-events:RCA.asPartOfApplicationPerspective')}
+          displayLabel={compact ? '' : t('in-events:RCA.asPartOfApplicationPerspective')}
           renderIcon={
             <SvgIcon type={getIconForRCADisplay('application')} color={themes.default.cds.link.primary} size="s" />
           }

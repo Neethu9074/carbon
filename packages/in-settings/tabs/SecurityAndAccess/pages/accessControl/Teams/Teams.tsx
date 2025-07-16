@@ -25,6 +25,7 @@ import MultiSelectDataTable, {
 import CreateTeamDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/CreateTeamDialog';
 import { getEntityIdView, securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { TeamRow } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Teams.types';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -46,10 +47,13 @@ const createMenuItemsForRow = (
   ];
 };
 
-const createTableRows = (teams: TeamOverview[] = []): Array<TeamRow<TeamOverview>> => {
+const createTableRows = (
+  createHrefToPath: (path: string) => string,
+  teams: TeamOverview[] = []
+): Array<TeamRow<TeamOverview>> => {
   return teams?.map((team: TeamOverview) => ({
     name: (
-      <Link href={getEntityIdView(securityAndAccessAccessControlTeams, team.id)} ellipsis>
+      <Link href={getEntityIdView(securityAndAccessAccessControlTeams, team.id, createHrefToPath)} ellipsis>
         {team.name}
       </Link>
     ),
@@ -72,6 +76,7 @@ const Teams = () => {
   const dataTableResult = useObservable(getTeamsOverview, []) ?? pendingResult;
   const loading = isLoading(dataTableResult);
   const hasErrors = hasError(dataTableResult);
+  const { createHrefToPath } = useNavigation();
   const [message, setMessage] = useState<Notification>();
   const errorMessage: Notification | undefined = hasErrors
     ? {
@@ -99,7 +104,7 @@ const Teams = () => {
       searchPlaceholderText={t('in-settings:components.search')}
       tableActions={TEAMS_TABLE_ACTIONS}
       tableHeaders={TEAMS_TABLE_HEADERS}
-      tableRows={createTableRows(dataTableResult.data)}
+      tableRows={createTableRows(createHrefToPath, dataTableResult.data)}
       title={t('in-settings:tabs.teams.teamsTitle')}
     />
   );

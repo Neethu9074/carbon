@@ -58,7 +58,13 @@ describe('in-websites/alerting/form/thresholdForm', () => {
       it('should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
         const thresholdForm = createThresholdTestForm({ type: ADAPTIVE_BASELINE }, 'slowness').toJS();
         expect(thresholdForm).to.have.keys('criticalThreshold', 'warningThreshold', 'operator', 'baseline');
-        expect(thresholdForm.criticalThreshold).to.have.keys('isCheckboxSelected', 'type', 'deviationFactor');
+        expect(thresholdForm.criticalThreshold).to.have.keys(
+          'isCheckboxSelected',
+          'type',
+          'deviationFactor',
+          'seasonality',
+          'adaptability'
+        );
       });
     });
   });

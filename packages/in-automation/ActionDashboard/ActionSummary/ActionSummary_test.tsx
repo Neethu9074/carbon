@@ -5,6 +5,7 @@
  */
 
 import { render, screen } from '@testing-library/react';
+import ResizeObserver from 'resize-observer-polyfill';
 import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
 
@@ -49,6 +50,7 @@ describe('ActionSummary', () => {
       return Buffer.from(buffer).toString('utf-8');
     }
   } as any;
+  global.ResizeObserver = ResizeObserver;
 
   const actionTypes = Object.keys(ACTION_TYPE).filter(
     type => ![ACTION_TYPE.MANUAL, ACTION_TYPE.DOC_LINK].includes(type as ActionType)

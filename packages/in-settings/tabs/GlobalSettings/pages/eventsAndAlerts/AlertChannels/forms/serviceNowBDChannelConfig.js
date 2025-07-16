@@ -53,7 +53,7 @@ export default {
   name,
   label,
   isAlpha: false,
-  isBeta: true,
+  isBeta: false,
   testAPI: null,
   active: serviceNowAdvancedEnabled,
   feedbackLink: 'https://your.feedback.ibm.com/jfe/form/SV_1X4s0aRWYgXE1Fk',

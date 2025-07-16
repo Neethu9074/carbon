@@ -14,10 +14,13 @@ import getXenServerHost from 'in-xenserver/subscriptions/getXenServerHost';
 import { hostId as matrixHostId } from 'in-xenserver/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { hostDashboard } from 'in-xenserver/navigation/paths';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import tabs from 'in-xenserver/Dashboards/Host/tabs/index';
 import { HostBreadcrumbs } from 'in-xenserver/breadcrumbs';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer';
@@ -35,6 +38,12 @@ export default function HostDashboard({ location }: HostDashboardProps) {
   return (
     <>
       <Breadcrumbs items={HostBreadcrumbs(hostProps)} />
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.xenserver,
+          pageRootName: pageNames.xenserver_host
+        }}
+      />
       <TabView
         result$={getXenServerHost({
           filter: {

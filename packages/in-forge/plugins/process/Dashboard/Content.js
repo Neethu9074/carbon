@@ -39,6 +39,20 @@ export default connectTo(
           />
         </DashboardSection>
 
+        <DashboardSection title={t('in-forge:plugins.process.dashboard.normalizedCpuUsage')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['normalizedCpu.user', 'normalizedCpu.sys'],
+              labels: [t('in-forge:plugins.process.dashboard.user'), t('in-forge:plugins.process.dashboard.system')],
+              formatter: percentageZeroDecimalPlaces,
+              type: 'stackedArea'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
         <DashboardSection title={t('in-forge:plugins.process.dashboard.memory')}>
           <Chart
             snapshotId={snapshotId}

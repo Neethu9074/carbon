@@ -19,6 +19,7 @@ import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/tim
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { userSettingsGeneral, getEntityIdView } from 'in-settings/navigation/paths';
 import { dateFormat, dateTimeFormat } from 'in-services/formatters/date';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
@@ -205,38 +206,35 @@ export default function MaintenanceConfigurationForm(props) {
   );
 }
 
-export const DescriptionTextWithCurrentTimeZone = connectTo(
-  () => ({
-    href: getEntityIdView(userSettingsGeneral),
-    asUtc: getSetting$('formatTimestampsAsUtc')
-  }),
-  function DescriptionTextWithCurrentTimeZone({ asUtc, href }) {
-    const texts = {
-      timezone: t('in-settings:tabs.yourCurrentTimezoneIs', { tz: getTimezone() }),
-      utcTimezone: t('in-settings:tabs.allDatesAndTimesAreInUtc'),
-      utcOffset: t('in-settings:tabs.utcOffset', {
-        utcOffSet: getUtcOffset(new Date()),
-        isDST: isDstObserved(new Date()) ? t('in-settings:tabs.dstIsInEffect') : ''
-      }),
-      changeToUtc: t('in-settings:tabs.youCanChangeThisToUtc'),
-      changeToLocalTime: t('in-settings:tabs.youCanChangeThisToLocalTime')
-    };
+export function DescriptionTextWithCurrentTimeZone() {
+  const { createHrefToPath } = useNavigation();
+  const href = getEntityIdView(userSettingsGeneral, undefined, createHrefToPath);
+  const asUtc = getSetting$('formatTimestampsAsUtc');
+  const texts = {
+    timezone: t('in-settings:tabs.yourCurrentTimezoneIs', { tz: getTimezone() }),
+    utcTimezone: t('in-settings:tabs.allDatesAndTimesAreInUtc'),
+    utcOffset: t('in-settings:tabs.utcOffset', {
+      utcOffSet: getUtcOffset(new Date()),
+      isDST: isDstObserved(new Date()) ? t('in-settings:tabs.dstIsInEffect') : ''
+    }),
+    changeToUtc: t('in-settings:tabs.youCanChangeThisToUtc'),
+    changeToLocalTime: t('in-settings:tabs.youCanChangeThisToLocalTime')
+  };
 
-    const message =
-      (asUtc
-        ? texts.utcTimezone + ' ' + texts.changeToLocalTime
-        : texts.timezone + ' ' + texts.utcOffset + ' ' + texts.changeToUtc) + ' ';
+  const message =
+    (asUtc
+      ? texts.utcTimezone + ' ' + texts.changeToLocalTime
+      : texts.timezone + ' ' + texts.utcOffset + ' ' + texts.changeToUtc) + ' ';
 
-    return (
-      <Message className={locals.messageWrapper} withIcon small>
-        <div>
-          {message}
-          <Link href={href}>{t('in-settings:tabs.userSettingsGeneralUserInterfaceSettings')}</Link>
-        </div>
-      </Message>
-    );
-  }
-);
+  return (
+    <Message className={locals.messageWrapper} withIcon small>
+      <div>
+        {message}
+        <Link href={href}>{t('in-settings:tabs.userSettingsGeneralUserInterfaceSettings')}</Link>
+      </div>
+    </Message>
+  );
+}
 
 const DateWithTime = connectTo(
   () => ({

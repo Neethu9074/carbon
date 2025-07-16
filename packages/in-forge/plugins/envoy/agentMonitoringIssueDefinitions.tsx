@@ -19,7 +19,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.envoy.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-envoy-proxy#troubleshooting`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-envoy-proxy#troubleshooting`
   },
   envoy_missing_configuration_admin_address_path: {
     issueDescription: {
@@ -32,6 +32,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.envoy.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-envoy-proxy#troubleshooting`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-envoy-proxy#troubleshooting`
   }
 };

@@ -75,7 +75,7 @@ export function getActionFromForm(form: GenerateAIScriptActionForm): NewAction {
     metadata: { readOnly: false, builtIn: false, sensorImported: false, aiOriginated: true }
   };
 }
-const defaultActionTags = ['watsonx'];
+const defaultActionTags = ['ai'];
 const defaultActionType: ActionType = 'SCRIPT';
 
 function createGenerateAIActionForm() {

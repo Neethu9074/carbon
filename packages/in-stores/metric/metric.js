@@ -10,10 +10,10 @@ import { beeInstanaInfraMetricsEnabled, highResolutionInfrastructureMetricsEnabl
 import { fixateTimeConfig, timeConfig$, timeConfigShiftedForIngestion } from 'in-stores/time/config';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
+import createMetricsObservable from 'in-subscription/metricsWithMetadata';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { days, hours, minutes, seconds } from 'in-services/time';
-import createMetricsObservable from 'in-subscription/metrics';
 import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
 
@@ -127,17 +127,23 @@ const INFRA_GRANULARITIES = [
 
 const getLatestMetrics = resolveTimeConfigAndRollup(createLatestMetricsObservable);
 
-export const getMetricsForTimeframe = resolveTimeConfigAndRollup(createMetricsObservable);
+export const getMetricsForTimeframe = resolveTimeConfigAndRollup(
+  createMetricsObservable,
+  response => response?.data ?? response
+);
+export const getMetricsAndMetadataForTimeframe = resolveTimeConfigAndRollup(createMetricsObservable);
 
-function resolveTimeConfigAndRollup(createFn) {
-  return ({ timeConfig, rollup, ...rest }) =>
-    resolveTimeConfig(timeConfig).flatMap(timeConfig =>
+function resolveTimeConfigAndRollup(createFn, mapFn) {
+  return ({ timeConfig, rollup, ...rest }) => {
+    let fn = resolveTimeConfig(timeConfig).flatMap(timeConfig =>
       createFn({
         timeConfig: timeConfigShiftedForIngestion(timeConfig),
         rollup: getInfraGranularity(timeConfig, rollup),
         ...rest
       })
     );
+    return mapFn ? fn.map(mapFn) : fn;
+  };
 }
 
 function resolveTimeConfig(timeConfig) {

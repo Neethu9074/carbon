@@ -68,8 +68,8 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         tagFilters,
         timeConfig,
         metrics: {
-          beaconDuration: {
-            metric: 'beaconDuration',
+          viewChangeDuration: {
+            metric: 'viewChangeDuration',
             aggregation: 'P75'
           }
         }
@@ -92,14 +92,14 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             },
             fields: [
               {
-                metricId: 'beaconDuration',
+                metricId: 'viewChangeDuration',
                 aggregationId: 'P75',
                 type: metricType
               }
             ],
             chartedMetrics: [
               {
-                metricId: 'beaconDuration',
+                metricId: 'viewChangeDuration',
                 aggregationId: 'P75'
               }
             ]
@@ -436,15 +436,15 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                 renderer: Renderer.line,
                 formatter: ms.compact,
                 labels: [t('in-mobile-apps:dashboard.tabs.screenRenderingDuration')],
-                metricIds: ['beaconDuration'],
+                metricIds: ['viewChangeDuration'],
                 colors: [carbonAlert.purple50]
               }}
               metricsConfiguration={{
                 timeConfig,
                 tagFilters,
                 metrics: {
-                  beaconDuration: {
-                    metric: 'beaconDuration',
+                  viewChangeDuration: {
+                    metric: 'viewChangeDuration',
                     granularity,
                     aggregation: 'P75',
                     beaconType: 'viewChange',

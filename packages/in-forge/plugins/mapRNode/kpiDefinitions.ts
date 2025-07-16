@@ -17,5 +17,15 @@ export default [
     label: t('in-forge:plugins.maprNode.disks'),
     metric: 'metrics.disk.disks',
     formatter: number.compact
+  },
+  {
+    label: t('in-forge:plugins.maprNode.mapRFSDisks'),
+    metric: 'metrics.disk.mapRFSDisks',
+    formatter: number.compact
+  },
+  {
+    label: t('in-forge:plugins.maprNode.failedDisks'),
+    metric: 'metrics.disk.failedDisks',
+    formatter: number.compact
   }
 ];

@@ -85,7 +85,7 @@ export default function EventsSelection({ form, setForm }: Props) {
             title={t('in-settings:tabs.addEvents')}
             label={t('in-settings:tabs.addEvents')}
             renderCustomCloseBehaviour={() =>
-              disallowAppDataLegacyEventsEnabled && !hideAppDataLegacyEventsEnabled ? (
+              disallowAppDataLegacyEventsEnabled && hideAppDataLegacyEventsEnabled ? (
                 <Message type={MessageTypes.neutral} small withIcon>
                   {t('in-settings:tabs.depreactedEventHiddenInfo')}
                 </Message>
@@ -95,7 +95,7 @@ export default function EventsSelection({ form, setForm }: Props) {
               <Events
                 {...props}
                 loadEntities={() => eventConfigs}
-                withoutAppDataLegacyEvents={disallowAppDataLegacyEventsEnabled}
+                withoutAppDataLegacyEvents={hideAppDataLegacyEventsEnabled}
               />
             )}
             hiddenIds={selectedEvents}

@@ -32,8 +32,8 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { formatDuration } from 'in-services/formatters/date';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import { Col, Row } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -146,7 +146,7 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
             formatter={resourceQuotaNumber}
             config={{
               metricConfiguration: {
-                metric: 'cpuLimit',
+                metric: 'cpuLimits',
                 ...defaultBigNumberMetricConfig,
                 ...isPodMetric
               },

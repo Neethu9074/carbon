@@ -86,6 +86,30 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.msSqlDatabase.suspectState'),
+    type: 'string',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getValue(row) {
+        return row.snapshot?.getIn(['data', 'databasestats', row.key, 'suspectState'], 'No');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.msSqlDatabase.nonSynchronizingState'),
+    type: 'string',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getValue(row) {
+        return row.snapshot?.getIn(['data', 'databasestats', row.key, 'nonSynchronizing'], 'No');
+      }
+    }
   }
 ];
 
@@ -98,7 +122,8 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
       return {
         key: name,
         snapshotId,
-        timeConfig
+        timeConfig,
+        snapshot
       };
     });
 

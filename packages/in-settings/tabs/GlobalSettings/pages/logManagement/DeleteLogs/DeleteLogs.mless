@@ -13,6 +13,7 @@
   }
 
   .tearsheet {
+    z-index: 131 !important;
     > div {
       width: calc(100% - 8rem) !important;
       height: calc(100% - 8rem) !important;

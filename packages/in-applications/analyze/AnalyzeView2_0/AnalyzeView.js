@@ -348,18 +348,37 @@ function getUngroupedView(dataSource) {
         getTimestamp: item => {
           const type = typePerDataSource[dataSource];
           const timestampName = timestampNames[dataSource].ungrouped;
-          return isSubtraceDataSource ? item[timestampName] : item[type][timestampName];
+          return item[type][timestampName];
+        }
+      }),
+      subtraceTimestamp: createTableTimestampColumnDefinition({
+        getTimestamp: item => {
+          const type = typePerDataSource[dataSource];
+          const timestampName = timestampNames[dataSource].ungrouped;
+          return item[timestampName];
         }
       })
     },
     metricFieldExtractors: {
       getColumnId({ metricDefinition }) {
         // 'latency' is the only metric whose raw value (duration) should be displayed in ungrouped view
-        return metricDefinition.metricId === 'latency' ? metricDefinition.metricId : null;
+        if (metricDefinition.metricId === 'latency') {
+          if (isSubtraceDataSource) {
+            return 'subtraceDuration';
+          } else {
+            return metricDefinition.metricId;
+          }
+        }
       },
       getColumnLabel({ metricDefinition }) {
         // 'latency' is the only metric whose raw value (duration) should be displayed in ungrouped view
-        return metricDefinition.metricId === 'latency' ? t('in-applications:labelLatency') : null;
+        if (metricDefinition.metricId === 'latency') {
+          if (isSubtraceDataSource) {
+            return t('in-applications:subtraces.labelDuration');
+          } else {
+            return t('in-applications:labelLatency');
+          }
+        }
       },
       ColumnContent(item) {
         const type = typePerDataSource[dataSource];
@@ -392,9 +411,10 @@ function getUngroupedView(dataSource) {
 }
 
 function getFixedFields(dataSource) {
+  const isSubtraceDataSource = dataSource === subtraceDataSource;
   return [
-    { type: customType, customFieldId: 'timestamp' },
-    { type: metricType, metricId: dataSource, aggregationId: 'SUM' }
+    { type: customType, customFieldId: isSubtraceDataSource ? 'subtraceTimestamp' : 'timestamp' },
+    { type: metricType, metricId: isSubtraceDataSource ? 'latency' : dataSource, aggregationId: 'SUM' }
   ];
 }
 
@@ -410,7 +430,9 @@ function createMetricCatalogTransformer(dataSource) {
       label:
         dataSource === tracesDataSource
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
-          : t('in-applications:metrics.calls', { context: metricDefinition.metricId })
+          : dataSource === callsDataSource
+          ? t('in-applications:metrics.calls', { context: metricDefinition.metricId })
+          : t('in-applications:metrics.subtraces', { context: metricDefinition.metricId })
     };
   };
 }

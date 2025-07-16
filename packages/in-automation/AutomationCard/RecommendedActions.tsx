@@ -4,11 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { Button, Spacer, Stack, Typography, CarbonButton } from '@instana/components';
 import { Event, Result, VolatileId, Action, Policy } from '@instana/types';
-import { TimeConfig } from '@instana/types';
 
 import {
   scoredActionTagsColumn,
@@ -20,21 +19,21 @@ import {
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
+import CreateNewPolicyTearsheet, {
+  CreateNewPolicyTearsheetProps
+} from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import CreatePolicyButton, { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import RecommendationsExplainability from 'in-automation/AutomationCard/RecommendationsExplainability';
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import { ACTION_TYPE, EXECUTABLE_ACTIONS, ScoredActionsType } from 'in-automation/constants';
+import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
-import CreateNewPolicyTearsheet from 'in-automation/Policies/CreateNewPolicyTearsheet';
-import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardForPRC';
-import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
-import CreatePolicyButton from 'in-automation/AutomationCard/CreatePolicyButton';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -46,17 +45,14 @@ import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter } from 'in-automation/ActionTable/tableFilters';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
-import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import EmptyState from 'in-automation/AutomationCard/EmptyState';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { isManual } from 'in-automation/utils/policy';
 import { isLoading } from 'in-services/util/result';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { deletePolicy } from 'in-automation/api';
@@ -74,15 +70,23 @@ interface RecommendedActionsTableProps extends ServerTablePresenterProps<ScoredA
   trigger: Result<TriggerSpecification>;
 }
 
-const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps> = {
+const actionColumn = (
+  togglePolicyTearsheet: Function
+): ColumnDefinition<ScoredAction, RecommendedActionsTableProps> => ({
   label: '',
   id: 'actions',
   sortable: false,
   width: 5,
   getContent: (scoredAction, { volatileId, event, trigger }) => (
-    <RecActionsMoreMenu scoredAction={scoredAction} volatileId={volatileId} event={event} trigger={trigger} />
+    <RecActionsMoreMenu
+      scoredAction={scoredAction}
+      volatileId={volatileId}
+      event={event}
+      trigger={trigger}
+      togglePolicyTearsheet={togglePolicyTearsheet}
+    />
   )
-};
+});
 function onDeleteSuccess() {
   addMessage(
     {
@@ -129,26 +133,25 @@ function showConfirmationDialog(policy: Policy) {
       }
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}
       onSubmit={() => {
-        close();
         onDelete(id);
+        closeDialog();
       }}
     />
   );
 }
 
-const handleButtonClick = ({ policyId, inEventPage }: { policyId?: string; inEventPage?: boolean }) => {
-  addActiveDialog(<CreateNewPolicyTearsheet policyId={policyId} inEventPage={inEventPage} />);
-};
 export function RecActionsMoreMenu({
   scoredAction,
   volatileId,
   event,
-  trigger
+  trigger,
+  togglePolicyTearsheet
 }: {
   scoredAction: ScoredAction;
   volatileId: VolatileId;
   event: Event;
   trigger: Result<TriggerSpecification>;
+  togglePolicyTearsheet?: Function;
 }) {
   const { runActionTrackerSegment } = useSegmentTracker();
   const { entityId } = event;
@@ -263,7 +266,7 @@ export function RecActionsMoreMenu({
                 icon="lib_actions_edit"
                 onClick={e => {
                   stopPropagationAndPreventDefault(e);
-                  handleButtonClick({ policyId: policy.id, inEventPage: true });
+                  togglePolicyTearsheet?.({ policyId: policy.id });
                 }}
               >
                 {t('in-automation:editPolicy')}
@@ -367,14 +370,18 @@ export function RecActionsMoreMenu({
   return null;
 }
 
-const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] = [
-  scoredActionNameColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
-  scoredActionAiEngineColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
-  scoredActionDescriptionColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
-  scoredActionTagsColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
-  scoredActionScoreColumn,
-  actionColumn
-];
+const columnDefinitions = (
+  togglePolicyTearsheet: Function
+): ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] => {
+  return [
+    scoredActionNameColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+    scoredActionAiEngineColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+    scoredActionDescriptionColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+    scoredActionTagsColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
+    scoredActionScoreColumn,
+    actionColumn(togglePolicyTearsheet)
+  ];
+};
 
 function GenerateAIActionButton({
   event,
@@ -472,8 +479,6 @@ interface RecommendedActionsProps {
   recommendedActions: Result<ScoredAction[]>;
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
-  initialSnapshots?: ProcessedSnapshot[];
-  timeWindow?: TimeConfig;
   setSelectedDescription?: (a: string | null) => void;
   setSelectedEntityType?: (a: string | null) => void;
   selectedDescription?: string | null;
@@ -486,15 +491,9 @@ export default function RecommendedActions({
   recommendedActions,
   trigger,
   ootbRecommendedActions,
-  initialSnapshots,
-  timeWindow,
-  setSelectedDescription,
-  setSelectedEntityType,
   selectedDescription,
   selectedEntityType
 }: RecommendedActionsProps) {
-  const globalTimeConfig = useTimeConfig();
-  const [selectedRCA, setSelectedRCA] = useState<string>('triggeringEvent');
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -509,44 +508,6 @@ export default function RecommendedActions({
   const { page, pageSize, orderBy, orderDirection, query, pageSizes } = serverTableUrlState;
   const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => ScoredActionsType[aiEngine]))];
   const availableTags = Array.from(new Set(recommendedActions.data?.flatMap(item => item.entity?.tags ?? [])));
-  const data = useMemo(() => {
-    const selectedSnapshot = initialSnapshots?.find(snapshot => snapshot.rcaSnapshotID === selectedRCA);
-
-    if (!selectedSnapshot) return null; // Return null if no matching RCA is found
-
-    return {
-      rcaEntityType: selectedSnapshot.rcaEntityType, // Get entity type
-      rcaSnapshotID: selectedRCA, // Use selected RCA ID
-      entityId: selectedSnapshot?.translationEntityType,
-      timeWindow // Ensure timeWindow is available in the scope
-    };
-  }, [selectedRCA, initialSnapshots, timeWindow]);
-
-  const { entityData, entityType } = useFetchAppropriateRCAEntityData(
-    data?.rcaEntityType ?? '', // Pass null if data is not available
-    data?.rcaSnapshotID ?? '',
-    data?.timeWindow ?? globalTimeConfig
-  );
-  const entityId = data?.entityId ?? 'process';
-
-  useEffect(() => {
-    if (
-      entityData &&
-      entityType &&
-      entityData.label &&
-      setSelectedDescription &&
-      setSelectedEntityType &&
-      selectedRCA !== 'triggeringEvent'
-    ) {
-      const entityTypeName =
-        entityType === 'infrastructure' || entityType === 'process'
-          ? translateFullyQualifiedPluginToShortPluginName(entityId) || ''
-          : entityType;
-
-      setSelectedDescription(entityData.label);
-      setSelectedEntityType(entityTypeName);
-    }
-  }, [entityData, entityType, setSelectedDescription, setSelectedEntityType, selectedRCA, entityId]);
 
   const { filteredActions, aiEngine, setAiEngine, tags, setTags } = useFilters({
     recommendedActions,
@@ -558,44 +519,22 @@ export default function RecommendedActions({
     serverTableUrlState,
     setServerTableUrlState
   });
+  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
+
+  const togglePolicyTearsheet = ({
+    triggerDetails,
+    policyId
+  }: {
+    triggerDetails: TriggerDetailsProps;
+    policyId: string;
+  }) => {
+    setPolicyTearsheetProps({ triggerDetails, policyId, open: true });
+  };
 
   const totalHits = result?.data?.totalHits;
 
   return (
     <>
-      {initialSnapshots && initialSnapshots?.length > 0 && (
-        <>
-          <Spacer vertical="small" />
-          <Stack direction="horizontal">
-            <Typography variant="body-regular">{t('in-automation:contextFor')}</Typography>
-            <ComboBox
-              id="contextmenu"
-              options={[
-                { label: t('in-automation:triggeringEvent'), value: 'triggeringEvent' },
-                ...initialSnapshots.map((item, index) => ({
-                  label:
-                    initialSnapshots.length === 1
-                      ? t('in-automation:probableRootCause')
-                      : `${t('in-automation:probableRootCause')} ${index + 1}`,
-                  value: item.rcaSnapshotID ?? ''
-                }))
-              ]}
-              value={selectedRCA}
-              isClearable={false}
-              onChange={o => {
-                if ((o as Option).value === 'triggeringEvent') {
-                  setSelectedDescription?.(null);
-                  setSelectedEntityType?.(null);
-                  setSelectedRCA((o as Option).value);
-                } else {
-                  setSelectedRCA((o as Option).value);
-                }
-              }}
-            />
-          </Stack>
-          <Spacer vertical="small" />
-        </>
-      )}
       <Spacer vertical="small" />
       <Stack direction="horizontal" gap="disabled">
         <Typography variant="body-regular">
@@ -611,7 +550,7 @@ export default function RecommendedActions({
       </Stack>
 
       <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
-        columnDefinitions={columnDefinitions}
+        columnDefinitions={columnDefinitions(togglePolicyTearsheet)}
         volatileId={volatileId}
         event={event}
         pageSizes={pageSizes}
@@ -631,7 +570,7 @@ export default function RecommendedActions({
         pageSize={pageSize}
         query={query}
         result={result}
-        renderNoDataAvailable={() => <EmptyState event={event} />}
+        renderNoDataAvailable={() => <EmptyState event={event} togglePolicyTearsheet={togglePolicyTearsheet} />}
         rightHeader={
           <Stack direction="horizontal">
             {(showOotbActions || actionAiGenerationEnabled) && !isLoading(trigger) && (
@@ -644,13 +583,22 @@ export default function RecommendedActions({
               />
             )}
 
-            {role?.canConfigureAutomationPolicies && !isLoading(trigger) && <CreatePolicyButton event={event} />}
+            {role?.canConfigureAutomationPolicies && !isLoading(trigger) && (
+              <CreatePolicyButton event={event} togglePolicyTearsheet={togglePolicyTearsheet} />
+            )}
             <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
             <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
             <Spacer horizontal="small" />
           </Stack>
         }
         searchPlaceholder={t('in-automation:searchActions')}
+      />
+      <CreateNewPolicyTearsheet
+        {...policyTearsheetProps}
+        closeHandler={() => {
+          setPolicyTearsheetProps({ open: false });
+        }}
+        inEventPage
       />
     </>
   );

@@ -46,4 +46,15 @@
   .heading {
     font-weight: 600;
   }
+
+  .tileLayout {
+    width: 41.31rem;
+  }
+
+  .labelTile {
+    flex: 0 0 40%;
+  }
+  .rowTile {
+    display: flex;
+  }
 }

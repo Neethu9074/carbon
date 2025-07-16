@@ -59,8 +59,10 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
+import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { close } from 'in-components/DialogPresenter/store';
@@ -76,7 +78,7 @@ import { t } from 'in-i18n';
 import locals from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox.mless';
 
 const USER_LIMIT = 5;
-const agentDetailsPagePath = '/agents/installation';
+const agentDetailsPagePath = newOTelPageEnabled ? datasourceInstanaAgentPath : '/agents/installation';
 
 const closeModal = (callback?: () => void) => {
   if (typeof callback === 'function') callback();

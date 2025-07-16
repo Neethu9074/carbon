@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import SapJavaNetWeaverInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/SapJavaNetWeaverInstanceSensorDashboard';
+import SapJavaNetWeaverSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverSystemSensor/SapJavaNetWeaverSystemSensorDashboard';
 import SapJavaCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaCentralInstance/SapJavaCentralInstanceDashboard';
 // the following components are all part of the same bundle (kubernetes)
 import SapMainView from 'promise-loader?global,sap!in-sap/SapMainView';
@@ -38,7 +40,9 @@ import {
   sapDbTenantDashboardFullyQualified,
   sapDbInstanceDashboardFullyQualified,
   sapAbapInstanceSensorDashboardFullyQualified,
-  sapAbapSystemSensorDashboardFullyQualified
+  sapAbapSystemSensorDashboardFullyQualified,
+  sapJavaNetWeaverInstanceSensorDashboardFullyQualified,
+  sapJavaNetWeaverSystemSensorDashboardFullyQualified
 } from 'in-sap/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
@@ -112,6 +116,16 @@ export default [
     key="sapAbapInstanceSensorDashboard"
     path={sapAbapInstanceSensorDashboardFullyQualified}
     component={createAsyncViewComponent(SapAbapInstanceSensorDashboard)}
+  />,
+  <Route
+    key="sapJavaNetWeaverSystemSensorDashboard"
+    path={sapJavaNetWeaverSystemSensorDashboardFullyQualified}
+    component={createAsyncViewComponent(SapJavaNetWeaverSystemSensorDashboard)}
+  />,
+  <Route
+    key="sapJavaNetWeaverInstanceSensorDashboard"
+    path={sapJavaNetWeaverInstanceSensorDashboardFullyQualified}
+    component={createAsyncViewComponent(SapJavaNetWeaverInstanceSensorDashboard)}
   />,
   <Route key="sapMainView" path={sap} component={createAsyncViewComponent(SapMainView)} />
 ];

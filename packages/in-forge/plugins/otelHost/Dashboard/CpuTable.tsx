@@ -8,8 +8,8 @@ import React from 'react';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/otelHost/constants';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/otelHost/constants';
 import { percentage } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -207,7 +207,6 @@ export default function CpuTable({ snapshot }: { snapshot: SnapshotData }) {
 function getRowDetails(row: any) {
   return (
     <Chart
-      distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
       y1={{

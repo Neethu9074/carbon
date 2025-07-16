@@ -75,7 +75,6 @@
     "restartCount": "Conteggio riavvii",
     "kubernetesLabels": "Etichette Kubernetes",
     "podmanAnnotations": "Annotazioni Podman",
-    "metricExplosionBeeInstana": "Questo dashboard potrebbe non visualizzare tutte le metriche, poiché in un determinato momento viene acquisito un massimo di {{numberOfMetrics}} metriche.",
     "metricExplosion": "Questo dashboard potrebbe non visualizzare tutte le metriche, poiché in un determinato momento viene acquisito un massimo di {{numberOfMetrics}} metriche ad alta risoluzione. Per visualizzare altre metriche etichettate, utilizzare Analizza infrastruttura o un dashboard personalizzato."
   },
   "explore": {

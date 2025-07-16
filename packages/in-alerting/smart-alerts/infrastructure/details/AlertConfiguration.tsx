@@ -70,6 +70,7 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }: { alertConfig: InfraSmartAlertConfigWithMetadata }) {
   const {
+    name,
     timeThreshold,
     granularity,
     gracePeriod,
@@ -253,7 +254,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
       >
         <AlertPropertyInfos
           alertConfig={alertConfig}
-          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig.name, alertConfig.groupBy)}
+          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(name, groupBy, evaluationType)}
           disableTrigger={!incidentTriggeringInfraSaEnabled}
           shouldDisplayAlertLevelSection={false}
         />

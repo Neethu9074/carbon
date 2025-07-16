@@ -22,7 +22,7 @@ import { error } from 'in-services/util/result';
 import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
-const refreshSignal = create<string>().emit('');
+export const refreshSignal = create<string>().emit('');
 
 const correctionConfigurationUrl = '/api/settings/correction' as const;
 export interface GetAllCorrectionConfigurationsArguments {

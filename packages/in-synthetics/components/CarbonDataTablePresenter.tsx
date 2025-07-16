@@ -12,18 +12,23 @@ import { Pagination as CarbonPagination } from '@instana/components';
 
 import {
   getEllipsisValue,
+  getFromLocalStorage,
   getHeader,
+  getRowId,
   getSortDirection,
+  getVisibleColumns,
   getWidthInAbsoluteUnit,
   getWidthValue,
   sortHandler
 } from 'in-synthetics/components/utils';
 import { CarbonHeader, CarbonRow, ListItem, CarbonDataTablePresenterProps } from 'in-synthetics/components/constants';
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
+import { ConfigureColumns } from 'in-synthetics/components/ConfigureColumns';
 import { CarbonDataTable } from 'in-synthetics/components/CarbonDataTable';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import { PaginatedResult, Result } from 'in-types';
+import { tryGet } from 'in-services/localStorage';
 
 import locals from './CarbonDataTablePresenter.mless';
 
@@ -39,9 +44,37 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
     pageSizes,
     onChange = noop,
     columnDefinitions,
-    getRowDetails
+    getRowDetails,
+    optionalColumns = [],
+    disabledColumns,
+    enabledColumns
   } = props;
   let defaultPageSize = pageSizes?.[0] ?? pageSize;
+  let columnDefinitionsParsed = getFromLocalStorage<ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[]>(
+    'columnDefinitions',
+    columnDefinitions
+  );
+  const rawColumnDefinitions = tryGet('columnDefinitions');
+  if (rawColumnDefinitions) {
+    // restoring getContent() to each column in the parsed columnDefinitions from local storage
+    columnDefinitionsParsed = columnDefinitionsParsed.map(colDef => {
+      const original = columnDefinitions.find(def => def.id === colDef.id);
+      return {
+        ...original,
+        ...colDef
+      };
+    });
+  }
+  const disabledColumnsParsed = getFromLocalStorage<string[]>('disabledColumns', disabledColumns);
+  const enabledColumnsParsed = getFromLocalStorage<string[]>('enabledColumns', enabledColumns);
+
+  let visibleColumns: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[] = getVisibleColumns(
+    columnDefinitionsParsed,
+    optionalColumns,
+    disabledColumnsParsed,
+    enabledColumnsParsed
+  );
+
   const result = props.result ?? (pendingResult as Result<PaginatedResult<ITEM_TYPE>>);
 
   const debounceOnChange = debounce((searchInput: string) => {
@@ -54,7 +87,7 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
     debounceOnChange(searchInputText);
   };
 
-  const carbonHeaders: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[] = columnDefinitions.map(
+  const carbonHeaders: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[] = visibleColumns.map(
     (item: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>, i: number) => ({
       key: item?.id || String(i),
       header: getHeader(item) ?? '',
@@ -71,11 +104,9 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
     })
   );
 
-  const loading = isLoading(result);
-
   const carbonRows: CarbonRow[] =
     result.data?.items.map((item: ITEM_TYPE, index: number) => {
-      const idObj = { id: item.id ?? String(index) };
+      const idObj = { id: item.id ?? getRowId(item) ?? String(index) };
       const expandedObj = {
         expanded: typeof getRowDetails === 'function' ? getRowDetails(item) : undefined
       };
@@ -102,16 +133,28 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
       return carbonRow;
     }) ?? [];
 
-  const sortRow = sortHandler(carbonHeaders, onChange, query, pageSize, pageSizes);
+  const sortRow = sortHandler(carbonHeaders, onChange, pageSize, query, pageSizes);
+  const isConfigurationColumn = !!optionalColumns?.length;
 
   return (
     <>
       <CarbonDataTable
         rows={carbonRows}
         headers={carbonHeaders}
-        isLoading={loading}
+        isLoading={isLoading(result) || props.loading}
         filterRows={e => filterRows(e?.target?.value)}
         sortRow={sortRow}
+        configureColumnContent={
+          isConfigurationColumn && (
+            <ConfigureColumns
+              visibleColumns={visibleColumns}
+              columnDefinitions={columnDefinitionsParsed}
+              disabledColumns={disabledColumnsParsed}
+              isResultLoading={result.progress.loading}
+              onSubmit={onChange}
+            />
+          )
+        }
         {...props}
       />
       {result.data && result.data.totalHits > defaultPageSize && (

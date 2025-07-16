@@ -21,10 +21,10 @@ import {
 } from '@instana/components';
 
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
-import { openPolicyTearsheet, showConfirmationDialog } from 'in-automation/ActionCatalog/ActionCatalog';
+import { CreateNewActionTearsheetProps } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
-import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
+import { showConfirmationDialog } from 'in-automation/ActionCatalog/ActionCatalog';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
@@ -42,9 +42,16 @@ import local from 'in-automation/ActionDashboard/ActionDashboard.mless';
 interface ActionDetailsProps {
   data: Action | Nullish;
   isAIGeneratedAction: boolean;
+  toggleActionTearsheet?: (props: CreateNewActionTearsheetProps) => void;
+  togglePolicyTearsheet?: (actionId: string) => void;
 }
 
-export default function ActionDetailsCard({ data, isAIGeneratedAction }: ActionDetailsProps) {
+export default function ActionDetailsCard({
+  data,
+  isAIGeneratedAction,
+  toggleActionTearsheet,
+  togglePolicyTearsheet
+}: ActionDetailsProps) {
   if (!data) return null;
   const { name, description, tags } = data;
   const renderTags = tags?.length ? <DynamicTagList tags={tags} /> : NO_FIELD_VALUE;
@@ -52,7 +59,12 @@ export default function ActionDetailsCard({ data, isAIGeneratedAction }: ActionD
     <CarbonTile className={local.borderBottom}>
       <CarbonStack orientation="horizontal" className={local.titleStack}>
         <Typography variant="heading-02">{t('in-automation:actionDashboard.ActionDetails')}</Typography>
-        <ActionConfigurationActions data={data} isAIGeneratedAction={isAIGeneratedAction} />
+        <ActionConfigurationActions
+          data={data}
+          isAIGeneratedAction={isAIGeneratedAction}
+          toggleActionTearsheet={toggleActionTearsheet}
+          togglePolicyTearsheet={togglePolicyTearsheet}
+        />
       </CarbonStack>
       <CarbonRow>
         <CarbonGrid fullWidth className={classNames(local.noHorizontalPaddings, local.customMarginY)}>
@@ -74,9 +86,16 @@ export default function ActionDetailsCard({ data, isAIGeneratedAction }: ActionD
 interface ActionConfigurationActionsProps {
   data: Nullish | Action;
   isAIGeneratedAction: boolean;
+  toggleActionTearsheet?: (props: CreateNewActionTearsheetProps) => void;
+  togglePolicyTearsheet?: (actionId: string) => void;
 }
 
-function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<ActionConfigurationActionsProps>) {
+function ActionConfigurationActions({
+  data,
+  isAIGeneratedAction,
+  toggleActionTearsheet,
+  togglePolicyTearsheet
+}: Readonly<ActionConfigurationActionsProps>) {
   const { form } = useActionFormContext();
   const navigateToActionCatalog = useNavigateToActionCatalog();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
@@ -125,7 +144,7 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
           kind="ghost"
           size="sm"
           onClick={() => {
-            openPolicyTearsheet({ actionId });
+            togglePolicyTearsheet?.(actionId);
           }}
           renderIcon={() => <SvgIcon type="lib_openclose_add_circle_outline" size="xs" />}
         >
@@ -139,7 +158,7 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
               label={t('in-automation:copy')}
               kind="ghost"
               size="sm"
-              onClick={() => handleButtonClick({ actionId, copy: true })}
+              onClick={() => toggleActionTearsheet?.({ actionId, copy: true })}
             >
               <SvgIcon type="lib_actions_copy" size="xs" />
             </CarbonIconButton>
@@ -151,7 +170,7 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
                 kind="ghost"
                 size="sm"
                 disabled={data?.metadata?.builtIn}
-                onClick={() => handleButtonClick({ actionId })}
+                onClick={() => toggleActionTearsheet?.({ actionId })}
               >
                 <SvgIcon type="lib_actions_edit" size="xs" />
               </CarbonIconButton>
@@ -184,7 +203,3 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
     </CarbonStack>
   );
 }
-
-const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
-  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} isFromDashboard />);
-};

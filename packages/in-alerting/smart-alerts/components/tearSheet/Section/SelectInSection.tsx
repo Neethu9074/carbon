@@ -13,7 +13,7 @@ import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Secti
 
 import locals from './SelectInSection.mless';
 
-interface SelectInSectionProps extends SelectProps {
+export interface SelectInSectionProps extends SelectProps {
   label: ReactNode;
   additionalContent?: ReactNode;
   actions?: ReactNode;

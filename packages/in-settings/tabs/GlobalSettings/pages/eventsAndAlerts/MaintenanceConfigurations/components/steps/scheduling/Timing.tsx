@@ -21,6 +21,7 @@ import { dateFormat, dateTimeFormat, formatDate } from 'in-services/formatters/d
 import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import FormGroup from 'in-components/form/FormGroup';
@@ -227,8 +228,9 @@ const isDstObserved = (date: Date) => {
 };
 
 export function DescriptionTextWithCurrentTimeZone() {
+  const { createHrefToPath } = useNavigation();
   const asUtc = useObservable(getSetting$('formatTimestampsAsUtc'), ['formatTimestampsAsUtc']);
-  const href = useObservable(getEntityIdView(userSettingsGeneral, ''), []);
+  const href = getEntityIdView(userSettingsGeneral, '', createHrefToPath);
   const texts = {
     timezone: t('in-settings:tabs.yourCurrentTimezoneIs', { tz: getTimezone() }),
     utcTimezone: t('in-settings:tabs.allDatesAndTimesAreInUtc'),
@@ -248,7 +250,7 @@ export function DescriptionTextWithCurrentTimeZone() {
   return (
     <div>
       {message}
-      {href && <Link>{t('in-settings:tabs.userSettingsGeneralUserInterfaceSettings')}</Link>}
+      {href && <Link href={href}>{t('in-settings:tabs.userSettingsGeneralUserInterfaceSettings')}</Link>}
     </div>
   );
 }

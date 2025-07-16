@@ -4,21 +4,31 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Group, GroupByTag } from '@instana/types';
+import { Group, GroupByTag, InfraAlertEvaluationType } from '@instana/types';
 
+import {
+  severityPlaceholder,
+  Placeholder,
+  entityLabelPlaceholder
+} from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
+import { perEntityEvaluationType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
-import { severityPlaceholder, Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 
 function isStringArray(arr: unknown[]): arr is string[] {
   return typeof arr[0] === 'string';
 }
 
 export function getAllowedPlaceholders({
-  groupBy
+  groupBy,
+  evaluationType
 }: {
   groupBy?: string[] | GroupByTag[];
+  evaluationType?: InfraAlertEvaluationType;
 }): ReadonlyArray<Readonly<Placeholder>> {
   if (!groupBy || groupBy.length === 0) {
+    if (evaluationType === perEntityEvaluationType) {
+      return [entityLabelPlaceholder, severityPlaceholder];
+    }
     return [severityPlaceholder];
   }
 
@@ -34,8 +44,12 @@ export function getAllowedPlaceholders({
   return [...groupByPlaceholders, severityPlaceholder];
 }
 
-export function replaceTitlePlaceholdersWithMarkup(name: string, groupBy?: string[] | GroupByTag[]) {
-  return replacePlaceholdersWithMarkup(getAllowedPlaceholders({ groupBy }), name);
+export function replaceTitlePlaceholdersWithMarkup(
+  name: string,
+  groupBy?: string[] | GroupByTag[],
+  evaluationType?: InfraAlertEvaluationType
+) {
+  return replacePlaceholdersWithMarkup(getAllowedPlaceholders({ groupBy, evaluationType }), name);
 }
 
 export function groupbyForPlaceholder(groupBy?: Group): GroupByTag[] {

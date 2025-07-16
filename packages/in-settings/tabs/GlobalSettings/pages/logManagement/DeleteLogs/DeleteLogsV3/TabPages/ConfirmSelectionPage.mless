@@ -1,0 +1,48 @@
+:local {
+  .confirmSelectionContainer {
+    padding: 2rem;
+  }
+
+  .confirmSelectionTitle {
+    font-size: 1.25rem;
+  }
+
+  .confirmSelectionDescription {
+    padding: 1rem 0;
+    font-size: 0.875rem;
+    color: var(--cds-text-secondary);
+  }
+  .confimSelectionDetailsBox {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .confirmSelectionDatesContainer {
+    white-space: nowrap;
+    display: grid;
+    grid-template-columns: repeat(4, min-content);
+    gap: 4rem;
+    > div {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: subgrid;
+      gap: 1rem;
+    }
+  }
+
+  .confirmSelectionDetails {
+    padding: 2rem;
+  }
+
+  .confirmSelectionReasonInput {
+    max-width: 18rem;
+    padding: 2rem 0 1rem 0;
+  }
+
+  .confirmSelectionValidationInput {
+    max-width: 18rem;
+    padding: 1rem 0;
+  }
+}

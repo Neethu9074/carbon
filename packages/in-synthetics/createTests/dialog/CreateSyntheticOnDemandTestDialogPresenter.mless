@@ -1,0 +1,45 @@
+:local {
+  .customizationWidth {
+    width: 75%;
+    padding: 0.625rem 2rem;
+  }
+  .retryRow {
+    padding: 0.625rem 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .customProperties {
+    padding: 0.625rem 2rem;
+    margin-bottom: 2%;
+    width: 78.4%;
+  }
+  .descriptionInput {
+    flex: 1;
+    .validationsBtn {
+      padding-left: 0;
+    }
+  }
+
+  .timeoutLabel {
+    margin-bottom: 1rem;
+  }
+  .loadingProperties {
+    position: inherit !important;
+    width: 100% !important;
+  }
+  .row {
+    margin-bottom: 0.5rem;
+  }
+  .col {
+    align-content: center;
+    padding-left: 0;
+  }
+  .alignText {
+    display: flex;
+    align-items: center;
+    padding: 0.625rem 1rem;
+  }
+  .headerInput {
+    flex: 1;
+    margin-bottom: 0;
+  }
+}

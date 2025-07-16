@@ -5,9 +5,7 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { ErrorEmptyState, ProductiveCard } from '@carbon/ibm-products';
-// eslint-disable-next-line no-restricted-imports
-import { DataClass, ZoomIn, ZoomOut } from '@carbon/icons-react';
+import { ErrorEmptyState } from '@carbon/ibm-products';
 import React, { memo } from 'react';
 import { get } from 'lodash';
 
@@ -65,7 +63,14 @@ const Topology = ({ incident }: TopologyProps) => {
   return (
     <RCATopologyTimeWindowContext.Provider value={timeConfig}>
       <RCATopologyAPContext.Provider value={relatedAPInfo ? [relatedAPInfo] : []}>
-        <ProductiveCard
+        <RootCauseTopology
+          relationships={relationships}
+          nodes={nodes}
+          height={'40vh'}
+          width={'100%'}
+          showSidePanel={false}
+        />
+        {/* <ProductiveCard
           title="Topology"
           className={locals.cardWithBorder}
           actionIcons={[
@@ -79,15 +84,9 @@ const Topology = ({ incident }: TopologyProps) => {
               icon: ZoomOut
             }
           ]}
-        >
-          <RootCauseTopology
-            relationships={relationships}
-            nodes={nodes}
-            height={'40vh'}
-            width={'100%'}
-            showSidePanel={false}
-          />
-        </ProductiveCard>
+        > */}
+
+        {/* </ProductiveCard> */}
       </RCATopologyAPContext.Provider>
     </RCATopologyTimeWindowContext.Provider>
   );

@@ -48,7 +48,6 @@ export default function AlertChannelsList({
   entityResult
 }) {
   const [channelsPreSelected] = useState(preSelectedChannels);
-
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}

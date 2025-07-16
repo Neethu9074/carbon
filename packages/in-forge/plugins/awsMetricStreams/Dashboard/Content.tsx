@@ -11,7 +11,6 @@ import { themes } from '@instana/design-tokens';
 import { TimeConfig } from '@instana/types';
 
 import { withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
-import { DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL } from 'in-forge/constants';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
@@ -37,14 +36,7 @@ export default function AwsMetricStreamsDashboard({
   timeConfig: TimeConfig;
 }) {
   const snapshotId = snapshot.get('id');
-  return (
-    <CustomMetricsV2
-      snapshot={Map({ id: snapshotId })}
-      timeConfig={timeConfig}
-      distanceBetweenDatapointsInMillis={DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL}
-      specs={SPECS}
-    />
-  );
+  return <CustomMetricsV2 snapshot={Map({ id: snapshotId })} timeConfig={timeConfig} specs={SPECS} />;
 }
 
 export const SPECS = [summary];

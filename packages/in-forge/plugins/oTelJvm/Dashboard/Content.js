@@ -5,13 +5,13 @@
 
 import React from 'react';
 
-import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/oTelJvm/constants';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import OTelMemoryPoolsTable from 'in-forge/plugins/oTelJvm/Dashboard/OTelMemoryPoolsTable';
 import { bytes, twoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelJvm/constants';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -39,7 +39,6 @@ export default function OTelJVMDashboard({ snapshot, timeConfig }) {
         </ChartExplanation>
 
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -69,7 +68,6 @@ export default function OTelJVMDashboard({ snapshot, timeConfig }) {
           {t('in-forge:plugins.oTelJvm.dashboard.theTotalUsedHeapMemoryUsageWillUsuallyGoUpUntil')}
         </ChartExplanation>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -96,7 +94,6 @@ export default function OTelJVMDashboard({ snapshot, timeConfig }) {
 
       <DashboardSection title={t('in-forge:plugins.oTelJvm.dashboard.garbageCollectionHeapMemory')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -126,7 +123,6 @@ export default function OTelJVMDashboard({ snapshot, timeConfig }) {
         timeConfig={timeConfig}
         titlePrefix={t('in-forge:plugins.oTelJvm.type')}
         specs={SPECS}
-        distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
       />
     </div>
   );

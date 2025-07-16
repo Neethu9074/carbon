@@ -4,20 +4,25 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm, MapForm } from 'formalistic';
+import { createField, createMapForm, MapForm, Field } from 'formalistic';
 import { useState } from 'react';
 
 import { t } from 'in-i18n';
 
 type RetentionPeriodFormFields = 'validation' | 'reason' | 'retentionPeriod';
 
+type RetentionFormFields = {
+  validation: Field<string>;
+  reason: Field<string>;
+  retentionPeriod: Field<string>;
+};
 const localisationStrings = {
   typeValidation: t('in-settings:tabs.retentionPeriod.typeToContinue'),
   reasonValidationMessage: t('in-settings:tabs.retentionPeriod.reasonValidationMessage')
 };
 
 const getInitialFormState = () => {
-  const form = createMapForm<any>();
+  const form = createMapForm<RetentionFormFields>();
   return form
     .put(
       'validation',
@@ -32,7 +37,7 @@ const getInitialFormState = () => {
       createField({
         value: '',
         validator: value =>
-          value !== '' ? null : [{ severity: 'error', message: localisationStrings.reasonValidationMessage }]
+          value.trim() !== '' ? null : [{ severity: 'error', message: localisationStrings.reasonValidationMessage }]
       })
     )
     .put(
@@ -42,45 +47,42 @@ const getInitialFormState = () => {
       })
     );
 };
+
 export default function useRetentionPeriodForm() {
-  const [form, setForm] = useState(getInitialFormState());
-  const [sumbmitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState<MapForm<RetentionFormFields>>(getInitialFormState());
+  const [submitted, setSubmitted] = useState(false);
+
   const onChange = (name: RetentionPeriodFormFields, value: string) => {
-    setForm(form.updateIn([name], field => field.setValue(value).setTouched(true)) as MapForm<any>);
+    setForm(form.updateIn([name], field => field.setValue(value).setTouched(true)) as MapForm<RetentionFormFields>);
   };
-  const setReasonInputValue = (value: string) => onChange('reason', value);
-  const setValidationInputValue = (value: string) => onChange('validation', value);
-  const setRetentionPeriodInputValue = (value: string) => onChange('retentionPeriod', value);
 
-  const reasonInputValue = form.get('reason').value;
-  const validationInputValue = form.get('validation').value;
-  const retentionPeriodInputValue = form.get('retentionPeriod').value;
+  const fields = {
+    reason: form.get('reason'),
+    validation: form.get('validation'),
+    retentionPeriod: form.get('retentionPeriod')
+  };
 
-  const validationValidationMessage =
-    form.get('validation').valid || (!form.get('validation').touched && !sumbmitted)
-      ? null
-      : form.get('validation').messages[0].message;
-  const reasonValidationMessage =
-    form.get('reason').valid || (!form.get('reason').touched && !sumbmitted)
-      ? null
-      : form.get('reason').messages[0].message;
-
-  const canSubmit = form.hierarchyValid;
-  const resetForm = () => setForm(getInitialFormState);
+  const getValidationMessage = (field: Field<string>) => {
+    return field.valid || (!field.touched && !submitted) ? null : field.messages[0]?.message ?? null;
+  };
 
   return {
-    onChange,
     form,
+    onChange,
     setSubmitted,
-    setReasonInputValue,
-    setRetentionPeriodInputValue,
-    setValidationInputValue,
-    reasonInputValue,
-    retentionPeriodInputValue,
-    validationInputValue,
-    validationValidationMessage,
-    reasonValidationMessage,
-    canSubmit,
-    resetForm
+    resetForm: () => setForm(getInitialFormState()),
+
+    setReasonInputValue: (value: string) => onChange('reason', value),
+    setValidationInputValue: (value: string) => onChange('validation', value),
+    setRetentionPeriodInputValue: (value: string) => onChange('retentionPeriod', value),
+
+    reasonInputValue: fields.reason.value,
+    validationInputValue: fields.validation.value,
+    retentionPeriodInputValue: fields.retentionPeriod.value,
+
+    reasonValidationMessage: getValidationMessage(fields.reason),
+    validationValidationMessage: getValidationMessage(fields.validation),
+
+    canSubmit: form.hierarchyValid
   };
 }

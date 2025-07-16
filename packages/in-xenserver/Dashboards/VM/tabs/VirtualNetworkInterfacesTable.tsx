@@ -10,7 +10,8 @@ import React from 'react';
 import {
   percentageZeroDecimalPlaces,
   bytesZeroDecimalPlaces,
-  bytesPerSecondZeroDecimalPlaces
+  bytesPerSecondZeroDecimalPlaces,
+  number
 } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { SummaryData } from 'in-xenserver/Dashboards/VM/tabs/Summary';
@@ -145,7 +146,7 @@ function getDetails(row: { snapshotId: string | undefined; timeConfig: TimeConfi
         min: 0,
         metrics: ['vif.' + row.name + '.rx_errors', 'vif.' + row.name + '.tx_errors'],
         labels: [t('in-xenserver:dashboards.rxErrors'), t('in-xenserver:dashboards.txErrors')],
-        formatter: percentageZeroDecimalPlaces,
+        formatter: number.perSecond.compact,
         type: 'line'
       }}
     />

@@ -69,8 +69,7 @@ function createTableRowsForRoles(
     const { hasScope } = role;
     const roleLocation = {
       ...location,
-      pathname: securityAndAccessAccessControlRoleEdit,
-      query: { hasScope: hasScope ? '1' : null }
+      pathname: securityAndAccessAccessControlRoleEdit
     };
     return {
       ...role,

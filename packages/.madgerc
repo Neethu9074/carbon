@@ -1,0 +1,13 @@
+{
+  "tsConfig": "./tsconfig.json",
+  "excludeRegExp": [".*_test\\.(t|j)s?$", ".*\\.stor(y|ies)\\.(t|j)s?$", ".*\\.?less$", ".*\\.d\\.ts", ".*eslintrc.*", "in-i18n/index.ts", "\\.\\./.*"],
+  "detectiveOptions": {
+    "ts": {
+      "mixedImports": true
+    },
+    "es6": {
+      "mixedImports": true
+    }
+  }
+
+}

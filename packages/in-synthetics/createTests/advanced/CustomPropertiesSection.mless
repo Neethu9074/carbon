@@ -10,7 +10,10 @@
     padding: 0.625rem;
     margin-bottom: 7%;
   }
-
+  .runNow {
+    border: 0.0625rem;
+    padding: 0;
+  }
   .descriptionInput {
     flex: 1;
     .validationsBtn {

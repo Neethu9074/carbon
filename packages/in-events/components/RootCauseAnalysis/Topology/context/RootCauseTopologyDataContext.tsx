@@ -7,8 +7,8 @@
 import React, { createContext, ReactNode, useContext, useMemo } from 'react';
 import { get } from 'lodash';
 
+import { Application, Event } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { Event } from '@instana/types';
 
 import useRootCauseTopologyData from 'in-events/components/RootCauseAnalysis/Topology/utils/useRootCauseTopologyData';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
@@ -32,7 +32,7 @@ interface RootCauseTopologyDataContextType {
   loading: boolean;
   error: boolean;
   timeConfig: TimeConfig | null;
-  relatedAPInfo: any | null;
+  relatedAPInfo?: Application | null;
 }
 
 // Define the shape of the SelectedRootCauseContext
@@ -75,7 +75,7 @@ export const RootCauseTopologyDataProvider: React.FC<RootCauseTopologyDataProvid
 
   // Get application information
   const relatedAPID = get(incident, 'metadata.app20ApplicationId', null);
-  const relatedAPInfo = useObservable(
+  const relatedAPInfo = useObservable<Application, any[]>(
     relatedAPID
       ? getApplication({ id: relatedAPID })
           .map((d: any) => d.data)

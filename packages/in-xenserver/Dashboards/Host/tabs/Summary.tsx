@@ -29,10 +29,10 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
   return (
     <>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
-        <KpiCard title={t('in-xenserver:dashboards.address')} value={host.address} />
-        <KpiCard title={t('in-xenserver:dashboards.cpuCount')} value={host.cpuCount} />
-        <KpiCard title={t('in-xenserver:dashboards.poolSessionCount')} value={host.poolSessionCount} />
-        <KpiCard title={t('in-xenserver:dashboards.poolTaskCount')} value={host.poolTaskCount} />
+        <KpiCard title={t('in-xenserver:dashboards.address')} value={host.address} raw />
+        <KpiCard title={t('in-xenserver:dashboards.cpuCount')} value={host.cpuCount} raw />
+        <KpiCard title={t('in-xenserver:dashboards.poolSessionCount')} value={host.poolSessionCount} raw />
+        <KpiCard title={t('in-xenserver:dashboards.poolTaskCount')} value={host.poolTaskCount} raw />
       </KpiGridRow>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
         <KpiCard title={t('in-xenserver:dashboards.xapiMemoryUsage')}>

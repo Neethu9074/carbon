@@ -27,6 +27,7 @@ import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/mobileApp/hooks
 import AlertBaseList, { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
 import MobileAppLabel from 'in-alerting/smart-alerts/mobileApp/components/MobileAppLabel';
+import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
@@ -104,10 +105,10 @@ function getExtraColumnDefinition(mobileAppLabel: string) {
 }
 
 export function getSubtitle(rule: MobileAppAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
-  const { alertType, metricName } = rule;
+  const { alertType, metricName, aggregation } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(metricName as MetricName);
-  const formattedMetricLabel = metricLabel;
+  const formattedMetricLabel = aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
   const { type, operator, value } = threshold;
 
   if (type === STATIC_THRESHOLD) {

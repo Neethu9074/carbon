@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { EventSpecificationInfo, PaginatedResult, Policy, Result, Trigger, TriggerType } from '@instana/types';
 import { Button, Spacer, Stack, Typography } from '@instana/components';
@@ -20,6 +20,9 @@ import {
   isWebsiteSmartAlert,
   TriggerSpecification
 } from 'in-automation/types';
+import CreateNewPolicyTearsheet, {
+  CreateNewPolicyTearsheetProps
+} from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
@@ -33,7 +36,6 @@ import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/webs
 import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
-import CreateNewPolicyTearsheet from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { PolicyTypeFilter } from 'in-automation/PolicyTable/tableFilters';
@@ -83,7 +85,7 @@ export default function Policies({
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
 
   const [{ tags, type }, setFilter] = usePoliciesFilterUrlState({ pathSegment, matrixPrefix });
-
+  const [tearsheetProps, setTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
   const policies = usePolicies(actionId);
 
   const paginatedPolicies = usePaginatedPolicies({ policies, serverTableUrlState, setServerTableUrlState, tags, type });
@@ -120,41 +122,57 @@ export default function Policies({
   const totalHits = result.data?.totalHits;
   const isPoliciesLoading = isLoading(policies) || !totalHits;
 
+  const tearsheetToggleHandler = ({ policyId, copy }: { policyId?: string; copy?: boolean }) => {
+    setTearsheetProps({ policyId, copy, open: true });
+  };
+
   return (
-    <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
-      onChange={setServerTableUrlState}
-      pageSize={pageSize}
-      page={page}
-      searchPlaceholder={t('in-automation:policies.searchPolicies')}
-      searchMaxWidth={180}
-      cardTitle={isPoliciesLoading ? title : `${title} (${totalHits})`}
-      rightHeader={
-        hideFilters ? null : (
-          <>
-            {role?.canConfigureAutomationPolicies && (
-              <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
-                {t('in-automation:policies.newPolicy')}
-              </Button>
-            )}
+    <>
+      <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
+        onChange={setServerTableUrlState}
+        pageSize={pageSize}
+        page={page}
+        searchPlaceholder={t('in-automation:policies.searchPolicies')}
+        searchMaxWidth={180}
+        cardTitle={isPoliciesLoading ? title : `${title} (${totalHits})`}
+        rightHeader={
+          hideFilters ? null : (
             <>
-              <Spacer horizontal="small" />
-              <Stack direction="horizontal">
-                <PolicyTypeFilter type={type ?? null} setType={type => setFilter({ type: type ?? undefined })} />
-                <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
-              </Stack>
-              <Spacer horizontal="small" />
+              {role?.canConfigureAutomationPolicies && (
+                <Button
+                  kind="action"
+                  onClick={() => tearsheetToggleHandler({})}
+                  icon="lib_openclose_add_circle_outline"
+                >
+                  {t('in-automation:policies.newPolicy')}
+                </Button>
+              )}
+              <>
+                <Spacer horizontal="small" />
+                <Stack direction="horizontal">
+                  <PolicyTypeFilter type={type ?? null} setType={type => setFilter({ type: type ?? undefined })} />
+                  <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
+                </Stack>
+                <Spacer horizontal="small" />
+              </>
             </>
-          </>
-        )
-      }
-      orderBy={orderBy}
-      orderDirection={orderDirection}
-      query={query}
-      result={result}
-      columnDefinitions={getColumnDefinition(actionId)}
-      noDataMessage={t('in-automation:policies.noPolicies')}
-      fixedLayout
-    />
+          )
+        }
+        orderBy={orderBy}
+        orderDirection={orderDirection}
+        query={query}
+        result={result}
+        columnDefinitions={getColumnDefinition(actionId, tearsheetToggleHandler)}
+        noDataMessage={t('in-automation:policies.noPolicies')}
+        fixedLayout
+      />
+      <CreateNewPolicyTearsheet
+        {...tearsheetProps}
+        closeHandler={() => {
+          setTearsheetProps({ open: false });
+        }}
+      />
+    </>
   );
 }
 
@@ -170,15 +188,24 @@ function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
   );
 }
 
-function PoliciesMoreMenu({ policy }: { policy: PolicyTableEntity }) {
+function PoliciesMoreMenu({
+  policy,
+  tearsheetToggleHandler
+}: {
+  policy: PolicyTableEntity;
+  tearsheetToggleHandler?: Function;
+}) {
   if (!role?.canConfigureAutomationPolicies) return null;
   return (
     <Stack align="end">
       <MoreMenu kind="subtle">
-        <MoreMenuButton icon="lib_actions_edit" onClick={() => handleButtonClick({ policyId: policy.id })}>
+        <MoreMenuButton icon="lib_actions_edit" onClick={() => tearsheetToggleHandler?.({ policyId: policy.id })}>
           {t('in-automation:edit')}
         </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleButtonClick({ policyId: policy.id, copy: true })}>
+        <MoreMenuButton
+          icon="lib_actions_copy"
+          onClick={() => tearsheetToggleHandler?.({ policyId: policy.id, copy: true })}
+        >
           {t('in-automation:copy')}
         </MoreMenuButton>
         <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(policy)}>
@@ -188,95 +215,100 @@ function PoliciesMoreMenu({ policy }: { policy: PolicyTableEntity }) {
     </Stack>
   );
 }
-function getColumnDefinition(actionId?: string): ColumnDefinition<PolicyTableEntity>[] {
+function getColumnDefinition(
+  actionId?: string,
+  tearsheetToggleHandler?: Function
+): ColumnDefinition<PolicyTableEntity>[] {
+  let columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
+    nameColumn,
+    {
+      id: 'trigger',
+      label: t('in-automation:policies.eventTrigger'),
+      getContent: item => {
+        if (isEventSpecification(item.trigger)) {
+          return (
+            <div className={locals.eventNameWrapper}>
+              {(item.trigger as EventSpecificationInfo).entityType ? (
+                <EventName hasRowNavigation={false} entity={item.trigger} />
+              ) : (
+                <EventNameWithoutTriggerInfo entity={item.trigger} />
+              )}
+            </div>
+          );
+        }
+
+        if (isWebsiteSmartAlert(item.trigger)) {
+          return (
+            <NameColumnCell
+              config={item.trigger}
+              getSubtitle={config => getSubtitleWebsite(config.rule, config.rules)}
+            />
+          );
+        }
+        if (isApplicationSmartAlert(item.trigger)) {
+          return (
+            <div className={locals.alertName}>
+              <NameColumnCell config={item.trigger} />
+            </div>
+          );
+        }
+
+        if (isMobileAppSmartAlert(item.trigger)) {
+          return (
+            <NameColumnCell
+              config={item.trigger}
+              getSubtitle={config => getSubtitleMobileApp(config.rule, config.threshold)}
+            />
+          );
+        }
+        if (isInfraSmartAlert(item.trigger)) {
+          return (
+            <NameColumnCell
+              config={item.trigger}
+              getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.forecastingConfig)}
+            />
+          );
+        }
+        if (isGlobalApplicationSmartAlert(item.trigger)) {
+          return <SimpleListNameColumn config={item.trigger} />;
+        }
+        if (isSyntheticsSmartAlert(item.trigger)) {
+          return (
+            <NameColumnCell
+              config={item.trigger}
+              getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
+              renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
+            />
+          );
+        }
+        if (isSloSmartAlert(item.trigger)) {
+          return <NameColumnCell config={item.trigger} />;
+        }
+        if (item.trigger && item.trigger.threshold) {
+          return <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleLog(config.threshold)} />;
+        }
+
+        return null;
+      },
+      width: 23,
+      sortable: true
+    },
+    actionNameColumn,
+    tagsColumn as ColumnDefinition<Policy>,
+    {
+      label: '',
+      id: 'actions',
+      sortable: false,
+      width: 5,
+      getContent: policy => <PoliciesMoreMenu policy={policy} tearsheetToggleHandler={tearsheetToggleHandler} />
+    }
+  ];
   if (actionId) {
     const excludedColumns = ['actionName', 'actions'];
     return columnDefinition.filter(column => !excludedColumns.includes(column.id));
   }
   return columnDefinition;
 }
-
-let columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
-  nameColumn,
-  {
-    id: 'trigger',
-    label: t('in-automation:policies.eventTrigger'),
-    getContent: item => {
-      if (isEventSpecification(item.trigger)) {
-        return (
-          <div className={locals.eventNameWrapper}>
-            {(item.trigger as EventSpecificationInfo).entityType ? (
-              <EventName hasRowNavigation={false} entity={item.trigger} />
-            ) : (
-              <EventNameWithoutTriggerInfo entity={item.trigger} />
-            )}
-          </div>
-        );
-      }
-
-      if (isWebsiteSmartAlert(item.trigger)) {
-        return (
-          <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleWebsite(config.rule, config.rules)} />
-        );
-      }
-      if (isApplicationSmartAlert(item.trigger)) {
-        return (
-          <div className={locals.alertName}>
-            <NameColumnCell config={item.trigger} />
-          </div>
-        );
-      }
-
-      if (isMobileAppSmartAlert(item.trigger)) {
-        return (
-          <NameColumnCell
-            config={item.trigger}
-            getSubtitle={config => getSubtitleMobileApp(config.rule, config.threshold)}
-          />
-        );
-      }
-      if (isInfraSmartAlert(item.trigger)) {
-        return (
-          <NameColumnCell
-            config={item.trigger}
-            getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.forecastingConfig)}
-          />
-        );
-      }
-      if (isGlobalApplicationSmartAlert(item.trigger)) {
-        return <SimpleListNameColumn config={item.trigger} />;
-      }
-      if (isSyntheticsSmartAlert(item.trigger)) {
-        return (
-          <NameColumnCell
-            config={item.trigger}
-            getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
-            renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
-          />
-        );
-      }
-      if (isSloSmartAlert(item.trigger)) {
-        return <NameColumnCell config={item.trigger} />;
-      }
-      if (item.trigger && item.trigger.threshold) {
-        return <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleLog(config.threshold)} />;
-      }
-
-      return null;
-    },
-    width: 23,
-    sortable: true
-  },
-  actionNameColumn,
-  tagsColumn as ColumnDefinition<Policy>,
-  {
-    label: '',
-    id: 'actions',
-    sortable: false,
-    width: 5,
-    getContent: policy => <PoliciesMoreMenu policy={policy} />
-  }
-];
 
 export function showConfirmationDialog(
   policy: Policy,
@@ -344,7 +376,3 @@ function onDeleteFailed() {
     'policy-delete-error'
   );
 }
-
-const handleButtonClick = ({ policyId, copy }: { policyId?: string; copy?: boolean }) => {
-  addActiveDialog(<CreateNewPolicyTearsheet policyId={policyId} copy={copy} />);
-};

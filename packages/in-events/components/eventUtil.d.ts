@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Map } from 'immutable';
+
 import { Snapshot, TimeConfig } from '@instana/types';
 
 import { EventOrMap } from 'in-events/types';
@@ -13,5 +15,5 @@ export declare function getEventStateBadge(event: EventOrMap): JSX;
 
 export declare function getTimeConfigForSnapshotRetrieval(
   event: EventOrMap,
-  latestSnapshot: Snapshot
+  latestSnapshot?: Map<string, any>
 ): TimeConfig | null;

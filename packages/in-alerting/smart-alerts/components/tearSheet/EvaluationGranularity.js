@@ -18,16 +18,10 @@ import AlertTypography from 'in-alerting/components/AlertTypography';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
-export default function EvaluationGranularity({
-  form,
-  updateForm,
-  oneMinuteGranularityAllowed,
-  thresholdType,
-  titleWidth = '8rem'
-}) {
+export default function EvaluationGranularity({ form, updateForm, thresholdType, titleWidth = '8rem' }) {
   const granularity = form.get('granularity')?.value;
 
-  const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
+  const marks = getMarksForThresholdType(thresholdType);
   const currentValue = marks.find((i => i.millis === granularity) ?? getDefaultMark(marks, thresholdType)).value;
 
   return (

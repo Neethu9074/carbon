@@ -5,7 +5,7 @@
  */
 
 import { createField, createMapForm } from 'formalistic';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { Action, TriggerType } from '@instana/types';
 
@@ -21,8 +21,13 @@ import {
   isAutomatic,
   isManual
 } from 'in-automation/utils/policy';
+import {
+  ActionConfigurationFormItems,
+  ApplyOn,
+  PolicyForm,
+  ScopeFormItems
+} from 'in-automation/Policies/usePolicyForm/types';
 import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
-import { ApplyOn, PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
 import { FormContext } from 'in-components/form/binding/FormContext';
@@ -43,7 +48,8 @@ function parsePolicy(policy: PolicyFormEntity) {
       inputParameterValues: [],
       tags: [],
       manual: false,
-      automatic: false
+      automatic: false,
+      trigger: {}
     };
   }
   const typeConfiguration = policy.typeConfigurations.find(
@@ -66,15 +72,8 @@ function parsePolicy(policy: PolicyFormEntity) {
   };
 }
 
-function parseTrigger(
-  policy: PolicyFormEntity,
-  triggers: Triggers,
-  triggerDetails?: TriggerDetailsProps
-): { triggerId: string; triggerType: TriggerType } {
+function parseTrigger(policy: PolicyFormEntity, triggers: Triggers): { triggerId: string; triggerType: TriggerType } {
   const trigger = getPolicyTriggerFromTriggers(triggers, policy);
-  if (triggerDetails && triggerDetails.triggerId && triggerDetails.triggerType) {
-    return triggerDetails;
-  }
   if (!trigger) {
     return {
       triggerType: 'builtinEvent',
@@ -88,16 +87,10 @@ function parseTrigger(
   };
 }
 
-function createPolicyFormDefinition(
-  policy: PolicyFormEntity,
-  actions: Action[],
-  triggers: Triggers,
-  triggerDetails?: TriggerDetailsProps
-): PolicyForm {
+function createPolicyFormFromPolicy(policy: PolicyFormEntity, actions: Action[], triggers: Triggers): PolicyForm {
   const { name, description, actionId, agentId, applyOn, query, inputParameterValues, tags, manual, automatic } =
     parsePolicy(policy);
-  const { triggerType, triggerId } = parseTrigger(policy, triggers, triggerDetails);
-
+  const { triggerType, triggerId } = parseTrigger(policy, triggers);
   return createMapForm({
     items: {
       name: createField({
@@ -166,14 +159,106 @@ function createPolicyFormDefinition(
     }
   });
 }
+function createPolicyFormDefinition(triggerDetails?: TriggerDetailsProps): PolicyForm {
+  const { triggerType, triggerId } = triggerDetails ?? {};
+  return createMapForm({
+    items: {
+      name: createField({
+        value: '',
+        validator: notBlankValidator
+      }),
+      description: createField({
+        value: '',
+        validator: notBlankValidator
+      }),
+      tags: createField<string[]>({
+        value: []
+      }),
+      action: createMapForm<ActionConfigurationFormItems>({
+        items: {
+          parameters: createField({
+            value: []
+          }),
+          actionId: createField({
+            value: ''
+          }),
+          agentId: createField({
+            value: ''
+          }),
+          type: createMapForm({
+            items: {
+              manual: createField({
+                value: false
+              }),
+              automatic: createField({
+                value: false
+              })
+            },
+            validator: policyTypeValidator
+          }),
+          isActionPreSelected: createField({
+            value: false
+          })
+        },
+        validator: composeAndShortCircuitOnError(form => notBlankValidator(form.actionId.value))
+      }),
+      triggerType: createField<TriggerType>({
+        value: triggerType ?? 'builtinEvent',
+        validator: notBlankValidator
+      }),
+      triggerId: createField({
+        value: triggerId ?? '',
+        validator: notBlankValidator
+      }),
+      scope: createMapForm<ScopeFormItems>({
+        items: {
+          applyOn: createField<ApplyOn>({
+            value: 'all'
+          }),
+          query: createField({
+            value: ''
+          })
+        },
+        validator: scopeValidator
+      })
+    }
+  });
+}
+
+function createPolicyForm({
+  policy,
+  actions,
+  triggers,
+  triggerDetails
+}: {
+  policy: PolicyFormEntity;
+  actions: Action[];
+  triggers: Triggers;
+  triggerDetails?: TriggerDetailsProps;
+}) {
+  if (policy) return createPolicyFormFromPolicy(policy, actions, triggers);
+  return createPolicyFormDefinition(triggerDetails);
+}
 
 export default function usePolicyForm(
   policy: PolicyFormEntity,
   actions: Action[],
   triggers: Triggers,
-  triggerDetails?: TriggerDetailsProps
+  triggerDetails?: TriggerDetailsProps,
+  loading = false
 ) {
-  return useState(createPolicyFormDefinition(policy, actions, triggers, triggerDetails));
+  const [form, setForm] = useState(createPolicyForm({ policy, actions, triggers, triggerDetails }));
+
+  function resetForm() {
+    setForm(createPolicyForm({ policy, actions, triggers, triggerDetails }));
+  }
+
+  useEffect(() => {
+    setForm(createPolicyForm({ policy, actions, triggers, triggerDetails }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [policy, triggerDetails, loading]);
+
+  return [form, setForm, resetForm] as const;
 }
 
 interface PolicyFormContext {

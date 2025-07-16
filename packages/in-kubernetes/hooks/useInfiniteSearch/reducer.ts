@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { KubernetesClusterListItem, PaginatedResult, Result } from '@instana/types';
+import { KubernetesClusterListItem, KubernetesNamespaceListItem, PaginatedResult, Result } from '@instana/types';
 
 import { isLoading, emptyListResult } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -24,12 +24,11 @@ export type Action = {
 };
 
 interface ResultPayload {
-  result: Result<PaginatedResult<KubernetesClusterListItem>>;
-  hasTimeConfigChanged: boolean;
+  result: Result<PaginatedResult<KubernetesClusterListItem | KubernetesNamespaceListItem>>;
 }
 
 interface StateProps {
-  result: Result<PaginatedResult<KubernetesClusterListItem>>;
+  result: Result<PaginatedResult<KubernetesClusterListItem | KubernetesNamespaceListItem>>;
   isResettingState: boolean;
   page: number;
 }
@@ -43,10 +42,10 @@ export const initialState: StateProps = {
 export function stateReducer(state: StateProps, { type, payload }: Action): StateProps {
   switch (type) {
     case actions.setResult: {
-      const { result, hasTimeConfigChanged } = payload as ResultPayload;
+      const { result } = payload as ResultPayload;
       return {
         ...state,
-        result: mergeResults(state.result, result, hasTimeConfigChanged),
+        result: mergeResults(state.result, result),
         isResettingState: false
       };
     }
@@ -77,16 +76,14 @@ export function stateReducer(state: StateProps, { type, payload }: Action): Stat
 }
 
 function mergeResults(
-  prev: Result<PaginatedResult<KubernetesClusterListItem>>,
-  res: Result<PaginatedResult<KubernetesClusterListItem>>,
-  hasTimeConfigChanged?: boolean
+  prev: Result<PaginatedResult<KubernetesClusterListItem | KubernetesNamespaceListItem>>,
+  res: Result<PaginatedResult<KubernetesClusterListItem | KubernetesNamespaceListItem>>
 ) {
   const previous = isLoading(prev) ? emptyListResult : prev;
-
   return merge(
     [previous, res],
     ([{ items: oldItems, totalHits: oldTotalHits }, { items: newItems, totalHits, ...props }]) => {
-      const shouldNotMergeData = oldTotalHits !== totalHits || hasTimeConfigChanged;
+      const shouldNotMergeData = oldTotalHits !== totalHits;
       const items = shouldNotMergeData ? [...newItems] : [...oldItems, ...newItems];
       return {
         items,

@@ -69,5 +69,10 @@
 
   .tooltipWrapper {
     width: 100%;
+    :global {
+      .cds--popover-container {
+        width: 100%;
+      }
+    }
   }
 }

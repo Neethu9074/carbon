@@ -11,11 +11,11 @@ import {
   percentageTwoDecimalPlaces,
   timeBySecondsTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/oTelJvm/constants';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelJvm/constants';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { openTelemetryKubernetes } from 'in-services/featureFlags';
 import MetricValue from 'in-components/MetricValue';
@@ -62,7 +62,6 @@ export default function OTelK8SContainerDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sContainer.dashboard.cpuresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -105,7 +104,6 @@ export default function OTelK8SContainerDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sContainer.dashboard.memoryresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -156,7 +154,6 @@ export default function OTelK8SContainerDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sContainer.dashboard.fsresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{

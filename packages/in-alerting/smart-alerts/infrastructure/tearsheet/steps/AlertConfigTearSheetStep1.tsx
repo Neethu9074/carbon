@@ -15,6 +15,7 @@ import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/component
 import ScopeAlertEvaluation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAlertEvaluation';
 import { ThresholdChart } from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdChart';
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
+import ScopeEntity from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ScopeEntity';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
 import ScopeFilter from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeFilter';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
@@ -50,6 +51,7 @@ export default function AlertConfigTearSheetStep1({
       <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.step1.header')}>
         <div>
           <Stack direction="vertical" gap={'gutter'}>
+            <ScopeEntity form={form} updateForm={updateForm} />
             {/* select Metric */}
             <Section
               title={

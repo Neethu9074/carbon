@@ -25,6 +25,7 @@ interface SloErrorBudgetChartProps {
   configuration: ServiceLevelObjectiveConfiguration;
   title?: string;
   correctionWindowMetrics?: MetricDataSeries;
+  hideCorrectionWindowsLane?: boolean;
 }
 
 export default function SloErrorBudgetChart({
@@ -36,7 +37,8 @@ export default function SloErrorBudgetChart({
   timeWindowColors,
   configuration,
   title,
-  correctionWindowMetrics
+  correctionWindowMetrics,
+  hideCorrectionWindowsLane
 }: SloErrorBudgetChartProps) {
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
@@ -70,7 +72,13 @@ export default function SloErrorBudgetChart({
       errors={errors}
       progress={progress}
       correctionWindowMetrics={correctionWindowMetrics}
-      renderPostChartContent={props => <SloDashboardMarkerLanes entity={configuration.entity} {...props} />}
+      renderPostChartContent={props => (
+        <SloDashboardMarkerLanes
+          hideCorrectionWindowsLane={hideCorrectionWindowsLane}
+          entity={configuration.entity}
+          {...props}
+        />
+      )}
     />
   );
 }

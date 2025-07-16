@@ -181,11 +181,12 @@ export default function InfrastructureList({
     getLabelColumn(tracking?.onNavigateToEntity, isPreview, timeConfig),
     ...tags.map(tag => {
       const path = (tagCatalog.tagsByName && tagCatalog.tagsByName[tag]?.path?.map(node => node.label)) || [];
+      const label = { data: path };
 
       return {
         id: tag,
-        label: { data: path },
-        renderLabel: ({ label }) => <TagLabel label={{ data: label }} />,
+        label,
+        renderLabel: () => <TagLabel label={label} />,
         width: '12rem',
         widthInAbsoluteUnit: true,
         sortable: showHeader || sortableTags,

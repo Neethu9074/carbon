@@ -5,8 +5,17 @@
 
 import React from 'react';
 
-import { DataTable as CarbonDataTable } from '@instana/components';
+import {
+  StructuredListBody,
+  StructuredListCell,
+  StructuredListHead,
+  StructuredListRow,
+  StructuredListWrapper
+} from '@instana/carbon';
+import { DataTable as CarbonDataTable, Typography } from '@instana/components';
+import { NoDataEmptyState } from '@instana/ibm-products';
 
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { compare } from 'in-services/util/number';
 import { t } from 'in-i18n';
@@ -22,7 +31,19 @@ export default function TopActiveUsersTable({ accountInfo }) {
   if (!dataSet || Object.keys(dataSet).length === 0) {
     return (
       <>
-        <NoDataAvailable text={t('in-amp:components.activationAdoption.topUsersTable.noDataAvailable')} height={300} />
+        {newAccountAndBillingPageEnabled ? (
+          <NoDataEmptyState
+            title={
+              <Typography variant="body-compact-02">{t('in-amp:accountAndBilling.emptyPage.subtitle')}</Typography>
+            }
+            illustrationPosition="top"
+          />
+        ) : (
+          <NoDataAvailable
+            text={t('in-amp:components.activationAdoption.topUsersTable.noDataAvailable')}
+            height={300}
+          />
+        )}
       </>
     );
   }
@@ -46,7 +67,19 @@ export default function TopActiveUsersTable({ accountInfo }) {
   if (Object.keys(result).length === 0) {
     return (
       <div>
-        <NoDataAvailable text={t('in-amp:components.activationAdoption.topUsersTable.noTopActiveUsers')} height={300} />
+        {newAccountAndBillingPageEnabled ? (
+          <NoDataEmptyState
+            title={
+              <Typography variant="body-compact-02">{t('in-amp:accountAndBilling.emptyPage.subtitle')}</Typography>
+            }
+            illustrationPosition="top"
+          />
+        ) : (
+          <NoDataAvailable
+            text={t('in-amp:components.activationAdoption.topUsersTable.noTopActiveUsers')}
+            height={300}
+          />
+        )}
       </div>
     );
   }
@@ -66,8 +99,41 @@ export default function TopActiveUsersTable({ accountInfo }) {
       };
     });
   return (
-    <div className={locals.topActiveUsersTable}>
-      <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-    </div>
+    <>
+      {newAccountAndBillingPageEnabled ? (
+        <TopActiveUsersStructuredList carbonRows={carbonRows} />
+      ) : (
+        <div className={locals.topActiveUsersTable}>
+          <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+        </div>
+      )}
+    </>
+  );
+}
+
+function TopActiveUsersStructuredList({ carbonRows }) {
+  return (
+    <StructuredListWrapper isCondensed isFlush>
+      <StructuredListHead>
+        <StructuredListRow head>
+          <StructuredListCell head>{t('in-amp:components.activationAdoption.topUsersTable.name')}</StructuredListCell>
+          <StructuredListCell head>
+            {t('in-amp:components.activationAdoption.topUsersTable.organizationRole')}
+          </StructuredListCell>
+          <StructuredListCell head>
+            {t('in-amp:components.activationAdoption.topUsersTable.daysActive')}
+          </StructuredListCell>
+        </StructuredListRow>
+      </StructuredListHead>
+      <StructuredListBody>
+        {carbonRows.map(row => (
+          <StructuredListRow key={row.id}>
+            <StructuredListCell>{row.name}</StructuredListCell>
+            <StructuredListCell>{row.organizationRole}</StructuredListCell>
+            <StructuredListCell>{row.daysActive}</StructuredListCell>
+          </StructuredListRow>
+        ))}
+      </StructuredListBody>
+    </StructuredListWrapper>
   );
 }

@@ -5,6 +5,7 @@
  */
 
 import { render, screen, fireEvent } from '@testing-library/react';
+import ResizeObserver from 'resize-observer-polyfill';
 import React from 'react';
 
 import { Event, VolatileId } from '@instana/types';
@@ -46,6 +47,7 @@ describe('AutomationCard', () => {
   beforeEach(() => {
     jest.resetModules();
   });
+  global.ResizeObserver = ResizeObserver;
 
   it('initializes with recommendedActions as the default active key', () => {
     render(<AutomationCard {...props} />);

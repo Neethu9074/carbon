@@ -4,5 +4,5 @@
  * Copyright IBM Corp. 2024
  */
 
-export function getMarksForThresholdType(thresholdType: ThresholdType, oneMinuteGranularityAllowed: boolean);
+export function getMarksForThresholdType(thresholdType: ThresholdType);
 export function getDefaultMark(marks: object[], thresholdType: ThresholdType);

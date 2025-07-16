@@ -385,7 +385,6 @@ function DynamicSection({ isNotEditable }: SectionProps) {
       <div>
         <DynamicTagBasedPayloadConfigurator
           value={toViewModel(value.value)}
-          inSidePanel
           disabled={isNotEditable}
           onChange={(viewModel: ViewModel) =>
             setForm(form => form.updateIn(['dynamic'], item => item.setValue(toFormModel(viewModel)).setTouched(true)))

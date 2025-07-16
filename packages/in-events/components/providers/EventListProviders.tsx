@@ -12,6 +12,7 @@ import { RootCauseTopologyDataProvider } from 'in-events/components/RootCauseAna
 import { EntitySelectionProvider } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 import { RootCauseDataProvider } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
+import IncidentProvider from 'in-events/components/providers/IncidentProvider';
 import { EventOrMap } from 'in-events/types';
 
 interface EventListProvidersProps {
@@ -22,6 +23,7 @@ interface EventListProvidersProps {
 /**
  * Combined provider that wraps all providers needed for the EventList component
  * Currently includes:
+ * - IncidentProvider: Makes incident data available throughout the component tree
  * - EntitySelectionProvider: Manages the selected entity ID
  * - SelectedRootCauseContext: Manages the selected root cause index
  * - RootCauseDataProvider: Provides root cause analysis data
@@ -35,15 +37,17 @@ const EventListProviders: React.FC<EventListProvidersProps> = ({ children, incid
   const [selectedRootCause, setSelectedRootCause] = useState(0);
 
   return (
-    <EntitySelectionProvider>
-      <SelectedRootCauseContext.Provider value={{ selectedRootCause, setSelectedRootCause }}>
-        <RootCauseDataProvider incident={incidentJSON}>
-          <RootCauseTopologyDataProvider incident={incidentJSON} selectedRootCause={selectedRootCause}>
-            {children}
-          </RootCauseTopologyDataProvider>
-        </RootCauseDataProvider>
-      </SelectedRootCauseContext.Provider>
-    </EntitySelectionProvider>
+    <IncidentProvider incident={incidentJSON}>
+      <EntitySelectionProvider incident={incidentJSON}>
+        <SelectedRootCauseContext.Provider value={{ selectedRootCause, setSelectedRootCause }}>
+          <RootCauseDataProvider incident={incidentJSON}>
+            <RootCauseTopologyDataProvider incident={incidentJSON} selectedRootCause={selectedRootCause}>
+              {children}
+            </RootCauseTopologyDataProvider>
+          </RootCauseDataProvider>
+        </SelectedRootCauseContext.Provider>
+      </EntitySelectionProvider>
+    </IncidentProvider>
   );
 };
 

@@ -57,7 +57,7 @@ export default function OpenShiftDaemonSetContent({ agentKey, downloadKey, agent
           <HelpBox>
             <TextWithLink
               i18nKey="in-waiting-for-deployment:content.forMoreInformationVisitTheOpenshift"
-              href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-openshift"
+              href="https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-openshift"
             />
           </HelpBox>
         </>

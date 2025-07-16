@@ -7,8 +7,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { ApplicationBoundaryScope, Group } from '@instana/types';
+import { Button, LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -18,6 +18,8 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { emptyArray } from 'in-services/fixedObjects';
 import { WithLabel } from 'in-applications/types';
 import { t } from 'in-i18n';
+
+import locals from 'in-applications/components/AnalyzeCallsButton.mless';
 
 interface AnalyzeCallsButtonProps {
   applicationId: string;
@@ -43,6 +45,11 @@ export default function AnalyzeCallsButton({
   const endpointLabel = useObservable(getEndpointLabelObservable(endpointId), [endpointId]);
   const applicationLabel = application?.data?.label;
   const applicationBoundaryScope = application?.data?.boundaryScope;
+
+  if ((applicationId && !applicationLabel) || (serviceId && !serviceLabel) || (endpointId && !endpointLabel)) {
+    return <LoadingSkeleton className={locals.labelSkeleton} />;
+  }
+
   return (
     <Button
       kind="action"

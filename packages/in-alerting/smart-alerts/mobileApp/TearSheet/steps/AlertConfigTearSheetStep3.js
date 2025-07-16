@@ -10,10 +10,6 @@ import { Spacer } from '@instana/components';
 
 import ThresholdSelectionInteractiveSection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdSelectionInteractiveSection';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/TimeThresholdConfigPresenter';
-import {
-  oneMinuteGranularityForStaticThresholdEnabled,
-  alertChannelPerSeverityMobileAppSaEnabled
-} from 'in-services/featureFlags';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -24,7 +20,7 @@ import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/Alert
 import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { alertChannelPerSeverityMobileAppSaEnabled } from 'in-services/featureFlags';
 import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import { days } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -93,9 +89,6 @@ export default function AlertConfigTearSheetStep3({
             <EvaluationGranularity
               form={form}
               updateForm={updateForm}
-              oneMinuteGranularityAllowed={
-                thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-              }
               thresholdType={thresholdType}
               titleWidth={getTitleWidth()}
             />
@@ -113,9 +106,6 @@ export default function AlertConfigTearSheetStep3({
             updateForm={updateForm}
             impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
             hasUserImpactOption
-            oneMinuteGranularityAllowed={
-              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-            }
           />
           <Spacer size="gutter" />
           <GracePeriodWrapper form={form} updateForm={updateForm} />

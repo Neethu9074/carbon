@@ -9,13 +9,13 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { bytes } from 'in-services/formatters/number';
+import { kiloBytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 interface StorageDisk {
-  deviceID: string;
-  volumeName: string;
+  drive: string;
+  fileSystem: string;
   freeSpace: number;
   size: number;
 }
@@ -32,33 +32,34 @@ interface TableRow {
   data: StorageDiskData['data'];
 }
 
-const deviceIDColumn = {
-  title: t('in-windowshypervisor:dashboards.deviceID'),
+const driveColumn = {
+  title: t('in-windowshypervisor:dashboards.drive'),
   type: 'string',
   typeArgs: {
     getValue(row: TableRow) {
-      return row.storagedisk.deviceID;
+      return row.storagedisk.drive;
     }
   }
 };
 
-const volumeNameColumn = {
-  title: t('in-windowshypervisor:dashboards.volumeName'),
+const fileSystemColumn = {
+  title: t('in-windowshypervisor:dashboards.fileSystem'),
   type: 'string',
   typeArgs: {
     getValue(row: TableRow) {
-      return row.storagedisk.volumeName;
+      return row.storagedisk.fileSystem;
     }
   }
 };
 
 const freeSpaceColumn = {
   title: t('in-windowshypervisor:dashboards.freeSpace'),
-  type: 'string',
+  type: 'number',
   typeArgs: {
     getValue(row: TableRow) {
       return row.storagedisk.freeSpace;
-    }
+    },
+    getContent: kiloBytes.detailed
   }
 };
 
@@ -69,13 +70,13 @@ const sizeColumn = {
     getValue(row: TableRow) {
       return row.storagedisk.size;
     },
-    getContent: bytes.detailed
+    getContent: kiloBytes.detailed
   }
 };
 
 export default function StorageDisksTable({ data, timeConfig }: StorageDiskData) {
   const rows: TableRow[] = data.disks.map((storagedisk: any) => ({
-    key: storagedisk.deviceID,
+    key: storagedisk.drive,
     storagedisk,
     timeConfig,
     data
@@ -85,7 +86,7 @@ export default function StorageDisksTable({ data, timeConfig }: StorageDiskData)
     return null;
   }
 
-  const cols = [deviceIDColumn, volumeNameColumn, freeSpaceColumn, sizeColumn];
+  const cols = [driveColumn, fileSystemColumn, freeSpaceColumn, sizeColumn];
 
   return (
     <Table

@@ -56,7 +56,6 @@ export default function Alert({
   renderAlertConfiguration,
   showActionButton = true,
   getAllowedPlaceholders = () => [],
-  displayTearSheetActions = false,
   getLinkToEditOrDuplicateSmartAlertTearSheet,
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false,
@@ -180,7 +179,6 @@ export default function Alert({
           onConfigDeleteTrigger={() => {
             trackCta(ALERTING_DELETE_TRIGGER, alertConfigForTracking);
           }}
-          displayTearSheetActions={displayTearSheetActions}
           getLinkToEditOrDuplicateSmartAlertTearSheet={getLinkToEditOrDuplicateSmartAlertTearSheet}
           hideAlertIcon={hideAlertIcon}
           alertDisplayMode={alertDisplayMode}
@@ -232,7 +230,6 @@ Alert.propTypes = {
   }).isRequired,
   showActionButton: PropTypes.bool,
   getAllowedPlaceholders: PropTypes.func,
-  displayTearSheetActions: PropTypes.bool,
   getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
   canConfigureIndividualAlertConfigs: PropTypes.bool,

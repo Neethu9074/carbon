@@ -17,6 +17,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.aceMessageFlow.applicationName')}>
         {data.get('applicationName')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.aceMessageFlow.hostName')}>{data.get('hostName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.aceMessageFlow.serverName')}>
         {data.get('serverName')}
       </DescriptionItem>

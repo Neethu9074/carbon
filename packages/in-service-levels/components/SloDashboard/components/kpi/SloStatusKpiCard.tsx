@@ -8,10 +8,13 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createSloPercentageFormatter } from 'in-service-levels/utils/format';
+import { refreshSignal } from 'in-service-levels/api/correctionConfiguration';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { sloMetrics } from 'in-service-levels/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -27,7 +30,10 @@ export default function SloStatusKpiCard({ configuration }: SloStatusKpiCardProp
   const timeConfig = useTimeConfig();
   const { timeWindows } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
-
+  const memoizeFor = useObservable(
+    refreshSignal.flatMap(() => just(0)),
+    []
+  );
   if (!hasMatchingTimeWindows) return <NoValueKpiCard title={sloMetrics.status.label} />;
 
   return (
@@ -41,6 +47,7 @@ export default function SloStatusKpiCard({ configuration }: SloStatusKpiCardProp
         }),
         getColor: value => (value != null && value < target ? themes.default.ids.color.option.red['500'] : undefined)
       }}
+      extraOpts={{ memoizeFor }}
     />
   );
 }

@@ -24,6 +24,7 @@ import {
 } from 'in-synthetics/tracking/tracker';
 import { rbacTeamsEnabled, smartAlertCarbonTableEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { TestResponse, dummyTest, dataScopes, DataScopeType } from 'in-synthetics/utils/constants';
+import CreateSyntheticOnDemandTest from 'in-synthetics/createTests/CreateSyntheticOnDemandTest';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
@@ -232,14 +233,23 @@ const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
     </Button>
   ) : (
     //If a test has no location(s) associated with it, disable Pause/Resume button
-    <Button
-      kind="primary"
-      icon={isActive ? 'lib_actions_pause' : 'lib_actions_play'}
-      onClick={() => pauseOrResume(test.data)}
-      disabled={totalLocations <= 0}
-    >
-      {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
-    </Button>
+    <>
+      <Button
+        kind="primary"
+        icon={isActive ? 'lib_actions_pause' : 'lib_actions_play'}
+        onClick={() => pauseOrResume(test.data)}
+        disabled={totalLocations <= 0}
+      >
+        {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
+      </Button>
+      {syntheticRunNowEnabled && (
+        <CreateSyntheticOnDemandTest
+          testId={test.data?.id!}
+          testLocations={test.data?.locations ?? []}
+          testType={test.data?.configuration?.syntheticType}
+        />
+      )}
+    </>
   );
 };
 

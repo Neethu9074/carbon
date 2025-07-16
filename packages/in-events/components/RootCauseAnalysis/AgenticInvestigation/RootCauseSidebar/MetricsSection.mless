@@ -1,0 +1,6 @@
+:local {
+  .metricsContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}

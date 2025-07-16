@@ -12,6 +12,7 @@ import {
   twoDecimalPlaces,
   number
 } from 'in-services/formatters/number';
+import TombstoneCountTable from 'in-forge/plugins/cassandraNode/Dashboard/TombstoneCountTable';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -165,6 +166,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <KeyspacesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <TombstoneCountTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DashboardSection title={t('in-forge:plugins.cassandraNode.dashboard.titlePendingCompactions')}>
         <Chart

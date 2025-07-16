@@ -48,6 +48,7 @@ export function deleteTeam(id: string) {
     headers: getCsrfHeader()
   }).map(v => {
     refreshSignal.emit(id);
+    refreshTags();
     return v;
   });
 }
@@ -62,6 +63,7 @@ export function deleteTeams(ids: string[]) {
     treat400AsError: true
   }).map(v => {
     refreshSignal.emit(ids);
+    refreshTags();
     return v;
   });
 }

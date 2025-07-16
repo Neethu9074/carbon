@@ -10,11 +10,11 @@ import { create } from '@instana/observables';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { timeConfigShiftedForIngestion } from 'in-stores/time/config';
+import { getMetricsAndMetadataForTimeframe } from 'in-stores/metric';
 import createDataHolder from 'in-components/Chart/data/dataHolder';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
-import { getMetricsForTimeframe } from 'in-stores/metric';
 import createQueue from 'in-components/Chart/data/queue';
 import { getInfraGranularity } from 'in-stores/metric';
 
@@ -156,10 +156,10 @@ class InfrastructureMetricChartBehavior extends React.Component {
     this.setupMetricSubscriptionsForAxis(this.y2, queues.y2);
 
     this.subscriptions.push(
-      this.queues$.throttle(1000).subscribe(({ queues, dataHolders }) => {
+      this.queues$.throttle(1000).subscribe(({ queues, dataHolders, pollRate }) => {
         const y1Metrics = this.getMetricsFromQueue(queues.y1, dataHolders.y1, this.y1);
         const y2Metrics = this.getMetricsFromQueue(queues.y2, dataHolders.y2, this.y2);
-        this.setState({ y1Metrics, y2Metrics });
+        this.setState({ y1Metrics, y2Metrics, pollRate });
       })
     );
   };
@@ -175,7 +175,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
       const snapshotId = axis.snapshotId || this.props.snapshotId || this.props.snapshotIds[i];
 
       this.subscriptions.push(
-        getMetricsForTimeframe({
+        getMetricsAndMetadataForTimeframe({
           snapshotId,
           metric: metrics[i],
           timeConfig: this.timeConfig,
@@ -189,8 +189,10 @@ class InfrastructureMetricChartBehavior extends React.Component {
   onNewDataPoints = (dataPoints, axisIndex, queue) => {
     // data points are not guaranteed to be filled
     if (dataPoints) {
-      queue.addDataPoints(axisIndex, dataPoints);
-      this.queues$.emit({ queues: this.queues, dataHolders: this.dataHolders });
+      let data = dataPoints.data ?? dataPoints;
+      let pollRate = dataPoints.pollRate ?? 1;
+      queue.addDataPoints(axisIndex, data);
+      this.queues$.emit({ queues: this.queues, dataHolders: this.dataHolders, pollRate: pollRate });
     }
   };
 
@@ -247,7 +249,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
       hasActionlane,
       distanceBetweenDatapointsInMillis
     } = this;
-    const { y1Metrics = [], y2Metrics = [] } = this.state;
+    const { y1Metrics = [], y2Metrics = [], pollRate } = this.state;
 
     y1.metrics = y1Metrics;
     if (y2) {
@@ -271,10 +273,20 @@ class InfrastructureMetricChartBehavior extends React.Component {
         originalTimeConfig={originalTimeConfig ?? this.props.timeConfig}
         additionalContextMenuButtons={additionalContextMenuButtons}
         wiggleRoom={10000}
-        distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
+        distanceBetweenDatapointsInMillis={getDistanceBetweenDataPointsInMillis(
+          distanceBetweenDatapointsInMillis,
+          pollRate
+        )}
       />
     );
   }
+}
+
+function getDistanceBetweenDataPointsInMillis(distanceBetweenDataPoints, pollRate) {
+  if (distanceBetweenDataPoints) {
+    return distanceBetweenDataPoints;
+  }
+  return pollRate ? pollRate * 1000 : undefined;
 }
 
 function mapAxis(axis) {

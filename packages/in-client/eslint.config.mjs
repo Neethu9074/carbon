@@ -16,7 +16,7 @@ export default [
         allowedInPackages: [
           // current package
           'in-client',
-
+          'in-amp',
           'in-components',
           'in-analyze',
           'in-applications',

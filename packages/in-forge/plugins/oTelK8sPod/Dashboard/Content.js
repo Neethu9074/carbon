@@ -13,13 +13,13 @@ import {
   percentageTwoDecimalPlaces,
   timeBySecondsTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/oTelJvm/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getOtelKubernetesContainersOfPods from 'in-subscription/getOtelKubernetesContainersOfPods';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelJvm/constants';
 import Containers from 'in-forge/plugins/oTelK8sCluster/Dashboard/Containers';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { openTelemetryKubernetes } from 'in-services/featureFlags';
@@ -105,7 +105,6 @@ export default function OTelK8SPodDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sPod.dashboard.cpuresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -148,7 +147,6 @@ export default function OTelK8SPodDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sPod.dashboard.memoryresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -199,7 +197,6 @@ export default function OTelK8SPodDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sPod.dashboard.fsresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{

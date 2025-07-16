@@ -41,6 +41,11 @@ const navigationTree = showPassword => {
           path: userSettingsPasswordChange,
           label: t('in-settings:tabs.password'),
           component: ChangePasswordPage
+        },
+        {
+          path: userSettingsTwoFactor,
+          label: t('in-settings:tabs.twoFactorAuthentication'),
+          component: TwoFactorSettingsPage
         }
       ]
     : [];
@@ -87,11 +92,6 @@ const navigationTree = showPassword => {
           component: ProfilePage
         },
         ...password,
-        {
-          path: userSettingsTwoFactor,
-          label: t('in-settings:tabs.twoFactorAuthentication'),
-          component: TwoFactorSettingsPage
-        },
         ...personalApiTokens
       ]
     }

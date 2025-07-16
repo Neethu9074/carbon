@@ -124,7 +124,8 @@ function findFocusedNode(options: Options[]): Options | undefined {
     !options[0].children ||
     options[0].type === 'APPLICATION' ||
     options[0].type === 'SERVICE' ||
-    options[0].type === 'ENDPOINT'
+    options[0].type === 'ENDPOINT' ||
+    options[0].type === 'TAG'
   ) {
     return undefined;
   }

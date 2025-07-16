@@ -6,10 +6,15 @@
 
 :local {
   .consoleView {
-    height: calc(100vh - 16rem);
+    height: calc(100vh - 18.5rem);
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    .textContainer {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
 
     .toggleContainer {
       display: flex;

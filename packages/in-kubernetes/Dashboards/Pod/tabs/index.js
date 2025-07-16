@@ -7,9 +7,10 @@ import {
   beeInstanaInfraMetricsEnabled,
   beeinstanaInfraMetricsWithTimeshiftEnabled,
   persistentVolumeSupportEnabled,
-  kubernetesPrometheusMetricsEnabled
+  kubernetesPrometheusMetricsEnabled,
+  playwithEnabled
 } from 'in-services/featureFlags';
-import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims';
+import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PersistentVolumeClaims';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Pod/tabs/Summary/SummaryWithoutTimeShift';
 import PrometheusMetrics from 'in-kubernetes/Dashboards/Pod/tabs/Prometheus/PrometheusMetrics';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
@@ -49,12 +50,13 @@ export default [
     path: `${podDashboardFullyQualified}/containers`,
     component: Infrastructure
   },
-  persistentVolumeSupportEnabled && {
-    label: t('in-kubernetes:dashboards.persistentVolumeClaims'),
-    path: `${podDashboardFullyQualified}/persistentvolumeclaims`,
-    component: PersistentVolumeClaims,
-    stickToBottom: true
-  },
+  persistentVolumeSupportEnabled &&
+    !playwithEnabled && {
+      label: t('in-kubernetes:dashboards.persistentVolumeClaims'),
+      path: `${podDashboardFullyQualified}/persistentvolumeclaims`,
+      component: PersistentVolumeClaims,
+      stickToBottom: true
+    },
   kubernetesPrometheusMetricsEnabled && {
     label: t('in-kubernetes:dashboards.prometheusMetrics'),
     path: `${podDashboardFullyQualified}/prometheus`,

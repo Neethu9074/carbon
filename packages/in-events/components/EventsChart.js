@@ -74,6 +74,7 @@ export default function EventsChart({ timeConfig, query, eventType }) {
           }}
           primaryContextMenuAction={globalHighlightAction.name}
           riginalTimeConfig={timeConfig}
+          showNoDataInfoWhenEmpty={false}
         />
       )}
     </div>

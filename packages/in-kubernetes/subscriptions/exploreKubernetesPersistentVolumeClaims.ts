@@ -5,9 +5,9 @@
 
 import { Result } from '@instana/types';
 
-import { KubernetesExploreQuery } from 'in-kubernetes/subscriptions/exploreKubernetes';
+import { ExploreClusterQuery } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import createSubscription from 'in-subscription/subscription';
 
-export default createSubscription<KubernetesExploreQuery, Result<any>>({
+export default createSubscription<ExploreClusterQuery, Result<any>>({
   eventId: 'explorePersistentVolumeClaims'
 });

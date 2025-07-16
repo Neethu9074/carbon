@@ -10,8 +10,10 @@ import classNames from 'classnames';
 import { SvgIcon } from '@instana/components';
 
 import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import { getTruncatedText } from 'in-alerting/smart-alerts/utils/alertPropertiesTitleUtils';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview.mless';
 
@@ -111,5 +113,9 @@ function getIconType(severity: number, triggering: false): string {
 }
 
 export function AlertPreviewHeadline({ title }: { title: string | HighlightedPlaceholders }): JSX.Element {
-  return <h3 className={locals.alertPreviewHeadline}>{title}</h3>;
+  return (
+    <Tooltip align="auto" content={title}>
+      <h3 className={locals.alertPreviewHeadline}>{getTruncatedText(title, 256)}</h3>
+    </Tooltip>
+  );
 }

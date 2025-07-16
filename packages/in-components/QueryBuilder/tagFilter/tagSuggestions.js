@@ -354,7 +354,7 @@ function evaluateNextBracketElement(formModel, index, directionalModifier, brack
       // and add it to the filtered formModel
       // Passing this invalid filtered formModel to `toBackendQueryModel` will crash with an unexpected token as it is
       // an invalid formModel and `toBackendQueryModel` only expects valid ones by design
-      valid: currentElement.type !== CONJUNCTION
+      valid: currentElement.type !== CONJUNCTION && !(nextElementIndex < 0 && currentElement.type === CLOSE_BRACKET)
     };
   }
 

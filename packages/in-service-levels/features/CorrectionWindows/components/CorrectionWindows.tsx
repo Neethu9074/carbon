@@ -71,35 +71,35 @@ const columns = [
     cell: props => <RecurrenceColumnContent item={props.row.original.configuration} />,
     header: t('in-service-levels:correctionWindowsList.columnLabels.recurrence'),
     enableSorting: true,
-    size: 20
+    maxSize: 18
   }),
   columnHelper.accessor(row => getNextOccurence(row.configuration), {
     id: 'nextStart',
     cell: props => <NextOccurrenceColumnContent item={props.row.original.configuration} />,
     header: t('in-service-levels:correctionWindowsList.columnLabels.nextOccurrence'),
     enableSorting: true,
-    size: 20
+    maxSize: 15
   }),
   columnHelper.accessor(row => getDurationInMs(row.configuration), {
     id: 'duration',
     cell: props => <DurationColumnContent item={props.row.original.configuration} />,
     header: t('in-service-levels:correctionWindowsList.columnLabels.duration'),
     enableSorting: true,
-    size: 15
+    maxSize: 10
   }),
   columnHelper.display({
     id: 'state',
     header: StateHeaderContent,
     cell: props => <StateColumnContent item={props.row.original.configuration} />,
     enableSorting: false,
-    size: 10
+    maxSize: 15
   }),
   columnHelper.display({
     id: 'actions',
     header: '',
     cell: props => <ActionsColumnContent item={props.row.original.configuration} />,
     enableSorting: false,
-    size: 5
+    maxSize: 5
   })
 ];
 

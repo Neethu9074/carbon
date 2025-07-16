@@ -42,8 +42,8 @@ import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
 import { t } from 'in-i18n';
 
 enum datasource {
-  OTel_collector = 'OTel_collector',
-  instana_agent = 'instana_agent'
+  OTel_collector = 'otelcollector',
+  instana_agent = 'instanaagent'
 }
 
 export function getEntriesForFreeTrial() {
@@ -561,7 +561,7 @@ export function getEntriesForFreeTrial() {
   ];
 }
 
-interface FreeTrialEntry {
+export interface FreeTrialEntry {
   accordionTitle: string;
   accordionDesciption: string;
   data: ContentProps[];

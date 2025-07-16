@@ -165,7 +165,9 @@ export function isPercentageMetric(metricName: string) {
 }
 
 function fillStatusCodeValue(statusCode: string) {
-  if (statusCode.length === 1) {
+  if (statusCode === '-1') {
+    return t('in-alerting:smartAlerts.eum.form.HTTPStatusCodeNone');
+  } else if (statusCode.length === 1) {
     return `${statusCode}XX`;
   } else if (statusCode.length === 2) {
     return `${statusCode}X`;

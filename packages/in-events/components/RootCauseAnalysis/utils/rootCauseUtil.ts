@@ -341,7 +341,7 @@ export function getProbabilityLevel(probabilityScore: number | null | undefined)
 export interface TrackRcaClickProps {
   event: Event;
   location: Location;
-  rootCauseTab: number;
+  rootCauseTab?: number;
   rcaEntityType: string | QualifiedRCAEntityTypes;
   probabilityScore: number;
   ctaEvent?: string;

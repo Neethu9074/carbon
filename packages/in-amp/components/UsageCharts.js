@@ -9,8 +9,8 @@ import { Stack, SvgIcon, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
+import { onPremLicenseInformationEnabled, newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
-import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import RetentionAddonChart from 'in-amp/components/RetentionAddonChart';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DataIngestTable from 'in-amp/components/DataIngestTable';
@@ -21,6 +21,8 @@ import { Row, Col } from 'in-components/layout/Grid';
 import { carbonAlert } from 'in-themes/chartColors';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from 'in-amp/pages/AccountAndBilling/AccountAndBilling.mless';
 
 export default function UsageCharts({
   windowSize,
@@ -33,7 +35,8 @@ export default function UsageCharts({
   hasLoggingAddon,
   presentation
 }) {
-  const showDataIngestTable = !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
+  const showDataIngestTable =
+    !newAccountAndBillingPageEnabled && !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
   const isCumulativeTimeRange =
     presentation === 'cumulative' && (timeRange === 'this_month' || timeRange === 'last_month');
   const showTrendLine = isCumulativeTimeRange && timeRange === 'this_month';
@@ -43,7 +46,8 @@ export default function UsageCharts({
   const accountObservableResult = useObservable(getAccountAsResultObservable(), []);
 
   // Show the add-on section (or not)
-  const showAddOnSection = showAggregatedMetrics && (hasSyntheticAddon || hasLoggingAddon);
+  const showAddOnSection =
+    !newAccountAndBillingPageEnabled && showAggregatedMetrics && (hasSyntheticAddon || hasLoggingAddon);
 
   const fupOverride = accountObservableResult?.data?.fupOverride;
 
@@ -223,7 +227,7 @@ export default function UsageCharts({
           </Card>
         </Col>
       </Row>
-      <Row>
+      <Row className={newAccountAndBillingPageEnabled ? locals.bottomMargin : ''}>
         <Col xs={12}>
           <Card
             leftHeaderContent={

@@ -6,13 +6,14 @@
 import React from 'react';
 
 import { applicationListFullyQualified } from 'in-cloudfoundry/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function HomeViewBreadcrumb() {
+  const { createHrefToPath } = useNavigation();
   return (
-    <Breadcrumb href$={getView(applicationListFullyQualified)}>
+    <Breadcrumb href={createHrefToPath(applicationListFullyQualified)}>
       {t('in-cloudfoundry:breadcrumbs.cloudFoundryApplications')}
     </Breadcrumb>
   );

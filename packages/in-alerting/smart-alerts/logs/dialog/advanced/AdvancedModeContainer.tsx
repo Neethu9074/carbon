@@ -32,10 +32,8 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
-import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
 import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -69,7 +67,6 @@ export default function AdvancedModeContainer(
     TagBasedPayloadConfigurator,
     messages
   } = props;
-  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
   const groupBy = form.get('groupBy').value;
   const placeholders = getAllowedPlaceholders({ groupBy: groupbyForPlaceholder(groupBy) });
@@ -130,14 +127,7 @@ export default function AdvancedModeContainer(
           valid: true,
           content: (
             <>
-              <TimeThreshold
-                form={form}
-                updateForm={updateForm}
-                onChange={onChange}
-                oneMinuteGranularityAllowed={
-                  thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-                }
-              />
+              <TimeThreshold form={form} updateForm={updateForm} onChange={onChange} />
               <GracePeriodWrapper form={form} updateForm={updateForm} />
             </>
           )

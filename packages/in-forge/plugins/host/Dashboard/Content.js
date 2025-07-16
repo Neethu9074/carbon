@@ -28,6 +28,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
 import PhysicalVolume from 'in-forge/plugins/host/Dashboard/PhysicalVolume';
+import LogicalVolume from 'in-forge/plugins/host/Dashboard/LogicalVolume';
 import VolumeGroups from 'in-forge/plugins/host/Dashboard/VolumeGroups';
 import DiskTable from 'in-forge/plugins/host/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
@@ -119,7 +120,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
           {isAixOs(snapshot) && (
             <KpiKeyValue label={t('in-forge:plugins.host.dashboard.physicalConsumption')}>
-              <MetricValue snapshotId={snapshot.get('id')} metric="cpu.physicalConsumption" formatter={number.twoDecimalPlaces} />
+              <MetricValue
+                snapshotId={snapshot.get('id')}
+                metric="cpu.physicalConsumption"
+                formatter={number.twoDecimalPlaces}
+              />
             </KpiKeyValue>
           )}
         </div>
@@ -318,18 +323,18 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                 min: 0,
-                 formatter: bytes.detailed,
-                 metrics: ['memory.total'],
-                 labels: [t('in-forge:plugins.host.total')],
-                 type: 'line'
+                min: 0,
+                formatter: bytes.detailed,
+                metrics: ['memory.total'],
+                labels: [t('in-forge:plugins.host.total')],
+                type: 'line'
               }}
               y2={{
-                 min: 0,
-                 formatter: percentageZeroDecimalPlaces,
-                 metrics: memoryUsedMetrics,
-                 labels: memoryUsedMetricsLabels,
-                 type: 'line'
+                min: 0,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: memoryUsedMetrics,
+                labels: memoryUsedMetricsLabels,
+                type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -397,14 +402,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
-          {(isLinux(snapshot)) && (
+          {isLinux(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['date', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min:0,
+                min: 0,
                 formatter: bytes.detailed,
                 metrics: ['memory.virtualTotal', 'memory.virtualUsed', 'memory.virtualFree'],
                 labels: [
@@ -417,14 +422,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
-          {(isLinux(snapshot)) && (
+          {isLinux(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min:0,
+                min: 0,
                 formatter: bytes.detailed,
                 metrics: ['memory.shared'],
                 labels: [t('in-forge:plugins.host.dashboard.shared')],
@@ -525,10 +530,16 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      {isAixOs(snapshot) && <CpuProcessTable snapshot={snapshot} timeConfig={timeConfig} />}
-      {isAixOs(snapshot) && <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />}
-      {isAixOs(snapshot) && <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />}
-      {isAixOs(snapshot) && <Disks snapshot={snapshot} timeConfig={timeConfig} />}
+      {isAixOs(snapshot) && (
+        <>
+          <CpuProcessTable snapshot={snapshot} timeConfig={timeConfig} />
+          <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />
+          <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />
+          <LogicalVolume snapshot={snapshot} timeConfig={timeConfig} />
+          <Disks snapshot={snapshot} timeConfig={timeConfig} />
+        </>
+      )}
+
       {supportsOpenFiles(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.openFiles')}>
           <Chart

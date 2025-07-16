@@ -5,17 +5,17 @@
 
 import { roleHasAnyGlobalPermissions, roleHasAnySecurityAccessPermissions } from 'in-settings/tabs/permissions';
 import { userSettings, globalSettings, ampSettings, securityAndAccess } from 'in-settings/navigation/paths';
-import SecurityAndAccess from 'in-settings/tabs/SecurityAndAccess/View';
 // @ts-expect-error needs TS migration
 import GlobalSettings from 'in-settings/tabs/GlobalSettings/View';
 // @ts-expect-error needs TS migration
 import UserSettings from 'in-settings/tabs/UserSettings/View';
-import { ampEnabled } from 'in-services/featureFlags';
 // @ts-expect-error needs TS migration
 import AmpSettings from 'in-settings/tabs/AMP/View';
+import { ampEnabled, newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
+import SecurityAndAccess from 'in-settings/tabs/SecurityAndAccess/View';
+import { Tab } from 'in-components/LocationAwareTabView/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-import { Tab } from 'in-components/LocationAwareTabView/types';
 
 const globalTab: Tab<unknown, any> = {
   label: t('in-settings:tabs.globalSettings'),
@@ -42,7 +42,7 @@ const ampTab: Tab<unknown, any> = {
 };
 
 export default function getTabs(): Array<Tab<unknown, any>> {
-  const ampTabVisible = ampEnabled && role?.canViewAccountAndBillingInformation;
+  const ampTabVisible = !newAccountAndBillingPageEnabled && ampEnabled && role?.canViewAccountAndBillingInformation;
 
   return [
     roleHasAnyGlobalPermissions() && globalTab,

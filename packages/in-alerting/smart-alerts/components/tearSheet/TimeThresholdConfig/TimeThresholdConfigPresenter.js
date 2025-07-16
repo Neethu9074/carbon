@@ -16,8 +16,7 @@ export default function TimeThresholdConfigPresenter({
   updateForm,
   hasTraceImpactOption,
   hasUserImpactOption,
-  impactTimeThresholdDisabled,
-  oneMinuteGranularityAllowed
+  impactTimeThresholdDisabled
 }) {
   return (
     <>
@@ -28,12 +27,7 @@ export default function TimeThresholdConfigPresenter({
         hasTraceImpactOption={hasTraceImpactOption}
         impactTimeThresholdDisabled={impactTimeThresholdDisabled}
       />
-      <ConfigureAlertingThresholdTearSheet
-        form={form}
-        onChange={onChange}
-        updateForm={updateForm}
-        oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
-      />
+      <ConfigureAlertingThresholdTearSheet form={form} onChange={onChange} updateForm={updateForm} />
     </>
   );
 }
@@ -44,6 +38,5 @@ TimeThresholdConfigPresenter.propTypes = {
   updateForm: PropTypes.func.isRequired,
   hasTraceImpactOption: PropTypes.bool,
   hasUserImpactOption: PropTypes.bool,
-  impactTimeThresholdDisabled: PropTypes.bool,
-  oneMinuteGranularityAllowed: PropTypes.bool
+  impactTimeThresholdDisabled: PropTypes.bool
 };

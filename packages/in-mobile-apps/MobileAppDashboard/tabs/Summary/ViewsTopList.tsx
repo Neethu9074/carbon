@@ -20,7 +20,7 @@ import { number, ms } from 'in-services/formatters/number';
 import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-const metrics = mobileAppScreenRenderingDurationEnabled ? ['views', 'beaconDuration'] : ['views'];
+const metrics = mobileAppScreenRenderingDurationEnabled ? ['views', 'viewChangeDuration'] : ['views'];
 const labels = [
   t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
   t('in-mobile-apps:dashboard.tabs.screenRenderingDuration')

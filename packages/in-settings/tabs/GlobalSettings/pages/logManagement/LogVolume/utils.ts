@@ -12,20 +12,20 @@ import { TagNames } from './types';
 import { LogVolumeUsageItem, RetentionPeriod } from 'in-logging/api/logVolume';
 
 export const NDash = '-';
-
 export const generateQuery = (
   monthsBack: number,
   groupingTag?: TagNames | null
 ): { fromTs: number; toTs: number; groupingTag?: TagNames | null } => {
   const now = new Date();
 
-  const fromDate = new Date(now.getFullYear(), now.getMonth() - (monthsBack - 1), 1, 0, 0, 0);
-  const fromTs = Math.floor(fromDate.getTime() / 1000);
+  const to = Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 0, 23, 59, 59);
+  const from = Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - (monthsBack - 1), 1, 0, 0, 0);
 
-  const toDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
-  const toTs = Math.floor(toDate.getTime() / 1000);
-
-  return { fromTs, toTs, groupingTag };
+  return {
+    fromTs: Math.floor(from / 1000),
+    toTs: Math.floor(to / 1000),
+    groupingTag
+  };
 };
 
 export function getLabelByName(name: string) {

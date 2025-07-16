@@ -122,7 +122,6 @@ export default function MultiWindowBurnRate() {
                 }
                 value={longTimeWindowDurationValue}
                 min={0}
-                max={1000}
                 onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
                   onChange(['burnRateConfig', longWindowBurnRateFormIndex, 'duration'], () =>
                     longTimeWindowDurationField.setValue(+value).setTouched(true)
@@ -182,7 +181,6 @@ export default function MultiWindowBurnRate() {
               invalid={!isLongWindowThresholdFieldValid}
               value={longWindowThreshold.value}
               min={0}
-              max={100}
               onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(['burnRateConfig', longWindowBurnRateFormIndex, 'threshold', 'value'], () =>
                   longWindowThreshold.setValue(+value).setTouched(true)
@@ -220,7 +218,6 @@ export default function MultiWindowBurnRate() {
                 }
                 value={shortTimeWindowDurationValue}
                 min={0}
-                max={10000}
                 onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
                   onChange(['burnRateConfig', shortWindowBurnRateFormIndex, 'duration'], () =>
                     shortTimeWindowDurationField.setValue(+value).setTouched(true)
@@ -284,7 +281,6 @@ export default function MultiWindowBurnRate() {
               invalid={!isShortWindowThresholdFieldValid}
               value={shortWindowThreshold.value}
               min={0}
-              max={100}
               onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(['burnRateConfig', shortWindowBurnRateFormIndex, 'threshold', 'value'], () =>
                   shortWindowThreshold.setValue(+value).setTouched(true)

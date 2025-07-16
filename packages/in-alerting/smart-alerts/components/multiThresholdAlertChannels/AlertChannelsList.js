@@ -55,13 +55,12 @@ export default function AlertChannelsList({
   rightHeader,
   isSearchable = true,
   onRowClick,
-  hasRowNavigation = true,
+  hasRowNavigation = false,
   getHeader = leftHeaderWithSelectAll(form, onChange)
 }) {
   const { trackCta } = useSegmentTracking();
   const selectedChannels = form.get('alertChannels').value;
   const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
-
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}

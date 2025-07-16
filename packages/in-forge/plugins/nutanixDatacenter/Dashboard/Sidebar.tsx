@@ -6,6 +6,13 @@
 
 import React from 'react';
 
-export default function NutanixDatacenterSidebar() {
-  return <div />;
+import Info from 'in-forge/plugins/nutanixDatacenter/Info';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+
+export default function NutanixDatacenterSidebar({ snapshot }: { snapshot: SnapshotData }) {
+  return (
+    <div>
+      <Info snapshot={snapshot} />
+    </div>
+  );
 }

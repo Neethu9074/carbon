@@ -9,6 +9,8 @@ import React from 'react';
 import { t, Trans } from '@instana/i18n-react';
 import { Link } from '@instana/components';
 
+import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export const DEFAULT_NUMBER_ROWS = 5;
@@ -42,6 +44,8 @@ export function getNoDataHeader(label: string) {
       return t('in-plg:welcomepage.noData.syntheticWidget.smartalerts.header');
     case 'dashboardWidget':
       return t('in-plg:welcomepage.noData.dashboardWidget.header');
+    case 'serviceLevelsWidget':
+      return t('in-plg:welcomepage.noData.serviceLevelsWidget.header');
     default:
       return '';
   }
@@ -69,7 +73,10 @@ export function getNoDataDescription(label: string) {
           i18nKey="in-plg:welcomepage.noData.infrastructureWidget.description"
           components={{
             linkToAgents: (
-              <Link href="/#/agents/installation" disabled={!role?.canConfigureAgents}>
+              <Link
+                href={newOTelPageEnabled ? `/#${datasourceInstanaAgentPath}` : '/#/agents/installation'}
+                disabled={!role?.canConfigureAgents}
+              >
                 {t('in-plg:welcomepage.noData.infrastructureWidget.link')}
               </Link>
             )
@@ -84,6 +91,8 @@ export function getNoDataDescription(label: string) {
       return <Trans i18nKey="in-plg:welcomepage.noData.syntheticWidget.smartalerts.description" />;
     case 'dashboardWidget':
       return <Trans i18nKey="in-plg:welcomepage.noData.dashboardWidget.description" />;
+    case 'serviceLevelsWidget':
+      return <Trans i18nKey="in-plg:welcomepage.noData.serviceLevelsWidget.description" />;
     default:
       return '';
   }
@@ -106,6 +115,8 @@ export const getItemId = (item: any, widgetName?: string) => {
     case 'businessMonitoringWidget':
       return item?.businessProcess?.definitionId;
     case 'dashboardWidget':
+      return item?.id;
+    case 'serviceLevelWidget':
       return item?.id;
     default:
       return null;

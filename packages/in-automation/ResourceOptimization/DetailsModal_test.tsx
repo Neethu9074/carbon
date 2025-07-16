@@ -87,6 +87,7 @@ const props: DetailsModalProps = {
           'logdownload',
           'agentSupportInfo',
           'agentprofiler',
+          'dotnetSupportInfo',
           'turbonomic-action',
           'log4j-safe-lib'
         ],

@@ -29,8 +29,8 @@ import {
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import { customEventRulesValidator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getFormatterType, positiveNumber } from 'in-services/formatters/number';
 import { notBlankValidator } from 'in-services/validators/string';
-import { getFormatterType } from 'in-services/formatters/number';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import { plugins } from 'in-forge/constants';
@@ -154,6 +154,8 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
   const { applyOn, applicationName, applicationIds, tagValueForHostAvailability, tagOperatorForHostAvailability } =
     getScopeFields(isCreate, query, ruleType, tagFilter);
 
+  const { transientEventEnabled, transientEventThreshold, transientEventAlertMuted } = mutableEvent;
+
   let form = createMapForm()
     .put(
       'name',
@@ -204,6 +206,25 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
       createField({
         value: dataSource,
         validator: notBlankValidator
+      })
+    )
+    .put(
+      'transientEventEnabled',
+      createField({
+        value: transientEventEnabled ?? true
+      })
+    )
+    .put(
+      'transientEventThreshold',
+      createField({
+        value: transientEventThreshold ?? 300000,
+        validator: positiveNumber
+      })
+    )
+    .put(
+      'transientEventAlertMuted',
+      createField({
+        value: transientEventAlertMuted ?? false
       })
     );
 

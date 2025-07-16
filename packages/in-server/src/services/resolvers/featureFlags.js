@@ -111,6 +111,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'netweaverEnabled',
+    instanaCtlKey: 'feature.netweaver.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'kubecostEnabled',
     instanaCtlKey: 'feature.kubecost.enabled',
     defaultValue: true
@@ -368,7 +373,7 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppExcessiveNetworkUsageEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.excessive.network.usage.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'controlPlaneEnabled',
@@ -449,11 +454,6 @@ module.exports = exports = [
     uiClientKey: 'userSettingsThemeEnabled',
     instanaCtlKey: 'feature.user.settings.theme.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'oneMinuteGranularityForStaticThresholdEnabled',
-    instanaCtlKey: 'feature.app.smart.alerts.granularity1min.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'syntheticCustomDashboardEnabled',
@@ -649,11 +649,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTooltipEnabled',
     instanaCtlKey: 'feature.carbon.tooltip.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'carbonTableEnabled',
-    instanaCtlKey: 'feature.carbon.table.enabled',
     defaultValue: true
   },
   {
@@ -664,7 +659,7 @@ module.exports = exports = [
   {
     uiClientKey: 'incidentNotesTopActionsEnabled',
     instanaCtlKey: 'feature.incident.notes.top.actions.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
@@ -702,11 +697,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'automationActionInstanceFeedbackEnabled',
-    instanaCtlKey: 'automation.action.instance.feedback.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'infraExploreFilterEmptyValueEnabled',
     instanaCtlKey: 'feature.infrastructure.explore.filter.empty.value.enabled',
     defaultValue: false
@@ -727,13 +717,13 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
-    instanaCtlKey: 'feature.analyze.related.instances.button.enabled',
+    uiClientKey: 'msTeamsAppEnabled',
+    instanaCtlKey: 'feature.alert.channel.bidirectional.ms.teams.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'maxMetricsLimitForBeeinstanaEnabled',
-    instanaCtlKey: 'feature.max.metrics.limit.for.beeinstana.enabled',
+    uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
+    instanaCtlKey: 'feature.analyze.related.instances.button.enabled',
     defaultValue: false
   },
   {
@@ -779,11 +769,6 @@ module.exports = exports = [
   {
     uiClientKey: 'windowsHypervisorEnabled',
     instanaCtlKey: 'feature.windowshypervisor.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'automationActionAiGenerationUnitEnabled',
-    instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
     defaultValue: false
   },
   {
@@ -947,6 +932,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'solisTestCatalogEnabled',
+    instanaCtlKey: 'feature.solis.test.catalog.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sloBurnRateEnabled',
     instanaCtlKey: 'feature.slo.burnRate.enabled',
     defaultValue: true
@@ -1019,11 +1009,46 @@ module.exports = exports = [
   {
     uiClientKey: 'openTelemetryKubernetesUnifiedViewEnabled',
     instanaCtlKey: 'feature.open.telemetry.kubernetes.unified.view.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'overrideAdaptiveBaselineSmoothingParamsEnabled',
+    instanaCtlKey: 'feature.override.adaptive.baseline.smoothing.params.enabled',
     defaultValue: false
   },
   {
     uiClientKey: 'newOTelPageEnabled',
     instanaCtlKey: 'feature.new.otel.page.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'eventsTransientEventEnabled',
+    instanaCtlKey: 'feature.events.transient.events.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'newAccountAndBillingPageEnabled',
+    instanaCtlKey: 'feature.new.account.and.billing.page.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'eumSmartAlertCustomMetricsEnabled',
+    instanaCtlKey: 'feature.eum.smart.alert.custom.metrics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'deleteLogsV3Enabled',
+    instanaCtlKey: 'feature.log.deleteLogsV3Enabled.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'onlyFedRampAllowedAlertChannelsEnabled',
+    instanaCtlKey: 'feature.only.fed.ramp.allowed.alert.channels.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'fiveMinuteGranularityForAdaptiveThresholdEnabled',
+    instanaCtlKey: 'feature.five.minute.granularity.for.adaptive.threshold.enabled',
     defaultValue: false
   }
 ];

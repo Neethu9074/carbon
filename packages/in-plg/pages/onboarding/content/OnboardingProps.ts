@@ -18,4 +18,5 @@ export default interface OnboardingProps {
   butlerDomain?: string;
   serverlessEndpoint?: string;
   fromOnboarding?: boolean;
+  region?: string;
 }

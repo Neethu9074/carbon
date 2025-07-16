@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-import { uniqueId } from 'lodash';
-
 import {
   ChatInstance,
   CustomSendMessageOptions,
@@ -14,77 +12,227 @@ import {
   TextItem,
   UserDefinedItem
 } from '@instana/ai-chat';
+import { Observable, combineLatest, just } from '@instana/observables';
 
-import { promptSlots } from 'in-custom-dashboards/api';
-import { hasError } from 'in-services/util/result';
+import {
+  CommonInferredConfig,
+  InferenceResponse,
+  InferredTagSuggestions,
+  IsLoadingCounterType,
+  LlmResponse,
+  SlotsResponse,
+  UserDefinedType
+} from 'in-custom-dashboards/CustomDashboard/AiChat/types';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { getAllSloConfigurations } from 'in-service-levels/api/sloConfiguration';
+import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
+import { inferSlots, promptSlots } from 'in-custom-dashboards/api';
+import { hasError, isLoading } from 'in-services/util/result';
+import { pendingResult } from 'in-services/fixedObjects';
+import { Response } from 'in-services/http/types';
+import { hours } from 'in-services/time/time';
 
-export async function sleep(milliseconds: number) {
-  await new Promise(resolve => {
-    setTimeout(resolve, milliseconds);
-  });
-}
+const RESTRICTION_TEXT: string =
+  'Sorry, I can only handle widget creation on custom dashboards. Please use a more specific prompt.';
 
-async function customSendMessage(request: MessageRequest, _: CustomSendMessageOptions, instance: ChatInstance) {
-  const sendError = (errorMessage: string) => {
-    instance.messaging.addMessage({
-      output: {
-        generic: [
-          {
-            agent_message_type: 'inline_error',
-            response_type: 'text',
-            text: errorMessage
-          } as TextItem
-        ]
-      }
-    });
-  };
-
-  const loadingMessageId = uniqueId('nl2widget-load-');
-  const sendLoading = () => {
-    instance.messaging.addMessage({
-      id: loadingMessageId,
-      output: {
-        // @ts-expect-error stream_loading is not typed
-        generic: [{ response_type: 'stream_loading' }]
-      }
-    });
-  };
-
+export async function customSendMessage(request: MessageRequest, _: CustomSendMessageOptions, instance: ChatInstance) {
   const userQuery = request.input.text;
+
   if (userQuery) {
-    sendLoading();
-    promptSlots(userQuery).subscribe(
-      result => {
-        if (hasError(result)) {
-          instance.messaging.removeMessages([loadingMessageId]);
-          sendError(`Something went wrong. ${result.errors[0].message}`);
-        }
+    instance.updateIsTypingCounter(IsLoadingCounterType.INCREASE);
 
-        if (result.data) {
-          instance.messaging.removeMessages([loadingMessageId]);
-
-          const { inferredSlotConfig, possibleSlotConfig } = result.data;
-          instance.messaging.addMessage({
-            id: crypto.randomUUID(),
-            output: {
-              generic: [
-                {
-                  response_type: MessageResponseTypes.USER_DEFINED,
-                  user_defined: { inferredSlotConfig, possibleSlotConfig }
-                } as UserDefinedItem
-              ]
-            }
-          });
-        }
-      },
-      // On Error
-      error => {
-        instance.messaging.removeMessages([loadingMessageId]);
-        const msg = error.toString ? error.toString() : JSON.stringify(error);
-        sendError(msg);
-      }
+    inferSlots(userQuery).once(handleInferenceResult(instance), error =>
+      handleError(formatErrorMessage(error), instance)
     );
   }
 }
 
-export { customSendMessage };
+/**
+ * Creates a handler function for the inference result
+ */
+function handleInferenceResult(instance: ChatInstance) {
+  return (response: Response<InferenceResponse>) => {
+    if (
+      !response ||
+      !response.body ||
+      !response.body.llmResponse?.type ||
+      response.body.llmResponse.type.toLowerCase().trim() === 'null' // this catches the case when the LLM responds with 'null' or sth similar
+    ) {
+      instance.updateIsTypingCounter(IsLoadingCounterType.DECREASE);
+      sendRestrictionMessage(instance);
+      return;
+    }
+
+    const llmResponse = response.body.llmResponse;
+
+    if (response.status > 399) {
+      handleError(`Something went wrong. Code: ${response.status}, Message: ${response.statusText}`, instance);
+      return;
+    }
+
+    switch (llmResponse.type) {
+      case 'TIME_SERIES':
+      case 'bigNumber':
+        handleGenericWidget(llmResponse, instance);
+        break;
+      case 'slo2':
+        handleSloWidget(llmResponse, instance);
+        break;
+      default:
+        sendRestrictionMessage(instance);
+        break;
+    }
+  };
+}
+
+/**
+ * Handles metrics-based widgets (TIME_SERIES and bigNumber)
+ */
+function handleGenericWidget(llmResponse: LlmResponse, instance: ChatInstance) {
+  const filters = (llmResponse as CommonInferredConfig)?.filter;
+
+  if (!filters) {
+    sendRestrictionMessage(instance);
+    return;
+  }
+
+  const filterKeys = Object.keys(filters);
+  combineLatest(getInferredTagSuggestions(filterKeys), true).subscribe(tagSuggestionsResult => {
+    const suggestions = tagSuggestionsResult.map(s => s.suggestions);
+
+    if (!suggestions.every(Array.isArray)) {
+      // Some suggestions are still loading or invalid
+      return;
+    }
+
+    const filterOptions = createFilterOptions(tagSuggestionsResult);
+    processSlots(llmResponse, filterOptions, instance);
+  });
+}
+
+/**
+ * Creates filter options from tag suggestions
+ */
+function createFilterOptions(tagSuggestionsResult: InferredTagSuggestions[]): Record<string, any> {
+  return tagSuggestionsResult.reduce((options: Record<string, any>, suggestionObj) => {
+    options[suggestionObj.tagName] = suggestionObj.suggestions;
+    return options;
+  }, {});
+}
+
+/**
+ * Handles SLO widget type
+ */
+function handleSloWidget(llmResponse: LlmResponse, instance: ChatInstance) {
+  getAllSloConfigurations({ page: 1, pageSize: 1000 }).subscribe(sloConfigsResult => {
+    if (isLoading(sloConfigsResult) || hasError(sloConfigsResult)) {
+      return;
+    }
+
+    const filterOptions = {
+      items: sloConfigsResult.data?.items.map(item => ({ name: item.name, id: item.id })) ?? []
+    };
+
+    processSlots(llmResponse, filterOptions, instance);
+  });
+}
+
+/**
+ * Process slots with the LLM response and filter options
+ */
+function processSlots(llmResponse: LlmResponse, filterOptions: Record<string, any>, instance: ChatInstance) {
+  promptSlots({ llmResponse, filterOptions }).once(
+    result => handleSlotsResult(result, instance),
+    error => handleError(formatErrorMessage(error), instance)
+  );
+}
+
+/**
+ * Format error message from various error types
+ */
+function formatErrorMessage(error: any): string {
+  return error.toString ? error.toString() : JSON.stringify(error);
+}
+
+function handleError(errorMessage: string, instance: ChatInstance) {
+  instance.updateIsTypingCounter(IsLoadingCounterType.DECREASE);
+  instance.messaging.addMessage({
+    output: {
+      generic: [
+        {
+          agent_message_type: 'inline_error',
+          response_type: 'text',
+          text: errorMessage
+        } as TextItem
+      ]
+    }
+  });
+}
+
+function sendRestrictionMessage(instance: ChatInstance) {
+  instance.messaging.addMessage({
+    id: crypto.randomUUID(),
+    output: {
+      generic: [{ response_type: MessageResponseTypes.TEXT, text: RESTRICTION_TEXT } as TextItem]
+    }
+  });
+}
+
+function handleSlotsResult(slotsResponse: SlotsResponse, instance: ChatInstance) {
+  instance.updateIsTypingCounter(IsLoadingCounterType.DECREASE);
+
+  if (!slotsResponse) {
+    sendRestrictionMessage(instance);
+    return;
+  }
+
+  const { inferredSlotConfig, possibleSlotConfig } = slotsResponse;
+
+  // if widget type could not be inferred, we can assume that user didn't prompt anything meaningful
+  if (inferredSlotConfig?.widgetType == null) {
+    sendRestrictionMessage(instance);
+    return;
+  }
+
+  instance.messaging.addMessage({
+    id: crypto.randomUUID(),
+    output: {
+      generic: [
+        {
+          response_type: MessageResponseTypes.USER_DEFINED,
+          user_defined: { user_defined_type: UserDefinedType.SLOTS, inferredSlotConfig, possibleSlotConfig }
+        } as UserDefinedItem
+      ]
+    }
+  });
+}
+
+function getInferredTagSuggestions(filterTags: string[]): Observable<InferredTagSuggestions>[] {
+  return filterTags.reduce((suggestions: Observable<InferredTagSuggestions>[], tagName) => {
+    tagName === 'call.erroneous'
+      ? suggestions.push(just({ tagName, suggestions: ['true', 'false'] }))
+      : suggestions.push(
+          getTagSuggestions({
+            entity: 'NOT_APPLICABLE',
+            tagName,
+            tagFilterExpression: EMPTY_EXPRESSION,
+            filter: {
+              timeConfig: { windowSize: hours.toMillis(24), autoRefresh: false },
+              useLongTermDataOnly: false,
+              includeInternalCalls: false,
+              includeSyntheticCalls: false
+            },
+            requestingSecondaryKeySuggestions: false
+          }).map(result => {
+            if (isLoading(result)) {
+              return { tagName, suggestions: pendingResult };
+            }
+            const tagSuggestions = result.data?.suggestions ?? [];
+            return { tagName, suggestions: tagSuggestions };
+          })
+        );
+    return suggestions;
+  }, []);
+}
+
+// Made with Bob

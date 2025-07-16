@@ -13,7 +13,8 @@ import {
   deploymentDashboard,
   deploymentConfigDashboard,
   statefulSetDashboard,
-  cronJobDashboard
+  cronJobDashboard,
+  persistentVolumeClaimDashboard
 } from 'in-kubernetes/navigation/paths';
 import {
   clusterId,
@@ -22,6 +23,7 @@ import {
   podId,
   nodeId,
   cronJobId,
+  persistentVolumeClaimId,
   daemonSetId,
   deploymentId,
   deploymentConfigId,
@@ -57,6 +59,11 @@ export const nodeIdUrlParameter = {
 export const cronJobIdUrlParameter = {
   path: cronJobDashboard,
   name: cronJobId
+};
+
+export const persistentVolumeClaimIdUrlParameter = {
+  path: persistentVolumeClaimDashboard,
+  name: persistentVolumeClaimId
 };
 
 export const daemonSetIdUrlParameter = {

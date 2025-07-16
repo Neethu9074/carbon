@@ -197,6 +197,7 @@ router.get('/', async (req, res) => {
       : termsAndPrivacy.walkmeAnalyticsServices;
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
+    const isControlledEnvEnabled = featureFlags.isControlledEnvEnabled;
     const tealiumPrivacyEnabled = featureFlags.tealiumPrivacyEnabled;
     const solisEnabled = featureFlags.solisEnabled;
     const solisUiHost = clientConfig.solisUiHost ?? '';
@@ -207,7 +208,7 @@ router.get('/', async (req, res) => {
     const segmentAnalyticsEnabled = featureFlags.segmentAnalyticsEnabled;
     res.set(
       'Content-Security-Policy',
-      getCsp(nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired, solisEnabled)
+      getCsp(nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired, solisEnabled, isControlledEnvEnabled)
     );
     res.send(
       compiledTemplate({

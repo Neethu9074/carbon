@@ -12,6 +12,7 @@ import { loadDownloadableLogs } from 'in-forge/plugins/instanaAgent/selfMonitori
 import { track, AGENT_LOGS_DOWNLOAD_CLICKED } from 'in-services/tracking/tracking';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { formatDateTime } from 'in-services/formatters/date';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
@@ -148,7 +149,7 @@ function getFormattedUrl(agentSnapshot, selectedFiles = []) {
     query = '&' + query;
   }
 
-  return `/api/host-agent/${encodeURIComponent(
-    agentSnapshot?.get('volatileId')?.get('host_id')
-  )}/logs?download=true${query}`;
+  return formatPathWithTU(
+    `/api/host-agent/${encodeURIComponent(agentSnapshot?.get('volatileId')?.get('host_id'))}/logs?download=true${query}`
+  );
 }

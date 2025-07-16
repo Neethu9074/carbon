@@ -53,6 +53,7 @@ import { useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/naviga
 import { usePolicyFormContext } from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
 import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
 import { useAlertConfigLink } from 'in-websites/navigation/paths';
@@ -213,6 +214,7 @@ export function TriggerLink({ trigger, type, className }: TriggerLinkProps) {
   const getLinkToSyntheticAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutDashboard();
   const getLogAlertConfigLink = useGetLogAlertConfigLink();
   const getServiceLevelAlertConfigLink = useGetServiceLevelAlertConfigLink();
+  const { createHrefToPath } = useNavigation();
 
   const fields = {
     applicationSmartAlert: getApplicationsAlertConfig(id, applicationId as string),
@@ -223,8 +225,8 @@ export function TriggerLink({ trigger, type, className }: TriggerLinkProps) {
     syntheticsSmartAlert: getLinkToSyntheticAlertConfigWithoutAPDashboard(id),
     logSmartAlert: getLogAlertConfigLink(id, created),
     sloSmartAlert: getServiceLevelAlertConfigLink(id, created as number),
-    builtinEvent: getEntityIdView(globalSettingsAlertingEventBuiltIn, id),
-    customEvent: getEntityIdView(globalSettingsAlertingEventCustom, id)
+    builtinEvent: getEntityIdView(globalSettingsAlertingEventBuiltIn, id, createHrefToPath),
+    customEvent: getEntityIdView(globalSettingsAlertingEventCustom, id, createHrefToPath)
   };
   return (
     <Link href={fields[type]} className={className} external>

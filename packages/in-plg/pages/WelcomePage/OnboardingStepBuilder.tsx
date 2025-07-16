@@ -24,8 +24,10 @@ import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile'
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { hasWebsitesAccess } from 'in-stores/permission';
 import config from 'in-services/config';
@@ -52,7 +54,7 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
   const createRedirectHref = useCallback(
     (currentTile: string) => {
       if (currentTile === 'startIntegrating' || currentTile === 'additionalAgents') {
-        return createHrefToPath('/agents/installation');
+        return createHrefToPath(newOTelPageEnabled ? datasourceInstanaAgentPath : '/agents/installation');
       } else if (currentTile === 'traceInteractions') {
         return 'https://ibm.biz/instana-tracing';
       } else if (currentTile === 'inviteUsers' || currentTile === 'inviteTeammates') {

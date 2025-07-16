@@ -54,6 +54,7 @@ export default function InfraMultiThresholdCondition({
   const warningThresholdField = form.get('threshold').get('warningThreshold').get('value');
   const criticalThresholdField = form.get('threshold').get('criticalThreshold').get('value');
   const operator = form.get('threshold').get('operator').value;
+  const metricSelected = form.get('rule').get('metricName')?.value;
 
   const warningThresholdValue = warningThresholdField.value;
   const criticalThresholdValue = criticalThresholdField.value;
@@ -121,7 +122,7 @@ export default function InfraMultiThresholdCondition({
           id="warningThreshold"
         />
 
-        {!isPerEntityEvaluation && !groupBy?.length && (
+        {!isPerEntityEvaluation && !groupBy?.length && metricSelected && (
           <UseSuggestedValueButton
             form={form}
             updateForm={updateForm}

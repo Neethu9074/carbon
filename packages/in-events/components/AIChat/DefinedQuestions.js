@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
-import { EVENT_AI_CLICK_EPWT_LINK } from 'in-services/tracking/tracking';
 import { t } from 'in-i18n';
 
 const WELCOME_TEXT = t('in-events:aichat.welcome');
@@ -19,25 +17,48 @@ const CONSENT_PROMPT = {
 // Meaning we might have to ask specifics on Date and time
 export const DefinedTreeQuestions = [CONSENT_PROMPT.action];
 
-export const AIConsentPrompt = [
+export const promptLibrary = [
   {
-    response_type: 'text',
-    text: CONSENT_PROMPT.text
+    kind: 'Application',
+    questions: [
+      'Show me calls with high latency for service <service-name> in app <app-name>.',
+      'Show me erroneous calls for service <service-name>.',
+      'Show me calls with status code 5XX received by service <service-name>.',
+      'Show me calls which spiked in last <duration> minutes in service <service-name>.'
+    ]
   },
   {
-    response_type: 'option',
-    options: [
-      {
-        label: CONSENT_PROMPT.action,
-        value: {
-          input: {
-            text: CONSENT_PROMPT.action
-          }
-        }
-      }
+    kind: 'Infrastructure',
+    questions: [
+      'Show me the total number of failed queries to DB2 database with host name <host-name>.',
+      'Show me the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace <namespace-name>.',
+      'Show me the top <number> queues with highest queue depth for last <duration> minutes group. Group by queue name.',
+      'What is the sum of aggregated CPU requests for kubernetes deployment <app-name> in namespace <namespace-name> for last <duration> hours?',
+      'What is the count of pods for deployments labeled as environment=<environment-name> in the namespace <namespace-name>?'
+    ]
+  },
+  {
+    kind: 'Events',
+    questions: [
+      'What are todays open incidents for app <app-name>?',
+      'List all the incidents in the last hour grouped by app <app-name>.',
+      'How many incidents have occurred on service <service-name> in the last week?',
+      'How many application events generated in the last 45 minutes had a "high error rate" problem.',
+      'Show me kubernetes pod changes grouped by label <label>.',
+      'How many JVM incidents are still open?',
+      'Show me closed incidents from the last <number> days?'
     ]
   }
 ];
+
+// This is our user type prompt_library that will ultimately invoke
+// our CustomResponse/PromptBubble
+export const promptLibraryBubble = {
+  response_type: 'user_defined',
+  user_defined: {
+    user_defined_type: 'prompt_library'
+  }
+};
 
 export const technologyOptions = {
   response_type: 'user_defined',
@@ -57,25 +78,27 @@ export const technologyOptions = {
     infra: [
       {
         key: 'DB2',
-        value: 'Show total number of failed queries to db2 database with host name ABC'
+        value: 'Show me the total number of failed queries to DB2 database with host name <host-name>'
       },
       {
         key: 'JVM Runtime',
         value:
-          'Get the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace XYZ.'
+          'Show me the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace <namespace-name>.'
       },
       {
         key: 'IBM MQ',
-        value: 'Show top 3 queues with highest queue depth for last 60 minutes group by queue name.'
+        value:
+          'Show me the top <number> queues with highest queue depth for last <duration> minutes group. Group by queue name.'
       },
       {
         key: 'K8s Deployment',
         value:
-          'What is the sum of aggregated cpu requests for kubernetes deployment APP-1 in namespace NAMESPACE-1 for last 2 hours?'
+          'What is the sum of aggregated CPU requests for kubernetes deployment <app-name> in namespace <namespace-name> for last <duration> hours?'
       },
       {
         key: 'K8s pod',
-        value: 'What is the count of pods for deployments labeled as environment=envABC in the namespace nameXYZ?'
+        value:
+          'What is the count of pods for deployments labeled as environment=<environment-name> in the namespace <namespace-name>?'
       }
     ],
     apps: [
@@ -85,15 +108,15 @@ export const technologyOptions = {
       },
       {
         key: 'Erroneous calls',
-        value: 'Show me erroneous calls for service <service-a>'
+        value: 'Show me erroneous calls for service <service-name>'
       },
       {
         key: 'HTTP status codes',
-        value: 'Show me calls with status code 5XX received by <service-a>'
+        value: 'Show me calls with status code 5XX received by service <service-name>'
       },
       {
         key: 'Throughput',
-        value: 'Show me calls which spiked in last <duration> minutes in <service-a> '
+        value: 'Show me calls which spiked in last <duration> minutes in service <service-name>'
       }
     ]
   }
@@ -103,8 +126,7 @@ export const reprompt = [
   {
     response_type: 'text',
     text: t('in-events:aichat.anyOtherQs')
-  },
-  technologyOptions
+  }
 ];
 
 export const InitialLoadOptions = [
@@ -112,27 +134,10 @@ export const InitialLoadOptions = [
     response_type: 'text',
     text: WELCOME_TEXT
   },
-  technologyOptions
+  promptLibraryBubble
 ];
 
-export function handleDefinedTreeQuestions(request, instance, trackCta) {
-  if (!automationActionAiGenerationUnitEnabled) {
-    if (request.input.text === CONSENT_PROMPT.action) {
-      window.open(CONSENT_PROMPT.href, '_blank');
-      trackCta?.(EVENT_AI_CLICK_EPWT_LINK, {});
-      instance.messaging.addMessage({
-        output: {
-          generic: [
-            {
-              response_type: 'text',
-              text: t('in-events:aichat.openingAgreement', { href: CONSENT_PROMPT.href })
-            }
-          ]
-        }
-      });
-    }
-    return;
-  }
+export function handleDefinedTreeQuestions(request, instance) {
   switch (request.input.text) {
     default:
       instance.messaging.addMessage({

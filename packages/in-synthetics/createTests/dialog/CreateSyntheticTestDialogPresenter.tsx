@@ -328,6 +328,7 @@ const CreateSyntheticTestDialogPresenter = ({
       <div
         className={classNames({
           [locals.simpleDialog]: true,
+          [locals.wizardDialog]: simpleMode,
           [locals.advancedDialog]: !simpleMode
         })}
       >

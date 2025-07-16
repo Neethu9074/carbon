@@ -17,13 +17,11 @@ import locals from 'in-alerting/smart-alerts/aggregated/TimeThreshold.mless';
 export default function TimeThreshold({
   form,
   onChange,
-  updateForm,
-  oneMinuteGranularityAllowed
+  updateForm
 }: {
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   updateForm?: (form: MapForm<any>) => void;
-  oneMinuteGranularityAllowed: boolean;
 }) {
   return (
     <BorderedContainer>
@@ -34,12 +32,7 @@ export default function TimeThreshold({
           )}
         </h3>
         <BorderedContainer>
-          <ConfigureAlertingThreshold
-            form={form}
-            onChange={onChange}
-            updateForm={updateForm}
-            oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
-          />
+          <ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} />
         </BorderedContainer>
       </div>
     </BorderedContainer>

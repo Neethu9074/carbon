@@ -70,6 +70,7 @@ export default function ThresholdSelectionInteractiveChart({
             eumType={eumType}
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
+            ruleMetricNameOptions={ruleMetricNameOptions}
           />
         )}
         renderSlowness={() => (

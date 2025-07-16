@@ -42,14 +42,20 @@ export interface CarbonDataTableWithUrlStateProps<
   noDataDescription?: string;
   toolBarContent?: JSX.Element | boolean;
   actionButtonContent?: JSX.Element | boolean;
+  query?: string;
+  defaultDisabledColumns?: string[];
 }
 
 export interface CarbonDataTablePresenterProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>
   extends CarbonDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>,
-    ServerTableUrlState {
+    Omit<ServerTableUrlState, 'query'> {
   result: Result<PaginatedResult<ITEM_TYPE>>;
+  optionalColumns?: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
+  disabledColumns: string[];
+  enabledColumns: string[];
   getRowDetails?: ((result: any) => ReactNode) | ReactNode;
   onChange: (change: Partial<ServerTableUrlState>) => void;
+  loading?: boolean;
 }
 
 export interface CarbonHeader<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>> {
@@ -72,15 +78,25 @@ export interface CarbonRow {
   [key: string]: string;
 }
 
-export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PropsType extends TableProps<ITEM_TYPE>> {
+export interface BatchActionItemProps {
+  renderIcon: React.ElementType<any> | undefined;
+  actionName: string;
+  actionType: string;
+  onClick: (selectedIds: string[]) => JSX.Element;
+}
+
+export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>> {
   rows: CarbonRow[];
-  headers: CarbonHeader<ITEM_TYPE, PropsType>[];
-  isLoading: boolean;
-  query: string;
+  headers: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[];
+  isLoading?: boolean;
+  query?: string;
   isSearchable?: boolean;
   searchText?: string;
   isExpandable?: boolean;
+  isSelectable?: boolean;
+  getBatchActionItems?: () => Readonly<BatchActionItemProps[]>;
   toolBarContent?: JSX.Element | boolean;
+  configureColumnContent?: JSX.Element | boolean;
   actionButtonContent?: JSX.Element | boolean;
   filterRows?: (value: React.ChangeEvent<HTMLInputElement>) => void;
   sortRow?: (sortState: { sortDirection: string; sortHeaderKey: string }) => void;
@@ -89,4 +105,56 @@ export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PropsType exte
   noDataDescription?: string;
   errorHeader?: string;
   result: Result<PaginatedResult<ITEM_TYPE>>;
+  page: number;
+  isFilterable?: boolean;
+  filters?: JSX.Element;
+  onFilterApply?: () => void;
 }
+
+export interface ConfigureColumnsProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>> {
+  columnDefinitions: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
+  visibleColumns: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
+  disabledColumns: string[];
+  isResultLoading?: boolean;
+  onSubmit: (change: Partial<ServerTableUrlState>) => void;
+}
+
+export interface ConfigureColumnsTearsheetProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>
+  extends ConfigureColumnsProps<ITEM_TYPE, PROPS_TYPE> {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface CellValue {
+  id: string;
+  optional?: boolean;
+  isChecked?: boolean;
+}
+
+export interface Row {
+  id: string;
+  cells: {
+    id: string;
+    info: {
+      header: string;
+    };
+    value: string | CellValue;
+  }[];
+  disabled?: boolean;
+  isExpanded?: boolean;
+  isSelected?: boolean;
+}
+
+export interface ColumnState {
+  id: string;
+  visible: boolean;
+  optional?: boolean;
+}
+
+export type SortDirectionType = 'NONE' | OrderDirection;
+
+export interface Option {
+  label: string;
+  value: string;
+}
+
+export type FilterId = 'type' | 'location' | 'association' | 'application';

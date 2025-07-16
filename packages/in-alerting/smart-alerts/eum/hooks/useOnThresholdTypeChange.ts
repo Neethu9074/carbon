@@ -8,19 +8,21 @@ import { Field, MapForm } from 'formalistic';
 import { useCallback } from 'react';
 
 import {
+  updateFormIfAdaptiveBaseline,
+  updateFormIfHistoricBaseline
+} from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdUtil';
+import createThresholdForm, {
+  AdaptabilityBaselineThreshold,
+  defaultDeviationFactor
+} from 'in-alerting/smart-alerts/eum/form/thresholdForm';
+import {
   ThresholdType,
   Granularity,
   SmartAlertThresholdRuleUnion,
   StaticThresholdRule,
-  StaticBaselineThresholdRule,
-  AdaptiveThresholdRule
+  StaticBaselineThresholdRule
 } from 'in-types';
-import {
-  updateFormIfAdaptiveBaseline,
-  updateFormIfHistoricBaseline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdUtil';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import createThresholdForm, { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
@@ -101,8 +103,9 @@ function getMultithresholdThresholdRule(type: string, thresholdField: MapForm<an
       return {
         type: ADAPTIVE_BASELINE,
         deviationFactor: thresholdField.get('deviationFactor')?.value ?? defaultDeviationFactor,
-        isCheckboxSelected
-      } as AdaptiveThresholdRule;
+        isCheckboxSelected,
+        adaptability: 1
+      } as AdaptabilityBaselineThreshold;
     default:
       throw new Error('Unknown threshold type');
   }

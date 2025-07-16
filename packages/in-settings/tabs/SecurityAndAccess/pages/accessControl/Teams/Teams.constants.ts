@@ -8,6 +8,7 @@ import { TrashCan } from '@carbon/icons-react';
 
 import { TeamOverview } from '@instana/types';
 
+import { TeamTagUsedEntityType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/TagUsedOnCard.types';
 import {
   BatchActionItemProps,
   DataTableHeader,
@@ -17,6 +18,12 @@ import { deleteTeam, deleteTeams } from 'in-settings/tabs/SecurityAndAccess/api/
 import { deepFreeze } from 'in-services/util/object';
 import config from 'in-services/config';
 import { t } from 'in-i18n';
+
+export type TeamEntityLink = {
+  readonly paramName: string;
+  readonly scope: string;
+  readonly link: string;
+};
 
 export const TEAMS_TABLE_PAGE_SIZES = Object.freeze([10, 20, 50] as const);
 
@@ -51,3 +58,16 @@ export const TEAMS_TABLE_BATCH_ACTIONS: Readonly<Array<BatchActionItemProps>> = 
     actionType: 'delete'
   }
 ] as const);
+
+export const TEAMS_ENTITY_LINKS: Record<TeamTagUsedEntityType, TeamEntityLink> = deepFreeze({
+  CUSTOM_DASHBOARD: {
+    paramName: 'query',
+    scope: 'teams',
+    link: '/customDashboards'
+  },
+  ALERT_CHANNEL: {
+    paramName: 'query',
+    scope: 'teams',
+    link: '/config/global/alerting/channels'
+  }
+});

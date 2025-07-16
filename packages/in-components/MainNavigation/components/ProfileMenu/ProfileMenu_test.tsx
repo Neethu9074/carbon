@@ -18,7 +18,7 @@ jest.mock('in-services/featureFlags', () => ({
 describe('ProfileMenu', () => {
   describe('when the tenant switcher feature flag is enabled', () => {
     it('renders a link to the tenant switcher page', () => {
-      render(<ProfileMenu isSideNavExpanded onClickSideNavExpand={jest.fn()} />);
+      render(<ProfileMenu isHeaderExpanded onClickSideNavExpand={jest.fn()} />);
 
       expect(
         screen.getByLabelText(t('in-components:mainNavigation.profileMenu_switchUnitOrTenant'))

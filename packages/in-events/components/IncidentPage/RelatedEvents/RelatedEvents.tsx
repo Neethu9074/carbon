@@ -6,6 +6,7 @@
 
 import React, { Fragment, useState } from 'react';
 import classNames from 'classnames';
+import { Map } from 'immutable';
 
 import {
   Button,
@@ -29,7 +30,6 @@ import {
 import { formatDate, formatTime } from '@instana/format-date';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Snapshot } from '@instana/types';
 
 // @ts-expect-error no typedef available
 import { EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
@@ -64,7 +64,7 @@ import locals from 'in-events/components/legacy/EventList.mless';
 interface RelatedEventProps {
   incident: EventOrMap;
   triggeringProblemId?: string;
-  latestSnapshot: Snapshot;
+  latestSnapshot?: Map<string, any>;
   triggeringEventId?: string;
 }
 
@@ -211,7 +211,7 @@ const RelatedEventsEmptyState = () => (
 interface RelatedEventsTableProps {
   relatedEvents?: any;
   triggeringProblemId?: string;
-  latestSnapshot: Snapshot;
+  latestSnapshot?: Map<string, any>;
   expandedEventOnClickInTimeline: string;
   setExpandedEventOnClickInTimeline: (newExpanded: string) => void;
   highlightEventOnHover: string;

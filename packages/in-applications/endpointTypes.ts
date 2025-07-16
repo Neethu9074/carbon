@@ -8,7 +8,6 @@ import invariant from 'invariant';
 import { EndpointType } from '@instana/types';
 
 import { carbonCategorical } from 'in-themes/chartColors';
-import { lighten } from 'in-services/formatters/color';
 import { t } from 'in-i18n';
 
 export const endpointNameTranslations: Record<string, string> = {
@@ -72,7 +71,7 @@ export function getColorChart(type: string) {
   if (__DEV__) {
     invariant(colorTranslationForCharts[type], `Unknown endpoint type ${type}`);
   }
-  return lighten(colorTranslationForCharts[type], 0.05) || colorTranslationForCharts.SDK;
+  return colorTranslationForCharts[type] || colorTranslationForCharts.SDK;
 }
 
 export function getEndpointTypesComboBoxItems(restrict: Array<EndpointType> | null = null) {

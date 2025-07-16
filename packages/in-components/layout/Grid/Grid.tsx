@@ -8,7 +8,8 @@ import React from 'react';
 
 import locals from './Grid.mless';
 
-export interface RowProps {
+export interface RowProps<CustomComponent extends React.ElementType> {
+  as?: CustomComponent;
   children: React.ReactNode;
   className?: string;
   style?: Record<string, string | number>;
@@ -19,7 +20,8 @@ export interface RowProps {
   withBottomMargin?: boolean;
 }
 
-export interface ColProps {
+export interface ColProps<CustomComponent extends React.ElementType> {
+  as?: CustomComponent;
   lg?: number | boolean;
   lgOffset?: number;
   md?: number | boolean;
@@ -33,7 +35,8 @@ export interface ColProps {
   ariaLabel?: string;
 }
 
-export const Row = ({
+export const Row = <CustomComponent extends React.ElementType>({
+  as,
   children,
   className,
   style,
@@ -42,9 +45,11 @@ export const Row = ({
   singleRowTopMargin,
   withoutSideMargin,
   withBottomMargin
-}: RowProps) => {
+}: RowProps<CustomComponent>) => {
+  const Component = as ?? 'div';
+
   return (
-    <div
+    <Component
       className={classNames(className, {
         [locals.row]: true,
         [locals.withoutTopMargin]: withoutTopMargin,
@@ -56,11 +61,12 @@ export const Row = ({
       style={style}
     >
       {children}
-    </div>
+    </Component>
   );
 };
 
-export const Col = ({
+export const Col = <CustomComponent extends React.ElementType>({
+  as,
   lg,
   lgOffset,
   md,
@@ -72,9 +78,11 @@ export const Col = ({
   style,
   preserveVerticalGutter,
   ariaLabel
-}: ColProps) => {
+}: ColProps<CustomComponent>) => {
+  const Component = as ?? 'div';
+
   return (
-    <div
+    <Component
       className={classNames(className, {
         [locals[`lg--${lg}`]]: typeof lg === 'number',
         [locals[`lg-offset--${lgOffset}`]]: typeof lgOffset === 'number',
@@ -96,6 +104,6 @@ export const Col = ({
       aria-label={ariaLabel}
     >
       {children}
-    </div>
+    </Component>
   );
 };

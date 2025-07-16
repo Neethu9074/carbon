@@ -55,7 +55,8 @@ function QueryBuilderReadOnly({ value: formModel, tagCatalog, getSuggestions }) 
   return (
     <div
       className={classNames({
-        [locals.queryBuilder]: true
+        [locals.queryBuilder]: true,
+        [locals.userSelectEnableForReadOnly]: true
       })}
     >
       <Elements

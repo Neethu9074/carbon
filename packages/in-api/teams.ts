@@ -32,13 +32,15 @@ export const getTeamsOverview = memoize(
 );
 
 export function getTeamsByUserId(): Observable<Result<TeamTag[]>> {
-  return http<TeamTag[]>({
-    method: 'GET',
-    maxRetries: 3,
-    url: teamFocusUrl,
-    mapToResultObject: true,
-    treat400AsError: true
-  });
+  return refreshSignal.flatMap(() =>
+    http<TeamTag[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: teamFocusUrl,
+      mapToResultObject: true,
+      treat400AsError: true
+    })
+  );
 }
 
 export function updateTeamFocus(teamId: string) {

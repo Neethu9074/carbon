@@ -5,7 +5,7 @@
  */
 
 import { createField, createMapForm, ValidationResult } from 'formalistic';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { ActionType } from '@instana/types';
@@ -744,7 +744,14 @@ export default function useActionForm({ action, actionFilter }: UseActionFormPar
       return createActionForm({ action, actionFilter, form: newForm });
     });
   }
-  return [form, updateForm] as const;
+  function resetForm() {
+    setForm(createActionForm({ action, actionFilter }));
+  }
+  useEffect(() => {
+    setForm(createActionForm({ action, actionFilter }));
+  }, [action, actionFilter]);
+
+  return [form, updateForm, resetForm] as const;
 }
 
 interface ActionFormContextOutput {

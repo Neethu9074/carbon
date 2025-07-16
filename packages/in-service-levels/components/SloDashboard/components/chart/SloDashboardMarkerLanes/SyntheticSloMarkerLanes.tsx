@@ -20,7 +20,8 @@ export default function SyntheticSloMarkerLanes({
   chartHeight = 0,
   chartBucketWidth = 0,
   timeAxisHeight = 0,
-  markerPaneHeight = 0
+  markerPaneHeight = 0,
+  hideCorrectionWindowsLane
 }: SyntheticSloMarkerLanesProps) {
   return (
     <MarkerLanesPresenter
@@ -33,7 +34,7 @@ export default function SyntheticSloMarkerLanes({
       timeAxisHeight={timeAxisHeight}
       markerPaneHeight={markerPaneHeight}
     >
-      <CorrectionWindowsLane chartContentPosition={chartContentPosition} />
+      {!hideCorrectionWindowsLane && <CorrectionWindowsLane chartContentPosition={chartContentPosition} />}
     </MarkerLanesPresenter>
   );
 }

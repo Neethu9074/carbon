@@ -8,8 +8,9 @@
   "dashboards": {
     "address": "IP address",
     "memoryUsage": "Memory usage",
+    "usedPhysicalMemory": "Physical memory used",
     "cpuUsage": "CPU usage",
     "os": "Operating system",
-    "numberOfVms": "Number of virutal machines"
+    "numberOfVms": "Number of virtual machines"
   }
 }

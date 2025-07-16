@@ -3,14 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import { List, Map } from 'immutable';
 
+import { useObservable } from '@instana/hooks';
+
+import PrepareClrLoggingEnvironmentButton from 'in-forge/plugins/netCoreRuntimePlatform/Logging/PrepareClrLoggingEnvironmentButton';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
 import { analyzeRelatedInstancesButtonEnabled, vulnerabilityCenterEnabled } from 'in-services/featureFlags';
+import DownloadClrLogButton from 'in-forge/plugins/netCoreRuntimePlatform/Logging/DownloadClrLogButton';
 import AnalyzeRelatedInstancesButton from 'in-infrastructure/components/AnalyzeRelatedInstancesButton';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import EntityCveIndicator from 'in-components/EntityCveIndicator/EntityHealthIndicatorBehavior';
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
+import { isDotNetHostCollectorPrepared } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import CveIndicatorButtonPresenter from 'in-components/health/CveIndicatorButtonPresenter';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
 import { defaultAllInfraGroup } from 'in-infrastructure/Explore/constants';
@@ -20,17 +27,29 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import { getRelatedInstancesTagFilterCallback } from 'in-sdk/tagFilter';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
 import DashboardHeaderComponent from 'in-components/DashboardHeader';
+import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
+import { alwaysNull } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
+import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './DashboardHeader.mless';
 
-export default function DashboardHeader(props) {
+function DashboardHeader(props) {
   const { snapshot, title, snapshotId } = props;
   const { location } = useNavigation();
   const { trackAnalyzeInfrastructureButtonClicked: trackAnalyzeRelatedInstancesButtonClicked } = useSegmentTracker();
+  const [prepareClrLoggingEnvironmentButtonClicked, setPrepareClrLoggingEnvironmentButtonClicked] = useState(false);
+  const isInternalVisible = useObservable(() => isInternalVisible$, []);
+  const agentSnapshot = useObservable(() => {
+    return isInternalVisible$
+      .flatMap(enabled => (enabled ? getAgentSnapshotId(snapshot) : alwaysNull))
+      .flatMap(agentSnapshotId => (agentSnapshotId ? getSnapshot(agentSnapshotId) : alwaysNull));
+  }, [snapshot]);
+
   return (
     <>
       <DashboardBreadcrumb snapshotId={snapshotId} snapshot={snapshot} title={title} />
@@ -42,7 +61,14 @@ export default function DashboardHeader(props) {
           renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} />}
           label={snapshot.get('label')}
           renderButtonLine={props =>
-            renderButtonLine({ ...props, path: location.pathname, trackAnalyzeRelatedInstancesButtonClicked })
+            renderButtonLine({
+              ...props,
+              path: location.pathname,
+              trackAnalyzeRelatedInstancesButtonClicked,
+              prepareClrLoggingEnvironmentButtonClicked,
+              setPrepareClrLoggingEnvironmentButtonClicked,
+              agentSnapshot
+            })
           }
           renderButtonLineSecondary={renderButtonLineSecondary}
           renderMetaInformation={renderMetaInformation}
@@ -53,10 +79,38 @@ export default function DashboardHeader(props) {
 }
 
 function renderButtonLine(props) {
-  const { snapshot, timeConfig, path, trackAnalyzeRelatedInstancesButtonClicked } = props;
+  const {
+    snapshot,
+    timeConfig,
+    path,
+    trackAnalyzeRelatedInstancesButtonClicked,
+    prepareClrLoggingEnvironmentButtonClicked,
+    setPrepareClrLoggingEnvironmentButtonClicked,
+    agentSnapshot
+  } = props;
+
+  if (
+    [plugins.clrRuntimePlatform].includes(snapshot.get('plugin')) ||
+    [plugins.netCoreRuntimePlatform].includes(snapshot.get('plugin'))
+  ) {
+    const snapShotVoliatile = snapshot.get('volatileId').toJS();
+    isDotNetHostCollectorPrepared(
+      snapShotVoliatile,
+      prepareClrLoggingEnvironmentButtonClicked,
+      setPrepareClrLoggingEnvironmentButtonClicked
+    );
+  }
   const plugin = snapshot.get('plugin');
   const getTagFilter = analyzeRelatedInstancesButtonEnabled ? getRelatedInstancesTagFilterCallback(plugin) : undefined;
   const analyzeRelatedInstancesTagFilter = getTagFilter ? getTagFilter(snapshot) : undefined;
+
+  // Access capabilities from agentSnapshot
+  const capabilities = agentSnapshot && Map.isMap(agentSnapshot) ? agentSnapshot.getIn(['data', 'capabilities']) : null;
+
+  var clrLogCollectorInfoCapabilityFound = false;
+  if (capabilities != null && capabilities.includes('clr_log_collector')) clrLogCollectorInfoCapabilityFound = true;
+  /* eslint-disable no-console */
+  console.log('Capabilities from Agent Snapshot: ' + capabilities);
 
   return (
     <>
@@ -83,6 +137,28 @@ function renderButtonLine(props) {
           size="normal"
         />
       )}
+
+      {([plugins.clrRuntimePlatform].includes(snapshot.get('plugin')) ||
+        [plugins.netCoreRuntimePlatform].includes(snapshot.get('plugin'))) &&
+        clrLogCollectorInfoCapabilityFound &&
+        !prepareClrLoggingEnvironmentButtonClicked && (
+          <PrepareClrLoggingEnvironmentButton
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            setPrepareClrLoggingEnvironmentButtonClick={setPrepareClrLoggingEnvironmentButtonClicked}
+          />
+        )}
+
+      {([plugins.clrRuntimePlatform].includes(snapshot.get('plugin')) ||
+        [plugins.netCoreRuntimePlatform].includes(snapshot.get('plugin'))) &&
+        clrLogCollectorInfoCapabilityFound &&
+        prepareClrLoggingEnvironmentButtonClicked && (
+          <DownloadClrLogButton
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            setPrepareClrLoggingEnvironmentButtonClick={setPrepareClrLoggingEnvironmentButtonClicked}
+          />
+        )}
 
       {analyzeRelatedInstancesTagFilter && (
         <AnalyzeRelatedInstancesButton
@@ -130,3 +206,5 @@ function isContainer(snapshot) {
   const containerPlugins = ['docker', 'crio', 'garden', 'containerd', 'awsEcsContainer', 'podman'];
   return containerPlugins.includes(plugin);
 }
+
+export default DashboardHeader;

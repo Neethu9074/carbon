@@ -15,19 +15,26 @@ import { AdditionChartContentProps } from 'in-components/Chart/types';
 
 export interface SloDashboardMarkerLanesProps extends AdditionChartContentProps {
   entity: SloEntityUnion;
+  hideCorrectionWindowsLane?: boolean;
 }
 
-export default function SloDashboardMarkerLanes({ entity, ...props }: SloDashboardMarkerLanesProps) {
+export default function SloDashboardMarkerLanes({
+  entity,
+  hideCorrectionWindowsLane,
+  ...props
+}: SloDashboardMarkerLanesProps) {
   if (isApplicationSloEntity(entity)) {
-    return <ApplicationSloMarkerLanes entity={entity} {...props} />;
+    return (
+      <ApplicationSloMarkerLanes hideCorrectionWindowsLane={hideCorrectionWindowsLane} entity={entity} {...props} />
+    );
   }
 
   if (isWebsiteSloEntity(entity)) {
-    return <WebsiteSloMarkerLanes entity={entity} {...props} />;
+    return <WebsiteSloMarkerLanes hideCorrectionWindowsLane={hideCorrectionWindowsLane} entity={entity} {...props} />;
   }
 
   if (isSyntheticSloEntity(entity)) {
-    return <SyntheticSloMarkerLanes {...props} />;
+    return <SyntheticSloMarkerLanes hideCorrectionWindowsLane={hideCorrectionWindowsLane} {...props} />;
   }
 
   return null;

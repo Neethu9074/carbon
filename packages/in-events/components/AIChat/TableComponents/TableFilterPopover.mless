@@ -1,0 +1,27 @@
+:local {
+  .filterPopoverContent {
+    width: 18rem;
+  }
+
+  .filterPopoverBody {
+    padding: 1rem 1rem 0;
+  }
+
+  .filterOptionsContainer {
+    max-height: 6rem;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+  }
+
+  .labelStyle {
+    margin-bottom: 0.75rem;
+  }
+
+  .resetButton {
+    width: 50%;
+  }
+
+  .applyButton {
+    width: 50%;
+  }
+}

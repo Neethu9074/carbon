@@ -1,4 +1,7 @@
 {
+  "general": {
+    "region": "Region"
+  },
   "accessibility": {
     "opensNewTab": "Opens in a new tab"
   },
@@ -9,7 +12,8 @@
     "headerAriaLabel": "Page header",
     "contentAriaLabel": "Content",
     "filterAriaLabel": "Filter",
-    "pageTabsAriaLabel": "Page tabs"
+    "pageTabsAriaLabel": "Page tabs",
+    "pageSubMenu": "Page sub-menu"
   },
   "fileInputButton": {
     "label": {
@@ -295,11 +299,17 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Commit",
-    "buttonGraphShowcase": "Graph Showcase",
     "geo": {
-      "title": "Geo data",
-      "description": "This product includes GeoLite2 data created by MaxMind, available from <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
-    }
+      "title": "Geo data"
+    },
+    "ibm": "IBM",
+    "copyRights": "Copyright © IBM Corp. 2020, 2023",
+    "instana": "Instana",
+    "close": "Close",
+    "maxMindDescription":"This data includes GeoLite2 data created by",
+    "maxMind":"MaxMind.",
+    "dynamicGraphDescription":"See a visualization of your environment in the",
+    "dynamicGraph":"Dynamic Graph showcase."
   },
   "blueprintFormMultistep": {
     "buttonCancel": "Cancel",
@@ -365,7 +375,11 @@
     "loadingIndicatorLoadingData": "Loading data",
     "tooltipResetView": "Reset view",
     "tooltipZoomIn": "Zoom in",
-    "tooltipZoomOut": "Zoom out"
+    "tooltipZoomOut": "Zoom out",
+    "openTable": "Open table",
+    "pageLoads": "Page loads",
+    "modalContent": "Modal content",
+    "unknownTitle": "Uncategorized"
   },
   "groupingConfigurator": {
     "exampleTagCatalogLabelKubernetes": "Kubernetes",
@@ -473,8 +487,10 @@
   "mainNavigation": {
     "skipToMainContent": "Skip to main content",
     "viewSwitcherLabelSettings": "Settings",
+    "viewSwitcherLabelAccountAndBilling": "Account and billing",
     "viewSwitcherLabelMore": "More",
     "viewSwitcherLabelAgents": "Agents",
+    "viewSwitcherLabelDataSources": "Data sources",
     "viewSwitcherLabelReleaseNotes": "Release notes",
     "viewSwitcherLabelDocumentation": "Documentation",
     "viewSwitcherLabelSupport": "Support",
@@ -504,6 +520,7 @@
     "viewSwitcherLabelPlatforms": "Platforms",
     "viewSwitcherCustomDashboards": "Custom dashboards",
     "viewSwitcherLabelNutanix": "Nutanix",
+    "viewSwitcherLabelSoftwareCatalog": "Software Catalog",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
     "profileMenu_profileLink": "Profile",
@@ -516,6 +533,7 @@
     "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_privacy": "Privacy",
     "profileMenu_logOut": "Log out",
+    "profileMenu_switcherContainer": "Switcher container",
     "scope_title": "Scope",
     "scope_defaultScope": "Default scope"
   },
@@ -541,7 +559,8 @@
     "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribution",
     "aggregation_PERSECOND": "per second",
-    "labelFilterEmptyValue": "Filter empty values"
+    "labelHideEmptyValues": "Hide empty values",
+    "labelShowEmptyValues": "Show empty values"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Used",

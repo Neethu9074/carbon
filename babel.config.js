@@ -74,6 +74,9 @@ module.exports = {
 
     // Explicitly enable transpilation of @instana/types, because it purely consists of automatically generated typescript
     // code that can't easily be transpiled upon creation
-    path.join(__dirname, 'node_modules', '@instana', 'types', '**', '*.ts')
+    path.join(__dirname, 'node_modules', '@instana', 'types', '**', '*.ts'),
+
+    // Enable transpilation of @instana/ai-chat for ES modules support
+    path.join(__dirname, 'node_modules', '@instana', 'ai-chat', '**', '*.js')
   ]
 };

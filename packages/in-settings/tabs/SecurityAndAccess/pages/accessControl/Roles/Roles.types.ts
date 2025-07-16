@@ -19,7 +19,7 @@ export interface ApiRoleWithPermissions extends Omit<ApiRole, 'permissions'> {
   permissions: Array<ProductAreaPermissionUnion>;
 }
 
-export interface RoleDetailsWithPermissions extends Omit<RoleDetails, 'permissions'> {
+export interface RoleDetailsWithPermissions extends RoleDetails {
   permissions: Array<ProductAreaPermissionUnion>;
 }
 

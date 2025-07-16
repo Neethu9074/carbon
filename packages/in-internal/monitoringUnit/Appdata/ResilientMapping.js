@@ -152,7 +152,8 @@ function getRowDetails(row, fqn) {
           formatter: number.detailed,
           metrics: [
             `metrics.meters.${fqn}.cache-hits`,
-            `metrics.meters.${fqn}.cache-hits-with-disambiguation``metrics.meters.${fqn}.cache-misses-caused-by-multiple-entities`
+            `metrics.meters.${fqn}.cache-hits-with-disambiguation`,
+            `metrics.meters.${fqn}.cache-misses-caused-by-multiple-entities`
           ],
           labels: [
             t('in-internal:monitoringUnit.appdata.resilientMapping.firstLevelCacheHits'),

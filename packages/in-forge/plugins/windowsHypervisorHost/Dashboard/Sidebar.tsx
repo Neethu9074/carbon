@@ -6,6 +6,13 @@
 
 import React from 'react';
 
-export default function WindowsHypervisorHostSidebar() {
-  return <div />;
+import Info from 'in-forge/plugins/windowsHypervisorHost/Info';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+
+export default function WindowsHypervisorHostSidebar({ snapshot }: { snapshot: SnapshotData }) {
+  return (
+    <div>
+      <Info snapshot={snapshot} />
+    </div>
+  );
 }

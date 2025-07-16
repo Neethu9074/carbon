@@ -116,6 +116,20 @@
       "unnamedDataset": "Unnamed dataset"
     }
   },
+  "aiChat": {
+    "launcherGreeting": "Hello, you can create some widgets via chat too!",
+    "welcome": "Hello and welcome",
+    "restrictions": "AI-assisted widget creation is currently available for the following parameters",
+    "widgetType": "Widget type",
+    "filter": "Filter",
+    "filter_application": "Application name",
+    "filter_service": "Service name",
+    "filter_endpoint": "Endpoint name",
+    "filter_erroneousCall": "Call erroneous",
+    "filter_callType": "Call type",
+    "filter_technology": "Technology",
+    "tryOutExamplePrompts": "Feel free to try out one of the example prompts by selecting the widget type below or use your own prompt."
+  },
   "dashboardSwitcher": {
     "dashboardSwitcher": {
       "loading": "Loading…"
@@ -168,7 +182,7 @@
         "pleaseSelectMetric": "Please select a metric",
         "aggregation": "Aggregation",
         "metric": "Metric",
-        "unit":  "Unit"
+        "unit": "Unit"
       },
       "index": {
         "businessMetrics": "Business metrics"
@@ -463,7 +477,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - getting started",
-        "text": "Instana is the first and only fully automated Application Performance (APM) Solution designed\nspecifically for the challenges of managing microservice and cloud-native applications.\n\nGetting started is easy\n\n1. If you don't have yet access to Instana, head over to [Instana.com](https://www.instana.com) and register for a Free Trial.\n2. Explore our ecosystem of hundreds of [supported technologies](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies).\n3. Start collecting data with one of our [agents](https://ibm.biz/installing-agent).\n4. Learn [how to use Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) for your use-cases.\n5. Read about our unique [Core Capabilities](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).\n6. Extend Instana with our [Integrations, SDK & APIs](https://ibm.biz/integrations-sdks-apis).\n\nThat's it!\n\nCan't find what you're looking for? Hop over to the [documentation](https://www.ibm.com/docs/en/obi/current)!"
+        "text": "Instana is the first and only fully automated Application Performance (APM) Solution designed\nspecifically for the challenges of managing microservice and cloud-native applications.\n\nGetting started is easy\n\n1. If you don't have yet access to Instana, head over to [Instana.com](https://www.instana.com) and register for a Free Trial.\n2. Explore our ecosystem of hundreds of [supported technologies](https://www.ibm.com/docs/en/instana-observability/latest?topic=configuring-monitoring-supported-technologies).\n3. Start collecting data with one of our [agents](https://ibm.biz/installing-agent).\n4. Learn [how to use Instana](https://www.ibm.com/docs/en/instana-observability/latest?topic=using-instana) for your use-cases.\n5. Read about our unique [Core Capabilities](https://www.ibm.com/docs/en/instana-observability/latest?topic=core-capabilities).\n6. Extend Instana with our [Integrations, SDK & APIs](https://ibm.biz/integrations-sdks-apis).\n\nThat's it!\n\nCan't find what you're looking for? Hop over to the [documentation](https://www.ibm.com/docs/en/instana-observability/latest)!"
       },
       "formComp": {
         "whatULikeShow": "What would you like to show?",

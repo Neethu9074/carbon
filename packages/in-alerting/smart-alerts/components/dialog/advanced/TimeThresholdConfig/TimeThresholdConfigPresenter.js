@@ -37,21 +37,13 @@ export default function TimeThresholdConfigPresenter({
   updateForm,
   hasTraceImpactOption,
   hasUserImpactOption,
-  impactTimeThresholdDisabled,
-  oneMinuteGranularityAllowed
+  impactTimeThresholdDisabled
 }) {
   return (
     <TwoColumnContainer
       moveMainAreaRight
       mainContentHeadline={getTitle(form.get('timeThreshold'))}
-      mainContent={
-        <ConfigureAlertingThreshold
-          form={form}
-          onChange={onChange}
-          updateForm={updateForm}
-          oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
-        />
-      }
+      mainContent={<ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} />}
       secondaryContent={
         <SelectTimeThreshold
           form={form}
@@ -96,6 +88,5 @@ TimeThresholdConfigPresenter.propTypes = {
   updateForm: PropTypes.func.isRequired,
   hasTraceImpactOption: PropTypes.bool,
   hasUserImpactOption: PropTypes.bool,
-  impactTimeThresholdDisabled: PropTypes.bool,
-  oneMinuteGranularityAllowed: PropTypes.bool
+  impactTimeThresholdDisabled: PropTypes.bool
 };

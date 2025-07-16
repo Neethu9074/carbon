@@ -143,7 +143,7 @@ function getDetails(row: { snapshotId: string | undefined; timeConfig: TimeConfi
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          formatter: number.compact,
+          formatter: number.perSecond.detailed,
           metrics: ['vbd.' + row.name + '.iops_read', 'vbd.' + row.name + '.iops_write'],
           labels: [
             t('in-xenserver:dashboards.vblockDevice.readPerSec'),

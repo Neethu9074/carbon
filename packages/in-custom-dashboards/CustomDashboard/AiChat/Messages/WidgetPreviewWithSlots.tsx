@@ -9,14 +9,11 @@ import React from 'react';
 import { Button, Layer, Stack } from '@instana/carbon';
 import { LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Result } from '@instana/types';
 
-import { CreateWidgetResponse, FinalConfig } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 // @ts-expect-error not yet ts migrated
 import widgets from 'in-custom-dashboards/widgets';
+import { FinalConfig } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 import { promptGetWidgetJson } from 'in-custom-dashboards/api';
-import { pendingResult } from 'in-services/fixedObjects';
-import { isLoading } from 'in-services/util/result';
 import { Widget } from 'in-types';
 
 export function WidgetPreviewWithSlots({
@@ -26,16 +23,16 @@ export function WidgetPreviewWithSlots({
   slots: FinalConfig;
   onAddPromptedWidget: (widget: Widget) => void;
 }) {
-  const result: Result<CreateWidgetResponse> =
-    useObservable(() => promptGetWidgetJson(slots), [slots]) ?? pendingResult;
+  const widgetResponse = useObservable(() => promptGetWidgetJson(slots), [slots]);
 
-  if (isLoading(result)) {
+  if (!widgetResponse) {
     return <LoadingSkeleton />;
   }
-  // just for catching and errors: skip rendering if no data available
-  if (!result.data) return null;
 
-  const { type, config, title } = result.data.widgetConfig;
+  // Skip rendering if no data available
+  if (!widgetResponse.widgetConfig) return null;
+
+  const { type, config, title } = widgetResponse.widgetConfig;
   const widgetPreview = widgets[type];
 
   // TODO: handle conditional return better.
@@ -47,10 +44,12 @@ export function WidgetPreviewWithSlots({
             <span>This is a preview of the widget:</span>
             <widgetPreview.Widget title={title || '–'} config={config} isPreview />
             <span>Do you want me to paste this onto the dashboard?</span>
-            <Button onClick={() => onAddPromptedWidget(result.data?.widgetConfig!)}>Go for it!</Button>
+            <Button onClick={() => onAddPromptedWidget(widgetResponse.widgetConfig!)}>Go for it!</Button>
           </Stack>
         </Layer>
       )}
     </>
   );
 }
+
+// Made with Bob

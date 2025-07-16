@@ -19,6 +19,7 @@ import RoleView from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Tea
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { STATIC_GROUP_NAMES } from 'in-settings/constants';
 import { defaultRoleId } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
@@ -33,6 +34,7 @@ interface MemberCardProps {
 }
 
 const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps) => {
+  const { createHrefToPath } = useNavigation();
   const addMembers = (users: Array<UserResult>) => {
     const userIds = users.map(user => {
       return {
@@ -131,7 +133,7 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
                           header={t('in-settings:components.confirmRemove')}
                           description={
                             <Trans
-                              i18nKey="in-settings:components.confirmRemoveItem"
+                              i18nKey="in-settings:components.confirmRemoveItemNonCritical"
                               values={{
                                 itemName: t('in-settings:tabs.teams.memberWithName', {
                                   name: member?.name ? member?.name : member?.userId
@@ -152,7 +154,10 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
               >
                 <div className={locals.memberContent}>
                   <span>
-                    <Link href={getEntityIdView(securityAndAccessAccessControlUsers, member.userId)} ellipsis>
+                    <Link
+                      href={getEntityIdView(securityAndAccessAccessControlUsers, member.userId, createHrefToPath)}
+                      ellipsis
+                    >
                       {member?.name ? member.name : member?.userId}
                     </Link>
                     <Typography variant="body-small" noMargin component="div">

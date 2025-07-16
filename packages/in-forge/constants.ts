@@ -221,6 +221,7 @@ export const nonServicePlugins = {
   ibmIOs: 'ibmIOs',
   ibmIms: 'ibmIms',
   ibmiNetworkInfo: 'ibmiNetworkInfo',
+  ibmiLicensedProgramInfo: 'ibmiLicensedProgramInfo',
   ibmInfosphereCdc: 'ibmInfosphereCdc',
   ibmInfosphereCdcSubscription: 'ibmInfosphereCdcSubscription',
   ibmMqCluster: 'ibmMqCluster',
@@ -297,6 +298,7 @@ export const nonServicePlugins = {
   nova: 'nova',
   nutanixDatacenter: 'nutanixDatacenter',
   nutanixHost: 'nutanixHost',
+  nutanixVm: 'nutanixVm',
   opc: 'opc',
   oracleDB: 'oracleDB',
   openLDAP: 'openLDAP',
@@ -409,6 +411,8 @@ export const nonServicePlugins = {
   sapWebDispatcher: 'sapWebDispatcher',
   sapAbapInstanceSensor: 'sapAbapInstanceSensor',
   sapAbapSystemSensor: 'sapAbapSystemSensor',
+  sapJavaNetWeaverInstanceSensor: 'sapJavaNetWeaverInstanceSensor',
+  sapJavaNetWeaverSystemSensor: 'sapJavaNetWeaverSystemSensor',
   remoteHost: 'remoteHost',
   processGroup: 'processGroup'
 };
@@ -666,6 +670,8 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.activeJobsInfo.IbmiActiveJobsInfo',
   ibmiAuditJournalsInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.auditJournal.IbmiAuditJournalInfo',
+  ibmiLicensedProgramInfo:
+    'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.licensedprograminfo.IbmiLicensedProgramInfo',
   ibmIMessageQueueInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.messageQueue.IbmIMessageQueueInfo',
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',
@@ -759,6 +765,7 @@ export const fullyQualifiedPlugins = {
   nova: 'com.instana.forge.hardware.virtual.openstack.Nova',
   nutanixDatacenter: 'com.instana.forge.infrastructure.paas.nutanix.derivedentity.datacenter.NutanixDatacenter',
   nutanixHost: 'com.instana.forge.infrastructure.paas.nutanix.derivedentity.host.NutanixHost',
+  nutanixVm: 'com.instana.forge.infrastructure.paas.nutanix.derivedentity.host.NutanixVm',
   opc: 'com.instana.forge.hardware.virtual.opc.Opc',
   oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB',
   openLDAP: 'com.instana.forge.infrastructure.directory.openldap.OpenLDAP',
@@ -890,6 +897,9 @@ export const fullyQualifiedPlugins = {
   sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher',
   sapAbapInstanceSensor: 'com.instana.forge.infrastructure.paas.sapjco.SapAbapInstanceSensor',
   sapAbapSystemSensor: 'com.instana.forge.infrastructure.paas.sapjco.derivedentity.system.SapAbapSystemSensor',
+  sapJavaNetWeaverInstanceSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.SapJavaNetWeaverInstanceSensor',
+  sapJavaNetWeaverSystemSensor:
+    'com.instana.forge.infrastructure.paas.sapnetweaver.derivedentity.system.SapJavaNetWeaverSystemSensor',
   remoteHost: 'com.instana.forge.infrastructure.remote.remotehost.RemoteHost',
   processGroup: 'com.instana.forge.infrastructure.remote.processgroup.ProcessGroup'
 };

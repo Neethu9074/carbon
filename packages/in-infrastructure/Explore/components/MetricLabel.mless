@@ -27,8 +27,8 @@
   }
   .bdi {
     table-layout: fixed;
-    width: auto;
-    display: table;
+    width: 100%;
+    display: grid;
     direction: rtl;
   }
   .carbonHeadercontent {

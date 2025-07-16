@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
-import { compareIgnoreCase } from 'in-services/util/string';
+import { sortGroups, sortNodes } from 'in-map/misc/physical/layoutingStrategies/util.ts';
 
-const MAX_VALUE = Number.MAX_VALUE;
 const squashFactor = 0.5;
 const groupMargin = 1;
 const nodeMargin = 2;
@@ -62,24 +60,4 @@ export default function applyLayout({ groups }) {
       }
     });
   });
-}
-
-function sortGroups(_groups) {
-  // doerte sort -> unmonitored zone is the last one
-  _groups.sort((a, b) => {
-    if (a.id === ID_OF_UNMONITORED_ZONE) {
-      return MAX_VALUE;
-    }
-    if (b.id === ID_OF_UNMONITORED_ZONE) {
-      return -1 * MAX_VALUE;
-    }
-    return compareIgnoreCase(a._cachedLabel, b._cachedLabel);
-  });
-
-  return _groups;
-}
-
-function sortNodes(_nodes) {
-  _nodes.sort((a, b) => a._cachedLabel.localeCompare(b._cachedLabel));
-  return _nodes;
 }

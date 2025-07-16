@@ -8,6 +8,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import EditRoleDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog';
+import { newOTelPageEnabled } from 'in-services/featureFlags';
 
 describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog', () => {
   it('must render all permission sections', () => {
@@ -30,7 +31,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/component
     const automationSection = getByText('Automation', { selector });
     const eventsAndAlertsSection = getByText('Events and alerts management', { selector });
     const globalFunctionsSection = getByText('Global functions', { selector });
-    const agentDeploymentSection = getByText('Agent deployment', { selector });
+    const agentDeploymentSection = getByText(newOTelPageEnabled ? 'Datasources' : 'Agent deployment', { selector });
     const accessControlSection = getByText('Access control', { selector });
 
     // Then

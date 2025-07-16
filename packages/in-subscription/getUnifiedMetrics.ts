@@ -33,14 +33,15 @@ export function isLabeledMetricResult(resultData: UnifiedMetricsResult): resultD
 export default function getUnifiedMetrics(
   // rbacRestrictions in the query are currently ignored
   { metrics }: GetUnifiedMetricsQuery,
-  bulkRequest = false
+  bulkRequest = false,
+  extraOpts = {}
 ): Observable<Result<UnifiedMetricsResult[]>> {
   if (bulkRequest) {
     return combineLatest([getUnifiedMetricsInternal({ metrics })]).map(mergeResults);
   }
 
   const observables = Object.entries(metrics).map(([metricId, metricConfig]) =>
-    getUnifiedMetricsInternalDeltaFetching({ metricId, metricConfig })
+    getUnifiedMetricsInternalDeltaFetching({ metricId, metricConfig }, extraOpts)
   );
   return combineLatest(observables).map(mergeResults);
 }
@@ -95,11 +96,12 @@ function fullQuery(query: GetSingleUnifiedMetricQuery): GetUnifiedMetricsQuery {
 // Reducing the timeframe for the repeated delta requests allows the backend to apply dynamic optimizations more quickly,
 // because they can only be used if the optimization has been enabled for the entire queried timeframe
 function getUnifiedMetricsInternalDeltaFetching(
-  query: GetSingleUnifiedMetricQuery
+  query: GetSingleUnifiedMetricQuery,
+  extraOpts: object
 ): Observable<Result<UnifiedMetricsResult[]>> {
   const splitRequests = splitQueryForDeltaFetching(query);
   if (!splitRequests) {
-    return getUnifiedMetricsInternal(fullQuery(query));
+    return getUnifiedMetricsInternalWithOpts(extraOpts)(fullQuery(query));
   }
 
   const { fullRequest, deltaRequest, requestedWindowSize, granularity } = splitRequests;

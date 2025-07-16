@@ -5,7 +5,16 @@
 
 import React, { useState } from 'react';
 
-import { Card, HorizontalIndicator, LoadingSkeleton, Message, CarbonIconButton, SvgIcon } from '@instana/components';
+import {
+  Card,
+  HorizontalIndicator,
+  LoadingSkeleton,
+  Message,
+  CarbonIconButton,
+  SvgIcon,
+  Tooltip,
+  Spacer
+} from '@instana/components';
 
 import { AxisConfiguration, ChartConfig, MetricDataPoint, MetricsConfiguration } from 'in-components/Chart/types';
 import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
@@ -34,9 +43,19 @@ interface Props {
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string, id: string) => void;
   tableOpen?: boolean;
   tableCloseHandler?: Function;
+  toolTipIcon?: string;
+  tooltipContent?: string;
 }
 
-export default function ResultAwareChart({ result, config, renderLegend = true, tableOpen, tableCloseHandler }: Props) {
+export default function ResultAwareChart({
+  result,
+  config,
+  renderLegend = true,
+  tableOpen,
+  tableCloseHandler,
+  toolTipIcon,
+  tooltipContent
+}: Props) {
   let {
     timeConfig,
     y1,
@@ -156,12 +175,22 @@ export default function ResultAwareChart({ result, config, renderLegend = true, 
       title={title}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
       leftHeaderContent={
-        <WidgetCardHeader
-          renderApproximateDataTooltip={renderHistoricDataIndicator && hasApproximateData}
-          approximateTooltipText={approximateTooltipText}
-          renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
-          extraInfoTooltip={extraInfo}
-        />
+        <>
+          {toolTipIcon && (
+            <>
+              <Tooltip content={tooltipContent}>
+                <SvgIcon type={toolTipIcon} />
+              </Tooltip>
+              <Spacer horizontal="xsmall" />
+            </>
+          )}
+          <WidgetCardHeader
+            renderApproximateDataTooltip={renderHistoricDataIndicator && hasApproximateData}
+            approximateTooltipText={approximateTooltipText}
+            renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
+            extraInfoTooltip={extraInfo}
+          />
+        </>
       }
       rightHeaderContent={rightHeaderContent}
       size="l"

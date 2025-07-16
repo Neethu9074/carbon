@@ -10,6 +10,8 @@ const path = require('path');
 const i18next = require('i18next');
 const middleware = require('i18next-http-middleware');
 
+const relevantDocs = require('../solis/helpPanelArticles');
+
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers');
 const { solisHubRoute, createRequest } = require('./solis-hub');
@@ -88,12 +90,13 @@ router.get('/solis/nav', middleware.handle(i18next), async (req, res) => {
     }
 
     const navItems = {
-      top: [],
+      top: generateTopNavItems(t),
       side: generateSideNavItems(t, role, featureFlags, infraResource)
     };
 
     res.status(200).json(navItems);
   } catch (error) {
+    /* eslint-disable no-console */
     console.error('Error getting navigation:', error);
     res.sendStatus(500);
   }
@@ -113,6 +116,7 @@ async function getHostCount(req) {
 
     return [status, hostCount];
   } catch (error) {
+    /* eslint-disable no-console */
     console.error('Error fetching host data:', error);
     return [500, null];
   }
@@ -135,6 +139,7 @@ async function getIncidentCount(req) {
     }
     return [status, count];
   } catch (error) {
+    /* eslint-disable no-console */
     console.error('Error fetching incident data:', error);
     return [500, null];
   }
@@ -205,6 +210,19 @@ function getUserPermissions(role, features) {
     hasSAPAccess,
     hasVSphereAccess
   };
+}
+function generateTopNavItems(t) {
+  let topNavItems = [];
+  topNavItems.push({
+    id: 'help',
+    type: 'icon_button',
+    mode: 'native',
+    icon_name: 'help',
+    properties: {
+      label: t('in-server:helpPanel.panelTitle')
+    }
+  });
+  return topNavItems;
 }
 
 function generateSideNavItems(t, role, features, infraResource) {
@@ -489,7 +507,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   }
 
   // agents
-  if (role?.canConfigureAgents) {
+  if (role?.canConfigureAgents && !features.newOTelPageEnabled) {
     toolItems.push({
       icon_name: 'settings--services',
       label: t('in-server:mainNavigation.viewSwitcherLabelAgents'),
@@ -531,6 +549,7 @@ router.get('/solis/about', middleware.handle(i18next), async (req, res) => {
     const aboutInfo = getAbout(instanaVersion);
     res.json(aboutInfo);
   } catch (err) {
+    /* eslint-disable no-console */
     console.error('Unexpected error in /solis/about:', err);
     res.status(500).json({ error: 'Failed to fetch about information' });
   }
@@ -565,6 +584,7 @@ async function getInstanaVersion(req) {
     instanaVersion.version = versionData.branch || '';
     instanaVersion.build_number = versionData.imageTag || '';
   } catch (error) {
+    /* eslint-disable no-console */
     console.error('Error fetching Instana version:', error);
   }
 
@@ -580,20 +600,13 @@ router.get('/solis/help', middleware.handle(i18next), (req, res) => {
 
 function getHelp(t) {
   let content = {
-    primary_content: {
-      title: 'Opening a support case',
-      description: 'To open a support case.',
-      learn_more_href: 'https://www.ibm.com/mysupport/s/?language=en_US'
-    },
-    addtl_docs_topics: [
+    sections: [
       {
-        label: t('in-server:mainNavigation.viewSwitcherLabelDocumentation'),
-        href: 'https://www.ibm.com/docs/en/instana-observability',
-        description: 'Instana Official documentation'
+        id: 'relevant_articles',
+        title: t('in-server:helpPanel.articleSectionTitle'),
+        tiles: relevantDocs(t)
       }
-    ],
-    contact_support_href: 'https://www.ibm.com/mysupport/s/?language=en_US',
-    feature_request_href: 'https://ideas.ibm.com/products/6922406837448488098'
+    ]
   };
   return JSON.stringify(content);
 }

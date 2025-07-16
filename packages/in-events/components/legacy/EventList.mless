@@ -175,4 +175,10 @@
   .hovered {
     background: var(--cds-layer-hover);
   }
+
+  .removeAccordionPadding {
+    :global .cds--accordion__content {
+      padding-inline-end: unset;
+    }
+  }
 }

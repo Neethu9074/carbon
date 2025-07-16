@@ -3,19 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 
+import { IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { amCharts, canDrillDownToMap, getMapName, loadMap } from 'in-components/AmMap/libraryWrapper';
+import { GeoHeatMapTableViewModal } from 'in-components/GeoHeatMap/GeoHeatMapTableViewModal';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { lightGreenToDarkGreenHex } from 'in-themes/heatMapColors';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-components/MapControls/ButtonGroup';
 import HeatMapLegend from 'in-components/HeatMapLegend';
-import Button from 'in-components/MapControls/Button';
 import AmMap from 'in-components/AmMap/ReactWrapper';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './GeoHeatMapPresenter.mless';
@@ -90,53 +91,120 @@ function Content({
   controlWrapperClassName,
   label
 }) {
-  let onZoomIn;
-  let onZoomOut;
-  let onHome;
+  const { pathname } = useLocation();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [mapControls, setMapControls] = useState(null);
+  const modalLaunchButtonRef = useRef(null);
 
   const projection = mapCode === 'world' ? 'winkel3' : 'mercator';
+  const isItGeographyTab = pathname === '/websiteMonitoring/website/geography';
+  const iconButtonSize = isItGeographyTab ? 'normal' : 'compact';
+
+  const handleZoomIn = () => {
+    if (mapControls?.onZoomIn) {
+      mapControls.onZoomIn();
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (mapControls?.onZoomOut) {
+      mapControls.onZoomOut();
+    }
+  };
+
+  const handleHome = () => {
+    if (mapControls?.onHome) {
+      mapControls.onHome();
+    }
+  };
+
+  // By default, the Carbon modal is supposed to have a launcherButtonRef prop that would handle
+  // the focus after closing automatically. However, it does not work properly in React 17
+  // when fowarding the ref. It introduces a race condition in their code and the result is that the button
+  // has the focus on initial render and not on modal close only. The workaround is quite simple and is
+  // to handle focus manually, which is what we are doing below. At the same time, the launcherButtonRef prop works fine
+  // in React 18, so we can change the approach from manual focus to using a dedicated prop when we upgrade to React 18.
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false);
+    modalLaunchButtonRef?.current.focus();
+  }, []);
 
   return (
-    <div className={locals.wrapper} style={{ height: `${height}px` }}>
-      <AmMap
-        onDidMount={args => {
-          const creationResult = onDidMount({
-            ...args,
-            onHomeClick,
-            onAreaClick,
-            valueFormatter,
-            notDefinedValue,
-            projection,
-            mapCode,
-            map,
-            data: result.data
-          });
+    <>
+      <GeoHeatMapTableViewModal modalOpen={modalOpen} rawData={result.data} onRequestClose={handleModalClose} />
 
-          onZoomIn = creationResult.onZoomIn;
-          onZoomOut = creationResult.onZoomOut;
-          onHome = creationResult.onHome;
+      <div className={locals.wrapper} style={{ height: `${height}px` }}>
+        <AmMap
+          onDidMount={args => {
+            const creationResult = onDidMount({
+              ...args,
+              onHomeClick,
+              onAreaClick,
+              valueFormatter,
+              notDefinedValue,
+              projection,
+              mapCode,
+              map,
+              data: result.data
+            });
 
-          return creationResult.map;
-        }}
-        height={`${height}px`}
-      />
+            setMapControls({
+              onZoomIn: creationResult.onZoomIn,
+              onZoomOut: creationResult.onZoomOut,
+              onHome: creationResult.onHome
+            });
 
-      <Legend data={result.data} valueFormatter={valueFormatter} label={label} />
+            return creationResult.map;
+          }}
+          height={`${height}px`}
+        />
 
-      <div className={controlWrapperClassName}>
-        <ButtonGroup vertical className={locals.zoom}>
-          <Tooltip content={t('in-components:geoHeatMap.tooltipZoomIn')} align="leftMiddle">
-            <Button appendBottom icon="lib_actions_zoom_in" onClick={() => onZoomIn()} />
-          </Tooltip>
-          <Tooltip content={t('in-components:geoHeatMap.tooltipZoomOut')} align="leftMiddle">
-            <Button appendTop icon="lib_actions_zoom_out" onClick={() => onZoomOut()} />
-          </Tooltip>
-          <Tooltip content={t('in-components:geoHeatMap.tooltipResetView')} align="leftMiddle">
-            <Button icon="lib_home" onClick={() => onHome()} />
-          </Tooltip>
-        </ButtonGroup>
+        <Legend data={result.data} valueFormatter={valueFormatter} label={label} />
+
+        <div className={controlWrapperClassName}>
+          <ButtonGroup vertical className={locals.zoom}>
+            <IconButton
+              align="left"
+              type="lib_table_of_contents"
+              kind="subtle"
+              iconDescription={t('in-components:geoHeatMap.openTable')}
+              onClick={() => setModalOpen(prevState => !prevState)}
+              isWrapperedByTooltip
+              ref={modalLaunchButtonRef}
+              defaultOpen={false}
+              size={iconButtonSize}
+            />
+            <IconButton
+              align="left"
+              type="lib_actions_zoom_in"
+              kind="subtle"
+              iconDescription={t('in-components:geoHeatMap.tooltipZoomIn')}
+              onClick={handleZoomIn}
+              isWrapperedByTooltip
+              size={iconButtonSize}
+            />
+            <IconButton
+              align="left"
+              type="lib_actions_zoom_out"
+              kind="subtle"
+              iconDescription={t('in-components:geoHeatMap.tooltipZoomOut')}
+              onClick={handleZoomOut}
+              isWrapperedByTooltip
+              size={iconButtonSize}
+            />
+            <IconButton
+              align="left"
+              type="lib_home"
+              kind="subtle"
+              iconDescription={t('in-components:geoHeatMap.tooltipResetView')}
+              onClick={handleHome}
+              isWrapperedByTooltip
+              size={iconButtonSize}
+            />
+          </ButtonGroup>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

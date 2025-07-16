@@ -42,7 +42,6 @@ export default function AlertHeader({
   showActionButton,
   allowActionButtons = true,
   onConfigDeleteTrigger,
-  displayTearSheetActions,
   getLinkToEditOrDuplicateSmartAlertTearSheet,
   isGlobalSmartAlert = false,
   hideAlertIcon = false,
@@ -53,9 +52,8 @@ export default function AlertHeader({
   const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
 
-  //TODO remove displayTearSheetActions , once its implemented in all SA
   const duplicateSmartAlertPath =
-    (displayTearSheetActions || alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) &&
+    (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) &&
     getLinkToEditOrDuplicateSmartAlertTearSheet({
       isGlobal: isGlobalSmartAlert,
       alertId: alertConfig.id,
@@ -74,9 +72,8 @@ export default function AlertHeader({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
 
-  //TODO remove displayTearSheetActions , once its implemented in all SA
   const editSmartAlertPath =
-    (displayTearSheetActions || alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) &&
+    (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) &&
     getLinkToEditOrDuplicateSmartAlertTearSheet({
       isGlobal: isGlobalSmartAlert,
       alertId: alertConfig.id,
@@ -202,143 +199,112 @@ export default function AlertHeader({
             </>
           )}
           {allowActionButtons && alertConfig.readOnly && !playwithEnabled && (
-            <Tooltip content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}>
-              <IconButton
-                kind="primaryv2"
-                data-testid="restroreConfigButton"
-                type="lib_actions_revert"
-                iconSpinning={isRestoring}
-                onClick={() => openRestoreConfirmationDialog(alertRevision, doRestore)}
-                alignment="right"
-              />
-            </Tooltip>
+            <IconButton
+              kind="primaryv2"
+              data-testid="restroreConfigButton"
+              type="lib_actions_revert"
+              iconSpinning={isRestoring}
+              onClick={() => openRestoreConfirmationDialog(alertRevision, doRestore)}
+              alignment="right"
+              iconDescription={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}
+              isWrapperedByTooltip
+            />
           )}
 
           {allowActionButtons && !alertConfig.readOnly && showActionButton && !playwithEnabled && (
             <div className={locals.iconsContainer}>
-              <Tooltip
-                content={
+              <IconButton
+                kind="primaryv2"
+                data-testid="statusToggleButton"
+                type={getIcon(isToggling, alertConfig.enabled)}
+                iconSpinning={isToggling}
+                onClick={() => {
+                  if (!isToggling) {
+                    doToggleEnabled();
+                  }
+                }}
+                alignment="right"
+                iconDescription={
                   alertConfig.enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable')
                 }
-                delay={500}
-              >
-                <IconButton
-                  kind="primaryv2"
-                  data-testid="statusToggleButton"
-                  type={getIcon(isToggling, alertConfig.enabled)}
-                  iconSpinning={isToggling}
-                  onClick={() => {
-                    if (!isToggling) {
-                      doToggleEnabled();
-                    }
-                  }}
-                  alignment="right"
-                />
-              </Tooltip>
+                isWrapperedByTooltip
+              />
 
-              <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
-                <IconButton
-                  data-testid="editConfigButton"
-                  alignment="right"
-                  kind="primaryv2"
-                  type="lib_actions_edit"
-                  onClick={() => {
-                    if (alertConfig?.builtIn) {
-                      return openDialog({ isCopy: false });
-                    }
-                    if (alertDisplayMode === CHOICE_DIALOG) {
-                      return openSelectorDialog({ isCopy: false });
-                    }
-                    if (alertDisplayMode === FULLSCREEN) {
-                      return openTearSheet({ isCopy: false, gotoPath: editSmartAlertPath });
-                    }
+              <IconButton
+                data-testid="editConfigButton"
+                alignment="right"
+                kind="primaryv2"
+                type="lib_actions_edit"
+                onClick={() => {
+                  if (alertConfig?.builtIn) {
                     return openDialog({ isCopy: false });
-                  }}
-                />
-              </Tooltip>
+                  }
+                  if (alertDisplayMode === CHOICE_DIALOG) {
+                    return openSelectorDialog({ isCopy: false });
+                  }
+                  if (alertDisplayMode === FULLSCREEN) {
+                    return openTearSheet({ isCopy: false, gotoPath: editSmartAlertPath });
+                  }
+                  return openDialog({ isCopy: false });
+                }}
+                iconDescription={t('in-alerting:components.alertHeaderEditTooltip')}
+                isWrapperedByTooltip
+              />
 
-              <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
-                <IconButton
-                  kind="primaryv2"
-                  data-testid="duplicateConfigButton"
-                  type="lib_actions_copy"
-                  onClick={() => {
-                    if (alertConfig?.builtIn) {
-                      return openDialog({ isCopy: true });
-                    }
-                    if (alertDisplayMode === CHOICE_DIALOG) {
-                      return openSelectorDialog({ isCopy: true });
-                    }
-                    if (alertDisplayMode === FULLSCREEN) {
-                      return openTearSheet({ isCopy: true, gotoPath: duplicateSmartAlertPath });
-                    }
+              <IconButton
+                kind="primaryv2"
+                data-testid="duplicateConfigButton"
+                type="lib_actions_copy"
+                onClick={() => {
+                  if (alertConfig?.builtIn) {
                     return openDialog({ isCopy: true });
-                  }}
-                  alignment="right"
-                />
-              </Tooltip>
-
-              {/* TODO : Remove this once all the smart alerts are implemented with selector dialogs */}
-              {!alertConfig?.builtIn && displayTearSheetActions && (
-                <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderEditTooltip'))} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    data-testid="editConfigButtonTearsheet"
-                    type="lib_actions_edit"
-                    onClick={() => {
-                      openTearSheet({ isCopy: false, gotoPath: editSmartAlertPath });
-                    }}
-                    alignment="right"
-                  />
-                </Tooltip>
-              )}
-              {!alertConfig?.builtIn && displayTearSheetActions && (
-                <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderDuplicateTooltip'))} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    data-testid="duplicateConfigButtonTearsheet"
-                    type="lib_actions_copy"
-                    onClick={() => {
-                      openTearSheet({ isCopy: true, gotoPath: duplicateSmartAlertPath });
-                    }}
-                    alignment="right"
-                  />
-                </Tooltip>
-              )}
+                  }
+                  if (alertDisplayMode === CHOICE_DIALOG) {
+                    return openSelectorDialog({ isCopy: true });
+                  }
+                  if (alertDisplayMode === FULLSCREEN) {
+                    return openTearSheet({ isCopy: true, gotoPath: duplicateSmartAlertPath });
+                  }
+                  return openDialog({ isCopy: true });
+                }}
+                alignment="right"
+                iconDescription={t('in-alerting:components.alertHeaderDuplicateTooltip')}
+                isWrapperedByTooltip
+              />
 
               {!alertConfig?.builtIn && (
-                <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    data-testid="deleteConfigButton"
-                    type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
-                    iconSpinning={isDeleting}
-                    onClick={() => {
-                      if (!isDeleting) {
-                        onConfigDeleteTrigger?.(alertConfig.id);
-                        addActiveDialog(
-                          <ConfirmationDialog
-                            header={t('in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogHeader')}
-                            description={
-                              <Trans
-                                i18nKey="in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogDescription"
-                                values={{ alertConfigName: alertConfig.name }}
-                              />
-                            }
-                            confirmButtonLabel={t(
-                              'in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogConfirmButton'
-                            )}
-                            onSubmit={() => {
-                              close();
-                              doDelete();
-                            }}
-                          />
-                        );
-                      }
-                    }}
-                    alignment="right"
-                  />
-                </Tooltip>
+                <IconButton
+                  kind="primaryv2"
+                  data-testid="deleteConfigButton"
+                  type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
+                  iconSpinning={isDeleting}
+                  onClick={() => {
+                    if (!isDeleting) {
+                      onConfigDeleteTrigger?.(alertConfig.id);
+                      addActiveDialog(
+                        <ConfirmationDialog
+                          header={t('in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogHeader')}
+                          description={
+                            <Trans
+                              i18nKey="in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogDescription"
+                              values={{ alertConfigName: alertConfig.name }}
+                            />
+                          }
+                          confirmButtonLabel={t(
+                            'in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogConfirmButton'
+                          )}
+                          onSubmit={() => {
+                            close();
+                            doDelete();
+                          }}
+                        />
+                      );
+                    }
+                  }}
+                  alignment="right"
+                  iconDescription={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}
+                  isWrapperedByTooltip
+                />
               )}
             </div>
           )}
@@ -416,7 +382,6 @@ AlertHeader.propTypes = {
   showActionButton: PropTypes.bool,
   allowActionButtons: PropTypes.bool,
   onConfigDeleteTrigger: PropTypes.func,
-  displayTearSheetActions: PropTypes.bool,
   getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   isGlobalSmartAlert: PropTypes.bool,
   hideAlertIcon: PropTypes.bool,

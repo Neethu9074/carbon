@@ -38,12 +38,14 @@ import {
   IdpGroupMapping,
   IdentityProviderPatch
 } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
+// @ts-expect-error
+// eslint-disable-next-line import/no-deprecated
+import ApiItemView from 'in-settings/components/ApiItemView';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
-// @ts-expect-error
-import ApiItemView from 'in-settings/components/ApiItemView';
 import { compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
+import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -52,6 +54,7 @@ import { isLoading, hasError } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 import FormGroup from 'in-components/form/FormGroup';
+import { isIdpActive } from 'in-settings/utils/idp';
 import { error } from 'in-services/util/result';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
@@ -60,8 +63,6 @@ import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
 import locals from './GroupMapping.mless';
-import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
-import { isIdpActive } from 'in-settings/utils/idp';
 
 interface InstanaGroup {
   id: string;
@@ -292,7 +293,7 @@ export default function GroupMapping(props: ViewProps) {
           [GROUP_MAPPINGS],
           (f: Item): Item =>
             (f as ListForm<any>)
-              .unshift(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId }))
+              .unshift(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId, teamId: '' }))
               .setTouched(true)
         )
       );

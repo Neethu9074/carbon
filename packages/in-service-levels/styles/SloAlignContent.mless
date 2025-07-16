@@ -22,4 +22,8 @@
     align-items: center;
     gap: 1.5rem;
   }
+
+  .width100 {
+    width: 100%;
+  }
 }

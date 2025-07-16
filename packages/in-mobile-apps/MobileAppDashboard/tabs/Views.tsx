@@ -42,7 +42,7 @@ const columnScreenRendering: Array<ColumnDefinition<MobileAppPaginatedBeaconGrou
   mobileAppScreenRenderingDurationEnabled
     ? [
         {
-          id: 'beaconDurationAgg',
+          id: 'viewChangeDurationAgg',
           label: t('in-mobile-apps:dashboard.tabs.screenRenderingDuration'),
           defaultOrderDirection: 'DESC',
           getContent(item, { result, timeConfig }) {
@@ -52,8 +52,8 @@ const columnScreenRendering: Array<ColumnDefinition<MobileAppPaginatedBeaconGrou
                 rollup={getSparkChartGranularity(timeConfig)}
                 timeConfig={getResolvedTimeConfig(timeConfig, result)}
                 aggregation="P75"
-                metrics={item.metrics.beaconDuration}
-                metric={item.metrics.beaconDurationAgg}
+                metrics={item.metrics.viewChangeDuration}
+                metric={item.metrics.viewChangeDurationAgg}
                 tooltipFormatter={ms.compact}
               />
             );
@@ -215,12 +215,12 @@ function getTableData({
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       },
-      beaconDurationAgg: {
-        metric: 'beaconDuration',
+      viewChangeDurationAgg: {
+        metric: 'viewChangeDuration',
         aggregation: 'P75'
       },
-      beaconDuration: {
-        metric: 'beaconDuration',
+      viewChangeDuration: {
+        metric: 'viewChangeDuration',
         aggregation: 'P75',
         granularity: getSparkChartGranularity(timeConfig)
       }

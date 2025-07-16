@@ -158,6 +158,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                 )}
                 ruleWithThreshold={ruleWithThreshold}
                 tagFilterExpression={alertConfig.tagFilterExpression}
+                groupedTagFilterExpression={alertConfigWithGroupingExpression.tagFilterExpression}
                 groupingTags={groupingTags}
                 tagsFromTagCatalog={tagCatalog?.tags}
                 metricLabel={metricLabel}

@@ -18,12 +18,10 @@ import { t } from 'in-i18n';
 
 export default function ThresholdSection({
   form,
-  updateForm,
-  oneMinuteGranularityAllowed
+  updateForm
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  oneMinuteGranularityAllowed: boolean;
 }) {
   return (
     <Stack direction="vertical" gap="gutter" align="start">
@@ -90,12 +88,7 @@ export default function ThresholdSection({
         />
       </Section>
       {/* Evaluation Window */}
-      <EvaluationWindow
-        form={form}
-        updateForm={updateForm}
-        oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
-        smartAlertType="logSA"
-      />
+      <EvaluationWindow form={form} updateForm={updateForm} smartAlertType="logSA" />
     </Stack>
   );
 }

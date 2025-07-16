@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Spacer, Toggle } from '@instana/components';
+import { Spacer, Toggle, Typography } from '@instana/components';
 
 import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
@@ -81,9 +81,9 @@ export default function AlertPropertyInfos({
         icon="lib_help_error_error_outline"
         title={t('in-alerting:components.alertPropertyInfosLabelDescription')}
       >
-        <Label className={locals.staticDescription}>
+        <Typography variant="body-regular">
           <DangerousHtmlPresenter html={toHtml(description)} />
-        </Label>
+        </Typography>
       </AlertSection>
     </Sections>
   );

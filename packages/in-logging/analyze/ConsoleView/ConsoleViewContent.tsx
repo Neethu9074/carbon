@@ -34,7 +34,7 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
   const [searchValue, setSearchValue] = useState('');
   const [searchItemIndex, setSearchItemIndex] = useState(0);
   const [searchResultIndexes, setSearchResultIndexes] = useState<number[]>([]);
-  const { ref, height } = useResizeObserver();
+  const { ref, height, width } = useResizeObserver();
   const listRef = useRef<HTMLDivElement>();
   const windowRef = useRef<VariableSizeList>();
   const filtersString = JSON.stringify(props.filters);
@@ -50,8 +50,16 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
   }, [dataLength, isTailEnabled]);
 
   function getItemSize(index: number) {
-    const lineCount = logs[index].message.split('\n').length || 1;
-    return lineCount * LINE_HEIGHT;
+    const log = logs[index];
+    const messageLines = log.message.split('\n');
+    const charactersPerLine = Math.floor((width || 100) / 10);
+    const totalWrappedLines = messageLines.reduce((acc, line) => {
+      const lineLength = line.length;
+      const wrappedLines = lineLength > 0 ? Math.ceil(lineLength / charactersPerLine) : 1;
+      return acc + wrappedLines;
+    }, 0);
+
+    return totalWrappedLines * LINE_HEIGHT;
   }
 
   function Row({ index, style }: { index: number; style: React.CSSProperties }) {
@@ -61,7 +69,10 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
 
     return (
       <div
-        style={style}
+        style={{
+          ...style,
+          overflow: 'hidden'
+        }}
         onClick={() => {
           goToPath(path.hash);
         }}
@@ -71,7 +82,9 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
           <div className={locals.level} style={{ background: getLogLevelColor(logLevel) }}>
             <span>{logLevel}</span>
           </div>
-          <HighlightedText text={log.message} keyword={searchValue} />
+          <div className={locals.textContainer}>
+            <HighlightedText text={log.message} keyword={searchValue} />
+          </div>
         </div>
       </div>
     );

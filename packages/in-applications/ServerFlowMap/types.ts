@@ -4,15 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Service } from 'in-types';
+
 export interface NodeCollection {
-  applicationId: string;
-  children: Map<any, any>;
-  data: {
-    entityType: string;
-    snapShotIds: string[];
-    technologies: string[];
-    types: string[];
-  };
+  applicationId?: string;
+  children: Map<string, NodeCollection>;
+  data: Service;
   errors: any;
   hasrelatedNodes: {
     outgoing: boolean;
