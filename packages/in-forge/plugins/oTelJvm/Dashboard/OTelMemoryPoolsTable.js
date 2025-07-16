@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ChartAreaSmooth24 } from '@carbon/icons';
 import { List } from 'immutable';
 import React from 'react';
 
-import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/oTelJvm/constants';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelJvm/constants';
 import TableExplanation from 'in-sdk/components/dashboard/TableExplanation';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -128,8 +129,7 @@ function getDetails(row, snapshot) {
     return metric;
   });
   return (
-    <Chart
-      distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
+    <ChartAreaSmooth24
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
       y1={{
