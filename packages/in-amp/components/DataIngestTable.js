@@ -17,12 +17,13 @@ import {
   TableRow,
   TableContainer
 } from '@instana/carbon';
-import { TableSkeleton } from '@instana/components';
+import { TableSkeleton, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/carbon';
 
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import useDatatIngestHeaderRows from 'in-amp/hooks/useDatatIngestHeaderRows';
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getDataTableAsResultObservable } from 'in-amp/api/account';
 import { t } from 'in-i18n';
 
@@ -63,7 +64,17 @@ const DataIngestTable = () => {
 
   if (loading) {
     return (
-      <TableContainer title={t('in-amp:components.dataIngestTable.consumptionOverview')}>
+      <TableContainer
+        title={
+          newAccountAndBillingPageEnabled ? (
+            t('in-amp:components.dataIngestTable.consumptionOverview')
+          ) : (
+            <Typography variant="heading-300" noMargin>
+              {t('in-amp:components.dataIngestTable.consumptionOverview')}
+            </Typography>
+          )
+        }
+      >
         <TableSkeleton headers={[]} rowCount={16} columnCount={12} compact />
       </TableContainer>
     );
@@ -74,12 +85,22 @@ const DataIngestTable = () => {
   }
 
   return (
-    <TableContainer title={t('in-amp:components.dataIngestTable.consumptionOverview')}>
+    <TableContainer
+      title={
+        newAccountAndBillingPageEnabled ? (
+          t('in-amp:components.dataIngestTable.consumptionOverview')
+        ) : (
+          <Typography variant="heading-300" noMargin>
+            {t('in-amp:components.dataIngestTable.consumptionOverview')}
+          </Typography>
+        )
+      }
+    >
       <DataTable rows={rows} headers={header}>
-        {({ rows, headers, getTableProps, getHeaderProps, getRowProps, getToolbarProps }) => {
+        {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => {
           return (
             <>
-              <TableToolbar {...getToolbarProps()}>
+              <TableToolbar>
                 <TableToolbarContent>
                   {Array.isArray(headers) && headers.length > 0 && Array.isArray(rows) && rows.length > 0 && (
                     <Button
