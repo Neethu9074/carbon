@@ -109,7 +109,7 @@ function renderButtonLine(props) {
 
   var clrLogCollectorInfoCapabilityFound = false;
   if (capabilities != null && capabilities.includes('clr_log_collector')) clrLogCollectorInfoCapabilityFound = true;
-  /* eslint-disable no-console */
+  // eslint-disable-next-line no-console
   console.log('Capabilities from Agent Snapshot: ' + capabilities);
 
   return (
