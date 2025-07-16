@@ -21,7 +21,7 @@ import AccountSettings from 'in-amp/components/AccountSettings';
 //@ts-expect-error - needs TS migration
 import RestrictedUsage from 'in-amp/components/RestrictedUsage';
 import Entitlements from 'in-amp/pages/AccountAndBilling/tabs/EntitlementsView';
-import Usage from 'in-amp/pages/AccountAndBilling/tabs/UsageView';
+import Usage from 'in-amp/pages/AccountAndBilling/tabs/Usage/UsageView';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { t } from 'in-i18n';

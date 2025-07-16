@@ -73,8 +73,8 @@
       "last7Days": "Last 7 days",
       "last30Days": "Last 30 days",
       "last365Days": "Last 365 days",
-      "thisMonth": "This Month",
-      "lastMonth": "Last Month"
+      "thisMonth": "This month",
+      "lastMonth": "Last month"
     },
     "presentationPresets": {
       "distinct": "Distinct values",
@@ -193,6 +193,9 @@
     "accountAndBilling": "Account and billing",
     "tabs": {
       "usage": "Usage",
+       "dataUsage": "Data usage",
+      "consumptionOverview": "Consumption overview",
+      "addOns": "Add-ons",
       "technologiesReporting": "Technologies reporting",
       "accountInformation": "Account information",
       "entitlements": "Entitlements",
@@ -211,6 +214,11 @@
     },
     "emptyPage": {
       "subtitle": "No data available"
+    },
+    "label": {
+      "unit": "Unit",
+      "timeRange": "Time range",
+      "values": "Values"
     }
   }
 }
