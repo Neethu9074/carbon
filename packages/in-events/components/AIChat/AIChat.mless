@@ -51,4 +51,45 @@
     margin-top: -1.9rem;
     right: 5rem;
   }
+
+  .watsonXInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .previewDisclaimer {
+    margin-top: 1rem;
+    color: var(--cds-text-secondary);
+  }
+
+  .modelSection {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--cds-border-subtle);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .graniteLink {
+    display: inline-flex;
+    align-items: center;
+    color: var(--cds-link-primary);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--cds-link-primary-hover);
+      text-decoration: underline;
+    }
+  }
+
+  .launchIcon {
+    margin-inline-start: 0.5rem;
+    display: inline-flex;
+    align-self: center;
+  }
+
+  .secondaryTitle {
+    color: var(--cds-text-secondary);
+  }
 }

@@ -472,7 +472,13 @@
     "group": "Group",
     "resetFilters": "Reset",
     "applyFilter": "Apply",
-    "filtering": "Filters"
+    "filtering": "Filters",
+    "previewDisclaimer": "This is a preview feature. Answers are provided based on the model's interpretation of your questions. Accuracy of generated answers may vary. Double check to determine if the output is appropriate for your needs.",
+    "granite": "granite-3.3-8b-instruct",
+    "aiExplained": "AI explained",
+    "aiModel": "AI model",
+    "poweredByWatsonX": "IBM watsonx Assistant",
+    "watsonXDesc": "IBM watsonx is powered by the latest AI models to intelligently process conversations and provide help whenever and wherever you may need it."
   },
   "notes": {
     "recommendedActions": "Recommended actions",
