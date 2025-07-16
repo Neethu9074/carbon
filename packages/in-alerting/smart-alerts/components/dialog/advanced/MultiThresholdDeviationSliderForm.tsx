@@ -26,10 +26,11 @@ import { overrideAdaptiveBaselineSmoothingParamsEnabled } from 'in-services/feat
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Dropdown from 'in-alerting/components/Dropdown';
-import { SeasonalitySetting } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm.mless';
+
+export type SeasonalitySetting = 'AUTO' | 'NONE' | 'DAILY' | 'WEEKLY';
 
 interface MultiThresholdDeviationSliderFormProps {
   form: MapForm<any>;
