@@ -15,8 +15,8 @@ import {
 } from 'in-services/tracking/eventNames';
 //@ts-expect-error needs TS migration
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
+import OptimizationNudgesTable from 'in-applications/Dashboards/application/tabs/Optimizations/OptimizationNudgesTable';
 import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
-import OptimizationNudgesTable from 'in-applications/Dashboards/application/tabs/OptimizationNudgesTable';
 import { useResourceOptimization } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
