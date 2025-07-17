@@ -1050,5 +1050,10 @@ module.exports = exports = [
     uiClientKey: 'fiveMinuteGranularityForAdaptiveThresholdEnabled',
     instanaCtlKey: 'feature.five.minute.granularity.for.adaptive.threshold.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'newOnboardingPageEnabled',
+    instanaCtlKey: 'feature.new.onboarding.page.enabled',
+    defaultValue: true
   }
 ];

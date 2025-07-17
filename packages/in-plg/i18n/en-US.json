@@ -982,5 +982,9 @@
     "reportingStatus": "{{reporting}} {{datasource}} reporting ({{nonReporting}} not reporting)",
     "reporting": "Reporting",
     "notReporting": "Not reporting"
+  },
+  "onboarding": {
+  "yourDashboard": "Your dashboard",
+  "gettingStarted": "Getting started"
   }
 }

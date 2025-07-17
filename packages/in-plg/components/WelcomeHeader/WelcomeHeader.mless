@@ -12,4 +12,8 @@
     width: 100%;
     background-color: var(--cds-layer-01);
   }
+
+  .tabsOffsetRight {
+    margin-left: 32px; // Adjust as needed (e.g., 40px, 48px)
+  }
 }

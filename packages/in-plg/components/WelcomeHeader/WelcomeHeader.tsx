@@ -6,14 +6,18 @@
 
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import OnboardingCarousel from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel';
 import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
+import { welcomeDashboardPath, welcomeGettingStartedPath } from 'in-plg/navigation/paths';
 import WelcomeToolbar from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
+import { playwithEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
-import { playwithEnabled } from 'in-services/featureFlags';
 import { user } from 'in-stores/user';
 
 import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
@@ -25,6 +29,10 @@ interface WelcomeHeaderProps {
 
 export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivationData }: WelcomeHeaderProps) {
   const username = getUsername();
+  const { createHrefToPath } = useNavigation();
+  const location = useLocation();
+  const isYourDashboardActive = location.pathname === welcomeDashboardPath;
+  const isGettingStartedActive = location.pathname === welcomeGettingStartedPath;
   const headerTitle = `${t('in-plg:welcomepage.heading')}${username}`;
   return (
     <div
@@ -33,7 +41,26 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
       data-testid="header"
     >
       <WelcomeToolbar title={headerTitle} />
-      {onboardingHeaderEnabled && <OnboardingCarousel accountActivationData={accountActivationData} />}
+      {newOnboardingPageEnabled ? (
+        <div className={locals.tabsOffsetRight}>
+          <SecondLevelNavigation>
+            <SecondLevelNavigationItem
+              href={createHrefToPath(welcomeDashboardPath)}
+              label={t('in-plg:onboarding.yourDashboard')}
+              isActive={isYourDashboardActive}
+              className={locals.tabItemOverride}
+            />
+            <SecondLevelNavigationItem
+              href={createHrefToPath(welcomeGettingStartedPath)}
+              label={t('in-plg:onboarding.gettingStarted')}
+              isActive={isGettingStartedActive}
+              className={locals.tabItemOverride}
+            />
+          </SecondLevelNavigation>
+        </div>
+      ) : (
+        onboardingHeaderEnabled && <OnboardingCarousel accountActivationData={accountActivationData} />
+      )}
     </div>
   );
 }
