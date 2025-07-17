@@ -94,6 +94,16 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.sapHana.dashboard.startTime'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: TransactionStatsRow) {
+        return row.transactionStats.get('startTime');
+      },
+      getContent: formatDateTime
+    }
+  },
+  {
     title: t('in-forge:plugins.sapHana.dashboard.activeStatementCount'),
     type: 'metric',
     typeArgs: {
@@ -107,16 +117,6 @@ const cols = [
       getTimeWindowAggregation() {
         return 'mean';
       }
-    }
-  },
-  {
-    title: t('in-forge:plugins.sapHana.dashboard.startTime'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: TransactionStatsRow) {
-        return row.transactionStats.get('startTime');
-      },
-      getContent: formatDateTime
     }
   }
 ];
@@ -170,7 +170,7 @@ export default function TransactionStatsList({ snapshotId, timeConfig }: Transac
       cardTitle={t('in-forge:plugins.sapHana.dashboard.transactionStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={6}
+      initialSortColumn={7}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

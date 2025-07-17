@@ -60,22 +60,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.totalLockWaits'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: LockWaitStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: LockWaitStatsRow) {
-        return `lockWaitStats.${row.key}.totalLockWaits`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.totalLockWaitTime'),
     type: 'metric',
     typeArgs: {
@@ -86,6 +70,22 @@ const cols = [
         return `lockWaitStats.${row.key}.totalLockWaitTime`;
       },
       getContent: millis.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.sapHana.dashboard.totalLockWaits'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: LockWaitStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: LockWaitStatsRow) {
+        return `lockWaitStats.${row.key}.totalLockWaits`;
+      },
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -155,7 +155,7 @@ export default function LockWaitStatsList({ snapshotId, timeConfig }: LockWaitSt
       cardTitle={t('in-forge:plugins.sapHana.dashboard.lockWaitStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={3}
+      initialSortColumn={4}
       getRowDetails={getDetails}
       initialSortDirection="desc"
     />

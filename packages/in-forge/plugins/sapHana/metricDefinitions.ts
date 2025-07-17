@@ -164,11 +164,12 @@ export default [
   },
   {
     formatter: number,
-    metrics: ['stats.runningCount', 'stats.idleCount', 'stats.queueingCount'],
+    metrics: ['stats.runningCount', 'stats.idleCount', 'stats.queueingCount', 'stats.totalCount'],
     labels: [
       t('in-forge:plugins.sapHana.dashboard.running'),
       t('in-forge:plugins.sapHana.dashboard.idle'),
-      t('in-forge:plugins.sapHana.queueingConnectionCount')
+      t('in-forge:plugins.sapHana.queueingConnectionCount'),
+      t('in-forge:plugins.sapHana.total')
     ],
     min: 0
   },
@@ -616,6 +617,41 @@ export default [
     labels: [t('in-forge:plugins.sapHana.dashboard.duration')],
     category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
     formatter: millis.detailed,
+    min: 0
+  },
+  {
+    metrics: ['archiveLogBackupStats.archiveLogBackupStat_summary.completeDataBackupTotal'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.completeDataBackup')],
+    category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
+    formatter: number.compact,
+    min: 0
+  },
+  {
+    metrics: ['archiveLogBackupStats.archiveLogBackupStat_summary.logBackupTotal'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.logBackup')],
+    category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
+    formatter: number.compact,
+    min: 0
+  },
+  {
+    metrics: ['archiveLogBackupStats.archiveLogBackupStat_summary.differentialDataBackupTotal'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.differentialDataBackup')],
+    category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
+    formatter: number.compact,
+    min: 0
+  },
+  {
+    metrics: ['archiveLogBackupStats.archiveLogBackupStat_summary.dataSnapshotTotal'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.dataSnapshot')],
+    category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
+    formatter: number.compact,
+    min: 0
+  },
+  {
+    metrics: ['archiveLogBackupStats.archiveLogBackupStat_summary.totalBackupCount'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.total')],
+    category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
+    formatter: number.compact,
     min: 0
   },
   {

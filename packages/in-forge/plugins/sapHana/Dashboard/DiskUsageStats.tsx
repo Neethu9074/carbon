@@ -181,9 +181,10 @@ export default function DiskUsageStatsList({ snapshotId, timeConfig }: DiskUsage
         />
         <label>{t('in-forge:plugins.sapHana.dashboard.mountDetails')} : </label>
         <Code
-          code={formatSql(row.diskUsageStats.get('mountDetails') == null ? '' : row.diskUsageStats.get('mountDetails'))}
+          // @ts-expect-error Module needs to be translated to TS
+          code={(row.diskUsageStats.get('mountDetails') ?? '').replace(/\s+/g, ' ').trim()}
           lang="bash"
-          softWrap
+          softWrap={false}
           withExpandButton
         />
       </DashboardSection>

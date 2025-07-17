@@ -60,22 +60,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.tableSize'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: TableSizeStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: TableSizeStatsRow) {
-        return `tableSizeStats.${row.key}.tableSize`;
-      },
-      getContent: megaBytes.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.recordCount'),
     type: 'metric',
     typeArgs: {
@@ -86,6 +70,22 @@ const cols = [
         return `tableSizeStats.${row.key}.recordCount`;
       },
       getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.sapHana.dashboard.tableSize'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: TableSizeStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: TableSizeStatsRow) {
+        return `tableSizeStats.${row.key}.tableSize`;
+      },
+      getContent: megaBytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -155,7 +155,7 @@ export default function TableSizeStatsList({ snapshotId, timeConfig }: TableSize
       cardTitle={t('in-forge:plugins.sapHana.dashboard.tableSize')}
       cols={cols}
       rows={rows}
-      initialSortColumn={3}
+      initialSortColumn={4}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

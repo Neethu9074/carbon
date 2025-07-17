@@ -158,13 +158,16 @@ export default function ArchiveLogBackupStatsList({ snapshotId, timeConfig }: Ar
         .toArray()
         .map((key: string) => {
           const archiveLogBackupStats = archiveLogBackupStat.get(key);
-
           return {
             key,
             snapshotId,
             timeConfig,
             archiveLogBackupStats
           };
+        })
+        .filter((row: ArchiveLogBackupStatsRow) => {
+          const stats = row.archiveLogBackupStats;
+          return stats.get('backupId') != null && stats.get('entryType') != null && stats.get('startTime') != null;
         })
     : [];
 
