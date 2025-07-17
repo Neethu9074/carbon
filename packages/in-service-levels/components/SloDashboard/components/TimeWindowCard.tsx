@@ -75,7 +75,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
         {sloTimezone !== getFormattedTimeZone() && (
           <CarbonCallout
             className={locals.toastContainer}
-            actionButtonLabel="Edit SLO time zone"
+            actionButtonLabel={t('in-service-levels:sloChart.sloChartSummary.editSloTimezone')}
             onActionButtonClick={openEditDialog}
             titleId="edit-slo-time-zone"
             kind="info"

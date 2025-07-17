@@ -340,7 +340,8 @@
       "matchedSLOTimeWindow_2": "Matching SLO time windows: ",
       "noMatchedSLOTimeWindow": "No matching time window found",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
-      "timezone":"Time zone: {{sloTimezone}}",
+      "editSloTimezone": "Edit SLO time zone",
+      "timezone": "Time zone: {{sloTimezone}}",
       "sloCreatedTimezone": "This SLO was created in {{sloTimezone}}",
       "currentTimezone": "Your current time zone is set to {{currentTimezone}}.",
       "selectedTimezoneMessage": "Your current time zone is {{timezone}}."
