@@ -40,7 +40,8 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
   metricMetadatas,
   loading,
   query,
-  onQueryChange
+  onQueryChange,
+  crossSeriesSumEnabled
 }) {
   const metrics = form.items.map(field => {
     const label =
@@ -69,6 +70,7 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
       onSwap={onSwap}
       metrics={metrics}
       uniqueMetricsLabels={uniqueMetricsLabels}
+      crossSeriesSumEnabled={crossSeriesSumEnabled}
       onRemove={onRemoveItem}
       shouldTriggerWindowResize={shouldTriggerWindowResize}
       disabled={form.items.length >= maximumNumberOfMetrics}
@@ -110,7 +112,8 @@ function Content({
   onChangeAggregation,
   onChange,
   MetricCatalogConfiguratorHint,
-  uniqueMetricsLabels
+  uniqueMetricsLabels,
+  crossSeriesSumEnabled
 }) {
   const crossSeriesAggregationField = metric.get('crossSeriesAggregation');
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
@@ -166,37 +169,39 @@ function Content({
         ))}
       </Col>
 
-      <Col xs={1}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip
-            content={getCrossSeriesAggregationTooltip(
-              isCrossSeriesAggregationRestricted,
-              isCrossSeriesSumAggregationToggleEnabled,
-              aggregationField.value
-            )}
-          >
-            <span
-              id={`metric-configuration-cross-series-aggregation-${i}`}
-              onClick={() => {
-                if (!isCrossSeriesSumAggregationToggleEnabled) return;
-                onChange([i, 'crossSeriesAggregation'], field =>
-                  field.setValue(isSumCrossSeriesAggregation ? undefined : 'SUM').setTouched(true)
-                );
-              }}
-              className={[
-                locals.crossSeriesAggregationToggle,
-                isCrossSeriesSumAggregationToggleEnabled && locals.enabled,
-                isSumCrossSeriesAggregation && locals.active
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
+      {crossSeriesSumEnabled && (
+        <Col xs={1}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Tooltip
+              content={getCrossSeriesAggregationTooltip(
+                isCrossSeriesAggregationRestricted,
+                isCrossSeriesSumAggregationToggleEnabled,
+                aggregationField.value
+              )}
             >
-              ∑
-            </span>
-          </Tooltip>
-        </div>
-      </Col>
+              <span
+                id={`metric-configuration-cross-series-aggregation-${i}`}
+                onClick={() => {
+                  if (!isCrossSeriesSumAggregationToggleEnabled) return;
+                  onChange([i, 'crossSeriesAggregation'], field =>
+                    field.setValue(isSumCrossSeriesAggregation ? undefined : 'SUM').setTouched(true)
+                  );
+                }}
+                className={[
+                  locals.crossSeriesAggregationToggle,
+                  isCrossSeriesSumAggregationToggleEnabled && locals.enabled,
+                  isSumCrossSeriesAggregation && locals.active
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
+              >
+                ∑
+              </span>
+            </Tooltip>
+          </div>
+        </Col>
+      )}
 
       {infraExploreFilterEmptyValueEnabled && (
         <RequiredToggle
