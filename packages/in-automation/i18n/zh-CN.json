@@ -9,6 +9,9 @@
   "recommendedActions": "建议的操作数",
   "recommendedOptimizationsWithCount": "建议的资源操作 ({{count}})",
   "recommendedOptimizations": "建议的资源操作",
+  "emptyRecommendedActions": "没有建议采取的操作",
+  "emptyRecommendedActionsDescription1": "我们没有找到任何可以建议用于此事故的策略或算法。",
+  "emptyRecommendedActionsDescription2": "要让 AI 创建操作，请单击<strong>生成操作</strong>；或者，要手动创建策略，请单击<strong>创建策略<strong>。",
   "actionName": "操作名称",
   "validVaultParameter": "标记为可选的保险库文件参数必须同时为空白或同时为非空白。",
   "runAction": "运行操作",
@@ -94,7 +97,7 @@
   "actions": "操作",
   "actionsWithCount": "操作 ({{count}})",
   "titleUrl": "URL",
-  "generateWithWatsonx": "使用 watsonx 生成",
+  "generateWithWatsonx": "生成操作",
   "createPolicyWithName": "查看操作 {{actionName}} 并创建策略",
   "viewActionCreatePolicy": "查看操作并创建策略",
   "titleContentReadOnly": "生成的内容（只读）",
@@ -104,11 +107,9 @@
   "playbookId": "运行手册标识",
   "gitType": "Git 类型",
   "gitUrl": "Git URL",
-  "triggeringEvent": "正在触发的事件",
-  "probableRootCause": "可能的根本原因",
-  "contextFor": "相关上下文：",
   "backToPolicies": "返回至策略",
   "backToEvent": "返回至事件",
+  "backToActionCatalog": "返回操作目录",
   "recommendation": "建议",
   "userCreated": "已创建用户",
   "successRate": "成功率",
@@ -120,6 +121,9 @@
   "deletePolicy": "删除策略",
   "viewActionDashboard": "查看操作仪表板",
   "createPolicy": "创建策略",
+  "triggeringEvent": "正在触发的事件",
+  "probableRootCause": "可能的根本原因",
+  "contextFor": "相关上下文：",
   "recommendedActionsExplanability": {
     "linkExplanation": "Instana 使用算法和集成来推荐事件的应对措施。",
     "link": "了解更多关于每种推荐类型的信息。",
@@ -139,7 +143,7 @@
     "actionConfiguration": "操作配置",
     "actionDetails": "提供操作详细信息",
     "Step1HeadlineSelectAction": "从 watsonx 生成的内置操作开始，为该事件创建一个新操作。",
-    "Step1HeadlinePrompt": "使用 watsonx 生成手动操作，处理事件信息，帮助诊断或修复问题。 您可以编辑事件详细信息，为人工智能提供更丰富的信息。 在 <Link>IBM Docs</Link> 中了解更多信息",
+    "Step1HeadlinePrompt": "使用 AI 生成手动操作，以处理有关事件的信息并帮助诊断或解决问题。 您可以编辑事件详细信息，为人工智能提供更丰富的信息。 在 <Link >IBM Docs</Link> 中了解更多信息",
     "Step2Headline": "在保存到操作目录之前，指定操作详细信息或进行更改。",
     "Step3Headline": "（可选）您可以在创建操作的同时创建自动化策略。 您也可以稍后再完成此步骤。",
     "step1Title": "步骤 1：生成或选择操作",
@@ -167,9 +171,9 @@
     "eventName": "事件名称",
     "eventDescription": "事件描述",
     "eventEntityType": "事件实体类型",
-    "noDataAvailableLive": "要在此查看 watsonx 的结果，请单击“<strong>生成</strong>”。",
+    "noDataAvailableLive": "要在此处查看来自 AI 的结果，请单击<strong>生成</strong>。",
     "noDataAvailableSelectAction": "进行选择以查看内容。",
-    "watsonxLoadingContent": "watsonx 正在生成内容",
+    "watsonxLoadingContent": "AI 正在生成内容",
     "confirmButtonLabel": "取消",
     "cancelButtonLabel": "继续编辑",
     "noResultsYet": "尚无结果",
@@ -185,17 +189,17 @@
       "step2Title": "步骤 2：生成脚本",
       "step3Title": "步骤 3：创建操作或导出到外部源",
       "step1Headline": "选择一个要为其生成脚本的手动操作步骤。 您可以在下一步中对手动操作步骤进行编辑。",
-      "step2Headline1": "查看操作步骤的详细信息，并进行必要的编辑。 然后单击“生成”，查看 watsonx 的结果。",
+      "step2Headline1": "查看操作步骤的详细信息，并进行必要的编辑。 然后单击“生成”以查看来自 AI 的结果。",
       "step2Headline2": "您可以编辑并再次生成脚本，以查看不同的结果。 在 <Link>IBM Docs</Link> 中了解更多信息",
       "step3Headline": "创建操作或将脚本导出到外部源",
       "step3HeadlineAnsible": "将脚本导出到外部源",
-      "noDataAvailableLive": "要在此查看 watsonx 的结果，请单击“<strong>生成</strong>”。",
+      "noDataAvailableLive": "要在此处查看来自 AI 的结果，请单击<strong>生成</strong>。",
       "generateScriptButton": "生成脚本",
       "generateButton": "生成",
       "titleGeneratedCodeReadOnly": "生成的代码（只读）",
       "promptTitle": "提示",
       "generateScriptTileHeader": "通过手动操作步骤生成脚本",
-      "generateScriptTileDescription": "利用 watsonx AI，只需几步，即可通过手动操作步骤快速创建一个 bash 脚本作为提示，并将其添加到操作目录中。",
+      "generateScriptTileDescription": "借助 AI，您可以通过手动操作步骤快速创建一个 bash 脚本作为提示，并采用几个简单步骤将其添加到操作目录中。",
       "createActionOption": "创建操作",
       "toGithub": "导出到 GitHub",
       "toGitLab": "导出到 GitLab"
@@ -387,6 +391,7 @@
     "goToActionHistory": "转至“操作历史记录”",
     "actionHistoryWithCount": "操作历史记录（{{count}} 个）",
     "noActionInstances": "无可用数据",
+    "incidentActionHistory": "事故操作历史记录",
     "external": "外部",
     "name": "名称",
     "type": "Type",
@@ -548,7 +553,8 @@
     "efficiency_improvement": "效率提升",
     "savings": "节省额",
     "performance": "性能",
-    "performance_assurance": "性能保证"
+    "performance_assurance": "性能保证",
+    "unknown": "未知"
   },
   "resourceOptimization": {
     "details": "资源优化详细信息",
@@ -599,16 +605,12 @@
     "manualActionTip": "<strong>提示</strong>：您可以更新事件信息并再次生成，以查看不同的结果。",
     "scriptTip": "<strong>提示</strong>：您可以更新提示并再次生成，以查看不同的结果。"
   },
-  "consentForm": {
-    "consentButton": "查看许可表单",
-    "consentText": "管理员必须同意生成式 AI 辅助预览隐私协议才能启用此功能。"
-  },
   "AITooltip": {
     "aiExplained": "AI 解释",
     "manualSection": {
       "section1": {
         "section1Title": "操作生成",
-        "section1Text": "要生成一系列手动步骤来诊断或修复该问题，请将事件信息发送至 watsonx。  用于制订 AI 提示的输入最初是根据当前事件填充的，可以进行修改以改进结果。"
+        "section1Text": "为生成一系列手动步骤以诊断或修复问题，我们会向 AI 发送事件信息。  用于制订 AI 提示的输入最初是根据当前事件填充的，可以进行修改以改进结果。"
       },
       "section2": {
         "section2Title": "输入提示字段",
@@ -625,7 +627,7 @@
     },
     "scriptSection": {
       "section1": {
-        "section1Text": "要生成脚本，我们将手动操作步骤的指令发送至 watsonx。 可以修改该步骤来改进结果。"
+        "section1Text": "为生成脚本，我们会向 AI 发生手动操作步骤中的指令。 可以修改该步骤来改进结果。"
       },
       "section3": {
         "section3Text": "这是一个预览功能，其提供了用于执行操作的建议脚本。 您应该确定输出是否满足您的需求。"

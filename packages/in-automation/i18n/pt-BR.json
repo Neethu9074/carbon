@@ -9,6 +9,9 @@
   "recommendedActions": "Ações recomendadas",
   "recommendedOptimizationsWithCount": "Ações de recursos recomendadas ({{count}})",
   "recommendedOptimizations": "Ações de recursos recomendadas",
+  "emptyRecommendedActions": "Nenhuma ação recomendada",
+  "emptyRecommendedActionsDescription1": "Não encontramos nenhuma política ou algoritmo para recomendar para este incidente.",
+  "emptyRecommendedActionsDescription2": "Para que a IA crie uma ação, clique em <strong>Gerar ação</strong> ou para criar uma política manualmente, clique em <strong>Criar política<strong>.",
   "actionName": "Nome da Ação",
   "validVaultParameter": "Os parâmetros da área segura marcados como opcionais devem estar ambos em branco ou ambos não em branco.",
   "runAction": "Executar a ação",
@@ -94,7 +97,7 @@
   "actions": "Ações",
   "actionsWithCount": "Ações ({{count}})",
   "titleUrl": "URL",
-  "generateWithWatsonx": "Gerar com watsonx",
+  "generateWithWatsonx": "Gerar ação",
   "createPolicyWithName": "Visualizar ação {{actionName}} e criar política",
   "viewActionCreatePolicy": "Visualizar ação e criar política",
   "titleContentReadOnly": "Conteúdo gerado (somente leitura)",
@@ -104,11 +107,9 @@
   "playbookId": "ID do playbook",
   "gitType": "Tipo de Git",
   "gitUrl": "Git URL",
-  "triggeringEvent": "Evento acionador",
-  "probableRootCause": "Causa raiz provável",
-  "contextFor": "Contexto para:",
   "backToPolicies": "Voltar para políticas",
   "backToEvent": "Voltar ao evento",
+  "backToActionCatalog": "Voltar ao catálogo de ações",
   "recommendation": "Recomendação",
   "userCreated": "Usuário criado",
   "successRate": "Pontuação de sucesso",
@@ -120,6 +121,9 @@
   "deletePolicy": "Exclua a política",
   "viewActionDashboard": "Visualizar painel de ação",
   "createPolicy": "Criar política",
+  "triggeringEvent": "Evento acionador",
+  "probableRootCause": "Causa raiz provável",
+  "contextFor": "Contexto para:",
   "recommendedActionsExplanability": {
     "linkExplanation": "O Instana usa algoritmos e integrações para recomendar ações para eventos.",
     "link": "Saiba mais sobre cada tipo de recomendação.",
@@ -139,7 +143,7 @@
     "actionConfiguration": "Configuração da ação",
     "actionDetails": "Fornecer detalhes da ação",
     "Step1HeadlineSelectAction": "Comece com uma ação integrada gerada pelo watsonx  para criar uma nova ação para esse evento.",
-    "Step1HeadlinePrompt": "Gere uma ação manual usando o watsonx para processar informações sobre o evento e ajudar a diagnosticar ou corrigir o problema. É possível editar os detalhes do evento para fornecer informações mais detalhadas para a IA. Saiba mais em <Link>IBM Docs</Link>.",
+    "Step1HeadlinePrompt": "Gere uma ação manual usando IA para processar informações sobre o evento e ajudar a diagnosticar ou corrigir o problema. É possível editar os detalhes do evento para fornecer informações mais detalhadas para a IA. Saiba mais em <Link >IBM Docs</Link>.",
     "Step2Headline": "Especifique os detalhes da ação ou mude antes de salvá-la no catálogo de ações.",
     "Step3Headline": "Opcionalmente, é possível criar uma política de automação junto com a ação. Também é possível concluir essa etapa em um momento posterior.",
     "step1Title": "Etapa 1: gerar ou selecionar uma ação",
@@ -167,9 +171,9 @@
     "eventName": "Nome do evento",
     "eventDescription": "Descrição do evento",
     "eventEntityType": "Tipo de entidade de evento",
-    "noDataAvailableLive": "Para ver os resultados do watsonx aqui, clique em <strong>Gerar</strong>.",
+    "noDataAvailableLive": "Para ver os resultados da IA aqui, clique em <strong>Gerar</strong>.",
     "noDataAvailableSelectAction": "Selecione para ver o conteúdo.",
-    "watsonxLoadingContent": "O watsonx está gerando conteúdo",
+    "watsonxLoadingContent": "A IA está gerando conteúdo",
     "confirmButtonLabel": "Cancelar",
     "cancelButtonLabel": "Continuar editando",
     "noResultsYet": "Nenhum resultado ainda",
@@ -185,17 +189,17 @@
       "step2Title": "Etapa 2: gerar um script",
       "step3Title": "Etapa 3: Criar ação ou exportar para uma fonte externa",
       "step1Headline": "Selecione uma etapa de ação manual para a qual pretende gerar um script. É possível fazer edições na etapa da ação manual na próxima etapa.",
-      "step2Headline1": "Revise os detalhes da etapa de ação e faça as edições necessárias. Em seguida, clique em Gerar para ver os resultados do watsonx.",
+      "step2Headline1": "Revise os detalhes da etapa de ação e faça as edições necessárias. Em seguida, clique em \"Gerar\" para ver os resultados da IA.",
       "step2Headline2": "É possível editar e gerar novamente para consultar resultados diferentes. Saiba mais em <Link>IBM Docs</Link>.",
       "step3Headline": "Criar ação ou exportar script para uma fonte externa",
       "step3HeadlineAnsible": "Exportar script para uma origem externa",
-      "noDataAvailableLive": "Para ver os resultados do watsonx aqui, clique em <strong>Gerar</strong>.",
+      "noDataAvailableLive": "Para ver os resultados da IA aqui, clique em <strong>Gerar</strong>.",
       "generateScriptButton": "Gerar script",
       "generateButton": "Gerar",
       "titleGeneratedCodeReadOnly": "Código gerado (somente leitura)",
       "promptTitle": "Prompt",
       "generateScriptTileHeader": "Gerar um script a partir de uma etapa de ação manual",
-      "generateScriptTileDescription": "Ao usar a watsonx AI, é possível criar rapidamente um script bash a partir de uma etapa de ação manual como um prompt e incluí-lo ao seu catálogo de ações em algumas etapas curtas.",
+      "generateScriptTileDescription": "Usando a IA, é possível criar rapidamente um script de bash a partir de uma etapa de ação manual como um prompt e incluí-lo ao seu catálogo de ações em apenas algumas etapas curtas.",
       "createActionOption": "Crie uma ação",
       "toGithub": "Exportar para GitHub",
       "toGitLab": "Exportar para GitLab"
@@ -387,6 +391,7 @@
     "goToActionHistory": "Acessar histórico de ações",
     "actionHistoryWithCount": "Histórico de ações ({{count}})",
     "noActionInstances": "Dados não disponíveis",
+    "incidentActionHistory": "Histórico de ações de incidentes",
     "external": "Externo",
     "name": "Nome",
     "type": "Tipo",
@@ -548,7 +553,8 @@
     "efficiency_improvement": "Melhoria de eficiência",
     "savings": "Economia",
     "performance": "Desempenho",
-    "performance_assurance": "Garantia de desempenho"
+    "performance_assurance": "Garantia de desempenho",
+    "unknown": "Desconhecido"
   },
   "resourceOptimization": {
     "details": "Detalhes da otimização de recursos",
@@ -599,16 +605,12 @@
     "manualActionTip": "<strong>Dica</strong>: é possível atualizar as informações do evento e gerar novamente para visualizar resultados diferentes.",
     "scriptTip": "<strong>Dica</strong>: é possível atualizar o prompt e gerar novamente para visualizar resultados diferentes."
   },
-  "consentForm": {
-    "consentButton": "Revisar o formulário de consentimento",
-    "consentText": "Um administrador deve concordar com o contrato de privacidade de visualização de assistência de IA generativa para ativar esse recurso."
-  },
   "AITooltip": {
     "aiExplained": "IA explicada",
     "manualSection": {
       "section1": {
         "section1Title": "Geração de ação",
-        "section1Text": "Para gerar um conjunto de etapas manuais para diagnosticar ou corrigir o problema, enviamos as informações do evento para o watsonx.  As entradas usadas para formular o prompt de IA são inicialmente preenchidas a partir do evento atual e podem ser modificadas para melhorar os resultados."
+        "section1Text": "Para gerar um conjunto de etapas manuais para diagnosticar ou corrigir o problema, enviamos as informações do evento para a IA.  As entradas usadas para formular o prompt de IA são inicialmente preenchidas a partir do evento atual e podem ser modificadas para melhorar os resultados."
       },
       "section2": {
         "section2Title": "Campos de prompt de entrada",
@@ -625,7 +627,7 @@
     },
     "scriptSection": {
       "section1": {
-        "section1Text": "Para gerar um script, enviamos instruções de uma etapa de ação manual para o watsonx. A etapa pode ser modificada para melhorar os resultados."
+        "section1Text": "Para gerar um script, enviamos instruções de uma etapa de ação manual para a IA. A etapa pode ser modificada para melhorar os resultados."
       },
       "section3": {
         "section3Text": "Este é um recurso de visualização que fornece um script sugerido para executar uma ação. Você deve determinar se a saída é adequada às suas necessidades."

@@ -176,7 +176,8 @@
       "warning": "警告"
     },
     "placeholder": {
-      "severity": "严重性"
+      "severity": "严重性",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "警报配置",
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510（未扩展）",
       "ruleStatusCodeValueOption511": "511（需要网络认证）",
       "ruleStatusCodeValueOption599": "599（网络连接错误）",
+      "ruleStatusCodeValueOptionNone": "无状态（客户端异常中止/发生故障）",
       "warningThresholdValidator": "对于 < 和 <= 运算符，警告阈值应大于临界阈值。",
       "criticalThresholdValidator": "对于 > 和 >= 运算符，临界阈值应大于警告阈值。",
       "sensitivityValidator": "“严重”敏感度应小于“警告”敏感度。"
@@ -796,7 +798,6 @@
         "proceedTitle": "继续",
         "previousTitle": "上一步",
         "nextTitle": "下一步",
-        "closeTitle": "关闭",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageComputedOnApproximateData": "根据数据保留时间设置的近似数据计算基线。 因此，如果与所选过滤器匹配的调用很少，那么可能不准确。",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}} 个标准差",
         "labelThreshold": "阈值",
         "multiThresholdAlertNotificationInfo": "您输入任一阈值都会触发警报通知。",
+        "advancedSettingsTrayTitle": "高级设置",
+        "seasonality": "季节性",
+        "seasonalityAuto": "自动",
+        "seasonalityNone": "无",
+        "seasonalityDaily": "每天",
+        "seasonalityWeekly": "每周",
+        "adaptability": "适应性",
         "warningThresholdLabel": "警告",
         "criticalThresholdLabel": "严重",
         "labelSensitivity": "敏感度",
@@ -1002,8 +1010,10 @@
         "summary": "在不再满足违例阈值后自动关闭问题"
       },
       "tearSheet": {
-        "cancelModalTitle": "确定要取消吗？",
-        "cancelModalDescription": "如果取消，则将不会保存您输入的配置详细信息。",
+        "cancelModalTitle": "确认取消",
+        "continueEditingTitle": "继续编辑",
+        "cancelEditingTitle": "取消智能警报配置",
+        "cancelModalDescription": "确定要取消编辑此智能警报配置吗？ 如果继续，您输入的任何信息都将丢失。 此操作不可撤销。",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "当违例存在一段时间时",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "违例以随机时间间隔发生",
@@ -1083,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "定制事件的自动警报",
         "customEventBlueprintConfigText": "每当发生特定定制事件的频率高于或低于应有的频率时收到警报。",
         "customEventBlueprintConfigIncompleteRuleMessage": "请选择定制事件以查看何时触发此警报",
-        "customEventBlueprintConfigMetricLabel": "出现次数",
         "simpleModeBlueprintConfigsUnexpectedDropName": "页面加载数较低",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "页面加载数异常低时自动发出警报",
         "simpleModeBlueprintConfigsUnexpectedDropText": "当与可用的过往数据相比，页面加载数显著低于预期时，接收警报。",
@@ -1364,7 +1373,6 @@
         "statusCodeCount": "状态码计数",
         "beaconRate": "状态码比率",
         "views": "视图数",
-        "customEventBlueprintConfigMetricLabel": "出现次数",
         "sessions": "会话",
         "crashAffectedSessionRate": "崩溃影响的会话速率",
         "crashFreeSessionRate": "无崩溃时的会话速率",
@@ -1533,6 +1541,11 @@
       }
     },
     "eum": {
+      "data": {
+        "customMetric": "定制度量值",
+        "customDuration": "持续时间",
+        "customOccurrences": "出现次数"
+      },
       "slowness": {
         "blueprintConfigName": "缓慢",
         "httpLatencyMetricLabel": "HTTP 等待时间"
@@ -1560,6 +1573,7 @@
         "JSErrors": "JS 错误：{{errorMessage}}",
         "customEvents": "定制事件：{{customEventName}}",
         "HTTPStatusCodes": "HTTP 状态码：{{statusCode}}",
+        "HTTPStatusCodeNone": "无状态",
         "unsupportedAlertType": "不受支持的报警类型：{{alertType}}",
         "JSErrorsHaveBeenDetected": "检测到 JS 错误。",
         "unsupportedOperator": "不受支持的运算符：{{operator}}",
@@ -1915,7 +1929,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "长短警报窗口",
         "blueprintDescription_STATUS": "当 SLO 状态低于阈值时接收警报。",
         "blueprintDescription_BURNED_PERCENTAGE": "在使用一定百分比的错误预算时接收警报。",
-        "blueprintDescription_BURN_RATE_V2": "烧损率是一个值，表示相对于 SLO 目标长度，误差预算消耗的速度。 ",
+        "blueprintDescription_BURN_RATE_V2": "烧损率表示相对于 SLO 目标长度，误差预算消耗的速度。 计算公式如下：烧损率 = ( 消耗的误差预算 * SLO 时间窗口 ) / 警报窗口。",
         "burnRateShortWindowTitle": "短警报窗口",
         "burnRateShortWindowDescription": "当错误率在较短时间内以较快的速度超过阈值时，就会触发警报。 这有助于捕获因关键错误而突然激增的错误或停机时间。",
         "burnRateDescription": "当烧损率为 <1/> <2/>  时通知我",

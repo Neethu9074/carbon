@@ -1,7 +1,9 @@
 {
   "components": {
     "uiShell": {
-      "mainNavigation": "기본 탐색"
+      "mainNavigation": "기본 탐색",
+      "closeMenu": "닫기 메뉴",
+      "openMenu": "메뉴 열기"
     },
     "list": {
       "loadMore": "추가 로드",
@@ -104,6 +106,7 @@
       "loading": "로드 중…"
     }
   },
+  "language": "언어",
   "language_en-US": "영어",
   "language_de-DE": "독일어",
   "language_fr-FR": "불어",

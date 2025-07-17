@@ -1,7 +1,9 @@
 {
   "welcomeToInstana": "Bem-vindo ao Instana!",
+  "setUpYourFirstDataSource": "Configure sua primeira fonte de dados",
   "home": "Página inicial",
   "getStartedAndInstallYourFirstAgent": "Comece e instale o seu primeiro agente.",
+  "installinOpenTelemetryCollectorOrInstanaAgentToStartCollectingData": "Instale um coletor OpenTelemetry ou um agente Instana para começar a coletar dados.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Sua avaliação expirou",
     "titleAfterTrialPeriodEnd": "Seu período de avaliação terminou",
@@ -77,6 +79,7 @@
     },
     "common": {
       "agentDeployment": "Implementação de agente",
+      "dataSources": "Origens de dados",
       "step1": "Etapa 1: ",
       "step2": "Etapa 2: ",
       "step3": "Etapa 3: ",
@@ -97,13 +100,22 @@
       "runtime": "Tempo de execução",
       "prerequisitesTitle": "Pré-Requisitos",
       "viewDeployedAgents": "Visualizar agentes implementados",
+      "viewInstalledCollector": "Exibir coletor instalado",
       "openAgentDashboardOptional": "Opcional: depois que seu agente for implementado com sucesso, será possível visualizá-lo no mapa de infraestrutura.",
+      "openCollectorDashboardOptional": "Opcional: depois que o coletor for implementado com sucesso, será possível visualizá-lo no mapa da infraestrutura.",
       "downloadKey": "Chave de download",
       "support": "Suporte",
+      "SupportLinks": "Links de suporte",
       "sideCard": {
         "prerequisites": "Pré-Requisitos",
         "documentation": "Documentação"
-      }
+      },
+      "datasourceCatalogHeader_INSTANA_AGENT": "Instalações do agente Instana",
+      "datasourceCatalogHeader_OTEL_COLLECTOR": "Instalações de coletores do OpenTelemetry",
+      "openTelemetryCollectors": "Coletores do OpenTelemetry",
+      "openTelemetryCollectorsDesciption": "Os coletores do OpenTelemetry são uma forma padronizada de coletar e exportar dados de telemetria de aplicativos. Eles podem ser usados como uma alternativa aos agentes nativos, oferecendo uma solução flexível e escalável para a observabilidade.",
+      "instanaAgents": "Agentes do Instana",
+      "instanaAgentsDesciption": "Os agentes do Instana coletam dados de várias plataformas e serviços, incluindo hosts, serviços em nuvem, plataformas sem servidor, bem como aplicativos de sites e móveis. Eles são executados como um processo separado e implantam automaticamente sensores que enviam métricas de volta ao agente para análise e visualização."
     },
     "kubernetes": {
       "kubernetes": {
@@ -355,6 +367,13 @@
         "configurationParameters": "Parâmetros de configuração",
         "troubleshootingInstallation": "Resolução de problemas de instalação do",
         "runningTheAgent": "Executando o agente"
+      },
+      "linux_auto_otel": {
+        "learnMoreAboutInstanaOtelCollector": "Saiba mais sobre o coletor OTel do Instana",
+        "gitHubInstanaOtelCollector": "GitHub: coletor Instana-OTel",
+        "networkRequirements": "Requisitos de rede",
+        "step1SelectTheCollectorPackagingMode": "Etapa 1: selecione o modo de embalagem do coletor.",
+        "step2RunTheOpenTelemetryDeploymentCode": "Etapa 2: execute o código de implementação do OpenTelemetry."
       },
       "linux_deb_rpm": {
         "configureTheAgent": "Etapa 1: configure o agente",
@@ -742,6 +761,12 @@
         "searchPlaceholderLabel": "painéis",
         "addButtonLabel": "dashboard",
         "viewAllLabel": "painéis"
+      },
+      "serviceLevelsWidget": {
+        "label": "Objetivos de nível de serviço",
+        "viewAllLabel": "objetivos de nível de serviço",
+        "addButtonLabel": "objetivo de nível de serviço",
+        "searchPlaceholderLabel": "objetivos de nível de serviço"
       }
     },
     "noData": {
@@ -803,6 +828,10 @@
       "dashboardWidget": {
         "header": "Nenhum painel customizado",
         "description": "Os painéis customizados oferecem uma visualização mais personalizada das informações que são importantes para você.<br><br>Para começar, clique em <strong>Criar painel</strong>."
+      },
+      "serviceLevelsWidget": {
+        "header": "Não há objetivos de nível de serviço",
+        "description": "Os objetivos de nível de serviço ajudam você a definir e acompanhar as metas de desempenho dos seus serviços.<br><br>Para começar, clique em <strong>Adicionar objetivos de nível de serviço</strong>."
       }
     },
     "quickLinks": {
@@ -815,7 +844,7 @@
       },
       "buttonNames": {
         "deployAgent": "Implementar agente",
-        "installDataSource": "Instalar uma origem de dados",
+        "setUpADataSource": "Configurar uma origem de dados",
         "addUser": "Incluir usuário",
         "documentation": "Documentação IBM",
         "releaseNotes": "Notas sobre a liberação",
@@ -881,11 +910,6 @@
     "otherGoalPlaceholder": "Por exemplo, Ganhar visibilidade em meu ambiente",
     "otherGoalToAccomplish": "Que outras metas você está tentando alcançar?"
   },
-  "privacyNotification": {
-    "title": "Gerenciar seu perfil",
-    "description": "Visualize e atualize seu perfil, ajuste as configurações de privacidade e efetue logout - tudo em um só lugar.",
-    "buttonText": "Concluído"
-  },
   "trialNoviceToProDialog": {
     "welcometitle": "Bem-vindo, {{username}}!",
     "description": "Primeiro, o que melhor descreve sua função?",
@@ -916,5 +940,47 @@
     "roleName": "Nome da função",
     "yourRole": "Sua função",
     "next": "Avançar"
+  },
+  "datasources": {
+    "datasources": "Origens de dados",
+    "openTelemetryCollectors": "Coletores do OpenTelemetry",
+    "instanaAgents": "Agentes da Instana",
+    "installACollector": "Instalar um coletor",
+    "status": {
+      "statusUnknown": "Desconhecido",
+      "statusCritical": "Crítico",
+      "statusWarning": "Aviso",
+      "statusHealthy": "Funcional",
+      "statusIssues": "Problemas"
+    },
+    "health": "Funcionamento",
+    "collectorId": "ID do Coletor",
+    "loading": "Carregando...",
+    "loadMore": "Carregar mais",
+    "pageHeader": "Cabeçalho da página",
+    "pageTabs": "Guias da página",
+    "content": "Conteúdo",
+    "noData": {
+      "instanaAgent": {
+        "emptyState_title": "Instale um agente do Instana para começar a visualizar dados",
+        "emptyState_linktext": "Saiba mais sobre os agentes do Instana",
+        "emptyState_buttontext": "Instalar um agente",
+        "emptyState_subtitle": "Clique em Instalar um agente para localizar, implementar e executar um agente do Instana "
+      },
+      "oTelCollector": {
+        "emptyState_title": "Instale um coletor do OpenTelemetry para começar a visualizar os dados",
+        "emptyState_linktext": "Saiba mais sobre o coletor oTel do Instana.",
+        "emptyState_buttontext": "Instalar um coletor",
+        "emptyState_subtitle": "Clique em \"Instalar um coletor\" para localizar, implementar e executar um coletor do OpenTelemetry."
+      }
+    }
+  },
+  "agentViewKpis": {
+    "agents": "agentes",
+    "instanaAgents": "Agentes do Instana",
+    "totalReportingAgents": "Total de agentes fornecendo relatórios",
+    "reportingStatus": "{{reporting}} {{datasource}} fornecendo relatórios ({{nonReporting}} não fornecendo relatórios)",
+    "reporting": "Relatório",
+    "notReporting": "Não fornecendo relatórios"
   }
 }

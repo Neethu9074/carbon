@@ -1,7 +1,9 @@
 {
   "components": {
     "uiShell": {
-      "mainNavigation": "Hauptnavigation"
+      "mainNavigation": "Hauptnavigation",
+      "closeMenu": "Menü schließen",
+      "openMenu": "Menü öffnen"
     },
     "list": {
       "loadMore": "Weitere laden",
@@ -104,6 +106,7 @@
       "loading": "Wird geladen..."
     }
   },
+  "language": "Sprache",
   "language_en-US": "Englisch",
   "language_de-DE": "Deutsch",
   "language_fr-FR": "Französisch",

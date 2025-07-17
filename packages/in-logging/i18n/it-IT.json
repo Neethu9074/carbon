@@ -65,7 +65,7 @@
   "stackTraceHeader": "Messaggio di stacktrace",
   "dashboard": {
     "summary": "Riepilogo",
-    "smartAlerts": "Smart Alert",
+    "smartAlerts": "Avvisi smart",
     "deleteLogs": "Elimina log",
     "management": "Gestione",
     "logVolume": {

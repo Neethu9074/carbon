@@ -116,6 +116,20 @@
       "unnamedDataset": "Ensemble de données sans nom"
     }
   },
+  "aiChat": {
+    "launcherGreeting": "Bonjour, vous pouvez également créer des widgets via la discussion !",
+    "welcome": "Bonjour et bienvenue",
+    "restrictions": "La création de widgets assistée par l'IA est actuellement disponible pour les paramètres suivants",
+    "widgetType": "Type de widget",
+    "filter": "Filtrer",
+    "filter_application": "Nom de l'application",
+    "filter_service": "Nom du service",
+    "filter_endpoint": "Nom de noeud final",
+    "filter_erroneousCall": "Appel erroné",
+    "filter_callType": "Type d'appel",
+    "filter_technology": "Technologie",
+    "tryOutExamplePrompts": "N'hésitez pas à essayer l'une des invites d'exemple en sélectionnant le type de widget ci-dessous ou à utiliser votre propre invite."
+  },
   "dashboardSwitcher": {
     "dashboardSwitcher": {
       "loading": "Chargement en cours..."

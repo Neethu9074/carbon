@@ -1,7 +1,9 @@
 {
   "welcomeToInstana": "欢迎使用 Instana！",
+  "setUpYourFirstDataSource": "设置第一个数据源",
   "home": "主页",
   "getStartedAndInstallYourFirstAgent": "开始并安装第一个代理程序。",
+  "installinOpenTelemetryCollectorOrInstanaAgentToStartCollectingData": "安装 OpenTelemetry 收集器或 Instana 代理以开始收集数据。",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "您的试用已到期",
     "titleAfterTrialPeriodEnd": "您的试用期已结束",
@@ -77,6 +79,7 @@
     },
     "common": {
       "agentDeployment": "代理程序部署",
+      "dataSources": "数据源",
       "step1": "步骤 1： ",
       "step2": "步骤 2： ",
       "step3": "步骤 3： ",
@@ -97,13 +100,22 @@
       "runtime": "运行时",
       "prerequisitesTitle": "先决条件",
       "viewDeployedAgents": "查看已部署的代理程序",
+      "viewInstalledCollector": "查看已安装的收集器",
       "openAgentDashboardOptional": "可选：成功部署代理程序后，您可以在基础架构图中查看该代理程序。",
+      "openCollectorDashboardOptional": "可选：收集器成功部署后，您可以在基础架构地图上查看。",
       "downloadKey": "下载密钥",
       "support": "支持",
+      "SupportLinks": "支持链接",
       "sideCard": {
         "prerequisites": "先决条件",
         "documentation": "文档"
-      }
+      },
+      "datasourceCatalogHeader_INSTANA_AGENT": "Instana 代理安装",
+      "datasourceCatalogHeader_OTEL_COLLECTOR": "OpenTelemetry 收集器安装",
+      "openTelemetryCollectors": "OpenTelemetry 收集器",
+      "openTelemetryCollectorsDesciption": "OpenTelemetry 收集器是一种标准化的方法，用于从应用程序中收集和导出遥测数据。 它们可以作为本机代理的替代方案，提供灵活且可扩展的可观测性解决方案。",
+      "instanaAgents": "Instana 代理",
+      "instanaAgentsDesciption": "Instana 代理从各种平台和服务收集数据，包括主机、云服务、无服务器平台以及网站和移动应用程序。 它们作为独立进程运行，自动部署传感器，将度量结果发送回代理进行分析和可视化。"
     },
     "kubernetes": {
       "kubernetes": {
@@ -355,6 +367,13 @@
         "configurationParameters": "配置参数",
         "troubleshootingInstallation": "对安装进行故障诊断",
         "runningTheAgent": "运行代理程序"
+      },
+      "linux_auto_otel": {
+        "learnMoreAboutInstanaOtelCollector": "了解有关 Instana OTel 收集器的更多信息",
+        "gitHubInstanaOtelCollector": "GitHub：instana-otel-collector",
+        "networkRequirements": "网络要求",
+        "step1SelectTheCollectorPackagingMode": "步骤 1：选择收集器打包模式。",
+        "step2RunTheOpenTelemetryDeploymentCode": "步骤 2：运行 OpenTelemetry 部署代码。"
       },
       "linux_deb_rpm": {
         "configureTheAgent": "步骤 1：配置代理程序",
@@ -742,6 +761,12 @@
         "searchPlaceholderLabel": "仪表板",
         "addButtonLabel": "仪表板",
         "viewAllLabel": "仪表板"
+      },
+      "serviceLevelsWidget": {
+        "label": "服务级别目标",
+        "viewAllLabel": "服务级别目标",
+        "addButtonLabel": "服务级别目标",
+        "searchPlaceholderLabel": "服务级别目标"
       }
     },
     "noData": {
@@ -803,6 +828,10 @@
       "dashboardWidget": {
         "header": "无定制仪表板",
         "description": "自定义仪表板为您提供了进一步定制的重要信息视图。<br><br> 要开始操作，请单击<strong>创建仪表板</strong>。"
+      },
+      "serviceLevelsWidget": {
+        "header": "无服务级别目标",
+        "description": "服务级别目标帮助您为服务设定和跟踪性能目标。<br><br>要开始，请单击<strong>添加服务级别目标</strong>。"
       }
     },
     "quickLinks": {
@@ -815,7 +844,7 @@
       },
       "buttonNames": {
         "deployAgent": "部署代理程序",
-        "installDataSource": "安装数据源",
+        "setUpADataSource": "设置数据源",
         "addUser": "添加用户",
         "documentation": "IBM 文档",
         "releaseNotes": "发行说明",
@@ -881,11 +910,6 @@
     "otherGoalPlaceholder": "例如，获得整个环境的可视性",
     "otherGoalToAccomplish": "您还想实现哪些其他目标？"
   },
-  "privacyNotification": {
-    "title": "管理您的概要文件",
-    "description": "在同一个位置查看和更新您的概要文件、调整隐私设置和注销。",
-    "buttonText": "完成"
-  },
   "trialNoviceToProDialog": {
     "welcometitle": "欢迎 {{username}}！",
     "description": "首先，关于您的职责最贴切的描述是什么？",
@@ -916,5 +940,47 @@
     "roleName": "角色名称",
     "yourRole": "您的角色",
     "next": "下一步"
+  },
+  "datasources": {
+    "datasources": "数据源",
+    "openTelemetryCollectors": "OpenTelemetry 收集器",
+    "instanaAgents": "Instana 代理程序",
+    "installACollector": "安装收集器",
+    "status": {
+      "statusUnknown": "未知",
+      "statusCritical": "严重",
+      "statusWarning": "警告",
+      "statusHealthy": "运行状况良好",
+      "statusIssues": "问题"
+    },
+    "health": "运行状况",
+    "collectorId": "收集器 ID",
+    "loading": "正在加载...",
+    "loadMore": "加载更多",
+    "pageHeader": "页眉",
+    "pageTabs": "页面选项卡",
+    "content": "内容",
+    "noData": {
+      "instanaAgent": {
+        "emptyState_title": "安装 Instana 代理以开始查看数据",
+        "emptyState_linktext": "了解有关 Instana 代理的更多信息",
+        "emptyState_buttontext": "安装代理",
+        "emptyState_subtitle": "单击“安装代理”以查找、部署和运行 Instana 代理 "
+      },
+      "oTelCollector": {
+        "emptyState_title": "安装 OpenTelemetry 收集器以开始查看数据",
+        "emptyState_linktext": "了解有关 Instana  oTel  收集器的更多信息",
+        "emptyState_buttontext": "安装收集器",
+        "emptyState_subtitle": "单击“安装收集器”以查找、部署并运行 OpenTelemetry 收集器。"
+      }
+    }
+  },
+  "agentViewKpis": {
+    "agents": "代理",
+    "instanaAgents": "Instana 代理",
+    "totalReportingAgents": "报告代理总数",
+    "reportingStatus": "{{reporting}} {{datasource}} 项报告（{{nonReporting}} 项未报告）",
+    "reporting": "报告",
+    "notReporting": "未报告"
   }
 }

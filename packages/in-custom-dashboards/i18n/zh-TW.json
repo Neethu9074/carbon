@@ -116,6 +116,20 @@
       "unnamedDataset": "未命名資料集"
     }
   },
+  "aiChat": {
+    "launcherGreeting": "您好，您也可以透過會談建立一些小組件！",
+    "welcome": "您好，歡迎使用",
+    "restrictions": "AI 輔助的小組件建立目前適用於下列參數",
+    "widgetType": "小組件類型",
+    "filter": "過濾器",
+    "filter_application": "應用程式名稱",
+    "filter_service": "服務名稱",
+    "filter_endpoint": "端點名稱",
+    "filter_erroneousCall": "呼叫錯誤",
+    "filter_callType": "呼叫類型",
+    "filter_technology": "技術",
+    "tryOutExamplePrompts": "您可以隨意選取下列的小組件類型，嘗試其中一個範例提示，或使用您自己的提示。"
+  },
   "dashboardSwitcher": {
     "dashboardSwitcher": {
       "loading": "載入中..."

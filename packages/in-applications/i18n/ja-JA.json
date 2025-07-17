@@ -257,7 +257,7 @@
     "endpoints": "エンドポイント",
     "types": "タイプ",
     "technologies": "テクノロジー",
-    "NumberOfSubCalls": "Nr. サブコールの",
+    "NumberOfSubCalls": "サブコール数",
     "httpStatusCode": "HTTP状況",
     "hiddenCalls": "非表示の呼び出し",
     "fastQueryMode": "高速照会モード",
@@ -725,6 +725,7 @@
     "traces_latency": "待ち時間",
     "traces_erroneousCalls": "エラーのあるトレース数",
     "traces_errors": "エラーのあるトレース率",
+    "subtraces_latency": "期間",
     "subtraces_subtraceDuration": "期間"
   },
   "viewLists": {
@@ -789,5 +790,7 @@
   },
   "labelSyntheticMonitoring": "シンセティック・モニタリング",
   "labelServiceLevels": "サービス・レベル",
-  "labelResourceOptimizations": "最適化"
+  "labelResourceOptimizations": "最適化",
+  "titleResourceOverutilization": "リソースの過剰使用(CPU使用率が{{thresholdUpperLimit}}%を超える場合)",
+  "titleResourceUnderutilization": "使用率の低いリソース(CPU使用率が{{thresholdLowerLimit}}%を超える場合)"
 }

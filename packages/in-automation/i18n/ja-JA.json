@@ -9,6 +9,9 @@
   "recommendedActions": "推奨アクション",
   "recommendedOptimizationsWithCount": "推奨されるリソース・アクション {{count}})",
   "recommendedOptimizations": "推奨されるリソース・アクション",
+  "emptyRecommendedActions": "推奨されるアクションなし",
+  "emptyRecommendedActionsDescription1": "このインシデントに対して推奨するポリシーやアルゴリズムは見つかりませんでした。",
+  "emptyRecommendedActionsDescription2": "AIにアクションを作成させるには、「<strong>アクションの生成</strong>」をクリックします。ポリシーを手動で作成するには、「<strong>ポリシーの作成<strong>」をクリックします。",
   "actionName": "アクション名",
   "validVaultParameter": "オプションとしてマークされたボールト・パラメーターは、両方ともブランクであるか、あるいは両方ともブランクではない必要があります。",
   "runAction": "アクションの実行",
@@ -94,7 +97,7 @@
   "actions": "アクション",
   "actionsWithCount": "アクション({{count}})",
   "titleUrl": "URL",
-  "generateWithWatsonx": "watsonx で生成",
+  "generateWithWatsonx": "アクションの生成",
   "createPolicyWithName": "アクション {{actionName}} の表示およびポリシーの作成",
   "viewActionCreatePolicy": "アクションの表示およびポリシーの作成",
   "titleContentReadOnly": "生成されたコンテンツ(読み取り専用)",
@@ -104,11 +107,9 @@
   "playbookId": "プレイブック ID",
   "gitType": "Gitタイプ",
   "gitUrl": "Git URL",
-  "triggeringEvent": "トリガー・イベント",
-  "probableRootCause": "推定根本原因",
-  "contextFor": "コンテキスト:",
   "backToPolicies": "ポリシーに戻る",
   "backToEvent": "イベントに戻る",
+  "backToActionCatalog": "アクション・カタログに戻る",
   "recommendation": "推奨",
   "userCreated": "ユーザーが作成されました",
   "successRate": "成功率",
@@ -120,6 +121,9 @@
   "deletePolicy": "ポリシーの削除",
   "viewActionDashboard": "アクション・ダッシュボードを表示する",
   "createPolicy": "ポリシーの作成",
+  "triggeringEvent": "トリガー・イベント",
+  "probableRootCause": "推定根本原因",
+  "contextFor": "コンテキスト:",
   "recommendedActionsExplanability": {
     "linkExplanation": "Instana は、アルゴリズムと統合機能を使用して、イベントに対するアクションを推奨します。",
     "link": "さまざまな推奨タイプについて詳しく知る",
@@ -139,7 +143,7 @@
     "actionConfiguration": "アクション構成",
     "actionDetails": "アクションの詳細を指定",
     "Step1HeadlineSelectAction": "watsonx によって生成された組み込みアクションから、このイベント用の新しいアクションを作成します。",
-    "Step1HeadlinePrompt": "watsonxを使用して手動アクションを生成し、イベントに関する情報を処理して、問題の診断または修復に役立ちます。 イベントの詳細を編集して、AIにさらに豊富な情報を提供できます。 詳細については、<Link>IBM Docs</Link>をご覧ください。",
+    "Step1HeadlinePrompt": "AIを使用して手動アクションを生成し、イベントに関する情報を処理して、問題の診断または修復に役立ちます。 イベントの詳細を編集して、AIにさらに豊富な情報を提供できます。 詳細については、<Link >IBM Docs</Link>をご覧ください。",
     "Step2Headline": "アクション・カタログに保存する前に、アクションの詳細を指定したり、変更を加えたりします。",
     "Step3Headline": "オプションで、アクションと一緒に自動化ポリシーを作成することができます。 このステップは後で完了することもできます。",
     "step1Title": "ステップ 1: アクションの生成または選択",
@@ -167,9 +171,9 @@
     "eventName": "イベント名",
     "eventDescription": "イベントの説明",
     "eventEntityType": "イベント・エンティティ・タイプ",
-    "noDataAvailableLive": "ここでwatsonxの結果を表示するには、<strong>「生成」</strong>をクリックします。",
+    "noDataAvailableLive": "ここでAIからの結果を表示するには、「<strong>生成</strong>」をクリックします。",
     "noDataAvailableSelectAction": "コンテンツを表示するために選択します。",
-    "watsonxLoadingContent": "watsonx がコンテンツを生成している",
+    "watsonxLoadingContent": "AIがコンテンツを生成しています",
     "confirmButtonLabel": "キャンセル",
     "cancelButtonLabel": "編集を続行する",
     "noResultsYet": "現時点で結果なし",
@@ -185,17 +189,17 @@
       "step2Title": "ステップ 2: スクリプトの作成",
       "step3Title": "ステップ3: アクションの作成または外部ソースへのエクスポート",
       "step1Headline": "スクリプトを生成する予定の手動アクション ステップを 1 つ選択します。 次のステップで、マニュアル・アクション・ステップを編集することができます。",
-      "step2Headline1": "アクション・ステップの詳細を確認し、必要な編集を行う。 次に、「生成」をクリックして、watsonxからの結果を確認します。",
+      "step2Headline1": "アクション・ステップの詳細を確認し、必要な編集を行う。 次に、「生成」をクリックしてAIからの結果を確認します。",
       "step2Headline2": "編集して再度生成し、別の結果を見ることができます。 詳細については、<Link>IBM Docs</Link>をご覧ください。",
       "step3Headline": "アクションの作成または外部ソースへのスクリプトのエクスポート",
       "step3HeadlineAnsible": "スクリプトを外部ソースにエクスポートする",
-      "noDataAvailableLive": "ここでwatsonxの結果を表示するには、<strong>「生成」</strong>をクリックします。",
+      "noDataAvailableLive": "ここでAIからの結果を表示するには、「<strong>生成</strong>」をクリックします。",
       "generateScriptButton": "スクリプトの生成",
       "generateButton": "生成",
       "titleGeneratedCodeReadOnly": "生成されたコンテンツ(読み取り専用)",
       "promptTitle": "プロンプト",
       "generateScriptTileHeader": "手動アクション・ステップからスクリプトを生成する",
-      "generateScriptTileDescription": "watsonx AI を使用すると、手動アクション・ステップから bash スクリプトをプロンプトとして素早く作成し、数ステップでアクション・カタログに追加することができます。",
+      "generateScriptTileDescription": "AIを使用すると、プロンプトとして手動アクション・ステップからbashスクリプトをすばやく作成し、数ステップでアクション・カタログに追加できます。",
       "createActionOption": "アクションの作成",
       "toGithub": "GitHubにエクスポート",
       "toGitLab": "GitLabにエクスポート"
@@ -387,6 +391,7 @@
     "goToActionHistory": "アクション履歴に移動",
     "actionHistoryWithCount": "アクション履歴 ({{count}})",
     "noActionInstances": "表示可能なデータがありません",
+    "incidentActionHistory": "インシデント・アクション履歴",
     "external": "外部",
     "name": "名前",
     "type": "タイプ",
@@ -548,7 +553,8 @@
     "efficiency_improvement": "効率改善",
     "savings": "貯金",
     "performance": "パフォーマンス",
-    "performance_assurance": "パフォーマンスの保証"
+    "performance_assurance": "パフォーマンスの保証",
+    "unknown": "不明"
   },
   "resourceOptimization": {
     "details": "リソース最適化の詳細",
@@ -599,16 +605,12 @@
     "manualActionTip": "<strong>ヒント</strong>: イベント情報を更新して再度生成すると、異なる結果を確認できます。",
     "scriptTip": "<strong>ヒント</strong>: プロンプトを更新して再度生成すると、異なる結果を確認できます。"
   },
-  "consentForm": {
-    "consentButton": "同意書を確認する",
-    "consentText": "この機能を有効にするには、管理者は生成 AI アシスタンス・プレビューのプライバシー契約に同意する必要があります。"
-  },
   "AITooltip": {
     "aiExplained": "AI の説明",
     "manualSection": {
       "section1": {
         "section1Title": "アクション生成",
-        "section1Text": "問題を診断または修復するための一連の手動手順を生成するために、watsonx にイベント情報を送信します。  AI プロンプトを作成するために使用される入力データは、最初は現在のイベントから自動的に入力され、結果を改善するために修正することができます。"
+        "section1Text": "問題を診断または修復するための一連の手動手順を生成するために、イベント情報をAIに送信します。  AI プロンプトを作成するために使用される入力データは、最初は現在のイベントから自動的に入力され、結果を改善するために修正することができます。"
       },
       "section2": {
         "section2Title": "入力プロンプト・フィールド",
@@ -625,7 +627,7 @@
     },
     "scriptSection": {
       "section1": {
-        "section1Text": "スクリプトを生成するために、手動アクション・ステップから watsonx に指示を送信します。 このステップは、結果を改善するために修正することができます。"
+        "section1Text": "スクリプトを生成するには、手動アクション・ステップからの指示をAIに送信します。 このステップは、結果を改善するために修正することができます。"
       },
       "section3": {
         "section3Text": "これは、アクションを実行するためのスクリプトの候補を表示するプレビュー機能です。 出力がニーズに適しているかどうかを判断します。"

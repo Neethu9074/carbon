@@ -116,6 +116,20 @@
       "unnamedDataset": "Conjunto de dados não nomeado"
     }
   },
+  "aiChat": {
+    "launcherGreeting": "Olá, você também pode criar alguns widgets por meio do bate-papo!",
+    "welcome": "Olá e seja bem-vindo",
+    "restrictions": "A criação de widgets assistida por IA está atualmente disponível para os parâmetros a seguir",
+    "widgetType": "Tipo de widget",
+    "filter": "Filtro",
+    "filter_application": "Nome do aplicativo",
+    "filter_service": "Nome do serviço",
+    "filter_endpoint": "Nome do terminal",
+    "filter_erroneousCall": "Chamada incorreta",
+    "filter_callType": "Tipo de chamada",
+    "filter_technology": "Tecnologia",
+    "tryOutExamplePrompts": "Sinta-se à vontade para experimentar um dos exemplos de prompt selecionando o tipo de widget abaixo ou use o seu próprio prompt."
+  },
   "dashboardSwitcher": {
     "dashboardSwitcher": {
       "loading": "Carregando…"

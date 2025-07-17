@@ -257,7 +257,7 @@
     "endpoints": "Endpoint",
     "types": "Tipi",
     "technologies": "Tecnologie",
-    "NumberOfSubCalls": "Nr. di sottochiamate",
+    "NumberOfSubCalls": "Numero di sottochiamate",
     "httpStatusCode": "Stato HTTP",
     "hiddenCalls": "Chiamate nascoste",
     "fastQueryMode": "Modalità di query veloce",
@@ -725,6 +725,7 @@
     "traces_latency": "Latenza",
     "traces_erroneousCalls": "Tracce errate",
     "traces_errors": "Percentuale di tracce errate",
+    "subtraces_latency": "Durata",
     "subtraces_subtraceDuration": "Durata"
   },
   "viewLists": {
@@ -789,5 +790,7 @@
   },
   "labelSyntheticMonitoring": "Monitoraggio sintetico",
   "labelServiceLevels": "Livelli di Servizio",
-  "labelResourceOptimizations": "Ottimizzazioni"
+  "labelResourceOptimizations": "Ottimizzazioni",
+  "titleResourceOverutilization": "Risorse sovrautilizzate (oltre {{thresholdUpperLimit}}% di utilizzo della CPU)",
+  "titleResourceUnderutilization": "Risorse sottoutilizzate (oltre {{thresholdLowerLimit}}% di utilizzo della CPU)"
 }

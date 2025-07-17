@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "Erfahren Sie mehr über die Fair Use Policy von Instana",
+      "titleNew": "Weitere Informationen zur Datennutzung",
       "leftTitle": "Was ist die Fair Use Policy?",
       "rightTitle": "Wie kann ich mehr Daten kaufen?",
       "leftBody": "Die Fair Use Policy von Instana beschreibt die monatliche Datenmenge, die mit Ihrem Lizenztyp verbunden ist. Weitere Informationen und Richtlinien zur Ressourcennutzung finden Sie in der <fupDocLink>Dokumentation Fair Use Policy</fupDocLink>.",
@@ -173,6 +174,30 @@
         "daysActive": "Aktive Tage",
         "notProvided": "(nicht angegeben)"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "Konto und Abrechnung",
+    "tabs": {
+      "usage": "Nutzung",
+      "technologiesReporting": "Berichterstattung zu Technologien",
+      "accountInformation": "Kontoinformationen",
+      "entitlements": "Nutzungsrechte",
+      "activeEntitlements": "Aktive Berechtigungen",
+      "queuedEntitlements": "Berechtigungen in der Warteschlange",
+      "expiredEntitlements": "Abgelaufene Berechtigungen",
+      "activationAdoption": "Aktivierung und Annahme",
+      "customerAdoption": "Kundenumsetzung",
+      "userUsage": "Benutzerverwendung"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "standardHosts": "Standardhosts",
+      "essentialHosts": "Wichtige Hosts"
+    },
+    "emptyPage": {
+      "subtitle": "Keine Daten verfügbar"
     }
   }
 }

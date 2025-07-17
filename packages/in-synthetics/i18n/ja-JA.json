@@ -1,4 +1,5 @@
 {
+  "tooltipCopyToClipboard": "クリップボードにコピー",
   "dialog": {
     "createTest": {
       "buttonLabel": "合成テストの追加",
@@ -27,6 +28,7 @@
         "popSubTitle": "ポイント・オブ・プレゼンス",
         "uploadScriptTitle": "スクリプトのアップロード",
         "failureToReadFileContent": "ファイル・コンテンツの読み取りに失敗しました: {{error}}",
+        "unsupportedFileFormat": ".{{extension}}ファイルはサポートされていません",
         "emptyScriptFileError": "コードが空です。 検証するものがありません。",
         "enterTheScriptMessage": "ここにスクリプトを入力",
         "privatePoPLabel": "専用",
@@ -153,6 +155,7 @@
         "scheduleTitle": "スケジュール: このテストはどのように実行されますか?",
         "identifyLabel": "識別",
         "identifyTitle": "識別: テストは何を行いますか?",
+        "teamsCalloutMessage": "チームを追加する場合、チーム・メンバーの権限はチームに割り当てられた役割に基づいて決定されます。 チームが関連付けられているテストは、設定のチーム・ページにも反映されます。",
         "customPropertiesTitle": "カスタム・プロパティー(オプション)",
         "frequency": "このテストは {{frequencyValue}} 分ごとに実行されます。",
         "frequencyHours": "このテストは、{{frequencyHours}}時間ごとに実行されます。",
@@ -190,7 +193,7 @@
           "buttonBack": "戻る",
           "buttonSave": "保存",
           "uploadFileLabel": "ファイルのアップロード",
-          "uploadFileDescription": "単独の .js ファイル、または .js ファイルをまとめた .zip ファイルのいずれかをアップロードできます。",
+          "uploadFileDescription": "単一の.jsファイルまたは.cjsファイル、あるいはバンドルされた.jsファイルまたは.cjsファイルを含む.zipファイルのいずれかをアップロードできます。",
           "node22UploadFileDescription": "単一の.js、.cjs、もしくは.mjsファイル、または、バンドルされた.js、.cjs、もしくは.mjsファイルを含むzipファイルのいずれかをアップロードできます。",
           "scriptDescription": "アップロードしたスクリプトがここに表示されます。または、以下に手動で入力することもできます。",
           "validScriptMessage": "スクリプトは有効です。",
@@ -199,7 +202,7 @@
           "mainFileNameLabel": "メイン・ファイル名を入力してください",
           "invalidMainFileName": "メインファイル名が無効です",
           "webpageUrl": "Web ページ URL",
-          "browserUploadFileDescription": "アップロードできるのは、単一の .js ファイル、バンドルされた .js ファイルの zip ファイル、または SeleniumIDE によって記録された .side スクリプトのいずれかです。",
+          "browserUploadFileDescription": "単一の.jsまたは.cjsファイル、バンドルされた.jsまたは.cjsファイルを含む.zipファイル、またはSelenium IDEによって記録された.sideスクリプトのいずれかをアップロードできます。",
           "node22BrowserUploadFileDescription": "単一の.js、.cjs、もしくは.mjsファイル、またはバンドルされた.js、.cjs、もしくは.mjsファイルを含む.zipファイル、またはSelenium IDEによって記録された.sideスクリプトのいずれかをアップロードできます。",
           "sideFileUploadedMessage": "Selenium スクリプトは変更も検証もできません。",
           "bundleFileNotSupportedMessage": "サポートされないファイルが選択されました。 バンドルは拡張モードでのみサポートされます。",
@@ -312,7 +315,10 @@
         "applicationsTitle": "関連付け: この合成テストに関連付けるアプリケーションを選択します",
         "applicationsDescription": "合成テストをアプリケーションに関連付けると、そのアプリケーションにアクセスできるすべてのユーザーにアクセ ス権が付与されます。",
         "associationsTitle": "関連: この合成テストに関連付けたいものを選択してください (オプション)",
-        "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。"
+        "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。",
+        "teamsLabel": "チーム",
+        "teamsTitle": "Teams: このテストに関連付けるチームを選択してください(オプション)",
+        "teamsDescription": "このテストに関連付けるチームを選択します。"
       },
       "associations": {
         "applicationsTitle": "この合成テストに関連付けるアプリケーションを選択する",
@@ -335,7 +341,19 @@
         "applicationsTableTitle": "アプリケーション (複数可)",
         "websitesTableTitle": "ウェブサイト",
         "mobileAppsTableTitle": "モバイルアプリ"
-      }
+      },
+      "createSyntheticTest": "合成テストの作成"
+    },
+    "createOnDemandTest": {
+      "buttonLabel": "今すぐ実行",
+      "createButtonLabel": "テストの実行",
+      "cancel": "キャンセル",
+      "properties": "構成プロパティー",
+      "location": "Location",
+      "iconLabel": "テスト実行中",
+      "runnowTitle": "今すぐテストを実行する",
+      "multiSelectLabel": "割り当てられたすべての場所",
+      "retryInterval": "このテストは{{retryCount}}回再試行されます "
     },
     "httpMethods": {
       "get": "GET",
@@ -353,7 +371,9 @@
       "failureMessageUpdate": "シンセティック・テストの更新に失敗しました: {{errorMessage}}",
       "failureMesssageDelete": "シンセティック・テストの削除に失敗しました: {{errorMessage}}",
       "successMessageCICDRerun": "合成テストの再実施に成功",
-      "failureMesssageCICDRerun": "合成テストの再実行に失敗: {{errorMessage}}"
+      "failureMesssageCICDRerun": "合成テストの再実行に失敗: {{errorMessage}}",
+      "successMessageCICDCreate": "合成実行テストが正常に作成されました",
+      "failureMesssageCICDCreate": "合成実行テストの作成に失敗しました: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "ロケーションが正常に削除されました",
@@ -368,7 +388,7 @@
       "bundleSavedMessage": "バンドルされたスクリプトが追加されました"
     },
     "createLocation": {
-      "newLocation": "新規ロケーション",
+      "newLocation": "ロケーションの追加",
       "activate": "アクティブ",
       "done": "完了",
       "stepConfigs": {
@@ -444,9 +464,10 @@
       "failureMesssage": "{{errorMessage}}"
     },
     "createCredential": {
-      "createButton": "新規資格情報",
+      "createButton": "資格情報の作成",
       "nameValue": "名前と値",
       "associations": "関連付け",
+      "teams": "チーム",
       "newCredentials": "合成クレデンシャルの作成",
       "steps": {
         "textInput": {
@@ -459,7 +480,8 @@
           "placeholder": "資格情報値",
           "labelText": "値"
         },
-        "associationsDescription": "クレデンシャルをアプリケーション、Web サイト、またはモバイル・アプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザにアクセス権が付与されます。"
+        "associationsDescription": "クレデンシャルをアプリケーション、Web サイト、またはモバイル・アプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザにアクセス権が付与されます。",
+        "teamsStepDescription": "この資格情報に関連付けるチームを選択します。"
       },
       "feedback": {
         "successMessage": "クレデンシャルの作成に成功",
@@ -523,15 +545,18 @@
         "filterLabel": "アプリケーション",
         "singleAppHeader": "{{ number }} 関連",
         "multiAppHeader": "{{ number }} 関連",
-        "noApplicationsAssociated": "関連付けられたアプリケーションなし"
+        "noApplicationsAssociated": "関連付けられたアプリケーションなし",
+        "noApplicationAssociatedWithTest": "選択したテストに関連付けられたアプリケーションはありません"
       },
       "multiWebDialog": {
         "filterLabel": "Web サイト",
-        "noWebsitesAssociated": "関連サイトはない。"
+        "noWebsitesAssociated": "関連サイトはない。",
+        "noWebsiteAssociatedWithTest": "選択したテストに関連付けられたWebサイトはありません"
       },
       "multiMobileDialog": {
         "filterLabel": "モバイル・アプリケーション",
-        "noMobileAppsAssociated": "モバイルアプリは関連なし。"
+        "noMobileAppsAssociated": "モバイルアプリは関連なし。",
+        "nodMobileAppAssociatedWithTest": "選択したテストに関連付けられたモバイル・アプリはありません"
       },
       "testLabel": "名前",
       "status": "状況",
@@ -554,7 +579,10 @@
         "singleRun": "{{number}} 場所で実行する",
         "multipleRun": "{{number}} 場所で実行する",
         "warning": "警告",
-        "noIssues": "問題なし"
+        "noIssues": "問題なし",
+        "locationsSidePanelTitle": "場所({{totalLocations}})",
+        "locationsNameHeader": "名前",
+        "locationsHealthHeader": "正常性"
       },
       "associationLabel": "関連付け",
       "health": "正常性",
@@ -563,7 +591,29 @@
       "na": "該当なし",
       "configureColumns": {
         "title": "列のカスタマイズ",
-        "description": "これで、合成テスト・データの表をカスタマイズできます。 これにより、表示する列を柔軟に選択し、必要に応じて並べ替えることができます。"
+        "description": "これで、合成テスト・データの表をカスタマイズできます。 これにより、表示する列を柔軟に選択し、必要に応じて並べ替えることができます。",
+        "dialog": {
+          "title": "列を管理する({{enabledCount}}/{{totalCount}})",
+          "description": "非表示にする列を選択解除してください。 白いボックスをクリックしてドラッグすると、列が並べ替えられます。 これらの指定内容は保存され、データ表から移動して戻ってきても、そのままになっています。",
+          "configureButtonLabel": "列を構成する",
+          "columnNameLabel": "列名",
+          "configurationSuccessTitle": "カスタマイズ済みを表示",
+          "configurationSuccessMessage": "テーブル「列」がカスタマイズされました。",
+          "configurationErrorTitle": "カスタマイズされていない表示",
+          "configurationErrorMessage": "テーブル「列」はカスタマイズされていません。",
+          "closeIconDescription": "閉じる",
+          "saveButtonLabel": "保存",
+          "cancelButtonLabel": "キャンセル",
+          "searchPlaceholder": "列を検索する",
+          "selectAllLabel": "すべて選択"
+        }
+      },
+      "searchSyntheticTests": "検索合成テスト",
+      "failedToLoadTestsTitle": "合成テストの読み込みに失敗しました",
+      "associationsColumn": {
+        "associationsSidePanelTitle": "関連({{totalAssociations}})",
+        "associationsNameHeader": "名前",
+        "associationsHealthHeader": "正常性"
       }
     },
     "locationList": {
@@ -800,7 +850,43 @@
       "sslCertificate": {
         "daysRemaining": "残り日数",
         "timeOfIssue": "発行時期",
-        "timeOfExpiry": "有効期限"
+        "timeOfExpiry": "有効期限",
+        "customMetrics": {
+          "titles": {
+            "details": "詳細",
+            "testDetails": "テストの詳細",
+            "customMetrics": "カスタム・メトリック",
+            "issuedTo": "発行先",
+            "issuedBy": "発行元",
+            "publicKeyInfo": "公開鍵情報",
+            "fingerprints": "指紋",
+            "tls": "暗号とtls情報",
+            "serialNumber": "シリアル番号",
+            "extKeyUsage": "拡張鍵の用途"
+          },
+          "daysRemaining": "残り日数:",
+          "valid": "有効:",
+          "validFrom": "有効期間の開始日時:",
+          "validTo": "有効期間の終了日時:",
+          "commonName": "共通名:",
+          "alternativeName": "別名:",
+          "locality": "地区:",
+          "organizationUnit": "組織単位:",
+          "organization": "組織:",
+          "state": "州/都道府県:",
+          "country": "国:",
+          "standardName": "スタンダード・ネーム:",
+          "name": "暗号名:",
+          "version": "TLSバージョン:",
+          "fingerprint": "Fingerprint1:",
+          "fingerprint256": "Fingerprint2:",
+          "size": "鍵のサイズ:",
+          "modulus": "モジュラス:",
+          "algorithm": "アルゴリズム:",
+          "exponent": "指数:",
+          "serialNumber": "シリアル番号:",
+          "extKeyUsage": "拡張鍵の用途:"
+        }
       },
       "failedRunErrorTypeTitle": "エラー・タイプ",
       "viewRecordingLabel": "録画の表示",
@@ -904,6 +990,7 @@
       "daysRemaining": "失敗構成",
       "day": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します",
       "days": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します",
+      "teams": "チーム",
       "associations": "関連付け",
       "associatedApplications": "関連アプリケーション",
       "noApplicationsAssociated": "関連出願なし",
@@ -939,7 +1026,7 @@
     },
     "credentialList": {
       "mainLabel": "資格情報",
-      "name": "名前",
+      "name": "資格情報名",
       "associations": "関連付け",
       "createdAt": "作成日時",
       "createdBy": "作成者",

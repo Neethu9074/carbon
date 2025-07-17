@@ -257,7 +257,7 @@
     "endpoints": "엔드포인트",
     "types": "유형",
     "technologies": "기술",
-    "NumberOfSubCalls": "개수 - 서브콜 중",
+    "NumberOfSubCalls": "서브 호출 수",
     "httpStatusCode": "HTTP 상태",
     "hiddenCalls": "숨겨진 호출",
     "fastQueryMode": "빠른 조회 모드",
@@ -725,6 +725,7 @@
     "traces_latency": "대기 시간",
     "traces_erroneousCalls": "잘못된 추적",
     "traces_errors": "잘못된 추적 비율",
+    "subtraces_latency": "지속 기간",
     "subtraces_subtraceDuration": "지속 기간"
   },
   "viewLists": {
@@ -789,5 +790,7 @@
   },
   "labelSyntheticMonitoring": "합성 모니터링",
   "labelServiceLevels": "서비스 레벨",
-  "labelResourceOptimizations": "최적화"
+  "labelResourceOptimizations": "최적화",
+  "titleResourceOverutilization": "과다 사용된 리소스({{thresholdUpperLimit}}% 이상의 CPU 사용량)",
+  "titleResourceUnderutilization": "활용도가 낮은 리소스({{thresholdLowerLimit}}% 이하의 CPU 사용량)"
 }

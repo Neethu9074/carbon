@@ -1,4 +1,7 @@
 {
+  "general": {
+    "region": "区域"
+  },
   "accessibility": {
     "opensNewTab": "在新选项卡中打开"
   },
@@ -9,7 +12,8 @@
     "headerAriaLabel": "页眉",
     "contentAriaLabel": "内容",
     "filterAriaLabel": "过滤",
-    "pageTabsAriaLabel": "页面选项卡"
+    "pageTabsAriaLabel": "页面选项卡",
+    "pageSubMenu": "页面子菜单"
   },
   "fileInputButton": {
     "label": {
@@ -118,7 +122,7 @@
     "formStateLabel": "省/直辖市/自治区"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下\n查询将视图限制为具有少于四个 CPU 的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n\n## 语法\n动态焦点利用 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) 与 Lucene 标准有以下差异：\n- **缺省运算符：** ` AND `\n- **语法约束：** 在[文档](https://ibm.biz/dynamic-focus-syntax-constraints)\n中列出。\n\n## 搜索栏交互\n搜索栏支持自动完成搜索字段，并在您输入时将语法突出显示 lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。\n\n## Lucene 查询语法备忘单\n - **字段搜索：**`entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://ibm.biz/filtering-dynamic-focus)以获取更多信息。",
+    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下\\n查询将视图限制为具有少于四个 CPU 的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n\n## 语法\n动态焦点利用 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) 与 Lucene 标准有以下差异：\n- **缺省运算符：** ` AND `\n- **语法约束：** 在[文档](https://ibm.biz/dynamic-focus-syntax-constraints)\n中列出。\n\n## 搜索栏交互\n搜索栏支持自动完成搜索字段，并在您输入时将语法突出显示 lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。\n\n## Lucene 查询语法备忘单\n - **字段搜索：**`entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://ibm.biz/filtering-dynamic-focus)以获取更多信息。",
     "filtersBtn": "过滤器",
     "filterPresetsMenuHeading": "过滤器",
     "filterPresetsSaveFilters": "保存过滤器以便在此处轻松访问",
@@ -294,11 +298,17 @@
     "labelRegion": "区域",
     "labelTag": "标记",
     "labelCommit": "落实",
-    "buttonGraphShowcase": "图形展示",
     "geo": {
-      "title": "地理位置数据",
-      "description": "此产品包含 MaxMind 创建的 GeoLite2 数据，可从以下站点获取：<linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
-    }
+      "title": "地理位置数据"
+    },
+    "ibm": "IBM",
+    "copyRights": "Copyright © IBM Corp. 2020, 2023",
+    "instana": "Instana",
+    "close": "关闭",
+    "maxMindDescription": "这些数据包含 GeoLite2 数据，创建者为：",
+    "maxMind": "MaxMind.",
+    "dynamicGraphDescription": "请在",
+    "dynamicGraph": "动态图表展示中查看环境的可视化效果。"
   },
   "blueprintFormMultistep": {
     "buttonCancel": "取消",
@@ -364,7 +374,11 @@
     "loadingIndicatorLoadingData": "正在加载数据",
     "tooltipResetView": "重置视图",
     "tooltipZoomIn": "放大",
-    "tooltipZoomOut": "缩小"
+    "tooltipZoomOut": "缩小",
+    "openTable": "打开表",
+    "pageLoads": "页面加载数",
+    "modalContent": "模态内容",
+    "unknownTitle": "未分类"
   },
   "groupingConfigurator": {
     "exampleTagCatalogLabelKubernetes": "Kubernetes",
@@ -472,8 +486,10 @@
   "mainNavigation": {
     "skipToMainContent": "跳至主内容",
     "viewSwitcherLabelSettings": "设置",
+    "viewSwitcherLabelAccountAndBilling": "账户和记账",
     "viewSwitcherLabelMore": "更多",
     "viewSwitcherLabelAgents": "代理程序",
+    "viewSwitcherLabelDataSources": "数据源",
     "viewSwitcherLabelReleaseNotes": "发行说明",
     "viewSwitcherLabelDocumentation": "文档",
     "viewSwitcherLabelSupport": "支持",
@@ -515,6 +531,7 @@
     "profileMenu_saasConsole": "IBM SaaS 控制台",
     "profileMenu_privacy": "隐私",
     "profileMenu_logOut": "注销",
+    "profileMenu_switcherContainer": "切换器容器",
     "scope_title": "作用域",
     "scope_defaultScope": "缺省作用域"
   },
@@ -540,7 +557,8 @@
     "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "分发",
     "aggregation_PERSECOND": "每秒",
-    "labelFilterEmptyValue": "过滤空值"
+    "labelHideEmptyValues": "隐藏空值",
+    "labelShowEmptyValues": "显示空值"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "已用",

@@ -1,4 +1,7 @@
 {
+  "general": {
+    "region": "リージョン"
+  },
   "accessibility": {
     "opensNewTab": "新規タブで開く"
   },
@@ -9,7 +12,8 @@
     "headerAriaLabel": "ページ・ヘッダー",
     "contentAriaLabel": "内容",
     "filterAriaLabel": "フィルター",
-    "pageTabsAriaLabel": "ページ・タブ"
+    "pageTabsAriaLabel": "ページ・タブ",
+    "pageSubMenu": "ページ・サブメニュー"
   },
   "fileInputButton": {
     "label": {
@@ -294,11 +298,17 @@
     "labelRegion": "リージョン",
     "labelTag": "タグ",
     "labelCommit": "コミット",
-    "buttonGraphShowcase": "グラフ・ショーケース",
     "geo": {
-      "title": "地域データ",
-      "description": "この製品には、<linkToMaxMind>https://www.maxmind.com</linkToMaxMind> で入手可能な MaxMind で作成される GeoLite2 データが含まれています。"
-    }
+      "title": "地域データ"
+    },
+    "ibm": "IBM",
+    "copyRights": "著作権 © IBM Corp. 2020, 2023",
+    "instana": "Instana",
+    "close": "閉じる",
+    "maxMindDescription": "このデータには、以下によって作成されたGeoLite2データが含まれています",
+    "maxMind": "MaxMind.",
+    "dynamicGraphDescription": "環境の視覚化をご覧ください",
+    "dynamicGraph": "ダイナミック・グラフのショーケース。"
   },
   "blueprintFormMultistep": {
     "buttonCancel": "キャンセル",
@@ -364,7 +374,11 @@
     "loadingIndicatorLoadingData": "データをロード中",
     "tooltipResetView": "ビューのリセット",
     "tooltipZoomIn": "ズームイン",
-    "tooltipZoomOut": "ズームアウト"
+    "tooltipZoomOut": "ズームアウト",
+    "openTable": "表を開く",
+    "pageLoads": "ページ・ロード",
+    "modalContent": "モーダル・コンテンツ",
+    "unknownTitle": "未分類"
   },
   "groupingConfigurator": {
     "exampleTagCatalogLabelKubernetes": "Kubernetes",
@@ -472,8 +486,10 @@
   "mainNavigation": {
     "skipToMainContent": "メイン・コンテンツにスキップ",
     "viewSwitcherLabelSettings": "設定",
+    "viewSwitcherLabelAccountAndBilling": "アカウントと請求",
     "viewSwitcherLabelMore": "その他",
     "viewSwitcherLabelAgents": "エージェント",
+    "viewSwitcherLabelDataSources": "データ・ソース",
     "viewSwitcherLabelReleaseNotes": "リリース情報",
     "viewSwitcherLabelDocumentation": "資料",
     "viewSwitcherLabelSupport": "サポート",
@@ -515,6 +531,7 @@
     "profileMenu_saasConsole": "IBM SaaS コンソール",
     "profileMenu_privacy": "プライバシー",
     "profileMenu_logOut": "ログアウト",
+    "profileMenu_switcherContainer": "スイッチャー・コンテナ",
     "scope_title": "範囲",
     "scope_defaultScope": "デフォルト・スコープ"
   },
@@ -540,7 +557,8 @@
     "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "分布",
     "aggregation_PERSECOND": "秒当たり",
-    "labelFilterEmptyValue": "空の値をフィルタリング"
+    "labelHideEmptyValues": "空の値を隠す",
+    "labelShowEmptyValues": "空の値を表示する"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "使用中",
