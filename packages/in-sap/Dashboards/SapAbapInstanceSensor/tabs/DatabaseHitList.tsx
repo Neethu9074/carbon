@@ -187,7 +187,7 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
                 metrics: [`databaseStats.${row.key}.totalDbRequests`, `databaseStats.${row.key}.totalDbCalls`],
                 labels: [t('in-sap:dashboards.totalDbRequests'), t('in-sap:dashboards.dbCalls')],
                 type: 'line',
-                formatter: number.detailed
+                formatter: number.compact
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -201,7 +201,7 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
                 metrics: [`databaseStats.${row.key}.dbRequestTime`],
                 labels: [t('in-sap:dashboards.dbRequestTime')],
                 type: 'line',
-                formatter: millis.compact
+                formatter: millis.detailed
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />

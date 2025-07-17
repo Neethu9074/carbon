@@ -334,7 +334,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               metrics: ['sapMetricsStats.successLogins', 'sapMetricsStats.failedLogins'],
               labels: [t('in-sap:dashboards.successLogins'), t('in-sap:dashboards.failureLogins')],
               type: 'line',
-              formatter: number.detailed,
+              formatter: number.compact,
               // @ts-expect-error Module needs to be translated to TS
               colors: [[themes.default.ids.color.option.green['500']], [themes.default.ids.color.option.red['700']]]
             }}
