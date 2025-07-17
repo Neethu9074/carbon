@@ -21,6 +21,8 @@ packages/in-api                     @Instana-IBM-GitHub-Enterprise @instana/eng-
 
 packages/in-applications            @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-applications/alerting   @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui @instana/eng-issue-detection
+packages/in-applications/Dashboards/application/tabs/Optimizations    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-integrations
+packages/in-applications/Dashboards/application/tabs/Vulnerabilities  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-integrations
 packages/in-automation              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-bizops                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-bizops
 
