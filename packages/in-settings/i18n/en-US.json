@@ -1947,7 +1947,10 @@
     "newMaintenanceWindowDefaultName": "New maintenance configuration"
   },
   "settings": "Settings",
+  "testAlertChannelSuccessTitle": "Test Successful",
+  "testAlertChannelFailureTitle": "Test Failed",
   "testAlertChannelSuccess": "Test alert sent to {{channel}} alert channel",
+  "testAlertChannelFailedFedRAMP": "Test alert could not be sent to {{channel}} alert channel, because the domain is currently not allowed for security reasons. Please contact Instana support to allow this domain.",
   "ShareAndInviteDialogBox": {
     "share": "Share",
     "inviteUsers": "Invite users",
