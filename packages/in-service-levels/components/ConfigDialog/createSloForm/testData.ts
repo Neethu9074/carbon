@@ -66,7 +66,9 @@ export const testWebsiteForm: SloForm = createMapForm({
         }),
         duration: createField<number>({ value: 100 }),
         durationUnit: createField<DurationUnitType>({ value: 'day' }),
-        type: createField<TimeWindowType>({ value: 'rolling' })
+        type: createField<TimeWindowType>({ value: 'rolling' }),
+        bindTimezone: createField<boolean>({ value: false }),
+        timezone: createField<string>({ value: '' })
       }
     }),
     nameTags: createMapForm({
@@ -120,7 +122,9 @@ export const testApplicationForm: SloForm = createMapForm({
         }),
         duration: createField<number>({ value: 100 }),
         durationUnit: createField<DurationUnitType>({ value: 'day' }),
-        type: createField<TimeWindowType>({ value: 'fixed' })
+        type: createField<TimeWindowType>({ value: 'fixed' }),
+        bindTimezone: createField<boolean>({ value: false }),
+        timezone: createField<string>({ value: '' })
       }
     }),
     nameTags: createMapForm({
@@ -148,7 +152,8 @@ const sharedSloConfigFields = {
     duration: 1,
     durationUnit: 'week',
     type: 'fixed'
-  } as const
+  } as const,
+  timezone: ''
 };
 
 export const testApplicationSloConfig: ServiceLevelObjectiveConfiguration = {

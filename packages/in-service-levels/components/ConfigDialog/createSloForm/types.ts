@@ -79,6 +79,8 @@ export type SloObjectiveFields = {
   durationUnit: Field<DurationUnitType>;
   startTimestamp: MapForm<TimeStampFields>;
   type: Field<TimeWindowType>;
+  bindTimezone: Field<boolean>;
+  timezone: Field<string>;
 };
 
 export type SloTimeWindowFields = {

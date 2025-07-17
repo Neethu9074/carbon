@@ -39,7 +39,8 @@ export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevel
       type: form.getIn(['objective', 'type']).value,
       startTimestamp: formToStartTimeStamp(form)
     },
-    target: form.getIn(['objective', 'target']).value ?? 0
+    target: form.getIn(['objective', 'target']).value ?? 0,
+    timezone: form.getIn(['objective', 'timezone']).value
   };
 }
 

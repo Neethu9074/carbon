@@ -131,7 +131,9 @@ export const getObjectiveFieldsFromForm = (form: SloForm) => {
     }),
     durationUnit: createField<DurationUnitType>({ value: durationUnitFieldValue }),
     startTimestamp: createMapForm({ items: getTimeFields(form) }),
-    type: createField({ value: timeWindowType })
+    type: createField({ value: timeWindowType }),
+    bindTimezone: createField({ value: false }),
+    timezone: createField({ value: '' })
   };
 };
 export const createSloFormFromForm = (form: SloForm): SloForm => {

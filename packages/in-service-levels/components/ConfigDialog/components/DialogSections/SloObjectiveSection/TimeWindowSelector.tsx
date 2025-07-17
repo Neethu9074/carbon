@@ -10,6 +10,7 @@ import { Stack, SvgIcon, ValidationBlock } from '@instana/components';
 import { DurationUnitType, TimeWindowType } from '@instana/types';
 import { Select, NumberInput } from '@instana/carbon';
 
+import TimezoneSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimezoneSelector';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -138,6 +139,13 @@ export default function TimeWindowSelector() {
             ))}
         </Section>
       )}
+      <div>
+        <Section title="" titleHtmlFor="time-zone" titleWidth={titleWidth}>
+          <Stack direction="horizontal" gap="xsmall" inline align="center">
+            <TimezoneSelector />
+          </Stack>
+        </Section>
+      </div>
     </>
   );
 }

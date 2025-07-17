@@ -175,7 +175,9 @@ export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
     startTimestamp: createMapForm<TimeStampFields>({
       items: getDefaultTimestampFields(sloConfig)
     }),
-    type: createField({ value: sloConfig.timeWindow.type })
+    type: createField({ value: sloConfig.timeWindow.type }),
+    bindTimezone: createField({ value: false }),
+    timezone: createField({ value: '' })
   };
 }
 

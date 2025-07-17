@@ -60,7 +60,8 @@ export const mockSlo1: ServiceLevelObjectiveConfiguration = {
     durationUnit: 'week',
     startTimestamp: 1719340200000
   },
-  tags: []
+  tags: [],
+  timezone: ''
 };
 
 export const mockSlo2: ServiceLevelObjectiveConfiguration = {
@@ -117,7 +118,8 @@ export const mockSlo2: ServiceLevelObjectiveConfiguration = {
     durationUnit: 'week',
     startTimestamp: 1718143200000
   },
-  tags: ['NewTag']
+  tags: ['NewTag'],
+  timezone: ''
 };
 
 export const mockSlo3: ServiceLevelObjectiveConfiguration = {
@@ -174,7 +176,8 @@ export const mockSlo3: ServiceLevelObjectiveConfiguration = {
     durationUnit: 'day',
     startTimestamp: 1696370400000
   },
-  tags: ['test2']
+  tags: ['test2'],
+  timezone: ''
 };
 
 export const mockSlo4: ServiceLevelObjectiveConfiguration = {
@@ -231,5 +234,6 @@ export const mockSlo4: ServiceLevelObjectiveConfiguration = {
     durationUnit: 'minute',
     startTimestamp: 1708540200000
   },
-  tags: ['AndreiK']
+  tags: ['AndreiK'],
+  timezone: ''
 };

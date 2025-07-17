@@ -86,7 +86,9 @@ export const getDefaultObjectiveFields = (): SloObjectiveFields => ({
   }),
   durationUnit: createField<DurationUnitType>({ value: 'week' }),
   startTimestamp: createMapForm({ items: getDefaultTimeFields() }),
-  type: createField<TimeWindowType>({ value: 'fixed' })
+  type: createField<TimeWindowType>({ value: 'fixed' }),
+  bindTimezone: createField<boolean>({ value: false }),
+  timezone: createField<string>({ value: '' }) // leave it blank or pass 'UTC' ??
 });
 
 export const createDefaultSloForm = (entityType: SloEntityType): SloForm => {
