@@ -9,6 +9,7 @@ import React from 'react';
 import { Select } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
+import { getCrossSeriesAggregation, parseAggregation } from 'in-infrastructure/util/aggregation';
 import FilterEmptyValuesToggle from 'in-components/FilterEmptyValueToggle/FilterEmptyValueToggle';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
@@ -95,11 +96,11 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
   );
 }
 
-function metricEventPayload(formMetric) {
+function metricEventPayload(metric, aggregation) {
   return {
-    metric: formMetric.get('metric')?.value,
-    aggregation: formMetric.get('aggregation')?.value,
-    crossSeriesAggregation: formMetric.get('crossSeriesAggregation')?.value
+    metric,
+    aggregation: aggregation.timeAggregation,
+    crossSeriesAggregation: getCrossSeriesAggregation(aggregation)
   };
 }
 
@@ -122,7 +123,7 @@ function Content({
     <>
       <Col xs={4}>
         {metric.get('metric').map(field => (
-          <div className={locals.label}>
+          <div className={locals.label} key={`metric-configuration-metric-${i}`}>
             <Label htmlFor={`metric-configuration-metric-${i}`} hasError={!field.valid && field.touched}>
               <MetricLabel label={{ data: uniqueMetricsLabels[i] }} />
             </Label>
@@ -134,28 +135,21 @@ function Content({
         {metric.get('aggregation').map(field => (
           <Select
             id={`metric-configuration-aggregation-${i}`}
+            key={`metric-configuration-aggregation-${i}`}
             value={field.value}
             onChange={e => {
-              const aggregation = e.target.value;
+              const timeAggregation = e.target.value;
+              const aggregation = parseAggregation(timeAggregation, metric.get('crossSeriesAggregation')?.value);
               if (onChangeAggregation) {
-                onChangeAggregation(metricEventPayload(metric), aggregation);
+                onChangeAggregation(metricEventPayload(metric.get('metric')?.value, aggregation), timeAggregation);
               }
-
-              onChange([], form => {
-                const sumAggs = ['SUM', 'INCREASE', 'PER_SECOND'];
-                const defaultAggs = ['SUM', 'MEAN', 'MIN', 'MAX'];
-                let updatedForm = form
-                  .updateIn([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true))
-                  .updateIn([i, 'crossSeriesAggregation'], field => {
-                    const value = sumAggs.includes(aggregation)
-                      ? 'SUM'
-                      : !defaultAggs.includes(aggregation)
-                      ? aggregation
-                      : undefined;
-                    return field.setValue(value).setTouched(true);
-                  });
-                return updatedForm;
-              });
+              onChange([], form =>
+                form
+                  .updateIn([i, 'aggregation'], field => field.setValue(aggregation.timeAggregation).setTouched(true))
+                  .updateIn([i, 'crossSeriesAggregation'], field =>
+                    field.setValue(getCrossSeriesAggregation(aggregation)).setTouched(true)
+                  )
+              );
             }}
             className={locals.aggregations}
             hasError={!field.valid && field.touched}

@@ -23,6 +23,11 @@ import {
   onChangeGrouping,
   isRequiringGroupingConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import {
+  parseAggregation,
+  parseTimeAggregationStandard,
+  parseTimeAggregationSum
+} from 'in-infrastructure/util/aggregation';
 import ValidationMessages, {
   hasErrorOfCategory
 } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
@@ -101,9 +106,14 @@ export default function FormComponent({
   const onDirectionChange = (direction, maxResults) =>
     onChangeGrouping(onChange, { ...grouping, direction, maxResults }, groupKey);
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers }, groupKey);
-  const isCrossSeriesSumAggregationToggleEnabled =
-    !isCrossSeriesAggregationRestricted && includesInSelectedAggregations(aggregationField.value);
-  const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
+
+  const aggregation = parseAggregation(aggregationField.value, crossSeriesAggregationField.value);
+
+  const isSumCrossSeriesAggregation = aggregation.type === 'SUM';
+  const isCrossSeriesSumAggregationToggleEnabled = isSumCrossSeriesAggregation
+    ? parseTimeAggregationStandard(aggregationField.value) !== undefined
+    : parseTimeAggregationSum(aggregationField.value) !== undefined;
+
   const isLastValue = lastValueField.value === true;
 
   const type = typeField.value || undefined;
@@ -418,10 +428,6 @@ export function getGroups({ isMultiGroup, infraExploreGrouping }) {
     groupKey: 'groupBys',
     groups: uniqueGroupBys
   };
-}
-
-export function includesInSelectedAggregations(aggregationFieldValue) {
-  return ['MEAN', 'MIN', 'MAX'].includes(aggregationFieldValue);
 }
 
 function getMetricDefaultFormatter({ baseUnit, isFormatterSelected, metric, formatter, uiMetricFormatter }) {

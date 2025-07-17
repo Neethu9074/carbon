@@ -23,7 +23,7 @@ interface CrossSeriesAggregationProps {
   aggregationField: Field<any>;
   isCrossSeriesSumAggregationToggleEnabled: boolean;
   isSumCrossSeriesAggregation: boolean;
-  handleSumCrossSeriesAggregationChange: VoidFunction;
+  handleSumCrossSeriesAggregationChange: (isSum: boolean) => void;
   crossSeriesAggregationField: Field<any>;
   isTearSheet?: boolean;
 }
@@ -52,8 +52,8 @@ export default function CrossSeriesAggregation({
               <Toggle
                 id="metric-configurator-cross-series-aggregation"
                 checked={isSumCrossSeriesAggregation}
-                disabled={!isCrossSeriesSumAggregationToggleEnabled}
                 onToggle={handleSumCrossSeriesAggregationChange}
+                disabled={!isCrossSeriesSumAggregationToggleEnabled}
               />
             </span>
           </Tooltip>
