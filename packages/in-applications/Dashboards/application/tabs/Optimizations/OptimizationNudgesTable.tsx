@@ -15,7 +15,7 @@ import {
   HIGH,
   thresholdLowerLimit,
   thresholdUpperLimit
-} from 'in-applications/Dashboards/application/tabs/MetricUtilisation';
+} from 'in-applications/Dashboards/application/tabs/Optimizations/MetricUtilisation';
 //@ts-expect-error Needs TS migration
 import { toggleSnapshotId } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 //@ts-expect-error Needs TS migration
@@ -24,13 +24,13 @@ import { data$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import createSearchSubscription from 'in-subscription/search';
 //@ts-expect-error Needs TS migration
 import { getTableDefinition } from 'in-sdk/snapshot';
+import Table from 'in-applications/Dashboards/application/tabs/Optimizations/Table';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
-import Table from 'in-applications/Dashboards/application/tabs/Table';
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
-import locals from 'in-applications/Dashboards/application/tabs/OptimizationNudgesTable.mless';
+import locals from './OptimizationNudgesTable.mless';
 
 const block = 'in-table-view-table';
 
