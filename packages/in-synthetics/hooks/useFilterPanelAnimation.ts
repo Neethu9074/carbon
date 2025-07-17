@@ -10,83 +10,53 @@ import { animate } from 'motion';
 import { PaginatedResult, Result } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 
+import { ListItem } from 'in-synthetics/components/constants';
+
 import locals from 'in-service-levels/components/SloList/components/FilterPanel.mless';
 
-const PANEL_WIDTH_PX = 320;
-const CONTENT_OFFSET_PX = 336;
-const ANIMATION_OPTIONS = { duration: 0.25 };
-
-export interface FilterPanelAnimationProps {
+export interface FilterPanelAnimationProps<ITEM_TYPE> {
   page: number;
-  result: Result<PaginatedResult<any>>;
+  result: Result<PaginatedResult<ITEM_TYPE>>;
 }
 
-export default function useFilterPanelAnimation({ page, result }: FilterPanelAnimationProps) {
+export default function useFilterPanelAnimation<ITEM_TYPE extends ListItem>({
+  page,
+  result
+}: FilterPanelAnimationProps<ITEM_TYPE>) {
   const tableContainerRef = useRef<HTMLDivElement>(null);
-
-  // Extract complex expression for dependency array
-  const resultHash = result ? generateStableHash(result) : null;
 
   useLayoutEffect(() => {
     const tableContainer = tableContainerRef.current;
     if (!tableContainer) return;
     const tableContent = tableContainer.querySelector('.cds--data-table-content');
-    if (tableContent && tableContent.clientHeight > 0) {
-      tableContainer.style.setProperty('--table-height', `${tableContent.clientHeight}px`);
+    if (tableContent) {
+      const height = tableContent.clientHeight;
+      if (height > 0) {
+        tableContainer.style.setProperty('--table-height', `${height}px`);
+      }
     }
-  }, [page, resultHash]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, generateStableHash(result)]);
 
-  /**
-   * Animates the filter panel and related elements
-   * @param popoverOpen Whether the filter panel is being opened (false) or closed (true)
-   */
+  // animate the filter panel content
   function animatePanel(popoverOpen: boolean) {
-    const tableContainer = tableContainerRef.current;
-    if (!tableContainer) return;
-
-    const panel = tableContainer.querySelector(`.${locals['panel--container']}`) as HTMLElement;
-    const content = tableContainer.querySelector(`.cds--data-table-content`) as HTMLElement;
-    const pagination = tableContainer.querySelector(`.cds--pagination`) as HTMLElement;
+    const table = tableContainerRef.current;
+    if (!table) return;
+    const panel = table.querySelector(`.${locals['panel--container']}`);
+    const content = table.querySelector(`.cds--data-table-content`);
+    const pagination = table.querySelector(`.cds--pagination`);
 
     if (popoverOpen) {
-      // Panel is closing - animate out
-      animateElementIfExists(panel, {
-        opacity: [1, 0],
-        transform: [`translateX(0px)`, `translateX(-${PANEL_WIDTH_PX}px)`]
-      });
-
-      // Content and pagination expand to full width
-      const fullWidthProps = {
-        width: '100%',
-        transform: 'translateX(0px)'
-      };
-
-      animateElementIfExists(content, fullWidthProps);
-      animateElementIfExists(pagination, fullWidthProps);
+      panel &&
+        animate(panel, { opacity: [1, 0], transform: [`translateX(0px)`, `translateX(-320px)`] }, { duration: 0.25 });
+      content && animate(content, { width: '100%', transform: 'translateX(0px)' }, { duration: 0.25 });
+      pagination && animate(pagination, { width: '100%', transform: 'translateX(0px)' }, { duration: 0.25 });
     } else {
-      // Panel is opening - animate in
-      animateElementIfExists(panel, {
-        opacity: [0, 1],
-        transform: [`translateX(-${PANEL_WIDTH_PX}px)`, `translateX(0px)`]
-      });
-
-      // Content and pagination shrink to make room for panel
-      const reducedWidthProps = {
-        width: `calc(100% - ${CONTENT_OFFSET_PX}px)`,
-        transform: `translateX(${CONTENT_OFFSET_PX}px)`
-      };
-
-      animateElementIfExists(content, reducedWidthProps);
-      animateElementIfExists(pagination, reducedWidthProps);
-    }
-  }
-
-  /**
-   * Helper function to animate an element if it exists
-   */
-  function animateElementIfExists(element: HTMLElement | null, properties: Record<string, any>) {
-    if (element) {
-      animate(element, properties, ANIMATION_OPTIONS);
+      panel &&
+        animate(panel, { opacity: [0, 1], transform: [`translateX(-320px)`, `translateX(0px)`] }, { duration: 0.25 });
+      content && animate(content, { width: 'calc(100% - 336px)', transform: 'translateX(336px)' }, { duration: 0.25 });
+      pagination &&
+        animate(pagination, { width: 'calc(100% - 336px)', transform: 'translateX(336px)' }, { duration: 0.25 });
     }
   }
 

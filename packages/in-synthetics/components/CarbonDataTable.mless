@@ -29,4 +29,47 @@
   .filterCloseButton {
     position: relative;
   }
+
+  .fixedLayout {
+    table-layout: fixed;
+  }
+
+  .tableMinimumHorizontalSpace {
+    white-space: nowrap !important;
+  }
+
+  .noWrap {
+    white-space: nowrap;
+  }
+
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .generate-column-widths(@i) when (@i =< 100) {
+    .columnWidth-@{i} {
+      max-width: @i * 1%;
+    }
+    .columnWidth-@{i}rem {
+      max-width: @i * 1rem;
+    }
+    .columnWidth-@{i}vw {
+      max-width: @i * 1vw;
+    }
+    .generate-column-widths(@i + 1);
+  }
+
+  .generate-row-widths(@i) when (@i =< 100) {
+    .rowWidth {
+      .w-@{i}vw {
+        max-width: @i * 1vw;
+      }
+    }
+    .generate-row-widths(@i + 1);
+  }
+
+  .generate-column-widths(1);
+  .generate-row-widths(1);
 }

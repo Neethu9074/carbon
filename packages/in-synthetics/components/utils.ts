@@ -6,8 +6,8 @@
 
 import { OrderDirection, TestResultListItem } from '@instana/types';
 
-import { ColumnDefinition, TableProps, TableState } from 'in-components/tables/ServerTable/types';
 import { CarbonHeader, Ellipsis, ListItem, Width } from 'in-synthetics/components/constants';
+import { ColumnDefinition, TableState } from 'in-components/tables/ServerTable/types';
 import { tryGet } from 'in-services/localStorage';
 
 export const getEllipsisValue = (ellipsis: Ellipsis, width: Width) => {
@@ -32,9 +32,7 @@ export const getWidthInAbsoluteUnit = (ellipsis: Ellipsis, widthInAbsoluteUnit: 
   return widthInAbsoluteUnit;
 };
 
-export const getHeader = <ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
-  item: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>
-) => {
+export const getHeader = <ITEM_TYPE extends ListItem>(item: ColumnDefinition<ITEM_TYPE>) => {
   if (item.renderLabel) {
     const label = typeof item.label === 'string' ? ({ data: item.label } as unknown as string) : item.label;
     return item.renderLabel({ ...item, label });
@@ -72,8 +70,8 @@ export const getNextSortDirection = (
   }
 };
 
-export function sortHandler<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
-  carbonHeaders: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[],
+export function sortHandler<ITEM_TYPE extends ListItem>(
+  carbonHeaders: CarbonHeader<ITEM_TYPE>[],
   onChange: (sortState: Partial<TableState>) => void,
   pageSize: number,
   query?: string,
@@ -96,9 +94,9 @@ export function sortHandler<ITEM_TYPE extends ListItem, PROPS_TYPE extends Table
   };
 }
 
-export function getVisibleColumns<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
-  columnDefinitions: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[],
-  optionalColumns: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[],
+export function getVisibleColumns<ITEM_TYPE extends ListItem>(
+  columnDefinitions: ColumnDefinition<ITEM_TYPE>[],
+  optionalColumns: ColumnDefinition<ITEM_TYPE>[],
   disabledColumns: string[],
   enabledColumns: string[]
 ) {
