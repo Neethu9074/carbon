@@ -8,12 +8,12 @@ import React from 'react';
 
 import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { Typography } from '@instana/components';
-import { Result } from '@instana/types';
+import type { Result } from '@instana/types';
 
 import AnalyzeSloEventsButtons from 'in-service-levels/components/AnalyzeSloEventsButtons';
-import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import type { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
-import { Nullish } from 'in-types';
+import type { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SloDashboardHeaderProps {

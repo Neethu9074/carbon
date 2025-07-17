@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { ApplicationBoundaryScope } from '@instana/types';
+import type { ApplicationBoundaryScope } from '@instana/types';
 
 import OptionBox from 'in-applications/components/OptionBox';
 import { Col, Row } from 'in-components/layout/Grid/Grid';

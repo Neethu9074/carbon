@@ -6,17 +6,17 @@
 
 import { useMemo } from 'react';
 
-import { MetricResult, Result } from '@instana/types';
+import type { MetricResult, Result } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { sloPreviewMetrics } from 'in-service-levels/metrics';
 import { pendingResult } from 'in-services/fixedObjects';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function useSloPreviewMetrics(form: SloForm): FetchedState<MetricResult[]> {

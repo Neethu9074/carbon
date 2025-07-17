@@ -4,23 +4,16 @@
  * Copyright IBM Corp. 2025
  */
 
-import {
-  getCoreRowModel,
-  useReactTable,
-  OnChangeFn,
-  SortingState,
-  PaginationState,
-  RowSelectionState,
-  ColumnDef
-} from '@tanstack/react-table';
+import type { OnChangeFn, SortingState, PaginationState, RowSelectionState, ColumnDef } from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import type { Field, Item } from 'formalistic';
 import { useCallback, useMemo } from 'react';
-import { Field, Item } from 'formalistic';
 
+import type { PaginatedResult } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
-import { PaginatedResult } from '@instana/types';
 
-import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { SelectSloListItem } from 'in-service-levels/types';
+import type { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import type { SelectSloListItem } from 'in-service-levels/types';
 
 const getRowId = (row: SelectSloListItem) => row.configuration.id!;
 

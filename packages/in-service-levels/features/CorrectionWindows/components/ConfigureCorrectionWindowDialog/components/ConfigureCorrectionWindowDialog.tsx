@@ -6,7 +6,7 @@
 
 import React, { useEffect } from 'react';
 
-import { Result, CorrectionConfiguration } from '@instana/types';
+import type { Result, CorrectionConfiguration } from '@instana/types';
 import { CreateTearsheet } from '@instana/ibm-products';
 
 import {
@@ -17,12 +17,13 @@ import {
 } from 'in-services/tracking/eventNames';
 import CorrectionWindowFormContext from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/CorrectionWindowFormContext';
 import useHandleCorrectionWindowForm from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/hooks/useHandleCorrectionWindowForm';
+import type { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
 import { formToCorrectionWindow } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/utils';
-import { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
 import ScheduleSection from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/components/ScheduleSection';
 import ScopeSection from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/components/ScopeSection';
-import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { SloTrackingMeta, ConfigureDialogMode } from 'in-service-levels/types';
+import type { UnstableTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import type { SloTrackingMeta, ConfigureDialogMode } from 'in-service-levels/types';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';

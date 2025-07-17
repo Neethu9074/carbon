@@ -4,18 +4,19 @@
  * Copyright IBM Corp. 2025
  */
 
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 
 import {
   SLO_CORRECTION_WINDOW_TOGGLE_ERROR,
   SLO_CORRECTION_WINDOW_TOGGLE_FINISH,
   SLO_CORRECTION_WINDOW_TOGGLE_START
 } from 'in-services/tracking/eventNames';
-import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { updateCorrectionConfiguration } from 'in-service-levels/api/correctionConfiguration';
+import type { UnstableTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import type { SloTrackingMeta } from 'in-service-levels/types';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
-import { SloTrackingMeta } from 'in-service-levels/types';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 

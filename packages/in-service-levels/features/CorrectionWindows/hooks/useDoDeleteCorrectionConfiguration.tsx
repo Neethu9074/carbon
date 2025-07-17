@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 import { Typography } from '@instana/components';
 
 import {
@@ -14,18 +14,15 @@ import {
   SLO_CORRECTION_WINDOW_DELETE_FINISH,
   SLO_CORRECTION_WINDOW_DELETE_START
 } from 'in-services/tracking/eventNames';
-import {
-  CtaTrackingFunction,
-  UnstableTrackingFunction,
-  useSegmentTracking
-} from 'in-services/tracking/useSegmentTracking';
+import type { CtaTrackingFunction, UnstableTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { deleteCorrectionConfiguration } from 'in-service-levels/api/correctionConfiguration';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DELETED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { ProductArea } from 'in-services/tracking/productAreas';
-import { PageName } from 'in-services/tracking/pageNames';
+import type { ProductArea } from 'in-services/tracking/productAreas';
+import type { PageName } from 'in-services/tracking/pageNames';
 import { t, Trans } from 'in-i18n';
 
 type CompletionCallback = (success: boolean) => void;

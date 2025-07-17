@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { getCorrectionConfiguration } from 'in-service-levels/api/correctionConfiguration';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 
 export default function useCorrectionConfiguration(id: string): FetchedState<CorrectionConfiguration> {
   const result = useObservable(() => getCorrectionConfiguration(id), [id]);

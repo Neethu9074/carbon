@@ -11,7 +11,7 @@ import { Stack, StackItem } from '@instana/components';
 import { Button } from '@instana/carbon';
 
 import TagFilterQueryBuilder from 'in-service-levels/components/Shared/TagFilterQueryBuilder/TagFilterQueryBuilder';
-import { TagFilterQueryBuilderProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
+import type { TagFilterQueryBuilderProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
 import { t } from 'in-i18n';
 
 export default function ClearableTagFilterQueryBuilder({ value, onChange, ...props }: TagFilterQueryBuilderProps) {

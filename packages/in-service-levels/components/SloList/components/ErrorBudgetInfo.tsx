@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelIndicatorType, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import type { ServiceLevelIndicatorType, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 import { formatDuration } from '@instana/format-date';
 import { KeyValue } from '@instana/components';
 

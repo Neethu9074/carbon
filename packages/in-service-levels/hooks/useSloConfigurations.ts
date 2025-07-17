@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import { PaginatedResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { PaginatedResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
-import { getAllSloConfigurations, GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
+import type { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { FetchedState } from 'in-hooks/utils/types';
+import { getAllSloConfigurations } from 'in-service-levels/api/sloConfiguration';
+import type { FetchedState } from 'in-hooks/utils/types';
 
 export default function useSloConfigurations({
   ids,

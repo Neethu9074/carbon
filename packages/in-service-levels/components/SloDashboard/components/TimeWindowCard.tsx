@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration, TimeWindow, isFixedTimeWindow } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration, TimeWindow } from '@instana/types';
 import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { Card, Stack, Typography } from '@instana/components';
+import { isFixedTimeWindow } from '@instana/types';
 
 import TimeWindowPill from 'in-service-levels/components/SloDashboard/components/TimeWindowPill';
 import { t } from 'in-i18n';

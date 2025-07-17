@@ -6,14 +6,13 @@
 
 import React from 'react';
 
-import {
+import type {
   ApplicationSloEntity,
   SloEntityUnion,
   TagFilterExpressionElementUnion,
-  WebsiteSloEntity,
-  isApplicationSloEntity,
-  isWebsiteSloEntity
+  WebsiteSloEntity
 } from '@instana/types';
+import { isApplicationSloEntity, isWebsiteSloEntity } from '@instana/types';
 
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';

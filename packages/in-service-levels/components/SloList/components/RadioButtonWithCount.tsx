@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
+import React from 'react';
 
 import { RadioButton } from '@instana/carbon';
 import { Stack } from '@instana/components';

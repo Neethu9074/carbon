@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { UseApplicationQueryBuilderProps } from 'in-service-levels/hooks/useApplicationQueryBuilder';
-import { UseWebsiteQueryBuilderProps } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import type { UseApplicationQueryBuilderProps } from 'in-service-levels/hooks/useApplicationQueryBuilder';
+import type { UseWebsiteQueryBuilderProps } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export const isApplicationTagFilter = (props: TagFilterQueryBuilderProps): props is ApplicationQueryProps => {
   return 'applicationId' in props;

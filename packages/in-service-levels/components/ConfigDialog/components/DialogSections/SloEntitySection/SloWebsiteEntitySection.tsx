@@ -7,13 +7,13 @@
 import React, { useContext, useState } from 'react';
 
 import { Typography, ValidationBlock } from '@instana/components';
-import { Website } from '@instana/types';
+import type { Website } from '@instana/types';
 import { Search } from '@instana/carbon';
 
 import SloEntityTable, {
-  EntityData,
   SloEntityTablePageSize
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
+import type { EntityData } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useWebsiteEntities from 'in-service-levels/hooks/useWebsiteEntities';

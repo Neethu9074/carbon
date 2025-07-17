@@ -12,7 +12,7 @@ import {
   correctionOverlay,
   correctionWindowMetricId
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
-import { Renderer, RenderProps } from 'in-components/Chart/renderer/types';
+import type { Renderer, RenderProps } from 'in-components/Chart/renderer/types';
 import renderer from 'in-components/Chart/renderer/Renderer';
 
 export interface RenderWithMissingDataIndicatorProps {

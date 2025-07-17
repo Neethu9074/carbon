@@ -6,11 +6,11 @@
 
 import React from 'react';
 
-import { AggregationType } from '@instana/types';
+import type { AggregationType } from '@instana/types';
 import { Select } from '@instana/carbon';
 
+import type { TimeAggregationOptions } from 'in-service-levels/types';
 import { timeAggregationOptions } from 'in-service-levels/constants';
-import { TimeAggregationOptions } from 'in-service-levels/types';
 
 interface AggregationSelectorInputProps {
   disabled?: boolean;

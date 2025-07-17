@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { FixedTimeWindow } from '@instana/types';
+import type { FixedTimeWindow } from '@instana/types';
 
 import { testDate } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 import { calculateTimeConfigFromTimeWindow } from 'in-service-levels/utils/time';

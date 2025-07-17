@@ -7,14 +7,15 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { TimeWindowType } from '@instana/types';
+import type { TimeWindowType } from '@instana/types';
 
 import SloChartSummarySkeleton from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummarySkeleton';
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
-import useSloFormatter, { SloFormatterFunction } from 'in-service-levels/hooks/useSloFormatter';
 import SloTimeTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTimeTile';
+import type { SloFormatterFunction } from 'in-service-levels/hooks/useSloFormatter';
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
-import { MetricDataPoint } from 'in-components/Chart/types';
+import useSloFormatter from 'in-service-levels/hooks/useSloFormatter';
+import type { MetricDataPoint } from 'in-components/Chart/types';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';

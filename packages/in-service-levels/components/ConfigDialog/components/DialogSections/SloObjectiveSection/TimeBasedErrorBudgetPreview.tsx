@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { Typography } from '@instana/components';
-import { TimeWindow } from '@instana/types';
+import type { TimeWindow } from '@instana/types';
 
 import { calculateAvailableErrorBudget } from 'in-service-levels/utils/math';
 import { minutes } from 'in-services/formatters/number';

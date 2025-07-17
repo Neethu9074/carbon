@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import {
+import type {
   AggregationType,
   GetUnifiedMetricsQuery,
   Result,
@@ -14,8 +14,9 @@ import {
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
-import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import type { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { adjustTimeWindowsToTimeConfig } from 'in-service-levels/utils/time';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { sloMetrics } from 'in-service-levels/metrics';

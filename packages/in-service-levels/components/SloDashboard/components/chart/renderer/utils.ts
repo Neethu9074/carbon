@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { CorrectionWithConfiguration } from 'in-service-levels/features/CorrectionWindows/hooks/useCorrectionWindows';
-import { RenderConfig } from 'in-components/Chart/renderer/types';
-import { MetricDataSeries } from 'in-components/Chart/types';
+import type { CorrectionWithConfiguration } from 'in-service-levels/features/CorrectionWindows/hooks/useCorrectionWindows';
+import type { RenderConfig } from 'in-components/Chart/renderer/types';
+import type { MetricDataSeries } from 'in-components/Chart/types';
 
 export type Vertex = [number, number];
 

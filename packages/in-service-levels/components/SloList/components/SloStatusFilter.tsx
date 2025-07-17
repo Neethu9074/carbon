@@ -6,11 +6,11 @@
 
 import React from 'react';
 
-import { InquiryResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { InquiryResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { RadioButtonGroup } from '@instana/carbon';
 
 import RadioButtonWithCount from 'in-service-levels/components/SloList/components/RadioButtonWithCount';
-import { SloStatus } from 'in-service-levels/types';
+import type { SloStatus } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 interface SloStatusFilterProps {

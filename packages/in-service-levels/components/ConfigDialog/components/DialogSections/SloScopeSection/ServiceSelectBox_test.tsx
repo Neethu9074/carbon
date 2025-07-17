@@ -7,8 +7,9 @@ import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { Subject, create } from '@instana/observables';
-import { Result, ServiceItem } from '@instana/types';
+import type { Result, ServiceItem } from '@instana/types';
+import type { Subject } from '@instana/observables';
+import { create } from '@instana/observables';
 
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import ComboBoxInSection from 'in-components/form/ComboBoxInSection/ComboBoxInSection';

@@ -7,7 +7,7 @@
 import { RRule } from 'rrule';
 import React from 'react';
 
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 import { Typography } from '@instana/components';
 
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';

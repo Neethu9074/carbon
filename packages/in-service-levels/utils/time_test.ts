@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TimeConfig } from '@instana/types';
+import type { TimeConfig } from '@instana/types';
 
 import {
   calculateSloGranularity,

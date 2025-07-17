@@ -5,13 +5,13 @@
  */
 
 import { generateStableHash } from '@instana/utils';
-import { SyntheticTest } from '@instana/types';
+import type { SyntheticTest } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { getFilteredSyntheticTests } from 'in-synthetics/api';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';
 
 interface UseSyntheticTestsProps {

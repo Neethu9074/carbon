@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 import { Link } from '@instana/components';
 
 import ConfigureCorrectionWindowDialog from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/components/ConfigureCorrectionWindowDialog';

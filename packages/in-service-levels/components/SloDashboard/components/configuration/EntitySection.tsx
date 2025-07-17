@@ -8,10 +8,11 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 
-import SloConfigSection, {
+import type {
   RowDefinition,
   SloConfigSectionData
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
+import SloConfigSection from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import { t } from 'in-i18n';
 
 interface EntitySectionProps {

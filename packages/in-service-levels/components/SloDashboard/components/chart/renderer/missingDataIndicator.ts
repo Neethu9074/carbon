@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2022
  */
 
+import type { TimeConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
-import { TimeConfig } from '@instana/types';
 
 import { getLineWidth } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
-import { RenderConfig } from 'in-components/Chart/renderer/types';
+import type { RenderConfig } from 'in-components/Chart/renderer/types';
 
 export function timeWindowIncludesFirstCollectionTimestamp(
   firstCollectionTimestamp: number,

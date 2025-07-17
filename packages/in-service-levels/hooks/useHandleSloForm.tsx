@@ -4,18 +4,20 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type React from 'react';
 
-import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { Observable } from '@instana/observables';
+import type { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { Observable } from '@instana/observables';
 
-import useSloFormSideEffects, { SloFormSideEffectsReturnType } from 'in-service-levels/hooks/useSloFormSideEffects';
 import { createSloConfiguration, updateSloConfiguration } from 'in-service-levels/api/sloConfiguration';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { ConfigureDialogMode } from 'in-service-levels/types';
+import type { SloFormSideEffectsReturnType } from 'in-service-levels/hooks/useSloFormSideEffects';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import useSloFormSideEffects from 'in-service-levels/hooks/useSloFormSideEffects';
+import type { ConfigureDialogMode } from 'in-service-levels/types';
 import useFormSubmission from 'in-hooks/useFormSubmission';
-import { FetchStatus } from 'in-hooks/utils/types';
+import type { FetchStatus } from 'in-hooks/utils/types';
 
 export interface UseHandleSloFormProps {
   mode: ConfigureDialogMode;

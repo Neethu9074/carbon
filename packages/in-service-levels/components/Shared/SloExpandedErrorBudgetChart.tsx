@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import SloErrorBudgetChart from 'in-service-levels/components/Shared/SloErrorBudgetChart';

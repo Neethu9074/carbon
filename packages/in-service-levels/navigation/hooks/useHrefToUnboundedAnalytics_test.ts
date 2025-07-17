@@ -6,7 +6,7 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import {
+import type {
   ApplicationSloEntity,
   AvailabilityBlueprintIndicator,
   LatencyBlueprintIndicator,

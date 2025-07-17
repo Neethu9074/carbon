@@ -10,7 +10,7 @@ import React from 'react';
 import { Typography } from '@instana/components';
 import { Button } from '@instana/carbon';
 
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';

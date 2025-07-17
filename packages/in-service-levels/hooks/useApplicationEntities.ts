@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Application, ApplicationCursorPaginatedItem, Result } from '@instana/types';
-import { IngestionOffsetCursor } from '@instana/types/typeDefinitions';
+import type { Application, ApplicationCursorPaginatedItem, Result } from '@instana/types';
+import type { IngestionOffsetCursor } from '@instana/types/typeDefinitions';
 
 import getApplicationsCursorPaginated from 'in-applications/subscriptions/getApplicationsCursorPaginated';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import useCursorPagination, { State } from 'in-hooks/useCursorPagination';
-import { FetchedState } from 'in-hooks/utils/types';
+import useCursorPagination from 'in-hooks/useCursorPagination';
+import type { State } from 'in-hooks/useCursorPagination';
+import type { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 interface ApplicationEntitiesResult {

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ColumnFilter } from '@tanstack/react-table';
+import type { ColumnFilter } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
 import { generateStableHash } from '@instana/utils';

@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity, SloEntityUnion } from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
+import type { SloEntityUnion } from '@instana/types';
 
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 

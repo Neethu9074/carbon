@@ -6,7 +6,7 @@
 import stairway, {
   useStairwayRenderer
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
-import { DataSeries, RenderConfig, RenderProps } from 'in-components/Chart/renderer/types';
+import type { DataSeries, RenderConfig, RenderProps } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
 import createScale from 'in-services/scale';
 

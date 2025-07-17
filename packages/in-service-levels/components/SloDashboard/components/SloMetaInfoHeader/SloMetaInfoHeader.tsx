@@ -7,7 +7,7 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { ButtonGroup, Stack } from '@instana/components';
 
 import SloDashboardMetaInfo from 'in-service-levels/components/SloDashboard/components/SloDashboardMetaInfo/SloDashboardMetaInfo';
@@ -15,7 +15,7 @@ import AdditionalDashboardHeader from 'in-components/AdditionalDashboardHeader/A
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import tabs from 'in-service-levels/components/SloDashboard/tabs';
 import { SloTimeWindowTypes } from 'in-service-levels/constants';
-import { LabeledEntity } from 'in-service-levels/types';
+import type { LabeledEntity } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 import locals from './SloMetaInfoHeader.mless';

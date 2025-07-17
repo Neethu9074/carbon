@@ -12,7 +12,7 @@ import {
   testWebsiteForm
 } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 import createSloFormFromPreviousForm from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 
 describe('in-service-levels/components/SloList/components/DialogSections/createSloForm/createSloFormFromPreviousForm', () => {
   beforeAll(() => {

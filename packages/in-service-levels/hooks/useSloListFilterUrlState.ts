@@ -6,7 +6,7 @@
 
 import { useMemo } from 'react';
 
-import { BlueprintType, SloEntityType } from '@instana/types';
+import type { BlueprintType, SloEntityType } from '@instana/types';
 
 import {
   createBlueprintUrlParameter,
@@ -14,8 +14,9 @@ import {
   createSloStatusUrlParameter,
   createTagsUrlParameter
 } from 'in-service-levels/navigation/urlParameters';
-import useUrlState, { Options, UrlStateReturn } from 'in-hooks/useUrlState';
-import { SloStatus } from 'in-service-levels/types';
+import type { Options, UrlStateReturn } from 'in-hooks/useUrlState';
+import type { SloStatus } from 'in-service-levels/types';
+import useUrlState from 'in-hooks/useUrlState';
 
 export interface SloListFilterState {
   tags: string[];

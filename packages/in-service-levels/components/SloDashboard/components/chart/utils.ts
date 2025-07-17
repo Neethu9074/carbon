@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TimeConfig } from '@instana/types';
+import type { TimeConfig } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import { defaultNumberOfSuggestedDatapoints } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
+import type { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import { getChartGranularity } from 'in-stores/metric';
 

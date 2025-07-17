@@ -8,7 +8,7 @@ import { daysInWeek } from 'date-fns';
 import React from 'react';
 
 import { LoadingSkeleton, Stack, Typography } from '@instana/components';
-import { TimeWindow } from '@instana/types';
+import type { TimeWindow } from '@instana/types';
 
 import useEstimatedEventBasedErrorBudget from 'in-service-levels/hooks/useEstimatedEventBasedErrorBudget';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';

@@ -9,11 +9,12 @@ import React from 'react';
 import { isSyntheticSloEntity } from '@instana/types';
 import { KeyValue } from '@instana/components';
 
-import SloConfigSection, {
+import type {
   RowDefinition,
   SloConfigSectionData
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import TagFilterQueryBuilder from 'in-service-levels/components/SloDashboard/components/configuration/components/TagFilterQueryBuilder';
+import SloConfigSection from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { defaultSliThresholdOperator } from 'in-service-levels/constants';
 import { percentage } from 'in-services/formatters/number';

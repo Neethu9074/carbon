@@ -11,9 +11,10 @@ import {
   createReccurenceFields,
   createStartFields
 } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createCorrectionWindowForm';
-import { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
+import type { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
 import { ONE_TIME } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/constants';
-import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
+import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
+import type { Effect } from 'in-hooks/useFormSideEffects';
 
 function updateDuration(form: CorrectionWindowForm) {
   const allDay = form.getIn(['schedule', 'start', 'allDay']).value;

@@ -11,12 +11,12 @@ import { serviceLevelsObjectiveAlertDetailsFullyQualified } from 'in-service-lev
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
-import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import type { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
-import { Nullish } from 'in-types';
+import type { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SloAlertsProps {

@@ -6,15 +6,13 @@
 
 import React from 'react';
 
-import {
+import type {
   DateAsNumber,
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntityUnion,
   TrafficBlueprintIndicator
 } from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
 
 import { useLineWithThresholdAndMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThresholdAndMissingDataIndicator';
 import {
@@ -36,7 +34,7 @@ import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowCon
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { MetricDataSeries } from 'in-components/Chart/types';
+import type { MetricDataSeries } from 'in-components/Chart/types';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

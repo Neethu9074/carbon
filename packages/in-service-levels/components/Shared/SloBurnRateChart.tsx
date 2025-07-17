@@ -6,13 +6,13 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import ControlledSloBurnRateChart from 'in-service-levels/components/Shared/ControlledSloBurnRateChart';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
-import { MetricDataSeries } from 'in-components/Chart/types';
+import type { MetricDataSeries } from 'in-components/Chart/types';
 import { sloMetrics } from 'in-service-levels/metrics';
 
 interface SloBurnRateChartPeops {

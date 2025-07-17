@@ -6,13 +6,15 @@
 
 import { isUndefined } from 'lodash';
 
-import { getIntlNumberFormatter, NumberFormatter } from '@instana/format-numbers';
-import { MetricResult, SloEntityUnion } from '@instana/types';
+import type { MetricResult, SloEntityUnion } from '@instana/types';
+import { getIntlNumberFormatter } from '@instana/format-numbers';
+import type { NumberFormatter } from '@instana/format-numbers';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { number, NumberFormatterFunction } from 'in-services/formatters/number';
+import type { NumberFormatterFunction } from 'in-services/formatters/number';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
-import { MetricDataPoint } from 'in-components/Chart/types';
+import type { MetricDataPoint } from 'in-components/Chart/types';
+import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 interface FormatSloStatusResponse {

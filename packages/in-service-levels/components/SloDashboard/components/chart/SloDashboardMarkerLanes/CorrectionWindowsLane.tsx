@@ -4,21 +4,23 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { ForwardedRef, forwardRef, useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
+import type { ForwardedRef } from 'react';
 
+import type { CorrectionWindow } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
-import { CorrectionWindow } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
 import CorrectionWindowsLaneTooltipContent from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/CorrectionWindowsLaneTooltipContent';
-import MarkersLane, { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
+import type { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
-import { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import type { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import MarkersLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
-import { ChartContentPostition } from 'in-components/Chart/types';
+import type { ChartContentPostition } from 'in-components/Chart/types';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 

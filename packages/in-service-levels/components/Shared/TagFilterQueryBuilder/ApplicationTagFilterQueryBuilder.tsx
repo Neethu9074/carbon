@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ApplicationQueryProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
+import type { ApplicationQueryProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 
 export default function ApplicationTagFilterQueryBuilder({

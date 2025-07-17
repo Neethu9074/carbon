@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import { InquiryResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { InquiryResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { getAllSloGroups, GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
+import type { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { FetchedState } from 'in-hooks/utils/types';
+import { getAllSloGroups } from 'in-service-levels/api/sloConfiguration';
+import type { FetchedState } from 'in-hooks/utils/types';
 
 export default function useSloGroups({
   query,

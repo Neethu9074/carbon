@@ -4,16 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import { PaginatedResult, CorrectionConfiguration } from '@instana/types';
+import type { PaginatedResult, CorrectionConfiguration } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
-import {
-  GetAllCorrectionConfigurationsArguments,
-  getAllCorrectionConfiguration
-} from 'in-service-levels/api/correctionConfiguration';
+import type { GetAllCorrectionConfigurationsArguments } from 'in-service-levels/api/correctionConfiguration';
+import { getAllCorrectionConfiguration } from 'in-service-levels/api/correctionConfiguration';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 
 export default function useCorrectionConfigurations({
   ids,

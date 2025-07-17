@@ -14,7 +14,7 @@ import { serviceLevelsRoot } from 'in-service-levels/navigation/path';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import SloList from 'in-service-levels/components/SloList/SloList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { Location } from 'in-stores/navigation/types';
+import type { Location } from 'in-stores/navigation/types';
 
 const viewPathMap = {
   [syntheticsDashboard]: { path: '/synthetic', key: 'testId' },

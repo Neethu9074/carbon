@@ -5,6 +5,8 @@
  */
 
 /* eslint-disable no-restricted-imports */
+import ts from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 import imports from 'eslint-plugin-import';
 
 import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
@@ -45,7 +47,19 @@ export default [
         }
       ],
       'react/no-multi-comp': ['error', { ignoreStateless: true }],
-      'no-duplicate-imports': 'error'
+      'import/no-duplicates': ['error', { 'prefer-inline': false }]
+    }
+  },
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser
+    },
+    plugins: {
+      '@typescript-eslint': ts
+    },
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'error'
     }
   }
 ];
