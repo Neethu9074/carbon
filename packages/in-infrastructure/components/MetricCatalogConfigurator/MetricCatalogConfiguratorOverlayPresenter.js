@@ -19,6 +19,7 @@ import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './MetricCatalogConfiguratorOverlayPresenter.mless';
@@ -110,9 +111,16 @@ function Content({
   MetricCatalogConfiguratorHint,
   uniqueMetricsLabels
 }) {
+  const crossSeriesAggregationField = metric.get('crossSeriesAggregation');
+  const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
+  const allowedCrossSeriesAggregations = [];
+  const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations?.value?.length > 0;
+  const aggregationField = metric.get('aggregation');
+  const isCrossSeriesSumAggregationToggleEnabled =
+    !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
   return (
     <>
-      <Col xs={5}>
+      <Col xs={4}>
         {metric.get('metric').map(field => (
           <div className={locals.label}>
             <Label htmlFor={`metric-configuration-metric-${i}`} hasError={!field.valid && field.touched}>
@@ -164,6 +172,38 @@ function Content({
         ))}
       </Col>
 
+      <Col xs={1}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip
+            content={getCrossSeriesAggregationTooltip(
+              isCrossSeriesAggregationRestricted,
+              isCrossSeriesSumAggregationToggleEnabled,
+              aggregationField.value
+            )}
+          >
+            <span
+              id={`metric-configuration-cross-series-aggregation-${i}`}
+              onClick={() => {
+                if (!isCrossSeriesSumAggregationToggleEnabled) return;
+                onChange([i, 'crossSeriesAggregation'], field =>
+                  field.setValue(isSumCrossSeriesAggregation ? undefined : 'SUM').setTouched(true)
+                );
+              }}
+              className={[
+                locals.crossSeriesAggregationToggle,
+                isCrossSeriesSumAggregationToggleEnabled && locals.enabled,
+                isSumCrossSeriesAggregation && locals.active
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
+            >
+              ∑
+            </span>
+          </Tooltip>
+        </div>
+      </Col>
+
       {infraExploreFilterEmptyValueEnabled && (
         <RequiredToggle
           metric={metric}
@@ -192,4 +232,21 @@ function RequiredToggle({ metric, onChange }) {
       showLabel={t('in-components:metricConfigurator.labelShowEmptyValues')}
     />
   );
+}
+
+function getCrossSeriesAggregationTooltip(
+  isCrossSeriesAggregationRestricted,
+  isCrossSeriesAggregationEnabled,
+  aggregation
+) {
+  if (isCrossSeriesAggregationRestricted) {
+    return t(
+      'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
+    );
+  }
+  return !isCrossSeriesAggregationEnabled && !['SUM', 'PER_SECOND', 'INCREASE'].includes(aggregation)
+    ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
+        aggregation: aggregationLabels[aggregation]
+      })
+    : '';
 }
