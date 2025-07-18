@@ -1,0 +1,75 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+@import '~in-themes/mixins.less';
+
+:local {
+  .mainContent {
+    height: 100%;
+    position: relative;
+  }
+
+  // styling duplicated from packages/in-infrastructure/Dashboard/components/DashboardContent.mless
+  .wrapper {
+    width: 100%;
+    min-height: ~'calc(100vh - 128px)';
+    display: flex;
+
+    overflow-x: hidden;
+
+    // establish this element as an offset wrapper so that offset calculations work for
+    // dashboard navigation.
+    position: relative;
+  }
+
+  .sidebar {
+    background: var(--ids-color-option-neutral-100);
+    min-height: 100%;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
+    width: 20rem;
+  }
+
+  .content {
+    width: ~'calc(100% - 220px)';
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1rem 1.5rem 1rem 1rem;
+
+    &::after {
+      width: 100%;
+      height: 1rem;
+      content: ' ';
+      display: block;
+    }
+  }
+
+  .right {
+    .flexbox();
+    justify-content: flex-end;
+    margin-right: 0;
+  }
+
+  .internalMetricCards {
+    justify-content: space-between;
+  }
+
+  .configErrorToast {
+    width: 100%;
+  }
+
+  .modal {
+    :global(.cds--modal-container) {
+      min-block-size: 40rem;
+      height: 100vh;
+      width: 75vw;
+    }
+  }
+
+  .editorDialog {
+    height: 100vh;
+    width: 100vw;
+  }
+}

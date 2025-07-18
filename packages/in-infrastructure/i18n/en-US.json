@@ -152,11 +152,29 @@
     "warning": "Warning when {{operator}} {{level}}"
   },
   "collectorView": {
+    "otelCollector": "OpenTelemetry Collector",
+    "restartCollector": "Restart collector",
+    "editConfiguration": "Edit configuration",
+    "collectorConfig": "Collector configuration",
+    "cpuTime": "CPU time",
+    "collectorUptime": "Collector uptime",
+    "memoryUsage": "Memory usage",
+    "metricPointsAccepted": "Metric points accepted",
+    "logRecordsAccepted": "Log records accepted",
+    "metricPointsExported": "Metric points exported",
+    "logRecordsExported": "Log points exported",
+    "receiverMetrics": "Receiver metrics",
+    "exporterMetrics": "Exporter metrics",
+    "collectorRestartingTitle": "Collector restarting",
+    "collectorRestarting": "Collecor restart successfully initiated.",
+    "collectorError": "Collector error",
+    "configUpdateSuccessTitle": "Configuration update successful",
+    "configUpdateSuccess": "Collector configuration succesfully updated.",
+    "update": "Update",
+    "cancel": "Cancel",
+    "configuration": "Configuration",
     "exporter": "Exporter",
     "processor": "Processor",
-    "receiver": "Receiver",
-    "updateConfig": "Update configuration",
-    "submit": "Submit",
-    "cancel": "Cancel"
+    "receiver": "Receiver"
   }
 }

@@ -11408,7 +11408,8 @@
       "datacenter": "Datacenter",
       "mount": "Mount Point",
       "device": "Device",
-      "gpuUuid": "GPU UUID"
+      "gpuUuid": "GPU UUID",
+      "version": "Version"
     },
     "httpd": {
       "dashboard": {

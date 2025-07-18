@@ -11,11 +11,11 @@ import YAML from 'yaml';
 
 import { Edge } from '@instana/carbon-charts';
 
-import ProcessorNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ProcessorNode';
-import ReceiverNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ReceiverNode';
-import ExporterNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/ExporterNode';
-import PipelineNode from 'in-infrastructure/agentView/ConfigurationEditor/Nodes/PipelineNode';
-import { PipeNode, PipeEdge } from 'in-infrastructure/agentView/ConfigurationEditor/types';
+import ProcessorNode from 'in-infrastructure/CollectorsView/ConfigurationEditor/Nodes/ProcessorNode';
+import ReceiverNode from 'in-infrastructure/CollectorsView/ConfigurationEditor/Nodes/ReceiverNode';
+import ExporterNode from 'in-infrastructure/CollectorsView/ConfigurationEditor/Nodes/ExporterNode';
+import PipelineNode from 'in-infrastructure/CollectorsView/ConfigurationEditor/Nodes/PipelineNode';
+import { PipeNode, PipeEdge } from 'in-infrastructure/CollectorsView/ConfigurationEditor/types';
 import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
 
 interface EditorConfig {
@@ -162,9 +162,9 @@ export default function ConfigFlowChart(config: EditorConfig) {
       layoutOptions: {
         'elk.algorithm': 'layered',
         hierarchyHandling: 'INCLUDE_CHILDREN',
-        'elk.padding': '[left=50, top=50, right=50, bottom=50]',
-        'spacing.nodeNode': '100',
-        'spacing.nodeNodeBetweenLayers': '100'
+        'elk.padding': '[left=75, top=80, right=50, bottom=25]',
+        'spacing.nodeNode': '50',
+        'spacing.nodeNodeBetweenLayers': '50'
       },
       children: nodeData,
       edges: edgeData

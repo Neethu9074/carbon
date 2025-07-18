@@ -30,6 +30,9 @@ export default function OpenTelemetryInfo({ snapshot }: { snapshot: SnapshotData
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.openTelemetry.kind')}>{data.get('kind')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.machineId')}>{data.get('resource.machineid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.version')}>
+        {data.get('resource.service.version')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

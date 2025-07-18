@@ -215,6 +215,6 @@ module.exports = {
   onlyFedRampAllowedAlertChannelsEnabled: false,
   deleteLogsV3Enabled: true,
   fiveMinuteGranularityForAdaptiveThresholdEnabled: true,
-  otelCollectorViewEnabled: false,
+  otelCollectorViewEnabled: true,
   downtimesOnHostEnabled: true
 };
