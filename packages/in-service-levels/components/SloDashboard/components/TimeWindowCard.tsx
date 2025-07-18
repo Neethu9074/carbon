@@ -10,9 +10,9 @@ import { ServiceLevelObjectiveConfiguration, TimeWindow, isFixedTimeWindow } fro
 import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { CarbonCallout, Card, Stack, Typography } from '@instana/components';
 
+import { buildTimezoneFromLocationName, getCurrentFormattedTimezone } from 'in-service-levels/utils/timezone';
 import TimeWindowPill from 'in-service-levels/components/SloDashboard/components/TimeWindowPill';
 import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
-import { getFormattedTimeZone } from 'in-service-levels/utils/timezone';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -62,7 +62,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
           )}
           <TimeWindowPill>{t('in-service-levels:sloChart.sloChartSummary.timezone', { sloTimezone })}</TimeWindowPill>
         </Stack>
-        {sloTimezone !== getFormattedTimeZone() && (
+        {buildTimezoneFromLocationName(sloTimezone) !== getCurrentFormattedTimezone() && (
           <CarbonCallout
             className={locals.toastContainer}
             actionButtonLabel={t('in-service-levels:sloChart.sloChartSummary.editSloTimezone')}
@@ -72,7 +72,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
             lowContrast
             title={t('in-service-levels:sloChart.sloChartSummary.sloCreatedTimezone', { sloTimezone })}
             subtitle={t('in-service-levels:sloChart.sloChartSummary.currentTimezone', {
-              timezone: getFormattedTimeZone()
+              timezone: getCurrentFormattedTimezone()
             })}
           />
         )}

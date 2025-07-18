@@ -10,7 +10,7 @@ import { Stack, ToastNotification, Toggle } from '@instana/carbon';
 
 import TimezoneList from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimezoneList';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { getFormattedTimeZone } from 'in-service-levels/utils/timezone';
+import { getCurrentFormattedTimezone } from 'in-service-levels/utils/timezone';
 import { t } from 'in-i18n';
 
 import locals from './TimezoneSelector.mless';
@@ -23,7 +23,7 @@ export default function TimezoneSelector() {
   const timezoneMessage =
     bindTimezoneField.value && timezoneField.value !== ''
       ? t('in-service-levels:createSloDialog.selectedTimezoneMessage', { timezone: timezoneField.value })
-      : t('in-service-levels:createSloDialog.currentTimezoneMessage', { timezone: getFormattedTimeZone() });
+      : t('in-service-levels:createSloDialog.currentTimezoneMessage', { timezone: getCurrentFormattedTimezone() });
 
   const handleTimezoneToggle = (toggleValue: boolean) => {
     if (!toggleValue) {

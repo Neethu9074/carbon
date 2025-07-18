@@ -14,7 +14,7 @@ import SloConfigSection, {
   RowDefinition,
   SloConfigSectionData
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
-import { buildLabelFromTimeZoneName } from 'in-service-levels/utils/timezone';
+import { buildTimezoneFromLocationName } from 'in-service-levels/utils/timezone';
 import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -110,7 +110,7 @@ function TimezoneColumn({ data }: ObjectiveSectionProps) {
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.objectiveSection.timezoneLabel')}
-      value={buildLabelFromTimeZoneName(timezone) ?? ''}
+      value={buildTimezoneFromLocationName(timezone)}
     />
   );
 }

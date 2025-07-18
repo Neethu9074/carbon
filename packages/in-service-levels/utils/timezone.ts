@@ -23,10 +23,11 @@ export interface ComboBoxOption {
   value: string;
 }
 
-export const getFormattedTimeZone = () => {
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const offset = moment.tz(tz).format('Z');
-  return `UTC${offset} ${tz}`;
+export const getCurrentFormattedTimezone = (): string => {
+  const currentZone = moment.tz.guess();
+  const timezone = moment.tz(currentZone);
+  const formattedOffset = timezone.format('Z');
+  return `UTC ${formattedOffset} - ${currentZone}`;
 };
 
 function isSupportedTimezone(timezone: string): boolean {
@@ -71,11 +72,11 @@ export const extractTimeZoneName = (timezone: string): string => {
   return parts[parts.length - 1] || '';
 };
 
-export const buildLabelFromTimeZoneName = (name: string): string => {
-  if (name === '') {
+export const buildTimezoneFromLocationName = (timezone: string): string => {
+  if (timezone === '' || timezone === 'UTC') {
     return 'UTC';
   }
-  const timezone = moment.tz(name);
-  const formattedOffset = timezone.format('Z');
-  return `UTC ${formattedOffset} - ${name}`;
+  const timezoneWithLocation = moment.tz(timezone);
+  const formattedOffset = timezoneWithLocation.format('Z');
+  return `UTC ${formattedOffset} - ${timezone}`;
 };
