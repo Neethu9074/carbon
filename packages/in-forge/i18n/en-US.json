@@ -3670,7 +3670,7 @@
       "flowName": "Flow name",
       "serverName": "Server name",
       "applicationName": "Application name",
-      "hostName" : "Host name",
+      "hostName": "Host name",
       "type": "Type",
       "state": "State",
       "stateMetrics": "Message flow state metrics",
@@ -9946,7 +9946,7 @@
         "fileSystem": "File System",
         "disksUsage": "Usage",
         "diskTotalSize": "Total Size",
-        "diskUsedSize" : "Used Size",
+        "diskUsedSize": "Used Size",
         "totalDeviceSize": "Total Device Size",
         "mountSource": "Mount Source",
         "mountPath": "Mount Path",
@@ -11156,7 +11156,7 @@
         "hypv": "Hypervisor",
         "aixContextSwitches": "Context switches",
         "aixDeviceInterrupts": "Device interrupts",
-        "avgRunQueue":"Average run queue (1h)",
+        "avgRunQueue": "Average run queue (1h)",
         "notCollected": "Not collected",
         "systemCalls": "Calls/s",
         "systemReads": "Reads/s",
@@ -11332,9 +11332,9 @@
       "memoryUsed": "Memory Used",
       "aixContextSwitches": "Context Switches",
       "aixDeviceInterrupts": "Device Interrupts",
-      "avgRunQueue":"Average Run Queue (1h)",
+      "avgRunQueue": "Average Run Queue (1h)",
       "notCollected": "Not Collected",
-      "hypv" : "Hypervisor",
+      "hypv": "Hypervisor",
       "user": "User",
       "system": "System",
       "wait": "Wait",
@@ -12066,7 +12066,7 @@
         "hostName": "Host Name"
       }
     },
-     "ibmiAuditJournalsInfo": {
+    "ibmiAuditJournalsInfo": {
       "name": "Audit Journals Information on IBM i",
       "dashboard": {
         "tables": {
@@ -13567,9 +13567,10 @@
       "kafkaTask": "KafkaTask"
     },
     "kubernetesCronJob": {
-      "activeJobs": "Active Jobs",
-      "lastScheduledAgo": "Last Scheduled Ago",
-      "lastJobDuration": "Last Job Duration"
+      "activeJobs": "Active jobs",
+      "count": "Count",
+      "lastScheduledAgo": "Last scheduled ago",
+      "lastJobDuration": "Last job duration"
     },
     "kubernetesDaemonSet": {
       "available": "Available",
@@ -13996,7 +13997,7 @@
       "memoryUsage": "Memory usage",
       "datacenterAverageIoLatency": "Host average IO latency",
       "totalIoSizeBytes": "Host IO bytes transferred",
-      "datacenterIoOps":"Datacenter operations",
+      "datacenterIoOps": "Datacenter operations",
       "controllerReadIops": "Controller read operations",
       "controllerWriteIops": "Controller write operations",
       "contentCacheHitPpm": "Content cache hit percentage",
@@ -16054,7 +16055,7 @@
       "response_time_avg": "Average",
       "dbCacheHit": "DB Cache Hit",
       "db_cache_hit_rate": "Rate",
-      "port":"Port"
+      "port": "Port"
     },
     "mule": {
       "name": "Name",
