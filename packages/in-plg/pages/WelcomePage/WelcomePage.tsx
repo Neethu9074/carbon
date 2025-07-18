@@ -30,6 +30,7 @@ export default function WelcomePage() {
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
   const { activeLicenseType } = config;
   const [randomNumber, setRandomNumber] = useState(0);
+  const isTrial = activeLicenseType == 'selfService';
   // Temporary. In the future, which teaser is loaded depends on which products are already integrated with Instana.
   useEffect(() => {
     setRandomNumber(Math.random());
@@ -49,7 +50,7 @@ export default function WelcomePage() {
             pagePath: location?.pathname
           }}
         />
-        {newOnboardingPageEnabled ? (
+        {newOnboardingPageEnabled && isTrial ? (
           <Stack direction="vertical">
             {location.pathname === welcomeDashboardPath && <PageContent />}
             {location.pathname === welcomeGettingStartedPath && <GettingStartedContent />}
