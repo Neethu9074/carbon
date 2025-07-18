@@ -264,7 +264,9 @@
     "errorEmptyGoodFilter": "A good filter must be defined",
     "errorEqualTagFilter": "Good and bad filters must not be identical",
     "nameAndTagsTitle": "Set details",
-    "selectedTimezoneMessage": "Your current time zone is {{timezone}}.",
+    "currentTimezoneMessage": "Your current time zone is {{timezone}}.",
+    "selectedTimezoneMessage": "Your current time zone is set to {{timezone}}.",
+    "selectTimezoneMessage": "Select time zone",
     "sloNameLabel": "SLO name",
     "sloNamePlaceholder": "Enter name",
     "tagsLabel": "Tags (optional)",
@@ -343,7 +345,7 @@
       "editSloTimezone": "Edit SLO time zone",
       "timezone": "Time zone: {{sloTimezone}}",
       "sloCreatedTimezone": "This SLO was created in {{sloTimezone}}",
-      "currentTimezone": "Your current time zone is set to {{currentTimezone}}.",
+      "currentTimezone": "Your current time zone is set to {{timezone}}.",
       "selectedTimezoneMessage": "Your current time zone is {{timezone}}."
     },
     "missingData": {

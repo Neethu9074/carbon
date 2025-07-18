@@ -7,7 +7,7 @@
 :local {
   .toastContainer {
     :global .cds--actionable-notification__title {
-      min-width: 300px;
+      min-width: 350;
     }
   }
 }

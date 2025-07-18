@@ -10,11 +10,9 @@ import { ServiceLevelObjectiveConfiguration, TimeWindow, isFixedTimeWindow } fro
 import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { CarbonCallout, Card, Stack, Typography } from '@instana/components';
 
-// @ts-ignore
-// eslint-disable-next-line no-restricted-imports
-import moment from 'in-services/moment-timezone';
 import TimeWindowPill from 'in-service-levels/components/SloDashboard/components/TimeWindowPill';
 import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
+import { getFormattedTimeZone } from 'in-service-levels/utils/timezone';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -35,12 +33,6 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
   const startTime = isFixedTimeWindow(timeWindow) && formatTimeWithoutSeconds(timeWindow.startTimestamp);
 
   const sloTimezone = 'UTC'; //get this from BE
-
-  const getFormattedTimeZone = () => {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const offset = moment.tz(tz).format('Z');
-    return `UTC${offset} ${tz}`;
-  };
 
   // console.log('>>>>>>configuration', configuration);
 
@@ -82,7 +74,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
             lowContrast
             title={t('in-service-levels:sloChart.sloChartSummary.sloCreatedTimezone', { sloTimezone })}
             subtitle={t('in-service-levels:sloChart.sloChartSummary.currentTimezone', {
-              currentTimezone: getFormattedTimeZone()
+              timezone: getFormattedTimeZone()
             })}
           />
         )}
