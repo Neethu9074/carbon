@@ -34,9 +34,9 @@ const showCaseSloConfig: ServiceLevelObjectiveConfiguration = {
     type: 'fixed',
     durationUnit: 'day',
     duration: 1,
-    startTimestamp: currentTime - days.toMillis(1)
-  },
-  timezone: ''
+    startTimestamp: currentTime - days.toMillis(1),
+    timezone: ''
+  }
 };
 
 const staticTimeConfig = { windowSize: days.toMillis(1), autoRefresh: false, to: currentTime };

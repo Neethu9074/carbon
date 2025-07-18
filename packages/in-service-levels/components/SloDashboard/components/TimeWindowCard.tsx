@@ -32,9 +32,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
   const startDay = isFixedTimeWindow(timeWindow) && formatDateShort(timeWindow.startTimestamp);
   const startTime = isFixedTimeWindow(timeWindow) && formatTimeWithoutSeconds(timeWindow.startTimestamp);
 
-  const sloTimezone = 'UTC'; //get this from BE
-
-  // console.log('>>>>>>configuration', configuration);
+  const sloTimezone = timeWindow?.timezone ? timeWindow.timezone : 'UTC';
 
   const openEditDialog = () => {
     addActiveDialog(<ConfigureSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);

@@ -151,9 +151,9 @@ const sharedSloConfigFields = {
     startTimestamp: testDate.getTime(),
     duration: 1,
     durationUnit: 'week',
-    type: 'fixed'
-  } as const,
-  timezone: ''
+    type: 'fixed',
+    timezone: ''
+  } as const
 };
 
 export const testApplicationSloConfig: ServiceLevelObjectiveConfiguration = {

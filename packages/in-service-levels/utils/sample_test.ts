@@ -41,7 +41,8 @@ describe('in-service-levels/utils/sample', () => {
           duration: 1,
           durationUnit: 'week',
           type: 'fixed',
-          startTimestamp: Date.now()
+          startTimestamp: Date.now(),
+          timezone: ''
         };
         const timeConfig = calculateTimeConfigFromTimeWindow(timeWindow);
         const granularity = hours.toMillis(1);

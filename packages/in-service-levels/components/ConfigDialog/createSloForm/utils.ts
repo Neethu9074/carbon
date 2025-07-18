@@ -37,10 +37,10 @@ export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevel
       duration: form.getIn(['objective', 'duration']).value,
       durationUnit: form.getIn(['objective', 'durationUnit']).value,
       type: form.getIn(['objective', 'type']).value,
-      startTimestamp: formToStartTimeStamp(form)
+      startTimestamp: formToStartTimeStamp(form),
+      timezone: form.getIn(['objective', 'timezone']).value
     },
-    target: form.getIn(['objective', 'target']).value ?? 0,
-    timezone: form.getIn(['objective', 'timezone']).value
+    target: form.getIn(['objective', 'target']).value ?? 0
   };
 }
 
@@ -142,10 +142,12 @@ export function formToTimeWindow(form: SloForm): TimeWindow | FixedTimeWindow | 
   const duration = form.getIn(['objective', 'duration']).value;
   const durationUnit = form.getIn(['objective', 'durationUnit']).value;
   const type = form.getIn(['objective', 'type']).value;
+  const timezone = form.getIn(['objective', 'timezone']).value;
   const timeWindow = {
     duration,
     durationUnit,
-    type
+    type,
+    timezone
   };
 
   if (type === 'fixed') {
