@@ -65,3 +65,8 @@ export const formattedTimezoneList: ComboBoxOption[] = moment.tz
     label: `UTC ${formattedOffset} - ${name}`,
     value: `UTC ${formattedOffset} - ${name}`
   }));
+
+export const extractTimeZoneName = (timezone: string): string => {
+  const parts = timezone.split(' - ');
+  return parts[parts.length - 1] || '';
+};
