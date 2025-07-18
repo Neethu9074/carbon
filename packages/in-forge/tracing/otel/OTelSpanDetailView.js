@@ -65,11 +65,20 @@ export default function OTelSpanDetailView({ span }) {
                 >
                   <Dl>
                     <Di title={t('in-forge:tracing.otel.eventName')}>{event.get('name')}</Di>
-                    <Di title={t('in-forge:tracing.otel.timestamp')}>{formatDateTime(event.get('ts'))}</Di>
+                    {(event.get('ts') || event.get('time')) && (
+                      <Di title={t('in-forge:tracing.otel.timestamp')}>
+                        {formatTimestamp(event.get('ts'), event.get('time'))}
+                      </Di>
+                    )}
                   </Dl>
-                  {event.get('tags') && (
+                  {(event.get('tags') || event.get('attributes')) && (
                     <Card title={t('in-forge:tracing.otel.tags')} hasMarginBottom>
-                      <SidebarTagList tags={toKeyValueMap(event.get('tags', emptyMap).toJS())} />
+                      <SidebarTagList
+                        tags={[
+                          ...(event.get('tags') ? toKeyValueMap(event.get('tags', emptyMap).toJS()) : []),
+                          ...(event.get('attributes') ? toKeyValueMap(event.get('attributes', emptyMap).toJS()) : [])
+                        ]}
+                      />
                     </Card>
                   )}
                 </ExpandableGroup>
@@ -119,4 +128,19 @@ export default function OTelSpanDetailView({ span }) {
       </Dl>
     </div>
   );
+}
+
+// Helper function to format timestamp from either ts or time field
+function formatTimestamp(timestamp, timeParts) {
+  if (timestamp) {
+    return formatDateTime(timestamp);
+  }
+  if (timeParts && timeParts.size >= 2) {
+    // Standard format: [seconds, nanoseconds]
+    return formatDateTime(timeParts.get(0) * 1000);
+  }
+  if (timeParts) {
+    return String(timeParts);
+  }
+  return null;
 }
