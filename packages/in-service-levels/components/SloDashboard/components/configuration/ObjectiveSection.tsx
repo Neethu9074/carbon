@@ -14,6 +14,7 @@ import SloConfigSection, {
   RowDefinition,
   SloConfigSectionData
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
+import { buildLabelFromTimeZoneName } from 'in-service-levels/utils/timezone';
 import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -31,7 +32,8 @@ const contentDefinitions: RowDefinition[] = [
     id: 'timeWindowFixed',
     columns: [{ getContent: FixedStartDateColumn }, { getContent: FixedStartTimeColumn }],
     shouldRender: data => data.configuration.timeWindow.type === 'fixed'
-  }
+  },
+  { id: 'timezone', columns: [{ getContent: TimezoneColumn }] }
 ];
 
 export default function ObjectiveSection({ data }: ObjectiveSectionProps) {
@@ -97,6 +99,18 @@ function FixedStartTimeColumn({ data }: ObjectiveSectionProps) {
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.objectiveSection.startTimeLabel')}
       value={formatTime(timeWindow.startTimestamp) ?? ''}
+    />
+  );
+}
+
+function TimezoneColumn({ data }: ObjectiveSectionProps) {
+  const { timeWindow } = data.configuration;
+  const timezone = timeWindow.timezone;
+
+  return (
+    <KeyValue
+      label={t('in-service-levels:sloDashboard.components.objectiveSection.timezoneLabel')}
+      value={buildLabelFromTimeZoneName(timezone) ?? ''}
     />
   );
 }

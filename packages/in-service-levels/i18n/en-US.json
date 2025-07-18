@@ -518,7 +518,8 @@
         "timeWindowLabel": "Time window",
         "durationLabel": "Length",
         "startDateLabel": "Start date",
-        "startTimeLabel": "Start time"
+        "startTimeLabel": "Start time",
+        "timezoneLabel": "Time zone"
       }
     }
   },

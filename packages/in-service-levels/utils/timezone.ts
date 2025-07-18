@@ -70,3 +70,12 @@ export const extractTimeZoneName = (timezone: string): string => {
   const parts = timezone.split(' - ');
   return parts[parts.length - 1] || '';
 };
+
+export const buildLabelFromTimeZoneName = (name: string): string => {
+  if (name === '') {
+    return 'UTC';
+  }
+  const timezone = moment.tz(name);
+  const formattedOffset = timezone.format('Z');
+  return `UTC ${formattedOffset} - ${name}`;
+};
