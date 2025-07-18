@@ -62,3 +62,11 @@ export const k8sPodAndServiceChart = {
   limits: chartColors.threeColorPalette[0],
   requests: chartColors.threeColorPalette[1]
 };
+
+export const otelK8sNodePodChart = {
+  rss: chartColors.fiveColorPalette[0],
+  usage: chartColors.fiveColorPalette[1],
+  available: chartColors.fiveColorPalette[2],
+  workingset: chartColors.fiveColorPalette[3],
+  pagefaults: chartColors.fiveColorPalette[4]
+};
