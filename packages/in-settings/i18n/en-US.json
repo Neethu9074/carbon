@@ -727,6 +727,7 @@
       "deletionAlreadyRunning": "Deletion for this tenant is already running",
       "requesting": "Requesting...",
       "deletionStarted": "Deletion started",
+      "startDateRetentionValidationMessage": "The start date cannot be later than the maximum retention period of {{days}} days.",
       "invalidTimeRange": "Start time must be before end time.",
       "invalidTimeRangeSameMoment": "Start time must be different from end time.",
       "invalidTimeRangeFuture": "Time range can’t be in the future.",

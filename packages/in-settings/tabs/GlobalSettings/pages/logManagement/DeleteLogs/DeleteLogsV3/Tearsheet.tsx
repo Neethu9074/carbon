@@ -12,14 +12,16 @@ import { Tearsheet } from '@instana/ibm-products';
 import { Typography } from '@instana/components';
 import { InlineLoading } from '@instana/carbon';
 
-import { ConfirmSelectionPage } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/TabPages/ConfirmSelectionPage';
 import {
   DeleteLogsV3Request,
+  getDeletionStatus,
   timeConfigFromTimeRange
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
+import { ConfirmSelectionPage } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/TabPages/ConfirmSelectionPage';
 import { SelectLogsPage } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/TabPages/SelectLogsPage';
 import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import useDeleteLogsForm from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/useDeleteLogsV3Form';
+import { useShowFinished } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/utils';
 import { NotificationState } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/types';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -31,13 +33,22 @@ import locals from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLo
 interface DeleteLogsTearsheetProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  deletionInProgress: boolean;
+  isDeleting: boolean;
+  setIsDeleting: (v: boolean) => void;
 }
 
-export default function DeleteLogsTearsheet({ isOpen, setIsOpen }: DeleteLogsTearsheetProps) {
-  const [isDeleting, setIsDeleting] = useState(false);
+export default function DeleteLogsTearsheet({
+  isOpen,
+  setIsOpen,
+  deletionInProgress,
+  isDeleting,
+  setIsDeleting
+}: DeleteLogsTearsheetProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [notification, setNotification] = useState<NotificationState>({ show: false, variant: 'success' });
   const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
+  const showFinished = useShowFinished(isDeleting);
 
   const { canSubmit, canGoNextStep, setInputValues, inputValues, validationMessages, resetForm, touchForm } =
     useDeleteLogsForm();
@@ -144,6 +155,12 @@ export default function DeleteLogsTearsheet({ isOpen, setIsOpen }: DeleteLogsTea
     }
   };
 
+  const { loadingDescription } = getDeletionStatus({
+    isDeleting,
+    deletionInProgress,
+    showFinished
+  });
+
   const stepArray = [deleteLogsLocalisationStrings.selectLogs, deleteLogsLocalisationStrings.confirmSelection];
   const labelButtons = [
     deleteLogsLocalisationStrings.deleteButton,
@@ -158,13 +175,16 @@ export default function DeleteLogsTearsheet({ isOpen, setIsOpen }: DeleteLogsTea
       kind: isDeleteButton ? 'danger' : 'primary',
       label: isDeleteButton ? (
         <>
-          {labelButtons[0]} {isDeleting && <InlineLoading />}
+          {deletionInProgress ? loadingDescription : labelButtons[0]}
+          {isDeleting && <InlineLoading />}
         </>
       ) : (
         labelButtons[1]
       ),
-      iconDescription: isDeleteButton ? labelButtons[0] : labelButtons[1],
-      disabled: isDeleteButton ? !canSubmit || isDeleting || hasSubmitted : !canGoNextStep,
+
+      loading: isDeleteButton && deletionInProgress,
+      iconDescription: isDeleteButton ? (deletionInProgress ? loadingDescription : labelButtons[0]) : labelButtons[1],
+      disabled: isDeleteButton ? !canSubmit || isDeleting || hasSubmitted || deletionInProgress : !canGoNextStep,
       onClick: () => (isDeleteButton ? handleSubmit() : setCurrentStep(currentStep + 1))
     } as any,
     {
@@ -229,6 +249,7 @@ export default function DeleteLogsTearsheet({ isOpen, setIsOpen }: DeleteLogsTea
 
     return mapSteps();
   };
+
   return (
     // @ts-expect-error Tearsheet prop interface is incorrect, children are a valid prop
     <Tearsheet

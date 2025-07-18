@@ -26,7 +26,7 @@ export const SelectLogsPage = ({ validationMessages, setInputValues, inputValues
       <h2 className={locals.selectLogsDescription}>{deleteLogsLocalisationStrings.selectLogsPageDescription}</h2>
       <section className={locals.selectLogsTimeSection}>
         {/* Start Date */}
-        <Label htmlFor="deletionStartDate">
+        <Label htmlFor="deletionStartDate" style={{ 'max-width': '13rem' }}>
           <span>{deleteLogsLocalisationStrings.deletionFromDate}</span>
           <section style={{ marginTop: '0.5rem' }}>
             <CarbonDateInput
@@ -35,7 +35,12 @@ export const SelectLogsPage = ({ validationMessages, setInputValues, inputValues
               locale={activeLocale}
             />
           </section>
-          {validationMessages.timeRange && <ValidationBlock>{validationMessages.timeRange}</ValidationBlock>}
+          {(validationMessages.timeRange || validationMessages.retention) && (
+            <ValidationBlock>
+              {validationMessages.timeRange && <div>{validationMessages.timeRange}</div>}
+              {validationMessages.retention && <div>{validationMessages.retention}</div>}
+            </ValidationBlock>
+          )}
         </Label>
 
         {/* Start Time */}

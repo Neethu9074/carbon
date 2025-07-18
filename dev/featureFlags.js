@@ -204,7 +204,6 @@ module.exports = {
   apMetricsDeltaFetchingEnabled: true,
   logFilterSaving: true,
   isControlledEnvEnabled: false,
-  blockLogDeletionsEnabled: false,
   logFormattingEnabled: true,
   openTelemetryKubernetesUnifiedViewEnabled: true,
   newOTelPageEnabled: true,

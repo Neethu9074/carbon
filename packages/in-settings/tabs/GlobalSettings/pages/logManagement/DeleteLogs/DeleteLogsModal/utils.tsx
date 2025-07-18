@@ -5,6 +5,7 @@
  */
 
 import { createField, createMapForm, Severity } from 'formalistic';
+import { useEffect, useState } from 'react';
 import React from 'react';
 
 import { Typography } from '@instana/components';
@@ -100,4 +101,27 @@ export const showToast = (
 export function parseLocalDateFromYYYYMMDD(str: string): Date {
   const [y, m, d] = str.split('-').map(Number);
   return new Date(y, m - 1, d);
+}
+
+export function useShowFinished(isDeleting: boolean, delay = 0) {
+  const [showFinished, setShowFinished] = useState(false);
+
+  useEffect(() => {
+    if (isDeleting) {
+      setShowFinished(false);
+      return;
+    }
+
+    if (!isDeleting) {
+      setShowFinished(true);
+      const timeout = setTimeout(() => {
+        setShowFinished(false);
+      }, delay);
+
+      return () => clearTimeout(timeout);
+    }
+    return;
+  }, [isDeleting, delay]);
+
+  return showFinished;
 }

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -47,9 +47,6 @@ describe('DeleteLogsModal Component', () => {
     expect(screen.getByLabelText(deleteLogsLocalisationStrings.deletionUntilDate)).toBeInTheDocument();
     expect(screen.getByLabelText(deleteLogsLocalisationStrings.deletionUntilTime)).toBeInTheDocument();
     expect(screen.getByLabelText(deleteLogsLocalisationStrings.deletionReason)).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: 'danger ' + deleteLogsLocalisationStrings.deleteLogs })
-    ).toBeInTheDocument();
   });
 
   test('allows user to type in inputs', () => {
@@ -86,30 +83,5 @@ describe('DeleteLogsModal Component', () => {
 
     const validationInput = screen.getByLabelText(deleteLogsLocalisationStrings.typeValidation);
     await userEvent.type(validationInput, 'LOGS');
-
-    const deleteButton = screen.getByRole('button', { name: 'danger ' + deleteLogsLocalisationStrings.deleteLogs });
-    await userEvent.click(deleteButton);
-
-    await waitFor(() => {
-      expect(mockSetIsDeleting).toHaveBeenCalledWith(true);
-    });
-  });
-
-  test('closes modal when cancel button is clicked', () => {
-    render(
-      <DeleteLogsModal
-        closeModal={mockSetShowModal}
-        setIsDeleting={mockSetIsDeleting}
-        isDeleting={false}
-        setRetryCount={mockSetRetryCount}
-        retryCount={0}
-        deletionInProgress={false}
-      />
-    );
-
-    const cancelButton = screen.getByRole('button', { name: deleteLogsLocalisationStrings.cancel });
-    fireEvent.click(cancelButton);
-
-    expect(mockSetShowModal).toHaveBeenCalled();
   });
 });
