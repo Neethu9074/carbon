@@ -4,148 +4,101 @@
  * Copyright IBM Corp. 2025
  */
 
-import classNames from 'classnames';
-import { debounce } from 'lodash';
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 
 import { Pagination as CarbonPagination } from '@instana/components';
 
-import {
-  getEllipsisValue,
-  getFromLocalStorage,
-  getHeader,
-  getRowId,
-  getSortDirection,
-  getVisibleColumns,
-  getWidthInAbsoluteUnit,
-  getWidthValue,
-  sortHandler
-} from 'in-synthetics/components/utils';
-import { CarbonHeader, CarbonRow, ListItem, CarbonDataTablePresenterProps } from 'in-synthetics/components/constants';
-import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
+import { ListItem, CarbonDataTablePresenterProps, TableState } from 'in-synthetics/components/constants';
+import { useColumnManagement } from 'in-synthetics/hooks/useColumnManagement';
 import { ConfigureColumns } from 'in-synthetics/components/ConfigureColumns';
 import { CarbonDataTable } from 'in-synthetics/components/CarbonDataTable';
+import { useSearchHandler } from 'in-synthetics/hooks/useSearchHandler';
+import { useTableHeaders } from 'in-synthetics/hooks/useTableHeaders';
+import { useTableRows } from 'in-synthetics/hooks/useTableRows';
 import { noop, pendingResult } from 'in-services/fixedObjects';
+import { sortHandler } from 'in-synthetics/components/utils';
 import { isLoading } from 'in-services/util/result';
 import { PaginatedResult, Result } from 'in-types';
-import { tryGet } from 'in-services/localStorage';
 
-import locals from './CarbonDataTablePresenter.mless';
-
-export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>(
-  props: CarbonDataTablePresenterProps<ITEM_TYPE, PROPS_TYPE>
+/**
+ * CarbonDataTablePresenter component
+ * Renders a data table with pagination, search, and column configuration
+ */
+export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem>(
+  props: CarbonDataTablePresenterProps<ITEM_TYPE> & TableState
 ) {
   const {
     query,
-    page,
+    columnDefinitions,
     orderBy,
     orderDirection,
+    page,
     pageSize,
     pageSizes,
-    onChange = noop,
-    columnDefinitions,
-    getRowDetails,
     optionalColumns = [],
     disabledColumns,
-    enabledColumns
+    enabledColumns,
+    result: incomingResult,
+    getRowDetails,
+    onChange = noop
   } = props;
-  let defaultPageSize = pageSizes?.[0] ?? pageSize;
-  let columnDefinitionsParsed = getFromLocalStorage<ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[]>(
-    'columnDefinitions',
-    columnDefinitions
-  );
-  const rawColumnDefinitions = tryGet('columnDefinitions');
-  if (rawColumnDefinitions) {
-    // restoring getContent() to each column in the parsed columnDefinitions from local storage
-    columnDefinitionsParsed = columnDefinitionsParsed.map(colDef => {
-      const original = columnDefinitions.find(def => def.id === colDef.id);
-      return {
-        ...original,
-        ...colDef
-      };
-    });
-  }
-  const disabledColumnsParsed = getFromLocalStorage<string[]>('disabledColumns', disabledColumns);
-  const enabledColumnsParsed = getFromLocalStorage<string[]>('enabledColumns', enabledColumns);
 
-  let visibleColumns: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[] = getVisibleColumns(
-    columnDefinitionsParsed,
+  // Use default page size if provided or fall back to pageSize
+  const defaultPageSize = pageSizes?.[0] ?? pageSize;
+
+  // Use column management hook to handle column-related state
+  const { columnDefinitionsParsed, disabledColumnsParsed, visibleColumns } = useColumnManagement<ITEM_TYPE>(
+    columnDefinitions,
     optionalColumns,
-    disabledColumnsParsed,
-    enabledColumnsParsed
+    disabledColumns,
+    enabledColumns
   );
 
-  const result = props.result ?? (pendingResult as Result<PaginatedResult<ITEM_TYPE>>);
+  // Use result from props or default to pending result
+  const result = incomingResult ?? (pendingResult as Result<PaginatedResult<ITEM_TYPE>>);
 
-  const debounceOnChange = debounce((searchInput: string) => {
-    if (searchInput !== undefined) {
-      onChange({ query: searchInput, orderBy, orderDirection, page: 1, pageSize, pageSizes });
-    }
-  }, 500);
+  // Create debounced search handler
+  const debounceOnChange = useSearchHandler(onChange, orderBy, orderDirection, pageSize, pageSizes);
 
-  const filterRows = (searchInputText: string) => {
-    debounceOnChange(searchInputText);
-  };
-
-  const carbonHeaders: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[] = visibleColumns.map(
-    (item: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>, i: number) => ({
-      key: item?.id || String(i),
-      header: getHeader(item) ?? '',
-      isSortable: item.sortable ?? true,
-      getContent: item.getContent,
-      sortDirection: getSortDirection(item?.id, orderBy, orderDirection),
-      defaultOrderDirection: item.defaultOrderDirection,
-      noWrap: item.noWrap ?? false,
-      ellipsis: getEllipsisValue(item.ellipsis, item.width),
-      width: getWidthValue(item.ellipsis, item.width),
-      useMinimumAmountOfHorizontalSpace: item.useMinimumAmountOfHorizontalSpace ?? false,
-      widthInAbsoluteUnit: getWidthInAbsoluteUnit(item.ellipsis, item.widthInAbsoluteUnit) ?? false,
-      selectAllCheckbox: item.selectAllCheckbox ?? false
-    })
+  // Handle search input changes
+  const handleSearchRows = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      debounceOnChange(e?.target?.value);
+    },
+    [debounceOnChange]
   );
 
-  const carbonRows: CarbonRow[] =
-    result.data?.items.map((item: ITEM_TYPE, index: number) => {
-      const idObj = { id: item.id ?? getRowId(item) ?? String(index) };
-      const expandedObj = {
-        expanded: typeof getRowDetails === 'function' ? getRowDetails(item) : undefined
-      };
+  // Transform column definitions into table headers
+  const carbonHeaders = useTableHeaders<ITEM_TYPE>(visibleColumns, orderBy, orderDirection);
 
-      const newRow = carbonHeaders.map(({ key, getContent, ellipsis, noWrap, useMinimumAmountOfHorizontalSpace }) => {
-        const newWidth = typeof ellipsis !== 'boolean' ? ellipsis : null;
-        const content = newWidth
-          ? {
-              [key]: (
-                <div
-                  className={classNames({
-                    [locals.tableTdNoWrap]: noWrap,
-                    [locals.tableMinimumHorizontalSpace]: useMinimumAmountOfHorizontalSpace
-                  })}
-                >
-                  {getContent?.(item, props as unknown as PROPS_TYPE, key)}
-                </div>
-              )
-            }
-          : { [key]: getContent?.(item, props as unknown as PROPS_TYPE, key) };
-        return content;
-      });
-      const carbonRow: CarbonRow = Object.assign({}, ...newRow, idObj, expandedObj);
-      return carbonRow;
-    }) ?? [];
+  // Transform data items into table rows
+  const carbonRows = useTableRows<ITEM_TYPE>(result, carbonHeaders, props, getRowDetails);
 
-  const sortRow = sortHandler(carbonHeaders, onChange, pageSize, query, pageSizes);
-  const isConfigurationColumn = !!optionalColumns?.length;
+  // Create sort handler for table
+  const sortRow = useMemo(
+    () => sortHandler(carbonHeaders, onChange, pageSize, query, pageSizes),
+    [carbonHeaders, onChange, pageSize, query, pageSizes]
+  );
+
+  // Determine if column configurator should be shown
+  const shouldShowColumnConfigurator = !!optionalColumns?.length;
+
+  // Determine loading state
+  const loading = isLoading(result) || props.loading;
+
+  // Determine if pagination should be shown
+  const showPagination = result?.data && result?.data?.totalHits > defaultPageSize;
 
   return (
     <>
       <CarbonDataTable
         rows={carbonRows}
         headers={carbonHeaders}
-        isLoading={isLoading(result) || props.loading}
-        filterRows={e => filterRows(e?.target?.value)}
+        isLoading={loading}
+        searchRows={handleSearchRows}
         sortRow={sortRow}
         configureColumnContent={
-          isConfigurationColumn && (
+          shouldShowColumnConfigurator && (
             <ConfigureColumns
               visibleColumns={visibleColumns}
               columnDefinitions={columnDefinitionsParsed}
@@ -157,14 +110,14 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem, PRO
         }
         {...props}
       />
-      {result.data && result.data.totalHits > defaultPageSize && (
+      {showPagination && (
         <CarbonPagination
           currentPage={page}
           totalItems={result?.data?.totalHits}
           pageSize={pageSize}
           pageSizes={pageSizes ?? [pageSize]}
-          onChange={data => {
-            onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
+          onChange={({ page, pageSize }) => {
+            onChange({ query, orderBy, orderDirection, page, pageSize, pageSizes });
           }}
         />
       )}

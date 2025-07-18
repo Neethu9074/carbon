@@ -1,4 +1,5 @@
 {
+  "tooltipCopyToClipboard": "클립보드에 복사",
   "dialog": {
     "createTest": {
       "buttonLabel": "합성 테스트 추가",
@@ -27,6 +28,7 @@
         "popSubTitle": "인식 위치",
         "uploadScriptTitle": "스크립트 업로드",
         "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}",
+        "unsupportedFileFormat": "{{extension}} 파일은 지원되지 않습니다.",
         "emptyScriptFileError": "코드가 비어 있습니다. 유효성을 검증할 항목이 없습니다.",
         "enterTheScriptMessage": "여기에 스크립트 입력",
         "privatePoPLabel": "개인용",
@@ -153,6 +155,7 @@
         "scheduleTitle": "스케줄: 이 테스트는 어떻게 진행됩니까?",
         "identifyLabel": "식별",
         "identifyTitle": "식별: 테스트는 무엇을 하나요?",
+        "teamsCalloutMessage": "팀을 추가할 때 팀원들의 권한은 팀에서 할당된 역할에 따라 결정됩니다. 팀과 연관된 테스트는 설정의 팀 페이지에도 반영됩니다.",
         "customPropertiesTitle": "사용자 정의 특성(선택사항)",
         "frequency": "이 테스트는 {{frequencyValue}}분마다 실행됩니다.",
         "frequencyHours": "이 테스트는 {{frequencyHours}}시간마다 실행됩니다.",
@@ -190,7 +193,7 @@
           "buttonBack": "뒤로",
           "buttonSave": "저장",
           "uploadFileLabel": "파일 업로드",
-          "uploadFileDescription": "단일 .js 파일이나 여러 .js 파일을 묶어 .zip 파일을 업로드할 수 있습니다.",
+          "uploadFileDescription": "단일 .js 또는 .cjs 파일, 또는 번들된 .js 또는 .cjs 파일이 포함된 .zip 파일을 업로드할 수 있습니다.",
           "node22UploadFileDescription": "단일 .js, .cjs 또는 .mjs 파일 또는 번들된 .js, .cjs 또는 .mjs 파일이 포함된 .zip 파일을 업로드할 수 있습니다.",
           "scriptDescription": "업로드한 스크립트가 여기에 표시되거나 아래에 수동으로 입력할 수 있습니다.",
           "validScriptMessage": "스크립트가 올바릅니다.",
@@ -199,7 +202,7 @@
           "mainFileNameLabel": "기본 파일 이름 입력",
           "invalidMainFileName": "기본 파일 이름이 올바르지 않음",
           "webpageUrl": "웹 페이지 URL",
-          "browserUploadFileDescription": "단일 .js 파일, .js 파일을 묶어 .zip 파일 또는 SeleniumIDE에서 기록한 .side 스크립트를 업로드할 수 있습니다.",
+          "browserUploadFileDescription": "단일 .js 또는 .cjs 파일, 번들된 .js 또는 .cjs 파일이 포함된 .zip 파일, 또는 Selenium IDE에서 기록한 .side 스크립트 중 하나를 업로드할 수 있습니다.",
           "node22BrowserUploadFileDescription": "단일 .js, .cjs 또는 .mjs 파일, 번들 .js, .cjs 또는 .mjs 파일이 포함된 .zip 파일 또는 Selenium IDE에서 기록한 .side 스크립트 중 하나를 업로드할 수 있습니다.",
           "sideFileUploadedMessage": "Selenium 스크립트는 수정하거나 유효성 검증할 수 없습니다.",
           "bundleFileNotSupportedMessage": "지원되지 않는 파일을 선택했습니다. 번들은 고급 모드에서만 지원됩니다.",
@@ -312,7 +315,10 @@
         "applicationsTitle": "연관: 이 합성 테스트와 연관시킬 애플리케이션 선택",
         "applicationsDescription": "합성 테스트를 애플리케이션과 연관시키면 해당 애플리케이션에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다.",
         "associationsTitle": "연관: 이 합성 테스트와 연관시킬 항목 선택(선택사항)",
-        "associationsDescription": "합성 테스트를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다."
+        "associationsDescription": "합성 테스트를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다.",
+        "teamsLabel": "Teams",
+        "teamsTitle": "팀: 이 테스트와 연결할 팀을 선택합니다 (선택 사항)",
+        "teamsDescription": "이 테스트에 연결할 팀을 선택하세요."
       },
       "associations": {
         "applicationsTitle": "이 합성 테스트와 연관시킬 애플리케이션 선택",
@@ -335,7 +341,19 @@
         "applicationsTableTitle": "애플리케이션",
         "websitesTableTitle": "웹 사이트",
         "mobileAppsTableTitle": "모바일 앱"
-      }
+      },
+      "createSyntheticTest": "합성 테스트 작성"
+    },
+    "createOnDemandTest": {
+      "buttonLabel": "지금 실행",
+      "createButtonLabel": "테스트 실행",
+      "cancel": "취소",
+      "properties": "구성 특성",
+      "location": "위치",
+      "iconLabel": "테스트가 실행 중임",
+      "runnowTitle": "지금 테스트 실행",
+      "multiSelectLabel": "할당된 모든 위치",
+      "retryInterval": "이 테스트는 다음 시간 경과 후에 {{retryCount}}번 재시도됩니다 "
     },
     "httpMethods": {
       "get": "GET",
@@ -353,7 +371,9 @@
       "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. {{errorMessage}}",
       "failureMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. {{errorMessage}}",
       "successMessageCICDRerun": "합성 테스트 재실행 성공",
-      "failureMesssageCICDRerun": "합성 테스트 다시 시작 실패: {{errorMessage}}"
+      "failureMesssageCICDRerun": "합성 테스트 다시 시작 실패: {{errorMessage}}",
+      "successMessageCICDCreate": "합성 실행 테스트를 성공적으로 생성했습니다.",
+      "failureMesssageCICDCreate": "합성 실행 테스트를 작성하지 못했습니다: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "위치가 성공적으로 삭제됨",
@@ -368,7 +388,7 @@
       "bundleSavedMessage": "번들 스크립트 추가"
     },
     "createLocation": {
-      "newLocation": "새 위치",
+      "newLocation": "위치 추가",
       "activate": "활성화",
       "done": "완료",
       "stepConfigs": {
@@ -444,9 +464,10 @@
       "failureMesssage": "{{errorMessage}}"
     },
     "createCredential": {
-      "createButton": "새 서비스 신임 정보",
+      "createButton": "인증 정보 작성",
       "nameValue": "이름 및 값",
       "associations": "연관",
+      "teams": "Teams",
       "newCredentials": "합성 신임 정보 작성",
       "steps": {
         "textInput": {
@@ -459,7 +480,8 @@
           "placeholder": "신임 정보 값",
           "labelText": "값"
         },
-        "associationsDescription": "신임 정보를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다."
+        "associationsDescription": "신임 정보를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다.",
+        "teamsStepDescription": "이 자격 증명과 연결할 팀을 선택합니다."
       },
       "feedback": {
         "successMessage": "신임 정보가 성공적으로 작성됨",
@@ -523,15 +545,18 @@
         "filterLabel": "애플리케이션",
         "singleAppHeader": "{{ number }}개 연관",
         "multiAppHeader": "{{ number }}개 연관",
-        "noApplicationsAssociated": "연관된 애플리케이션 없음"
+        "noApplicationsAssociated": "연관된 애플리케이션 없음",
+        "noApplicationAssociatedWithTest": "선택된 테스트와 연관된 애플리케이션이 없습니다."
       },
       "multiWebDialog": {
         "filterLabel": "웹 사이트",
-        "noWebsitesAssociated": "연관된 웹 사이트가 없습니다."
+        "noWebsitesAssociated": "연관된 웹 사이트가 없습니다.",
+        "noWebsiteAssociatedWithTest": "선택된 테스트와 연관된 웹사이트가 없습니다."
       },
       "multiMobileDialog": {
         "filterLabel": "모바일 앱",
-        "noMobileAppsAssociated": "연관된 모바일 앱이 없습니다."
+        "noMobileAppsAssociated": "연관된 모바일 앱이 없습니다.",
+        "nodMobileAppAssociatedWithTest": "선택된 테스트와 연관된 모바일 앱이 없습니다."
       },
       "testLabel": "이름",
       "status": "상태",
@@ -554,7 +579,10 @@
         "singleRun": "{{number}} 위치에서 실행",
         "multipleRun": "{{number}} 위치에서 실행",
         "warning": "경고",
-        "noIssues": "문제 없음"
+        "noIssues": "문제 없음",
+        "locationsSidePanelTitle": "위치 ({{totalLocations}})",
+        "locationsNameHeader": "이름",
+        "locationsHealthHeader": "상태"
       },
       "associationLabel": "연관",
       "health": "상태",
@@ -563,7 +591,29 @@
       "na": "해당사항 없음",
       "configureColumns": {
         "title": "컬럼 사용자 정의",
-        "description": "이제 합성 테스트 데이터 테이블을 사용자 정의할 수 있습니다. 이를 통해 유연하게 표시할 열을 선택하고 필요에 따라 재배치할 수 있습니다."
+        "description": "이제 합성 테스트 데이터 테이블을 사용자 정의할 수 있습니다. 이를 통해 유연하게 표시할 열을 선택하고 필요에 따라 재배치할 수 있습니다.",
+        "dialog": {
+          "title": "열 관리 ({{enabledCount}}/{{totalCount}})",
+          "description": "열을 선택 취소하여 숨기십시오. 흰색 상자를 클릭하고 끌어서 열을 다시 정렬하십시오. 이러한 스펙은 저장되며 데이터 테이블을 떠났다가 다시 데이터 테이블로 돌아오는 경우 유지됩니다.",
+          "configureButtonLabel": "열 구성",
+          "columnNameLabel": "컬럼 이름",
+          "configurationSuccessTitle": "사용자 정의된 디스플레이",
+          "configurationSuccessMessage": "테이블의 \"열\"이 사용자 정의되었습니다.",
+          "configurationErrorTitle": "사용자 지정되지 않은 디스플레이",
+          "configurationErrorMessage": "테이블의 \"열\"이 사용자 정의되지 않았습니다.",
+          "closeIconDescription": "닫기",
+          "saveButtonLabel": "저장",
+          "cancelButtonLabel": "취소",
+          "searchPlaceholder": "열 찾기",
+          "selectAllLabel": "모두 선택"
+        }
+      },
+      "searchSyntheticTests": "합성 테스트 검색",
+      "failedToLoadTestsTitle": "합성 테스트를 로드하지 못했습니다.",
+      "associationsColumn": {
+        "associationsSidePanelTitle": "연관 ({{totalAssociations}})",
+        "associationsNameHeader": "이름",
+        "associationsHealthHeader": "상태"
       }
     },
     "locationList": {
@@ -800,7 +850,43 @@
       "sslCertificate": {
         "daysRemaining": "남은 기간(일)",
         "timeOfIssue": "발행 시간",
-        "timeOfExpiry": "만료 시간"
+        "timeOfExpiry": "만료 시간",
+        "customMetrics": {
+          "titles": {
+            "details": "세부사항",
+            "testDetails": "테스트 세부 정보",
+            "customMetrics": "사용자 정의 메트릭",
+            "issuedTo": "발행 대상",
+            "issuedBy": "발행자",
+            "publicKeyInfo": "공용 키 정보",
+            "fingerprints": "지문",
+            "tls": "암호 및 tls 정보",
+            "serialNumber": "일련 번호",
+            "extKeyUsage": "확장 키 사용"
+          },
+          "daysRemaining": "남은 기간(일):",
+          "valid": "유효:",
+          "validFrom": "유효 기간(시작):",
+          "validTo": "유효 기간(종료):",
+          "commonName": "공통 이름:",
+          "alternativeName": "대체 이름:",
+          "locality": "구/군/시:",
+          "organizationUnit": "조직 단위:",
+          "organization": "조직:",
+          "state": "시/도:",
+          "country": "국가:",
+          "standardName": "표준 이름:",
+          "name": "암호 이름:",
+          "version": "TLS 버전:",
+          "fingerprint": "Fingerprint1:",
+          "fingerprint256": "Fingerprint2:",
+          "size": "키 크기:",
+          "modulus": "계수:",
+          "algorithm": "알고리즘:",
+          "exponent": "지수:",
+          "serialNumber": "일련 번호:",
+          "extKeyUsage": "확장 키 사용:"
+        }
       },
       "failedRunErrorTypeTitle": "오류 유형",
       "viewRecordingLabel": "레코딩 보기",
@@ -904,6 +990,7 @@
       "daysRemaining": "실패 구성",
       "day": "인증서 유효성이 만기될 때까지 {{daysRemainingCheck}}일이 남아 있으면 테스트가 실패합니다.",
       "days": "인증서 유효성이 만기까지 {{daysRemainingCheck}}일이 남아 있으면 테스트가 실패합니다.",
+      "teams": "Teams",
       "associations": "연관",
       "associatedApplications": "연관된 애플리케이션",
       "noApplicationsAssociated": "연관된 애플리케이션 없음",
@@ -939,7 +1026,7 @@
     },
     "credentialList": {
       "mainLabel": "신임 정보",
-      "name": "이름",
+      "name": "신임 정보 이름",
       "associations": "연관",
       "createdAt": "작성 시간",
       "createdBy": "작성자",

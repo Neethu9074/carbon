@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
+import type {
   ApplicationBoundaryScope,
   BlueprintType,
   SLIThresholdOperator,
@@ -12,7 +12,7 @@ import {
   TrafficIndicatorType
 } from '@instana/types';
 
-import { SloAggregationOptions, SloBeaconTypes } from 'in-service-levels/types';
+import type { SloAggregationOptions, SloBeaconTypes } from 'in-service-levels/types';
 import { hasSyntheticsAccess } from 'in-stores/permission';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';

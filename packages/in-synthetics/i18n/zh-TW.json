@@ -1,4 +1,5 @@
 {
+  "tooltipCopyToClipboard": "複製到剪貼簿",
   "dialog": {
     "createTest": {
       "buttonLabel": "新增綜合測試",
@@ -27,6 +28,7 @@
         "popSubTitle": "存在點",
         "uploadScriptTitle": "上傳 Script",
         "failureToReadFileContent": "無法讀取檔案內容：{{error}}",
+        "unsupportedFileFormat": ".{{extension}} 檔案不受支援",
         "emptyScriptFileError": "空代碼。 沒有要驗證的項目。",
         "enterTheScriptMessage": "在這裡輸入 Script",
         "privatePoPLabel": "專用",
@@ -153,6 +155,7 @@
         "scheduleTitle": "排程：這次測試將如何進行？",
         "identifyLabel": "識別",
         "identifyTitle": "識別：測試將執行什麼動作？",
+        "teamsCalloutMessage": "新增團隊時，團隊成員的權限將根據在團隊中指派的角色而定。 與團隊相關的測試也將反映在設定中的團隊頁面中。",
         "customPropertiesTitle": "自訂內容（選用）",
         "frequency": "此測試將每隔 {{frequencyValue}} 分鐘執行一次。",
         "frequencyHours": "此測試將每隔 {{frequencyHours}} 小時執行一次。",
@@ -190,7 +193,7 @@
           "buttonBack": "上一步",
           "buttonSave": "儲存",
           "uploadFileLabel": "上傳檔案",
-          "uploadFileDescription": "您可以上傳單一 .js 檔案或捆綁的 .js 檔案的 .zip 檔案。",
+          "uploadFileDescription": "您可以上傳單一 .js 或 .cjs 檔案，或包含組合的 .js 或 .cjs 檔案的 .zip 檔案。",
           "node22UploadFileDescription": "您可以上傳單一的 .js、.cjs 或 .mjs 檔案，或包含這些檔案的 .zip 檔案。",
           "scriptDescription": "您上傳的 Script 會出現在這裡，或者您可以在下面手動輸入它。",
           "validScriptMessage": "Script 有效。",
@@ -199,7 +202,7 @@
           "mainFileNameLabel": "輸入主要檔名",
           "invalidMainFileName": "主要檔名稱無效",
           "webpageUrl": "網頁 URL",
-          "browserUploadFileDescription": "您可以上傳單一 .js 檔案、捆綁的 .js 檔案的 .zip 檔案或 SeleniumIDE 所錄製的 .side Script。",
+          "browserUploadFileDescription": "您可以上傳單一 .js 或 .cjs 檔案、包含組合的 .js 或 .cjs 檔案的 .zip 檔案，或由 Selenium IDE 記錄的 .side Script。",
           "node22BrowserUploadFileDescription": "您可以上傳單一的 .js、.cjs 或 .mjs 檔案、一個包含這些檔案的 .zip 檔案，或由 Selenium IDE 錄製的 .side Script。",
           "sideFileUploadedMessage": "無法修改或驗證 Selenium Script",
           "bundleFileNotSupportedMessage": "已選取不受支援的檔案。 只有在「進階模式」中才支援軟體組。",
@@ -312,7 +315,10 @@
         "applicationsTitle": "關聯：選取要與此綜合測試相關聯的應用程式",
         "applicationsDescription": "將綜合測試與應用程式相關聯將為所有有權存取該應用程式的使用者授予存取權限。",
         "associationsTitle": "關聯：選取您要與此綜合測試相關聯的項目（選用）",
-        "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。"
+        "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。",
+        "teamsLabel": "團隊",
+        "teamsTitle": "團隊：選取要與此測試相關聯的團隊（選用）",
+        "teamsDescription": "選取要與此測試相關聯的團隊。"
       },
       "associations": {
         "applicationsTitle": "選取要與此綜合測試相關聯的應用程式",
@@ -335,7 +341,19 @@
         "applicationsTableTitle": "應用程式",
         "websitesTableTitle": "網站",
         "mobileAppsTableTitle": "行動應用程式"
-      }
+      },
+      "createSyntheticTest": "建立綜合測試"
+    },
+    "createOnDemandTest": {
+      "buttonLabel": "立即執行",
+      "createButtonLabel": "執行測試",
+      "cancel": "取消",
+      "properties": "配置內容",
+      "location": "位置",
+      "iconLabel": "測試正在執行",
+      "runnowTitle": "立即執行測試",
+      "multiSelectLabel": "所有指派位置",
+      "retryInterval": "此測試將重試 {{retryCount}} 次，於下列時間之後： "
     },
     "httpMethods": {
       "get": "GET",
@@ -353,7 +371,9 @@
       "failureMessageUpdate": "無法更新虛構測試：{{errorMessage}}",
       "failureMesssageDelete": "無法刪除綜合測試：{{errorMessage}}",
       "successMessageCICDRerun": "成功重新執行綜合測試",
-      "failureMesssageCICDRerun": "無法重新執行綜合測試：{{errorMessage}}"
+      "failureMesssageCICDRerun": "無法重新執行綜合測試：{{errorMessage}}",
+      "successMessageCICDCreate": "成功建立綜合立即執行測試",
+      "failureMesssageCICDCreate": "無法建立綜合立即執行測試：{{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "已順利刪除位置",
@@ -368,7 +388,7 @@
       "bundleSavedMessage": "已新增組合 Script"
     },
     "createLocation": {
-      "newLocation": "新位置",
+      "newLocation": "新增位置",
       "activate": "啟動",
       "done": "完成",
       "stepConfigs": {
@@ -444,9 +464,10 @@
       "failureMesssage": "{{errorMessage}}"
     },
     "createCredential": {
-      "createButton": "新建認證",
+      "createButton": "建立認證",
       "nameValue": "名稱和值",
       "associations": "關聯",
+      "teams": "團隊",
       "newCredentials": "建立綜合認證",
       "steps": {
         "textInput": {
@@ -459,7 +480,8 @@
           "placeholder": "認證值",
           "labelText": "值"
         },
-        "associationsDescription": "將認證與應用程式、網站或行動式應用程式關聯後，會將存取權限授與所有可以存取這些實體的使用者。"
+        "associationsDescription": "將認證與應用程式、網站或行動式應用程式關聯後，會將存取權限授與所有可以存取這些實體的使用者。",
+        "teamsStepDescription": "選取要與此認證相關聯的團隊。"
       },
       "feedback": {
         "successMessage": "認證建立成功",
@@ -523,15 +545,18 @@
         "filterLabel": "應用程式",
         "singleAppHeader": "{{ number }} 個關聯",
         "multiAppHeader": "{{ number }} 個關聯",
-        "noApplicationsAssociated": "沒有相關聯的應用程式"
+        "noApplicationsAssociated": "沒有相關聯的應用程式",
+        "noApplicationAssociatedWithTest": "沒有與所選取測試相關聯的應用程式"
       },
       "multiWebDialog": {
         "filterLabel": "網站",
-        "noWebsitesAssociated": "沒有相關聯的網站。"
+        "noWebsitesAssociated": "沒有相關聯的網站。",
+        "noWebsiteAssociatedWithTest": "沒有與所選取測試相關聯的網站"
       },
       "multiMobileDialog": {
         "filterLabel": "行動式應用程式",
-        "noMobileAppsAssociated": "沒有相關聯的行動應用程式。"
+        "noMobileAppsAssociated": "沒有相關聯的行動應用程式。",
+        "nodMobileAppAssociatedWithTest": "沒有與所選測試相關的行動式應用程式"
       },
       "testLabel": "名稱",
       "status": "狀態",
@@ -554,7 +579,10 @@
         "singleRun": "在 {{number}} 個位置中執行",
         "multipleRun": "在 {{number}} 個位置中執行",
         "warning": "警告",
-        "noIssues": "沒有問題"
+        "noIssues": "沒有問題",
+        "locationsSidePanelTitle": "位置 ({{totalLocations}})",
+        "locationsNameHeader": "名稱",
+        "locationsHealthHeader": "性能"
       },
       "associationLabel": "關聯",
       "health": "性能",
@@ -563,7 +591,29 @@
       "na": "N/A",
       "configureColumns": {
         "title": "直欄自訂作業",
-        "description": "現在您可以自訂您的綜合測試資料表。 透過這種方式，您可以彈性地選擇要顯示哪些直欄並根據需要重新排列它們。"
+        "description": "現在您可以自訂您的綜合測試資料表。 透過這種方式，您可以彈性地選擇要顯示哪些直欄並根據需要重新排列它們。",
+        "dialog": {
+          "title": "管理直欄 ({{enabledCount}}/{{totalCount}})",
+          "description": "取消選取直欄以隱藏它們。 按一下並拖曳白色方框以重新排序直欄。 如果您離開資料表然後又回到資料表，則這些規格將被儲存並持續儲存。",
+          "configureButtonLabel": "配置直欄",
+          "columnNameLabel": "直欄名稱",
+          "configurationSuccessTitle": "顯示自訂項",
+          "configurationSuccessMessage": "已自訂表格的「直欄」。",
+          "configurationErrorTitle": "顯示未自訂項",
+          "configurationErrorMessage": "表格的「直欄」尚未進行自訂。",
+          "closeIconDescription": "關閉",
+          "saveButtonLabel": "儲存",
+          "cancelButtonLabel": "取消",
+          "searchPlaceholder": "尋找直欄",
+          "selectAllLabel": "全選"
+        }
+      },
+      "searchSyntheticTests": "搜尋綜合測試",
+      "failedToLoadTestsTitle": "無法載入綜合測試",
+      "associationsColumn": {
+        "associationsSidePanelTitle": "關聯 ({{totalAssociations}})",
+        "associationsNameHeader": "名稱",
+        "associationsHealthHeader": "性能"
       }
     },
     "locationList": {
@@ -800,7 +850,43 @@
       "sslCertificate": {
         "daysRemaining": "剩餘天數",
         "timeOfIssue": "發出時間",
-        "timeOfExpiry": "到期時間"
+        "timeOfExpiry": "到期時間",
+        "customMetrics": {
+          "titles": {
+            "details": "詳細資料",
+            "testDetails": "測試詳細資料",
+            "customMetrics": "自訂度量",
+            "issuedTo": "發出目的地",
+            "issuedBy": "發出者",
+            "publicKeyInfo": "公開金鑰資訊",
+            "fingerprints": "指紋",
+            "tls": "密碼與 tls 資訊",
+            "serialNumber": "序號",
+            "extKeyUsage": "延伸的金鑰用法"
+          },
+          "daysRemaining": "剩餘天數：",
+          "valid": "有效：",
+          "validFrom": "有效起始時間：",
+          "validTo": "有效截止時間：",
+          "commonName": "一般名稱：",
+          "alternativeName": "替代名稱：",
+          "locality": "地區：",
+          "organizationUnit": "組織單位：",
+          "organization": "組織：",
+          "state": "州/省（縣/市）：",
+          "country": "國家或地區：",
+          "standardName": "標準名稱：",
+          "name": "密碼名稱：",
+          "version": "TLS 版本：",
+          "fingerprint": "Fingerprint1:",
+          "fingerprint256": "Fingerprint2:",
+          "size": "金鑰大小：",
+          "modulus": "模數：",
+          "algorithm": "演算法",
+          "exponent": "指數：",
+          "serialNumber": "序號：",
+          "extKeyUsage": "延伸的金鑰用法："
+        }
       },
       "failedRunErrorTypeTitle": "錯誤類型",
       "viewRecordingLabel": "檢視記錄",
@@ -904,6 +990,7 @@
       "daysRemaining": "失敗配置",
       "day": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗",
       "days": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗",
+      "teams": "團隊",
       "associations": "關聯",
       "associatedApplications": "相關聯的應用程式",
       "noApplicationsAssociated": "沒有相關聯的應用程式",
@@ -939,7 +1026,7 @@
     },
     "credentialList": {
       "mainLabel": "認證",
-      "name": "名稱",
+      "name": "認證名稱",
       "associations": "關聯",
       "createdAt": "建立時間",
       "createdBy": "建立者",

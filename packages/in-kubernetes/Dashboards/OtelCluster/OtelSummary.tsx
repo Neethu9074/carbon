@@ -23,11 +23,11 @@ import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/L
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
-import { k8sChartColors, k8sClusterChart } from 'in-kubernetes/components/K8sChartColors';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { otelK8sNodePodChart } from 'in-kubernetes/components/K8sChartColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
@@ -49,8 +49,7 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = cluster?.id;
 
-  const { limits, requests, usage } = k8sChartColors;
-  const { capacity } = k8sClusterChart;
+  const { usage, available, rss } = otelK8sNodePodChart;
 
   const isContainerMetric = {
     /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
@@ -182,7 +181,7 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
                 {
                   metric: 'k8s.cluster.cpu.utilization',
                   label: t('in-kubernetes:dashboards.cpuUtilization'),
-                  color: requests,
+                  color: available,
                   ...defaultMetricConfig,
                   ...isContainerMetric
                 }
@@ -195,7 +194,7 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
               }
             )}
             title={t('in-kubernetes:dashboards.cpuResources')}
-            colors={[requests, limits, capacity, usage]}
+            colors={[available, usage]}
             formatter="percentage.detailed"
             tooltipFormatter={percentage.detailed}
             paramTab="cpuTab"
@@ -213,14 +212,14 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
                 {
                   metric: 'k8s.cluster.memory.usage',
                   label: t('in-kubernetes:dashboards.memoryUsage'),
-                  color: requests,
+                  color: usage,
                   ...defaultMetricConfig,
                   ...isContainerMetric
                 },
                 {
                   metric: 'k8s.cluster.memory.available',
                   label: t('in-kubernetes:dashboards.memoryAvailable'),
-                  color: usage,
+                  color: available,
                   ...defaultMetricConfig
                 }
               ],
@@ -232,7 +231,7 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
               }
             )}
             title={t('in-kubernetes:dashboards.memoryResources')}
-            colors={[requests, limits, capacity, usage]}
+            colors={[usage, available]}
             formatter="bytes.detailed"
             tooltipFormatter={bytesTwoDecimalPlaces}
             paramTab="memTab"
@@ -249,19 +248,19 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
               {
                 metric: 'k8s.cluster.filesystem.available',
                 label: t('in-kubernetes:dashboards.filesystemAvailable'),
-                color: capacity,
+                color: available,
                 ...defaultMetricConfig
               },
               {
                 metric: 'k8s.cluster.filesystem.capacity',
                 label: t('in-kubernetes:dashboards.filesystemCapacity'),
-                color: requests,
+                color: rss,
                 ...defaultMetricConfig,
                 ...isContainerMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.filesystemResources')}
-            colors={[requests, limits, capacity]}
+            colors={[available, rss]}
             formatter="bytes.detailed"
             tooltipFormatter={bytesTwoDecimalPlaces}
             paramTab="podTab"

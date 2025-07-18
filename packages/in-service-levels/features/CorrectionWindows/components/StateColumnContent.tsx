@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 import { Toggle } from '@instana/carbon';
 
 import useToggleCorrectionConfiguration from 'in-service-levels/features/CorrectionWindows/hooks/useToggleCorrectionConfiguration';

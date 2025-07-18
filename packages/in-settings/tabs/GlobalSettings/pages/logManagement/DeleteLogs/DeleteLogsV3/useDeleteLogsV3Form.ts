@@ -9,14 +9,15 @@ import { subDays } from 'date-fns';
 import { useState } from 'react';
 
 import {
+  getTagFilterExpressionValidationMessage,
+  getTimeRangeValidationMessage,
+  validateStartWithinRetention
+} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
+import {
   DeleteLogsV3FormFields,
   InputValues,
   ValidationMessages
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/modalTypes';
-import {
-  getTagFilterExpressionValidationMessage,
-  getTimeRangeValidationMessage
-} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { formatTimeWithoutSeconds } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
@@ -82,8 +83,8 @@ const getInitialFormState = () => {
 };
 
 export default function useDeleteLogsV3Form() {
+  const maxRetentionDays: number = 90;
   const [form, setForm] = useState(getInitialFormState());
-
   const updateField = (name: DeleteLogsV3FormFields, value: string | Date | FormModelElement[]) => {
     setForm(form.updateIn([name], field => field.setValue(value).setTouched(true)) as MapForm<any>);
   };
@@ -121,17 +122,23 @@ export default function useDeleteLogsV3Form() {
 
   const timeRangeValidationMessage = getTimeRangeValidationMessage(inputValues);
   const tagFilterExpressionValidationMessage = getTagFilterExpressionValidationMessage(inputValues);
-
+  const retentionValidation = validateStartWithinRetention(
+    inputValues.startDate,
+    inputValues.startTime,
+    maxRetentionDays
+  );
   let validationMessages: ValidationMessages = {
     reason: getValidationMessage('reason'),
     validation: getValidationMessage('validation'),
     tagFilterExpression: tagFilterExpressionValidationMessage,
-    timeRange: timeRangeValidationMessage
+    timeRange: timeRangeValidationMessage,
+    retention: retentionValidation
   };
 
-  const canGoNextStep = !validationMessages.tagFilterExpression && !validationMessages.timeRange;
+  const canGoNextStep =
+    !validationMessages.tagFilterExpression && !validationMessages.timeRange && !validationMessages.retention;
 
-  const canSubmit = form.hierarchyValid && !timeRangeValidationMessage;
+  const canSubmit = form.hierarchyValid && !timeRangeValidationMessage && !retentionValidation;
 
   const resetForm = () => setForm(getInitialFormState());
   const touchForm = () => setForm(form.setTouched(true, { recurse: true }));

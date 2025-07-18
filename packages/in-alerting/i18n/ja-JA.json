@@ -176,7 +176,8 @@
       "warning": "警告"
     },
     "placeholder": {
-      "severity": "重大度"
+      "severity": "重大度",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "アラート構成",
@@ -375,7 +376,7 @@
           },
           "unexpectedlyHighNumber": {
             "name": "呼び出し件数の多さ",
-            "headline": "異常に多い呼び出し数に対する自動アラート",
+            "headline": "異常に多い呼び出し数に対する自動アラートが発生します",
             "text": "呼び出し数が、使用可能な過去データと比較して、予期される値より非常に多い場合にアラートを受け取ります。 これは、アプリケーションに対する攻撃の兆候か、ボットによって生成された要求が多すぎることを示している可能性があります。"
           }
         },
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510 (拡張なし)",
       "ruleStatusCodeValueOption511": "511 (ネットワーク認証が必要)",
       "ruleStatusCodeValueOption599": "599 (ネットワーク接続タイムアウト・エラー)",
+      "ruleStatusCodeValueOptionNone": "ステータスなし(クライアントが中断/失敗しました)",
       "warningThresholdValidator": "< および <= 演算子の場合、警告しきい値はクリティカルしきい値より大きくなければなりません。",
       "criticalThresholdValidator": "> および >= 演算子の場合、クリティカルしきい値は警告しきい値より大きくなければなりません。",
       "sensitivityValidator": "臨界感度は、警告感度より小さくする必要があります。"
@@ -796,7 +798,6 @@
         "proceedTitle": "続行",
         "previousTitle": "前へ",
         "nextTitle": "次へ",
-        "closeTitle": "閉じる",
         "sharedListTooltip": "{{typeName}} は利用できなくなりました。",
         "clearTagFilterExpressionButton": "クリア",
         "baselineErrorMessageComputedOnApproximateData": "ベースラインは、データ保存設定による概算データに基づいて計算されます。 そのため、選択したフィルターに一致する呼び出しがほとんどない場合には、ベースラインが正確でない可能性があります。",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}} 個の標準偏差",
         "labelThreshold": "しきい値",
         "multiThresholdAlertNotificationInfo": "いずれかのしきい値を入力すると、アラート通知がトリガーされます。",
+        "advancedSettingsTrayTitle": "拡張設定",
+        "seasonality": "シーソナリティ",
+        "seasonalityAuto": "自動",
+        "seasonalityNone": "なし",
+        "seasonalityDaily": "日次",
+        "seasonalityWeekly": "毎週",
+        "adaptability": "適応性",
         "warningThresholdLabel": "警告",
         "criticalThresholdLabel": "クリティカル",
         "labelSensitivity": "重要度",
@@ -1002,8 +1010,10 @@
         "summary": "以下の違反しきい値を満たさなくなった場合、問題は自動的にクローズされます"
       },
       "tearSheet": {
-        "cancelModalTitle": "本当にキャンセルしますか?",
-        "cancelModalDescription": "キャンセルすると、入力した構成の詳細は保存されません。",
+        "cancelModalTitle": "キャンセルの確認",
+        "continueEditingTitle": "編集を続行する",
+        "cancelEditingTitle": "スマート・アラートの構成をキャンセルする",
+        "cancelModalDescription": "このスマート・アラート構成の編集をキャンセルしてもよろしいですか？ 続行すると、入力した情報はすべて失われます。 この操作は元に戻せません。",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "違反が長期にわたって続く場合",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "不規則な間隔で違反が続く",
@@ -1083,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "カスタム・イベントの自動アラート",
         "customEventBlueprintConfigText": "特定のカスタム・イベントが発生する頻度が発生するたびに、アラートを受信します。",
         "customEventBlueprintConfigIncompleteRuleMessage": "このアラートがトリガーされるタイミングを確認するには、カスタム・イベントを選択してください",
-        "customEventBlueprintConfigMetricLabel": "発生件数",
         "simpleModeBlueprintConfigsUnexpectedDropName": "ページ・ロード数の少なさ",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "異常に少ないページ・ロード数に対する自動アラート",
         "simpleModeBlueprintConfigsUnexpectedDropText": "使用可能な過去のデータ比較して、ページ・ロード数が予期される値より非常に少ない場合にアラートを受け取ります。",
@@ -1364,7 +1373,6 @@
         "statusCodeCount": "状況コードのカウント",
         "beaconRate": "状況コードの比率",
         "views": "ビュー",
-        "customEventBlueprintConfigMetricLabel": "発生件数",
         "sessions": "セッション数",
         "crashAffectedSessionRate": "クラッシュの影響を受けるセッション率",
         "crashFreeSessionRate": "クラッシュ・フリー・セッション率",
@@ -1533,6 +1541,11 @@
       }
     },
     "eum": {
+      "data": {
+        "customMetric": "カスタム・メトリック",
+        "customDuration": "期間",
+        "customOccurrences": "発生件数"
+      },
       "slowness": {
         "blueprintConfigName": "低速",
         "httpLatencyMetricLabel": "HTTP レイテンシ"
@@ -1560,6 +1573,7 @@
         "JSErrors": "JS エラー: {{errorMessage}}",
         "customEvents": "カスタム・イベント: {{customEventName}}",
         "HTTPStatusCodes": "HTTP ステータス・コード: {{statusCode}}",
+        "HTTPStatusCodeNone": "ステータスなし",
         "unsupportedAlertType": "サポートされないアラート・タイプ: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS エラーが検出されました。",
         "unsupportedOperator": "サポートされない演算子: {{operator}}",
@@ -1915,7 +1929,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "ロング & ショート・アラート・ウィンドウ",
         "blueprintDescription_STATUS": "SLO状況がしきい値を下回った場合にアラートを受け取ります。",
         "blueprintDescription_BURNED_PERCENTAGE": "エラー・バジェットの一定の割合が消費された場合にアラートを受け取ります。",
-        "blueprintDescription_BURN_RATE_V2": "燃焼率は、SLO の目標長に対して、エラー・バジェットがどの程度の速さで消費されるかを示す値です。 ",
+        "blueprintDescription_BURN_RATE_V2": "バーン・レートは、SLOのターゲット期間に比べてエラー・バジェットがどのくらい速く消費されるかを示します。 これは次の式で計算されます: バーン・レート = (消費されたエラー予算 * SLO時間ウィンドウ) / アラート・ウィンドウ。",
         "burnRateShortWindowTitle": "短いアラート・ウィンドウ",
         "burnRateShortWindowDescription": "アラートは、エラー・レートが短時間でしきい値を超えた場合にトリガーされます。 これにより、重大なバグによるエラーの突然の急増やダウンタイムを捉えることができます。",
         "burnRateDescription": "燃焼率が <1/> <2/> になったら通知します",

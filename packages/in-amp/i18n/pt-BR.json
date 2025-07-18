@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "Saiba mais sobre a política de uso justo do Instana.",
+      "titleNew": "Saiba mais sobre o consumo de dados",
       "leftTitle": "O que é a política de uso justo?",
       "rightTitle": "Como faço para adquirir mais dados?",
       "leftBody": "A política de uso justo do Instana descreve o limite mensal permitido de dados associado ao seu tipo de licença. Para saber mais e explorar as diretrizes de uso de recursos, consulte a <fupDocLink>documentação da Política de Uso Justo</fupDocLink>.",
@@ -173,6 +174,30 @@
         "daysActive": "Dias ativo",
         "notProvided": "(não fornecido)"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "Conta e faturamento",
+    "tabs": {
+      "usage": "Uso",
+      "technologiesReporting": "Relatório de tecnologias",
+      "accountInformation": "Informações de conta",
+      "entitlements": "Autorizações",
+      "activeEntitlements": "Autorizações ativas",
+      "queuedEntitlements": "Autorizações em fila",
+      "expiredEntitlements": "Autorizações expiradas",
+      "activationAdoption": "Ativação e adoção",
+      "customerAdoption": "Adoção do cliente",
+      "userUsage": "Uso do usuário"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "Data de Início",
+      "endDate": "Data de encerramento",
+      "standardHosts": "Hosts padrão",
+      "essentialHosts": "Hosts essenciais"
+    },
+    "emptyPage": {
+      "subtitle": "Dados não disponíveis"
     }
   }
 }

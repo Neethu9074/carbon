@@ -11,7 +11,7 @@ import { Column, Grid, NumberInput, RadioButton, RadioButtonGroup } from '@insta
 import { FormGroup, Label, Spacer, Stack, Typography } from '@instana/components';
 
 import CorrectionWindowFormContext from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/CorrectionWindowFormContext';
-import { RepeatUntil } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
+import type { RepeatUntil } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
 import { isFieldValid, getValidationMessage } from 'in-service-levels/utils/form';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import DateInput from 'in-components/form/DateInput/DateInput';

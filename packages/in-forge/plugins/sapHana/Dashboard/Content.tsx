@@ -300,49 +300,6 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.columnStoreMetrics')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              metrics: ['stats.csReadCount', 'stats.csWriteCount', 'stats.csMergeCount', 'stats.csUnloadCount'],
-              labels: [
-                t('in-forge:plugins.sapHana.dashboard.read'),
-                t('in-forge:plugins.sapHana.dashboard.write'),
-                t('in-forge:plugins.sapHana.dashboard.merge'),
-                t('in-forge:plugins.sapHana.dashboard.unload')
-              ],
-              type: 'area'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.networkUsage')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.compact,
-              metrics: [
-                'stats.tcpSegmentsReceived',
-                'stats.tcpSegmentsSentOut',
-                'stats.tcpSegmentsRetransmitted',
-                'stats.tcpBadSegmentsReceived'
-              ],
-              labels: [
-                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsReceived'),
-                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsSentOut'),
-                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsRetransmitted'),
-                t('in-forge:plugins.sapHana.dashboard.tcpBadSegmentsReceived')
-              ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
         <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.requests')}>
           <Chart
             snapshotId={snapshot.get('id')}
@@ -391,14 +348,60 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
         </DashboardSection>
       </Columize>
       <Columize>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.columnStoreMetrics')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['stats.csReadCount', 'stats.csWriteCount', 'stats.csMergeCount', 'stats.csUnloadCount'],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.read'),
+                t('in-forge:plugins.sapHana.dashboard.write'),
+                t('in-forge:plugins.sapHana.dashboard.merge'),
+                t('in-forge:plugins.sapHana.dashboard.unload')
+              ],
+              type: 'area'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.entryTypeCount')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'archiveLogBackupStats.archiveLogBackupStat_summary.totalBackupCount',
+                'archiveLogBackupStats.archiveLogBackupStat_summary.logBackupTotal',
+                'archiveLogBackupStats.archiveLogBackupStat_summary.completeDataBackupTotal',
+                'archiveLogBackupStats.archiveLogBackupStat_summary.differentialDataBackupTotal',
+                'archiveLogBackupStats.archiveLogBackupStat_summary.dataSnapshotTotal'
+              ],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.total'),
+                t('in-forge:plugins.sapHana.dashboard.logBackup'),
+                t('in-forge:plugins.sapHana.dashboard.completeDataBackup'),
+                t('in-forge:plugins.sapHana.dashboard.differentialDataBackup'),
+                t('in-forge:plugins.sapHana.dashboard.dataSnapshot')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
         <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.connections')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
-              metrics: ['stats.idleCount', 'stats.queueingCount', 'stats.runningCount'],
+              metrics: ['stats.totalCount', 'stats.idleCount', 'stats.queueingCount', 'stats.runningCount'],
               labels: [
+                t('in-forge:plugins.sapHana.dashboard.total'),
                 t('in-forge:plugins.sapHana.dashboard.idle'),
                 t('in-forge:plugins.sapHana.dashboard.queueingCount'),
                 t('in-forge:plugins.sapHana.dashboard.running')
@@ -419,6 +422,29 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
                 t('in-forge:plugins.sapHana.dashboard.distinctDatabaseUsers'),
                 t('in-forge:plugins.sapHana.dashboard.distinctApplicationUsers'),
                 t('in-forge:plugins.sapHana.dashboard.distinctApplications')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.networkUsage')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'stats.tcpSegmentsReceived',
+                'stats.tcpSegmentsSentOut',
+                'stats.tcpSegmentsRetransmitted',
+                'stats.tcpBadSegmentsReceived'
+              ],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsReceived'),
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsSentOut'),
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsRetransmitted'),
+                t('in-forge:plugins.sapHana.dashboard.tcpBadSegmentsReceived')
               ],
               type: 'line'
             }}

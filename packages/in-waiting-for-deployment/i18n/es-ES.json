@@ -302,10 +302,12 @@
   "installAgents": "Instalar agentes",
   "preparingInstance": "Preparación de la instancia",
   "agentDeployed": "Agente desplegado",
+  "dataSourceInstalled": "Origen de datos instalado",
   "agentsAreReportingDataIsBeingCollected": "Los agentes están notificando. Se están recopilando datos.",
   "timeToExploreInstana": "Es el momento de explorar Instana",
   "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Prácticamente está terminado, hemos creado una instancia de Instana para usted.",
   "whileWeArePreparingYourInstanaInstance": "Mientras se prepara su instancia de Instana,",
   "getReadyToDeployAgentsInYourEnvironment": "prepárese para desplegar los agentes en su entorno...",
-  "letSGetSomeAgentsRunning": "Estamos a la espera de que instale el agente de Instana."
+  "letSGetSomeAgentsRunning": "Estamos a la espera de que instale el agente de Instana.",
+  "weAreWaitingForYouToInstallAnInstanaAgentOrCollector": "Estamos a la espera de que instale un agente o recopilador de Instana."
 }

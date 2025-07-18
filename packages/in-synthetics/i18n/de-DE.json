@@ -1,4 +1,5 @@
 {
+  "tooltipCopyToClipboard": "In Zwischenablage kopieren",
   "dialog": {
     "createTest": {
       "buttonLabel": "Synthetischen Test hinzufügen",
@@ -27,6 +28,7 @@
         "popSubTitle": "Bereitstellungspunkt",
         "uploadScriptTitle": "Script hochladen",
         "failureToReadFileContent": "Dateiinhalt konnte nicht gelesen werden: {{error}}",
+        "unsupportedFileFormat": ".{{extension}}-Datei wird nicht unterstützt",
         "emptyScriptFileError": "Leerer Code. Nichts zu validieren.",
         "enterTheScriptMessage": "Script hier eingeben",
         "privatePoPLabel": "Private",
@@ -153,6 +155,7 @@
         "scheduleTitle": "Zeitplan: Wie wird dieser Test durchgeführt?",
         "identifyLabel": "Identifizieren",
         "identifyTitle": "Ermitteln: Was wird der Test tun?",
+        "teamsCalloutMessage": "Beim Hinzufügen von Teams werden die Berechtigungen der Teammitglieder auf den im Team zugewiesenen Rollen basieren. Tests, denen Teams zugeordnet sind, werden auch auf der Seite 'Teams' in den Einstellungen angezeigt.",
         "customPropertiesTitle": "Angepasste Eigenschaften (optional)",
         "frequency": "Dieser Test wird alle {{frequencyValue}} Minuten ausgeführt.",
         "frequencyHours": "Dieser Test wird alle {{frequencyHours}} Stunden ausgeführt.",
@@ -190,7 +193,7 @@
           "buttonBack": "Zurück",
           "buttonSave": "Speichern",
           "uploadFileLabel": "Datei hochladen",
-          "uploadFileDescription": "Sie können entweder eine einzelne .js-Datei oder eine .zip-Datei mit gebündelten .js-Dateien hochladen.",
+          "uploadFileDescription": "Sie können entweder eine einzelne .js- oder .cjs-Datei oder eine .zip-Datei mit gebündelten .js- oder .cjs-Dateien hochladen.",
           "node22UploadFileDescription": "Sie können entweder eine einzelne.js-,.cjs- oder.mjs-Datei oder eine.zip-Datei mit gebündelten.js-,.cjs- oder.mjs-Dateien hochladen.",
           "scriptDescription": "Ihr hochgeladenes Script wird hier angezeigt. Sie können es auf Wunsch unten manuell eingeben.",
           "validScriptMessage": "Script ist gültig.",
@@ -199,7 +202,7 @@
           "mainFileNameLabel": "Hauptdateinamen eingeben",
           "invalidMainFileName": "Hauptdateiname nicht gültig",
           "webpageUrl": "URL der Webseite",
-          "browserUploadFileDescription": "Sie können entweder eine einzelne .js-Datei, eine .zip-Datei mit gebündelten .js-Dateien oder ein .side-Skript hochladen, das von SeleniumIDE aufgezeichnet wurde.",
+          "browserUploadFileDescription": "Sie können entweder eine einzelne .js- oder .cjs-Datei, eine .zip-Datei mit gebündelten .js- oder .cjs-Dateien oder ein von Selenium IDE aufgezeichnetes .side-Script hochladen.",
           "node22BrowserUploadFileDescription": "Sie können entweder eine einzelne.js-,.cjs- oder.mjs-Datei, eine.zip-Datei mit gebündelten.js-,.cjs- oder.mjs-Dateien oder ein von Selenium IDE aufgezeichnetes.side-Skript hochladen.",
           "sideFileUploadedMessage": "Selenium-Scripts können nicht geändert oder validiert werden.",
           "bundleFileNotSupportedMessage": "Nicht unterstützte Datei ausgewählt. Bundles werden nur im erweiterten Modus unterstützt.",
@@ -312,7 +315,10 @@
         "applicationsTitle": "Zuordnen: Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
         "applicationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung gewährt allen Benutzern Zugriffsrechte, die Zugriff auf diese Anwendung haben.",
         "associationsTitle": "Zuordnen: Wählen Sie aus, was mit diesem synthetischen Test verknüpft werden soll (optional)",
-        "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte."
+        "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte.",
+        "teamsLabel": "Teams",
+        "teamsTitle": "Teams: Teams auswählen, die diesem Test zugeordnet werden sollen (optional)",
+        "teamsDescription": "Wählen Sie die Teams aus, die diesem Test zugeordnet werden sollen."
       },
       "associations": {
         "applicationsTitle": "Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
@@ -335,7 +341,19 @@
         "applicationsTableTitle": "Anwendung(en)",
         "websitesTableTitle": "Website(s)",
         "mobileAppsTableTitle": "Mobile App(s)"
-      }
+      },
+      "createSyntheticTest": "Synthetischen Test erstellen"
+    },
+    "createOnDemandTest": {
+      "buttonLabel": "Jetzt ausführen",
+      "createButtonLabel": "Test ausführen",
+      "cancel": "Abbrechen",
+      "properties": "Konfigurationseigenschaften",
+      "location": "Position",
+      "iconLabel": "Test wird ausgeführt",
+      "runnowTitle": "Test jetzt durchführen",
+      "multiSelectLabel": "Alle zugewiesenen Standorte",
+      "retryInterval": "Dieser Test wird {{retryCount}} wiederholt nach "
     },
     "httpMethods": {
       "get": "GET",
@@ -353,7 +371,9 @@
       "failureMessageUpdate": "Aktualisieren des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
       "failureMesssageDelete": "Löschen des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
       "successMessageCICDRerun": "Erfolgreiche Wiederholung des synthetischen Tests",
-      "failureMesssageCICDRerun": "Der synthetische Test konnte nicht wiederholt werden: {{errorMessage}}"
+      "failureMesssageCICDRerun": "Der synthetische Test konnte nicht wiederholt werden: {{errorMessage}}",
+      "successMessageCICDCreate": "Der synthetische Test zur Ausführung jetzt wurde erfolgreich",
+      "failureMesssageCICDCreate": "Der synthetische Test zur Ausführung jetzt konnte nicht erstellt werden: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Position erfolgreich gelöscht",
@@ -368,7 +388,7 @@
       "bundleSavedMessage": "Gebündelte Scripts hinzugefügt"
     },
     "createLocation": {
-      "newLocation": "Neuer Standort",
+      "newLocation": "Position hinzufügen",
       "activate": "Aktivieren",
       "done": "Erledigt",
       "stepConfigs": {
@@ -444,9 +464,10 @@
       "failureMesssage": "{{errorMessage}}"
     },
     "createCredential": {
-      "createButton": "Neuer Berechtigungsnachweis",
+      "createButton": "Berechtigungsnachweis erstellen",
       "nameValue": "Name und Wert",
       "associations": "Zuordnungen",
+      "teams": "Teams",
       "newCredentials": "Erstellen einer synthetischen Berechtigung",
       "steps": {
         "textInput": {
@@ -459,7 +480,8 @@
           "placeholder": "Wert des Berechtigungsnachweises",
           "labelText": "Wert"
         },
-        "associationsDescription": "Die Verknüpfung eines Berechtigungsnachweises mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Einheiten haben, Zugriffsrechte."
+        "associationsDescription": "Die Verknüpfung eines Berechtigungsnachweises mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Einheiten haben, Zugriffsrechte.",
+        "teamsStepDescription": "Wählen Sie Teams aus, die diesem Berechtigungsnachweis zugeordnet werden sollen."
       },
       "feedback": {
         "successMessage": "Erfolgreich erstellter Berechtigungsnachweis",
@@ -523,15 +545,18 @@
         "filterLabel": "Anwendungen",
         "singleAppHeader": "{{ number }} Zuordnung",
         "multiAppHeader": "{{ number }} Zuordnungen",
-        "noApplicationsAssociated": "Keine zugeordneten Anwendungen"
+        "noApplicationsAssociated": "Keine zugeordneten Anwendungen",
+        "noApplicationAssociatedWithTest": "Dem ausgewählten Test ist keine Anwendung zugeordnet"
       },
       "multiWebDialog": {
         "filterLabel": "Websites",
-        "noWebsitesAssociated": "Keine zugeordneten Websites."
+        "noWebsitesAssociated": "Keine zugeordneten Websites.",
+        "noWebsiteAssociatedWithTest": "Dem ausgewählten Test ist keine Webseite zugeordnet"
       },
       "multiMobileDialog": {
         "filterLabel": "Mobile Apps",
-        "noMobileAppsAssociated": "Keine zugeordneten mobilen Apps."
+        "noMobileAppsAssociated": "Keine zugeordneten mobilen Apps.",
+        "nodMobileAppAssociatedWithTest": "Dem ausgewählten Test ist keine mobile App zugeordnet"
       },
       "testLabel": "Name",
       "status": "Status",
@@ -554,7 +579,10 @@
         "singleRun": "Läuft in {{number}} Ort",
         "multipleRun": "Läuft in {{number}} Orten",
         "warning": "Warnung",
-        "noIssues": "Keine Probleme"
+        "noIssues": "Keine Probleme",
+        "locationsSidePanelTitle": "Standorte ({{totalLocations}})",
+        "locationsNameHeader": "Name",
+        "locationsHealthHeader": "Status"
       },
       "associationLabel": "Zuordnungen",
       "health": "Status",
@@ -563,7 +591,29 @@
       "na": "Nicht zutreffend",
       "configureColumns": {
         "title": "Spaltenanpassung",
-        "description": "Sie können jetzt Ihre Tabelle mit synthetischen Testdaten anpassen. Mit dieser Funktion haben Sie die Flexibilität, die anzuzeigenden Spalten auszuwählen und sie nach Bedarf neu anzuordnen."
+        "description": "Sie können jetzt Ihre Tabelle mit synthetischen Testdaten anpassen. Mit dieser Funktion haben Sie die Flexibilität, die anzuzeigenden Spalten auszuwählen und sie nach Bedarf neu anzuordnen.",
+        "dialog": {
+          "title": "Spalten verwalten ({{enabledCount}}/{{totalCount}})",
+          "description": "Wählen Sie Spalten ab, um sie auszublenden. Klicken Sie auf das weiße Feld und ziehen Sie es, um die Felder umzuordnen. Diese Angaben werden gespeichert und bleiben bestehen, wenn Sie die Datentabelle verlassen und später wiederkehren.",
+          "configureButtonLabel": "Spalten konfigurieren",
+          "columnNameLabel": "Spaltenname",
+          "configurationSuccessTitle": "Anzeige angepasst",
+          "configurationSuccessMessage": "Die Tabelle 'Spalten' wurden angepasst.",
+          "configurationErrorTitle": "Anzeige nicht angepasst",
+          "configurationErrorMessage": "Die Tabelle 'Spalten' wurden nicht angepasst.",
+          "closeIconDescription": "Schließen",
+          "saveButtonLabel": "Speichern",
+          "cancelButtonLabel": "Abbrechen",
+          "searchPlaceholder": "Spalten suchen",
+          "selectAllLabel": "Alles auswählen"
+        }
+      },
+      "searchSyntheticTests": "Suche nach synthetischen Tests",
+      "failedToLoadTestsTitle": "Die synthetischen Tests konnten nicht geladen werden",
+      "associationsColumn": {
+        "associationsSidePanelTitle": "Zuordnungen ({{totalAssociations}})",
+        "associationsNameHeader": "Name",
+        "associationsHealthHeader": "Status"
       }
     },
     "locationList": {
@@ -800,7 +850,43 @@
       "sslCertificate": {
         "daysRemaining": "Verbleibende Tage",
         "timeOfIssue": "Zeitpunkt der Ausgabe",
-        "timeOfExpiry": "Ablaufdatum"
+        "timeOfExpiry": "Ablaufdatum",
+        "customMetrics": {
+          "titles": {
+            "details": "Details zu",
+            "testDetails": "Testdetails",
+            "customMetrics": "Angepasste Messdaten",
+            "issuedTo": "Ausgestellt für",
+            "issuedBy": "Ausgestellt von",
+            "publicKeyInfo": "Informationen zum öffentlichen Schlüssel",
+            "fingerprints": "Fingerabdrücke",
+            "tls": "Informationen zu Verschlüsselung & TLS",
+            "serialNumber": "Seriennummer",
+            "extKeyUsage": "Erweiterte Schlüsselverwendung"
+          },
+          "daysRemaining": "Verbleibende Tage:",
+          "valid": "Gültig:",
+          "validFrom": "Gültig ab:",
+          "validTo": "Gültig bis:",
+          "commonName": "Allgemeiner Name:",
+          "alternativeName": "Alternativer Name:",
+          "locality": "Standort:",
+          "organizationUnit": "Organisationseinheit:",
+          "organization": "Unternehmen:",
+          "state": "Bundesland/Region:",
+          "country": "Land:",
+          "standardName": "Standardname:",
+          "name": "Verschlüsselungsname:",
+          "version": "TLS-Version:",
+          "fingerprint": "Fingerprint1:",
+          "fingerprint256": "Fingerprint2:",
+          "size": "Schlüsselgröße:",
+          "modulus": "Modulus:",
+          "algorithm": "Algorithmus:",
+          "exponent": "Exponent:",
+          "serialNumber": "Seriennummer:",
+          "extKeyUsage": "Erweiterte Schlüsselverwendung:"
+        }
       },
       "failedRunErrorTypeTitle": "Fehlertyp:",
       "viewRecordingLabel": "Aufzeichnung ansehen",
@@ -904,6 +990,7 @@
       "daysRemaining": "Fehlerkonfiguration",
       "day": "Test schlägt fehl, wenn die Zertifikatsgültigkeit {{daysRemainingCheck}} Tag bis zum Ablauf verbleibt",
       "days": "Test schlägt fehl, wenn die Gültigkeit des Zertifikats {{daysRemainingCheck}} Tage bis zum Ablauf verbleibt",
+      "teams": "Teams",
       "associations": "Zuordnungen",
       "associatedApplications": "Zugeordnete Anwendungen",
       "noApplicationsAssociated": "Keine zugeordneten Anwendungen",
@@ -939,7 +1026,7 @@
     },
     "credentialList": {
       "mainLabel": "Berechtigungsnachweise",
-      "name": "Name",
+      "name": "Berechtigungsnachweisname",
       "associations": "Zuordnungen",
       "createdAt": "Erstellt am",
       "createdBy": "Erstellt von",

@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import { PaginatedResult, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import type { PaginatedResult, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
-import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
+import type { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
-import { LabeledEntity, SloListItem } from 'in-service-levels/types';
+import type { LabeledEntity, SloListItem } from 'in-service-levels/types';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 

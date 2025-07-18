@@ -6,15 +6,13 @@
 
 import React from 'react';
 
-import {
+import type {
   AvailabilityBlueprintIndicator,
   DateAsNumber,
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntityUnion
 } from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
 
 import {
   copyFirstBucketOfSubsequentDataSeries,
@@ -36,8 +34,8 @@ import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowCon
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import type { MetricDataSeries } from 'in-components/Chart/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
-import { MetricDataSeries } from 'in-components/Chart/types';
 import { percentage } from 'in-services/formatters/number';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { t } from 'in-i18n';

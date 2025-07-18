@@ -34,7 +34,8 @@ import {
   entityIdsUrlParameter,
   runTypeUrlParameter,
   runTypeScheduled,
-  runTypeCICD
+  runTypeCICD,
+  TestListProps
 } from 'in-synthetics/utils/constants';
 import {
   applicationIdTagName,
@@ -218,6 +219,15 @@ const TestSummaryList = () => {
     setFilter(filtersTemp);
   };
 
+  const onFilterCancel = () => {
+    setFiltersTemp({
+      syntheticTypes,
+      locationIds,
+      applicationIds,
+      entityIds
+    });
+  };
+
   const filterComponent = useMemo(() => {
     if (syntheticTests.progress.loading) return null;
     return <TestListFilters result={syntheticTests} filters={filtersTemp} setFilters={setFiltersTemp} />;
@@ -246,7 +256,7 @@ const TestSummaryList = () => {
           </div>
         )}
         {syntheticCarbonTableEnabled ? (
-          <CarbonDataTableWithUrlState<TestResultListItem, any>
+          <CarbonDataTableWithUrlState<TestResultListItem, TestListProps>
             get={getTestSummaryListData}
             paginationResettingUrlParameters={[...timeConfigUrlParameters]}
             columnDefinitions={columnDefinitions}
@@ -255,10 +265,9 @@ const TestSummaryList = () => {
             pathSegment={pathSegment}
             matrixPrefix={matrixPrefix}
             timeConfig={timeConfig}
-            isSearchable
             searchText={t('in-synthetics:dashboard.testList.searchSyntheticTests')}
             toolBarContent={
-              syntheticRunNowEnabled && (
+              syntheticRunNowEnabled ? (
                 <Dropdown
                   className={locals.dropdownWidth}
                   items={datascopeRunTypes}
@@ -271,7 +280,7 @@ const TestSummaryList = () => {
                   selectedItem={datascopeRunTypes.find(item => item.value === runType)}
                   initialSelectedItem={datascopeRunTypes[0]}
                 />
-              )
+              ) : undefined
             }
             noDataHeader={t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle')}
             noDataDescription={t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')}
@@ -287,6 +296,7 @@ const TestSummaryList = () => {
             isFilterable
             filters={filterComponent}
             onFilterApply={onFilterApply}
+            onFilterCancel={onFilterCancel}
             syntheticTypes={syntheticTypes}
             locationIds={locationIds}
             applicationIds={applicationIds}

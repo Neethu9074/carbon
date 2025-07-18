@@ -4,19 +4,19 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ValidationResult } from 'formalistic';
+import type { ValidationResult } from 'formalistic';
 
-import { ServiceLevelIndicatorType } from '@instana/types';
+import type { ServiceLevelIndicatorType } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 
-import {
+import type {
   CustomBlueprintType,
   SloIndicatorFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { isEmptyExpression, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';

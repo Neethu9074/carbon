@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
+import type {
   ApplicationSloEntity,
   FixedTimeWindow,
   RollingTimeWindow,
@@ -23,7 +23,7 @@ import {
 } from 'in-service-levels/constants';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { extractTimeZoneName } from 'in-service-levels/utils/timezone';
 import { parseDateTime } from 'in-services/formatters/date';
 

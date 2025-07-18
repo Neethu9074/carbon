@@ -4,23 +4,15 @@
  * Copyright IBM Corp. 2025
  */
 
-import {
-  getCoreRowModel,
-  useReactTable,
-  ExpandedState,
-  getExpandedRowModel,
-  SortingState,
-  OnChangeFn,
-  PaginationState,
-  ColumnDef
-} from '@tanstack/react-table';
+import type { ExpandedState, SortingState, OnChangeFn, PaginationState, ColumnDef } from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable, getExpandedRowModel } from '@tanstack/react-table';
 import { useCallback, useMemo, useState } from 'react';
 
+import type { PaginatedResult } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
-import { PaginatedResult } from '@instana/types';
 
-import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { CorrectionWindowListItem } from 'in-service-levels/types';
+import type { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import type { CorrectionWindowListItem } from 'in-service-levels/types';
 
 const getRowCanExpand = () => true;
 const getRowId = (row: CorrectionWindowListItem) => row.configuration.id!;

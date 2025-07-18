@@ -12,7 +12,7 @@ import { Typography } from '@instana/components';
 import SlosApplied from 'in-service-levels/features/CorrectionWindows/components/SlosApplied';
 import { Di, Dl } from 'in-components/HorizontalDescriptionList/HorizontalDescriptionList';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { CorrectionWindowListItem } from 'in-service-levels/types';
+import type { CorrectionWindowListItem } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 import locals from './ExpandedRowContent.mless';

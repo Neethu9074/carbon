@@ -176,7 +176,8 @@
       "warning": "警告"
     },
     "placeholder": {
-      "severity": "嚴重性"
+      "severity": "嚴重性",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "警示配置",
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510（未延伸）",
       "ruleStatusCodeValueOption511": "511（需要網路鑑別）",
       "ruleStatusCodeValueOption599": "599（網路連接逾時錯誤）",
+      "ruleStatusCodeValueOptionNone": "無狀態（用戶端已中斷/失敗）",
       "warningThresholdValidator": "對於 < 及 <= 運算子，警告臨界值應該大於嚴重臨界值。",
       "criticalThresholdValidator": "對於 > 及 >= 運算子，嚴重臨界值應該大於警告臨界值。",
       "sensitivityValidator": "嚴重靈敏度應小於警告靈敏度。"
@@ -796,7 +798,6 @@
         "proceedTitle": "繼續",
         "previousTitle": "上一步",
         "nextTitle": "下一步",
-        "closeTitle": "關閉",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageComputedOnApproximateData": "基準線是根據由於資料保留設定而產生的近似資料來計算。 因此，如果只有少數呼叫符合選取的過濾器，則它可能不正確。",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}} 個標準差",
         "labelThreshold": "臨界值",
         "multiThresholdAlertNotificationInfo": "您輸入任一臨界值都會觸發警示通知。",
+        "advancedSettingsTrayTitle": "進階設定",
+        "seasonality": "週期性",
+        "seasonalityAuto": "自動",
+        "seasonalityNone": "無",
+        "seasonalityDaily": "每天一次",
+        "seasonalityWeekly": "每週一次",
+        "adaptability": "適應性",
         "warningThresholdLabel": "警告",
         "criticalThresholdLabel": "嚴重",
         "labelSensitivity": "靈敏度",
@@ -1002,8 +1010,10 @@
         "summary": "當違規臨界值不再滿足後，自動關閉問題"
       },
       "tearSheet": {
-        "cancelModalTitle": "您確定要取消嗎？",
-        "cancelModalDescription": "如果取消，您輸入的配置詳細資料將不會儲存。",
+        "cancelModalTitle": "確認取消",
+        "continueEditingTitle": "繼續編輯",
+        "cancelEditingTitle": "取消智慧型警示配置",
+        "cancelModalDescription": "您確定要取消編輯此智慧型警示配置嗎？ 如果繼續，您輸入的任何資訊都會遺失。 這個動作無法復原。",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "當違規持續存在一段時間時",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "違規以隨機間隔持續存在",
@@ -1083,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "針對自訂事件自動發出警示",
         "customEventBlueprintConfigText": "每次特定自訂事件發生的頻率高於或低於其應有的頻率時，即會收到警示。",
         "customEventBlueprintConfigIncompleteRuleMessage": "請選取自訂事件以查看此警示的觸發時間",
-        "customEventBlueprintConfigMetricLabel": "出現項目數",
         "simpleModeBlueprintConfigsUnexpectedDropName": "頁面載入次數低",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "在頁面載入次數異常低時自動發出警示",
         "simpleModeBlueprintConfigsUnexpectedDropText": "對照可用的過去資料，當「頁面載入」數明顯低於預期時，會收到警示。",
@@ -1364,7 +1373,6 @@
         "statusCodeCount": "狀態碼計數",
         "beaconRate": "狀態碼比率",
         "views": "檢視表",
-        "customEventBlueprintConfigMetricLabel": "出現項目數",
         "sessions": "階段作業",
         "crashAffectedSessionRate": "損毀受影響的階段作業率",
         "crashFreeSessionRate": "損毀可用的階段作業率",
@@ -1533,6 +1541,11 @@
       }
     },
     "eum": {
+      "data": {
+        "customMetric": "自訂指標",
+        "customDuration": "持續時間",
+        "customOccurrences": "出現項目數"
+      },
       "slowness": {
         "blueprintConfigName": "緩慢",
         "httpLatencyMetricLabel": "HTTP 延遲"
@@ -1560,6 +1573,7 @@
         "JSErrors": "JS 錯誤：{{errorMessage}}",
         "customEvents": "自訂事件：{{customEventName}}",
         "HTTPStatusCodes": "HTTP 狀態碼：{{statusCode}}",
+        "HTTPStatusCodeNone": "無狀態",
         "unsupportedAlertType": "不受支援的警示類型：{{alertType}}",
         "JSErrorsHaveBeenDetected": "已偵測到 JS 錯誤。",
         "unsupportedOperator": "不支援的運算子：{{operator}}",
@@ -1915,7 +1929,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "長短警示視窗",
         "blueprintDescription_STATUS": "當 SLO 狀態低於臨界值時接收警示。",
         "blueprintDescription_BURNED_PERCENTAGE": "當已耗用某個百分比的錯誤預算時接收警示。",
-        "blueprintDescription_BURN_RATE_V2": "消耗率是一個數值，表示相對於 SLO 的目標長度，誤差預算消耗的速度。 ",
+        "blueprintDescription_BURN_RATE_V2": "消耗率指出相對於 SLO 的目標長度，錯誤預算的消耗速度有多快。 其計算公式如下：消耗率 =（已消耗的錯誤預算 * SLO 時間範圍）/ 警示範圍。",
         "burnRateShortWindowTitle": "短時間警示視窗",
         "burnRateShortWindowDescription": "當錯誤率在較短時間內迅速超過臨界值時，就會觸發警示。 這有助於擷取因重要錯誤而突然激增的錯誤或停機時間。",
         "burnRateDescription": "當燃燒率為<1/> <2/>時通知我",

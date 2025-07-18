@@ -129,7 +129,7 @@ module.exports = {
   syntheticRunNowEnabled: true,
   syntheticNodeJs22Enabled: true,
   syntheticSslImprovementEnabled: true,
-  syntheticCarbonTableEnabled: false,
+  syntheticCarbonTableEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
@@ -204,7 +204,6 @@ module.exports = {
   apMetricsDeltaFetchingEnabled: true,
   logFilterSaving: true,
   isControlledEnvEnabled: false,
-  blockLogDeletionsEnabled: false,
   logFormattingEnabled: true,
   openTelemetryKubernetesUnifiedViewEnabled: true,
   newOTelPageEnabled: true,
@@ -216,5 +215,6 @@ module.exports = {
   onlyFedRampAllowedAlertChannelsEnabled: false,
   deleteLogsV3Enabled: true,
   fiveMinuteGranularityForAdaptiveThresholdEnabled: true,
-  otelCollectorViewEnabled: false
+  otelCollectorViewEnabled: false,
+  downtimesOnHostEnabled: true
 };

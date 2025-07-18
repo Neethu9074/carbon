@@ -302,10 +302,12 @@
   "installAgents": "エージェントのインストール",
   "preparingInstance": "インスタンスの準備中",
   "agentDeployed": "エージェントがデプロイされました",
+  "dataSourceInstalled": "インストールされたデータ・ソース",
   "agentsAreReportingDataIsBeingCollected": "エージェントがレポートを作成しています。 データを収集しています。",
   "timeToExploreInstana": "さっそく Instana を使ってみましょう。",
   "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "完了までもう少しです。Instana インスタンスを作成しました。",
   "whileWeArePreparingYourInstanaInstance": "現在、Instana インスタンスを準備しています。",
   "getReadyToDeployAgentsInYourEnvironment": "ご使用の環境にエージェントをデプロイできるように準備をします…",
-  "letSGetSomeAgentsRunning": "Instana エージェントのインストールを待機しています。"
+  "letSGetSomeAgentsRunning": "Instana エージェントのインストールを待機しています。",
+  "weAreWaitingForYouToInstallAnInstanaAgentOrCollector": "Instanaエージェントまたはコレクターのインストールをお待ちしています。"
 }

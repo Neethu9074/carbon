@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ServiceLevelIndicatorType, TimeConfig, TimeWindow } from '@instana/types';
+import type { ServiceLevelIndicatorType, TimeConfig, TimeWindow } from '@instana/types';
 
 import { calculateAvailableErrorBudget, truncFloat } from 'in-service-levels/utils/math';
-import { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
+import type { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 
 interface ErrorBudgetSampleConfig {
   entityIds: string[];

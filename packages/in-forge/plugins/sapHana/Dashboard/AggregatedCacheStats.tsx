@@ -69,22 +69,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.usedSize'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: AggregatedCacheStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: AggregatedCacheStatsRow) {
-        return `aggregatedCacheStats.${row.key}.usedSize`;
-      },
-      getContent: bytesTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.totalSize'),
     type: 'metric',
     typeArgs: {
@@ -93,6 +77,22 @@ const cols = [
       },
       getMetricName(row: AggregatedCacheStatsRow) {
         return `aggregatedCacheStats.${row.key}.totalSize`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.sapHana.dashboard.usedSize'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: AggregatedCacheStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: AggregatedCacheStatsRow) {
+        return `aggregatedCacheStats.${row.key}.usedSize`;
       },
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -180,7 +180,7 @@ export default function AggregatedCacheStatsList({ snapshotId, timeConfig }: Agg
       cardTitle={t('in-forge:plugins.sapHana.dashboard.aggregatedCacheStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={4}
+      initialSortColumn={5}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

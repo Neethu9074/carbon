@@ -5,7 +5,7 @@
 
 import { useMemo } from 'react';
 
-import {
+import type {
   BoundaryScope,
   Result,
   TagFilter,
@@ -13,13 +13,14 @@ import {
   TagFilterExpressionElementUnion,
   TimeConfig
 } from '@instana/types';
-import { just, Observable } from '@instana/observables';
+import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';

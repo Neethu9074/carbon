@@ -17,12 +17,12 @@ import cx from 'classnames';
 
 import { ContainedList, ContainedListItem, ExpandableSearch } from '@instana/carbon';
 import { ErrorEmptyState, NoDataEmptyState } from '@instana/ibm-products';
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Link, Pagination } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
 
 import useGetHrefToSloDashboard from 'in-service-levels/navigation/hooks/useGetHrefToSloDashboard';
-import { CorrectionWindowListItem } from 'in-service-levels/types';
+import type { CorrectionWindowListItem } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 import locals from './SlosApplied.mless';

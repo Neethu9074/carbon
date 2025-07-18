@@ -7,10 +7,10 @@
 import { useLayoutEffect, useRef } from 'react';
 import { animate } from 'motion';
 
-import { PaginatedResult, Result } from '@instana/types';
+import type { PaginatedResult, Result } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 
-import { SloListItem } from 'in-service-levels/types';
+import type { SloListItem } from 'in-service-levels/types';
 
 import locals from 'in-service-levels/components/SloList/components/FilterPanel.mless';
 

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
+import type { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
 
 import {
   defaultServiceLevelObjectiveUrlParameters,

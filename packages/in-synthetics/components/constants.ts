@@ -6,11 +6,11 @@
 
 import { ReactNode } from 'react';
 
-import { OrderDirection, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
+import { OrderDirection } from '@instana/types';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 import { PaginatedResult, Result } from 'in-types';
 
@@ -21,48 +21,64 @@ export interface ListItem extends Object {
   id?: string;
 }
 
-export interface CarbonDataTableWithUrlStateProps<
-  ITEM_TYPE extends ListItem,
-  PROPS_TYPE extends TableProps<ITEM_TYPE>
-> {
-  paginationResettingUrlParameters: readonly ParameterDefinition<any>[];
-  columnDefinitions: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
-  get: (data: any) => Observable<Result<PaginatedResult<ITEM_TYPE>>>;
+interface UrlStateParams {
+  pathSegment: string;
+  matrixPrefix: string;
   defaultOrderBy: string;
   defaultOrderDirection?: OrderDirection;
   defaultPageSize?: number;
   defaultPageSizes?: number[];
   defaultQuery?: string;
-  pathSegment: string;
-  matrixPrefix: string;
-  timeConfig: TimeConfig;
-  isSearchable?: boolean;
-  searchText?: string;
-  noDataHeader?: string;
-  noDataDescription?: string;
-  toolBarContent?: JSX.Element | boolean;
-  actionButtonContent?: JSX.Element | boolean;
-  query?: string;
-  defaultDisabledColumns?: string[];
+  defaultDisabledColumns?: readonly string[];
+  paginationResettingUrlParameters?: readonly ParameterDefinition<any>[];
 }
 
-export interface CarbonDataTablePresenterProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>
-  extends CarbonDataTableWithUrlStateProps<ITEM_TYPE, PROPS_TYPE>,
-    Omit<ServerTableUrlState, 'query'> {
+export interface TableState {
+  page: number;
+  orderDirection: OrderDirection;
+  onChange: (s: Partial<TableState>) => void;
+  pageSize: number;
+  pageSizes?: Array<number>;
+  query?: string;
+  orderBy: string;
+  disabledColumns?: string[];
+  enabledColumns?: string[];
+}
+
+export type CarbonDataTableWithUrlStateProps<
+  ITEM_TYPE extends ListItem,
+  ADDITIONAL_PROPS extends Object
+> = UrlStateParams &
+  ADDITIONAL_PROPS & {
+    columnDefinitions: ColumnDefinition<ITEM_TYPE>[];
+    get: (data: any) => Observable<Result<PaginatedResult<ITEM_TYPE>>>;
+    isSearchable?: boolean;
+    searchText?: string;
+    noDataHeader?: string;
+    noDataDescription?: string;
+    errorHeader?: string;
+    toolBarContent?: JSX.Element | boolean;
+    actionButtonContent?: JSX.Element | boolean;
+    isFilterable?: boolean;
+    filters?: JSX.Element | null;
+    onFilterApply?: () => void;
+    onFilterCancel?: () => void;
+    loading?: boolean;
+  };
+
+export interface CarbonDataTablePresenterProps<ITEM_TYPE extends ListItem> {
+  columnDefinitions: ColumnDefinition<ITEM_TYPE>[];
   result: Result<PaginatedResult<ITEM_TYPE>>;
-  optionalColumns?: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
-  disabledColumns: string[];
-  enabledColumns: string[];
+  optionalColumns?: ColumnDefinition<ITEM_TYPE>[];
   getRowDetails?: ((result: any) => ReactNode) | ReactNode;
-  onChange: (change: Partial<ServerTableUrlState>) => void;
   loading?: boolean;
 }
 
-export interface CarbonHeader<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>> {
+export interface CarbonHeader<ITEM_TYPE extends ListItem> {
   key: string;
   header: string | ReactNode;
   isSortable?: boolean;
-  getContent?: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>['getContent'];
+  getContent?: ColumnDefinition<ITEM_TYPE>['getContent'];
   sortDirection?: OrderDirection | 'NONE';
   defaultOrderDirection?: OrderDirection;
   noWrap?: boolean;
@@ -85,9 +101,9 @@ export interface BatchActionItemProps {
   onClick: (selectedIds: string[]) => JSX.Element;
 }
 
-export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>> {
+export interface CarbonDataTableProps<ITEM_TYPE extends ListItem> {
   rows: CarbonRow[];
-  headers: CarbonHeader<ITEM_TYPE, PROPS_TYPE>[];
+  headers: CarbonHeader<ITEM_TYPE>[];
   isLoading?: boolean;
   query?: string;
   isSearchable?: boolean;
@@ -98,7 +114,7 @@ export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PROPS_TYPE ext
   toolBarContent?: JSX.Element | boolean;
   configureColumnContent?: JSX.Element | boolean;
   actionButtonContent?: JSX.Element | boolean;
-  filterRows?: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  searchRows?: (value: React.ChangeEvent<HTMLInputElement>) => void;
   sortRow?: (sortState: { sortDirection: string; sortHeaderKey: string }) => void;
   errorContent?: JSX.Element | boolean;
   noDataHeader?: string;
@@ -109,19 +125,32 @@ export interface CarbonDataTableProps<ITEM_TYPE extends ListItem, PROPS_TYPE ext
   isFilterable?: boolean;
   filters?: JSX.Element;
   onFilterApply?: () => void;
+  onFilterCancel?: () => void;
+  fixedLayout?: boolean;
 }
 
-export interface ConfigureColumnsProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>> {
-  columnDefinitions: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
-  visibleColumns: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>[];
+export interface ConfigureColumnsProps<ITEM_TYPE extends ListItem> {
+  columnDefinitions: ColumnDefinition<ITEM_TYPE>[];
+  visibleColumns: ColumnDefinition<ITEM_TYPE>[];
   disabledColumns: string[];
   isResultLoading?: boolean;
   onSubmit: (change: Partial<ServerTableUrlState>) => void;
 }
 
-export interface ConfigureColumnsTearsheetProps<ITEM_TYPE extends ListItem, PROPS_TYPE extends TableProps<ITEM_TYPE>>
-  extends ConfigureColumnsProps<ITEM_TYPE, PROPS_TYPE> {
+export interface ConfigureColumnsTearsheetProps<ITEM_TYPE extends ListItem> extends ConfigureColumnsProps<ITEM_TYPE> {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface Cell {
+  id: string;
+  value: string | CellValue;
+  isEditable: boolean;
+  isEditing: boolean;
+  isValid: boolean;
+  errors: null | Array<Error>;
+  info: {
+    header: string;
+  };
 }
 
 export interface CellValue {
@@ -132,13 +161,7 @@ export interface CellValue {
 
 export interface Row {
   id: string;
-  cells: {
-    id: string;
-    info: {
-      header: string;
-    };
-    value: string | CellValue;
-  }[];
+  cells: Cell[];
   disabled?: boolean;
   isExpanded?: boolean;
   isSelected?: boolean;
@@ -158,3 +181,24 @@ export interface Option {
 }
 
 export type FilterId = 'type' | 'location' | 'association' | 'application';
+
+export type SelectionProps =
+  | {
+      checked?: boolean;
+      onSelect: any;
+      id: string;
+      name: string;
+      ariaLabel: any;
+      'aria-label': any;
+      disabled?: boolean;
+      radio?: boolean;
+    }
+  | {
+      ariaLabel: any;
+      'aria-label': any;
+      checked: boolean;
+      id: string;
+      indeterminate: boolean;
+      name: string;
+      onSelect: any;
+    };

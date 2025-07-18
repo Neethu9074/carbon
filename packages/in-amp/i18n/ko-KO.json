@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "Instana의 공정 사용 정책에 대해 자세히 알아보기",
+      "titleNew": "데이터 소비에 대해 자세히 알아보기",
       "leftTitle": "공정 사용 정책의 개념",
       "rightTitle": "데이터를 더 구매하려면 어떻게 해야 합니까?",
       "leftBody": "Instana의 공정 사용 정책은 라이센스 유형과 관련된 월별 데이터 충당금을 간략하게 설명합니다. 자세한 내용을 알아보고 리소스 사용 가이드라인을 살펴보려면 <fupDocLink>공정 사용 정책 문서</fupDocLink>를 확인하십시오.",
@@ -173,6 +174,30 @@
         "daysActive": "활성 일",
         "notProvided": "(제공되지 않음)"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "계정 및 청구",
+    "tabs": {
+      "usage": "사용량",
+      "technologiesReporting": "기술 보고",
+      "accountInformation": "계정 정보",
+      "entitlements": "인타이틀먼트",
+      "activeEntitlements": "활성 자격",
+      "queuedEntitlements": "대기열에 추가된 자격",
+      "expiredEntitlements": "만료된 자격",
+      "activationAdoption": "활성화 및 채택",
+      "customerAdoption": "고객 채택",
+      "userUsage": "사용자 사용"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "시작 날짜",
+      "endDate": "종료 날짜",
+      "standardHosts": "표준 호스트",
+      "essentialHosts": "필수 호스트"
+    },
+    "emptyPage": {
+      "subtitle": "사용 가능한 데이터 없음"
     }
   }
 }

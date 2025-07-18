@@ -10,7 +10,7 @@ import { Stack, Typography } from '@instana/components';
 import { Button } from '@instana/carbon';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { SloFormSideEffectsReturnType } from 'in-service-levels/hooks/useSloFormSideEffects';
+import type { SloFormSideEffectsReturnType } from 'in-service-levels/hooks/useSloFormSideEffects';
 import { t } from 'in-i18n';
 
 interface SloFormMissingDataPreviewProps {

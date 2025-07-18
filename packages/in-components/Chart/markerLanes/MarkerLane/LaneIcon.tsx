@@ -72,6 +72,7 @@ export default function LaneIcon<EventType extends MarkerLaneEvent>({
             }
             aria-label={t('in-components:chart.chartMarkerLane.openList')}
             aria-haspopup="true"
+            aria-hidden={false}
             aria-expanded={isOpen}
             type={showIconForCluster ? iconConfig.typeCluster : iconConfig?.type}
             color={iconConfig?.color}

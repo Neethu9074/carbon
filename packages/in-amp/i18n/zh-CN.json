@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "了解更多关于 Instana 的公平使用政策",
+      "titleNew": "了解有关数据消耗的更多信息",
       "leftTitle": "什么是公平使用政策？",
       "rightTitle": "如何购买更多数据？",
       "leftBody": "Instana 的公平使用政策列出了与您的许可证类型相关的每月数据限额。 要了解更多信息并探索资源使用指南，请查看<fupDocLink>公平使用政策文档</fupDocLink>。",
@@ -173,6 +174,30 @@
         "daysActive": "处于活动状态的天数",
         "notProvided": "（未提供）"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "账户和记账",
+    "tabs": {
+      "usage": "用法",
+      "technologiesReporting": "技术报告",
+      "accountInformation": "账户信息",
+      "entitlements": "权利",
+      "activeEntitlements": "有效权利",
+      "queuedEntitlements": "排队的权利",
+      "expiredEntitlements": "过期的权利",
+      "activationAdoption": "激活和采用",
+      "customerAdoption": "客户采用",
+      "userUsage": "用户使用情况"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "standardHosts": "标准主机",
+      "essentialHosts": "必要的主机"
+    },
+    "emptyPage": {
+      "subtitle": "无可用数据"
     }
   }
 }

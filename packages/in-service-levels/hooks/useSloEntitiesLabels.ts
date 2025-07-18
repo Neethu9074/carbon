@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ServiceLevelObjectiveConfiguration, Result } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration, Result } from '@instana/types';
 import { combineLatest } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { loadEntities } from 'in-service-levels/utils/loadEntities';
+import type { LabeledEntity } from 'in-service-levels/types';
 import { pendingResult } from 'in-services/fixedObjects';
-import { LabeledEntity } from 'in-service-levels/types';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
 

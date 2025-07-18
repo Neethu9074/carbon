@@ -24,7 +24,8 @@ import {
   GroupPermissionEntity,
   DNSQueryType,
   SyntheticTestFilterOperator,
-  LocationStatus
+  LocationStatus,
+  TimeConfig
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
@@ -983,4 +984,18 @@ export interface FilterConfig {
   isOpen: boolean;
   selectedOptions: string[];
   options: { label: string; value: string }[];
+}
+
+export interface TestListProps {
+  timeConfig: TimeConfig;
+  runType?: string;
+  syntheticTypes?: string[];
+  locationIds: string[];
+  applicationIds?: string[];
+  entityIds?: string[];
+  associations?: {
+    applications: string[];
+    websites: string[];
+    mobileApps: string[];
+  };
 }

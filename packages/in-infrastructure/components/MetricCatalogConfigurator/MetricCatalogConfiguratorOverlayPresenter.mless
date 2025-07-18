@@ -28,3 +28,24 @@
     height: 1rem;
   }
 }
+
+.crossSeriesAggregationToggle {
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+
+  color: @inactive-color;
+  font-weight: normal;
+  opacity: 0.5;
+
+  &.enabled {
+    opacity: 1;
+  }
+
+  &.active {
+    color: #24a148;
+    font-weight: bold;
+  }
+}
+
+@inactive-color: #8c8c8c;

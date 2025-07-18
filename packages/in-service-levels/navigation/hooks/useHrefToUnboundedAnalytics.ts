@@ -4,12 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
+import type {
   TimeConfig,
-  isApplicationSloEntity,
   ApplicationSloEntity,
   WebsiteSloEntity,
-  isWebsiteSloEntity,
   BlueprintType,
   AggregationType,
   Group,
@@ -19,28 +17,24 @@ import {
   SloEntityUnion,
   TagFilterExpressionElementUnion
 } from '@instana/types';
+import { isApplicationSloEntity, isWebsiteSloEntity } from '@instana/types';
 
 import {
   analyzePathFullyQualified as websiteAnalyzePathFullyQualified,
   analyzePath as websiteAnalyzePath
 } from 'in-websites/navigation/paths';
-import {
-  ChartMetric,
-  createChartedMetric,
-  createGroupBy,
-  createMetricField,
-  MetricField
-} from 'in-analyze/navigation/paths';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import { createChartedMetric, createGroupBy, createMetricField } from 'in-analyze/navigation/paths';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { analyze as applicationAnalyzePath } from 'in-analyze/navigation/constants';
 import { ServiceLevelErrors, defaultBlueprint } from 'in-service-levels/constants';
 import { toSimplifiedFormModelElements } from 'in-service-levels/utils/tagFilter';
+import type { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { hiddenCallsMatrixParameter } from 'in-applications/navigation/matrix';
+import type { ChartMetric, MetricField } from 'in-analyze/navigation/paths';
 import { isAggregatedServiceLevelIndicator } from 'in-service-levels/types';
-import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { entityTypes } from 'in-analyze/applicationFilter';

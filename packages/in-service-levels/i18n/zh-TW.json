@@ -1,7 +1,14 @@
 {
   "general": {
+    "errorEmptyListStateTitle": "出了一些問題",
+    "errorEmptyListStateSubtitle": "發生非預期的錯誤。 請重新整理頁面或稍後重試。",
+    "errorEmptyListStateIllustrationDescription": "顯示無法使用的資料",
+    "noDataEmptyListStateTitle": "找不到任何結果",
+    "noDataEmptyListStateSubtitle": "請嘗試調整您的搜尋條件，找到您要尋找的項目。",
+    "noDataEmptyListStateIllustrationDescription": "顯示無法使用的資料",
     "addButtonLabel": "新增",
     "addButtonLabel_slo": "新增服務水準目標",
+    "addButtonLabel_correctionWindow": "新增校正視窗",
     "addButtonLabel_smartAlert": "新增智慧型警示",
     "aggregation": "聚集",
     "availability": "可用性",
@@ -11,11 +18,16 @@
     "custom": "自訂",
     "duration": "持續時間",
     "from": "從",
+    "all": "全部",
+    "createButtonLabel": "建立",
     "saveButtonLabel": "儲存",
     "cancelButtonLabel": "取消",
     "editButtonLabel": "編輯",
     "copyButtonLabel": "複製",
+    "nextButtonLabel": "下一步",
+    "backButtonLabel": "上一步",
     "deleteButtonLabel": "刪除",
+    "nameCopyTemplate": "{{name}} 的副本",
     "select": "選取 $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "未選取任何項目",
     "loadMore": "載入更多",
@@ -78,6 +90,7 @@
     "type": "類型",
     "selectLabel": "選項：{{selectedLabel}}",
     "serviceLevelObjective": "服務水準目標",
+    "timePickerDisabledTooltip": "本頁面所顯示的資料一律反映每個 SLO 最近的 SLO 時間範圍。",
     "timeWindow": {
       "type": "不明",
       "type_fixed": "已修正",
@@ -108,6 +121,12 @@
       "size_day_1": "{{count}} 天",
       "size_day_2": "{{count}} 天"
     },
+    "filtering": {
+      "clearFilters": "清除過濾器",
+      "filterLabel": "過濾器",
+      "clearLabel": "清除",
+      "filterClose": "關閉"
+    },
     "metrics": {
       "status": "狀態",
       "remainingBudget": "剩餘",
@@ -124,7 +143,51 @@
       "goodEvents": "良好事件",
       "badEvents": "不當事件",
       "erroneousCalls": "錯誤呼叫",
-      "beaconErrorCount": "引標錯誤計數"
+      "beaconErrorCount": "引標錯誤計數",
+      "correctionWindows": "校正視窗"
+    },
+    "frequency": {
+      "label": "不明",
+      "label_0": "每年",
+      "label_1": "每月",
+      "label_2": "每週一次",
+      "label_3": "每天一次",
+      "label_ONE_TIME": "僅一次"
+    },
+    "durationUnit": {
+      "label_minute": "分鐘",
+      "label_hour": "小時",
+      "label_day": "天數"
+    },
+    "daysOfTheWeek": {
+      "label_0": "星期一",
+      "label_1": "星期二",
+      "label_2": "星期三",
+      "label_3": "星期四",
+      "label_4": "星期五",
+      "label_5": "星期六",
+      "label_6": "星期日"
+    },
+    "dayInterval": {
+      "label_1": "第一個",
+      "label_2": "秒",
+      "label_3": "第三",
+      "label_4": "第四個",
+      "label_-1": "前次"
+    },
+    "month": {
+      "label_1": "一月",
+      "label_2": "二月",
+      "label_3": "三月",
+      "label_4": "四月",
+      "label_5": "五月",
+      "label_6": "六月",
+      "label_7": "七月",
+      "label_8": "八月",
+      "label_9": "九月",
+      "label_10": "十月",
+      "label_11": "十一月",
+      "label_12": "十二月"
     },
     "format": {
       "unit_application": "呼叫",
@@ -202,7 +265,6 @@
     "nameAndTagsTitle": "設定詳細資料",
     "sloNameLabel": "SLO 名稱",
     "sloNamePlaceholder": "輸入名稱",
-    "sloNameCopyTemplate": "{{name}} 的副本",
     "tagsLabel": "標籤（選用項目）",
     "messages": {
       "creationSuccessfulTitle": "已順利建立 SLO 配置",
@@ -244,6 +306,15 @@
     }
   },
   "sloChart": {
+    "correctionWindowsLane": {
+      "correctionWindows": "校正視窗",
+      "correctionWindow": "校正視窗",
+      "correctionWindow_plural": "校正視窗",
+      "correctionWindow_0": "校正視窗",
+      "correctionWindow_1": "校正視窗",
+      "correctionWindow_2": "校正視窗",
+      "tootltipMessage": "+{{count}} more $t(in-service-levels:sloChart.correctionWindowsLane.correctionWindow, {\"count\": \"{{count}}\"})"
+    },
     "sloFormatter": {
       "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
       "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}\" })"
@@ -277,9 +348,6 @@
     "components": {
       "sloListTable": {
         "serviceLevelsCreateButton": "建立服務水準目標",
-        "filterLabel": "過濾器",
-        "clearLabel": "清除",
-        "filterClose": "關閉",
         "sloListErrorTitle": "出了一些問題",
         "sloListErrorDescription": "發生非預期的錯誤。 請重新整理頁面或稍後重試。",
         "emptyListStateTitle": "找不到任何結果",
@@ -297,13 +365,9 @@
         "endpoint": "端點：{{label}}",
         "tooltip": "{{context}} SLO"
       },
-      "statusFilter": {
-        "sloStatusAll": "全部"
-      },
       "sloTagFilter": {
         "placeholder": "選取標籤",
         "noTagsInfo": "沒有可用的標籤",
-        "clearFilters": "清除過濾器",
         "filters": "未知過濾器",
         "filters_entityType": "實體類型：$t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
         "filters_blueprint": "藍圖：$t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
@@ -338,7 +402,16 @@
   "hooks": {
     "useDoDeleteSloConfiguration": {
       "success": "已順利刪除 SLO 配置。",
-      "failure": "無法刪除 SLO"
+      "failure": "刪除 SLO 失敗。"
+    },
+    "useDoDeleteCorrectionConfiguration": {
+      "success": "校正視窗已成功刪除。",
+      "failure": "刪除校正視窗失敗。"
+    },
+    "useToggleCorrectionConfiguration": {
+      "success_enabled": "校正視窗 \"{{name}}\" 已成功啟用。",
+      "success_disabled": "校正視窗 \"{{name}}\" 已成功停用。",
+      "failure": "切換校正視窗失敗"
     }
   },
   "sloDashboard": {
@@ -348,7 +421,8 @@
     "tabs": {
       "summaryLabel": "摘要",
       "configurationLabel": "配置",
-      "smartAlertsLabel": "智慧型警示"
+      "smartAlertsLabel": "智慧型警示",
+      "correctionWindowsLabel": "校正視窗"
     },
     "timeWindowSelection": {
       "timeWindow": "不明選項",
@@ -368,7 +442,7 @@
         "totalTraffic": "總計：{{value}}"
       },
       "burnRateKpiCard": {
-        "burnRateInfo": "選取的 SLO 時間視窗內的消耗率"
+        "burnRateInfo": "選取的 SLO 時間範圍內的消耗率"
       },
       "errorBudgetChart": {
         "title": "錯誤預算"
@@ -438,5 +512,89 @@
         "startTimeLabel": "開始時間"
       }
     }
+  },
+  "correctionWindowsList": {
+    "createButtonLabel": "建立校正視窗",
+    "enabled": "已啟用",
+    "disabled": "已停用",
+    "recurrent": "重現",
+    "oneTime": "一次性",
+    "slosAppliedSubtitle": "{{count}} 個套用的 SLO",
+    "slosAppliedSubtitle_plural": "{{count}} 個套用的 SLO",
+    "columnLabels": {
+      "name": "名稱",
+      "recurrence": "重複出現",
+      "nextOccurrence": "下次開始日期和時間",
+      "duration": "持續時間",
+      "state": "狀態",
+      "stateTooltip": "作用中校正視窗套用修正計算。 這不會變更資料收集。"
+    },
+    "schedule": "排程",
+    "description": "說明",
+    "slosApplied": "套用的 SLO ({{count}})",
+    "searchSlosApplied": "搜尋服務水準目標",
+    "searchCorrectionWindows": "搜尋校正視窗"
+  },
+  "configureCorrectionWindowDialog": {
+    "validators": {
+      "daysOfTheWeek": "必須至少選取一天。",
+      "startAndEndDate": "結束日期必須晚於開始日期。"
+    },
+    "components": {
+      "scopeSection": {
+        "title": "定義範圍",
+        "secondaryLabel": "伺服器配接卡的",
+        "subtitle": "此視窗應套用於哪些服務水準目標？"
+      },
+      "scheduleSection": {
+        "title": "排程視窗",
+        "subtitle": "校正視窗應該何時進行？",
+        "stepDescription": "排程校正視窗以修正錯誤，並防止使用錯誤預算。 這段時間內的任何警示都會暫停。",
+        "startDate": "開始日期",
+        "frequency": "校正視窗重複出現",
+        "allDay": "全天",
+        "startTime": "開始時間",
+        "windowDuration": "視窗持續時間",
+        "correctionWindowName": "校正視窗名稱",
+        "name": "名稱",
+        "description": "說明",
+        "recurrenceOptions": "重複出現選項",
+        "repeatUntil": "重複至",
+        "endDate": "結束日期",
+        "numberOfOccurrences": "出現數目",
+        "forever": "永久",
+        "occurrences": "出現項目數",
+        "month": "月",
+        "select": "選取",
+        "date": "日期",
+        "byDate": "依日期",
+        "byDay": "依日期",
+        "repeatEvery": "重複間隔",
+        "repeatOnEvery": "重複執行，每隔",
+        "days": "天數",
+        "weeks": "週",
+        "day": "日",
+        "ofTheMonth": "/每月",
+        "daysOfTheWeek": "星期幾"
+      }
+    },
+    "title": {
+      "create": "建立校正視窗",
+      "edit": "編輯校正視窗"
+    },
+    "messages": {
+      "successfulTitle_NEW": "校正視窗已成功建立",
+      "successfulContent_NEW": "已建立校正視窗 \"{{name}}\"。",
+      "successfulTitle_CLONE": "$t(in-service-levels:configureCorrectionWindowDialog.messages.successfulTitle, {\"context\":\"NEW\"})",
+      "successfulContent_CLONE": "$t(in-service-levels:configureCorrectionWindowDialog.messages.successfulContent, {\"context\":\"NEW\", \"name\":\"{{name}}\"})",
+      "successfulTitle_EDIT": "校正視窗已成功編輯",
+      "successfulContent_EDIT": "已編輯校正視窗 \"{{name}}\"。"
+    }
+  },
+  "sloListSelection": {
+    "filters": "不明",
+    "filters_entityType": "實體類型：$t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "entityType": "實體類型",
+    "searchSlos": "搜尋服務水準目標"
   }
 }

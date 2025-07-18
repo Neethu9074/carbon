@@ -9,6 +9,9 @@
   "recommendedActions": "建議的動作",
   "recommendedOptimizationsWithCount": "建議的資源動作 ({{count}})",
   "recommendedOptimizations": "建議的資源動作",
+  "emptyRecommendedActions": "無建議動作",
+  "emptyRecommendedActionsDescription1": "我們沒有找到任何可以針對此發生事件提出建議的原則或演算法。",
+  "emptyRecommendedActionsDescription2": "若要讓 AI 建立動作，請按一下<strong>產生動作</strong>；若要手動建立原則，請按一下<strong>建立原則<strong>。",
   "actionName": "動作名稱",
   "validVaultParameter": "標示為選用的儲存庫參數必須同時空白或兩者都不是空白。",
   "runAction": "執行動作",
@@ -94,7 +97,7 @@
   "actions": "動作",
   "actionsWithCount": "動作 ({{count}})",
   "titleUrl": "URL",
-  "generateWithWatsonx": "透過 watsonx 生成",
+  "generateWithWatsonx": "產生動作",
   "createPolicyWithName": "檢視動作 {{actionName}} 並建立原則",
   "viewActionCreatePolicy": "檢視動作並建立原則",
   "titleContentReadOnly": "產生的內容（唯讀）",
@@ -104,11 +107,9 @@
   "playbookId": "Playbook ID",
   "gitType": "Git 類型",
   "gitUrl": "Git URL",
-  "triggeringEvent": "觸發事件",
-  "probableRootCause": "可能的主要原因",
-  "contextFor": "環境定義為：",
   "backToPolicies": "回到原則",
   "backToEvent": "回到事件",
+  "backToActionCatalog": "回到動作型錄",
   "recommendation": "建議",
   "userCreated": "已建立使用者",
   "successRate": "成功率",
@@ -120,6 +121,9 @@
   "deletePolicy": "刪除原則",
   "viewActionDashboard": "檢視動作儀表板",
   "createPolicy": "建立原則",
+  "triggeringEvent": "觸發事件",
+  "probableRootCause": "可能的主要原因",
+  "contextFor": "環境定義為：",
   "recommendedActionsExplanability": {
     "linkExplanation": "Instana 使用演算法和整合來建議事件動作。",
     "link": "進一步瞭解每種推薦類型。",
@@ -139,7 +143,7 @@
     "actionConfiguration": "動作配置",
     "actionDetails": "提供動作詳細資料",
     "Step1HeadlineSelectAction": "從 watsonx 產生的內建動作開始，為這個事件建立新的動作。",
-    "Step1HeadlinePrompt": "使用 watsonx 產生手動動作，以處理事件相關資訊，並協助診斷或修復問題。 您可以編輯事件詳細資料，為 AI 提供更豐富的資訊。 在 <Link>IBM 文件</Link>中進一步瞭解。",
+    "Step1HeadlinePrompt": "使用 AI 產生手動動作，以處理事件相關資訊，並協助診斷或解決問題。 您可以編輯事件詳細資料，為 AI 提供更豐富的資訊。 在 <Link >IBM 文件</Link>中進一步瞭解。",
     "Step2Headline": "在將其儲存到動作型錄之前，指定動作詳細資料或進行變更。",
     "Step3Headline": "您可以選擇在動作中建立自動化原則。 也可以稍後再完成此步驟。",
     "step1Title": "步驟 1：產生或選取動作",
@@ -167,9 +171,9 @@
     "eventName": "事件名稱",
     "eventDescription": "事件說明",
     "eventEntityType": "事件實體類型",
-    "noDataAvailableLive": "若要在此查看 watsonx 的結果，請按一下<strong>產生</strong>。",
+    "noDataAvailableLive": "若要在此檢視 AI 的結果，請按一下<strong>產生</strong>。",
     "noDataAvailableSelectAction": "進行選擇以查看內容。",
-    "watsonxLoadingContent": "watsonx 正在產生內容",
+    "watsonxLoadingContent": "AI 正在產生內容",
     "confirmButtonLabel": "取消",
     "cancelButtonLabel": "繼續編輯",
     "noResultsYet": "尚無任何結果",
@@ -185,17 +189,17 @@
       "step2Title": "步驟 2：產生 script",
       "step3Title": "步驟 3：建立動作或匯出至外部來源",
       "step1Headline": "選取您想要為其產生 Script 的手動動作步驟。 您可以在下一個步驟對手動動作步驟進行編輯。",
-      "step2Headline1": "檢閱動作步驟的詳細資料並進行所需的任何編輯。 然後按一下「產生」，即可從 watsonx 看到結果。",
+      "step2Headline1": "檢閱動作步驟的詳細資料並進行所需的任何編輯。 然後按一下「產生」以查看 AI 的結果。",
       "step2Headline2": "您可以再次編輯並產生，以查看不同的結果。 在 <Link>IBM 文件</Link>中進一步瞭解。",
       "step3Headline": "建立動作或匯出 Script 到外部來源",
       "step3HeadlineAnsible": "將 Script 匯出至外部來源",
-      "noDataAvailableLive": "若要在此查看 watsonx 的結果，請按一下<strong>產生</strong>。",
+      "noDataAvailableLive": "若要在此檢視 AI 的結果，請按一下<strong>產生</strong>。",
       "generateScriptButton": "產生 Script",
       "generateButton": "產生",
       "titleGeneratedCodeReadOnly": "產生的程式碼（唯讀）",
       "promptTitle": "提示",
       "generateScriptTileHeader": "從手動動作步驟產生 Script",
-      "generateScriptTileDescription": "使用 watsonx AI，您可以透過手動動作步驟快速建立 bash Script 作為提示，並透過幾個簡短的步驟將其新增至您的動作型錄。",
+      "generateScriptTileDescription": "使用 AI，您可以從手動動作步驟中快速建立一個 Bash Script 作為提示，並透過幾個簡單的步驟將其新增到您的動作型錄中。",
       "createActionOption": "建立動作",
       "toGithub": "匯出至 GitHub",
       "toGitLab": "匯出至 GitLab"
@@ -387,6 +391,7 @@
     "goToActionHistory": "移至動作歷程",
     "actionHistoryWithCount": "動作歷程 ({{count}})",
     "noActionInstances": "沒有可用的資料",
+    "incidentActionHistory": "發生事件動作歷程",
     "external": "外部",
     "name": "名稱",
     "type": "類型",
@@ -548,7 +553,8 @@
     "efficiency_improvement": "提高效率",
     "savings": "節省",
     "performance": "效能",
-    "performance_assurance": "效能保證"
+    "performance_assurance": "效能保證",
+    "unknown": "不明"
   },
   "resourceOptimization": {
     "details": "資源最佳化詳細資料",
@@ -599,16 +605,12 @@
     "manualActionTip": "<strong>提示</strong>：您可以更新事件資訊，並再次產生，以查看不同的結果。",
     "scriptTip": "<strong>提示</strong>：您可以更新提示並再次產生，以查看不同的結果。"
   },
-  "consentForm": {
-    "consentButton": "審核同意表單",
-    "consentText": "管理者必須同意 Generative AI Assistance Preview 隱私權協議才能啟用此功能。"
-  },
   "AITooltip": {
     "aiExplained": "AI 說明",
     "manualSection": {
       "section1": {
         "section1Title": "動作產生",
-        "section1Text": "為了產生一組手動步驟來診斷或修復問題，我們會將事件資訊傳送至 watsonx。  用於制定 AI 提示的輸入資料最初是從現行的事件中移入，並且可以進行修改以改善結果。"
+        "section1Text": "為了產生一套手動步驟來診斷或修復問題，我們會將事件資訊傳送給 AI。  用於制定 AI 提示的輸入資料最初是從現行的事件中移入，並且可以進行修改以改善結果。"
       },
       "section2": {
         "section2Title": "輸入提示欄位",
@@ -625,7 +627,7 @@
     },
     "scriptSection": {
       "section1": {
-        "section1Text": "為了產生 Script，我們會將手動動作步驟的指示傳送到 watsonx。 可以修改步驟來改善結果。"
+        "section1Text": "為了產生 Script，我們將手動動作步驟的指令傳送給 AI。 可以修改步驟來改善結果。"
       },
       "section3": {
         "section3Text": "這是一個預覽功能，它提供了執行動作的建議 Script。 您應該確定輸出是否符合您的需求。"

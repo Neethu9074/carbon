@@ -1,4 +1,5 @@
 {
+  "tooltipCopyToClipboard": "Copiar en el portapapeles",
   "dialog": {
     "createTest": {
       "buttonLabel": "Añadir prueba sintética",
@@ -27,6 +28,7 @@
         "popSubTitle": "Punto de presencia",
         "uploadScriptTitle": "Cargar el script",
         "failureToReadFileContent": "No se ha podido leer el contenido del archivo: {{error}}",
+        "unsupportedFileFormat": "El archivo {{extension}} no está admitido",
         "emptyScriptFileError": "Código vacío. No hay nada que validar.",
         "enterTheScriptMessage": "Entre el script aquí",
         "privatePoPLabel": "Privada",
@@ -153,6 +155,7 @@
         "scheduleTitle": "Planificación: ¿Cómo se ejecutará esta prueba?",
         "identifyLabel": "Identificar",
         "identifyTitle": "Identificar: ¿Qué va a hacer la prueba?",
+        "teamsCalloutMessage": "Al añadir equipos, los permisos de los miembros del equipo se basarán en los roles asignados dentro del equipo. Las pruebas con equipos asociados también se reflejarán en la página de equipos en la configuración.",
         "customPropertiesTitle": "Propiedades personalizadas (opcional)",
         "frequency": "Esta prueba se ejecutará cada {{frequencyValue}} minutos.",
         "frequencyHours": "Esta prueba se ejecutará cada {{frequencyHours}} horas.",
@@ -190,7 +193,7 @@
           "buttonBack": "Atrás",
           "buttonSave": "Guardar",
           "uploadFileLabel": "Cargar archivo",
-          "uploadFileDescription": "Puede cargar un único archivo .js o un archivo .zip de archivos .js agrupados.",
+          "uploadFileDescription": "Puede cargar un único archivo .js o .cjs, o un archivo .zip que contenga archivos .js o .cjs agrupados.",
           "node22UploadFileDescription": "Puede cargar un único archivo .js, .cjs o .mjs, o un archivo .zip que contenga archivos .js, .cjs o .mjs empaquetados.",
           "scriptDescription": "El script cargado aparecerá aquí, o puede especificarlo manualmente a continuación.",
           "validScriptMessage": "El script es válido.",
@@ -199,7 +202,7 @@
           "mainFileNameLabel": "Especifique el nombre del archivo principal",
           "invalidMainFileName": "Nombre de archivo principal no válido",
           "webpageUrl": "URL de página web",
-          "browserUploadFileDescription": "Puede cargar un único archivo .js, un archivo .zip de archivos .js agrupados o un script .side grabado por SeleniumIDE.",
+          "browserUploadFileDescription": "Puede cargar un único archivo .js o .cjs, un archivo .zip que contenga archivos .js o .cjs agrupados, o un script .side grabado por Selenium IDE.",
           "node22BrowserUploadFileDescription": "Puede cargar un único archivo .js, .cjs o .mjs, un archivo .zip que contenga archivos .js, .cjs o .mjs empaquetados, o un script .side grabado por Selenium IDE.",
           "sideFileUploadedMessage": "Los scripts de Selenium no se pueden modificar ni validar",
           "bundleFileNotSupportedMessage": "Se ha seleccionado un archivo no soportado. Los paquetes solo están admitidos en el modo avanzado.",
@@ -312,7 +315,10 @@
         "applicationsTitle": "Asociar: Seleccione las aplicaciones que desea asociar a esta prueba sintética",
         "applicationsDescription": "Al asociar una prueba sintética a una aplicación, se conceden derechos de acceso a todos los usuarios que tienen acceso a esa aplicación.",
         "associationsTitle": "Asociar: Seleccione lo que desea asociar con esta prueba sintética (opcional)",
-        "associationsDescription": "Al asociar una prueba sintética a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades."
+        "associationsDescription": "Al asociar una prueba sintética a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades.",
+        "teamsLabel": "Equipos",
+        "teamsTitle": "Equipos: Seleccione los equipos que desea asociar con esta prueba (opcional)",
+        "teamsDescription": "Seleccione los equipos que desea asociar con esta prueba."
       },
       "associations": {
         "applicationsTitle": "Seleccione las aplicaciones que desea asociar a esta prueba sintética",
@@ -335,7 +341,19 @@
         "applicationsTableTitle": "Aplicaciones",
         "websitesTableTitle": "Sitios web",
         "mobileAppsTableTitle": "Aplicaciones móviles"
-      }
+      },
+      "createSyntheticTest": "Crear prueba sintética"
+    },
+    "createOnDemandTest": {
+      "buttonLabel": "Ejecutar ahora",
+      "createButtonLabel": "Ejecutar prueba",
+      "cancel": "Cancelar",
+      "properties": "Propiedades de configuración",
+      "location": "Ubicación",
+      "iconLabel": "La prueba se está ejecutando",
+      "runnowTitle": "Ejecutar prueba ahora",
+      "multiSelectLabel": "Todas las ubicaciones asignadas",
+      "retryInterval": "Esta prueba volverá a intentar {{retryCount}} después "
     },
     "httpMethods": {
       "get": "GET",
@@ -353,7 +371,9 @@
       "failureMessageUpdate": "No se ha podido actualizar la prueba sintética: {{errorMessage}}",
       "failureMesssageDelete": "No se ha podido suprimir la prueba sintética: {{errorMessage}}",
       "successMessageCICDRerun": "Se ha vuelto a ejecutar correctamente la prueba sintética",
-      "failureMesssageCICDRerun": "No se ha podido volver a ejecutar la prueba sintética: {{errorMessage}}"
+      "failureMesssageCICDRerun": "No se ha podido volver a ejecutar la prueba sintética: {{errorMessage}}",
+      "successMessageCICDCreate": "La prueba de ejecución sintética se ha creado correctamente",
+      "failureMesssageCICDCreate": "No se ha podido crear la prueba de ejecución sintética: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "La ubicación se ha suprimido correctamente",
@@ -368,7 +388,7 @@
       "bundleSavedMessage": "Scripts empaquetados añadidos"
     },
     "createLocation": {
-      "newLocation": "Nueva ubicación",
+      "newLocation": "Añadir ubicación",
       "activate": "Activar",
       "done": "Hecho",
       "stepConfigs": {
@@ -444,9 +464,10 @@
       "failureMesssage": "{{errorMessage}}"
     },
     "createCredential": {
-      "createButton": "Nueva credencial",
+      "createButton": "Crear credencial",
       "nameValue": "Nombre y valor",
       "associations": "Asociaciones",
+      "teams": "Equipos",
       "newCredentials": "Crear una credencial sintética",
       "steps": {
         "textInput": {
@@ -459,7 +480,8 @@
           "placeholder": "Valor de credencial",
           "labelText": "Valor"
         },
-        "associationsDescription": "Al asociar una credencial a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades."
+        "associationsDescription": "Al asociar una credencial a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades.",
+        "teamsStepDescription": "Seleccione los equipos que desea asociar con esta credencial."
       },
       "feedback": {
         "successMessage": "Credencial creada correctamente",
@@ -523,15 +545,18 @@
         "filterLabel": "Aplicaciones",
         "singleAppHeader": "{{ number }} asociación",
         "multiAppHeader": "{{ number }} asociaciones",
-        "noApplicationsAssociated": "No hay aplicaciones asociadas"
+        "noApplicationsAssociated": "No hay aplicaciones asociadas",
+        "noApplicationAssociatedWithTest": "No hay ninguna aplicación asociada con la prueba seleccionada"
       },
       "multiWebDialog": {
         "filterLabel": "Sitios web",
-        "noWebsitesAssociated": "No hay sitios web asociados."
+        "noWebsitesAssociated": "No hay sitios web asociados.",
+        "noWebsiteAssociatedWithTest": "No hay ningún sitio web asociado con la prueba seleccionada"
       },
       "multiMobileDialog": {
         "filterLabel": "Aplicaciones móviles",
-        "noMobileAppsAssociated": "No hay aplicaciones móviles asociadas."
+        "noMobileAppsAssociated": "No hay aplicaciones móviles asociadas.",
+        "nodMobileAppAssociatedWithTest": "No hay ninguna aplicación para móvil asociada con la prueba seleccionada"
       },
       "testLabel": "Nombre",
       "status": "Estado",
@@ -554,7 +579,10 @@
         "singleRun": "Se ejecuta en {{number}} ubicación",
         "multipleRun": "Se ejecuta en {{number}} ubicaciones",
         "warning": "Aviso",
-        "noIssues": "No hay ningún problema"
+        "noIssues": "No hay ningún problema",
+        "locationsSidePanelTitle": "Ubicaciones ({{totalLocations}})",
+        "locationsNameHeader": "Nombre",
+        "locationsHealthHeader": "Estado"
       },
       "associationLabel": "Asociaciones",
       "health": "Estado",
@@ -563,7 +591,29 @@
       "na": "N/A",
       "configureColumns": {
         "title": "Personalización de columnas",
-        "description": "Ahora puede personalizar su tabla de datos de prueba sintética. De este modo, tendrá la flexibilidad para elegir las columnas que desea mostrar y reorganizarlas según sus necesidades."
+        "description": "Ahora puede personalizar su tabla de datos de prueba sintética. De este modo, tendrá la flexibilidad para elegir las columnas que desea mostrar y reorganizarlas según sus necesidades.",
+        "dialog": {
+          "title": "Gestión de columnas ({{enabledCount}}/{{totalCount}})",
+          "description": "Deseleccione las columnas para ocultarlas. Pulse y arrastre el recuadro blanco para reordenar las columnas. Se guardarán estas especificaciones y se conservarán si sale de la tabla de datos y regresa.",
+          "configureButtonLabel": "Configurar columnas",
+          "columnNameLabel": "Nombre de columna",
+          "configurationSuccessTitle": "Visualización personalizada",
+          "configurationSuccessMessage": "La tabla \"columnas\" se ha personalizado.",
+          "configurationErrorTitle": "Pantalla no personalizada",
+          "configurationErrorMessage": "La tabla \"columnas\" no se ha personalizado.",
+          "closeIconDescription": "Cerrar",
+          "saveButtonLabel": "Guardar",
+          "cancelButtonLabel": "Cancelar",
+          "searchPlaceholder": "Buscar columnas",
+          "selectAllLabel": "Seleccionar todo"
+        }
+      },
+      "searchSyntheticTests": "Buscar pruebas sintéticas",
+      "failedToLoadTestsTitle": "No se han podido cargar las pruebas sintéticas",
+      "associationsColumn": {
+        "associationsSidePanelTitle": "Asociaciones ({{totalAssociations}})",
+        "associationsNameHeader": "Nombre",
+        "associationsHealthHeader": "Estado"
       }
     },
     "locationList": {
@@ -800,7 +850,43 @@
       "sslCertificate": {
         "daysRemaining": "Días restantes",
         "timeOfIssue": "Hora de emisión",
-        "timeOfExpiry": "Hora de caducidad"
+        "timeOfExpiry": "Hora de caducidad",
+        "customMetrics": {
+          "titles": {
+            "details": "Detalles",
+            "testDetails": "Detalles de la prueba",
+            "customMetrics": "Métricas personalizadas",
+            "issuedTo": "Emitido a",
+            "issuedBy": "Emitida por",
+            "publicKeyInfo": "Información de clave pública",
+            "fingerprints": "Huellas dactilares",
+            "tls": "Información sobre cifrado y tls",
+            "serialNumber": "Número de serie",
+            "extKeyUsage": "Uso ampliado de clave"
+          },
+          "daysRemaining": "Días restantes:",
+          "valid": "Válido:",
+          "validFrom": "Válido desde:",
+          "validTo": "Válido para:",
+          "commonName": "Nombre común:",
+          "alternativeName": "Nombre alternativo:",
+          "locality": "Localidad:",
+          "organizationUnit": "Unidad organizativa:",
+          "organization": "Organización:",
+          "state": "Estado/Provincia;",
+          "country": "País:",
+          "standardName": "Nombre estándar:",
+          "name": "Nombre de cifrado:",
+          "version": "Versión de TLS:",
+          "fingerprint": "Fingerprint1:",
+          "fingerprint256": "Fingerprint2:",
+          "size": "Tamaño de clave:",
+          "modulus": "Módulo:",
+          "algorithm": "Algoritmo:",
+          "exponent": "Exponente:",
+          "serialNumber": "Número de serie:",
+          "extKeyUsage": "Uso ampliado de clave:"
+        }
       },
       "failedRunErrorTypeTitle": "Tipo de error",
       "viewRecordingLabel": "Ver grabación",
@@ -904,6 +990,7 @@
       "daysRemaining": "Configuración de anomalía",
       "day": "La prueba fallará cuando queden {{daysRemainingCheck}} día de validez del certificado hasta la caducidad",
       "days": "La prueba fallará cuando queden {{daysRemainingCheck}} días de validez del certificado hasta la caducidad",
+      "teams": "Equipos",
       "associations": "Asociaciones",
       "associatedApplications": "Aplicaciones asociadas",
       "noApplicationsAssociated": "No hay aplicaciones asociadas",
@@ -939,7 +1026,7 @@
     },
     "credentialList": {
       "mainLabel": "Credenciales",
-      "name": "Nombre",
+      "name": "Nombre de credencial",
       "associations": "Asociaciones",
       "createdAt": "Creado el",
       "createdBy": "Creado por",

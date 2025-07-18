@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Progress, Error, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import type { Progress, Error, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import {
@@ -17,10 +17,10 @@ import { correctionWindowMetricId } from 'in-service-levels/components/SloDashbo
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
-import { ResultAwareChartMetrics } from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
+import type { ResultAwareChartMetrics } from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { MetricDataSeries } from 'in-components/Chart/types';
+import type { MetricDataSeries } from 'in-components/Chart/types';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { number } from 'in-services/formatters/number';
 import { sloMetrics } from 'in-service-levels/metrics';

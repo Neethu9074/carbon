@@ -70,7 +70,6 @@ export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled')
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
 export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled');
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
-export const blockLogDeletionsEnabled = isFeatureFlagEnabled('blockLogDeletionsEnabled');
 export const logFormattingEnabled = isFeatureFlagEnabled('logFormattingEnabled');
 export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 
@@ -417,3 +416,4 @@ export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   false
 );
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
+export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);

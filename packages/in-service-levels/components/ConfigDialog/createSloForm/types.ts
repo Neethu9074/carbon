@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm, MapPath } from 'formalistic';
+import type { Field, Item, MapForm, MapPath } from 'formalistic';
 
-import {
+import type {
   AggregationType,
   ApplicationBoundaryScope,
   BlueprintType,
@@ -18,8 +18,8 @@ import {
   TrafficIndicatorType
 } from '@instana/types';
 
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { SloBeaconTypes } from 'in-service-levels/types';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import type { SloBeaconTypes } from 'in-service-levels/types';
 
 export type SloFormFields = {
   entity: SloEntityForm;

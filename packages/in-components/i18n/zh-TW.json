@@ -1,4 +1,7 @@
 {
+  "general": {
+    "region": "地區"
+  },
   "accessibility": {
     "opensNewTab": "在新標籤中開啟"
   },
@@ -9,7 +12,8 @@
     "headerAriaLabel": "頁面標頭",
     "contentAriaLabel": "内容",
     "filterAriaLabel": "過濾器",
-    "pageTabsAriaLabel": "頁面標籤"
+    "pageTabsAriaLabel": "頁面標籤",
+    "pageSubMenu": "頁面子功能表"
   },
   "fileInputButton": {
     "label": {
@@ -294,11 +298,17 @@
     "labelRegion": "地區",
     "labelTag": "標籤",
     "labelCommit": "確定",
-    "buttonGraphShowcase": "圖形展示",
     "geo": {
-      "title": "地理資料",
-      "description": "本產品包含透過 MaxMind 建立的 GeoLite2 資料；如需 MaxMind 相關資訊，請造訪 <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>。"
-    }
+      "title": "地理資料"
+    },
+    "ibm": "IBM",
+    "copyRights": "Copyright © IBM Corp. 2020, 2023",
+    "instana": "Instana",
+    "close": "關閉",
+    "maxMindDescription": "本資料包括 GeoLite2 資料，由下列所建立：",
+    "maxMind": "MaxMind.",
+    "dynamicGraphDescription": "查看下列位置中您的環境可視化：",
+    "dynamicGraph": "動態圖形展示。"
   },
   "blueprintFormMultistep": {
     "buttonCancel": "取消",
@@ -364,7 +374,11 @@
     "loadingIndicatorLoadingData": "正在載入資料",
     "tooltipResetView": "重設視圖",
     "tooltipZoomIn": "放大",
-    "tooltipZoomOut": "縮小"
+    "tooltipZoomOut": "縮小",
+    "openTable": "開啟表格",
+    "pageLoads": "頁面載入",
+    "modalContent": "限制模式內容",
+    "unknownTitle": "未分類"
   },
   "groupingConfigurator": {
     "exampleTagCatalogLabelKubernetes": "Kubernetes",
@@ -472,8 +486,10 @@
   "mainNavigation": {
     "skipToMainContent": "跳到主要內容",
     "viewSwitcherLabelSettings": "設定",
+    "viewSwitcherLabelAccountAndBilling": "帳戶及計費",
     "viewSwitcherLabelMore": "更多",
     "viewSwitcherLabelAgents": "代理程式",
+    "viewSwitcherLabelDataSources": "資料來源",
     "viewSwitcherLabelReleaseNotes": "版本注意事項",
     "viewSwitcherLabelDocumentation": "說明文件",
     "viewSwitcherLabelSupport": "支援",
@@ -515,6 +531,7 @@
     "profileMenu_saasConsole": "IBM SaaS 主控台",
     "profileMenu_privacy": "隱私權",
     "profileMenu_logOut": "登出",
+    "profileMenu_switcherContainer": "切換器儲存器",
     "scope_title": "範圍",
     "scope_defaultScope": "預設範圍"
   },
@@ -540,7 +557,8 @@
     "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "分佈",
     "aggregation_PERSECOND": "每秒",
-    "labelFilterEmptyValue": "過濾空值"
+    "labelHideEmptyValues": "隱藏空值",
+    "labelShowEmptyValues": "顯示空值"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "已用",

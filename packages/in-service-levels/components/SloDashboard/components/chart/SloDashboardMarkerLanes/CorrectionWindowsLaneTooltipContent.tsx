@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { CorrectionWindowWithName } from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes//CorrectionWindowsLane';
+import type { CorrectionWindowWithName } from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes//CorrectionWindowsLane';
 import { formatDateTime } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 

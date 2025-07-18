@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { TimeConfig } from '@instana/types';
+import type { TimeConfig } from '@instana/types';
 
 import {
   defaultServiceLevelObjectiveUrlParameters,

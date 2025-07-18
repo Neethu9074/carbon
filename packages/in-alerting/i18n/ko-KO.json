@@ -176,7 +176,8 @@
       "warning": "경고"
     },
     "placeholder": {
-      "severity": "심각도"
+      "severity": "심각도",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "경보 구성",
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510(확장되지 않음)",
       "ruleStatusCodeValueOption511": "511(네트워크 인증 필수)",
       "ruleStatusCodeValueOption599": "599(네트워크 연결 제한시간 오류)",
+      "ruleStatusCodeValueOptionNone": "상태 없음 (클라이언트 중단/실패)",
       "warningThresholdValidator": "경고 임계값은 < 및 <= 연산자의 위험 임계값보다 커야 합니다.",
       "criticalThresholdValidator": "위험 임계값은 > 및 >= 연산자의 경고 임계값보다 커야 합니다.",
       "sensitivityValidator": "위험 민감도는 경고 민감도보다 작아야 합니다."
@@ -796,7 +798,6 @@
         "proceedTitle": "계속",
         "previousTitle": "이전",
         "nextTitle": "다음",
-        "closeTitle": "닫기",
         "sharedListTooltip": "{{typeName}}을(를) 더 이상 사용할 수 없음",
         "clearTagFilterExpressionButton": "지우기",
         "baselineErrorMessageComputedOnApproximateData": "기준선은 데이터 보존 설정으로 인해 대략적인 데이터를 기반으로 계산됩니다. 따라서 선택한 필터와 일치하는 호출이 거의 없는 경우 정확하지 않을 수 있습니다.",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}}개의 표준 편차",
         "labelThreshold": "임계값",
         "multiThresholdAlertNotificationInfo": "임계값을 입력하면 경보 알림이 트리거됩니다.",
+        "advancedSettingsTrayTitle": "고급 설정",
+        "seasonality": "계절성",
+        "seasonalityAuto": "자동",
+        "seasonalityNone": "없음",
+        "seasonalityDaily": "매일",
+        "seasonalityWeekly": "매주",
+        "adaptability": "적응성",
         "warningThresholdLabel": "경고",
         "criticalThresholdLabel": "Critical",
         "labelSensitivity": "감도",
@@ -1002,8 +1010,10 @@
         "summary": "위반 임계값이 더 이상 충족되지 않을 경우 자동으로 문제를 종료합니다."
       },
       "tearSheet": {
-        "cancelModalTitle": "취소하시겠습니까?",
-        "cancelModalDescription": "취소하면 입력한 구성 세부사항이 저장되지 않습니다.",
+        "cancelModalTitle": "취소 확인",
+        "continueEditingTitle": "계속 편집",
+        "cancelEditingTitle": "스마트 경보 구성 취소",
+        "cancelModalDescription": "이 스마트 경보 구성의 편집을 정말로 취소하시겠습니까? 계속 진행하면 입력한 모든 정보가 유실됩니다. 이 조치는 실행 취소할 수 없습니다.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "시간이 지나도 위반이 지속되는 경우",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "위반이 무작위 간격으로 지속됨",
@@ -1083,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "사용자 정의 이벤트에 대한 자동 경보",
         "customEventBlueprintConfigText": "특정 사용자 정의 이벤트가 보통보다 자주 발생할 때마다 경보를 수신합니다.",
         "customEventBlueprintConfigIncompleteRuleMessage": "이 경보가 트리거되는 시기를 확인하려면 사용자 정의 이벤트를 선택하십시오.",
-        "customEventBlueprintConfigMetricLabel": "발생 횟수",
         "simpleModeBlueprintConfigsUnexpectedDropName": "낮은 페이지 로드 횟수",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "비정상적으로 낮은 페이지 로드 수에 대한 자동 경보",
         "simpleModeBlueprintConfigsUnexpectedDropText": "페이지 로드 수가 사용 가능한 과거 데이터와 비교하여 예상보다 크게 낮은 경우 경보를 수신합니다.",
@@ -1364,7 +1373,6 @@
         "statusCodeCount": "상태 코드 수",
         "beaconRate": "상태 코드 비율",
         "views": "보기",
-        "customEventBlueprintConfigMetricLabel": "발생 횟수",
         "sessions": "세션",
         "crashAffectedSessionRate": "충돌 영향을 받는 세션 비율",
         "crashFreeSessionRate": "충돌 없는 세션 비율",
@@ -1533,6 +1541,11 @@
       }
     },
     "eum": {
+      "data": {
+        "customMetric": "사용자 정의 메트릭",
+        "customDuration": "지속 기간",
+        "customOccurrences": "발생 횟수"
+      },
       "slowness": {
         "blueprintConfigName": "느리기",
         "httpLatencyMetricLabel": "HTTP 대기 시간"
@@ -1560,6 +1573,7 @@
         "JSErrors": "JS 오류: {{errorMessage}}",
         "customEvents": "사용자 정의 이벤트: {{customEventName}}",
         "HTTPStatusCodes": "HTTP 상태 코드: {{statusCode}}",
+        "HTTPStatusCodeNone": "상태 없음",
         "unsupportedAlertType": "지원되지 않는 경보 유형: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS 오류가 발견되었습니다.",
         "unsupportedOperator": "지원되지 않는 연산자: {{operator}}",
@@ -1915,7 +1929,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "길고 짧은 경보 창",
         "blueprintDescription_STATUS": "SLO 상태가 임계값 아래로 떨어지면 경보를 수신합니다.",
         "blueprintDescription_BURNED_PERCENTAGE": "오류 예산의 백분율이 사용되면 경보를 수신합니다.",
-        "blueprintDescription_BURN_RATE_V2": "소모율은 SLO의 목표 길이에 비해 오류 예산이 얼마나 빨리 소모되는지를 나타내는 값입니다. ",
+        "blueprintDescription_BURN_RATE_V2": "소모율은 SLO의 목표 길이에 비해 오류 예산이 얼마나 빨리 소모되는지를 나타냅니다. 다음 공식으로 계산됩니다: 소모율 = (소모된 오류 예산 * SLO 기간) / 경고 기간.",
         "burnRateShortWindowTitle": "짧은 경보 창",
         "burnRateShortWindowDescription": "오차 비율이 짧은 기간 동안 임계값을 더 빠르게 초과하면 경보가 발생합니다. 이렇게 하면 심각한 버그로 인한 갑작스러운 오류 급증이나 다운타임을 포착하는 데 도움이 됩니다.",
         "burnRateDescription": "소진율이 <1/> <2/>일 때 알림",

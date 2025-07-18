@@ -1,7 +1,9 @@
 {
   "components": {
     "uiShell": {
-      "mainNavigation": "主要导航"
+      "mainNavigation": "主要导航",
+      "closeMenu": "关闭  菜单",
+      "openMenu": "打开菜单"
     },
     "list": {
       "loadMore": "加载更多",
@@ -104,6 +106,7 @@
       "loading": "正在加载…"
     }
   },
+  "language": "语言",
   "language_en-US": "英语",
   "language_de-DE": "德语",
   "language_fr-FR": "法语",

@@ -59,7 +59,13 @@ export default function DeleteLogs() {
       </Card>
       {showModal &&
         (deleteLogsV3Enabled ? (
-          <DeleteLogsTearsheet setIsOpen={setShowModal} isOpen={showModal} />
+          <DeleteLogsTearsheet
+            isDeleting={isDeleting}
+            setIsDeleting={setIsDeleting}
+            setIsOpen={setShowModal}
+            isOpen={showModal}
+            deletionInProgress={deletionInProgress}
+          />
         ) : (
           <DeleteLogsModal
             isDeleting={isDeleting}

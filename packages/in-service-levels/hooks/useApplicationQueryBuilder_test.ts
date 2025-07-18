@@ -11,8 +11,9 @@ import {
   useApplicationQueryBuilder,
   useValidateApplicationFilterExpression
 } from 'in-service-levels/hooks/useApplicationQueryBuilder';
-import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { createQueryBuilder as cQB } from 'in-components/QueryBuilder';

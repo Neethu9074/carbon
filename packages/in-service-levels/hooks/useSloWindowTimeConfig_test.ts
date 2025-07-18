@@ -7,7 +7,7 @@
 import { addDays, addMonths, addWeeks, subDays, subWeeks } from 'date-fns';
 import { renderHook } from '@testing-library/react-hooks';
 
-import { FixedTimeWindow, RollingTimeWindow, TimeConfig } from '@instana/types';
+import type { FixedTimeWindow, RollingTimeWindow, TimeConfig } from '@instana/types';
 
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import uTC from 'in-hooks/useTimeConfig';

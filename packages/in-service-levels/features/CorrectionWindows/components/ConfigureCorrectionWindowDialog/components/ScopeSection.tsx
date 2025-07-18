@@ -7,13 +7,13 @@
 import React, { useContext } from 'react';
 
 import { CreateTearsheetStep } from '@instana/ibm-products';
-import { Error } from '@instana/types';
+import type { Error } from '@instana/types';
 
 import CorrectionWindowFormContext from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/CorrectionWindowFormContext';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import useSloListFilters from 'in-service-levels/components/Shared/SloListSelection/hooks/useSloListFilters';
 import SloListSelection from 'in-service-levels/components/Shared/SloListSelection/SloListSelectionV2';
-import { FetchStatus } from 'in-hooks/utils/types';
+import type { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
 interface ScopeSectionProps {

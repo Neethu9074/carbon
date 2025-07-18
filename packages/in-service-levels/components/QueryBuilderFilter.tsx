@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SloEntityUnion } from '@instana/types';
+import type { SloEntityUnion } from '@instana/types';
 
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import type { QueryBuilderComponent } from 'in-components/QueryBuilder';

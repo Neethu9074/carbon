@@ -977,11 +977,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'blockLogDeletionsEnabled',
-    instanaCtlKey: 'feature.block.log.deletions.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'relatedEventsDatagrid',
     instanaCtlKey: 'feature.related.events.datagrid.enabled',
     defaultValue: false
@@ -1034,6 +1029,11 @@ module.exports = exports = [
   {
     uiClientKey: 'eumSmartAlertCustomMetricsEnabled',
     instanaCtlKey: 'feature.eum.smart.alert.custom.metrics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'downtimesOnHostEnabled',
+    instanaCtlKey: 'feature.downtimes.on.host.enabled',
     defaultValue: false
   },
   {

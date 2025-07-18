@@ -10,6 +10,7 @@ import { Select } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import FilterEmptyValuesToggle from 'in-components/FilterEmptyValueToggle/FilterEmptyValueToggle';
+import { getCrossSeriesAggregation, parseAggregation } from 'in-infrastructure/util/aggregation';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import { infraExploreFilterEmptyValueEnabled } from 'in-services/featureFlags';
@@ -19,6 +20,7 @@ import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './MetricCatalogConfiguratorOverlayPresenter.mless';
@@ -38,7 +40,8 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
   metricMetadatas,
   loading,
   query,
-  onQueryChange
+  onQueryChange,
+  crossSeriesSumEnabled
 }) {
   const metrics = form.items.map(field => {
     const label =
@@ -67,6 +70,7 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
       onSwap={onSwap}
       metrics={metrics}
       uniqueMetricsLabels={uniqueMetricsLabels}
+      crossSeriesSumEnabled={crossSeriesSumEnabled}
       onRemove={onRemoveItem}
       shouldTriggerWindowResize={shouldTriggerWindowResize}
       disabled={form.items.length >= maximumNumberOfMetrics}
@@ -94,11 +98,11 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
   );
 }
 
-function metricEventPayload(formMetric) {
+function metricEventPayload(metric, aggregation) {
   return {
-    metric: formMetric.get('metric')?.value,
-    aggregation: formMetric.get('aggregation')?.value,
-    crossSeriesAggregation: formMetric.get('crossSeriesAggregation')?.value
+    metric,
+    aggregation: aggregation.timeAggregation,
+    crossSeriesAggregation: getCrossSeriesAggregation(aggregation)
   };
 }
 
@@ -108,13 +112,21 @@ function Content({
   onChangeAggregation,
   onChange,
   MetricCatalogConfiguratorHint,
-  uniqueMetricsLabels
+  uniqueMetricsLabels,
+  crossSeriesSumEnabled
 }) {
+  const crossSeriesAggregationField = metric.get('crossSeriesAggregation');
+  const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
+  const allowedCrossSeriesAggregations = [];
+  const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations?.value?.length > 0;
+  const aggregationField = metric.get('aggregation');
+  const isCrossSeriesSumAggregationToggleEnabled =
+    !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
   return (
     <>
-      <Col xs={5}>
+      <Col xs={4}>
         {metric.get('metric').map(field => (
-          <div className={locals.label}>
+          <div className={locals.label} key={`metric-configuration-metric-${i}`}>
             <Label htmlFor={`metric-configuration-metric-${i}`} hasError={!field.valid && field.touched}>
               <MetricLabel label={{ data: uniqueMetricsLabels[i] }} />
             </Label>
@@ -126,28 +138,21 @@ function Content({
         {metric.get('aggregation').map(field => (
           <Select
             id={`metric-configuration-aggregation-${i}`}
+            key={`metric-configuration-aggregation-${i}`}
             value={field.value}
             onChange={e => {
-              const aggregation = e.target.value;
+              const timeAggregation = e.target.value;
+              const aggregation = parseAggregation(timeAggregation, metric.get('crossSeriesAggregation')?.value);
               if (onChangeAggregation) {
-                onChangeAggregation(metricEventPayload(metric), aggregation);
+                onChangeAggregation(metricEventPayload(metric.get('metric')?.value, aggregation), timeAggregation);
               }
-
-              onChange([], form => {
-                const sumAggs = ['SUM', 'INCREASE', 'PER_SECOND'];
-                const defaultAggs = ['SUM', 'MEAN', 'MIN', 'MAX'];
-                let updatedForm = form
-                  .updateIn([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true))
-                  .updateIn([i, 'crossSeriesAggregation'], field => {
-                    const value = sumAggs.includes(aggregation)
-                      ? 'SUM'
-                      : !defaultAggs.includes(aggregation)
-                      ? aggregation
-                      : undefined;
-                    return field.setValue(value).setTouched(true);
-                  });
-                return updatedForm;
-              });
+              onChange([], form =>
+                form
+                  .updateIn([i, 'aggregation'], field => field.setValue(aggregation.timeAggregation).setTouched(true))
+                  .updateIn([i, 'crossSeriesAggregation'], field =>
+                    field.setValue(getCrossSeriesAggregation(aggregation)).setTouched(true)
+                  )
+              );
             }}
             className={locals.aggregations}
             hasError={!field.valid && field.touched}
@@ -163,6 +168,40 @@ function Content({
           </Select>
         ))}
       </Col>
+
+      {crossSeriesSumEnabled && (
+        <Col xs={1}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Tooltip
+              content={getCrossSeriesAggregationTooltip(
+                isCrossSeriesAggregationRestricted,
+                isCrossSeriesSumAggregationToggleEnabled,
+                aggregationField.value
+              )}
+            >
+              <span
+                id={`metric-configuration-cross-series-aggregation-${i}`}
+                onClick={() => {
+                  if (!isCrossSeriesSumAggregationToggleEnabled) return;
+                  onChange([i, 'crossSeriesAggregation'], field =>
+                    field.setValue(isSumCrossSeriesAggregation ? undefined : 'SUM').setTouched(true)
+                  );
+                }}
+                className={[
+                  locals.crossSeriesAggregationToggle,
+                  isCrossSeriesSumAggregationToggleEnabled && locals.enabled,
+                  isSumCrossSeriesAggregation && locals.active
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
+              >
+                ∑
+              </span>
+            </Tooltip>
+          </div>
+        </Col>
+      )}
 
       {infraExploreFilterEmptyValueEnabled && (
         <RequiredToggle
@@ -192,4 +231,21 @@ function RequiredToggle({ metric, onChange }) {
       showLabel={t('in-components:metricConfigurator.labelShowEmptyValues')}
     />
   );
+}
+
+function getCrossSeriesAggregationTooltip(
+  isCrossSeriesAggregationRestricted,
+  isCrossSeriesAggregationEnabled,
+  aggregation
+) {
+  if (isCrossSeriesAggregationRestricted) {
+    return t(
+      'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
+    );
+  }
+  return !isCrossSeriesAggregationEnabled && !['SUM', 'PER_SECOND', 'INCREASE'].includes(aggregation)
+    ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
+        aggregation: aggregationLabels[aggregation]
+      })
+    : '';
 }

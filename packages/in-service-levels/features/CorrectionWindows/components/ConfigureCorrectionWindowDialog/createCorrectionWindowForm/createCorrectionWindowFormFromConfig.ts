@@ -8,7 +8,7 @@ import { createField, createMapForm } from 'formalistic';
 import { Frequency, RRule } from 'rrule';
 
 import { formatDate, formatTimeWithoutSeconds } from '@instana/format-date';
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 
 import {
   createNameField,
@@ -16,7 +16,7 @@ import {
   createReccurenceFields,
   createDurationFields
 } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createCorrectionWindowForm';
-import {
+import type {
   CorrectionWindowForm,
   DayInterval,
   Month

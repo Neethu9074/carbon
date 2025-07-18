@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { LoadingSkeleton } from '@instana/components';
+import type { TimeConfig } from '@instana/types';
 import { Stack } from '@instana/carbon';
 
 import { applyAdjustedTimeframe, calculateSloGranularity } from 'in-service-levels/utils/time';
@@ -15,12 +16,11 @@ import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTim
 import { useSloErrorBudgetMetrics } from 'in-service-levels/hooks/useSloListMetrics';
 import { getSingleNumberMetricValue } from 'in-service-levels/utils/format';
 import SparkChart from 'in-components/SparkChart/SparkChartReactComponent';
+import type { MetricDataSeries } from 'in-components/Chart/types';
 import { minutes, number } from 'in-services/formatters/number';
-import { MetricDataSeries } from 'in-components/Chart/types';
-import { SloListItem } from 'in-service-levels/types';
+import type { SloListItem } from 'in-service-levels/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours } from 'in-services/time/time';
-import { TimeConfig } from 'in-types';
 
 import locals from 'in-service-levels/styles/SloAlignContent.mless';
 

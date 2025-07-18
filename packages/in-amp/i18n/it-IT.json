@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "Ulteriori informazioni sulla politica di utilizzo corretto di Instana",
+      "titleNew": "Ulteriori informazioni sul consumo di dati",
       "leftTitle": "Che cos'è la Politica di utilizzo corretto?",
       "rightTitle": "Come posso acquistare più dati?",
       "leftBody": "La politica di utilizzo corretto di Instana indica il limite mensile di dati associato al tipo di licenza. Per saperne di più ed esplorare le linee guida sull'utilizzo delle risorse, consultate la <fupDocLink>documentazione sulla politica di utilizzo corretto</fupDocLink>.",
@@ -173,6 +174,30 @@
         "daysActive": "Giorni nello stato attivo",
         "notProvided": "(non fornito)"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "Account e fatturazione",
+    "tabs": {
+      "usage": "Utilizzo",
+      "technologiesReporting": "Report di tecnologie",
+      "accountInformation": "Informazioni sull'account",
+      "entitlements": "Titolarità",
+      "activeEntitlements": "Diritti attivi",
+      "queuedEntitlements": "Diritti in coda",
+      "expiredEntitlements": "Diritti scaduti",
+      "activationAdoption": "Attivazione & adozione",
+      "customerAdoption": "Adozione del cliente",
+      "userUsage": "Utilizzo utente"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "Data di inizio",
+      "endDate": "Data di fine",
+      "standardHosts": "Host standard",
+      "essentialHosts": "Host essenziali"
+    },
+    "emptyPage": {
+      "subtitle": "Nessun dato disponibile"
     }
   }
 }

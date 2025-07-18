@@ -116,6 +116,20 @@
       "unnamedDataset": "未命名的数据集"
     }
   },
+  "aiChat": {
+    "launcherGreeting": "您好，您也可以通过交谈来创建一些窗口小部件！",
+    "welcome": "欢迎您！",
+    "restrictions": "AI 辅助的窗口小部件创建功能目前可用于以下参数",
+    "widgetType": "窗口小部件类型",
+    "filter": "过滤",
+    "filter_application": "应用程序名称",
+    "filter_service": "服务名称",
+    "filter_endpoint": "端点名称",
+    "filter_erroneousCall": "调用错误",
+    "filter_callType": "调用类型",
+    "filter_technology": "技术",
+    "tryOutExamplePrompts": "请随意选择下面的窗口小部件类型之一进行尝试，或者使用您自己的提示。"
+  },
   "dashboardSwitcher": {
     "dashboardSwitcher": {
       "loading": "正在加载..."

@@ -1,7 +1,9 @@
 {
   "components": {
     "uiShell": {
-      "mainNavigation": "メイン・ナビゲーション"
+      "mainNavigation": "メイン・ナビゲーション",
+      "closeMenu": "メニューを閉じる",
+      "openMenu": "メニューを開く"
     },
     "list": {
       "loadMore": "さらにロード",
@@ -104,6 +106,7 @@
       "loading": "ロード中です…"
     }
   },
+  "language": "言語",
   "language_en-US": "英語",
   "language_de-DE": "ドイツ語",
   "language_fr-FR": "フランス語",

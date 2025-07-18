@@ -1067,7 +1067,11 @@
         "closeButtonLabel": "Close",
         "cancelButtonLabel": "Cancel",
         "applyButtonLabel": "Apply"
-      }
+      },
+      "noDataHeader": "No data available",
+      "noDataDescription": "There were no data retrieved for the selected time range.",
+      "errorHeader": "Failed to load data",
+      "searchText": "Search"
     }
   }
 }

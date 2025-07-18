@@ -302,10 +302,12 @@
   "installAgents": "에이전트 설치",
   "preparingInstance": "인스턴스 준비",
   "agentDeployed": "배치된 에이전트",
+  "dataSourceInstalled": "설치된 데이터 소스",
   "agentsAreReportingDataIsBeingCollected": "에이전트가 보고 중입니다. 데이터가 수집되고 있습니다.",
   "timeToExploreInstana": "Instana에 대해 탐험할 시간입니다!",
   "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "거의 완료되었습니다. Instana 인스턴스를 작성했습니다.",
   "whileWeArePreparingYourInstanaInstance": "Instana 인스턴스를 준비하는 동안,",
   "getReadyToDeployAgentsInYourEnvironment": "사용자 환경에 에이전트를 배치할 준비를 하고 있습니다...",
-  "letSGetSomeAgentsRunning": "Instana 에이전트 설치를 기다리고 있습니다."
+  "letSGetSomeAgentsRunning": "Instana 에이전트 설치를 기다리고 있습니다.",
+  "weAreWaitingForYouToInstallAnInstanaAgentOrCollector": "Instana 에이전트 또는 수집기를 설치해 주시기를 기다리고 있습니다."
 }

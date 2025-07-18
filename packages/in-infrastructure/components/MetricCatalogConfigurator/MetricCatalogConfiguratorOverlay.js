@@ -26,7 +26,8 @@ export default function MetricCatalogConfiguratorOverlay({
   onQueryChange,
   metricCatalog,
   type,
-  metricMetadatas
+  metricMetadatas,
+  crossSeriesSumEnabled
 }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const initialForm = useMemo(() => getInitialForm(values, maximumNumberOfMetrics), [values, maximumNumberOfMetrics]);
@@ -64,6 +65,7 @@ export default function MetricCatalogConfiguratorOverlay({
       onQueryChange={onQueryChange}
       type={type}
       metricMetadatas={metricMetadatas}
+      crossSeriesSumEnabled={crossSeriesSumEnabled}
     />
   );
 

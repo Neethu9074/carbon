@@ -5,7 +5,7 @@
  */
 
 import { flexRender, createColumnHelper } from '@tanstack/react-table';
-import { Field, Item } from 'formalistic';
+import type { Field, Item } from 'formalistic';
 import React, { useRef } from 'react';
 import cx from 'classnames';
 
@@ -27,11 +27,11 @@ import {
 } from '@instana/carbon';
 import { ValidationBlock, TableSkeleton, Pagination } from '@instana/components';
 import { ErrorEmptyState, NoDataEmptyState } from '@instana/ibm-products';
-import { SloEntityType } from '@instana/types';
+import type { SloEntityType } from '@instana/types';
 
 import useSloListSelectionTable from 'in-service-levels/components/Shared/SloListSelection/hooks/useSloListSelectionTable';
+import type { SloListFilterState } from 'in-service-levels/components/Shared/SloListSelection/hooks/useSloListFilters';
 import SloBlueprintColumnContent from 'in-service-levels/components/SloList/components/SloBlueprintColumnContent';
-import { SloListFilterState } from 'in-service-levels/components/Shared/SloListSelection/hooks/useSloListFilters';
 import SloEntityColumnContent from 'in-service-levels/components/SloList/components/SloEntityColumnContent';
 import useSloListItems from 'in-service-levels/components/Shared/SloListSelection/hooks/useSloListItems';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
@@ -40,9 +40,9 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import FilterFlyout from 'in-service-levels/components/Shared/Table/FilterFlyout';
 import TagFilters from 'in-service-levels/components/Shared/Table/TagFilters';
 import useDebouncedSearch from 'in-service-levels/hooks/useDebouncedSearch';
+import type { SelectSloListItem } from 'in-service-levels/types';
 import { sloEntityTypes } from 'in-service-levels/constants';
 import { isFieldValid } from 'in-service-levels/utils/form';
-import { SelectSloListItem } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 import locals from './SloListSelectionV2.mless';

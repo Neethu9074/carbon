@@ -10,10 +10,11 @@ import { formatDate, formatTime } from '@instana/format-date';
 import { isFixedTimeWindow } from '@instana/types';
 import { KeyValue } from '@instana/components';
 
-import SloConfigSection, {
+import type {
   RowDefinition,
   SloConfigSectionData
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
+import SloConfigSection from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import { buildTimezoneFromLocationName } from 'in-service-levels/utils/timezone';
 import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

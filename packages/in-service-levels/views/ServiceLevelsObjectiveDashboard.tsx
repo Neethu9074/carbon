@@ -6,24 +6,24 @@
 
 import React from 'react';
 
-import { Error, isApplicationSloEntity, Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { combineLatest, just, Observable } from '@instana/observables';
+import type { Error, Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { combineLatest, just } from '@instana/observables';
+import { isApplicationSloEntity } from '@instana/types';
+import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import tabs, {
-  ApplicationSloTabData,
-  isApplicationSloTabData,
-  SloTabData
-} from 'in-service-levels/components/SloDashboard/tabs';
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader/SloMetaInfoHeader';
-import { defaultServiceLevelObjectiveUrlParameters, SloUrlState } from 'in-service-levels/navigation/urlParameters';
 import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
+import type { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import { defaultServiceLevelObjectiveUrlParameters } from 'in-service-levels/navigation/urlParameters';
 import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
-import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
-import { LabeledEntity, SloMonitoredEntity } from 'in-service-levels/types';
-import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import tabs, { isApplicationSloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import type { LabeledEntity, SloMonitoredEntity } from 'in-service-levels/types';
+import type { SloUrlState } from 'in-service-levels/navigation/urlParameters';
 import { getSloConfiguration } from 'in-service-levels/api/sloConfiguration';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { loadEntities } from 'in-service-levels/utils/loadEntities';
 import TabView from 'in-components/LocationAwareTabView/TabView';

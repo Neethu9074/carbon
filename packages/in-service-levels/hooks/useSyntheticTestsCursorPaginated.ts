@@ -6,13 +6,13 @@
 
 import { useMemo, useRef, useState } from 'react';
 
+import type { SyntheticTest } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { SyntheticTest } from '@instana/types';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 import { getTests } from 'in-synthetics/api';
 
 interface PaginatedCursorState {

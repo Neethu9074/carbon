@@ -4,15 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm, Field } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
+import type { Field } from 'formalistic';
 
-import {
-  DurationUnitType,
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  isWebsiteSloEntity,
-  ServiceLevelObjectiveConfiguration
-} from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
+import type { DurationUnitType, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { formatTime } from '@instana/format-date';
 
 import {
@@ -25,7 +21,7 @@ import {
   timeFieldValidator,
   timeWindowValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
-import {
+import type {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,
@@ -45,11 +41,12 @@ import {
   defaultSliThresholdOperator,
   ServiceLevelErrors
 } from 'in-service-levels/constants';
-import { isCustomBlueprintIndicator, isTrafficBlueprintIndicator, SloBeaconTypes } from 'in-service-levels/types';
+import { isCustomBlueprintIndicator, isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { getSloEntityIds } from 'in-service-levels/utils/sloConfig';
+import type { SloBeaconTypes } from 'in-service-levels/types';
 import { formatDate } from 'in-services/formatters/date';
 
 export function getEntityFieldsFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields {

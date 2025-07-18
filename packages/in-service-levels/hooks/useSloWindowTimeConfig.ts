@@ -7,7 +7,8 @@
 import { isBefore } from 'date-fns';
 import { useMemo } from 'react';
 
-import { isFixedTimeWindow, isRollingTimeWindow, TimeConfig, TimeWindow } from '@instana/types';
+import { isFixedTimeWindow, isRollingTimeWindow } from '@instana/types';
+import type { TimeConfig, TimeWindow } from '@instana/types';
 
 import { getAddForTimeWindowUnit, getSubForTimeWindowUnit, toFixedTimeConfig } from 'in-service-levels/utils/time';
 import useTimeConfig from 'in-hooks/useTimeConfig';

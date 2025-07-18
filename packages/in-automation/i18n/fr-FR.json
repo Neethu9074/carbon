@@ -9,6 +9,9 @@
   "recommendedActions": "Actions recommandées",
   "recommendedOptimizationsWithCount": "Actions de ressources recommandées ({{count}})",
   "recommendedOptimizations": "Actions de ressources recommandées",
+  "emptyRecommendedActions": "Aucune action recommandée",
+  "emptyRecommendedActionsDescription1": "Nous n'avons pas trouvé de règles ou d'algorithmes à recommander pour cet incident.",
+  "emptyRecommendedActionsDescription2": "Pour demander à l'IA de créer une action, cliquez sur <strong>Générer une action</strong>, ou pour créer manuellement une règle, cliquez sur <strong>Créer une règle<strong>.",
   "actionName": "Nom de l'action",
   "validVaultParameter": "Les paramètres de coffre marqués comme facultatifs doivent être soit tous les deux vides, soit tous les deux non vides.",
   "runAction": "Exécuter l'action",
@@ -94,7 +97,7 @@
   "actions": "Actions",
   "actionsWithCount": "Actions ({{count}})",
   "titleUrl": "URL",
-  "generateWithWatsonx": "Générer avec watsonx",
+  "generateWithWatsonx": "Générer une action",
   "createPolicyWithName": "Afficher l'action {{actionName}} et créer la règle",
   "viewActionCreatePolicy": "Afficher l'action et créer la règle",
   "titleContentReadOnly": "Contenu généré (lecture seule)",
@@ -104,11 +107,9 @@
   "playbookId": "Identifiant du playbook",
   "gitType": "Type Git",
   "gitUrl": "Git URL",
-  "triggeringEvent": "Événement déclencheur",
-  "probableRootCause": "Cause première probable",
-  "contextFor": "Contexte pour :",
   "backToPolicies": "Retour aux règles",
   "backToEvent": "Retour à l'événement",
+  "backToActionCatalog": "Retour au catalogue d'actions",
   "recommendation": "Recommandation",
   "userCreated": "Utilisateur créé",
   "successRate": "Taux de réussite",
@@ -120,6 +121,9 @@
   "deletePolicy": "Supprimer la règle",
   "viewActionDashboard": "Afficher le tableau de bord des actions",
   "createPolicy": "Créer une stratégie",
+  "triggeringEvent": "Événement déclencheur",
+  "probableRootCause": "Cause première probable",
+  "contextFor": "Contexte pour :",
   "recommendedActionsExplanability": {
     "linkExplanation": "Instana utilise des algorithmes et des intégrations pour recommander des actions lors des événements.",
     "link": "Découvrez-en davantage sur chaque type de recommandation.",
@@ -139,7 +143,7 @@
     "actionConfiguration": "Configuration d'action",
     "actionDetails": "Indiquez les détails de l'action",
     "Step1HeadlineSelectAction": "Commencez par une action intégrée générée par watsonx pour créer une nouvelle action pour cet événement.",
-    "Step1HeadlinePrompt": "Générez une action manuelle à l'aide de watsonx pour traiter les informations relatives à l'événement et contribuer au diagnostic ou à la résolution du problème. Vous pouvez éditer les détails de l'événement pour fournir des informations plus riches à l'IA. Pour en savoir plus, consultez la <Link>documentation IBM</Link>.",
+    "Step1HeadlinePrompt": "Générez une action manuelle à l'aide de l'IA pour traiter les informations relatives à l'événement et contribuer au diagnostic ou à la résolution du problème. Vous pouvez éditer les détails de l'événement pour fournir des informations plus riches à l'IA. Pour en savoir plus, consultez la <Link >documentation IBM</Link>.",
     "Step2Headline": "Spécifiez les détails de l'action ou apportez des modifications avant de l'enregistrer dans le catalogue d'actions.",
     "Step3Headline": "(Facultatif) Vous pouvez créer une politique d'automatisation en même temps que l'action. Vous pouvez également effectuer cette étape ultérieurement.",
     "step1Title": "Étape 1 : Générer ou sélectionner une action",
@@ -167,9 +171,9 @@
     "eventName": "Nom de l'événement",
     "eventDescription": "Description de l'événement",
     "eventEntityType": "Type d'entité d'événement",
-    "noDataAvailableLive": "Pour afficher les résultats de watsonx ici, cliquez sur <strong>Générer</strong>.",
+    "noDataAvailableLive": "Pour voir les résultats de l'IA ici, cliquez sur <strong>Générer</strong>.",
     "noDataAvailableSelectAction": "Effectuez une sélection pour afficher le contenu.",
-    "watsonxLoadingContent": "watsonx génère du contenu",
+    "watsonxLoadingContent": "L'IA génère du contenu",
     "confirmButtonLabel": "Annuler",
     "cancelButtonLabel": "Continuer l'édition",
     "noResultsYet": "Aucun résultat pour le moment",
@@ -185,17 +189,17 @@
       "step2Title": "Étape 2 : Générer un script",
       "step3Title": "Etape 3 : Créer une action ou procéder à l'exportation vers une source externe",
       "step1Headline": "Sélectionnez une étape d'action manuelle pour laquelle vous souhaitez générer un script. Vous pouvez modifier l'étape d'action manuelle à l'étape suivante.",
-      "step2Headline1": "Examinez les détails de l'étape d'action et apportez les modifications nécessaires. Ensuite, cliquez sur Générer pour afficher les résultats de watsonx.",
+      "step2Headline1": "Examinez les détails de l'étape d'action et apportez les modifications nécessaires. Ensuite, cliquez sur Générer pour voir les résultats de l'IA.",
       "step2Headline2": "Vous pouvez modifier et générer à nouveau pour obtenir des résultats différents. Pour en savoir plus, consultez la <Link>documentation IBM</Link>.",
       "step3Headline": "Créer une action ou exporter un script vers une source externe",
       "step3HeadlineAnsible": "Exporter un script vers une source externe",
-      "noDataAvailableLive": "Pour afficher les résultats de watsonx ici, cliquez sur <strong>Générer</strong>.",
+      "noDataAvailableLive": "Pour voir les résultats de l'IA ici, cliquez sur <strong>Générer</strong>.",
       "generateScriptButton": "Générer un script",
       "generateButton": "Générer",
       "titleGeneratedCodeReadOnly": "Code généré (lecture seule)",
       "promptTitle": "Invite",
       "generateScriptTileHeader": "Générer un script à partir d'une étape d'action manuelle",
-      "generateScriptTileDescription": "En utilisant l'IA watsonx, vous pouvez rapidement créer un script bash à partir d'une étape d'action manuelle en tant qu'invite et l'ajouter dans votre catalogue d'actions en quelques étapes.",
+      "generateScriptTileDescription": "En utilisant l'IA, vous pouvez rapidement créer un script bash à partir d'une étape d'action manuelle en tant qu'invite et l'ajouter dans votre catalogue d'actions en quelques étapes.",
       "createActionOption": "Créer une action",
       "toGithub": "Exporter vers GitHub",
       "toGitLab": "Exporter vers GitLab"
@@ -387,6 +391,7 @@
     "goToActionHistory": "Accéder à l'historique des actions",
     "actionHistoryWithCount": "Historique des actions ({{count}})",
     "noActionInstances": "Aucune donnée disponible",
+    "incidentActionHistory": "Historique de l'action d'incident",
     "external": "Externe",
     "name": "Nom",
     "type": "Type",
@@ -548,7 +553,8 @@
     "efficiency_improvement": "Amélioration de l'efficacité",
     "savings": "Compte d'épargne",
     "performance": "Performance",
-    "performance_assurance": "Garantie de performances"
+    "performance_assurance": "Garantie de performances",
+    "unknown": "Inconnu"
   },
   "resourceOptimization": {
     "details": "Détails de l'optimisation des ressources",
@@ -599,16 +605,12 @@
     "manualActionTip": "<strong>Astuce</strong> : vous pouvez mettre à jour les informations relatives à l'événement et relancer la génération pour obtenir des résultats différents.",
     "scriptTip": "<strong>Astuce</strong> : vous pouvez mettre à jour l'indication et relancer la génération pour obtenir des résultats différents."
   },
-  "consentForm": {
-    "consentButton": "Formulaire de consentement",
-    "consentText": "Un administrateur doit accepter l'accord de confidentialité de l'aperçu de l'assistance IA générative pour activer cette fonctionnalité."
-  },
   "AITooltip": {
     "aiExplained": "Explication de l'IA",
     "manualSection": {
       "section1": {
         "section1Title": "Génération d'action",
-        "section1Text": "Pour générer un ensemble d'étapes manuelles afin de diagnostiquer ou de corriger le problème, nous envoyons les informations relatives à l'événement à watsonx.  Les données utilisées pour formuler l'invite d'IA sont initialement alimentées à partir de l'événement en cours et peuvent être modifiées pour améliorer les résultats."
+        "section1Text": "Pour générer une série d'étapes manuelles afin de diagnostiquer le problème ou de corriger le problème, nous envoyons les informations relatives à l'événement à l'IA.  Les données utilisées pour formuler l'invite d'IA sont initialement alimentées à partir de l'événement en cours et peuvent être modifiées pour améliorer les résultats."
       },
       "section2": {
         "section2Title": "Zones d'invite de saisie",
@@ -625,7 +627,7 @@
     },
     "scriptSection": {
       "section1": {
-        "section1Text": "Pour générer un script, nous envoyons des instructions d'une étape d'action manuelle à watsonx. L'étape peut être modifiée pour améliorer les résultats."
+        "section1Text": "Pour générer un script, nous envoyons des instructions provenant d'une action manuelle à l'IA. L'étape peut être modifiée pour améliorer les résultats."
       },
       "section3": {
         "section3Text": "Il s'agit d'une fonctionnalité Aperçu qui fournit un script suggéré pour effectuer une action. Vous devez déterminer si le résultat est adapté à vos besoins."

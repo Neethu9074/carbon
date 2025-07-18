@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Renderer, RenderProps } from 'in-components/Chart/renderer/types';
+import type { Renderer, RenderProps } from 'in-components/Chart/renderer/types';
 
 export const correctionWindowMetricId = 'correctionWindow';
 

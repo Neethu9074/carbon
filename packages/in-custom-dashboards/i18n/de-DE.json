@@ -116,6 +116,20 @@
       "unnamedDataset": "Unbenannter Datensatz"
     }
   },
+  "aiChat": {
+    "launcherGreeting": "Hallo, Sie können einige Widgets auch über den Chat erstellen!",
+    "welcome": "Hallo und willkommen",
+    "restrictions": "Die KI-unterstützte Erstellung von Widgets ist derzeit für folgende Parameter verfügbar",
+    "widgetType": "Fensterobjekttyp",
+    "filter": "Filter",
+    "filter_application": "Anwendungsname",
+    "filter_service": "Servicename",
+    "filter_endpoint": "Endpunktname",
+    "filter_erroneousCall": "Fehlerhafter Aufruf",
+    "filter_callType": "Aufruftyp",
+    "filter_technology": "Technologie",
+    "tryOutExamplePrompts": "Sie können eines der Beispiele zur Eingabeaufforderung testen, indem Sie unten den Widgettyp auswählen, oder Ihre eigene Eingabeaufforderung verwenden."
+  },
   "dashboardSwitcher": {
     "dashboardSwitcher": {
       "loading": "Ladevorgang läuft..."

@@ -6,13 +6,8 @@
 
 import React from 'react';
 
-import {
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  isWebsiteSloEntity,
-  ServiceLevelObjectiveConfiguration,
-  SloEntity
-} from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration, SloEntity } from '@instana/types';
 import { Typography, Button } from '@instana/components';
 
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';

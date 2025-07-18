@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
+import React from 'react';
 
 import locals from './AggregationAndThresholdFormSection.mless';
 

@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "Más información sobre la Política de uso razonable de Instana",
+      "titleNew": "Más información sobre el consumo de datos",
       "leftTitle": "¿Qué es la Política de uso razonable?",
       "rightTitle": "¿Cómo puedo comprar más datos?",
       "leftBody": "La Política de uso razonable de Instana describe la asignación mensual de datos asociada a su tipo de licencia. Para obtener más información y conocer las directrices de uso de los recursos, consulte la <fupDocLink>documentación sobre la Política de uso razonable</fupDocLink>.",
@@ -173,6 +174,30 @@
         "daysActive": "Días activos",
         "notProvided": "(no se ha proporcionado)"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "Cuenta y facturación",
+    "tabs": {
+      "usage": "Uso",
+      "technologiesReporting": "Notificación de tecnologías",
+      "accountInformation": "Información de la cuenta",
+      "entitlements": "Titularidades",
+      "activeEntitlements": "Titularidades activas",
+      "queuedEntitlements": "Titularidades en cola",
+      "expiredEntitlements": "Titularidades vencidas",
+      "activationAdoption": "Activación y adopción",
+      "customerAdoption": "Adopción del cliente",
+      "userUsage": "Uso de usuarios"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "Fecha de inicio",
+      "endDate": "Fecha de finalización",
+      "standardHosts": "Hosts estándar",
+      "essentialHosts": "Hosts esenciales"
+    },
+    "emptyPage": {
+      "subtitle": "No hay datos disponibles."
     }
   }
 }

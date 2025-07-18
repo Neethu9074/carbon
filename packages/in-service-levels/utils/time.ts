@@ -6,19 +6,13 @@
 
 import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks } from 'date-fns';
 
-import {
-  AdjustedTimeframe,
-  DurationUnitType,
-  isFixedTimeWindow,
-  isRollingTimeWindow,
-  TimeConfig,
-  TimeWindow
-} from '@instana/types';
+import type { AdjustedTimeframe, DurationUnitType, TimeConfig, TimeWindow } from '@instana/types';
+import { isFixedTimeWindow, isRollingTimeWindow } from '@instana/types';
 
+import type { MetricDataSeries } from 'in-components/Chart/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { days, hours, minutes } from 'in-services/time/time';
-import { MetricDataSeries } from 'in-components/Chart/types';
 
 /**
  * Returns the index of the first time-window that contains a data-point,

@@ -7,8 +7,9 @@
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
-import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
