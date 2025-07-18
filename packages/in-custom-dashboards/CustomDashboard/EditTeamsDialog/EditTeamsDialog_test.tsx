@@ -106,7 +106,7 @@ describe('EditTeamsDialog', () => {
   });
   it('renders the drop down', () => {
     render(testComponent);
-    const dropdown = screen.getByText(t('in-custom-dashboards:customDashboard.editTeamsDialog.chooseTeams'));
+    const dropdown = screen.getByText(t('in-settings:tabs.accessTitle'));
     expect(dropdown).toBeInTheDocument();
   });
   it('renders the correct teams when drop down is expanded', async () => {

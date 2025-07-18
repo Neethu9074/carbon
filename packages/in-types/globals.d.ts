@@ -74,6 +74,7 @@ export interface Role {
   canViewAccountAndBillingInformation: boolean;
   canConfigureLogManagement: boolean;
   canInvokeAlertChannel: boolean;
+  teamId?: string;
 }
 
 export interface User {

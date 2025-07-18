@@ -32,6 +32,7 @@ export default [
           'in-service-levels',
           'in-synthetics',
           'in-websites',
+          'in-settings', // only 'in-settings/components/Shared'
 
           // shared packages
           'in-api',
