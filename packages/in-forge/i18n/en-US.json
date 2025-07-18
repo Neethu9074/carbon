@@ -11306,7 +11306,16 @@
         "avgDiscardRequestsTime": "Discard requests time",
         "avgFlushRequestsTime": "Flush requests time",
         "processBlockedState": "Process blocked state",
-        "processWaitingRuntime": "Process waiting runtime"
+        "processWaitingRuntime": "Process waiting runtime",
+        "reportingStatus": "Reporting Status",
+        "reportingWithIssues": "Reporting - monitoring issues",
+        "reporting": "Reporting",
+        "monitoringSuccess": "monitoring success",
+        "notReporting": "Not Reporting",
+        "duration": "Duration",
+        "start": "Start",
+        "end": "End",
+        "now": "Now"
       },
       "os": "OS",
       "distribution": "Distribution",

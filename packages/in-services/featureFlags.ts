@@ -417,3 +417,4 @@ export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   false
 );
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
+export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);
