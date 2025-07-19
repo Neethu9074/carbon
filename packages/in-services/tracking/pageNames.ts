@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 // no need for translation, it is only used within tracking
@@ -39,6 +39,7 @@ export const pageNames = Object.freeze({
   bizops_activity: 'Business Activity',
   bizops_perspectives: 'Business Perspectives',
   bizops_perspective: 'Business Perspective',
+  bizops_business_impact: 'Website > Business impact',
   cloud_foundary_applications: 'Cloud Foundry Applications',
   cloud_foundary_application_summary: 'Cloud Foundry Application > Summary',
   custom_dashboard: 'Custom Dashboard',

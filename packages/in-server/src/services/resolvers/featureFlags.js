@@ -867,6 +867,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'websitesBusinessConversionGoalsEnabled',
+    instanaCtlKey: 'feature.websites.business.conversion.goals.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'perEntityInfraSmartAlertsEnabled',
     instanaCtlKey: 'feature.per.entity.infra.smart.alerts.enabled',
     defaultValue: true

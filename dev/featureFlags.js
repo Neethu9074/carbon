@@ -193,6 +193,7 @@ module.exports = {
   infraSmartAlertDialogViewEnabled: true,
   websitesSmartAlertDialogViewEnabled: true,
   websitesBusinessMonitoringEnabled: true,
+  websitesBusinessConversionGoalsEnabled: true,
   mobileAppSmartAlertDialogViewEnabled: true,
   incidentTriggeringInfraSaEnabled: true,
   actionAiGenerationEnabled: true,
