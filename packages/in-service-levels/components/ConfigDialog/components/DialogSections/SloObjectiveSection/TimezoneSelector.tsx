@@ -43,6 +43,7 @@ export default function TimezoneSelector() {
           labelB="disable"
           size="sm"
           onToggle={handleTimezoneToggle}
+          toggled={bindTimezoneField.value}
         />
         <Stack orientation="vertical" gap={4}>
           <TimezoneList />

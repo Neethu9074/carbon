@@ -39,11 +39,13 @@ import {
   defaultBlueprint,
   defaultBoundaryScope,
   defaultSliThresholdOperator,
-  ServiceLevelErrors
+  ServiceLevelErrors,
+  utcLabel
 } from 'in-service-levels/constants';
 import { isCustomBlueprintIndicator, isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { buildTimezoneFromLocationName } from 'in-service-levels/utils/timezone';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { getSloEntityIds } from 'in-service-levels/utils/sloConfig';
 import type { SloBeaconTypes } from 'in-service-levels/types';
@@ -159,6 +161,8 @@ export function getIndicatorFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
 }
 
 export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloObjectiveFields {
+  const toggleTimezoneField = sloConfig.timeWindow.timezone === utcLabel || sloConfig.timeWindow.timezone === '';
+
   return {
     target: createField<number | undefined>({
       value: sloConfig.target,
@@ -173,8 +177,8 @@ export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
       items: getDefaultTimestampFields(sloConfig)
     }),
     type: createField({ value: sloConfig.timeWindow.type }),
-    bindTimezone: createField({ value: false }),
-    timezone: createField({ value: '' })
+    bindTimezone: createField({ value: !toggleTimezoneField }),
+    timezone: createField({ value: buildTimezoneFromLocationName(sloConfig.timeWindow.timezone) })
   };
 }
 

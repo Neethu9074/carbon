@@ -74,10 +74,10 @@ export const extractTimeZoneName = (timezone: string): string => {
 };
 
 export const buildTimezoneFromLocationName = (timezone: string): string => {
-  if (timezone === '' || timezone === 'UTC') {
-    return 'UTC';
+  if (timezone === '' || timezone === utcLabel) {
+    return utcLabel;
   }
   const timezoneWithLocation = moment.tz(timezone);
   const formattedOffset = timezoneWithLocation.format('Z');
-  return `UTC ${formattedOffset} - ${timezone}`;
+  return `${utcLabel} ${formattedOffset} - ${timezone}`;
 };
