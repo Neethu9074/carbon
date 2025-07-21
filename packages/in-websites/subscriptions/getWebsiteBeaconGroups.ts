@@ -10,7 +10,8 @@ import {
   TimeShift,
   WebsiteBeaconGroupsItem,
   WebsiteBeaconTagGroup
-} from 'in-types';
+} from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 interface Query extends Omit<GetWebsiteBeaconGroupsQuery, 'group' | 'timeShift'> {

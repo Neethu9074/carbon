@@ -7,8 +7,8 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { InfraAlertRuleUnion, InfraAlertConfig, VersionedConfig } from '@instana/types';
 import { RuleWithThreshold } from '@instana/types/typeDefinitions';
-import { InfraAlertRuleUnion } from '@instana/types';
 
 import {
   useFormattedThresholdValue,
@@ -30,7 +30,6 @@ import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
-import { InfraAlertConfig, VersionedConfig } from 'in-types';
 
 interface AlertConfigDialogType {
   onClose: () => void;

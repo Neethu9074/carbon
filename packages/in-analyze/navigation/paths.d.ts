@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { AggregationType, BoundaryScope, Group, Order } from '@instana/types';
+
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { AggregationType, BoundaryScope, Group, Order } from 'in-types';
 import { EntityType } from 'in-analyze/applicationFilter';
 
 interface ChartMetric {

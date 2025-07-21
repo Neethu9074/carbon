@@ -7,11 +7,11 @@
 import React from 'react';
 
 import { CarbonIconButton, CarbonStack, SvgIcon } from '@instana/components';
+import { Policy } from '@instana/types';
 
 import { CreateNewPolicyTearsheetProps } from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
 import { showConfirmationDialog } from 'in-automation/PolicyTable/PolicyTable';
-import { Policy } from 'in-types';
 import { t } from 'in-i18n';
 
 export default function PolicyControls({

@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { TagFilterExpressionElementUnion } from '@instana/types';
 import { Button, Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -26,7 +27,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import { formatMetricIfPresent } from 'in-applications/metrics';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { TagFilterExpressionElementUnion } from 'in-types';
 import { SubtraceListItem } from 'in-applications/types';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';

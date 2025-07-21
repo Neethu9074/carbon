@@ -5,7 +5,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { LogsResult, Result } from '@instana/types';
+import { LogsResult, Result, LogItem } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -13,7 +13,6 @@ import { maxInitialLogLines, maxRetrievalSize } from 'in-logging/analyze/Analyze
 import { CreateParams, LogsCursorPaginationState } from 'in-logging/analyze/AnalyzeView/components/hooks/types';
 import { indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { shallowEquals } from 'in-services/util/object';
-import { LogItem } from 'in-types';
 
 const defaultUseLogsCursorPaginationHook = createPageSizeAwareLogsCursorPaginationHook();
 export default defaultUseLogsCursorPaginationHook;

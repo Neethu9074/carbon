@@ -9,9 +9,10 @@ import ResizeObserver from 'resize-observer-polyfill';
 import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
 
+import { ActionType } from '@instana/types';
+
 import ActionSummary from 'in-automation/ActionDashboard/ActionSummary/ActionSummary';
 import { ACTION_TYPE } from 'in-automation/constants';
-import { ActionType } from 'in-types';
 
 const mockData = {
   type: ACTION_TYPE.SCRIPT,

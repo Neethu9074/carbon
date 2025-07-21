@@ -6,11 +6,12 @@
 
 import React, { useState } from 'react';
 
+import { Error } from '@instana/types';
+
 import { removeUserFromGroupWithoutMapAndRefresh as removeUserFromGroup } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { close } from 'in-components/DialogPresenter/store';
 import { Trans, t } from 'in-i18n';
-import { Error } from 'in-types';
 
 /**
  * Properties for the RemoveUserDialog component

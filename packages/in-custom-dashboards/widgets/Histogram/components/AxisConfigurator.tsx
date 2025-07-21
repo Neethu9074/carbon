@@ -7,6 +7,8 @@
 import { MapForm, Item, Field } from 'formalistic';
 import React from 'react';
 
+import { AggregationType } from '@instana/types';
+
 import {
   formatterPath,
   metricConfigurationPath,
@@ -18,7 +20,6 @@ import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import { getBaseUnit } from 'in-stores/metric/units';
-import { AggregationType } from 'in-types';
 
 interface AxisConfiguratorProps {
   label: string;

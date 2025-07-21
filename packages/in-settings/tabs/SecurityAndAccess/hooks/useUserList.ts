@@ -5,12 +5,12 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { UserResult } from '@instana/types';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { pendingResult } from 'in-services/fixedObjects';
 import { FetchedState } from 'in-hooks/utils/types';
 import { getUsersResult } from 'in-api/users';
-import { UserResult } from 'in-types';
 
 export default function useUserList(): FetchedState<UserResult[]> {
   const result = useObservable(() => getUsersResult({}), []) ?? pendingResult;

@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { LoadingSkeleton } from '@instana/components';
+import { Error } from '@instana/types';
 
 import {
   OnParentAndSiblingCallsLoadedProps,
@@ -22,7 +23,6 @@ import { useLoadLazyRelatedCalls } from 'in-applications/analyze/components/Trac
 import { useLoadLazyParentNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadLazyParentNode';
 import CallTreeHeader from 'in-applications/analyze/AnalyzeView2_0/components/CallTreeHeader';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
-import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './LazyLoadingCalls.mless';

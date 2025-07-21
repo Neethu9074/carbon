@@ -7,11 +7,12 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import { VersionedConfig } from '@instana/types';
+
 import AlertConfigDialog, { toAlertConfig } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import alertFormDefinition from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
 import data from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
-import { VersionedConfig } from 'in-types';
 
 const mockTriggerReload = jest.fn();
 

@@ -13,7 +13,8 @@ import {
   ThresholdType,
   WebsiteAlertConfigWithMetadata,
   WebsiteAlertRuleUnion
-} from 'in-types';
+} from '@instana/types';
+
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { CRITICAL_SEVERITY, WARNING_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';

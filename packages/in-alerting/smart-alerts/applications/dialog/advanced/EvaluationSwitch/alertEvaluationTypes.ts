@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { AlertEvaluationType } from '@instana/types';
+
 import { perEndpointAdaptiveBaselineEnabled } from 'in-services/featureFlags';
-import { AlertEvaluationType } from 'in-types';
 import { t } from 'in-i18n';
 
 export const PER_AP: AlertEvaluationType = 'PER_AP';

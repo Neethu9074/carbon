@@ -3,12 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ThresholdOperator, TagFilterOperator, Granularity } from '@instana/types';
+
 import {
   applicationSmartAlertFullScreenDesignEnabled,
   applicationSmartAlertDialogView
 } from 'in-services/featureFlags';
-import { ThresholdOperator, TagFilterOperator, Granularity, Nullish } from 'in-types';
 import { defaultGracePeriod } from 'in-alerting/smart-alerts/components/GracePeriod';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export function toTagFilterNumberOperator(thresholdOperator: ThresholdOperator): TagFilterOperator {

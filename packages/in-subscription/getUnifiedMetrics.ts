@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest, timeout, Observable } from '@instana/observables';
-
 import {
   GetUnifiedMetricsQuery,
   HistogramMetricResult,
@@ -13,7 +11,9 @@ import {
   Result,
   TimeConfig,
   UnifiedMetricConfigurationUnion
-} from 'in-types';
+} from '@instana/types';
+import { combineLatest, timeout, Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { apMetricsDeltaFetchingEnabled } from 'in-services/featureFlags';
 import { merge } from 'in-services/util/resultMerger';

@@ -16,7 +16,7 @@ import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigati
 import ConversionGoals from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/ConversionGoals';
 import { websitesBusinessConversionGoalsEnabled } from 'in-services/featureFlags';
 import Summary from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/Summary';
-import { TimeConfig } from 'in-types';
+import { TimeConfig } from '@instana/types';
 import { t } from 'in-i18n';
 
 interface BusinessMonitoringProps {

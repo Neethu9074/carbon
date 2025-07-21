@@ -6,6 +6,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { AlertEvaluationType } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import {
@@ -16,7 +17,6 @@ import StaticOrAdaptiveOption from 'in-alerting/smart-alerts/applications/dialog
 import { PER_AP_ENDPOINT } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { noop } from 'in-services/util/function';
-import { AlertEvaluationType } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

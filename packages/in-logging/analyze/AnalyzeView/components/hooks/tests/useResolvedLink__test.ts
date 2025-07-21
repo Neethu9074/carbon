@@ -6,6 +6,8 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
+import { LogItem, LogTag } from '@instana/types';
+
 import {
   LOG_CUSTOM_KEY_APPLICATION_ID,
   LOG_CUSTOM,
@@ -25,7 +27,6 @@ import {
 import useResolvedLink, { getServiceId } from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import { LogItem, LogTag } from 'in-types';
 
 jest.mock('in-applications/navigation/paths', () => ({
   useLinkToApplicationDashboard: jest.fn(),

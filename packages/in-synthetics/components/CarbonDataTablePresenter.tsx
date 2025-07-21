@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { Pagination as CarbonPagination } from '@instana/components';
+import { PaginatedResult, Result } from '@instana/types';
 
 import { ListItem, CarbonDataTablePresenterProps, TableState } from 'in-synthetics/components/constants';
 import { useColumnManagement } from 'in-synthetics/hooks/useColumnManagement';
@@ -18,7 +19,6 @@ import { useTableRows } from 'in-synthetics/hooks/useTableRows';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { sortHandler } from 'in-synthetics/components/utils';
 import { isLoading } from 'in-services/util/result';
-import { PaginatedResult, Result } from 'in-types';
 
 /**
  * CarbonDataTablePresenter component

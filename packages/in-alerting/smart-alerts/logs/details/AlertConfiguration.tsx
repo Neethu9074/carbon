@@ -6,6 +6,7 @@
 
 import React, { useState, useMemo } from 'react';
 
+import { TagCatalog, TagFilter, RuleWithThreshold, LogAlertRuleUnion } from '@instana/types';
 import { Message, Stack } from '@instana/components';
 import { create } from '@instana/observables';
 
@@ -24,7 +25,6 @@ import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/Custo
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
-import { TagCatalog, TagFilter, RuleWithThreshold, LogAlertRuleUnion } from 'in-types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';

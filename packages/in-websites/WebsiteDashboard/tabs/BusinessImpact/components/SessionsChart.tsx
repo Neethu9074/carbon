@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { Result, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error needs migration to TS
@@ -18,7 +19,6 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { chartColors } from 'in-themes/chartColors';
-import { Result, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SessionsChartProps {

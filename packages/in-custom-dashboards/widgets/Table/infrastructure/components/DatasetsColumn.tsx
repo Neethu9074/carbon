@@ -8,6 +8,7 @@ import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Stack, Checkbox } from '@instana/components';
+import { MetricSource } from '@instana/types';
 
 import {
   aggregationPath,
@@ -28,7 +29,6 @@ import Sections from 'in-components/workspace/Sections/Sections';
 import { getFormatterById } from 'in-stores/metric/formatters';
 import Section from 'in-components/workspace/Section';
 import { getBaseUnit } from 'in-stores/metric/units';
-import { MetricSource } from 'in-types';
 import { t } from 'in-i18n';
 
 interface DatasetsColumnProps {

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Granularity, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
+import { Granularity, TagFilterExpressionElementUnion, TimeConfig, LogGroupItem } from '@instana/types';
 
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
@@ -12,7 +12,6 @@ import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { numberCompact } from 'in-stores/metric/formatters';
 import { line } from 'in-stores/metric/renderer';
 import { minutes } from 'in-services/time';
-import { LogGroupItem } from 'in-types';
 
 export function getUnifiedMetricConfig(
   metricId: string,

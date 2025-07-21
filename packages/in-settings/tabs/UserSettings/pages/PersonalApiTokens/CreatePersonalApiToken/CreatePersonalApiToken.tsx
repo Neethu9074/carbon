@@ -8,6 +8,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 
 import { Code, Spacer, Stack, StackItem, Typography, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { Error } from '@instana/types';
 
 import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/ExpirationDateDropdown';
 import { PersonalApiToken, createPersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
@@ -26,7 +27,6 @@ import Input from 'in-components/form/Input/Input';
 import Actions from 'in-components/Dialog/Actions';
 import Dialog from 'in-components/Dialog/Dialog';
 import { user } from 'in-stores/user';
-import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 /**

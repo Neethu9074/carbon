@@ -7,6 +7,8 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useMemo, useState } from 'react';
 
+import { InfraAlertConfig, InfraAlertRuleUnion, RuleWithThreshold } from '@instana/types';
+
 import {
   useFormattedThresholdValue,
   useGetAlertTitle,
@@ -31,7 +33,6 @@ import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/us
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { InfraAlertConfig, InfraAlertRuleUnion, RuleWithThreshold } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigationToAlertConfig } from 'in-infrastructure/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';

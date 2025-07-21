@@ -5,7 +5,7 @@
 
 import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, CSSProperties } from 'react';
 
-import { OrderDirection } from 'in-types';
+import { OrderDirection } from '@instana/types';
 
 export interface ColumnDefinition<
   ItemType extends Object,

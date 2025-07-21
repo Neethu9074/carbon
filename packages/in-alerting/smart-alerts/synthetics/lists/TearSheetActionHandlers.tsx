@@ -6,13 +6,14 @@
 
 import React from 'react';
 
+import { SyntheticAlertConfigWithMetadata } from '@instana/types';
+
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
 //@ts-expect-error TS migration
 import { MoreMenuButton } from 'in-components/MoreMenu';
 import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
-import { SyntheticAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './TearSheetActionHandlers.mless';

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetWebsiteQuery, Result, Website } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetWebsiteQuery, Result, Website } from 'in-types';
 
 export default createResultSubscriptionFactory<GetWebsiteQuery, Result<Website>>({
   eventId: 'getWebsite',

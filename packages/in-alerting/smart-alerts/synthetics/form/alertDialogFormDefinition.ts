@@ -6,12 +6,13 @@
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
+import { SyntheticAlertConfig, TagFilter, VersionedConfig } from '@instana/types';
+
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 //@ts-expect-error
 import { titleValidator } from 'in-alerting/smart-alerts/synthetics/data/alertConfigUtils';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { defaultGracePeriod } from 'in-alerting/smart-alerts/components/GracePeriod';
-import { SyntheticAlertConfig, TagFilter, VersionedConfig } from 'in-types';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 

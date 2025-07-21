@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { EntityHealthInfo, KubernetesPod, TimeConfig } from '@instana/types';
+
 // @ts-expect-error TS migration
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 // @ts-expect-error TS migration
@@ -12,7 +14,6 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import getOtelKubernetesPod from 'in-kubernetes/subscriptions/getOtelKubernetesPod';
 // @ts-expect-error TS migration
 import connectTo from 'in-hoc/connectTo';
-import { EntityHealthInfo, KubernetesPod, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface OtelNodePodBreadcrumbProps {

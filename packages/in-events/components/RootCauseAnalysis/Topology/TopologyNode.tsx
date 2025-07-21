@@ -11,6 +11,7 @@ import { get } from 'lodash';
 import { ShapeNode } from '@instana/carbon-charts';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { RCATopologyTimeWindowContext } from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologyDialog';
 import getHealthInfoQueryParams from 'in-events/components/RootCauseAnalysis/Topology/utils/getHealthInfoQueryParams';
@@ -20,7 +21,6 @@ import { TopologyGraphNode } from 'in-events/components/RootCauseAnalysis/Topolo
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import getEntityHealthInfo from 'in-kubernetes/subscriptions/getEntityHealthInfo';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
-import { TimeConfig } from 'in-types';
 
 import locals from './RootCauseMap.mless';
 

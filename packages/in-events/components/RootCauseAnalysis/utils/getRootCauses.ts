@@ -8,8 +8,9 @@
 
 import { get, has, isEmpty, isNull } from 'lodash';
 
+import { Event } from '@instana/types';
+
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
-import { Event } from 'in-types';
 
 export const getRootCauses = (incident: Event): RootCause[] => {
   const path = has(incident, 'metadata.rootCause.currentRootCause')

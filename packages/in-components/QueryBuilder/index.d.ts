@@ -5,8 +5,6 @@
 
 import { ComponentType } from 'react';
 
-import { Observable } from '@instana/observables';
-
 import {
   Filter,
   TagCatalog,
@@ -15,7 +13,9 @@ import {
   TagSuggestionProposeType,
   TagSuggestions,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export type GetSuggestionsProps = { [key: string]: unknown };

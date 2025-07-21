@@ -6,9 +6,10 @@
 
 import React, { useMemo } from 'react';
 
+import { TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
+
 import ImpactedUsersPresenter from 'in-eum/ImpactedUsers/ImpactedUsersPresenter';
 import { useImpactedUsersMetrics } from 'in-eum/hooks/useImpactedUsers';
-import { TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 
 interface ImpactedUsersProps {
   entityType?: string | unknown;

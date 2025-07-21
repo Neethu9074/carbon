@@ -7,6 +7,8 @@ import invariant from 'invariant';
 import { pick } from 'lodash';
 import React from 'react';
 
+import { Result, TimeConfig } from '@instana/types';
+
 import { AxisConfiguration, ChartConfig, MetricMap, TimeShift } from 'in-components/Chart/types';
 import ResultAwareChart, { ResultAwareChartConfig } from 'in-components/Chart/ResultAwareChart';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
@@ -14,7 +16,6 @@ import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { deepCopy } from 'in-services/util/object';
-import { Result, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 // Sample Usage

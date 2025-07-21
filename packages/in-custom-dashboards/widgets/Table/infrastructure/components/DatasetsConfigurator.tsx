@@ -9,6 +9,7 @@ import React, { useEffect } from 'react';
 import { isEqual } from 'lodash';
 
 import { Li, Stack, Ul, Button } from '@instana/components';
+import { MetricSource } from '@instana/types';
 
 // @ts-expect-error
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
@@ -22,7 +23,6 @@ import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Header from 'in-components/workspace/Header';
 import usePrevious from 'in-hooks/usePrevious';
-import { MetricSource } from 'in-types';
 import { t } from 'in-i18n';
 
 export interface DatasetsConfiguratorProps {

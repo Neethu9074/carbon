@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   GetServicesCorrelatedByTagQuery,
   OrderDirection,
@@ -14,7 +12,9 @@ import {
   ServiceItem,
   TagFilterEntity,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getServicesCorrelatedByTag = createResultSubscriptionFactory<

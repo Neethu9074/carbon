@@ -8,6 +8,7 @@ import React, { ChangeEvent } from 'react';
 
 import { Li, Message, ScrollBox, Stack, Checkbox } from '@instana/components';
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
+import { Progress, Error as ScriptError } from '@instana/types';
 import { FileInputButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -34,7 +35,6 @@ import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
 import CodeInput from 'in-synthetics/packages/Code/CodeInput';
-import { Progress, Error as ScriptError } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/wizard/RequestResponseStep.mless';

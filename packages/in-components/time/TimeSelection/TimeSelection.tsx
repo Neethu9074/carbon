@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error
 import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
@@ -22,7 +23,6 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import { Location } from 'in-stores/navigation/types';
 import Overlay from 'in-components/overlays/Overlay';
 import Tooltip from 'in-components/Tooltip';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 export interface TimeSelectionProps {

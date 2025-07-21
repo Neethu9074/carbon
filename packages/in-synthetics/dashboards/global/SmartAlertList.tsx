@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig } from '@instana/types';
 import { Spacer } from '@instana/components';
 
 import {
@@ -21,7 +22,6 @@ import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/synt
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig, Role } from 'in-types';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
@@ -40,6 +40,7 @@ import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
+import { Role } from 'in-types';
 
 export default function SmartAlertList({ isEventsView = false }: { isEventsView?: boolean }) {
   const handlers = (role as Role).canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};

@@ -9,6 +9,7 @@
 import { Link } from '@carbon/react';
 import React, { FC } from 'react';
 
+import { ServiceLabel } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import {
@@ -23,7 +24,6 @@ import { useIncident } from 'in-events/components/providers/IncidentProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
-import { ServiceLabel } from 'in-types';
 
 import locals from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseSidebar/EntityLink.mless';
 

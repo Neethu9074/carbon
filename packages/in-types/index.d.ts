@@ -3,6 +3,5 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-export * from '@instana/types';
 export * from 'in-types/globals';
 export * from 'in-types/utilities';

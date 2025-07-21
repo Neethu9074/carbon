@@ -7,13 +7,13 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
+import { DeleteLogsHistoryResult, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
   CarbonDeletionTable,
   DeletionTable
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeletionTable';
-import { DeleteLogsHistoryResult, Result } from 'in-types';
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()

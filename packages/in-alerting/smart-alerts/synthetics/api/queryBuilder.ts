@@ -6,10 +6,10 @@
 
 import { isEmpty } from 'lodash';
 
+import { Result, TagFilterExpressionElementUnion, TagSuggestionProposeType, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import getTestTagSuggestions from 'in-alerting/smart-alerts/synthetics/subscriptions/getTestTagSuggestions';
-import { Result, TagFilterExpressionElementUnion, TagSuggestionProposeType, TimeConfig } from 'in-types';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 
 export interface Suggestions {

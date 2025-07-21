@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Result, HasLogsResult, HasLogsQuery } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, HasLogsResult, HasLogsQuery } from 'in-types';
 
 interface HasLogsResponse extends Result<HasLogsResult> {}
 

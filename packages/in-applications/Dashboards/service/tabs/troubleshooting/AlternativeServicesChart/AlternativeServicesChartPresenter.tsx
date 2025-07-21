@@ -5,6 +5,8 @@
 
 import React, { ReactElement } from 'react';
 
+import { PaginatedResult, Result, ServiceItem, TimeConfig } from '@instana/types';
+
 import { MetricDefinition } from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesChart';
 import {
   AdditionChartContentProps,
@@ -15,7 +17,6 @@ import {
 // eslint-disable-next-line no-restricted-imports
 import { getResolvedTimeConfig, TimeResult } from 'in-applications/metrics';
 import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
-import { PaginatedResult, Result, ServiceItem, TimeConfig } from 'in-types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getChartGranularity } from 'in-stores/metric/metric';
 

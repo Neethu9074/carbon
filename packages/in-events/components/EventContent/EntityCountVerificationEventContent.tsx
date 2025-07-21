@@ -8,7 +8,7 @@ import { Map } from 'immutable';
 import React from 'react';
 
 import { TagFilterExpressionElementUnion, TagFilterOperator } from '@instana/types/typeDefinitions';
-import { TagFilterExpression } from '@instana/types';
+import { TagFilterExpression, TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 // @ts-expect-error
@@ -31,7 +31,6 @@ import { getMetricDefinition } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
 import { line } from 'in-stores/metric/renderer';
 import { EventOrMap } from 'in-events/types';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

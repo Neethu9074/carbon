@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { CatalogUseCase, DataSource, Result, TagCatalog } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { Observable } from '@instana/observables';
 
-import { CatalogUseCase, DataSource, Result, TagCatalog } from 'in-types';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { minutes } from 'in-services/time/time';

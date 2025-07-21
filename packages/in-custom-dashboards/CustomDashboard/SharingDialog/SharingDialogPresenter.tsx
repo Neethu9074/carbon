@@ -6,10 +6,10 @@
 import React, { FormEventHandler } from 'react';
 
 import { Message, Button, RadioButton, Stack } from '@instana/components';
+import { AccessRule, Result, UserResult } from '@instana/types';
 
 import IndividualEditRightSelection from 'in-custom-dashboards/CustomDashboard/SharingDialog/IndividualEditRightSelection';
 import { close } from 'in-components/DialogPresenter/store';
-import { AccessRule, Result, UserResult } from 'in-types';
 import Actions from 'in-components/Dialog/Actions';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';

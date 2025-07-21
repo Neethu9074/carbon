@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Cursor } from '@instana/types';
+import { Cursor, AlertEvaluationType, AppDataEntityChainItem } from '@instana/types';
 
 import {
   ScopeSelectorAppItem,
@@ -18,7 +18,6 @@ import {
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { AlertEvaluationType, AppDataEntityChainItem } from 'in-types';
 import { State } from 'in-hooks/useCursorPagination';
 import { t } from 'in-i18n';
 

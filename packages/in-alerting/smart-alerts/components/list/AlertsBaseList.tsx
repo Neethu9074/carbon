@@ -8,6 +8,7 @@ import React, { ReactNode } from 'react';
 
 import { Observable } from '@instana/observables';
 import { Card } from '@instana/components';
+import { Result } from '@instana/types';
 
 import SmartAlertsTableWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsListWithUrlState';
@@ -18,7 +19,6 @@ import { SortOption } from 'in-alerting/smart-alerts/components/list/TableSortin
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { Location } from 'in-stores/navigation/types';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 export type ActionHandlers<AlertConfig extends AlertConfigType> = {

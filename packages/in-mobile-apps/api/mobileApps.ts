@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { MobileAppConfiguration, Result, SourceMapUploadConfig, SourceMapUploadConfigs } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { MobileAppConfiguration, Result, SourceMapUploadConfig, SourceMapUploadConfigs } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { compareIgnoreCase } from 'in-services/util/string';
 import http from 'in-services/http';

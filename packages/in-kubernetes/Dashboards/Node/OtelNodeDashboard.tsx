@@ -7,6 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { KubernetesNamespace, Result, TimeConfig } from '@instana/types';
 import { Pill } from '@instana/components';
 
 // @ts-expect-error TS migration
@@ -25,7 +26,6 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import getOtelKubernetesNode from 'in-kubernetes/subscriptions/getOtelKubernetesNode';
 import { nodeDashboard, nodeOtelDashboard } from 'in-kubernetes/navigation/paths';
-import type { KubernetesNamespace, Nullish, Result, TimeConfig } from 'in-types';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { TrackingFunction, useKubernetesTracker } from 'in-kubernetes/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
@@ -43,6 +43,7 @@ import { Location } from 'in-stores/navigation/types';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export default function OtelNodeDashboard({ location }: { location: Location }) {

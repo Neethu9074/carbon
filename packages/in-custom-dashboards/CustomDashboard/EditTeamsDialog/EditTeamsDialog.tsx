@@ -6,13 +6,13 @@
 
 import React, { useState } from 'react';
 
+import { CustomDashboardWithUserSpecificInformation, TeamTag } from '@instana/types';
 import { Modal, Callout } from '@instana/carbon';
 import { Typography } from '@instana/components';
 
 import TeamAssociationDropdown, {
   useTaggedTeamsSelection
 } from 'in-settings/components/Shared/TeamAssociationDropdown/TeamAssociationDropdown';
-import { CustomDashboardWithUserSpecificInformation, TeamTag } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 

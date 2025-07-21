@@ -5,9 +5,7 @@
  */
 
 import { InfraAlertRuleUnion, RuleWithThreshold, Severity, ThresholdConfigUnion } from '@instana/types/typeDefinitions';
-import { InfraAlertConfigWithMetadata } from '@instana/types';
-
-import { InfraAlertConfig } from 'in-types';
+import { InfraAlertConfigWithMetadata, InfraAlertConfig } from '@instana/types';
 
 export interface InfraSmartAlertConfig extends InfraAlertConfig {
   rule: InfraAlertRuleUnion;

@@ -6,6 +6,8 @@
 
 import React, { Fragment } from 'react';
 
+import { TimeConfig, TagFilter } from '@instana/types';
+
 // @ts-expect-error Could not find a declaration file for module
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 // @ts-expect-error Could not find a declaration file for module
@@ -26,7 +28,6 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { carbonCategorical } from 'in-themes/chartColors';
 import { Col, Row } from 'in-components/layout/Grid';
-import { TimeConfig, TagFilter } from 'in-types';
 import { t } from 'in-i18n';
 
 interface PerformanceProp {

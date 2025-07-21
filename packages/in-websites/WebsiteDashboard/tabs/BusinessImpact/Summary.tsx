@@ -6,13 +6,14 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 // @ts-expect-error needs migration to TS
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import SessionsChart from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/components/SessionsChart';
 import UsersChart from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/components/UsersChart';
 import { summaryTab } from 'in-websites/navigation/paths';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { TimeConfig } from 'in-types';
 
 interface SummaryProps {
   websiteId: string;

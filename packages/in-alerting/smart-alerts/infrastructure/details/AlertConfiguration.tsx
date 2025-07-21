@@ -7,6 +7,7 @@
 import React, { useMemo, useState } from 'react';
 import { isEmpty } from 'lodash';
 
+import { InfraAlertRuleUnion, Order, TagCatalog, TagFilter, RuleWithThreshold } from '@instana/types';
 import { Stack } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
@@ -37,7 +38,6 @@ import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/Ch
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import { InfraAlertRuleUnion, Order, TagCatalog, TagFilter, RuleWithThreshold } from 'in-types';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';

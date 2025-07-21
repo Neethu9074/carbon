@@ -17,7 +17,8 @@ import {
   ThresholdOperator,
   isAdaptiveThresholdRule,
   isStaticThresholdRule
-} from 'in-types';
+} from '@instana/types';
+
 import {
   applicationThresholdTypeOptions,
   withoutAdaptiveBaselineOptions,

@@ -6,13 +6,14 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 const tabIcmConnections = {
@@ -116,8 +117,8 @@ function ChartPresenter({ selectedTabId, selectorComponent, snapshotId, timeConf
   const y1Metrics = isConnTab
     ? ['icminfodatastats.maxConn', 'icminfodatastats.peekConn', 'icminfodatastats.curConn']
     : isQueueTab
-    ? ['icminfodatastats.maxQueue', 'icminfodatastats.peekQueue', 'icminfodatastats.curQueue']
-    : ['icminfodatastats.maxThr', 'icminfodatastats.peekThr'];
+      ? ['icminfodatastats.maxQueue', 'icminfodatastats.peekQueue', 'icminfodatastats.curQueue']
+      : ['icminfodatastats.maxThr', 'icminfodatastats.peekThr'];
 
   const y1Labels = [
     t('in-sap:dashboards.maximum'),

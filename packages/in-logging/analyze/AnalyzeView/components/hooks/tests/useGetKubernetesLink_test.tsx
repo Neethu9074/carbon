@@ -6,10 +6,11 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
+import { LogItem, LogTag } from '@instana/types';
+
 import { useGetKubernetesLink } from 'in-logging/analyze/AnalyzeView/components/hooks/getKubernetesLink';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { capitalize } from 'in-services/formatters/string';
-import { LogItem, LogTag } from 'in-types';
 
 jest.mock('in-stores/navigation/hooks/useNavigation');
 jest.mock('in-services/formatters/string', () => ({

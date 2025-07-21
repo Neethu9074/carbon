@@ -5,10 +5,10 @@
 
 // @ts-expect-error export for empty is missing in its *.d.ts files
 import { empty, Observable } from '@instana/observables';
+import { Result, Website } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { Result, Website } from 'in-types';
 
 /**
  * Retrieves the name of a website for a given websiteId from backend

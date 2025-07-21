@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import type { Error as InstanaError } from '@instana/types';
+import { Error as InstanaError, TimeConfig, Result, KubernetesPod } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Pill } from '@instana/components';
 
@@ -44,7 +44,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/otelIndex';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { useKubernetesTracker } from 'in-kubernetes/tracker';
-import { TimeConfig, Result, KubernetesPod } from 'in-types';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';

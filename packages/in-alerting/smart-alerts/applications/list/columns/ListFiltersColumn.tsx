@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { ApplicationAlertRuleUnion, ThresholdConfigUnion } from '@instana/types';
+
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { ApplicationAlertRuleUnion, ThresholdConfigUnion } from 'in-types';
 import IconLabel from 'in-alerting/components/IconLabel';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
 import { Code, Li, Ul } from '@instana/components';
+import { LogTag } from '@instana/types';
 
 import { GetHrefToGroupedView, GetHrefWithAdditionalTagFilter } from 'in-components/AnalyzeView/StateManagement';
 import { useParamTagLinks } from 'in-logging/analyze/AnalyzeView/components/hooks/useParamTagLinks';
@@ -17,7 +18,6 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { logFormattingEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Overlay from 'in-components/overlays/Overlay';
-import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './LogMessage.mless';

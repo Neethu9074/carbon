@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Result, SapDbItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, SapDbItem } from 'in-types';
 
 interface GetDbTenantRequest {}
 

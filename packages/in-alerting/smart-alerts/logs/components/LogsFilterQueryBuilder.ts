@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import { CatalogUseCase, Result, TagSuggestions } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
-import { CatalogUseCase, Result, TagSuggestions } from 'in-types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { listSuccess } from 'in-services/util/result';

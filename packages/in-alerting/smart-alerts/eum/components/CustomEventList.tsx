@@ -7,11 +7,12 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import MobileAppCustomEventsList from 'in-alerting/smart-alerts/mobileApp/components/CustomEventsList';
 import WebsiteCustomEventsList from 'in-alerting/smart-alerts/websites/components/CustomEventsList';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
-import { TimeConfig } from 'in-types';
 
 export default function CustomEventList({
   eumType,

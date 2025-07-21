@@ -6,9 +6,9 @@
 import React, { useMemo } from 'react';
 
 import { Stack } from '@instana/components';
+import { LogTag } from '@instana/types';
 
 import { LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE } from 'in-logging/queryBuilder';
-import { LogTag } from 'in-types';
 
 import locals from './LogExceptionReadMode.mless';
 

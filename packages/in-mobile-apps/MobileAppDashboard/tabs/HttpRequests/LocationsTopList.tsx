@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { AggregationType } from '@instana/types';
+import { AggregationType, TagFilter, TimeConfig } from '@instana/types';
 import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
@@ -20,7 +20,6 @@ import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getM
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { UrlMatrixParamConfig } from 'in-applications/types';
 import { ms, number } from 'in-services/formatters/number';
-import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 const metrics = ['beaconCount', 'beaconDuration', 'beaconErrorCount'];

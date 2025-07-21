@@ -6,6 +6,8 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Error as ScriptError } from '@instana/types';
+
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { BluePrint, getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
@@ -15,7 +17,6 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import Menu from 'in-alerting/smart-alerts/components/Menu';
 import { Script } from 'in-synthetics/utils/constants';
-import { Error as ScriptError } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/wizard/SelectTestStep.mless';

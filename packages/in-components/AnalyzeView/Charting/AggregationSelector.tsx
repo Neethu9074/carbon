@@ -6,10 +6,10 @@
 import React from 'react';
 
 import { CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } from '@instana/components';
+import { AggregationType } from '@instana/types';
 
 // @ts-expect-error
 import { aggregationLabels } from 'in-stores/metric';
-import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-components/AnalyzeView/Charting/AggregationSelector.mless';

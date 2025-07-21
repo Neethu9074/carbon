@@ -6,7 +6,7 @@
 import React, { useEffect, useRef } from 'react';
 
 import { ColumnizedDefinition, Button } from '@instana/components';
-import { TagFilter } from '@instana/types';
+import { TagFilter, LogItem } from '@instana/types';
 
 import {
   centerAlignedCopyColumn,
@@ -40,7 +40,6 @@ import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { trySet } from 'in-services/localStorage';
-import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';

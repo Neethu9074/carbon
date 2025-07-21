@@ -7,9 +7,10 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
+import { Result, PaginatedResult } from '@instana/types';
+
 import { ListItem, CarbonHeader, TableState, CarbonDataTablePresenterProps } from 'in-synthetics/components/constants';
 import { getRowId } from 'in-synthetics/components/utils';
-import { Result, PaginatedResult } from 'in-types';
 
 import locals from 'in-synthetics/components/CarbonDataTablePresenter.mless';
 

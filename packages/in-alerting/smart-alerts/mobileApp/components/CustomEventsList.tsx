@@ -6,7 +6,13 @@
 
 import React from 'react';
 
-import { MobileAppPaginatedBeaconGroupsItem, Result, TagFilterExpression, TimeConfig } from '@instana/types';
+import {
+  MobileAppPaginatedBeaconGroupsItem,
+  Result,
+  TagFilterExpression,
+  TimeConfig,
+  PaginatedResult
+} from '@instana/types';
 import { CarbonLayer } from '@instana/components';
 
 import {
@@ -22,7 +28,6 @@ import MetricValue from 'in-components/tables/ServerTable/components/MetricValue
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import List from 'in-settings/components/List';
 import Label from 'in-components/form/Label';
-import { PaginatedResult } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/mobileApp/components/CustomEventsList.mless';

@@ -5,7 +5,16 @@
 
 import { Field, MapForm } from 'formalistic';
 
-import { CustomEventWebsiteAlertRule } from '@instana/types';
+import {
+  CustomEventWebsiteAlertRule,
+  SlownessWebsiteAlertRule,
+  SpecificJsErrorsWebsiteAlertRule,
+  StatusCodeWebsiteAlertRule,
+  TagFilterOperator,
+  ThresholdOperator,
+  ThroughputWebsiteAlertRule,
+  WebsiteAlertRule
+} from '@instana/types';
 
 import {
   getSlownessGreaterOrLessOperatorText,
@@ -16,15 +25,6 @@ import {
   getThresholdHigherOrLowerOperatorText,
   getThroughputSimpleHighOrLowOperatorText
 } from 'in-alerting/smart-alerts/eum/form/formUtils';
-import {
-  SlownessWebsiteAlertRule,
-  SpecificJsErrorsWebsiteAlertRule,
-  StatusCodeWebsiteAlertRule,
-  TagFilterOperator,
-  ThresholdOperator,
-  ThroughputWebsiteAlertRule,
-  WebsiteAlertRule
-} from 'in-types';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { severityMap, WARNING_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isEmpty as checkIsEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';

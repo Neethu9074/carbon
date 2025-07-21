@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
+import { TagFilter } from '@instana/types';
+
 import { alertCreated, alertId, isDuplicateMode, isEditMode } from 'in-websites/navigation/matrix';
 import { configurationAlerts, websiteSmartAlerts } from 'in-websites/navigation/paths';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
-import { TagFilter } from 'in-types';
 
 export default function getAlertingUrlParameters(location: Location): {
   editMode: boolean;

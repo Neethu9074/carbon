@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { TagFilterEntity } from '@instana/types';
 import { Link } from '@instana/components';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
@@ -14,7 +15,6 @@ import { DESTINATION, SOURCE } from 'in-components/QueryBuilder/tagFilter/entiti
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Table from 'in-sdk/components/dashboard/Table';
-import { TagFilterEntity } from 'in-types';
 import { t } from 'in-i18n';
 
 type Row = {

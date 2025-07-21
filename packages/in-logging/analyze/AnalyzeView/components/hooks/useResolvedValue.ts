@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Application, LogTag, Result } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -19,7 +20,6 @@ import { timestampToLocaleDate } from 'in-logging/analyze/AnalyzeView/components
 import getApplication from 'in-applications/subscriptions/getApplication';
 // @ts-expect-error
 import { getLabel } from 'in-sdk/snapshot';
-import { Application, LogTag, Result } from 'in-types';
 import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
 

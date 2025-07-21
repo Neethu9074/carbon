@@ -9,12 +9,12 @@ import React from 'react';
 import { Button, Layer, Stack } from '@instana/carbon';
 import { LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Widget } from '@instana/types';
 
 // @ts-expect-error not yet ts migrated
 import widgets from 'in-custom-dashboards/widgets';
 import { FinalConfig } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 import { promptGetWidgetJson } from 'in-custom-dashboards/api';
-import { Widget } from 'in-types';
 
 export function WidgetPreviewWithSlots({
   slots,

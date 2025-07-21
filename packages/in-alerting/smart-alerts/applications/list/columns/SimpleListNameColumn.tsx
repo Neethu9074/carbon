@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { ApplicationAlertRuleUnion } from '@instana/types';
+
 import {
   ApplicationSmartAlertConfigWithMetadata,
   GlobalApplicationsSmartAlertConfigWithMetadata
@@ -13,7 +15,6 @@ import getAlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/a
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
-import { ApplicationAlertRuleUnion } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SimpleListNameColumnProps {

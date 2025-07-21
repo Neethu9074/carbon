@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { AggregationType } from '@instana/types';
+import { AggregationType, TagFilter, TimeConfig } from '@instana/types';
 import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
@@ -17,7 +17,6 @@ import { mobileAppScreenRenderingDurationEnabled } from 'in-services/featureFlag
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { UrlMatrixParamConfig } from 'in-applications/types';
 import { number, ms } from 'in-services/formatters/number';
-import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 const metrics = mobileAppScreenRenderingDurationEnabled ? ['views', 'viewChangeDuration'] : ['views'];

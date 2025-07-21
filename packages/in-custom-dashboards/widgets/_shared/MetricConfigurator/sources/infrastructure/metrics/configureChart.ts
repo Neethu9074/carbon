@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig } from '@instana/types';
+
 import { ConfigFromDataSeries } from 'in-custom-dashboards/widgets/Chart/types';
 import { getFinestAvailableGranularity } from 'in-stores/metric/metric';
-import { TimeConfig } from 'in-types';
 
 export function configureChart(
   previous: ConfigFromDataSeries,

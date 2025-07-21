@@ -7,16 +7,18 @@
 import { createListForm, Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { CustomEventSpecificationWithMetadata } from '@instana/types';
+
 import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { customEventRulesValidator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
-import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import ComboBox, { Option, Options } from 'in-components/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { toTitleCase } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 type FormUpdater<ENTITY> = (mapForm: MapForm<any>, entity: ENTITY) => MapForm<any>;

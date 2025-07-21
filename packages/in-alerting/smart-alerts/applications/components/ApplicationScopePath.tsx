@@ -5,14 +5,15 @@
 
 import React from 'react';
 
+import { TimeConfig, BoundaryScope } from '@instana/types';
+import { SvgIconProps } from '@instana/components';
+
 import {
   useLinkToApplicationDashboard,
   useLinkToEndpointDashboard,
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
-import { SvgIconProps } from '@instana/components';
 import ScopePath from 'in-alerting/components/ScopePath';
-import { TimeConfig, BoundaryScope } from 'in-types';
 
 type SvgIconSize = SvgIconProps['size'];
 interface ApplicationScopePathProps {

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { EndpointItem, GetEndpointsQuery, PaginatedResult, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { EndpointItem, GetEndpointsQuery, PaginatedResult, Result } from 'in-types';
 
 export default createResultSubscriptionFactory<GetEndpointsQuery, Result<PaginatedResult<EndpointItem>>>({
   eventId: 'getEndpoints',

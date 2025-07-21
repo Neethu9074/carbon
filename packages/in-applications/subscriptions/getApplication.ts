@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Application, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Application, Result } from 'in-types';
 
 interface CreateResultSubscriptionFactoryRequest {
   id: string;

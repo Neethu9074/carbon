@@ -13,7 +13,8 @@ import {
   StaticBaselineThresholdRule,
   StaticThresholdRule,
   ThresholdType
-} from 'in-types';
+} from '@instana/types';
+
 import {
   shiftDecimalLeft,
   shiftDecimalRight,

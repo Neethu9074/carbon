@@ -7,6 +7,8 @@
 import React, { useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
+import { TimeConfig, WebsiteAlertConfigWithMetadata, WebsiteAlertRule, WebsiteAlertRuleUnion } from '@instana/types';
+
 import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
@@ -20,7 +22,6 @@ import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/websites/
 //@ts-expect-error TS migration
 import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresholdSuggestion';
 import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/websites/TearSheet/steps/TearSheetStepConfigs';
-import { TimeConfig, WebsiteAlertConfigWithMetadata, WebsiteAlertRule, WebsiteAlertRuleUnion } from 'in-types';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/websites/hooks/useAlertConfigValidation';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';

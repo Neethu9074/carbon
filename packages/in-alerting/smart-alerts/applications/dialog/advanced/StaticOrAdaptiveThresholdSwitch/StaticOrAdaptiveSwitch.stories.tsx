@@ -5,13 +5,14 @@
 
 import React, { useState } from 'react';
 
+import { ThresholdType } from '@instana/types';
+
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import { someErrorRateFormData } from 'in-alerting/smart-alerts/applications/dialog/advanced/stories/formSampleData';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { noop } from 'in-services/util/function';
-import { ThresholdType } from 'in-types';
 
 export default {
   component: StaticOrAdaptiveSwitch

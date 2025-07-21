@@ -6,20 +6,19 @@
 
 import { Map } from 'immutable';
 
-import { generateUniqueShortId } from '@instana/utils';
-
 import {
   Application,
   ContextGuideGroup,
   ExtendedService,
   Filter,
   Item,
-  Nullish,
   ServiceMap,
   ServiceMapConnection,
   TagFilterExpressionElementUnion,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { generateUniqueShortId } from '@instana/utils';
+
 import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -30,6 +29,7 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getSparkChartGranularity } from 'in-applications/metrics';
+import { Nullish } from 'in-types';
 
 // four levels of nodes
 export type RCA_TOPOLOGY_ENTITY_TYPE_TAGS =

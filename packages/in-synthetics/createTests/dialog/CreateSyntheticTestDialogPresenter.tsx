@@ -8,6 +8,7 @@ import React, { SetStateAction, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
 
+import { Error as ScriptError } from '@instana/types';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -41,7 +42,6 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { isNotBlank } from 'in-services/util/string';
-import { Error as ScriptError } from 'in-types';
 
 import locals from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialogPresenter.mless';
 

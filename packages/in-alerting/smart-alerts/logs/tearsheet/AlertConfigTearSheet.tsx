@@ -7,6 +7,8 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useMemo, useState } from 'react';
 
+import { LogAlertConfig } from '@instana/types';
+
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/logs/tearsheet/AlertConfigTearSheetWithThreshold';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
@@ -32,7 +34,6 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { alertCreated, alertId } from 'in-logging/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
-import { LogAlertConfig } from 'in-types';
 
 const initialChartConfigIndex = 0;
 

@@ -6,10 +6,10 @@
 import invariant from 'invariant';
 import { isArray } from 'lodash';
 
+import { ApiTag, Result, TagCatalog, TagTreeLevel, TagTreeNodeUnion, TagTreeTag, TimeConfig } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { Observable } from '@instana/observables';
 
-import { ApiTag, Result, TagCatalog, TagTreeLevel, TagTreeNodeUnion, TagTreeTag, TimeConfig } from 'in-types';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { roundDownToWeek } from 'in-services/util/date';
 import { success } from 'in-services/util/result';

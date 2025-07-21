@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig } from '@instana/types';
+
 import createSubscription from 'in-subscription/subscription';
-import { TimeConfig } from 'in-types';
 
 export interface GraphRequest {
   timeConfig: TimeConfig;

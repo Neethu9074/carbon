@@ -6,10 +6,10 @@
 import React, { useState, Children, cloneElement, useRef, isValidElement } from 'react';
 
 import { SvgIconSizes } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { ChartContentPostition } from 'in-components/Chart/types';
-import { TimeConfig } from 'in-types';
 
 import locals from './MarkerLanesPresenter.mless';
 

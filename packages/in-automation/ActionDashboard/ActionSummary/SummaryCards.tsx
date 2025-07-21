@@ -9,6 +9,7 @@ import React from 'react';
 
 import { CarbonColumn, CarbonGrid, CarbonRow } from '@instana/components';
 import { formatDate, formatTime } from '@instana/format-date';
+import { Action } from '@instana/types';
 
 import AverageExecutionKpiCard from 'in-automation/ActionDashboard/ActionSummary/AverageExecutionKpiCard';
 import SuccessRateKipCard from 'in-automation/ActionDashboard/ActionSummary/SuccessRateKpiCard';
@@ -17,7 +18,7 @@ import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/constants';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Nullish, Action } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import localStyles from 'in-automation/ActionDashboard/ActionSummary/ActionSummary.mless';

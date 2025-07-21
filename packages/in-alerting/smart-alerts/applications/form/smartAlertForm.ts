@@ -5,6 +5,8 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
+import { ThresholdType, SmartAlertThresholdRuleUnion } from '@instana/types';
+
 import {
   ApplicationSmartAlertConfigWithMetadata,
   GlobalApplicationsSmartAlertConfigWithMetadata
@@ -23,7 +25,6 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import { getGracePeriod } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { ThresholdType, SmartAlertThresholdRuleUnion } from 'in-types';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 

@@ -8,6 +8,7 @@ import { Item, MapForm } from 'formalistic';
 import React, { useMemo } from 'react';
 
 import { Li, Spacer, Stack, Checkbox } from '@instana/components';
+import { Group, TagCatalog } from '@instana/types';
 
 import {
   datasets,
@@ -36,7 +37,6 @@ import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
-import { Group, TagCatalog } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableConfigurator/TableConfigurator.mless';

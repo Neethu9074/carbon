@@ -6,6 +6,7 @@
 
 import React, { ReactNode } from 'react';
 
+import { Result, SyntheticTest } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
 
@@ -19,7 +20,6 @@ import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TrProps } from 'in-components/tables/ServerTable/types';
 import { getTestsAsResultObservable } from 'in-synthetics/api';
-import { Result, SyntheticTest } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

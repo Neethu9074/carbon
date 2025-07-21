@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import { PaginatedResult, Result, BusinessDataQuery, BusinessActivityItem } from 'in-types';
+import { PaginatedResult, Result, BusinessDataQuery, BusinessActivityItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory<BusinessDataQuery, Result<PaginatedResult<BusinessActivityItem>>>({

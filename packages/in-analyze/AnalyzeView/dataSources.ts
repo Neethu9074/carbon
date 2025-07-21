@@ -5,9 +5,10 @@
 
 import { get } from 'lodash';
 
+import { ApplicationTagFilterEntity, CallItem, DataSource, TagFilter, TraceItem } from '@instana/types';
+
 // eslint-disable-next-line no-restricted-imports
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
-import { ApplicationTagFilterEntity, CallItem, DataSource, TagFilter, TraceItem } from 'in-types';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { deepFreeze } from 'in-services/util/object';
@@ -36,9 +37,10 @@ interface DataSourceConfig<Entity> extends FilterTagKeysConfig {
   getTraceIdByItem: (item: Entity) => string | undefined;
   getCallIdByItem: (item: Entity) => string | undefined;
 }
-type AnalyzeDataSourceConfig<Source extends AnalyzeDataSource> = Source extends Lowercase<DataSource>
-  ? DataSourceConfig<Source extends 'traces' ? TraceItem : CallItem>
-  : FilterTagKeysConfig;
+type AnalyzeDataSourceConfig<Source extends AnalyzeDataSource> =
+  Source extends Lowercase<DataSource>
+    ? DataSourceConfig<Source extends 'traces' ? TraceItem : CallItem>
+    : FilterTagKeysConfig;
 
 let configs: {
   [Source in AnalyzeDataSource]: AnalyzeDataSourceConfig<Source>;

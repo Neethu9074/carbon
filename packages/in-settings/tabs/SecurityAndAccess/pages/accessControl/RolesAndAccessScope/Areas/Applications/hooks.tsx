@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { ApplicationConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -11,7 +12,6 @@ import { getApplicationConfigsAsResult } from 'in-api/applicationConfigs';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { deepCopy } from 'in-services/util/object';
-import { ApplicationConfig } from 'in-types';
 
 export const useApplicationsConfigurations = (): FetchedState<ApplicationConfig[]> => {
   const result = useObservable(() => {

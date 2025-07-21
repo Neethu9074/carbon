@@ -5,10 +5,10 @@
 
 import React from 'react';
 
+import { AdaptiveBaselineSuggestionResponse, Result } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { Message } from '@instana/components';
 
-import { AdaptiveBaselineSuggestionResponse, Result } from 'in-types';
 import { hasError } from 'in-services/util/result';
 import { Trans } from 'in-i18n';
 

@@ -7,10 +7,10 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { useSyntheticTestResultDashboard } from 'in-synthetics/navigation/paths';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

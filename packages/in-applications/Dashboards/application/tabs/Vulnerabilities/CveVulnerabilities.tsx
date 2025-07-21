@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
+import { RawEvent } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -27,7 +28,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { solisEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/fixedObjects';
-import { RawEvent } from 'in-types';
 import { t } from 'in-i18n';
 
 interface CVEEventsResponse {

@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Result, AbapSystemListItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, AbapSystemListItem } from 'in-types';
 
 interface GetSapAbapSystemListsRequest {}
 

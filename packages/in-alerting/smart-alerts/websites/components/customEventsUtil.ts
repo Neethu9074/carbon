@@ -4,12 +4,11 @@
  * Copyright IBM Corp. 2022
  */
 
-import { WebsitePaginatedBeaconGroupsItem } from '@instana/types';
+import { WebsitePaginatedBeaconGroupsItem, TagFilterExpression, TimeConfig } from '@instana/types';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { TagFilterExpression, TimeConfig } from 'in-types';
 import { number } from 'in-services/formatters/number';
 
 export function getEventName(item: WebsitePaginatedBeaconGroupsItem): string {

@@ -7,6 +7,7 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
+import { LogTag } from '@instana/types';
 
 import {
   CONTAINERD_SNAPSHOT_ID,
@@ -34,7 +35,6 @@ import useResolvedName, {
   getCustomKeyLabel,
   tagNameResolver
 } from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
-import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
 jest.mock('@instana/hooks', () => ({

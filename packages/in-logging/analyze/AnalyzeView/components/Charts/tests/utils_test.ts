@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { LogGroupItem, TagFilterExpression } from '@instana/types';
+
 import {
   getLogsChartConfig,
   getMetricConfig,
@@ -11,7 +13,6 @@ import {
 } from 'in-logging/analyze/AnalyzeView/components/Charts/utils';
 import { EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
-import { LogGroupItem, TagFilterExpression } from 'in-types';
 
 describe('getNextLogLevelForChart', () => {
   it('should return null when no log groups are provided', () => {

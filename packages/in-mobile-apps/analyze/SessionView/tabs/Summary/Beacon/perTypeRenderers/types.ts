@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { MobileAppMonitoringBeacon } from 'in-types';
-
+import { MobileAppMonitoringBeacon } from '@instana/types';
 // Define the interface for LeftHeaderProps
 export interface LeftHeaderProps {
   beacon: MobileAppMonitoringBeacon;

@@ -6,6 +6,7 @@
 
 import React, { useMemo } from 'react';
 
+import { TagCatalog } from '@instana/types';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -13,7 +14,6 @@ import QueryBuilder, { isQueryValid } from 'in-custom-dashboards/CustomDashboard
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import useUnifiedTagCatalog from 'in-custom-dashboards/hooks/useUnifiedTagCatalog';
-import { TagCatalog } from 'in-types';
 
 import locals from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar.mless';
 

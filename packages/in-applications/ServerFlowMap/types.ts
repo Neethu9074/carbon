@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Service } from 'in-types';
-
+import { Service } from '@instana/types';
 export interface NodeCollection {
   applicationId?: string;
   children: Map<string, NodeCollection>;

@@ -5,6 +5,7 @@
 
 import React, { FormEvent, useState } from 'react';
 
+import { IpMaskingConfiguration, IpMasking, Result } from '@instana/types';
 import { Card, Stack, Button } from '@instana/components';
 import { Select, Form } from '@instana/components';
 import { Observable } from '@instana/observables';
@@ -12,7 +13,6 @@ import { useObservable } from '@instana/hooks';
 
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
-import { IpMaskingConfiguration, IpMasking, Result } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 

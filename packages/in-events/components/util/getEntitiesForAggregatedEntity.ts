@@ -4,15 +4,15 @@
  * Copyright IBM Corp. 2025
  */
 
-import { just } from '@instana/observables';
-
 import {
   AggregationType,
   GetInfrastructureExploreQuery,
   Order,
   TagFilterExpressionElementUnion,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { just } from '@instana/observables';
+
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';

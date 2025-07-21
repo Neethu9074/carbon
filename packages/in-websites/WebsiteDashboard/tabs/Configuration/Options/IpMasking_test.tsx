@@ -7,10 +7,10 @@ import { fireEvent, render, screen, act } from '@testing-library/react';
 import React from 'react';
 
 import { create, Observable, Subject } from '@instana/observables';
+import { IpMaskingConfiguration, Result } from '@instana/types';
 
 import IpMasking from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/IpMasking';
 import { loading, success } from 'in-services/util/result';
-import { IpMaskingConfiguration, Result } from 'in-types';
 
 describe('in-websites/WebsiteDashboard/tabs/Configuration/Options/IpMasking', () => {
   let setObservable: Subject<Result<IpMaskingConfiguration>>;

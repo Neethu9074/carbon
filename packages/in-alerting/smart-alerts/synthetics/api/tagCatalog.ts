@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { CatalogUseCase, Result, TagCatalog } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { Observable } from '@instana/observables';
 
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { CatalogUseCase, Result, TagCatalog } from 'in-types';
 import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 

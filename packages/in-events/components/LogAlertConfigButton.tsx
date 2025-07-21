@@ -6,10 +6,10 @@
 
 import React from 'react';
 
+import { LogAlertConfigWithMetadata } from '@instana/types';
 import { Button } from '@instana/components';
 
 import { useGetAlertConfigLink } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
-import { LogAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
 interface PropsType {

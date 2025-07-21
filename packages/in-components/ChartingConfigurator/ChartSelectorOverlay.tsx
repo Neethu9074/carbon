@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { MetricSource } from '@instana/types';
+
 import { Entity, getEntityNameByType, getIconByType, ProductArea } from 'in-analyze/AnalyzeView/dataSources';
 import { LegacyButton as Button } from 'in-components/Button/LegacyButton';
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
 import Overlay from 'in-components/overlays/Overlay';
-import { MetricSource } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ChartSelectorOverlay.mless';

@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   PaginatedResult,
   Result,
@@ -14,7 +12,9 @@ import {
   OrderDirection,
   TagFilterExpression,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getBusinessActivityList = createResultSubscriptionFactory<

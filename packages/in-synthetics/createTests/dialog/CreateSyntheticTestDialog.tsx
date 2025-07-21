@@ -8,6 +8,8 @@ import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
+import { Error as ScriptError, SyntheticTest } from '@instana/types';
+
 import CreateSyntheticTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialogPresenter';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { Code, SlideInConfig, SliderState, TestTypeSelected } from 'in-synthetics/utils/constants';
@@ -17,7 +19,6 @@ import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleM
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { syntheticWizardCreateButtonClick } from 'in-synthetics/tracking/tracker';
-import { Error as ScriptError, SyntheticTest } from 'in-types';
 import { createTest } from 'in-synthetics/api';
 
 interface CreateSyntheticTestDialogProps {

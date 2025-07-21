@@ -7,6 +7,7 @@ import { MapForm, createMapForm, createField, notBlankValidator } from 'formalis
 import React, { FormEvent, useState } from 'react';
 
 import { CarbonTextInput, Message, Stack } from '@instana/components';
+import { Error, ErrorCode, ManualCloseInfo } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
@@ -14,7 +15,6 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { ManualCloseInfoForm, manuallyCloseIssues } from 'in-events/api';
-import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
 import { user } from 'in-stores/user';
@@ -87,8 +87,8 @@ export default function MultiCloseIssueConfigForm({
         ? t('in-events:titleMultiCloseIncidents')
         : t('in-events:titleMultiCloseIssues')
       : eventType === 'incident'
-      ? t('in-events:titleManualCloseIncident')
-      : t('in-events:titleManualCloseIssue');
+        ? t('in-events:titleManualCloseIncident')
+        : t('in-events:titleManualCloseIssue');
 
   return (
     <form onSubmit={onSubmit}>
@@ -104,8 +104,8 @@ export default function MultiCloseIssueConfigForm({
                       ? t('in-events:multiClose.multiCloseIncidentsDescription')
                       : t('in-events:multiClose.multiCloseIssuesDescription')
                     : eventType === 'incident'
-                    ? t('in-events:multiClose.singleCloseIncidentsDescription')
-                    : t('in-events:multiClose.singleCloseIssuesDescription')
+                      ? t('in-events:multiClose.singleCloseIncidentsDescription')
+                      : t('in-events:multiClose.singleCloseIssuesDescription')
                 )}
               />
             </Stack>
@@ -119,8 +119,8 @@ export default function MultiCloseIssueConfigForm({
                     ? t('in-events:closeEventDialog.reasonIncidents')
                     : t('in-events:closeEventDialog.reasonIssues')
                   : eventType === 'incident'
-                  ? t('in-events:closeEventDialog.reasonIncident')
-                  : t('in-events:closeEventDialog.reasonIssue')
+                    ? t('in-events:closeEventDialog.reasonIncident')
+                    : t('in-events:closeEventDialog.reasonIssue')
               }
               onChange={e => {
                 if (e.target) {

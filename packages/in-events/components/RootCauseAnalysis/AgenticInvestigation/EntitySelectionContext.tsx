@@ -7,9 +7,10 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { get } from 'lodash';
 
+import { Event } from '@instana/types';
+
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { getRootCauses } from 'in-events/components/RootCauseAnalysis/utils/getRootCauses';
-import { Event } from 'in-types';
 
 interface EntitySelectionContextType {
   selectedEntityId: string | null;

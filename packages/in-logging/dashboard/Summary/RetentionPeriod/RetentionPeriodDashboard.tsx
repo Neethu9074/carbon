@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { HorizontalIndicator, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Progress } from '@instana/types';
 
 import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/httpCalls';
 import { dashboardRetentionManagementPath } from 'in-logging/navigation/paths';
@@ -15,7 +16,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
-import { Progress } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';

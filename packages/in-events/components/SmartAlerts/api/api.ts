@@ -12,7 +12,8 @@ import {
   Result,
   SyntheticAlertStats,
   WebsiteAlertStats
-} from 'in-types';
+} from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 interface GetAlertConfigStatsRequest {}

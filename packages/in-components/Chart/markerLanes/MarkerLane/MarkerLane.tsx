@@ -9,14 +9,15 @@ import classNames from 'classnames';
 import { HorizontalIndicator, SvgIcon, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 import { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import { ChartContentPostition } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { Nullish, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './MarkerLane.mless';
@@ -255,7 +256,7 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
 
   function getClampedXPos(timestamp: number): number {
     const rangeTo = xScale?.getRangeTo() ?? 0;
-    const xPos = isClustered ? getXPosCluster(timestamp) : xScale?.getRange(timestamp) ?? 0;
+    const xPos = isClustered ? getXPosCluster(timestamp) : (xScale?.getRange(timestamp) ?? 0);
     return Math.max(0, Math.min(rangeTo, xPos));
   }
 

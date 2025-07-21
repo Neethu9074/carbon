@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { AlertEvaluationType } from '@instana/types';
+
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { severityPlaceholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
-import { AlertEvaluationType } from 'in-types';
 
 interface GetAlertTitleWithPlaceholderHighlightingParams {
   evaluationType: AlertEvaluationType;

@@ -9,6 +9,7 @@ import { get } from 'lodash';
 
 import { MenuButton, MenuItem } from '@instana/carbon';
 import { Button, Stack } from '@instana/components';
+import { SyntheticTest } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -44,7 +45,6 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer';
-import { SyntheticTest } from 'in-types';
 import { role } from 'in-stores/user';
 
 import locals from './SyntheticSummary.mless';

@@ -8,7 +8,7 @@ import React, { memo, useState } from 'react';
 import { get } from 'lodash';
 
 import { Button, CarbonLayer, Collapsible, Typography } from '@instana/components';
-import { Event } from '@instana/types';
+import { Event, RawEvent } from '@instana/types';
 
 //@ts-expect-error file needs to be converted
 import getRawEvents from 'in-subscription/getRawEvents';
@@ -19,7 +19,6 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { EventOrMap } from 'in-events/types';
-import { RawEvent } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';

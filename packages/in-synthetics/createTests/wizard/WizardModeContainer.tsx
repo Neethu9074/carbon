@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
+import { GroupPermissionEntity, Error as ScriptError, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -17,7 +18,6 @@ import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleS
 import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep';
 import AssociationsStep from 'in-synthetics/createTests/wizard/AssociationsStep';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
-import { GroupPermissionEntity, Error as ScriptError, Result } from 'in-types';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
 import { Code, Script, SliderState } from 'in-synthetics/utils/constants';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
@@ -158,7 +158,7 @@ const WizardModeContainer = ({
         simpleModeStep={simpleModeStep}
         isSaving={isSaving}
         additionalStepCheck={(step: number) => {
-          return step !== 0 ? isStepDisabled(step) ?? true : true;
+          return step !== 0 ? (isStepDisabled(step) ?? true) : true;
         }}
         onStepChanged={noop}
       />

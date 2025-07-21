@@ -16,6 +16,7 @@ import {
   ButtonGroup,
   SearchInput
 } from '@instana/components';
+import { Error, OrderDirection, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
@@ -40,7 +41,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Error, OrderDirection, Result } from 'in-types';
 import { Location } from 'in-stores/navigation/types';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';

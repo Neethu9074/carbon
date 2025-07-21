@@ -6,8 +6,6 @@
 import { MapForm } from 'formalistic';
 import { ReactNode } from 'react';
 
-import { Observable } from '@instana/observables';
-
 import {
   PaginatedResult,
   Progress,
@@ -26,7 +24,9 @@ import {
   SyntheticTestFilterOperator,
   LocationStatus,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';

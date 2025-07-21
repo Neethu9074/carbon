@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { TimeShift } from '@instana/types';
+
 import { Bucket } from 'in-components/HistogramChart/components/HistogramChartPresenter/types';
 import { getRangeLabel } from 'in-components/HistogramChart/components/Tooltip/utils';
 import AggregationSymbol from 'in-components/AggregationSymbol';
@@ -13,7 +15,6 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import Config from 'in-components/Chart/Configuration';
 import { Axis } from 'in-components/Chart/types';
-import { TimeShift } from 'in-types';
 
 import locals from './Tooltip.mless';
 

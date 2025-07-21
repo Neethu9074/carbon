@@ -5,10 +5,12 @@
 
 import { assign, merge } from 'lodash';
 
+import { TimeConfig } from '@instana/types';
+
 import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import { MetricsConfiguration } from 'in-components/Chart/types';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { Mutable, Nullish, TimeConfig } from 'in-types';
+import { Mutable, Nullish } from 'in-types';
 
 const EXTEND_TIME_WINDOW_CUTOFF = 24 * 3600 * 1000;
 

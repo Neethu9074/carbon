@@ -8,8 +8,10 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import { TeamTag } from '@instana/types';
+
 import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
-import { TeamTag } from 'in-types';
+
 global.ResizeObserver = ResizeObserver;
 
 describe('TagsInTable', () => {

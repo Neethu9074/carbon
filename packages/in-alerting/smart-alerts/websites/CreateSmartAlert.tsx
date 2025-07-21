@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { TagFilter, TimeConfig } from '@instana/types';
+import { TagFilter, TimeConfig, Website } from '@instana/types';
 import { Button } from '@instana/components';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
@@ -34,7 +34,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useWebsiteError from 'in-websites/hooks/useWebsiteError';
 import useWebsite from 'in-websites/hooks/useWebsite';
 import { Location } from 'in-stores/navigation/types';
-import { Website } from 'in-types';
 import { t } from 'in-i18n';
 
 const alertDisplayMode = getSmartAlertDisplayMode(

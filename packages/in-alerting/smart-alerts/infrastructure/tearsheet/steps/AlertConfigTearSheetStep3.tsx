@@ -8,6 +8,7 @@ import { Item, MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 import React from 'react';
 
+import { InfraAlertRuleUnion } from '@instana/types';
 import { Spacer } from '@instana/components';
 
 import {
@@ -29,7 +30,6 @@ import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitle
 import { incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
-import { InfraAlertRuleUnion } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigTearSheetStep3.mless';

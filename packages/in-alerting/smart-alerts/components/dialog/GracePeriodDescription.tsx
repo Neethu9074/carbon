@@ -7,9 +7,10 @@
 import React from 'react';
 
 import { SvgIcon, Stack } from '@instana/components';
+import { Granularity } from '@instana/types';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { Granularity, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription.mless';

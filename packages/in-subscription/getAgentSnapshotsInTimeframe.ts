@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Result, AgentSnapshot, TimeConfig } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, AgentSnapshot, TimeConfig } from 'in-types';
 
 interface IN {
   timeConfig: TimeConfig;

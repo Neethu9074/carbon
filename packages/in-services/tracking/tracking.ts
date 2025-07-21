@@ -9,6 +9,7 @@ import { invert, isEqual, sortedUniq } from 'lodash';
 import invariant from 'invariant';
 
 import { createLogger } from '@instana/logger';
+import { TimeConfig } from '@instana/types';
 
 import { track as trackInternal } from 'in-services/tracking/trackers';
 import { formatDurationAccurately } from 'in-services/formatters/date';
@@ -22,7 +23,6 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { flattenObj } from 'in-services/util/object';
 import { seconds } from 'in-services/time';
-import { TimeConfig } from 'in-types';
 
 export * from 'in-services/tracking/eventNames';
 

@@ -11,7 +11,8 @@ import {
   MobileAppAlertRule,
   SlownessMobileAppAlertRule,
   StatusCodeMobileAppAlertRule,
-  ThroughputMobileAppAlertRule
+  ThroughputMobileAppAlertRule,
+  ThresholdOperator
 } from '@instana/types';
 
 import {
@@ -35,7 +36,6 @@ import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/ale
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { onLoadTime, beaconRate } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { ThresholdOperator } from 'in-types';
 import { t } from 'in-i18n';
 
 export function getTitlePlaceholder(form: MapForm<any>) {

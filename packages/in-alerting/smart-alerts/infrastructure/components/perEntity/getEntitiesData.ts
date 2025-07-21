@@ -4,15 +4,15 @@
  * Copyright IBM Corp. 2025
  */
 
-import { just } from '@instana/observables';
-
 import {
   GetInfrastructureExploreQuery,
   InfraExploreCursor,
   Order,
   TagFilterExpressionElementUnion,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { just } from '@instana/observables';
+
 import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { getGranularity, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';

@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import { GetMobileAppQuery, Result, MobileApp } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetMobileAppQuery, Result, MobileApp } from 'in-types';
 
 export default createResultSubscriptionFactory<GetMobileAppQuery, Result<MobileApp>>({
   eventId: 'getMobileApp',

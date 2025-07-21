@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { CursorPaginatedResult } from '@instana/types';
+import { CursorPaginatedResult, LogGroupItem, LogGroupsQuery, Result } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { LogGroupItem, LogGroupsQuery, Result } from 'in-types';
 
 export interface GetLogGroupsResponse extends Result<CursorPaginatedResult<LogGroupItem>> {}
 

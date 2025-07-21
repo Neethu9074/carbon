@@ -7,19 +7,21 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { CustomEventSpecificationWithMetadata } from '@instana/types';
+
 import {
   conditionOperatorOptions,
   entityLabelOperatorOptions,
   entityTypesToExcludeInVerificationRule
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import { MAX_CHAR_LENGTH_ENTITY_LABEL } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
-import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Col, Row } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

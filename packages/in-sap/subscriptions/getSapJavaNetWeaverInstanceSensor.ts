@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Result, SapJavaInstanceItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, SapJavaInstanceItem } from 'in-types';
 
 interface GetSapJavaNetWeaverInstanceSensorRequest {}
 

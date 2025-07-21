@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Result, SapInfrastructureLink } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, SapInfrastructureLink } from 'in-types';
 
 interface GetSapWebDispatcherHostRequest {}
 

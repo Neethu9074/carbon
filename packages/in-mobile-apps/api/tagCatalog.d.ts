@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { CatalogUseCase, DataSource, Result, TagCatalog } from '@instana/types';
 import { Observable } from '@instana/observables';
-
-import { CatalogUseCase, DataSource, Result, TagCatalog } from 'in-types';
 
 interface GetTagCatalogProps {
   useCase: CatalogUseCase;

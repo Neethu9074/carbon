@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { ApplicationBoundaryScope } from 'in-types';
+import { ApplicationBoundaryScope } from '@instana/types';
+
 import { minutes } from 'in-services/time/time';
 import { t } from 'in-i18n';
 

@@ -5,9 +5,10 @@
 
 import PropTypes from 'prop-types';
 
+import { TimeConfig } from '@instana/types';
+
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 export const chartViewConfigPropType = PropTypes.shape({

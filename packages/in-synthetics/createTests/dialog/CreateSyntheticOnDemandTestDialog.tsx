@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
 import { CarbonInlineLoading as InlineLoading } from '@instana/components';
+import { Result, SyntheticLocation } from '@instana/types';
 import { Tearsheet } from '@instana/ibm-products';
 import { useObservable } from '@instana/hooks';
 
@@ -19,7 +20,6 @@ import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage
 import { getLocations, rerunTest } from 'in-synthetics/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Result, SyntheticLocation } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/dialog/CreateSyntheticOnDemandTestDialogPresenter.mless';

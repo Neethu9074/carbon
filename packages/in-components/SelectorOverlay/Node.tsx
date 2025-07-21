@@ -8,12 +8,12 @@ import React from 'react';
 
 import { ColumnizedContent, ColumnizedDefinition, KeyValue, Li, ListGroup, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { TagType } from '@instana/types';
 
 import { BreadcrumbAndLabel } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { getKey } from 'in-components/SelectorOverlay/search';
 import { TagWithPath } from 'in-services/tags/tagCatalog';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { TagType } from 'in-types';
 
 import locals from './Node.mless';
 

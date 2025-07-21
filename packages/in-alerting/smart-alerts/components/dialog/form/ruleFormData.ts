@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { AggregationType } from 'in-types';
+import { AggregationType } from '@instana/types';
+
 import { t } from 'in-i18n';
 
 export interface Options {
