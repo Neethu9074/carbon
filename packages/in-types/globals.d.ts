@@ -10,12 +10,9 @@ import '@instana/ibm-products';
 import { Tag } from '@instana/types';
 
 // Is only imported here to derive the correct types for the pre-evaluated
-// permissions.
+// permissions and the user's role.
 // eslint-disable-next-line no-restricted-imports
-import { PRE_EVALUATED_PERMISSION_DEFAULTS } from 'in-stores/permission';
-// Is only imported here to derive the correct types for the user's role.
-// eslint-disable-next-line no-restricted-imports
-import { DEFAULT_ROLE } from 'in-stores/user';
+import { PRE_EVALUATED_PERMISSION_DEFAULTS, DEFAULT_ROLE } from 'in-stores/constants';
 
 export interface UiSettings {
   [key: string]: any;
@@ -35,7 +32,7 @@ export type PreEvaluatedPermissions = {
 
 /**
  * NOTE: Pre-evaluated permissions are now getting automatically derived from
- * the PRE_EVALUATED_PERMISSION_DEFAULTS object in `in-stores/permission`.
+ * the PRE_EVALUATED_PERMISSION_DEFAULTS object in `in-stores/constants`.
  **/
 export interface Role extends PreEvaluatedPermissions {
   id: string;

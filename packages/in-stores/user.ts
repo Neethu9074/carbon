@@ -5,17 +5,8 @@
 
 import { create } from '@instana/observables';
 
-import { PRE_EVALUATED_PERMISSION_DEFAULTS } from 'in-stores/permission';
 import { config } from 'in-services/config';
 import { Role } from 'in-types';
-
-export const DEFAULT_ROLE: Role = Object.freeze({
-  id: '',
-  name: '',
-  teamId: '',
-  permissions: [] as string[],
-  ...PRE_EVALUATED_PERMISSION_DEFAULTS
-} as const);
 
 export const ownerRoleId = '-1';
 export const fallbackRoleId = '-2';

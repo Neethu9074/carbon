@@ -10,8 +10,8 @@ import { PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { PermissionTuple } from 'in-stores/permission';
 import useHasAccesses from 'in-stores/useHasAccesses';
+import { DEFAULT_ROLE } from 'in-stores/constants';
 import { noop } from 'in-services/fixedObjects';
-import { DEFAULT_ROLE } from 'in-stores/user';
 import { Role } from 'in-types';
 
 jest.mock('in-stores/useCurrentUserRole');

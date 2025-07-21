@@ -7,7 +7,8 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
-import { $role, DEFAULT_ROLE } from 'in-stores/user';
+import { DEFAULT_ROLE } from 'in-stores/constants';
+import { $role } from 'in-stores/user';
 import { Role } from 'in-types';
 
 describe('in-stores/useCurrentUserRole', () => {

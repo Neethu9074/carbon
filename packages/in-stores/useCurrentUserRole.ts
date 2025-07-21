@@ -6,8 +6,9 @@
 
 import { useObservable } from '@instana/hooks';
 
-import { $role, DEFAULT_ROLE } from 'in-stores/user';
+import { DEFAULT_ROLE } from 'in-stores/constants';
 import { deepCopy } from 'in-services/util/object';
+import { $role } from 'in-stores/user';
 import { Role } from 'in-types';
 
 function updateRole(role: Role) {

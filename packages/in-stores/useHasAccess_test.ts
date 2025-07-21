@@ -7,9 +7,9 @@
 import { renderHook } from '@testing-library/react-hooks';
 
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { DEFAULT_ROLE } from 'in-stores/constants';
 import useHasAccess from 'in-stores/useHasAccess';
 import { noop } from 'in-services/fixedObjects';
-import { DEFAULT_ROLE } from 'in-stores/user';
 import { Role } from 'in-types';
 
 jest.mock('in-stores/useCurrentUserRole');
