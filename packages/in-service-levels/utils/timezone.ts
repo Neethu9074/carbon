@@ -10,24 +10,25 @@ import { getIntlDateFormatter } from '@instana/format-date';
 // eslint-disable-next-line no-restricted-imports
 import moment from 'in-services/moment-timezone';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { utcLabel } from 'in-service-levels/constants';
 import { compare } from 'in-services/util/number';
-
-export interface TimezoneOption {
-  name: string;
-  offset: number;
-  formattedOffset: string;
-}
 
 export interface ComboBoxOption {
   label: string;
   value: string;
 }
 
+interface TimezoneOption {
+  name: string;
+  offset: number;
+  formattedOffset: string;
+}
+
 export const getCurrentFormattedTimezone = (): string => {
   const currentZone = moment.tz.guess();
   const timezone = moment.tz(currentZone);
   const formattedOffset = timezone.format('Z');
-  return `UTC ${formattedOffset} - ${currentZone}`;
+  return `${utcLabel} ${formattedOffset} - ${currentZone}`;
 };
 
 function isSupportedTimezone(timezone: string): boolean {

@@ -7,7 +7,8 @@
 import React, { useContext } from 'react';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { ComboBoxOption, formattedTimezoneList } from 'in-service-levels/utils/timezone';
+import { formattedTimezoneList } from 'in-service-levels/utils/timezone';
+import type { ComboBoxOption } from 'in-service-levels/utils/timezone';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 

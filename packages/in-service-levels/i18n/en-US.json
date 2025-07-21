@@ -342,11 +342,11 @@
       "matchedSLOTimeWindow_2": "Matching SLO time windows: ",
       "noMatchedSLOTimeWindow": "No matching time window found",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
-      "editSloTimezone": "Edit SLO time zone",
-      "timezone": "Time zone: {{sloTimezone}}",
-      "sloCreatedTimezone": "This SLO was created in {{sloTimezone}}",
       "currentTimezone": "Your current time zone is set to {{timezone}}.",
-      "selectedTimezoneMessage": "Your current time zone is {{timezone}}."
+      "editSloTimezone": "Edit SLO time zone",
+      "selectedTimezoneMessage": "Your current time zone is {{timezone}}.",
+      "sloCreatedTimezone": "This SLO was created in {{sloTimezone}}",
+      "timezone": "Time zone: {{sloTimezone}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "Preview not available because the configuration is incomplete.",
