@@ -131,7 +131,7 @@
   "buttonViewBuiltInEvent": "View built-in event",
   "buttonHideChanges": "Hide changes",
   "buttonShowChanges": "Show changes",
-  "buttonViewAlertConfig": "View alerting configuration",
+  "buttonViewAlertConfig": "View alert configuration",
   "buttonFocusTimeToRelease": "Focus time to release",
   "buttonFollowReleaseLive": "Follow releases live",
   "linkViewLastProcess": "View last process",
