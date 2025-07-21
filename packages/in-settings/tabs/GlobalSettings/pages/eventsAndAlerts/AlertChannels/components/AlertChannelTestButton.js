@@ -11,6 +11,7 @@ import { Button, Message, Stack } from '@instana/components';
 import { fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { clickTestAlertChannelTracker, alertChannelCTATrackerSegment } from 'in-settings/tracker';
 import { SETTINGS_ALERT_CHANNEL_TEST_CLICK } from 'in-services/tracking/eventNames';
+import { onlyFedRampAllowedAlertChannelsEnabled } from 'in-services/featureFlags';
 import { alertChannelTest } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import { t } from 'in-i18n';
@@ -97,6 +98,22 @@ export default class extends React.Component {
   }
 
   render() {
+    const hasError = () => {
+      return this.state.errorResponse || this.state.error;
+    };
+
+    const getErrorMessage = () => {
+      if (!hasError()) {
+        return t('in-settings:testAlertChannelSuccess', { channel: this.props.alertChannelLabel });
+      }
+
+      if (onlyFedRampAllowedAlertChannelsEnabled && this.state.message.includes('504')) {
+        return t('in-settings:testAlertChannelFailedFedRAMP', { channel: this.props.alertChannelLabel });
+      }
+
+      return this.state.message;
+    };
+
     return (
       <div>
         <Section className="test_channel_dialog">
@@ -114,13 +131,13 @@ export default class extends React.Component {
             </Button>
             {this.state.message && !this.state.loading ? (
               <Message
-                type={this.state.errorResponse || this.state.error ? 'error' : 'success'}
-                title={this.state.errorResponse || this.state.error ? 'Test Failed' : 'Test Successful'}
-                description={
-                  this.state.errorResponse || this.state.error
-                    ? this.state.message
-                    : t('in-settings:testAlertChannelSuccess', { channel: this.props.alertChannelLabel })
+                type={hasError() ? 'error' : 'success'}
+                title={
+                  hasError()
+                    ? t('in-settings:testAlertChannelFailureTitle')
+                    : t('in-settings:testAlertChannelSuccessTitle')
                 }
+                description={getErrorMessage()}
               />
             ) : null}
           </Stack>
