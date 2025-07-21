@@ -246,6 +246,7 @@ export const mobileAppSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
 
 // Websites business monitoring tab
 export const websitesBusinessMonitoringEnabled = isFeatureFlagEnabled('websitesBusinessMonitoringEnabled');
+export const websitesBusinessConversionGoalsEnabled = isFeatureFlagEnabled('websitesBusinessConversionGoalsEnabled');
 
 // ########################################################################################
 

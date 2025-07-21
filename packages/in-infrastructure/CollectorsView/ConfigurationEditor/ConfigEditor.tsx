@@ -9,16 +9,12 @@ import { StreamLanguage } from '@codemirror/language';
 import CodeMirror from '@uiw/react-codemirror';
 import React from 'react';
 
-// @ts-ignore
-// temp yaml hack
-import SampleConfig from 'in-infrastructure/agentView/ConfigurationEditor/SampleConfig.yaml';
-
 interface ConfigEditorProps {
   agentConfig?: string;
   handleAgentConfigChange: () => void;
 }
 
-export default function ConfigEditor({ agentConfig = SampleConfig, handleAgentConfigChange }: ConfigEditorProps) {
+export default function ConfigEditor({ agentConfig, handleAgentConfigChange }: ConfigEditorProps) {
   return (
     <CodeMirror
       value={agentConfig}

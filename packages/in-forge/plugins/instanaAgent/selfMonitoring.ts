@@ -7,7 +7,9 @@
 import { createLogger } from '@instana/logger';
 
 import createAgentResponseObservable from 'in-subscription/agentResponse';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { t } from 'in-i18n';
 
 const logger = createLogger('in-forge/instanaAgent/selfMonitoring');
 
@@ -135,17 +137,6 @@ export function loadDownloadableLogs([snapshot]: [snapshot: SnapshotData]) {
   });
 }
 
-// This function is used to update the OTel collector configuration.
-// It uses the same action name 'agent.configuration.update' but with a different argument structure.
-export function updateOTelConfiguration(snapshot: SnapshotData, configString: string) {
-  return createAgentResponseObservable({
-    action: 'agent.configuration.update',
-    target: snapshot.get('volatileId'),
-    args: { configString }
-  }).once(response => {
-    logger.info('OTel collector configuration update response', response);
-  });
-}
 export function invokeLogCollectorPrepare(
   snapshot: SnapshotData,
   setPrepareClrLoggingEnvironmentButtonClick: React.Dispatch<React.SetStateAction<boolean>>
@@ -186,4 +177,59 @@ export function isDotNetHostCollectorPrepared(
     });
   }
   return null;
+}
+
+export function restartOtelCollector(snapshot: SnapshotData) {
+  return createAgentResponseObservable({
+    action: 'agent.restart',
+    target: snapshot.get('volatileId'),
+    args: {}
+  }).once(response => {
+    logger.info('OTel collector restart response', response);
+    // for now use the time the action was called, eventually will get time in response from collector
+    // const timestamp = new Date(response.data.timestamp).toLocaleTimeString()
+    const timestamp = new Date().toLocaleTimeString();
+    if (response.error) {
+      addMessage({
+        title: t('in-infrastructure:collectorView.collectorError'),
+        content: `${response.error} \n ${timestamp}`,
+        type: 'danger',
+        timeout: 6000
+      });
+    } else {
+      addMessage({
+        title: t('in-infrastructure:collectorView.collectorRestartingTitle'),
+        content: `${t('in-infrastructure:collectorView.collectorRestarting')} \n ${timestamp}`,
+        type: 'warning',
+        timeout: 6000
+      });
+    }
+  });
+}
+
+export function updateOTelConfiguration(
+  snapshot: SnapshotData,
+  configString: string,
+  close: () => void,
+  getErrorMessage: (msg: string) => void
+) {
+  return createAgentResponseObservable({
+    action: 'agent.configuration.update',
+    target: snapshot.get('volatileId'),
+    args: { configString }
+  }).once(response => {
+    logger.info('OTel collector configuration update response', response);
+
+    if (response.error) {
+      getErrorMessage(response.error);
+    } else {
+      close();
+      addMessage({
+        title: t('in-infrastructure:collectorView.configUpdateSuccessTitle'),
+        content: t('in-infrastructure:collectorView.configUpdateSuccess'),
+        type: 'success',
+        timeout: 6000
+      });
+    }
+  });
 }

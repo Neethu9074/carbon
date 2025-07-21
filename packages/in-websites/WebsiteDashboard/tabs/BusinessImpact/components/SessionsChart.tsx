@@ -4,20 +4,22 @@
  * Copyright IBM Corp. 2025
  */
 
-import Renderer from 'in-components/Chart/renderer/Renderer';
-import { getChartGranularity } from 'in-stores/metric/metric';
-import { Result, TimeConfig } from 'in-types';
-import { chartColors } from 'in-themes/chartColors';
 import React from 'react';
-import { t } from 'in-i18n';
+
+import { useObservable } from '@instana/hooks';
+
 // @ts-expect-error needs migration to TS
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 // @ts-expect-error needs migration to TS
 import { extendMetricConfigurationOnLiveMode } from 'in-websites/metrics';
-import { useObservable } from '@instana/hooks';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
+import { getChartGranularity } from 'in-stores/metric/metric';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import { chartColors } from 'in-themes/chartColors';
+import { Result, TimeConfig } from 'in-types';
+import { t } from 'in-i18n';
 
 interface SessionsChartProps {
   timeConfig: TimeConfig;
@@ -30,11 +32,11 @@ export default function SessionsChart({ timeConfig, websiteId }: SessionsChartPr
   //! TODO: Update this with the backend endpoint once ready
   const tagFilters = [
     {
-      name: "beacon.website.id",
-      operator: "EQUALS",
-      stringValue: "KExRPJGcSvOjBPD_JrwAIA"
+      name: 'beacon.website.id',
+      operator: 'EQUALS',
+      stringValue: 'KExRPJGcSvOjBPD_JrwAIA'
     }
-  ]
+  ];
   const metricConfig = {
     tagFilters,
     timeConfig,
@@ -45,8 +47,10 @@ export default function SessionsChart({ timeConfig, websiteId }: SessionsChartPr
         aggregation: 'SUM'
       }
     }
-  }
-  const placeholderResult = useObservable(getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricConfig)), [timeConfig]);
+  };
+  const placeholderResult = useObservable(getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricConfig)), [
+    timeConfig
+  ]);
   if (!placeholderResult) return null;
 
   return (
