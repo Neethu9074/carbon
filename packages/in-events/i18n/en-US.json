@@ -478,7 +478,10 @@
     "aiExplained": "AI explained",
     "aiModel": "AI model",
     "poweredByWatsonX": "IBM watsonx Assistant",
-    "watsonXDesc": "IBM watsonx is powered by the latest AI models to intelligently process conversations and provide help whenever and wherever you may need it."
+    "watsonXDesc": "IBM watsonx is powered by the latest AI models to intelligently process conversations and provide help whenever and wherever you may need it.",
+    "helpfulResult": "This result was helpful",
+    "notHelpfulResult": "This result was not helpful",
+    "result": "result"
   },
   "notes": {
     "recommendedActions": "Recommended actions",
@@ -548,7 +551,8 @@
     "invalidEmail": "Email must be valid (user@domain) separated by commas",
     "positiveFeedback": "This summary was helpful",
     "negativeFeedback": "This summary was not helpful",
-    "surveyButtonTxt": "Share your feedback"
+    "surveyButtonTxt": "Share your feedback",
+    "summaryLower": "summary"
   },
   "incident": {
     "overviewTitle": "Incident overview",
@@ -571,8 +575,8 @@
     "cancel": "Cancel",
     "submit": "Submit",
     "title": "Share your feedback",
-    "helpfulQ": "What did you find helpful about the summary?",
-    "improveQ": "How could we improve the summary?",
+    "helpfulQ": "What did you find helpful about the {{textSubject}}?",
+    "improveQ": "How could we improve the {{textSubject}}?",
     "maxChars": "Maximum of 750 characters",
     "followUpQuestion": "Would you like us to follow up with you regarding your feedback?",
     "yesContect": "Yes, please contact me.",

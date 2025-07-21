@@ -8,7 +8,12 @@ import React, { useMemo } from 'react';
 
 import { GenericItem } from '@instana/ai-chat';
 
+import {
+  EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE,
+  EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE
+} from 'in-services/tracking/eventNames';
 import { useTableState, TableRow, TableHeader } from 'in-events/components/AIChat/TableComponents/useTableState';
+import ThumbsFeedback from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import TableView from 'in-events/components/AIChat/TableComponents/TableView';
 import { useNavigateToEvent } from 'in-events/navigation/useNavigateToEvent';
 
@@ -67,6 +72,10 @@ const EventsTable = ({ messageItem }: EventsTableProps) => {
   return (
     <div className="events-table-container">
       <TableView tableState={tableState} />
+      <ThumbsFeedback
+        TRACKING_EVENT_POS={EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE}
+        TRACKING_EVENT_NEG={EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE}
+      />
     </div>
   );
 };

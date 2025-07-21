@@ -10,9 +10,14 @@ import { ContentSwitcher, Switch } from '@instana/carbon';
 import { SimpleBarChart } from '@instana/carbon-charts';
 import { GenericItem } from '@instana/ai-chat';
 
+import {
+  EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
+  EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE
+} from 'in-services/tracking/eventNames';
 import { useTableState, TableRow, TableHeader } from 'in-events/components/AIChat/TableComponents/useTableState';
 //@ts-expect-error
 import { formatForBarChart } from 'in-events/components/AIChat/chatAPI';
+import ThumbsFeedback from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import TableView from 'in-events/components/AIChat/TableComponents/TableView';
 import { t } from 'in-i18n';
 
@@ -66,6 +71,10 @@ const TableChartSwitcher: React.FC<TableChartSwitcherProps> = ({ messageItem }) 
       ) : (
         <SimpleBarChart data={chart_data?.data} options={chart_data?.options} />
       )}
+      <ThumbsFeedback
+        TRACKING_EVENT_POS={EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE}
+        TRACKING_EVENT_NEG={EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE}
+      />
     </div>
   );
 };
