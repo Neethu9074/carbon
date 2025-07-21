@@ -1101,34 +1101,34 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/telemetry-js/-/telemetry-js-1.9.1.tgz#201d9944aecdf2268d57acd9a1fb513bfb616ef3"
   integrity sha512-qq8RPafUJHUQieXVCte1kbJEx6JctWzbA/YkXzopbfzIDRT2+hbR9QmgH+KH7bDDNRcDbdHWvHfwJKzThlMtPg==
 
-"@instana/autoprofile@4.14.0":
-  version "4.14.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/autoprofile/-/autoprofile-4.14.0.tgz#27f6a9bda75f616d0e4ef7b629832a630b3b424b"
-  integrity sha512-hLOEbky57TznmqqAZcJ4cUSYaM4TculIjKOBk8tKBUJCyIFHrQF+/zSjc6ydyk6I0QacF1bt11hRgQHaZGgQWA==
+"@instana/autoprofile@4.18.1":
+  version "4.18.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/autoprofile/-/autoprofile-4.18.1.tgz#e5dc807f017671e7881308df2c07d5cc117c18c8"
+  integrity sha512-KCD37MbIiFEUw1/9SXyYo9ooVh5b4p2GgQI0uhtYgUqn69M3iag2L4jrsTCUCm1/AjvG7/KkkX2cqpYdcGMFnA==
   dependencies:
-    "@instana/core" "4.14.0"
+    "@instana/core" "4.18.1"
     detect-libc "^2.0.2"
     nan "^2.14.2"
     node-gyp-build "^4.8.4"
     semver "^7.5.4"
 
 "@instana/collector@^4.0.0":
-  version "4.14.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/collector/-/collector-4.14.0.tgz#ba71c3f9cb491afaf47f5e6be51568566540e080"
-  integrity sha512-Zvzw2/BjNUPBejcgSDX0uVCQjBn95Z2gfElbnYApx9hDz+AgaLEg4NvzKs5bv5fJ9hP9rJKYBVTgBmkTT/j0Lw==
+  version "4.18.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/collector/-/collector-4.18.1.tgz#9313042715fe7058cde1dd35b6e116032a32d37c"
+  integrity sha512-aCs90healnHtiX8KAPI0dYA+hklqRLsl+T/jqPNxeJIKBuNtIGwfAWqme93Zdl9f6TNSeypiqXRFprbBaJ2xRQ==
   dependencies:
-    "@instana/core" "4.14.0"
-    "@instana/shared-metrics" "4.14.0"
+    "@instana/core" "4.18.1"
+    "@instana/shared-metrics" "4.18.1"
     pino "^9.6.0"
     semver "^7.5.4"
     serialize-error "^8.1.0"
   optionalDependencies:
-    "@instana/autoprofile" "4.14.0"
+    "@instana/autoprofile" "4.18.1"
 
-"@instana/core@4.14.0":
-  version "4.14.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/core/-/core-4.14.0.tgz#e1d88ded68ad752f2966ac492c662f1903a64559"
-  integrity sha512-KkOYORBOy2sgZt7NZXQ5HXd7DuZkeBPgnTxqDbSDi6C6w1pTph5vzLqIO+LofZ+Sx6oLf8dXaSJJDyGgS1/h2A==
+"@instana/core@4.18.1":
+  version "4.18.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/core/-/core-4.18.1.tgz#6a2665ed84943da0631f21aea6bb22ce211599a1"
+  integrity sha512-rF8sOZ1XqAOAOQRmSAUUfOYQqId2+asY1DkaKHe3/oI69n7AC24c09QpNRraO5Sgnwk8ZW9WqEm9aJuCRL/sJQ==
   dependencies:
     "@opentelemetry/api" "1.9.0"
     "@opentelemetry/context-async-hooks" "1.25.0"
@@ -1146,12 +1146,12 @@
     semver "^7.5.4"
     shimmer "^1.2.1"
 
-"@instana/shared-metrics@4.14.0":
-  version "4.14.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/shared-metrics/-/shared-metrics-4.14.0.tgz#7303e6527b7e71d60c5109c793a169ba6c0b7e2c"
-  integrity sha512-+wRHd16RvKD5QNmXYidr8SaTWzte2v8NzResEX6aQCAgKMUPvCPvoO81J17epyvOFqpQEo9brqhHO9aDUH+wgA==
+"@instana/shared-metrics@4.18.1":
+  version "4.18.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/shared-metrics/-/shared-metrics-4.18.1.tgz#524e0715b990851cdd7c173b86a96aaa578eb204"
+  integrity sha512-FmlmeUhoeycbiYxD8dSl51Rep87n7HIT7wT9ufZLjiDuhiGZFXO4+U7P50X7OihNpLOZEW9anbc+AFrefaVqlA==
   dependencies:
-    "@instana/core" "4.14.0"
+    "@instana/core" "4.18.1"
     detect-libc "^2.0.2"
     event-loop-lag "^1.4.0"
     semver "^7.5.4"
@@ -1630,9 +1630,9 @@
   integrity sha512-lp4qAiMTD4sNWW4DbKLBkfiMZ4jbAboJIGOQr5DvciMRI494OapieI9qiODpOt0XBr1LjIDy1xAGAnVs5supTA==
 
 "@opentelemetry/semantic-conventions@^1.0.0", "@opentelemetry/semantic-conventions@^1.22.0":
-  version "1.33.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@opentelemetry/semantic-conventions/-/semantic-conventions-1.33.0.tgz#ec8ebd2ac768ab366aff94e0e7f27e8ae24fa49f"
-  integrity sha512-TIpZvE8fiEILFfTlfPnltpBaD3d9/+uQHVCyC3vfdh6WfCXKhNFzoP5RyDDIndfvZC5GrA4pyEDNyjPloJud+w==
+  version "1.36.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@opentelemetry/semantic-conventions/-/semantic-conventions-1.36.0.tgz#149449bd4df4d0464220915ad4164121e0d75d4d"
+  integrity sha512-TtxJSRD8Ohxp6bKkhrm27JRHAxPczQA7idtcTOMYI+wQRRrfgqxHv1cFbCApcSnNjtXkmzFozn6jQtFrOmbjPQ==
 
 "@parcel/watcher-android-arm64@2.5.1":
   version "2.5.1"
@@ -1813,11 +1813,11 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/node@*":
-  version "22.15.18"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@types/node/-/node-22.15.18.tgz#2f8240f7e932f571c2d45f555ba0b6c3f7a75963"
-  integrity sha512-v1DKRfUdyW+jJhZNEI1PYy29S2YRxMV5AOO/x/SjKmW0acCIOqmbj6Haf9eHAhsPmrhlHSxEhv/1WszcLWV4cg==
+  version "24.0.15"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@types/node/-/node-24.0.15.tgz#f34fbc973e7d64217106e0c59ed8761e6b51381e"
+  integrity sha512-oaeTSbCef7U/z7rDeJA138xpG3NuKc64/rZ2qmUFkFJmnMsAPaluIifqyWd8hSSMxyP9oie3dLAqYPblag9KgA==
   dependencies:
-    undici-types "~6.21.0"
+    undici-types "~7.8.0"
 
 "@types/shimmer@^1.0.2":
   version "1.2.0"
@@ -1880,9 +1880,9 @@ acorn-import-attributes@^1.9.5:
   integrity sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==
 
 acorn@^8.14.0, acorn@^8.8.2:
-  version "8.14.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/acorn/-/acorn-8.14.1.tgz#721d5dc10f7d5b5609a891773d47731796935dfb"
-  integrity sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==
+  version "8.15.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/acorn/-/acorn-8.15.0.tgz#a360898bc415edaac46c8241f6383975b930b816"
+  integrity sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==
 
 ajv@^6.11.0:
   version "6.12.6"
@@ -3177,9 +3177,9 @@ import-in-the-middle@1.9.0:
     module-details-from-path "^1.0.3"
 
 import-in-the-middle@^1.8.1:
-  version "1.13.2"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/import-in-the-middle/-/import-in-the-middle-1.13.2.tgz#b8d873708ab121996da6842fa7740ac5cd437f9e"
-  integrity sha512-Yjp9X7s2eHSXvZYQ0aye6UvwYPrVB5C2k47fuXjFKnYinAByaDZjh4t9MT2wEga9775n6WaIqyHnQhBxYtX2mg==
+  version "1.14.2"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/import-in-the-middle/-/import-in-the-middle-1.14.2.tgz#283661625a88ff7c0462bd2984f77715c3bc967c"
+  integrity sha512-5tCuY9BV8ujfOpwtAGgsTx9CGUapcFMEEyByLv1B+v2+6DhAcw+Zr0nhQT7uwaZ7DiourxFEscghOR8e1aPLQw==
   dependencies:
     acorn "^8.14.0"
     acorn-import-attributes "^1.9.5"
@@ -3969,9 +3969,9 @@ ms@2.1.3, ms@^2.1.1, ms@^2.1.3:
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
 nan@^2.0.5, nan@^2.14.0, nan@^2.14.2:
-  version "2.22.2"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/nan/-/nan-2.22.2.tgz#6b504fd029fb8f38c0990e52ad5c26772fdacfbb"
-  integrity sha512-DANghxFkS1plDdRsX0X9pm0Z6SJNN6gBdtXfanwoZ8hooC5gosGFSBGRYHUVPz1asKA/kMRqDRdHrluZ61SpBQ==
+  version "2.23.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/nan/-/nan-2.23.0.tgz#24aa4ddffcc37613a2d2935b97683c1ec96093c6"
+  integrity sha512-1UxuyYGdoQHcGg87Lkqm3FzefucTa0NAiOcuRsDmysep3c1LVCRK2krrUDafMWtjSG04htvAmvg96+SDknOmgQ==
 
 nanoid@^3.3.8:
   version "3.3.11"
@@ -4322,16 +4322,16 @@ pino@^6.13.0, pino@^6.13.1:
     sonic-boom "^1.0.2"
 
 pino@^9.6.0:
-  version "9.6.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/pino/-/pino-9.6.0.tgz#6bc628159ba0cc81806d286718903b7fc6b13169"
-  integrity sha512-i85pKRCt4qMjZ1+L7sy2Ag4t1atFcdbEt76+7iRJn1g2BvsnRMGu9p8pivl9fs63M2kF/A0OacFZhTub+m/qMg==
+  version "9.7.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/pino/-/pino-9.7.0.tgz#ff7cd86eb3103ee620204dbd5ca6ffda8b53f645"
+  integrity sha512-vnMCM6xZTb1WDmLvtG2lE/2p+t9hDEIvTWJsu6FejkE62vB7gDhvzrpFR4Cw2to+9JNQxVnkAKVPA1KPB98vWg==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"
     on-exit-leak-free "^2.1.0"
     pino-abstract-transport "^2.0.0"
     pino-std-serializers "^7.0.0"
-    process-warning "^4.0.0"
+    process-warning "^5.0.0"
     quick-format-unescaped "^4.0.3"
     real-require "^0.2.0"
     safe-stable-stringify "^2.3.1"
@@ -4400,10 +4400,10 @@ pretty-format@^29.7.0:
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
 
-process-warning@^4.0.0:
-  version "4.0.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/process-warning/-/process-warning-4.0.1.tgz#5c1db66007c67c756e4e09eb170cdece15da32fb"
-  integrity sha512-3c2LzQ3rY9d0hc1emcsHhfT9Jwz0cChib/QN89oME2R451w5fy3f0afAhERFZAwrbDU43wk12d0ORBpDVME50Q==
+process-warning@^5.0.0:
+  version "5.0.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/process-warning/-/process-warning-5.0.0.tgz#566e0bf79d1dff30a72d8bbbe9e8ecefe8d378d7"
+  integrity sha512-a39t9ApHNx2L4+HBnQKqxxHNs1r7KF+Intd8Q/g1bUh6q0WIp9voPXJ/x0j+ZL45KF1pJd9+q2jLIRMfvEshkA==
 
 process@^0.11.10:
   version "0.11.10"
@@ -5108,10 +5108,10 @@ uglify-js@^3.1.4, uglify-js@^3.14.3:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/uglify-js/-/uglify-js-3.17.4.tgz#61678cf5fa3f5b7eb789bb345df29afb8257c22c"
   integrity sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==
 
-undici-types@~6.21.0:
-  version "6.21.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/undici-types/-/undici-types-6.21.0.tgz#691d00af3909be93a7faa13be61b3a5b50ef12cb"
-  integrity sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==
+undici-types@~7.8.0:
+  version "7.8.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/undici-types/-/undici-types-7.8.0.tgz#de00b85b710c54122e44fbfd911f8d70174cd294"
+  integrity sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
