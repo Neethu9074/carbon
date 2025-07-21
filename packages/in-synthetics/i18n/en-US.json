@@ -558,7 +558,7 @@
         "noMobileAppsAssociated": "No mobile apps associated.",
         "nodMobileAppAssociatedWithTest": "No mobile app associated with the selected test"
       },
-      "testLabel": "Name",
+      "testLabel": "Test name",
       "status": "Status",
       "frequencySubText": "Every {{count}} min",
       "frequencySubText_plural": "Every {{count}} mins",
