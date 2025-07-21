@@ -10,7 +10,12 @@ import { SvgIcon, CarbonButton, Typography } from '@instana/components';
 import { PreviewPill } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 
-import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE, EVENT_AI_LIBRARY_OPEN } from 'in-services/tracking/tracking';
+import {
+  EVENT_AI_CHAT_OPEN,
+  EVENT_AI_CHAT_CLOSE,
+  EVENT_AI_LIBRARY_OPEN,
+  EVENT_AI_CHAT_FEEDBACK_MENU_CLICK
+} from 'in-services/tracking/tracking';
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/TableComponents/TableChartSwitcher';
 import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
@@ -209,6 +214,13 @@ export function AIChat() {
                 customPanel.open(panelOptions);
                 handleTracking(EVENT_AI_LIBRARY_OPEN);
                 setPopOpen(false);
+              }
+            },
+            {
+              text: t('in-events:aichat.feedback'),
+              handler: () => {
+                handleTracking(EVENT_AI_CHAT_FEEDBACK_MENU_CLICK);
+                window.open('https://your.feedback.ibm.com/jfe/form/SV_7Oj9seFbD9zb4eq', '_blank');
               }
             }
           ]);
