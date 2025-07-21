@@ -872,11 +872,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'perEntityInfraSmartAlertsEnabled',
-    instanaCtlKey: 'feature.per.entity.infra.smart.alerts.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'aqmDataGridEventTableEnabled',
     instanaCtlKey: 'feature.aqm.data.grid.event.table.enabled',
     defaultValue: true

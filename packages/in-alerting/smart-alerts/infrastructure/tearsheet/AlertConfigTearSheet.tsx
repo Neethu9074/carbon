@@ -24,7 +24,6 @@ import {
 } from 'in-alerting/smart-alerts/infrastructure/tearsheet/sharedFunctions';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
-import { alertChannelPerSeverityInfraSaEnabled, perEntityInfraSmartAlertsEnabled } from 'in-services/featureFlags';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/infrastructure/tearsheet/getAlertingUrlParameters';
 import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -33,6 +32,7 @@ import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/us
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigationToAlertConfig } from 'in-infrastructure/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -183,6 +183,6 @@ function toAlertConfig(
     forecastingConfig: form.get(fieldNames.forecastingConfig).value,
     customPayloadFields: form.get('customPayloadFields').toJS(),
     rules: [ruleWithThreshold],
-    evaluationType: perEntityInfraSmartAlertsEnabled ? form.get('evaluationType').value : null
+    evaluationType: form.get('evaluationType').value
   });
 }

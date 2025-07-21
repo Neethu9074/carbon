@@ -24,7 +24,6 @@ import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/component
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { getMetricFormatter } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { perEntityInfraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { NumberFormatter } from 'in-services/formatters/number';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { t } from 'in-i18n';
@@ -45,7 +44,7 @@ export const AlertThresholdInfos = ({ thresholdOperator, thresholdsMap, rule, me
       thresholdTypeLabel={t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')}
       metricLabel={metricLabel}
       threshold={<ThresholdInfo thresholdsMap={thresholdsMap} thresholdOperator={thresholdOperator} rule={rule} />}
-      scopeLabel={perEntityInfraSmartAlertsEnabled ? title : ''}
+      scopeLabel={title}
     />
   );
 };

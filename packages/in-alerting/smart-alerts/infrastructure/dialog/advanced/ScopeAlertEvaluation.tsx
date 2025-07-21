@@ -14,7 +14,6 @@ import CustomOrPerEntityOption, {
   customEvaluationType,
   perEntityEvaluationType
 } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
-import { perEntityInfraSmartAlertsEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
@@ -28,10 +27,6 @@ interface Props {
 }
 
 export default function ScopeAlertEvaluation({ form, updateForm, SectionWrapper = Section }: Props) {
-  if (!perEntityInfraSmartAlertsEnabled) {
-    return null;
-  }
-
   const evaluationType = (form.get('evaluationType') as Field<InfraAlertEvaluationType>).value;
 
   const onEvaluationTypeChange = (evaluationType: InfraAlertEvaluationType) => {
