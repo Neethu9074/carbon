@@ -6,17 +6,13 @@
 import { range } from 'lodash';
 import React from 'react';
 
-import { just } from '@instana/observables';
+import { Event, EntityType } from '@instana/types';
 
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import { pendingResult, finishedProgress } from 'in-services/fixedObjects';
 import { success } from 'in-services/util/result';
 
 export default {
-  parameters: {
-    // ignoring this story because it renders differently everytime
-    chromatic: { disable: true }
-  },
   component: OpenIssuesListPresenter
 };
 
@@ -25,7 +21,7 @@ export function DesignLibraryCase() {
     <Wrapper>
       <OpenIssuesListPresenter
         openIssuesResult={success([getIssue({ severity: 5 }), getIssue({ severity: 10 })])}
-        getIssueLink={() => just('#')}
+        getIssueLink={() => '#'}
       />
     </Wrapper>
   );
@@ -94,7 +90,7 @@ export function LargeNumberOfIsses() {
   );
 }
 
-export function LoadingIndeterminate() {
+export function LoadingProgress() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter openIssuesResult={pendingResult} />
@@ -107,7 +103,6 @@ export function Errors() {
     <Wrapper>
       <OpenIssuesListPresenter
         openIssuesResult={{
-          data: null,
           progress: finishedProgress,
           errors: [
             {
@@ -123,21 +118,34 @@ export function Errors() {
 
 function getIssue({
   severity = 5,
-  title = 'It is a paradisematic country',
+  title = 'R287 AP migration test',
   description = 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.',
   start = Date.now()
 }) {
   return {
     id: String(Math.random()),
-    start,
+    start: start,
+    entityType: 'App20' satisfies EntityType,
     problem: {
+      id: 'problem#' + Math.random(),
       problemText: title,
       fixSuggestion: description,
       severity
-    }
-  };
+    },
+    // dummy values required as part of an Event
+    end: 0,
+    entityId: 'entityId',
+    plugin: 'plugin',
+    state: 'state',
+    type: 'type'
+  } satisfies Event;
 }
-function Wrapper({ children }) {
+
+interface WrapperProps {
+  children: React.ReactNode;
+}
+
+function Wrapper({ children }: WrapperProps) {
   return (
     <div
       style={{
@@ -149,3 +157,5 @@ function Wrapper({ children }) {
     </div>
   );
 }
+
+// Made with Bob
