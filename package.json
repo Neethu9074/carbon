@@ -298,7 +298,7 @@
     "stylelint-plugin-carbon-tokens": "3.2.3",
     "terser": "^5.26.0",
     "terser-webpack-plugin": "^5.3.10",
-    "typescript": "^5.1.5",
+    "typescript": "5.2.2",
     "webpack": "^5.91.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-dev-server": "^4.6.0",
@@ -307,7 +307,7 @@
   "resolutions": {
     "json5": "2.2.3",
     "@babel/traverse": "7.23.2",
-    "typescript": "5.1.5",
+    "typescript": "5.2.2",
     "@types/react": "^17.0.14"
   },
   "packageManager": "yarn@3.7.0+sha512.c0bef4cb2a32230b4baa5cab387b4051b47f6242ca8e2b3f9dbf3b7a3d0c729efb4bff872f753b977b2788e4a9a4af30bfc663885de15af1fde122ed0a268810"
