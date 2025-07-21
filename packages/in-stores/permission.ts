@@ -25,8 +25,69 @@ import {
   linuxkvmhypervisorEnabled,
   newOTelPageEnabled
 } from 'in-services/featureFlags';
+import { hasPermission as hasStaticPermission, PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
+import { hasAccesses } from 'in-stores/useHasAccesses';
+import { hasAccess } from 'in-stores/useHasAccess';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
+
+/**
+ * Base readonly-object for maintaining the schema of pre-evaluated permissions
+ * and their default values. The correct types will be automatically derived
+ * from it in `in-types/global`.
+ **/
+export const PRE_EVALUATED_PERMISSION_DEFAULTS = Object.freeze({
+  // instana internal permissions
+  canAccessAllUnits: false,
+  canSeeInternalTags: false,
+  canSetAgentTraceLogLevel: false,
+  canSeeExtendedInternalMonitoring: false,
+  limitedInfrastructureScope: false,
+  limitedAutomationScope: false,
+  limitedBizOpsScope: false,
+  // pre-evaluated permissions from backend
+  canConfigureApplications: false,
+  canConfigureSubtraces: false,
+  canConfigureServiceLevelIndicators: false,
+  canConfigureEventsAndAlerts: false,
+  canConfigureMaintenanceWindows: false,
+  canConfigureApplicationSmartAlerts: false,
+  canConfigureWebsiteSmartAlerts: false,
+  canConfigureMobileAppSmartAlerts: false,
+  canConfigureGlobalAlertPayload: false,
+  canConfigureDatabaseManagement: false,
+  canConfigureAutomationActions: false,
+  canConfigureAuthenticationMethods: false,
+  canConfigureSessionSettings: false,
+  canRunAutomationActions: false,
+  canConfigureAutomationPolicies: false,
+  canViewLogs: false,
+  canViewTraceDetails: false,
+  canConfigureLogRetentionPeriod: false,
+  canViewAuditLog: false,
+  canConfigureSyntheticCredentials: false,
+  canUseSyntheticCredentials: false,
+  canConfigureSyntheticLocations: false,
+  canConfigureSyntheticTests: false,
+  canViewSyntheticTests: false,
+  canConfigureGlobalApplicationSmartAlerts: false,
+  canConfigureGlobalSyntheticSmartAlerts: false,
+  canConfigureGlobalInfraSmartAlerts: false,
+  canConfigureGlobalLogSmartAlerts: false,
+  canConfigureUsers: false,
+  canConfigureTeams: false,
+  canConfigureAgents: false,
+  canConfigureApiTokens: false,
+  canDeleteLogs: false,
+  canViewLogVolume: false,
+  canConfigureIntegrations: false,
+  canConfigureMobileAppMonitoring: false,
+  canManuallyCloseIssue: false,
+  canDeleteAutomationActionHistory: false,
+  canViewAccountAndBillingInformation: false,
+  canConfigureLogManagement: false,
+  canInvokeAlertChannel: false
+} as const);
 
 export const LimitedAccessScope = Object.freeze({
   LIMITED_WEBSITES_SCOPE: 'LIMITED_WEBSITES_SCOPE',
@@ -145,123 +206,459 @@ export const Capabilities = Object.freeze(Object.values(Capability));
 
 export type PermissionsUnion = AreaPermissionType | CapabilityType | LimitedAccessScopeType;
 
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
 const permissions = role?.permissions ?? [];
 
 /**
- * Verifies if the current user has access with the given scope and access
- * @param limitedScope if unlimited, then user has always access
- * @param accessPermission if limitedScope then requires to accessPermission
- * @return true if user has permission
- */
-function hasPermission(limitedScope: string, accessPermission: string): boolean {
-  // users are not allowed to see an area once this area is limited and no additional access is given
-  if (!permissions.includes(limitedScope)) return true;
-  return permissions.includes(accessPermission);
-}
+ * A tuple to combines a limiting access scope with the corresponding area
+ * permission.
+ **/
+export type PermissionTuple = [limitedScope: LimitedAccessScopeType, accessPermission: AreaPermissionType];
 
-export const hasApplicationsAccess = hasPermission(
+export const applicationAccessPermissions: PermissionTuple = [
   LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
   AreaPermission.ACCESS_APPLICATIONS
-);
-export const hasKubernetesAccess = hasPermission(
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasApplicationsAccess = hasAccess({
+  grantedPermissions: permissions,
+  requiredPermissions: applicationAccessPermissions
+});
+
+export const kubernetesAccessPermissions: PermissionTuple = [
   LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
   AreaPermission.ACCESS_KUBERNETES
-);
-export const hasWebsitesAccess = hasPermission(
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasKubernetesAccess = hasAccess({
+  grantedPermissions: permissions,
+  requiredPermissions: kubernetesAccessPermissions
+});
+
+export const websiteAccessPermissions: PermissionTuple = [
   LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
   AreaPermission.ACCESS_WEBSITES
-);
-export const hasMobileAppsAccess = hasPermission(
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasWebsitesAccess = hasAccess({
+  grantedPermissions: permissions,
+  requiredPermissions: websiteAccessPermissions
+});
+
+export const mobileAppsAccessPermissions: PermissionTuple = [
   LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
   AreaPermission.ACCESS_MOBILE_APPS
-);
-export const hasInfrastructureAnalyzeAccess =
-  hasPermission(LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE, AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE) &&
-  infraExploreDataEnabled;
-export const hasAnalyzeAccess =
-  hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess || hasInfrastructureAnalyzeAccess;
-export const hasInfrastructureAccess = hasPermission(
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasMobileAppsAccess = hasAccess({
+  grantedPermissions: permissions,
+  requiredPermissions: mobileAppsAccessPermissions
+});
+
+export const infrastructureAnalyzeAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
+  AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasInfrastructureAnalyzeAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: infraExploreDataEnabled,
+  requiredPermissions: infrastructureAnalyzeAccessPermissions
+});
+
+export const analyzeAccessPermissions: PermissionTuple[] = [
+  applicationAccessPermissions,
+  websiteAccessPermissions,
+  mobileAppsAccessPermissions,
+  infrastructureAnalyzeAccessPermissions
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasAnalyzeAccess = hasAccesses({
+  grantedPermissions: permissions,
+  requiredPermissions: analyzeAccessPermissions,
+  strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+});
+
+export const infrastructureAccessPermissions: PermissionTuple = [
   LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
   AreaPermission.ACCESS_INFRASTRUCTURE
-);
-export const hasSyntheticsAccess =
-  hasPermission(LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE, AreaPermission.ACCESS_SYNTHETICS) && syntheticsEnabled;
-export const hasVSphereAccess =
-  hasPermission(LimitedAccessScope.LIMITED_VSPHERE_SCOPE, AreaPermission.ACCESS_VSPHERE) && vsphereEnabled;
-export const hasPHMCAccess =
-  hasPermission(LimitedAccessScope.LIMITED_PHMC_SCOPE, AreaPermission.ACCESS_PHMC) && phmcEnabled;
-export const hasPowerVcAccess =
-  hasPermission(LimitedAccessScope.LIMITED_POWERVC_SCOPE, AreaPermission.ACCESS_POWERVC) && powervcEnabled;
-export const hasWindowsHypervisorAccess =
-  hasPermission(LimitedAccessScope.LIMITED_WINDOWS_HYPERVISOR_SCOPE, AreaPermission.ACCESS_WINDOWS_HYPERVISOR) &&
-  windowsHypervisorEnabled;
-export const hasZHMCAccess =
-  hasPermission(LimitedAccessScope.LIMITED_ZHMC_SCOPE, AreaPermission.ACCESS_ZHMC) && zhmcEnabled;
-export const hasPCFAccess =
-  hasPermission(LimitedAccessScope.LIMITED_PCF_SCOPE, AreaPermission.ACCESS_PCF) && pcfEnabled;
-export const hasOpenStackAccess =
-  hasPermission(LimitedAccessScope.LIMITED_OPENSTACK_SCOPE, AreaPermission.ACCESS_OPENSTACK) && openstackEnabled;
-export const hasSAPAccess =
-  hasPermission(LimitedAccessScope.LIMITED_SAP_SCOPE, AreaPermission.ACCESS_SAP) && sapEnabled;
-export const hasNutanixAccess =
-  hasPermission(LimitedAccessScope.LIMITED_NUTANIX_SCOPE, AreaPermission.ACCESS_NUTANIX) && nutanixEnabled;
-export const hasXenServerAccess =
-  hasPermission(LimitedAccessScope.LIMITED_XENSERVER_SCOPE, AreaPermission.ACCESS_XENSERVER) && xenserverEnabled;
-export const hasLinuxKVMHypervisorAccess =
-  hasPermission(LimitedAccessScope.LIMITED_LINUX_KVM_HYPERVISOR_SCOPE, AreaPermission.ACCESS_LINUX_KVM_HYPERVISOR) &&
-  linuxkvmhypervisorEnabled;
-export const hasAPlatformAccess =
-  hasVSphereAccess ||
-  hasPHMCAccess ||
-  hasZHMCAccess ||
-  hasPCFAccess ||
-  hasPowerVcAccess ||
-  hasOpenStackAccess ||
-  hasKubernetesAccess ||
-  hasSAPAccess ||
-  hasWindowsHypervisorAccess ||
-  hasNutanixAccess ||
-  hasXenServerAccess ||
-  hasLinuxKVMHypervisorAccess;
+];
 
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasInfrastructureAccess = hasAccess({
+  grantedPermissions: permissions,
+  requiredPermissions: infrastructureAccessPermissions
+});
+
+export const syntheticsAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,
+  AreaPermission.ACCESS_SYNTHETICS
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasSyntheticsAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: syntheticsEnabled,
+  requiredPermissions: syntheticsAccessPermissions
+});
+
+export const vSphereAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_VSPHERE_SCOPE,
+  AreaPermission.ACCESS_VSPHERE
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasVSphereAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: vsphereEnabled,
+  requiredPermissions: vSphereAccessPermissions
+});
+
+export const phmcAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_PHMC_SCOPE,
+  AreaPermission.ACCESS_PHMC
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasPHMCAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: phmcEnabled,
+  requiredPermissions: phmcAccessPermissions
+});
+
+export const powerVcAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_POWERVC_SCOPE,
+  AreaPermission.ACCESS_POWERVC
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasPowerVcAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: powervcEnabled,
+  requiredPermissions: powerVcAccessPermissions
+});
+
+export const windowHypervisorAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_WINDOWS_HYPERVISOR_SCOPE,
+  AreaPermission.ACCESS_WINDOWS_HYPERVISOR
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasWindowsHypervisorAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: windowsHypervisorEnabled,
+  requiredPermissions: windowHypervisorAccessPermissions
+});
+
+export const zhmcAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_ZHMC_SCOPE,
+  AreaPermission.ACCESS_ZHMC
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasZHMCAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: zhmcEnabled,
+  requiredPermissions: zhmcAccessPermissions
+});
+
+export const pcfAccessPermissions: PermissionTuple = [LimitedAccessScope.LIMITED_PCF_SCOPE, AreaPermission.ACCESS_PCF];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasPCFAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: pcfEnabled,
+  requiredPermissions: pcfAccessPermissions
+});
+
+export const openStackAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_OPENSTACK_SCOPE,
+  AreaPermission.ACCESS_OPENSTACK
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasOpenStackAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: openstackEnabled,
+  requiredPermissions: openStackAccessPermissions
+});
+
+export const sapAccessPermissions: PermissionTuple = [LimitedAccessScope.LIMITED_SAP_SCOPE, AreaPermission.ACCESS_SAP];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasSAPAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: sapEnabled,
+  requiredPermissions: sapAccessPermissions
+});
+
+export const nutanixAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_NUTANIX_SCOPE,
+  AreaPermission.ACCESS_NUTANIX
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasNutanixAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: nutanixEnabled,
+  requiredPermissions: nutanixAccessPermissions
+});
+
+export const xenServerAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_XENSERVER_SCOPE,
+  AreaPermission.ACCESS_XENSERVER
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasXenServerAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: xenserverEnabled,
+  requiredPermissions: xenServerAccessPermissions
+});
+
+export const linuxKvmHypervisorAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_LINUX_KVM_HYPERVISOR_SCOPE,
+  AreaPermission.ACCESS_LINUX_KVM_HYPERVISOR
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasLinuxKVMHypervisorAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: linuxkvmhypervisorEnabled,
+  requiredPermissions: linuxKvmHypervisorAccessPermissions
+});
+
+export const anyPlatformAccessPermissions: PermissionTuple[] = [
+  vSphereAccessPermissions,
+  phmcAccessPermissions,
+  zhmcAccessPermissions,
+  pcfAccessPermissions,
+  powerVcAccessPermissions,
+  openStackAccessPermissions,
+  kubernetesAccessPermissions,
+  sapAccessPermissions,
+  windowHypervisorAccessPermissions,
+  nutanixAccessPermissions,
+  xenServerAccessPermissions,
+  linuxKvmHypervisorAccessPermissions
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasAPlatformAccess = hasAccesses({
+  grantedPermissions: permissions,
+  requiredPermissions: anyPlatformAccessPermissions,
+  strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+});
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
 export const hasCanCreateHeapDump =
-  hasInfrastructureAccess && permissions.includes(InfrastructureCapability.CAN_CREATE_HEAP_DUMP);
+  hasInfrastructureAccess &&
+  hasStaticPermission({
+    requiredPermissions: [InfrastructureCapability.CAN_CREATE_HEAP_DUMP],
+    grantedPermissions: permissions
+  });
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
 export const hasCanCreateThreadDump =
-  hasInfrastructureAccess && permissions.includes(InfrastructureCapability.CAN_CREATE_THREAD_DUMP);
+  hasInfrastructureAccess &&
+  hasStaticPermission({
+    requiredPermissions: [InfrastructureCapability.CAN_CREATE_THREAD_DUMP],
+    grantedPermissions: permissions
+  });
 
-export const amountPlatformAccesses = (() => {
-  if (!hasAPlatformAccess) return 0;
-  let count = 0;
-  if (hasVSphereAccess) count++;
-  if (hasPHMCAccess) count++;
-  if (hasZHMCAccess) count++;
-  if (hasPCFAccess) count++;
-  if (hasOpenStackAccess) count++;
-  if (hasPowerVcAccess) count++;
-  if (hasKubernetesAccess) count++;
-  if (hasSAPAccess) count++;
-  if (hasNutanixAccess) count++;
-  if (hasXenServerAccess) count++;
-  if (hasWindowsHypervisorAccess) count++;
-  if (hasLinuxKVMHypervisorAccess) count++;
-  return count;
-})();
+const sloAccessPermissions: PermissionTuple[] = [
+  applicationAccessPermissions,
+  syntheticsAccessPermissions,
+  websiteAccessPermissions
+];
 
-export const hasSloAccess = sloFullEnabled && (hasWebsitesAccess || hasApplicationsAccess || hasSyntheticsAccess);
-export const hasEventsAccess =
-  hasWebsitesAccess ||
-  hasMobileAppsAccess ||
-  hasApplicationsAccess ||
-  hasAPlatformAccess ||
-  hasInfrastructureAccess ||
-  hasSyntheticsAccess;
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasSloAccess = hasAccesses({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: sloFullEnabled,
+  requiredPermissions: sloAccessPermissions,
+  strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+});
 
-export const hasBizOpsAccess =
-  businessObservabilityEnabled && hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
+const eventsAccessPermissions: PermissionTuple[] = [
+  ...anyPlatformAccessPermissions,
+  applicationAccessPermissions,
+  infrastructureAccessPermissions,
+  mobileAppsAccessPermissions,
+  syntheticsAccessPermissions,
+  websiteAccessPermissions
+];
 
-export const hasAutomationAccess =
-  actionAutomationEnabled &&
-  hasPermission(LimitedAccessScope.LIMITED_AUTOMATION_SCOPE, AreaPermission.ACCESS_AUTOMATION);
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasEventsAccess = hasAccesses({
+  grantedPermissions: permissions,
+  requiredPermissions: eventsAccessPermissions,
+  strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+});
+
+const bizopsAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_BIZOPS_SCOPE,
+  AreaPermission.ACCESS_BIZOPS
+];
+
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasBizOpsAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: businessObservabilityEnabled,
+  requiredPermissions: bizopsAccessPermissions
+});
+
+const automationAccessPermissions: PermissionTuple = [
+  LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
+  AreaPermission.ACCESS_AUTOMATION
+];
+/**
+ * @deprecated Use useHasPermission, useHasAccess or useHasAccesses hook
+ * instead. Due to the team focus feature, it is possible that the role
+ * including all permissions can change at runtime, which is why static
+ * permissions checks are now deprecated and should no longer be used.
+ */
+export const hasAutomationAccess = hasAccess({
+  grantedPermissions: permissions,
+  optionalFeatureFlag: actionAutomationEnabled,
+  requiredPermissions: automationAccessPermissions
+});
 
 interface AreaPermissionProps {
   value: AreaPermissionType;
@@ -811,6 +1208,7 @@ export function getProductPermissions(): Array<ProductPermission> {
 
   return permissions;
 }
+
 export const getInfrastructurePermissions = (): {
   readonly key: string;
   readonly label: string;
