@@ -13,11 +13,12 @@ import { t } from '@instana/i18n-react';
 import OnboardingCarousel from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel';
 import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import { welcomeDashboardPath, welcomeGettingStartedPath } from 'in-plg/navigation/paths';
-import WelcomeToolbar from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
 import { playwithEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
+import WelcomeToolbar from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
+import config from 'in-services/config';
 import { user } from 'in-stores/user';
 
 import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
@@ -34,6 +35,8 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
   const isYourDashboardActive = location.pathname === welcomeDashboardPath;
   const isGettingStartedActive = location.pathname === welcomeGettingStartedPath;
   const headerTitle = `${t('in-plg:welcomepage.heading')}${username}`;
+  const { activeLicenseType } = config;
+  const isTrial = activeLicenseType == 'selfService';
   return (
     <div
       className={locals.stickyHeader}
@@ -41,7 +44,7 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
       data-testid="header"
     >
       <WelcomeToolbar title={headerTitle} />
-      {newOnboardingPageEnabled ? (
+      {newOnboardingPageEnabled && isTrial ? (
         <div className={locals.tabsOffsetRight}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
