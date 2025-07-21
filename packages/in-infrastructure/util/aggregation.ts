@@ -43,7 +43,7 @@ function parseCrossSeriesAggregation(
   return allowedCrossSeriesAggregation.find(validName => validName === value);
 }
 
-const timeAggregationSum: string[] = ['MIN', 'MAX', 'SUM', 'PER_SECOND', 'INCREASE'];
+const timeAggregationSum: string[] = ['MEAN', 'MIN', 'MAX', 'SUM', 'PER_SECOND', 'INCREASE'];
 type TimeAggregationSum = (typeof timeAggregationSum)[number];
 export function parseTimeAggregationSum(value?: string): TimeAggregationSum | undefined {
   return timeAggregationSum.find(validName => validName === value);

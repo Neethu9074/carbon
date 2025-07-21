@@ -7,7 +7,7 @@ import { parseAggregation } from 'in-infrastructure/util/aggregation';
 
 describe('parseAggregation', () => {
   const timeAggregationStandard: string[] = ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX'];
-  const timeAggregationSum: string[] = ['MIN', 'MAX', 'SUM', 'PER_SECOND', 'INCREASE'];
+  const timeAggregationSum: string[] = ['MEAN', 'MIN', 'MAX', 'SUM', 'PER_SECOND', 'INCREASE'];
   const timeAggregationDistinctCount: string[] = [
     'MEAN',
     'MIN',
