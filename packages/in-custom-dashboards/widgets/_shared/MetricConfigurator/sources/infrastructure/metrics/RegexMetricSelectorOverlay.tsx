@@ -31,6 +31,7 @@ export interface Props {
   onTypeChange: (type: string) => void;
   close?: () => void;
   getAvailablePlugins?: GetAvailablePluginsFn;
+  regexEntitySelectionEnabled?: boolean;
 }
 
 export type GetAvailablePluginsFn = (query: GetAvailablePluginsQuery) => Observable<Result<AvailablePlugins>>;
@@ -42,7 +43,8 @@ export default function RegexMetricSelectorOverlay({
   type,
   onTypeChange,
   close,
-  getAvailablePlugins
+  getAvailablePlugins,
+  regexEntitySelectionEnabled
 }: Props) {
   const debouncedRegex = useDebouncedValue(regex, onRegexChange);
   const done = useCallback(() => {
@@ -52,16 +54,18 @@ export default function RegexMetricSelectorOverlay({
 
   return (
     <div className={locals.container}>
-      <div className={locals.wrapper}>
-        <TypeSelector
-          className={locals.typeSelector}
-          tagFilterExpression={backendQueryModel}
-          type={type}
-          onTypeChange={onTypeChange}
-          getAvailablePlugins={getAvailablePlugins}
-          excludeAllType
-        />
-      </div>
+      {regexEntitySelectionEnabled && (
+        <div className={locals.wrapper}>
+          <TypeSelector
+            className={locals.typeSelector}
+            tagFilterExpression={backendQueryModel}
+            type={type}
+            onTypeChange={onTypeChange}
+            getAvailablePlugins={getAvailablePlugins}
+            excludeAllType
+          />
+        </div>
+      )}
       <div className={locals.wrapper}>
         <RegexInput
           autoFocus
