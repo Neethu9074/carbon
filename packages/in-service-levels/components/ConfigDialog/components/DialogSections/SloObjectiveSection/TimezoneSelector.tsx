@@ -6,7 +6,7 @@
 
 import React, { useContext } from 'react';
 
-import { Stack, ToastNotification, Toggle } from '@instana/carbon';
+import { InlineNotification, Stack, Toggle } from '@instana/carbon';
 
 import TimezoneList from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimezoneList';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
@@ -46,13 +46,13 @@ export default function TimezoneSelector() {
         />
         <Stack orientation="vertical" gap={4}>
           <TimezoneList />
-          <ToastNotification
-            className={locals.toastContainer}
+          <InlineNotification
+            className={locals.notificationContainer}
             id="time-zone-toast"
             kind="info"
             hideCloseButton
             lowContrast
-            title={timezoneMessage}
+            subtitle={timezoneMessage}
           />
         </Stack>
       </Stack>

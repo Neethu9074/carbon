@@ -6,8 +6,18 @@
 
 :local {
   .toastContainer {
-    :global .cds--actionable-notification__title {
-      min-width: 350;
+    :global .cds--actionable-notification--toast {
+      max-inline-size: none;
+    }
+    :global .cds--actionable-notification__action-button.cds--btn--tertiary {
+      margin-block-end: 2rem;
+      margin-inline-start: calc(2rem + 1.25rem - 0.125rem);
+      padding-inline: 1rem;
+      margin-right: 3rem;
+      margin-top: 0.5rem;
+    }
+    :global .cds--actionable-notification__action-button:focus {
+      outline: none;
     }
   }
 }

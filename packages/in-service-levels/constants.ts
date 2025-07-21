@@ -65,3 +65,5 @@ export const SloTimeWindowTypes = Object.freeze({
 });
 
 export const sloStatuses = ['red', 'green'] as const;
+
+export const utcLabel = 'UTC' as const;

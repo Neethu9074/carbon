@@ -32,7 +32,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         type: 'rolling',
         duration: 1,
         durationUnit: 'day',
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -59,7 +59,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         type: 'rolling',
         duration: 2,
         durationUnit: 'day',
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -86,7 +86,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         type: 'rolling',
         duration: 3,
         durationUnit: 'week',
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -113,7 +113,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         type: 'rolling',
         duration: 1,
         durationUnit: 'month',
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -140,7 +140,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         type: 'rolling',
         duration: 1,
         durationUnit: 'week',
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -170,7 +170,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         duration: 1,
         durationUnit: 'day',
         startTimestamp: Date.now(),
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -198,7 +198,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         duration: 2,
         durationUnit: 'day',
         startTimestamp: Date.now(),
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -226,7 +226,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         duration: 3,
         durationUnit: 'week',
         startTimestamp: Date.now(),
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -260,7 +260,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
           duration: 1,
           durationUnit: 'month',
           startTimestamp: Date.now(),
-          timezone: 'UTC'
+          timezone: ''
         };
         useTimeConfig.mockReturnValue(timeConfig);
 
@@ -290,7 +290,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         duration: 1,
         durationUnit: 'week',
         startTimestamp,
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 
@@ -319,7 +319,7 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
         duration: 1,
         durationUnit: 'week',
         startTimestamp,
-        timezone: 'UTC'
+        timezone: ''
       };
       useTimeConfig.mockReturnValue(timeConfig);
 

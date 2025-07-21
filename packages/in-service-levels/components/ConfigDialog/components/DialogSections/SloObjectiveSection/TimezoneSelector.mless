@@ -5,7 +5,7 @@
  */
 
 :local {
-  .toastContainer {
+  .notificationContainer {
     width: 435px;
     :global {
       .cds--toast-notification__title {
