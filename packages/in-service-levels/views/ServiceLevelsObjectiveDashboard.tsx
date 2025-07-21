@@ -14,11 +14,11 @@ import { useObservable } from '@instana/hooks';
 
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader/SloMetaInfoHeader';
 import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
-import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
 import type { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
 import { defaultServiceLevelObjectiveUrlParameters } from 'in-service-levels/navigation/urlParameters';
-import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import tabs, { isApplicationSloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import type { LabeledEntity, SloMonitoredEntity } from 'in-service-levels/types';
 import type { SloUrlState } from 'in-service-levels/navigation/urlParameters';
 import { getSloConfiguration } from 'in-service-levels/api/sloConfiguration';

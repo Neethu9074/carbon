@@ -9,8 +9,8 @@ import React from 'react';
 import { Select } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
-import FilterEmptyValuesToggle from 'in-components/FilterEmptyValueToggle/FilterEmptyValueToggle';
 import { getCrossSeriesAggregation, parseAggregation } from 'in-infrastructure/util/aggregation';
+import FilterEmptyValuesToggle from 'in-components/FilterEmptyValueToggle/FilterEmptyValueToggle';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import { infraExploreFilterEmptyValueEnabled } from 'in-services/featureFlags';

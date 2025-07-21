@@ -16,8 +16,8 @@ import type {
   WebsiteSloEntity
 } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
-import type { Observable } from '@instana/observables';
 import { isSyntheticSloEntity } from '@instana/types';
+import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
