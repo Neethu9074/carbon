@@ -23,6 +23,7 @@ interface Config {
 
 interface CallTypeProps {
   tagFilterExpression: TagFilterExpressionElementUnion | undefined;
+  includeInternal: boolean;
 }
 
 const BizOpsTopListCatalog = ({
@@ -55,7 +56,8 @@ const BizOpsTopListCatalog = ({
       ],
       logicalOperator: 'OR',
       type: 'EXPRESSION'
-    }
+    },
+    includeInternal: true
   };
 
   config.metricConfiguration = { ...config.metricConfiguration, ...callTypeExpression };
