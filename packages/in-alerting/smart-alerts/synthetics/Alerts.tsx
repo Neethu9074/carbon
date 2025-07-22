@@ -64,9 +64,7 @@ export default function Alerts({ testId }: AlertsProps) {
         carbonActionHandlers={handlers}
         getNameSubtitle={config => getSyntheticsSubtitle(config)}
         displayCarbonTable={smartAlertCarbonTableEnabled}
-        toolBarContent={
-          role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert testId={testId} isListingPage /> : undefined
-        }
+        toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert testId={testId} /> : undefined}
         noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
         useSmartAlertCreateUrl={useSmartAlertCreateUrl}

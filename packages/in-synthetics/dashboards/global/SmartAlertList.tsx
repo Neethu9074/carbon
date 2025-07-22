@@ -61,7 +61,7 @@ export default function SmartAlertList({ isEventsView = false }: { isEventsView?
       carbonActionHandlers={handlers}
       getNameSubtitle={config => getSyntheticsSubtitle(config)}
       displayCarbonTable={smartAlertCarbonTableEnabled}
-      toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
+      toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert /> : undefined}
       noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
       noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
       useSmartAlertCreateUrl={useSmartAlertCreateUrl}

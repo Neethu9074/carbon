@@ -14,22 +14,15 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import {
-  dashboardAlertsFullyQualified,
-  syntheticResultsListPath,
-  syntheticsDashboard,
-  syntheticsSummaryPath
-} from 'in-synthetics/navigation/paths';
-import {
   clickSyntheticMonitoringConfigurationTabTracker,
   clickSyntheticMonitoringResultsTabTracker
 } from 'in-synthetics/tracking/tracker';
-import { rbacTeamsEnabled, smartAlertCarbonTableEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
+import { syntheticResultsListPath, syntheticsDashboard, syntheticsSummaryPath } from 'in-synthetics/navigation/paths';
 import { TestResponse, dummyTest, dataScopes, DataScopeType } from 'in-synthetics/utils/constants';
 import CreateSyntheticOnDemandTest from 'in-synthetics/createTests/CreateSyntheticOnDemandTest';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
-import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import { rbacTeamsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -57,9 +50,7 @@ const SyntheticSummaryDashboard = () => {
   const [count, setReloadCount] = useState(0);
   const [dataScope, setDataScope] = useState(dataScopes.find(dataScope => dataScope.value === runType));
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
-  const hideButtonInAlertsTab = smartAlertCarbonTableEnabled
-    ? location.pathname !== dashboardAlertsFullyQualified
-    : true;
+
   const showDatascopeDropdown =
     syntheticRunNowEnabled && [syntheticsSummaryPath, syntheticResultsListPath].includes(location.pathname);
   const props = {
@@ -108,11 +99,6 @@ const SyntheticSummaryDashboard = () => {
         tabChangeTracker={props => trackSyntheticTabChange(props.tab)}
       />
       <Footer />
-      {role?.canConfigureGlobalSyntheticSmartAlerts && hideButtonInAlertsTab && (
-        <FloatingActionButtons>
-          <CreateSmartAlert testId={testId} />
-        </FloatingActionButtons>
-      )}
     </>
   );
 };

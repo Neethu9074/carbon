@@ -1237,7 +1237,6 @@
     "enable": "Enable",
     "disable": "Disable",
     "synthetics": {
-      "addSmartAlert": "Add synthetic Smart Alert",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} more filter",
