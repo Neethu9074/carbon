@@ -8,8 +8,13 @@ import React from 'react';
 
 import { Select } from '@instana/components';
 
+import {
+  getCrossSeriesAggregation,
+  getCrossSeriesAggregationTooltip,
+  isCrossSeriesSumToggleEnabled,
+  parseAggregation
+} from 'in-infrastructure/util/aggregation';
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
-import { getCrossSeriesAggregation, parseAggregation } from 'in-infrastructure/util/aggregation';
 import FilterEmptyValuesToggle from 'in-components/FilterEmptyValueToggle/FilterEmptyValueToggle';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
@@ -82,7 +87,12 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
             const crossSeriesAggregation = node.allowedCrossSeriesAggregations
               ? node.allowedCrossSeriesAggregations[0]
               : undefined;
-            onAddItem({ metric: node.metric, aggregation: 'MEAN', crossSeriesAggregation });
+            onAddItem({
+              metric: node.metric,
+              aggregation: 'MEAN',
+              crossSeriesAggregation,
+              allowedCrossSeriesAggregations: node.allowedCrossSeriesAggregations
+            });
             onShowSlideInContentChange(false);
           }}
           loading={loading}
@@ -115,13 +125,15 @@ function Content({
   uniqueMetricsLabels,
   crossSeriesSumEnabled
 }) {
-  const crossSeriesAggregationField = metric.get('crossSeriesAggregation');
-  const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
-  const allowedCrossSeriesAggregations = [];
-  const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations?.value?.length > 0;
-  const aggregationField = metric.get('aggregation');
-  const isCrossSeriesSumAggregationToggleEnabled =
-    !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
+  const aggregation = parseAggregation(
+    metric.get('aggregation').value,
+    metric.get('crossSeriesAggregation').value,
+    metric.get('allowedCrossSeriesAggregations').value
+  );
+  const isSumCrossSeriesAggregation = aggregation.type === 'SUM';
+  const isCrossSeriesSumAggregationToggleEnabled = isCrossSeriesSumToggleEnabled(aggregation);
+  const allowedCrossSeriesAggregations = metric.get('allowedCrossSeriesAggregations').value;
+  const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations?.length === 1;
   return (
     <>
       <Col xs={4}>
@@ -176,7 +188,7 @@ function Content({
               content={getCrossSeriesAggregationTooltip(
                 isCrossSeriesAggregationRestricted,
                 isCrossSeriesSumAggregationToggleEnabled,
-                aggregationField.value
+                aggregation.timeAggregation
               )}
             >
               <span
@@ -231,21 +243,4 @@ function RequiredToggle({ metric, onChange }) {
       showLabel={t('in-components:metricConfigurator.labelShowEmptyValues')}
     />
   );
-}
-
-function getCrossSeriesAggregationTooltip(
-  isCrossSeriesAggregationRestricted,
-  isCrossSeriesAggregationEnabled,
-  aggregation
-) {
-  if (isCrossSeriesAggregationRestricted) {
-    return t(
-      'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
-    );
-  }
-  return !isCrossSeriesAggregationEnabled && !['SUM', 'PER_SECOND', 'INCREASE'].includes(aggregation)
-    ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
-        aggregation: aggregationLabels[aggregation]
-      })
-    : '';
 }

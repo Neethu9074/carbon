@@ -13,6 +13,7 @@ export interface MetricItem {
   metric: string;
   aggregation: AggregationType;
   crossSeriesAggregation?: AggregationType;
+  allowedCrossSeriesAggregations?: AggregationType[];
   regex?: boolean;
   label?: string;
   required?: boolean;

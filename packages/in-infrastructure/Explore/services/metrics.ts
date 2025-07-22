@@ -39,6 +39,7 @@ export function fromUrlMetrics({
       metric: m.metric ?? m.metricId,
       aggregation: m.aggregation ?? m.aggregationId ?? 'MEAN',
       crossSeriesAggregation: m.crossSeriesAggregation,
+      allowedCrossSeriesAggregations: m.allowedCrossSeriesAggregations,
       regex: m.regex ?? false,
       label: m.label,
       required: Boolean(m.required)
