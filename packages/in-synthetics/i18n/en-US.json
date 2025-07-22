@@ -4,41 +4,15 @@
     "createTest": {
       "buttonLabel": "Add synthetic test",
       "dialogTitle": "Create synthetic test",
-      "noLocationFound": "Sorry! No locations found",
       "noApplicationsFound": "No applications found",
       "noMatchingFound": "No matching application found",
-      "titles": {
-        "step1": "Step 1: Select type",
-        "step2": "Step 2: Request details",
-        "step3": "Step 3: Scheduling",
-        "step4": "Step 4: Provide details",
-        "step5": "Step5: Associate"
-      },
-      "selectTest": {
-        "title": "What kind of synthetic test would you like to create"
-      },
-      "scheduling": {
-        "title": "Scheduling"
-      },
       "requestStep": {
-        "title": "Specify request",
-        "subTitle": "Endpoint",
-        "labelOperation": "HTTP method",
         "labelUrl": "URL",
-        "popSubTitle": "Point of presence",
-        "uploadScriptTitle": "Upload the script",
         "failureToReadFileContent": "Failed to read file content: {{error}}",
         "unsupportedFileFormat": ".{{extension}} file is not supported",
-        "emptyScriptFileError": "Empty code. Nothing to validate.",
-        "enterTheScriptMessage": "Enter the script here",
-        "privatePoPLabel": "Private",
-        "managedPoPLabel": "Managed"
+        "emptyScriptFileError": "Empty code. Nothing to validate."
       },
       "basicDetails": {
-        "title": "What is the name of this API simple (HTTP action) test",
-        "scriptTitle": "What is the name of this API script (HTTP script) test",
-        "webpageActionTitle": "What is the name of this browser simple (webpage action) test",
-        "browserScriptTitle": "What is the name of this browser script test",
         "labelName": "Name of the test",
         "labelDescription": "Description (optional)",
         "labelFrequency": "Frequency (minute)",
@@ -49,56 +23,23 @@
       "bluePrint": {
         "title": "When to use?",
         "apiSimple": {
-          "name": "API simple",
-          "headline": "API simple (HTTP action)",
           "whenToUse": {
             "line1": "Use an API simple (HTTP action) test to test a single REST API"
-          },
-          "tipsForUsing": {
-            "title": "Tips for using",
-            "line1": "Step 1: Choose the type of test which you wish to create.",
-            "line2": "Step 2: Enter the HTTP method and url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
-            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
-            "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         },
         "apiScript": {
-          "name": "API script",
-          "headline": "API script (HTTP script)",
           "whenToUse": {
             "line1": "Use an API script (HTTP script) test and Node.js based script to test the sequence of multiple REST APIs"
-          },
-          "tipsForUsing": {
-            "line1": "Step 1: Choose the type of test which you wish to create.",
-            "line2": "Step 2: Use the Upload the script option to upload a node.js test script file. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
-            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
-            "line4": "Step 4: In the Name of the test and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         },
         "browserSimple": {
-          "name": "Browser simple",
-          "headline": "Browser simple (Webpage action)",
           "whenToUse": {
             "line1": "Use a browser simple test when you want to test a single webpage for HTTP errors."
-          },
-          "tipsForUsing": {
-            "line1": "Step 1: Choose the type of test which you wish to create.",
-            "line2": "Step 2: Enter url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
-            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
-            "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         },
         "browserScript": {
-          "name": "Browser script",
-          "headline": "Browser script (browser script)",
           "whenToUse": {
             "line1": "Use a browser script test when you want to simulate user interactions with your web application using a JavaScript or Selenium IDE script."
-          },
-          "tipsForUsing": {
-            "line1": "Step 1: Choose the type of test which you wish to create.",
-            "line2": "Step 2: Use the Upload the script option to upload a JavaScript or Selenium IDE script file. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
-            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
-            "line4": "Step 4: In the Name of the test and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         },
         "certificateCheck": {
@@ -124,7 +65,6 @@
         "invalidHost": "Host format not valid"
       },
       "advancedMode": {
-        "switchModeButton": "Switch to advanced mode",
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "Selected test type",
           "rightListLabel": "Test type",
@@ -205,7 +145,6 @@
           "browserUploadFileDescription": "You can upload either a single .js, or .cjs file, a .zip file containing bundled .js, or .cjs files, or a .side script recorded by Selenium IDE.",
           "node22BrowserUploadFileDescription": "You can upload either a single .js, .cjs, or .mjs file, a .zip file containing bundled .js, .cjs, or .mjs files, or a .side script recorded by Selenium IDE.",
           "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
-          "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in advanced mode.",
           "timeoutFieldLabel": "Timeout (optional)",
           "timeUnitsLabel": "Time units",
           "timeoutFieldOptionMinutes": "minutes (m)",
