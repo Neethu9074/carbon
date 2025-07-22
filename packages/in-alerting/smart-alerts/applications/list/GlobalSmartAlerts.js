@@ -10,22 +10,17 @@ import { just } from '@instana/observables';
 
 import GlobalInventorySmartAlertsList from 'in-alerting/smart-alerts/applications/inventory/GlobalInventorySmartAlertsList';
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
-import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { globalAlertDetails } from 'in-applications/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { alertsTabDetails } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
-import { role } from 'in-stores/user';
 
 export default function GlobalSmartAlerts({ location }) {
   const [hasDataToRender, setHasDataToRender] = useState(true);
@@ -59,14 +54,6 @@ export default function GlobalSmartAlerts({ location }) {
           )}
         </WithEmptyStateFallback>
       </LeftRightPadding>
-
-      {role.canConfigureGlobalApplicationSmartAlerts &&
-        ((location?.pathname === alertsTabDetails && smartAlertCarbonTableEnabled) ||
-          !smartAlertCarbonTableEnabled) && (
-          <FloatingActionButtons>
-            <CreateGlobalSmartAlertButton renderAsSimpleButton />
-          </FloatingActionButtons>
-        )}
     </Sticky>
   );
 }

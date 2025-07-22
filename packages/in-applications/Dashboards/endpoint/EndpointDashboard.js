@@ -20,7 +20,6 @@ import ApplicationSwitcherContext from 'in-applications/components/ApplicationSw
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
@@ -139,16 +138,6 @@ export default function EndpointDashboard({ location }) {
         filterTabByResult={filterTabByResult}
         props={props}
       />
-
-      {showAlertButton && props.applicationId && (
-        <CreateSmartAlert
-          serviceId={props.serviceId}
-          endpointId={props.endpointId}
-          applicationId={props.applicationId}
-          location={location}
-          boundaryScope={props.boundaryScope}
-        />
-      )}
 
       <Footer />
     </>
