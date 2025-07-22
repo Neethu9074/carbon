@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-declare module 'in-events/components/AIChat/DefinedQuestions' {
+declare module 'in-events/components/AIChat/ResponseObjects' {
   export const promptLibrary: Array;
 }

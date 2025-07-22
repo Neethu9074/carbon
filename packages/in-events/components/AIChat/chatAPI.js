@@ -11,6 +11,12 @@ import {
   EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
   EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE
 } from 'in-services/tracking/eventNames';
+import {
+  ThumbsFeedbackObject,
+  NLGResponseObject,
+  TableChartObject,
+  EventsTableObject
+} from 'in-events/components/AIChat/ResponseObjects';
 import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -84,29 +90,9 @@ export function formatForTable(nlg, apiResponse) {
   const emptyResult = {
     output: {
       generic: [
-        {
-          response_type: 'user_defined',
-          user_defined: {
-            user_defined_type: 'nlg_response',
-            text: nlg
-          }
-        },
-        {
-          response_type: 'user_defined',
-          user_defined: {
-            user_defined_type: 'table_chart',
-            headers: [],
-            rows: []
-          }
-        },
-        {
-          response_type: 'user_defined',
-          user_defined: {
-            user_defined_type: 'thumbs_feedback',
-            posTrack: EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
-            negTrack: EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE
-          }
-        }
+        NLGResponseObject(nlg),
+        TableChartObject([], []),
+        ThumbsFeedbackObject(EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE, EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE)
       ]
     }
   };
@@ -190,29 +176,9 @@ export function formatForTable(nlg, apiResponse) {
   return {
     output: {
       generic: [
-        {
-          response_type: 'user_defined',
-          user_defined: {
-            user_defined_type: 'nlg_response',
-            text: nlg
-          }
-        },
-        {
-          response_type: 'user_defined',
-          user_defined: {
-            user_defined_type: 'table_chart',
-            headers: response.data.headers,
-            rows: response.data.rows
-          }
-        },
-        {
-          response_type: 'user_defined',
-          user_defined: {
-            user_defined_type: 'thumbs_feedback',
-            posTrack: EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
-            negTrack: EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE
-          }
-        }
+        NLGResponseObject(nlg),
+        TableChartObject(response.data.headers, response.data.rows),
+        ThumbsFeedbackObject(EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE, EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE)
       ]
     }
   };
@@ -223,22 +189,9 @@ export function formatForEventsTable(nlg, apiResponse) {
   const createResponse = (headers, rows) => ({
     output: {
       generic: [
-        {
-          response_type: 'user_defined',
-          user_defined: { user_defined_type: 'nlg_response', text: nlg }
-        },
-        {
-          response_type: 'user_defined',
-          user_defined: { user_defined_type: 'events_table', headers, rows }
-        },
-        {
-          response_type: 'user_defined',
-          user_defined: {
-            user_defined_type: 'thumbs_feedback',
-            posTrack: EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE,
-            negTrack: EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE
-          }
-        }
+        NLGResponseObject(nlg),
+        EventsTableObject(headers, rows),
+        ThumbsFeedbackObject(EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE, EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE)
       ]
     }
   });

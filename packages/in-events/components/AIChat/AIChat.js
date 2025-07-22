@@ -18,7 +18,6 @@ import {
 } from 'in-services/tracking/tracking';
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/TableComponents/TableChartSwitcher';
-import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
 import ThumbsFeedback from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import InstructionPop from 'in-events/components/AIChat//CustomPanels/InstructionPop';
 import { handleTracking, AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils';
@@ -181,8 +180,6 @@ export function AIChat() {
           switch (messageItem.user_defined?.user_defined_type) {
             case 'prompt_library':
               return <PromptLibraryResponse instance={instance} />;
-            case `editable_options`:
-              return <EditableOptions messageItem={messageItem} instance={instance} />;
             case 'table_chart':
               return <TableChartSwitcher messageItem={messageItem} />;
             case 'nlg_response':

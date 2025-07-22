@@ -15,11 +15,12 @@ import {
   EVENT_AI_CHAT_API_ERROR_NEGATIVE
 } from 'in-services/tracking/eventNames';
 import {
-  DefinedTreeQuestions,
   handleDefinedTreeQuestions,
   InitialLoadOptions,
-  reprompt
-} from 'in-events/components/AIChat/DefinedQuestions';
+  RePromptObject,
+  ThumbsFeedbackObject,
+  NLGResponseObject
+} from 'in-events/components/AIChat/ResponseObjects';
 import {
   sendAPIQuery,
   fetchAPIData,
@@ -46,30 +47,13 @@ export async function CustomSendMessages(
       {
         output: {
           generic: [
-            ...(nlg
-              ? [
-                  {
-                    response_type: 'user_defined',
-                    user_defined: {
-                      user_defined_type: 'nlg_response',
-                      text: nlg
-                    }
-                  }
-                ]
-              : []),
+            ...(nlg ? [NLGResponseObject(nlg)] : []),
             {
               agent_message_type: 'inline_error',
               response_type: 'text',
               text: errorMessage
             },
-            {
-              response_type: 'user_defined',
-              user_defined: {
-                user_defined_type: 'thumbs_feedback',
-                posTrack: EVENT_AI_CHAT_API_ERROR_POSITIVE,
-                negTrack: EVENT_AI_CHAT_API_ERROR_NEGATIVE
-              }
-            }
+            ThumbsFeedbackObject(EVENT_AI_CHAT_API_ERROR_POSITIVE, EVENT_AI_CHAT_API_ERROR_NEGATIVE)
           ]
         }
       },
@@ -81,7 +65,7 @@ export async function CustomSendMessages(
         instance.messaging.addMessage(
           {
             output: {
-              generic: reprompt
+              generic: [RePromptObject]
             }
           },
           { silent: false, disableFadeAnimation: true }
@@ -100,22 +84,13 @@ export async function CustomSendMessages(
         {
           output: {
             generic: [
-              {
-                response_type: 'user_defined',
-                user_defined: {
-                  user_defined_type: 'nlg_response',
-                  text: nlgResponse
-                }
-              },
+              NLGResponseObject(nlgResponse),
               {
                 response_type: 'text',
                 text: t('in-events:aichat.noMatching')
               },
-              {
-                response_type: 'user_defined',
-                user_defined: { user_defined_type: 'thumbs_feedback', posTrack: posTrack, negTrack: negTrack }
-              },
-              ...reprompt
+              ThumbsFeedbackObject(posTrack, negTrack),
+              RePromptObject
             ]
           }
         },
@@ -129,7 +104,7 @@ export async function CustomSendMessages(
         instance.messaging.addMessage(
           {
             output: {
-              generic: reprompt
+              generic: [RePromptObject]
             }
           },
           { disableFadeAnimation: true }
@@ -140,7 +115,7 @@ export async function CustomSendMessages(
 
   // If the input message is valid and not blank we will want to make an API call
   const userQuery = request.input.text;
-  if (userQuery !== undefined && userQuery !== '' && !DefinedTreeQuestions.includes(userQuery)) {
+  if (userQuery !== undefined && userQuery !== '') {
     // Feature flag removed, always proceed with the query
 
     const loadingMessageId = uniqueId('aichat_');
@@ -187,13 +162,7 @@ export async function CustomSendMessages(
             id: statusMessageId,
             output: {
               generic: [
-                {
-                  response_type: 'user_defined',
-                  user_defined: {
-                    user_defined_type: 'nlg_response',
-                    text: nlgResponse
-                  }
-                },
+                NLGResponseObject(nlgResponse),
                 {
                   response_type: 'text',
                   text: t('in-events:aichat.findingInfoFrom', { endpoint: queryResponse.api.api_endpoint })

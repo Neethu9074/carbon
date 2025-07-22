@@ -17,7 +17,7 @@ import {
   CarbonSearch
 } from '@instana/components';
 
-import { promptLibrary } from 'in-events/components/AIChat/DefinedQuestions';
+import { promptLibrary } from 'in-events/components/AIChat/ResponseObjects';
 import { t } from 'in-i18n';
 
 import locals from './PromptLibrary.mless';
