@@ -117,7 +117,11 @@ export function formCallbacks({ onChange, metricDefaultFormatter }: BindProps) {
 
     setAggregation(timeAggregation: string) {
       onChange([], form => {
-        const aggregation = parseAggregation(timeAggregation, form.getIn(['crossSeriesAggregation']).value);
+        const aggregation = parseAggregation(
+          timeAggregation,
+          form.getIn(['crossSeriesAggregation']).value,
+          form.getIn(['allowedCrossSeriesAggregations']).value
+        );
         return form
           .updateIn(['aggregation'], field => field.setValue(aggregation.timeAggregation).setTouched(true))
           .updateIn(['crossSeriesAggregation'], field =>
@@ -136,7 +140,7 @@ export function formCallbacks({ onChange, metricDefaultFormatter }: BindProps) {
         const aggregation = parseAggregation(
           form.getIn(['aggregation']).value,
           crossSeriesAggregation,
-          undefined,
+          form.getIn(['allowedCrossSeriesAggregations']).value,
           true
         );
         return form.updateIn(['crossSeriesAggregation'], field =>

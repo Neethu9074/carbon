@@ -10,8 +10,7 @@ import React from 'react';
 
 import { Stack, SvgIcon, Toggle } from '@instana/components';
 
-//@ts-expect-error
-import { getCrossSeriesAggregationTooltip } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/FormComponent';
+import { getCrossSeriesAggregationTooltip } from 'in-infrastructure/util/aggregation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Tooltip from 'in-components/Tooltip';

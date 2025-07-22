@@ -21,7 +21,7 @@ describe('parseAggregation', () => {
     'MAX',
     'SUM',
     'INCREASE',
-    'RATE'
+    'PER_SECOND'
   ];
 
   test.each(timeAggregationStandard)(

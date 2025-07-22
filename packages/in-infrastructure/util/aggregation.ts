@@ -3,6 +3,9 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
+import { t } from 'in-i18n';
+import { aggregationLabels } from 'in-stores/metric/beeInstant';
+
 export type Aggregation = CrossSeriesSumAggregation | StandardAggregation | CrossSeriesDistinctCountAggregation;
 
 export interface CrossSeriesSumAggregation {
@@ -40,7 +43,7 @@ function parseCrossSeriesAggregation(
   if (!allowedCrossSeriesAggregation || allowedCrossSeriesAggregation.length === 0) {
     return crossSeries.find(validName => validName === value);
   }
-  return allowedCrossSeriesAggregation.find(validName => validName === value);
+  return allowedCrossSeriesAggregation.find(validName => validName === value) ?? allowedCrossSeriesAggregation[0];
 }
 
 const timeAggregationSum: string[] = ['MEAN', 'MIN', 'MAX', 'SUM', 'PER_SECOND', 'INCREASE'];
@@ -68,7 +71,7 @@ const timeAggregationDistinctCount: string[] = [
   'MAX',
   'SUM',
   'INCREASE',
-  'RATE'
+  'PER_SECOND'
 ];
 type TimeAggregationDistinctCount = (typeof timeAggregationDistinctCount)[number];
 function parseTimeAggregationDistinctCount(value?: string): TimeAggregationDistinctCount | undefined {
@@ -151,4 +154,32 @@ export function getCrossSeriesAggregation(aggregation: Aggregation) {
     case 'DISTINCT_COUNT':
       return 'DISTINCT_COUNT';
   }
+}
+
+export function isCrossSeriesSumToggleEnabled(aggregation: Aggregation) {
+  if (aggregation.type === 'DISTINCT_COUNT') {
+    return false;
+  }
+  if (aggregation.type === 'SUM') {
+    return parseTimeAggregationStandard(aggregation.timeAggregation) !== undefined;
+  }
+  return parseTimeAggregationSum(aggregation.timeAggregation) !== undefined;
+}
+
+export function getCrossSeriesAggregationTooltip(
+  isCrossSeriesAggregationRestricted: boolean,
+  isCrossSeriesAggregationEnabled: boolean,
+  aggregation: keyof typeof aggregationLabels
+) {
+  if (isCrossSeriesAggregationRestricted) {
+    return t(
+      'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
+    );
+  }
+  return (
+    !isCrossSeriesAggregationEnabled &&
+    t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
+      aggregation: aggregationLabels[aggregation]
+    })
+  );
 }

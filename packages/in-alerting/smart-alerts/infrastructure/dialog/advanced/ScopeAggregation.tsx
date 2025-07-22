@@ -9,16 +9,14 @@ import React from 'react';
 
 import {
   getCrossSeriesAggregation,
-  parseAggregation,
-  parseTimeAggregationStandard,
-  parseTimeAggregationSum
+  isCrossSeriesSumToggleEnabled,
+  parseAggregation
 } from 'in-infrastructure/util/aggregation';
 import { SelectInSection as SelectionSection } from 'in-alerting/smart-alerts/components/tearSheet/Section/SelectInSection';
 import CrossSeriesAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CrossSeriesAggregation';
-//@ts-expect-error
-import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import AlertTypography from 'in-alerting/components/AlertTypography';
+import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { t } from 'in-i18n';
 
 interface ScopeAggregationProps {
@@ -34,9 +32,7 @@ export default function ScopeAggregation({ form, updateForm, isTearSheet = false
   const aggregation = parseAggregation(aggregationField.value, crossSeriesAggregationField.value);
 
   const isSumCrossSeriesAggregation = aggregation.type === 'SUM';
-  const isCrossSeriesSumAggregationToggleEnabled = isSumCrossSeriesAggregation
-    ? parseTimeAggregationStandard(aggregationField.value) !== undefined
-    : parseTimeAggregationSum(aggregationField.value) !== undefined;
+  const isCrossSeriesSumAggregationToggleEnabled = isCrossSeriesSumToggleEnabled(aggregation);
 
   const handleAggregationChange = (aggregationValue: string) => {
     const aggregation = parseAggregation(aggregationValue, crossSeriesAggregationField.value);
@@ -87,7 +83,7 @@ export default function ScopeAggregation({ form, updateForm, isTearSheet = false
       <>
         {Object.keys(aggregationLabels).map(aggregation => (
           <option key={aggregation} value={aggregation}>
-            {aggregationLabels[aggregation]}
+            {aggregationLabels[aggregation as keyof typeof aggregationLabels]}
           </option>
         ))}
       </>
