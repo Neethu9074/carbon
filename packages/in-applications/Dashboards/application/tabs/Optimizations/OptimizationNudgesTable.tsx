@@ -50,6 +50,16 @@ interface NudgesProps {
   onRowCountUpdate?: (count: number) => void;
 }
 
+interface ColumnDefinition {
+  title: string;
+  type: string;
+  typeArgs: TypeArgs;
+}
+
+interface TypeArgs {
+  pathname?: string;
+}
+
 export default function OptimizationNudgesTable({
   applicationId,
   metricType,
@@ -87,6 +97,12 @@ export default function OptimizationNudgesTable({
 
   const tableDefinition = getTableDefinition(plugin);
   const cols = tableDefinition.cols;
+
+  cols
+    .filter((column: ColumnDefinition) => column.type === 'snapshotLink')
+    .map((column: ColumnDefinition) => {
+      column.typeArgs.pathname = '/table;view=physical;plugin=host/dashboard';
+    });
 
   if (optimisationMetrics) {
     applicationSnapshotIds = applicationSnapshotIds.filter((_: string, index: number) => {
