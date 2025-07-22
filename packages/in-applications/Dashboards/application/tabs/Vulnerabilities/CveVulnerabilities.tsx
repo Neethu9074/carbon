@@ -150,7 +150,8 @@ export default function AffectedCvePresenter() {
     }
 
     if (isConcertEnabled) {
-      const variation = isTableEmpty ? 'trialOnly' : 'trialConfig';
+      const subVariation = isTableEmpty ? 'trialOnly' : 'trialConfig';
+      const bannerExpanded = isTableEmpty ? 'true' : 'false';
       return (
         // @ts-expect-error TS2304: Cannot find name solis
         // component is loaded from a script in ui-client/packages/in-client/index.html
@@ -158,8 +159,8 @@ export default function AffectedCvePresenter() {
           product="concert"
           type="banner"
           variation="vulnerabilities"
-          sub_variation={variation}
-          banner_expanded={isTableEmpty ? 'true' : 'false'}
+          sub_variation={subVariation}
+          banner_expanded={bannerExpanded}
         />
       );
     }
