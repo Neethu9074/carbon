@@ -143,7 +143,7 @@ export default function ScopeEntity({ form, updateForm }: Readonly<ScopeEntityPr
   );
 }
 
-function getEntityTagOptions(entityItems: EntityItem[]): TagOptions[] {
+export function getEntityTagOptions(entityItems: EntityItem[]): TagOptions[] {
   if (!entityItems || entityItems.length === 0) {
     return [];
   }
