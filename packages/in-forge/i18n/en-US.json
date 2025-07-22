@@ -8393,7 +8393,6 @@
       "gauges": "Gauges",
       "histograms": "Histograms",
       "meters": "Meters",
-      "summaries": "Summaries",
       "timers": "Timers",
       "processId": "Process ID",
       "app": "App",
