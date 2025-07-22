@@ -19,6 +19,7 @@ import {
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/TableComponents/TableChartSwitcher';
 import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
+import ThumbsFeedback from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import InstructionPop from 'in-events/components/AIChat//CustomPanels/InstructionPop';
 import { handleTracking, AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
@@ -188,6 +189,13 @@ export function AIChat() {
               return <NLGResponse messageItem={messageItem} />;
             case 'events_table':
               return <EventsTable messageItem={messageItem} />;
+            case 'thumbs_feedback':
+              return (
+                <ThumbsFeedback
+                  TRACKING_EVENT_POS={messageItem.user_defined.posTrack}
+                  TRACKING_EVENT_NEG={messageItem.user_defined.negTrack}
+                />
+              );
             default:
               return undefined;
           }

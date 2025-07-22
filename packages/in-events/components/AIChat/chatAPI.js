@@ -5,6 +5,12 @@
 
 import { formatDateTime } from '@instana/format-date';
 
+import {
+  EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE,
+  EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE,
+  EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
+  EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE
+} from 'in-services/tracking/eventNames';
 import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -91,6 +97,14 @@ export function formatForTable(nlg, apiResponse) {
             user_defined_type: 'table_chart',
             headers: [],
             rows: []
+          }
+        },
+        {
+          response_type: 'user_defined',
+          user_defined: {
+            user_defined_type: 'thumbs_feedback',
+            posTrack: EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
+            negTrack: EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE
           }
         }
       ]
@@ -190,6 +204,14 @@ export function formatForTable(nlg, apiResponse) {
             headers: response.data.headers,
             rows: response.data.rows
           }
+        },
+        {
+          response_type: 'user_defined',
+          user_defined: {
+            user_defined_type: 'thumbs_feedback',
+            posTrack: EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
+            negTrack: EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE
+          }
         }
       ]
     }
@@ -208,6 +230,14 @@ export function formatForEventsTable(nlg, apiResponse) {
         {
           response_type: 'user_defined',
           user_defined: { user_defined_type: 'events_table', headers, rows }
+        },
+        {
+          response_type: 'user_defined',
+          user_defined: {
+            user_defined_type: 'thumbs_feedback',
+            posTrack: EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE,
+            negTrack: EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE
+          }
         }
       ]
     }

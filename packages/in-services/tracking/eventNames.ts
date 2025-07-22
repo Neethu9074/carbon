@@ -662,6 +662,8 @@ export const EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE = 'event.ai.chat.apievent.re
 export const EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE = 'event.ai.chat.apievent.result.negative';
 export const EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE = 'event.ai.chat.apichat.result.positive';
 export const EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE = 'event.ai.chat.apichat.result.negative';
+export const EVENT_AI_CHAT_API_ERROR_POSITIVE = 'event.ai.chat.api.error.positive';
+export const EVENT_AI_CHAT_API_ERROR_NEGATIVE = 'event.ai.chat.api.error.negative';
 export const EVENT_AI_CHAT_API_RESULT_POS_NEG_FEEDBACK = 'event.api.chat.api.result.pos.neg.feedback';
 export const EVENT_AI_CHAT_FEEDBACK_MENU_CLICK = 'event.ai.chat.feedback.menu.click';
 
