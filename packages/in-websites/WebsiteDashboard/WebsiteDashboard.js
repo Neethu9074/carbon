@@ -28,7 +28,6 @@ import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersions
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
 import { toTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { pageTabs, websiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
@@ -182,20 +181,6 @@ export default function WebsiteDashboard() {
           </>
         }
       />
-      {showAlertButton && (
-        <FloatingActionButtons>
-          <CreateSmartAlert
-            websiteId={props.websiteId}
-            tagFilters={tagFilters}
-            websiteResult$={getWebsite({
-              id: props.websiteId,
-              timeConfig: props.timeConfig
-            })}
-            timeConfig={props.timeConfig}
-            location={location}
-          />
-        </FloatingActionButtons>
-      )}
     </>
   );
 }
