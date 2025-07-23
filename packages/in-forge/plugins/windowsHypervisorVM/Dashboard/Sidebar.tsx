@@ -6,6 +6,13 @@
 
 import React from 'react';
 
-export default function WindowsHypervisorVMSidebar() {
-  return <div />;
+import Info from 'in-forge/plugins/windowsHypervisorVM/Info';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+
+export default function WindowsHypervisorVMSidebar({ snapshot }: { snapshot: SnapshotData }) {
+  return (
+    <div>
+      <Info snapshot={snapshot} />
+    </div>
+  );
 }

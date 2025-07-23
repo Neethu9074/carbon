@@ -3,11 +3,13 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
-import RoEmitter from '@instana/roemitter';
+
 import { Observable } from '@instana/observables';
+import { HealthInfo } from '@instana/types';
+import RoEmitter from '@instana/roemitter';
 
 import { CollectionStream } from 'in-map/stores/ObjectCollectionStream';
-import { HealthInfo, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 
 // Created for understanding how different Scene Object entities interact with each other in infra map
 

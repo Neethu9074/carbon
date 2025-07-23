@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { IpMaskingConfiguration, GeoLocationConfiguration, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { IpMaskingConfiguration, GeoLocationConfiguration, Result } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 

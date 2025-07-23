@@ -8,6 +8,7 @@ import React, { ReactElement, useContext, useMemo, useState } from 'react';
 import { get, isNull } from 'lodash';
 
 import { Button, CarbonTabPanel, Link, LoadingSkeleton, Spacer, Stack, SvgIcon, Typography } from '@instana/components';
+import { Application, EntityId, Event, ServiceLabel, Snapshot, TimeConfig } from '@instana/types';
 import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -34,7 +35,6 @@ import RootCauseTopologyDialog from 'in-events/components/RootCauseAnalysis/Topo
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
-import { Application, EntityId, Event, Nullish, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
 import { rcaTopologyEnabled, rcaAiAutomatedInvestigationEnabled } from 'in-services/featureFlags';
 import AIProbabilityBadge from 'in-events/components/RootCauseAnalysis/AIProbabilityBadge';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
@@ -47,6 +47,7 @@ import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
+import { Nullish } from 'in-types';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 

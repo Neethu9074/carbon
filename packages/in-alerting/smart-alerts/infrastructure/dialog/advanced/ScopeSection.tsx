@@ -14,6 +14,7 @@ import ScopeAlertEvaluation from 'in-alerting/smart-alerts/infrastructure/dialog
 //@ts-expect-error
 import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
+import ScopeEntity from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeEntity';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
 import ScopeFilter from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeFilter';
 import Sections from 'in-components/workspace/Sections';
@@ -42,6 +43,7 @@ export default function ScopeSection({
     <div className={locals.container}>
       <Stack gap="xsmall">
         <Sections>
+          <ScopeEntity form={form} updateForm={updateForm} />
           <Section title={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.metric.metric')}>
             <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} isRegex={isRegex} />
           </Section>

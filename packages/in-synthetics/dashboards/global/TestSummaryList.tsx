@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   OrderDirection,
@@ -34,7 +34,8 @@ import {
   entityIdsUrlParameter,
   runTypeUrlParameter,
   runTypeScheduled,
-  runTypeCICD
+  runTypeCICD,
+  TestListProps
 } from 'in-synthetics/utils/constants';
 import {
   applicationIdTagName,
@@ -66,12 +67,12 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import TestListFilters from 'in-synthetics/dashboards/global/tabs/tests/components/TestListFilters';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
-import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
@@ -172,6 +173,12 @@ const TestSummaryList = () => {
   let associations;
   const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType }, setFilter] =
     useUrlState(urlStateDefinition);
+  const [filtersTemp, setFiltersTemp] = useState<FilterState>({
+    syntheticTypes,
+    locationIds,
+    applicationIds,
+    entityIds
+  });
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const showTestsColumnCustomizationMessage = addColumnCustomizationNotification();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
@@ -207,6 +214,24 @@ const TestSummaryList = () => {
 
   const rightHeader = useFilterHeader(true, syntheticTests, setFilter);
 
+  const onFilterApply = () => {
+    setFilter(filtersTemp);
+  };
+
+  const onFilterCancel = () => {
+    setFiltersTemp({
+      syntheticTypes,
+      locationIds,
+      applicationIds,
+      entityIds
+    });
+  };
+
+  const filterComponent = useMemo(() => {
+    if (syntheticTests.progress.loading) return null;
+    return <TestListFilters result={syntheticTests} filters={filtersTemp} setFilters={setFiltersTemp} />;
+  }, [syntheticTests, filtersTemp]);
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -230,7 +255,7 @@ const TestSummaryList = () => {
           </div>
         )}
         {syntheticCarbonTableEnabled ? (
-          <CarbonDataTableWithUrlState<TestResultListItem, any>
+          <CarbonDataTableWithUrlState<TestResultListItem, TestListProps>
             get={getTestSummaryListData}
             paginationResettingUrlParameters={[...timeConfigUrlParameters]}
             columnDefinitions={columnDefinitions}
@@ -239,10 +264,9 @@ const TestSummaryList = () => {
             pathSegment={pathSegment}
             matrixPrefix={matrixPrefix}
             timeConfig={timeConfig}
-            isSearchable
             searchText={t('in-synthetics:dashboard.testList.searchSyntheticTests')}
             toolBarContent={
-              syntheticRunNowEnabled && (
+              syntheticRunNowEnabled ? (
                 <Dropdown
                   className={locals.dropdownWidth}
                   items={datascopeRunTypes}
@@ -255,7 +279,7 @@ const TestSummaryList = () => {
                   selectedItem={datascopeRunTypes.find(item => item.value === runType)}
                   initialSelectedItem={datascopeRunTypes[0]}
                 />
-              )
+              ) : undefined
             }
             noDataHeader={t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle')}
             noDataDescription={t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')}
@@ -268,6 +292,16 @@ const TestSummaryList = () => {
               syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
               'health'
             ]}
+            isFilterable
+            filters={filterComponent}
+            onFilterApply={onFilterApply}
+            onFilterCancel={onFilterCancel}
+            syntheticTypes={syntheticTypes}
+            locationIds={locationIds}
+            applicationIds={applicationIds}
+            entityIds={entityIds}
+            associations={associations}
+            loading={syntheticTests.progress.loading}
           />
         ) : (
           <ServerTableWithUrlState
@@ -307,8 +341,6 @@ const TestSummaryList = () => {
           <FloatingActionButtons>
             <FloatingActionButtonMenu>
               {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
-
-              {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
             </FloatingActionButtonMenu>
           </FloatingActionButtons>
         )}

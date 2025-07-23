@@ -10,7 +10,8 @@ import {
   ViolationsInPeriodWebsiteTimeThreshold,
   WebsiteTimeThreshold,
   InfraTimeThreshold
-} from 'in-types';
+} from '@instana/types';
+
 import { ImpactMeasurementMethods } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';

@@ -5,6 +5,7 @@
  */
 
 import { formatDate } from '@instana/format-date';
+import { LogItem, LogTag } from '@instana/types';
 
 import {
   CONTAINERD_ID,
@@ -33,7 +34,6 @@ import {
 import { ClickedTag, GroupedTags, GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { capitalize } from 'in-services/formatters/string';
-import { LogItem, LogTag } from 'in-types';
 
 const infraTags = [...containerSnapshotIds, ID_HOST];
 

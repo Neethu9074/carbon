@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { DeleteLogsHistoryResult } from '@instana/types';
+import { DeleteLogsHistoryResult, Result } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result } from 'in-types';
 
 interface LogHistoryResponse extends Result<DeleteLogsHistoryResult> {}
 

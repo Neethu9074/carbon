@@ -6,14 +6,14 @@
 
 import { createField } from 'formalistic';
 
-import {
+import type {
   ServiceLevelIndicatorType,
   ServiceLevelObjectiveConfiguration,
   SloEntityType,
   SLIThresholdOperator
 } from '@instana/types';
 
-import {
+import type {
   CustomBlueprintType,
   SloForm,
   SloIndicatorFields,

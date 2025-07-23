@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
+import { EntityId, TimeConfig } from '@instana/types';
+
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { EntityId, TimeConfig } from 'in-types';
 import http from 'in-services/http/http';
 
 interface InvestigationProps {

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import {
+import type {
   AdjustedTimeframe,
   GetUnifiedMetricsQuery,
   Result,
@@ -16,12 +16,13 @@ import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import type { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { adjustTimeWindowsToTimeConfig } from 'in-service-levels/utils/time';
 import { hasError, isLoading, success } from 'in-services/util/result';
-import { MetricDataSeries } from 'in-components/Chart/types';
-import { FetchedState } from 'in-hooks/utils/types';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import type { MetricDataSeries } from 'in-components/Chart/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 
 export interface ResultAwareChartMetrics {
   granularity: number;

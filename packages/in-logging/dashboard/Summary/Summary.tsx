@@ -8,8 +8,6 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// @ts-ignore
-import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import RetentionPeriodDashboard from 'in-logging/dashboard/Summary/RetentionPeriod/RetentionPeriodDashboard';
 import LogVolumeDashboard from 'in-logging/dashboard/Summary/LogVolume/LogVolumeDashboard';
 import { getLogDistributionConfig, getLogVolumeConfig } from 'in-logging/dashboard/utils';
@@ -38,7 +36,7 @@ export default function Summary() {
           {showLogVolume && <LogVolumeDashboard />}
         </KpiGridRow>
       </div>
-      <CreateLogsSmartAlertFloatingButton />
+
       <div className={locals.charts}>
         {showLogVolume && (
           <UnifiedMetricsChart

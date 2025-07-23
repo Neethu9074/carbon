@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
+import type {
   BlueprintType,
   InquiryResult,
   OrderDirection,
@@ -13,12 +13,13 @@ import {
   ServiceLevelObjectiveConfiguration,
   SloEntityType
 } from '@instana/types';
-import { create, just, Observable } from '@instana/observables';
+import type { Observable } from '@instana/observables';
+import { create, just } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { SloStatus } from 'in-service-levels/types';
+import type { SloStatus } from 'in-service-levels/types';
 import { isBlank } from 'in-services/util/string';
 import { error } from 'in-services/util/result';
 import { minutes } from 'in-services/time';

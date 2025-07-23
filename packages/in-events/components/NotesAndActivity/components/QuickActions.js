@@ -7,23 +7,15 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import {
-  SvgIcon,
-  CarbonButton,
-  CarbonInlineLoading,
-  HelpText,
-  PreviewPill,
-  Typography,
-  Link
-} from '@instana/components';
+import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText, PreviewPill, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { EVENT_AI_GENERATE_SUBMIT, NOTES_SUMMARY_CLICK_EPWT_LINK } from 'in-services/tracking/eventNames';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
+import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { generateJournalSummary } from 'in-stores/events';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './QuickActions.mless';
 
@@ -125,7 +117,17 @@ export function QuickActions(props) {
     >
       {displayQuickStart && (
         <div>
-          <AIPopover />
+          <AIPopover
+            featureName={t('in-events:notes.summary')}
+            featureDescription={t('in-events:notes.summaryDescription')}
+            dataUsed={[
+              <Trans i18nKey={'in-events:notes.triggeringEvent'} />,
+              <Trans i18nKey={'in-events:notes.relatedEvents'} />,
+              <Trans i18nKey={'in-events:notes.affectedEntities'} />
+            ]}
+            modelTitle={t('in-events:notes.granite')}
+            modelLink={'https://www.ibm.com/granite/docs/models/granite/#overview'}
+          />
         </div>
       )}
       <div>

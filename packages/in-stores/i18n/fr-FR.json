@@ -216,6 +216,7 @@
     "fieldsEntityAwsAutoScaling": "AWS - Mise à l'échelle automatique",
     "fieldsEntityAwsTimestream": "Amazon Timestream",
     "fieldsEntityAwsIotCore": "AWS IoT Core",
+    "fieldsEntityAwsMetricStreams": "Entité des flux métriques AWS",
     "fieldsEntityAzure": "Microsoft Azure",
     "fieldsEntityAzureService": "Services Microsoft Azure",
     "fieldsEntityAzureServiceApim": "Azure API Management",

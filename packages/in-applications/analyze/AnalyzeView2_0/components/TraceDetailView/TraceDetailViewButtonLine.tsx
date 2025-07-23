@@ -8,6 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { CarbonButton as Button, CarbonStack as Stack, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { TraceSummary } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { DownloadOptionsDropdown } from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/DownloadOptionsDropdown';
@@ -28,7 +29,6 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import { connection } from 'in-connection/connection';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { seconds } from 'in-services/time/time';
-import { TraceSummary } from 'in-types';
 import { role } from 'in-stores/user';
 
 // No need for a subscription, as this is not getting a response

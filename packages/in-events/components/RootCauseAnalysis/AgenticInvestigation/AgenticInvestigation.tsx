@@ -5,7 +5,7 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { Tag, ContentSwitcher, Switch, Grid, Column, Stack } from '@carbon/react';
+import { ContentSwitcher, Switch, Grid, Column, Stack } from '@carbon/react';
 // eslint-disable-next-line no-restricted-imports
 import { ProductiveCard } from '@carbon/ibm-products';
 import React, { useMemo, useState } from 'react';
@@ -28,32 +28,24 @@ interface AgenticInvestigationProps {
   event: Event;
 }
 
-// Using underscore prefix to indicate intentionally unused parameters
 const AgenticInvestigation = ({ incident, volatileId, event }: AgenticInvestigationProps) => {
   const incidentJSON: Event = useMemo(() => incident.toJS(), [incident]);
 
   const [indexForSwitch, setIndexForSwitch] = useState(0);
 
-  // Props are defined for future implementation but not used yet
-
   return (
     <div className={locals.investigateContainer}>
       <ProductiveCard
-        title={
-          <>
-            {t('in-events:RCA.singleEntityLLM.mainContainerTitle')}
-            <Tag type="green">Work in progress</Tag>
-          </>
-        }
+        title={t('in-events:RCA.singleEntityLLM.mainContainerTitle')}
         titleSize="large"
         description={t('in-events:RCA.singleEntityLLM.mainContainerSubtitle')}
       >
         <Stack gap={5}>
           <Grid narrow className={locals.grid} fullWidth>
-            <Column lg={4} md={4}>
+            <Column xlg={4} lg={6} md={4} sm={4}>
               <EntityDetails />
             </Column>
-            <Column lg={12} md={4}>
+            <Column xlg={12} lg={10} md={4} sm={4}>
               <Topology incident={incidentJSON} />
             </Column>
           </Grid>

@@ -176,7 +176,8 @@
       "warning": "Aviso"
     },
     "placeholder": {
-      "severity": "gravidade"
+      "severity": "gravidade",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "Configuração do alerta",
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510 (Não estendido)",
       "ruleStatusCodeValueOption511": "511 (Autenticação de rede necessária)",
       "ruleStatusCodeValueOption599": "599 (Erro de tempo limite de conexão de rede)",
+      "ruleStatusCodeValueOptionNone": "Sem status (Cliente interrompido/com falha)",
       "warningThresholdValidator": "O limite de aviso deve ser maior que o limite crítico para os operadores < e <=.",
       "criticalThresholdValidator": "O limite crítico deve ser maior que o limite de aviso para operadores > e > =.",
       "sensitivityValidator": "A sensibilidade crítica deve ser menor do que a sensibilidade de aviso."
@@ -796,7 +798,6 @@
         "proceedTitle": "Continuar",
         "previousTitle": "Prévio",
         "nextTitle": "Avançar",
-        "closeTitle": "Fechar",
         "sharedListTooltip": "{{typeName}} não está mais disponível",
         "clearTagFilterExpressionButton": "Limpar",
         "baselineErrorMessageComputedOnApproximateData": "A linha de base é calculada com base em dados aproximados, devido às configurações de retenção de dados. Portanto, pode não ser preciso no caso de haver poucas chamadas correspondentes aos filtros selecionados.",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}} desvios padrão",
         "labelThreshold": "Limite",
         "multiThresholdAlertNotificationInfo": "Sua entrada de qualquer valor de limite aciona uma notificação de alerta.",
+        "advancedSettingsTrayTitle": "Configurações avançadas",
+        "seasonality": "Sazonalidade",
+        "seasonalityAuto": "Automática",
+        "seasonalityNone": "Nenhum",
+        "seasonalityDaily": "Diário",
+        "seasonalityWeekly": "Semanalmente",
+        "adaptability": "Adaptabilidade",
         "warningThresholdLabel": "Aviso",
         "criticalThresholdLabel": "Crítico",
         "labelSensitivity": "Sensibilidade",
@@ -1002,8 +1010,10 @@
         "summary": "Encerrar automaticamente um problema depois que o limite de violação não for mais atingido para"
       },
       "tearSheet": {
-        "cancelModalTitle": "Tem certeza de que deseja cancelar?",
-        "cancelModalDescription": "Se você cancelar, os detalhes de configuração inseridos não serão salvos.",
+        "cancelModalTitle": "Confirmar cancelamento",
+        "continueEditingTitle": "Continuar editando",
+        "cancelEditingTitle": "Cancelar a configuração de alerta inteligente",
+        "cancelModalDescription": "Tem certeza de que deseja cancelar a edição dessa configuração de alerta inteligente? Se você continuar, todas as informações inseridas serão perdidas. Essa ação não pode ser desfeita",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Quando as violações persistem ao longo do tempo",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "As violações persistem em intervalos aleatórios",
@@ -1083,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "Alertas automáticos para eventos customizados",
         "customEventBlueprintConfigText": "Receba um alerta toda vez que um evento customizado específico ocorre com mais ou menos frequência do que deveria.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Selecione um evento customizado para consultar ao acionar este alerta",
-        "customEventBlueprintConfigMetricLabel": "Ocorrências",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Baixo número de carregamentos de página",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Alertas automáticos sobre um número anormalmente baixo de carregamentos de página",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Receber um alerta quando o número de Carregamentos de página for significativamente menor que o esperado em comparação com antigos dados disponíveis.",
@@ -1364,7 +1373,6 @@
         "statusCodeCount": "Contagem de código de status",
         "beaconRate": "Taxa de código de status",
         "views": "Visualizações",
-        "customEventBlueprintConfigMetricLabel": "Ocorrências",
         "sessions": "Sessões",
         "crashAffectedSessionRate": "Taxa de sessões afetadas por travamento",
         "crashFreeSessionRate": "Taxa de sessões livres de travamento",
@@ -1533,6 +1541,11 @@
       }
     },
     "eum": {
+      "data": {
+        "customMetric": "Métrica customizada",
+        "customDuration": "Duração",
+        "customOccurrences": "Ocorrências"
+      },
       "slowness": {
         "blueprintConfigName": "Lentidão",
         "httpLatencyMetricLabel": "Latência HTTP"
@@ -1560,6 +1573,7 @@
         "JSErrors": "Erro(s) de JS: {{errorMessage}}",
         "customEvents": "Evento customizado: {{customEventName}}",
         "HTTPStatusCodes": "Código(s) de status HTTP: {{statusCode}}",
+        "HTTPStatusCodeNone": "Sem status",
         "unsupportedAlertType": "Tipo de alerta não suportado: {{alertType}}",
         "JSErrorsHaveBeenDetected": "Erros de JS foram detectados.",
         "unsupportedOperator": "Operador não suportado: {{operator}}",
@@ -1915,7 +1929,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "Janela de alerta longa e curta",
         "blueprintDescription_STATUS": "Receba um alerta quando o status de SLO estiver abaixo de um limite.",
         "blueprintDescription_BURNED_PERCENTAGE": "Receba um alerta quando uma porcentagem do orçamento de erro for consumida.",
-        "blueprintDescription_BURN_RATE_V2": "A taxa de queima é um valor que indica a rapidez com que o orçamento de erros é consumido em relação ao comprimento de destino do SLO. ",
+        "blueprintDescription_BURN_RATE_V2": "A taxa de queima indica a rapidez com que o orçamento de erros é consumido em relação à meta de comprimento do SLO. Ela é calculada usando a seguinte fórmula: taxa de queima = (orçamento de erros consumido * janela de tempo do SLO) / janela de alerta.",
         "burnRateShortWindowTitle": "Janela de alerta curta",
         "burnRateShortWindowDescription": "Os alertas são acionados quando a taxa de erro excede o limite mais rapidamente em um período mais curto. Isso pode ajudar a capturar um aumento repentino de erros ou tempo de inatividade devido a um erro crítico.",
         "burnRateDescription": "Notifique-me quando a taxa de queima for <1/> <2/>",

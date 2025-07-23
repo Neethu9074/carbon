@@ -302,10 +302,12 @@
   "installAgents": "安裝代理程式",
   "preparingInstance": "準備實例",
   "agentDeployed": "代理程式已部署",
+  "dataSourceInstalled": "已安裝資料來源",
   "agentsAreReportingDataIsBeingCollected": "代理程式正在產生報告。正在收集資料。",
   "timeToExploreInstana": "是時候來探索 Instana 了！",
   "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "幾乎完成了，我們已為您建立 Instana 實例。",
   "whileWeArePreparingYourInstanaInstance": "在我們準備您的 Instana 實例期間，",
   "getReadyToDeployAgentsInYourEnvironment": "請準備好將代理程式部署在您的環境中...",
-  "letSGetSomeAgentsRunning": "我們正在等待您安裝 Instana 代理程式。"
+  "letSGetSomeAgentsRunning": "我們正在等待您安裝 Instana 代理程式。",
+  "weAreWaitingForYouToInstallAnInstanaAgentOrCollector": "我們正在等待您安裝 Instana 代理程式或收集器。"
 }

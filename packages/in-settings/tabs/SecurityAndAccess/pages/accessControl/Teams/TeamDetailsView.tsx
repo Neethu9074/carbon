@@ -92,8 +92,8 @@ const TeamDetailsView = () => {
   // Update team
   const saveTeamHandler = (data: Team, onSuccess: (data: Team) => void, onError: (message: string) => void) => {
     saveTeam(data).once(
-      () => {
-        onSuccess(data);
+      result => {
+        onSuccess(result.body);
       },
       error => {
         onError(error.message);

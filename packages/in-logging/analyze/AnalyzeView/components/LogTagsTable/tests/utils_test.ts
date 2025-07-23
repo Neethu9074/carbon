@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { LogItem, LogTag } from '@instana/types';
+
 import {
   createGroupingTag,
   createTagFilter,
@@ -30,7 +32,6 @@ import {
   ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED,
   ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED
 } from 'in-services/tracking/eventNames';
-import { LogItem, LogTag } from 'in-types';
 
 describe('groupAndSortTags', () => {
   it('should sort infrastructure tags correctly based on containerSnapshotIds', () => {

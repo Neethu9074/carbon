@@ -22,6 +22,10 @@ export default function TypeAndMetricConfigurator({
   errors,
   selectMetric = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric'),
   withUnit = false,
+  metricSelectionDisabled,
+  label,
+  labelOnly,
+
   ...props
 }) {
   if (errors?.length > 0) {
@@ -39,8 +43,9 @@ export default function TypeAndMetricConfigurator({
               onClick={toggle}
               refSetter={refSetter}
               className={locals.carbonConfigurator}
+              disabled={metricSelectionDisabled}
             >
-              <TypeAndMetricLabel selectMetric={selectMetric} {...metricMetadata} />
+              <TypeAndMetricLabel selectMetric={selectMetric} {...metricMetadata} label={label} labelOnly={labelOnly} />
             </DropdownButton>
           )}
         </Overlay>
@@ -87,7 +92,10 @@ TypeAndMetricConfigurator.propTypes = {
   withUnit: rpt.bool,
   onUnitChange: rpt.func,
   preSelectedUnit: rpt.string,
-  unitField: rpt.object
+  unitField: rpt.object,
+  metricSelectionDisabled: rpt.bool,
+  label: rpt.string,
+  labelOnly: rpt.bool
 };
 
 function Errors({ errors }) {
@@ -102,7 +110,7 @@ function Errors({ errors }) {
   );
 }
 
-function TypeAndMetricLabel({ selectMetric, path, label, loading, metric }) {
+function TypeAndMetricLabel({ selectMetric, path, label, loading, metric, labelOnly }) {
   if (loading) {
     return (
       <div className={locals.loadingWrapper}>
@@ -113,14 +121,15 @@ function TypeAndMetricLabel({ selectMetric, path, label, loading, metric }) {
       </div>
     );
   }
-  if (!metric && !label && (!path || path.length == 0)) {
-    return selectMetric;
+  const metricLabel = label || metric || selectMetric;
+  if (!path || path.length == 0 || labelOnly) {
+    return metricLabel;
   }
   return (
     <>
       {path
         .slice(1)
-        .concat([label || metric])
+        .concat([metricLabel])
         .reduce((acc, elem) => (
           <>
             {acc}

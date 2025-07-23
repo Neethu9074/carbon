@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
-import { TimeConfig } from '@instana/types';
+import { useRef } from 'react';
+
+import type { TimeConfig } from '@instana/types';
 
 import { getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { useRef } from 'react';
 
 export default function useContextAwareSloTimeWindowConfig(): TimeConfig {
   const selectedTimeConfig = useStableTimeConfig();

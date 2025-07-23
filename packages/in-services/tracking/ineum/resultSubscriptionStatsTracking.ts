@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig, Result } from '@instana/types';
+
 import { SubscriptionDescription } from 'in-connection/types';
 import { timeConfig$ } from 'in-stores/time/config';
 import { ineum } from 'in-services/tracking/ineum';
-import { TimeConfig } from 'in-types';
-import { Result } from 'in-types';
 
 interface PendingSubscription {
   event: string;

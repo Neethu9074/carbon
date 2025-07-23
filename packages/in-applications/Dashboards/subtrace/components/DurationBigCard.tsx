@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { SubtraceUnifiedMetricConfiguration } from '@instana/types';
+
 import { ConfigWithCompanionMetric } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { latency, meanLatency } from 'in-services/formatters/number';
-import { SubtraceUnifiedMetricConfiguration } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

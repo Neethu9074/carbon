@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { MapForm, Field, Item } from 'formalistic';
 import { escapeRegExp } from 'lodash';
 
@@ -63,6 +63,13 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex, isTea
   const catalogQuery = useDebouncedValue('', noop, 800);
   const initialRegex = useRef('');
   const [selectedType, onSelectType] = useState();
+  useEffect(() => {
+    if (entityType) {
+      onSelectType(entityType);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityTypeField]);
+
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
@@ -180,6 +187,11 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex, isTea
         type={entityTypeField?.value}
         onTypeChange={onTypeChange(form, updateForm)}
         onSelectType={onSelectType}
+        metricSelectionDisabled={Boolean(!selectedType)}
+        backButton={false}
+        label={getMetricLabel}
+        regexEntitySelectionEnabled={false}
+        labelOnly
       />
       <TouchedMessages field={metricField} />
       <ValidationMessages form={form} category={regexValidationError} />

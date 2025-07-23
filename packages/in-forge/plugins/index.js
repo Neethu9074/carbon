@@ -293,6 +293,7 @@ import './bpm/camunda';
 import './otelProcess';
 import './oTelK8sNode';
 import './nutanixHost';
+import './nutanixVm';
 import './xenServerVM';
 import './drbdDevice';
 import './awsAppSync';

@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
+import { ThresholdOperator, ThresholdType } from '@instana/types';
+
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { NumberFormatter } from 'in-services/formatters/number';
-import { ThresholdOperator, ThresholdType } from 'in-types';
 
 export function createMetricWithThresholdLabel(
   metricLabel: string,

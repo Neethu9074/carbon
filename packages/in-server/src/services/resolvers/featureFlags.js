@@ -652,11 +652,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonTableEnabled',
-    instanaCtlKey: 'feature.carbon.table.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: true
@@ -700,11 +695,6 @@ module.exports = exports = [
     uiClientKey: 'serviceNowAdvancedEnabled',
     instanaCtlKey: 'feature.service.now.advanced.enabled',
     defaultValue: true
-  },
-  {
-    uiClientKey: 'automationActionInstanceFeedbackEnabled',
-    instanaCtlKey: 'automation.action.instance.feedback.enabled',
-    defaultValue: false
   },
   {
     uiClientKey: 'infraExploreFilterEmptyValueEnabled',
@@ -877,9 +867,9 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'perEntityInfraSmartAlertsEnabled',
-    instanaCtlKey: 'feature.per.entity.infra.smart.alerts.enabled',
-    defaultValue: true
+    uiClientKey: 'websitesBusinessConversionGoalsEnabled',
+    instanaCtlKey: 'feature.websites.business.conversion.goals.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'aqmDataGridEventTableEnabled',
@@ -912,11 +902,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'rbacRoleMappingEnabled',
-    instanaCtlKey: 'feature.rbac.role.mapping.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'accessControlCarbonTable',
     instanaCtlKey: 'feature.accessControl.carbonTable.enabled',
     defaultValue: true
@@ -944,6 +929,11 @@ module.exports = exports = [
   {
     uiClientKey: 'solisEnabled',
     instanaCtlKey: 'feature.solis.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'solisTestCatalogEnabled',
+    instanaCtlKey: 'feature.solis.test.catalog.enabled',
     defaultValue: false
   },
   {
@@ -984,12 +974,7 @@ module.exports = exports = [
   {
     uiClientKey: 'regexMatchEnabled',
     instanaCtlKey: 'feature.regex.match.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'blockLogDeletionsEnabled',
-    instanaCtlKey: 'feature.block.log.deletions.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'relatedEventsDatagrid',
@@ -1047,8 +1032,23 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'downtimesOnHostEnabled',
+    instanaCtlKey: 'feature.downtimes.on.host.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'deleteLogsV3Enabled',
     instanaCtlKey: 'feature.log.deleteLogsV3Enabled.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'onlyFedRampAllowedAlertChannelsEnabled',
+    instanaCtlKey: 'feature.only.fed.ramp.allowed.alert.channels.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'fiveMinuteGranularityForAdaptiveThresholdEnabled',
+    instanaCtlKey: 'feature.five.minute.granularity.for.adaptive.threshold.enabled',
     defaultValue: false
   }
 ];

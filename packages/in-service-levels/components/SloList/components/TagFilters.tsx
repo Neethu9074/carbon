@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ColumnFilter } from '@tanstack/react-table';
+import type { ColumnFilter } from '@tanstack/react-table';
 import React, { useRef, useState } from 'react';
 
 import { DismissibleTag, OperationalTag, Button, Popover, PopoverContent } from '@instana/carbon';
 
-import { SloListFilterState } from 'in-service-levels/hooks/useSloListFilterUrlState';
+import type { SloListFilterState } from 'in-service-levels/hooks/useSloListFilterUrlState';
 import useTagFilters from 'in-service-levels/components/SloList/hooks/useTagFilters';
 import useIsOverflow from 'in-hooks/useIsOverflow';
 import { t } from 'in-i18n';

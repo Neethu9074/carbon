@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { GetMobileAppMetricAlertsPreviewQuery, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetMobileAppMetricAlertsPreviewQuery, Result } from 'in-types';
 
 type Tuple = [number, number];
 type AlertsPreviewMetrics = Record<string, Tuple[]>;

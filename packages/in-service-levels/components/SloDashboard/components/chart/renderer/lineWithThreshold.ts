@@ -7,12 +7,12 @@
 import {
   drawLines,
   fillBackground,
-  getLineWidth,
-  Vertex
+  getLineWidth
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
-import { DataSeries, RenderConfig, Renderer, RenderProps } from 'in-components/Chart/renderer/types';
+import type { Vertex } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
+import type { DataSeries, RenderConfig, Renderer, RenderProps } from 'in-components/Chart/renderer/types';
 import renderer from 'in-components/Chart/renderer/Renderer';
-import { ScaleType } from 'in-services/scale';
+import type { ScaleType } from 'in-services/scale';
 
 export const thresholdMetricId = 'threshold';
 

@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { formatDurationAccurately } from '@instana/format-date';
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 import { Typography } from '@instana/components';
 
 import { getDurationInMs } from 'in-service-levels/features/CorrectionWindows/utils/CorrectionConfiguration';

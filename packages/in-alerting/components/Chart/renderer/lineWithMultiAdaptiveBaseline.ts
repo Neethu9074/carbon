@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Granularity, ThresholdOperator, ThresholdData, TimeConfig, Severity } from '@instana/types';
+
 import { renderBackgroundsAndLinesWithGapsForMultiThreshold } from 'in-alerting/components/Chart/renderer/renderThresholdsAndBackgroundsForMultiThreshold';
 import {
   DataSeries,
@@ -16,7 +18,6 @@ import { AdaptiveBaselineFetchedPredictions } from 'in-alerting/smart-alerts/dat
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { getThresholdInTimeframe } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
-import { Granularity, ThresholdOperator, ThresholdData, TimeConfig, Severity } from 'in-types';
 import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import { AxisColor } from 'in-components/Chart/types';
 import line from 'in-components/Chart/renderer/line';

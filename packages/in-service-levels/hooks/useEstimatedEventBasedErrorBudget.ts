@@ -6,7 +6,7 @@
 
 import { daysInWeek } from 'date-fns';
 
-import {
+import type {
   ApplicationSloEntity,
   GetUnifiedMetricsQuery,
   Result,
@@ -14,17 +14,18 @@ import {
   TagFilterExpressionElementUnion,
   TimeConfig,
   TimeWindow,
-  WebsiteSloEntity,
-  isApplicationSloEntity
+  WebsiteSloEntity
 } from '@instana/types';
+import { isApplicationSloEntity } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
-import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
+import type { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { pendingResult } from 'in-services/fixedObjects';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 import { days } from 'in-services/time/time';
 
 interface UseEstimatedEventBasedErrorBudgetProps {

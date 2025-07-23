@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetReleasesQuery, OrderDirection, PaginatedResult, Release, Result, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { GetReleasesQuery, OrderDirection, PaginatedResult, Release, Result, TimeConfig } from 'in-types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getReleases: (parameter: GetReleasesQuery) => Observable<Result<PaginatedResult<Release>>> =

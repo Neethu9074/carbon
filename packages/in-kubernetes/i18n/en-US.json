@@ -330,13 +330,16 @@
     },
     "filesystemCapacity": "Filesystem capacity",
     "filesystemAvailable": "Filesystem available",
+    "filesystemUsage": "Filesystem usage",
     "filesystemResources": "Filesystem resources",
     "memoryAvailable": "Memory available",
     "cpuUtilization": "CPU utilization",
     "preview": "Preview",
     "cpuTime": "CPU time",
     "memoryWorkingset": "Memory working set",
-    "memoryRss": "Memory RSS"
+    "memoryRss": "Memory RSS",
+    "memoryPageFaults": "Memory page faults",
+    "memoryMajorPageFaults": "Memory major page faults"
   },
   "cloudNative": {
     "unhealthyNodes": "Unhealthy nodes",
@@ -352,7 +355,7 @@
     "switchToCardView": "Switch to card view",
     "switchToTableView": "Switch to table view",
     "sortingOptions": {
-      "unhealthyNodesCriticals": "Unhealthy nodes (Critical)",
+      "unhealthyNodesCritical": "Unhealthy nodes (Critical)",
       "unhealthyNodesWarnings": "Unhealthy nodes (Warnings)",
       "unhealthyDeploymentsCritical": "Unhealthy deployments (Critical)",
       "unhealthyDeploymentsWarnings": "Unhealthy deployments (Warnings)",

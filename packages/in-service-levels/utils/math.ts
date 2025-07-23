@@ -6,7 +6,7 @@
 
 import { weeksToDays } from 'date-fns';
 
-import { TimeWindow } from '@instana/types';
+import type { TimeWindow } from '@instana/types';
 
 import { days, hours } from 'in-services/time/time';
 

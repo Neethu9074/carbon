@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ConfigVersion, Result } from '@instana/types';
+import { ConfigVersion, Result, LogAlertConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -18,7 +18,6 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { minutes } from 'in-services/time';
-import { LogAlertConfig } from 'in-types';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.LOGS;

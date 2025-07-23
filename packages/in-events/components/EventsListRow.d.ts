@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import { RawEvent } from '@instana/types';
 declare module 'in-events/components/EventsListRow' {
   import React from 'react';
-  import { RawEvent } from 'in-types';
 
   interface OnEntityProps {
     rawEvent: RawEvent;

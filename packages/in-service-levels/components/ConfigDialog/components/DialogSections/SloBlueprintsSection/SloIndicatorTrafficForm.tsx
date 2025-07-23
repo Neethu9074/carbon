@@ -8,7 +8,7 @@ import React, { useContext } from 'react';
 
 import { RadioButton, RadioButtonGroup, NumberInput } from '@instana/carbon';
 import { Stack, Typography, ValidationBlock } from '@instana/components';
-import { SLIThresholdOperator } from '@instana/types';
+import type { SLIThresholdOperator } from '@instana/types';
 
 import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
 import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents/OperatorDropdown/OperatorDropdown';

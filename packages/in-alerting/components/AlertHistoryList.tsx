@@ -5,6 +5,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { TimeConfig, RawEvent, Result, Cursor } from '@instana/types';
 import { Li, LiLoadMore, Stack, Ul } from '@instana/components';
 import { Disposable, on } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -20,7 +21,6 @@ import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import getRawEvents from 'in-subscription/getRawEvents';
 import useCursorPagination, { State } from 'in-hooks/useCursorPagination';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
-import { TimeConfig, RawEvent, Result, Cursor } from 'in-types';
 import { isLoading } from 'in-services/util/result';
 import ListTitle from 'in-components/lists/Title';
 import WithIcon from 'in-components/WithIcon';

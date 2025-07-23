@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Result, TagCatalog, TagSuggestions } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { GetSuggestionsProps as GetWebsiteSuggestionsProps, Suggestions } from 'in-websites/queryBuilder';
 import { GetTagSuggestionsProps } from 'in-components/QueryBuilder';
-import { Result, TagCatalog, TagSuggestions } from 'in-types';
 
 declare function TagBasedPayloadConfigurator<T>({
   value,

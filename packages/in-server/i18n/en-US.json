@@ -1,73 +1,108 @@
 {
-    "mainNavigation": {
-      "monitoringObservability": "Monitoring and observability",
-      "criticalEvents": "Critical Events",
-      "warningEvents": "Warning Events",
-      "incident": "Incident",
-      "activeTotal": "Active/Total",
-      "shared": "Shared",
-      "customerDashboard": "Custom Dashboard",
-      "owner": "Owner",
-      "viewSwitcherCustomDashboards": "Custom dashboards",
-      "viewSwitcherLabelWebsitesAndMobileApps": "Websites & mobile apps",
-      "viewSwitcherLabelWebsites": "Websites",
-      "viewSwitcherLabelMobileApps": "Mobile apps",
-      "viewSwitcherLabelApplications": "Applications",
-      "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-      "viewSwitcherLabelphmc": "IBM Power HMC",
-      "viewSwitcherLabelPowervc": "IBM PowerVC",
-      "viewSwitcherLabelzhmc": "IBM Z HMC",
-      "viewSwitcherLabelOpenstack": "OpenStack",
-      "viewSwitcherLabelKubernetes": "Kubernetes",
-      "viewSwitcherLabelNutanix": "Nutanix",
-      "viewSwitcherLabelSap": "SAP",
-      "viewSwitcherLabelvSphere": "vSphere",
-      "viewSwitcherlabelInfrastructure": "Infrastructure",
-      "viewSwitcherLabelAnalytics": "Analytics",
-      "viewVulnerabilityCenter": "Vulnerabilities",
-      "viewSwitcherLabelEvents": "Events",
-      "viewSwitcherLabelSlo": "Service levels",
-      "viewSwitcherLabelLogs": "Logs",
-      "viewSwitcherLabelInternal": "Internal",
-      "viewSwitcherLabelSettings": "Settings",
-      "viewSwitcherLabelAgents": "Agents",
-      "viewSwitcherLabelDocumentation": "Documentation",
-      "profileMenu_tooltip": "Profile menu",
-      "viewSwitcherLabelPlatforms": "Platforms",
-      "home": "Home",
-      "businessMonitoring": "Business monitoring",
-      "labelSyntheticMonitoring": "Synthetic monitoring",
-      "automation": "Automation",
-      "viewSwitcherLabelTools": "Tools",
-      "viewSwitcherLabelAdministration": "Administration"
+  "mainNavigation": {
+    "monitoringObservability": "Monitoring and observability",
+    "criticalEvents": "Critical Events",
+    "warningEvents": "Warning Events",
+    "incident": "Incident",
+    "activeTotal": "Active/Total",
+    "shared": "Shared",
+    "customerDashboard": "Custom Dashboard",
+    "owner": "Owner",
+    "viewSwitcherCustomDashboards": "Custom dashboards",
+    "viewSwitcherLabelWebsitesAndMobileApps": "Websites & mobile apps",
+    "viewSwitcherLabelWebsites": "Websites",
+    "viewSwitcherLabelMobileApps": "Mobile apps",
+    "viewSwitcherLabelApplications": "Applications",
+    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM Power HMC",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
+    "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelKubernetes": "Kubernetes",
+    "viewSwitcherLabelNutanix": "Nutanix",
+    "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherlabelInfrastructure": "Infrastructure",
+    "viewSwitcherLabelAnalytics": "Analytics",
+    "viewVulnerabilityCenter": "Vulnerabilities",
+    "viewSwitcherLabelEvents": "Events",
+    "viewSwitcherLabelSlo": "Service levels",
+    "viewSwitcherLabelLogs": "Logs",
+    "viewSwitcherLabelInternal": "Internal",
+    "viewSwitcherLabelSettings": "Settings",
+    "viewSwitcherLabelAgents": "Agents",
+    "profileMenu_tooltip": "Profile menu",
+    "viewSwitcherLabelPlatforms": "Platforms",
+    "home": "Home",
+    "businessMonitoring": "Business monitoring",
+    "labelSyntheticMonitoring": "Synthetic monitoring",
+    "automation": "Automation",
+    "viewSwitcherLabelTools": "Tools",
+    "viewSwitcherLabelAdministration": "Administration"
+  },
+  "helpPanel": {
+    "panelTitle": "Help",
+    "articleSectionTitle": "Relevant articles",
+    "articles": {
+      "home": "Getting started",
+      "websites": "Monitoring websites",
+      "mobileApps": "Monitoring mobile applications",
+      "businessProcesses": "Business processes",
+      "applications": "Monitoring applications",
+      "services": "Services",
+      "smartAlerts": "Smart Alerts",
+      "cloudFoundry": "Monitoring Cloud Foundry and VMware Tanzu (formerly know as Pivotal Cloud Foundry)",
+      "powerHMC": "Monitoring IBM Power HMC",
+      "configureMicroService": "Installing and configuring microservices applications monitoring",
+      "zHMC": "Monitoring IBM Z HMC",
+      "kubernetes": "Monitoring Kubernetes",
+      "nutanix": "Monitoring Nutanix",
+      "vSphere": "Monitoring vSphere",
+      "infrastructure": "Monitoring infrastructure",
+      "customDashboards": "Building custom dashboards",
+      "logging": "Logging",
+      "syntheticMonitoring": "Synthetic monitoring",
+      "analyzeTraces": "Analyzing traces and calls",
+      "analyzeInfrastructure": "Analyze Infrastructure",
+      "concert": "Viewing IBM Concert data",
+      "automation": "Managing actions",
+      "slo": "Service level objectives (SLOs)",
+      "agents": "Installing Instana agents",
+      "eventsAndAlerts": "Managing events and alerts",
+      "integrationDB": "DBmarlin",
+      "integrtionLogs": "Integrating logs",
+      "userSettings": "Modifying the Instana user settings",
+      "accountAndBilling": "Viewing data usage and billing",
+      "securityAndAccess": "Administering Instana"
+    }
+  },
+  "errorPages": {
+    "404": {
+      "title": "Page not found",
+      "label": "Error 404",
+      "description": "The page you requested has moved or is unavailable, or the specified URL is not valid. Please check the URL or search the site for the requested content."
     },
-    "errorPages": {
-      "404": {
-        "title": "Page not found",
-        "label": "Error 404",
-        "description": "The page you requested has moved or is unavailable, or the specified URL is not valid. Please check the URL or search the site for the requested content."
-      },
-      "403": {
-        "title": "Access denied",
-        "label": "Error 403",
-        "description": "You are not authorized to access the requested page. Please verify that you are logged in to the hosting environment and your access permissions are correct."
-      },
-      "500": {
-        "title": "Internal server error",
-        "label": "Error 500",
-        "description": "An undefined server-side error has occurred and the server is unable to fulfill your request. Please refresh the page or try again later."
-      },
-      "maintenance": {
-        "title": "Page unavailable",
-        "label": "Maintenance",
-        "description": "We are currently busy upgrading the system. Your environment will be back shortly."
-      },
-      "links": {
-        "statusLink": "Instana status page",
-        "supportLink": "Support",
-        "homeLink": "Home",
-        "adminLink": "Contact administrator for access",
-        "signoutButtonLabel": "Sign out"
-      }
+    "403": {
+      "title": "Access denied",
+      "label": "Error 403",
+      "description": "You are not authorized to access the requested page. Please verify that you are logged in to the hosting environment and your access permissions are correct."
+    },
+    "500": {
+      "title": "Internal server error",
+      "label": "Error 500",
+      "description": "An undefined server-side error has occurred and the server is unable to fulfill your request. Please refresh the page or try again later."
+    },
+    "maintenance": {
+      "title": "Page unavailable",
+      "label": "Maintenance",
+      "description": "We are currently busy upgrading the system. Your environment will be back shortly."
+    },
+    "links": {
+      "statusLink": "Instana status page",
+      "supportLink": "Support",
+      "homeLink": "Home",
+      "adminLink": "Contact administrator for access",
+      "signoutButtonLabel": "Sign out"
     }
   }
+}

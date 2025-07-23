@@ -9,17 +9,18 @@ import classNames from 'classnames';
 import { Stack, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Dropdown } from '@instana/components';
+import { FormGroup } from '@instana/carbon';
 
 import {
   SETTINGS_ACCOUNT_BILLING_PRESENTATION,
   SETTINGS_ACCOUNT_BILLING_TENANT_UNIT,
   SETTINGS_ACCOUNT_BILLING_TIMERANGE
 } from 'in-services/tracking/eventNames';
+import { dataUsageNotificationEnabled, newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import LearnMoreAboutDataConsumption from 'in-amp/components/LearnMoreAboutDataConsumption';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import PresentationSelection from 'in-amp/components/PresentationSelection';
-import { dataUsageNotificationEnabled } from 'in-services/featureFlags';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { t } from 'in-i18n';
 
@@ -37,7 +38,8 @@ export default function AmpInformationModifier({
   setTimeRange,
   setTo,
   presentation,
-  setPresentation
+  setPresentation,
+  isAddOn = false
 }) {
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
@@ -82,47 +84,83 @@ export default function AmpInformationModifier({
       })}
     >
       <Stack>
-        {dataUsageNotificationEnabled && showFupMessage && <LearnMoreAboutDataConsumption />}
-        <Message
-          type="neutral"
-          dismissible
-          title={
-            showFupMessage
-              ? t('in-amp:components.fairUsePolicyMessage.title')
-              : t('in-amp:components.fairUsePolicyNotActive.title')
-          }
-          fullInlineWidth
-        />
+        {dataUsageNotificationEnabled && showFupMessage && !isAddOn && <LearnMoreAboutDataConsumption />}
+        {!isAddOn && (
+          <Message
+            type="neutral"
+            dismissible
+            title={
+              showFupMessage
+                ? t('in-amp:components.fairUsePolicyMessage.title')
+                : t('in-amp:components.fairUsePolicyNotActive.title')
+            }
+            fullInlineWidth
+          />
+        )}
         <Stack direction="horizontal" distribution="spaceBetween">
-          {unitSelectorOptions && (
-            <Dropdown
-              items={unitSelectorOptions}
-              size="md"
-              value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
-              onChange={setTenantUnit}
-              className={locals.unitSelector}
-            />
-          )}
+          {unitSelectorOptions &&
+            (newAccountAndBillingPageEnabled ? (
+              <FormGroup legendText={t('in-amp:accountAndBilling.label.unit')}>
+                <Dropdown
+                  items={unitSelectorOptions}
+                  size="md"
+                  value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
+                  onChange={setTenantUnit}
+                  className={locals.unitSelector}
+                />
+              </FormGroup>
+            ) : (
+              <Dropdown
+                items={unitSelectorOptions}
+                size="md"
+                value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
+                onChange={setTenantUnit}
+                className={locals.unitSelector}
+              />
+            ))}
           <div className={locals.ampTimeSelectionWrapper}>
-            <AmpTimeSelection
-              windowSize={windowSize}
-              setWindowSize={setWindowSize}
-              timeRange={timeRange}
-              setTimeRange={setTimeRange}
-              setTo={setTo}
-              presentation={presentation}
-              setPresentation={setPresentation}
-            />
-            {presentation && (
-              <PresentationSelection
+            {newAccountAndBillingPageEnabled ? (
+              <FormGroup legendText={t('in-amp:accountAndBilling.label.timeRange')}>
+                <AmpTimeSelection
+                  windowSize={windowSize}
+                  setWindowSize={setWindowSize}
+                  timeRange={timeRange}
+                  setTimeRange={setTimeRange}
+                  setTo={setTo}
+                  presentation={presentation}
+                  setPresentation={setPresentation}
+                />
+              </FormGroup>
+            ) : (
+              <AmpTimeSelection
+                windowSize={windowSize}
+                setWindowSize={setWindowSize}
+                timeRange={timeRange}
+                setTimeRange={setTimeRange}
+                setTo={setTo}
                 presentation={presentation}
                 setPresentation={setPresentation}
-                timeRange={timeRange}
               />
             )}
+            {presentation &&
+              (newAccountAndBillingPageEnabled ? (
+                <FormGroup legendText={t('in-amp:accountAndBilling.label.values')}>
+                  <PresentationSelection
+                    presentation={presentation}
+                    setPresentation={setPresentation}
+                    timeRange={timeRange}
+                  />
+                </FormGroup>
+              ) : (
+                <PresentationSelection
+                  presentation={presentation}
+                  setPresentation={setPresentation}
+                  timeRange={timeRange}
+                />
+              ))}
           </div>
         </Stack>
-        {unitSelectorOptions && showAggregatedMetrics && (
+        {unitSelectorOptions && showAggregatedMetrics && !isAddOn && (
           <Message
             className={locals.message}
             withIcon

@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import { TagFilter } from '@instana/types';
+
 import {
   alertCreated,
   isDuplicateMode,
@@ -17,7 +19,6 @@ import { alertsTab, mobileAppSmartAlerts } from 'in-mobile-apps/navigation/paths
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
-import { TagFilter } from 'in-types';
 
 export default function getAlertingUrlParameters(location: Location) {
   const editMode = getMatrixParameter(location, mobileAppSmartAlerts, isEditMode) === 'true';

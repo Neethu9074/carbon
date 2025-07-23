@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { Field } from 'formalistic';
 
 import { Spacer, Typography } from '@instana/components';
+import { SyntheticCredential } from '@instana/types';
 
 import { showCreateErrorMessage, showCreateSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -25,7 +26,6 @@ import StepTwo from 'in-synthetics/createCredentials/steps/StepTwo';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { createCredential } from 'in-synthetics/api';
 import { noop } from 'in-services/fixedObjects';
-import { SyntheticCredential } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createCredentials/CreateCredentials.mless';

@@ -17,8 +17,10 @@ import { RawEvent } from '@instana/types';
 import { OnEntity, getEndValue, getStateBadge, getColorForState } from 'in-events/components/EventsListRow';
 import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
 import TimelineCell from 'in-events/components/EventsPage/EventsTable/TimelineCell';
-import { useNavigateToEvent } from 'in-events/navigation/useNavigateToEvent';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { eventsTransientEventEnabled } from 'in-services/featureFlags';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -29,21 +31,30 @@ const defaultHeaders = ['severity', 'problem.problemText', 'on', 'start', 'end',
 export type EventHeaderType = (typeof defaultHeaders)[number];
 
 const TitleCell = ({ row }: { row: Row<RawEvent> }) => {
-  const navigateToEvent = useNavigateToEvent();
+  const { location, createHref } = useNavigation();
 
-  const handleClick = () => {
+  const getEventUrl = (): string | undefined => {
     if (row.original.id) {
-      navigateToEvent(row.original.id);
+      // clicking into event list should re-enable tracking Event page view
+      setOrDeleteMatrixKey(location, eventsPath, 'track', true);
+      setOrDeleteMatrixKey(location, eventsPath, 'eventId', row.original.id);
+      // remove referrer from URL as it already has been recorded
+      const referrer = location.query['ref'];
+      if (referrer) {
+        delete location.query['ref'];
+      }
+      return createHref(location);
     }
+    return undefined;
   };
 
   return (
     <Link
       className={locals.titleLink}
-      style={{ cursor: 'pointer', display: 'block', width: '100%' }}
       // @ts-expect-error
       tabIndex={0}
-      onClick={handleClick}
+      style={{ cursor: 'pointer', display: 'block', width: '100%' }}
+      href={getEventUrl()}
     >
       {row.original.title}
     </Link>

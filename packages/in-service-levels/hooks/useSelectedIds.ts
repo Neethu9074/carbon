@@ -6,15 +6,16 @@
 
 import { useRef } from 'react';
 
-import { Result, PaginatedResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { Result, PaginatedResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { SloData, sloConfigsToSloData } from 'in-service-levels/hooks/usePaginatedSloList';
+import { sloConfigsToSloData } from 'in-service-levels/hooks/usePaginatedSloList';
 import { getAllSloConfigurations } from 'in-service-levels/api/sloConfiguration';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { SloData } from 'in-service-levels/hooks/usePaginatedSloList';
+import type { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';
 
 export default function useSelectedIds(sloIds: string[]): FetchedState<SloData[]> {

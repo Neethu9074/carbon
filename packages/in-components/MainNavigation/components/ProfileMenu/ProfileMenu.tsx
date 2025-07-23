@@ -18,6 +18,7 @@ import {
 } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
+import { TeamTag } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -59,7 +60,8 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
     isMcspEnvironment && (activeLicenseType === 'hostBasedPaid' || activeLicenseType === 'paidPerUse');
 
   const teamsObservable = useObservable(rbacTeamsEnabled ? getTeamsByUserId() : just(null), []) ?? pendingResult;
-  const teams = teamsObservable?.data ?? [];
+  const teams: TeamTag[] = teamsObservable?.data ?? [];
+  const sortedTeams = [...teams].sort((a, b) => a.displayName.localeCompare(b.displayName));
   const isTeamsLoading = isLoading(teamsObservable);
 
   const signOut = (event: MouseEvent) => {
@@ -104,7 +106,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
         <SwitcherDivider className={local.profileMenu_switcherDivider} />
         {rbacTeamsEnabled && !isTeamsLoading && (
           <div className={local.profileMenu_teamFocusSection}>
-            <TeamFocusDropdown teams={teams} />
+            <TeamFocusDropdown teams={sortedTeams} />
           </div>
         )}
         {rbacTeamsEnabled && <SwitcherDivider className={local.profileMenu_switcherDivider} />}

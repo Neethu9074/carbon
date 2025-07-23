@@ -7,8 +7,7 @@
 import React from 'react';
 
 import { TagSet } from '@instana/ibm-products';
-
-import { TeamTag } from 'in-types';
+import { TeamTag } from '@instana/types';
 
 import locals from './TagsInTable.mless';
 

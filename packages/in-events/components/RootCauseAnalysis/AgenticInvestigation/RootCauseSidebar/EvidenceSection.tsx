@@ -7,22 +7,19 @@
 import React, { useContext } from 'react';
 import { isEmpty, isNull } from 'lodash';
 
-import { Typography } from '@instana/components';
+import { Stack } from '@instana/carbon';
 
+import RootCauseBarChart from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseSidebar/RootCauseBarChart';
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import { Explainability } from 'in-events/components/RootCauseAnalysis/utils/types';
-import { t } from 'in-i18n';
-
-import locals from './EvidenceSection.mless';
 
 const getExplainabilityPercents = (explainabilityMetadata: Explainability[]) => {
-  if (isEmpty(explainabilityMetadata) || isNull(explainabilityMetadata))
-    return { throughRC: 'N/A', notThroughRC: 'N/A' };
+  if (isEmpty(explainabilityMetadata) || isNull(explainabilityMetadata)) return { throughRC: null, notThroughRC: null };
   const aggregatedInfo = explainabilityMetadata.find(e => e.connectedServiceId === 'all');
 
-  const throughDecimal = aggregatedInfo?.percentageFailedThroughRC ?? 'N/A';
-  const notThroughDecimal = aggregatedInfo?.percentageFailedNotThroughRC ?? 'N/A';
+  const throughDecimal = aggregatedInfo?.percentageFailedThroughRC ?? null;
+  const notThroughDecimal = aggregatedInfo?.percentageFailedNotThroughRC ?? null;
 
   const throughRC = typeof throughDecimal === 'number' ? throughDecimal * 100 : throughDecimal;
   const notThroughRC = typeof notThroughDecimal === 'number' ? notThroughDecimal * 100 : notThroughDecimal;
@@ -38,42 +35,13 @@ export default function EvidenceSection() {
   const { rootCauses, rootCauseMetadata } = useContext(RootCauseDataContext);
   const rootCauseIndex = rootCauses.findIndex(rc => rc.entityData?.id === selectedEntityId);
   const rootCause = rootCauseMetadata[rootCauseIndex] ?? null;
-  const entityName = rootCauses[rootCauseIndex]?.entityData?.label;
 
   // Extract the error rate percentages
   const { throughRC, notThroughRC } = getExplainabilityPercents(rootCause?.explainability);
 
   return (
-    <div className={locals.evidenceContainer}>
-      <div>
-        <Typography variant="body-bold">{t('in-events:RCA.erroneousCalls')}</Typography>
-      </div>
-      <div className={locals.evidenceColumns}>
-        <div className={locals.evidenceColumn}>
-          <div className={locals.percentValue}>
-            <Typography variant="heading-compact-02">{throughRC}%</Typography>
-          </div>
-          <div>
-            <Typography variant="body-compact-01">
-              {t('in-events:RCA.throughEntity', {
-                entityName
-              })}
-            </Typography>
-          </div>
-        </div>
-        <div className={locals.evidenceColumn}>
-          <div className={locals.percentValue}>
-            <Typography variant="heading-compact-02">{notThroughRC}%</Typography>
-          </div>
-          <div>
-            <Typography variant="body-compact-01">
-              {t('in-events:RCA.notThroughEntity', {
-                entityName
-              })}
-            </Typography>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Stack orientation="vertical" gap={5}>
+      <RootCauseBarChart throughRCValue={throughRC} notThroughRCValue={notThroughRC} />
+    </Stack>
   );
 }

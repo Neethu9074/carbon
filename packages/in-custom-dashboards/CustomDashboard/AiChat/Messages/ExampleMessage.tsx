@@ -119,10 +119,10 @@ const promptExamplesByWidgetType: Record<keyof typeof PromptableWidgetType, Prom
   TIME_SERIES: [
     {
       id: 'timeSeries-1',
-      text: 'show me the amount of erroneous calls of type HTTP in <application name> over time',
+      text: 'show me erroneous calls of type HTTP in <application name> over time',
       node: (
         <Typography variant="body-01">
-          {'show me the amount of erroneous calls of type HTTP in '}
+          {'show me erroneous calls of type HTTP in '}
           <Typography variant="body-bold">{'<application name>'}</Typography>
           {' over time'}
         </Typography>

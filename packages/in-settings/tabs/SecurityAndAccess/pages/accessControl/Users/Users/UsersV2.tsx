@@ -11,6 +11,7 @@ import React from 'react';
 
 import { Link, Message, MessageTypes, Spacer, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
 import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import MultiSelectDataTable, {
@@ -31,7 +32,6 @@ import { USER_INVITE } from 'in-services/tracking/tracking';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
-import { Result } from 'in-types';
 
 const tableActions = {
   delete: {

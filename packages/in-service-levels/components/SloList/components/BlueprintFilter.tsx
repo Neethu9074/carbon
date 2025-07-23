@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { BlueprintType, InquiryResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { BlueprintType, InquiryResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { RadioButtonGroup } from '@instana/carbon';
 
 import RadioButtonWithCount from 'in-service-levels/components/SloList/components/RadioButtonWithCount';

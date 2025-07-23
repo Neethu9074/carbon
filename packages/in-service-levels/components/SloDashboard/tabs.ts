@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import {
   serviceLevelsObjectiveSummaryFullyQualified,
@@ -16,8 +16,8 @@ import SloConfigurationDetails from 'in-service-levels/components/SloDashboard/c
 import CorrectionWindows from 'in-service-levels/features/CorrectionWindows/components/CorrectionWindows';
 import SloSmartAlerts from 'in-service-levels/components/SloDashboard/components/SloSmartAlerts';
 import SloSummary from 'in-service-levels/components/SloDashboard/components/SloSummary';
-import { Tab } from 'in-components/LocationAwareTabView/types';
-import { LabeledEntity } from 'in-service-levels/types';
+import type { Tab } from 'in-components/LocationAwareTabView/types';
+import type { LabeledEntity } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 export interface SloTabData {

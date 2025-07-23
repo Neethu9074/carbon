@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "Instanaの公正な使用ポリシーについてはこちら",
+      "titleNew": "データ消費についての詳細はこちら",
       "leftTitle": "公正な使用ポリシーとは何ですか？",
       "rightTitle": "データ使用量の追加方法",
       "leftBody": "Instanaの公正な使用ポリシーには、お客様のライセンス・タイプに関連付けられた月次データ許容量の概要が記載されています。 リソースの使用に関するガイドラインについては、<fupDocLink>公正な使用ポリシー</fupDocLink>をご覧ください。",
@@ -173,6 +174,30 @@
         "daysActive": "アクティブな日数",
         "notProvided": "(提供されていません)"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "アカウントと請求",
+    "tabs": {
+      "usage": "使用法",
+      "technologiesReporting": "テクノロジー・レポート",
+      "accountInformation": "アカウント情報",
+      "entitlements": "資格",
+      "activeEntitlements": "有効な資格",
+      "queuedEntitlements": "キューに入れられた資格",
+      "expiredEntitlements": "失効した資格",
+      "activationAdoption": "導入と採用",
+      "customerAdoption": "お客様の導入",
+      "userUsage": "ユーザー使用状況"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "開始日",
+      "endDate": "終了日",
+      "standardHosts": "標準的なホスト",
+      "essentialHosts": "必要不可欠なホスト"
+    },
+    "emptyPage": {
+      "subtitle": "表示可能なデータがありません"
     }
   }
 }

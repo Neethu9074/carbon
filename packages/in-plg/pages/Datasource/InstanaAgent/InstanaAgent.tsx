@@ -121,27 +121,27 @@ function ButtonLine({ agentSnapshots }: SnapshotDataProp) {
 
   return (
     <div>
+      {role?.canConfigureAgents && (
+        <>
+          <Button
+            kind="ghost"
+            renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
+            href={createHrefToPath(datasourceInstanaAgentCatalog)}
+          >
+            {t('in-infrastructure:agentView.installAgents')}
+          </Button>
+
+          <Button
+            kind="ghost"
+            renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
+            onClick={onInstallingAgentBasedintergrationsClick}
+          >
+            {t('in-infrastructure:agentView.installAgentBasedIntegrations')}
+          </Button>
+        </>
+      )}
       {isInternalVisible && (
         <>
-          {role?.canConfigureAgents && (
-            <>
-              <Button
-                kind="ghost"
-                renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
-                href={createHrefToPath(datasourceInstanaAgentCatalog)}
-              >
-                {t('in-infrastructure:agentView.installAgents')}
-              </Button>
-
-              <Button
-                kind="ghost"
-                renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
-                onClick={onInstallingAgentBasedintergrationsClick}
-              >
-                {t('in-infrastructure:agentView.installAgentBasedIntegrations')}
-              </Button>
-            </>
-          )}
           <Button
             kind="ghost"
             renderIcon={() => <IconForButton icon="lib_actions_cached" iconSize="xs" />}

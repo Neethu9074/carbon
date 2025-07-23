@@ -43,5 +43,12 @@
   },
   "wcaForGP.enable": true,
   "github-enterprise.uri": "https://github.ibm.com",
+  "stylelint.configFile": "./stylelint.config.mjs",
+  "stylelint.packageManager": "yarn",
+  "stylelint.snippet": ["css", "postcss", "mless", "less"],
+  "stylelint.reportDescriptionlessDisables": true,
+  "stylelint.reportNeedlessDisables": true,
+  "stylelint.stylelintPath": "./node_modules/stylelint",
+  "stylelint.validate": ["css", "postcss", "less", "mless"],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -7,10 +7,10 @@
 import React from 'react';
 
 import { SvgIconSizes } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { useSyntheticTestDashboard } from 'in-synthetics/navigation/paths';
 import ScopePath from 'in-alerting/components/ScopePath';
-import { TimeConfig } from 'in-types';
 
 interface Props {
   syntheticTestId?: string;

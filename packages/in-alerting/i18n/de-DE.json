@@ -176,7 +176,8 @@
       "warning": "Warnung"
     },
     "placeholder": {
-      "severity": "Schweregrad (Severity)"
+      "severity": "Schweregrad (Severity)",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "Alertkonfiguration",
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510 (Nicht erweitert)",
       "ruleStatusCodeValueOption511": "511 (Netzauthentifizierung erforderlich)",
       "ruleStatusCodeValueOption599": "599 (Zeitüberschreitung für Netzverbindung)",
+      "ruleStatusCodeValueOptionNone": "Kein Status (Client abgebrochen/fehlgeschlagen)",
       "warningThresholdValidator": "Warnungsschwellenwert muss größer als kritischer Schwellenwert für Operatoren < und < = sein.",
       "criticalThresholdValidator": "Der kritische Schwellenwert muss größer als der Warnungsschwellenwert für die Operatoren > und >= sein.",
       "sensitivityValidator": "Die kritische Empfindlichkeit sollte geringer sein als die Warnempfindlichkeit."
@@ -796,7 +798,6 @@
         "proceedTitle": "Fortfahren",
         "previousTitle": "Zurück",
         "nextTitle": "Weiter",
-        "closeTitle": "Schließen",
         "sharedListTooltip": "{{typeName}} ist nicht mehr verfügbar",
         "clearTagFilterExpressionButton": "Löschen",
         "baselineErrorMessageComputedOnApproximateData": "Die Baseline wird anhand ungefährer Daten gemäß den Einstellungen für die Datenaufbewahrung berechnet. Sie sind möglicherweise nicht korrekt, wenn nur wenige Aufrufe den ausgewählten Filtern entsprechen.",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}} Standardabweichungen",
         "labelThreshold": "Schwellenwert",
         "multiThresholdAlertNotificationInfo": "Wenn Sie einen der beiden Schwellenwerte eingeben, wird eine Alertbenachrichtigung ausgelöst.",
+        "advancedSettingsTrayTitle": "Erweiterte Einstellungen",
+        "seasonality": "Saisonalität",
+        "seasonalityAuto": "Automatisch",
+        "seasonalityNone": "Keine",
+        "seasonalityDaily": "Täglich",
+        "seasonalityWeekly": "Wöchentlich",
+        "adaptability": "Anpassungsfähigkeit",
         "warningThresholdLabel": "Warnung",
         "criticalThresholdLabel": "Kritisch",
         "labelSensitivity": "Sensitivität",
@@ -1002,8 +1010,10 @@
         "summary": "Schließen Sie ein Problem automatisch, nachdem der Schwellenwert für Verstöße nicht mehr erreicht wurde für"
       },
       "tearSheet": {
-        "cancelModalTitle": "Wollen Sie wirklich abbrechen?",
-        "cancelModalDescription": "Wenn Sie abbrechen, werden die von Ihnen eingegebenen Konfigurationsdetails nicht gespeichert.",
+        "cancelModalTitle": "Stornierung bestätigen",
+        "continueEditingTitle": "Bearbeitung fortsetzen",
+        "cancelEditingTitle": "Konfiguration von Smart Alert abbrechen",
+        "cancelModalDescription": "Soll die Bearbeitung dieser Smart Alert-Konfiguration wirklich abgebrochen werden? Wenn Sie fortfahren, gehen alle von Ihnen eingegebenen Informationen verloren. Diese Aktion kann nicht rückgängig gemacht werden.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Wenn Verstöße über längere Zeit bestehen",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Verstöße bleiben in unregelmäßigen Abständen bestehen",
@@ -1083,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "Automatische Alerts für angepasste Ereignisse",
         "customEventBlueprintConfigText": "Sie empfangen einen Alert, sobald ein bestimmtes angepasstes Ereignis häufiger oder weniger häufig auftritt, als es sollte.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Wählen Sie ein angepasstes Ereignis aus, um zu sehen, wann dieser Alert ausgelöst wird",
-        "customEventBlueprintConfigMetricLabel": "Vorkommen",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Geringe Anzahl von Seitenladevorgängen",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatische Alerts bei anomal niedriger Anzahl an Seitenladevorgängen",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Alert empfangen, wenn die Anzahl der Seitenladevorgänge im Vergleich zu den verfügbaren vergangenen Daten deutlich niedriger ist als erwartet.",
@@ -1364,7 +1373,6 @@
         "statusCodeCount": "Statuscodeanzahl",
         "beaconRate": "Statuscoderate",
         "views": "Ansichten",
-        "customEventBlueprintConfigMetricLabel": "Vorkommen",
         "sessions": "Sitzungen",
         "crashAffectedSessionRate": "Absturzrate betroffener Sitzungen",
         "crashFreeSessionRate": "Absturzfreie Sitzungsrate",
@@ -1533,6 +1541,11 @@
       }
     },
     "eum": {
+      "data": {
+        "customMetric": "Angepasster Messwert",
+        "customDuration": "Dauer",
+        "customOccurrences": "Vorkommen"
+      },
       "slowness": {
         "blueprintConfigName": "Langsamkeit",
         "httpLatencyMetricLabel": "HTTP Latenzzeit"
@@ -1560,6 +1573,7 @@
         "JSErrors": "JS-Fehler: {{errorMessage}}",
         "customEvents": "Angepasstes Ereignis: {{customEventName}}",
         "HTTPStatusCodes": "HTTP-Statuscode(s): {{statusCode}}",
+        "HTTPStatusCodeNone": "Kein Status",
         "unsupportedAlertType": "Nicht unterstützter Alerttyp: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS-Fehler wurden erkannt.",
         "unsupportedOperator": "Nicht unterstützter Operator: {{operator}}",
@@ -1915,7 +1929,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "Langes und kurzes Alertfenster",
         "blueprintDescription_STATUS": "Einen Alert empfangen, wenn der SLO-Status unter einen Schwellenwert fällt.",
         "blueprintDescription_BURNED_PERCENTAGE": "Einen Alert empfangen, wenn ein Prozentsatz des Fehlerbudgets verbraucht ist.",
-        "blueprintDescription_BURN_RATE_V2": "Die Verbrennungsrate ist ein Wert, der angibt, wie schnell Ihr Fehlerbudget im Verhältnis zur Ziellänge Ihres SLOs verbraucht wird. ",
+        "blueprintDescription_BURN_RATE_V2": "Die Verbrauchsrate zeigt an, wie schnell Ihr Fehlerbudget im Verhältnis zur Ziellänge Ihres SLOs verbraucht wird. Sie wird mit der folgenden Formel berechnet: Verbrauchsrate = (genutztes Fehlerbudget * SLO-Zeitfenster) / Alertfenster.",
         "burnRateShortWindowTitle": "Kurzes Alarmierungsfenster",
         "burnRateShortWindowDescription": "Alerts werden ausgelöst, wenn die Fehlerquote den Schwellenwert über einen kürzeren Zeitraum hinweg schneller überschreitet. Dies kann helfen, eine plötzliche Fehlerspitze oder Ausfallzeiten aufgrund eines kritischen Fehlers zu erfassen.",
         "burnRateDescription": "Benachrichtigen Sie mich, wenn die Verbrennungsrate <1/> <2/> beträgt",

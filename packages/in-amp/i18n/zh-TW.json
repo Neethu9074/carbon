@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "進一步瞭解 Instana 的公平使用原則",
+      "titleNew": "進一步瞭解資料耗用",
       "leftTitle": "什麼是公平使用原則？",
       "rightTitle": "如何購買更多資料？",
       "leftBody": "Instana 的公平使用原則概述了與您的授權類型相關的每月資料限額。 若要進一步瞭解並探索資源使用指引，請查看<fupDocLink>公平使用原則文件</fupDocLink>。",
@@ -173,6 +174,30 @@
         "daysActive": "作用中的天數",
         "notProvided": "（未提供）"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "帳戶及計費",
+    "tabs": {
+      "usage": "用量",
+      "technologiesReporting": "技術報告",
+      "accountInformation": "帳戶資訊",
+      "entitlements": "授權",
+      "activeEntitlements": "作用中授權",
+      "queuedEntitlements": "佇列的授權",
+      "expiredEntitlements": "過期授權",
+      "activationAdoption": "啟動與採用",
+      "customerAdoption": "客戶採用",
+      "userUsage": "使用者使用情形"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "開始日期",
+      "endDate": "結束日期",
+      "standardHosts": "標準主機",
+      "essentialHosts": "必要的主機"
+    },
+    "emptyPage": {
+      "subtitle": "沒有可用的資料"
     }
   }
 }

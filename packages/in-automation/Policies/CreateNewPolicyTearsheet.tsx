@@ -10,7 +10,6 @@ import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
 import { Action, Result } from '@instana/types';
-import { useObservable } from '@instana/hooks';
 
 import {
   getPolicyActionFromActions,
@@ -29,7 +28,6 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import usePolicyForm from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm/utils';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { getActions, saveNewPolicy, savePolicy } from 'in-automation/api';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
 import { refreshPolicy } from 'in-automation/PolicyDetails/usePolicy';
@@ -37,8 +35,10 @@ import { PolicyFormBody } from 'in-automation/Policies/PolicyForm';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { productAreas } from 'in-services/tracking/productAreas';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import useActions from 'in-automation/ActionCatalog/useActions';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
+import { saveNewPolicy, savePolicy } from 'in-automation/api';
 import { refresh } from 'in-automation/Policies/usePolicies';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -46,11 +46,9 @@ import { isAIActionCopy } from 'in-automation/utils/action';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
 import usePolicy from 'in-automation/Policies/usePolicy';
-import { pendingResult } from 'in-services/fixedObjects';
 import Form from 'in-components/form/binding/Form';
 import { seconds } from 'in-services/time/time';
 import { Triggers } from 'in-automation/types';
-import Title from 'in-components/Title/Title';
 import SideNav from 'in-components/SideNav';
 import { t, Trans } from 'in-i18n';
 
@@ -150,17 +148,14 @@ export default function CreateNewPolicyTearsheet({
     }
 
     return (
-      <>
-        <Title title={t('in-automation:policies.policy')} />
-        <PolicyDetailsLoader
-          form={form}
-          setForm={form => setForm(form as PolicyForm)}
-          actions={actions.data!}
-          triggers={triggers}
-          result={result}
-          inEventPage={inEventPage}
-        />
-      </>
+      <PolicyDetailsLoader
+        form={form}
+        setForm={form => setForm(form as PolicyForm)}
+        actions={actions.data!}
+        triggers={triggers}
+        result={result}
+        inEventPage={inEventPage}
+      />
     );
   };
 
@@ -441,8 +436,4 @@ function useOnSubmit({
     onSubmit,
     result
   };
-}
-
-function useActions() {
-  return useObservable(getActions, []) ?? (pendingResult as Result<Action[]>);
 }

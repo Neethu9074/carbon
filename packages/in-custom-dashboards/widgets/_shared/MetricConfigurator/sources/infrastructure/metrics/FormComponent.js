@@ -17,6 +17,11 @@ import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
+import {
+  getCrossSeriesAggregationTooltip,
+  isCrossSeriesSumToggleEnabled,
+  parseAggregation
+} from 'in-infrastructure/util/aggregation';
 import { formCallbacks } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
 import getMetricInCatalog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
 import {
@@ -29,13 +34,13 @@ import ValidationMessages, {
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { getInfrastructureMetricFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { defaultFormatter, getFormatterIdByFn, getFormatterId } from 'in-stores/metric/formatters';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
 import { getMetricUnitByBackendType, getUnitByFormatter } from 'in-stores/metric/units';
-import { defaultFormatter, getFormatterIdByFn } from 'in-stores/metric/formatters';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
@@ -44,7 +49,6 @@ import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
-import { getFormatterId } from 'in-stores/metric/formatters';
 import HelpAction from 'in-components/workspace/HelpAction';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -82,7 +86,6 @@ export default function FormComponent({
   const aggregationField = form.get('aggregation');
   const crossSeriesAggregationField = form.get('crossSeriesAggregation');
   const allowedCrossSeriesAggregations = form.get('allowedCrossSeriesAggregations');
-  const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations.value?.length > 0;
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
   const metricLabelField = form.get('metricLabel');
@@ -101,9 +104,17 @@ export default function FormComponent({
   const onDirectionChange = (direction, maxResults) =>
     onChangeGrouping(onChange, { ...grouping, direction, maxResults }, groupKey);
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers }, groupKey);
-  const isCrossSeriesSumAggregationToggleEnabled =
-    !isCrossSeriesAggregationRestricted && includesInSelectedAggregations(aggregationField.value);
-  const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
+
+  const aggregation = parseAggregation(
+    aggregationField.value,
+    crossSeriesAggregationField.value,
+    allowedCrossSeriesAggregations.value
+  );
+
+  const isSumCrossSeriesAggregation = aggregation.type === 'SUM';
+  const isCrossSeriesSumAggregationToggleEnabled = isCrossSeriesSumToggleEnabled(aggregation);
+  const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations.value?.length === 1;
+
   const isLastValue = lastValueField.value === true;
 
   const type = typeField.value || undefined;
@@ -261,7 +272,7 @@ export default function FormComponent({
           <SelectInSection
             label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.aggregation')}
             id="metric-configurator-infra-aggregation"
-            value={aggregationField.value}
+            value={aggregation.timeAggregation}
             onChange={e => setAggregation(e.target.value)}
             additionalContent={
               <>
@@ -271,7 +282,7 @@ export default function FormComponent({
                     content={getCrossSeriesAggregationTooltip(
                       isCrossSeriesAggregationRestricted,
                       isCrossSeriesSumAggregationToggleEnabled,
-                      aggregationField.value
+                      aggregation.timeAggregation
                     )}
                   >
                     <span>
@@ -379,23 +390,6 @@ function getGrouping(form) {
   return form.get('grouping')?.get(0)?.toJS();
 }
 
-export function getCrossSeriesAggregationTooltip(
-  isCrossSeriesAggregationRestricted,
-  isCrossSeriesAggregationEnabled,
-  aggregation
-) {
-  if (isCrossSeriesAggregationRestricted) {
-    return t(
-      'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
-    );
-  }
-  return !isCrossSeriesAggregationEnabled && !['SUM', 'PER_SECOND', 'INCREASE'].includes(aggregation)
-    ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
-        aggregation: aggregationLabels[aggregation]
-      })
-    : '';
-}
-
 function hasRegexValidationError(form) {
   return hasErrorOfCategory(form, regexValidationError);
 }
@@ -418,10 +412,6 @@ export function getGroups({ isMultiGroup, infraExploreGrouping }) {
     groupKey: 'groupBys',
     groups: uniqueGroupBys
   };
-}
-
-export function includesInSelectedAggregations(aggregationFieldValue) {
-  return ['MEAN', 'MIN', 'MAX'].includes(aggregationFieldValue);
 }
 
 function getMetricDefaultFormatter({ baseUnit, isFormatterSelected, metric, formatter, uiMetricFormatter }) {

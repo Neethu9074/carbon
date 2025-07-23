@@ -9,6 +9,7 @@ import { Field } from 'formalistic';
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import MobileAppCustomEventsList from 'in-alerting/smart-alerts/mobileApp/components/CustomEventsList';
@@ -25,7 +26,6 @@ import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/eum/components/ProvideCustomEvent.mless';

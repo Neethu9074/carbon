@@ -13,4 +13,7 @@
 
     margin: 1rem 0 1rem;
   }
+  .descriptionColor {
+    color: var(--cds-text-primary);
+  }
 }

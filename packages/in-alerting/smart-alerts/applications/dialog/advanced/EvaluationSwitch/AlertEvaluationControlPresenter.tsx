@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { AlertEvaluationType } from '@instana/types';
 import { RadioButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Spacer } from '@instana/components';
@@ -14,7 +15,6 @@ import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dial
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import IconLabel from 'in-alerting/components/IconLabel';
-import { AlertEvaluationType } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

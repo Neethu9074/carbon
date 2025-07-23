@@ -10,12 +10,12 @@ import {
 import {
   drawLines,
   fillBackground,
-  getLineWidth,
-  Vertex
+  getLineWidth
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
-import { RenderConfig, RenderProps, Renderer } from 'in-components/Chart/renderer/types';
+import type { Vertex } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
+import type { RenderConfig, RenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
-import { ScaleType } from 'in-services/scale';
+import type { ScaleType } from 'in-services/scale';
 
 export const hourlyBudgetMetricId = 'hourlyBudget';
 

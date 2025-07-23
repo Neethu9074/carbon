@@ -8,7 +8,6 @@ import {
   SYNTHETIC_TAB_INAPP_CLICK,
   SYNTHETIC_TEST_CLICK,
   SYNTHETIC_ADVANCED_CREATE_BUTTON_CLICK,
-  SYNTHETIC_WIZARD__CREATE_TEST_TYPE_SWITCH,
   SYNTHETIC_CREATE_ADVANCED_BUTTON_CLICK,
   SYNTHETIC_ADVANCED__CREATE_TEST_TYPE_SWITCH,
   SYNTHETIC_CREATE_BUTTON_CLICK,
@@ -26,7 +25,6 @@ import {
   SYNTHETIC_CREDENTIAL_DELETE_SUBMIT_BUTTON_CLICK
 } from 'in-services/tracking/tracking';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
-import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 
 export const clickSyntheticMonitoringTestTracker = (trackCta: CtaTrackingFunction) => {
@@ -45,12 +43,6 @@ export const syntheticCreateButtonClick = (trackCta: CtaTrackingFunction) => {
   trackCta(SYNTHETIC_CREATE_BUTTON_CLICK, {
     type: 'Button',
     text: 'Add Synthetic Test'
-  });
-};
-export const syntheticWizardCreateTestTypeSwitch = (trackCta: CtaTrackingFunction, item: BluePrint) => {
-  trackCta(SYNTHETIC_WIZARD__CREATE_TEST_TYPE_SWITCH, {
-    type: 'Menu',
-    text: `Switched to create ${item.type} test section from wizard mode`
   });
 };
 export const syntheticCreateAdvancedButtonClick = (trackCta: CtaTrackingFunction) => {

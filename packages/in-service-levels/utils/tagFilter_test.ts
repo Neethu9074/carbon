@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
+import type {
   ApplicationSloEntity,
   AvailabilityBlueprintIndicator,
   CustomBlueprintIndicator,

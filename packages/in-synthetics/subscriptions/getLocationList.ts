@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   GetLocationListQuery,
   OrderDirection,
@@ -14,7 +12,9 @@ import {
   LocationListItem,
   TagFilter,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getLocationList = createResultSubscriptionFactory<

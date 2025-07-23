@@ -4,9 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-jest.mock('in-services/featureFlags', () => ({
-  apMetricsDeltaFetchingEnabled: true
-}));
+import { ApplicationMetricConfiguration, InfraMetricConfiguration, Result } from '@instana/types';
 
 import {
   GetSingleUnifiedMetricQuery,
@@ -14,8 +12,11 @@ import {
   splitQueryForDeltaFetching,
   UnifiedMetricsResult
 } from 'in-subscription/getUnifiedMetrics';
-import { ApplicationMetricConfiguration, InfraMetricConfiguration, Result } from 'in-types';
 import { error, success } from 'in-services/util/result';
+
+jest.mock('in-services/featureFlags', () => ({
+  apMetricsDeltaFetchingEnabled: true
+}));
 
 describe('in-subscription/getUnifiedMetrics', () => {
   describe('splitQueryForDeltaFetching', () => {

@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { TagFilterExpression } from '@instana/types';
+
 import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ContextMenuButton } from 'in-components/Chart/types';
 import { outlineForColor } from 'in-themes/chartColors';
-import { TagFilterExpression } from 'in-types';
 import { t } from 'in-i18n';
 
 interface LogsChartProps {

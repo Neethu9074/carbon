@@ -10,8 +10,8 @@ import {
   websitesBusinessMonitoringEnabled
 } from 'in-services/featureFlags';
 import SyntheticMonitoring from 'in-websites/WebsiteDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
-import BusinessMonitoring from 'in-websites/WebsiteDashboard/tabs/BusinessMonitoring/BusinessMonitoring';
 import SloDashboardList from 'in-service-levels/components/Shared/SloDashboardList/SloDashboardList';
+import BusinessImpact from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/BusinessImpact';
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import CustomEvents from 'in-websites/WebsiteDashboard/tabs/CustomEvents';
@@ -86,8 +86,8 @@ export const websiteTabs = [
   },
   websitesBusinessMonitoringEnabled && {
     label: t('in-websites:websiteDashboard.tabs.indexLabelBusinessMonitoring'),
-    path: `${websitePathFullyQualified}/businessMonitoring`,
-    component: BusinessMonitoring,
+    path: `${websitePathFullyQualified}/businessImpact`,
+    component: BusinessImpact,
     websiteOnly: true
   },
   {

@@ -6,8 +6,8 @@
 
 import React, { useContext, useEffect } from 'react';
 
+import type { BlueprintType } from '@instana/types';
 import { Typography } from '@instana/components';
-import { BlueprintType } from '@instana/types';
 
 import SloIndicatorAvailabilityForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorAvailabilityForm';
 import SloIndicatorLatencyForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorLatencyForm';

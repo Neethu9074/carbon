@@ -3,9 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { generateStableHash } from '@instana/utils';
-import { useObservable } from '@instana/hooks';
-
 import {
   AppDataMetricConfiguration,
   EndpointItem,
@@ -16,7 +13,10 @@ import {
   Pagination,
   TagFilterExpression,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { generateStableHash } from '@instana/utils';
+import { useObservable } from '@instana/hooks';
+
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -37,10 +37,10 @@ const DEFAULT_PAGE_SIZE = 100;
 
 export default function useEndpoints(props: UseEndpointsProps): FetchedState<PaginatedResult<EndpointItem>> {
   const timeConfig = useTimeConfig();
-  const result = useObservable(() => getEndpoints(buildQuery(props, timeConfig)), [
-    generateStableHash(props),
-    timeConfig
-  ]);
+  const result = useObservable(
+    () => getEndpoints(buildQuery(props, timeConfig)),
+    [generateStableHash(props), timeConfig]
+  );
 
   return resultToFetchedStateResponse(result);
 }

@@ -6,8 +6,8 @@
 
 import React, { useContext } from 'react';
 
+import type { DurationUnitType, TimeWindowType } from '@instana/types';
 import { Stack, SvgIcon, ValidationBlock } from '@instana/components';
-import { DurationUnitType, TimeWindowType } from '@instana/types';
 import { Select, NumberInput } from '@instana/carbon';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';

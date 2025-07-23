@@ -257,7 +257,7 @@
     "endpoints": "Noeuds finaux",
     "types": "Types",
     "technologies": "Technologies",
-    "NumberOfSubCalls": "Nbr de sous-appels",
+    "NumberOfSubCalls": "Nombre de sous-appels",
     "httpStatusCode": "Statut HTTP",
     "hiddenCalls": "Appels masqués",
     "fastQueryMode": "Mode requête rapide",
@@ -725,6 +725,7 @@
     "traces_latency": "Temps d'attente",
     "traces_erroneousCalls": "Traces erronées",
     "traces_errors": "Taux de traces erronées",
+    "subtraces_latency": "Durée",
     "subtraces_subtraceDuration": "Durée"
   },
   "viewLists": {
@@ -789,5 +790,7 @@
   },
   "labelSyntheticMonitoring": "Surveillance synthétique",
   "labelServiceLevels": "Niveaux de Service",
-  "labelResourceOptimizations": "Optimisations"
+  "labelResourceOptimizations": "Optimisations",
+  "titleResourceOverutilization": "Ressources surutilisées (plus de {{thresholdUpperLimit}} % d'utilisation de l'UC)",
+  "titleResourceUnderutilization": "Ressources sous-utilisées (plus de {{thresholdLowerLimit}} % d'utilisation de l'UC)"
 }

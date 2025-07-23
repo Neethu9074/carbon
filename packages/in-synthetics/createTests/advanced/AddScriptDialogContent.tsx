@@ -16,6 +16,7 @@ import {
   CarbonTextInput as TextInput
 } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { Error } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper';
@@ -33,7 +34,6 @@ import SlideInView from 'in-components/SlideInView/SlideInView';
 import { validate } from 'in-synthetics/utils/scriptUploader';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import CodeInput from 'in-synthetics/packages/Code/CodeInput';
-import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/advanced/ScriptsSection.mless';

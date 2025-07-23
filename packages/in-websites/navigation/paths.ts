@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import { TagFilter, TimeConfig } from '@instana/types';
@@ -90,6 +90,17 @@ export const configurationAlerts = '/alerts';
 
 export const websiteSmartAlerts = '/smartAlerts';
 export const websiteSmartAlertsFullScreenFullyQualified = `${websiteMonitoringPath}${websiteSmartAlerts}`;
+
+export const businessImpact = '/businessImpact';
+export const businessImpactFullyQualified = `${websitePathFullyQualified}${businessImpact}`;
+export const businessConversionGoals = '/conversionGoals';
+export const businessConversionGoalsFullyQualified = `${businessImpactFullyQualified}${businessConversionGoals}`;
+export const businessConversionGoalDashboard = '/goal';
+export const businessConversionGoalDashboardFullyQualified = `${businessImpactFullyQualified}${businessConversionGoalDashboard}`;
+export const businessConversionSummaryTab = '/summary';
+export const businessConversionSummaryTabFullyQualified = `${businessConversionGoalDashboardFullyQualified}${businessConversionSummaryTab}`;
+export const businessConversionConfigTab = '/config';
+export const businessConversionConfigTabFullyQualified = `${businessConversionGoalDashboardFullyQualified}${businessConversionConfigTab}`;
 
 export const analyzeTwoParameters = createParameters(analyzePath);
 

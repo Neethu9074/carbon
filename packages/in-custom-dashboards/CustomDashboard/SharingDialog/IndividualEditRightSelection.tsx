@@ -6,15 +6,16 @@
 import React from 'react';
 
 import { Ul, Li, ColumnizedContent, KeyValue, IconButton, Button, Select } from '@instana/components';
+import { AccessRule, Result, UserResult } from '@instana/types';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
-import { AccessRule, Nullish, Result, UserResult } from 'in-types';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { user } from 'in-stores/user';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './IndividualEditRightSelection.mless';

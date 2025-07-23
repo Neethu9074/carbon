@@ -32,8 +32,9 @@
         "size": "Size",
         "name": "Name",
         "numberOfCores": "Number of cores",
-        "numberOfLogicalProcessors": "Number of logical processors",  
-        "loadPercentage": "Load (%)",  
+        "numberOfLogicalProcessors": "Number of logical processors",
+        "loadPercentage": "Load (%)",
+        "maxClockSpeed": "Max clock speed (MHz)",
         "processorStats": "Processor statistics",
         "noDataAvailable": {
           "windowsHypervisorVMTitle": "No virtual machines available",
@@ -46,7 +47,6 @@
           "macAddress": "MAC address",
           "switchName": "Switch name",
           "totalDiskStorage": "Total disk storage",
-          "virtualDiskPath": "Virtual disk path",
           "upTime": "Uptime",
           "performanceMetrics": "Resources utilization (%)",
           "cpu": "CPU",
@@ -57,7 +57,7 @@
           "controllerType": "Controller type",
           "controllerNumber": "Controller number",
           "path": "Path",
-          "size": "Size"     
+          "size": "Size"
         }
     }
 }

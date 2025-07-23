@@ -116,6 +116,20 @@
       "unnamedDataset": "Set di dati senza nome"
     }
   },
+  "aiChat": {
+    "launcherGreeting": "Salve, è possibile creare alcuni widget anche tramite chat!",
+    "welcome": "Salve e benvenuti",
+    "restrictions": "La creazione di widget assistita dall'intelligenza artificiale è attualmente disponibile per i seguenti parametri",
+    "widgetType": "Tipo di widget",
+    "filter": "Filtro",
+    "filter_application": "Nome applicazione",
+    "filter_service": "Nome servizio",
+    "filter_endpoint": "Nome endpoint",
+    "filter_erroneousCall": "Chiamata errata",
+    "filter_callType": "Tipo di chiamata",
+    "filter_technology": "Tecnologia",
+    "tryOutExamplePrompts": "Provare uno degli esempi di prompt selezionando il tipo di widget qui sotto, oppure utilizzare il prompt personale."
+  },
   "dashboardSwitcher": {
     "dashboardSwitcher": {
       "loading": "Caricamento in corso…"

@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import { SloEntityUnion, Result } from '@instana/types';
-import { just, Observable } from '@instana/observables';
+import type { SloEntityUnion, Result } from '@instana/types';
+import type { Observable } from '@instana/observables';
+import { just } from '@instana/observables';
 
 import getApplication from 'in-applications/subscriptions/getApplication';
+import type { SloMonitoredEntity } from 'in-service-levels/types';
 import { getFilteredSyntheticTests } from 'in-synthetics/api';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { SloMonitoredEntity } from 'in-service-levels/types';
 import { mapData, error } from 'in-services/util/result';
 import { isBlank } from 'in-services/util/string';
 

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ValidationResult } from 'formalistic';
+import type { ValidationResult } from 'formalistic';
 
 import { t } from '@instana/i18n-react';
 

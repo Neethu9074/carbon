@@ -176,7 +176,8 @@
       "warning": "Avertissement"
     },
     "placeholder": {
-      "severity": "gravité"
+      "severity": "gravité",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "Configuration d'alerte",
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510 (Non étendu)",
       "ruleStatusCodeValueOption511": "511 (Authentification réseau requise)",
       "ruleStatusCodeValueOption599": "599 (Erreur de dépassement du délai d'attente de connexion réseau)",
+      "ruleStatusCodeValueOptionNone": "Pas d'état (client interrompu/échec)",
       "warningThresholdValidator": "Le seuil d'avertissement doit être supérieur au seuil critique pour les opérateurs < et < =.",
       "criticalThresholdValidator": "Le seuil critique doit être supérieur au seuil d'avertissement pour les opérateurs > et > =.",
       "sensitivityValidator": "La sensibilité critique doit être inférieure à la sensibilité d'avertissement."
@@ -796,7 +798,6 @@
         "proceedTitle": "Poursuivre",
         "previousTitle": "Précédent",
         "nextTitle": "Suivant",
-        "closeTitle": "Fermer",
         "sharedListTooltip": "{{typeName}} n'est plus disponible",
         "clearTagFilterExpressionButton": "Effacer",
         "baselineErrorMessageComputedOnApproximateData": "La base de référence est calculée en fonction des données approximatives en raison des paramètres de conservation de données. Par conséquent, il se peut qu'elle ne soit pas exacte s'il y a peu d'appels correspondant aux filtres sélectionnés.",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}} écarts types",
         "labelThreshold": "Seuil",
         "multiThresholdAlertNotificationInfo": "La saisie de l'une ou l'autre valeur seuil déclenche une notification d'alerte.",
+        "advancedSettingsTrayTitle": "Paramètres avancés",
+        "seasonality": "Saisonnalité",
+        "seasonalityAuto": "Auto",
+        "seasonalityNone": "Aucun",
+        "seasonalityDaily": "Quotidien",
+        "seasonalityWeekly": "Hebdomadaire",
+        "adaptability": "Adaptabilité",
         "warningThresholdLabel": "Avertissement",
         "criticalThresholdLabel": "Critique",
         "labelSensitivity": "Sensibilité",
@@ -1002,8 +1010,10 @@
         "summary": "Fermer automatiquement un problème lorsque le seuil de violation n'est plus atteint pour"
       },
       "tearSheet": {
-        "cancelModalTitle": "Voulez-vous vraiment annuler ?",
-        "cancelModalDescription": "Si vous annulez, les détails de configuration que vous avez saisis ne seront pas sauvegardés.",
+        "cancelModalTitle": "Confirmer l'annulation",
+        "continueEditingTitle": "Continuer l'édition",
+        "cancelEditingTitle": "Annuler la configuration de l'alerte intelligente",
+        "cancelModalDescription": "Voulez-vous vraiment annuler la modification de cette configuration d'alerte intelligente ? Si vous continuez, toutes les informations que vous avez saisies seront perdues. Cette action ne peut pas être annulée.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Persistance des violations dans le temps",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Les violations persistent à des intervalles aléatoires",
@@ -1083,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "Alertes automatiques pour les événements personnalisés",
         "customEventBlueprintConfigText": "Recevez une alerte à chaque fois qu'un événement personnalisé spécifique se produit plus ou moins souvent qu'il ne le devrait.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Sélectionnez un événement personnalisé pour voir quand ce déclencheur d'alerte",
-        "customEventBlueprintConfigMetricLabel": "Occurrences",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Faible nombre de pages chargées",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Alertes automatiques sur un nombre de chargements de page anormalement bas",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Recevez une alerte lorsque le nombre de chargements de page est significativement inférieur au nombre attendu par rapport aux données antérieures disponibles.",
@@ -1364,7 +1373,6 @@
         "statusCodeCount": "Nombre de codes de statut",
         "beaconRate": "Taux de codes de statut",
         "views": "Vues",
-        "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions",
         "crashAffectedSessionRate": "Taux de sessions affectées par les pannes",
         "crashFreeSessionRate": "Taux de sessions sans panne",
@@ -1533,6 +1541,11 @@
       }
     },
     "eum": {
+      "data": {
+        "customMetric": "Métrique personnalisée",
+        "customDuration": "Durée",
+        "customOccurrences": "Occurrences"
+      },
       "slowness": {
         "blueprintConfigName": "Lenteur",
         "httpLatencyMetricLabel": "Latence HTTP"
@@ -1560,6 +1573,7 @@
         "JSErrors": "Erreur(s) JS : {{errorMessage}}",
         "customEvents": "Evénement personnalisé : {{customEventName}}",
         "HTTPStatusCodes": "Code(s) de statut HTTP : {{statusCode}}",
+        "HTTPStatusCodeNone": "Aucun statut",
         "unsupportedAlertType": "Type d'alerte non pris en charge : {{alertType}}",
         "JSErrorsHaveBeenDetected": "Des erreurs JS ont été détectées.",
         "unsupportedOperator": "Opérateur non pris en charge : {{operator}}",
@@ -1915,7 +1929,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "Fenêtre d'alerte longue et courte",
         "blueprintDescription_STATUS": "Recevez une alerte lorsque le statut de l'objectif du niveau de service passe en dessous d'un certain seuil.",
         "blueprintDescription_BURNED_PERCENTAGE": "Recevez une alerte lorsqu'un pourcentage du budget d'erreur est consommé.",
-        "blueprintDescription_BURN_RATE_V2": "Le taux de consommation est une valeur qui indique la vitesse à laquelle votre budget d'erreurs est consommé par rapport à la durée cible de votre Objectif du niveau de service (SLO). ",
+        "blueprintDescription_BURN_RATE_V2": "Le taux de consommation indique la vitesse à laquelle votre budget d'erreurs est consommé par rapport à la durée cible de votre Objectif du niveau de service (SLO). Il est calculé à l'aide de la formule suivante : Taux de consommation = (budget d'erreurs consommé * fenêtre de temps SLO) / fenêtre d'alerte.",
         "burnRateShortWindowTitle": "Fenêtre d'alerte courte",
         "burnRateShortWindowDescription": "Les alertes sont déclenchées lorsque le taux d'erreur dépasse le seuil plus rapidement au cours d'une période plus courte. Cette solution permet de détecter un pic d'erreurs soudain ou un temps d'indisponibilité causé par un bogue critique.",
         "burnRateDescription": "M'avertir lorsque le taux de consommation est <1/> <2/>",

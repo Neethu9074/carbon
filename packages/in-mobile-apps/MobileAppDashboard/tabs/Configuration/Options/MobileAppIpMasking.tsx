@@ -5,11 +5,11 @@
 
 import React, { useCallback } from 'react';
 
+import { IpMaskingConfiguration, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { getIpMaskingConfiguration, updateIpMaskingConfiguration } from 'in-mobile-apps/api/config';
 import IpMasking from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/IpMasking';
-import { IpMaskingConfiguration, Result } from 'in-types';
 
 export interface Props {
   mobileAppId: string;

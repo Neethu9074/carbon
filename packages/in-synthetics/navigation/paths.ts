@@ -5,6 +5,8 @@
 
 import { useCallback } from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import {
   testId as testIdMatrixParam,
   alertCreated as alertCreatedMatrixParam,
@@ -17,7 +19,6 @@ import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { setTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { stringify } from 'in-services/util/json';
-import { TimeConfig } from 'in-types';
 
 const matrixTestId = 'testId';
 const matrixTestLabel = 'testLabel';

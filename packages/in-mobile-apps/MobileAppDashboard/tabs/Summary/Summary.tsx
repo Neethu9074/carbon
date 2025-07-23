@@ -5,6 +5,7 @@
 
 import React, { Fragment } from 'react';
 
+import { TimeConfig, TagFilter } from '@instana/types';
 import { Spacer } from '@instana/components';
 import { Card } from '@instana/components';
 
@@ -33,7 +34,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
 import { carbonAlert } from 'in-themes/chartColors';
-import { TimeConfig, TagFilter } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SummaryProp {
@@ -321,14 +321,14 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         {viewId == null
           ? crashAffectedSessionRate
           : viewId && !mobileAppScreenRenderingDurationEnabled
-          ? crashAffectedSessionRate
-          : null}
+            ? crashAffectedSessionRate
+            : null}
 
         {viewId == null
           ? crashAffectedUserRate
           : viewId && !mobileAppScreenRenderingDurationEnabled
-          ? crashAffectedUserRate
-          : null}
+            ? crashAffectedUserRate
+            : null}
       </KpiGridRow>
 
       {viewId && mobileAppScreenRenderingDurationEnabled && <Spacer vertical="medium" />}

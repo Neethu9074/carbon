@@ -6,10 +6,11 @@
 
 import React, { Fragment, useState } from 'react';
 
+import { MobileAppMonitoringBeacon } from '@instana/types';
+
 import StackTraceContainer from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/StackTraceContainer';
 import { formatStackTrace } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/BeaconStackParser';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
-import { MobileAppMonitoringBeacon } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './BeaconStack.mless';

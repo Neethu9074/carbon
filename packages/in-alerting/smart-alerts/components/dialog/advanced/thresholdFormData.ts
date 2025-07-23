@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ThresholdOperator } from '@instana/types';
+
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { ThresholdOperator } from 'in-types';
 import { t } from 'in-i18n';
 
 export const thresholdGreaterOperatorOptions = Object.freeze([

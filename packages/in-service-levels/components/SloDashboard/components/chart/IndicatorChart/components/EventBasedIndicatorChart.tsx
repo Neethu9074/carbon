@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import {
+import type {
   DateAsNumber,
   Result,
   ServiceLevelIndicatorUnion,
@@ -26,12 +26,13 @@ import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoo
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
 import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
-import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import type { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { MetricDataSeries } from 'in-components/Chart/types';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import type { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { hexToRGBA } from 'in-services/formatters/color';

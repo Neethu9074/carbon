@@ -4,120 +4,109 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
-  MetricResult,
-  Result,
-  ServiceLevelObjectiveConfiguration,
-  TimeConfig,
-  UnifiedMetricConfigurationUnion
-} from '@instana/types';
-import { combineLatest } from '@instana/observables';
-import { generateStableHash } from '@instana/utils';
+import { useState } from 'react';
+
+import type { MetricResult, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import { combineLatest, timeout } from '@instana/observables';
+import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import { error, isLoading, mapData } from 'in-services/util/result';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
-import { finishedProgress } from 'in-services/fixedObjects';
+import { pendingResult } from 'in-services/fixedObjects';
 import { sloMetrics } from 'in-service-levels/metrics';
-import { FetchedState } from 'in-hooks/utils/types';
 import { hours } from 'in-services/time/time';
 
-export interface SloMetricsResult {
-  status: MetricResult;
-  remainingBudget: MetricResult;
-  remainingBudgetSpark: MetricResult;
-}
-export type SloMetricsResultMap = Record<string, SloMetricsResult>;
-const MetricResultIdMatcher = /(?<sloId>.*)-(?<metricType>(status)|(remainingBudget)|(remainingBudgetSpark))$/;
+const timeConfig: TimeConfig = { autoRefresh: false, windowSize: hours.toMillis(1) };
+const MAX_RETRIES = 3;
 
-export default function useSloListMetrics(
-  configurations: ServiceLevelObjectiveConfiguration[]
-): FetchedState<Record<string, SloMetricsResultMap>> {
-  const configsHash = generateStableHash(configurations.map(c => c.id));
+// TODO: Handle error case and max timeout error case
 
-  const results = useObservable(
-    () =>
-      combineLatest(
-        configurations.map(sloConfig =>
-          getUnifiedMetrics({ metrics: getMetricConfig(sloConfig) }).map(structureMetricsResults(sloConfig.id!))
-        )
-      ),
-
-    [configsHash]
-  );
-  const combinedResult = resultReducer(results);
-  return resultToFetchedStateResponse(combinedResult);
-}
-
-export function resultReducer(
-  results?: Result<StructuredMetricResult>[] | null
-): Result<Record<string, SloMetricsResultMap>> | undefined {
-  return results?.reduce(
-    (acc, result) => {
-      const loading = result.progress.loading || acc.progress.loading;
-      const progress = { loading };
-      if (!result.data) return { ...acc, progress };
-      return {
-        progress,
-        errors: [],
-        data: {
-          ...acc.data,
-          [result.data.sloId]: result.data.metrics
-        }
-      };
-    },
-    { progress: finishedProgress } as Result<Record<string, SloMetricsResultMap>>
-  );
-}
-
-function getMetricConfig(
-  configuration: ServiceLevelObjectiveConfiguration
-): Record<string, UnifiedMetricConfigurationUnion> {
+export function useSloStatusMetrics(configuration: ServiceLevelObjectiveConfiguration) {
   // For slo list make sure we always fetch the latest metrics(for past hour)
-  const timeConfig: TimeConfig = { autoRefresh: false, windowSize: hours.toMillis(1) };
+  const [retries, setRetries] = useState(0);
+  const result =
+    useObservable<Result<MetricResult[]>, [string, number]>(
+      () =>
+        withTimeout(
+          getUnifiedMetrics({
+            metrics: {
+              status: sloMetrics.status.singleNumber({
+                configId: configuration.id!,
+                timeConfig
+              })
+            }
+          }),
+          45000,
+          () => {
+            if (retries < MAX_RETRIES) setRetries(retries => retries + 1);
+          },
+          retries
+        ),
 
-  return {
-    [`${configuration.id}-status`]: sloMetrics.status.singleNumber({
-      configId: configuration.id!,
-      timeConfig
-    }),
-    [`${configuration.id}-remainingBudget`]: sloMetrics.remainingBudget.singleNumber({
-      configId: configuration.id!,
-      timeConfig
-    }),
-    [`${configuration.id}-remainingBudgetSpark`]: sloMetrics.remainingBudget.timeSeriesCompact({
-      configId: configuration.id!,
-      timeConfig: timeConfig
-    })
-  };
+      [configuration.id!, retries]
+    ) ?? (pendingResult as Result<MetricResult[]>);
+  const status = mapData(result, ([metric]) => metric);
+  return resultToFetchedStateResponse(status);
 }
 
-export interface StructuredMetricResult {
-  sloId: string;
-  metrics: SloMetricsResultMap;
-}
-function structureMetricsResults(sloId: string): (result: Result<MetricResult[]>) => Result<StructuredMetricResult> {
-  return result => {
-    if (!result.data) return result as unknown as Result<StructuredMetricResult>;
+export function useSloErrorBudgetMetrics(configuration: ServiceLevelObjectiveConfiguration) {
+  // For slo list make sure we always fetch the latest metrics(for past hour)
+  const [retries, setRetries] = useState(0);
+  const result =
+    useObservable<Result<MetricResult[]>, [string, number]>(
+      () =>
+        withTimeout(
+          getUnifiedMetrics({
+            metrics: {
+              remainingBudget: sloMetrics.remainingBudget.singleNumber({
+                configId: configuration.id!,
+                timeConfig
+              }),
+              remainingBudgetSpark: sloMetrics.remainingBudget.timeSeriesCompact({
+                configId: configuration.id!,
+                timeConfig: timeConfig
+              })
+            }
+          }),
+          45000,
+          () => {
+            if (retries < MAX_RETRIES) setRetries(retries => retries + 1);
+          },
+          retries
+        ),
 
-    const metrics = result.data.reduce<SloMetricsResultMap>((acc, metricResult) => {
-      const matches = metricResult.id.match(MetricResultIdMatcher);
-
-      const metricType = matches?.groups?.metricType as keyof SloMetricsResult;
-
-      if (!metricType) return acc;
-
-      const metricGroup = acc[sloId] ?? {};
-      metricGroup[metricType] = metricResult;
-
-      acc[sloId] = metricGroup;
-
-      return acc;
-    }, {});
-
+      [configuration.id!, retries]
+    ) ?? (pendingResult as Result<MetricResult[]>);
+  const mappedResult = mapData(result, data => {
+    const remainingBudget = data.find(res => res.id === 'remainingBudget')!;
+    const remainingBudgetSpark = data.find(res => res.id === 'remainingBudgetSpark')!;
     return {
-      ...result,
-      data: { metrics, sloId }
+      remainingBudgetSpark,
+      remainingBudget
     };
-  };
+  });
+  return resultToFetchedStateResponse(mappedResult);
+}
+
+function withTimeout<T>(observable: Observable<Result<T>>, millis: number, onTimeout: () => void, retries: number) {
+  const timeoutSignal = 'signal';
+
+  return combineLatest([
+    observable.startWith(pendingResult),
+    timeout(millis)
+      .map(() => timeoutSignal)
+      .startWith(null)
+  ])
+    .map(([observable, signal]) => {
+      if (isLoading(observable) && signal === timeoutSignal) {
+        onTimeout();
+        return retries < MAX_RETRIES
+          ? pendingResult
+          : error([{ code: 'TIMEOUT', message: 'Timed out fetching metrics' }]);
+      }
+      return observable;
+    })
+    .distinct();
 }

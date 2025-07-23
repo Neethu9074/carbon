@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
-
 import {
   TimeConfig,
   GenericInfraAlertRule,
@@ -14,7 +12,9 @@ import {
   Order,
   ApiTag,
   TagFilterExpression
-} from 'in-types';
+} from '@instana/types';
+import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
+
 import {
   GetLinkToExploreProps,
   useLinkToExplore as useLinkToInfraEntityExplore

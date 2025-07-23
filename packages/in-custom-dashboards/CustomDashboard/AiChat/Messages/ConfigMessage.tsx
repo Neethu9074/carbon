@@ -63,7 +63,7 @@ export function FilterListItem({ name, value }: { name: string; value: Record<st
         {Object.entries(value!)
           .filter(([_, val]) => Boolean(val))
           .map(([filterName, filterValue]) => (
-            <SimpleListItem name={filterName} value={String(filterValue)} />
+            <SimpleListItem name={filterName} value={String(filterValue)} key={filterName} />
           ))}
       </UnorderedList>
     </>

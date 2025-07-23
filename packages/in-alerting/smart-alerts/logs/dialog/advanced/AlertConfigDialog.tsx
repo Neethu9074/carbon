@@ -7,8 +7,8 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { LogAlertRuleUnion, LogAlertConfig, VersionedConfig } from '@instana/types';
 import { RuleWithThreshold } from '@instana/types/typeDefinitions';
-import { LogAlertRuleUnion } from '@instana/types';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialogWithThreshold';
@@ -28,7 +28,6 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertCreated, alertId } from 'in-logging/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { LogAlertConfig, VersionedConfig } from 'in-types';
 import { Location } from 'in-stores/navigation/types';
 
 interface AlertConfigDialogType {

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import {
   createSloFormFromSloConfig,

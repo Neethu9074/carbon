@@ -11,6 +11,7 @@ import { themes } from '@instana/design-tokens';
 
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { fiveMinuteGranularityForAdaptiveThresholdEnabled } from 'in-services/featureFlags';
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
@@ -19,6 +20,7 @@ import { t } from 'in-i18n';
 const defaultAllowedGranularity = [1, 5, 10, 15, 20, 30];
 const staticSeasonalAllowedGranularity = [5, 10, 15, 20, 30];
 const adaptiveBaselineAllowedGranularity = [10, 15, 20, 30];
+const adaptiveBaselineAllowedGranularityWithFiveMins = [5, 10, 15, 20, 30];
 
 export function getMarksForThresholdType(thresholdType) {
   return getAllowedGranularities(thresholdType).map(min => ({
@@ -30,7 +32,9 @@ export function getMarksForThresholdType(thresholdType) {
 
 function getAllowedGranularities(thresholdType) {
   if (thresholdType === ADAPTIVE_BASELINE) {
-    return adaptiveBaselineAllowedGranularity;
+    return fiveMinuteGranularityForAdaptiveThresholdEnabled
+      ? adaptiveBaselineAllowedGranularityWithFiveMins
+      : adaptiveBaselineAllowedGranularity;
   }
   if (thresholdType === HISTORIC_BASELINE) {
     return staticSeasonalAllowedGranularity;

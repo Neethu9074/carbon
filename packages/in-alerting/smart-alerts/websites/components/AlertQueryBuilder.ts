@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Result, ThresholdType, TimeConfig } from '@instana/types';
+import { Result, ThresholdType, TimeConfig, WebsiteBeaconType } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -16,7 +16,7 @@ import { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { getSuggestions } from 'in-websites/queryBuilder';
-import { WebsiteBeaconType, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 
 /**
  * Creates a QueryBuilder that is bound to a single website, use-case and beacon-type.

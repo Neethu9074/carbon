@@ -6,13 +6,14 @@
 
 import React from 'react';
 
+import { SyntheticCredential } from '@instana/types';
+
 import CredentialAssociationsContent from 'in-synthetics/dashboards/global/tabs/credentials/components/CredentialAssociationsContent';
 import CredentialListActionsColumn from 'in-synthetics/dashboards/global/tabs/credentials/components/CredentialListActionsColumn';
 import ModifiedByColumnDetails from 'in-synthetics/dashboards/global/tabs/credentials/components/ModifiedByColumnDetails';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { formatDateTime } from 'in-services/formatters/date';
-import { SyntheticCredential } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

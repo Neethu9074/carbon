@@ -1,4 +1,7 @@
 {
+  "general": {
+    "region": "Região"
+  },
   "accessibility": {
     "opensNewTab": "Abre em uma nova guia"
   },
@@ -9,7 +12,8 @@
     "headerAriaLabel": "Cabeçalho da página",
     "contentAriaLabel": "Conteúdo",
     "filterAriaLabel": "Filtro",
-    "pageTabsAriaLabel": "Guias da página"
+    "pageTabsAriaLabel": "Guias da página",
+    "pageSubMenu": "Submenu da página"
   },
   "fileInputButton": {
     "label": {
@@ -294,11 +298,17 @@
     "labelRegion": "Região",
     "labelTag": "Tag",
     "labelCommit": "Confirmar",
-    "buttonGraphShowcase": "Showcase do gráfico",
     "geo": {
-      "title": "Dados da região",
-      "description": "Este produto inclui dados GeoLite2 criados por MaxMind, disponíveis por meio de <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
-    }
+      "title": "Dados da região"
+    },
+    "ibm": "IBM",
+    "copyRights": "Copyright © IBM Corp. 2020, 2023",
+    "instana": "Instana",
+    "close": "Fechar",
+    "maxMindDescription": "Esses dados incluem dados do GeoLite2 criados por",
+    "maxMind": "MaxMind.",
+    "dynamicGraphDescription": "Veja uma visualização do seu ambiente na",
+    "dynamicGraph": "Dynamic Graph showcase."
   },
   "blueprintFormMultistep": {
     "buttonCancel": "Cancelar",
@@ -364,7 +374,11 @@
     "loadingIndicatorLoadingData": "Carregando dados",
     "tooltipResetView": "Reconfigurar visualização",
     "tooltipZoomIn": "Aumentar zoom",
-    "tooltipZoomOut": "Diminuir zoom"
+    "tooltipZoomOut": "Diminuir zoom",
+    "openTable": "Mesa aberta",
+    "pageLoads": "Carregamentos de página",
+    "modalContent": "Conteúdo modal",
+    "unknownTitle": "Não categorizado"
   },
   "groupingConfigurator": {
     "exampleTagCatalogLabelKubernetes": "Kubernetes",
@@ -472,8 +486,10 @@
   "mainNavigation": {
     "skipToMainContent": "Ir para conteúdo principal",
     "viewSwitcherLabelSettings": "Configurações",
+    "viewSwitcherLabelAccountAndBilling": "Conta e faturamento",
     "viewSwitcherLabelMore": "Mais",
     "viewSwitcherLabelAgents": "Agentes",
+    "viewSwitcherLabelDataSources": "Origens de dados",
     "viewSwitcherLabelReleaseNotes": "Notas sobre a liberação",
     "viewSwitcherLabelDocumentation": "Documentação",
     "viewSwitcherLabelSupport": "Suporte",
@@ -515,6 +531,7 @@
     "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_privacy": "Privacidade",
     "profileMenu_logOut": "Efetuar logout",
+    "profileMenu_switcherContainer": "Contêiner do alternador",
     "scope_title": "Escopo",
     "scope_defaultScope": "Escopo padrão"
   },
@@ -540,7 +557,8 @@
     "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribuição",
     "aggregation_PERSECOND": "por segundo",
-    "labelFilterEmptyValue": "Filtrar valores vazios"
+    "labelHideEmptyValues": "Ocultar valores vazios",
+    "labelShowEmptyValues": "Mostrar valores vazios"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Usado",

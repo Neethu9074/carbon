@@ -6,11 +6,11 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import { PaginatedResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { PaginatedResult, ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import usePaginatedSloList from 'in-service-levels/hooks/usePaginatedSloList';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 
 jest.mock('in-service-levels/hooks/useSloConfigurations');
 

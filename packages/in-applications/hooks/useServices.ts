@@ -3,9 +3,6 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { generateStableHash } from '@instana/utils';
-import { useObservable } from '@instana/hooks';
-
 import {
   AppDataMetricConfiguration,
   ContextScope,
@@ -17,7 +14,10 @@ import {
   ServiceItem,
   TagFilterExpression,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { generateStableHash } from '@instana/utils';
+import { useObservable } from '@instana/hooks';
+
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import getServices from 'in-applications/subscriptions/getServices';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -37,10 +37,10 @@ const DEFAULT_PAGE_SIZE = 100;
 
 export default function useServices(props: UseServicesProps): FetchedState<PaginatedResult<ServiceItem>> {
   const timeConfig = useTimeConfig();
-  const result = useObservable(() => getServices(buildQuery(props, timeConfig)), [
-    generateStableHash(props),
-    timeConfig
-  ]);
+  const result = useObservable(
+    () => getServices(buildQuery(props, timeConfig)),
+    [generateStableHash(props), timeConfig]
+  );
 
   return resultToFetchedStateResponse(result);
 }

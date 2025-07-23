@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
+import { Button } from '@instana/carbon';
 
 import { getAllSyntheticCredentialsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import CreateCredentialDialog from 'in-synthetics/createCredentials/CreateCredentialDialog';
@@ -32,7 +32,7 @@ const CreateCredentialsButton = () => {
   };
 
   return (
-    <Button size="compact" kind="primary" onClick={handleClick} icon="lib_synthetic_credential">
+    <Button size="sm" kind="ghost" onClick={handleClick}>
       {t('in-synthetics:dialog.createCredential.createButton')}
     </Button>
   );

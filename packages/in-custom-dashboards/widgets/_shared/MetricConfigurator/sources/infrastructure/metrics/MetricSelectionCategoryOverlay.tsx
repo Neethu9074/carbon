@@ -34,6 +34,8 @@ export interface Props {
   onSelectType: (t?: string) => void;
   close?: VoidFunction;
   disabled: boolean;
+  backButton?: boolean;
+  regexEntitySelectionEnabled?: boolean;
 }
 
 const tabList = [
@@ -66,7 +68,9 @@ export default function MetricSelectionCategoryOverlay({
   onTypeChange,
   onSelectType,
   close,
-  disabled
+  disabled,
+  backButton = true,
+  regexEntitySelectionEnabled = true
 }: Props) {
   const listOverlay = (
     <MetricSelectorOverlay
@@ -78,7 +82,7 @@ export default function MetricSelectionCategoryOverlay({
       onSelectType={onSelectType}
       close={close}
       disabled={disabled}
-      backButton
+      backButton={backButton}
     />
   );
   if (!regexMetricSelectionEnabled) {
@@ -92,6 +96,7 @@ export default function MetricSelectionCategoryOverlay({
       type={type}
       onTypeChange={onTypeChange}
       close={close}
+      regexEntitySelectionEnabled={regexEntitySelectionEnabled}
     />
   );
   const activeTabIndex = isRegex ? regexTabIndex : listTabIndex;

@@ -20,6 +20,7 @@ import {
   Toggle,
   Typography
 } from '@instana/components';
+import { Action, ActionType } from '@instana/types';
 
 import {
   ACTION_TRANSLATIONS,
@@ -38,7 +39,7 @@ import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewAc
 import { Di } from 'in-components/HorizontalDescriptionList/HorizontalDescriptionList';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { getAnsibleFields } from 'in-automation/utils/actionField';
-import { Action, ActionType, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/ActionDashboard/ActionDashboard.mless';

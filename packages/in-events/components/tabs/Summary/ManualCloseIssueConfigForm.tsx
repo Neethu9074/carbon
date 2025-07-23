@@ -7,6 +7,7 @@ import { MapForm, createMapForm, createField, notBlankValidator, Field } from 'f
 import React, { FormEvent, useState } from 'react';
 
 import { Message, Stack, Typography, Toggle, Tooltip, SvgIcon, CarbonTextInput } from '@instana/components';
+import { Error, ErrorCode, ManualCloseInfo } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
@@ -17,7 +18,6 @@ import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
 import { disableEventConfigEnabled } from 'in-services/featureFlags';
-import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { manualCloseCTATracker } from 'in-events/tracker';
 import { toHtml } from 'in-services/formatters/markdown';

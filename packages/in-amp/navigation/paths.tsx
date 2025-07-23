@@ -15,6 +15,10 @@ export const ampTechnologiesReporting = `${ampAccountAndBilling}/technologiesRep
 export const ampActivationAdoption = `${ampAccountAndBilling}/activationAndAdoption`;
 export const ampAccountInformation = `${ampAccountAndBilling}/accountInformation`;
 
+//Account&Billing sub paths
+export const dataUsage = `${ampUsage}/dataUsage`;
+export const consumptionOverview = `${ampUsage}/consumptionOverview`;
+export const addOns = `${ampUsage}/addOns`;
 export const activeEntitlements = `${ampEntitlements}/activeEntitlements`;
 export const expiredEntitlements = `${ampEntitlements}/expiredEntitlements`;
 export const queuedEntitlements = `${ampEntitlements}/queuedEntitlements`;

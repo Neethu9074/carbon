@@ -6,13 +6,13 @@
 
 import React from 'react';
 
+import { Severity, SmartAlertThresholdRuleUnion, ThresholdOperator } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { CRITICAL_SEVERITY, WARNING_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { formatMetricValue } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { mapToThresholdRuleInfo } from 'in-alerting/smart-alerts/utils/thresholdUtils';
-import { Severity, SmartAlertThresholdRuleUnion, ThresholdOperator } from 'in-types';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { NumberFormatter } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

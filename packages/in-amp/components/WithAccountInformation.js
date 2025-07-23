@@ -7,10 +7,11 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+// eslint-disable-next-line import/no-deprecated
+import ApiItemView from 'in-settings/components/ApiItemView';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable } from 'in-amp/api/account';
 import { hasError, isLoading } from 'in-services/util/result';
-import ApiItemView from 'in-settings/components/ApiItemView';
 import { pendingResult } from 'in-services/fixedObjects';
 import config from 'in-services/config';
 import { days } from 'in-services/time';
@@ -34,12 +35,14 @@ function WithAccountInformation({ children, environments }) {
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
   const hasSyntheticAddon = syntheticAddons(environments);
   const hasLoggingAddon = loggingAddons(environments);
+  const hasPaidLicenses = containsPaidLicenses(environments);
   return children({
     getCurrentTenantOption,
     unitSelectorOptions,
     canShowAggregatedMetrics,
     hasSyntheticAddon,
-    hasLoggingAddon
+    hasLoggingAddon,
+    hasPaidLicenses
   });
 }
 

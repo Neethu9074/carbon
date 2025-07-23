@@ -6,7 +6,7 @@
 
 import React, { useContext } from 'react';
 
-import { Application, Progress, SyntheticTest, Website } from '@instana/types';
+import type { Application, Progress, SyntheticTest, Website } from '@instana/types';
 
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';

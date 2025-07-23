@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { formatDateTime } from '@instana/format-date';
+import { LogTag } from '@instana/types';
 
 import { LinkButton, LinkButtonProps } from 'in-logging/analyze/AnalyzeView/components/LinkButton';
 import { CopyButton, CopyColumnProps } from 'in-logging/analyze/AnalyzeView/components/CopyButton';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
-import { LogTag } from 'in-types';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
 

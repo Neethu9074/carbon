@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import type { ColumnFilter } from '@tanstack/react-table';
 import React, { useMemo, useRef, useState } from 'react';
-import { ColumnFilter } from '@tanstack/react-table';
 
 import { DismissibleTag, OperationalTag, Button, Popover, PopoverContent } from '@instana/carbon';
 import { generateStableHash } from '@instana/utils';

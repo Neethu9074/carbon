@@ -19,9 +19,13 @@ import zChatOpsChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsA
 import webhookChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/webhookChannelConfig';
 import slackBDChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackBDChannelConfig';
 import splunkChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
+import {
+  msTeamsAppEnabled,
+  bidirectionalSlackEnabled,
+  onlyFedRampAllowedAlertChannelsEnabled
+} from 'in-services/featureFlags';
 import slackChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
-import { msTeamsAppEnabled, bidirectionalSlackEnabled } from 'in-services/featureFlags';
 
 export const configs = {
   email: emailChannelConfig,
@@ -43,6 +47,17 @@ export const configs = {
   zChatOps: zChatOpsChannelConfig,
   salesforceChannelConfig: salesforceChannelConfig
 };
+
+export const configsForFedRamp = {
+  webhook: webhookChannelConfig
+};
+
+export function getAvailableAlertChannelKinds() {
+  if (onlyFedRampAllowedAlertChannelsEnabled) {
+    return Object.keys(configsForFedRamp);
+  }
+  return Object.keys(configs);
+}
 
 export const fullyQualified = {
   [configs.email.name]: configs.email,

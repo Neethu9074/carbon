@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { GetWebsiteErrorsQuery, PaginatedResult, Result, WebsiteErrorsItem } from 'in-types';
+import { GetWebsiteErrorsQuery, PaginatedResult, Result, WebsiteErrorsItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory<GetWebsiteErrorsQuery, Result<PaginatedResult<WebsiteErrorsItem>>>({

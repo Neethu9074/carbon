@@ -11,7 +11,7 @@ import { LoadingSkeleton, Stack, StackItem } from '@instana/components';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { FetchStatus } from 'in-hooks/utils/types';
+import type { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
 import locals from './PreviewChartLeftHeader.mless';

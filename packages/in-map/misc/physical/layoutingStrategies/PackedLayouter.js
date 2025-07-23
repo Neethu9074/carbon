@@ -16,12 +16,9 @@ const nodeMargin = 2;
 export default function applyLayout({ groups, packingXSpace = 1, packingYSpace = 1 }) {
   groupMarginWidth = packingXSpace;
   groupMarginHeight = packingYSpace;
-  const sortedGroups = sortGroups(groups);
 
-  const dimensions = calculateDimensions(sortedGroups);
-  sortedGroups.forEach(group =>
-    setGroupPosition(group, dimensions[group.id], -dimensions.width / 2, dimensions.height / 4)
-  );
+  const dimensions = calculateDimensions(groups);
+  groups.forEach(group => setGroupPosition(group, dimensions[group.id], -dimensions.width / 2, dimensions.height / 4));
 }
 
 function calculateDimensions(_groups) {
@@ -62,12 +59,38 @@ function calculateDimensions(_groups) {
       id: group.id,
       w: dim.width + groupMarginWidth,
       h: dim.height + groupMarginHeight,
-      numNodes: dim.numNodes
+      numNodes: dim.numNodes,
+      label: group._cachedLabel
     };
     blocks.push(block);
   });
 
   var packer = new Packer();
+
+  // Sort blocks by size (descending) to ensure consistent placement
+  // This ensures larger blocks are placed first
+  blocks.sort((a, b) => {
+    // Primary sort by area of group
+    const areaA = a.w * a.h;
+    const areaB = b.w * b.h;
+
+    if (areaB !== areaA) {
+      return areaB - areaA; // Descending by area
+    }
+
+    // Secondary sort by total number of nodes
+    if (a.numNodes !== undefined && b.numNodes !== undefined && a.numNodes !== b.numNodes) {
+      return b.numNodes - a.numNodes; // Descending by node count
+    }
+
+    // Tertiary sort by label if area or num nodes for some reason do not work out
+    if (a.label && b.label) {
+      return a.label.toLowerCase().localeCompare(b.label.toLowerCase());
+    }
+
+    return 0;
+  });
+
   blocks.sort((a, b) => b.numNodes - a.numNodes); // sort inputs for best results
   packer.fit(blocks);
 

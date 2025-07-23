@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { Map } from 'immutable';
 
+import { TagCatalog, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 import {
@@ -52,7 +53,6 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';

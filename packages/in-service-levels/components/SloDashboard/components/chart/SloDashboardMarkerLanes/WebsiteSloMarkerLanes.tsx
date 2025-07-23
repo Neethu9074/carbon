@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { WebsiteSloEntity } from '@instana/types';
+import type { WebsiteSloEntity } from '@instana/types';
 
 import type { SloDashboardMarkerLanesProps } from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
 // @ts-expect-error -- Ts migration already in progress

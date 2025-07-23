@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Group, TagFilterExpression } from '@instana/types';
+
 import { MinimalTagDefinition } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { Group, TagFilterExpression } from 'in-types';
 
 export interface GroupingTag {
   [key: string]: string;

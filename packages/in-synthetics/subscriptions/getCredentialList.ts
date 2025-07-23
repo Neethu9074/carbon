@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   OrderDirection,
   PaginatedQuery,
@@ -14,7 +12,9 @@ import {
   SyntheticCredential,
   SyntheticMetricConfiguration,
   TagFilterExpressionElementUnion
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export interface GetSyntheticCredentialListQuery extends PaginatedQuery {

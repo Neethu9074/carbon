@@ -7,6 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { OrderDirection, TimeConfig } from '@instana/types';
+
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
@@ -17,7 +19,6 @@ import getXenServerVMs from 'in-xenserver/subscriptions/getXenServerVMs';
 import { useXenServerEntityLink } from 'in-xenserver/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
-import { OrderDirection, TimeConfig } from 'in-types';
 import Capitalize from 'in-components/Capitalize';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';

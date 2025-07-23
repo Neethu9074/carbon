@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { SloEntityType, ServiceLevelIndicatorType } from '@instana/types';
+import type { SloEntityType, ServiceLevelIndicatorType } from '@instana/types';
 
 import { minutes, number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

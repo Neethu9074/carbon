@@ -6,13 +6,8 @@
 
 import React from 'react';
 
-import {
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  isWebsiteSloEntity,
-  ServiceLevelObjectiveConfiguration,
-  SloEntityUnion
-} from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration, SloEntityUnion } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -23,7 +18,7 @@ import { refreshSignal } from 'in-service-levels/api/correctionConfiguration';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
-import { FormatterFn } from 'in-stores/metric/formatters';
+import type { FormatterFn } from 'in-stores/metric/formatters';
 import { sloMetrics } from 'in-service-levels/metrics';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

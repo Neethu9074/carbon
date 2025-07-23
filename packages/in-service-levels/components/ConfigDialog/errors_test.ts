@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Error } from '@instana/types';
+import type { Error } from '@instana/types';
 
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { t } from 'in-i18n';

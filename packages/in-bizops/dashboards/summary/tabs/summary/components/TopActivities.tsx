@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { BusinessActivityItem, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Link } from '@instana/components';
 
 import {
@@ -22,7 +23,6 @@ import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { bizopsViewAllActivitiesClick, bizopsActivitySelect } from 'in-bizops/tracker';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import getBusinessActivities from 'in-bizops/subscriptions/getBusinessActivities';
-import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -91,11 +91,7 @@ function ViewAll({ className }: viewAllProps) {
 
   const viewAllPath: string = createHrefToPath(businessProcessActivityListPath);
   return (
-    <Link
-      className={className}
-      href={viewAllPath}
-      onClick={() => bizopsViewAllActivitiesClick(trackerProps)}
-    >
+    <Link className={className} href={viewAllPath} onClick={() => bizopsViewAllActivitiesClick(trackerProps)}>
       {t('in-bizops:dashboards.summary.widgets.viewAll')}
     </Link>
   );

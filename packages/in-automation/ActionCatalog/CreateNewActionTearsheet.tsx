@@ -40,7 +40,6 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { ActionFilter } from 'in-automation/types';
 import Form from 'in-components/form/binding/Form';
-import Title from 'in-components/Title/Title';
 import SideNav from 'in-components/SideNav';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
@@ -67,7 +66,7 @@ export default function CreateNewActionTearsheet({
   const actionFilter = useActionFilter();
 
   const [form, setForm, resetForm] = useActionForm({ action: action.data, actionFilter: actionFilter.data! || 'all' });
-  const { onSubmit, result } = useOnSubmit({ actionId, copy, isFromDashboard, closeHandler });
+  const { onSubmit, result, setResult } = useOnSubmit({ actionId, copy, isFromDashboard, closeHandler });
   const actionButtons = [
     {
       kind: 'primary',
@@ -80,6 +79,7 @@ export default function CreateNewActionTearsheet({
       kind: 'ghost',
       label: t('in-automation:cancel'),
       onClick: () => {
+        setResult(null);
         closeHandler?.();
       }
     }
@@ -117,16 +117,13 @@ export default function CreateNewActionTearsheet({
       );
     }
     return (
-      <>
-        <Title title={t('in-automation:ActionCatalog.action')} />
-        <ActionDetailsLoader
-          form={form}
-          setForm={form => setForm(form as ActionForm)}
-          result={result}
-          copy={copy}
-          actionId={actionId}
-        />
-      </>
+      <ActionDetailsLoader
+        form={form}
+        setForm={form => setForm(form as ActionForm)}
+        result={result}
+        copy={copy}
+        actionId={actionId}
+      />
     );
   };
   return (
@@ -154,7 +151,10 @@ export default function CreateNewActionTearsheet({
               )
             }
             actions={actionButtons}
-            onClose={closeHandler}
+            onClose={() => {
+              setResult(null);
+              closeHandler?.();
+            }}
           >
             {renderContent()}
           </Tearsheet>
@@ -430,6 +430,7 @@ function useOnSubmit({ actionId, copy, isFromDashboard, closeHandler }: useOnSub
   }
   return {
     onSubmit,
-    result
+    result,
+    setResult
   };
 }

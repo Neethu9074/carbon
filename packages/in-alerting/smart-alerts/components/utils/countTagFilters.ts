@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { TagFilterExpressionElementUnion } from 'in-types';
-
+import { TagFilterExpressionElementUnion } from '@instana/types';
 /**
  * Recursively go through the expression tree and count the number of tag filters.
  *

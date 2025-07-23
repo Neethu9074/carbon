@@ -75,7 +75,6 @@
     "restartCount": "Nombre de redémarrages",
     "kubernetesLabels": "Libellés Kubernetes",
     "podmanAnnotations": "Annotations Podman",
-    "metricExplosionBeeInstana": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques sont capturées à un moment donné.",
     "metricExplosion": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques haute résolution sont capturées à un moment donné. Pour afficher d'autres métriques balisées, utilisez Analyser l'infrastructure ou un tableau de bord personnalisé."
   },
   "explore": {

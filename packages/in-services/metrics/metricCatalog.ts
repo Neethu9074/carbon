@@ -3,9 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { generateStableHash } from '@instana/utils';
-import { Observable } from '@instana/observables';
-
 import {
   MetricTreeMetric,
   Metric,
@@ -14,7 +11,10 @@ import {
   MetricTreeNodeUnion,
   Result,
   GetInfraMetricsCatalogQuery
-} from 'in-types';
+} from '@instana/types';
+import { generateStableHash } from '@instana/utils';
+import { Observable } from '@instana/observables';
+
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { roundDownToWeek } from 'in-services/util/date';
 import { success } from 'in-services/util/result';

@@ -6,13 +6,13 @@
 
 import React, { Fragment, useState } from 'react';
 
+import { ApplicationBoundaryScope, TimeConfig } from '@instana/types';
 import { ButtonGroup } from '@instana/components';
 
 import { EVENT_RCA_ERROR_LOGS_TAB_CLICK, EVENT_RCA_TRACE_LOGS_TAB_CLICK } from 'in-services/tracking/eventNames';
 import { trackClick, TrackRcaClickProps } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import RootCauseErrorMessagesTable from 'in-events/components/RootCauseAnalysis/Logs/RootCauseErrorTable';
 import RootCauseLogMessagesTable from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogTable';
-import { ApplicationBoundaryScope, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface RootCauseContextDashboardProps {

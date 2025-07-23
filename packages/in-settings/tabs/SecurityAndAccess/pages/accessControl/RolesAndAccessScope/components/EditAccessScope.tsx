@@ -11,6 +11,21 @@ import { PermissionSet, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
+  hasAPlatformAccess,
+  hasKubernetesAccess,
+  hasLinuxKVMHypervisorAccess,
+  hasNutanixAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasPowerVcAccess,
+  hasSAPAccess,
+  hasVSphereAccess,
+  hasWindowsHypervisorAccess,
+  hasXenServerAccess,
+  hasZHMCAccess
+} from 'in-stores/permission';
+import {
   getAllSyntheticCredentialsForEntitySelectionWithDefaults,
   getAllSyntheticTestsForEntitySelectionWithDefaults
 } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
@@ -44,7 +59,6 @@ import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/s
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import { GroupFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
 import { actionAutomationEnabled, newOTelPageEnabled, syntheticsEnabled } from 'in-services/featureFlags';
-import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
@@ -52,6 +66,24 @@ import { pendingResult } from 'in-services/fixedObjects';
 import useDerivedState from 'in-hooks/useDerivedState';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t, Trans } from 'in-i18n';
+
+const amountPlatformAccesses = (() => {
+  if (!hasAPlatformAccess) return 0;
+  let count = 0;
+  if (hasVSphereAccess) count++;
+  if (hasPHMCAccess) count++;
+  if (hasZHMCAccess) count++;
+  if (hasPCFAccess) count++;
+  if (hasOpenStackAccess) count++;
+  if (hasPowerVcAccess) count++;
+  if (hasKubernetesAccess) count++;
+  if (hasSAPAccess) count++;
+  if (hasNutanixAccess) count++;
+  if (hasXenServerAccess) count++;
+  if (hasWindowsHypervisorAccess) count++;
+  if (hasLinuxKVMHypervisorAccess) count++;
+  return count;
+})();
 
 interface EditAccessScopeDialogProps<FORM_TYPE extends MapFormItems>
   extends Omit<FormControlProps<FORM_TYPE>, 'setForm'> {

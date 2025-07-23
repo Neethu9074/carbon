@@ -44,7 +44,7 @@ export function InfraMetricChart({
 
   const isCustomEvaluationType = alertConfig.evaluationType === 'CUSTOM';
 
-  if ((!selectedMetricGroup && groupBy.length > 0) || (!entityType && !metricName)) {
+  if ((!selectedMetricGroup && groupBy.length > 0) || !entityType || !metricName) {
     return (
       <Message withIcon fullInlineWidth>
         {t('in-alerting:smartAlerts.infrastructure.form.noMetricSelected')}

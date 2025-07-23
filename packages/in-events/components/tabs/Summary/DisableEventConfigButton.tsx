@@ -16,6 +16,7 @@ import {
   SvgIcon,
   Typography
 } from '@instana/components';
+import { CustomEventSpecificationWithMetadata } from '@instana/types';
 import { interval } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -28,7 +29,6 @@ import {
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { CustomEventSpecificationWithMetadata } from 'in-types';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';

@@ -7,13 +7,13 @@ import React, { ReactElement } from 'react';
 import { Item } from 'formalistic';
 
 import { ButtonKinds } from '@instana/components';
+import { Error } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { close } from 'in-components/DialogPresenter/store';
 import CancelButton from 'in-components/form/CancelButton';
 import BaseDialog from 'in-components/Dialog/BaseDialog';
 import SaveButton from 'in-components/form/SaveButton';
-import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './commonDialog.mless';

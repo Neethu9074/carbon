@@ -8,6 +8,7 @@ import { get, isEmpty } from 'lodash';
 import React from 'react';
 
 import { CarbonMenuItemDivider, Collapsible, Stack, Typography } from '@instana/components';
+import { EntityHealthInfo, Result, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -27,7 +28,6 @@ import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/Eve
 import { TopologyGraphNode } from 'in-events/components/RootCauseAnalysis/Topology/types';
 import { meanLatency, number, percentage } from 'in-services/formatters/number';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import { EntityHealthInfo, Result, TimeConfig } from 'in-types';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getColor } from 'in-applications/endpointTypes';
 import SparkChart from 'in-components/SparkChart';

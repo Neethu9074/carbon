@@ -8,6 +8,7 @@
 import { List } from 'immutable';
 import { get, isNull } from 'lodash';
 
+import { Application, Endpoint, Result, ServiceLabel, Snapshot, Stack, TimeConfig } from '@instana/types';
 import { Observable, combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -19,7 +20,6 @@ import {
 } from 'in-components/Stack/subscriptions/getStack';
 import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import createSnapshotObservable from 'in-events/components/RootCauseAnalysis/utils/modifiedSnapshot';
-import { Application, Endpoint, Result, ServiceLabel, Snapshot, Stack, TimeConfig } from 'in-types';
 //@ts-expect-error
 import { getPhysicalHierarchy, getSnapshotVersions } from 'in-stores/snapshot';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';

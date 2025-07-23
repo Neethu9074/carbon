@@ -84,7 +84,7 @@ export function WebsiteSliForm({
               hasError={!sliTypeField.valid && sliTypeField.touched}
               actions={
                 <HelpAction
-                  href="https://www.ibm.com/docs/en/obi/current?topic=instana-service-level-objectives-slo#sli-configuration/"
+                  href="https://www.ibm.com/docs/en/instana-observability/latest?topic=slos-service-level-objectives-widgets-legacy#sli-configuration"
                   external
                 >
                   {t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomHelpAction')}

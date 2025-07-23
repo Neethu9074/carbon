@@ -6,14 +6,8 @@
 
 import React from 'react';
 
-import {
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  isWebsiteSloEntity,
-  ServiceLevelIndicatorUnion,
-  ServiceLevelObjectiveConfiguration,
-  SloEntityUnion
-} from '@instana/types';
+import type { ServiceLevelIndicatorUnion, ServiceLevelObjectiveConfiguration, SloEntityUnion } from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
 
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import {

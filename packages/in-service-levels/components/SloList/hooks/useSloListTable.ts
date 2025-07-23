@@ -16,7 +16,7 @@ import {
   createTagsUrlParameter
 } from 'in-service-levels/navigation/urlParameters';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { SloListFilterState } from 'in-service-levels/hooks/useSloListFilterUrlState';
+import type { SloListFilterState } from 'in-service-levels/hooks/useSloListFilterUrlState';
 import { getColumnDefinitions } from 'in-service-levels/components/SloList/SloList';
 import useSloListItems from 'in-service-levels/hooks/useSloListItems';
 

@@ -66,10 +66,6 @@ export default [
       'com_update'
     ],
     labels: [
-      t('in-forge:plugins.azureMySql.labelCpuPercent'),
-      t('in-forge:plugins.azureMySql.labelMemoryPercent'),
-      t('in-forge:plugins.azureMySql.labelIoConsumptionPercent'),
-      t('in-forge:plugins.azureMySql.labelStoragePercent'),
       t('in-forge:plugins.azureMySql.labelQueries'),
       t('in-forge:plugins.azureMySql.labelSlowQueries'),
       t('in-forge:plugins.azureMySql.labelAlterTable'),

@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { GetMobileAppMetricsThresholdSuggestionQuery, Result, ThresholdSuggestionResponse } from 'in-types';
+import { GetMobileAppMetricsThresholdSuggestionQuery, Result, ThresholdSuggestionResponse } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory<

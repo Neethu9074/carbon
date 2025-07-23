@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   ContextScope,
   EndpointType,
@@ -15,7 +13,9 @@ import {
   ServiceItem,
   TagFilter,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 

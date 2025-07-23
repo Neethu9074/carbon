@@ -20,7 +20,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
 import { resourceQuotaBytes, resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
+import { otelK8sNodePodChart } from 'in-kubernetes/components/K8sChartColors';
 import { bytes, percentage } from 'in-services/formatters/number';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
@@ -38,7 +38,7 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = node.id;
 
-  const { capacity, limits, requests, usage } = k8sNodeChart;
+  const { usage, available, rss, workingset, pagefaults } = otelK8sNodePodChart;
 
   const nodeTagId = tagEquals('id.oTelK8sNode', snapshotId);
   const nodeQuery = andQuery(nodeTagId);
@@ -204,33 +204,21 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
+                metric: 'k8s.node.cpu.usage',
+                label: t('in-kubernetes:dashboards.cpuUsage'),
+                color: usage,
+                ...defaultChartMetricConfig
+              },
+              {
                 metric: 'k8s.node.cpu.utilization',
                 label: t('in-kubernetes:dashboards.cpuUtilization'),
-                color: usage,
+                color: available,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
-              },
-              {
-                metric: 'required_cpu',
-                label: t('in-kubernetes:dashboards.requests'),
-                color: requests,
-                ...defaultChartMetricConfig
-              },
-              {
-                metric: 'limit_cpu',
-                label: t('in-kubernetes:dashboards.limits'),
-                color: limits,
-                ...defaultChartMetricConfig
-              },
-              {
-                metric: 'cap_cpu',
-                label: t('in-kubernetes:dashboards.capacity'),
-                color: capacity,
-                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
-            colors={[usage, requests, limits, capacity]}
+            colors={[usage, available]}
             formatter="percentage.detailed"
             tooltipFormatter={percentage.detailed}
             paramTab="cpuTab"
@@ -254,24 +242,36 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
               {
                 metric: 'k8s.node.memory.available',
                 label: t('in-kubernetes:dashboards.memoryAvailable'),
-                color: requests,
+                color: available,
                 ...defaultChartMetricConfig
               },
               {
-                metric: 'limit_mem',
-                label: t('in-kubernetes:dashboards.limits'),
-                color: limits,
+                metric: 'k8s.node.memory.rss',
+                label: t('in-kubernetes:dashboards.memoryRss'),
+                color: rss,
                 ...defaultChartMetricConfig
               },
               {
-                metric: 'cap_mem',
-                label: t('in-kubernetes:dashboards.capacity'),
-                color: capacity,
+                metric: 'k8s.node.memory.working_set',
+                label: t('in-kubernetes:dashboards.memoryWorkingset'),
+                color: workingset,
+                ...defaultChartMetricConfig
+              },
+              {
+                metric: 'k8s.node.memory.page_faults',
+                label: t('in-kubernetes:dashboards.memoryPageFaults'),
+                color: pagefaults,
+                ...defaultChartMetricConfig
+              },
+              {
+                metric: 'k8s.node.memory.major_page_faults',
+                label: t('in-kubernetes:dashboards.memoryMajorPageFaults'),
+                color: pagefaults,
                 ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.memoryResources')}
-            colors={[usage, requests, limits, capacity]}
+            colors={[usage, available, rss, workingset, pagefaults]}
             formatter="bytes.detailed"
             tooltipFormatter={bytes.detailed}
             paramTab="memoryTab"
@@ -286,20 +286,26 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
+                metric: 'k8s.node.filesystem.usage',
+                label: t('in-kubernetes:dashboards.filesystemUsage'),
+                color: usage,
+                ...defaultChartMetricConfig
+              },
+              {
                 metric: 'k8s.node.filesystem.available',
                 label: t('in-kubernetes:dashboards.filesystemAvailable'),
-                color: usage,
+                color: available,
                 ...defaultChartMetricConfig
               },
               {
                 metric: 'k8s.node.filesystem.capacity',
                 label: t('in-kubernetes:dashboards.filesystemCapacity'),
-                color: capacity,
+                color: rss,
                 ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.filesystemResources')}
-            colors={[usage, capacity]}
+            colors={[usage, available, rss]}
             formatter="bytes.detailed"
             tooltipFormatter={bytes.detailed}
             paramTab="allocTab"

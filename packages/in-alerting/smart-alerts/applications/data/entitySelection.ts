@@ -5,7 +5,8 @@
 
 import { isEmpty } from 'lodash';
 
-import { ApplicationNode, BoundaryScope, EndpointNode, ServiceNode, TagFilter, TagFilterEntity } from 'in-types';
+import { ApplicationNode, BoundaryScope, EndpointNode, ServiceNode, TagFilter, TagFilterEntity } from '@instana/types';
+
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';

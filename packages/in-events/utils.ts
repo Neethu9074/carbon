@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { TimeConfig } from 'in-types';
-
+import { TimeConfig } from '@instana/types';
 function getExplicitEventFilter(eventFilter?: string) {
   if (!eventFilter) {
     // If no eventFilter is set, this means "All" events selected but should filter Monitoring Events

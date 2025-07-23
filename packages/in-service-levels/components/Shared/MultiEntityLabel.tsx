@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { Li, Link, Typography, Ul } from '@instana/components';
-import { SloEntityType } from '@instana/types';
+import type { SloEntityType } from '@instana/types';
 
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { t } from 'in-i18n';

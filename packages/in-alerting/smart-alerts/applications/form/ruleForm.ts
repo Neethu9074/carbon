@@ -10,7 +10,8 @@ import {
   LogsApplicationAlertRule,
   SlownessApplicationAlertRule,
   StatusCodeApplicationAlertRule
-} from 'in-types';
+} from '@instana/types';
+
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';

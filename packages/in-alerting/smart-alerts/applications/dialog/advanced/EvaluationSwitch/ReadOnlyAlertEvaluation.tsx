@@ -5,13 +5,13 @@
 
 import React from 'react';
 
+import { AlertEvaluationType } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
 import alertEvaluationTypes, {
   PER_AP
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import IconLabel from 'in-alerting/components/IconLabel';
-import { AlertEvaluationType } from 'in-types';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation.mless';
 

@@ -7,6 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { CustomEventSpecificationWithMetadata, AlertingAggregation } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
@@ -19,7 +20,6 @@ import {
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import { isPercentile } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { formatterTypeToValueLabel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
-import { CustomEventSpecificationWithMetadata, Nullish, AlertingAggregation } from 'in-types';
 import { MetricDefinition, getBuiltInMetricDefinition } from 'in-api/infraCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { FormatterType } from 'in-services/formatters/number';
@@ -29,6 +29,7 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ThresholdsFormGroupProps {

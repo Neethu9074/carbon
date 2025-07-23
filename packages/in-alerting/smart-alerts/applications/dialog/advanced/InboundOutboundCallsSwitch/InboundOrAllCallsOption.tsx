@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { RadioButton } from '@instana/components';
+import { BoundaryScope } from '@instana/types';
 
 import {
   boundaryScopes,
@@ -14,7 +15,6 @@ import {
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/config';
 import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
 import OptionBox from 'in-applications/components/OptionBox';
-import { BoundaryScope } from 'in-types';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsSwitch.mless';
 

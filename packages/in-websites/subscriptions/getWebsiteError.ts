@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetWebsiteErrorQuery, Result, JavaScriptError } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetWebsiteErrorQuery, Result, JavaScriptError } from 'in-types';
 
 export default createResultSubscriptionFactory<GetWebsiteErrorQuery, Result<JavaScriptError>>({
   eventId: 'getWebsiteError',

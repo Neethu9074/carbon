@@ -4,7 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Result, TagFilterExpressionElementUnion, ThresholdType, TimeConfig } from '@instana/types';
+import {
+  Result,
+  TagFilterExpressionElementUnion,
+  ThresholdType,
+  TimeConfig,
+  MobileAppMonitoringBeaconType
+} from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { GetMobileAppSuggestionsProps } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
@@ -16,9 +22,9 @@ import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes'
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { Nullish, MobileAppMonitoringBeaconType } from 'in-types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
+import { Nullish } from 'in-types';
 
 /**
  * Creates a QueryBuilder that is bound to a single mobileApp, use-case and beacon-type.

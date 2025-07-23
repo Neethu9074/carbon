@@ -18,6 +18,7 @@ import { BluePrint as WebsiteBlueprint } from 'in-alerting/smart-alerts/websites
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
+import { eumSupportedSeasonalities } from 'in-alerting/smart-alerts/eum/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { eumSmartAlertCustomMetricsEnabled } from 'in-services/featureFlags';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -119,7 +120,12 @@ export default function CustomEventsThresholdCondition({
         />
       )}
       {thresholdType !== STATIC_THRESHOLD && (
-        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm
+          form={form}
+          updateForm={updateForm}
+          defaultValue={defaultDeviationFactor}
+          supportedSeasonalities={eumSupportedSeasonalities}
+        />
       )}
     </>
   );

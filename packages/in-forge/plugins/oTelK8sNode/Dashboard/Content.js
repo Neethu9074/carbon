@@ -13,7 +13,6 @@ import {
   percentageTwoDecimalPlaces,
   timeBySecondsTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { DISTANCE_BETWEEN_DATAPOINTS, WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelJvm/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getOtelKubernetesContainersOfPods from 'in-subscription/getOtelKubernetesContainersOfPods';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
@@ -21,6 +20,7 @@ import getOtelKubernetesPodsOfNodes from 'in-subscription/getOtelKubernetesPodsO
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelJvm/constants';
 import Containers from 'in-forge/plugins/oTelK8sCluster/Dashboard/Containers';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { openTelemetryKubernetes } from 'in-services/featureFlags';
@@ -132,7 +132,6 @@ export default function OTelK8SNodeDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sNode.dashboard.cpuresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -168,7 +167,6 @@ export default function OTelK8SNodeDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sNode.dashboard.memoryresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
@@ -216,7 +214,6 @@ export default function OTelK8SNodeDashboard({ snapshot, timeConfig }) {
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.oTelK8sNode.dashboard.fsresources')}>
         <Chart
-          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{

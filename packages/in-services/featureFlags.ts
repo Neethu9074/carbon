@@ -67,11 +67,9 @@ export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled')
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const incidentNotesTopActionsEnabled = isFeatureFlagEnabled('incidentNotesTopActionsEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
-export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
 export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled');
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
-export const blockLogDeletionsEnabled = isFeatureFlagEnabled('blockLogDeletionsEnabled');
 export const logFormattingEnabled = isFeatureFlagEnabled('logFormattingEnabled');
 export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 
@@ -91,6 +89,10 @@ export const deprecateAppDataLegacyEventsEnabled = isFeatureFlagEnabled('depreca
 export const disallowAppDataLegacyEventsEnabled = isFeatureFlagEnabled('disallowAppDataLegacyEventsEnabled');
 export const hideAppDataLegacyEventsEnabled = isFeatureFlagEnabled('hideAppDataLegacyEventsEnabled');
 export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
+export const fiveMinuteGranularityForAdaptiveThresholdEnabled = isFeatureFlagEnabled(
+  'fiveMinuteGranularityForAdaptiveThresholdEnabled',
+  false
+);
 
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
@@ -195,7 +197,6 @@ export const alertChannelPerSeverityMobileAppSaEnabled = isFeatureFlagEnabled(
   'alertChannelPerSeverityMobileAppSaEnabled'
 );
 export const alertChannelPerSeverityLogSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityLogSaEnabled');
-export const perEntityInfraSmartAlertsEnabled = isFeatureFlagEnabled('perEntityInfraSmartAlertsEnabled');
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 
@@ -244,6 +245,7 @@ export const mobileAppSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
 
 // Websites business monitoring tab
 export const websitesBusinessMonitoringEnabled = isFeatureFlagEnabled('websitesBusinessMonitoringEnabled');
+export const websitesBusinessConversionGoalsEnabled = isFeatureFlagEnabled('websitesBusinessConversionGoalsEnabled');
 
 // ########################################################################################
 
@@ -366,10 +368,6 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
 export const serviceNowAdvancedEnabled = isFeatureFlagEnabled('serviceNowAdvancedEnabled', true);
-export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
-  'automationActionInstanceFeedbackEnabled',
-  false
-);
 export const multiCloseEnabled = isFeatureFlagEnabled('multiCloseEnabled', false);
 export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', true);
 export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);
@@ -390,12 +388,12 @@ export const aqmDisableConfigOnEventViewEnabled = isFeatureFlagEnabled('aqmDisab
 export const aqmDataGridEventTableEnabled = isFeatureFlagEnabled('aqmDataGridEventTableEnabled', false);
 export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);
 export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);
-export const rbacRoleMappingEnabled = isFeatureFlagEnabled('rbacRoleMappingEnabled', false);
 export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbonTable', true);
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', true);
 export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
 export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
 export const solisEnabled = isFeatureFlagEnabled('solisEnabled', false);
+export const solisTestCatalogEnabled = isFeatureFlagEnabled('solisTestCatalogEnabled', false);
 export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);
 export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);
 export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);
@@ -413,3 +411,9 @@ export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabl
 export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', true);
 export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', false);
 export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', false);
+export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
+  'onlyFedRampAllowedAlertChannelsEnabled',
+  false
+);
+export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
+export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);

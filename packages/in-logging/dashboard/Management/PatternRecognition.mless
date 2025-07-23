@@ -1,0 +1,71 @@
+:local {
+  .number {
+    font-size: 2.375rem;
+    font-weight: 400;
+    color: var(--ids-color-text-primary-on-light);
+  }
+
+  .patternSampleColumn {
+    padding: 1rem 0;
+    line-height: 1.25rem;
+  }
+
+  .content {
+    margin: 0.5rem 2rem;
+  }
+
+  .codeSnippet {
+    background-color: var(--cds-layer-02);
+  }
+
+  .body {
+    color: var(--ids-color-option-neutral-700);
+    font-size: 1rem;
+    font-weight: 300;
+    margin-top: 4rem;
+    > p {
+      margin: 0;
+    }
+  }
+
+  .emptyTable {
+    background-color: white;
+
+    :global(.cds--data-table tbody) {
+      display: none;
+    }
+    :global(.table-row) {
+      display: grid;
+    }
+  }
+
+  .patternRecognitionTableCard {
+    padding: 0;
+
+    :global .cds--data-table-content {
+      overflow-x: visible !important;
+    }
+  }
+
+  .stateContainer {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 32rem;
+  }
+
+  .emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .patterRecognitionContent {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: baseline;
+  }
+}

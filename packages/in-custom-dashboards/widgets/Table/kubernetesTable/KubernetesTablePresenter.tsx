@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import { DataTable as CarbonDataTable, Card, TableLoadMoreRow } from '@instana/components';
+import { RawEvent, TimeConfig } from '@instana/types';
 import { Disposable, on } from '@instana/observables';
 import { formatDateTime } from '@instana/format-date';
 
@@ -19,7 +20,6 @@ import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import EventIcon from 'in-events/components/EventIcon';
 import PluginIcon from 'in-components/PluginIcon';
-import { RawEvent, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './KubernetesTablePresenter.mless';

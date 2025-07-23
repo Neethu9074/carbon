@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Service, TimeConfig } from '@instana/types';
+
 import {
   getGroupByHostnameConfig,
   getGroupByHttpHostConfig,
@@ -46,7 +48,6 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
-import { Service, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface TroubleShootingProps {

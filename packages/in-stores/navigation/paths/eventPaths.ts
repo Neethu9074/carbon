@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig } from '@instana/types';
+
 // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
 // eslint-disable-next-line no-restricted-imports
 import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
@@ -13,7 +15,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';
 import { setTimeConfig } from 'in-stores/time/config';
-import { TimeConfig } from 'in-types';
 
 export function useFocusEvent() {
   const { location, navigate } = useNavigation();

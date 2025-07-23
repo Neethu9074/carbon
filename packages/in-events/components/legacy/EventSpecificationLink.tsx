@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
+import { Event } from '@instana/types';
 
 import {
   getEntityIdView,
@@ -14,9 +15,7 @@ import {
   globalSettingsAlertingEventCustom
 } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { role } from 'in-stores/user';
-import { Event } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './EventSpecificationLink.mless';
@@ -34,7 +33,8 @@ export default function EventSpecificationLink({
 }) {
   const isCustom = isCustomEvent(event);
   const eventSpecificationId: string = event.metadata?.eventSpecificationId;
-  const { createHrefToPath, navigate } = useNavigation();
+  const { createHrefToPath, goToPath } = useNavigation();
+
   const resolvedURL = getEntityIdView(
     getEventSpecificationSettingsBasePath(isCustom),
     eventSpecificationId,
@@ -58,7 +58,7 @@ export default function EventSpecificationLink({
         renderIcon={() => <SvgIcon type="lib_views_show" size="xs" />}
         onClick={() => {
           if (resolvedURL) {
-            navigate(parseUrl(resolvedURL, true));
+            goToPath(resolvedURL);
           }
         }}
       />

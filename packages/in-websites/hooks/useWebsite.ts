@@ -5,13 +5,13 @@
 
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
+import { Website } from '@instana/types';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { FetchedState } from 'in-hooks/utils/types';
 import { isBlank } from 'in-services/util/string';
 import { error } from 'in-services/util/result';
-import { Website } from 'in-types';
 
 export default function useWebsite(websiteId: string): FetchedState<Website> {
   const result = useObservable(() => {

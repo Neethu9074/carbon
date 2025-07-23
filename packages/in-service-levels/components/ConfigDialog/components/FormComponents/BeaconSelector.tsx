@@ -9,7 +9,7 @@ import React from 'react';
 import { Select } from '@instana/carbon';
 
 import { enabledBeaconTypes } from 'in-service-levels/constants';
-import { SloBeaconTypes } from 'in-service-levels/types';
+import type { SloBeaconTypes } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 import locals from './BeaconSelector.mless';

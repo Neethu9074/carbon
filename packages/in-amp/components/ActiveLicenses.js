@@ -3,14 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useState } from 'react';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getActiveLicensesAsResultObservable } from 'in-amp/api/account';
+import LicenseCarbonTable from 'in-amp/components/LicenseCarbonTable';
 import { formatDate } from 'in-services/formatters/date';
+import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 export const columnDefinitions = [
@@ -40,9 +45,7 @@ export const columnDefinitions = [
   },
   {
     id: 'start',
-    label: newAccountAndBillingPageEnabled
-      ? t('in-amp:accountAndBilling.entitlementsTableColumns.startDate')
-      : t('in-amp:components.activeLicenses.licenseStartData'),
+    label: t('in-amp:components.activeLicenses.licenseStartData'),
     sortable: false,
     getContent(item) {
       return <span>{formatDate(item.license.start)}</span>;
@@ -50,9 +53,7 @@ export const columnDefinitions = [
   },
   {
     id: 'expire',
-    label: newAccountAndBillingPageEnabled
-      ? t('in-amp:accountAndBilling.entitlementsTableColumns.endDate')
-      : t('in-amp:components.activeLicenses.licenseEndData'),
+    label: t('in-amp:components.activeLicenses.licenseEndData'),
     sortable: false,
     getContent(item) {
       return <span>{formatDate(item.license.expire)}</span>;
@@ -60,9 +61,7 @@ export const columnDefinitions = [
   },
   {
     id: 'amp',
-    label: newAccountAndBillingPageEnabled
-      ? t('in-amp:accountAndBilling.entitlementsTableColumns.standardHosts')
-      : t('in-amp:components.activeLicenses.licensedApmHosts'),
+    label: t('in-amp:components.activeLicenses.licensedApmHosts'),
     sortable: false,
     getContent(item) {
       return <span>{item.license.licenseSpecs?.apmHosts ?? valueMissingPlaceholder}</span>;
@@ -70,9 +69,7 @@ export const columnDefinitions = [
   },
   {
     id: 'infra',
-    label: newAccountAndBillingPageEnabled
-      ? t('in-amp:accountAndBilling.entitlementsTableColumns.essentialHosts')
-      : t('in-amp:components.activeLicenses.licensedIqmHosts'),
+    label: t('in-amp:components.activeLicenses.licensedIqmHosts'),
     sortable: false,
     getContent(item) {
       return <span>{item.license.licenseSpecs?.infraHosts ?? valueMissingPlaceholder}</span>;
@@ -84,7 +81,7 @@ const LicenseTable = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
   pathSegment: '/usage',
-  defaultPageSize: newAccountAndBillingPageEnabled ? 20 : 5,
+  defaultPageSize: 5,
   defaultOrderBy: 'start',
   defaultOrderDirection: 'DESC',
   isSearchable: false,
@@ -92,5 +89,43 @@ const LicenseTable = createServerTableWithUrlState({
 });
 
 export default function ActiveLicenses() {
-  return <LicenseTable get={({ page, pageSize }) => getActiveLicensesAsResultObservable(page, pageSize)} />;
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+
+  const result = useObservable(() => getActiveLicensesAsResultObservable(page, pageSize), [page, pageSize]);
+
+  const rows = mapLicenseResultToRows(result);
+
+  const totalItems = result?.data?.totalHits ?? 0;
+  return newAccountAndBillingPageEnabled ? (
+    <LicenseCarbonTable
+      title={t('in-amp:accountAndBilling.tabs.activeEntitlements')}
+      rows={rows}
+      page={page}
+      pageSize={pageSize}
+      totalItems={totalItems}
+      isLoading={isLoading(result)}
+      onPaginationChange={(newPage, newSize) => {
+        setPage(newPage);
+        setPageSize(newSize);
+      }}
+    />
+  ) : (
+    <LicenseTable get={({ page, pageSize }) => getActiveLicensesAsResultObservable(page, pageSize)} />
+  );
+}
+
+export function mapLicenseResultToRows(result) {
+  return (
+    result?.data?.items?.map((item, index) => ({
+      id: `${index}`,
+      name: item.unit,
+      tenant: item.tenant,
+      type: item.license.name,
+      start: formatDate(item.license.start),
+      expire: formatDate(item.license.expire),
+      amp: item.license.licenseSpecs?.apmHosts ?? valueMissingPlaceholder,
+      infra: item.license.licenseSpecs?.infraHosts ?? valueMissingPlaceholder
+    })) ?? []
+  );
 }

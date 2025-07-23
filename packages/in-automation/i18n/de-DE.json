@@ -9,6 +9,9 @@
   "recommendedActions": "Empfohlene Aktionen",
   "recommendedOptimizationsWithCount": "Empfohlene Ressourcenaktionen{{count}})",
   "recommendedOptimizations": "Empfohlene Ressourcenmaßnahmen",
+  "emptyRecommendedActions": "Keine empfohlenen Aktionen",
+  "emptyRecommendedActionsDescription1": "Es wurden keine Richtlinien oder Algorithmen gefunden, die wir für diesen Vorfall empfehlen könnten.",
+  "emptyRecommendedActionsDescription2": "Um eine Aktion von der KI erstellen zu lassen, klicken Sie auf <strong>Aktion generieren</strong>. Um eine Richtlinie manuell zu erstellen, klicken Sie auf <strong>Richtlinie erstellen<strong>.",
   "actionName": "Aktionsname",
   "validVaultParameter": "Als optional markierte Vaultparameter müssen entweder beide leer oder beide nicht leer sein.",
   "runAction": "Aktion ausführen",
@@ -94,7 +97,7 @@
   "actions": "Aktionen",
   "actionsWithCount": "Aktionen ({{count}})",
   "titleUrl": "URL",
-  "generateWithWatsonx": "Erzeugen mit watsonx",
+  "generateWithWatsonx": "Aktion generieren",
   "createPolicyWithName": "Aktion {{actionName}} anzeigen und Richtlinie erstellen",
   "viewActionCreatePolicy": "Aktion anzeigen und Richtlinie erstellen",
   "titleContentReadOnly": "Erstellter Inhalt (Nur Lesen)",
@@ -104,11 +107,9 @@
   "playbookId": "Playbook-ID",
   "gitType": "Git-Typ",
   "gitUrl": "Git URL",
-  "triggeringEvent": "Triggerereignis",
-  "probableRootCause": "Wahrscheinliche Fehlerursache",
-  "contextFor": "Kontext für:",
   "backToPolicies": "Zurück zu Richtlinien",
   "backToEvent": "Zurück zur Ereignis",
+  "backToActionCatalog": "Zurück zum Aktionskatalog",
   "recommendation": "Empfehlung",
   "userCreated": "Benutzer erstellt",
   "successRate": "Erfolgsquote",
@@ -120,6 +121,9 @@
   "deletePolicy": "Richtlinie löschen",
   "viewActionDashboard": "Dashboard für Aktionen anzeigen",
   "createPolicy": "Richtlinie erstellen",
+  "triggeringEvent": "Triggerereignis",
+  "probableRootCause": "Wahrscheinliche Fehlerursache",
+  "contextFor": "Kontext für:",
   "recommendedActionsExplanability": {
     "linkExplanation": "Instana nutzt Algorithmen und Integrationen, um Aktionen für Ereignisse zu empfehlen.",
     "link": "Erfahren Sie mehr über die verschiedenen Arten von Empfehlungen.",
@@ -139,7 +143,7 @@
     "actionConfiguration": "Aktionskonfiguration",
     "actionDetails": "Details zur Aktion bereitstellen",
     "Step1HeadlineSelectAction": "Beginnen Sie mit einer eingebauten Aktion, die von watsonx erzeugt wurde, um eine neue Aktion für dieses Ereignis zu erstellen.",
-    "Step1HeadlinePrompt": "Generieren Sie eine manuelle Aktion mit watsonx, um Informationen über das Ereignis zu verarbeiten und das Problem zu diagnostizieren oder zu beheben. Sie können die Ereignisdetails bearbeiten, um der KI umfassendere Informationen zur Verfügung zu stellen. Weitere Informationen finden Sie unter <Link> IBM Docs </Link>.",
+    "Step1HeadlinePrompt": "Erstellen Sie eine manuelle Aktion mithilfe von KI, um Informationen zum Ereignis zu verarbeiten und das Problem zu diagnostizieren oder zu beheben. Sie können die Ereignisdetails bearbeiten, um der KI umfassendere Informationen zur Verfügung zu stellen. Weitere Informationen finden Sie unter <Link > IBM Docs </Link>.",
     "Step2Headline": "Geben Sie die Details der Aktion an oder nehmen Sie Änderungen vor, bevor Sie sie im Aktionskatalog speichern.",
     "Step3Headline": "Optional können Sie zusammen mit der Aktion auch eine Automatisierungsrichtlinie erstellen. Sie können diesen Schritt auch zu einem späteren Zeitpunkt durchführen.",
     "step1Title": "Schritt 1: Erzeugen oder Auswählen einer Aktion",
@@ -167,9 +171,9 @@
     "eventName": "Ereignisname",
     "eventDescription": "Ereignisbeschreibung",
     "eventEntityType": "Entitätstyp Ereignis",
-    "noDataAvailableLive": "Um die Ergebnisse von watsonx zu sehen, klicken Sie hier auf <strong>Generieren</strong>.",
+    "noDataAvailableLive": "Um die Ergebnisse der KI hier anzuzeigen, klicken Sie auf <strong>Generieren</strong>.",
     "noDataAvailableSelectAction": "Treffen Sie eine Auswahl, um den Inhalt zu sehen.",
-    "watsonxLoadingContent": "watsonx erzeugt Inhalte",
+    "watsonxLoadingContent": "Von KI generiert Inhalte",
     "confirmButtonLabel": "Abbrechen",
     "cancelButtonLabel": "Bearbeitung fortsetzen",
     "noResultsYet": "Noch keine Ergebnisse",
@@ -185,17 +189,17 @@
       "step2Title": "Schritt 2: Ein Skript generieren",
       "step3Title": "Schritt 3: Aktion erstellen oder in eine externe Quelle exportieren",
       "step1Headline": "Wählen Sie einen manuellen Aktionsschritt aus, für den Sie ein Skript erstellen möchten. Sie können die manuelle Maßnahme im nächsten Schritt bearbeiten.",
-      "step2Headline1": "Überprüfen Sie die Details des Aktionsschritts und nehmen Sie die erforderlichen Änderungen vor. Klicken Sie dann auf Generieren, um die Ergebnisse von watsonx zu sehen.",
+      "step2Headline1": "Überprüfen Sie die Details des Aktionsschritts und nehmen Sie die erforderlichen Änderungen vor. Klicken Sie dann auf 'Generieren', um die Ergebnisse der KI anzuzeigen.",
       "step2Headline2": "Sie können sie bearbeiten und erneut erstellen, um andere Ergebnisse zu sehen. Weitere Informationen finden Sie unter <Link> IBM Docs </Link>.",
       "step3Headline": "Aktion erstellen oder Skript in eine externe Quelle exportieren",
       "step3HeadlineAnsible": "Skript in eine externe Quelle exportieren",
-      "noDataAvailableLive": "Um die Ergebnisse von watsonx zu sehen, klicken Sie hier auf <strong>Generieren</strong>.",
+      "noDataAvailableLive": "Um die Ergebnisse der KI hier anzuzeigen, klicken Sie auf <strong>Generieren</strong>.",
       "generateScriptButton": "Script generieren",
       "generateButton": "Generieren",
       "titleGeneratedCodeReadOnly": "Erstellter Code (Nur Lesen)",
       "promptTitle": "Eingabeaufforderung",
       "generateScriptTileHeader": "Generieren eines Scripts aus einem manuellen Aktionsschritt",
-      "generateScriptTileDescription": "Mit watsonx AI können Sie aus einem manuellen Aktionsschritt schnell ein Bash-Skript als Eingabeaufforderung erstellen und in wenigen Schritten in Ihren Aktionskatalog aufnehmen.",
+      "generateScriptTileDescription": "Mithilfe der KI können Sie aus einem manuellen Aktionsschritt schnell ein Bash-Script als Eingabeaufforderung erstellen und es in wenigen Schritten zu Ihrem Aktionskatalog hinzufügen.",
       "createActionOption": "Aktion erstellen",
       "toGithub": "Exportieren nach GitHub",
       "toGitLab": "Exportieren nach GitLab"
@@ -387,6 +391,7 @@
     "goToActionHistory": "Zum Aktionsprotokoll wechseln",
     "actionHistoryWithCount": "Aktionsverlauf ({{count}})",
     "noActionInstances": "Keine Daten verfügbar",
+    "incidentActionHistory": "Aktionsprotokoll zum Vorfall",
     "external": "Extern",
     "name": "Name",
     "type": "Typ",
@@ -548,7 +553,8 @@
     "efficiency_improvement": "Effizienzsteigerung",
     "savings": "Einsparungen",
     "performance": "Leistung",
-    "performance_assurance": "Leistungszusicherung"
+    "performance_assurance": "Leistungszusicherung",
+    "unknown": "Unbekannt"
   },
   "resourceOptimization": {
     "details": "Details zur Ressourcenoptimierung",
@@ -599,16 +605,12 @@
     "manualActionTip": "<strong>Tipp</strong> : Sie können die Ereignisinformationen aktualisieren und erneut generieren, um andere Ergebnisse zu erhalten.",
     "scriptTip": "<strong>Tipp</strong> : Sie können die Eingabeaufforderung aktualisieren und erneut erstellen, um andere Ergebnisse zu erhalten."
   },
-  "consentForm": {
-    "consentButton": "Einverständniserklärung überprüfen",
-    "consentText": "Ein Administrator muss der Datenschutzvereinbarung für die Vorschau der generativen KI-Unterstützung zustimmen, um diese Funktion zu aktivieren."
-  },
   "AITooltip": {
     "aiExplained": "KI erklärt",
     "manualSection": {
       "section1": {
         "section1Title": "Aktionsgenerierung",
-        "section1Text": "Um eine Reihe von manuellen Schritten zur Diagnose oder Behebung des Problems zu erstellen, senden wir Ereignisinformationen an watsonx.  Die für die Formulierung der KI-Eingabeaufforderung verwendeten Eingaben werden zunächst aus dem aktuellen Ereignis übernommen und können zur Verbesserung der Ergebnisse geändert werden."
+        "section1Text": "Um eine Reihe von manuellen Schritten zur Diagnose oder Behebung des Problems zu erstellen, senden wir Ereignisinformationen an die KI.  Die für die Formulierung der KI-Eingabeaufforderung verwendeten Eingaben werden zunächst aus dem aktuellen Ereignis übernommen und können zur Verbesserung der Ergebnisse geändert werden."
       },
       "section2": {
         "section2Title": "Eingabeaufforderungsfelder",
@@ -625,7 +627,7 @@
     },
     "scriptSection": {
       "section1": {
-        "section1Text": "Um ein Skript zu erstellen, senden wir Anweisungen von einem manuellen Aktionsschritt an watsonx. Der Schritt kann geändert werden, um die Ergebnisse zu verbessern."
+        "section1Text": "Um ein Script zu erstellen, senden wir Anweisungen aus einem manuellen Aktionsschritt an die KI. Der Schritt kann geändert werden, um die Ergebnisse zu verbessern."
       },
       "section3": {
         "section3Text": "Dies ist eine Vorschaufunktion, die ein vorgeschlagenes Skript für die Ausführung einer Aktion bereitstellt. Sie sollten feststellen, ob die Ausgabe für Ihre Bedürfnisse geeignet ist."

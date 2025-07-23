@@ -23,7 +23,8 @@ export default function MetricCatalogConfigurator({
   onQueryChange,
   metricCatalog,
   type,
-  metricMetadatas
+  metricMetadatas,
+  crossSeriesSumEnabled
 }) {
   const ref = useRef();
 
@@ -39,7 +40,8 @@ export default function MetricCatalogConfigurator({
         onQueryChange,
         metricCatalog,
         type,
-        metricMetadatas
+        metricMetadatas,
+        crossSeriesSumEnabled
       }}
       withoutWrapper
       onCloseSideEffect={() => ref.current?.focus()}

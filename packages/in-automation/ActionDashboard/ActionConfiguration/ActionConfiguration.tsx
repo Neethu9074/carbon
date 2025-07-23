@@ -7,6 +7,7 @@
 import React, { useMemo, useState } from 'react';
 
 import { CarbonStack } from '@instana/components';
+import { Action } from '@instana/types';
 
 import CreateNewActionTearsheet, {
   CreateNewActionTearsheetProps,
@@ -25,7 +26,7 @@ import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { isAIAction } from 'in-automation/utils/action';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
-import { Action, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 
 interface ActionConfigurationProps {
   data: Action | Nullish;

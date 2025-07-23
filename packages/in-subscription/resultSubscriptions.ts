@@ -4,6 +4,7 @@
  */
 
 import { Observable } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import { onStart, onStop, onData } from 'in-services/tracking/ineum/resultSubscriptionStatsTracking';
 import { TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
@@ -11,7 +12,6 @@ import { defaultMemoize } from 'in-subscription/subscriptionMemoization';
 import createSubscription from 'in-subscription/subscription';
 import { pendingResult } from 'in-services/fixedObjects';
 import { deepFreeze } from 'in-services/util/object';
-import { Result } from 'in-types';
 
 export interface Options<IN, OUT> {
   eventId: string;

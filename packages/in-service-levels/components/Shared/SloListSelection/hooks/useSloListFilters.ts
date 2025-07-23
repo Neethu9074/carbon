@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ColumnFiltersState } from '@tanstack/react-table';
+import type { ColumnFiltersState } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { SloEntityType } from '@instana/types';
+import type { SloEntityType } from '@instana/types';
 
 export interface SloListFilterState {
   columnFilters: ColumnFiltersState;

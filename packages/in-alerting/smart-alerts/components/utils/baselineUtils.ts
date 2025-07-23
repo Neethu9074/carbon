@@ -7,14 +7,14 @@ import {
   AdaptiveBaselineData,
   Granularity,
   HistoricBaselineData,
-  Nullish,
   Result,
   Severity,
   RuleWithThreshold,
   ApplicationAlertRuleUnion,
   AdaptiveBaselineConfig,
   AdaptiveBaselinePredictionsData
-} from 'in-types';
+} from '@instana/types';
+
 import {
   AdaptiveBaselineFetchedPredictions,
   AdaptiveBaselinePredictionData
@@ -22,6 +22,7 @@ import {
 import { hasError, isLoading } from 'in-services/util/result';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
+import { Nullish } from 'in-types';
 
 /**
  * Compensate that Unix timestamp zero is on a Thursday, not on a Monday.

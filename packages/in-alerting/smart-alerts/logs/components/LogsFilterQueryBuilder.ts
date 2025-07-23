@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import { CatalogUseCase, Result, TagSuggestions } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
-import { CatalogUseCase, Result, TagSuggestions } from 'in-types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { listSuccess } from 'in-services/util/result';
@@ -15,7 +15,7 @@ import { listSuccess } from 'in-services/util/result';
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   getTagCatalog: () => getTagCatalog({ useCase: 'SMART_ALERTS' }),
   getSuggestions: params => {
-    const { tagFilterExpression, tagName, timeConfig, propose } = params;
+    const { tagFilterExpression, tagName, timeConfig, propose, key } = params;
     return getTagCatalog({ useCase: 'TAG_SUGGESTIONS' as CatalogUseCase }).flatMap(
       tagCatalog =>
         (tagCatalog.data?.tags.map(({ name }) => name).includes(tagName)
@@ -23,7 +23,8 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
               timeConfig,
               tagName,
               tagFilterExpression,
-              propose
+              propose,
+              key
             })
           : just(listSuccess([]))) as Observable<Result<TagSuggestions>>
     );

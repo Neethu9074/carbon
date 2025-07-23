@@ -5,8 +5,6 @@
  */
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 //@ts-expect-error - needs TS migration
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent/SideNavigationAndContent';
 //@ts-expect-error - needs TS migration
@@ -20,18 +18,26 @@ import ExpiredLicenses from 'in-amp/components/ExpiredLicenses';
 import ActiveLicenses from 'in-amp/components/ActiveLicenses';
 //@ts-expect-error - needs TS migration
 import QueuedLicenses from 'in-amp/components/QueuedLicenses';
+import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-amp/pages/AccountAndBilling/AccountAndBilling.mless';
 
 export default function ViewContainer(props: any) {
-  return (
-    <WithAccountInformation>
-      {(accountInformationProps: { unitSelectorOptions: string | any[] }) =>
-        accountInformationProps.unitSelectorOptions?.length === 0 ? <NoLicenseAvailableMessage /> : <View {...props} />
-      }
-    </WithAccountInformation>
-  );
+  if (ampCompanyInfoEnabled) {
+    return (
+      <WithAccountInformation>
+        {(accountInformationProps: { unitSelectorOptions: string | any[] }) =>
+          accountInformationProps.unitSelectorOptions?.length === 0 ? (
+            <NoLicenseAvailableMessage />
+          ) : (
+            <View {...props} />
+          )
+        }
+      </WithAccountInformation>
+    );
+  }
+  return <View {...props} />;
 }
 
 function View(props: any) {
@@ -44,17 +50,17 @@ function View(props: any) {
               {
                 path: activeEntitlements,
                 label: t('in-amp:accountAndBilling.tabs.activeEntitlements'),
-                component: renderHeader(ActiveLicenses, t('in-amp:accountAndBilling.tabs.activeEntitlements'))
+                component: entitlementsTableWrapper(ActiveLicenses)
               },
               {
                 path: expiredEntitlements,
                 label: t('in-amp:accountAndBilling.tabs.expiredEntitlements'),
-                component: renderHeader(ExpiredLicenses, t('in-amp:accountAndBilling.tabs.expiredEntitlements'))
+                component: entitlementsTableWrapper(ExpiredLicenses)
               },
               {
                 path: queuedEntitlements,
                 label: t('in-amp:accountAndBilling.tabs.queuedEntitlements'),
-                component: renderHeader(QueuedLicenses, t('in-amp:accountAndBilling.tabs.queuedEntitlements'))
+                component: entitlementsTableWrapper(QueuedLicenses)
               }
             ]
           }
@@ -68,13 +74,11 @@ function View(props: any) {
   );
 }
 
-function renderHeader(Component: React.ComponentType<any>, title: any) {
-  return function withHeader(props: any) {
+function entitlementsTableWrapper(Component: React.ComponentType<any>) {
+  return function withMargin(props: any) {
     return (
       <div className={locals.bottomMargin}>
-        <Card title={title}>
-          <Component {...props} />
-        </Card>
+        <Component {...props} />
       </div>
     );
   };

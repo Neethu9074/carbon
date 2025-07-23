@@ -8,8 +8,8 @@ import { Map } from 'immutable';
 import { noop } from 'lodash';
 import React from 'react';
 
+import { TimeConfig, TagFilterExpression } from '@instana/types';
 import { CarbonComboButton } from '@instana/components';
-import { Snapshot, TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error No typedef available
@@ -62,14 +62,13 @@ import EventIcon from 'in-events/components/EventIcon';
 import { emptyMap } from 'in-services/fixedImmutables';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
-import { TagFilterExpression } from 'in-types';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';
 
 interface IncidentActionsProps {
   incident: EventOrMap;
   triggeringEvent: EventOrMap;
-  latestSnapshot: Snapshot;
+  latestSnapshot?: Map<string, any>;
 }
 
 const IncidentActions = ({ incident, triggeringEvent, latestSnapshot }: IncidentActionsProps) => {

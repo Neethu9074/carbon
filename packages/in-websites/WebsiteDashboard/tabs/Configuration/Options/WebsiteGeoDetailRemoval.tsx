@@ -5,11 +5,11 @@
 
 import React, { useCallback } from 'react';
 
+import { GeoDetailRemoval, Result } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 
 import GeoDetailRemovalForm from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/GeoDetailRemoval';
 import { getGeoLocationConfiguration, updateGeoLocationConfiguration } from 'in-websites/api/websites';
-import { GeoDetailRemoval, Result } from 'in-types';
 
 export interface Props {
   websiteId: string;
@@ -25,7 +25,7 @@ export default function WebsiteIpMasking({ websiteId }: Props) {
             data: result.data.geoDetailRemoval
           };
         }
-        return (result as unknown) as Result<GeoDetailRemoval>;
+        return result as unknown as Result<GeoDetailRemoval>;
       }),
     [websiteId]
   );
@@ -48,7 +48,7 @@ export default function WebsiteIpMasking({ websiteId }: Props) {
         })
         .flatMap(result => {
           if (!result.data) {
-            return just((result as unknown) as Result<GeoDetailRemoval>);
+            return just(result as unknown as Result<GeoDetailRemoval>);
           }
 
           return updateGeoLocationConfiguration(websiteId, result.data).map(result => {
@@ -58,7 +58,7 @@ export default function WebsiteIpMasking({ websiteId }: Props) {
                 data: geoDetailRemoval
               };
             }
-            return (result as unknown) as Result<GeoDetailRemoval>;
+            return result as unknown as Result<GeoDetailRemoval>;
           });
         }),
     [websiteId]

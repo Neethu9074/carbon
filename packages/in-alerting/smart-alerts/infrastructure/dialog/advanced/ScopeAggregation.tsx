@@ -5,16 +5,18 @@
  */
 
 import { MapForm, Field } from 'formalistic';
-import React, { useState } from 'react';
+import React from 'react';
 
-//@ts-expect-error
-import { includesInSelectedAggregations } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/FormComponent';
+import {
+  getCrossSeriesAggregation,
+  isCrossSeriesSumToggleEnabled,
+  parseAggregation
+} from 'in-infrastructure/util/aggregation';
 import { SelectInSection as SelectionSection } from 'in-alerting/smart-alerts/components/tearSheet/Section/SelectInSection';
 import CrossSeriesAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CrossSeriesAggregation';
-//@ts-expect-error
-import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import AlertTypography from 'in-alerting/components/AlertTypography';
+import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { t } from 'in-i18n';
 
 interface ScopeAggregationProps {
@@ -26,44 +28,37 @@ export default function ScopeAggregation({ form, updateForm, isTearSheet = false
   const aggregationField = form.get('rule')?.get('aggregation');
   const metricField = form.get('rule')?.get('metricName');
   const crossSeriesAggregationField = form.get('rule')?.get('crossSeriesAggregation');
-  const crossSeriesAggregationValue = crossSeriesAggregationField.value;
 
-  const isCrossSeriesSumAggregationToggleEnabled = includesInSelectedAggregations(aggregationField.value);
-  const [isSumCrossSeriesAggregation, setIsSumCrossSeriesAggregation] = useState(
-    crossSeriesAggregationValue == 'SUM' &&
-      (isCrossSeriesSumAggregationToggleEnabled || aggregationRequiresCrossSeriesSum(aggregationField.value))
-      ? true
-      : false
-  );
-  const [aggregation, setAggregation] = useState(aggregationField.value ?? 'MEAN');
+  const aggregation = parseAggregation(aggregationField.value, crossSeriesAggregationField.value);
+
+  const isSumCrossSeriesAggregation = aggregation.type === 'SUM';
+  const isCrossSeriesSumAggregationToggleEnabled = isCrossSeriesSumToggleEnabled(aggregation);
 
   const handleAggregationChange = (aggregationValue: string) => {
-    const isCrossSeriesSum = aggregationRequiresCrossSeriesSum(aggregationValue);
-    setAggregation(aggregationValue);
-    setIsSumCrossSeriesAggregation(isCrossSeriesSum);
-
-    const newCrossSeriesAggregation = isCrossSeriesSum ? 'SUM' : aggregationValue;
+    const aggregation = parseAggregation(aggregationValue, crossSeriesAggregationField.value);
     updateForm(
       form
         .updateIn(['rule', 'crossSeriesAggregation'], field =>
-          (field as Field<string>).setValue(newCrossSeriesAggregation).setTouched(true)
+          (field as Field<string>).setValue(getCrossSeriesAggregation(aggregation)).setTouched(true)
         )
-        .updateIn(['rule', 'aggregation'], f => (f as Field<string>).setValue(aggregationValue).setTouched(true))
+        .updateIn(['rule', 'aggregation'], f =>
+          (f as Field<string>).setValue(aggregation.timeAggregation).setTouched(true)
+        )
     );
   };
 
-  const handleSumCrossSeriesAggregationChange = () => {
-    setIsSumCrossSeriesAggregation(prev => {
-      const newCrossSeriesAggregation = !prev ? 'SUM' : aggregation;
-      updateForm(
-        form.updateIn(['rule', 'crossSeriesAggregation'], field =>
-          (field as Field<string>).setValue(newCrossSeriesAggregation).setTouched(true)
+  const handleSumCrossSeriesAggregationChange = (isSum: boolean) => {
+    const aggregation = parseAggregation(aggregationField.value, isSum ? 'SUM' : 'MEAN', undefined, true);
+    return updateForm(
+      form
+        .updateIn(['rule', 'crossSeriesAggregation'], field =>
+          (field as Field<string>).setValue(getCrossSeriesAggregation(aggregation)).setTouched(true)
         )
-      );
-      return !prev;
-    });
+        .updateIn(['rule', 'aggregation'], f =>
+          (f as Field<string>).setValue(aggregation.timeAggregation).setTouched(true)
+        )
+    );
   };
-
   const SelectSection = isTearSheet ? SelectionSection : SelectInSection;
 
   return (
@@ -75,31 +70,25 @@ export default function ScopeAggregation({ form, updateForm, isTearSheet = false
       useAlternateBg={!isTearSheet}
       disabled={!metricField.valid}
       additionalContent={
-        <>
-          <CrossSeriesAggregation
-            aggregationField={aggregationField}
-            isCrossSeriesSumAggregationToggleEnabled={isCrossSeriesSumAggregationToggleEnabled}
-            isSumCrossSeriesAggregation={isSumCrossSeriesAggregation}
-            handleSumCrossSeriesAggregationChange={handleSumCrossSeriesAggregationChange}
-            crossSeriesAggregationField={crossSeriesAggregationField}
-            isTearSheet={isTearSheet}
-          />
-        </>
+        <CrossSeriesAggregation
+          aggregationField={aggregationField}
+          isCrossSeriesSumAggregationToggleEnabled={isCrossSeriesSumAggregationToggleEnabled}
+          isSumCrossSeriesAggregation={isSumCrossSeriesAggregation}
+          handleSumCrossSeriesAggregationChange={handleSumCrossSeriesAggregationChange}
+          crossSeriesAggregationField={crossSeriesAggregationField}
+          isTearSheet={isTearSheet}
+        />
       }
     >
       <>
         {Object.keys(aggregationLabels).map(aggregation => (
           <option key={aggregation} value={aggregation}>
-            {aggregationLabels[aggregation]}
+            {aggregationLabels[aggregation as keyof typeof aggregationLabels]}
           </option>
         ))}
       </>
     </SelectSection>
   );
-}
-
-function aggregationRequiresCrossSeriesSum(aggregationFieldValue: string) {
-  return ['SUM', 'PER_SECOND', 'INCREASE'].includes(aggregationFieldValue);
 }
 
 function getLabel(isTearSheet: boolean): JSX.Element | string {

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SloListItem, SelectSloListItem } from 'in-service-levels/types';
+import type { SloListItem, SelectSloListItem } from 'in-service-levels/types';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 
 interface Props {

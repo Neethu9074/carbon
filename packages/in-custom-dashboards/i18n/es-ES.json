@@ -116,6 +116,20 @@
       "unnamedDataset": "Conjunto de datos sin nombre"
     }
   },
+  "aiChat": {
+    "launcherGreeting": "Hola, ¡también puede crear widgets a través del chat!",
+    "welcome": "Hola, les damos la bienvenida",
+    "restrictions": "La creación de widgets asistida por IA está actualmente disponible para los siguientes parámetros",
+    "widgetType": "Tipo de control",
+    "filter": "Filtrar",
+    "filter_application": "Nombre de aplicación",
+    "filter_service": "Nombre del servicio",
+    "filter_endpoint": "Nombre de punto final",
+    "filter_erroneousCall": "Llamada errónea",
+    "filter_callType": "Tipo de llamada",
+    "filter_technology": "Tecnología",
+    "tryOutExamplePrompts": "No dude en probar uno de los ejemplos de instrucciones seleccionando el tipo de widget que aparece a continuación o utilice su propia indicación."
+  },
   "dashboardSwitcher": {
     "dashboardSwitcher": {
       "loading": "Cargando…"

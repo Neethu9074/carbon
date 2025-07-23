@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { GetBizOpsEventsCountTimeSeriesQuery, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetBizOpsEventsCountTimeSeriesQuery, Result } from 'in-types';
 
 interface BizOpsEventsMetrics {
   readonly metrics: { [index: string]: number[][] };

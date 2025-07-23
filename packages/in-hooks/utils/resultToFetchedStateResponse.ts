@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Result } from '@instana/types';
+
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { FetchedState } from 'in-hooks/utils/types';
-import { Nullish, Result } from 'in-types';
+import { Nullish } from 'in-types';
 
 /**
  * Converts a Result to a fetched state triple.

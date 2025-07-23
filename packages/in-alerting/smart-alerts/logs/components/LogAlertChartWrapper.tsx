@@ -22,7 +22,8 @@ import {
   GetLogMetricAlertsPreviewQuery,
   RuleWithThreshold,
   LogAlertRuleUnion
-} from 'in-types';
+} from '@instana/types';
+
 // @ts-expect-error TS migration
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
 //@ts-expect-error TS migration

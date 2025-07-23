@@ -23,6 +23,7 @@
     },
     "learnMore": {
       "title": "En savoir plus sur la politique d'utilisation équitable d'Instana",
+      "titleNew": "En savoir plus sur la consommation de données",
       "leftTitle": "Qu'est-ce que la politique d'utilisation équitable ?",
       "rightTitle": "Comment acheter plus de données ?",
       "leftBody": "La politique d'utilisation équitable d'Instana décrit l'allocation mensuelle de données associée à votre type de licence. Pour en savoir plus et prendre connaissance des règles d'utilisation des ressources, consultez la <fupDocLink>documentation relative à la politique d'utilisation équitable</fupDocLink>.",
@@ -173,6 +174,30 @@
         "daysActive": "Jours actifs",
         "notProvided": "(non indiqué)"
       }
+    }
+  },
+  "accountAndBilling": {
+    "accountAndBilling": "Compte et facturation",
+    "tabs": {
+      "usage": "Utilisation",
+      "technologiesReporting": "Production de rapports sur les technologies",
+      "accountInformation": "Informations de compte",
+      "entitlements": "Habilitations",
+      "activeEntitlements": "Habilitations actives",
+      "queuedEntitlements": "Habilitations en file d'attente",
+      "expiredEntitlements": "Habilitations expirés",
+      "activationAdoption": "Activation et adoption",
+      "customerAdoption": "Adoption de client",
+      "userUsage": "Utilisation utilisateurs"
+    },
+    "entitlementsTableColumns": {
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "standardHosts": "Hôtes standard",
+      "essentialHosts": "Hôtes essentiels"
+    },
+    "emptyPage": {
+      "subtitle": "Aucune donnée disponible"
     }
   }
 }

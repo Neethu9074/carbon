@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TagFilterExpressionElementUnion, isTagFilterExpression, isTagFilter } from 'in-types';
+import { TagFilterExpressionElementUnion, isTagFilterExpression, isTagFilter } from '@instana/types';
+
 import { OPERATOR_OR } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 

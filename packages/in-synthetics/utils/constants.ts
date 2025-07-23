@@ -6,8 +6,6 @@
 import { MapForm } from 'formalistic';
 import { ReactNode } from 'react';
 
-import { Observable } from '@instana/observables';
-
 import {
   PaginatedResult,
   Progress,
@@ -24,12 +22,16 @@ import {
   GroupPermissionEntity,
   DNSQueryType,
   SyntheticTestFilterOperator,
-  LocationStatus
-} from 'in-types';
+  LocationStatus,
+  TimeConfig
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { FilterId } from 'in-synthetics/components/constants';
 import { TableActions } from 'in-settings/components/List';
 import { Options } from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -42,6 +44,7 @@ export const resultsMatrixPrefix = 'result.';
 export const failureValue = '0';
 export const defaultPage = 'page_x0';
 export const successValue = '1';
+export const apiTest = 'API';
 export const apiSimpleTest = 'API Simple';
 export const apiScriptTest = 'API Script';
 export const browserSimpleTest = 'Browser Simple';
@@ -955,4 +958,45 @@ export interface TabProps {
   labels: string[];
   idsCanBeLinked: string[];
   map: Map<any, any> | null;
+}
+
+interface Option {
+  label: string;
+  value: string;
+}
+
+export interface TestListFiltersProps {
+  filters: FilterState;
+  setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
+  result: Result<SyntheticTest[]>;
+  isAssociationsContext?: boolean;
+}
+
+export interface FilterCheckboxListProps {
+  selectedValues: string[];
+  options: Option[];
+  onChange: (newValues: string[]) => void;
+  groupId: string;
+}
+
+export interface FilterConfig {
+  id: FilterId;
+  title: string;
+  isOpen: boolean;
+  selectedOptions: string[];
+  options: { label: string; value: string }[];
+}
+
+export interface TestListProps {
+  timeConfig: TimeConfig;
+  runType?: string;
+  syntheticTypes?: string[];
+  locationIds: string[];
+  applicationIds?: string[];
+  entityIds?: string[];
+  associations?: {
+    applications: string[];
+    websites: string[];
+    mobileApps: string[];
+  };
 }

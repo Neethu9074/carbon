@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 // @ts-expect-error
 import { timeDisplayBottomFormat, timeDisplayTopFormat } from 'in-components/time/timeframeFormatter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import Tooltip from 'in-components/Tooltip';
-import { TimeConfig } from 'in-types';
 
 import locals from './TimePresenter.mless';
 

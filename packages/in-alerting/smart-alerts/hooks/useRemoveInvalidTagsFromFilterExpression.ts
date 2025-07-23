@@ -6,6 +6,7 @@
 import { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
@@ -15,7 +16,6 @@ import { countTagFilters } from 'in-alerting/smart-alerts/components/utils/count
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
 import { GetTagCatalog } from 'in-components/QueryBuilder';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Result } from 'in-types';
 
 export function useRemoveInvalidTagsFromFilterExpression(
   getTagCatalog: GetTagCatalog,

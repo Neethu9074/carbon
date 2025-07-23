@@ -4,15 +4,21 @@
  * Copyright IBM Corp. 2025
  */
 import React, { useEffect, useMemo, useState } from 'react';
+import { Launch } from '@carbon/icons-react';
 
-import { SvgIcon, CarbonButton } from '@instana/components';
+import { SvgIcon, CarbonButton, Typography } from '@instana/components';
 import { PreviewPill } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 
-import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE, EVENT_AI_LIBRARY_OPEN } from 'in-services/tracking/tracking';
+import {
+  EVENT_AI_CHAT_OPEN,
+  EVENT_AI_CHAT_CLOSE,
+  EVENT_AI_LIBRARY_OPEN,
+  EVENT_AI_CHAT_FEEDBACK_MENU_CLICK
+} from 'in-services/tracking/tracking';
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/TableComponents/TableChartSwitcher';
-import EditableOptions from 'in-events/components/AIChat/CustomResponse/EditableOptions';
+import ThumbsFeedback from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import InstructionPop from 'in-events/components/AIChat//CustomPanels/InstructionPop';
 import { handleTracking, AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
@@ -85,6 +91,50 @@ function setDragListener() {
   });
 }
 
+const AITooltipContent = () => {
+  return (
+    <>
+      {/*IBM watsonx information */}
+      <div className={locals.watsonXInfo}>
+        <Typography variant="helper-text-02">
+          <div className={locals.secondaryTitle}> {t('in-events:aichat.aiExplained')}</div>
+        </Typography>
+        <Typography variant="heading-03" noMargin>
+          {t('in-events:aichat.poweredByWatsonX')}
+        </Typography>
+        <Typography variant="body-01">
+          <div className={locals.secondaryTitle}> {t('in-events:aichat.watsonXDesc')}</div>
+        </Typography>
+      </div>
+
+      {/* Preview disclaimer section */}
+      <div className={locals.previewDisclaimer}>
+        <Typography variant="body-01">
+          <div className={locals.secondaryTitle}> {t('in-events:aichat.previewDisclaimer')}</div>
+        </Typography>
+      </div>
+
+      {/* Model details section */}
+      <div className={locals.modelSection}>
+        <Typography variant="helper-text-02">
+          <div className={locals.secondaryTitle}> {t('in-events:aichat.aiModel')}</div>
+        </Typography>
+        {/* Creating a clickable span styled as a link since link component is having propogation issues */}
+        <span
+          className={locals.graniteLink}
+          onClick={e => {
+            e.stopPropagation();
+            window.open('https://huggingface.co/ibm-granite/granite-3.3-8b-instruct', '_blank', 'noopener,noreferrer');
+          }}
+        >
+          {t('in-events:aichat.granite')}
+          <Launch className={locals.launchIcon} size={16} />
+        </span>
+      </div>
+    </>
+  );
+};
+
 // Configuration to be passed to the AI Chat
 const config = {
   messaging: {
@@ -112,7 +162,8 @@ export function AIChat() {
   const renderWriteableElements = useMemo(
     () => ({
       customPanelElement: <PromptLibrary instance={instance} setPopOpen={setPopOpen} />,
-      headerBottomElement: <PreviewPill className={locals.previewPill} />
+      headerBottomElement: <PreviewPill className={locals.previewPill} />,
+      aiTooltipAfterDescriptionElement: <AITooltipContent />
     }),
     [instance]
   );
@@ -129,14 +180,19 @@ export function AIChat() {
           switch (messageItem.user_defined?.user_defined_type) {
             case 'prompt_library':
               return <PromptLibraryResponse instance={instance} />;
-            case `editable_options`:
-              return <EditableOptions messageItem={messageItem} instance={instance} />;
             case 'table_chart':
               return <TableChartSwitcher messageItem={messageItem} />;
             case 'nlg_response':
               return <NLGResponse messageItem={messageItem} />;
             case 'events_table':
               return <EventsTable messageItem={messageItem} />;
+            case 'thumbs_feedback':
+              return (
+                <ThumbsFeedback
+                  TRACKING_EVENT_POS={messageItem.user_defined.posTrack}
+                  TRACKING_EVENT_NEG={messageItem.user_defined.negTrack}
+                />
+              );
             default:
               return undefined;
           }
@@ -146,6 +202,12 @@ export function AIChat() {
           setInstance(instance);
         }}
         onAfterRender={instance => {
+          //Remove default ai label text
+          const customLanguagePack = {
+            ai_slug_title: ' ',
+            ai_slug_description: ' '
+          };
+          instance.updateLanguagePack(customLanguagePack);
           const customPanel = instance.customPanels.getPanel();
           const panelOptions = {
             title: t('in-events:aichat.promptLibrary')
@@ -157,6 +219,13 @@ export function AIChat() {
                 customPanel.open(panelOptions);
                 handleTracking(EVENT_AI_LIBRARY_OPEN);
                 setPopOpen(false);
+              }
+            },
+            {
+              text: t('in-events:aichat.feedback'),
+              handler: () => {
+                handleTracking(EVENT_AI_CHAT_FEEDBACK_MENU_CLICK);
+                window.open('https://your.feedback.ibm.com/jfe/form/SV_7Oj9seFbD9zb4eq', '_blank');
               }
             }
           ]);

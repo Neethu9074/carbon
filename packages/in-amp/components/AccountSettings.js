@@ -6,17 +6,22 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { Tile, Stack, Link } from '@instana/carbon';
+import { Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Message } from '@instana/components';
-import { Link } from '@instana/components';
 
 // eslint-disable-next-line import/no-deprecated
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable, refresh } from 'in-amp/api/account';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { notBlankValidator } from 'in-services/validators/string';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import Title from 'in-components/Title/Title';
 import { t, Trans } from 'in-i18n';
@@ -24,7 +29,14 @@ import { t, Trans } from 'in-i18n';
 import locals from './AccountSettings.mless';
 
 export default function AccountSettings() {
+  if (newAccountAndBillingPageEnabled) {
+    const account = useObservable(getAccountAsResultObservable(), []) ?? pendingResult;
+    if (account.progress.loading) return <LoadingIndicator />;
+    return <AccountSettingsView account={account.data} />;
+  }
+
   return (
+    // Temporary: remove after new billing UI is fully rolled out
     <ApiItemView
       hideFooter
       getObservables={() => ({
@@ -138,3 +150,31 @@ function enrichForm(form, { result: { account } }) {
 //     }
 //   };
 // }
+function AccountSettingsView({ account }) {
+  const billing = account.billingAddress;
+
+  const addressFields = [
+    [t('in-amp:components.accountSettings.country'), billing.country],
+    [t('in-amp:components.accountSettings.state'), billing.state],
+    [t('in-amp:components.accountSettings.zip'), billing.zip],
+    [t('in-amp:components.accountSettings.city'), billing.city],
+    [t('in-amp:components.accountSettings.address'), billing.street],
+    [t('in-amp:components.accountSettings.additionalAddress'), billing.additionalAddress]
+  ];
+
+  return (
+    <Tile className={locals.tileLayout}>
+      <Stack gap={3}>
+        <Typography variant="heading-03">{t('in-amp:components.accountSettings.billingAddress')}</Typography>
+        {addressFields.map(([label, value]) => (
+          <div className={locals.rowTile}>
+            <div className={locals.labelTile}>
+              <Typography variant="heading-01">{label}</Typography>
+            </div>
+            <Typography variant="body-01">{value || valueMissingPlaceholder}</Typography>
+          </div>
+        ))}
+      </Stack>
+    </Tile>
+  );
+}

@@ -14,7 +14,7 @@ import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/Config
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { SloListItem } from 'in-service-levels/types';
+import type { SloListItem } from 'in-service-levels/types';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 

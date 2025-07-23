@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { AlertClusterResponse, GetWebsiteAlertClustersQuery, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { AlertClusterResponse, GetWebsiteAlertClustersQuery, Result } from 'in-types';
 
 export default createResultSubscriptionFactory<GetWebsiteAlertClustersQuery, Result<AlertClusterResponse[]>>({
   eventId: 'getWebsiteAlertClusters',

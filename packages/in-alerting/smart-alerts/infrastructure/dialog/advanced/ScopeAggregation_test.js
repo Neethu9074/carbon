@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
@@ -13,8 +13,16 @@ import { alertConfig } from 'in-alerting/smart-alerts/infrastructure/data/testDa
 import { t } from 'in-i18n';
 
 describe('Render Scope Aggregation in Infra SA dialog : in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation', () => {
-  const form = alertFormDefinition(alertConfig, false);
-  const updateForm = jest.fn();
+  let form;
+  let updateForm;
+
+  beforeEach(() => {
+    form = alertFormDefinition(alertConfig, false);
+    updateForm = jest.fn(newForm => {
+      form = newForm;
+      return form;
+    });
+  });
 
   it('Check if component rendered in UI', () => {
     render(<ScopeAggregation form={form} updateForm={updateForm} />);
@@ -23,11 +31,12 @@ describe('Render Scope Aggregation in Infra SA dialog : in-alerting/smart-alerts
     ).toBeInTheDocument();
   });
 
-  it('Click on aggregation Dropdown', () => {
-    render(<ScopeAggregation form={form} updateForm={updateForm} />);
-    document.querySelector("[id='metric-configurator-infra-aggregation']").click();
-    expect(screen.getByText('max')).toBeInTheDocument();
-    screen.getByText('max').click();
+  it('Click on aggregation Dropdown and verify form update', () => {
+    const { rerender } = render(<ScopeAggregation form={form} updateForm={updateForm} />);
+    const selectElement = document.querySelector("[id='metric-configurator-infra-aggregation']");
+    fireEvent.change(selectElement, { target: { value: 'MAX' } });
+    expect(updateForm).toHaveBeenCalled();
+    rerender(<ScopeAggregation form={form} updateForm={updateForm} />);
     expect(screen.getByRole('switch')).not.toBeDisabled();
   });
 });

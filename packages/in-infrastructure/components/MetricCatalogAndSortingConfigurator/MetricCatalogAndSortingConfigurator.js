@@ -32,7 +32,8 @@ export default function MetricCatalogAndSortingConfigurator({
   tagCatalog,
   type,
   metricMetadatas,
-  showTagCatalog: showTagCatalogExternal = true
+  showTagCatalog: showTagCatalogExternal = true,
+  crossSeriesSumEnabled = false
 }) {
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
   const showTagCatalog = showTagCatalogExternal && (infrastructureExploreTagColumnsEnabled || isInternalVisible);
@@ -59,6 +60,7 @@ export default function MetricCatalogAndSortingConfigurator({
         metricCatalog={metricCatalog}
         type={type}
         metricMetadatas={metricMetadatas}
+        crossSeriesSumEnabled={crossSeriesSumEnabled}
       />
       {sortOptions && <SortingConfigurator options={sortOptions} orderBy={order} onChange={setOrder} />}
     </div>

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Error } from '@instana/types';
+import type { Error } from '@instana/types';
 
 import { isTechnicalError } from 'in-services/util/error';
 import { t } from 'in-i18n';

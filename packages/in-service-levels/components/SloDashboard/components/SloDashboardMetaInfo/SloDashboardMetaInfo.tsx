@@ -6,12 +6,12 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Column, Grid } from '@instana/carbon';
 import { TagSet } from '@instana/ibm-products';
 
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
-import { LabeledEntity } from 'in-service-levels/types';
+import type { LabeledEntity } from 'in-service-levels/types';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 
 import locals from './SloDashboardMetaInfo.mless';

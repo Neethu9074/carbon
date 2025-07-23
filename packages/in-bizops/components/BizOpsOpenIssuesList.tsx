@@ -10,9 +10,8 @@ import { EntityHealthInfo, Result, TimeConfig, Event } from '@instana/types';
 import { combineLatest, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error Module needs to be translated to TS
-import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
+import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';

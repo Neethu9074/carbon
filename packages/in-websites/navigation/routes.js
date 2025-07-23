@@ -1,10 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
 // all the lazy loaded views. Bundle name: websites
 import WebsiteDashboard from 'promise-loader?global,websites!in-websites/WebsiteDashboard/WebsiteDashboard';
+import ConversionGoalDetails from 'promise-loader?global,websites!in-websites/WebsiteDashboard/tabs/BusinessImpact/ConversionGoalDetails';
 import AlertConfigTearSheet from 'promise-loader?global,websites!in-alerting/smart-alerts/websites/TearSheet/AlertConfigTearSheet';
 import AnalyzeView2_0 from 'promise-loader?global,websites!in-websites/analyze/AnalyzeView2_0/AnalyzeView';
 import NewWebsiteFlow from 'promise-loader?global,websites!in-websites/NewWebsiteFlow/NewWebsiteFlow';
@@ -18,11 +19,13 @@ import {
   websitePathFullyQualified,
   newWebsitePathFullyQualified,
   analyzePathFullyQualified,
-  websiteSmartAlertsFullScreenFullyQualified
+  websiteSmartAlertsFullScreenFullyQualified,
+  businessConversionGoalDashboardFullyQualified
 } from 'in-websites/navigation/paths';
 import {
   websitesSmartAlertFullScreenDesignEnabled,
-  websitesSmartAlertDialogViewEnabled
+  websitesSmartAlertDialogViewEnabled,
+  websitesBusinessConversionGoalsEnabled
 } from 'in-services/featureFlags';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -38,6 +41,11 @@ export default [
   <Route key="websitesList" path={websitesPathFullyQualified}>
     {renderAsyncRouteChildren(WebsitesList)}
   </Route>,
+  websitesBusinessConversionGoalsEnabled && (
+    <Route key="conversionGoalDetails" path={businessConversionGoalDashboardFullyQualified}>
+      {renderAsyncRouteChildren(ConversionGoalDetails)}
+    </Route>
+  ),
   <Route key="websiteDashboard" path={websitePathFullyQualified}>
     {renderAsyncRouteChildren(WebsiteDashboard)}
   </Route>,

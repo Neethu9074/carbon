@@ -216,6 +216,7 @@
     "fieldsEntityAwsAutoScaling": "AWS 自动缩放",
     "fieldsEntityAwsTimestream": "Amazon Timestream",
     "fieldsEntityAwsIotCore": "AWS IoT Core",
+    "fieldsEntityAwsMetricStreams": "AWS Metric Streams 实体",
     "fieldsEntityAzure": "Microsoft Azure",
     "fieldsEntityAzureService": "Microsoft Azure 服务",
     "fieldsEntityAzureServiceApim": "Azure API Management",

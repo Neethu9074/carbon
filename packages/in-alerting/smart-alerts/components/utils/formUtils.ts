@@ -5,8 +5,9 @@
 
 import { Field, ListForm, MapForm } from 'formalistic';
 
+import { AggregationType, ThresholdOperator } from '@instana/types';
+
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { AggregationType, ThresholdOperator } from 'in-types';
 import { Option } from 'in-components/ComboBox/ComboBox';
 import { t } from 'in-i18n';
 

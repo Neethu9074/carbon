@@ -6,6 +6,8 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
+import { ThresholdType, VersionedConfig } from '@instana/types';
+
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 //@ts-expect-error
@@ -18,7 +20,6 @@ import { getGracePeriod } from 'in-alerting/smart-alerts/components/utils/alertU
 import createThresholdForm from 'in-alerting/smart-alerts/logs/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/logs/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { ThresholdType, VersionedConfig } from 'in-types';
 
 export const defaultAdaptiveBaselineGranularity = 1200000;
 export const fieldNames = Object.freeze({

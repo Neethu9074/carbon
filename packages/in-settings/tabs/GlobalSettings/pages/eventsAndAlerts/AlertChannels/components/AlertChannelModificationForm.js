@@ -3,16 +3,18 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { createMapForm } from 'formalistic';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
 
-import { Button, CarbonMultiSelect, Collapsible, Link, Message, Stack, Typography } from '@instana/components';
+import { Button, Collapsible, Link, Message, Stack, Typography } from '@instana/components';
 import { Pill, Label } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { useObservable } from '@instana/hooks';
 
+import TeamAssociationDropdown, {
+  useTaggedTeamsSelection
+} from 'in-settings/components/Shared/TeamAssociationDropdown/TeamAssociationDropdown';
 import AlertChannelTestButton from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { createAlertChannelTracker, alertChannelCTATrackerSegment } from 'in-settings/tracker';
@@ -20,17 +22,14 @@ import { SETTINGS_ALERT_CHANNEL_CREATE } from 'in-services/tracking/eventNames';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
-import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
-import { pendingResult } from 'in-services/fixedObjects';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import entityForm from 'in-hoc/entityForm';
@@ -53,25 +52,18 @@ function AlertChannelModificationForm(props) {
     listPath,
     setMinHeight = false
   } = props;
-
-  const dataResult = useObservable(getTagsResult, []) ?? pendingResult;
-  const teamsLoading = isLoading(dataResult);
-  const teamsHasErrors = hasError(dataResult);
-  const teamsList = !teamsLoading && !teamsHasErrors ? dataResult.data : [];
   const teamsAssigned = entity.get('rbacTags');
-  const [selectedList, setSelectedList] = useState([]);
-  useEffect(() => {
-    if (rbacTeamsEnabled && !teamsLoading && !teamsHasErrors) {
-      const initialTeamSelected = teamsList.filter(team => team.id === window.instana.user.role.teamId);
-      const teamsSelected =
-        teamsAssigned?.size > 0
-          ? teamsList.filter(item => teamsAssigned.some(team => team.get('id') === item.id))
-          : initialTeamSelected;
-      setForm(form.put('rbacTags', teamsSelected));
-      setSelectedList(teamsSelected);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teamsAssigned, teamsList]);
+  const assignedTeamTags = Array.from(teamsAssigned, team => ({
+    id: team.get('id'),
+    displayName: team.get('displayName')
+  }));
+  const onSelectionChanged = item => {
+    setForm(form.put('rbacTags', item));
+  };
+  const { teamsTagged, teamsLoading, teamsError, teamsSelected } = useTaggedTeamsSelection(
+    assignedTeamTags,
+    onSelectionChanged
+  );
 
   if (!entity || !form) {
     return <LoadingIndicator />;
@@ -99,10 +91,7 @@ function AlertChannelModificationForm(props) {
 
   const alertChannelLabel = fullyQualifiedAlertChannel.label;
   const testAlertChannelLabel = fullyQualifiedAlertChannel.testAlertChannelLabel;
-  const onSelectionChanged = item => {
-    setSelectedList(item);
-    setForm(form.put('rbacTags', item));
-  };
+
   const customSubmit = fullyQualifiedAlertChannel?.customSubmit;
 
   return (
@@ -164,21 +153,16 @@ function AlertChannelModificationForm(props) {
             testAlertChannelLabel={testAlertChannelLabel}
           />
         )}
-        {rbacTeamsEnabled && !fullyQualifiedAlertChannel?.noTeams && (
+        {rbacTeamsEnabled && !fullyQualifiedAlertChannel?.noTeams && !teamsLoading && !teamsError && (
           <>
             <SectionLine />
-            <Typography variant="heading-02" noMargin>
-              {t('in-settings:tabs.accessTitle')}
-            </Typography>
+            <Label htmlFor="teamsSelect">{t('in-settings:tabs.accessDesc')}</Label>
             <Section>
-              <Label htmlFor="teamsSelect">{t('in-settings:tabs.accessDesc')}</Label>
               <div id="teamsSelect" className={locals.teamsSelector}>
-                <CarbonMultiSelect
-                  label={t('in-settings:tabs.chooseTeams')}
-                  onChange={data => onSelectionChanged(data.selectedItems)}
-                  items={teamsList}
-                  selectedItems={selectedList}
-                  itemToString={item => (item ? item.displayName : '')}
+                <TeamAssociationDropdown
+                  assignedTeamTags={teamsSelected}
+                  teamsTagged={teamsTagged}
+                  onTeamsSelectionChanged={onSelectionChanged}
                 />
               </div>
             </Section>

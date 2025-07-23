@@ -1,7 +1,9 @@
 {
   "welcomeToInstana": "Instana へようこそ。",
+  "setUpYourFirstDataSource": "最初のデータ・ソースを設定する",
   "home": "ホーム",
   "getStartedAndInstallYourFirstAgent": "開始して最初のエージェントをインストールします。",
+  "installinOpenTelemetryCollectorOrInstanaAgentToStartCollectingData": "データの収集を開始するには、OpenTelemetryコレクターまたはInstanaエージェントをインストールします。",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "試用版の有効期限が切れました",
     "titleAfterTrialPeriodEnd": "試用期間が終了しました",
@@ -77,6 +79,7 @@
     },
     "common": {
       "agentDeployment": "エージェントのデプロイメント",
+      "dataSources": "データ・ソース",
       "step1": "ステップ 1: ",
       "step2": "ステップ 2: ",
       "step3": "ステップ 3: ",
@@ -97,13 +100,22 @@
       "runtime": "ランタイム",
       "prerequisitesTitle": "前提条件",
       "viewDeployedAgents": "デプロイ済みエージェントの表示",
+      "viewInstalledCollector": "インストールされたコレクターを見る",
       "openAgentDashboardOptional": "オプション: エージェントが正常にデプロイされたら、それをインフラストラクチャー・マップに表示できます。",
+      "openCollectorDashboardOptional": "オプション: コレクターが正常にデプロイされたら、インフラストラクチャー・マップ上でそれを表示できます。",
       "downloadKey": "鍵のダウンロード",
       "support": "サポート",
+      "SupportLinks": "サポート・リンク",
       "sideCard": {
         "prerequisites": "前提条件",
         "documentation": "資料"
-      }
+      },
+      "datasourceCatalogHeader_INSTANA_AGENT": "Instanaエージェントのインストール",
+      "datasourceCatalogHeader_OTEL_COLLECTOR": "OpenTelemetryコレクターのインストール",
+      "openTelemetryCollectors": "OpenTelemetryコレクター",
+      "openTelemetryCollectorsDesciption": "OpenTelemetry コレクターは、アプリケーションからテレメトリー・データを収集してエクスポートするための標準化された方法です。 ネイティブ・エージェントの代替として使用でき、可観測性のための柔軟で拡張が容易なソリューションを提供します。",
+      "instanaAgents": "Instanaエージェント",
+      "instanaAgentsDesciption": "Instanaエージェントは、ホスト、クラウド・サービス、サーバーレス・プラットフォーム、Webサイト、モバイル・アプリケーションなど、さまざまなプラットフォームとサービスからデータを収集します。 これらは別個のプロセスとして実行され、分析と視覚化のためにメトリックをエージェントに送り返すセンサーを自動的にデプロイします。"
     },
     "kubernetes": {
       "kubernetes": {
@@ -355,6 +367,13 @@
         "configurationParameters": "構成パラメーター",
         "troubleshootingInstallation": "インストールのトラブルシューティング",
         "runningTheAgent": "エージェントの実行"
+      },
+      "linux_auto_otel": {
+        "learnMoreAboutInstanaOtelCollector": "Instana OTelコレクターについての詳細はこちら",
+        "gitHubInstanaOtelCollector": "GitHub: instana-otel-collector",
+        "networkRequirements": "ネットワーク要件",
+        "step1SelectTheCollectorPackagingMode": "ステップ1: コレクターのパッケージング・モードを選択します。",
+        "step2RunTheOpenTelemetryDeploymentCode": "ステップ2: OpenTelemetryの配備コードを実行する。"
       },
       "linux_deb_rpm": {
         "configureTheAgent": "ステップ 1: エージェントの構成",
@@ -742,6 +761,12 @@
         "searchPlaceholderLabel": "ダッシュボード",
         "addButtonLabel": "ダッシュボード",
         "viewAllLabel": "ダッシュボード"
+      },
+      "serviceLevelsWidget": {
+        "label": "サービス・レベル目標",
+        "viewAllLabel": "サービス・レベル目標",
+        "addButtonLabel": "サービス・レベル目標",
+        "searchPlaceholderLabel": "サービス・レベル目標"
       }
     },
     "noData": {
@@ -803,6 +828,10 @@
       "dashboardWidget": {
         "header": "カスタム・ダッシュボードがありません",
         "description": "カスタム・ダッシュボードは、お客様にとって重要な情報をよりカスタマイズされた形で表示します。<br><br>開始するには、<strong>「ダッシュボードの作成」</strong>をクリックします。"
+      },
+      "serviceLevelsWidget": {
+        "header": "サービス・レベル目標なし",
+        "description": "サービス・レベル目標は、サービスのパフォーマンス目標を設定および追跡するのに役立ちます。<br><br>開始するには、「<strong>サービス・レベル目標の追加</strong>」をクリックします。"
       }
     },
     "quickLinks": {
@@ -815,7 +844,7 @@
       },
       "buttonNames": {
         "deployAgent": "エージェントのデプロイ",
-        "installDataSource": "データ・ソースをインストールする",
+        "setUpADataSource": "データ・ソースの設定",
         "addUser": "ユーザーの追加",
         "documentation": "IBM 資料",
         "releaseNotes": "リリース情報",
@@ -881,11 +910,6 @@
     "otherGoalPlaceholder": "例えば、自分の環境全体を可視化する",
     "otherGoalToAccomplish": "他に達成しようとしている目標を達成しようとしていますか?"
   },
-  "privacyNotification": {
-    "title": "プロファイルの管理",
-    "description": "プロフィールを表示および更新したり、プライバシー設定を調整したり、ログアウトしたりするなど、すべてを 1 ヶ所で行うことができます。",
-    "buttonText": "完了"
-  },
   "trialNoviceToProDialog": {
     "welcometitle": "ようこそ、{{userName}}さん。",
     "description": "まず、あなたの役割を最もよく表しているものは何ですか？",
@@ -916,5 +940,47 @@
     "roleName": "役割名",
     "yourRole": "お客様の役割",
     "next": "次へ"
+  },
+  "datasources": {
+    "datasources": "データ・ソース",
+    "openTelemetryCollectors": "OpenTelemetryコレクター",
+    "instanaAgents": "Instana エージェント",
+    "installACollector": "コレクターのインストール",
+    "status": {
+      "statusUnknown": "不明",
+      "statusCritical": "クリティカル",
+      "statusWarning": "警告",
+      "statusHealthy": "正常",
+      "statusIssues": "問題"
+    },
+    "health": "正常性",
+    "collectorId": "コレクター ID",
+    "loading": "ロード中...",
+    "loadMore": "さらにロード",
+    "pageHeader": "ページ・ヘッダー",
+    "pageTabs": "ページ・タブ",
+    "content": "内容",
+    "noData": {
+      "instanaAgent": {
+        "emptyState_title": "Instanaエージェントをインストールしてデータの表示を開始します",
+        "emptyState_linktext": "Instanaエージェントについての詳細はこちら",
+        "emptyState_buttontext": "エージェントのインストール",
+        "emptyState_subtitle": "「エージェントのインストール」をクリックして、Instanaエージェントを検索、デプロイ、実行します。 "
+      },
+      "oTelCollector": {
+        "emptyState_title": "OpenTelemetryコレクターをインストールしてデータの表示を開始します",
+        "emptyState_linktext": "Instana oTelコレクターについての詳細はこちら",
+        "emptyState_buttontext": "コレクターのインストール",
+        "emptyState_subtitle": "OpenTelemetryを検索、展開、実行するには、「コレクターのインストール」をクリックします。"
+      }
+    }
+  },
+  "agentViewKpis": {
+    "agents": "agents",
+    "instanaAgents": "Instanaエージェント",
+    "totalReportingAgents": "報告エージェントの合計",
+    "reportingStatus": "{{reporting}} {{datasource}}レポーティング({{nonReporting}}レポーティングしない)",
+    "reporting": "レポート作成",
+    "notReporting": "レポートなし"
   }
 }

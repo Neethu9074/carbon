@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Result, LegacyAlertStats } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, LegacyAlertStats } from 'in-types';
 
 interface GetLegacyAlertConfigStatsRequest {}
 

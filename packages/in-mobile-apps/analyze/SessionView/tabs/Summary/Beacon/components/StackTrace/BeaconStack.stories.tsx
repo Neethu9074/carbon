@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { MobileAppMonitoringBeacon } from '@instana/types';
+
 import BeaconStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/BeaconStack';
-import { MobileAppMonitoringBeacon } from 'in-types';
 
 export default {
   parameters: {

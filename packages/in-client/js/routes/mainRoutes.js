@@ -35,6 +35,7 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 import { internalMonitoringUnit, newOTelPageEnabled } from 'in-services/featureFlags';
 import { accountPageVisible } from 'in-client/js/CarbonUIShell/SettingsMenuItem.tsx';
 import { agentsPath, datasourcePath } from 'in-stores/navigation/paths/mainPaths';
+import collectorRoutes from 'in-infrastructure/CollectorsView/Navigation/routes';
 import linuxkvmhypervisorRoutes from 'in-linuxkvmhypervisor/navigation/routes';
 import windowsHypervisorRoutes from 'in-windowshypervisor/navigation/routes';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
@@ -72,6 +73,7 @@ export default (
   <Switch>
     {hasInfrastructureAccess && infrastructureRoutes}
     {configurationRoutes}
+    {collectorRoutes}
     {role.canConfigureAgents && (
       <Route path={newOTelPageEnabled ? datasourcePath : agentsPath} windowTitle="Instana Agents">
         {renderAsyncRouteChildren(AgentView)}

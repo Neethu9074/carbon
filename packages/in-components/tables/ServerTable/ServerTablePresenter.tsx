@@ -14,7 +14,7 @@ import {
   TableErrorRows,
   Card
 } from '@instana/components';
-import { OrderDirection } from '@instana/types';
+import { OrderDirection, PaginatedResult, Result, ResultPrecision } from '@instana/types';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import { ColumnDefinition, TableProps, TableState } from 'in-components/tables/ServerTable/types';
@@ -22,9 +22,9 @@ import EmptyContent from 'in-components/tables/ServerTable/internalComponents/Em
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { ConfigureButton } from 'in-components/tables/sharedComponents/ConfigurableTh';
 import { carbonSortHandler } from 'in-components/tables/ServerTable/carbonSortHandler';
-import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenter.mless';

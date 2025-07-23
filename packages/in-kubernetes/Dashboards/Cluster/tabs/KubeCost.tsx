@@ -91,7 +91,13 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
               {!isEnterprise && (
                 // @ts-expect-error TS2304: Cannot find name solis
                 // component is loaded from a script in ui-client/packages/in-client/index.html
-                <solis-teaser product="kubecost" type="banner" variation="licensing" sub_variation="enterprise" />
+                <solis-teaser
+                  product="kubecost"
+                  type="banner"
+                  variation="licensing"
+                  sub_variation="enterprise"
+                  banner_expanded="true"
+                />
               )}
               {!isEnterprise && (
                 <>
@@ -112,7 +118,13 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
           {solisEnabled ? (
             // @ts-expect-error TS2304: Cannot find name solis
             // component is loaded from a script in ui-client/packages/in-client/index.html
-            <solis-teaser product="kubecost" type="banner" variation="licensing" sub_variation="free" />
+            <solis-teaser
+              product="kubecost"
+              type="banner"
+              variation="licensing"
+              sub_variation="free"
+              banner_expanded="true"
+            />
           ) : (
             <Banner
               targetProductName="KubeCost"
@@ -134,7 +146,7 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
               }}
             />
           )}
-         <Spacer size="large" />
+          <Spacer size="large" />
           <Li>
             <CenterAlignmentColumn>
               <EntityPageMainNotification

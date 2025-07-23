@@ -18,7 +18,8 @@ import {
   ViolationsInPeriodWebsiteTimeThreshold,
   ViolationsInSequenceInfraTimeThreshold,
   ViolationsInSequenceLogTimeThreshold
-} from 'in-types';
+} from '@instana/types';
+
 import { TimeThresholdType } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';

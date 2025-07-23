@@ -5,10 +5,10 @@
 
 import deepFreeze from 'deep-freeze-strict';
 
+import { PaginatedResult, Result, Error } from '@instana/types';
 import { just } from '@instana/observables';
 
 import { emptyArray, finishedProgress, pendingResult } from 'in-services/fixedObjects';
-import { PaginatedResult, Result, Error } from 'in-types';
 
 export function mapData<IN, OUT>(result: Result<IN>, fn: (data: IN) => OUT): Result<OUT> {
   if (result.data != null) {

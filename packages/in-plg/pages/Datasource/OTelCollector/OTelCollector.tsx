@@ -6,12 +6,13 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { Typography } from '@instana/components';
 import { Button, Stack } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
-import { TimeConfig } from '@instana/types';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import CollectorDashboardLink from 'in-infrastructure/CollectorsView/Dashboard/CollectorDashboardLink';
 import NoDataEmptyState from 'in-plg/components/NoDataEmptyState/NoDataEmptyState';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
@@ -28,7 +29,7 @@ import locals from 'in-plg/pages/Datasource/OTelCollector/OTelCollector.mless';
 
 export interface Collector {
   label?: string;
-  entityHealthInfo?: { maxSeverity: number };
+  entityHealthInfo?: EntityHealthInfo;
   metrics?: Map<string, any>;
   plugin?: string;
   snapshotId: string;
@@ -66,7 +67,7 @@ const OTelCollector = () => {
     {
       id: 'collectorId',
       label: t('in-plg:datasources.collectorId'),
-      getContent: (row: Collector) => <Typography variant="body-compact-01">{row.label}</Typography>
+      getContent: (row: Collector) => <CollectorDashboardLink collector={row} />
     },
     {
       id: 'health',

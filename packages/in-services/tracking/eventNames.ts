@@ -408,7 +408,6 @@ export const AGENT_SUPPORT_INFO_CLICKED = 'agent.support.info.clicked';
 export const AGENT_SUPPORT_DOWNLOAD_CLICKED = 'agent.support.download.clicked';
 export const DOTNET_SUPPORT_CLICKED = 'dotnet.support.clicked';
 
-
 // Potential Problems Marker Lane
 export const POTENTIAL_PROBLEMS_MARKER_HOVERED = 'potential.problems.marker.hovered';
 export const POTENTIAL_PROBLEMS_MARKER_CLICKED = 'potential.problems.marker.clicked';
@@ -659,6 +658,14 @@ export const EVENT_AI_CHAT_APPLICATION = 'event.ai.chat.application';
 export const EVENT_AI_CHAT_INFRASTRUCTURE = 'event.ai.chat.infrastructure';
 export const EVENT_AI_LIBRARY_OPEN = 'event.ai.library.open';
 export const EVENT_AI_LIBRARY_RESPONSE_OPEN = 'event.ai.library.response.open';
+export const EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE = 'event.ai.chat.apievent.result.positive';
+export const EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE = 'event.ai.chat.apievent.result.negative';
+export const EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE = 'event.ai.chat.apichat.result.positive';
+export const EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE = 'event.ai.chat.apichat.result.negative';
+export const EVENT_AI_CHAT_API_ERROR_POSITIVE = 'event.ai.chat.api.error.positive';
+export const EVENT_AI_CHAT_API_ERROR_NEGATIVE = 'event.ai.chat.api.error.negative';
+export const EVENT_AI_CHAT_API_RESULT_POS_NEG_FEEDBACK = 'event.api.chat.api.result.pos.neg.feedback';
+export const EVENT_AI_CHAT_FEEDBACK_MENU_CLICK = 'event.ai.chat.feedback.menu.click';
 
 // Notes and Activity Summary Feedback Tracking
 export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';

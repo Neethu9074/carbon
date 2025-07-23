@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { LogTag } from '@instana/types';
+
 import LogExceptionReadMode from 'in-logging/analyze/AnalyzeView/components/LogExceptionReadMode';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import { LogTag } from 'in-types';
 
 import locals from './LogMessageColumn.mless';
 

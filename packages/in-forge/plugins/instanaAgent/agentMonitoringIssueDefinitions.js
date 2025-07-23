@@ -70,7 +70,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#variable-not-defined`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-datapower#variable-not-defined`
   },
   ibmdatapower_var_invalid_value: {
     issueDescription: {
@@ -86,7 +86,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#variable-has-an-invalid-value`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-datapower#variable-has-an-invalid-value`
   },
   ibmdatapower_connection_error: {
     issueDescription: {
@@ -102,7 +102,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#connection-error`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-datapower#connection-error`
   },
   ibmdatapower_exception_error: {
     issueDescription: {
@@ -115,7 +115,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#other-exception`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-datapower#other-exception`
   },
   agent_process_lookup_prerequisites_failed: {
     issueDescription: {
@@ -146,7 +146,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#missing-configuration`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-integrating-apm-v8#missing-configuration`
   },
   apmproxy_connection_error: {
     issueDescription: {
@@ -159,7 +159,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#connection-error`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-integrating-apm-v8#connection-error`
   },
   apmproxy_exception_error: {
     issueDescription: {
@@ -172,7 +172,16 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#other-exception`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-integrating-apm-v8#other-exception`
+  },
+  agent_jvm_tls_1_3_missing: {
+    issueDescription: {
+      Component: function missingTlsVersion() {
+        return <span>{t('in-forge:plugins.instanaAgent.tlsProtocolMissingIssue')}</span>;
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: 'https://ibm.biz/insta-hostagenttls13missing'
   },
   agent_tls_cert_expired: {
     issueDescription: {
@@ -185,7 +194,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-host-configuration`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=agent-host-configuration`
   },
   agent_tls_cert_about_to_expire: {
     issueDescription: {
@@ -198,16 +207,20 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-host-configuration`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=agent-host-configuration`
   },
-  agent_jvm_tls_1_3_missing: {
+  agent_tmp_directory_missing: {
     issueDescription: {
-      Component: function missingTlsVersion() {
-        return <span>{t('in-forge:plugins.instanaAgent.tlsProtocolMissingIssue')}</span>;
+      Component: function missingTmpDirectory({ tmpDirLocation }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.tmpDirectoryMissingIssue" values={{ tmpDirLocation }} />
+          </span>
+        );
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: 'https://ibm.biz/insta-hostagenttls13missing'
+    explanationLinkHref: `https://ibm.biz/BdvTVF`
   },
   default_agent_port_unavailable: {
     issueDescription: {
@@ -217,6 +230,15 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     explanationLinkHref: 'https://ibm.biz/insta-hostagentcantbind'
+  },
+  pax_url_mvn_leak: {
+    issueDescription: {
+      Component: function paxUrlLeak() {
+        return <span>{t('in-forge:plugins.instanaAgent.paxUrlMemoryLeakIssueDescription')}</span>;
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
+    explanationLinkHref: 'http://ibm.biz/memoryleak-paxURL'
   },
   remote_third_party_api_err: {
     issueDescription: {
@@ -318,19 +340,6 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/int-sdks-apis`
-  },
-  agent_tmp_directory_missing: {
-    issueDescription: {
-      Component: function missingTmpDirectory({ tmpDirLocation }) {
-        return (
-          <span>
-            <Trans i18nKey="in-forge:plugins.instanaAgent.tmpDirectoryMissingIssue" values={{ tmpDirLocation }} />
-          </span>
-        );
-      }
-    },
-    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/BdvTVF`
   },
   solaris_jspawnhelper_executable_issue: {
     issueDescription: {

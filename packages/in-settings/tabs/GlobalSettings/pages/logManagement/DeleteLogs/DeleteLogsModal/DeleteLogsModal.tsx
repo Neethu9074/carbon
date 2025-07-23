@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   CarbonForm,
@@ -23,21 +23,21 @@ import {
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS
 } from 'in-services/tracking/eventNames';
 import {
+  parseLocalDateFromYYYYMMDD,
+  showToast,
+  useShowFinished
+} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/utils';
+import {
   addSecondsIfValidFormat,
   DeleteLogsRequest,
   getDeletionStatus
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
-import {
-  parseLocalDateFromYYYYMMDD,
-  showToast
-} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/utils';
 import { deleteLogsLocalisationStrings as t } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { ModalNotification } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/ModalNotification';
 import useDeleteLogsForm from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/useDeleteLogsForm';
 import { NotificationState } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { formatDate, parseDateTime } from 'in-services/formatters/date';
-import { blockLogDeletionsEnabled } from 'in-services/featureFlags';
 import { deleteLogs } from 'in-logging/api/deleteLogs';
 import TimePicker from 'in-components/form/TimePicker';
 import { activeLocale } from 'in-i18n';
@@ -66,27 +66,7 @@ export function DeleteLogsModal({
   const { canSubmit, setInputValues, inputValues, validationMessages, resetForm, touchForm } = useDeleteLogsForm();
   const { trackCta } = useSegmentTracking();
 
-  const [hasStarted, setHasStarted] = useState(false);
-  const [showFinished, setShowFinished] = useState(false);
-
-  useEffect(() => {
-    if (isDeleting) {
-      setHasStarted(true);
-      setShowFinished(false);
-      return;
-    }
-
-    if (!isDeleting && hasStarted) {
-      setShowFinished(true);
-      const timeout = setTimeout(() => {
-        setShowFinished(false);
-      }, 2000);
-
-      return () => clearTimeout(timeout);
-    }
-
-    return;
-  }, [isDeleting, hasStarted]);
+  const showFinished = useShowFinished(isDeleting, 2000);
 
   const handleSubmit = () => {
     if (!canSubmit || isDeleting) {
@@ -137,8 +117,6 @@ export function DeleteLogsModal({
       showToast(toastType, title, message, 'logsDeleted', icon);
     });
   };
-
-  if (!blockLogDeletionsEnabled) deletionInProgress = false;
 
   const { loadingStatus, loadingDescription } = getDeletionStatus({
     isDeleting,

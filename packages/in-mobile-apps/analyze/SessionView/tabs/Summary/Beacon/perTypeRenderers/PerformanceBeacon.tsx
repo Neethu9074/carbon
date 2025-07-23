@@ -6,6 +6,8 @@
 
 import React, { Fragment, FC } from 'react';
 
+import { MobileAppMonitoringBeacon } from '@instana/types';
+
 // @ts-expect-error Could not find a declaration file for module
 import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BatchIndicator';
 // @ts-expect-error Could not find a declaration file for module
@@ -18,7 +20,6 @@ import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
-import { MobileAppMonitoringBeacon } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './PerformanceBeacon.mless';

@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import { ThresholdOperator } from '@instana/types';
+
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
-import { ThresholdOperator } from 'in-types';
 import { t } from 'in-i18n';
 
 export function getStaticThresholdHigherOrLowerOperatorText(

@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import { PaginatedResult, Result, ActivityServicesQuery, Service } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { PaginatedResult, Result, ActivityServicesQuery, Service } from 'in-types';
 
 interface ActivityServiceItem {
   service: Service;

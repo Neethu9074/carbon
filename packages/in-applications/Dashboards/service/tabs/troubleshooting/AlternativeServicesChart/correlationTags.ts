@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { TagFilterEntity } from 'in-types';
-
+import { TagFilterEntity } from '@instana/types';
 export const availableCorrelationTags: CorrelationTag[] = [
   {
     label: 'HTTP "Host" header',

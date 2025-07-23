@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   SourceMapDownloadConfig,
   SourceMapUploadConfig,
@@ -13,7 +11,9 @@ import {
   IpMaskingConfiguration,
   GeoLocationConfiguration,
   Result
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { compareIgnoreCase } from 'in-services/util/string';
 import http, { Response } from 'in-services/http';

@@ -6,11 +6,12 @@
 
 import React from 'react';
 
+import { Policy, Result } from '@instana/types';
 import { CarbonTag } from '@instana/components';
 
 import { POLICY_TYPE_TRANSLATIONS } from 'in-automation/constants';
 import DashboardHeader from 'in-components/DashboardHeader';
-import { Nullish, Policy, Result } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface PolicyDashboardHeaderProps {

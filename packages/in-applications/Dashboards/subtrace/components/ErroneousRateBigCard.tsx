@@ -6,9 +6,10 @@
 
 import React from 'react';
 
+import { SubtraceUnifiedMetricConfiguration } from '@instana/types';
+
 import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { SubtraceUnifiedMetricConfiguration } from 'in-types';
 import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

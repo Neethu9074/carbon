@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Endpoint, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Endpoint, Result } from 'in-types';
 
 export default createResultSubscriptionFactory<{ id: string }, Result<Endpoint>>({
   eventId: 'getEndpointInfo',

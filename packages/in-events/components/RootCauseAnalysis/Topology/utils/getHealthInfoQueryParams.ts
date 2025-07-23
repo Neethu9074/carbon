@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { TimeConfig } from 'in-types';
-
+import { TimeConfig } from '@instana/types';
 const getHealthInfoQueryParams = (entityType: string, nodeId: string, timeConfig: TimeConfig) => {
   let finalParams: {
     applicationId: string | undefined;

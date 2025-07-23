@@ -334,3 +334,26 @@ export function getTagFilterExpressionValidationMessage(inputValues: InputValues
 
   return null;
 }
+
+export function validateStartWithinRetention(startDate: Date, startTime: string, retentionDays: number): string | null {
+  const retentionLimit = new Date();
+  retentionLimit.setDate(retentionLimit.getDate() - retentionDays);
+  retentionLimit.setHours(0, 0, 0, 0);
+
+  const startDateTime = combineDateAndTime(startDate, startTime);
+
+  if (startDateTime < retentionLimit) {
+    return t('in-settings:tabs.deleteLogs.startDateRetentionValidationMessage', {
+      days: retentionDays
+    });
+  }
+
+  return null;
+}
+
+function combineDateAndTime(date: Date, time: string): Date {
+  const [hours, minutes] = time.split(':').map(Number);
+  const combined = new Date(date);
+  combined.setHours(hours, minutes, 0, 0);
+  return combined;
+}

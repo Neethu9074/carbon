@@ -50,11 +50,6 @@
     padding-top: 1rem;
   }
 
-  .bullet {
-    display: inline-flex;
-    line-height: 20px;
-  }
-
   .aimodellink {
     padding-top: 1rem;
     margin-top: 1rem;

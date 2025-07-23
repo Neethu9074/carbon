@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, BoundaryScope } from '@instana/types';
 import { TagFilter } from '@instana/types/typeDefinitions';
 
-import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, BoundaryScope } from 'in-types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export declare const applicationsList: string;

@@ -19,7 +19,7 @@ import {
   indicatorFormValidator,
   timeWindowValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 
 export default function createSloFormFromPreviousForm(previousForm: SloForm): SloForm {
   const entityType = previousForm.getIn(['entity', 'type']).value;

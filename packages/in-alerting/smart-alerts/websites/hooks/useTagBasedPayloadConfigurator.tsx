@@ -6,11 +6,11 @@
 
 import { ReactNode, useMemo } from 'react';
 
+import { WebsiteBeaconType, Result, TagCatalog } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { createTagBasedWebsitePayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { getWebsiteTagSuggestions } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
-import { WebsiteBeaconType, Result, TagCatalog } from 'in-types';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 
 export default function useTagBasedPayloadConfigurator(beaconType: WebsiteBeaconType, websiteId: string): ReactNode {

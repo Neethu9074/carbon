@@ -7,6 +7,8 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useMemo, useState } from 'react';
 
+import { MobileAppAlertConfig, MobileAppAlertConfigWithMetadata } from '@instana/types';
+
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/mobileApp/TearSheet/AlertConfigTearSheetWithThreshold';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
@@ -29,7 +31,6 @@ import { getHeaderTitle } from 'in-alerting/smart-alerts/mobileApp/data/sharedFu
 import { deriveAlertType } from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { alertChannelPerSeverityMobileAppSaEnabled } from 'in-services/featureFlags';
-import { MobileAppAlertConfig, MobileAppAlertConfigWithMetadata } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';

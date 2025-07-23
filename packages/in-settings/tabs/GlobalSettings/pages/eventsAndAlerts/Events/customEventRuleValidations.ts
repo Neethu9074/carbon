@@ -7,9 +7,8 @@
 import { Field, Item, MapForm, ValidationResult } from 'formalistic';
 import { isEmpty } from 'lodash';
 
+import { AlertingAggregation } from '@instana/types';
 import { t } from '@instana/i18n-react';
-
-import { AlertingAggregation } from 'in-types';
 
 const aggregationsNotAllowedForOneSecondWindow: ReadonlyArray<AlertingAggregation> = Object.freeze([
   'relative_diff',

@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
+import { AdaptiveBaselineSuggestionResponse } from '@instana/types';
+
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
-import { AdaptiveBaselineSuggestionResponse } from 'in-types';
 import { error, success } from 'in-services/util/result';
 
 export default { component: AdaptiveBaselineErrorMessage };

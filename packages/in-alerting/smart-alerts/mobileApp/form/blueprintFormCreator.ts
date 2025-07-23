@@ -6,7 +6,7 @@
 
 import { Field, MapForm } from 'formalistic';
 
-import { MobileAppTimeThresholdUnion } from '@instana/types';
+import { MobileAppTimeThresholdUnion, MobileAppAlertRule } from '@instana/types';
 
 // @ts-expect-error file will need to be converted to typescript
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
@@ -22,7 +22,6 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { createRuleWithThreshold } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
-import { MobileAppAlertRule } from 'in-types';
 
 type AlertThreshold = {
   operator?: string;

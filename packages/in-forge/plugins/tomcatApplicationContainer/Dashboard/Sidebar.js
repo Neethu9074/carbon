@@ -56,16 +56,22 @@ export default function TomcatSidebar({ snapshot }) {
           <Collapsible.Header>{t('in-forge:plugins.tomcatAppContainer.titleConnectors')}</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-              {connectors.toArray().map((data, i) => (
-                <Fragment key={i}>
+              {connectors.entrySeq().map(([key, data], i) => (
+                <Fragment key={key}>
+                  <DescriptionItem title={t('in-forge:plugins.tomcatAppContainer.titleName')} addSeparator>
+                    {key}
+                  </DescriptionItem>
                   <DescriptionItem title={t('in-forge:plugins.tomcatAppContainer.titlePort')} addSeparator>
                     {data.get('port')}
+                  </DescriptionItem>
+                  <DescriptionItem title={t('in-forge:plugins.tomcatAppContainer.titleThreadType')} addSeparator>
+                    {data.get('threadtype')}
                   </DescriptionItem>
                   <DescriptionItem title={t('in-forge:plugins.tomcatAppContainer.titleExecutor')}>
                     {data.get('executor')}
                   </DescriptionItem>
                   <DescriptionItem title={t('in-forge:plugins.tomcatAppContainer.titleMaxThreads')}>
-                    {data.getIn(['threads', 'max'])}
+                    {data.getIn(['threads', 'max']) !== -1 ? data.getIn(['threads', 'max']) : null}
                   </DescriptionItem>
                   <DescriptionItem title={t('in-forge:plugins.tomcatAppContainer.titleMaxConnections')}>
                     {data.getIn(['connections', 'max'])}

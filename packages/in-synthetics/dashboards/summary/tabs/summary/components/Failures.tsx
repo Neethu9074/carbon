@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { TimeShift } from '@instana/types';
+
 import { locationIdTagName, runTypeTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -14,7 +16,6 @@ import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
 import { chartColors } from 'in-themes/chartColors';
-import { TimeShift } from 'in-types';
 import { t } from 'in-i18n';
 
 type Props = {

@@ -176,7 +176,8 @@
       "warning": "Aviso"
     },
     "placeholder": {
-      "severity": "gravedad"
+      "severity": "gravedad",
+      "entityLabel": "entity.label"
     },
     "applications": {
       "alertConfiguration": "Configuración de alertas",
@@ -786,6 +787,7 @@
       "ruleStatusCodeValueOption510": "510 (No ampliado)",
       "ruleStatusCodeValueOption511": "511 (Autenticación de red necesaria)",
       "ruleStatusCodeValueOption599": "599 (Error de tiempo de espera de conexión de red)",
+      "ruleStatusCodeValueOptionNone": "Sin estado (Cliente cancelado / fallido)",
       "warningThresholdValidator": "El umbral de aviso debe ser mayor que el umbral crítico para los operadores < y < =.",
       "criticalThresholdValidator": "El umbral crítico debe ser mayor que el umbral de aviso para los operadores > y >=.",
       "sensitivityValidator": "La sensibilidad crítica debe ser menor que la sensibilidad de aviso."
@@ -796,7 +798,6 @@
         "proceedTitle": "Continuar",
         "previousTitle": "Anterior",
         "nextTitle": "Siguiente",
-        "closeTitle": "Cerrar",
         "sharedListTooltip": "{{typeName}} ya no está disponible",
         "clearTagFilterExpressionButton": "Borrar",
         "baselineErrorMessageComputedOnApproximateData": "La línea base se calcula en función de datos aproximados debido a los valores de retención de datos. Por lo tanto, es posible que no sea precisa en el caso de que haya pocas llamadas que coincidan con los filtros seleccionados.",
@@ -929,6 +930,13 @@
         "sensitivitySliderValueLabel_2": "{{count}} desviaciones estándar",
         "labelThreshold": "Umbral",
         "multiThresholdAlertNotificationInfo": "La entrada de uno u otro valor de umbral activa una notificación de alerta.",
+        "advancedSettingsTrayTitle": "Valores avanzados",
+        "seasonality": "Estacionalidad",
+        "seasonalityAuto": "Automático",
+        "seasonalityNone": "Ninguna",
+        "seasonalityDaily": "Diariamente",
+        "seasonalityWeekly": "Semanalmente",
+        "adaptability": "Adaptabilidad",
         "warningThresholdLabel": "Aviso",
         "criticalThresholdLabel": "Crítico",
         "labelSensitivity": "Confidencialidad",
@@ -1002,8 +1010,10 @@
         "summary": "Cerrar automáticamente un problema cuando deje de cumplirse el umbral de infracción para"
       },
       "tearSheet": {
-        "cancelModalTitle": "¿Está seguro de que desea cancelar?",
-        "cancelModalDescription": "Si cancela, no se guardarán los datos de configuración que haya introducido.",
+        "cancelModalTitle": "Confirmar cancelación",
+        "continueEditingTitle": "Continuar con la edición",
+        "cancelEditingTitle": "Cancelar configuración de alerta inteligente",
+        "cancelModalDescription": "¿Seguro que desea cancelar la edición de esta configuración de alerta inteligente? Si continúa, se perderá toda la información que haya especificado. Esta acción no se puede deshacer.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Cuando las infracciones persisten en el tiempo",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Las infracciones persisten a intervalos aleatorios",
@@ -1083,7 +1093,6 @@
         "customEventBlueprintConfigHeadline": "Alertas automáticas para sucesos personalizados",
         "customEventBlueprintConfigText": "Reciba una alerta cada vez que un evento personalizado específico se produzca con mayor o menor frecuencia de lo que debería.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Seleccione un suceso personalizado para ver cuándo se desencadena esta alerta",
-        "customEventBlueprintConfigMetricLabel": "Apariciones",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Bajo número de cargas de página",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Alertas automáticas para un número de cargas de página anormalmente bajo",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Reciba una alerta cuando el número de cargas de página sea significativamente menor de lo esperado, en comparación con los datos anteriores disponibles.",
@@ -1364,7 +1373,6 @@
         "statusCodeCount": "Recuento de códigos de estado",
         "beaconRate": "Tasa de códigos de estado",
         "views": "Vistas",
-        "customEventBlueprintConfigMetricLabel": "Apariciones",
         "sessions": "Sesiones",
         "crashAffectedSessionRate": "Tasa de sesiones afectadas por bloqueo",
         "crashFreeSessionRate": "Tasa de sesiones sin bloqueo",
@@ -1533,6 +1541,11 @@
       }
     },
     "eum": {
+      "data": {
+        "customMetric": "Métrica personalizada",
+        "customDuration": "Duración",
+        "customOccurrences": "Apariciones"
+      },
       "slowness": {
         "blueprintConfigName": "Lentitud",
         "httpLatencyMetricLabel": "Latencia de HTTP"
@@ -1560,6 +1573,7 @@
         "JSErrors": "Error(es) JS: {{errorMessage}}",
         "customEvents": "Suceso personalizado: {{customEventName}}",
         "HTTPStatusCodes": "Códigos de estado de HTTP: {{statusCode}}",
+        "HTTPStatusCodeNone": "Sin estado",
         "unsupportedAlertType": "Tipo de alerta no soportado: {{alertType}}",
         "JSErrorsHaveBeenDetected": "Se han detectado errores de JS.",
         "unsupportedOperator": "Operador no soportado: {{operator}}",
@@ -1915,7 +1929,7 @@
         "burnRateAlertTypeLabel_MULTI_WINDOW": "Ventana de alerta larga y corta",
         "blueprintDescription_STATUS": "Recibir una alerta cuando el estado de SLO esté por debajo de un umbral.",
         "blueprintDescription_BURNED_PERCENTAGE": "Recibir una alerta cuando se consume un porcentaje del presupuesto de errores.",
-        "blueprintDescription_BURN_RATE_V2": "La tasa de consumo es un valor que indica la rapidez con la que se consume el presupuesto de errores en relación con la longitud objetivo de su SLO. ",
+        "blueprintDescription_BURN_RATE_V2": "La tasa de consumo indica la rapidez con la que se consume su presupuesto de errores en relación con la duración objetivo de su SLO. Se calcula utilizando la siguiente fórmula: Tasa de consumo = (presupuesto de errores consumido * ventana de tiempo del SLO) / ventana de alerta.",
         "burnRateShortWindowTitle": "Ventana de alerta corta",
         "burnRateShortWindowDescription": "Se activarán alertas cuando la tasa de errores supere el umbral más rápidamente durante un periodo más corto. Esto puede ayudar a capturar un repentino pico de errores o tiempo de inactividad debido a un fallo crítico.",
         "burnRateDescription": "Avísame cuando la tasa de consumo sea <1/> <2/>",

@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
+import React from 'react';
 
-import { TimeConfig } from '@instana/types';
+import type { TimeConfig } from '@instana/types';
 
 import LocalTimeConfigContextModification from 'in-stores/time/LocalTimeConfigContextModification';
 import { days } from 'in-services/time/time';

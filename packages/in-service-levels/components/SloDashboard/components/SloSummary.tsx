@@ -20,10 +20,10 @@ import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import type { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
-import { Nullish } from 'in-types';
+import type { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './SloSummary.mless';

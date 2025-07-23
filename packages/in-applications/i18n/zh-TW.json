@@ -257,7 +257,7 @@
     "endpoints": "端點",
     "types": "類型",
     "technologies": "技術",
-    "NumberOfSubCalls": "Nr. 子呼叫數",
+    "NumberOfSubCalls": "子呼叫數目",
     "httpStatusCode": "HTTP 狀態",
     "hiddenCalls": "隱藏呼叫",
     "fastQueryMode": "快速查詢模式",
@@ -725,6 +725,7 @@
     "traces_latency": "延遲",
     "traces_erroneousCalls": "錯誤追蹤",
     "traces_errors": "錯誤追蹤率",
+    "subtraces_latency": "持續時間",
     "subtraces_subtraceDuration": "持續時間"
   },
   "viewLists": {
@@ -789,5 +790,7 @@
   },
   "labelSyntheticMonitoring": "綜合監視",
   "labelServiceLevels": "服務水準",
-  "labelResourceOptimizations": "最佳化"
+  "labelResourceOptimizations": "最佳化",
+  "titleResourceOverutilization": "過度使用的資源（CPU 使用率超過 {{thresholdUpperLimit}}%）",
+  "titleResourceUnderutilization": "資源利用不足（{{thresholdLowerLimit}}% CPU 用量）"
 }

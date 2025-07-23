@@ -7,10 +7,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
+import { AccessRuleRelationType, AccessType } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import EditTeamsDialog from 'in-custom-dashboards/CustomDashboard/EditTeamsDialog/EditTeamsDialog';
-import { AccessRuleRelationType, AccessType } from 'in-types';
 import { t } from 'in-i18n';
 
 const testTeamsResult = {
@@ -106,7 +106,7 @@ describe('EditTeamsDialog', () => {
   });
   it('renders the drop down', () => {
     render(testComponent);
-    const dropdown = screen.getByText(t('in-custom-dashboards:customDashboard.editTeamsDialog.chooseTeams'));
+    const dropdown = screen.getByText(t('in-settings:tabs.accessTitle'));
     expect(dropdown).toBeInTheDocument();
   });
   it('renders the correct teams when drop down is expanded', async () => {

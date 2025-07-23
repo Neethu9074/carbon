@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ConfigVersion, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -18,7 +19,6 @@ import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { ConfigVersion, Result } from 'in-types';
 import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 

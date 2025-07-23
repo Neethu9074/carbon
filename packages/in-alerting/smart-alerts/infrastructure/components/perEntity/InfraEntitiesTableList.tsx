@@ -6,6 +6,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { InfrastructureExploreItem, Order, Result, TimeConfig } from '@instana/types';
+
 //@ts-expect-error TS migration needed
 import { setDefaultEntity } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import {
@@ -14,7 +16,6 @@ import {
 } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { getColumnDefinition } from 'in-alerting/smart-alerts/infrastructure/components/perEntity/getColumnDefinition';
 import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
-import { InfrastructureExploreItem, Order, Result, TimeConfig } from 'in-types';
 import { getGranularity } from 'in-infrastructure/Explore/services/metrics';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { State } from 'in-hooks/useCursorPagination';

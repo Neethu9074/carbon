@@ -95,7 +95,7 @@ export const QuickLinks = () => {
           buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.documentation')}
           onClick={() => {
             trackCta(WELCOME_PAGE_IBM_DOCUMENTATION_CLICK, getPageType(location.pathname));
-            window.open('https://www.ibm.com/docs/en/obi/current', '_blank', 'noreferrer');
+            window.open('https://www.ibm.com/docs/en/instana-observability/latest', '_blank', 'noreferrer');
           }}
         />
         {releaseNotesEnabled && (

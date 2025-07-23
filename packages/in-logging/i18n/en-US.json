@@ -88,7 +88,6 @@
       "patternRecognitionSet": {
         "gotIt": "Got it",
         "cancel": "Cancel",
-        "gettingStarted": "Getting Started",
         "howDoesItWorks": "How does this work?",
         "firstDescription_0": "Log pattern recognition trains an AI algorithm to discover recurrent patterns in your logs. By analyzing high volumes of logs, it is able to recognize variable and static portions of the logs and discover patterns in them. \n\n The AI algorithm only relies on your log messages and does not share them with other client's logs. This ensures the privacy and security of your data.",
         "howWillHelpMe": "How will it help me?",
@@ -96,8 +95,20 @@
         "learnMore": "Learn more",
         "popHoverSecondDescription": "By analyzing high volumes of logs, it is able to recognize variable and static portions of the logs and discover patterns in them.\n\nThe AI algorithm only relies on your log messages and does not share them with other client's logs. This ensures the privacy and security of your data",
         "hotItWorks": "How it works",
-        "popHoverFirstDescription": "Log pattern recognition trains an AI algorithm to discover recurrent patterns in your logs. ",
-        "aiExpained": "AI explained"
+        "popHoverFirstDescription":"Log pattern recognition trains an AI algorithm to discover recurrent patterns in your logs. ",
+        "aiExpained": "AI explained",
+        "currentPatterns": "Current patterns",
+        "total": "Total",
+        "discoveredPatterns": "Discovered patterns",
+        "tableDescription": "Manage the patterns used when filtering and grouping.",
+        "id": "ID",
+        "name": "Name",
+        "patternsSample": "Patterns sample",
+        "state": "State",
+        "noLogsDiscovered": "No log patterns discovered yet",
+        "noLogsDiscoveredDescription": "Log pattern recognition is still in progress. Due to the large volume of data, results may take longer to appear. Please check back later.",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
       }
     }
   }

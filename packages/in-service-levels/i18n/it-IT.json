@@ -1,7 +1,14 @@
 {
   "general": {
+    "errorEmptyListStateTitle": "Si è verificato un problema",
+    "errorEmptyListStateSubtitle": "Si è verificato un errore non previsto. Aggiornare la pagina o riprovare successivamente.",
+    "errorEmptyListStateIllustrationDescription": "Non ci sono dati disponibili",
+    "noDataEmptyListStateTitle": "Nessun risultato trovato",
+    "noDataEmptyListStateSubtitle": "Provare a correggere la ricerca in modo da trovare quello che si sta cercando.",
+    "noDataEmptyListStateIllustrationDescription": "Non ci sono dati disponibili",
     "addButtonLabel": "Aggiungi",
     "addButtonLabel_slo": "Aggiungi obiettivo del livello di servizio",
+    "addButtonLabel_correctionWindow": "Aggiungi finestra di correzione",
     "addButtonLabel_smartAlert": "Aggiungi avviso smart",
     "aggregation": "Aggregazione",
     "availability": "Disponibilità",
@@ -11,11 +18,16 @@
     "custom": "Personalizzato",
     "duration": "Durata",
     "from": "Da",
+    "all": "Tutti",
+    "createButtonLabel": "Crea",
     "saveButtonLabel": "Salva",
     "cancelButtonLabel": "Annulla",
     "editButtonLabel": "Modifica",
     "copyButtonLabel": "Copia",
+    "nextButtonLabel": "Successivo",
+    "backButtonLabel": "Indietro",
     "deleteButtonLabel": "Elimina",
+    "nameCopyTemplate": "Copia di {{name}}",
     "select": "Seleziona $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "Non è stata operata alcuna selezione",
     "loadMore": "Carica altro",
@@ -78,6 +90,7 @@
     "type": "Immettere",
     "selectLabel": "Selezione: {{selectedLabel}}",
     "serviceLevelObjective": "Obiettivo di livello di servizio (SLO)",
+    "timePickerDisabledTooltip": "I dati mostrati su questa pagina riflettono sempre la finestra temporale SLO più recente per ciascun SLO.",
     "timeWindow": {
       "type": "sconosciuto",
       "type_fixed": "Fisso",
@@ -108,6 +121,12 @@
       "size_day_1": "{{count}} giorno",
       "size_day_2": "{{count}} giorni"
     },
+    "filtering": {
+      "clearFilters": "Cancella filtri",
+      "filterLabel": "Filtro",
+      "clearLabel": "Cancella",
+      "filterClose": "Chiudi"
+    },
     "metrics": {
       "status": "Stato",
       "remainingBudget": "Rimanente",
@@ -124,7 +143,51 @@
       "goodEvents": "Eventi positivi",
       "badEvents": "Eventi negativi",
       "erroneousCalls": "Chiamate con errori",
-      "beaconErrorCount": "Conteggio degli errori del beacon"
+      "beaconErrorCount": "Conteggio degli errori del beacon",
+      "correctionWindows": "Finestre di correzione"
+    },
+    "frequency": {
+      "label": "Sconosciuto",
+      "label_0": "Ogni anno",
+      "label_1": "Mensile",
+      "label_2": "Settimanale",
+      "label_3": "Giornaliero",
+      "label_ONE_TIME": "Solo una volta"
+    },
+    "durationUnit": {
+      "label_minute": "Minuti",
+      "label_hour": "Ore",
+      "label_day": "Giorni"
+    },
+    "daysOfTheWeek": {
+      "label_0": "Lunedì",
+      "label_1": "Martedì",
+      "label_2": "Mercoledì",
+      "label_3": "Giovedì",
+      "label_4": "Venerdì",
+      "label_5": "Sabato",
+      "label_6": "Domenica"
+    },
+    "dayInterval": {
+      "label_1": "Primo",
+      "label_2": "Secondo",
+      "label_3": "Terzo",
+      "label_4": "Quarto",
+      "label_-1": "Ultimo"
+    },
+    "month": {
+      "label_1": "Gennaio",
+      "label_2": "Febbraio",
+      "label_3": "Marzo",
+      "label_4": "Aprile",
+      "label_5": "Maggio",
+      "label_6": "Giugno",
+      "label_7": "Luglio",
+      "label_8": "Agosto",
+      "label_9": "Settembre",
+      "label_10": "Ottobre",
+      "label_11": "Novembre",
+      "label_12": "Dicembre"
     },
     "format": {
       "unit_application": "chiamata",
@@ -202,7 +265,6 @@
     "nameAndTagsTitle": "Imposta dettagli",
     "sloNameLabel": "Nome SLO",
     "sloNamePlaceholder": "Immettere il nome",
-    "sloNameCopyTemplate": "Copia di {{name}}",
     "tagsLabel": "Tag (facoltativo)",
     "messages": {
       "creationSuccessfulTitle": "La configurazione SLO è stata creata correttamente",
@@ -244,6 +306,15 @@
     }
   },
   "sloChart": {
+    "correctionWindowsLane": {
+      "correctionWindows": "Finestre di correzione",
+      "correctionWindow": "finestra di correzione",
+      "correctionWindow_plural": "finestre di correzione",
+      "correctionWindow_0": "finestre di correzione",
+      "correctionWindow_1": "finestra di correzione",
+      "correctionWindow_2": "finestre di correzione",
+      "tootltipMessage": "+{{count}} more $t(in-service-levels:sloChart.correctionWindowsLane.correctionWindow, {\"count\": \"{{count}}\"})"
+    },
     "sloFormatter": {
       "thousandCallsFormat": "$tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}}, \"formattato\":{{formattedCount}}\" })",
       "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}\" })"
@@ -277,9 +348,6 @@
     "components": {
       "sloListTable": {
         "serviceLevelsCreateButton": "Creare un obiettivo di livello di servizio",
-        "filterLabel": "Filtro",
-        "clearLabel": "Cancella",
-        "filterClose": "Chiudi",
         "sloListErrorTitle": "Si è verificato un problema",
         "sloListErrorDescription": "Si è verificato un errore non previsto. Aggiornare la pagina o riprovare successivamente.",
         "emptyListStateTitle": "Nessun risultato trovato",
@@ -297,13 +365,9 @@
         "endpoint": "Endpoint: {{label}}",
         "tooltip": "SLO {{context}}"
       },
-      "statusFilter": {
-        "sloStatusAll": "Tutti"
-      },
       "sloTagFilter": {
         "placeholder": "Seleziona tag",
         "noTagsInfo": "Nessun tag disponibile",
-        "clearFilters": "Cancella filtri",
         "filters": "Filtro sconosciuto",
         "filters_entityType": "Tipo di entità: $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{value}}\"})",
         "filters_blueprint": "Blueprint: $t(in-service-levels:general.indicator.blueprint, {\"context\":\"{{value}}\"})",
@@ -338,7 +402,16 @@
   "hooks": {
     "useDoDeleteSloConfiguration": {
       "success": "La configurazione SLO è stata eliminata correttamente.",
-      "failure": "Impossibile eliminare lo SLO"
+      "failure": "Non è stato possibile eliminare lo SLO."
+    },
+    "useDoDeleteCorrectionConfiguration": {
+      "success": "La finestra di correzione è stata eliminata con successo.",
+      "failure": "Impossibile eliminare la finestra di correzione."
+    },
+    "useToggleCorrectionConfiguration": {
+      "success_enabled": "La finestra di correzione \"{{name}}\" è stata abilitata con successo.",
+      "success_disabled": "La finestra di correzione \"{{name}}\" è stata disabilitata con successo.",
+      "failure": "Impossibile attivare la finestra di correzione"
     }
   },
   "sloDashboard": {
@@ -348,7 +421,8 @@
     "tabs": {
       "summaryLabel": "Riepilogo",
       "configurationLabel": "Configurazione",
-      "smartAlertsLabel": "Avvisi smart"
+      "smartAlertsLabel": "Avvisi smart",
+      "correctionWindowsLabel": "Finestre di correzione"
     },
     "timeWindowSelection": {
       "timeWindow": "Selezione sconosciuta",
@@ -368,7 +442,7 @@
         "totalTraffic": "Totale: {{value}}"
       },
       "burnRateKpiCard": {
-        "burnRateInfo": "Tasso di consumo superiore alla finestra temporale slo selezionata"
+        "burnRateInfo": "Tasso di consumo nella finestra temporale SLO selezionata"
       },
       "errorBudgetChart": {
         "title": "Budget di errore"
@@ -438,5 +512,89 @@
         "startTimeLabel": "Ora di inizio"
       }
     }
+  },
+  "correctionWindowsList": {
+    "createButtonLabel": "Crea finestra di correzione",
+    "enabled": "Abilitato",
+    "disabled": "Disabilitato",
+    "recurrent": "Ricorrente",
+    "oneTime": "Una sola volta",
+    "slosAppliedSubtitle": "{{count}} SLO applicato",
+    "slosAppliedSubtitle_plural": "{{count}} SLO applicati",
+    "columnLabels": {
+      "name": "Nome",
+      "recurrence": "Ricorrenza",
+      "nextOccurrence": "Data e ora di inizio successiva",
+      "duration": "Durata",
+      "state": "Stato",
+      "stateTooltip": "Le finestre di correzione attive applicano un calcolo di correzione. Questo non modifica la raccolta dei dati."
+    },
+    "schedule": "Pianifica",
+    "description": "Descrizione",
+    "slosApplied": "SLO applicati ({{count}})",
+    "searchSlosApplied": "Obiettivi del livello di servizio della ricerca",
+    "searchCorrectionWindows": "Finestre di correzione della ricerca"
+  },
+  "configureCorrectionWindowDialog": {
+    "validators": {
+      "daysOfTheWeek": "È necessario selezionare almeno un giorno.",
+      "startAndEndDate": "La data di fine deve essere successiva alla data di inizio."
+    },
+    "components": {
+      "scopeSection": {
+        "title": "Definizione dell'ambito",
+        "secondaryLabel": "Facoltativo",
+        "subtitle": "A quale/i obiettivo/i del livello di servizio deve essere applicata questa finestra?"
+      },
+      "scheduleSection": {
+        "title": "Finestra di programmazione",
+        "subtitle": "Quando dovrebbe aver luogo la finestra di correzione?",
+        "stepDescription": "Le finestre di correzione sono programmate per correggere gli errori e prevenire l'utilizzo del budget per gli errori. Qualsiasi avviso durante questo periodo sarà disattivato.",
+        "startDate": "Data di inizio",
+        "frequency": "Ricorrenza della finestra di correzione",
+        "allDay": "Tutto il giorno",
+        "startTime": "Ora di inizio",
+        "windowDuration": "Durata della finestra",
+        "correctionWindowName": "Nome della finestra di correzione",
+        "name": "Nome",
+        "description": "Descrizione",
+        "recurrenceOptions": "Opzioni di ricorrenza",
+        "repeatUntil": "Ripeti fino a",
+        "endDate": "Data di fine",
+        "numberOfOccurrences": "Numero di ricorrenze",
+        "forever": "Per sempre",
+        "occurrences": "Ricorrenze",
+        "month": "Mese",
+        "select": "Seleziona",
+        "date": "Data",
+        "byDate": "Per data",
+        "byDay": "Per giorno",
+        "repeatEvery": "Ripeti ogni",
+        "repeatOnEvery": "Ripeti ogni",
+        "days": "Giorni",
+        "weeks": "Settimane",
+        "day": "Giorno",
+        "ofTheMonth": "del mese",
+        "daysOfTheWeek": "Giorni della settimana"
+      }
+    },
+    "title": {
+      "create": "Crea finestra di correzione",
+      "edit": "Modifica finestra di correzione"
+    },
+    "messages": {
+      "successfulTitle_NEW": "La finestra di correzione è stata creata con successo",
+      "successfulContent_NEW": "La finestra di correzione \"{{name}}\" è stata creata.",
+      "successfulTitle_CLONE": "$t(in-service-levels:configureCorrectionWindowDialog.messages.successfulTitle, {\"context\":\"NEW\"})",
+      "successfulContent_CLONE": "$t(in-service-levels:configureCorrectionWindowDialog.messages.successfulContent, {\"context\":\"NEW\", \"name\":\"{{name}}\"})",
+      "successfulTitle_EDIT": "La finestra di correzione è stata modificata con successo",
+      "successfulContent_EDIT": "La finestra di correzione \"{{name}}\" è stata modificata."
+    }
+  },
+  "sloListSelection": {
+    "filters": "Sconosciuto",
+    "filters_entityType": "Tipo di entità: $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "entityType": "Tipo di entità",
+    "searchSlos": "Obiettivi del livello di servizio della ricerca"
   }
 }

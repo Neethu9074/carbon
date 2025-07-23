@@ -6,12 +6,12 @@
 import React, { MutableRefObject } from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { OverlayContentProps, OverlayMounterContentProps } from 'in-components/overlays/Overlay/types';
 import { MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { clearActiveTooltip } from 'in-components/Tooltip/store';
 import Overlay from 'in-components/overlays/Overlay';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './LaneIcon.mless';
@@ -72,6 +72,7 @@ export default function LaneIcon<EventType extends MarkerLaneEvent>({
             }
             aria-label={t('in-components:chart.chartMarkerLane.openList')}
             aria-haspopup="true"
+            aria-hidden={false}
             aria-expanded={isOpen}
             type={showIconForCluster ? iconConfig.typeCluster : iconConfig?.type}
             color={iconConfig?.color}

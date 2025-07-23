@@ -12,7 +12,8 @@ import {
   SmartAlertThresholdRuleUnion,
   StaticThresholdRule,
   StaticBaselineThresholdRule
-} from 'in-types';
+} from '@instana/types';
+
 import createThresholdForm, {
   AdaptabilityBaselineThreshold,
   defaultDeviationFactor

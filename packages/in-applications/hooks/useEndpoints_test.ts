@@ -5,12 +5,12 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
+import { GetEndpointsQuery, TimeConfig } from '@instana/types';
 import { useObservable as uO } from '@instana/hooks';
 
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import useEndpoints from 'in-applications/hooks/useEndpoints';
 import gE from 'in-applications/subscriptions/getEndpoints';
-import { GetEndpointsQuery, TimeConfig } from 'in-types';
 import uTC from 'in-hooks/useTimeConfig';
 
 jest.mock('in-hooks/useTimeConfig', () => ({

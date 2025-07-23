@@ -10,6 +10,7 @@ import React, { useContext, useMemo } from 'react';
 import { get } from 'lodash';
 
 import { Collapsible, Typography } from '@instana/components';
+import { Endpoint, Event } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import RootCauseContextDashboard from 'in-events/components/RootCauseAnalysis/Logs/RootCauseContextDashboard';
@@ -22,7 +23,6 @@ import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { Endpoint, Event } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
@@ -125,8 +125,8 @@ function getContainerId(entityData: SnapshotData) {
   return plugin === 'process'
     ? get(entityData, 'data.container', undefined)
     : isContainer(plugin)
-    ? get(entityData, 'data.id')
-    : undefined;
+      ? get(entityData, 'data.id')
+      : undefined;
 }
 
 function getProcessId(entityData: SnapshotData) {

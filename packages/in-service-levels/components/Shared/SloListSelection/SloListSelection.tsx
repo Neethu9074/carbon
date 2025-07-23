@@ -5,16 +5,17 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Field, Item } from 'formalistic';
+import type { Field, Item } from 'formalistic';
 
 import { HorizontalIndicator, Typography, ValidationBlock } from '@instana/components';
-import { Progress } from '@instana/components/types/util/dataRetrieval';
-import { PaginatedResult, SloEntityType } from '@instana/types';
+import type { Progress } from '@instana/components/types/util/dataRetrieval';
+import type { PaginatedResult, SloEntityType } from '@instana/types';
 import { Search } from '@instana/carbon';
 
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
-import usePaginatedSloList, { SloData } from 'in-service-levels/hooks/usePaginatedSloList';
+import usePaginatedSloList from 'in-service-levels/hooks/usePaginatedSloList';
+import type { SloData } from 'in-service-levels/hooks/usePaginatedSloList';
 import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 import Sections from 'in-components/workspace/Sections/Sections';
 import { removeAmbiguous } from 'in-service-levels/utils/array';

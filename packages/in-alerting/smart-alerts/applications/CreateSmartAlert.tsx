@@ -16,19 +16,13 @@ import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/component
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { Location } from 'in-stores/navigation/types';
-import { t } from 'in-i18n';
 
-interface CreateSmartAlertProps extends Partial<GenerateAlertConfigProps> {
-  location: Location;
-  defaultBoundaryScope?: string;
-}
 interface GenerateAlertConfigProps {
   applicationId: string;
   serviceId?: string;
@@ -36,63 +30,6 @@ interface GenerateAlertConfigProps {
   boundaryScope?: string;
   includeSynthetic?: boolean;
   renderAsFloatingButton?: boolean;
-}
-
-export default function CreateSmartAlert({
-  applicationId,
-  boundaryScope: urlBoundaryScope,
-  defaultBoundaryScope,
-  includeSynthetic,
-  serviceId,
-  endpointId,
-  location
-}: CreateSmartAlertProps) {
-  const createSmartAlertPath = useGetSmartAlertPath({
-    isGlobal: false,
-    boundaryScope: urlBoundaryScope,
-    defaultBoundaryScope: defaultBoundaryScope,
-    applicationId: applicationId,
-    serviceId: serviceId,
-    endpointId: endpointId
-  });
-
-  if (!applicationId || !createSmartAlertPath) {
-    return null;
-  }
-
-  const openOldDialog = () => {
-    addActiveDialog(
-      <AlertConfigDialog
-        alertConfig={generateAlertConfig({
-          boundaryScope: urlBoundaryScope || defaultBoundaryScope,
-          applicationId,
-          serviceId,
-          endpointId,
-          includeSynthetic
-        })}
-        onClose={() => {
-          close();
-
-          if (location.pathname.includes(alertsTabListFullyQualified)) {
-            refreshSmartAlertConfigsList();
-          }
-        }}
-        startWithSimpleMode
-      />
-    );
-  };
-
-  return (
-    <FloatingActionButtons>
-      <CarbonTableCreateButton
-        openOldDialog={openOldDialog}
-        createSmartAlertPath={createSmartAlertPath}
-        buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
-        isGlobal={false}
-        renderAsSimpleButton
-      />
-    </FloatingActionButtons>
-  );
 }
 
 export function useGetSmartAlertPath({

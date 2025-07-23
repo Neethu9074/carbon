@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig, TimeShift } from '@instana/types';
+
 import { fixateTimeConfig, FixedTimeConfig } from 'in-stores/time/config';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 import { formatDuration } from 'in-services/formatters/date';
-import { Nullish, TimeConfig, TimeShift } from 'in-types';
 import { days, hours } from 'in-services/time';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export type TimeShiftOffset = number | 'auto';

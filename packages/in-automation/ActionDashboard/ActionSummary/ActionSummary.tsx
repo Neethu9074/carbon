@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { CarbonStack, Spacer } from '@instana/components';
+import { Action } from '@instana/types';
 
 import { averageExecutionTimeRefresh } from 'in-automation/ActionDashboard/ActionSummary/useActionAverageExecutionTime';
 import { numberOfRunDataRefresh } from 'in-automation/ActionDashboard/ActionSummary/useActionNumberOfRunData';
@@ -17,7 +18,7 @@ import SummaryCards from 'in-automation/ActionDashboard/ActionSummary/SummaryCar
 import PolicyTable from 'in-automation/PolicyTable/PolicyTable';
 import { isAIAction } from 'in-automation/utils/action';
 import { ACTION_TYPE } from 'in-automation/constants';
-import { Action, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ActionSummaryProps {

@@ -12,7 +12,7 @@ import { Spacer } from '@instana/components';
 import { Grid } from '@instana/carbon';
 
 import CorrectionWindowFormContext from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/CorrectionWindowFormContext';
-import { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
+import type { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
 import RecurrenceSection from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/components/RecurrenceSection';
 import MetadataSection from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/components/MetadataSection';
 import MonthlySection from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/components/MonthlySection';

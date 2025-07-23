@@ -5,8 +5,9 @@
 
 import { Field, MapForm } from 'formalistic';
 
+import { ThresholdType, VersionedConfig, RuleWithThreshold, ApplicationAlertRuleUnion } from '@instana/types';
+
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { ThresholdType, VersionedConfig, RuleWithThreshold, ApplicationAlertRuleUnion } from 'in-types';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { t } from 'in-i18n';
@@ -90,10 +91,10 @@ function getMultithresholdThresholdRule(
       isCheckboxSelected:
         simpleMode === true
           ? data != null || currentThreshold?.isCheckboxSelected
-          : currentThreshold?.isCheckboxSelected ?? data?.value !== undefined
+          : (currentThreshold?.isCheckboxSelected ?? data?.value !== undefined)
     };
     if (isCriticalThreshold) {
-      thresholdData.value = simpleMode === true ? null : currentThreshold?.value ?? null;
+      thresholdData.value = simpleMode === true ? null : (currentThreshold?.value ?? null);
       thresholdData.isCheckboxSelected = currentThreshold?.isCheckboxSelected ?? thresholdData.value;
     }
   } else {

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { AuthorAuthorType, ChangeType } from '@instana/types';
+
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
-import { AuthorAuthorType, ChangeType } from 'in-types';
 import { t } from 'in-i18n';
 
 jest.mock('in-i18n', () => ({ t: jest.fn() }));

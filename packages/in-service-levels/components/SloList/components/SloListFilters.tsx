@@ -6,14 +6,14 @@
 
 import React, { useCallback } from 'react';
 
-import { BlueprintType, InquiryResult, ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
+import type { BlueprintType, InquiryResult, ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
 import { Accordion, AccordionItem, DismissibleTag, Stack } from '@instana/carbon';
 
 import EntityTypeFilter from 'in-service-levels/components/SloList/components/EntityTypeFilter';
 import SloStatusFilter from 'in-service-levels/components/SloList/components/SloStatusFilter';
 import BlueprintFilter from 'in-service-levels/components/SloList/components/BlueprintFilter';
 import SloTagFilter from 'in-service-levels/components/SloList/components/SloTagFilter';
-import { SloStatus } from 'in-service-levels/types';
+import type { SloStatus } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 import locals from './SloListFilters.mless';

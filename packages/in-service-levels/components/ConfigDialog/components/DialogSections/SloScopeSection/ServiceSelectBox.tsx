@@ -5,14 +5,14 @@
 
 import React from 'react';
 
-import { ApplicationBoundaryScope } from '@instana/types';
+import type { ApplicationBoundaryScope } from '@instana/types';
 
 import LazyComboBoxInSection from 'in-components/form/ComboBoxInSection/ComboBoxInSection';
 import getServices from 'in-applications/subscriptions/getServices';
 import { titleWidth } from 'in-service-levels/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
-import { Nullish } from 'in-types';
+import type { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ServiceSelectBoxProps {

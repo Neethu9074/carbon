@@ -7,6 +7,7 @@ import { stringify } from 'qs';
 
 import { create, Observable, Subject } from '@instana/observables';
 import { createLogger } from '@instana/logger';
+import { Result } from '@instana/types';
 
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
 import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
@@ -15,7 +16,6 @@ import createObservableResult from 'in-services/http/observableHttpResult';
 import { Response as ResponseInternal } from 'in-services/http/types';
 import HttpResponseError from 'in-services/http/HttpResponseError';
 import { formatPathWithTU } from 'in-services/formatters/url';
-import { Result } from 'in-types';
 
 export type Response<T> = ResponseInternal<T>;
 

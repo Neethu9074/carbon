@@ -5,13 +5,13 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ColumnFilter } from '@tanstack/react-table';
+import type { ColumnFilter } from '@tanstack/react-table';
 
 import { generateStableHash } from '@instana/utils';
 
-import { SloListFilterPartialProps } from 'in-service-levels/components/SloList/components/SloListFilters';
-import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { SloListFilterState } from 'in-service-levels/hooks/useSloListFilterUrlState';
+import type { SloListFilterPartialProps } from 'in-service-levels/components/SloList/components/SloListFilters';
+import type { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import type { SloListFilterState } from 'in-service-levels/hooks/useSloListFilterUrlState';
 import useSloGroups from 'in-service-levels/hooks/useSloGroups';
 import { t } from 'in-i18n';
 

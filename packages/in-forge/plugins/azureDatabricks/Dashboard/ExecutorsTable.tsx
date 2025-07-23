@@ -4,7 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import { List } from 'immutable';
 import React from 'react';
+
+import { TimeConfig } from '@instana/types';
 
 import { bytesTwoDecimalPlaces, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -12,8 +15,6 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig } from 'in-types';
-import { List } from 'immutable';
 import { t } from 'in-i18n';
 
 interface ExecutorRow {
@@ -161,10 +162,7 @@ function getRowDetails(row: ExecutorRow) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: [
-                `executors.${row.key}.jvmCpuTime`,
-                `executors.${row.key}.executorCpuTime`
-              ],
+              metrics: [`executors.${row.key}.jvmCpuTime`, `executors.${row.key}.executorCpuTime`],
               labels: [
                 t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
                 t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime')
@@ -193,10 +191,7 @@ function getRowDetails(row: ExecutorRow) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: [
-                `executors.${row.key}.deSerializationCpuTime`,
-                `executors.${row.key}.serializationCpuTime`
-              ],
+              metrics: [`executors.${row.key}.deSerializationCpuTime`, `executors.${row.key}.serializationCpuTime`],
               labels: [
                 t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime'),
                 t('in-forge:plugins.azureDatabricks.labelSerializationCpuTime')

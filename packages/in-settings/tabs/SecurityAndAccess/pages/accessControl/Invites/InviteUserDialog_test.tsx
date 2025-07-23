@@ -7,10 +7,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import { ApiGroup, PermissionSet } from '@instana/types';
+
 import { onDoInviteUser } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InviteUserButton';
 import InviteUserDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InviteUserDialog';
 import { close as u1 } from 'in-components/DialogPresenter/store';
-import { ApiGroup, PermissionSet } from 'in-types';
 import { sendInvitations } from 'in-api/users';
 import { t } from 'in-i18n';
 

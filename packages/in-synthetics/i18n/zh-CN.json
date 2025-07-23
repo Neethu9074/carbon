@@ -1,4 +1,5 @@
 {
+  "tooltipCopyToClipboard": "复制到剪贴板",
   "dialog": {
     "createTest": {
       "buttonLabel": "添加合成测试",
@@ -27,6 +28,7 @@
         "popSubTitle": "存在点",
         "uploadScriptTitle": "上载脚本",
         "failureToReadFileContent": "未能读取文件内容：{{error}}",
+        "unsupportedFileFormat": ".{{extension}} 文件不受支持",
         "emptyScriptFileError": "空代码。 没有要验证的内容。",
         "enterTheScriptMessage": "在此处输入脚本",
         "privatePoPLabel": "专用",
@@ -153,6 +155,7 @@
         "scheduleTitle": "调度：此测试将如何运行？",
         "identifyLabel": "识别",
         "identifyTitle": "识别：测试将要做什么？",
+        "teamsCalloutMessage": "添加团队时，团队成员的权限将基于团队中分配的角色。 与团队相关联的测试也将反映在设置中的团队页面。",
         "customPropertiesTitle": "定制属性（可选）",
         "frequency": "此测试将每 {{frequencyValue}} 分钟运行一次。",
         "frequencyHours": "此测试将每 {{frequencyHours}} 小时运行一次。",
@@ -190,7 +193,7 @@
           "buttonBack": "上一步",
           "buttonSave": "保存",
           "uploadFileLabel": "上载文件",
-          "uploadFileDescription": "您可以上传单个 .js 文件或捆绑了多个 .js 文件的 .zip 文件。",
+          "uploadFileDescription": "您可以上传单个.js 或.cjs 文件，也可以上传包含捆绑.js 或.cjs 文件的.zip 文件。",
           "node22UploadFileDescription": "您可以上传单个 .js、.cjs 或.mjs 文件，也可以上传包含捆绑 .js、.cjs 或.mjs 文件的 .zip 文件。",
           "scriptDescription": "您上载的脚本将显示在此处，或者您可以在下面手动输入该脚本。",
           "validScriptMessage": "脚本有效。",
@@ -199,7 +202,7 @@
           "mainFileNameLabel": "输入主文件名",
           "invalidMainFileName": "主文件名无效",
           "webpageUrl": "Web 页面 URL",
-          "browserUploadFileDescription": "您可以上传单个 .js 文件、捆绑了多个 .js 文件的 .zip 文件或由 SeleniumIDE 记录的 .side 脚本。",
+          "browserUploadFileDescription": "您可以上传单个.js 或.cjs 文件、包含捆绑.js 或.cjs 文件的.zip 文件或由 Selenium IDE 录制的.side 脚本。",
           "node22BrowserUploadFileDescription": "您可以上传单个 .js、.cjs 或 .mjs 文件，也可以上传包含捆绑 .js、.cjs 或 .mjs 文件的 .zip 文件，还可以上传 Selenium IDE 录制的 .side 脚本。",
           "sideFileUploadedMessage": "无法修改或验证 Selenium 脚本",
           "bundleFileNotSupportedMessage": "选择了不受支持的文件。 仅在高级方式下支持捆绑软件。",
@@ -312,7 +315,10 @@
         "applicationsTitle": "关联：选择要与此合成测试关联的应用程序",
         "applicationsDescription": "将合成测试与某个应用程序关联起来，就会向所有有权访问该应用程序的用户授予访问权限。",
         "associationsTitle": "关联：选择要与此合成测试关联的内容（可选）",
-        "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。"
+        "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。",
+        "teamsLabel": "团队",
+        "teamsTitle": "团队：选择与该测试相关联的团队（可选）",
+        "teamsDescription": "选择与该测试相关的团队。"
       },
       "associations": {
         "applicationsTitle": "选择与此合成测试关联的应用程序",
@@ -335,7 +341,19 @@
         "applicationsTableTitle": "应用程序",
         "websitesTableTitle": "网站",
         "mobileAppsTableTitle": "移动应用"
-      }
+      },
+      "createSyntheticTest": "创建合成测试"
+    },
+    "createOnDemandTest": {
+      "buttonLabel": "立即运行",
+      "createButtonLabel": "运行测试",
+      "cancel": "取消",
+      "properties": "配置属性",
+      "location": "位置",
+      "iconLabel": "测试正在进行",
+      "runnowTitle": "立即运行测试",
+      "multiSelectLabel": "所有指定地点",
+      "retryInterval": "该测试将在以下时间后重试 {{retryCount}}： "
     },
     "httpMethods": {
       "get": "GET",
@@ -353,7 +371,9 @@
       "failureMessageUpdate": "未能更新合成测试：{{errorMessage}}",
       "failureMesssageDelete": "未能删除合成测试: {{errorMessage}}",
       "successMessageCICDRerun": "已成功重新运行了合成测试",
-      "failureMesssageCICDRerun": "重新运行合成测试失败：{{errorMessage}}"
+      "failureMesssageCICDRerun": "重新运行合成测试失败：{{errorMessage}}",
+      "successMessageCICDCreate": "已成功创建合成立即运行测试",
+      "failureMesssageCICDCreate": "创建合成立即运行测试失败：{{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "已成功删除位置",
@@ -368,7 +388,7 @@
       "bundleSavedMessage": "已添加捆绑脚本"
     },
     "createLocation": {
-      "newLocation": "新建位置",
+      "newLocation": "添加位置",
       "activate": "激活",
       "done": "完成",
       "stepConfigs": {
@@ -444,9 +464,10 @@
       "failureMesssage": "{{errorMessage}}"
     },
     "createCredential": {
-      "createButton": "新建凭证",
+      "createButton": "创建凭证",
       "nameValue": "名称和值",
       "associations": "关联",
+      "teams": "团队",
       "newCredentials": "创建合成凭证",
       "steps": {
         "textInput": {
@@ -459,7 +480,8 @@
           "placeholder": "凭证值",
           "labelText": "值"
         },
-        "associationsDescription": "将凭证与应用程序、Web 站点或移动应用程序相关联，可向所有可访问这些实体的用户授予访问权限。"
+        "associationsDescription": "将凭证与应用程序、Web 站点或移动应用程序相关联，可向所有可访问这些实体的用户授予访问权限。",
+        "teamsStepDescription": "选择要与此凭证关联的团队。"
       },
       "feedback": {
         "successMessage": "成功创建了凭证",
@@ -523,15 +545,18 @@
         "filterLabel": "应用程序",
         "singleAppHeader": "{{ number }} 个关联",
         "multiAppHeader": "{{ number }} 个关联",
-        "noApplicationsAssociated": "无关联的应用程序"
+        "noApplicationsAssociated": "无关联的应用程序",
+        "noApplicationAssociatedWithTest": "没有与所选测试相关的应用程序"
       },
       "multiWebDialog": {
         "filterLabel": "Web 站点",
-        "noWebsitesAssociated": "无关联的网站。"
+        "noWebsitesAssociated": "无关联的网站。",
+        "noWebsiteAssociatedWithTest": "没有与所选测试相关的网站"
       },
       "multiMobileDialog": {
         "filterLabel": "移动应用程序",
-        "noMobileAppsAssociated": "无关联的移动应用。"
+        "noMobileAppsAssociated": "无关联的移动应用。",
+        "nodMobileAppAssociatedWithTest": "没有与所选测试相关联的移动应用程序。"
       },
       "testLabel": "名称",
       "status": "状态",
@@ -554,7 +579,10 @@
         "singleRun": "在 {{number}} 个位置中运行",
         "multipleRun": "在 {{number}} 个位置中运行",
         "warning": "警告",
-        "noIssues": "没有问题"
+        "noIssues": "没有问题",
+        "locationsSidePanelTitle": "位置 ({{totalLocations}})",
+        "locationsNameHeader": "名称",
+        "locationsHealthHeader": "运行状况"
       },
       "associationLabel": "关联",
       "health": "运行状况",
@@ -563,7 +591,29 @@
       "na": "不适用",
       "configureColumns": {
         "title": "列定制",
-        "description": "您现在可以定制自己的合成测试数据表。 这样，您便可以灵活选择要显示的列，并根据需要重新排列它们。"
+        "description": "您现在可以定制自己的合成测试数据表。 这样，您便可以灵活选择要显示的列，并根据需要重新排列它们。",
+        "dialog": {
+          "title": "管理列 ({{enabledCount}}/{{totalCount}})",
+          "description": "取消选择列即可将其隐藏。 单击并拖动白色的框即可将各列重新排序。 如果您离开数据表，然后返回，这些指定项会保存并保留。",
+          "configureButtonLabel": "配置列",
+          "columnNameLabel": "列名",
+          "configurationSuccessTitle": "显示定制",
+          "configurationSuccessMessage": "“列”表已进行定制。",
+          "configurationErrorTitle": "未定制显示",
+          "configurationErrorMessage": "\"列\"表未进行定制。",
+          "closeIconDescription": "关闭",
+          "saveButtonLabel": "保存",
+          "cancelButtonLabel": "取消",
+          "searchPlaceholder": "查找列",
+          "selectAllLabel": "全部选中"
+        }
+      },
+      "searchSyntheticTests": "搜索合成测试",
+      "failedToLoadTestsTitle": "合成测试加载失败",
+      "associationsColumn": {
+        "associationsSidePanelTitle": "关联 ({{totalAssociations}})",
+        "associationsNameHeader": "名称",
+        "associationsHealthHeader": "运行状况"
       }
     },
     "locationList": {
@@ -800,7 +850,43 @@
       "sslCertificate": {
         "daysRemaining": "剩余天数",
         "timeOfIssue": "问题时间",
-        "timeOfExpiry": "到期时间"
+        "timeOfExpiry": "到期时间",
+        "customMetrics": {
+          "titles": {
+            "details": "详细信息",
+            "testDetails": "测试详细信息",
+            "customMetrics": "定制指标",
+            "issuedTo": "颁发给",
+            "issuedBy": "颁发者",
+            "publicKeyInfo": "公钥信息",
+            "fingerprints": "指纹",
+            "tls": "密码和 tls 信息",
+            "serialNumber": "序列号",
+            "extKeyUsage": "扩展密钥使用"
+          },
+          "daysRemaining": "剩余天数：",
+          "valid": "有效：",
+          "validFrom": "有效期起始日期：",
+          "validTo": "有效期截止日期：",
+          "commonName": "公共名称：",
+          "alternativeName": "替代名称：",
+          "locality": "所在地：",
+          "organizationUnit": "组织单元：",
+          "organization": "组织：",
+          "state": "省/自治区/直辖市：",
+          "country": "国家/地区：",
+          "standardName": "标准名称：",
+          "name": "密码名称：",
+          "version": "TLS 版本：",
+          "fingerprint": "Fingerprint1:",
+          "fingerprint256": "Fingerprint2:",
+          "size": "密钥大小：",
+          "modulus": "模数：",
+          "algorithm": "算法：",
+          "exponent": "指数：",
+          "serialNumber": "序列号：",
+          "extKeyUsage": "扩展密钥用法："
+        }
       },
       "failedRunErrorTypeTitle": "错误类型",
       "viewRecordingLabel": "查看记录",
@@ -904,6 +990,7 @@
       "daysRemaining": "故障配置",
       "day": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
       "days": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
+      "teams": "团队",
       "associations": "关联",
       "associatedApplications": "关联的应用程序",
       "noApplicationsAssociated": "无关联的应用程序",
@@ -939,7 +1026,7 @@
     },
     "credentialList": {
       "mainLabel": "凭证",
-      "name": "名称",
+      "name": "凭证名称",
       "associations": "关联",
       "createdAt": "创建时间",
       "createdBy": "创建者",

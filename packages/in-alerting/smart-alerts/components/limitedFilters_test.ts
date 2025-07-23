@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { TagFilter } from '@instana/types';
+
 import {
   Bracket,
   CLOSE_BRACKET,
@@ -11,7 +13,6 @@ import {
 } from 'in-components/QueryBuilder/transformation/formModel';
 import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { TagFilter } from 'in-types';
 
 describe('in-alerting/smart-alerts/components/limitedFilters', () => {
   const and: Conjunction = {
@@ -35,7 +36,7 @@ describe('in-alerting/smart-alerts/components/limitedFilters', () => {
       const tagFilters: FormModelElement[] = [
         and,
         closingBracket,
-        ({ ...somTagFilter, type: 'wrong type, gets filtered-out' } as unknown) as TagFilter,
+        { ...somTagFilter, type: 'wrong type, gets filtered-out' } as unknown as TagFilter,
         { ...somTagFilter, type: TAG_FILTER }
       ];
 
@@ -46,7 +47,7 @@ describe('in-alerting/smart-alerts/components/limitedFilters', () => {
   describe('getLimitedNumberOfFilters', () => {
     it('reduces the size of filters to specific number', () => {
       const tagFilters: FormModelElement[] = [
-        ({ ...somTagFilter, type: 'wrong type, gets filtered-out' } as unknown) as TagFilter,
+        { ...somTagFilter, type: 'wrong type, gets filtered-out' } as unknown as TagFilter,
         and,
         { ...somTagFilter, type: TAG_FILTER },
         and,

@@ -10,16 +10,15 @@ import {
   MobileAppAlertRuleUnion,
   StaticBaselineThresholdRule,
   StaticThresholdRule,
-  WebsiteAlertRuleUnion
-} from '@instana/types';
-
-import {
+  WebsiteAlertRuleUnion,
+  Seasonality,
   HistoricBaselineConfig,
   isStaticBaselineThresholdRule,
   RuleWithThreshold,
   isStaticThresholdRule,
   isAdaptiveThresholdRule
-} from 'in-types';
+} from '@instana/types';
+
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -119,7 +118,7 @@ function createStaticThresholdMapForm(threshold?: StaticThresholdRule, editMode?
     .put(
       'value',
       createField({
-        value: (threshold as any)?.isCheckboxSelected === true ? threshold?.value ?? 0 : null
+        value: (threshold as any)?.isCheckboxSelected === true ? (threshold?.value ?? 0) : null
       }).setTouched(editMode ? !isEmpty(threshold?.value) : false)
     )
     .put(
@@ -222,6 +221,8 @@ function createAdaptiveBaselineForm(
     (thresholdRule?.WARNING as AdaptabilityBaselineThreshold)?.baseline ??
     (thresholdRule?.CRITICAL as AdaptabilityBaselineThreshold)?.baseline ??
     [];
+  const seasonality = (thresholdRule?.WARNING as any)?.seasonality ?? (thresholdRule?.CRITICAL as any)?.seasonality;
+  const adaptability = (thresholdRule?.WARNING as any)?.adaptability ?? (thresholdRule?.CRITICAL as any)?.adaptability;
 
   return createMapForm({
     validator: validateForm,
@@ -232,13 +233,17 @@ function createAdaptiveBaselineForm(
       baseline: createField({
         value: commonBaseline
       }),
-      warningThreshold: createAdaptiveBaselineMapForm(warningThreshold),
-      criticalThreshold: createAdaptiveBaselineMapForm(criticalThreshold)
+      warningThreshold: createAdaptiveBaselineMapForm(warningThreshold, seasonality, adaptability),
+      criticalThreshold: createAdaptiveBaselineMapForm(criticalThreshold, seasonality, adaptability)
     }
   });
 }
 
-function createAdaptiveBaselineMapForm(threshold?: AdaptiveThresholdRule): MapForm<any> {
+function createAdaptiveBaselineMapForm(
+  threshold?: AdaptiveThresholdRule,
+  seasonality?: Seasonality,
+  adaptability?: number
+): MapForm<any> {
   return createMapForm()
     .put(
       'type',
@@ -256,6 +261,18 @@ function createAdaptiveBaselineMapForm(threshold?: AdaptiveThresholdRule): MapFo
       'deviationFactor',
       createField({
         value: threshold?.deviationFactor ?? defaultDeviationFactor
+      })
+    )
+    .put(
+      'seasonality',
+      createField({
+        value: seasonality
+      })
+    )
+    .put(
+      'adaptability',
+      createField({
+        value: adaptability
       })
     );
 }

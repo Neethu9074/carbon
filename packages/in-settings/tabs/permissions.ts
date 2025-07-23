@@ -22,8 +22,8 @@ import {
   securityAndAccessTimeouts,
   securityAndAccessIdentityProviders
 } from 'in-settings/navigation/paths';
+import { idpConfigV2Enabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { productOwnerPermissions } from 'in-stores/permission';
-import { idpConfigV2Enabled, rbacRoleMappingEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export function roleHasAnyGlobalPermissions(): boolean {
@@ -112,10 +112,10 @@ export function findFirstPermittedSecurityAndAccessPage(
       }
     }
   }
-  if (role?.canConfigureTeams && rbacRoleMappingEnabled) {
+  if (role?.canConfigureTeams && rbacTeamsEnabled) {
     return securityAndAccessRoleMapping;
   }
-  if (role?.canConfigureTeams && !rbacRoleMappingEnabled) {
+  if (role?.canConfigureTeams && !rbacTeamsEnabled) {
     return securityAndAccessGroupMapping;
   }
   if (role?.canConfigureSessionSettings) {

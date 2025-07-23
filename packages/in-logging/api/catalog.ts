@@ -3,17 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig, CatalogUseCase, LogTag, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { TimeConfig } from '@instana/types';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { CatalogUseCase, LogTag, Result } from 'in-types';
 import { emptyObject } from 'in-services/fixedObjects';
 import { minutes } from 'in-services/time/time';
-import http from 'in-services/http';
 import { basePath } from 'in-logging/api/index';
+import http from 'in-services/http';
 
 const DEFAULT_USE_CASE = 'FILTERING';
 

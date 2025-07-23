@@ -84,4 +84,10 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .emptyTable {
+    width: 100%;
+    padding: 2.5rem 2rem;
+    background-color: var(--ids-color-option-white);
+  }
 }
