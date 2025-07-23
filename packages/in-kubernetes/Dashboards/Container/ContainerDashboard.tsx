@@ -6,9 +6,6 @@
 
 import React from 'react';
 import { get } from 'lodash';
-
-import { Card } from '@instana/components';
-
 import {
   bytesTwoDecimalPlaces,
   bytesZeroDecimalPlaces,
@@ -210,15 +207,13 @@ export default function ContainerDashboard(props: ContainerDashboardProps) {
   const { timeConfig, clusterId, namespaceId, nodeId } = props;
 
   return (
-    <Card>
-      <ServerTableWithUrlState
-        get={getTableData}
-        timeConfig={timeConfig}
-        clusterId={clusterId}
-        namespaceId={namespaceId}
-        nodeId={nodeId}
-      />
-    </Card>
+    <ServerTableWithUrlState
+      get={getTableData}
+      timeConfig={timeConfig}
+      clusterId={clusterId}
+      namespaceId={namespaceId}
+      nodeId={nodeId}
+    />
   );
 }
 
@@ -254,7 +249,7 @@ function getTableData({
   if (nodeId) filter.nodeId = nodeId;
 
   // NOTE: podId is intentionally NOT included for standalone containers page
-  // 
+  //
   // BACKEND REQUIREMENT:
   // The backend event 'getNativeKubernetesContainers' needs to be modified to:
   // 1. Make podId parameter optional

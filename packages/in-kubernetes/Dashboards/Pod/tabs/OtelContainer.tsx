@@ -22,8 +22,6 @@ import getOtelKubernetesContainers from 'in-kubernetes/subscriptions/getOtelKube
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error TS migration
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
-import getOtelKubernetesContainers from 'in-kubernetes/subscriptions/getOtelKubernetesContainers';
-import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
