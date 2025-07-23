@@ -21,13 +21,8 @@ import {
   ThumbsFeedbackObject,
   NLGResponseObject
 } from 'in-events/components/AIChat/ResponseObjects';
-import {
-  sendAPIQuery,
-  fetchAPIData,
-  formatForTable,
-  fetchEventsData,
-  formatForEventsTable
-} from 'in-events/components/AIChat/chatAPI';
+import { formatForTable, formatForEventsTable } from 'in-events/components/AIChat/TableComponents/TableFormatters';
+import { sendAPIQuery, fetchAPIData, fetchEventsData } from 'in-events/components/AIChat/chatAPI';
 import { t } from 'in-i18n';
 
 // Params:

@@ -28,6 +28,18 @@ export type CSVData = {
   csvRows: TableRow[];
 };
 
+export type Entry = {
+  name: string;
+  id: string;
+  tags?: {
+    [key: string]: string | undefined;
+  };
+  metrics: {
+    [key: string]: [number, number][];
+  };
+  count?: number;
+};
+
 export interface UseTableStateOptions {
   initialRows: TableRow[];
   initialHeaders: TableHeader[];

@@ -11,8 +11,7 @@ import { SimpleBarChart } from '@instana/carbon-charts';
 import { GenericItem } from '@instana/ai-chat';
 
 import { useTableState, TableRow, TableHeader } from 'in-events/components/AIChat/TableComponents/useTableState';
-//@ts-expect-error
-import { formatForBarChart } from 'in-events/components/AIChat/chatAPI';
+import { formatForBarChart } from 'in-events/components/AIChat/TableComponents/TableFormatters';
 import TableView from 'in-events/components/AIChat/TableComponents/TableView';
 import { t } from 'in-i18n';
 
@@ -64,7 +63,7 @@ const TableChartSwitcher: React.FC<TableChartSwitcherProps> = ({ messageItem }) 
       {selectedIndex === 0 ? (
         <TableView tableState={tableState} />
       ) : (
-        <SimpleBarChart data={chart_data?.data} options={chart_data?.options} />
+        <SimpleBarChart data={chart_data.data} options={chart_data.options} />
       )}
     </div>
   );
