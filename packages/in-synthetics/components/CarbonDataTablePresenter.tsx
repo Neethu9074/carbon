@@ -10,12 +10,12 @@ import { Pagination as CarbonPagination } from '@instana/components';
 import { PaginatedResult, Result } from '@instana/types';
 
 import { ListItem, CarbonDataTablePresenterProps, TableState } from 'in-synthetics/components/constants';
-import { useColumnManagement } from 'in-synthetics/hooks/useColumnManagement';
+import { useColumnManagement } from 'in-synthetics/components/hooks/useColumnManagement';
+import { useSearchHandler } from 'in-synthetics/components/hooks/useSearchHandler';
+import { useTableHeaders } from 'in-synthetics/components/hooks/useTableHeaders';
 import { ConfigureColumns } from 'in-synthetics/components/ConfigureColumns';
 import { CarbonDataTable } from 'in-synthetics/components/CarbonDataTable';
-import { useSearchHandler } from 'in-synthetics/hooks/useSearchHandler';
-import { useTableHeaders } from 'in-synthetics/hooks/useTableHeaders';
-import { useTableRows } from 'in-synthetics/hooks/useTableRows';
+import { useTableRows } from 'in-synthetics/components/hooks/useTableRows';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { sortHandler } from 'in-synthetics/components/utils';
 import { isLoading } from 'in-services/util/result';
@@ -87,7 +87,7 @@ export default function CarbonDataTablePresenter<ITEM_TYPE extends ListItem>(
   const loading = isLoading(result) || props.loading;
 
   // Determine if pagination should be shown
-  const showPagination = result?.data && result?.data?.totalHits > defaultPageSize;
+  const showPagination = !loading && result?.data && result?.data?.totalHits > defaultPageSize;
 
   return (
     <>
