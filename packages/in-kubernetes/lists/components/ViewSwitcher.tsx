@@ -67,7 +67,7 @@ export default function KubernetesViewSwitcher() {
             <SecondLevelNavigationItem
               href={createHrefToPath(containerDashboardFullyQualified)}
               icon="lib_kubernetes_container"
-              label={t('in-kubernetes:containers')}
+              label={t('in-kubernetes:dashboards.containers')}
               isActive={matchLocation(containerDashboardFullyQualified)}
             />
           )}

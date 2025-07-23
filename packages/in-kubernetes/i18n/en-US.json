@@ -48,6 +48,7 @@
     "statefulSets": "StatefulSets",
     "cronJobs": "CronJobs",
     "k8SServices": "K8s Services",
+    "pod": "Pod",
     "pods": "Pods",
     "persistentVolume": "Persistent volume",
     "persistentVolumes": "Persistent volumes",
