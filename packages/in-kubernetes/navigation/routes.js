@@ -19,6 +19,7 @@ import OtelNodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Da
 import OtelPodDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Pod/OtelPodDashboard';
 import NodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Node/NodeDashboard';
 import PodDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Pod/PodDashboard';
+import ContainerDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Container/ContainerDashboard';
 import KubernetesMainView from 'promise-loader?global,kubernetes!in-kubernetes/KubernetesMainView';
 import { Route } from 'react-router-dom';
 import React from 'react';
@@ -39,7 +40,8 @@ import {
   deploymentConfigDashboardFullyQualified,
   statefulSetDashboardFullyQualified,
   cronJobDashboardFullyQualified,
-  clusterOtelDashboardFullyQualified
+  clusterOtelDashboardFullyQualified,
+  containerDashboardFullyQualified
 } from 'in-kubernetes/navigation/paths';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
@@ -88,6 +90,9 @@ export default [
   </Route>,
   <Route key="kubernetesDeploymentConfigDashboard" path={deploymentConfigDashboardFullyQualified}>
     {renderAsyncRouteChildren(DeploymentConfigDashboard)}
+  </Route>,
+  <Route key="kubernetesContainerDashboard" path={containerDashboardFullyQualified}>
+    {renderAsyncRouteChildren(ContainerDashboard)}
   </Route>,
   <Route key="kubernetesMainView" path={kubernetes}>
     {renderAsyncRouteChildren(KubernetesMainView)}

@@ -277,7 +277,9 @@
       "podsTitle": "No pods available",
       "podsDescription": "There were no pods retrieved for the selected time range.",
       "endpointsTitle": "No endpoints available",
-      "endpointsDescription": "There were no endpoints retrieved for the selected time range."
+      "endpointsDescription": "There were no endpoints retrieved for the selected time range.",
+      "containersTitle": "No containers available",
+      "containersDescription": "There were no containers retrieved for the selected time range."
     },
     "kubecost": {
       "costByDeployment": "Cost by deployment",
