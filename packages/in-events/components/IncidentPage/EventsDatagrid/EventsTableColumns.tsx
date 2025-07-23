@@ -6,7 +6,7 @@
 
 // eslint-disable-next-line no-restricted-imports
 import { Tag } from '@carbon/react';
-import { Row, createColumnHelper } from '@tanstack/react-table';
+import { ColumnDef, Row, createColumnHelper } from '@tanstack/react-table';
 import { isEmpty, isUndefined } from 'lodash';
 import React, { useMemo } from 'react';
 
@@ -65,7 +65,7 @@ const useEventTableColumns = (
   headers?: EventHeaderType[],
   sortableHeaders?: EventHeaderType[],
   enableSorting = false
-) => {
+): ColumnDef<RawEvent>[] => {
   const calculatedHeaders = isEmpty(headers) || isUndefined(headers) ? defaultHeaders : headers;
   const columnHelper = createColumnHelper<RawEvent>();
   const timeConfig = useTimeConfig();
@@ -77,7 +77,7 @@ const useEventTableColumns = (
       retColumns.push(
         columnHelper.display({
           id: 'severity',
-          size: 28, // Small width for severity column
+          size: 50,
           cell: ({ row }) => {
             const event = row.original;
             return <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />;
@@ -92,7 +92,7 @@ const useEventTableColumns = (
         columnHelper.display({
           id: 'problem.problemText',
           header: t('in-events:dataGridEventTable.title'),
-          size: 300, // Wide width for title column
+          size: 300,
           cell: ({ row }) => <TitleCell row={row} />,
           enableSorting: (enableSorting && sortableHeaders?.includes('problem.problemText')) || false
         })
@@ -104,7 +104,7 @@ const useEventTableColumns = (
         columnHelper.display({
           id: 'on',
           header: t('in-events:dataGridEventTable.on'),
-          size: 200, // Medium width for 'on' column
+          size: 200,
           cell: ({ row }) => {
             const event = row.original;
             return <OnEntity rawEvent={event} />;
@@ -119,7 +119,7 @@ const useEventTableColumns = (
         columnHelper.display({
           id: 'start',
           header: t('in-events:dataGridEventTable.started'),
-          size: 150, // Medium width for 'started' column
+          size: 200,
           cell: ({ row }) => {
             const event = row.original;
             const time = event.start;
@@ -135,7 +135,7 @@ const useEventTableColumns = (
         columnHelper.display({
           id: 'end',
           header: t('in-events:dataGridEventTable.end'),
-          size: 150, // Medium width for 'end' column
+          size: 200,
           cell: ({ row }) => {
             const event = row.original;
             const eventType = getEventType(event);
@@ -156,7 +156,7 @@ const useEventTableColumns = (
         columnHelper.display({
           id: 'timeline',
           header: t('in-events:dataGridEventTable.timeline'),
-          size: 150, // Medium width for 'timeline' column
+          size: 150,
           cell: ({ row }) => {
             const event = row.original;
             return <TimelineCell event={event} />;
@@ -171,7 +171,7 @@ const useEventTableColumns = (
         columnHelper.display({
           id: 'state',
           header: t('in-events:dataGridEventTable.state'),
-          size: 150, // Small-medium width for 'state' column
+          size: 450,
           cell: ({ row }) => {
             const event = row.original;
             return (
