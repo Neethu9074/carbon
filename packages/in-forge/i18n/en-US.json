@@ -12800,6 +12800,8 @@
         "out": "Out",
         "uncommitted": "Uncommitted",
         "queuesWithCount": "Queues ({{len}})",
+        "queueType": "Type",
+        "baseQueueName": "Base Queue",
         "usage": "Usage",
         "queueFullPercentage": "Depth Percentage",
         "queueDepth": "Current Depth",
