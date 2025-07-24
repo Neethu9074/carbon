@@ -94,6 +94,8 @@
       "maximumNumberOfMembers": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",
       "generalError": "An unexpected error occurred."
     },
+    "warningTitle": "Export Limit Exceeded",
+    "warning": "Exporting {{count}} records exceeds the maximum limit. Only the first {{max}} entries will be included, and the process may take longer than usual to complete.",
     "entityTypes": "Entity types {{count, parenthesis}}",
     "relatedInstances": "Analyze instances"
   },

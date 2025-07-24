@@ -10,6 +10,10 @@
     color: var(--ids-color-option-neutral-500);
   }
 
+  .textDecoration {
+    text-decoration: none;
+  }
+
   .csvExporterButton {
     margin-right: 0.5rem;
   }
