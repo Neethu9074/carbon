@@ -84,7 +84,11 @@ export default function WelcomePage() {
 }
 
 function GettingStartedContent() {
-  return <div style={{ padding: '1rem' }} />;
+  return (
+    <div>
+      <h2>Getting Started</h2>
+    </div>
+  );
 }
 
 /**

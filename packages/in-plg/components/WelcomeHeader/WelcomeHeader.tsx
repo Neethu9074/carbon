@@ -17,6 +17,7 @@ import WelcomeToolbar from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolb
 import { welcomePage, gettingStartedPath } from 'in-plg/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import config from 'in-services/config';
 import { user } from 'in-stores/user';
@@ -45,7 +46,7 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
     >
       <WelcomeToolbar title={headerTitle} />
       {newOnboardingPageEnabled && isTrial ? (
-        <div className={locals.tabsOffsetRight}>
+        <LeftRightPadding>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
               href={createHrefToPath(welcomePage)}
@@ -60,7 +61,7 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
               className={locals.tabItemOverride}
             />
           </SecondLevelNavigation>
-        </div>
+        </LeftRightPadding>
       ) : (
         onboardingHeaderEnabled && <OnboardingCarousel accountActivationData={accountActivationData} />
       )}
