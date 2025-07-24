@@ -264,6 +264,7 @@
     "errorEmptyGoodFilter": "A good filter must be defined",
     "errorEqualTagFilter": "Good and bad filters must not be identical",
     "nameAndTagsTitle": "Set details",
+    "bindTimezoneLabel": "Bind timezone",
     "currentTimezoneMessage": "Your current time zone is {{timezone}}.",
     "selectedTimezoneMessage": "Your current time zone is set to {{timezone}}.",
     "selectTimezoneMessage": "Select time zone",
@@ -344,7 +345,6 @@
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
       "currentTimezone": "Your current time zone is set to {{timezone}}.",
       "editSloTimezone": "Edit SLO time zone",
-      "selectedTimezoneMessage": "Your current time zone is {{timezone}}.",
       "sloCreatedTimezone": "This SLO was created in {{sloTimezone}}",
       "timezone": "Time zone: {{sloTimezone}}"
     },

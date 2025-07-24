@@ -25,7 +25,7 @@ export function TimezoneList() {
   return (
     <div className={locals.selectField}>
       <ComboBox
-        id="timezone-selector"
+        id="slo-objective-timezone-selector"
         className={locals.selectFieldSize}
         placeholder={t('in-service-levels:createSloDialog.selectTimezoneMessage')}
         value={timezoneField.value}

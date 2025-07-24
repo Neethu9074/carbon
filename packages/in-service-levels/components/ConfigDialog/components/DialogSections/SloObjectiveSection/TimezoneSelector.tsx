@@ -19,11 +19,11 @@ export default function TimezoneSelector() {
   const { form, onChange } = useContext(SloFormContext);
   const bindTimezoneField = form.getIn(['objective', 'bindTimezone']);
   const timezoneField = form.getIn(['objective', 'timezone']);
+  const isTimezoneSelected = bindTimezoneField.value && timezoneField.value !== '';
 
-  const timezoneMessage =
-    bindTimezoneField.value && timezoneField.value !== ''
-      ? t('in-service-levels:createSloDialog.selectedTimezoneMessage', { timezone: timezoneField.value })
-      : t('in-service-levels:createSloDialog.currentTimezoneMessage', { timezone: getCurrentFormattedTimezone() });
+  const timezoneMessage = isTimezoneSelected
+    ? t('in-service-levels:createSloDialog.selectedTimezoneMessage', { timezone: timezoneField.value })
+    : t('in-service-levels:createSloDialog.currentTimezoneMessage', { timezone: getCurrentFormattedTimezone() });
 
   const handleTimezoneToggle = (toggleValue: boolean) => {
     if (!toggleValue) {
@@ -36,9 +36,9 @@ export default function TimezoneSelector() {
     <div>
       <Stack orientation="horizontal" gap={6}>
         <Toggle
-          id="timezone-toggle"
+          id="slo-objective-timezone-toggle"
           value={bindTimezoneField.value ? 'enable' : 'disable'}
-          labelText="Bind Timezone"
+          labelText={t('in-service-levels:createSloDialog.bindTimezoneLabel')}
           labelA="enable"
           labelB="disable"
           size="sm"
@@ -49,7 +49,7 @@ export default function TimezoneSelector() {
           <TimezoneList />
           <InlineNotification
             className={locals.notificationContainer}
-            id="time-zone-toast"
+            id="timezone-toast-notification"
             kind="info"
             hideCloseButton
             lowContrast
