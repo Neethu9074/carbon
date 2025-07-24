@@ -74,6 +74,7 @@ export default function AlertConfigTearSheetStep4({
                 />
               )}
               isTearSheet
+              placeholders={severityPlaceholderList}
             />
           )}
           renderAlertPreview={() => (
@@ -100,6 +101,11 @@ export default function AlertConfigTearSheetStep4({
                   />
                 )}
                 isTearSheet
+                descriptionWithReplacedPlaceholders={replacePlaceholdersWithMarkup(
+                  severityPlaceholderList,
+                  form.get('description').value,
+                  ({ name }) => name
+                )}
               />
             </div>
           )}

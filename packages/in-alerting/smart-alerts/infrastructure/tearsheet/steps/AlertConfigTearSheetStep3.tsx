@@ -95,6 +95,7 @@ export default function AlertConfigTearSheetStep3({
               shouldDisplayAlertLevelSelection={false}
               displayTriggerIncident={incidentTriggeringInfraSaEnabled}
               isTearSheet
+              placeholders={placeholders}
             />
           )}
           renderAlertPreview={() => (

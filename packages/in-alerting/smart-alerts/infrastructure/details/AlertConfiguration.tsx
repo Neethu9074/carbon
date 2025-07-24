@@ -10,6 +10,10 @@ import { isEmpty } from 'lodash';
 import { InfraAlertRuleUnion, Order, TagCatalog, TagFilter, RuleWithThreshold } from '@instana/types';
 import { Stack } from '@instana/components';
 
+import {
+  replaceDescriptionPlaceholdersWithMarkup,
+  replaceTitlePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import {
@@ -26,7 +30,6 @@ import ForecastAlertingDescription from 'in-alerting/smart-alerts/infrastructure
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { alertChannelPerSeverityInfraSaEnabled, incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
@@ -71,6 +74,7 @@ const initialChartConfigIndex = 0;
 export default function AlertConfiguration({ alertConfig }: { alertConfig: InfraSmartAlertConfigWithMetadata }) {
   const {
     name,
+    description,
     timeThreshold,
     granularity,
     gracePeriod,
@@ -257,6 +261,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
           renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(name, groupBy, evaluationType)}
           disableTrigger={!incidentTriggeringInfraSaEnabled}
           shouldDisplayAlertLevelSection={false}
+          renderCustomDescription={() => replaceDescriptionPlaceholdersWithMarkup(description, groupBy, evaluationType)}
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="INFRA" ownerType={entityType} />

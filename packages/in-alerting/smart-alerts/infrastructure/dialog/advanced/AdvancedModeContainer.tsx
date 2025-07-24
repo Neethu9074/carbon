@@ -202,6 +202,7 @@ export default function AdvancedModeContainer(
                   )}
                   displayTriggerIncident={incidentTriggeringInfraSaEnabled}
                   shouldDisplayAlertLevelSelection={false}
+                  placeholders={placeholders}
                 />
               )}
               renderAlertPreview={() => (

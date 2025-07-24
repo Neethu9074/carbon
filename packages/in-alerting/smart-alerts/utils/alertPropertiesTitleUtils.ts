@@ -11,10 +11,11 @@ import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dia
 export function insertPlaceholderText(
   value: string,
   placeholderString: string,
-  onChange: (path: string[], updater: (item: Item) => Item) => void
+  onChange: (path: string[], updater: (item: Item) => Item) => void,
+  field: string
 ) {
   return () => {
-    const textarea = document.getElementById('name') as HTMLTextAreaElement | null;
+    const textarea = document.getElementById(field) as HTMLTextAreaElement | null;
 
     if (!textarea) {
       return;
@@ -26,7 +27,7 @@ export function insertPlaceholderText(
     const fromSelectionEnd = value.substring(selectionEnd);
     const newValue = tilSelectionStart + placeholderString + fromSelectionEnd;
 
-    onChange(['name'], (field: Item) => (field as Field<string>).setValue(newValue).setTouched(true));
+    onChange([field], (field: Item) => (field as Field<string>).setValue(newValue).setTouched(true));
 
     setTimeout(() => {
       textarea.setSelectionRange(selectionStart + placeholderString.length, selectionStart + placeholderString.length);

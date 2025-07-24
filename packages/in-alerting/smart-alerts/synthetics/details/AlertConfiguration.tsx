@@ -9,7 +9,10 @@ import React, { useMemo } from 'react';
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 import { Message } from '@instana/components';
 
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+import {
+  replaceDescriptionPlaceholdersWithMarkup,
+  replaceTitlePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
@@ -125,6 +128,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Synth
         <AlertPropertyInfos
           alertConfig={alertConfig}
           renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig.name)}
+          renderCustomDescription={() => replaceDescriptionPlaceholdersWithMarkup(alertConfig.description)}
           disableTrigger
         />
       </ExpandableLightCard>

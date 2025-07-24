@@ -4,7 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import {
+  highlightPlaceholdersInHtml,
+  replacePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { severityPlaceholder, Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { t } from 'in-i18n';
 
@@ -29,4 +32,8 @@ export const allowedPlaceholders: ReadonlyArray<Readonly<Placeholder>> = Object.
 
 export function replaceTitlePlaceholdersWithMarkup(configName: string) {
   return replacePlaceholdersWithMarkup(allowedPlaceholders, configName);
+}
+
+export function replaceDescriptionPlaceholdersWithMarkup(configDescription: string) {
+  return highlightPlaceholdersInHtml(configDescription, allowedPlaceholders);
 }

@@ -10,6 +10,7 @@ import React from 'react';
 import { Pill, Stack } from '@instana/components';
 
 import { AlertPreview } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { t } from 'in-i18n';
 
 interface ThresholdAlertPreviewProps {
@@ -21,6 +22,7 @@ interface ThresholdAlertPreviewProps {
   renderHeadline: () => React.ReactNode;
   isTearSheet: boolean;
   descriptionPlaceholder?: string;
+  descriptionWithReplacedPlaceholders?: HighlightedPlaceholders;
 }
 
 export function ThresholdAlertPreview({
@@ -31,7 +33,8 @@ export function ThresholdAlertPreview({
   severity,
   renderHeadline,
   isTearSheet,
-  descriptionPlaceholder
+  descriptionPlaceholder,
+  descriptionWithReplacedPlaceholders
 }: ThresholdAlertPreviewProps) {
   const alertPreviewPillLabels: { [key: number]: string } = {
     5: t('in-alerting:smartAlerts.components.smartAlertDialog.warningAlertPreviewLabel'),
@@ -51,6 +54,7 @@ export function ThresholdAlertPreview({
         severity={severity}
         isTearSheet={isTearSheet}
         isMultiThreshold
+        descriptionWithReplacedPlaceholders={descriptionWithReplacedPlaceholders}
       />
     </Stack>
   );
