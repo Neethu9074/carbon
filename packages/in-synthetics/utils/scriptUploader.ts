@@ -8,8 +8,9 @@
 import { parse } from 'esprima';
 import * as acorn from 'acorn';
 
+import { Error, ErrorCode } from '@instana/types';
+
 import { syntheticNodeJs22Enabled } from 'in-services/featureFlags';
-import { Error, ErrorCode } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ErrorType {

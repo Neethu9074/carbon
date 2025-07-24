@@ -5,9 +5,10 @@
 
 import { clamp } from 'lodash';
 
+import { Result } from '@instana/types';
+
 import { MetricData, MetricBucket } from 'in-custom-dashboards/widgets/Chart/types';
 import { EventOrMap } from 'in-events/types';
-import { Result } from 'in-types';
 
 export interface AdjustedTimeframe {
   to: number;

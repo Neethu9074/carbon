@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { LogTag, TagFilter } from '@instana/types';
 import { Link, Pill } from '@instana/components';
 
 import { useLoggingAnalyzeContext } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
@@ -13,7 +14,6 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
-import { LogTag, TagFilter } from 'in-types';
 
 import locals from './LogHealthColumn.mless';
 

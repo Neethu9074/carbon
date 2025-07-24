@@ -3,10 +3,14 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import { AlertEvaluationType } from '@instana/types';
+
+import {
+  replacePlaceholdersWithMarkup,
+  highlightPlaceholdersInHtml
+} from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { severityPlaceholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
-import { AlertEvaluationType } from 'in-types';
 
 interface GetAlertTitleWithPlaceholderHighlightingParams {
   evaluationType: AlertEvaluationType;
@@ -28,4 +32,11 @@ export function replacePlaceholdersWithHighlighting(evaluationType: AlertEvaluat
 
 export function placeholdersByEvaluationTypeAndSeverity(evaluationType: AlertEvaluationType) {
   return [...placeholdersByEvaluationType[evaluationType], severityPlaceholder];
+}
+
+export function getAlertDescriptionWithPlaceholderHighlighting({
+  configName: description,
+  evaluationType
+}: GetAlertTitleWithPlaceholderHighlightingParams) {
+  return highlightPlaceholdersInHtml(description, placeholdersByEvaluationTypeAndSeverity(evaluationType));
 }

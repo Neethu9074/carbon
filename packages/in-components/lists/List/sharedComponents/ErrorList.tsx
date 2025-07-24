@@ -6,9 +6,9 @@
 import React from 'react';
 
 import { Ul, Li, Message } from '@instana/components';
+import { Error } from '@instana/types';
 
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
-import { Error } from 'in-types';
 
 import locals from './ErrorList.mless';
 

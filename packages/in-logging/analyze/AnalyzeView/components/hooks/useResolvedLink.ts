@@ -5,6 +5,8 @@
 
 import { useMemo } from 'react';
 
+import { LogItem, LogTag } from '@instana/types';
+
 import {
   containerSnapshotIds,
   ID_HOST,
@@ -32,7 +34,6 @@ import {
 import { useGetKubernetesLink } from 'in-logging/analyze/AnalyzeView/components/hooks/getKubernetesLink';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import { LogItem, LogTag } from 'in-types';
 
 type LinkResolverString = (tag: LogTag, log: LogItem) => string | null;
 
@@ -60,22 +61,10 @@ export default function useResolvedLink(presentedName: string, tag: LogTag | und
   const tagValueStringLinkResolver = useMemo(
     () =>
       new Map<string, LinkResolverString>([
-        [
-          ID_PROCESS,
-          (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })
-        ],
-        [
-          ID_HOST,
-          (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })
-        ],
-        [
-          LOG_FILE_PATH,
-          (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })
-        ],
-        [
-          LOG_TRACE_ID,
-          (t, _) => getLinkToTraceDetail(t?.stringValue)
-        ],
+        [ID_PROCESS, (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [ID_HOST, (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [LOG_FILE_PATH, (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [LOG_TRACE_ID, (t, _) => getLinkToTraceDetail(t?.stringValue)],
         [
           LOG_CUSTOM_KEY_APPLICATION_ID,
           (t, _) => (t?.stringValue ? getLinkToApplicationDashboard({ applicationId: t?.stringValue }) : null)
@@ -108,11 +97,7 @@ export default function useResolvedLink(presentedName: string, tag: LogTag | und
     [getLinkToApplicationDashboard, getLinkToServiceDashboard, getLinkToEndpointDashboard, getLinkToTraceDetail]
   );
 
-
   const stringResolver = tagValueStringLinkResolver.get(presentedName);
 
-  return (
-    (stringResolver && tag && stringResolver(tag, item)) ??
-    null
-  );
+  return (stringResolver && tag && stringResolver(tag, item)) ?? null;
 }

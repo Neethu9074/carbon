@@ -7,9 +7,9 @@
 import React from 'react';
 
 import { Message } from '@instana/components';
+import { ErrorCode } from '@instana/types';
 
 import { compareIgnoreCase } from 'in-services/util/string';
-import { ErrorCode } from 'in-types';
 
 export type MessageType = {
   message: string;

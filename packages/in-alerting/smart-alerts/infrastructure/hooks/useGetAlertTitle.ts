@@ -6,13 +6,14 @@
 
 import { MapForm } from 'formalistic';
 
+import { AggregationType } from '@instana/types';
+
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import { getFormatter, getMetricFormat } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { formatMetricValue } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { NumberFormatter } from 'in-services/formatters/number';
 import { getPluginName } from 'in-sdk/pluginName';
-import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
 export function useGetAlertTitle(entityType: string, metric: string, aggregation: AggregationType) {

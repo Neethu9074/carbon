@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { LogicalOperator } from '@instana/types';
+
 import {
   TAG as TAG_TYPE,
   OPEN_BRACKET as OPEN_BRACKET_TYPE,
@@ -13,7 +15,6 @@ import { OPERATOR_NOT, OPERATOR_AND, OPERATOR_OR } from 'in-components/QueryBuil
 import { EXPRESSION, SPACING } from 'in-components/QueryBuilder/transformation/renderModelElementTypes';
 import { not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ElementType } from 'in-components/QueryBuilder/transformation/formModel';
-import { LogicalOperator } from 'in-types';
 
 export type FormElementType = ElementType | typeof EXPRESSION | typeof SPACING;
 export interface Element {

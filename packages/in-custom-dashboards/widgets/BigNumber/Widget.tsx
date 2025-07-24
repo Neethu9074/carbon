@@ -5,19 +5,19 @@
 
 import React, { ReactNode } from 'react';
 
-import { useObservable } from '@instana/hooks';
-
-import {
-  enrichBySettingDataSource,
-  isBusinessMetricsUnifiedMetricConfiguration
-} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/utils';
 import {
   Result,
   SliConfigurationWithLastUpdated,
   Threshold,
   UnifiedMetricConfigurationUnion,
   isBizOpsUnifiedMetricConfiguration
-} from 'in-types';
+} from '@instana/types';
+import { useObservable } from '@instana/hooks';
+
+import {
+  enrichBySettingDataSource,
+  isBusinessMetricsUnifiedMetricConfiguration
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/utils';
 import {
   Config,
   ConfigWithCompanionMetric,

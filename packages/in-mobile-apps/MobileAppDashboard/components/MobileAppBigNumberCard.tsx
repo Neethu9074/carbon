@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { AggregationType, MobileAppMetricConfiguration, TagFilter, TimeConfig } from 'in-types';
+import { AggregationType, MobileAppMetricConfiguration, TagFilter, TimeConfig } from '@instana/types';
+
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { IconAction } from 'in-components/KpiCard/KpiCard';

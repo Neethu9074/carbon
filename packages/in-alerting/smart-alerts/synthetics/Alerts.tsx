@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from '@instana/types';
+
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
@@ -16,7 +18,6 @@ import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/synthetics/hook
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
-import { Role, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from 'in-types';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
@@ -31,6 +32,7 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
+import { Role } from 'in-types';
 
 export interface AlertsProps {
   testId: string;
@@ -62,9 +64,7 @@ export default function Alerts({ testId }: AlertsProps) {
         carbonActionHandlers={handlers}
         getNameSubtitle={config => getSyntheticsSubtitle(config)}
         displayCarbonTable={smartAlertCarbonTableEnabled}
-        toolBarContent={
-          role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert testId={testId} isListingPage /> : undefined
-        }
+        toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert testId={testId} /> : undefined}
         noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
         useSmartAlertCreateUrl={useSmartAlertCreateUrl}

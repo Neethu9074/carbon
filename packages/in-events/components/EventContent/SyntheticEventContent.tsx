@@ -8,6 +8,7 @@
 import { Map } from 'immutable';
 import React from 'react';
 
+import { TimeConfig, TagFilterExpressionElementUnion, TagFilter } from '@instana/types';
 import { Card } from '@instana/components';
 
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
@@ -22,7 +23,6 @@ import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescr
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import useSyntheticEventAlertConfig from 'in-events/hooks/useSyntheticEventAlertConfig';
 import { locationIdTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
-import { TimeConfig, TagFilterExpressionElementUnion, TagFilter } from 'in-types';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';

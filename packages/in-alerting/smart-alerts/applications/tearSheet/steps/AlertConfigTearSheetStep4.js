@@ -170,6 +170,7 @@ export default function AlertConfigTearSheetStep4(props) {
             updateForm={updateForm}
             impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
             hasTraceImpactOption
+            hasRadioBtnViewEnabled
           />
           <Spacer size="gutter" />
           <GracePeriodWrapper form={form} updateForm={updateForm} />

@@ -13,16 +13,6 @@ import { user } from 'in-stores/user';
 // This is the defined tag name <cds-aichat-react> used by the Carbon AI Chat
 export const AI_CHAT_TAG_NAME = 'cds-aichat-react';
 
-// Simple function to convert all string occurrences of
-// something.something (which is interpreted as a link) to instead
-// be `something.something`.
-export function cleanUpText(text) {
-  // Regex to find word.word patterns.
-  const regex = /(\w+)\.(\w+)/g;
-  // Replace matched patterns with the same pattern wrapped in backticks
-  return text.replace(regex, '`$1.$2`');
-}
-
 // We want to track the clicks to segment
 /**
  * Handle tracking for a specific element click.

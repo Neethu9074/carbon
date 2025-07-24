@@ -6,6 +6,7 @@
 import React, { useMemo } from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { LogItem } from '@instana/types';
 
 import { logLevelColumn, timestampColumn, copyColumn } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
 import LogMessageColumnReadMode from 'in-logging/analyze/AnalyzeView/components/LogMessageColumnReadMode';
@@ -13,7 +14,6 @@ import { LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE } from 'in-logging/que
 import LogStackTrace from 'in-logging/analyze/AnalyzeView/components/LogStackTrace';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
-import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './LogExceptionDialog.mless';

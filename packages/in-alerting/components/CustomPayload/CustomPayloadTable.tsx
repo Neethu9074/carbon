@@ -7,14 +7,15 @@ import { Item, ListForm, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
+import { PaginatedResult, Result } from '@instana/types';
 import { Button } from '@instana/components';
 
 import CustomPayloadList from 'in-alerting/components/CustomPayload/CustomPayloadList';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { Nullish, PaginatedResult, Result } from 'in-types';
 import Section from 'in-settings/components/Section';
 import Tooltip from 'in-components/Tooltip';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/components/CustomPayload/CustomPayloadTable.mless';

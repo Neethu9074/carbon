@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
+import { Event } from '@instana/types';
 
 import {
   getEntityIdView,
@@ -15,7 +16,6 @@ import {
 } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { role } from 'in-stores/user';
-import { Event } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './EventSpecificationLink.mless';

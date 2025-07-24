@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Result, GetWebsiteAdaptiveBaselinePredictionsQuery } from '@instana/types';
+
 import { AdaptiveBaselineFetchedPredictions } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, GetWebsiteAdaptiveBaselinePredictionsQuery } from 'in-types';
 
 export default createResultSubscriptionFactory<
   GetWebsiteAdaptiveBaselinePredictionsQuery,

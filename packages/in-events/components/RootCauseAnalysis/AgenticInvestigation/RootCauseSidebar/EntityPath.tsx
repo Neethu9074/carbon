@@ -9,6 +9,7 @@ import { isEmpty, isNull, isUndefined } from 'lodash';
 import React, { FC, useContext } from 'react';
 
 import { Typography } from '@instana/components';
+import { ServiceLabel } from '@instana/types';
 
 import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
@@ -20,7 +21,6 @@ import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constan
 import { useIncident } from 'in-events/components/providers/IncidentProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EVENT_RCA_ENTITY_CLICK } from 'in-services/tracking/eventNames';
-import { ServiceLabel } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/RootCauseSidebar/EntityPath.mless';

@@ -6,11 +6,11 @@
 
 import React from 'react';
 
+import { LogAlertConfig, TimeConfig } from '@instana/types';
 import { Button } from '@instana/components';
 
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
-import { LogAlertConfig, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

@@ -3,12 +3,14 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { UserImpactThreshold, UserImpactWebsiteTimeThreshold, WebsiteTimeThreshold } from '@instana/types';
+
 import {
   timeThresholdTypes,
   TimeThresholdType
 } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { ImpactMeasurementMethods } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
-import { UserImpactThreshold, UserImpactWebsiteTimeThreshold, WebsiteTimeThreshold } from 'in-types';
+
 const { getDescription } = require('in-alerting/smart-alerts/components/dialog/timeThresholdDescriptionText');
 
 const GRANULARITY = 10000;

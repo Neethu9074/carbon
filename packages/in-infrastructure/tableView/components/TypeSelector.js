@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { selectedType$, setSelectedType, matchedSnapshotCount$ } from 'in-infrastructure/tableView/stores/snapshotIds';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -37,10 +38,16 @@ export default connectTo(
     matchedSnapshotCount: matchedSnapshotCount$
   },
   function TypeSelector({ selectedType, matchedSnapshotCount }) {
+    const { location, navigate } = useNavigation();
     return (
       <label className={block} htmlFor={id}>
         {t('in-infrastructure:tableView.tableContent')}
-        <select id={id} className={`${block}__selection`} value={selectedType} onChange={setType}>
+        <select
+          id={id}
+          className={`${block}__selection`}
+          value={selectedType}
+          onChange={e => setType(e, location, navigate)}
+        >
           {Object.keys(physicalDomains)
             .sort()
             .map(val => (
@@ -55,6 +62,6 @@ export default connectTo(
   }
 );
 
-function setType(e) {
-  setSelectedType(e.target.value);
+function setType(e, location, navigate) {
+  setSelectedType(e.target.value, location, navigate);
 }

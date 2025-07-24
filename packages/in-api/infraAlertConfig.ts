@@ -4,12 +4,12 @@
  */
 
 import { Observable } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
-import { Result } from 'in-types';
 
 const baseUrl = 'api/events/settings/infra-alert-configs';
 

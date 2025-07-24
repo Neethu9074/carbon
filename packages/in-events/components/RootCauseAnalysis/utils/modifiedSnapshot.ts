@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Snapshot, TimeConfig } from '@instana/types';
+
 import createSubscription from 'in-subscription/subscription';
-import { Snapshot, TimeConfig } from 'in-types';
 
 interface SnapshotRequest {
   snapshotId: string;

@@ -9,7 +9,6 @@ import { Field } from 'formalistic';
 import { TextArea } from '@instana/components';
 
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import FormGroup from 'in-components/form/FormGroup/FormGroup';
 
 import locals from './AlertPropertiesTextArea.mless';
 
@@ -42,7 +41,7 @@ const AlertPropertiesTextarea = forwardRef(function AlertPropertiesTextarea(
           <TouchedMessages field={formField} />
         </>
       ) : (
-        <FormGroup>
+        <>
           <TextArea
             {...remainingProps}
             hasError={hasFieldError(formField)}
@@ -51,7 +50,7 @@ const AlertPropertiesTextarea = forwardRef(function AlertPropertiesTextarea(
             ref={ref as React.MutableRefObject<HTMLTextAreaElement>}
           />
           <TouchedMessages field={formField} />
-        </FormGroup>
+        </>
       )}
     </>
   );

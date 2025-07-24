@@ -9,6 +9,7 @@ import { isEqual } from 'lodash';
 import React from 'react';
 
 import { KeyValue, Stack } from '@instana/components';
+import { Group, LogGroupItem } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import { LogGroupLabel } from 'in-alerting/smart-alerts/logs/components/LogGroupLabel';
@@ -16,7 +17,6 @@ import { number, withSiPrefixOneDecimalPlace } from 'in-services/formatters/numb
 import AggregationSymbol from 'in-components/AggregationSymbol/AggregationSymbol';
 import { CatalogResponse } from 'in-logging/api/catalog';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { Group, LogGroupItem } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/aggregated/components/GroupTableList.mless';

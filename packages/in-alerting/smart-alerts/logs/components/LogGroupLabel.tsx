@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Group, TagFilter } from '@instana/types';
+import { Group, TagFilter, TagCatalog } from '@instana/types';
 
 //@ts-expect-error
 import { toRenderModel } from 'in-components/QueryBuilder/transformation/renderModel';
@@ -15,7 +15,6 @@ import NameReadOnly from 'in-components/QueryBuilder/components/Tag/NameReadOnly
 import { toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { CatalogResponse } from 'in-logging/api/catalog';
-import { TagCatalog } from 'in-types';
 
 import locals from 'in-alerting/smart-alerts/logs/components/LogGroupLabel.mless';
 

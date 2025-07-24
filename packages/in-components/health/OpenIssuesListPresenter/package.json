@@ -2,5 +2,5 @@
   "name": "OpenIssuesListPresenter",
   "version": "0.0.0",
   "private": true,
-  "main": "./OpenIssuesListPresenter.js"
+  "main": "./OpenIssuesListPresenter.tsx"
 }

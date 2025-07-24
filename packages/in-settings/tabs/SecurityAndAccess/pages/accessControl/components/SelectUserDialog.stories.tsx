@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { UserResult } from '@instana/types';
+
 import SelectUserDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/components/SelectUserDialog';
-import { UserResult } from 'in-types';
 
 export default {
   component: SelectUserDialog

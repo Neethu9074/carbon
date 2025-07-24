@@ -7,6 +7,8 @@
 import { cloneDeep } from 'lodash';
 import { expect } from 'chai';
 
+import { CallDetails, CallDetailsItem, ErrorCode } from '@instana/types';
+
 import {
   initLazyCallTree,
   FAKE_PARENT_CALL_FOREIGN,
@@ -22,7 +24,6 @@ import { SearchIndex } from 'in-applications/analyze/components/TraceDetails/com
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
 import { GetCallDetailsResult } from 'in-applications/subscriptions/getCallDetails';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
-import { CallDetails, CallDetailsItem, ErrorCode } from 'in-types';
 
 const TEST_TRACE_ID = '176e3934e0d92d74';
 
@@ -49,7 +50,7 @@ function createSuccessfulResult(callDetails: CallDetails[], totalHits: number): 
           ingestionTime: 1678116808000,
           offset: ++i
         }
-      } as CallDetailsItem)
+      }) as CallDetailsItem
   );
 
   return {

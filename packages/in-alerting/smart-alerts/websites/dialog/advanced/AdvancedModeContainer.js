@@ -244,6 +244,7 @@ export default function AdvancedModeContainer(props) {
                       placeholderData={{ placeholders: severityPlaceholderList }}
                     />
                   )}
+                  placeholders={severityPlaceholderList}
                 />
               )}
               renderAlertPreview={() => (
@@ -264,6 +265,11 @@ export default function AdvancedModeContainer(props) {
                     />
                   )}
                   isTearSheet={false}
+                  descriptionWithReplacedPlaceholders={replacePlaceholdersWithMarkup(
+                    severityPlaceholderList,
+                    form.get('description').value,
+                    ({ name }) => name
+                  )}
                 />
               )}
             />

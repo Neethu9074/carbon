@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { AlertEvaluationType, ThresholdType } from '@instana/types';
+
 import {
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
-import { AlertEvaluationType, ThresholdType } from 'in-types';
 import { deepFreeze } from 'in-services/util/object';
 import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';

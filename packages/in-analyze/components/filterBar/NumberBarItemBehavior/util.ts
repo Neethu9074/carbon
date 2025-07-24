@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TagFilter } from 'in-types';
 import { find, sortBy } from 'lodash';
+
+import { TagFilter } from '@instana/types';
 
 interface NumberTagFiltersArgs {
   tagFilters: TagFilter[];

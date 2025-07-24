@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 
 import { Card, DataTable, HorizontalIndicator, LoadingSkeleton, Spacer } from '@instana/components';
 import { getIntlNumberFormatter } from '@instana/format-numbers';
+import { TimeConfig } from '@instana/types';
 
 import {
   ImpactedUsersMetricsResult,
@@ -25,7 +26,6 @@ import DescriptionText from 'in-components/form/DescriptionText/DescriptionText'
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard';
 import { hours } from 'in-services/time';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ImpactedUsersPresenter.mless';

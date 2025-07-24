@@ -5,11 +5,12 @@
 
 import React, { useMemo } from 'react';
 
+import { MetricCatalog, MetricTreeNodeUnion } from '@instana/types';
+
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { MetricOptions } from 'in-components/SelectorOverlay/Node';
-import { MetricCatalog, MetricTreeNodeUnion } from 'in-types';
 
 interface MetricSelectorOverlayProps {
   metricCatalog: MetricCatalog;

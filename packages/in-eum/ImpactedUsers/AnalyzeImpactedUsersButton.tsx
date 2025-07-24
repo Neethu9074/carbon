@@ -8,6 +8,7 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 
 import { HorizontalIndicator, Button } from '@instana/components';
 import { Disposable } from '@instana/observables';
+import { Error, Progress } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -18,8 +19,8 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 // @ts-ignore
 import * as entityUtils from 'in-services/entityUtils';
 import { useEumTracker } from 'in-eum/tracking/segTracker';
-import { Error, Nullish, Progress } from 'in-types';
 import http from 'in-services/http';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface AnalyzeImpactedUsersButtonProps {

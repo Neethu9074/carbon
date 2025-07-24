@@ -75,6 +75,7 @@ export default function AdvancedModeContainer(props) {
 
   const isLogsBlueprint = blueprintConfig.type === 'logs';
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
+  const placeholders = placeholdersByEvaluationTypeAndSeverity(evaluationType);
   const navItems = [
     {
       scrollId: '1',
@@ -231,11 +232,12 @@ export default function AdvancedModeContainer(props) {
                 <AlertPropertiesTitleRow
                   form={form}
                   onChange={onChange}
-                  placeholderData={{ placeholders: placeholdersByEvaluationTypeAndSeverity(evaluationType) }}
+                  placeholderData={{ placeholders: placeholders }}
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}
               shouldDisplayAlertLevelSelection={false}
+              placeholders={placeholders}
             />
           )}
           renderAlertPreview={() => (

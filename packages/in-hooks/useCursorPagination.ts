@@ -5,9 +5,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Observable } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
-
 import {
   Cursor,
   Cursorific,
@@ -17,7 +14,10 @@ import {
   Progress,
   Result,
   ResultPrecisionDetails
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { shallowEquals } from 'in-services/util/object';
 

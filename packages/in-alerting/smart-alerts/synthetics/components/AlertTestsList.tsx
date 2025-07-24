@@ -6,6 +6,7 @@
 
 import React, { ReactNode } from 'react';
 
+import { Result, SyntheticTest } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
 
@@ -18,8 +19,8 @@ import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TrProps } from 'in-components/tables/ServerTable/types';
+import { defaultRunType } from 'in-synthetics/utils/constants';
 import { getTestsAsResultObservable } from 'in-synthetics/api';
-import { Result, SyntheticTest } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -61,7 +62,7 @@ export default function AlertTestsList({
   displayApplicationLabel = true,
   hasRowNavigation = false
 }: AlertTestsListProps): JSX.Element {
-  const syntheticTests = getTestsAsResultObservable('')
+  const syntheticTests = getTestsAsResultObservable(defaultRunType)
     .map((result: Result<SyntheticTest[]> | null) => {
       if (result == null || result?.progress?.loading) {
         return null;
@@ -109,6 +110,11 @@ function TestLabelContent({ item }: { item: SyntheticTest }) {
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'type', item?.configuration?.syntheticType);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
+
+  // Add runType parameter to prevent datascope label error
+  if (defaultRunType) {
+    setOrDeleteMatrixKey(location, syntheticsDashboard, 'runType', defaultRunType);
+  }
 
   return <Link href={createHref(location)}>{item?.label}</Link>;
 }

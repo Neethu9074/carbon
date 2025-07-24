@@ -6,6 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
+import { Endpoint, Result, Service, TagFilterExpressionElementUnion, TraceSummary } from '@instana/types';
 import { create, Observable, Subject, timeout } from '@instana/observables';
 import { Message, SvgIcon, Link, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -23,7 +24,6 @@ import {
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { analyzeTagFilterExpression } from 'in-applications/analyze/AnalyzeView2_0/components/analyzeTagFilter';
 import { DashboardButtonProps } from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/types';
-import { Endpoint, Nullish, Result, Service, TagFilterExpressionElementUnion, TraceSummary } from 'in-types';
 import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
@@ -37,8 +37,8 @@ import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
+import { getColorChart } from 'in-applications/endpointTypes';
 import DashboardHeader from 'in-components/DashboardHeader';
-import {getColorChart} from 'in-applications/endpointTypes';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { chartColors } from 'in-themes/chartColors';
@@ -47,6 +47,7 @@ import { hours, seconds } from 'in-services/time';
 import { DetailId } from 'in-applications/types';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/TraceDetailView.mless';

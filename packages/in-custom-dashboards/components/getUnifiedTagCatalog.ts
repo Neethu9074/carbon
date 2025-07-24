@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
+import { GetUnifiedCatalogQuery, TimeConfig } from '@instana/types';
+
 import getUnifiedTagCatalog from 'in-custom-dashboards/subscriptions/getUnifiedTagCatalog';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
-import { GetUnifiedCatalogQuery, TimeConfig } from 'in-types';
 
 export default function (query: GetUnifiedCatalogQuery) {
   return getTagCatalogOnce(

@@ -8,10 +8,10 @@ import React, { useState } from 'react';
 
 import { DataTable as CarbonTable, Pagination as CarbonPagination, CarbonTag as Tag } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 import getArgocdApplications from 'in-kubernetes/subscriptions/getArgocdApplications';
 import { pendingResult } from 'in-services/fixedObjects';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ArgoCD.mless';

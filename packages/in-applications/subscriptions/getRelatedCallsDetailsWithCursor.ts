@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { IngestionOffsetCursor, Relation } from '@instana/types';
+
 import getRelatedCallsDetails from 'in-applications/subscriptions/getRelatedCallsDetails';
-import { IngestionOffsetCursor, Relation } from 'in-types';
 
 /**
  * Number of children or siblings to fetch in a single batch.

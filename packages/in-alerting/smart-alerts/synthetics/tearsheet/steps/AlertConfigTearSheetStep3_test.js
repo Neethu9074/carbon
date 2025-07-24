@@ -25,9 +25,10 @@ describe('AlertConfigTearSheetStep3 : in-alerting/smart-alerts/infrastructure/te
     expect(
       screen.getByText(t('in-alerting:smartAlerts.applications.tearSheet.alertProperties.previewTitle'))
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel'))
-    ).toBeInTheDocument();
+    const insertPlaceholderButtons = screen.getAllByText(
+      t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel')
+    );
+    expect(insertPlaceholderButtons.length).toBeGreaterThanOrEqual(2);
   });
 
   it('should render step 3 components: Custom payload section', async () => {

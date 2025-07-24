@@ -6,7 +6,7 @@
 
 import { isEmpty } from 'lodash';
 
-import { SyntheticAlertConfigWithMetadata } from '@instana/types';
+import { SyntheticAlertConfigWithMetadata, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import useRemoveQueryFromNavigation, {
@@ -21,7 +21,6 @@ import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
-import { Result } from 'in-types';
 
 export function useSmartAlertCreateUrl({ alertId, alertConfigCreated, duplicateMode, editMode }: AlertURLProps) {
   const isClearQueryPath = useCheckLocationPath(duplicateMode, editMode);

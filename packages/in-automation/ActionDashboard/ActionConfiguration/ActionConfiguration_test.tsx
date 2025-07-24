@@ -9,9 +9,10 @@ import ResizeObserver from 'resize-observer-polyfill';
 import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
 
+import { ActionType } from '@instana/types';
+
 import ActionConfiguration from 'in-automation/ActionDashboard/ActionConfiguration/ActionConfiguration';
 import { ACTION_TYPE } from 'in-automation/constants';
-import { ActionType } from 'in-types';
 
 jest.mock('in-services/featureFlags', () => ({
   actionAiGenerationEnabled: true

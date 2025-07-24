@@ -7,6 +7,8 @@
 import { filter } from 'lodash';
 import React from 'react';
 
+import { KubernetesClusterListItem, EntityHealthInfo, KubernetesCondition, TimeConfig } from '@instana/types';
+
 import {
   clusterIdUrlParameter,
   serviceIdUrlParameter,
@@ -35,7 +37,6 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 // @ts-expect-error TS migration
 import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { getOtelKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
-import { KubernetesClusterListItem, EntityHealthInfo, KubernetesCondition } from 'in-types';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -43,7 +44,6 @@ import { useOtelPodDashboard } from 'in-kubernetes/navigation/paths';
 import podPhases from 'in-kubernetes/podPhases';
 import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './Pods.mless';

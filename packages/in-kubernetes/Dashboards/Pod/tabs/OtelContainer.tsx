@@ -4,19 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { Card, DataTable as CarbonDataTable } from '@instana/components';
+import { Error as InstanaError } from '@instana/types/typeDefinitions';
+import { TimeConfig, EntityHealthInfo } from '@instana/types';
 
-import {
-  bytesTwoDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  percentageZeroDecimalPlaces,
-  percentageTwoDecimalPlaces
-} from 'in-services/formatters/number';
-// @ts-expect-error TS migration
-import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 // @ts-expect-error TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error TS migration
@@ -24,26 +18,22 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 // @ts-expect-error TS migration
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import getOtelKubernetesContainers from 'in-kubernetes/subscriptions/getOtelKubernetesContainers';
-import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 // @ts-expect-error TS migration
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 // @ts-expect-error TS migration
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { podIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
+// @ts-expect-error TS migration
+import connectTo from 'in-hoc/connectTo';
 import { getContainerIconByPlugin } from 'in-kubernetes/utils';
+import { isLoading, hasError } from 'in-services/util/result';
 import { Row, Col } from 'in-components/layout/Grid';
 import Capitalize from 'in-components/Capitalize';
 import Tooltip from 'in-components/Tooltip';
-// @ts-expect-error TS migration
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-import { TimeConfig, EntityHealthInfo } from 'in-types';
-import { isLoading, hasError } from 'in-services/util/result';
-import { Error as InstanaError } from '@instana/types/typeDefinitions';
 
 const pathSegment = '/containers';
 const matrixPrefix = 'container.';
@@ -99,78 +89,13 @@ interface ColumnDefinition {
   label: string;
   sortable?: boolean;
   getContent: (item: ContainerItem, context: ColumnContext) => React.ReactNode;
-};
+}
 
 const columnDefinitions: ColumnDefinition[] = [
   {
     id: 'label',
     label: t('in-kubernetes:dashboards.name'),
     getContent: (item, { timeConfig }) => <DashboardLink item={item} timeConfig={timeConfig} />
-  },
-  {
-    id: 'ready',
-    label: t('in-kubernetes:dashboards.ready'),
-    sortable: false,
-    getContent(item, { statesMap }) {
-      const id = get(item, ['container', 'id']);
-      return statesMap[id]
-        ? statesMap[id].ready
-          ? t('in-kubernetes:dashboards.yes')
-          : t('in-kubernetes:dashboards.no')
-        : valueMissingPlaceholder;
-    }
-  },
-  {
-    id: 'status',
-    label: t('in-kubernetes:dashboards.status'),
-    sortable: false,
-    getContent(item, { statesMap }) {
-      const id = get(item, ['container', 'id']);
-      return statesMap[id] ? <Capitalize>{statesMap[id].state.status}</Capitalize> : valueMissingPlaceholder;
-    }
-  },
-  {
-    id: 'message',
-    label: t('in-kubernetes:dashboards.message'),
-    sortable: false,
-    getContent(item, { statesMap }) {
-      const id = get(item, ['container', 'id']);
-      return statesMap[id] ? <PodMessage message={statesMap[id].state.message} /> : valueMissingPlaceholder;
-    }
-  },
-  {
-    id: 'cpuTotal',
-    label: t('in-kubernetes:dashboards.cpuTotal'),
-    sortable: false,
-    getContent(item, { timeConfig }) {
-      return (
-        <InfrastructureMetricSparkChart
-          snapshotId={get(item, ['container', 'id'])}
-          timeConfig={timeConfig}
-          formatter={percentageZeroDecimalPlaces}
-          tooltipFormatter={percentageTwoDecimalPlaces}
-          metric="cpu.total_usage"
-          renderPostChartContent={K8DashboardsMarkerLanes}
-        />
-      );
-    }
-  },
-  {
-    id: 'memoryUsage',
-    label: t('in-kubernetes:dashboards.memoryUsage'),
-    sortable: false,
-    getContent(item, { timeConfig }) {
-      return (
-        <InfrastructureMetricSparkChart
-          snapshotId={get(item, ['container', 'id'])}
-          timeConfig={timeConfig}
-          formatter={bytesZeroDecimalPlaces}
-          tooltipFormatter={bytesTwoDecimalPlaces}
-          metric="memory.usage"
-          renderPostChartContent={K8DashboardsMarkerLanes}
-        />
-      );
-    }
   },
   {
     id: 'health',
@@ -256,13 +181,14 @@ export default connectTo(
       return <MonitoredContainers {...props} />;
     }
 
-    const monitoredSnapshotIds = monitoredContainersResult.data.items.map(item => item.container.id);
+    const monitoredSnapshotIds = monitoredContainersResult.data && Array.isArray(monitoredContainersResult.data.items)
+    ? monitoredContainersResult.data.items.map(item => item.container.id)
+    : [];
     const containerStatuses: ContainerStatus[] = [
       ...get(pod, ['status', 'initContainerStatuses'], []),
       ...get(pod, ['status', 'containerStatuses'], [])
     ].filter(
-      (containerStatus: ContainerStatus) =>
-        monitoredSnapshotIds.indexOf(containerStatus.containerSnapshotId) === -1
+      (containerStatus: ContainerStatus) => monitoredSnapshotIds.indexOf(containerStatus.containerSnapshotId) === -1
     );
 
     if (monitoredSnapshotIds.length === 0) {

@@ -4,7 +4,7 @@
  */
 
 import { track, MAP_METRICS_AGGREGATION } from 'in-services/tracking/tracking';
-import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
+import { navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
 
 export const showAggregations$ = createTrackingStore({
@@ -15,14 +15,13 @@ export const showAggregations$ = createTrackingStore({
     .distinct()
 }).observable;
 
-export function toggle() {
-  mutateUrl(params => {
-    if (params.query.sa === '1') {
-      track(MAP_METRICS_AGGREGATION, { enabled: false });
-      delete params.query.sa;
-    } else {
-      track(MAP_METRICS_AGGREGATION, { enabled: true });
-      params.query.sa = '1';
-    }
-  });
+export function toggle(location, navigate) {
+  if (location.query.sa === '1') {
+    track(MAP_METRICS_AGGREGATION, { enabled: false });
+    delete location.query.sa;
+  } else {
+    track(MAP_METRICS_AGGREGATION, { enabled: true });
+    location.query.sa = '1';
+  }
+  navigate(location);
 }

@@ -16,6 +16,7 @@ import {
   ButtonSizes
 } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { ResultPrecision } from '@instana/types';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
@@ -23,7 +24,6 @@ import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
 import { carbonTooltipEnabled } from 'in-services/featureFlags';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
-import { ResultPrecision } from 'in-types';
 
 import locals from './KpiCard.mless';
 

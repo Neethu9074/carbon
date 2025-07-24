@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
+import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
-import { SyntheticAlertConfigWithMetadata, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 
 export default function useSyntheticEventAlertConfig(event: any | Nullish): SyntheticAlertConfigWithMetadata | Nullish {
   return useObservable(

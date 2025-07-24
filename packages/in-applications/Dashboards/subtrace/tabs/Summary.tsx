@@ -6,12 +6,13 @@
 
 import React from 'react';
 
+import { Granularity, SubtraceUnifiedMetricConfiguration, TagFilter } from '@instana/types';
+
 import CallsPerSubtraceBigCard from 'in-applications/Dashboards/subtrace/components/CallsPerSubtraceBigCard';
 import ErroneousRateBigCard from 'in-applications/Dashboards/subtrace/components/ErroneousRateBigCard';
 import ErroneousRateChart from 'in-applications/Dashboards/subtrace/components/ErrenousRateChart';
 import NumberOfSubtraces from 'in-applications/Dashboards/subtrace/components/NumberOfSubtraces';
 import DurationBigCard from 'in-applications/Dashboards/subtrace/components/DurationBigCard';
-import { Granularity, SubtraceUnifiedMetricConfiguration, TagFilter } from 'in-types';
 import DurationChart from 'in-applications/Dashboards/subtrace/components/Duration';
 import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { getChartGranularity } from 'in-stores/metric/metric';

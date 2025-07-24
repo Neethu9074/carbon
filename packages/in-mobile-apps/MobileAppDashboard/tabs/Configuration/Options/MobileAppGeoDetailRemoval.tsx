@@ -5,11 +5,11 @@
 
 import React, { useCallback } from 'react';
 
+import { GeoDetailRemoval, Result } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 
 import GeoDetailRemovalForm from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/GeoDetailRemoval';
 import { getGeoLocationConfiguration, updateGeoLocationConfiguration } from 'in-mobile-apps/api/config';
-import { GeoDetailRemoval, Result } from 'in-types';
 
 export interface Props {
   mobileAppId: string;
@@ -25,7 +25,7 @@ export default function MobileAppIpMasking({ mobileAppId }: Props) {
             data: result.data.geoDetailRemoval
           };
         }
-        return (result as unknown) as Result<GeoDetailRemoval>;
+        return result as unknown as Result<GeoDetailRemoval>;
       }),
     [mobileAppId]
   );
@@ -48,7 +48,7 @@ export default function MobileAppIpMasking({ mobileAppId }: Props) {
         })
         .flatMap(result => {
           if (!result.data) {
-            return just((result as unknown) as Result<GeoDetailRemoval>);
+            return just(result as unknown as Result<GeoDetailRemoval>);
           }
 
           return updateGeoLocationConfiguration(mobileAppId, result.data).map(result => {
@@ -58,7 +58,7 @@ export default function MobileAppIpMasking({ mobileAppId }: Props) {
                 data: geoDetailRemoval
               };
             }
-            return (result as unknown) as Result<GeoDetailRemoval>;
+            return result as unknown as Result<GeoDetailRemoval>;
           });
         }),
     [mobileAppId]

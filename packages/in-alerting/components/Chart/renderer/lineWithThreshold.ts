@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ThresholdOperator } from '@instana/types';
+
 import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
 import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { MultiMetricRenderProps, RenderAxis, Renderer } from 'in-components/Chart/renderer/types';
 import renderer from 'in-components/Chart/renderer/Renderer';
-import { ThresholdOperator } from 'in-types';
 
 export function createLineWithThreshold(
   operator: ThresholdOperator,

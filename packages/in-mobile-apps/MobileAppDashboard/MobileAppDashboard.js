@@ -20,7 +20,6 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
-import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -125,11 +124,6 @@ export default function MobileAppDashboard() {
           mobileAppLabel: get(result, ['data', 'label'])
         })}
       />
-      {showAlertButton && (
-        <FloatingActionButtons>
-          <CreateSmartAlert {...props} />
-        </FloatingActionButtons>
-      )}
       <Footer />
     </>
   );

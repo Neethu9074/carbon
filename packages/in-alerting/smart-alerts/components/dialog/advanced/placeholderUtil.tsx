@@ -11,6 +11,7 @@ import { themes } from '@instana/design-tokens';
 
 import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { Chunk, PARAMETER, toChunks } from 'in-services/util/stringToChunks';
+import { toHtml } from 'in-services/formatters/markdown';
 
 export type HighlightedPlaceholders = (string | JSX.Element)[];
 
@@ -67,4 +68,24 @@ function highlightPlaceholderReplacer({ template, i }: { template: string; i: nu
 
 function removePlaceholderSpecificCharacters(placeholderValue: string): string {
   return placeholderValue.replace(/[${}]/g, '');
+}
+
+export function highlightPlaceholdersInHtml(
+  description: string,
+  allowedPlaceholders: ReadonlyArray<Readonly<Placeholder>>
+): string {
+  const htmlDescription = toHtml(description);
+  const pinkColor = themes.default.ids.color.option.pink['500'];
+
+  const allowedTemplates = new Set(allowedPlaceholders.map(p => p.template));
+
+  return htmlDescription.replace(/\$\{([\w.\-_.]+)\}/g, (match, varName) => {
+    const fullPlaceholder = `\${${varName}}`;
+
+    if (allowedTemplates.has(fullPlaceholder)) {
+      return `<span style="color: inherit;">\${</span><span style="color: ${pinkColor}">${varName}</span><span style="color: inherit;">}</span>`;
+    }
+
+    return match;
+  });
 }

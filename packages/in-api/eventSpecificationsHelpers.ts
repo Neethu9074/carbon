@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import { generateUniqueShortId } from '@instana/utils';
-
 import {
   AlertingAggregation,
   AlertingConditionOperator,
   MetricPattern,
-  Nullish,
   ThresholdRule,
   LogicalOperator
-} from 'in-types';
+} from '@instana/types';
+import { generateUniqueShortId } from '@instana/utils';
+
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 /** if no id is given, it creates an uuid */

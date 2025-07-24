@@ -6,8 +6,6 @@
 import { MapForm } from 'formalistic';
 import { ReactNode } from 'react';
 
-import { Observable } from '@instana/observables';
-
 import {
   PaginatedResult,
   Progress,
@@ -26,7 +24,9 @@ import {
   SyntheticTestFilterOperator,
   LocationStatus,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -44,6 +44,7 @@ export const resultsMatrixPrefix = 'result.';
 export const failureValue = '0';
 export const defaultPage = 'page_x0';
 export const successValue = '1';
+export const apiTest = 'API';
 export const apiSimpleTest = 'API Simple';
 export const apiScriptTest = 'API Script';
 export const browserSimpleTest = 'Browser Simple';
@@ -66,6 +67,8 @@ export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
 // CI/CD
 export const runTypeCICD = 'CI/CD';
 export const runTypeScheduled = 'Scheduled';
+// Default runType to 'Scheduled' to prevent datascope label error when syntheticRunNowEnabled is true
+export const defaultRunType = syntheticRunNowEnabled ? runTypeScheduled : undefined;
 
 export const DNSTransportOptions: { label: string; value: string }[] = [
   {

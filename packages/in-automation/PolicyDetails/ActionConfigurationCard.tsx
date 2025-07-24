@@ -16,6 +16,7 @@ import {
   Link,
   Typography
 } from '@instana/components';
+import { Action, ParameterValue } from '@instana/types';
 
 import {
   TRIGGERING_AGENT,
@@ -29,7 +30,7 @@ import { ACTION_TRANSLATIONS, ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/
 import { useHostSnapshots } from 'in-automation/PolicyDetails/useHostSnapshots';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
-import { Action, Nullish, ParameterValue } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';

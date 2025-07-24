@@ -41,10 +41,16 @@ export function MultiThresholdAlertPreview({
     ? metricLabel
     : t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.properties.preview.subtitle');
   const name = form.get('name').value;
+  const description = form.get('description')?.value;
   const titleWithReplacedPlaceholders = name
     ? replacePlaceholdersWithMarkup(allowedPlaceholders ?? [], name, ({ name }) => name)
     : placeholderTitle || getTitlePlaceholder();
 
+  const descriptionWithReplacedPlaceholders = replacePlaceholdersWithMarkup(
+    allowedPlaceholders ?? [],
+    description,
+    ({ name }) => name
+  );
   return (
     <MultiThresholdAlertPreviewCommon
       form={form}
@@ -55,6 +61,7 @@ export function MultiThresholdAlertPreview({
       entityLabel={entityLabel}
       entityIconType="lib_infrastructure"
       renderHeadline={() => <AlertPreviewHeadline title={titleWithReplacedPlaceholders} />}
+      descriptionWithReplacedPlaceholders={descriptionWithReplacedPlaceholders}
     />
   );
 }

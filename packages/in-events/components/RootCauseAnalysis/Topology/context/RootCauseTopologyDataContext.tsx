@@ -7,7 +7,7 @@
 import React, { createContext, ReactNode, useContext, useMemo } from 'react';
 import { get } from 'lodash';
 
-import { Application, Event } from '@instana/types';
+import { Application, Event, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import useRootCauseTopologyData from 'in-events/components/RootCauseAnalysis/Topology/utils/useRootCauseTopologyData';
@@ -17,7 +17,6 @@ import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hoo
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { ConnectionsMap, NodesMap } from 'in-events/components/legacy/TopologyUtils';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { TimeConfig } from 'in-types';
 
 // Define the shape of the RootCauseDataContext
 interface RootCauseDataContextType {

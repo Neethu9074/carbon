@@ -11,7 +11,8 @@ import {
   SmartAlertThresholdRuleUnion,
   ThresholdOperator,
   AlertEvaluationType
-} from 'in-types';
+} from '@instana/types';
+
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { mapToThresholdRuleInfo, ThresholdRuleInfo } from 'in-alerting/smart-alerts/utils/thresholdUtils';

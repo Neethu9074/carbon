@@ -7,6 +7,7 @@
 import { Map } from 'immutable';
 import React from 'react';
 
+import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo } from '@instana/types';
 import { Card } from '@instana/components';
 
 import {
@@ -17,7 +18,6 @@ import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/compone
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { getExpressionWithLogsGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
-import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo, Nullish } from 'in-types';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeLogsGroupingTags';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
@@ -45,6 +45,7 @@ import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

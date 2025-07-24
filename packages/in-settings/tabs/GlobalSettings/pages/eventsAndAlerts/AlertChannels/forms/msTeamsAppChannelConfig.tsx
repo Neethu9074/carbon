@@ -254,6 +254,7 @@ export default {
   label,
   isBeta: true,
   testAPI: null,
+  feedbackLink: 'https://your.feedback.ibm.com/jfe/form/SV_1LjNh1TWZ6kFJT8',
 
   getParameters(): Array<AlertChannelParameterValue> {
     return parameters;

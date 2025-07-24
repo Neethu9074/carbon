@@ -7,8 +7,7 @@
 import { ReactNode } from 'react';
 
 import { Observable } from '@instana/observables';
-
-import { Action, Event } from 'in-types';
+import { Action, Event } from '@instana/types';
 
 interface ActionTableProps {
   title?: string;

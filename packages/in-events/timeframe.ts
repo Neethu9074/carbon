@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig } from '@instana/types';
+
 import { getInfraGranularity } from 'in-stores/metric';
 import { EventOrMap, EventMap } from 'in-events/types';
 import { minutes } from 'in-services/time';
-import { TimeConfig } from 'in-types';
 
 const chartOffset = minutes.toMillis(5);
 export const minEventEntityWindowSize = minutes.toMillis(3);
@@ -96,8 +97,8 @@ export function getToOfEvent(event: EventOrMap): number | null {
       ? (event.get('end') as number)
       : null
     : event.state === 'closed'
-    ? event.end
-    : null;
+      ? event.end
+      : null;
 }
 
 function getStartTime(event: EventOrMap): number {

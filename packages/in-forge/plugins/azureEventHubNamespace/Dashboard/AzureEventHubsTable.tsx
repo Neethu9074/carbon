@@ -7,10 +7,11 @@
 import { List } from 'immutable';
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface EventHubRow {

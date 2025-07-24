@@ -190,6 +190,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex, isTea
         metricSelectionDisabled={Boolean(!selectedType)}
         backButton={false}
         label={getMetricLabel}
+        regexEntitySelectionEnabled={false}
         labelOnly
       />
       <TouchedMessages field={metricField} />

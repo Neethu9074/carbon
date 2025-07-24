@@ -79,7 +79,13 @@ export function NodeBreadcrumbs(props) {
 
   return [
     <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    clusterId && (
+      <ClusterBreadcrumb
+        {...props}
+        href={clusterHref}
+        subscription={isOtelCluster ? getOtelKubernetesCluster : getKubernetesCluster}
+      />
+    ),
     namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     nodeId && <NodeBreadcrumb {...props} />
   ];
@@ -148,7 +154,13 @@ export function PodBreadcrumbs(props) {
 
   return [
     <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    clusterId && (
+      <ClusterBreadcrumb
+        {...props}
+        href={clusterHref}
+        subscription={isOtelCluster ? getOtelKubernetesCluster : getKubernetesCluster}
+      />
+    ),
     isOtelCluster && nodeId && <NodeBreadcrumb {...props} href={nodeHref} />,
     namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     workloadControllerId && workloadControllerType === fullyQualifiedPlugins.kubernetesDaemonSet && (

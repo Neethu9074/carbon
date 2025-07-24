@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { CarbonColumn, CarbonGrid, CarbonRow, CarbonStack, Link, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
+import { Policy } from '@instana/types';
 
 import CreateNewPolicyTearsheet, {
   CreateNewPolicyTearsheetProps
@@ -41,7 +42,6 @@ import Form from 'in-components/form/binding/Form';
 import { Triggers } from 'in-automation/types';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
-import { Policy } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { AdaptiveBaselineData, ThresholdOperator } from '@instana/types';
+import { AdaptiveBaselineData, ThresholdOperator, Granularity, TimeConfig } from '@instana/types';
 
 import {
   DataSeries,
@@ -19,7 +19,6 @@ import { getAdaptiveBaselineValue } from 'in-alerting/smart-alerts/components/ut
 import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import { AxisColor } from 'in-components/Chart/types';
 import line from 'in-components/Chart/renderer/line';
-import { Granularity, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
 
 export const createLineWithAdaptiveBaseline = (

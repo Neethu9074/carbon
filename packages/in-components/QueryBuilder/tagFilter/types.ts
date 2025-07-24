@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TagType } from 'in-types';
-
+import { TagType } from '@instana/types';
 export const BOOLEAN: TagType = 'BOOLEAN';
 export const STRING: TagType = 'STRING';
 export const NUMBER: TagType = 'NUMBER';

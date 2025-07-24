@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { SyntheticCredential } from '@instana/types';
+
 import AssociationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContentPresenter';
-import { SyntheticCredential } from 'in-types';
 
 const CredentialAssociationsContent = ({ item }: { item: SyntheticCredential }) => {
   const applicationLabels = item?.applicationLabels ?? [];

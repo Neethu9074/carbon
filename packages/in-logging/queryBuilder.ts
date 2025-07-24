@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { TagFilter, TagFilterEntity, TagFilterOperator } from '@instana/types';
+
 import { sanitizeTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { ENDS_WITH, EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
-import { TagFilter, TagFilterEntity, TagFilterOperator } from 'in-types';
 
 export function getTraceIdTagFilter(traceId: string): TagFilter {
   // Until the transition to 128bit trace IDs is complete, only the ID's last 64 bits should

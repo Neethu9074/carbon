@@ -6,6 +6,8 @@
 
 import { MapForm } from 'formalistic';
 
+import { MobileAppAlertConfig, WebsiteAlertConfig } from '@instana/types';
+
 import {
   EnrichedError,
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
@@ -31,7 +33,6 @@ import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constan
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
-import { MobileAppAlertConfig, WebsiteAlertConfig } from 'in-types';
 
 interface createOrSaveAlertProps {
   form: MapForm<any>;

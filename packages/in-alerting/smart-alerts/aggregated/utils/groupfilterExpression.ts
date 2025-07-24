@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import { TagFilter, TagFilterExpressionElementUnion } from '@instana/types';
+
 import {
   OPERATOR_OR,
   addTagFilters,
@@ -12,7 +14,6 @@ import {
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { TagFilter, TagFilterExpressionElementUnion } from 'in-types';
 
 export function toUIGrouping(groupBy: string[]): TagFilter[] {
   if (!groupBy.length) {

@@ -11,6 +11,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import RightHeader from 'in-infrastructure/tableView/components/RightHeader';
 import LeftHeader from 'in-infrastructure/tableView/components/LeftHeader';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
 import { data$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import Table from 'in-infrastructure/tableView/components/Table';
@@ -30,6 +31,7 @@ export default connectTo(
   },
   function TableWrapper({ data, plugin, selectedSnapshotIds }) {
     const tableRef = useRef(null);
+    const { navigate, location } = useNavigation();
     if (!data || !data.snapshots || data.plugin !== plugin || !plugin) {
       return <LoadingIndicator />;
     }
@@ -77,7 +79,9 @@ export default connectTo(
           leftHeader={<LeftHeader />}
           rightHeader={<RightHeader clearTableSelection={clearTableSelection} />}
           selectedRowKeys={selectedSnapshotIds}
-          onRowClick={row => toggleSnapshotId(row.key, row.snapshot ? row.snapshot.get('plugin') : null)}
+          onRowClick={row =>
+            toggleSnapshotId(row.key, row.snapshot ? row.snapshot.get('plugin') : null, location, navigate)
+          }
           maxItemsPerPage={50}
         />
       </div>

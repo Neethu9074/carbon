@@ -11,6 +11,7 @@ import { CarbonTab, CarbonTabList, CarbonTabPanels } from '@instana/components';
 import { CarbonTabs } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import {
   AlertFetchFunction,
@@ -38,7 +39,6 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { isLoading, success, successObservable } from 'in-services/util/result';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 const pageSizes = [10, 20, 30, 40, 50];

@@ -12,6 +12,7 @@ import React, { useContext, useMemo } from 'react';
 import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
+import { Endpoint } from '@instana/types';
 
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
 import RootCauseContextDashboard from 'in-events/components/RootCauseAnalysis/Logs/RootCauseContextDashboard';
@@ -21,7 +22,6 @@ import { useIncident } from 'in-events/components/providers/IncidentProvider';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { Endpoint } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionsSection.mless';
@@ -41,8 +41,8 @@ function getContainerId(entityData: SnapshotData) {
   return plugin === 'process'
     ? get(entityData, 'data.container', undefined)
     : isContainer(plugin)
-    ? get(entityData, 'data.id')
-    : undefined;
+      ? get(entityData, 'data.id')
+      : undefined;
 }
 
 function getProcessId(entityData: SnapshotData) {

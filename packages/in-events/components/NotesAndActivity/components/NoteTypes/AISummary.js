@@ -208,7 +208,13 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
           className={locals.feedbackSurveyBtn}
           size="sm"
           onClick={() => {
-            addActiveDialog(<FeedbackModal handleSubmitTracking={submitTracking} feedbackState={feedbackState} />);
+            addActiveDialog(
+              <FeedbackModal
+                handleSubmitTracking={submitTracking}
+                feedbackState={feedbackState}
+                feedbackTextSubject={t('in-events:notes.summaryLower')}
+              />
+            );
           }}
           renderIcon={() => <ChatLaunch size="16" />}
         >

@@ -6,12 +6,13 @@
 
 import React from 'react';
 
+import { SnapshotItem as BaseSnapshotItem, TimeConfig } from '@instana/types';
+
 import DefaultDashboard from 'in-infrastructure/Dashboard/components/DefaultDashboard';
 import { usePersistentVolumeClaimDashboard } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
-import { SnapshotItem as BaseSnapshotItem, TimeConfig } from 'in-types';
 
 interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
   get: (id: string) => string;

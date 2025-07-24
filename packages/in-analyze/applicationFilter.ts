@@ -5,11 +5,12 @@
 
 import { get } from 'lodash';
 
+import { TagFilter } from '@instana/types';
+
 // eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { applicationId, serviceId, endpointId, subtraceId } from 'in-analyze/navigation/matrix';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { TagFilter } from 'in-types';
 import { t } from 'in-i18n';
 
 export const APPLICATION = {

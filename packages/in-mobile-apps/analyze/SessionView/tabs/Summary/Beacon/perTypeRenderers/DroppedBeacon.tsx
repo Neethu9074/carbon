@@ -6,6 +6,7 @@
 
 import React, { Fragment, FC } from 'react';
 
+import { MobileAppMonitoringBeacon } from '@instana/types';
 import { Link, Spacer } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
@@ -19,7 +20,6 @@ import { CodeSnippet } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Bea
 import { HTTP_REQUEST, VIEW_CHANGE, CUSTOM } from 'in-mobile-apps/tags';
 import { millisToTwoDecimalSeconds, number } from 'in-services/formatters/number';
 import { Dl } from 'in-components/HorizontalDescriptionList';
-import { MobileAppMonitoringBeacon } from 'in-types';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 

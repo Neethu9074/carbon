@@ -6,13 +6,13 @@
 import React from 'react';
 
 import { Typography } from '@instana/components';
+import { StackTraceItem } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import StackTracePresentation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTracePresentation';
 import { getSnapshot, isEntityOnline } from 'in-stores/snapshot';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { StackTraceItem } from 'in-types';
 import { t } from 'in-i18n';
 
 interface StackTraceProps {

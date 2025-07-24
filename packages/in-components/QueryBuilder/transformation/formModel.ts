@@ -13,7 +13,8 @@ import {
   TagFilterExpression,
   TagFilterExpressionElementUnion,
   TagType
-} from 'in-types';
+} from '@instana/types';
+
 import { toNewTagFilterFormat, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';

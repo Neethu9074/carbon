@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
+import { BusinessPerspective } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { NewPerspectiveFormStepOne } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepOne';
@@ -30,7 +31,6 @@ import { TIMEOUT_IN_MS } from 'in-bizops/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
-import { BusinessPerspective } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.mless';

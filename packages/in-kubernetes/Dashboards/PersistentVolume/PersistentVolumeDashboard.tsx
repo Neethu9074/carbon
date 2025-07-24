@@ -7,6 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { KubernetesPersistentVolume, Result, TimeConfig } from '@instana/types';
+
 //@ts-expect-error TS migration
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 //@ts-expect-error TS migration
@@ -23,7 +25,6 @@ import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/Dashb
 import EntityVersionList from 'in-components/EntityVersionList';
 //@ts-expect-error TS migration
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import { KubernetesPersistentVolume, Nullish, Result, TimeConfig } from 'in-types';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { TrackingFunction, useKubernetesTracker } from 'in-kubernetes/tracker';
 import { persistentVolumeDashboard } from 'in-kubernetes/navigation/paths';
@@ -41,6 +42,7 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface PersistentVolumeProps {

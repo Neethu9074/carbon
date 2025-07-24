@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { TimeConfig } from '@instana/types';
+
 import { GlobalApplicationsSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
@@ -13,7 +15,6 @@ import { fixateTimeConfig, trimTimeConfigEnd } from 'in-stores/time/config';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { days, minutes } from 'in-services/time';
 import { EventOrMap } from 'in-events/types';
-import { TimeConfig } from 'in-types';
 
 type AnySmartAlertConfig =
   | WebsiteSmartAlertConfig

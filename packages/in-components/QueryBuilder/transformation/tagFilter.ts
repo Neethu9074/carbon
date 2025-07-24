@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TagCatalog, TagFilter, TagFilterEntity, TagFilterOperator } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
 import {
@@ -16,7 +17,6 @@ import {
 import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { MinimalTagDefinition } from 'in-components/QueryBuilder/transformation/formModel';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
-import { TagCatalog, TagFilter, TagFilterEntity, TagFilterOperator } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { isNotBlank } from 'in-services/util/string';

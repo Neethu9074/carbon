@@ -5,7 +5,8 @@
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-import { Card, Stack, Link, Button, FileInputButton} from '@instana/components';
+import { Card, Stack, Link, Button, FileInputButton } from '@instana/components';
+import { TechnicalHttpApiError } from '@instana/types';
 import { Form } from '@instana/carbon';
 
 import { put } from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/CustomGeoDetails/apiCall';
@@ -13,7 +14,6 @@ import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Optio
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import OptionsRow from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/OptionsRow';
 import SaveError from 'in-components/form/SaveError';
-import { TechnicalHttpApiError } from 'in-types';
 import { t, Trans } from 'in-i18n';
 
 export interface Props {

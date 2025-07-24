@@ -13,8 +13,10 @@ import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
+import getAlertTitleWithPlaceholderHighlighting, {
+  getAlertDescriptionWithPlaceholderHighlighting
+} from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import getAlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/hooks/useTagBasedApplicationPayloadConfigurator';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
@@ -54,6 +56,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const {
     name,
+    description,
     evaluationType,
     gracePeriod,
     granularity,
@@ -196,6 +199,9 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
             getAlertTitleWithPlaceholderHighlighting({ configName: name, evaluationType: evaluationType })
           }
           shouldDisplayAlertLevelSection={false}
+          renderCustomDescription={() =>
+            getAlertDescriptionWithPlaceholderHighlighting({ configName: description, evaluationType: evaluationType })
+          }
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="APPLICATION" />

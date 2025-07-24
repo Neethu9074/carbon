@@ -10,7 +10,8 @@ import {
   clusterListFullyQualified,
   clusterOtelListFullyQualified,
   namespaceListFullyQualified,
-  exploreFullyQualified
+  exploreFullyQualified,
+  containerDashboardFullyQualified
 } from 'in-kubernetes/navigation/paths';
 import { kubernetesCloudNativeExperience, openTelemetryKubernetesUnifiedViewEnabled } from 'in-services/featureFlags';
 import OtelClusterTable from 'in-kubernetes/lists/ClusterTable/OtelClusterTable';
@@ -22,6 +23,7 @@ import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
 import NamespaceCardView from 'in-kubernetes/lists/NamespaceCardView';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ClusterCardView from 'in-kubernetes/lists/ClusterCardView';
+import ContainerDashboard from 'in-kubernetes/Dashboards/Container/ContainerDashboard';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 
@@ -74,6 +76,9 @@ export default function KubernetesMainView(props) {
             )}
             <Route path={exploreFullyQualified}>
               <KubernetesExplore {...props} />
+            </Route>
+            <Route path={containerDashboardFullyQualified}>
+              <ContainerDashboard {...props} />
             </Route>
           </Switch>
         </LeftRightPadding>

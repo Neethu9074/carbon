@@ -9,7 +9,7 @@ import { Field, MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
 import { InfraAlertEvaluationType, RuleWithThreshold } from '@instana/types/typeDefinitions';
-import { InfraAlertRuleUnion, Order, TagCatalog } from '@instana/types';
+import { InfraAlertRuleUnion, Order, TagCatalog, AggregationType } from '@instana/types';
 
 import InfraMultiThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraMultiThresholdCondition';
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
@@ -26,7 +26,6 @@ import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
-import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
 export interface ThresholdProps {

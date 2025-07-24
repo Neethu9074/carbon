@@ -7,11 +7,10 @@ import React, { useLayoutEffect, useRef } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import useOpenDashboardOnEntityDoubleClick from 'in-map/useOpenDashboardOnEntityDoubleClick';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import { view$, types as views } from 'in-infrastructure/perspectives/view';
-import useClearSelectedEventForInMap from 'in-map/useClearSelectedEvent';
 import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
+import useSetSelectedSnapshotId from 'in-map/useSetSelectedSnapshotId';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
@@ -38,8 +37,7 @@ export default function Map() {
   const ref = useRef();
 
   useDisabledBodyScroll();
-  useOpenDashboardOnEntityDoubleClick();
-  useClearSelectedEventForInMap();
+  useSetSelectedSnapshotId();
 
   useLayoutEffect(() => {
     if (!ref.current) {

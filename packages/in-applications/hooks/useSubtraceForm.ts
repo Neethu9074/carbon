@@ -8,6 +8,7 @@ import { MapForm } from 'formalistic';
 import { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
 import { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { createSubtraceForm } from 'in-applications/creation/form/createSubtraceForm';
@@ -16,7 +17,6 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { SubtraceFormFields } from 'in-applications/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Result } from 'in-types';
 
 export const useSubtraceForm = (subtrace?: Subtrace) => {
   const timeConfig = useTimeConfig();

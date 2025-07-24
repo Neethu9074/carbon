@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetWebsiteMetricAlertsPreviewQuery, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetWebsiteMetricAlertsPreviewQuery, Result } from 'in-types';
 
 type Tuple = [number, number];
 type AlertsPreviewMetrics = Record<string, Tuple[]>;

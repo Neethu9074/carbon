@@ -5,9 +5,7 @@
  */
 
 import { LogAlertRuleUnion, RuleWithThreshold, ThresholdConfigUnion } from '@instana/types/typeDefinitions';
-import { LogAlertConfigWithMetadata } from '@instana/types';
-
-import { LogAlertConfig } from 'in-types';
+import { LogAlertConfigWithMetadata, LogAlertConfig } from '@instana/types';
 
 export interface LogSmartAlertConfig extends LogAlertConfig {
   rules: RuleWithThreshold<LogAlertRuleUnion>[];

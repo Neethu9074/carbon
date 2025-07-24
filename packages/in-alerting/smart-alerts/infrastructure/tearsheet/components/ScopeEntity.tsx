@@ -7,7 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { SvgIcon, Stack } from '@instana/components';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import useInfrastructureEntities from 'in-infrastructure/Explore/hooks/useInfrastructureEntities';
@@ -55,8 +55,10 @@ export default function ScopeEntity({ form, updateForm }: Readonly<ScopeEntityPr
 
   const entityItems = tableResult?.data?.items;
   const options = getEntityTagOptions(entityItems);
-  const selectedEntity = options.find(({ tagName }) => tagName === entityTypeField.value)?.label;
-  const buttonLabel = selectedEntity || t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeEntity.pleaseSelect');
+  const selectedEntity = options.find(({ tagName }) => tagName === entityTypeField.value);
+  const buttonLabel =
+    selectedEntity?.label || t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeEntity.pleaseSelect');
+  const buttonIcon = selectedEntity?.icon;
   const hasError = entityTypeField?.messages.length > 0 && entityTypeField?.touched;
   const entityField = (
     <>
@@ -81,7 +83,9 @@ export default function ScopeEntity({ form, updateForm }: Readonly<ScopeEntityPr
             onClick={toggle}
             refSetter={refSetter as React.MutableRefObject<HTMLButtonElement>}
           >
-            {buttonLabel}
+            <Stack direction="horizontal" align="center" gap="xsmall">
+              {buttonIcon && <SvgIcon className={locals.icon} type={buttonIcon} />} <span>{buttonLabel}</span>
+            </Stack>
           </DropdownButton>
         )}
       </Overlay>
@@ -139,7 +143,7 @@ export default function ScopeEntity({ form, updateForm }: Readonly<ScopeEntityPr
   );
 }
 
-function getEntityTagOptions(entityItems: EntityItem[]): TagOptions[] {
+export function getEntityTagOptions(entityItems: EntityItem[]): TagOptions[] {
   if (!entityItems || entityItems.length === 0) {
     return [];
   }

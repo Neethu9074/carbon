@@ -4,10 +4,9 @@
  */
 
 import { PaginatedResult, WebsitePaginatedBeaconGroupsItem } from '@instana/types/typeDefinitions';
-import { GetWebsitePaginatedBeaconGroupsQuery } from '@instana/types';
+import { GetWebsitePaginatedBeaconGroupsQuery, Result } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result } from 'in-types';
 
 export default createResultSubscriptionFactory<
   GetWebsitePaginatedBeaconGroupsQuery,

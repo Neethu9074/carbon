@@ -5,10 +5,16 @@
 
 import React from 'react';
 
+import {
+  EndpointType,
+  AggregationType,
+  ApplicationMetricConfiguration,
+  Group,
+  TagFilter,
+  TimeConfig
+} from '@instana/types';
 import { Observable } from '@instana/observables';
-import { EndpointType } from '@instana/types';
 
-import { AggregationType, ApplicationMetricConfiguration, Group, TagFilter, TimeConfig } from 'in-types';
 import { GetLabelsProps } from 'in-applications/components/getJumpToAnalyzeHref';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';

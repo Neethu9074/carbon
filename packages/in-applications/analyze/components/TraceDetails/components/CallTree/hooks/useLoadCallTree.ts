@@ -6,7 +6,7 @@
 
 import { useCallback, useEffect, useState, useMemo } from 'react';
 
-import { Relation, TraceActivityTreeNode } from '@instana/types';
+import { Relation, TraceActivityTreeNode, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -31,7 +31,7 @@ import getCallDetails, { GetCallDetailsResult } from 'in-applications/subscripti
 import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
-import { Mutable, Result } from 'in-types';
+import { Mutable } from 'in-types';
 
 export interface OnRelatedCallsLoadedProps {
   callId: string;

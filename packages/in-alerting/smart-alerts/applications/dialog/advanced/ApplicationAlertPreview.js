@@ -7,7 +7,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
+import { placeholdersByEvaluationTypeAndSeverity } from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import ApplicationAlertPreviewHeadline from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreviewHeadline';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { AlertPreview } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { getDescriptionPlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { t } from 'in-i18n';
@@ -19,6 +21,14 @@ export function ApplicationAlertPreview({ form, applicationLabel, evaluationType
   const isCriticalDefined = criticalThresholdField.get('isCheckboxSelected').value;
   const entityLabel = getEntityLabel(applicationLabel, evaluationType);
   const entityIconType = getEntityIconType(evaluationType);
+  const description = form.get('description').value;
+  const placeholders = placeholdersByEvaluationTypeAndSeverity(evaluationType);
+
+  const descriptionWithReplacedPlaceholders = replacePlaceholdersWithMarkup(
+    placeholders,
+    description,
+    ({ name }) => name
+  );
 
   return (
     <MultiThresholdAlertPreviewCommon
@@ -30,6 +40,7 @@ export function ApplicationAlertPreview({ form, applicationLabel, evaluationType
       entityIconType={entityIconType}
       renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} />}
       isTearSheet={isTearSheet}
+      descriptionWithReplacedPlaceholders={descriptionWithReplacedPlaceholders}
     />
   );
 }

@@ -8,6 +8,14 @@ import { Field, MapForm } from 'formalistic';
 import { useCallback } from 'react';
 
 import {
+  ThresholdType,
+  Granularity,
+  SmartAlertThresholdRuleUnion,
+  StaticThresholdRule,
+  StaticBaselineThresholdRule
+} from '@instana/types';
+
+import {
   updateFormIfAdaptiveBaseline,
   updateFormIfHistoricBaseline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdUtil';
@@ -15,13 +23,6 @@ import createThresholdForm, {
   AdaptabilityBaselineThreshold,
   defaultDeviationFactor
 } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
-import {
-  ThresholdType,
-  Granularity,
-  SmartAlertThresholdRuleUnion,
-  StaticThresholdRule,
-  StaticBaselineThresholdRule
-} from 'in-types';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';

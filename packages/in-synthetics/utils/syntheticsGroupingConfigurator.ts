@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { TimeConfig } from '@instana/types';
+
 // @ts-expect-error module needs to be translated to TS
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 import getTestTagSuggestions from 'in-synthetics/subscriptions/getTestTagSuggestions';
 import { getSyntheticTagCatalog } from 'in-synthetics/api';
-import { TimeConfig } from 'in-types';
 
 const { getTagCatalog: getTagCatalogInternal, GroupingConfigurator } = createGroupingConfigurator({
   getTagCatalog: (props: { timeConfig: TimeConfig }) =>

@@ -6,12 +6,12 @@
 
 import { useMemo } from 'react';
 
+import { TimeConfig, Result, TagCatalog } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { getTagSuggestions } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { getTagCatalog } from 'in-alerting/smart-alerts/synthetics/api/tagCatalog';
-import { TimeConfig, Result, TagCatalog } from 'in-types';
 
 export default function useTagBasedPayloadConfigurator(
   suggestionTimeConfig?: TimeConfig

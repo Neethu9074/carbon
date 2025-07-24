@@ -55,7 +55,7 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
 
       {backendResponse && (
         <Grid narrow className={locals.grid} fullWidth>
-          <Column lg={4}>
+          <Column xlg={4} lg={6} md={4} sm={4}>
             <ProductiveCard
               aiLabel={<></>}
               className={locals.cardWithBorder}
@@ -67,7 +67,7 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
             </ProductiveCard>
           </Column>
 
-          <Column lg={12}>
+          <Column xlg={12} lg={10} md={4} sm={4}>
             <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.summary')} className={locals.cardWithBorder}>
               <Stack orientation="vertical" gap={5}>
                 <Stack orientation="vertical" gap={3}>
@@ -147,12 +147,12 @@ const InitialState: FC<{
 
 const SingleEntityOutputSkeleton: FC = () => (
   <Grid narrow className={locals.grid} fullWidth>
-    <Column lg={4}>
+    <Column xlg={4} lg={6} md={4} sm={4}>
       <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.diagnosis')} className={locals.cardWithBorder}>
         <AISkeletonText lineCount={3} />
       </ProductiveCard>
     </Column>
-    <Column lg={12}>
+    <Column xlg={12} lg={10} md={4} sm={4}>
       <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.summary')} className={locals.cardWithBorder}>
         <AISkeletonText lineCount={3} />
       </ProductiveCard>

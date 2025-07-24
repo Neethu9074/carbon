@@ -6,13 +6,13 @@
 
 import React from 'react';
 
+import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 import { Button } from '@instana/components';
 
 import { alertId as alertIdMatrixParam, testId as testIdMatrixParam } from 'in-synthetics/navigation/matrix';
 import { syntheticSmartAlertsPath, alertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { SyntheticAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SyntheticsAlertconfigButtonProps {

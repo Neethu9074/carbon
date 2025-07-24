@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Result, SyntheticTest } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, SyntheticTest } from 'in-types';
 
 interface CreateResultSubscriptionFactoryRequest {
   testId: string;

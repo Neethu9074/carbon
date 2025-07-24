@@ -23,7 +23,6 @@ export default function Info({ snapshot }) {
   const gauges = countMetrics(metricIds, snapshot, 'metrics.gauges');
   const histograms = countMetrics(metricIds, snapshot, 'metrics.histograms', 3); // mean, 50th, 99th
   const meters = countMetrics(metricIds, snapshot, 'metrics.meters');
-  const summaries = countMetrics(metricIds, snapshot, 'metrics.summaries');
   const timers = countMetrics(metricIds, snapshot, 'metrics.timers', 4); // rate, mean, 50th, 99th
 
   return (
@@ -40,9 +39,6 @@ export default function Info({ snapshot }) {
         {histograms}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.meters')}>{meters}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.summaries')}>
-        {summaries}
-      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.timers')}>{timers}</DescriptionItem>
 
       <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.processId')}>

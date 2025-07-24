@@ -13,7 +13,6 @@ import locals from 'in-logging/dashboard/Management/PatternRecognitionModal/Init
 export default function InitialModalScreen() {
   return (
     <div className={locals.container}>
-      <h2>{t.gettingStarted}</h2>
       <section>
         <h3>{t.howDoesItWorks}</h3>
         <div>{t.firstDescription_0}</div>

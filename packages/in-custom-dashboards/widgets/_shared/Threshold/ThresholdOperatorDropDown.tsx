@@ -7,11 +7,11 @@
 import { Field } from 'formalistic';
 import React from 'react';
 
+import { ThresholdOperator } from '@instana/types';
 import { Dropdown } from '@instana/components';
 
 import { humanReadableThresholdOperator } from 'in-components/Threshold/threshold';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
-import { ThresholdOperator } from 'in-types';
 
 const thresholdOperatorOptions: Options = Array.from(humanReadableThresholdOperator).map(([value, label]) => ({
   label,

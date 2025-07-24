@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { CatalogUseCase, Result, TagSuggestions } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 
 //@ts-expect-error needs TS migration
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
-import { CatalogUseCase, Result, TagSuggestions } from 'in-types';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { listSuccess } from 'in-services/util/result';
 

@@ -6,13 +6,13 @@
 import React, { useMemo } from 'react';
 
 import { Code, Stack } from '@instana/components';
+import { LogItem } from '@instana/types';
 
 import { LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE, LOG_EXCEPTION_TYPE } from 'in-logging/queryBuilder';
 import LogExceptionDialog from 'in-logging/analyze/AnalyzeView/components/LogExceptionDialog';
 import { getStackTraceLanguage } from 'in-logging/analyze/AnalyzeView/components/utils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { logFormattingEnabled } from 'in-services/featureFlags';
-import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './LogException.mless';

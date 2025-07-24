@@ -6,7 +6,15 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { InfraExploreCursor, InfraMetricQuery, Order, Result, TagCatalog, TimeConfig } from '@instana/types';
+import {
+  InfraExploreCursor,
+  InfraMetricQuery,
+  Order,
+  Result,
+  TagCatalog,
+  TimeConfig,
+  TagFilterExpressionElementUnion
+} from '@instana/types';
 import { just } from '@instana/observables';
 
 import {
@@ -20,7 +28,6 @@ import { getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/m
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { TagFilterExpressionElementUnion } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 
 const retrievalSize = 5;

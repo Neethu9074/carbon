@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Grouping, ResultType, TimeConfig, UnifiedMetricConfigurationUnion } from '@instana/types';
+
 import { AxisConfiguration, ChartConfig, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
-import { Grouping, ResultType, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { Facets } from 'in-components/AnalyzeView/StateManagement';
 import { TimeShiftOffset } from 'in-stores/time/shifting';

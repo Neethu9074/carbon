@@ -8,6 +8,8 @@ import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 import React from 'react';
 
+import { InfraAlertEvaluationType } from '@instana/types';
+
 import {
   useGetAlertTitle,
   useFormattedThresholdValue,
@@ -46,7 +48,6 @@ import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { MessageType } from 'in-components/MessageStack';
-import { InfraAlertEvaluationType } from 'in-types';
 import { t } from 'in-i18n';
 
 interface AdvancedModeContainerProp {
@@ -201,6 +202,7 @@ export default function AdvancedModeContainer(
                   )}
                   displayTriggerIncident={incidentTriggeringInfraSaEnabled}
                   shouldDisplayAlertLevelSelection={false}
+                  placeholders={placeholders}
                 />
               )}
               renderAlertPreview={() => (

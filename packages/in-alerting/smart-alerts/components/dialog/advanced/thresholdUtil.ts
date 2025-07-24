@@ -6,10 +6,11 @@
 
 import { Field, MapForm } from 'formalistic';
 
-import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { Granularity, ThresholdType } from 'in-types';
+import { Granularity, ThresholdType } from '@instana/types';
+
 import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/mobileApp/form/alertDialogFormDefinition';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export function updateFormIfHistoricBaseline(
   form: MapForm<any>,

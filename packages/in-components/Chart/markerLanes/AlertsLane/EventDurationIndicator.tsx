@@ -5,8 +5,10 @@
 
 import React from 'react';
 
-import { AlertClusterResponse, Nullish } from 'in-types';
+import { AlertClusterResponse } from '@instana/types';
+
 import { ScaleType } from 'in-services/scale/scale';
+import { Nullish } from 'in-types';
 
 import locals from './EventDurationIndicator.mless';
 

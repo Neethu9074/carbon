@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { CustomDashboard, CustomDashboardPreview, Result, TagCatalog, TimeConfig, UserResult } from '@instana/types';
 import { create, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 
@@ -13,7 +14,6 @@ import {
   SlotsRequest,
   SlotsResponse
 } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
-import { CustomDashboard, CustomDashboardPreview, Result, TagCatalog, TimeConfig, UserResult } from 'in-types';
 import memoize, { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
 import { DEFAULT_NUMBER_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';

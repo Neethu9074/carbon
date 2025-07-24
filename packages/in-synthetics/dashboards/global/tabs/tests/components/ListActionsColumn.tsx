@@ -4,19 +4,24 @@
  * Copyright IBM Corp. 2022
  */
 
+import { PauseFilled, PlayFilledAlt } from '@carbon/icons-react';
 import React, { useState } from 'react';
 
 import { SyntheticTest, TestResultListItem } from '@instana/types';
+import { Button, InlineLoading } from '@instana/carbon';
 import { IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
+import { syntheticCarbonTableEnabled } from 'in-services/featureFlags';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import { getTest, updateTest } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from './ListActionsColumn.mless';
 
 const ListActionsColumn = ({ testResultCommonProperties }: TestResultListItem) => {
   const [reloadCount, setReloadCount] = useState(0);
@@ -61,7 +66,28 @@ const ListActionsColumn = ({ testResultCommonProperties }: TestResultListItem) =
   };
 
   // For tests without location(s), disable the Pause/Resume button
-  return (
+  return syntheticCarbonTableEnabled ? (
+    syntheticTest.progress.loading ? (
+      <Button
+        kind="ghost"
+        size="sm"
+        hasIconOnly
+        disabled
+        renderIcon={() => <InlineLoading />}
+        className={locals.loadingIconButton}
+      />
+    ) : (
+      <Button
+        iconDescription={pauseResume}
+        kind="ghost"
+        size="sm"
+        hasIconOnly
+        onClick={() => pauseOrResume(syntheticTest.data)}
+        disabled={totalLocations <= 0}
+        renderIcon={() => (active ? <PauseFilled /> : <PlayFilledAlt />)}
+      />
+    )
+  ) : (
     <Tooltip content={pauseResume}>
       <IconButton
         kind="primaryv2"
@@ -69,7 +95,7 @@ const ListActionsColumn = ({ testResultCommonProperties }: TestResultListItem) =
         iconSpinning={syntheticTest.progress.loading}
         onClick={() => pauseOrResume(syntheticTest.data)}
         alignment="right"
-        disabled={totalLocations > 0 ? false : true}
+        disabled={totalLocations <= 0}
       />
     </Tooltip>
   );

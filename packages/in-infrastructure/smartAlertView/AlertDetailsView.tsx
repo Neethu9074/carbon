@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import { CreateInfraSmartAlertFloatingButtons } from 'in-infrastructure/smartAlertView/CreateInfraSmartAlertFloatingButtons';
 //@ts-expect-error
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import AlertDetails from 'in-alerting/smart-alerts/infrastructure/details/AlertDetails';
@@ -33,7 +32,6 @@ export default function AlertDetailsView() {
           <AlertDetails />
         </div>
       </InfraPageHeaderWithTabs>
-      <CreateInfraSmartAlertFloatingButtons />
     </>
   );
 }

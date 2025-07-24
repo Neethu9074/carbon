@@ -15,6 +15,7 @@ import {
   Tooltip,
   Spacer
 } from '@instana/components';
+import { Result } from '@instana/types';
 
 import { AxisConfiguration, ChartConfig, MetricDataPoint, MetricsConfiguration } from 'in-components/Chart/types';
 import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
@@ -27,7 +28,6 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
 import { FormatterFn } from 'in-stores/metric/formatters';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ResultAwareChart.mless';

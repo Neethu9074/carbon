@@ -6,7 +6,7 @@
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
-import { ForecastingConfig } from '@instana/types';
+import { ForecastingConfig, ThresholdType, VersionedConfig } from '@instana/types';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
@@ -22,7 +22,6 @@ import { getGracePeriod } from 'in-alerting/smart-alerts/components/utils/alertU
 import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleForm';
 import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { ThresholdType, VersionedConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 export const defaultAdaptiveBaselineGranularity = 1200000;

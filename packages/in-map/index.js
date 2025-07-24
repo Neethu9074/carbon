@@ -11,10 +11,12 @@ import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import NotMonitoringMap from 'in-map/components/NotMonitoringMap';
 import MapSidebar from 'in-map/components/MapSidebar/MapSidebar';
 import Controls from 'in-map/components/MapOverlayControls';
+import useInfraMapEvents from 'in-map/useInfraMapEvents';
 import MapNotes from 'in-map/components/MapNotes';
 import Map from 'in-map/Map';
 
 export default function MapHandler(props) {
+  useInfraMapEvents();
   return (
     <InfraPageHeaderWithTabs>
       <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={NotMonitoringMap}>

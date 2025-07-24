@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 
 import { Stack, CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } from '@instana/components';
+import { TimeShift } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -18,7 +19,6 @@ import { latencyFixed } from 'in-services/formatters/number';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { stackedArea } from 'in-stores/metric/renderer';
 import { chartColors } from 'in-themes/chartColors';
-import { TimeShift } from 'in-types';
 
 import locals from './NetworkTiming.mless';
 

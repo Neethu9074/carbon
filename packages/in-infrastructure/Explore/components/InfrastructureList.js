@@ -7,7 +7,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { isEqual, kebabCase } from 'lodash';
 import rpt from 'prop-types';
 
-import { LoadingSpinner, Ul } from '@instana/components';
+import { LoadingSpinner, Message, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -58,6 +58,8 @@ import { t } from 'in-i18n';
 
 import locals from './InfrastructureList.mless';
 
+const MAX_LIMIT = 10000;
+
 export default function InfrastructureList({
   retrievalSize = 20,
   numSkeletonRows = 3,
@@ -102,6 +104,8 @@ export default function InfrastructureList({
   });
   const order = useMemo(() => fixOrderForBackwardsCompatibility(incomingOrder, metrics), [incomingOrder, metrics]);
   const [cachedCursor, setCachedCursor] = useState(undefined);
+  const [isLimitExceeded, setIsLimitExceeded] = useState(false);
+
   const {
     items,
     totalHits,
@@ -253,6 +257,7 @@ export default function InfrastructureList({
           metrics={metrics}
           metricMetadatas={metricMetadatas}
           tracking={tracking}
+          setIsLimitExceeded={setIsLimitExceeded}
           CustomHeaderActions={getHeaderActions}
           pluginName={pluginName}
           type={type}
@@ -274,6 +279,12 @@ export default function InfrastructureList({
         <Ul>
           <LiErrorList errors={errors} />
         </Ul>
+      )}
+
+      {isLimitExceeded && (
+        <Message type="warning" title={t('in-infrastructure:explore.warningTitle')} fullInlineWidth dismissible>
+          {t('in-infrastructure:explore.warning', { count: totalRepresentedItemCount, max: MAX_LIMIT })}
+        </Message>
       )}
 
       <CursorPaginatedTable
@@ -601,14 +612,27 @@ function getHeaderActions(props) {
     return <></>;
   }
 
-  const { timeConfig, backendQueryModel, order, type, pluginName, metrics, tags, cursor, columns, granularity } = props;
+  const {
+    timeConfig,
+    backendQueryModel,
+    order,
+    type,
+    pluginName,
+    metrics,
+    tags,
+    cursor,
+    columns,
+    granularity,
+    setIsLimitExceeded,
+    totalRepresentedItemCount
+  } = props;
   const csvFileName = `infrastructure_entities_${type}.csv`;
 
   const getAllData = ({ cursor }) =>
     getTableData({
       timeConfig,
       granularity,
-      retrievalSize: 10000,
+      retrievalSize: MAX_LIMIT,
       backendQueryModel,
       tags,
       type,
@@ -626,6 +650,7 @@ function getHeaderActions(props) {
         fileName={csvFileName}
         cursor={cursor}
         columns={columns}
+        onClick={() => setIsLimitExceeded(totalRepresentedItemCount > MAX_LIMIT)}
       />
       <DownloadPdfButton
         options={{

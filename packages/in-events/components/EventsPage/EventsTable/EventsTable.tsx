@@ -73,7 +73,7 @@ interface EventsTableProps {
 }
 
 const EventsTable: React.FC<EventsTableProps> = props => {
-  const { eventType, items, filter, onChange, orderBy, orderDirection } = props;
+  const { eventType, filter, onChange, orderBy, orderDirection } = props;
   const [selectedRows, setRows] = useState({});
 
   const onFilterChange = (newFilters: string) => {
@@ -83,8 +83,9 @@ const EventsTable: React.FC<EventsTableProps> = props => {
   };
 
   const selectedRowIds = useMemo(() => {
-    return Object.keys(selectedRows).map(index => items[Number(index)]?.id);
-  }, [selectedRows, items]);
+    // Filter out any undefined or invalid IDs
+    return Object.keys(selectedRows).filter(id => id && id !== 'undefined');
+  }, [selectedRows]);
 
   // all | incident | issues
   const shouldShowFilters = isUndefined(eventType) || eventType === 'incident' || eventType === 'issue';

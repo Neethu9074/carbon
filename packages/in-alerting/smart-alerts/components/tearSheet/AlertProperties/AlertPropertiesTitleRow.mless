@@ -30,4 +30,20 @@
     padding-left: 15%;
     margin-left: 1rem;
   }
+  .alertTitleRowContainer {
+    display: grid;
+    align-items: start;
+    grid-template-columns: 15% 1fr;
+    padding-top: 1.5rem;
+    grid-gap: 1rem;
+  }
+
+  .validationMessage {
+    min-height: 1.5em;
+    flex-shrink: 0;
+  }
+
+  .touchedMessage {
+    margin-top: 0;
+  }
 }

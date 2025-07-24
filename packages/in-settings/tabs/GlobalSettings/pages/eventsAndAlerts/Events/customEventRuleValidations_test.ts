@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2022
  */
 
+import { ThresholdRule } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { customEventRulesValidator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
-import { ThresholdRule } from 'in-types';
 
 describe('in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventRuleValidations.ts', function () {
   const defaultRuleWithMetricName: Partial<ThresholdRule> = {

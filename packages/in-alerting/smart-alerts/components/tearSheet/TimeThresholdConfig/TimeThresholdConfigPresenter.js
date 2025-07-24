@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import ConfigureAlertingThresholdTearSheet from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlertingThreshold';
+import TimeThresholdChoice from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/TimeThresholdChoice';
 import SelectTimeThresholdTearSheet from 'in-alerting/smart-alerts/components/tearSheet/SelectTimeThreshold';
 
 export default function TimeThresholdConfigPresenter({
@@ -16,17 +17,28 @@ export default function TimeThresholdConfigPresenter({
   updateForm,
   hasTraceImpactOption,
   hasUserImpactOption,
-  impactTimeThresholdDisabled
+  impactTimeThresholdDisabled,
+  hasRadioBtnViewEnabled = false
 }) {
   return (
     <>
-      <SelectTimeThresholdTearSheet
-        form={form}
-        updateForm={updateForm}
-        hasUserImpactOption={hasUserImpactOption}
-        hasTraceImpactOption={hasTraceImpactOption}
-        impactTimeThresholdDisabled={impactTimeThresholdDisabled}
-      />
+      {hasRadioBtnViewEnabled ? (
+        <TimeThresholdChoice
+          form={form}
+          updateForm={updateForm}
+          hasUserImpactOption={hasUserImpactOption}
+          hasTraceImpactOption={hasTraceImpactOption}
+          impactTimeThresholdDisabled={impactTimeThresholdDisabled}
+        />
+      ) : (
+        <SelectTimeThresholdTearSheet
+          form={form}
+          updateForm={updateForm}
+          hasUserImpactOption={hasUserImpactOption}
+          hasTraceImpactOption={hasTraceImpactOption}
+          impactTimeThresholdDisabled={impactTimeThresholdDisabled}
+        />
+      )}
       <ConfigureAlertingThresholdTearSheet form={form} onChange={onChange} updateForm={updateForm} />
     </>
   );
@@ -38,5 +50,6 @@ TimeThresholdConfigPresenter.propTypes = {
   updateForm: PropTypes.func.isRequired,
   hasTraceImpactOption: PropTypes.bool,
   hasUserImpactOption: PropTypes.bool,
-  impactTimeThresholdDisabled: PropTypes.bool
+  impactTimeThresholdDisabled: PropTypes.bool,
+  hasRadioBtnViewEnabled: PropTypes.bool
 };

@@ -6,6 +6,8 @@
 
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 
+import { Error } from '@instana/types';
+
 import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/ExpirationDateDropdown';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PersonalApiToken, savePersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
@@ -22,7 +24,6 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import Actions from 'in-components/Dialog/Actions';
 import Dialog from 'in-components/Dialog/Dialog';
-import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 /**

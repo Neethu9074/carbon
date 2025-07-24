@@ -5,6 +5,7 @@
 
 import React, { Fragment, ReactElement } from 'react';
 
+import { PaginatedResult, Result, ServiceItem } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -12,11 +13,11 @@ import { t } from '@instana/i18n-react';
 // @ts-expect-error TopListCardPresenter is not yet converted to TS, nor does it provide types
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { createServiceNameTagFilter } from 'in-applications/Dashboards/service/tabs/troubleshooting/metricConfigs';
-// eslint-disable-next-line no-restricted-imports
-import { PaginatedResult, Result, ServiceItem } from 'in-types';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { number } from 'in-services/formatters/number';
+
+// eslint-disable-next-line no-restricted-imports
 
 const metrics = ['callsAgg'];
 const selectedMetric = metrics[0];

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result } from 'in-types';
 
 interface GetWebsiteMetricsRequest {}
 interface GetWebsiteMetricsResponse extends Result<Map<String, Number[][]>> {}

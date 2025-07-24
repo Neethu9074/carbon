@@ -5,13 +5,13 @@
 
 import React from 'react';
 
+import { ApplicationNode } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import IconLabel from 'in-alerting/components/IconLabel';
 import Tooltip from 'in-components/Tooltip';
-import { ApplicationNode } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';

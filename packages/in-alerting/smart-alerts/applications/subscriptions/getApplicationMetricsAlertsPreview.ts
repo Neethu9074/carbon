@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result, GetApplicationMetricsAlertPreviewQuery } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, GetApplicationMetricsAlertPreviewQuery } from 'in-types';
 import { MetricDataSeries } from 'in-applications/subscriptions/types';
 
 export default createResultSubscriptionFactory<

@@ -18,6 +18,8 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 import createQueue from 'in-components/Chart/data/queue';
 import { getInfraGranularity } from 'in-stores/metric';
 
+import locals from './InfrastructureMetricChartBehavior.mless';
+
 // we don't need to open subscriptions on the componentDidMount. This is because the getElementDimensions hoc
 // needs to calculate the dimensions of the chart first. The hoc will definitely set a state which results in a
 // componentDidUpdate call. There we can create subscriptions. Bar charts for instance rely on having a proper width
@@ -315,7 +317,7 @@ function isDynamicallyAggregated(axis) {
 export default function InfrastructureMetricChartBehaviorWrapper(props) {
   const { ref, ...dimensions } = useResizeObserverCustom();
   return (
-    <div ref={ref}>
+    <div ref={ref} className={locals.metricChartContainer}>
       <InfrastructureMetricChartBehavior {...props} {...dimensions} />
     </div>
   );

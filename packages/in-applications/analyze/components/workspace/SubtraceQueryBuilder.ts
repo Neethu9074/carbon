@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import { TimeConfig } from '@instana/types';
+
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import getSubtraceTagSuggestion from 'in-applications/subscriptions/getSubtraceTagSuggestion';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -11,7 +13,6 @@ import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { AdditionalTagSuggestionProps } from 'in-applications/types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { SUBTRACES } from 'in-applications/analyze/metrics';
-import { TimeConfig } from 'in-types';
 
 const {
   QueryBuilder,

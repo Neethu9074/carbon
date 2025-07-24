@@ -52,6 +52,11 @@ export function LogMultiThresholdAlertPreview({
           }
         />
       )}
+      descriptionWithReplacedPlaceholders={replacePlaceholdersWithMarkup(
+        allowedPlaceholders ?? [],
+        form.get('description').value,
+        ({ name }) => name
+      )}
     />
   );
 }

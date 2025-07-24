@@ -7,6 +7,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
 import { IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
@@ -25,7 +26,6 @@ import {
   validateStartWithinRetention
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
 import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
-import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeletionTable.mless';

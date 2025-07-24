@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Result, AbapSystemItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, AbapSystemItem } from 'in-types';
 
 interface GetParentForSapBreadCrumbRequest {}
 

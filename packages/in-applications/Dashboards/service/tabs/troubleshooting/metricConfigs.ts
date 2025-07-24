@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import { Group, TagFilter, TagFilterExpression } from '@instana/types';
+
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import { Group, TagFilter, TagFilterExpression } from 'in-types';
 
 export const createServiceIdTagFilter = (serviceId: string): TagFilter => {
   return tagFilter('service.id', EQUALS, serviceId);

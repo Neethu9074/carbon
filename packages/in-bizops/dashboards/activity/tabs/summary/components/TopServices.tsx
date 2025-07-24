@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { Service, TimeConfig } from '@instana/types';
 import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
@@ -18,7 +19,6 @@ import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Service, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface TopServicesProps {

@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
+import { RuleWithThreshold, MobileAppAlertRuleUnion, WebsiteAlertRuleUnion } from '@instana/types';
+
 import {
   extractAlertConfigWithFormModel,
   getErrorMessage
 } from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
-import { RuleWithThreshold, MobileAppAlertRuleUnion, WebsiteAlertRuleUnion } from 'in-types';
 import { t } from 'in-i18n';
 
 describe('extractAlertConfigWithFormModel', () => {

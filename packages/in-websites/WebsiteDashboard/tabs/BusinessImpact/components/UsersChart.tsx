@@ -6,19 +6,21 @@
 
 import React from 'react';
 
+import { Result, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error needs migration to TS
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
+import getBusinessMetricsForWebsites, {
+  BusinessDataQuery
+} from 'in-bizops/subscriptions/getBusinessMetricsForWebsites';
 // @ts-expect-error needs migration to TS
 import { extendMetricConfigurationOnLiveMode } from 'in-websites/metrics';
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { chartColors } from 'in-themes/chartColors';
-import { Result, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface UsersChartProps {
@@ -29,28 +31,19 @@ interface UsersChartProps {
 export default function UsersChart({ timeConfig, websiteId }: UsersChartProps) {
   const granularity = getChartGranularity(timeConfig);
   const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId });
-  //! TODO: Update this with the backend endpoint once ready
-  const tagFilters = [
-    {
-      name: 'beacon.website.id',
-      operator: 'EQUALS',
-      stringValue: 'KExRPJGcSvOjBPD_JrwAIA'
-    }
-  ];
-  const metricConfig = {
-    tagFilters,
+  const query: BusinessDataQuery = {
     timeConfig,
+    dataType: 'EUM',
     metrics: {
-      pageLoads: {
-        metric: 'pageLoads',
-        granularity: granularity,
-        aggregation: 'SUM'
+      total: {
+        // Alias for metric
+        metric: 'IBM.Automation.Instana.monthly.revenue.1.0.1', // Name of custom metric
+        granularity: 0,
+        aggregation: 'MEAN'
       }
     }
   };
-  const placeholderResult = useObservable(getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricConfig)), [
-    timeConfig
-  ]);
+  const placeholderResult = useObservable(getBusinessMetricsForWebsites(query), [timeConfig]);
   if (!placeholderResult) return null;
 
   return (
@@ -65,7 +58,7 @@ export default function UsersChart({ timeConfig, websiteId }: UsersChartProps) {
           colors: [chartColors.strokeColors100[13]],
           renderer: Renderer.stackedBar,
           labels: [t('in-websites:websiteDashboard.tabs.businessMonitoring.usersChartTotalLabel')],
-          metricIds: ['pageLoads'],
+          metricIds: ['total'],
           metrics: []
         }}
       />

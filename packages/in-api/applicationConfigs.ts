@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create, Observable } from '@instana/observables';
-
 import {
   AbstractApplicationConfig,
   ApplicationConfig,
@@ -17,7 +15,9 @@ import {
   TagFilterExpressionElementUnion,
   TagMatcherDTO,
   BinaryOperatorDTOConjunction
-} from 'in-types';
+} from '@instana/types';
+import { create, Observable } from '@instana/observables';
+
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';

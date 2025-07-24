@@ -6,15 +6,16 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { kiloBytes } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { TimeConfig } from 'in-types';
-import { t } from 'in-i18n';
+import { kiloBytes } from 'in-services/formatters/number';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function DiskReadWriteChart({
   snapshot,

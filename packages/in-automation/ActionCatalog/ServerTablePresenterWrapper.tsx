@@ -8,6 +8,7 @@ import React from 'react';
 
 import { IconButton, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { Parameter } from '@instana/types';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
@@ -16,7 +17,6 @@ import { shouldHideParameter } from 'in-automation/RunActionDialog/RunActionDial
 import { ActionForm, MappedValue } from 'in-automation/ActionCatalog/useActionForm/types';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { Parameter } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenterWrapper.mless';

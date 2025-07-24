@@ -14,6 +14,7 @@ import { metrics$, removeMetric } from 'in-infrastructure/tableView/stores/metri
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import DownloadButton from 'in-components/DownloadButton/DownloadButton';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTableDefinition } from 'in-sdk/snapshot';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -26,7 +27,7 @@ import locals from './ChartsForSelectedEntities.mless';
 
 function SelectedChart({ metric, snapshots, timeConfig, labels }) {
   const definition = getMetricDefinition(snapshots[0].get('plugin'), metric);
-
+  const { location, navigate } = useNavigation();
   let max = undefined;
   let min = undefined;
 
@@ -62,7 +63,12 @@ function SelectedChart({ metric, snapshots, timeConfig, labels }) {
             <MetricChartDownloadView metric={metric} label={definition.label} snapshots={snapshots} />
           </DownloadButton>
 
-          <CarbonButton onClick={() => removeMetric(metric)} kind="secondary" size="md" className={locals.button}>
+          <CarbonButton
+            onClick={() => removeMetric(metric, location, navigate)}
+            kind="secondary"
+            size="md"
+            className={locals.button}
+          >
             {t('in-infrastructure:tableView.remove')}
           </CarbonButton>
         </div>

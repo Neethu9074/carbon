@@ -7,13 +7,14 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import { bytesPerSecondTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { SummaryData } from 'in-xenserver/Dashboards/VM/tabs/Summary';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 const cols = [

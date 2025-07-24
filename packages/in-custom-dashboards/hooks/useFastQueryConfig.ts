@@ -4,13 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
+import { UnifiedMetricConfigurationUnion } from '@instana/types';
+
 // @ts-expect-error needs ts migration
 import { fastQueryModeEnabledParameter } from 'in-custom-dashboards/navigation/url';
 import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
 import { customDashboardsFastQueryModeEnabled } from 'in-services/featureFlags';
 import { AxisConfiguration, ChartConfig } from 'in-components/Chart/types';
-import { Nullish, UnifiedMetricConfigurationUnion } from 'in-types';
 import useUrlState from 'in-hooks/useUrlState';
+import { Nullish } from 'in-types';
 
 export const useFastQueryConfig = (config: any, type: string) => {
   const [{ fastQueryModeEnabled }] = useUrlState({

@@ -17,12 +17,12 @@ import {
   CarbonTableToolbarSearch,
   TableErrorRows
 } from '@instana/components';
+import { OrderDirection, PaginatedResult, Result } from '@instana/types';
 import { NoDataEmptyState } from '@instana/ibm-products';
 
 import { TableProps, ColumnDefinition, TableState } from 'in-components/tables/ServerTable/types';
 import { RowProps } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import { OrderDirection, PaginatedResult, Result } from 'in-types';
 import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 

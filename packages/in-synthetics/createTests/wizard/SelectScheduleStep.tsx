@@ -15,9 +15,8 @@ import {
   convertMinutesToHours,
   testFrequencyDescription
 } from 'in-synthetics/utils/testFrequencyUtil';
-import Section, { ActionTitle, SubTitle } from 'in-synthetics/createTests/wizard/Section';
+import { ActionTitle } from 'in-synthetics/createTests/wizard/Section';
 import { Shape } from 'in-components/Slider/proptypes';
-import FormGroup from 'in-components/form/FormGroup';
 import { hours, minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -26,7 +25,6 @@ import locals from 'in-synthetics/createTests/wizard/SelectScheduleStep.mless';
 export interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  simpleMode: boolean;
 }
 
 /**
@@ -70,30 +68,18 @@ const testFrequencyTitle = (syntheticType: string) => {
     : t('in-synthetics:dialog.createTest.basicDetails.labelFrequencyHour');
 };
 
-export default function SelectScheduleStep({ form, updateForm, simpleMode }: Props) {
+export default function SelectScheduleStep({ form, updateForm }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const syntheticType = configForm.get('syntheticType') as Field<string>;
   const frequencyField = form.get('testFrequency') as Field<number>;
-
-  if (simpleMode) {
-    return (
-      <Section headingText={t('in-synthetics:dialog.createTest.scheduling.title')}>
-        <FormGroup>
-          <SubTitle>{t('in-synthetics:dialog.createTest.basicDetails.labelFrequency')}</SubTitle>
-          {displaySlider(frequencyField, marksToRender, form, updateForm, '')}
-        </FormGroup>
-      </Section>
-    );
-  } else {
-    //Advanced Mode
-    return (
-      <div className={locals.outerBox}>
-        <Label>{testFrequencyTitle(syntheticType.value)}</Label>
-        {slider({ syntheticType, frequencyField, form, updateForm })}
-        <ActionTitle>{testFrequencyDescription(syntheticType.value, frequencyField.value)}</ActionTitle>
-      </div>
-    );
-  }
+  //Advanced Mode
+  return (
+    <div className={locals.outerBox}>
+      <Label>{testFrequencyTitle(syntheticType.value)}</Label>
+      {slider({ syntheticType, frequencyField, form, updateForm })}
+      <ActionTitle>{testFrequencyDescription(syntheticType.value, frequencyField.value)}</ActionTitle>
+    </div>
+  );
 }
 
 function getDisplayLabel(value: number) {

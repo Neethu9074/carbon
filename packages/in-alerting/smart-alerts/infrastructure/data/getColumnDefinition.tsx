@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { isEqual } from 'lodash';
 import React from 'react';
 
+import { InfrastructureGroup, Result, TagCatalog, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 //@ts-expect-error
@@ -16,7 +17,6 @@ import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/Th
 import { GroupLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraGroupLabel';
 //@ts-expect-error
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
-import { InfrastructureGroup, Result, TagCatalog, TimeConfig } from 'in-types';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { getPluginName } from 'in-sdk/pluginName';
 import { t } from 'in-i18n';

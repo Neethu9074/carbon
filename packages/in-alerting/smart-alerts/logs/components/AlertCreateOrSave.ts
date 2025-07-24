@@ -6,6 +6,8 @@
 
 import { MapForm } from 'formalistic';
 
+import { LogAlertConfig } from '@instana/types';
+
 import {
   EnrichedError,
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
@@ -16,7 +18,6 @@ import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/us
 import { ADVANCED, FULLSCREEN, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
-import { LogAlertConfig } from 'in-types';
 
 interface createOrSaveAlertProps {
   form: MapForm<any>;

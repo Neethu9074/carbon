@@ -8,6 +8,7 @@ import { Set } from 'immutable';
 import { useMemo } from 'react';
 import { get } from 'lodash';
 
+import { Application, Event, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -22,7 +23,6 @@ import {
 } from 'in-events/components/legacy/TopologyUtils';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import getServiceMap from 'in-applications/subscriptions/getServiceMap';
-import { Application, Event, TimeConfig } from 'in-types';
 
 interface UseRootCauseTopologyDataProps {
   relatedApplicationInformation: Application | null | undefined;

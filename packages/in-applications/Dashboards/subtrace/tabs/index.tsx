@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { subtraceConfigurationFullyQualified, subtraceDashboard } from 'in-applications/navigation/paths';
@@ -13,7 +14,6 @@ import { SubtraceConfiguration } from 'in-applications/Dashboards/subtrace/tabs/
 import { Summary } from 'in-applications/Dashboards/subtrace/tabs/Summary';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { Subtrace } from 'in-applications/lists/SubtracesList';
-import { Result } from 'in-types';
 
 export interface SubtraceTabData {
   id: string;

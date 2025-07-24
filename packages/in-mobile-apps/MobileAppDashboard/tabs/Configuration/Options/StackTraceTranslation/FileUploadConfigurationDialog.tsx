@@ -7,6 +7,7 @@
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { FormEvent, useState } from 'react';
 
+import { SourceMapUploadConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import FileUploadConfigurationDialogPresenter, {
@@ -15,7 +16,6 @@ import FileUploadConfigurationDialogPresenter, {
 import { addSourceMapUploadConfiguration, updateSourceMapUploadConfiguration } from 'in-mobile-apps/api/mobileApps';
 import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
-import { SourceMapUploadConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

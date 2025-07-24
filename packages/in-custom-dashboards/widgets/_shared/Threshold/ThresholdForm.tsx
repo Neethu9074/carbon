@@ -8,6 +8,7 @@ import React, { useEffect, useRef } from 'react';
 import { Field, MapForm } from 'formalistic';
 
 import { Spacer, Stack, Toggle } from '@instana/components';
+import { ThresholdOperator } from '@instana/types';
 
 import ThresholdConditionFormGroup from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdConditionFormGroup';
 import ThresholdOperatorDropDown from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdOperatorDropDown';
@@ -16,7 +17,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import useFormField from 'in-custom-dashboards/widgets/_shared/useFormField';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import { ThresholdOperator } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ThresholdFormProps {

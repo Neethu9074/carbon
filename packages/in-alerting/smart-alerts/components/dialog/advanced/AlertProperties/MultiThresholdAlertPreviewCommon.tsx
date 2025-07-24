@@ -11,6 +11,7 @@ import React from 'react';
 import { Stack, Message } from '@instana/components';
 
 import { ThresholdAlertPreview } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/ThresholdAlertPreview';
+import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon.mless';
@@ -25,6 +26,7 @@ interface MultiThresholdAlertPreviewCommonProps {
   renderHeadline: () => React.ReactNode;
   isTearSheet?: boolean;
   descriptionPlaceholder?: { WARNING?: string; CRITICAL?: string };
+  descriptionWithReplacedPlaceholders?: HighlightedPlaceholders;
 }
 
 export function MultiThresholdAlertPreviewCommon({
@@ -36,7 +38,8 @@ export function MultiThresholdAlertPreviewCommon({
   entityIconType,
   renderHeadline,
   isTearSheet = false,
-  descriptionPlaceholder
+  descriptionPlaceholder,
+  descriptionWithReplacedPlaceholders
 }: MultiThresholdAlertPreviewCommonProps) {
   return (
     <Stack gap="small">
@@ -61,6 +64,7 @@ export function MultiThresholdAlertPreviewCommon({
             severity={5}
             renderHeadline={renderHeadline}
             isTearSheet={isTearSheet}
+            descriptionWithReplacedPlaceholders={descriptionWithReplacedPlaceholders}
           />
         </div>
       )}
@@ -79,6 +83,7 @@ export function MultiThresholdAlertPreviewCommon({
             severity={10}
             renderHeadline={renderHeadline}
             isTearSheet={isTearSheet}
+            descriptionWithReplacedPlaceholders={descriptionWithReplacedPlaceholders}
           />
         </div>
       )}

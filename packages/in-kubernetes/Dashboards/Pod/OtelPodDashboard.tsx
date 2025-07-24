@@ -7,12 +7,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import type { Error as InstanaError } from '@instana/types';
+import { Error as InstanaError, TimeConfig, Result, KubernetesPod } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Pill } from '@instana/components';
 
-// @ts-expect-error TS migration
-import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 // @ts-expect-error TS migration
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import { getKubernetesPrometheusMetricsWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesPrometheusMetrics';
@@ -21,6 +19,7 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
+import OtelKubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/OtelKubernetesIdsForBreadcrumb';
 import { cronJobId as matrixCronJobId, podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 // @ts-expect-error TS migration
 import EntityVersionList from 'in-components/EntityVersionList';
@@ -44,7 +43,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/otelIndex';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { useKubernetesTracker } from 'in-kubernetes/tracker';
-import { TimeConfig, Result, KubernetesPod } from 'in-types';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -99,7 +97,7 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
           pageRootName: pageNames.pod_summary
         }}
       />
-      <KubernetesIdsForBreadcrumb
+      <OtelKubernetesIdsForBreadcrumb
         timeConfig={timeConfig}
         podId={podId}
         renderBreadcrumbs={(

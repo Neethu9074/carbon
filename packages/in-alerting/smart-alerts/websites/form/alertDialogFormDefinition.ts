@@ -5,6 +5,8 @@
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
+import { ThresholdType } from '@instana/types';
+
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { applyEditModeForMultiThreshold } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
@@ -17,7 +19,6 @@ import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { isBlank } from 'in-services/util/string';
-import { ThresholdType } from 'in-types';
 import { t } from 'in-i18n';
 
 const severityWarning = 5;

@@ -6,7 +6,7 @@
 
 import React, { useEffect } from 'react';
 
-import { Order, Result, TagCatalog, TimeConfig } from '@instana/types';
+import { Order, Result, TagCatalog, TimeConfig, InfrastructureGroup } from '@instana/types';
 
 //@ts-expect-error TS migration needed
 import { setDefaultMetrics } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
@@ -17,7 +17,6 @@ import { getColumnDefinition } from 'in-alerting/smart-alerts/infrastructure/dat
 import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { State } from 'in-hooks/useCursorPagination';
-import { InfrastructureGroup } from 'in-types';
 
 interface InfraMetricGroupTableListProps extends State<any, any> {
   groupBy: string[];

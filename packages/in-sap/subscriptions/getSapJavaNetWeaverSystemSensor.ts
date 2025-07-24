@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Result, AbapSystemItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, AbapSystemItem } from 'in-types';
 
 interface GetSapJavaNetWeaverSensorSystemRequest {}
 

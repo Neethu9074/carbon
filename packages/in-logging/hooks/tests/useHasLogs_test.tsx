@@ -7,9 +7,9 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import { TagFilterExpression, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { TagFilterExpression, TimeConfig } from 'in-types';
 import hasLogs from 'in-logging/subscriptions/hasLogs';
 import useHasLogs from 'in-logging/hooks/useHasLogs';
 

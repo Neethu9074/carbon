@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { LogEvent } from 'in-types';
-
+import { LogEvent } from '@instana/types';
 interface Log {
   errorCount: number;
   label?: string;

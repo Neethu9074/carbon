@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result, LogItem, LogQuery } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, LogItem, LogQuery } from 'in-types';
 import { minutes } from 'in-services/time';
 
 interface GetLogResponse extends Result<LogItem> {}

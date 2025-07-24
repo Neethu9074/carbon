@@ -7,12 +7,12 @@
 import React from 'react';
 
 import { CarbonButton } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error - Could not find a declaration file
 import { timeDisplayBottomFormat, timeDisplayTopFormat } from 'in-components/time/timeframeFormatter';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { TimeConfig } from 'in-types';
 
 import locals from './DatePresenter.mless';
 

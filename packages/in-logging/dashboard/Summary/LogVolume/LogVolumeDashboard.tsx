@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { HorizontalIndicator, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import { dashboardLogVolumePath } from 'in-logging/navigation/paths';
@@ -17,7 +18,6 @@ import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import { getLogVolumeReport } from 'in-logging/api/logVolume';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

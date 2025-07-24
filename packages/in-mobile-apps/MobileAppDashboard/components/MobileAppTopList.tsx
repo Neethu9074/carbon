@@ -6,7 +6,13 @@
 
 import React from 'react';
 
-import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem, AggregationType } from '@instana/types';
+import {
+  TimeConfig,
+  TagFilter,
+  MobileAppPaginatedBeaconGroupsItem,
+  AggregationType,
+  MobileAppMonitoringBeaconType
+} from '@instana/types';
 import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
@@ -21,7 +27,6 @@ import getMoblieAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getM
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { UrlMatrixParamConfig } from 'in-applications/types';
 import { FormatterFn } from 'in-stores/metric/formatters';
-import { MobileAppMonitoringBeaconType } from 'in-types';
 
 interface MobileAppTopListProp {
   title: string;
