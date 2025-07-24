@@ -29,5 +29,4 @@ export const datasourceInstanaAgentPath = `/datasources/${datasourceTypes.instan
 export const datasourceOtelCollectorPath = `/datasources/${datasourceTypes.otel_collector}`;
 export const datasourceInstanaAgentCatalog = `/datasources/${datasourceTypes.instana_agent}/installation`;
 export const datasourceOtemCollectorCatalog = `/datasources/${datasourceTypes.otel_collector}/installation`;
-export const welcomeDashboardPath = '/home';
-export const welcomeGettingStartedPath = '/home/getting-started';
+export const gettingStartedPath = '/home/getting-started';

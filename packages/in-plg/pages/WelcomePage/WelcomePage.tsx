@@ -13,7 +13,7 @@ import useGetAccountActivation, {
 } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import { solisEnabled, whatsNewBannerEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
 import { Activation } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
-import { welcomeDashboardPath, welcomeGettingStartedPath } from 'in-plg/navigation/paths';
+import { welcomePage, gettingStartedPath } from 'in-plg/navigation/paths';
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -30,7 +30,7 @@ export default function WelcomePage() {
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
   const { activeLicenseType } = config;
   const [randomNumber, setRandomNumber] = useState(0);
-  const isTrial = activeLicenseType == 'selfService';
+  const isTrial = activeLicenseType === 'selfService';
   // Temporary. In the future, which teaser is loaded depends on which products are already integrated with Instana.
   useEffect(() => {
     setRandomNumber(Math.random());
@@ -52,8 +52,8 @@ export default function WelcomePage() {
         />
         {newOnboardingPageEnabled && isTrial ? (
           <Stack direction="vertical">
-            {location.pathname === welcomeDashboardPath && <PageContent />}
-            {location.pathname === welcomeGettingStartedPath && <GettingStartedContent />}
+            {location.pathname === welcomePage && <PageContent />}
+            {location.pathname === gettingStartedPath && <GettingStartedContent />}
           </Stack>
         ) : (
           <Stack direction="vertical">

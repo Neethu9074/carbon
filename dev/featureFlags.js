@@ -217,5 +217,5 @@ module.exports = {
   deleteLogsV3Enabled: true,
   fiveMinuteGranularityForAdaptiveThresholdEnabled: true,
   otelCollectorViewEnabled: false,
-  newOnboardingPageEnabled: true
+  newOnboardingPageEnabled: false
 };

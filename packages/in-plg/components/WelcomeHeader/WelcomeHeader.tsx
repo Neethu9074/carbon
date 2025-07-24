@@ -12,9 +12,9 @@ import { t } from '@instana/i18n-react';
 
 import OnboardingCarousel from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel';
 import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
-import { welcomeDashboardPath, welcomeGettingStartedPath } from 'in-plg/navigation/paths';
 import { playwithEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
 import WelcomeToolbar from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
+import { welcomePage, gettingStartedPath } from 'in-plg/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
@@ -32,11 +32,11 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
   const username = getUsername();
   const { createHrefToPath } = useNavigation();
   const location = useLocation();
-  const isYourDashboardActive = location.pathname === welcomeDashboardPath;
-  const isGettingStartedActive = location.pathname === welcomeGettingStartedPath;
+  const isYourDashboardActive = location.pathname === welcomePage;
+  const isGettingStartedActive = location.pathname === gettingStartedPath;
   const headerTitle = `${t('in-plg:welcomepage.heading')}${username}`;
   const { activeLicenseType } = config;
-  const isTrial = activeLicenseType == 'selfService';
+  const isTrial = activeLicenseType === 'selfService';
   return (
     <div
       className={locals.stickyHeader}
@@ -48,13 +48,13 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
         <div className={locals.tabsOffsetRight}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
-              href={createHrefToPath(welcomeDashboardPath)}
+              href={createHrefToPath(welcomePage)}
               label={t('in-plg:onboarding.yourDashboard')}
               isActive={isYourDashboardActive}
               className={locals.tabItemOverride}
             />
             <SecondLevelNavigationItem
-              href={createHrefToPath(welcomeGettingStartedPath)}
+              href={createHrefToPath(gettingStartedPath)}
               label={t('in-plg:onboarding.gettingStarted')}
               isActive={isGettingStartedActive}
               className={locals.tabItemOverride}
