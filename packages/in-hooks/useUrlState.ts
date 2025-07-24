@@ -7,8 +7,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { isEqual } from 'lodash';
 
 // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 // eslint-disable-next-line import/no-deprecated
-import { mutateUrl, getModifiedUrl } from 'in-stores/navigation';
+import { getModifiedUrl } from 'in-stores/navigation';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
@@ -45,6 +46,7 @@ export default function useUrlState<State extends StateWithoutGuarantees>({
   replaceHistory = true
 }: Options<State>): UrlStateReturn<State> {
   const location = useLocation();
+  const { navigate } = useNavigation();
   const [state, setState] = useState<StateWithoutGuarantees>(
     () => determineStateChange(bind, location, emptyObject) || emptyObject
   );
@@ -70,8 +72,8 @@ export default function useUrlState<State extends StateWithoutGuarantees>({
     if ((state as any).__writeToUrl) {
       // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
       // eslint-disable-next-line import/no-deprecated
-      mutateUrl(location => modifyLocation(bind, state, location), replaceHistory);
-      (state as any).__writeToUrl = false;
+      modifyLocation(bind, state, location);
+      navigate(location, replaceHistory);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
