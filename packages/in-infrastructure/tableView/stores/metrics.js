@@ -6,8 +6,8 @@
 import { TABLE_METRIC_ADDED, TABLE_METRIC_CLEARED, TABLE_METRIC_REMOVED } from 'in-services/tracking/tracking';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { infraEventUIInteraction } from 'in-infrastructure/tracking/tracking';
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
 
 export const metrics$ = createTrackingStore({
@@ -24,16 +24,17 @@ export const metrics$ = createTrackingStore({
     .distinct()
 }).observable;
 
-export function addMetric(metric) {
+export function addMetric(metric, location, navigate) {
   infraEventUIInteraction({ event: TABLE_METRIC_ADDED, customData: { metric } });
   metrics$.once(metrics => {
     metrics = metrics.slice();
     metrics.push(metric);
-    mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'metrics', metrics.join(',')));
+    setOrDeleteMatrixKey(location, tablePath, 'metrics', metrics.join(','));
+    navigate(location);
   });
 }
 
-export function removeMetric(metric) {
+export function removeMetric(metric, location, navigate) {
   infraEventUIInteraction({ event: TABLE_METRIC_REMOVED, customData: { metric } });
   metrics$.once(metrics => {
     const i = metrics.indexOf(metric);
@@ -42,11 +43,13 @@ export function removeMetric(metric) {
     }
     const result = metrics.slice();
     result.splice(i, 1);
-    mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'metrics', result.join(',')));
+    setOrDeleteMatrixKey(location, tablePath, 'metrics', result.join(','));
+    navigate(location);
   });
 }
 
-export function clearMetrics() {
+export function clearMetrics(location, navigate) {
   infraEventUIInteraction({ event: TABLE_METRIC_CLEARED });
-  mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'metrics'));
+  setOrDeleteMatrixKey(location, tablePath, 'metrics');
+  navigate(location, true);
 }

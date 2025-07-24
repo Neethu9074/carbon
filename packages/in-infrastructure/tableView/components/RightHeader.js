@@ -10,6 +10,7 @@ import { Button } from '@instana/components';
 import { clearSelectedSnapshots } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import { showAggregations$, toggle } from 'in-stores/metric/showAggregations';
 import { clearMetrics } from 'in-infrastructure/tableView/stores/metrics';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
@@ -26,10 +27,15 @@ export default connectTo(
   },
   function RightHeader({ showAggregations, clearTableSelection }) {
     const windowSize = useTimeWindowSize();
-
+    const { location, navigate } = useNavigation();
     return (
       <header className={block}>
-        <input type="checkbox" id="table-view-toggle-aggregations" checked={showAggregations} onChange={toggle} />
+        <input
+          type="checkbox"
+          id="table-view-toggle-aggregations"
+          checked={showAggregations}
+          onChange={() => toggle(location, navigate)}
+        />
         <label htmlFor="table-view-toggle-aggregations" className={`${block}__toggle-aggregations`}>
           <Tooltip content={t('in-infrastructure:tableView.showCountsAndAveragesAcrossTheCurrentTimeWindow')}>
             <span>{t('in-infrastructure:tableView.aggregatesForMetricsOver', { windowSize })}</span>
@@ -41,7 +47,7 @@ export default connectTo(
           kind="secondary"
           size="compact"
           onClick={() => {
-            clearSelection();
+            clearSelection(location, navigate);
             clearTableSelection();
           }}
         >
@@ -52,9 +58,9 @@ export default connectTo(
   }
 );
 
-function clearSelection() {
-  clearMetrics();
-  clearSelectedSnapshots();
+function clearSelection(location, navigate) {
+  clearMetrics(location, navigate);
+  clearSelectedSnapshots(location, navigate);
 }
 
 function useTimeWindowSize() {

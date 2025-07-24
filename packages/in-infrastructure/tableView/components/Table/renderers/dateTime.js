@@ -40,12 +40,6 @@ export function initialize(row, columnDefinition, columnIndex) {
     value = isNaN(parsed) ? null : parsed;
   }
 
-  if (__DEV__) {
-    invariant(
-      value == null || typeof value === 'number',
-      'Values for columns with type=dateTime must be number or null! Got: ${value}'
-    );
-  }
   let content;
   if (columnDefinition.typeArgs.getContent) {
     content = columnDefinition.typeArgs.getContent(value, row.rowConfig);

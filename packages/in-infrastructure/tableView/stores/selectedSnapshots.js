@@ -8,8 +8,8 @@ import { combineLatest } from '@instana/observables';
 import { TABLE_ENTITY_ADDED, TABLE_ENTITY_CLEARED, TABLE_ENTITY_REMOVED } from 'in-services/tracking/tracking';
 import { infraEventCTAClicked, infraEventUIInteraction } from 'in-infrastructure/tracking/tracking';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { navigationParameters$ } from 'in-stores/navigation';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { createTrackingStore } from 'in-stores/store';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -28,7 +28,7 @@ export const selectedSnapshotIds$ = createTrackingStore({
     .distinct()
 }).observable;
 
-export function toggleSnapshotId(snapshotId, entityType) {
+export function toggleSnapshotId(snapshotId, entityType, location, navigate) {
   selectedSnapshotIds$.once(selectedSnapshotIds => {
     selectedSnapshotIds = selectedSnapshotIds.slice();
     const i = selectedSnapshotIds.indexOf(snapshotId);
@@ -41,13 +41,15 @@ export function toggleSnapshotId(snapshotId, entityType) {
       selectedSnapshotIds.splice(i, 1);
     }
 
-    mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'snapshotIds', selectedSnapshotIds.join(',')));
+    setOrDeleteMatrixKey(location, tablePath, 'snapshotIds', selectedSnapshotIds.join(','));
+    navigate(location);
   });
 }
 
-export function clearSelectedSnapshots() {
+export function clearSelectedSnapshots(location, navigate) {
   infraEventCTAClicked({ event: TABLE_ENTITY_CLEARED });
-  mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'snapshotIds'));
+  setOrDeleteMatrixKey(location, tablePath, 'snapshotIds');
+  navigate(location, true);
 }
 
 export const selectedSnapshots$ = selectedSnapshotIds$.flatMap(snapshotIds => {
