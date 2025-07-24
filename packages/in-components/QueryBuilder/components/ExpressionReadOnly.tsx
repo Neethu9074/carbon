@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './Expression.mless';
 
-export default function ExpressionReadOnly({ children }) {
+export default function ExpressionReadOnly({ children }: { children: ReactNode }) {
   return <div className={locals.expression_disablehover}>{children}</div>;
 }

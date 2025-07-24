@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './StackTraceLines.mless';
 
-export default function StackTraceLines({ children }) {
+export default function StackTraceLines({ children }: { children: ReactNode }) {
   return <ol className={locals.lines}>{children}</ol>;
 }
