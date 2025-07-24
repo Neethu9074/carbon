@@ -9,7 +9,7 @@ import { on } from '@instana/observables';
 import { onLeftArrow, onRightArrow, onUpArrow, onDownArrow } from 'in-shortcuts/keys/navigationViaArrows';
 import { AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils';
 import onQuestionMarkPressed from 'in-shortcuts/keys/QuestionMark';
-import onEscapePressed from 'in-shortcuts/keys/Esc';
+import { onEscPressed } from 'in-shortcuts/keys/Esc';
 import onFPressed from 'in-shortcuts/keys/F';
 import onVPressed from 'in-shortcuts/keys/V';
 import onCPressed from 'in-shortcuts/keys/C';
@@ -47,7 +47,7 @@ export function init() {
     }
 
     if (isEscape(keyEvent)) {
-      return onEscapePressed(keyEvent);
+      return onEscPressed(keyEvent);
     }
     if (isF(keyEvent)) {
       return onFPressed(keyEvent);
