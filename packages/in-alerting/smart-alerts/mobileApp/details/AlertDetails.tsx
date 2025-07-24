@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { VersionedConfig } from '@instana/types';
+
 import {
   deleteAlertConfig,
   disableAlertConfig,
@@ -34,8 +36,8 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
-import { Nullish, VersionedConfig } from 'in-types';
 import { role } from 'in-stores/user';
+import { Nullish } from 'in-types';
 
 const alertDisplayMode = getSmartAlertDisplayMode(
   mobileAppSmartAlertDialogViewEnabled,

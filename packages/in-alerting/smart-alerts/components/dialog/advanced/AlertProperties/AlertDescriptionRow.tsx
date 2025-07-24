@@ -6,7 +6,11 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
+import { RenderInsertPlaceholder } from 'in-alerting/smart-alerts/components/dialog/AlertDescriptionWithPlaceholders';
+import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import AlertSection from 'in-alerting/components/AlertSection';
@@ -20,6 +24,7 @@ interface AlertDescriptionRowProps {
   getDescriptionPlaceholder: (form: MapForm<any>) => string;
   isTearSheet?: boolean;
   descriptionPlaceholder?: string;
+  placeholders?: ReadonlyArray<Readonly<Placeholder>>;
 }
 
 export default function AlertDescriptionRow({
@@ -27,7 +32,8 @@ export default function AlertDescriptionRow({
   onChange,
   getDescriptionPlaceholder,
   isTearSheet,
-  descriptionPlaceholder
+  descriptionPlaceholder,
+  placeholders
 }: AlertDescriptionRowProps) {
   return (
     <>
@@ -41,18 +47,25 @@ export default function AlertDescriptionRow({
               noMargin
             />
           </label>
-          <AlertPropertiesTextarea
-            name="description"
-            id="description"
-            rows={getIsMutithresholdConfigured(form) ? 10 : 3}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-              onChange(['description'], (field: Item) => {
-                return (field as Field<string>).setValue(e.target.value || '').setTouched(true);
-              });
-            }}
-            placeholder={descriptionPlaceholder ?? getDescriptionPlaceholder(form)}
-            formField={form.get('description')}
-          />
+          <Stack gap="xxsmall">
+            <AlertPropertiesTextarea
+              name="description"
+              id="description"
+              rows={getIsMutithresholdConfigured(form) ? 10 : 3}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                onChange(['description'], (field: Item) => {
+                  return (field as Field<string>).setValue(e.target.value || '').setTouched(true);
+                });
+              }}
+              placeholder={descriptionPlaceholder ?? getDescriptionPlaceholder(form)}
+              formField={form.get('description')}
+            />
+            {placeholders && placeholders.length !== 0 && (
+              <Stack direction="horizontal" distribution="end">
+                <RenderInsertPlaceholder form={form} onChange={onChange} placeholders={placeholders} />
+              </Stack>
+            )}
+          </Stack>
         </div>
       ) : (
         <AlertSection
@@ -60,18 +73,25 @@ export default function AlertDescriptionRow({
           title={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesDescription')}
           icon="lib_help_error_error_outline"
         >
-          <AlertPropertiesTextarea
-            name="description"
-            id="description"
-            rows={3}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-              onChange(['description'], (field: Item) => {
-                return (field as Field<string>).setValue(e.target.value || '').setTouched(true);
-              });
-            }}
-            placeholder={descriptionPlaceholder ?? getDescriptionPlaceholder(form)}
-            formField={form.get('description')}
-          />
+          <Stack gap="xxsmall">
+            <AlertPropertiesTextarea
+              name="description"
+              id="description"
+              rows={3}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                onChange(['description'], (field: Item) => {
+                  return (field as Field<string>).setValue(e.target.value || '').setTouched(true);
+                });
+              }}
+              placeholder={descriptionPlaceholder ?? getDescriptionPlaceholder(form)}
+              formField={form.get('description')}
+            />
+            {placeholders && placeholders.length !== 0 && (
+              <Stack direction="horizontal" distribution="end">
+                <RenderInsertPlaceholder form={form} onChange={onChange} placeholders={placeholders} />
+              </Stack>
+            )}
+          </Stack>
         </AlertSection>
       )}
     </>

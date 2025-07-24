@@ -5,6 +5,7 @@
 
 import React, { ReactNode } from 'react';
 
+import { Group, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -13,7 +14,6 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { createMetricField } from 'in-analyze/navigation/paths';
-import { Group, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 export interface TroubleShootingChartProps {

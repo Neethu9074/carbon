@@ -7,6 +7,8 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useState } from 'react';
 
+import { MobileAppAlertConfig, VersionedConfig } from '@instana/types';
+
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialogWithThreshold';
@@ -23,7 +25,6 @@ import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
 import { eumType } from 'in-alerting/smart-alerts/mobileApp/constants';
-import { MobileAppAlertConfig, VersionedConfig } from 'in-types';
 
 interface AlertConfigDialogType {
   onClose: () => void;

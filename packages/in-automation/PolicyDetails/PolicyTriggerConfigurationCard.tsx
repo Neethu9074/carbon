@@ -17,6 +17,7 @@ import {
   Link,
   Typography
 } from '@instana/components';
+import { Trigger, TriggerType } from '@instana/types';
 
 import {
   isApplicationSmartAlert,
@@ -53,15 +54,14 @@ import { useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/naviga
 import { usePolicyFormContext } from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
 import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
 import { useAlertConfigLink } from 'in-websites/navigation/paths';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
-import { Trigger, TriggerType } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 const applyOnValues = {
   [SCOPE.ALL]: t('in-automation:policies.allAvailableEntities'),

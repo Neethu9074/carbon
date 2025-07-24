@@ -5,10 +5,11 @@
 
 import { useMemo } from 'react';
 
+import { TimeShift } from '@instana/types';
+
 import { urlParameter, translateOffsetToTimeShiftConfig, TimeShiftOffset } from 'in-stores/time/shifting';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
-import { TimeShift } from 'in-types';
 
 const urlStateDefinition = {
   bind: [urlParameter]

@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { TagCatalog } from 'in-types';
-
+import { TagCatalog } from '@instana/types';
 export const someCommonTags: TagCatalog = {
   tagTree: [
     {

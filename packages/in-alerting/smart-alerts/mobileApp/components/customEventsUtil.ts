@@ -4,11 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import { MobileAppPaginatedBeaconGroupsItem } from '@instana/types';
+import { MobileAppPaginatedBeaconGroupsItem, TagFilterExpression, TimeConfig } from '@instana/types';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { TagFilterExpression, TimeConfig } from 'in-types';
 import { number } from 'in-services/formatters/number';
 
 export function getEventName(item: MobileAppPaginatedBeaconGroupsItem): string {

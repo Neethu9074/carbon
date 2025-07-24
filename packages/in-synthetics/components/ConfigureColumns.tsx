@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import React, { ChangeEvent, CSSProperties, useCallback, useMemo, useState } from 'react';
 import { Column, Draggable } from '@carbon/icons-react';
 import { CSS } from '@dnd-kit/utilities';
@@ -35,6 +35,8 @@ import {
   ListItem,
   Row
 } from 'in-synthetics/components/constants';
+import { useColumnConfiguration } from 'in-synthetics/components/hooks/useColumnConfiguration';
+import { useColumnReordering } from 'in-synthetics/components/hooks/useColumnReordering';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { trySet } from 'in-services/localStorage';
@@ -89,14 +91,28 @@ function SortableItem<ITEM_TYPE extends ListItem>({
   setColumnStates: React.Dispatch<React.SetStateAction<ColumnState[]>>;
   setColDefinitions: React.Dispatch<React.SetStateAction<ColumnDefinition<ITEM_TYPE>[]>>;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+  // Check if this is the action column or name column
+  const isNameOrActionColumn = row?.cells?.some(
+    cell => cell.info.header === 'name' && (cell.id === 'name-action' || cell.id === 'name-test_name')
+  );
+
+  // Only make regular columns sortable (not action or name)
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id,
+    disabled: isNameOrActionColumn
+  });
+
+  // Helper function to determine cursor style based on drag state
+  const getCursorStyle = () => {
+    return isDragging ? 'grabbing' : 'grab';
+  };
 
   const style = {
     transform: CSS.Transform.toString(transform),
     position: 'relative',
     transition,
     zIndex: isDragging ? 1000 : 'auto',
-    cursor: isDragging ? 'grabbing' : 'grab'
+    cursor: isNameOrActionColumn ? 'not-allowed' : getCursorStyle()
   } as CSSProperties;
 
   const handleColumnChecked = (columnId: string, checked: boolean) => {
@@ -135,7 +151,7 @@ function SortableItem<ITEM_TYPE extends ListItem>({
         if (colKey === 'icon') {
           // draggable icon
           return (
-            <TableCell key={cell.id}>
+            <TableCell key={cell.id} className={locals.cell}>
               <Draggable />
             </TableCell>
           );
@@ -145,7 +161,7 @@ function SortableItem<ITEM_TYPE extends ListItem>({
           const { id: columnId, optional, isChecked } = cell.value as CellValue;
           // checkbox
           return (
-            <TableCell key={cell.id}>
+            <TableCell key={cell.id} className={locals.cell}>
               <Checkbox
                 id={`checkbox-${columnId}`}
                 checked={isChecked}
@@ -161,94 +177,6 @@ function SortableItem<ITEM_TYPE extends ListItem>({
       })}
     </tr>
   );
-}
-
-// Custom hook for managing column configuration
-function useColumnConfiguration<ITEM_TYPE extends ListItem>(
-  columnDefinitions: ColumnDefinition<ITEM_TYPE>[],
-  visibleColumns: { id: string }[]
-) {
-  const [columnStates, setColumnStates] = useState<ColumnState[]>(
-    columnDefinitions.map(col => ({
-      id: col.id,
-      visible: visibleColumns.some(vc => vc.id === col.id),
-      optional: col.optional
-    }))
-  );
-
-  const enabledColumns = useMemo(() => columnStates.filter(cs => cs.visible).map(cs => cs.id), [columnStates]);
-
-  const disabledColumns = useMemo(() => columnStates.filter(cs => !cs.visible).map(cs => cs.id), [columnStates]);
-
-  const toggleColumnVisibility = useCallback((columnId: string, visible: boolean) => {
-    setColumnStates(prev => prev.map(col => (col.id === columnId ? { ...col, visible } : col)));
-  }, []);
-
-  const setMultipleColumnsVisibility = useCallback((columnIds: string[], visible: boolean) => {
-    setColumnStates(prev =>
-      prev.map(col => {
-        if (!col.optional || !columnIds.includes(col.id)) return col;
-        return { ...col, visible };
-      })
-    );
-  }, []);
-
-  return {
-    columnStates,
-    setColumnStates,
-    enabledColumns,
-    disabledColumns,
-    toggleColumnVisibility,
-    setMultipleColumnsVisibility
-  };
-}
-
-// Custom hook for column reordering
-function useColumnReordering<ITEM_TYPE extends ListItem>(
-  columnDefinitions: ColumnDefinition<ITEM_TYPE>[],
-  enabledColumns: string[]
-) {
-  const columnDefinitionsMap = useMemo(
-    () => Object.fromEntries(columnDefinitions.map(col => [col.id, col])),
-    [columnDefinitions]
-  );
-
-  const [colDefinitions, setColDefinitions] = useState<ColumnDefinition<ITEM_TYPE>[]>(columnDefinitions);
-
-  const [orderedRowIds, setOrderedRowIds] = useState<string[]>(() =>
-    columnDefinitions
-      .slice()
-      .sort(
-        (a, b) =>
-          Number(!b.optional || enabledColumns.includes(b.id)) - Number(!a.optional || enabledColumns.includes(a.id))
-      )
-      .map(col => col.id)
-  );
-
-  const handleDragEnd = useCallback(
-    (event: DragEndEvent) => {
-      const { active, over } = event;
-      if (!over || active.id === over.id) return;
-
-      const oldIndex = orderedRowIds.findIndex(id => id === active.id);
-      const newIndex = orderedRowIds.findIndex(id => id === over.id);
-      const newOrderIds = arrayMove(orderedRowIds, oldIndex, newIndex);
-
-      setOrderedRowIds(newOrderIds);
-      const columnDefinitionsSorted = newOrderIds.map(id => columnDefinitionsMap[id]).filter(Boolean);
-
-      setColDefinitions(columnDefinitionsSorted);
-    },
-    [orderedRowIds, columnDefinitionsMap]
-  );
-
-  return {
-    colDefinitions,
-    setColDefinitions,
-    orderedRowIds,
-    setOrderedRowIds,
-    handleDragEnd
-  };
 }
 
 // Search filter utility function
@@ -280,7 +208,6 @@ const ColumnTableToolbar = React.memo(({ onSearch }: { onSearch: (query: string)
     <TableToolbar>
       <TableToolbarContent>
         <TableToolbarSearch
-          className={locals.searchBox}
           defaultExpanded
           onChange={handleSearch}
           placeholder={t('in-synthetics:dashboard.testList.configureColumns.dialog.searchPlaceholder')}

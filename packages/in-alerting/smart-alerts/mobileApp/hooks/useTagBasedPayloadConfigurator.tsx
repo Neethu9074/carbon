@@ -6,11 +6,11 @@
 
 import { useMemo } from 'react';
 
+import { MobileAppMonitoringBeaconType, Result, TagCatalog } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { createTagBasedMobileAppPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { getMobileAppTagSuggestions } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
-import { MobileAppMonitoringBeaconType, Result, TagCatalog } from 'in-types';
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
 
 export default function useTagBasedPayloadConfigurator(

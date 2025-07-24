@@ -6,25 +6,15 @@
 
 import React from 'react';
 
-import {
-  ApplicationSloEntity,
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  isWebsiteSloEntity,
-  SloEntityType,
-  WebsiteSloEntity
-} from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
+import type { ApplicationSloEntity, SloEntityType, WebsiteSloEntity } from '@instana/types';
 import { KeyValue } from '@instana/components';
 
-import SloConfigSection, {
-  RowDefinition
-} from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
-import {
-  ApplicationSloTabData,
-  isApplicationSloTabData,
-  SloTabData
-} from 'in-service-levels/components/SloDashboard/tabs';
+import type { RowDefinition } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
+import SloConfigSection from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
+import type { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
+import { isApplicationSloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { getLabelByType } from 'in-analyze/AnalyzeView/dataSources';

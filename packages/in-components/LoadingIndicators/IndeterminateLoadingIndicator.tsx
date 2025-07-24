@@ -76,7 +76,7 @@ interface ServiceIconProps {
   };
 }
 
-export default class IndeterminateLoadingIndicator extends PureComponent {
+export default class IndeterminateLoadingIndicator extends PureComponent<IndeterminateLoadingIndicatorProps> {
   static displayName = 'IndeterminateLoadingIndicator';
 
   static defaultProps: IndeterminateLoadingIndicatorProps = {
@@ -85,7 +85,6 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
   };
 
   state: Record<string, any> = {}; // contains svg path lengths for animation
-  props: IndeterminateLoadingIndicatorProps = this.props;
 
   render() {
     const size = this.getSize();

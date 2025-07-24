@@ -12,14 +12,12 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import {
-  alertsList,
   applicationDashboard,
   configurationTab,
   dependencyMapTab,
   smartAlertsTab,
   summaryTab,
-  syntheticsTab,
-  alertsTabListFullyQualified
+  syntheticsTab
 } from 'in-applications/navigation/paths';
 // @ts-expect-error needs TS migration
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
@@ -28,11 +26,8 @@ import { ScopeRoles } from 'in-settings/tabs/SecurityAndAccess/pages/accessContr
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
-import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
-import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
@@ -42,13 +37,10 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { applicationsList } from 'in-applications/navigation/paths';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
-import { alertsCategory } from 'in-applications/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getApplicationConfigScopeRoleId } from 'in-api/users';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -174,31 +166,7 @@ interface ButtonLineProps {
 }
 
 function renderButtonLine(props: ButtonLineProps) {
-  const { applicationId, timeConfig, boundaryScope, location, result } = props;
-  const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategory) === categoryGlobal;
-  const addSmartAlertButton = isGlobalAlertConfig ? (
-    <FloatingActionButtons>
-      <CreateGlobalSmartAlertButton location={location} renderAsSimpleButton />
-    </FloatingActionButtons>
-  ) : (
-    <CreateSmartAlert
-      applicationId={applicationId}
-      location={location}
-      boundaryScope={boundaryScope}
-      defaultBoundaryScope={result.data?.boundaryScope}
-    />
-  );
-
-  const allowActionButtons = isGlobalAlertConfig
-    ? role?.canConfigureGlobalApplicationSmartAlerts
-    : role?.canConfigureApplicationSmartAlerts;
-
-  const hideButtonInAlertsTab = smartAlertCarbonTableEnabled
-    ? location?.pathname === alertsTabListFullyQualified || location?.pathname === alertsList
-    : false;
-
-  const showAlertButton =
-    allowActionButtons && !hideButtonInAlertsTab && !location.pathname.includes('/application/configuration');
+  const { applicationId, timeConfig, boundaryScope } = props;
 
   return (
     <>
@@ -219,9 +187,6 @@ function renderButtonLine(props: ButtonLineProps) {
         boundaryScope={boundaryScope}
         groupBy={createGroupBy('service.name', DESTINATION)}
       />
-
-      {/* Add Smart alert button to UI  */}
-      {showAlertButton && addSmartAlertButton}
     </>
   );
 }

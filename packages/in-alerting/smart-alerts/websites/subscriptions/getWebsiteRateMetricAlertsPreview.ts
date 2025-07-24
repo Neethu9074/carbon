@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetWebsiteRateMetricAlertsPreviewQuery, Result } from 'in-types';
+import { GetWebsiteRateMetricAlertsPreviewQuery, Result } from '@instana/types';
+
 import { ResultMap } from 'in-alerting/smart-alerts/websites/subscriptions/metricResponse';
+import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory<GetWebsiteRateMetricAlertsPreviewQuery, Result<ResultMap>>({
   eventId: 'getWebsiteRateMetricAlertsPreview',

@@ -7,8 +7,8 @@
 import React, { useContext } from 'react';
 import { noop } from 'lodash';
 
+import type { Application } from '@instana/types';
 import { Typography } from '@instana/components';
-import { Application } from '@instana/types';
 
 import SloEntityTable from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';

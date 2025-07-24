@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
 import { Typography } from '@instana/components';
 

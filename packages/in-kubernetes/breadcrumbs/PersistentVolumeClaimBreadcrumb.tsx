@@ -6,12 +6,13 @@
 
 import React from 'react';
 
+import { EntityHealthInfo, KubernetesPersistentVolumeClaim, TimeConfig } from '@instana/types';
+
 //@ts-expect-error TS migration
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesPersistentVolumeClaim from 'in-kubernetes/subscriptions/getKubernetesPersistentVolumeClaim';
 //@ts-expect-error TS migration
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { EntityHealthInfo, KubernetesPersistentVolumeClaim, TimeConfig } from 'in-types';
 //@ts-expect-error TS migration
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

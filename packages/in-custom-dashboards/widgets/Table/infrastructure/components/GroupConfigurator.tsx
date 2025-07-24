@@ -7,12 +7,13 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Group, TagCatalog } from '@instana/types';
+
 // @ts-expect-error
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { grouping as groupingFieldName } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { Group, TagCatalog } from 'in-types';
 
 interface GroupConfiguratorProps {
   form: MapForm<any>;

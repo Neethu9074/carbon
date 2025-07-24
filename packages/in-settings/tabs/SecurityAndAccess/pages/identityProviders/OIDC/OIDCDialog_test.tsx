@@ -7,12 +7,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
+import { OidcApiResponseConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import OIDCDialog from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDCDialog';
 import { getConfigAsResultObservableInternal } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { OidcApiResponseConfig } from 'in-types';
 import { getInvitations$ } from 'in-api/users';
 import { t } from 'in-i18n';
 

@@ -7,13 +7,18 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useState } from 'react';
 
+import {
+  SyntheticAlertRuleUnion,
+  SyntheticTimeThresholdUnion,
+  SyntheticAlertConfig,
+  VersionedConfig
+} from '@instana/types';
 import { createLogger } from '@instana/logger';
 
 import {
   EnrichedError,
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
-import { SyntheticAlertRuleUnion, SyntheticTimeThresholdUnion, SyntheticAlertConfig, VersionedConfig } from 'in-types';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';

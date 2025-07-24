@@ -45,13 +45,15 @@ interface AlertPropertyInfosProps {
   renderCustomTitle?: () => HighlightedPlaceholders;
   disableTrigger: boolean;
   shouldDisplayAlertLevelSection?: boolean;
+  renderCustomDescription?: () => string;
 }
 
 export default function AlertPropertyInfos({
   alertConfig: { name, description, triggering = false, severity },
   renderCustomTitle,
   disableTrigger,
-  shouldDisplayAlertLevelSection = true
+  shouldDisplayAlertLevelSection = true,
+  renderCustomDescription
 }: AlertPropertyInfosProps) {
   const severityProperty = propertiesBySeverity[severity];
 
@@ -82,7 +84,7 @@ export default function AlertPropertyInfos({
         title={t('in-alerting:components.alertPropertyInfosLabelDescription')}
       >
         <Typography variant="body-regular">
-          <DangerousHtmlPresenter html={toHtml(description)} />
+          <DangerousHtmlPresenter html={renderCustomDescription ? renderCustomDescription() : toHtml(description)} />
         </Typography>
       </AlertSection>
     </Sections>

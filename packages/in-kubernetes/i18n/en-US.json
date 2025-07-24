@@ -16,6 +16,7 @@
   },
   "clusterBadgeNameOpenShift": "OpenShift",
   "clusterBadgeNameK8s": "K8s",
+  "containers": "Containers",
   "dashboards": {
     "kubernetesCluster": "Kubernetes cluster",
     "clusterDistributionBadgeType": "{{clusterDistributionName}} cluster",
@@ -48,6 +49,7 @@
     "statefulSets": "StatefulSets",
     "cronJobs": "CronJobs",
     "k8SServices": "K8s Services",
+    "pod": "Pod",
     "pods": "Pods",
     "persistentVolume": "Persistent volume",
     "persistentVolumes": "Persistent volumes",
@@ -277,7 +279,9 @@
       "podsTitle": "No pods available",
       "podsDescription": "There were no pods retrieved for the selected time range.",
       "endpointsTitle": "No endpoints available",
-      "endpointsDescription": "There were no endpoints retrieved for the selected time range."
+      "endpointsDescription": "There were no endpoints retrieved for the selected time range.",
+      "containersTitle": "No containers available",
+      "containersDescription": "There were no containers retrieved for the selected time range."
     },
     "kubecost": {
       "costByDeployment": "Cost by deployment",
@@ -328,13 +332,16 @@
     },
     "filesystemCapacity": "Filesystem capacity",
     "filesystemAvailable": "Filesystem available",
+    "filesystemUsage": "Filesystem usage",
     "filesystemResources": "Filesystem resources",
     "memoryAvailable": "Memory available",
     "cpuUtilization": "CPU utilization",
     "preview": "Preview",
     "cpuTime": "CPU time",
     "memoryWorkingset": "Memory working set",
-    "memoryRss": "Memory RSS"
+    "memoryRss": "Memory RSS",
+    "memoryPageFaults": "Memory page faults",
+    "memoryMajorPageFaults": "Memory major page faults"
   },
   "cloudNative": {
     "unhealthyNodes": "Unhealthy nodes",

@@ -9,6 +9,7 @@ import React from 'react';
 import { CarbonButton, Stack } from '@instana/components';
 import { NoDataEmptyState } from '@instana/ibm-products';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
 // @ts-expect-error file needs to be converted
@@ -21,7 +22,6 @@ import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
 import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './EventsChartWidget.mless';

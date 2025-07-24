@@ -7,12 +7,12 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useMemo } from 'react';
 
+import { MobileAppAlertRuleUnion, ThresholdConfigUnion, ThresholdOperator, ThresholdType } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
-import { MobileAppAlertRuleUnion, ThresholdConfigUnion, ThresholdOperator, ThresholdType } from 'in-types';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';

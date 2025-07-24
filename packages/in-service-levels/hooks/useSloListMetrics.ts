@@ -6,8 +6,9 @@
 
 import { useState } from 'react';
 
-import { MetricResult, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
-import { combineLatest, Observable, timeout } from '@instana/observables';
+import type { MetricResult, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import { combineLatest, timeout } from '@instana/observables';
+import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';

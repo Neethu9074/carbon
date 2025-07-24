@@ -30,6 +30,7 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
   const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
   const applications = form.get('applications')?.value || {};
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
+  const placeholders = placeholdersByEvaluationTypeAndSeverity(evaluationType);
 
   return (
     <>
@@ -49,12 +50,13 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
                 <AlertPropertiesTitleRow
                   form={form}
                   onChange={onChange}
-                  placeholderData={{ placeholders: placeholdersByEvaluationTypeAndSeverity(evaluationType) }}
+                  placeholderData={{ placeholders: placeholders }}
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}
               isTearSheet
               shouldDisplayAlertLevelSelection={false}
+              placeholders={placeholders}
             />
           )}
           renderAlertPreview={() => (

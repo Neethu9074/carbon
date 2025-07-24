@@ -186,6 +186,7 @@ export default function AdvancedModeContainer(
                     />
                   )}
                   shouldDisplayAlertLevelSelection={false}
+                  placeholders={placeholders}
                 />
               )}
               renderAlertPreview={() => (

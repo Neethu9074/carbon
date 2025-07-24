@@ -4,8 +4,7 @@
  */
 
 import { Observable } from '@instana/observables';
-
-import { TimeConfig } from 'in-types';
+import { TimeConfig } from '@instana/types';
 
 export function getChartGranularity(
   tc: Pick<TimeConfig, 'windowSize'>,

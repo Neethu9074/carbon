@@ -5,8 +5,6 @@
  */
 
 import { AnalyzesData, CalendarEvent, Integration, TimePlot } from '@carbon/pictograms-react';
-// eslint-disable-next-line no-restricted-imports
-import { AILabel } from '@carbon/react';
 import React, { useState } from 'react';
 
 import { CarbonClickableTile, CarbonModal, IconButton } from '@instana/components';
@@ -23,7 +21,7 @@ import {
   patterRecognitionLocalisationStrings
 } from 'in-logging/dashboard/Management/localisationStrings';
 import InitialModalScreen from 'in-logging/dashboard/Management/PatternRecognitionModal/InitialScreen';
-import { LogPatternsAiLabel } from 'in-logging/dashboard/Management/LogPatternsAiLabel';
+import { hasSeenLogPatternModal, markModalAsSeen } from 'in-logging/dashboard/Management/utils';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { patternRecognitionEnabled } from 'in-services/featureFlags';
@@ -37,6 +35,20 @@ export default function Management() {
   const { createHrefToPath, goToPath } = useNavigation();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
   const [openTearsheet, setOpenTearsheet] = useState(false);
+
+  const handleTileClick = () => {
+    if (hasSeenLogPatternModal()) {
+      goToPath(dashboardPatternRecognitionPath);
+    } else {
+      setOpenTearsheet(true);
+    }
+  };
+
+  const handleModalSubmit = () => {
+    markModalAsSeen();
+    setOpenTearsheet(false);
+    goToPath(dashboardPatternRecognitionPath);
+  };
 
   const shouldShowRetentionPeriod = isLoggingAddonUser && user?.role?.canConfigureLogRetentionPeriod;
   const shouldShowLogVolume = isLoggingAddonUser && user?.role?.canViewLogVolume;
@@ -84,8 +96,7 @@ export default function Management() {
           <CarbonClickableTile
             aria-label={localisationStrings.patternRecognition}
             role="tabpanel"
-            onClick={() => setOpenTearsheet(true)}
-            decorator={<AILabel />}
+            onClick={handleTileClick}
           >
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
@@ -125,10 +136,9 @@ export default function Management() {
             modalHeading={localisationStrings.patternRecognition}
             primaryButtonText={patterRecognitionLocalisationStrings.gotIt}
             secondaryButtonText={patterRecognitionLocalisationStrings.cancel}
-            onRequestSubmit={() => goToPath(dashboardPatternRecognitionPath)}
+            onRequestSubmit={handleModalSubmit}
             onSecondarySubmit={() => setOpenTearsheet(false)}
             onRequestClose={() => setOpenTearsheet(false)}
-            decorator={<LogPatternsAiLabel />}
             size="md"
           >
             <InitialModalScreen />

@@ -9,7 +9,7 @@ import React from 'react';
 
 import { GroupPermissionEntity, Result } from '@instana/types';
 
-import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import { getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import ApplicationsSection from 'in-synthetics/createTests/wizard/ApplicationsSection';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 
@@ -20,7 +20,7 @@ jest.mock('in-services/featureFlags', () => ({
 }));
 
 describe('ApplicationsSection when syntheticRbacLimitedEnabled is false', () => {
-  const form = createForm(true, getSimpleBlueprintConfig()[0]);
+  const form = createForm(getAdvancedBlueprintConfig()[0]);
   const updateForm = jest.fn();
 
   it('Renders the Applications section correctly for zero associated applications', () => {

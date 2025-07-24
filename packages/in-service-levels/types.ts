@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
+import type {
   AggregationType,
   AvailabilityBlueprintIndicator,
   CustomBlueprintIndicator,
@@ -19,14 +19,10 @@ import {
   CorrectionConfiguration
 } from '@instana/types';
 
-import {
-  SloTimeWindowTypes,
-  sliThresholdOperators,
-  sloStatuses,
-  timeAggregationOptions
-} from 'in-service-levels/constants';
-import { ProductArea } from 'in-services/tracking/productAreas';
-import { PageName } from 'in-services/tracking/pageNames';
+import { SloTimeWindowTypes, sliThresholdOperators } from 'in-service-levels/constants';
+import type { sloStatuses, timeAggregationOptions } from 'in-service-levels/constants';
+import type { ProductArea } from 'in-services/tracking/productAreas';
+import type { PageName } from 'in-services/tracking/pageNames';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
 

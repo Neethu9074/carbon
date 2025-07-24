@@ -72,22 +72,6 @@ const cols = [
     getContent: formatDateTime
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.processCpuPerc'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: ServiceDetailsStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: ServiceDetailsStatsRow) {
-        return `serviceDetailsStats.${row.key}.processCpu`;
-      },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.openFileCount'),
     type: 'metric',
     typeArgs: {
@@ -98,6 +82,22 @@ const cols = [
         return `serviceDetailsStats.${row.key}.openFileCount`;
       },
       getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.sapHana.dashboard.processCpuPerc'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: ServiceDetailsStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: ServiceDetailsStatsRow) {
+        return `serviceDetailsStats.${row.key}.processCpu`;
+      },
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -209,7 +209,7 @@ export default function ServiceDetailsStatsList({ snapshotId, timeConfig }: Serv
       cardTitle={t('in-forge:plugins.sapHana.dashboard.serviceDetailsStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={4}
+      initialSortColumn={5}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

@@ -70,7 +70,6 @@ export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled')
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
 export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled');
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
-export const blockLogDeletionsEnabled = isFeatureFlagEnabled('blockLogDeletionsEnabled');
 export const logFormattingEnabled = isFeatureFlagEnabled('logFormattingEnabled');
 export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 
@@ -198,7 +197,6 @@ export const alertChannelPerSeverityMobileAppSaEnabled = isFeatureFlagEnabled(
   'alertChannelPerSeverityMobileAppSaEnabled'
 );
 export const alertChannelPerSeverityLogSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityLogSaEnabled');
-export const perEntityInfraSmartAlertsEnabled = isFeatureFlagEnabled('perEntityInfraSmartAlertsEnabled');
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 
@@ -247,6 +245,7 @@ export const mobileAppSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
 
 // Websites business monitoring tab
 export const websitesBusinessMonitoringEnabled = isFeatureFlagEnabled('websitesBusinessMonitoringEnabled');
+export const websitesBusinessConversionGoalsEnabled = isFeatureFlagEnabled('websitesBusinessConversionGoalsEnabled');
 
 // ########################################################################################
 
@@ -418,3 +417,4 @@ export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   false
 );
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
+export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);

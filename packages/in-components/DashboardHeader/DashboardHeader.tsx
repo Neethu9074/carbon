@@ -9,12 +9,13 @@ import React from 'react';
 import { LoadingSkeleton, PreviewPill, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
+import { Result } from '@instana/types';
 
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { Nullish, Result } from 'in-types';
 import Title from 'in-components/Title';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './DashboardHeader.mless';

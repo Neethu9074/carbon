@@ -9,11 +9,18 @@ import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { SyntheticTest } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
+import {
+  ConfigItem,
+  SlideInHeader,
+  TeamTagEx,
+  TestTypeSelected,
+  AssertionTargetFilter
+} from 'in-synthetics/utils/constants';
 import cleanConfigurationForm from 'in-synthetics/dashboards/summary/tabs/configuration/actions/cleanConfigurationForm';
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
-import { ConfigItem, SlideInHeader, TeamTagEx, TestTypeSelected, AssertionTargetFilter } from 'in-synthetics/utils/constants';
 import { clickSyntheticMonitoringConfigurationTabEditTracker } from 'in-synthetics/tracking/tracker';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
@@ -25,7 +32,6 @@ import getDefaultTeams from 'in-synthetics/createTests/utils/getDefaultTeams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
-import { SyntheticTest } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './EditConfigurationDialogPresenter.mless';

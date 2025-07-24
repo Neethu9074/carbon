@@ -7,13 +7,13 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { MapForm, Item } from 'formalistic';
 
+import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from '@instana/types';
 import { CreateFullPage, CreateFullPageProps, CreateFullPageStep } from '@instana/ibm-products';
 import { Stack } from '@instana/components';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 //@ts-expect-error TS migration
 import { getTrackingAlertConfigFromForm } from 'in-alerting/smart-alerts/utils/segmentUtils';
-import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from 'in-types';
 import AlertingCarbonTearSheetContent from 'in-alerting/components/AlertingCarbonTearSheetContent';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ALERTING_CANCEL_CLICKED } from 'in-services/tracking/eventNames';

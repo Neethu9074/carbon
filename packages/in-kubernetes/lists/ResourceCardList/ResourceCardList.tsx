@@ -18,6 +18,7 @@ import {
   CarbonPopoverContent,
   Typography
 } from '@instana/components';
+import { PaginatedResult, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import SortingConfigurator from 'in-kubernetes/lists/components/SortingConfigurator/SortingConfigurator';
@@ -34,7 +35,6 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { useLocalStorage } from 'in-services/localStorage';
-import { PaginatedResult, Result } from 'in-types';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import { t, Trans } from 'in-i18n';
@@ -134,8 +134,8 @@ export default function ResourceCardList({
               const selectedOrderDirection = hasSelectedItem
                 ? orderDirection
                 : orderDirection === 'ASC'
-                ? 'DESC'
-                : 'ASC';
+                  ? 'DESC'
+                  : 'ASC';
 
               setUrlState({
                 orderBy: selectedOrderBy,

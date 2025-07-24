@@ -41,6 +41,7 @@ export default [
           'in-custom-dashboards',
           'in-settings',
 
+          'in-bizops',
           'in-analyze',
           'in-map',
           'in-synthetics'

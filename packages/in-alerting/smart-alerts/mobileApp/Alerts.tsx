@@ -81,9 +81,7 @@ export default function Alerts({ mobileAppId, mobileAppLabel, isEventsView = fal
         }
         displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
-          role?.canConfigureMobileAppSmartAlerts && !isEventsView ? (
-            <CreateSmartAlert {...mobileAppData} isListingPage />
-          ) : undefined
+          role?.canConfigureMobileAppSmartAlerts && !isEventsView ? <CreateSmartAlert {...mobileAppData} /> : undefined
         }
         noDataHeader={t('in-alerting:smartAlerts.mobileApp.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.mobileApp.alertList.noDataDescription" />}

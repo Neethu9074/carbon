@@ -9,7 +9,7 @@ import React from 'react';
 import { Link, Typography } from '@instana/components';
 
 import useGetHrefToSloDashboard from 'in-service-levels/navigation/hooks/useGetHrefToSloDashboard';
-import { SloListItem, SelectSloListItem } from 'in-service-levels/types';
+import type { SloListItem, SelectSloListItem } from 'in-service-levels/types';
 
 interface Props {
   item: SloListItem | SelectSloListItem;

@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Application } from '@instana/types';
 import { just } from '@instana/observables';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -11,7 +12,6 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { FetchedState } from 'in-hooks/utils/types';
 import { isBlank } from 'in-services/util/string';
 import { error } from 'in-services/util/result';
-import { Application } from 'in-types';
 
 export default function useApplication(applicationId: string): FetchedState<Application> {
   const result = useObservable(() => {

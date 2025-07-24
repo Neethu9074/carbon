@@ -7,6 +7,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
+import { Cursor, Cursorific, TimeConfig, EventContext } from '@instana/types';
 import { Disposable, on, Subject } from '@instana/observables';
 import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -29,9 +30,7 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { concatQueries, spreadTimeConfig } from 'in-events/utils';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useResizeObserver from 'in-hooks/useResizeObserver';
-import { Cursor, Cursorific, TimeConfig } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { EventContext } from 'in-types';
 
 import locals from './TablePresenter.mless';
 

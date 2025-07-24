@@ -8,13 +8,13 @@ import {
   timeWindowIncludesFirstCollectionTimestamp,
   renderMissingDataIndicator
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
+import type { RenderWithMissingDataIndicatorProps } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import {
   correctionOverlay,
   correctionWindowMetricId
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/correctionOverlay';
-import { RenderWithMissingDataIndicatorProps } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
-import { MultiMetricRenderProps, Renderer } from 'in-components/Chart/renderer/types';
-import Configuration from 'in-components/Chart/Configuration';
+import type { MultiMetricRenderProps, Renderer } from 'in-components/Chart/renderer/types';
+import type Configuration from 'in-components/Chart/Configuration';
 import renderer from 'in-components/Chart/renderer/Renderer';
 
 function createBarWithMissingDataIndicatorRenderer({

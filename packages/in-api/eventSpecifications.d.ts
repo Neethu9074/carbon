@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { CustomEventSpecificationWithMetadata, EventSpecificationInfo } from '@instana/types';
 import { Observable } from '@instana/observables';
-
-import { CustomEventSpecificationWithMetadata, EventSpecificationInfo } from 'in-types';
 
 export function getBuiltInEventSpecificationMutable(eventSpecificationId: string): Observable<EventSpecificationInfo>;
 export function getCustomEventSpecificationMutable(

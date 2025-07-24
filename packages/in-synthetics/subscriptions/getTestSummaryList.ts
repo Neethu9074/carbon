@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   GetTestSummaryListQuery,
   OrderDirection,
@@ -14,7 +12,9 @@ import {
   TestResultListItem,
   TagFilter,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getTestSummaryList = createResultSubscriptionFactory<

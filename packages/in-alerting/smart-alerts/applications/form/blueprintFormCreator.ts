@@ -5,6 +5,8 @@
 
 import { MapForm } from 'formalistic';
 
+import { ApplicationAlertRule } from '@instana/types';
+
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { ApplicationAlertType, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -12,7 +14,6 @@ import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/da
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
-import { ApplicationAlertRule } from 'in-types';
 
 type AlertThreshold = {
   operator?: string;

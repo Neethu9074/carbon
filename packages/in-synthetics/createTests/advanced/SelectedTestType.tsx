@@ -107,7 +107,7 @@ const SelectedTestType = ({
     commonAttributes['websites'] = form.get('websites')?.value ?? [];
     commonAttributes['mobileApps'] = form.get('mobileApps')?.value ?? [];
     setCommonAttributes(commonAttributes);
-    updateForm(createForm(false, selectedBlueprint, commonAttributes));
+    updateForm(createForm(selectedBlueprint, commonAttributes));
   };
 
   const renderSubCategories = () => {
@@ -188,7 +188,7 @@ const SelectedTestType = ({
               setTargetFilters(getDefaultTargetFilters());
             }
           }}
-          disabled={isBlank(commonAttributes.syntheticType)}
+          disabled={isBlank(commonAttributes.syntheticType) && !testTypeSelected.api.simple}
         >
           {t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.selectedTestTypeButton')}
         </Button>

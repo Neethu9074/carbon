@@ -7,8 +7,9 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import DatePresenter from 'in-plg/components/DatePicker/DatePresenter';
-import { TimeConfig } from 'in-types';
 
 let onClick: jest.Mock<any, any>,
   timeConfig: TimeConfig,

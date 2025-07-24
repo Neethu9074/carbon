@@ -5,12 +5,12 @@
  */
 
 import { Observable } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
-import { Result } from 'in-types';
 
 const baseUrl = 'api/events/settings/global-alert-configs/logs';
 

@@ -6,7 +6,7 @@
 
 import { createField, createMapForm } from 'formalistic';
 
-import {
+import type {
   ServiceLevelIndicatorType,
   SloEntityType,
   TimeWindowType,
@@ -18,8 +18,9 @@ import {
   TrafficIndicatorType
 } from '@instana/types';
 
-import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { SloForm, SloScopeFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { SloForm, SloScopeFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { defaultSliThresholdOperator } from 'in-service-levels/constants';
 
 export const testDate = new Date('2020-01-01');

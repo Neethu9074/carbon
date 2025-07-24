@@ -6,13 +6,12 @@
 
 import { ReactNode } from 'react';
 
+import { OrderDirection, PaginatedResult, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { OrderDirection } from '@instana/types';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ParameterDefinition } from 'in-stores/navigation/types';
-import { PaginatedResult, Result } from 'in-types';
 
 export type Ellipsis = string | boolean | undefined;
 export type Width = string | number | undefined;

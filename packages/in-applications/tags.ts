@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TagFilter, TagType } from '@instana/types';
+
 import { EntityType, entityTypes, TAG_TYPES } from 'in-analyze/applicationFilter';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { Nullish, TagFilter, TagType } from 'in-types';
 import { deepCopy } from 'in-services/util/object';
 import { role } from 'in-stores/user';
+import { Nullish } from 'in-types';
 
 export const defaultGroupings = {
   calls: {

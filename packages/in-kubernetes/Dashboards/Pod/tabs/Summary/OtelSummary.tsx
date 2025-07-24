@@ -15,17 +15,14 @@ import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonCo
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 // @ts-expect-error
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import {
-  andQuery,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { bytes, percentage, timeBySecondsTwoDecimalPlaces } from 'in-services/formatters/number';
-import { k8sPodAndServiceChart, k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
 import { resourceQuotaBytes, resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { otelK8sNodePodChart } from 'in-kubernetes/components/K8sChartColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
@@ -76,8 +73,7 @@ export default function OtelSummary({ data: pod, timeConfig }: SummaryProps) {
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
-  const { limits, requests, usage } = k8sPodAndServiceChart;
-  const { capacity } = k8sNodeChart;
+  const { usage, available, rss, workingset, pagefaults } = otelK8sNodePodChart;
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,
@@ -176,31 +172,25 @@ export default function OtelSummary({ data: pod, timeConfig }: SummaryProps) {
         </Col>
       </Row>
       <Row>
-        <Col lg={6}>
+        <Col lg={4}>
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
+                metric: 'k8s.pod.cpu.usage',
+                label: t('in-kubernetes:dashboards.cpuUsage'),
+                color: usage,
+                ...defaultChartMetricConfig
+              },
+              {
                 metric: 'k8s.pod.cpu.utilization',
                 label: t('in-kubernetes:dashboards.cpuUtilization'),
-                color: usage,
+                color: available,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
-              },
-              {
-                metric: 'cpuRequests',
-                label: t('in-kubernetes:dashboards.requests'),
-                color: requests,
-                ...defaultChartMetricConfig
-              },
-              {
-                metric: 'cpuLimits',
-                label: t('in-kubernetes:dashboards.limits'),
-                color: limits,
-                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
-            colors={[usage, requests, limits]}
+            colors={[usage, available]}
             formatter="percentage.detailed"
             tooltipFormatter={percentage.detailed}
             paramTab="cpuTab"
@@ -211,7 +201,7 @@ export default function OtelSummary({ data: pod, timeConfig }: SummaryProps) {
             hasButtonInActionslane={false}
           />
         </Col>
-        <Col lg={6}>
+        <Col lg={4}>
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
@@ -224,28 +214,74 @@ export default function OtelSummary({ data: pod, timeConfig }: SummaryProps) {
               {
                 metric: 'k8s.pod.memory.available',
                 label: t('in-kubernetes:dashboards.memoryAvailable'),
-                color: requests,
+                color: available,
                 ...defaultChartMetricConfig
               },
               {
                 metric: 'k8s.pod.memory.rss',
                 label: t('in-kubernetes:dashboards.memoryRss'),
-                color: limits,
+                color: rss,
                 ...defaultChartMetricConfig
               },
               {
-                metric: 'k8s.pod.memory.working_sets',
+                metric: 'k8s.pod.memory.working_set',
                 label: t('in-kubernetes:dashboards.memoryWorkingset'),
-                color: capacity,
+                color: workingset,
+                ...defaultChartMetricConfig
+              },
+              {
+                metric: 'k8s.node.memory.page_faults',
+                label: t('in-kubernetes:dashboards.memoryPageFaults'),
+                color: pagefaults,
+                ...defaultChartMetricConfig
+              },
+              {
+                metric: 'k8s.node.memory.major_page_faults',
+                label: t('in-kubernetes:dashboards.memoryMajorPageFaults'),
+                color: pagefaults,
                 ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.memoryResources')}
-            colors={[usage, requests, limits, capacity]}
+            colors={[usage, available, rss, workingset, pagefaults]}
             formatter="bytes.detailed"
             tooltipFormatter={bytes.detailed}
             paramTab="memoryTab"
             paramMetric="memoryMetric"
+            path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
+          />
+        </Col>
+        <Col lg={4}>
+          <KubernetesTimeShiftChartPresenter
+            metrics={[
+              {
+                metric: 'k8s.pod.filesystem.usage',
+                label: t('in-kubernetes:dashboards.filesystemUsage'),
+                color: usage,
+                ...defaultChartMetricConfig
+              },
+              {
+                metric: 'k8s.pod.filesystem.available',
+                label: t('in-kubernetes:dashboards.filesystemAvailable'),
+                color: available,
+                ...defaultChartMetricConfig
+              },
+              {
+                metric: 'k8s.pod.filesystem.capacity',
+                label: t('in-kubernetes:dashboards.filesystemCapacity'),
+                color: rss,
+                ...defaultChartMetricConfig
+              }
+            ]}
+            title={t('in-kubernetes:dashboards.filesystemResources')}
+            colors={[usage, available, rss]}
+            formatter="bytes.detailed"
+            tooltipFormatter={bytes.detailed}
+            paramTab="allocTab"
+            paramMetric="allocMetric"
             path={summaryTab}
             hasActionlane
             snapshotId={snapshotId}

@@ -6,8 +6,10 @@
 
 import { MapForm } from 'formalistic';
 
+import { CustomEventSpecification, ThresholdRule } from '@instana/types';
+
 import { IdNamePair } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
-import { CustomEventSpecification, Nullish, ThresholdRule } from 'in-types';
+import { Nullish } from 'in-types';
 
 export const ruleTypeEntityVerification: string;
 export const ruleTypeEntityCountVerification: string;

@@ -7,6 +7,7 @@
 import React, { ReactNode, useRef } from 'react';
 import classNames from 'classnames';
 
+import { UnifiedMetricConfigurationUnion } from '@instana/types';
 import { Card } from '@instana/components';
 
 import {
@@ -27,7 +28,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HistogramChart from 'in-components/HistogramChart/HistogramChart';
 import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
-import { UnifiedMetricConfigurationUnion } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './HistogramWidgetCard.mless';

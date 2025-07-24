@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { ColumnizedContent, ColumnizedDefinition, Li, Typography, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Typography, Ul } from '@instana/components';
+import type { ColumnizedDefinition } from '@instana/components';
 
-import { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import type { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 
 export type SloConfigSectionData = SloTabData | ApplicationSloTabData;
 

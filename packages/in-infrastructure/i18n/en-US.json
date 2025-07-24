@@ -94,6 +94,8 @@
       "maximumNumberOfMembers": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",
       "generalError": "An unexpected error occurred."
     },
+    "warningTitle": "Export Limit Exceeded",
+    "warning": "Exporting {{count}} records exceeds the maximum limit. Only the first {{max}} entries will be included, and the process may take longer than usual to complete.",
     "entityTypes": "Entity types {{count, parenthesis}}",
     "relatedInstances": "Analyze instances"
   },
@@ -152,11 +154,29 @@
     "warning": "Warning when {{operator}} {{level}}"
   },
   "collectorView": {
+    "otelCollector": "OpenTelemetry Collector",
+    "restartCollector": "Restart collector",
+    "editConfiguration": "Edit configuration",
+    "collectorConfig": "Collector configuration",
+    "cpuTime": "CPU time",
+    "collectorUptime": "Collector uptime",
+    "memoryUsage": "Memory usage",
+    "metricPointsAccepted": "Metric points accepted",
+    "logRecordsAccepted": "Log records accepted",
+    "metricPointsExported": "Metric points exported",
+    "logRecordsExported": "Log points exported",
+    "receiverMetrics": "Receiver metrics",
+    "exporterMetrics": "Exporter metrics",
+    "collectorRestartingTitle": "Collector restarting",
+    "collectorRestarting": "Collecor restart successfully initiated.",
+    "collectorError": "Collector error",
+    "configUpdateSuccessTitle": "Configuration update successful",
+    "configUpdateSuccess": "Collector configuration succesfully updated.",
+    "update": "Update",
+    "cancel": "Cancel",
+    "configuration": "Configuration",
     "exporter": "Exporter",
     "processor": "Processor",
-    "receiver": "Receiver",
-    "updateConfig": "Update configuration",
-    "submit": "Submit",
-    "cancel": "Cancel"
+    "receiver": "Receiver"
   }
 }

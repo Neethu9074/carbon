@@ -424,20 +424,20 @@ function createPercentileBuckets(buckets, percentiles) {
   );
 }
 
-function getMetricBuckets(isGrouped, loading, bucketArray, timeShiftBuckets, from, to, selection) {
+function getMetricBuckets(isGrouped, loading, bucketArray = [], timeShiftBuckets = [], from, to, selection) {
+  const isTimeShiftEnabled = !!timeShiftBuckets.length;
+  const slicedMainBuckets = bucketArray.slice(from, to);
+  const slicedTimeShiftBuckets = timeShiftBuckets.slice(from, to);
+  const combinedBuckets = [slicedMainBuckets, slicedTimeShiftBuckets].filter(Boolean);
   let metricBuckets =
-    isGrouped && !loading
-      ? // TODO: this needs investigation and adoption for case of [...undefined]
-        // eslint-disable-next-line no-unsafe-optional-chaining
-        [...bucketArray?.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean)
-      : [bucketArray?.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean);
+    isGrouped && !loading ? [...slicedMainBuckets, ...slicedTimeShiftBuckets].filter(Boolean) : combinedBuckets;
 
-  if (
-    !isGrouped ||
-    (isGrouped &&
-      Object.keys(selection).length &&
-      (metricBuckets[0][0].from < selection.from || metricBuckets[0][0].from >= selection.to))
-  ) {
+  const isBucketOutsideSelection =
+    Object.keys(selection ?? {}).length &&
+    (metricBuckets[0][0].from < selection.from || metricBuckets[0][0].from >= selection.to);
+  const shouldAggregate = (!isTimeShiftEnabled && !isGrouped) || (isGrouped && isBucketOutsideSelection);
+
+  if (shouldAggregate) {
     metricBuckets = [
       [
         metricBuckets[0].reduce(

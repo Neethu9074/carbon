@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { WebsiteQueryProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
+import type { WebsiteQueryProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 
 export default function WebsiteTagFilterQueryBuilder({

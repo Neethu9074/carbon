@@ -9,6 +9,7 @@ import { get } from 'lodash';
 
 import { Stack, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
@@ -22,7 +23,6 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { meanLatency, number, percentage } from 'in-services/formatters/number';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import SparkChart from 'in-components/SparkChart';
-import { TimeConfig } from 'in-types';
 
 import locals from './MetricsSection.mless';
 

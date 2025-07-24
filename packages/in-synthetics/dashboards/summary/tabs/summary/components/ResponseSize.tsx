@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { TimeShift } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -16,7 +17,6 @@ import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { bytes } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
 import { chartColors } from 'in-themes/chartColors';
-import { TimeShift } from 'in-types';
 
 type Props = {
   timeShiftConfig: TimeShift;

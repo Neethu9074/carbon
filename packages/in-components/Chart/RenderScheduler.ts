@@ -4,12 +4,13 @@
  */
 
 import { create, Disposable, Subject } from '@instana/observables';
+import { TimeConfig } from '@instana/types';
 
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
 import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import { toServerTime, offset$ } from 'in-stores/timeOffset';
 import createScale, { ScaleType } from 'in-services/scale';
-import { Nullish, TimeConfig } from 'in-types';
+import { Nullish } from 'in-types';
 
 export interface RenderProps {
   xScaleBackBuffer: ScaleType;

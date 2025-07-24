@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { TagCatalog } from '@instana/types';
+
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
-import { TagCatalog } from 'in-types';
 
 interface FilterConfiguratorProps {
   tagFilterExpression: FormModelElement[];

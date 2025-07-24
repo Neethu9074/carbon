@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { SyntheticTest } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -11,7 +12,6 @@ import { getSyntheticTestsAsResult } from 'in-synthetics/api';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { deepCopy } from 'in-services/util/object';
-import { SyntheticTest } from 'in-types';
 
 export const useSyntheticTests = (): FetchedState<SyntheticTest[]> => {
   const result = useObservable(() => {

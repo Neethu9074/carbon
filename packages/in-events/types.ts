@@ -6,7 +6,7 @@
 
 import { Map } from 'immutable';
 
-import { Event } from 'in-types';
+import { Event } from '@instana/types';
 
 /**
  * Type that is currently used in many components of in-events using immutableJS Map for an event.

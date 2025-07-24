@@ -6,8 +6,8 @@
 
 import { serviceLevelsObjective, serviceLevelsAlertDetailsSegment } from 'in-service-levels/navigation/path';
 import { buildJsonParser, buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { Location, ParameterDefinition } from 'in-stores/navigation/types';
-import { AvailableTimeWindowTypes } from 'in-service-levels/types';
+import type { Location, ParameterDefinition } from 'in-stores/navigation/types';
+import type { AvailableTimeWindowTypes } from 'in-service-levels/types';
 
 export interface SloUrlState {
   sloId: string;

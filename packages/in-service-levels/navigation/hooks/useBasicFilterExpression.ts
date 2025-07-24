@@ -6,17 +6,18 @@
 
 import { get } from 'lodash';
 
-import {
+import type {
   ApplicationSloEntity,
   BoundaryScope,
-  isSyntheticSloEntity,
   Result,
   SyntheticSloEntity,
   TagFilter,
   TagFilterExpression,
   WebsiteSloEntity
 } from '@instana/types';
-import { combineLatest, just, Observable } from '@instana/observables';
+import { combineLatest, just } from '@instana/observables';
+import { isSyntheticSloEntity } from '@instana/types';
+import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';

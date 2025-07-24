@@ -42,10 +42,10 @@ const AgenticInvestigation = ({ incident, volatileId, event }: AgenticInvestigat
       >
         <Stack gap={5}>
           <Grid narrow className={locals.grid} fullWidth>
-            <Column lg={4} md={4}>
+            <Column xlg={4} lg={6} md={4} sm={4}>
               <EntityDetails />
             </Column>
-            <Column lg={12} md={4}>
+            <Column xlg={12} lg={10} md={4} sm={4}>
               <Topology incident={incidentJSON} />
             </Column>
           </Grid>

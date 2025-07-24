@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Progress, TagType } from '@instana/types';
+
 import { LogVolumeUsageItem, RetentionPeriod } from 'in-logging/api/logVolume';
-import { Progress, TagType } from 'in-types';
 
 export type GroupingTag = string | undefined;
 

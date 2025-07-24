@@ -9,6 +9,7 @@ import { MapForm } from 'formalistic';
 
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
+import { ApiGroup } from '@instana/types';
 
 import {
   createGroupForm,
@@ -28,7 +29,6 @@ import useFormSubmission from 'in-hooks/useFormSubmission';
 import { pendingResult } from 'in-services/fixedObjects';
 import useDerivedState from 'in-hooks/useDerivedState';
 import { seconds } from 'in-services/time/time';
-import { ApiGroup } from 'in-types';
 import { t } from 'in-i18n';
 
 interface EditRoleScopeDialogProps {

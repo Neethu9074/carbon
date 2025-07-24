@@ -13,13 +13,12 @@ import {
   APImpactedUsersByWebsiteOrAppResultItem,
   GetAPImpactedUsersByWebsiteOrAppQuery,
   TagFilterExpressionElementUnion,
-  JoinSource,
-} from 'in-types';
-
-// eslint-disable-next-line no-restricted-imports
-
+  JoinSource
+} from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+
+// eslint-disable-next-line no-restricted-imports
 
 export default createResultSubscriptionFactory<
   GetAPImpactedUsersByWebsiteOrAppQuery,
@@ -33,8 +32,8 @@ export default createResultSubscriptionFactory<
 type makeAPImpactedUsersByWebsiteOrAppQueryProp = {
   timeConfig: TimeConfig;
   pagination?: CursorPagination<IngestionOffsetCursor>;
-  joinFilterExpression: TagFilterExpressionElementUnion,
-  joinSource: JoinSource
+  joinFilterExpression: TagFilterExpressionElementUnion;
+  joinSource: JoinSource;
 };
 
 export function makeAPImpactedUsersByWebsiteOrAppQuery({

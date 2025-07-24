@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata, ConfigVersion, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -11,7 +12,6 @@ import {
   disableAlertConfig as disableAlertConfigApi,
   enableAlertConfig as enableAlertConfigApi
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
-import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata, ConfigVersion, Result } from 'in-types';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';

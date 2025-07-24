@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result, ServiceLabel } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, ServiceLabel } from 'in-types';
 
 interface GetServiceLabelRequest {
   id: string;

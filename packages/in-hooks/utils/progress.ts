@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { Progress } from 'in-types';
-
+import { Progress } from '@instana/types';
 function calcPercentageAverage(progress: Progress[]): number {
   const sumProgresses = progress
     .map(({ percentage }) => percentage)

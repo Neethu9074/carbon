@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TagFilterExpression } from '@instana/types';
+
 import { deepFreeze } from 'in-services/util/object';
-import { TagFilterExpression } from 'in-types';
 
 const _tagFilterExpression: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
 

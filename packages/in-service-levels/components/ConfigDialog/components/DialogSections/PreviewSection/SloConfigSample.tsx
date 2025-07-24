@@ -19,7 +19,7 @@ import ControlledSloErrorBudgetChart from 'in-service-levels/components/Shared/C
 import { calculateSloGranularity, calculateTimeConfigFromTimeWindow } from 'in-service-levels/utils/time';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
-import { MetricDataPoint } from 'in-components/Chart/types';
+import type { MetricDataPoint } from 'in-components/Chart/types';
 import { parseDateTime } from 'in-services/formatters/date';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';

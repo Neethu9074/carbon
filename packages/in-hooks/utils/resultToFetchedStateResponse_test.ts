@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Error } from '@instana/types';
+
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { Error } from 'in-types';
 
 describe('in-hooks/utils/resultToFetchedStateResponse', () => {
   it('returns status "pending" while loading and erros list is empty.', () => {

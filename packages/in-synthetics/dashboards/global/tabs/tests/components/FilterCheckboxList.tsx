@@ -9,10 +9,10 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { Checkbox, CheckboxGroup, Search, IconButton, Button, Layer } from '@instana/carbon';
 import { generateUniqueShortId } from '@instana/utils';
 
+import { useFilteredSortedOptions } from 'in-synthetics/components/hooks/useFilteredSortedOptions';
 import { getNextSortDirection, getSortIcon } from 'in-synthetics/dashboards/global/utils';
-import { useFilteredSortedOptions } from 'in-synthetics/hooks/useFilteredSortedOptions';
-import { useFilterPagination } from 'in-synthetics/hooks/useFilterPagination';
-import { useSelectionState } from 'in-synthetics/hooks/useSelectionState';
+import { useFilterPagination } from 'in-synthetics/components/hooks/useFilterPagination';
+import { useSelectionState } from 'in-synthetics/components/hooks/useSelectionState';
 import { FilterCheckboxListProps } from 'in-synthetics/utils/constants';
 import { SortDirectionType } from 'in-synthetics/components/constants';
 import { t } from 'in-i18n';

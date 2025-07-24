@@ -6,7 +6,7 @@
 
 import React, { useEffect } from 'react';
 
-import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import {
@@ -17,12 +17,13 @@ import {
 } from 'in-services/tracking/eventNames';
 import SloFormStepsContainer from 'in-service-levels/components/ConfigDialog/components/SloFormStepsContainer';
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { ConfigureDialogMode, SloTrackingMeta } from 'in-service-levels/types';
+import type { UnstableTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import type { ConfigureDialogMode, SloTrackingMeta } from 'in-service-levels/types';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';

@@ -6,11 +6,15 @@
 
 import React, { useState, useMemo } from 'react';
 
+import { TagCatalog, TagFilter, RuleWithThreshold, LogAlertRuleUnion } from '@instana/types';
 import { Message, Stack } from '@instana/components';
 import { create } from '@instana/observables';
 
+import {
+  replaceDescriptionPlaceholdersWithMarkup,
+  replaceTitlePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/useTagBasedPayoadConfigurator';
 import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -24,7 +28,6 @@ import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/Custo
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
-import { TagCatalog, TagFilter, RuleWithThreshold, LogAlertRuleUnion } from 'in-types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -194,6 +197,9 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
           disableTrigger
           shouldDisplayAlertLevelSection={false}
           renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig.name, alertConfig.groupBy)}
+          renderCustomDescription={() =>
+            replaceDescriptionPlaceholdersWithMarkup(alertConfig.description, alertConfig.groupBy)
+          }
         />
       </ExpandableLightCard>
 

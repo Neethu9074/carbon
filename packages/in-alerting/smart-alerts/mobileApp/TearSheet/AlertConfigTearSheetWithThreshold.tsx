@@ -7,6 +7,8 @@
 import React, { useMemo, useState } from 'react';
 import { MapForm, Item } from 'formalistic';
 
+import { MobileAppAlertRule, MobileAppAlertRuleUnion, ThresholdType, TimeConfig } from '@instana/types';
+
 //@ts-expect-error ts migartion
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
 import {
@@ -21,7 +23,6 @@ import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresh
 import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/mobileApp/TearSheet/steps/TearSheetStepConfigs';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/mobileApp/hooks/useAlertConfigValidation';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-import { MobileAppAlertRule, MobileAppAlertRuleUnion, ThresholdType, TimeConfig } from 'in-types';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { getButtonLabel } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';

@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Result, GetAppDataEntityChainsQuery, CursorPaginatedResult, AppDataEntityChainItem } from 'in-types';
+import { Result, GetAppDataEntityChainsQuery, CursorPaginatedResult, AppDataEntityChainItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory<

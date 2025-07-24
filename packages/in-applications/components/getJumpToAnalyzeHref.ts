@@ -6,13 +6,13 @@
 import { get } from 'lodash';
 
 import { combineLatest } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { GetLinkToAnalyzeProps } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { Result } from 'in-types';
 
 export interface GetLabelsProps {
   applicationId?: string;

@@ -5,9 +5,9 @@
  */
 
 import { ButtonKinds } from '@instana/components';
+import { Event, RawEvent } from '@instana/types';
 
 import { EventMap } from 'in-events/types';
-import { Event, RawEvent } from 'in-types';
 
 export const EVENT_TYPES;
 

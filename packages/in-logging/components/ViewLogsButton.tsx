@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { TagFilterExpressionElementUnion, UnifiedMetricConfigurationUnion, Grouping } from '@instana/types';
 import { IconButton } from '@instana/components';
 
 import {
@@ -14,7 +15,6 @@ import {
   fromBackendModel,
   joinExpressions
 } from 'in-components/QueryBuilder/transformation/formModel';
-import { TagFilterExpressionElementUnion, UnifiedMetricConfigurationUnion, Grouping } from 'in-types';
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED } from 'in-services/tracking/eventNames';
@@ -104,8 +104,8 @@ function getLogMetricsTagExpressions(config: MetricsConfig): LogMetricsTagExpres
           element.elements ? enclose(fromBackendModel(element)) : [element]
         )
       : expressions.length === 1 && (expressions[0]?.type === 'TAG_FILTER' || 'EXPRESSION')
-      ? expressions.flatMap(element => (element.elements ? enclose(fromBackendModel(element)) : [element]))
-      : [];
+        ? expressions.flatMap(element => (element.elements ? enclose(fromBackendModel(element)) : [element]))
+        : [];
   const groups: Grouping[] = grouping.flatMap(item => Object.values(item));
 
   return {

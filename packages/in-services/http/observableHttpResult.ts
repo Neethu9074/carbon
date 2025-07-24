@@ -4,9 +4,9 @@
  */
 
 import { combineLatest, Observable } from '@instana/observables';
+import { ErrorCode, Error, Result } from '@instana/types';
 
 import { loading, success, error as createErrorObject } from 'in-services/util/result';
-import { ErrorCode, Error, Result } from 'in-types';
 import { Response } from 'in-services/http/types';
 
 export default function createObservable<T>(observableHttpRequest: Observable<Response<T>>): Observable<Result<T>> {

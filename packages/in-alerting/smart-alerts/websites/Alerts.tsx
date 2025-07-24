@@ -104,7 +104,6 @@ export default function Alerts({
               tagFilters={websiteData.tagFilters}
               timeConfig={websiteData.timeConfig}
               location={websiteData.location}
-              isListingPage
             />
           ) : undefined
         }

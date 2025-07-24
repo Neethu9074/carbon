@@ -13,10 +13,10 @@ import SloEntitySection from 'in-service-levels/components/ConfigDialog/componen
 import SloScopeSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
 import SloFormPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/SloFormPreview';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
+import type { NavItem } from 'in-components/SideNav/SideNav';
 import { isFieldValid } from 'in-service-levels/utils/form';
-import { NavItem } from 'in-components/SideNav/SideNav';
 import { t } from 'in-i18n';
 
 export default function SloFormStepsContainer() {

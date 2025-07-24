@@ -3,9 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { TagFilter } from '@instana/types';
-
-import { LogItem, LogTag } from 'in-types';
+import { TagFilter, LogItem, LogTag } from '@instana/types';
 
 export interface ClickedTag {
   name: string;

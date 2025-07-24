@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import {
   ApplicationMetricConfiguration,
   Group,
@@ -16,7 +14,9 @@ import {
   TagFilterEntity,
   TimeConfig,
   TimeShift
-} from 'in-types';
+} from '@instana/types';
+import { useObservable } from '@instana/hooks';
+
 import {
   createServiceIdTagFilter,
   createTagFilterExpression

@@ -6,6 +6,7 @@
 import React, { ReactElement, ReactNode, useState } from 'react';
 import classNames from 'classnames';
 
+import { AggregationType, PaginatedResult, Result, ServiceItem, TagFilterEntity, TimeConfig } from '@instana/types';
 import { KeyValue, Li, SvgIcon, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -15,7 +16,6 @@ import {
   CorrelationTag
 } from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/correlationTags';
 import AlternativeServicesTopList from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesTopList';
-import { AggregationType, PaginatedResult, Result, ServiceItem, TagFilterEntity, TimeConfig } from 'in-types';
 import getServicesCorrelatedByTag from 'in-applications/subscriptions/getServicesCorrelatedByTag';
 import { MultiMetricRenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import { OverlayContentProps } from 'in-components/overlays/Overlay/types';

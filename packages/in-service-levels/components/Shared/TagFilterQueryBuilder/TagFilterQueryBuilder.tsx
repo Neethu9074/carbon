@@ -8,11 +8,11 @@ import React from 'react';
 
 import {
   isApplicationTagFilter,
-  isWebsiteTagFilterQueryBuilder,
-  TagFilterQueryBuilderProps
+  isWebsiteTagFilterQueryBuilder
 } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
 import ApplicationTagFilterQueryBuilder from 'in-service-levels/components/Shared/TagFilterQueryBuilder/ApplicationTagFilterQueryBuilder';
 import WebsiteTagFilterQueryBuilder from 'in-service-levels/components/Shared/TagFilterQueryBuilder/WebsiteTagFilterQueryBuilder';
+import type { TagFilterQueryBuilderProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 
 export default function TagFilterQueryBuilder(props: TagFilterQueryBuilderProps) {

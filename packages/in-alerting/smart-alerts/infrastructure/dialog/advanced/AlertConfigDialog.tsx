@@ -7,8 +7,8 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { InfraAlertRuleUnion, InfraAlertConfig, VersionedConfig } from '@instana/types';
 import { RuleWithThreshold } from '@instana/types/typeDefinitions';
-import { InfraAlertRuleUnion } from '@instana/types';
 
 import {
   useFormattedThresholdValue,
@@ -19,18 +19,17 @@ import {
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/infrastructure/dialog/AlertConfigDialogWithThreshold';
-import { alertChannelPerSeverityInfraSaEnabled, perEntityInfraSmartAlertsEnabled } from 'in-services/featureFlags';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
-import { InfraAlertConfig, VersionedConfig } from 'in-types';
 
 interface AlertConfigDialogType {
   onClose: () => void;
@@ -159,6 +158,6 @@ function toAlertConfig(
     forecastingConfig: form.get(fieldNames.forecastingConfig).value,
     customPayloadFields: form.get('customPayloadFields').toJS(),
     rules: [ruleWithThreshold],
-    evaluationType: perEntityInfraSmartAlertsEnabled ? form.get('evaluationType').value : null
+    evaluationType: form.get('evaluationType').value
   });
 }

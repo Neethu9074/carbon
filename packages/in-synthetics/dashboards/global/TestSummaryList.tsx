@@ -73,7 +73,6 @@ import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTabl
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
-import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
@@ -342,8 +341,6 @@ const TestSummaryList = () => {
           <FloatingActionButtons>
             <FloatingActionButtonMenu>
               {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
-
-              {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
             </FloatingActionButtonMenu>
           </FloatingActionButtons>
         )}

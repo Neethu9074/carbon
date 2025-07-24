@@ -6,7 +6,7 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import { ApplicationSloEntity, WebsiteSloEntity } from '@instana/types';
+import type { ApplicationSloEntity, WebsiteSloEntity } from '@instana/types';
 import { just } from '@instana/observables';
 
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';

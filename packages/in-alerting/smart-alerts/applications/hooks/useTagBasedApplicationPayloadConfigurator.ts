@@ -6,10 +6,11 @@
 
 import { ReactNode, useMemo } from 'react';
 
+import { ApplicationBoundaryScope, ApplicationNode, TimeConfig } from '@instana/types';
+
 import { createTagBasedApplicationPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { getApplicationTagSuggestions } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { ApplicationBoundaryScope, ApplicationNode, TimeConfig } from 'in-types';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { CALLS } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';

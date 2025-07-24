@@ -5,13 +5,8 @@
 
 import React from 'react';
 
-import {
-  ApplicationSloEntity,
-  SloEntityType,
-  SloEntityUnion,
-  isApplicationSloEntity,
-  isTagFilter
-} from '@instana/types';
+import type { ApplicationSloEntity, SloEntityType, SloEntityUnion } from '@instana/types';
+import { isApplicationSloEntity, isTagFilter } from '@instana/types';
 import { Typography, SvgIcon } from '@instana/components';
 import { Stack } from '@instana/carbon';
 
@@ -20,7 +15,7 @@ import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/bac
 import MultiEntityLabel from 'in-service-levels/components/Shared/MultiEntityLabel';
 import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
-import { LabeledEntity } from 'in-service-levels/types';
+import type { LabeledEntity } from 'in-service-levels/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { t } from 'in-i18n';

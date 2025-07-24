@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { TagFilterExpression } from '@instana/types';
+import { TagFilterExpression, TimeConfig } from '@instana/types';
 import { Button } from '@instana/components';
 
 import {
@@ -15,7 +15,6 @@ import {
 } from 'in-infrastructure/navigation/paths';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {

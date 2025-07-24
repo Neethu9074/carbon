@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ThresholdOperator, SLIThresholdOperator } from '@instana/types';
+import type { ThresholdOperator, SLIThresholdOperator } from '@instana/types';
 import { Select } from '@instana/carbon';
 
 import locals from './OperatorDropdown.mless';

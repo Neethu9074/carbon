@@ -6,6 +6,7 @@
 import React, { useMemo } from 'react';
 import { get } from 'lodash';
 
+import { TagTreeNodeUnion, TagType } from '@instana/types';
 import { SvgIcon, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -22,7 +23,6 @@ import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { TagOptions } from 'in-components/SelectorOverlay/Node';
 import { GetTagCatalog } from 'in-components/QueryBuilder';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import { TagTreeNodeUnion, TagType } from 'in-types';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';

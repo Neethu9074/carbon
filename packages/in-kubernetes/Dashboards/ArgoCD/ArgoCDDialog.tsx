@@ -41,7 +41,7 @@ const ArgoCDDialog = ({ snapshotId, timeConfig, onClose, totalApps, unsyncedApps
           linkArgoCD: (
             // @ts-expect-error
             <Link
-              href="https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-argo-cd-public-preview"
+              href="https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-argo-cd"
               external
             />
           )

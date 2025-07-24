@@ -8,12 +8,12 @@ import React, { Fragment } from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { getMetricForFocusedMoment } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface VersionProps {

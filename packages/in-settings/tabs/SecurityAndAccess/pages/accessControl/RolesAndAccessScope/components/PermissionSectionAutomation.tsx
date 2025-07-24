@@ -7,6 +7,7 @@
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
+import { PermissionSet, ScopeBinding } from '@instana/types';
 import { SvgIcon, Typography } from '@instana/components';
 
 import {
@@ -35,7 +36,6 @@ import { FormControlProps } from 'in-settings/tabs/SecurityAndAccess/pages/acces
 import NoAccessPanel from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { PermissionSet, ScopeBinding } from 'in-types';
 import { t } from 'in-i18n';
 
 export interface PermissionSectionAutomationProps<FORM_TYPE extends MapFormItems>

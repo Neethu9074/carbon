@@ -5,14 +5,13 @@
 
 import React from 'react';
 
-import { TagFilter, TimeConfig } from '@instana/types';
+import { TagFilter, TimeConfig, Website } from '@instana/types';
 import { Button } from '@instana/components';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
 import {
   websitesSmartAlertFullScreenDesignEnabled,
-  websitesSmartAlertDialogViewEnabled,
-  smartAlertCarbonTableEnabled
+  websitesSmartAlertDialogViewEnabled
 } from 'in-services/featureFlags';
 import { deriveAlertType, generateAlertConfig } from 'in-alerting/smart-alerts/websites/TearSheet/sharedFunctions';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
@@ -22,7 +21,6 @@ import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAl
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { FULLSCREEN, SIMPLE, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
-import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 import { alertsTabListFullyQualified, detailsPath } from 'in-websites/navigation/paths';
 import { customEventId, errorId as errorIdMatrix } from 'in-websites/navigation/matrix';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
@@ -34,7 +32,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useWebsiteError from 'in-websites/hooks/useWebsiteError';
 import useWebsite from 'in-websites/hooks/useWebsite';
 import { Location } from 'in-stores/navigation/types';
-import { Website } from 'in-types';
 import { t } from 'in-i18n';
 
 const alertDisplayMode = getSmartAlertDisplayMode(
@@ -47,16 +44,9 @@ interface CreateSmartAlertProps {
   websiteId: string;
   tagFilters: TagFilter[];
   timeConfig: TimeConfig;
-  isListingPage: boolean;
 }
 
-export default function CreateSmartAlert({
-  location,
-  websiteId,
-  tagFilters,
-  timeConfig,
-  isListingPage
-}: CreateSmartAlertProps) {
+export default function CreateSmartAlert({ location, websiteId, tagFilters, timeConfig }: CreateSmartAlertProps) {
   const errorId = getMatrixParameter(location, detailsPath, errorIdMatrix) ?? undefined;
   const customEventName = getMatrixParameter(location, detailsPath, customEventId) ?? undefined;
 
@@ -133,17 +123,9 @@ export default function CreateSmartAlert({
     );
   };
 
-  if (smartAlertCarbonTableEnabled && isListingPage) {
-    return (
-      <Button kind="primaryv2" icon="lib_openclose_add" onClick={handleButtonClick} size="xl">
-        {t('in-alerting:smartAlerts.createSmartAlert')}
-      </Button>
-    );
-  }
-
   return (
-    <FloatingActionButton icon="lib_alerts_create" onClick={handleButtonClick} withBoxShadow>
-      {t('in-alerting:smartAlerts.addSmartAlert')}
-    </FloatingActionButton>
+    <Button kind="primaryv2" icon="lib_openclose_add" onClick={handleButtonClick} size="xl">
+      {t('in-alerting:smartAlerts.createSmartAlert')}
+    </Button>
   );
 }

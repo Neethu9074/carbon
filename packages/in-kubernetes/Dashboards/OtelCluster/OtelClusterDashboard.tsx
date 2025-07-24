@@ -7,6 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Result, TimeConfig } from '@instana/types';
 import { Pill } from '@instana/components';
 
 // @ts-expect-error TS migration
@@ -43,10 +44,10 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
-import { Nullish, Result, TimeConfig } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface RenderButtonLineSecondaryProps {

@@ -7,6 +7,8 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import {
   percentageZeroDecimalPlaces,
   bytesZeroDecimalPlaces,
@@ -17,7 +19,6 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { SummaryData } from 'in-xenserver/Dashboards/VM/tabs/Summary';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 const cols = [

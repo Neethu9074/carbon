@@ -7,6 +7,7 @@
 import React, { FC, useContext } from 'react';
 
 import { CarbonLayer } from '@instana/components';
+import { RawEvent } from '@instana/types';
 
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
@@ -15,7 +16,6 @@ import getRawEvents from 'in-subscription/getRawEvents';
 import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { RawEvent } from 'in-types';
 
 const RootCauseAssociatedEvents: FC = () => {
   const userTimeConfig = useTimeConfig();

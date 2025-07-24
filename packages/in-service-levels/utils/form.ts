@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Item } from 'formalistic';
+import type { Item } from 'formalistic';
 
 export function getValidationMessage(item: Item): string | undefined {
   const [validationMessage] = item.messages;

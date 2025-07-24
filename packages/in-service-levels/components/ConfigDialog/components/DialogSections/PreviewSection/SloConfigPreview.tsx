@@ -15,9 +15,9 @@ import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSumma
 import { applyAdjustedTimeframe, calculateSloGranularity } from 'in-service-levels/utils/time';
 import useSloPreviewMetrics from 'in-service-levels/hooks/useSloPreviewMetrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import type { MetricDataPoint } from 'in-components/Chart/types';
 import { sloPreviewMetrics } from 'in-service-levels/metrics';
 import renderer from 'in-components/Chart/renderer/Renderer';
-import { MetricDataPoint } from 'in-components/Chart/types';
 import { parseDateTime } from 'in-services/formatters/date';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';

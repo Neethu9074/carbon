@@ -7,18 +7,22 @@
 import { uniqueId } from 'lodash';
 
 import {
-  DefinedTreeQuestions,
+  EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE,
+  EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE,
+  EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
+  EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE,
+  EVENT_AI_CHAT_API_ERROR_POSITIVE,
+  EVENT_AI_CHAT_API_ERROR_NEGATIVE
+} from 'in-services/tracking/eventNames';
+import {
   handleDefinedTreeQuestions,
   InitialLoadOptions,
-  reprompt
-} from 'in-events/components/AIChat/DefinedQuestions';
-import {
-  sendAPIQuery,
-  fetchAPIData,
-  formatForTable,
-  fetchEventsData,
-  formatForEventsTable
-} from 'in-events/components/AIChat/chatAPI';
+  RePromptObject,
+  ThumbsFeedbackObject,
+  NLGResponseObject
+} from 'in-events/components/AIChat/ResponseObjects';
+import { formatForTable, formatForEventsTable } from 'in-events/components/AIChat/TableComponents/TableFormatters';
+import { sendAPIQuery, fetchAPIData, fetchEventsData } from 'in-events/components/AIChat/chatAPI';
 import { t } from 'in-i18n';
 
 // Params:
@@ -33,54 +37,18 @@ export async function CustomSendMessages(
 ) {
   // Always show the assistant input field since the feature flag is removed
   instance.updateAssistantInputFieldVisibility(true);
-  async function sendTextMessage(nlg, text, restart) {
-    await instance.messaging.addMessage(
-      {
-        output: {
-          generic: [
-            ...(nlg
-              ? [
-                  {
-                    response_type: 'user_defined',
-                    user_defined: {
-                      user_defined_type: 'nlg_response',
-                      text: nlg
-                    }
-                  }
-                ]
-              : []),
-            {
-              response_type: 'text',
-              text: text
-            },
-            ...(restart ? reprompt : [])
-          ]
-        }
-      },
-      { silent: false, disableFadeAnimation: true }
-    );
-  }
   async function sendError(nlg, errorMessage) {
     await instance.messaging.addMessage(
       {
         output: {
           generic: [
-            ...(nlg
-              ? [
-                  {
-                    response_type: 'user_defined',
-                    user_defined: {
-                      user_defined_type: 'nlg_response',
-                      text: nlg
-                    }
-                  }
-                ]
-              : []),
+            ...(nlg ? [NLGResponseObject(nlg)] : []),
             {
               agent_message_type: 'inline_error',
               response_type: 'text',
               text: errorMessage
-            }
+            },
+            ThumbsFeedbackObject(EVENT_AI_CHAT_API_ERROR_POSITIVE, EVENT_AI_CHAT_API_ERROR_NEGATIVE)
           ]
         }
       },
@@ -92,7 +60,7 @@ export async function CustomSendMessages(
         instance.messaging.addMessage(
           {
             output: {
-              generic: reprompt
+              generic: [RePromptObject]
             }
           },
           { silent: false, disableFadeAnimation: true }
@@ -105,7 +73,24 @@ export async function CustomSendMessages(
     const tabular = isEvents ? formatForEventsTable(nlgResponse, apiData) : formatForTable(nlgResponse, apiData);
     await instance.messaging.removeMessages([statusMessageId]);
     if (tabular.output?.generic?.[1]?.user_defined?.rows?.length == 0) {
-      sendTextMessage(nlgResponse, t('in-events:aichat.noMatching'), true);
+      const posTrack = (isEvents && EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE) || EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE;
+      const negTrack = (isEvents && EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE) || EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE;
+      await instance.messaging.addMessage(
+        {
+          output: {
+            generic: [
+              NLGResponseObject(nlgResponse),
+              {
+                response_type: 'text',
+                text: t('in-events:aichat.noMatching')
+              },
+              ThumbsFeedbackObject(posTrack, negTrack),
+              RePromptObject
+            ]
+          }
+        },
+        { silent: false, disableFadeAnimation: true }
+      );
     } else {
       instance.messaging.addMessage(tabular, { disableFadeAnimation: true });
       await instance.updateCSSVariables({ 'BASE-width': '700px' });
@@ -114,7 +99,7 @@ export async function CustomSendMessages(
         instance.messaging.addMessage(
           {
             output: {
-              generic: reprompt
+              generic: [RePromptObject]
             }
           },
           { disableFadeAnimation: true }
@@ -125,7 +110,7 @@ export async function CustomSendMessages(
 
   // If the input message is valid and not blank we will want to make an API call
   const userQuery = request.input.text;
-  if (userQuery !== undefined && userQuery !== '' && !DefinedTreeQuestions.includes(userQuery)) {
+  if (userQuery !== undefined && userQuery !== '') {
     // Feature flag removed, always proceed with the query
 
     const loadingMessageId = uniqueId('aichat_');
@@ -172,13 +157,7 @@ export async function CustomSendMessages(
             id: statusMessageId,
             output: {
               generic: [
-                {
-                  response_type: 'user_defined',
-                  user_defined: {
-                    user_defined_type: 'nlg_response',
-                    text: nlgResponse
-                  }
-                },
+                NLGResponseObject(nlgResponse),
                 {
                   response_type: 'text',
                   text: t('in-events:aichat.findingInfoFrom', { endpoint: queryResponse.api.api_endpoint })

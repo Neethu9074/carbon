@@ -5,7 +5,7 @@
  */
 
 import { createField, createMapForm } from 'formalistic';
-import { Frequency } from 'rrule';
+import type { Frequency } from 'rrule';
 
 import {
   createNameField,
@@ -13,7 +13,7 @@ import {
   createReccurenceFields,
   createDurationFields
 } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createCorrectionWindowForm';
-import { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
+import type { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
 import { ONE_TIME } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/constants';
 
 const defaultFrequency = ONE_TIME;

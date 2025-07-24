@@ -7,6 +7,8 @@
 import React, { ReactNode, createContext, useMemo } from 'react';
 import { get } from 'lodash';
 
+import { Event } from '@instana/types';
+
 import useFetchAppropriateRCAEntityData, {
   NoAppropriateRCAEntityData,
   RCAEntityDataType
@@ -17,7 +19,6 @@ import determineEntityTypeFromEntityIDMap, {
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { getRootCauses } from 'in-events/components/RootCauseAnalysis/utils/getRootCauses';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
-import { Event } from 'in-types';
 
 const getRCAProps = (
   rca: RootCause

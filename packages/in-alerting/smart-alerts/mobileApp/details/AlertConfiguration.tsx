@@ -15,12 +15,15 @@ import {
 import { Stack } from '@instana/components';
 
 import {
+  highlightPlaceholdersInHtml,
+  replacePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
-import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -203,6 +206,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
           alertConfig={alertConfig}
           disableTrigger={false}
           renderCustomTitle={() => replacePlaceholdersWithMarkup(severityPlaceholderList, alertConfig.name)}
+          renderCustomDescription={() => highlightPlaceholdersInHtml(alertConfig.description, severityPlaceholderList)}
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="MOBILE_APP" />

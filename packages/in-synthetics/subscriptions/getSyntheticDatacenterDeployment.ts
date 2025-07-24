@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import { GetDatacenterDeploymentQuery, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetDatacenterDeploymentQuery, Result } from 'in-types';
 
 export default createResultSubscriptionFactory<GetDatacenterDeploymentQuery, Result<Map<string, string>>>({
   eventId: 'getSyntheticDatacenterDeployment'

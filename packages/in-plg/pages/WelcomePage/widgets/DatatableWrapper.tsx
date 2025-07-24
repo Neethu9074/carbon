@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { debounce } from 'lodash';
 
 import { Pagination as CarbonPagination, CarbonTableRow as Row } from '@instana/components';
+import { CustomDashboardWithUserSpecificInformation } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
@@ -33,7 +34,6 @@ import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemL
 import { DashboardTable } from 'in-plg/components/DashboardTable/DashboardTable';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
-import { CustomDashboardWithUserSpecificInformation } from 'in-types';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -290,7 +290,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
-          viewAll={viewAll ?? hasContent ? true : false}
+          viewAll={(viewAll ?? hasContent) ? true : false}
           hasNoDataTile={hasNoDataTile}
           addMore={addMore}
           addData={addData}

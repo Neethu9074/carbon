@@ -16,10 +16,11 @@ import {
   CarbonTile,
   Typography
 } from '@instana/components';
+import { Policy } from '@instana/types';
 
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { NO_FIELD_VALUE } from 'in-automation/constants';
-import { Nullish, Policy } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';

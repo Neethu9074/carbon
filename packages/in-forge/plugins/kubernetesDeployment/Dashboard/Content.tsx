@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { SnapshotItem as BaseSnapshotItem } from '@instana/types';
+
 // @ts-expect-error
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { useDeploymentDashboard } from 'in-kubernetes/navigation/paths';
-import { SnapshotItem as BaseSnapshotItem } from 'in-types';
 
 interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
   get: (id: string) => string;

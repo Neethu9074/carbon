@@ -178,7 +178,6 @@ module.exports = {
   alertChannelPerSeverityWebsiteSaEnabled: true,
   alertChannelPerSeverityMobileAppSaEnabled: true,
   alertChannelPerSeverityLogSaEnabled: true,
-  perEntityInfraSmartAlertsEnabled: true,
   idpConfigV2Enabled: true,
   sloLiteEnabled: true,
   sloFullEnabled: true,
@@ -193,6 +192,7 @@ module.exports = {
   infraSmartAlertDialogViewEnabled: true,
   websitesSmartAlertDialogViewEnabled: true,
   websitesBusinessMonitoringEnabled: true,
+  websitesBusinessConversionGoalsEnabled: true,
   mobileAppSmartAlertDialogViewEnabled: true,
   incidentTriggeringInfraSaEnabled: true,
   actionAiGenerationEnabled: true,
@@ -204,7 +204,6 @@ module.exports = {
   apMetricsDeltaFetchingEnabled: true,
   logFilterSaving: true,
   isControlledEnvEnabled: false,
-  blockLogDeletionsEnabled: false,
   logFormattingEnabled: true,
   openTelemetryKubernetesUnifiedViewEnabled: true,
   newOTelPageEnabled: true,
@@ -216,6 +215,7 @@ module.exports = {
   onlyFedRampAllowedAlertChannelsEnabled: false,
   deleteLogsV3Enabled: true,
   fiveMinuteGranularityForAdaptiveThresholdEnabled: true,
-  otelCollectorViewEnabled: false,
+  otelCollectorViewEnabled: true,
+  downtimesOnHostEnabled: true,
   newOnboardingPageEnabled: false
 };

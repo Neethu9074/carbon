@@ -749,7 +749,7 @@ function getHeaderActions(props) {
           filename: kebabCase(pluginName)
         }}
       />
-      <MetricCatalogAndSortingConfigurator {...props} showTagCatalog={false} />
+      <MetricCatalogAndSortingConfigurator {...props} showTagCatalog={false} crossSeriesSumEnabled />
     </>
   );
 }

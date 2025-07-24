@@ -10,8 +10,7 @@ import React from 'react';
 
 import { Stack, SvgIcon, Toggle } from '@instana/components';
 
-//@ts-expect-error
-import { getCrossSeriesAggregationTooltip } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/FormComponent';
+import { getCrossSeriesAggregationTooltip } from 'in-infrastructure/util/aggregation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Tooltip from 'in-components/Tooltip';
@@ -23,7 +22,7 @@ interface CrossSeriesAggregationProps {
   aggregationField: Field<any>;
   isCrossSeriesSumAggregationToggleEnabled: boolean;
   isSumCrossSeriesAggregation: boolean;
-  handleSumCrossSeriesAggregationChange: VoidFunction;
+  handleSumCrossSeriesAggregationChange: (isSum: boolean) => void;
   crossSeriesAggregationField: Field<any>;
   isTearSheet?: boolean;
 }
@@ -52,8 +51,8 @@ export default function CrossSeriesAggregation({
               <Toggle
                 id="metric-configurator-cross-series-aggregation"
                 checked={isSumCrossSeriesAggregation}
-                disabled={!isCrossSeriesSumAggregationToggleEnabled}
                 onToggle={handleSumCrossSeriesAggregationChange}
+                disabled={!isCrossSeriesSumAggregationToggleEnabled}
               />
             </span>
           </Tooltip>

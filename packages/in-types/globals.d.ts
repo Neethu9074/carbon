@@ -9,6 +9,11 @@ import { FormatLocaleDefinition } from 'd3-format';
 import '@instana/ibm-products';
 import { Tag } from '@instana/types';
 
+// Is only imported here to derive the correct types for the pre-evaluated
+// permissions and the user's role.
+// eslint-disable-next-line no-restricted-imports
+import { PRE_EVALUATED_PERMISSION_DEFAULTS, DEFAULT_ROLE } from 'in-stores/constants';
+
 export interface UiSettings {
   [key: string]: any;
 }
@@ -19,61 +24,22 @@ export interface Tenant {
   name?: string;
 }
 
-export interface Role {
+export type PreEvaluatedPermissionNames = keyof typeof PRE_EVALUATED_PERMISSION_DEFAULTS;
+
+export type PreEvaluatedPermissions = {
+  [K in PreEvaluatedPermissionNames]: boolean;
+};
+
+/**
+ * NOTE: Pre-evaluated permissions are now getting automatically derived from
+ * the PRE_EVALUATED_PERMISSION_DEFAULTS object in `in-stores/constants`.
+ **/
+export interface Role extends PreEvaluatedPermissions {
   id: string;
   name: string;
+  teamId: string;
   // all product permissions
   permissions: Array<string>;
-  // instana internal permissions
-  canAccessAllUnits: boolean;
-  canSeeInternalTags: boolean;
-  canSetAgentTraceLogLevel: boolean;
-  canSeeExtendedInternalMonitoring: boolean;
-  limitedInfrastructureScope: boolean;
-  limitedAutomationScope: boolean;
-  limitedBizOpsScope: boolean;
-  // pre-evaluated permissions from backend
-  canConfigureApplications: boolean;
-  canConfigureSubtraces: boolean;
-  canConfigureServiceLevelIndicators: boolean;
-  canConfigureEventsAndAlerts: boolean;
-  canConfigureMaintenanceWindows: boolean;
-  canConfigureApplicationSmartAlerts: boolean;
-  canConfigureWebsiteSmartAlerts: boolean;
-  canConfigureMobileAppSmartAlerts: boolean;
-  canConfigureGlobalAlertPayload: boolean;
-  canConfigureDatabaseManagement: boolean;
-  canConfigureAutomationActions: boolean;
-  canConfigureAuthenticationMethods: boolean;
-  canConfigureSessionSettings: boolean;
-  canRunAutomationActions: boolean;
-  canConfigureAutomationPolicies: boolean;
-  canViewLogs: boolean;
-  canViewTraceDetails: boolean;
-  canConfigureLogRetentionPeriod: boolean;
-  canViewAuditLog: boolean;
-  canConfigureSyntheticCredentials: boolean;
-  canUseSyntheticCredentials: boolean;
-  canConfigureSyntheticLocations: boolean;
-  canConfigureSyntheticTests: boolean;
-  canViewSyntheticTests: boolean;
-  canConfigureGlobalApplicationSmartAlerts: boolean;
-  canConfigureGlobalSyntheticSmartAlerts: boolean;
-  canConfigureGlobalInfraSmartAlerts: boolean;
-  canConfigureGlobalLogSmartAlerts: boolean;
-  canConfigureUsers: boolean;
-  canConfigureTeams: boolean;
-  canConfigureAgents: boolean;
-  canConfigureApiTokens: boolean;
-  canDeleteLogs: boolean;
-  canViewLogVolume: boolean;
-  canConfigureIntegrations: boolean;
-  canConfigureMobileAppMonitoring: boolean;
-  canManuallyCloseIssue: boolean;
-  canDeleteAutomationActionHistory: boolean;
-  canViewAccountAndBillingInformation: boolean;
-  canConfigureLogManagement: boolean;
-  canInvokeAlertChannel: boolean;
 }
 
 export interface User {

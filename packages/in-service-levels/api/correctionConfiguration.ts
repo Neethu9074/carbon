@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import {
+import type {
   OrderDirection,
   PaginatedResult,
   Result,
@@ -12,7 +12,8 @@ import {
   CorrectionConfiguration,
   Correction
 } from '@instana/types';
-import { create, just, Observable } from '@instana/observables';
+import type { Observable } from '@instana/observables';
+import { create, just } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';

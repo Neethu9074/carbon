@@ -5,6 +5,7 @@
 
 import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { LogTag } from '@instana/types';
 
 import {
   CONTAINERD_SNAPSHOT_ID,
@@ -28,7 +29,6 @@ import {
   LOG_SERVICE_NAME,
   LOG_STREAM_NAME
 } from 'in-logging/queryBuilder';
-import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;

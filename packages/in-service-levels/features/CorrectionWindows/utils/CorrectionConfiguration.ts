@@ -6,7 +6,7 @@
 
 import { RRule } from 'rrule';
 
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 
 import { days, hours, minutes } from 'in-services/time/time';
 

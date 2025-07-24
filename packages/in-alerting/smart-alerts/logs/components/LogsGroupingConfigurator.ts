@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Result, CatalogUseCase, TagSuggestions } from '@instana/types';
 import { Observable, just } from '@instana/observables';
 
 import { GetLogSuggestionsProps } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 //@ts-expect-error needs TS migration
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
-import { Result, CatalogUseCase, TagSuggestions } from 'in-types';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { listSuccess } from 'in-services/util/result';
 

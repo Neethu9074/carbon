@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import { PaginatedResult } from '@instana/types';
+import type { PaginatedResult } from '@instana/types';
 
-import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
+import type { GetAllSloConfigurationsArguments } from 'in-service-levels/api/sloConfiguration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
+import type { SelectSloListItem } from 'in-service-levels/types';
 import { all as allProgress } from 'in-hooks/utils/progress';
-import { SelectSloListItem } from 'in-service-levels/types';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 
 export default function useSloListItems({
   page,

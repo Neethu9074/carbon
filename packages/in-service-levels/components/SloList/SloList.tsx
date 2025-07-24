@@ -49,7 +49,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { SloListItem } from 'in-service-levels/types';
+import type { SloListItem } from 'in-service-levels/types';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';

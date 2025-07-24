@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field } from 'formalistic';
+import type { Field } from 'formalistic';
 import React from 'react';
 
 import { Stack, Typography, ValidationBlock } from '@instana/components';
-import { AggregationType } from '@instana/types';
+import type { AggregationType } from '@instana/types';
 
 import AggregationSelectorInput from 'in-service-levels/components/Shared/AggregationSelectorInput/AggregationSelectorInput';
-import { SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import type { TimeAggregationOptions } from 'in-service-levels/types';
 import { timeAggregationOptions } from 'in-service-levels/constants';
-import { TimeAggregationOptions } from 'in-service-levels/types';
 import { isFieldValid } from 'in-service-levels/utils/form';
 import { t } from 'in-i18n';
 

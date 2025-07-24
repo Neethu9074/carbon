@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Result, GetApplicationAdaptiveBaselineModelQuery } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, GetApplicationAdaptiveBaselineModelQuery } from 'in-types';
 
 export default createResultSubscriptionFactory<GetApplicationAdaptiveBaselineModelQuery, Result<string>>({
   eventId: 'getApplicationAdaptiveBaselineModel',

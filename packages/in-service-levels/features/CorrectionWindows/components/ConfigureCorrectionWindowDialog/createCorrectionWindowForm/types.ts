@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Field, MapForm, MapPath, Item } from 'formalistic';
-import { Frequency } from 'rrule';
+import type { Field, MapForm, MapPath, Item } from 'formalistic';
+import type { Frequency } from 'rrule';
 
-import { DurationUnitType } from '@instana/types';
+import type { DurationUnitType } from '@instana/types';
 
-import { ONE_TIME } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/constants';
+import type { ONE_TIME } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/constants';
 
 export type DurationFields = {
   amount: Field<number>;

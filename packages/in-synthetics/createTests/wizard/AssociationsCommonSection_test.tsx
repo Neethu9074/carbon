@@ -10,19 +10,19 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
-import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import { getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 
 describe('AssociationsCommonSection', () => {
   it('renders without crashing', () => {
-    const form = createForm(true, getSimpleBlueprintConfig()[0]);
+    const form = createForm(getAdvancedBlueprintConfig()[0]);
     const updateForm = jest.fn();
     const setSliderState = jest.fn();
     render(<AssociationsCommonSection form={form} updateForm={updateForm} setSliderState={setSliderState} />);
   });
 
   it('renders all expected elements', () => {
-    const form = createForm(true, getSimpleBlueprintConfig()[0]);
+    const form = createForm(getAdvancedBlueprintConfig()[0]);
     const updateForm = jest.fn();
     const setSliderState = jest.fn();
     const { getByText } = render(
@@ -34,7 +34,7 @@ describe('AssociationsCommonSection', () => {
   });
 
   it('renders no data available message when no entities are selected', () => {
-    const form = createForm(true, getSimpleBlueprintConfig()[0]);
+    const form = createForm(getAdvancedBlueprintConfig()[0]);
     const updateForm = jest.fn();
     const setSliderState = jest.fn();
     const { container } = render(

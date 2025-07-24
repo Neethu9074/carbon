@@ -3,15 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
-
 import {
   CustomPayloadConfiguration,
   CustomPayloadConfigurationWithLastUpdated,
   Result,
   TagCatalog,
   CustomPayloadContext
-} from 'in-types';
+} from '@instana/types';
+import { create } from '@instana/observables';
+
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';

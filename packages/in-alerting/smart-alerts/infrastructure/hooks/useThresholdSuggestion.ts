@@ -7,6 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import { useEffect } from 'react';
 
+import { Result, ThresholdType, StaticThresholdSuggestionResponse, ThresholdSuggestionResponse } from '@instana/types';
 //@ts-ignore
 import { Observable, empty } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -14,7 +15,6 @@ import { useObservable } from '@instana/hooks';
 import getInfraMetricsThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsThresholdSuggestion';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getEnrichedTagFilterExpression } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
-import { Result, ThresholdType, StaticThresholdSuggestionResponse, ThresholdSuggestionResponse } from 'in-types';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default function useThresholdSuggestion(

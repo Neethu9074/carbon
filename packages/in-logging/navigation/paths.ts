@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Grouping, TagFilterExpression, TimeConfig } from '@instana/types';
+
 import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
-import { Grouping, TagFilterExpression, TimeConfig } from 'in-types';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { setTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';

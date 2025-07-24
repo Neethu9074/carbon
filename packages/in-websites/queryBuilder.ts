@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   CursorPaginatedResult,
   DataSource,
@@ -13,7 +11,9 @@ import {
   TagSuggestionProposeType,
   TimeConfig,
   WebsiteBeaconGroupsItem
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createQueryBuilder, CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
@@ -94,7 +94,7 @@ export function getSuggestions({
 
 function retainGroupNames(result: Result<CursorPaginatedResult<WebsiteBeaconGroupsItem>>): Result<Suggestions> {
   if (!result.data) {
-    return (result as unknown) as Result<Suggestions>;
+    return result as unknown as Result<Suggestions>;
   }
 
   return {

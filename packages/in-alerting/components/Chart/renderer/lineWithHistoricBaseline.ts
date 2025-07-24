@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Granularity, ThresholdOperator } from '@instana/types';
+import { Granularity, ThresholdOperator, HistoricBaselineData } from '@instana/types';
 
 import { Highlight, renderHighlight } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
 import { MultiMetricRenderProps, RenderAxis, Renderer } from 'in-components/Chart/renderer/types';
 import { renderHistoricBaseline } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import line from 'in-components/Chart/renderer/line';
-import { HistoricBaselineData } from 'in-types';
 
 export const createLineWithBaselineAndOptionalPotentialProblem = (
   thresholdOperator: ThresholdOperator,

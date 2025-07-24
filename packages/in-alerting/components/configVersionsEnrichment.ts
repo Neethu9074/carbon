@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { ConfigVersion } from 'in-types';
+import { ConfigVersion } from '@instana/types';
+
 import { t } from 'in-i18n';
 
 export interface ExtendedConfigVersion extends ConfigVersion {

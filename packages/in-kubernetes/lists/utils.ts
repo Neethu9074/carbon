@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
+import { KubernetesClusterListItem, KubernetesNamespaceListItem, OrderDirection } from '@instana/types';
+
 import { DropdownItem } from 'in-kubernetes/lists/components/SortingConfigurator/SortingConfigurator';
-import { KubernetesClusterListItem, KubernetesNamespaceListItem, OrderDirection } from 'in-types';
 import { workloadExtraRenderers } from 'in-kubernetes/lists/renderers/workloadExtraInfo';
 import { BaseProps, IdsProps } from 'in-kubernetes/navigation/paths';
 import { TrackingFunction } from 'in-kubernetes/tracker';

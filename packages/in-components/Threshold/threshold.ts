@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Threshold, ThresholdOperator } from '@instana/types';
+
 import { convertToPercent } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { round } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { defaultFormatter } from 'in-stores/metric/formatters';
-import { Threshold, ThresholdOperator } from 'in-types';
 import { chartColors } from 'in-themes/chartColors';
 
 export type ThresholdValue = 'normal' | 'warning' | 'critical';

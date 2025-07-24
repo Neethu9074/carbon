@@ -6,10 +6,8 @@
 
 import { useContext } from 'react';
 
-import {
-  SloTimeWindowContext,
-  TimeWindowContext
-} from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
+import type { TimeWindowContext } from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
+import { SloTimeWindowContext } from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
 
 export default function useSloTimeWindowContext(): TimeWindowContext {
   const context = useContext(SloTimeWindowContext);

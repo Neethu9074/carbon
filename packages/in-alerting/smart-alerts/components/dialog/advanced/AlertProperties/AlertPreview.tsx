@@ -29,6 +29,8 @@ interface AlertPreviewProps {
   isMultiThreshold?: boolean;
   severity?: number;
   descriptionPlaceholder?: string;
+  descriptionTextWithPlaceHolder?: string;
+  descriptionWithReplacedPlaceholders?: HighlightedPlaceholders;
 }
 
 export function AlertPreview({
@@ -42,12 +44,15 @@ export function AlertPreview({
   isTearSheet = false,
   isMultiThreshold = false,
   severity = Number(form.get('severity')?.value),
-  descriptionPlaceholder
+  descriptionPlaceholder,
+  descriptionWithReplacedPlaceholders
 }: AlertPreviewProps) {
-  const description = form.get('description')?.value;
   const triggering = form.get('triggering')?.value;
+  const descriptionValue = descriptionWithReplacedPlaceholders
+    ? descriptionWithReplacedPlaceholders.join(' ')
+    : undefined;
   const descriptionWithMarkdown = toHtml(
-    description ||
+    descriptionValue ||
       (isMultiThreshold
         ? descriptionPlaceholder ?? getDescriptionPlaceholder(form, severity)
         : getDescriptionPlaceholder(form))

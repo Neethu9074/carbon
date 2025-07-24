@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { TagFilterExpression, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { TagFilterExpression, TimeConfig } from 'in-types';
 import hasLogs from 'in-logging/subscriptions/hasLogs';
 
 interface UseHasLogsRequest {

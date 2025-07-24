@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Typography } from '@instana/components';
 
 import {
@@ -14,18 +14,15 @@ import {
   SLO_CONFIG_DELETE_FINISH,
   SLO_CONFIG_DELETE_START
 } from 'in-services/tracking/eventNames';
-import {
-  CtaTrackingFunction,
-  UnstableTrackingFunction,
-  useSegmentTracking
-} from 'in-services/tracking/useSegmentTracking';
+import type { CtaTrackingFunction, UnstableTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
 import { deleteSloConfiguration } from 'in-service-levels/api/sloConfiguration';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DELETED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { ProductArea } from 'in-services/tracking/productAreas';
-import { PageName } from 'in-services/tracking/pageNames';
+import type { ProductArea } from 'in-services/tracking/productAreas';
+import type { PageName } from 'in-services/tracking/pageNames';
 import { t, Trans } from 'in-i18n';
 
 type CompletionCallback = (success: boolean) => void;

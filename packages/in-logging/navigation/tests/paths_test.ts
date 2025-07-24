@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TagFilterExpression, TimeConfig } from '@instana/types';
+
 import {
   dashboardManagementPath,
   dashboardDeletePath,
@@ -13,7 +15,6 @@ import {
 } from 'in-logging/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { TagFilterExpression, TimeConfig } from 'in-types';
 import { setTimeConfig } from 'in-stores/time/config';
 
 jest.mock('in-stores/navigation/matrix', () => ({

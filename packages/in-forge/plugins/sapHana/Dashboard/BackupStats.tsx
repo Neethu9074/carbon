@@ -109,22 +109,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.backupSize'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: BackupStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: BackupStatsRow) {
-        return `backupStats.${row.key}.backupSize`;
-      },
-      getContent: bytesTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.transferredSize'),
     type: 'metric',
     typeArgs: {
@@ -133,6 +117,22 @@ const cols = [
       },
       getMetricName(row: BackupStatsRow) {
         return `backupStats.${row.key}.transferredSize`;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.sapHana.dashboard.backupSize'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: BackupStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: BackupStatsRow) {
+        return `backupStats.${row.key}.backupSize`;
       },
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -170,7 +170,7 @@ export default function BackupStatsList({ snapshotId, timeConfig }: BackupStatsP
       cardTitle={t('in-forge:plugins.sapHana.dashboard.backupStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={8}
+      initialSortColumn={9}
       initialSortDirection="desc"
     />
   );

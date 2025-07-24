@@ -6,13 +6,13 @@
 
 import { createContext } from 'react';
 
-import {
+import type {
   CorrectionWindowForm,
   CorrectionWindowFormOnChange
 } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
-import { ConfigureDialogMode } from 'in-service-levels/types';
+import type { CorrectionWindowFormSideEffectsReturnType } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/hooks/useCorrectionWindowFormSideEffects';
 import { createCorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createCorrectionWindowForm';
-import { CorrectionWindowFormSideEffectsReturnType } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/hooks/useCorrectionWindowFormSideEffects';
+import type { ConfigureDialogMode } from 'in-service-levels/types';
 
 interface CorrectionWindowFormContextProps {
   form: CorrectionWindowForm;

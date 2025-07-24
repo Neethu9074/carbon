@@ -6,21 +6,21 @@
 
 import { useEffect, useState } from 'react';
 
-import { Result, CorrectionConfiguration, Error } from '@instana/types';
-import { Observable } from '@instana/observables';
+import type { Result, CorrectionConfiguration, Error } from '@instana/types';
+import type { Observable } from '@instana/observables';
 
-import useCorrectionWindowFormSideEffects, {
-  CorrectionWindowFormSideEffectsReturnType
-} from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/hooks/useCorrectionWindowFormSideEffects';
+import type { CorrectionWindowFormSideEffectsReturnType } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/hooks/useCorrectionWindowFormSideEffects';
 import { createCorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createCorrectionWindowForm';
-import { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
+import useCorrectionWindowFormSideEffects from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/hooks/useCorrectionWindowFormSideEffects';
+import type { CorrectionWindowForm } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
 import {
   createCorrectionConfiguration,
   updateCorrectionConfiguration
 } from 'in-service-levels/api/correctionConfiguration';
-import useFormSubmission, { DoSubmitFunction } from 'in-hooks/useFormSubmission';
-import { ConfigureDialogMode } from 'in-service-levels/types';
-import { FetchStatus } from 'in-hooks/utils/types';
+import type { DoSubmitFunction } from 'in-hooks/useFormSubmission';
+import type { ConfigureDialogMode } from 'in-service-levels/types';
+import useFormSubmission from 'in-hooks/useFormSubmission';
+import type { FetchStatus } from 'in-hooks/utils/types';
 
 type CorrectionWindowFormSubmissionAction = (
   config: CorrectionConfiguration

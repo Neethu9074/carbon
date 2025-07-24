@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   GetTestResultListQuery,
   OrderDirection,
@@ -13,7 +11,9 @@ import {
   TestResultListItem,
   TagFilter,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getTestResultList = createResultSubscriptionFactory<

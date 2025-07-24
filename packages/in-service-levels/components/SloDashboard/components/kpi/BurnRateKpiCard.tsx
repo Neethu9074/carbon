@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -15,7 +15,7 @@ import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { refreshSignal } from 'in-service-levels/api/correctionConfiguration';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { IconAction } from 'in-components/KpiCard/KpiCard';
+import type { IconAction } from 'in-components/KpiCard/KpiCard';
 import { number } from 'in-services/formatters/number';
 import { sloMetrics } from 'in-service-levels/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';

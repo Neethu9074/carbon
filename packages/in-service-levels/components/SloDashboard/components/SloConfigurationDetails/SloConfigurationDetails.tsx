@@ -14,10 +14,10 @@ import ObjectiveSection from 'in-service-levels/components/SloDashboard/componen
 import IndicatorSection from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
+import type { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_CONFIG_VIEW } from 'in-services/tracking/eventNames';
-import { Nullish } from 'in-types';
+import type { Nullish } from 'in-types';
 
 import locals from './SloConfigurationDetails.mless';
 

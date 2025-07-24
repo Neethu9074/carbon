@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Group, Order, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
-
+import { Group, Order, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 export interface Grouping extends Group {
   tagType: string;
 }

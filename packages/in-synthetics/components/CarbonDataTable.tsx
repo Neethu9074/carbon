@@ -42,8 +42,8 @@ import {
   Row,
   Cell
 } from 'in-synthetics/components/constants';
+import useFilterPanelAnimation from 'in-synthetics/components/hooks/useFilterPanelAnimation';
 import FilterPanel from 'in-service-levels/components/SloList/components/FilterPanel';
-import useFilterPanelAnimation from 'in-synthetics/hooks/useFilterPanelAnimation';
 import { getNextSortDirection } from 'in-synthetics/components/utils';
 import { TrProps } from 'in-components/tables/ServerTable/types';
 import { hasError } from 'in-services/util/result';

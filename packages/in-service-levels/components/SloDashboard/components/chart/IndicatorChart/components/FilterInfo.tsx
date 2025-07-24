@@ -6,15 +6,13 @@
 
 import React from 'react';
 
-import {
+import type {
   ApplicationSloEntity,
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  isWebsiteSloEntity,
   ServiceLevelIndicatorUnion,
   SloEntityUnion,
   WebsiteSloEntity
 } from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
 import { Spacer, Stack, SvgIcon, Typography } from '@instana/components';
 
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';

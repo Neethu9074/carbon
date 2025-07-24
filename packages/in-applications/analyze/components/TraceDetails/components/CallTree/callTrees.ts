@@ -4,14 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TraceActivityTreeNode } from '@instana/types';
+import { TraceActivityTreeNode, Result } from '@instana/types';
 
 import {
   LazyCallTree,
   CallNode
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import { limitVisibleNestingLevelsInTraceEnabled } from 'in-services/featureFlags';
-import { Result } from 'in-types';
 
 export const MAX_VISIBLE_NESTING_LEVELS = 10;
 

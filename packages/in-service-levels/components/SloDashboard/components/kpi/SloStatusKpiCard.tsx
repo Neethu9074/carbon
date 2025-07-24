@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';

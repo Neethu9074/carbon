@@ -6,7 +6,7 @@
 
 import { createField, createMapForm } from 'formalistic';
 
-import { DurationUnitType } from '@instana/types';
+import type { DurationUnitType } from '@instana/types';
 
 import {
   dateFieldValidator,
@@ -22,7 +22,7 @@ import {
   createIndicatorThresholdField,
   createSloNameTagsFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import {
+import type {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,

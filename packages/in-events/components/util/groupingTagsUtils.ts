@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ApiTag, TagType } from 'in-types';
-
+import { ApiTag, TagType } from '@instana/types';
 export function convertGroupingTagTypes(
   groupingTags: Record<string, string>,
   tags: ApiTag[] | undefined

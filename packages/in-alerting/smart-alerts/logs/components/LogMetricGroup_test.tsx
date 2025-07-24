@@ -7,11 +7,12 @@
 import { mount, shallow } from 'enzyme';
 import React from 'react';
 
+import { TagFilterExpressionElementUnion } from '@instana/types';
+
 import { EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import data from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
-import { TagFilterExpressionElementUnion } from 'in-types';
 
 const props = {
   backendQueryModel: { type: EXPRESSION, logicalOperator: 'AND', elements: [] } as TagFilterExpressionElementUnion,

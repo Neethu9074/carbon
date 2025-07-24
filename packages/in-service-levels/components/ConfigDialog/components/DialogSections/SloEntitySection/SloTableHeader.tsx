@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React from 'react';
 
 import locals from './SloTableHeader.mless';
 

@@ -64,21 +64,21 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.startTime'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: SchedulerJobsStatsRow) {
-        return row.schedulerJobsStats.get('startTime');
-      },
-      getContent: formatDateTime
-    }
-  },
-  {
     title: t('in-forge:plugins.sapHana.dashboard.endTime'),
     type: 'string',
     typeArgs: {
       getValue(row: SchedulerJobsStatsRow) {
         return row.schedulerJobsStats.get('endTime');
+      },
+      getContent: formatDateTime
+    }
+  },
+  {
+    title: t('in-forge:plugins.sapHana.dashboard.startTime'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: SchedulerJobsStatsRow) {
+        return row.schedulerJobsStats.get('startTime');
       },
       getContent: formatDateTime
     }
@@ -110,7 +110,7 @@ export default function SchedulerJobsStatsList({ snapshotId, timeConfig }: Sched
       cardTitle={t('in-forge:plugins.sapHana.dashboard.schedulerJobStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={4}
+      initialSortColumn={5}
       initialSortDirection="desc"
     />
   );

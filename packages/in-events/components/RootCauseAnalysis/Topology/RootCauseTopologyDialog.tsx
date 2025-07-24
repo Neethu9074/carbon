@@ -7,6 +7,7 @@
 import React, { createContext, useContext, useState } from 'react';
 
 import { CarbonTab, CarbonTabList, CarbonTabs, LoadingSpinner } from '@instana/components';
+import { Application, Event, TimeConfig } from '@instana/types';
 import { ErrorEmptyState } from '@instana/ibm-products';
 
 import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
@@ -16,7 +17,7 @@ import getRootCauseTabLabel from 'in-events/components/RootCauseAnalysis/utils/g
 import RootCauseTopology from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopology';
 import RootCauseLegend from 'in-events/components/RootCauseAnalysis/Topology/RootCauseLegend';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
-import { Application, Event, Nullish, TimeConfig } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/RootCauseAnalysis/Topology/RootCauseMap.mless';

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result, TraceActivityTreeNodeDetails } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, TraceActivityTreeNodeDetails } from 'in-types';
 
 interface createResultSubscriptionFactoryRequest {
   traceId: string;

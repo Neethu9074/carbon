@@ -76,8 +76,10 @@ const AdvancedMode = ({
       return 0;
     } else if (testTypeSelected.ssl.simple) {
       return 2;
-    } else {
+    } else if (testTypeSelected.dns.simple) {
       return 3;
+    } else {
+      return 0;
     }
   };
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
@@ -226,7 +228,7 @@ const AdvancedMode = ({
       title: t('in-synthetics:dialog.createTest.advancedMode.scheduleTitle'),
       subTitle: t('in-synthetics:dialog.createTest.advancedMode.simultaneousDescription'),
       valid: true,
-      content: <SelectScheduleStep form={form} updateForm={updateForm} simpleMode={false} />
+      content: <SelectScheduleStep form={form} updateForm={updateForm} />
     },
     {
       scrollId: '5',

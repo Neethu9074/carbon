@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import { CreateFieldOpts, composeValidators, createField } from 'formalistic';
+import { composeValidators, createField } from 'formalistic';
+import type { CreateFieldOpts } from 'formalistic';
 import { Frequency } from 'rrule';
 
-import { DurationUnitType, CorrectionConfiguration } from '@instana/types';
+import type { DurationUnitType, CorrectionConfiguration } from '@instana/types';
 
-import {
+import type {
   CorrectionWindowForm,
   CorrectionWindowFormFields,
   DurationFields,

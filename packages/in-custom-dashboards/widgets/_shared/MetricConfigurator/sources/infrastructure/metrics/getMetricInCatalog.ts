@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { MetricCatalog, MetricTreeNodeUnion } from 'in-types';
-
+import { MetricCatalog, MetricTreeNodeUnion } from '@instana/types';
 export interface MetricInCatalog {
   path: string[];
   label: string;

@@ -7,6 +7,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
 import { IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
@@ -21,10 +22,10 @@ import {
   getDeletedLineCount,
   getTableState,
   TableState,
-  getCarbonDataRows
+  getCarbonDataRows,
+  validateStartWithinRetention
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
 import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
-import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeletionTable.mless';
@@ -298,5 +299,29 @@ describe('getCarbonDataRows', () => {
 
     expect(dataRows[0]['Triggered by']).toBe(deletionItem2.triggeredByUser);
     expect(dataRows[1]['Triggered by']).toBe(deletionItem1.triggeredByUser);
+  });
+});
+
+describe('validateStartWithinRetention', () => {
+  it('returns validation message when startDateTime is before retention limit', () => {
+    const today = new Date();
+    const retentionDays = 7;
+    const oldDate = new Date(today);
+    oldDate.setDate(today.getDate() - 10);
+
+    const result = validateStartWithinRetention(oldDate, '12:00', retentionDays);
+    const translation = t('in-settings:tabs.deleteLogs.startDateRetentionValidationMessage', { days: retentionDays });
+    expect(result).toBe(translation);
+  });
+
+  it('returns null when startDateTime is within retention limit', () => {
+    const today = new Date();
+    const retentionDays = 7;
+    const recentDate = new Date(today);
+    recentDate.setDate(today.getDate() - 3);
+
+    const result = validateStartWithinRetention(recentDate, '15:30', retentionDays);
+
+    expect(result).toBeNull();
   });
 });

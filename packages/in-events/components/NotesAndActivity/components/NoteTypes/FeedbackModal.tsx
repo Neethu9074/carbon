@@ -21,27 +21,63 @@ import locals from './FeedbackModal.mless';
 
 interface FeedbackModalProps {
   handleSubmitTracking: (feedbackObj: Object) => void;
-  feedbackState: string;
+  feedbackState: 'up' | 'down' | null;
+  // Feedback subject string that will be used in the modal
+  // feedback question (const feedbackQuestion)
+  feedbackTextSubject: string;
+  // IsOpen and setIsOpen are optional
+  // This allows for this Feedback Modal to be used inside "addActiveDialog"
+  // Or stand alone carbon modal (when is open and set is open are used).
+  isOpen?: boolean;
+  setIsOpen?: Function;
 }
 
 //If needed in other places, can be modified to be reusable. Currently specific to summary feedback.
-export default function FeedbackModal({ handleSubmitTracking, feedbackState }: FeedbackModalProps) {
+export default function FeedbackModal({
+  handleSubmitTracking,
+  feedbackState,
+  isOpen,
+  setIsOpen,
+  feedbackTextSubject
+}: FeedbackModalProps) {
   const [feedbackText, setFeedbackText] = useState('');
   const [contactUserSelection, setContactUserSelection] = useState('contact-yes');
   const feedbackQuestion =
-    feedbackState === 'up' ? t('in-events:feedbackModal.helpfulQ') : t('in-events:feedbackModal.improveQ');
+    feedbackState === 'up'
+      ? t('in-events:feedbackModal.helpfulQ', { textSubject: feedbackTextSubject })
+      : t('in-events:feedbackModal.improveQ', { textSubject: feedbackTextSubject });
+
+  const openDetermined = () => {
+    if (isOpen !== undefined) {
+      // no addActiveDialog used
+      return isOpen;
+    } else {
+      // addActiveDialog used
+      return true;
+    }
+  };
+  const handleClose = () => {
+    if (isOpen !== undefined && setIsOpen) {
+      // no addActiveDialog used
+      setIsOpen(false);
+    } else {
+      // addActiveDialog used
+      close();
+    }
+  };
+
   return (
     <CarbonModal
-      open
+      open={openDetermined()}
       isFullWidth
-      onRequestClose={close}
+      onRequestClose={() => handleClose()}
       secondaryButtonText={t('in-events:feedbackModal.cancel')}
       primaryButtonText={t('in-events:feedbackModal.submit')}
       modalHeading={t('in-events:feedbackModal.title')}
       onRequestSubmit={() => {
         const trackingObj = { feedback: feedbackText, contactUserSelection: contactUserSelection };
         handleSubmitTracking(trackingObj);
-        close();
+        handleClose();
       }}
       primaryButtonDisabled={feedbackText === ''}
       size="sm"

@@ -7,6 +7,7 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 import moment from 'moment';
 
+import { TagFilter, TestResultListItem, TimeConfig } from '@instana/types';
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { SvgIcon, Tooltip } from '@instana/components';
 import { themes } from '@instana/design-tokens';
@@ -29,7 +30,6 @@ import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { runTypeCICD, runTypeScheduled } from 'in-synthetics/utils/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';

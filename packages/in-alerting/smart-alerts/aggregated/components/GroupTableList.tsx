@@ -7,12 +7,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { InfrastructureExploreItem, InfrastructureGroup, LogGroupItem, Order } from '@instana/types';
 import { CarbonLayer, LiLoadMore } from '@instana/components';
 
 //@ts-expect-error
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import MetricGroupHeader from 'in-alerting/smart-alerts/aggregated/components/MetricGroupHeader';
-import { InfrastructureExploreItem, InfrastructureGroup, LogGroupItem, Order } from 'in-types';
 import TableLoading from 'in-alerting/smart-alerts/aggregated/components/TableLoading';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { State } from 'in-hooks/useCursorPagination';

@@ -10,5 +10,8 @@
       display: flex;
       overflow: visible;
     }
+    .cell {
+      width: 1rem;
+    }
   }
 }

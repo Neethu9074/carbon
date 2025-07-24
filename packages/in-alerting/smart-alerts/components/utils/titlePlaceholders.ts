@@ -7,12 +7,15 @@
 import { Group, GroupByTag, InfraAlertEvaluationType } from '@instana/types';
 
 import {
+  highlightPlaceholdersInHtml,
+  replacePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import {
   severityPlaceholder,
   Placeholder,
   entityLabelPlaceholder
 } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { perEntityEvaluationType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
-import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 
 function isStringArray(arr: unknown[]): arr is string[] {
   return typeof arr[0] === 'string';
@@ -50,6 +53,14 @@ export function replaceTitlePlaceholdersWithMarkup(
   evaluationType?: InfraAlertEvaluationType
 ) {
   return replacePlaceholdersWithMarkup(getAllowedPlaceholders({ groupBy, evaluationType }), name);
+}
+
+export function replaceDescriptionPlaceholdersWithMarkup(
+  description: string,
+  groupBy?: string[] | GroupByTag[],
+  evaluationType?: InfraAlertEvaluationType
+) {
+  return highlightPlaceholdersInHtml(description, getAllowedPlaceholders({ groupBy, evaluationType }));
 }
 
 export function groupbyForPlaceholder(groupBy?: Group): GroupByTag[] {

@@ -6,6 +6,7 @@
 import invariant from 'invariant';
 
 import { formatDateTime } from 'in-services/formatters/date';
+import { isNotBlank } from 'in-services/util/string';
 import { compare } from 'in-services/util/number';
 import { noop } from 'in-services/fixedObjects';
 
@@ -23,11 +24,26 @@ export function validate(col) {
 }
 
 export function initialize(row, columnDefinition, columnIndex) {
-  const value = columnDefinition.typeArgs.getValue(row.rowConfig);
+  let value = columnDefinition.typeArgs.getValue(row.rowConfig);
+
+  const isDate = value instanceof Date;
+  const isNonEmptyString = typeof value === 'string' && isNotBlank(value);
+
+  if (!value || value === '') {
+    return null;
+  }
+
+  if (isDate) {
+    value = value.getTime();
+  } else if (isNonEmptyString) {
+    const parsed = Date.parse(value);
+    value = isNaN(parsed) ? null : parsed;
+  }
+
   if (__DEV__) {
     invariant(
       value == null || typeof value === 'number',
-      'Values for columns with type=dateTime must be number or null!'
+      'Values for columns with type=dateTime must be number or null! Got: ${value}'
     );
   }
   let content;

@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Typography } from '@instana/components';
 
-import { SloListItem, SelectSloListItem } from 'in-service-levels/types';
+import type { SloListItem, SelectSloListItem } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 interface Props {

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';

@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Result, GetInfraMetricsThresholdSuggestionQuery } from '@instana/types';
 import { ThresholdSuggestionResponse } from '@instana/types/typeDefinitions';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, GetInfraMetricsThresholdSuggestionQuery } from 'in-types';
 
 export default createResultSubscriptionFactory<
   GetInfraMetricsThresholdSuggestionQuery,

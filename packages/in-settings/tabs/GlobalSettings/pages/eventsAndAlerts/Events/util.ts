@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { EventSpecificationInfo, EventSpecificationType, AlertingAggregation } from 'in-types';
+import { EventSpecificationInfo, EventSpecificationType, AlertingAggregation } from '@instana/types';
+
 import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { customIssuesDisabledForPlugins, plugins } from 'in-forge/constants';
 import { isAppDataPlugin } from 'in-forge/plugins/pluginTypes';

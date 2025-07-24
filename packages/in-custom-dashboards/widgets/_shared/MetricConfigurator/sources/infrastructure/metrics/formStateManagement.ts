@@ -10,6 +10,7 @@ import { escapeRegExp } from 'lodash';
 import { MetricInCatalog } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
 // @ts-expect-error needs to be converted to ts
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
+import { getCrossSeriesAggregation, parseAggregation } from 'in-infrastructure/util/aggregation';
 
 export interface Node {
   metric: string;
@@ -22,26 +23,27 @@ export interface Node {
 interface BindProps {
   onChange: OnChangeForm;
   metricDefaultFormatter: string;
-  isCrossSeriesAggregationRestricted: boolean;
 }
 
 type OnChangeForm = (path: string[], form: (form: MapForm<any>) => MapForm<any>) => void;
 
-export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesAggregationRestricted }: BindProps) {
+export function formCallbacks({ onChange, metricDefaultFormatter }: BindProps) {
   return {
     onMetricChange({ metric, levelType, allowedCrossSeriesAggregations, label, parentLabels }: Node) {
       onChange([], form => {
+        const aggregation = parseAggregation(
+          form.getIn(['aggregation']).value,
+          form.getIn(['crossSeriesAggregation']).value,
+          allowedCrossSeriesAggregations
+        );
         let f = form
           .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
           .updateIn(['type'], field => field.setValue(levelType).setTouched(true))
           .updateIn(['metricPath'], field => field.setValue(parentLabels).setTouched(true))
-          .updateIn(['aggregation'], field => field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true))
-          .updateIn(['crossSeriesAggregation'], field => {
-            if (allowedCrossSeriesAggregations?.length > 0) {
-              return field.setValue(allowedCrossSeriesAggregations[0]).setTouched(true);
-            }
-            return field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true);
-          })
+          .updateIn(['aggregation'], field => field.setValue(aggregation.timeAggregation).setTouched(true))
+          .updateIn(['crossSeriesAggregation'], field =>
+            field.setValue(getCrossSeriesAggregation(aggregation)).setTouched(true)
+          )
           .updateIn(['allowedCrossSeriesAggregations'], field =>
             field.setValue(allowedCrossSeriesAggregations).setTouched(true)
           );
@@ -113,20 +115,19 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
       });
     },
 
-    setAggregation(aggregation: string) {
-      onChange([], form =>
-        form
-          .updateIn(['aggregation'], field => field.setValue(aggregation).setTouched(true))
-          .updateIn(['crossSeriesAggregation'], field => {
-            if (isCrossSeriesAggregationRestricted) {
-              return field;
-            }
-            if (aggregation === 'PER_SECOND' || aggregation === 'INCREASE') {
-              return field.setValue('SUM').setTouched(true);
-            }
-            return field.setValue(aggregation).setTouched(true);
-          })
-      );
+    setAggregation(timeAggregation: string) {
+      onChange([], form => {
+        const aggregation = parseAggregation(
+          timeAggregation,
+          form.getIn(['crossSeriesAggregation']).value,
+          form.getIn(['allowedCrossSeriesAggregations']).value
+        );
+        return form
+          .updateIn(['aggregation'], field => field.setValue(aggregation.timeAggregation).setTouched(true))
+          .updateIn(['crossSeriesAggregation'], field =>
+            field.setValue(getCrossSeriesAggregation(aggregation)).setTouched(true)
+          );
+      });
     },
 
     setUnit(unit: string) {
@@ -135,9 +136,15 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
 
     setIsSumCrossSeriesAggregation(isSumCrossSeriesAggregation: boolean) {
       onChange([], form => {
-        const newCrossSeriesAggregation = isSumCrossSeriesAggregation ? 'SUM' : form.get('aggregation').value;
+        const crossSeriesAggregation = isSumCrossSeriesAggregation ? 'SUM' : 'MEAN';
+        const aggregation = parseAggregation(
+          form.getIn(['aggregation']).value,
+          crossSeriesAggregation,
+          form.getIn(['allowedCrossSeriesAggregations']).value,
+          true
+        );
         return form.updateIn(['crossSeriesAggregation'], field =>
-          field.setValue(newCrossSeriesAggregation).setTouched(true)
+          field.setValue(getCrossSeriesAggregation(aggregation)).setTouched(true)
         );
       });
     },

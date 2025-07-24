@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { MobileAppAlertRule, SmartAlertThresholdRuleUnion, Severity, ThresholdOperator } from '@instana/types';
+
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { CRITICAL_SEVERITY, WARNING_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { mapToThresholdRuleInfo, ThresholdRuleInfo } from 'in-alerting/smart-alerts/utils/thresholdUtils';
-import { MobileAppAlertRule, SmartAlertThresholdRuleUnion, Severity, ThresholdOperator } from 'in-types';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { ThresholdInfo } from 'in-alerting/smart-alerts/components/details/ThresholdInfo';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';

@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-import { capitalize } from 'in-services/formatters/string';
-import { LogItem, LogTag } from 'in-types';
+import { LogItem, LogTag } from '@instana/types';
+
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { capitalize } from 'in-services/formatters/string';
 
 type LinkGetter = (tag: LogTag, log: LogItem) => string | null;
 
@@ -22,5 +23,5 @@ export function useGetKubernetesLink(): LinkGetter {
     location.pathname = `/kubernetes/${entity};${entity}Id=${entityId}/summary`;
 
     return createHref(location);
-  }
+  };
 }

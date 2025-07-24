@@ -5,17 +5,18 @@
 
 import { useMemo } from 'react';
 
-import { Result, TimeConfig } from '@instana/types';
-import { Observable } from '@instana/observables';
+import type { Result, TimeConfig } from '@instana/types';
+import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { createQueryBuilder, CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { getSuggestions as getWebsiteSuggestions } from 'in-websites/queryBuilder';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import type { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 

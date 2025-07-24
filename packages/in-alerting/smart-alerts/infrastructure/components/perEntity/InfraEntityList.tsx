@@ -6,6 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { Order, TagFilterExpressionElementUnion, TimeConfig, InfraExploreCursor, Result } from '@instana/types';
 import { AggregationType } from '@instana/types/typeDefinitions';
 
 import {
@@ -15,7 +16,6 @@ import {
 import InfraEntitiesTableList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntitiesTableList';
 import { getEntitiesData } from 'in-alerting/smart-alerts/infrastructure/components/perEntity/getEntitiesData';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
-import { Order, TagFilterExpressionElementUnion, TimeConfig, InfraExploreCursor, Result } from 'in-types';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';

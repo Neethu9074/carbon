@@ -11,7 +11,7 @@ import {
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { Location } from 'in-stores/navigation/types';
+import type { Location } from 'in-stores/navigation/types';
 
 export const serviceLevelsRoot = '/slo';
 

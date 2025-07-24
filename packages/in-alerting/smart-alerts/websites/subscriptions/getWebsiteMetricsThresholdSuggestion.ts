@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetWebsiteMetricsThresholdSuggestionQuery, Result, ThresholdSuggestionResponse } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetWebsiteMetricsThresholdSuggestionQuery, Result, ThresholdSuggestionResponse } from 'in-types';
 
 export default createResultSubscriptionFactory<
   GetWebsiteMetricsThresholdSuggestionQuery,

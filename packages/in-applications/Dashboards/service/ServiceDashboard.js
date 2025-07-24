@@ -18,7 +18,6 @@ import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicator
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -117,15 +116,6 @@ export default function ServiceDashboard({ location }) {
         })}
         props={props}
       />
-
-      {showAlertButton && props.applicationId && (
-        <CreateSmartAlert
-          serviceId={props.serviceId}
-          applicationId={props.applicationId}
-          location={location}
-          boundaryScope={props.boundaryScope}
-        />
-      )}
 
       <Footer />
     </>

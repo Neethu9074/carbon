@@ -6,12 +6,13 @@
 
 import { Field } from 'formalistic';
 
+import { VersionedConfig } from '@instana/types';
+
 import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects';
 import alertFormDefinition, {
   AlertConfigHiddenFields
 } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { VersionedConfig } from 'in-types';
 
 describe('in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects.ts', () => {
   it('resets threshold and request threshold suggestion when metric is updated', () => {

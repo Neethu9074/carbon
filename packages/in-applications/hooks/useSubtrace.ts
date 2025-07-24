@@ -5,12 +5,12 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
 import { isLoading, hasError, mapData, error } from 'in-services/util/result';
 import { Subtrace } from 'in-applications/lists/SubtracesList';
 import { getSubtraces } from 'in-applications/api/subtraces';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Result } from 'in-types';
 
 export const useSubtrace = (subtraceId: string) => {
   // TODO: replace with call to single subtrace API when BE is ready

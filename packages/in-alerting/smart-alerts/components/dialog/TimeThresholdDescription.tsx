@@ -5,12 +5,12 @@
 
 import React from 'react';
 
+import { ApplicationTimeThreshold, WebsiteTimeThreshold, InfraTimeThreshold } from '@instana/types';
 import { SvgIcon, Stack } from '@instana/components';
 
 import { timeThresholdLabels } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { getDescription } from 'in-alerting/smart-alerts/components/dialog/timeThresholdDescriptionText';
-import { ApplicationTimeThreshold, WebsiteTimeThreshold, InfraTimeThreshold } from 'in-types';
 
 import locals from './TimeThresholdDescription.mless';
 

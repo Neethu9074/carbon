@@ -6,9 +6,9 @@
 
 import { isEmpty } from 'lodash';
 
+import { TimeConfig, Result, TagSuggestionProposeType, TagFilterExpressionElementUnion } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { TimeConfig, Result, TagSuggestionProposeType, TagFilterExpressionElementUnion } from 'in-types';
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getTestTagSuggestions from 'in-synthetics/subscriptions/getTestTagSuggestions';

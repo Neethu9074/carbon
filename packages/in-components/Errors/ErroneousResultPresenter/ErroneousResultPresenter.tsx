@@ -8,9 +8,9 @@ import { uniq } from 'lodash';
 import React from 'react';
 
 import { Message, MessageTypes } from '@instana/components';
+import { Error } from '@instana/types';
 
 import { isTechnicalError } from 'in-services/util/error';
-import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ErroneousResultPresenter.mless';

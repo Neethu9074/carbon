@@ -72,7 +72,7 @@ export default function Alerts({ isEventsView = false }: { isEventsView?: boolea
       extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
       carbonActionHandlers={handlers}
       getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}
-      toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
+      toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlert /> : undefined}
       noDataHeader={t('in-alerting:smartAlerts.infrastructure.list.noDataHeader')}
       noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.infrastructure.list.noDataDescription" />}
       useSmartAlertCreateUrl={useSmartAlertCreateUrl}

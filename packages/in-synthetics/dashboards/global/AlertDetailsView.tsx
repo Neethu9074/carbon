@@ -14,23 +14,20 @@ import AlertDetails, { AlertDetailsProps } from 'in-alerting/smart-alerts/synthe
 import { alertsTabDetailsFullyQualified, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
-import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
+import Sticky from 'in-components/Sticky';
 
 const AlertDetailsView = () => {
   const timeConfig = useTimeConfig();
@@ -65,11 +62,6 @@ const AlertDetailsView = () => {
             </LeftRightPadding>
           )}
           <Footer />
-          {role?.canConfigureGlobalSyntheticSmartAlerts && (
-            <FloatingActionButtons>
-              <CreateSmartAlert />
-            </FloatingActionButtons>
-          )}
         </Sticky>
       );
     } else {
@@ -102,11 +94,6 @@ const AlertDetailsView = () => {
             </LeftRightPadding>
           )}
           <Footer />
-          {role?.canConfigureGlobalSyntheticSmartAlerts && (
-            <FloatingActionButtons>
-              <CreateSmartAlert testId={testId} />
-            </FloatingActionButtons>
-          )}
         </Sticky>
       );
     }

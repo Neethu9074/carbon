@@ -4,10 +4,10 @@
  */
 
 import { createLogger } from '@instana/logger';
+import { Message } from '@instana/types';
 
 import { getInitializationCallStack, getSubscriptionPayload } from 'in-connection';
 import createSubscription from 'in-subscription/subscription';
-import { Message } from 'in-types';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-connection/clientErrorMessages');

@@ -9,13 +9,13 @@ import React from 'react';
 
 import { Button, CarbonPopover, CarbonPopoverContent, Typography } from '@instana/components';
 import { CardNode } from '@instana/carbon-charts';
+import { TimeConfig } from '@instana/types';
 
 import { BizOpsElkNode } from 'in-bizops/dashboards/summary/tabs/flowMap/FlowMapPresenter';
 import BizOpsOpenIssuesList from 'in-bizops/components/BizOpsOpenIssuesList';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from './Node.mless';

@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
+import { TimeConfig, JavaScriptError, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
-import { TimeConfig, JavaScriptError, Result } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { alwaysNull } from 'in-services/fixedStreams';
 

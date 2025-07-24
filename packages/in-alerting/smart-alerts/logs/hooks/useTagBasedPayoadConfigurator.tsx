@@ -6,12 +6,12 @@
 
 import { useMemo } from 'react';
 
+import { Result, CatalogUseCase, TagSuggestions } from '@instana/types';
 import { Observable, just } from '@instana/observables';
 
 import { createTagBasedLogPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
 import { CatalogResponse, getTagCatalog } from 'in-logging/api/catalog';
-import { Result, CatalogUseCase, TagSuggestions } from 'in-types';
 import { listSuccess } from 'in-services/util/result';
 
 export default function useTagBasedPayloadConfigurator() {

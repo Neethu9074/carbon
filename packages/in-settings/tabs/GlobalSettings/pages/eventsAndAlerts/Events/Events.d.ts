@@ -6,7 +6,7 @@
 
 import { ReactNode } from 'react';
 
-import { EventSpecificationInfo } from 'in-types';
+import { EventSpecificationInfo } from '@instana/types';
 
 export interface TableActions<ItemType extends Object> {
   deselect?: {

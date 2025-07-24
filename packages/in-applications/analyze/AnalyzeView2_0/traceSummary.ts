@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TraceSummary } from 'in-types';
-
+import { TraceSummary } from '@instana/types';
 export const LARGE_TRACE_THRESHOLD = 1000;
 
 export function isLargeTrace(traceSummaryData?: TraceSummary): boolean {

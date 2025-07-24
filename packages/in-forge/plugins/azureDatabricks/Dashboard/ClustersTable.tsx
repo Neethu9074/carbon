@@ -4,7 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import { List } from 'immutable';
 import React from 'react';
+
+import { TimeConfig } from '@instana/types';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { megaBytes, number, bytes, seconds } from 'in-services/formatters/number';
@@ -12,8 +15,6 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig } from 'in-types';
-import { List } from 'immutable';
 import { t } from 'in-i18n';
 
 interface ClusterRow {

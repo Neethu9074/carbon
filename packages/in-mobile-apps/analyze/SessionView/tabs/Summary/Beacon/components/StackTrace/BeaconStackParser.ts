@@ -6,8 +6,9 @@
 
 import { find } from 'lodash';
 
+import { MobileAppMonitoringBeacon } from '@instana/types';
+
 import { RawStackData } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
-import { MobileAppMonitoringBeacon } from 'in-types';
 
 export interface AndroidStackTraceType {
   threads: Array<AndroidStackTraceThreadDesc>;

@@ -30,6 +30,7 @@ import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
 import PhysicalVolume from 'in-forge/plugins/host/Dashboard/PhysicalVolume';
 import LogicalVolume from 'in-forge/plugins/host/Dashboard/LogicalVolume';
 import VolumeGroups from 'in-forge/plugins/host/Dashboard/VolumeGroups';
+import { downtimesOnHostEnabled } from 'in-services/featureFlags';
 import DiskTable from 'in-forge/plugins/host/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
@@ -37,6 +38,7 @@ import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Disks from 'in-forge/plugins/host/Dashboard/Disks';
 import MetricValue from 'in-components/MetricValue';
+import ReportingStatus from './ReportingStatus';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -120,11 +122,23 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
           {isAixOs(snapshot) && (
             <KpiKeyValue label={t('in-forge:plugins.host.dashboard.physicalConsumption')}>
-              <MetricValue snapshotId={snapshot.get('id')} metric="cpu.physicalConsumption" formatter={number.twoDecimalPlaces} />
+              <MetricValue
+                snapshotId={snapshot.get('id')}
+                metric="cpu.physicalConsumption"
+                formatter={number.twoDecimalPlaces}
+              />
             </KpiKeyValue>
           )}
         </div>
       </KpiSection>
+
+      {downtimesOnHostEnabled && (
+        <Columize>
+          <DashboardSection>
+            <ReportingStatus snapshot={snapshot} timeConfig={timeConfig} />
+          </DashboardSection>
+        </Columize>
+      )}
 
       <Columize>
         <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuUsage')}>
@@ -319,18 +333,18 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                 min: 0,
-                 formatter: bytes.detailed,
-                 metrics: ['memory.total'],
-                 labels: [t('in-forge:plugins.host.total')],
-                 type: 'line'
+                min: 0,
+                formatter: bytes.detailed,
+                metrics: ['memory.total'],
+                labels: [t('in-forge:plugins.host.total')],
+                type: 'line'
               }}
               y2={{
-                 min: 0,
-                 formatter: percentageZeroDecimalPlaces,
-                 metrics: memoryUsedMetrics,
-                 labels: memoryUsedMetricsLabels,
-                 type: 'line'
+                min: 0,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: memoryUsedMetrics,
+                labels: memoryUsedMetricsLabels,
+                type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -398,14 +412,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
-          {(isLinux(snapshot)) && (
+          {isLinux(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['date', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min:0,
+                min: 0,
                 formatter: bytes.detailed,
                 metrics: ['memory.virtualTotal', 'memory.virtualUsed', 'memory.virtualFree'],
                 labels: [
@@ -418,14 +432,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
-          {(isLinux(snapshot)) && (
+          {isLinux(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
               hasActionlane
               timeConfig={timeConfig}
               y1={{
-                min:0,
+                min: 0,
                 formatter: bytes.detailed,
                 metrics: ['memory.shared'],
                 labels: [t('in-forge:plugins.host.dashboard.shared')],

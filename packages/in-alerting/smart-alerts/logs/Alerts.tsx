@@ -15,7 +15,6 @@ import {
   dashboardAlertDetailsFullPath
 } from 'in-logging/navigation/paths';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
-import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
@@ -77,7 +76,6 @@ export default function Alerts({ isLogsDashboardHeader = false, isEventsView = f
         <LeftRightPadding> {List} </LeftRightPadding>
         <Footer />
       </Header>
-      {!smartAlertCarbonTableEnabled && <CreateLogsSmartAlertFloatingButton />}
     </>
   );
 }

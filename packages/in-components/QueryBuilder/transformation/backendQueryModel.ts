@@ -3,7 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TagFilterOperator } from '@instana/types';
+import {
+  TagFilterOperator,
+  LogicalOperator,
+  TagFilter,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion
+} from '@instana/types';
 
 import {
   CLOSE_BRACKET,
@@ -14,10 +20,10 @@ import {
   TAG
 } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter, toTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { LogicalOperator, Nullish, TagFilter, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import { deepFreeze } from 'in-services/util/object';
+import { Nullish } from 'in-types';
 
 export const EXPRESSION = 'EXPRESSION';
 

@@ -4,21 +4,22 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactNode, createContext, useMemo } from 'react';
+import React, { createContext, useMemo } from 'react';
+import type { ReactNode } from 'react';
 import _ from 'lodash';
 
-import { Progress, Result, TimeConfig, TimeWindow } from '@instana/types';
+import type { Progress, Result, TimeConfig, TimeWindow } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
-import useCorrectionWindows, {
-  CorrectionWithConfiguration
-} from 'in-service-levels/features/CorrectionWindows/hooks/useCorrectionWindows';
-import { AvailableTimeWindowTypes, isAvailableTimeWindowType } from 'in-service-levels/types';
+import type { CorrectionWithConfiguration } from 'in-service-levels/features/CorrectionWindows/hooks/useCorrectionWindows';
+import useCorrectionWindows from 'in-service-levels/features/CorrectionWindows/hooks/useCorrectionWindows';
 import { setTimeWindowTypeUrlParameter } from 'in-service-levels/navigation/urlParameters';
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import { ServiceLevelErrors, SloTimeWindowTypes } from 'in-service-levels/constants';
-import { Location, ParameterDefinition } from 'in-stores/navigation/types';
+import type { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import type { AvailableTimeWindowTypes } from 'in-service-levels/types';
+import { isAvailableTimeWindowType } from 'in-service-levels/types';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours } from 'in-services/time/time';

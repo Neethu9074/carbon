@@ -11,6 +11,7 @@ import { CustomEventSpecificationWithMetadata } from '@instana/types/typeDefinit
 import { empty } from '@instana/observables';
 import { Link, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Event } from '@instana/types';
 
 import {
   MessageContentModernDesign,
@@ -21,7 +22,6 @@ import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/GlobalSettings/p
 import { getCustomEventSpecificationMutable } from 'in-api/eventSpecifications';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { Col, Row } from 'in-components/layout/Grid';
-import { Event } from 'in-types';
 import { Trans } from 'in-i18n';
 
 interface Props {

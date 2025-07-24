@@ -9,7 +9,7 @@ import {
   findMinMetricValue,
   invertSyntheticPercentageMetrics
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import { MetricDataSeries } from 'in-components/Chart/types';
+import type { MetricDataSeries } from 'in-components/Chart/types';
 
 describe('findMinMaxMetricValues', () => {
   it('Should calculate max and min with positive values', () => {

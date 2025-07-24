@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { Stack, OverflowMenu, OverflowMenuItem } from '@instana/carbon';
-import { CorrectionConfiguration } from '@instana/types';
+import type { CorrectionConfiguration } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import ConfigureCorrectionWindowDialog from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/components/ConfigureCorrectionWindowDialog';

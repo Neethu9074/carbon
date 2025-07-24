@@ -5,6 +5,8 @@
 
 import { expect } from 'chai';
 
+import { TagFilterOperator } from '@instana/types';
+
 import {
   getEntitySelection,
   getEntitySelectionAsTagFilterFormModel,
@@ -17,7 +19,6 @@ import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operator
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { boundaryScopes } from 'in-applications/constants';
-import { TagFilterOperator } from 'in-types';
 
 describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
   describe('#getEntitySelectionAsTagFilterFormModel', () => {

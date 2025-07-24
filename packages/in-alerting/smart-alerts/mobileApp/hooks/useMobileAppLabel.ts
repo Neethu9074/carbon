@@ -6,10 +6,10 @@
 
 // @ts-expect-error export for empty is missing in its *.d.ts files
 import { empty, Observable } from '@instana/observables';
+import { Result, MobileApp } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
-import { Result, MobileApp } from 'in-types';
 
 /**
  * Retrieves the name of a mobileApp for a given mobileAppId from backend

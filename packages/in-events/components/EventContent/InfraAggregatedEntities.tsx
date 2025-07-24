@@ -7,9 +7,6 @@
 import { noop } from 'lodash';
 import React from 'react';
 
-import { CarbonAccordion, CarbonAccordionItem, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
-import { useObservable } from '@instana/hooks';
-
 import {
   AggregationType,
   ApiTag,
@@ -24,7 +21,10 @@ import {
   RuleWithThreshold,
   TagFilterExpressionElementUnion,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { CarbonAccordion, CarbonAccordionItem, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 // @ts-expect-error no typedef available
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';

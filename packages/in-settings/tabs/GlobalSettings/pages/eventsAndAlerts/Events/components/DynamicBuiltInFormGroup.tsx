@@ -7,16 +7,18 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { CustomEventSpecificationWithMetadata } from '@instana/types';
+
 import { putMetricPatternPlaceholder } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { metricPatternMatchingOptions } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics';
-import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 const defaultPlaceholderLabel = t('in-settings:tabs.team.events.placeholder');

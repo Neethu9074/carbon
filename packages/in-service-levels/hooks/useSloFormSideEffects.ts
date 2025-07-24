@@ -13,9 +13,10 @@ import {
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
 import { createIndicatorThresholdField } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { indicatorFormValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
+import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
+import type { Effect } from 'in-hooks/useFormSideEffects';
 
 function resetScopes(form: SloForm): SloForm {
   return form.updateIn(['scope'], () =>

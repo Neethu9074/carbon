@@ -4,12 +4,19 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Result, TagSuggestions, ThresholdType, TimeConfig } from '@instana/types';
+import {
+  Result,
+  TagSuggestions,
+  ThresholdType,
+  TimeConfig,
+  ApplicationBoundaryScope,
+  ApplicationNode
+} from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { CreateQueryBuilderResponse, GetTagSuggestionsProps } from 'in-components/QueryBuilder';
-import { ApplicationBoundaryScope, ApplicationNode, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 
 export function createBoundedAlertQueryBuilder(
   applications: Record<string, ApplicationNode>,

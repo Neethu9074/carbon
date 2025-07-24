@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result, Error } from '@instana/types';
+
 import { indeterminateProgress, emptyArray, finishedProgress } from 'in-services/fixedObjects';
-import { Result, Error } from 'in-types';
 
 export function merge<IN, OUT>(results: Result<IN>[], mergeResultData: (data: IN[]) => OUT): Result<OUT> {
   if (isAllFinished(results)) {

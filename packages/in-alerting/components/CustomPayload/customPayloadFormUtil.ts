@@ -14,10 +14,11 @@ import {
   ValidationResult
 } from 'formalistic';
 
+import { CustomPayloadFieldUnion, StaticStringField } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
 
-import { CustomPayloadFieldUnion, Nullish, StaticStringField } from 'in-types';
 import { isBlank, isNotBlank } from 'in-services/util/string';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export type FieldType = string | 'staticString' | 'dynamic'; // currently, there is no Enum type on backend side

@@ -5,12 +5,13 @@
 
 import { useCallback } from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { urlQueryKeys, setTimeConfig } from 'in-stores/time/config';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Location } from 'in-stores/navigation/types';
-import { TimeConfig } from 'in-types';
 
 export const classicDashboard = '/dashboard';
 

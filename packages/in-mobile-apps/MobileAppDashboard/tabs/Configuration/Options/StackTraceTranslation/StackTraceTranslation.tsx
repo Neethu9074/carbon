@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { Card, Stack, Button } from '@instana/components';
+import { SourceMapUploadConfig } from '@instana/types';
 
 import FileUploadConfigurationDialog from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/StackTraceTranslation/FileUploadConfigurationDialog';
 import { MessageType } from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/StackTraceTranslation/FileUploadConfigurationDialogPresenter';
@@ -17,7 +18,6 @@ import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { formatDateTime } from 'in-services/formatters/date';
-import { SourceMapUploadConfig } from 'in-types';
 import { seconds } from 'in-services/time';
 import { t } from 'in-i18n';
 

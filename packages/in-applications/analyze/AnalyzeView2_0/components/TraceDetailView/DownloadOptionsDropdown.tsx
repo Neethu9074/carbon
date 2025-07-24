@@ -7,11 +7,11 @@
 import React from 'react';
 
 import { CarbonMenuButton, CarbonMenuItem } from '@instana/components';
+import { TraceSummary } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { traceDownloadUrl, rawTraceDownloadUrl } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
-import { TraceSummary } from 'in-types';
 
 interface DownloadOptionsDropdownProps {
   traceId: string;

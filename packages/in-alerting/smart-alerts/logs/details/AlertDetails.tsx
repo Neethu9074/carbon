@@ -24,7 +24,6 @@ import {
 } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
 import { logSmartAlertFullScreenDesignEnabled, logSmartAlertDialogViewEnabled } from 'in-services/featureFlags';
-import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
@@ -83,7 +82,6 @@ export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDet
           />
         </LeftRightPadding>
       </Header>
-      <CreateLogsSmartAlertFloatingButton />
     </>
   );
 }

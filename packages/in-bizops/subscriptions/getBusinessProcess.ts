@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { GetBusinessProcessQuery, Result, BusinessProcessItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetBusinessProcessQuery, Result, BusinessProcessItem } from 'in-types';
 
 // A backend endpoint to fetch a SINGLE business process via the definition ID
 // linked to the backend bpm_process_definition_id column, compared to getBusinessProcesses

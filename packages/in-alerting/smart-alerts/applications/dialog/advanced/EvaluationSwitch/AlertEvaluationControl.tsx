@@ -6,6 +6,8 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { AlertEvaluationType, ThresholdType, RuleWithThreshold, ApplicationAlertRuleUnion } from '@instana/types';
+
 import {
   filterThresholdTypeOptionsForEvaluationType,
   getOptionsFilterForThresholdTyp
@@ -19,7 +21,6 @@ import {
 //@ts-expect-error
 import { getThresholdData } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-import { AlertEvaluationType, ThresholdType, RuleWithThreshold, ApplicationAlertRuleUnion } from 'in-types';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';

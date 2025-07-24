@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { TagFilter, TagFilterExpression } from '@instana/types';
+
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { countTagFilters } from 'in-alerting/smart-alerts/components/utils/countTagFilters';
-import { TagFilter, TagFilterExpression } from 'in-types';
 
 const tagFilter = {
   type: 'TAG_FILTER',

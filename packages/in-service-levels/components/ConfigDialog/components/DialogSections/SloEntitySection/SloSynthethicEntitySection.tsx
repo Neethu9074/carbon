@@ -9,10 +9,12 @@ import React, { useContext, useState } from 'react';
 import { Typography, ValidationBlock } from '@instana/components';
 import { Search } from '@instana/carbon';
 
-import SloEntityTable, {
+import type {
   EntityData,
-  SloEntityTablePageSize,
   SyntheticTestWithId
+} from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
+import SloEntityTable, {
+  SloEntityTablePageSize
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import useSyntheticTestsCursorPaginated from 'in-service-levels/hooks/useSyntheticTestsCursorPaginated';

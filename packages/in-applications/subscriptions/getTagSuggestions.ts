@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetTagSuggestionsQuery, Result, TagSuggestions } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetTagSuggestionsQuery, Result, TagSuggestions } from 'in-types';
 
 export default createResultSubscriptionFactory<GetTagSuggestionsQuery, Result<TagSuggestions>>({
   eventId: 'getTagSuggestions',

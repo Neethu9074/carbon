@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import { PermissionSet } from '@instana/types';
+
 import {
   ProductArea,
   ProductAreaType,
@@ -12,7 +14,6 @@ import {
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import { hasAutomationAccess, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
-import { PermissionSet } from 'in-types';
 import { t } from 'in-i18n';
 
 type ProductAreaWithAutomationData = Extract<ProductAreaType, 'AUTOMATION'>;

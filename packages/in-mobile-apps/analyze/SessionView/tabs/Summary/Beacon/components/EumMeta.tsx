@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { MobileAppMonitoringBeacon } from '@instana/types';
+
 import { expandNestedSerializedJson } from 'in-services/util/json';
-import { MobileAppMonitoringBeacon } from 'in-types';
 import Code from 'in-components/Code';
 
 import locals from './EumMeta.mless';

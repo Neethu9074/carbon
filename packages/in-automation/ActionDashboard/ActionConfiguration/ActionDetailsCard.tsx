@@ -19,6 +19,7 @@ import {
   SvgIcon,
   Typography
 } from '@instana/components';
+import { Action } from '@instana/types';
 
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import { CreateNewActionTearsheetProps } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
@@ -33,8 +34,8 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { Action, Nullish } from 'in-types';
 import { role } from 'in-stores/user';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/ActionDashboard/ActionDashboard.mless';

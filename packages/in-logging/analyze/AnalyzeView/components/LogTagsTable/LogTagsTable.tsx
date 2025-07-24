@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 
 import { CarbonContainedList, CarbonContainedListItem, LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { LogTag } from '@instana/types';
 
 import { LogTagMapperParams, LogTagsTableProps } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import { filterTag, groupAndSortTags } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
@@ -24,7 +25,6 @@ import getLog from 'in-logging/subscriptions/getLog';
 import { useScrollIntoView } from 'in-logging/hooks';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import decamelize from 'in-sdk/decamelize';
-import { LogTag } from 'in-types';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.mless';
 
@@ -89,7 +89,7 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
 
   const mapTags = (tags: LogTag[]) =>
     tags.map(tag => {
-      const uniqueTagName = tag.key ? `${tag.name}-${tag.key}` : tag.name ?? '';
+      const uniqueTagName = tag.key ? `${tag.name}-${tag.key}` : (tag.name ?? '');
       if (tag.stringValue === 'null') return null;
       return (
         <TagEntry

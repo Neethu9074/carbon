@@ -21,7 +21,6 @@ export const localisationStrings = {
 export const patterRecognitionLocalisationStrings = {
   gotIt: t('in-logging:dashboard.managementPage.patternRecognitionSet.gotIt'),
   cancel: t('in-logging:dashboard.managementPage.patternRecognitionSet.cancel'),
-  gettingStarted: t('in-logging:dashboard.managementPage.patternRecognitionSet.gettingStarted'),
   howDoesItWorks: t('in-logging:dashboard.managementPage.patternRecognitionSet.howDoesItWorks'),
   firstDescription_0: t('in-logging:dashboard.managementPage.patternRecognitionSet.firstDescription_0'),
   howWillHelpMe: t('in-logging:dashboard.managementPage.patternRecognitionSet.howWillHelpMe'),
@@ -30,5 +29,19 @@ export const patterRecognitionLocalisationStrings = {
   aiExpained: t('in-logging:dashboard.managementPage.patternRecognitionSet.aiExpained'),
   popHoverFirstDescription: t('in-logging:dashboard.managementPage.patternRecognitionSet.popHoverFirstDescription'),
   hotItWorks: t('in-logging:dashboard.managementPage.patternRecognitionSet.hotItWorks'),
-  popHoverSecondDescription: t('in-logging:dashboard.managementPage.patternRecognitionSet.popHoverSecondDescription')
+  popHoverSecondDescription: t('in-logging:dashboard.managementPage.patternRecognitionSet.popHoverSecondDescription'),
+  currentPatterns: t('in-logging:dashboard.managementPage.patternRecognitionSet.currentPatterns'),
+  discoveredPatterns: t('in-logging:dashboard.managementPage.patternRecognitionSet.discoveredPatterns'),
+  tableDescription: t('in-logging:dashboard.managementPage.patternRecognitionSet.tableDescription'),
+  id: t('in-logging:dashboard.managementPage.patternRecognitionSet.id'),
+  total: t('in-logging:dashboard.managementPage.patternRecognitionSet.total'),
+  name: t('in-logging:dashboard.managementPage.patternRecognitionSet.name'),
+  patternsSample: t('in-logging:dashboard.managementPage.patternRecognitionSet.patternsSample'),
+  state: t('in-logging:dashboard.managementPage.patternRecognitionSet.state'),
+  noLogsDiscovered: t('in-logging:dashboard.managementPage.patternRecognitionSet.noLogsDiscovered'),
+  noLogsDiscoveredDescription: t(
+    'in-logging:dashboard.managementPage.patternRecognitionSet.noLogsDiscoveredDescription'
+  ),
+  enabled: t('in-logging:dashboard.managementPage.patternRecognitionSet.enabled'),
+  disabled: t('in-logging:dashboard.managementPage.patternRecognitionSet.disabled')
 };

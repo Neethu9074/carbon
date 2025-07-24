@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { Observable } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
@@ -16,7 +17,6 @@ import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/Alerts
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
-import { Result } from 'in-types';
 
 export type TableState = Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>;
 

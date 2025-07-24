@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
+import type {
   Cursor,
   CursorPaginatedResult,
   Cursorific,
@@ -14,11 +14,12 @@ import {
   WebsiteItem
 } from '@instana/types';
 
-import useCursorPagination, { GetCursorPaginated, State } from 'in-hooks/useCursorPagination';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import type { GetCursorPaginated, State } from 'in-hooks/useCursorPagination';
 import getWebsites from 'in-websites/subscriptions/getWebsites';
+import useCursorPagination from 'in-hooks/useCursorPagination';
 import { hasError, isLoading } from 'in-services/util/result';
-import { FetchedState } from 'in-hooks/utils/types';
+import type { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { collationLanguage } from 'in-i18n';
 

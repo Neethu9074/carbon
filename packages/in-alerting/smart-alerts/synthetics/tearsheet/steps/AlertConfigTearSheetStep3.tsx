@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Item, MapForm } from 'formalistic';
+import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Stack, Spacer } from '@instana/components';
@@ -18,6 +18,7 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearShe
 import { tagSuggestionTimeConfig } from 'in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheetWithThreshold';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { allowedPlaceholders } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
@@ -37,6 +38,7 @@ export default function AlertConfigTearSheetStep3({
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }) {
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(tagSuggestionTimeConfig);
+  const descriptionField = form.get('description') as Field<string>;
 
   return (
     <>
@@ -57,6 +59,7 @@ export default function AlertConfigTearSheetStep3({
               )}
               shouldDisplayAlertLevelSelection
               isTearSheet
+              placeholders={allowedPlaceholders}
             />
           )}
           renderAlertPreview={() => (
@@ -73,6 +76,11 @@ export default function AlertConfigTearSheetStep3({
                 entityIconType="lib_synthetic"
                 entityLabel2={t('in-alerting:smartAlerts.synthetics.alertProperties.locationName')}
                 entityIconType2="lib_synthetic_location"
+                descriptionWithReplacedPlaceholders={replacePlaceholdersWithMarkup(
+                  allowedPlaceholders,
+                  descriptionField?.value ?? '',
+                  ({ name }) => name
+                )}
               />
             </Stack>
           )}

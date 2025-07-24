@@ -21,7 +21,6 @@ export default function TeamFocusDropdown(props: TeamFocusDropdownProps) {
   const defaultOption = { displayName: t('in-components:mainNavigation.scope_defaultScope'), id: '' };
 
   const teamsOptions = [...teams, defaultOption];
-  // @ts-expect-error
   const teamId = window.instana.user?.role?.teamId;
   const [selectedTeamFocus, setSelectedTeamFocus] = useState<TeamTag>(
     teamId ? (teams.find(team => team.id === teamId) as TeamTag) : defaultOption

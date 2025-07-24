@@ -11,16 +11,14 @@ import {
   StaticBaselineThresholdRule,
   StaticThresholdRule,
   WebsiteAlertRuleUnion,
-  Seasonality
-} from '@instana/types';
-
-import {
+  Seasonality,
   HistoricBaselineConfig,
   isStaticBaselineThresholdRule,
   RuleWithThreshold,
   isStaticThresholdRule,
   isAdaptiveThresholdRule
-} from 'in-types';
+} from '@instana/types';
+
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -120,7 +118,7 @@ function createStaticThresholdMapForm(threshold?: StaticThresholdRule, editMode?
     .put(
       'value',
       createField({
-        value: (threshold as any)?.isCheckboxSelected === true ? threshold?.value ?? 0 : null
+        value: (threshold as any)?.isCheckboxSelected === true ? (threshold?.value ?? 0) : null
       }).setTouched(editMode ? !isEmpty(threshold?.value) : false)
     )
     .put(

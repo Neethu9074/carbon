@@ -4,10 +4,10 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { TagCatalog } from '@instana/types';
 
 import { GetTagCatalog } from 'in-components/QueryBuilder';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TagCatalog } from 'in-types';
 
 export default function useTagCatalog(getTagCatalog: GetTagCatalog): TagCatalog | undefined {
   const timeConfig = useTimeConfig();

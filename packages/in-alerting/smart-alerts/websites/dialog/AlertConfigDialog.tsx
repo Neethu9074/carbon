@@ -6,6 +6,8 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
+import { WebsiteAlertConfig, ThresholdType, Severity } from '@instana/types';
+
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 //@ts-expect-error
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialogWithThreshold';
@@ -24,7 +26,6 @@ import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdU
 import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { WebsiteAlertConfig, ThresholdType, Severity } from 'in-types';
 import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 import { useGetAlertConfigLink } from 'in-websites/navigation/paths';
 

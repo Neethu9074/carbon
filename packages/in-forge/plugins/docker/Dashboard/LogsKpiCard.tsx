@@ -6,6 +6,7 @@
 import { Map } from 'immutable';
 import React from 'react';
 
+import { LogGroupItem, TimeConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
@@ -13,9 +14,7 @@ import { SvgIcon } from '@instana/components';
 import { LOG_LEVEL, getValueMatchTagFilter, DOCKER_ID, CONTAINERD_ID } from 'in-logging/queryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import {
-  ANALYZE_LOGGING_JUMP_TO_LOGS,
-} from 'in-services/tracking/tracking';
+import { ANALYZE_LOGGING_JUMP_TO_LOGS } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
@@ -23,7 +22,6 @@ import { isLoading, hasError } from 'in-services/util/result';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
-import { LogGroupItem, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface LogsKpiCardProps {
@@ -44,7 +42,7 @@ const PLUGIN_IDS: Record<string, string> = {
 
 export default function LogsKpiCard(props: LogsKpiCardProps) {
   const { timeConfig, hasLogs, snapshot } = props;
-  const {trackCta} = useSegmentTracking()
+  const { trackCta } = useSegmentTracking();
   const snapshotId = snapshot.get('data')?.get('Id') || snapshot.get('data')?.get('id');
 
   const tagFilterExpression: FormModelElement[] = [
@@ -97,7 +95,7 @@ export default function LogsKpiCard(props: LogsKpiCardProps) {
         icon: 'lib_analyze',
         href: logsHref,
         onClick: () =>
-          trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{
+          trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, {
             source: 'analyze logs from infra dashboard',
             plugin: snapshot.get('plugin'),
             snapshotId: snapshot.get('id')

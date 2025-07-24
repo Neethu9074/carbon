@@ -6,6 +6,7 @@
 
 import React, { useState } from 'react';
 
+import { DynamicFieldValue, ParameterValue } from '@instana/types';
 import { Link, Typography } from '@instana/components';
 
 import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
@@ -17,7 +18,6 @@ import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWr
 import { MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { DynamicFieldValue, ParameterValue } from 'in-types';
 import { safeParseJSON } from 'in-automation/utils/json';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';

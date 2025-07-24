@@ -11,8 +11,7 @@ import { TagFilter } from '@instana/types';
 
 import {
   mobileAppSmartAlertFullScreenDesignEnabled,
-  mobileAppSmartAlertDialogViewEnabled,
-  smartAlertCarbonTableEnabled
+  mobileAppSmartAlertDialogViewEnabled
 } from 'in-services/featureFlags';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
@@ -27,7 +26,6 @@ import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import FloatingActionButton from 'in-components/FloatingActionButton';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -39,7 +37,6 @@ interface CreateSmartAlertProps {
   location: Location;
   mobileAppId: string;
   tagFilters: TagFilter[];
-  isListingPage: boolean;
 }
 
 const alertDisplayMode = getSmartAlertDisplayMode(
@@ -47,7 +44,7 @@ const alertDisplayMode = getSmartAlertDisplayMode(
   mobileAppSmartAlertFullScreenDesignEnabled
 );
 
-export default function CreateSmartAlert({ location, mobileAppId, tagFilters, isListingPage }: CreateSmartAlertProps) {
+export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: CreateSmartAlertProps) {
   const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
   const alertType = deriveAlertType(customEventName);
@@ -106,18 +103,10 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
     );
   };
 
-  if (smartAlertCarbonTableEnabled && isListingPage) {
-    return (
-      <Button kind="primaryv2" icon="lib_openclose_add" onClick={handleButtonClick} size="xl">
-        {t('in-alerting:smartAlerts.createSmartAlert')}
-      </Button>
-    );
-  }
-
   return (
-    <FloatingActionButton icon="lib_alerts_create" onClick={handleButtonClick} withBoxShadow>
-      {t('in-alerting:smartAlerts.addSmartAlert')}
-    </FloatingActionButton>
+    <Button kind="primaryv2" icon="lib_openclose_add" onClick={handleButtonClick} size="xl">
+      {t('in-alerting:smartAlerts.createSmartAlert')}
+    </Button>
   );
 }
 

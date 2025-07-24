@@ -11,7 +11,6 @@ import {
   TableBatchActions,
   TableBody,
   TableCell,
-  TableContainer,
   TableExpandedRow,
   TableExpandHeader,
   TableExpandRow,
@@ -137,7 +136,7 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
     columns = [
       {
         id: 'select',
-        size: 28,
+        size: 50,
         header: ({ table }) => (
           <Checkbox
             checked={table.getIsAllRowsSelected()}
@@ -196,46 +195,20 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => tableContainerRef.current,
-    estimateSize: () => 32,
+    estimateSize: () => 40,
     overscan: 10
   });
 
-  const virtualRows: { index: number; start: number; end: number; size: number; lane?: number }[] =
-    rowVirtualizer.getVirtualItems();
-  const totalSize = rowVirtualizer.getTotalSize();
-  const paddingTop = virtualRows.length > 0 ? virtualRows[0]?.start || 0 : 0;
-  const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows[virtualRows.length - 1]?.end || 0) : 0;
-
   // callback for when the user has reached the bottom of the table to load more data
-  const fetchMoreOnBottomReached = useCallback(
-    (containerRefElement: HTMLDivElement | null) => {
-      if (containerRefElement) {
-        const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
-        if (!scrollHeight || !scrollTop || !clientHeight) return;
-        if (scrollTop + clientHeight + 2 >= scrollHeight && canLoadMore && !loading) {
-          loadMore();
-        }
-      }
-    },
-    [canLoadMore, loadMore, loading]
-  );
-
-  // Create a colgroup element with col elements for each column
-  // Using React.useMemo to prevent unnecessary re-renders
-  // Extract table.getAllColumns() to a variable for dependency array
-  const allColumns = table.getAllColumns();
-
-  const colGroup = React.useMemo(
-    () => (
-      <colgroup>
-        {showExpand && <col style={{ width: '28px' }} />}
-        {allColumns.map(column => (
-          <col key={column.id} style={{ width: `${column.getSize()}px` }} />
-        ))}
-      </colgroup>
-    ),
-    [allColumns, showExpand]
-  ); // Re-compute when columns or showExpand change
+  const fetchMoreOnBottomReached = useCallback(() => {
+    const virtualRows = rowVirtualizer.getVirtualItems();
+    const lastVirtualRow = rows[virtualRows[virtualRows.length - 1].index].id;
+    const lastEventRow = rows[rows.length - 1].id;
+    const reachingEnd = lastVirtualRow === lastEventRow;
+    if (reachingEnd && canLoadMore && !loading) {
+      loadMore();
+    }
+  }, [canLoadMore, loadMore, loading, rows, rowVirtualizer]);
 
   if (__DEV__) {
     // @ts-expect-error for debugging
@@ -243,9 +216,13 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
   }
 
   return (
-    <TableContainer
-      className={locals.tableContainer}
-      style={{ height: typeof height === 'string' ? height : `${height}px` }}
+    <div
+      className={locals.infiniteScrollingContainer}
+      onScroll={() => fetchMoreOnBottomReached()}
+      ref={tableContainerRef}
+      style={{
+        height: typeof height === 'string' ? height : `${height}px` //should be a fixed height
+      }}
     >
       {/* Toolbar */}
       {filtersEnabled && multiSelect && (
@@ -286,142 +263,144 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
       <div id="eventsTableContainer">
         <EventsAppliedFilters currentFilters={currentFilters} onFilterChange={onFilterChange} eventType={eventType} />
         {/* Sticky header */}
-        <div className={locals.stickyHeader}>
-          <Table size="md" className={locals.fixedTable}>
-            {colGroup}
-            <TableHead>
-              {table.getHeaderGroups().map(headerGroup => (
-                <TableRow key={headerGroup.id}>
-                  {showExpand && <TableExpandHeader aria-label="expand row" />}
-                  {headerGroup.headers.map(header => (
-                    <TableHeader
-                      key={header.id}
-                      className={locals.tableHeader}
-                      isSortable={enableSorting && header.column.columnDef.enableSorting}
-                      isSortHeader={sortingState.orderBy === header.column.id}
-                      sortDirection={sortingState.orderDirection || 'NONE'}
-                      onClick={() => {
-                        const columnId = header.column.id;
-                        if (sortingState.orderBy === columnId) {
-                          if (sortingState.orderDirection === 'ASC') {
-                            onSortChange(null);
-                          } else if (sortingState.orderDirection === 'DESC') {
-                            onSortChange({
-                              orderBy: sortingState.orderBy,
-                              orderDirection: 'ASC'
-                            });
-                          }
-                        } else {
+        <Table size="md" className={locals.table}>
+          <TableHead className={locals.tableHead}>
+            {table.getHeaderGroups().map(headerGroup => (
+              <TableRow key={headerGroup.id} className={locals.tableHeaderRow}>
+                {showExpand && <TableExpandHeader aria-label="expand row" />}
+                {headerGroup.headers.map(header => (
+                  <TableHeader
+                    key={header.id}
+                    isSortable={enableSorting && header.column.columnDef.enableSorting}
+                    isSortHeader={sortingState.orderBy === header.column.id}
+                    sortDirection={sortingState.orderDirection || 'NONE'}
+                    style={{
+                      display: 'flex',
+                      width: header.getSize()
+                    }}
+                    onClick={() => {
+                      const columnId = header.column.id;
+                      if (sortingState.orderBy === columnId) {
+                        if (sortingState.orderDirection === 'ASC') {
+                          onSortChange(null);
+                        } else if (sortingState.orderDirection === 'DESC') {
                           onSortChange({
-                            orderBy: columnId,
-                            orderDirection: 'DESC'
+                            orderBy: sortingState.orderBy,
+                            orderDirection: 'ASC'
                           });
                         }
+                      } else {
+                        onSortChange({
+                          orderBy: columnId,
+                          orderDirection: 'DESC'
+                        });
+                      }
+                    }}
+                  >
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHeader>
+                ))}
+              </TableRow>
+            ))}
+          </TableHead>
+          <TableBody
+            className={locals.tableBody}
+            style={{
+              height: `${rowVirtualizer.getTotalSize()}px`
+            }}
+          >
+            {rowVirtualizer.getVirtualItems().map(vrow => {
+              const row = rows[vrow.index];
+
+              if (showExpand) {
+                return (
+                  // @ts-expect-error
+                  <Fragment key={row.id} data-index={vrow.index} ref={rowVirtualizer.measureElement}>
+                    <TableExpandRow
+                      aria-label="row expanded"
+                      key={row.id}
+                      onExpand={() => {
+                        const isRowExpanded = !!expanded[row.id];
+                        if (isRowExpanded) {
+                          const newExpansionState = { ...expanded, [row.id]: false };
+                          setExpanded(newExpansionState);
+                          return;
+                        }
+                        const newExpansionState = { ...expanded, [row.id]: true };
+                        setExpanded(newExpansionState);
+                      }}
+                      isExpanded={!!expanded[row.id]}
+                    >
+                      {row.getVisibleCells().map(cell => (
+                        <TableCell
+                          key={cell.id}
+                          className={locals.tableCell}
+                          style={{
+                            width: cell.column.getSize()
+                          }}
+                        >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                      ))}
+                    </TableExpandRow>
+                    <TableExpandedRow colSpan={columns.length + 1}>
+                      {expanded?.[row.id] ? <EventExpandedComponent event={row.original} /> : <></>}
+                    </TableExpandedRow>
+                  </Fragment>
+                );
+              }
+
+              return (
+                <TableRow
+                  data-index={vrow.index}
+                  key={row.id}
+                  className={locals.tableRow}
+                  style={{
+                    transform: `translateY(${vrow.start}px)`
+                  }}
+                >
+                  {row.getVisibleCells().map(cell => (
+                    <TableCell
+                      key={cell.id}
+                      className={locals.tableCell}
+                      style={{
+                        width: cell.column.getSize()
                       }}
                     >
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHeader>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHead>
-          </Table>
-        </div>
-
-        {/* Scrollable body */}
-        <div
-          ref={tableContainerRef}
-          className={locals.tableBody}
-          style={{
-            height: typeof height === 'number' ? `${height - 48}px` : height
-          }}
-          onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
-        >
-          <Table size="md" className={locals.fixedTable}>
-            {colGroup}
-            <TableBody>
-              {paddingTop > 0 && (
-                <TableRow>
-                  <TableCell style={{ height: `${paddingTop}px` }} colSpan={columns.length + (showExpand ? 1 : 0)} />
-                </TableRow>
-              )}
-              {virtualRows.map(vrow => {
-                const row = rows[vrow.index];
-
-                if (showExpand) {
-                  return (
-                    <Fragment key={row.id}>
-                      <TableExpandRow
-                        aria-label="row expanded"
-                        key={row.id}
-                        onExpand={() => {
-                          const isRowExpanded = !!expanded[row.id];
-                          if (isRowExpanded) {
-                            const newExpansionState = { ...expanded, [row.id]: false };
-                            setExpanded(newExpansionState);
-                            return;
-                          }
-                          const newExpansionState = { ...expanded, [row.id]: true };
-                          setExpanded(newExpansionState);
-                        }}
-                        isExpanded={!!expanded[row.id]}
-                      >
-                        {row.getVisibleCells().map(cell => (
-                          <TableCell key={cell.id}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </TableCell>
-                        ))}
-                      </TableExpandRow>
-                      <TableExpandedRow colSpan={columns.length + 1}>
-                        {expanded?.[row.id] ? <EventExpandedComponent event={row.original} /> : <></>}
-                      </TableExpandedRow>
-                    </Fragment>
-                  );
-                }
-
-                return (
-                  <TableRow key={row.id}>
-                    {row.getVisibleCells().map(cell => (
-                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })}
-              {loading && (
-                <TableRow>
-                  {showExpand && (
-                    <TableCell>
-                      <LoadingSkeleton />
-                    </TableCell>
-                  )}
-
-                  {table.getVisibleFlatColumns().map(c => (
-                    <TableCell key={c.id}>
-                      <LoadingSkeleton />
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
-              )}
-              {paddingBottom > 0 && (
-                <TableRow>
-                  <TableCell style={{ height: `${paddingBottom}px` }} colSpan={columns.length + (showExpand ? 1 : 0)} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+              );
+            })}
+            {loading && (
+              <TableRow>
+                {showExpand && (
+                  <TableCell>
+                    <LoadingSkeleton />
+                  </TableCell>
+                )}
 
-          {/* Empty Content */}
-          {rows.length === 0 && !loading && (
-            <div className={locals.emptyTable}>
-              <NoDataEmptyState
-                title={<Typography variant="body-compact-02">{t('in-events:noDataAvailable')}</Typography>}
-                illustrationPosition="top"
-              />
-            </div>
-          )}
-        </div>
+                {table.getVisibleFlatColumns().map(c => (
+                  <TableCell key={c.id}>
+                    <LoadingSkeleton />
+                  </TableCell>
+                ))}
+              </TableRow>
+            )}
+            {/* Empty Content */}
+            {rows.length === 0 && !loading && (
+              <div className={locals.emptyTable}>
+                <NoDataEmptyState
+                  title={<Typography variant="body-compact-02">{t('in-events:noDataAvailable')}</Typography>}
+                  illustrationPosition="top"
+                />
+              </div>
+            )}
+          </TableBody>
+        </Table>
       </div>
-    </TableContainer>
+    </div>
   );
 };
 

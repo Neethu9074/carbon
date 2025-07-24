@@ -6,11 +6,11 @@
 
 import React from 'react';
 
+import { MetricDescription } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { MetricDescription } from 'in-types';
 
 import locals from 'in-components/AnalyzeView/UngroupedView//UngroupedView.mless';
 

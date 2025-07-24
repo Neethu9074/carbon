@@ -3,9 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Observable, create } from '@instana/observables';
-import { generateStableHash } from '@instana/utils';
-
 import {
   Result,
   SyntheticLocation,
@@ -15,7 +12,10 @@ import {
   TimeConfig,
   MetricSource,
   SyntheticCredential
-} from 'in-types';
+} from '@instana/types';
+import { Observable, create } from '@instana/observables';
+import { generateStableHash } from '@instana/utils';
+
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';

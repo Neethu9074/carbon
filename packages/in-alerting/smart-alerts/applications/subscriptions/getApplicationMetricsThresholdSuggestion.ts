@@ -9,7 +9,8 @@ import {
   AdaptiveBaselineSuggestionResponse,
   HistoricBaselineSuggestionResponse,
   StaticThresholdSuggestionResponse
-} from 'in-types';
+} from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 type ThresholdSuggestionResponse =

@@ -13,7 +13,7 @@ import { formatSloStatus, getSingleNumberMetricValue } from 'in-service-levels/u
 import { useSloStatusMetrics } from 'in-service-levels/hooks/useSloListMetrics';
 import { calculateSeverity } from 'in-service-levels/utils/math';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
-import { SloListItem } from 'in-service-levels/types';
+import type { SloListItem } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 import locals from 'in-service-levels/styles/SloAlignContent.mless';

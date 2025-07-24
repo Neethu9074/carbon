@@ -9,7 +9,7 @@ import { noop } from 'lodash';
 import React from 'react';
 
 import { Li, Stack, Ul, RadioButton, Checkbox } from '@instana/components';
-import { Progress } from '@instana/types';
+import type { Progress } from '@instana/types';
 
 import SloTableSelectionSkeleton from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelectionSkeleton';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';

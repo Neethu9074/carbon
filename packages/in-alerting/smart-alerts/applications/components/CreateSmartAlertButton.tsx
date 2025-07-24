@@ -26,7 +26,6 @@ import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/ho
 import { ADVANCED, FULLSCREEN, SIMPLE, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
-import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -104,13 +103,11 @@ export default function CreateSmartAlertButton({
 // this function is to display view selector dialog when carbon table is enabled
 export function CreateSmartAlertButtonForCarbonTable({
   isGlobal,
-  renderAsSimpleButton,
   buttonName,
   isFloatingButton,
   location
 }: {
   isGlobal: boolean;
-  renderAsSimpleButton?: boolean;
   buttonName: string;
   isFloatingButton?: boolean;
   location: Location;
@@ -145,7 +142,6 @@ export function CreateSmartAlertButtonForCarbonTable({
       openOldDialog={openOldDialog}
       createSmartAlertPath={createSmartAlertPath}
       isGlobal={isGlobal}
-      renderAsSimpleButton={renderAsSimpleButton}
       buttonName={buttonName}
       isFloatingButton={isFloatingButton}
     />
@@ -156,14 +152,12 @@ export function CarbonTableCreateButton({
   openOldDialog,
   createSmartAlertPath,
   isGlobal,
-  renderAsSimpleButton,
   buttonName,
   isFloatingButton
 }: {
   openOldDialog: VoidFunction;
   createSmartAlertPath: string;
   isGlobal: boolean;
-  renderAsSimpleButton?: boolean;
   buttonName: string;
   isFloatingButton?: boolean;
 }) {
@@ -191,14 +185,6 @@ export function CarbonTableCreateButton({
     openOldDialog();
     trackCta(ALERTING_CREATE, { dialogMode: isGlobal ? ADVANCED : SIMPLE });
   };
-
-  if (renderAsSimpleButton) {
-    return (
-      <FloatingActionButton icon="lib_alerts_create" kind={'primaryv2'} onClick={handleButtonClick}>
-        {buttonName}
-      </FloatingActionButton>
-    );
-  }
 
   return (
     <Button

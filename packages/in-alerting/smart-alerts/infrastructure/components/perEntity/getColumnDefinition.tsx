@@ -8,11 +8,11 @@ import classNames from 'classnames';
 import { isEqual } from 'lodash';
 import React from 'react';
 
+import { InfrastructureExploreItem, Result, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 //@ts-expect-error
 import { getMetricColumns } from 'in-infrastructure/Explore/components/InfrastructureList';
-import { InfrastructureExploreItem, Result, TimeConfig } from 'in-types';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { t } from 'in-i18n';
 

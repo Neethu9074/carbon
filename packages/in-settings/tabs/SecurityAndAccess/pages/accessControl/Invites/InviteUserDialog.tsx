@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 
 import { Message, Stack, StackItem, Button, Select, IconButton, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { ApiGroup } from '@instana/types';
 
 import {
   anyValidEntry,
@@ -34,7 +35,6 @@ import Dialog from 'in-components/Dialog/Dialog';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { config } from 'in-services/config';
-import { ApiGroup } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './InviteUserDialog.mless';

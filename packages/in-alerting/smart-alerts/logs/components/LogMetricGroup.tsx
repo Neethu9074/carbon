@@ -6,10 +6,15 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Group, TimeConfig } from '@instana/types';
+import {
+  Group,
+  TimeConfig,
+  IngestionOffsetCursor,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion
+} from '@instana/types';
 
 import LogMetricGroupTableList from 'in-alerting/smart-alerts/logs/components/LogMetricGroupTableList';
-import { IngestionOffsetCursor, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { setBackendQueryModel } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
