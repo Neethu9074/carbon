@@ -16,6 +16,7 @@
   },
   "clusterBadgeNameOpenShift": "OpenShift",
   "clusterBadgeNameK8s": "K8s",
+  "containers": "Containers",
   "dashboards": {
     "kubernetesCluster": "Kubernetes cluster",
     "clusterDistributionBadgeType": "{{clusterDistributionName}} cluster",
@@ -48,6 +49,7 @@
     "statefulSets": "StatefulSets",
     "cronJobs": "CronJobs",
     "k8SServices": "K8s Services",
+    "pod": "Pod",
     "pods": "Pods",
     "persistentVolume": "Persistent volume",
     "persistentVolumes": "Persistent volumes",
