@@ -17,7 +17,6 @@ import {
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
-import { smartAlertsLogsBlueprintEnabled, alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/dialog/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
