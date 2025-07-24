@@ -139,15 +139,27 @@ export default function ResourceOptimizationTab({
 
   return (
     <div className={locals.contentContainer}>
-      {solisEnabled && !isLoading && turboEnabled && (
+      {solisEnabled && !isLoading && turboEnabled && hasRecommendations && (
         // @ts-expect-error TS2304: Cannot find name solis
         // component is loaded from a script in ui-client/packages/in-client/index.html
         <solis-teaser
           product="turbonomic"
           type="banner"
           variation="optimizations"
-          sub_variation={hasRecommendations ? 'trialConfig' : 'trialOnly'}
-          banner_expanded={hasRecommendations ? 'false' : 'true'}
+          sub_variation="trialConfig"
+          banner_expanded="false"
+        />
+      )}
+
+      {solisEnabled && !isLoading && turboEnabled && !hasRecommendations && (
+        // @ts-expect-error TS2304: Cannot find name solis
+        // component is loaded from a script in ui-client/packages/in-client/index.html
+        <solis-teaser
+          product="turbonomic"
+          type="banner"
+          variation="optimizations"
+          sub_variation="trialOnly"
+          banner_expanded="true"
         />
       )}
 
