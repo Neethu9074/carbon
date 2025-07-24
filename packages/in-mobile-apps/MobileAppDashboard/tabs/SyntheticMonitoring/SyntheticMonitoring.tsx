@@ -18,7 +18,8 @@ import {
   pathSegment,
   PresenterProps,
   syntheticTypesUrlParameter,
-  locationsUrlParameter
+  locationsUrlParameter,
+  defaultRunType
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -66,6 +67,8 @@ interface Props {
 const SyntheticMonitoring = ({ mobileAppId, timeConfig }: Props) => {
   const [{ syntheticTypes, locationIds }, setFilter] = useUrlState(urlStateDefinition);
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(getTests, []) ?? pendingResult;
+  // Use the defaultRunType constant
+  const runType = defaultRunType;
 
   function useFilterHeader(isFilterAllowed: boolean) {
     return function Filter({ syntheticTypes, locationIds }: PresenterProps) {
@@ -98,6 +101,7 @@ const SyntheticMonitoring = ({ mobileAppId, timeConfig }: Props) => {
         get={getTestSummaryListData}
         syntheticTypes={syntheticTypes}
         locationIds={locationIds}
+        {...(runType ? { runType } : {})}
       />
       <Footer />
     </>

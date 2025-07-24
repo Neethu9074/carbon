@@ -67,6 +67,8 @@ export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
 // CI/CD
 export const runTypeCICD = 'CI/CD';
 export const runTypeScheduled = 'Scheduled';
+// Default runType to 'Scheduled' to prevent datascope label error when syntheticRunNowEnabled is true
+export const defaultRunType = syntheticRunNowEnabled ? runTypeScheduled : undefined;
 
 export const DNSTransportOptions: { label: string; value: string }[] = [
   {
