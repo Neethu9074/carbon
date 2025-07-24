@@ -124,7 +124,7 @@ export const getObjectiveFieldsFromForm = (form: SloForm) => {
   const durationUnitFieldValue = form.getIn(['objective', 'durationUnit']).value;
   const timeWindowType = form.getIn(['objective', 'type']).value;
   const timezoneValue = form.getIn(['objective', 'timezone']).value;
-  const toggleTimezoneValue = timezoneValue === '' || timezoneValue === utcLabel;
+  const toggleTimezoneValue = !timezoneValue || timezoneValue === utcLabel;
 
   return {
     target: createField<number | undefined>({ value: targetFieldValue, validator: targetFieldValidator }),

@@ -161,7 +161,7 @@ export function getIndicatorFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
 }
 
 export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloObjectiveFields {
-  const toggleTimezoneField = sloConfig.timeWindow.timezone === utcLabel || sloConfig.timeWindow.timezone === '';
+  const toggleTimezoneField = !sloConfig.timeWindow.timezone || sloConfig.timeWindow.timezone === utcLabel;
 
   return {
     target: createField<number | undefined>({
