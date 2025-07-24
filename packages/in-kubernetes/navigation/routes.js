@@ -12,6 +12,7 @@ import OtelClusterDashboard from 'promise-loader?global,kubernetes!in-kubernetes
 import DeploymentDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Deployment/DeploymentDashboard';
 import DaemonSetDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/DaemonSet/DaemonSetDashboard';
 import NamespaceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Namespace/NamespaceDashboard';
+import ContainerDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Container/ContainerDashboard';
 import CronJobDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/CronJob/CronJobDashboard';
 import ClusterDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Cluster/ClusterDashboard';
 import ServiceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Service/ServiceDashboard';
@@ -19,7 +20,6 @@ import OtelNodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Da
 import OtelPodDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Pod/OtelPodDashboard';
 import NodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Node/NodeDashboard';
 import PodDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Pod/PodDashboard';
-import ContainerDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Container/ContainerDashboard';
 import KubernetesMainView from 'promise-loader?global,kubernetes!in-kubernetes/KubernetesMainView';
 import { Route } from 'react-router-dom';
 import React from 'react';

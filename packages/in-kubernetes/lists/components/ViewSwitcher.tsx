@@ -8,16 +8,16 @@ import React from 'react';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 
 import {
-  useKubernetesNamespacesConfigs,
-  useCombinedKubernetesClustersConfigs
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
-import {
   clusterListFullyQualified,
   namespaceListFullyQualified,
   exploreFullyQualified,
   clusterOtelListFullyQualified,
   containerDashboardFullyQualified
 } from 'in-kubernetes/navigation/paths';
+import {
+  useKubernetesNamespacesConfigs,
+  useCombinedKubernetesClustersConfigs
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
 import {
   kubernetesExploreEnabled,
   playwithEnabled,
