@@ -12,8 +12,6 @@ import { useObservable } from '@instana/hooks';
 import { Pill } from '@instana/components';
 
 // @ts-expect-error TS migration
-import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
-// @ts-expect-error TS migration
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import { getKubernetesPrometheusMetricsWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesPrometheusMetrics';
 // @ts-expect-error TS migration
@@ -21,6 +19,7 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
+import OtelKubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/OtelKubernetesIdsForBreadcrumb';
 import { cronJobId as matrixCronJobId, podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 // @ts-expect-error TS migration
 import EntityVersionList from 'in-components/EntityVersionList';
@@ -98,7 +97,7 @@ export default function OtelPodDashboard({ location }: { location: Location }) {
           pageRootName: pageNames.pod_summary
         }}
       />
-      <KubernetesIdsForBreadcrumb
+      <OtelKubernetesIdsForBreadcrumb
         timeConfig={timeConfig}
         podId={podId}
         renderBreadcrumbs={(
