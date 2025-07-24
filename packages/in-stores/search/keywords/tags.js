@@ -12,10 +12,10 @@ import { query$, mutateQuery } from 'in-stores/search/query';
 // tag filters.
 export const filteredTags$ = query$.map(query => Set(getFieldTerms(query, 'entity.tag').map(t => t.toLowerCase())));
 
-export function setTagFilter(tag) {
-  mutateQuery(query => setField(query, 'entity.tag', tag));
+export function setTagFilter(tag, location, navigate) {
+  mutateQuery(query => setField(query, 'entity.tag', tag), location, navigate);
 }
 
-export function removeTagFilter(tag) {
-  mutateQuery(query => removeField(query, 'entity.tag', tag));
+export function removeTagFilter(tag, location, navigate) {
+  mutateQuery(query => removeField(query, 'entity.tag', tag), location, navigate);
 }

@@ -15,12 +15,18 @@ import { useDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import { plugins } from 'in-forge/constants';
 
 describe('in-kubernetes/navigation/paths', () => {
+  const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
+
   beforeEach(() => {
-    setSelectedSnapshotId(null);
+    const locationMock = {
+      pathname: '/foo/dashboard',
+      query: { snapshotId: snapshotId },
+      matrix: {}
+    };
+    const navigateMock = jest.fn();
+    setSelectedSnapshotId(null, locationMock, navigateMock);
     setHighlightedEntityId(null);
   });
-
-  const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
 
   it('should return the correct link for an event on a pod', () => {
     const plugin = plugins.kubernetesPod;

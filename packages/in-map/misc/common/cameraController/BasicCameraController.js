@@ -5,13 +5,14 @@
 
 import RoEmitter from '@instana/roemitter';
 
-import { getSnapshot, setSelectedSnapshotId, clearSelectedSnapshotId } from 'in-stores/snapshot';
+import { DOUBLE_CLICK_MAP_ENTITY, NAVIGATE_BACK_IN_INFRA_MAP_EVENT } from 'in-map/useInfraMapEvents';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { getFactory } from 'in-map/stores/factoriesStore';
 import { Object3D, Vector3 } from 'in-map/3DLibProvider';
 import { entitySelectedTracker } from 'in-map/tracker';
 import { emptyArray } from 'in-services/fixedObjects';
 import Camera from 'in-map/misc/OrthographicCamera';
+import { getSnapshot } from 'in-stores/snapshot';
 import Subscriber from 'in-map/misc/Subscriber';
 import { ZERO } from 'in-map/misc/fixedVectors';
 
@@ -20,7 +21,6 @@ const FOCUS_MARGIN = 0.02;
 
 export default class BasicCameraController extends Subscriber {
   constructor(factoryIdForFocusCalculation, yaw = -40) {
-
     super();
 
     this.eventEmitter = new RoEmitter('control event emitter');
@@ -35,7 +35,6 @@ export default class BasicCameraController extends Subscriber {
   }
 
   init() {
-
     this.camera = new Camera();
     this.camera.initEvents();
 
@@ -64,21 +63,26 @@ export default class BasicCameraController extends Subscriber {
               entitySelectedTracker({ origin: 'map', entityType: snapshot.get('plugin') });
             });
           }
-          setSelectedSnapshotId(object.dashboardId);
+          const event = new CustomEvent('clickedOnEntityMap', {
+            bubbles: true,
+            detail: { dashboardId: object.dashboardId }
+          });
+          document.dispatchEvent(event);
         } else {
-          clearSelectedSnapshotId();
           // Emitting custom events here to escape up to the Map component so that navigation hooks can be used
-          const event = new CustomEvent('clickedOutsideMap', { bubbles: true });
+          const event = new CustomEvent(NAVIGATE_BACK_IN_INFRA_MAP_EVENT, { bubbles: true });
           document.dispatchEvent(event);
         }
       }),
       this.eventEmitter.on('onDoubleClicked').subscribe(() => {
         // Emitting custom events here to escape up to the Map component so that navigation hooks can be used
-        const event = new CustomEvent('clickedInfraMapItem', {
-          bubbles: true,
-          detail: { dashboardId: this.lastHitten.object.dashboardId }
-        });
-        document.dispatchEvent(event);
+        if (this.lastHitten.object?.dashboardId) {
+          const event = new CustomEvent(DOUBLE_CLICK_MAP_ENTITY, {
+            bubbles: true,
+            detail: { dashboardId: this.lastHitten.object.dashboardId }
+          });
+          document.dispatchEvent(event);
+        }
       })
     ]);
   }
