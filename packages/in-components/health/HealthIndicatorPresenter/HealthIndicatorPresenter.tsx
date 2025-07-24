@@ -30,6 +30,7 @@ interface Props {
    * Optional value for specifying the size of the icon - default value is 'xs'
    */
   iconOnlySize?: keyof typeof SvgIconSizes;
+  inContentArea?: boolean;
 }
 
 export default function HealthIndicatorPresenter({

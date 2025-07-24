@@ -13,6 +13,8 @@ import Issues from 'in-components/health/OpenIssuesListPresenter/internal/Issues
 import { compare } from 'in-services/util/number';
 import { mapData } from 'in-services/util/result';
 
+import locals from './OpenIssuesListPresenter.mless';
+
 const maxIssuesToShow = 10;
 
 export type OpenIssuesResult = Result<Event[]>;
@@ -23,6 +25,7 @@ export interface OpenIssuesListPresenterProps {
   getIssueLink?: (issueId: string) => string;
   close?: () => void;
   eventType?: string;
+  inContentArea?: boolean;
 }
 
 /**
@@ -44,28 +47,33 @@ export default function OpenIssuesListPresenter({
   analyzeLink,
   getIssueLink,
   close,
-  eventType = 'Issue'
+  eventType = 'Issue',
+  inContentArea
 }: OpenIssuesListPresenterProps): ReactElement {
   openIssuesResult = mapData<Event[], Event[]>(openIssuesResult, openIssues =>
     openIssues ? openIssues.slice().sort((a, b) => compare(b.problem?.severity, a.problem?.severity)) : []
   );
 
   return (
-    <section>
-      <Header
-        openIssuesResult={openIssuesResult}
-        maxIssuesToShow={maxIssuesToShow}
-        close={close}
-        eventType={eventType}
-      />
-      <Issues openIssuesResult={openIssuesResult} maxIssuesToShow={maxIssuesToShow} getIssueLink={getIssueLink} />
-      <Actions
-        openIssuesResult={openIssuesResult}
-        maxIssuesToShow={maxIssuesToShow}
-        analyzeLink={analyzeLink}
-        getIssueLink={getIssueLink}
-        eventType={eventType}
-      />
-    </section>
+    <div className={locals.list}>
+      {inContentArea && (
+        <Header
+          openIssuesResult={openIssuesResult}
+          maxIssuesToShow={maxIssuesToShow}
+          close={close}
+          eventType={eventType}
+        />
+      )}
+      <div className={locals.container}>
+        <Issues openIssuesResult={openIssuesResult} maxIssuesToShow={maxIssuesToShow} getIssueLink={getIssueLink} />
+        <Actions
+          openIssuesResult={openIssuesResult}
+          maxIssuesToShow={maxIssuesToShow}
+          analyzeLink={analyzeLink}
+          getIssueLink={getIssueLink}
+          eventType={eventType}
+        />
+      </div>
+    </div>
   );
 }

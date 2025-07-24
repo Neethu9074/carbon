@@ -75,6 +75,7 @@ export default function ApplicationEntityOpenIssuesList({
           additionalDFQFilter
         })}
         getIssueLink={useIssueLink}
+        inContentArea={inContentArea}
       />
     </WithMaxWidthWhenInContentArea>
   );

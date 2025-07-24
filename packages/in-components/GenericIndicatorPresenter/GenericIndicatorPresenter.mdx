@@ -1,0 +1,110 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import GenericIndicatorPresenter from './GenericIndicatorPresenter';
+import * as GenericIndicatorPresenterStories from './GenericIndicatorPresenter.stories';
+
+<Meta title="in-components/GenericIndicatorPresenter/Documentation" />
+
+# GenericIndicatorPresenter
+
+The `GenericIndicatorPresenter` is a flexible component that combines an indicator element with a popover containing custom content.
+It's designed to be reused across different use cases where a clickable indicator should display additional information in a popover.
+
+## Features
+
+- **Composable**: Accepts custom indicator and content components
+- **Flexible**: Works with any component that can handle `onClick` and `isOpen` props
+- **Configurable**: Supports different alignment options based on context
+- **Accessible**: Manages focus and keyboard interactions through the Carbon Popover component
+
+## Usage
+
+The `GenericIndicatorPresenter` requires four main props:
+
+1. `Content`: The component to render inside the popover
+2. `contentProps`: Props to pass to the Content component
+3. `IndicatorPresenter`: The component that triggers the popover
+4. `indicatorProps`: Props to pass to the IndicatorPresenter component
+
+Optional props:
+- `inContentArea`: Boolean that changes the popover alignment and behavior
+
+## Examples
+
+### Basic Usage
+
+<Canvas>
+  <Story story={GenericIndicatorPresenterStories.Basic} />
+</Canvas>
+
+### With Badge Indicator
+
+<Canvas>
+  <Story story={GenericIndicatorPresenterStories.WithBadge} />
+</Canvas>
+
+### In Content Area
+
+<Canvas>
+  <Story story={GenericIndicatorPresenterStories.InContentArea} />
+</Canvas>
+
+### Interactive Example
+
+<Canvas>
+  <Story story={GenericIndicatorPresenterStories.Interactive} />
+</Canvas>
+
+## Component API
+
+### Props
+
+<ArgsTable of={GenericIndicatorPresenter} />
+
+### TypeScript Usage
+
+The component is fully typed with TypeScript generics to ensure type safety:
+
+```tsx
+interface MyContentProps {
+  data: string[];
+  close?: () => void;
+}
+
+interface MyIndicatorProps {
+  count: number;
+  onClick?: () => void;
+  isOpen?: boolean;
+}
+
+const MyContent: React.FC<MyContentProps> = ({ data, close }) => (
+  <div>
+    <ul>
+      {data.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ul>
+    <button onClick={close}>Close</button>
+  </div>
+);
+
+const MyIndicator: React.FC<MyIndicatorProps> = ({ count, onClick, isOpen }) => (
+  <button onClick={onClick}>
+    {isOpen ? 'Hide' : 'Show'} ({count})
+  </button>
+);
+
+// Usage with TypeScript generics
+<GenericIndicatorPresenter<MyContentProps, MyIndicatorProps>
+  Content={MyContent}
+  contentProps={{ data: ['Item 1', 'Item 2'] }}
+  IndicatorPresenter={MyIndicator}
+  indicatorProps={{ count: 2 }}
+/>
+```
+
+## Best Practices
+
+1. **Accessibility**: Ensure your custom content components include proper focus management and keyboard navigation
+2. **Responsiveness**: Keep content concise and consider mobile viewports
+3. **Consistency**: Use similar styling for indicators that serve similar purposes
+4. **Feedback**: Provide visual feedback when the indicator is clicked (the `isOpen` prop helps with this)

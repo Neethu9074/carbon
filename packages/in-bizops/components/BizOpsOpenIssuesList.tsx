@@ -114,6 +114,7 @@ export default function BizOpsOpenIssuesList({
     <WithMaxWidthWhenInContentArea maxWidth="80vw">
       <OpenIssuesListPresenter
         close={close}
+        inContentArea={inContentArea}
         openIssuesResult={openIssuesResult}
         analyzeLink={useLinkToEventsViewFilteredByOr(eventsViewFilteredByOrQuery)}
         getIssueLink={(eventId: string) => {

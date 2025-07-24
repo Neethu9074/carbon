@@ -21,7 +21,7 @@ export default connectTo(
     }
     return observables;
   },
-  function EntityHealthIndicator({ healthInfo, snapshotId, timeConfig }) {
+  function EntityHealthIndicator({ healthInfo, snapshotId, timeConfig, inContentArea }) {
     if (!healthInfo) {
       return null;
     }
@@ -33,6 +33,7 @@ export default connectTo(
         IndicatorPresenter={HealthIndicatorPresenter}
         timeConfig={timeConfig}
         snapshotId={snapshotId}
+        inContentArea={inContentArea}
       />
     );
   }

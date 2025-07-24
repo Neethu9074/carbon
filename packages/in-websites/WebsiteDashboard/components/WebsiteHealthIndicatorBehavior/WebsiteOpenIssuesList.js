@@ -52,6 +52,7 @@ export default connectTo(
             additionalDFQFilter: `event.state:"open"`
           })}
           getIssueLink={getIssueLink}
+          inContentArea={inContentArea}
         />
       </WithMaxWidthWhenInContentArea>
     );

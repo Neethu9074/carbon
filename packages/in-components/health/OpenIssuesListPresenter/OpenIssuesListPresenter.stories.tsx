@@ -27,10 +27,11 @@ export function DesignLibraryCase() {
   );
 }
 
-export function LongFixSuggestion() {
+export function InContentArea() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
+        inContentArea
         openIssuesResult={success([
           getIssue({
             description: range(0, 2000)
@@ -71,7 +72,37 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
   );
 }
 
-export function LargeNumberOfIsses() {
+export function LongDescription() {
+  return (
+    <Wrapper>
+      <OpenIssuesListPresenter
+        openIssuesResult={success([
+          getIssue({
+            title: 'With long description',
+            description: `dfjklajlkdfjalkjflkajlfdjlajfljdlfjalfjljfdljal
+            dajlfjaldfjlajfljaldfjldajfljadljflajdlfjsalkjfljsdlafjldsa
+            fdlajflkajldfjlakdsjflkasdjflkajlfjlajfldsajlfkjalfjljlaf
+            fdlajflajslfjaljflajfljadlfjlajflajfljalfjlajflajfljfldaj
+            flajfdlajfljaldfjlasjflasjfljalfjlajflsjfljaljflajfjfjlajf
+            fjklajflajlfjalfjlajflakjflajfljalfjlajflajfljalfjaljflasjf
+            jdflafjldajlfjadljfladjfljdalfjldsjfldjlfjdsalfjlasdjfldjlfj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            dfjalfjlkajflasdjfljalfjldajflajlfjldjflajdfljdljfljdfljal`.trim()
+          })
+        ])}
+      />
+    </Wrapper>
+  );
+}
+
+export function LargeNumberOfIssues() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter

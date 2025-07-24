@@ -5,12 +5,9 @@
 
 :local {
   .actions {
-    padding: 0.75rem 1rem;
-    background: #fff;
-    border-top: 1px solid var(--ids-color-option-neutral-300);
-  }
-
-  .carbonButton {
-    min-width: 100%;
+    padding-top: var(--cds-spacing-04);
+    padding-bottom: var(--cds-spacing-04);
+    position: relative;
+    bottom: 0;
   }
 }
