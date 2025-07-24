@@ -37,7 +37,10 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
   const startTime = isFixedTimeWindow(timeWindow) && formatTimeWithoutSeconds(timeWindow.startTimestamp);
   const [isNotificationVisible, setNotificationVisible] = useState(true);
 
-  const sloTimezone = timeWindow?.timezone ? timeWindow.timezone : utcLabel;
+  const sloTimezone = timeWindow?.timezone || utcLabel;
+  const isTimezoneBound = sloTimezone && sloTimezone !== utcLabel;
+  const isTimezoneMismatch = buildTimezoneFromLocationName(sloTimezone) !== getCurrentFormattedTimezone();
+  const showTimezoneNotification = isTimezoneBound && isTimezoneMismatch && isNotificationVisible;
 
   const openEditDialog = () => {
     addActiveDialog(<ConfigureSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);
@@ -67,7 +70,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
           )}
           <TimeWindowPill>{t('in-service-levels:sloChart.sloChartSummary.timezone', { sloTimezone })}</TimeWindowPill>
         </Stack>
-        {buildTimezoneFromLocationName(sloTimezone) !== getCurrentFormattedTimezone() && isNotificationVisible && (
+        {showTimezoneNotification && (
           <div className={locals.toastContainer}>
             <ActionableNotification
               inline
