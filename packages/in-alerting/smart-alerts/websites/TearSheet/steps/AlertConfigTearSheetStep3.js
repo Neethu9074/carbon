@@ -24,7 +24,6 @@ import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/threshold
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
-import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import { days } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -87,7 +86,6 @@ export default function AlertConfigTearSheetStep3({
               AlertTypeSwitch={AlertTypeSwitch}
               isTagFilterFormModelValid={isTagFilterFormModelValid}
               setStep={setStep}
-              alertChannelPerSeverityEnabled={alertChannelPerSeverityWebsiteSaEnabled}
             />
             <Spacer size="normal" />
             {/* Granularity Slider */}

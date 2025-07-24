@@ -44,7 +44,6 @@ interface CustomEventsThresholdConditionProps {
   getMetricUnitPostfix: (arg: string) => string;
   isPercentageMetric: (arg: string) => boolean;
   onChartViewConfigChange: (arg: number) => void;
-  alertChannelPerSeverityEnabled: boolean;
   children?: ReactNode;
   ruleMetricNameOptions: {
     customEvent: Option[];
@@ -60,7 +59,6 @@ export default function CustomEventsThresholdCondition({
   getMetricUnitPostfix,
   isPercentageMetric,
   onChartViewConfigChange,
-  alertChannelPerSeverityEnabled,
   children,
   ruleMetricNameOptions
 }: CustomEventsThresholdConditionProps) {
@@ -181,7 +179,7 @@ export default function CustomEventsThresholdCondition({
             max={maxValue}
             metricUnitPostfix={metricUnitPostfix}
             percentageMetric={percentageMetric}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+            alertChannelPerSeverityEnabled
           />
         )}
 

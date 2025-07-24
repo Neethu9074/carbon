@@ -19,7 +19,6 @@ import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/Gr
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
-import { alertChannelPerSeverityMobileAppSaEnabled } from 'in-services/featureFlags';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { getTitleWidth } from 'in-alerting/smart-alerts/eum/data/utils';
 import { days } from 'in-services/time/time';
@@ -82,7 +81,6 @@ export default function AlertConfigTearSheetStep3({
               AlertTypeSwitch={AlertTypeSwitch}
               isTagFilterFormModelValid={isTagFilterFormModelValid}
               setStep={setStep}
-              alertChannelPerSeverityEnabled={alertChannelPerSeverityMobileAppSaEnabled}
             />
             <Spacer size="normal" />
             {/* Granularity Slider */}

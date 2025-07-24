@@ -29,7 +29,6 @@ import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infr
 import ForecastAlertingDescription from 'in-alerting/smart-alerts/infrastructure/details/ForecastAlertingDescription';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
-import { alertChannelPerSeverityInfraSaEnabled, incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
@@ -49,6 +48,7 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
+import { incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
@@ -245,7 +245,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
           <AlertChannelsViewer
             alertChannelIds={alertChannelIds}
             alertChannels={alertChannels}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
+            alertChannelPerSeverityEnabled
           />
         </div>
       </ExpandableLightCard>

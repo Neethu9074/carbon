@@ -188,16 +188,6 @@ export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEna
 export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');
 export const infraSmartAlertsPredictionsEnabled = isFeatureFlagEnabled('infraSmartAlertsPredictionsEnabled');
 
-export const alertChannelPerSeverityInfraSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityInfraSaEnabled');
-export const alertChannelPerSeverityApplicationSaEnabled = isFeatureFlagEnabled(
-  'alertChannelPerSeverityApplicationSaEnabled'
-);
-export const alertChannelPerSeverityWebsiteSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityWebsiteSaEnabled');
-export const alertChannelPerSeverityMobileAppSaEnabled = isFeatureFlagEnabled(
-  'alertChannelPerSeverityMobileAppSaEnabled'
-);
-export const alertChannelPerSeverityLogSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityLogSaEnabled');
-
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 
 export const autoFormatterTimeSeriesEnabled = isFeatureFlagEnabled('autoFormatterTimeSeriesEnabled');

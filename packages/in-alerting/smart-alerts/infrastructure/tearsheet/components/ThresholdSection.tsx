@@ -15,7 +15,6 @@ import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/compo
 import EvaluationWindow from 'in-alerting/smart-alerts/components/tearSheet/EvaluationWindow';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
-import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -98,7 +97,7 @@ export default function ThresholdSection({
           updateForm={updateForm}
           percentageMetric={percentageMetric}
           metricUnitPostfix={metricUnitPostfix}
-          alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
+          alertChannelPerSeverityEnabled
           showSuggestedValueButton={!isPerEntityEvaluation && !groupBy?.length}
           setValidNextValue={setValidNextValue}
         />

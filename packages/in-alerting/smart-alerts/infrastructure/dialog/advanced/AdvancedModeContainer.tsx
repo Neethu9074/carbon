@@ -17,11 +17,6 @@ import {
   getTitlePlaceholderData
 } from 'in-alerting/smart-alerts/infrastructure/hooks/useGetAlertTitle';
 import {
-  infraPredictiveDetectionEnabled,
-  alertChannelPerSeverityInfraSaEnabled,
-  incidentTriggeringInfraSaEnabled
-} from 'in-services/featureFlags';
-import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
@@ -35,9 +30,9 @@ import {
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
+import { infraPredictiveDetectionEnabled, incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting';
@@ -153,26 +148,14 @@ export default function AdvancedModeContainer(
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.alertChannel.title'),
           valid: true,
           content: (
-            <>
-              {alertChannelPerSeverityInfraSaEnabled ? (
-                <ConfigureAlertChannelMT
-                  form={form}
-                  onChange={onChange}
-                  updateForm={updateForm}
-                  setSliderState={setSliderState}
-                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                  numberOfAlertChannelListRows={5}
-                />
-              ) : (
-                <ConfigureAlertChannel
-                  form={form}
-                  onChange={onChange}
-                  setSliderState={setSliderState}
-                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                  numberOfAlertChannelListRows={5}
-                />
-              )}
-            </>
+            <ConfigureAlertChannelMT
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={5}
+            />
           )
         },
         {

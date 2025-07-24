@@ -807,31 +807,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityWebsiteSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.website.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityMobileAppSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.mobile.app.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityLogSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.log.sa.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'isSmartAlertDialogViewDefaultEnabled',
     instanaCtlKey: 'feature.is.smart.alert.dialog.view.default.enabled',
     defaultValue: true

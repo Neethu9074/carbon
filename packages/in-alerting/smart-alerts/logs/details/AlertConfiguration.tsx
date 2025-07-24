@@ -31,7 +31,6 @@ import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogCha
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
-import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -180,7 +179,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
           <AlertChannelsViewer
             alertChannelIds={alertChannelIds}
             alertChannels={alertChannels}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityLogSaEnabled}
+            alertChannelPerSeverityEnabled
           />
         </div>
       </ExpandableLightCard>

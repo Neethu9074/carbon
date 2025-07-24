@@ -32,7 +32,6 @@ import { getRuleWithThreshold } from 'in-alerting/smart-alerts/websites/dialog/A
 import { useAlertConfig } from 'in-alerting/smart-alerts/websites/hooks/useSmartAlertCreateUrl';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
-import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigationToAlertConfig } from 'in-websites/navigation/paths';
@@ -168,9 +167,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<WebsiteAlertConfig> {
   return Object.freeze({
     rules: [ruleWithThreshold],
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: alertChannelPerSeverityWebsiteSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
-    alertChannels: alertChannelPerSeverityWebsiteSaEnabled ? form.get(fieldNames.alertChannels).value : null,
-
+    alertChannels: form.get(fieldNames.alertChannels).value,
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
     description:

@@ -32,7 +32,6 @@ import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/us
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigationToAlertConfig } from 'in-infrastructure/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -170,8 +169,7 @@ function toAlertConfig(
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: alertChannelPerSeverityInfraSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
-    alertChannels: alertChannelPerSeverityInfraSaEnabled ? form.get(fieldNames.alertChannels).value : null,
+    alertChannels: form.get(fieldNames.alertChannels).value,
     description: form.get(fieldNames.description).value || (alertDescription?.WARNING ?? alertDescription?.CRITICAL),
     name: form.get(fieldNames.name).value || alertTitle,
     triggering: form.get(fieldNames.triggering).value,
