@@ -1020,6 +1020,9 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Violations persist continuously",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "When a minimum number of traces are impacted",
           "labelUserImpactOfViolationsInSequence": "When a certain amount of users are impacted",
+          "violationsInSequenceLabel": "When a violation occurs over a consecutive buckets of time",
+          "violationsInPeriodLabel": "When multiple violation occurs over multiple buckets of time",
+
           "granularity": {
             "description": "Calls are placed in {{granularity}}-minute windows; every {{granularity}} minutes, a metric value is calculated for that window"
           },
