@@ -7,4 +7,9 @@
   .selected {
     background: var(--cds-layer-selected);
   }
+  .chartHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--cds-spacing-05);
+  }
 }
