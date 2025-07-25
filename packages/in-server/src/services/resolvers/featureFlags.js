@@ -787,6 +787,12 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'analyzeSubtracesEnabled',
+    instanaCtlKey: 'feature.analyze.subtraces.enabled',
+    defaultValue: false
+  },
+
+  {
     uiClientKey: 'customDashboardTopLevelFiltersEnabled',
     instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
     defaultValue: false

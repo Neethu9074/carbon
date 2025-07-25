@@ -20,6 +20,7 @@ import getSubtraceList from 'in-applications/subscriptions/getSubtraceList';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
+import { analyzeSubtracesEnabled } from 'in-services/featureFlags';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
 import { number } from 'in-services/formatters/number';
@@ -81,7 +82,7 @@ export default function Results(props) {
     },
     [hiddenCalls, fastQueryModeEnabled]
   );
-
+  const isSubtraceDataSource = dataSource === 'subtraces';
   let content = (
     <UngroupedViewTable
       {...props}
@@ -100,8 +101,8 @@ export default function Results(props) {
         const type = typePerDataSource[dataSource];
         const traceIdName = traceIdNamePerDataSource[dataSource];
         return {
-          traceId: item[type][traceIdName],
-          ...(dataSource !== 'traces' && { callId: item[type].id })
+          traceId: isSubtraceDataSource ? item[traceIdName] : item[type][traceIdName],
+          ...(dataSource === 'calls' && { callId: item[type].id })
         };
       }}
       DetailView={TraceDetailView}
@@ -184,7 +185,7 @@ function LabelServiceContent({ item, type }) {
 
 function getColumnDefinitions(dataSource) {
   const type = typePerDataSource[dataSource];
-  const subtraceType = type === 'subtrace';
+  const isSubtraceType = type === 'subtrace';
   return [
     {
       id: 'erroneous',
@@ -214,47 +215,50 @@ function getColumnDefinitions(dataSource) {
       getContent(item, { getHrefToDetailId, groupLabel }) {
         return (
           <div className={locals.batchedLine}>
-            {subtraceType ? (
+            {
               <>
-                <SvgIcon type={iconTypePerDataSource[dataSource]} size="s" />
+                <SvgIcon
+                  type={iconTypePerDataSource[dataSource]}
+                  /** TODO: Remove this condition once the feature is done*/
+                  color={!isSubtraceType || analyzeSubtracesEnabled ? 'var(--cds-link-primary)' : null}
+                  size="s"
+                />
                 <Spacer horizontal="xsmall" />
-                <span>{item.subtraceName}</span>
-              </>
-            ) : (
-              <>
-                <SvgIcon type={iconTypePerDataSource[dataSource]} color="var(--cds-link-primary)" size="s" />
-                <Spacer horizontal="xsmall" />
+
                 <LinkToDetailPage
                   item={item}
                   dataSource={dataSource}
                   getHrefToDetailId={getHrefToDetailId}
-                  linkLabel={item[type].label}
+                  linkLabel={isSubtraceType ? item.subtraceName : item[type].label}
                   groupLabel={groupLabel}
                 />
-                <BatchingIndicator
-                  batchCount={item[type].batchCount}
-                  tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
-                    type: getTypeTextByCount(type, 1),
-                    batchCount: item[type].batchCount,
-                    types: getTypeTextByCount(type, item[type].batchCount)
-                  })}
-                  noTopPosition
-                />
+
+                {!isSubtraceType && (
+                  <BatchingIndicator
+                    batchCount={item[type].batchCount}
+                    tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
+                      type: getTypeTextByCount(type, 1),
+                      batchCount: item[type].batchCount,
+                      types: getTypeTextByCount(type, item[type].batchCount)
+                    })}
+                    noTopPosition
+                  />
+                )}
               </>
-            )}
+            }
           </div>
         );
       }
     },
     {
       id: 'service',
-      label: subtraceType ? t('in-applications:labelServices') : t('in-applications:labelService'),
+      label: isSubtraceType ? t('in-applications:labelServices') : t('in-applications:labelService'),
       sortable: false,
       getContent(item) {
         return <LabelServiceContent item={item} type={type} />;
       }
     },
-    ...(subtraceType
+    ...(isSubtraceType
       ? [
           {
             id: 'subtraceCalls',
@@ -271,19 +275,26 @@ function getColumnDefinitions(dataSource) {
 
 function LinkToDetailPage({ item, dataSource, getHrefToDetailId, linkLabel, groupLabel }) {
   const type = typePerDataSource[dataSource];
+  const isSubtraceType = type === 'subtrace';
   const traceIdName = traceIdNamePerDataSource[dataSource];
-  return (
-    <Link
-      className={locals.link}
-      href={getHrefToDetailId(
-        {
-          traceId: item[type][traceIdName],
-          ...(dataSource !== 'traces' && { callId: item[type].id })
-        },
-        groupLabel
-      )}
-    >
-      {linkLabel}
-    </Link>
-  );
+  /** TODO: Remove this condition once the feature is done*/
+  if (!isSubtraceType || analyzeSubtracesEnabled) {
+    return (
+      <Link
+        className={locals.link}
+        href={getHrefToDetailId(
+          {
+            traceId: isSubtraceType ? item[traceIdName] : item[type][traceIdName],
+            ...(dataSource === 'calls' && { callId: item[type].id }),
+            subtraceId: isSubtraceType ? item.subtraceConfigId : undefined
+          },
+          groupLabel
+        )}
+      >
+        {linkLabel}
+      </Link>
+    );
+  } else {
+    return linkLabel;
+  }
 }

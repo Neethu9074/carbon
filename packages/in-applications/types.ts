@@ -140,6 +140,7 @@ export type SubtraceFormPath = MapPath<SubtraceFormFields>;
 // #region TraceDetailView
 export type DetailId = {
   traceId: string;
+  subtraceId: string | Nullish;
   callId: string | Nullish;
   logId: string | Nullish;
   colorCode: string | Nullish;

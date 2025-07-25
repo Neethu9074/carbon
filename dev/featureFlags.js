@@ -159,6 +159,7 @@ module.exports = {
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,
+  analyzeSubtracesEnabled: false,
   customDashboardTopLevelFiltersEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: true,
   aqmDataGridEventTableEnabled: true,
