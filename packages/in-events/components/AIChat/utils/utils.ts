@@ -20,15 +20,17 @@ export const DRAGGABLE_ICON = 'aiChatDraggableIcon';
 /**
  * Handle tracking for a specific element click.
  * @param {string} trackingName - The name of the tracking event.
+ * @param {Object} additionalData - Optional for passing in data
  */
-export function handleTracking(trackingName: string): void {
+export function handleTracking(trackingName: string, additionalData?: Object): void {
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {
     const data = {
       parentPageName: pageRootName,
       parentPageCategory: productArea,
       CTA: trackingName,
-      path: location.hash
+      path: location.hash,
+      ...(additionalData || {})
     };
     eventTracker({ data, segmentEventName: CTA_CLICKED });
   }

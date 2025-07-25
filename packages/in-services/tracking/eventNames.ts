@@ -658,6 +658,7 @@ export const EVENT_AI_CHAT_APPLICATION = 'event.ai.chat.application';
 export const EVENT_AI_CHAT_INFRASTRUCTURE = 'event.ai.chat.infrastructure';
 export const EVENT_AI_LIBRARY_OPEN = 'event.ai.library.open';
 export const EVENT_AI_LIBRARY_RESPONSE_OPEN = 'event.ai.library.response.open';
+export const EVENT_AI_LIBRARY_SELECTION_MADE = 'event.ai.library.selection.made';
 export const EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE = 'event.ai.chat.apievent.result.positive';
 export const EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE = 'event.ai.chat.apievent.result.negative';
 export const EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE = 'event.ai.chat.apichat.result.positive';
