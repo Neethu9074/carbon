@@ -9,6 +9,7 @@ import { isEqual } from 'lodash';
 // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 // eslint-disable-next-line import/no-deprecated
+import { getModifiedUrl } from 'in-stores/navigation';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
@@ -45,7 +46,7 @@ export default function useUrlState<State extends StateWithoutGuarantees>({
   replaceHistory = true
 }: Options<State>): UrlStateReturn<State> {
   const location = useLocation();
-  const { createHref, navigate} = useNavigation();
+  const { navigate } = useNavigation();
   const [state, setState] = useState<StateWithoutGuarantees>(
     () => determineStateChange(bind, location, emptyObject) || emptyObject
   );
@@ -139,12 +140,14 @@ export default function useUrlState<State extends StateWithoutGuarantees>({
 
   const exposedGetStateChangeUrl = useCallback(
     (change: Partial<State>) => {
-      const newState = reducer(state as State, change);
-      modifyLocation(bind, newState, location);
-
-      return createHref(location);
+      // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+      // eslint-disable-next-line import/no-deprecated
+      return getModifiedUrl(location, location => {
+        const newState = reducer(state as State, change);
+        modifyLocation(bind, newState, location);
+      });
     },
-    [reducer, state, bind, location, createHref]
+    [state, reducer, bind, location]
   );
 
   return [state as State, exposedSetState, exposedGetStateChangeUrl];
