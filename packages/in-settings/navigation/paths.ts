@@ -4,10 +4,9 @@
  */
 
 // eslint-disable-next-line
-import { mutateUrl } from 'in-stores/navigation';
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-
+import { Location } from 'in-stores/navigation/types';
 export const settingsBasePath = settingsPath;
 
 export const userSettings = `${settingsBasePath}/user`;
@@ -250,20 +249,10 @@ export function getEntityIdView(path: string, id: string, createHrefToPath: (pat
   return createHrefToPath(path);
 }
 
-export function goToIntegrationView(kind: string): void {
-  // eslint-disable-next-line
-  mutateUrl(location => {
-    location.pathname = teamSettingsAlertingIntegrationNew;
-    setOrDeleteMatrixKey(location, '/integrations', 'kind', kind);
-  });
-}
-
-export function goToAlertChannelView(kind: string): void {
-  // eslint-disable-next-line
-  mutateUrl(location => {
-    location.pathname = globalSettingsAlertingAlertChannelNew;
-    setOrDeleteMatrixKey(location, '/channels', 'kind', kind);
-  });
+export function goToAlertChannelView(kind: string, location: Location, navigate: Function): void {
+  location.pathname = globalSettingsAlertingAlertChannelNew;
+  setOrDeleteMatrixKey(location, '/channels', 'kind', kind);
+  navigate(location);
 }
 
 export function getModifyAlertChannelUrl(kind: string, entityId: string): string {
