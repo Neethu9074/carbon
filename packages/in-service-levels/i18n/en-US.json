@@ -266,6 +266,8 @@
     "nameAndTagsTitle": "Set details",
     "bindTimezoneLabel": "Bind timezone",
     "currentTimezoneMessage": "Your current time zone is {{timezone}}.",
+    "disabledToggleLabel": "Disable",
+    "enabledToggleLabel": "Enable",
     "selectedTimezoneMessage": "Your current time zone is set to {{timezone}}.",
     "selectTimezoneMessage": "Select time zone",
     "sloNameLabel": "SLO name",

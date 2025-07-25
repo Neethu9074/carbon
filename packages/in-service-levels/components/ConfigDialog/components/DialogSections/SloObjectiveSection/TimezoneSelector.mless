@@ -13,6 +13,11 @@
       }
     }
   }
+
+  .toggleContainer {
+    width: 5rem;
+  }
+
   .selectField {
     margin-top: 15px;
     :global {

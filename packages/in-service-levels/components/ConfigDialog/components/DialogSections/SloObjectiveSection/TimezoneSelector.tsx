@@ -33,30 +33,33 @@ export default function TimezoneSelector() {
   };
 
   return (
-    <div>
-      <Stack orientation="horizontal" gap={6}>
-        <Toggle
-          id="slo-objective-timezone-toggle"
-          value={bindTimezoneField.value ? 'enable' : 'disable'}
-          labelText={t('in-service-levels:createSloDialog.bindTimezoneLabel')}
-          labelA="enable"
-          labelB="disable"
-          size="sm"
-          onToggle={handleTimezoneToggle}
-          toggled={bindTimezoneField.value}
+    <Stack orientation="horizontal" gap={6}>
+      <Toggle
+        className={locals.toggleContainer}
+        id="slo-objective-timezone-toggle"
+        value={
+          bindTimezoneField.value
+            ? t('in-service-levels:createSloDialog.enabledToggleLabel')
+            : t('in-service-levels:createSloDialog.disabledToggleLabel')
+        }
+        labelText={t('in-service-levels:createSloDialog.bindTimezoneLabel')}
+        labelA={t('in-service-levels:createSloDialog.enabledToggleLabel')}
+        labelB={t('in-service-levels:createSloDialog.disabledToggleLabel')}
+        size="sm"
+        onToggle={handleTimezoneToggle}
+        toggled={bindTimezoneField.value}
+      />
+      <Stack orientation="vertical" gap={4}>
+        <TimezoneList />
+        <InlineNotification
+          className={locals.notificationContainer}
+          id="timezone-toast-notification"
+          kind="info"
+          hideCloseButton
+          lowContrast
+          subtitle={timezoneMessage}
         />
-        <Stack orientation="vertical" gap={4}>
-          <TimezoneList />
-          <InlineNotification
-            className={locals.notificationContainer}
-            id="timezone-toast-notification"
-            kind="info"
-            hideCloseButton
-            lowContrast
-            subtitle={timezoneMessage}
-          />
-        </Stack>
       </Stack>
-    </div>
+    </Stack>
   );
 }
