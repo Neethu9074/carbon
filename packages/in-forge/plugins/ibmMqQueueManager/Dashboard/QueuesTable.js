@@ -129,6 +129,24 @@ const cols = [
         return row.snapshot.getIn(['data', 'lastGetDateTime'], 'N/A');
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'queueType']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.baseQueueName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'baseQueueName']);
+      }
+    }
   }
 ];
 
