@@ -5,22 +5,42 @@
 
 import { Field, MapForm } from 'formalistic';
 
-import { ThresholdType, VersionedConfig, RuleWithThreshold, ApplicationAlertRuleUnion } from '@instana/types';
-
+import {
+  ThresholdType,
+  VersionedConfig,
+  RuleWithThreshold,
+  ApplicationAlertRuleUnion,
+  InfraAlertRuleUnion,
+  WebsiteAlertRuleUnion,
+  MobileAppAlertRuleUnion,
+  LogAlertRuleUnion
+} from '@instana/types';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { InfraAlertType } from 'in-alerting/smart-alerts/infrastructure/data/blueprintConfig';
+import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { MobileAlertType } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { t } from 'in-i18n';
 
-export function updateMultiThresholdInForm(
+type MultithresholdAlertRuleUnion =
+  | ApplicationAlertRuleUnion
+  | InfraAlertRuleUnion
+  | WebsiteAlertRuleUnion
+  | MobileAppAlertRuleUnion
+  | LogAlertRuleUnion;
+
+type MultithresholdAlertType = ApplicationAlertType | InfraAlertType | WebsitesAlertType | MobileAlertType;
+
+export function updateMultiThresholdInForm<R extends MultithresholdAlertRuleUnion, T extends MultithresholdAlertType>(
   createThresholdForm: (
-    ruleWithThreshold: RuleWithThreshold<ApplicationAlertRuleUnion> | undefined,
-    alertType: ApplicationAlertType,
+    ruleWithThreshold: RuleWithThreshold<R> | undefined,
+    alertType: T,
     editMode?: boolean
   ) => MapForm<any>,
   form: MapForm<any>,
   updateForm: (form: MapForm<any>) => void,
-  data: { type: string; value: any },
+  data: { type: string; value?: any; baseline?: number[] },
   errors: string | any[],
   simpleMode: boolean,
   editMode: boolean
@@ -29,7 +49,7 @@ export function updateMultiThresholdInForm(
   const currentThresholdForm = form.get('threshold') as MapForm<any>;
   const warningThresholdField = currentThresholdForm.get('warningThreshold');
   const criticalThresholdField = currentThresholdForm.get('criticalThreshold');
-  const alertType = ((form.get('rule') as MapForm<any>)!.get('alertType') as Field<ApplicationAlertType>)!.value;
+  const alertType = ((form.get('rule') as MapForm<any>)!.get('alertType') as Field<T>)!.value;
 
   let ruleWithThreshold = {
     rule: form.get('rule').toJS(),
@@ -76,7 +96,7 @@ export function updateMultiThresholdInForm(
 function getMultithresholdThresholdRule(
   thresholdField: MapForm<any>,
   errors: string | any[],
-  data: { type: string; value: any },
+  data: { type: string; value?: any },
   simpleMode: boolean,
   isCriticalThreshold: boolean
 ): any {

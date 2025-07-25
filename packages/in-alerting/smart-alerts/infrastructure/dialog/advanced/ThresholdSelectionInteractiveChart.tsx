@@ -4,24 +4,25 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Field, MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
-import { InfraAlertEvaluationType, RuleWithThreshold } from '@instana/types/typeDefinitions';
-import { InfraAlertRuleUnion, Order, TagCatalog, AggregationType } from '@instana/types';
+import { InfraAlertEvaluationType } from '@instana/types/typeDefinitions';
+import { Order, TagCatalog, AggregationType } from '@instana/types';
 
 import InfraMultiThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraMultiThresholdCondition';
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { useSelectedMetricGroup } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
@@ -83,13 +84,13 @@ export default function ThresholdSelectionInteractiveChart({
     return chartTimeConfig;
   }, []);
 
-  const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags | null>(null);
+  const { setSelectedMetricGroup } = useSelectedMetricGroup();
 
   useEffect(() => {
     if (groupBy.length === 0) {
       setSelectedMetricGroup(null);
     }
-  }, [groupBy]);
+  }, [groupBy, evaluationType, setSelectedMetricGroup]);
 
   return (
     <BorderedContainer>
@@ -118,7 +119,6 @@ export default function ThresholdSelectionInteractiveChart({
               metricName={metricName}
               alertsPreviewEnabled
               metricLabel={metricLabel}
-              selectedMetricGroup={selectedMetricGroup}
             />
             {evaluationType === 'CUSTOM' && groupBy.length > 0 && (
               <InfraMetricGroup
@@ -135,8 +135,6 @@ export default function ThresholdSelectionInteractiveChart({
                 }}
                 metricMetadatas={metricMetadatas}
                 tagCatalog={tagCatalog}
-                setSelectedMetricGroup={setSelectedMetricGroup}
-                selectedMetricGroup={selectedMetricGroup}
               />
             )}
             {isPerEntityEvaluation && !isEmpty(entityType) && !isEmpty(metricName) && (
@@ -154,8 +152,6 @@ export default function ThresholdSelectionInteractiveChart({
                 entityType={entityType}
                 regex={regex}
                 metricName={metricName}
-                setSelectedMetricGroup={setSelectedMetricGroup}
-                selectedMetricGroup={selectedMetricGroup}
               />
             )}
           </>
@@ -198,22 +194,4 @@ export function getMetrics(
       label: entityLabel
     }
   ];
-}
-
-export function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
-  const tagFilterExpression = form.get('tagFilterExpression').value;
-  const warningThresholdField = form.get('threshold').get('warningThreshold');
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
-
-  const ruleWithThreshold: RuleWithThreshold<InfraAlertRuleUnion> = {
-    rule: form.get('rule').toJS(),
-    thresholdOperator: form.get('threshold').get('operator').value,
-    thresholds: { WARNING: warningThresholdField.toJS(), CRITICAL: criticalThresholdField.toJS() }
-  };
-
-  return {
-    ...form.toJS(),
-    rules: [ruleWithThreshold],
-    tagFilterExpression: toBackendQueryModel(tagFilterExpression)
-  };
 }

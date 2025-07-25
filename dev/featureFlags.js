@@ -195,6 +195,7 @@ module.exports = {
   logConsoleEnabled: true,
   mobileAppSmartAlertSlownessBlueprintEnabled: true,
   regexMatchEnabled: true,
+  infraSmartAlertsAdaptiveBaselineEnabled: true,
   whatsNewBannerEnabled: true,
   allSmartAlertsViewEnabled: true,
   apMetricsDeltaFetchingEnabled: true,

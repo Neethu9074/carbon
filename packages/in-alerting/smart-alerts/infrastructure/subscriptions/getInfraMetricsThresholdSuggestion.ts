@@ -4,16 +4,27 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Result, GetInfraMetricsThresholdSuggestionQuery } from '@instana/types';
-import { ThresholdSuggestionResponse } from '@instana/types/typeDefinitions';
+import {
+  Result,
+  GetInfraMetricsThresholdSuggestionQuery,
+  AdaptiveBaselineSuggestionResponse,
+  StaticThresholdSuggestionResponse,
+  Seasonality
+} from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
+type ThresholdSuggestionResponse = StaticThresholdSuggestionResponse | AdaptiveBaselineSuggestionResponse;
+
+type GetInfraMetricsThresholdSuggestionQueryWithSmoothingOverrides = GetInfraMetricsThresholdSuggestionQuery & {
+  seasonality?: Seasonality;
+  adaptability?: number;
+};
+
 export default createResultSubscriptionFactory<
-  GetInfraMetricsThresholdSuggestionQuery,
+  GetInfraMetricsThresholdSuggestionQueryWithSmoothingOverrides,
   Result<ThresholdSuggestionResponse>
 >({
   eventId: 'getInfraMetricsThresholdSuggestion',
-  memoizeFor: 1000,
-  trackSubscriptionStatistics: true
+  memoizeFor: 0
 });

@@ -187,6 +187,7 @@ export const infraDashboardExportPdfEnabled = isFeatureFlagEnabled('infraDashboa
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
 export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');
 export const infraSmartAlertsPredictionsEnabled = isFeatureFlagEnabled('infraSmartAlertsPredictionsEnabled');
+export const infraSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled('infraSmartAlertsAdaptiveBaselineEnabled');
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 

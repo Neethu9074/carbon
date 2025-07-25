@@ -8,14 +8,28 @@ import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 import React from 'react';
 
-import { InfraAlertEvaluationType } from '@instana/types';
+import {
+  AdaptiveBaselineSuggestionResponse,
+  InfraAlertEvaluationType,
+  isAdaptiveBaselineConfig,
+  Result,
+  ThresholdSuggestionResponse
+} from '@instana/types/typeDefinitions';
 
+import {
+  infraPredictiveDetectionEnabled,
+  incidentTriggeringInfraSaEnabled,
+  infraSmartAlertsAdaptiveBaselineEnabled
+} from 'in-services/featureFlags';
 import {
   useGetAlertTitle,
   useFormattedThresholdValue,
   generateTitle,
   getTitlePlaceholderData
 } from 'in-alerting/smart-alerts/infrastructure/hooks/useGetAlertTitle';
+import StaticOrAdaptiveSwitch, {
+  getThresholdType
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
@@ -28,18 +42,21 @@ import {
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
+import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
-import { infraPredictiveDetectionEnabled, incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
+import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/infrastructure/hooks/useOnThresholdTypeChange';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeSection';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { MessageType } from 'in-components/MessageStack';
@@ -48,6 +65,7 @@ import { t } from 'in-i18n';
 interface AdvancedModeContainerProp {
   updateForm?: (form: MapForm<any>) => void;
   messages?: MessageType[];
+  thresholdResult?: Result<ThresholdSuggestionResponse> | null | undefined;
 }
 
 export default function AdvancedModeContainer(
@@ -64,9 +82,11 @@ export default function AdvancedModeContainer(
     setTagFilterValid,
     tagFilterValid,
     TagBasedPayloadConfigurator,
-    messages
+    messages,
+    thresholdResult
   } = props;
-  // For now, we support only static threshold. So taking type from warningThreshold/criticalThreshold would not change anything.
+
+  const thresholdType = getThresholdType(form);
   const entityType = form.get('rule')?.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
   const isRegex = form.get('rule').get('regex')?.value;
@@ -74,7 +94,7 @@ export default function AdvancedModeContainer(
   const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: isRegex });
   const groupBy = form.get('groupBy').value;
 
-  const { aggregation, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat } =
+  const { aggregation, warningThreshold, criticalThreshold, thresholdOperator, metricFormat } =
     getTitlePlaceholderData(form);
 
   const alertNameValue = !isEmpty(form.get('name').value) ? form.get('name').value : undefined;
@@ -83,7 +103,7 @@ export default function AdvancedModeContainer(
   const alertTitle = useGetAlertTitle(entityType, metric, aggregation);
   const alertDescription = useFormattedThresholdValue(
     alertTitle,
-    thresholdOperatorValue(warningThreshold, criticalThreshold),
+    thresholdOperator,
     metricFormat,
     warningThreshold,
     criticalThreshold
@@ -92,6 +112,14 @@ export default function AdvancedModeContainer(
   const evaluationType = form.get('evaluationType').value;
 
   const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy), evaluationType: evaluationType });
+  const infrastructureOnThresholdTypeChange = useOnThresholdTypeChange();
+
+  const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: MapForm<any>) => {
+    if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
+      onChartViewConfigChange?.(0);
+    }
+    return updateForm?.(updatedForm);
+  };
 
   return (
     <StepsContainer
@@ -119,14 +147,36 @@ export default function AdvancedModeContainer(
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.threshold.title'),
           valid: isThresholdSectionValid(),
           content: (
-            <ThresholdSelectionInteractiveChart
-              form={form}
-              onChartViewConfigChange={onChartViewConfigChange}
-              selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              updateForm={updateForm}
-              tagCatalog={tagCatalog}
-              regex={isRegex}
-            />
+            <>
+              {infraSmartAlertsAdaptiveBaselineEnabled && (
+                <LightCard
+                  title={t(
+                    'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'
+                  )}
+                  withoutPadding
+                  darkFrame
+                >
+                  <StaticOrAdaptiveSwitch
+                    form={form}
+                    setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
+                    onThresholdTypeChange={infrastructureOnThresholdTypeChange}
+                  />
+                </LightCard>
+              )}
+              <ThresholdSelectionInteractiveChart
+                form={form}
+                onChartViewConfigChange={onChartViewConfigChange}
+                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                updateForm={updateForm}
+                tagCatalog={tagCatalog}
+                regex={isRegex}
+              />
+              {thresholdType === ADAPTIVE_BASELINE && (
+                <AdaptiveBaselineErrorMessage
+                  thresholdResult={thresholdResult as Result<AdaptiveBaselineSuggestionResponse>}
+                />
+              )}
+            </>
           )
         },
         {
@@ -138,7 +188,9 @@ export default function AdvancedModeContainer(
             <>
               <TimeThreshold form={form} updateForm={updateForm} onChange={onChange} />
               <GracePeriodWrapper form={form} updateForm={updateForm} />
-              {infraPredictiveDetectionEnabled && <ForecastAlerting form={form} updateForm={updateForm} />}
+              {infraPredictiveDetectionEnabled && thresholdType === STATIC_THRESHOLD && (
+                <ForecastAlerting form={form} updateForm={updateForm} />
+              )}
             </>
           )
         },

@@ -12,7 +12,6 @@ import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { t } from 'in-i18n';
 
 interface MultiThresholdAlertPreviewProps {
@@ -30,12 +29,8 @@ export function MultiThresholdAlertPreview({
   placeholderDescription,
   allowedPlaceholders
 }: MultiThresholdAlertPreviewProps) {
-  const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const warningThresholdValue = warningThresholdField.get('value').value;
-  const criticalThresholdValue = criticalThresholdField.get('value').value;
-  const isWarningThresholdDefined = !isEmpty(warningThresholdValue);
-  const isCriticalThresholdDefined = !isEmpty(criticalThresholdValue);
+  const isWarningThresholdSelected = form.get('threshold').get('warningThreshold').get('isCheckboxSelected')?.value;
+  const isCriticalThresholdSelected = form.get('threshold').get('criticalThreshold').get('isCheckboxSelected')?.value;
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
   const entityLabel = metricLabel
     ? metricLabel
@@ -56,8 +51,8 @@ export function MultiThresholdAlertPreview({
       form={form}
       getDescriptionPlaceholder={getDescriptionPlaceholder}
       descriptionPlaceholder={placeholderDescription}
-      isWarningDefined={isWarningThresholdDefined}
-      isCriticalDefined={isCriticalThresholdDefined}
+      isWarningDefined={isWarningThresholdSelected}
+      isCriticalDefined={isCriticalThresholdSelected}
       entityLabel={entityLabel}
       entityIconType="lib_infrastructure"
       renderHeadline={() => <AlertPreviewHeadline title={titleWithReplacedPlaceholders} />}

@@ -11,7 +11,7 @@ import { Order, Result, TagCatalog, TimeConfig, InfrastructureGroup } from '@ins
 //@ts-expect-error TS migration needed
 import { setDefaultMetrics } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { useSelectedMetricGroup } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import { getColumnDefinition } from 'in-alerting/smart-alerts/infrastructure/data/getColumnDefinition';
 import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
@@ -34,8 +34,6 @@ interface InfraMetricGroupTableListProps extends State<any, any> {
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
   tagCatalog?: TagCatalog;
-  setSelectedMetricGroup: React.Dispatch<React.SetStateAction<Tags | null>>;
-  selectedMetricGroup: Tags | null;
 }
 
 /**
@@ -57,10 +55,10 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     metricMetadatas,
     timeConfig,
     loadMore,
-    tagCatalog,
-    setSelectedMetricGroup,
-    selectedMetricGroup
+    tagCatalog
   } = props;
+
+  const { selectedMetricGroup, setSelectedMetricGroup } = useSelectedMetricGroup();
 
   const hasErrors = errors && errors?.length > 0;
   const isLoading = progress && progress?.loading;

@@ -44,8 +44,8 @@ import { useGetAlertConfigLink as useGetLogAlertConfigLink } from 'in-alerting/s
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { useGetAlertConfigLink as useGetServiceLevelAlertConfigLink } from 'in-service-levels/navigation/path';
+import { MetricLabel as InfraMetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
-import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { getTriggerType, TriggerTypeField } from 'in-automation/PolicyDetails/TriggerTypeField';
 import { EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
@@ -168,7 +168,13 @@ function getEventName(item: TriggerSpecification) {
     return (
       <NameColumnCell
         config={item}
-        getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.forecastingConfig)}
+        getSubtitle={config => (
+          <InfraMetricLabel
+            rule={config.rule}
+            threshold={config.threshold}
+            forecastingConfig={config.forecastingConfig}
+          />
+        )}
       />
     );
   }

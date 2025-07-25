@@ -42,12 +42,12 @@ export default function useAlertConfigValidation(
 }
 
 function isThresholdSectionValid(form: MapForm<any>) {
-  const warningThresholdValue = form.get('threshold')?.get('warningThreshold').get('value').value;
+  const warningThresholdValue = form.get('threshold')?.get('warningThreshold')?.get('value')?.value;
   const hasWarningThreshold = !isThresholdEmpty(warningThresholdValue);
-  const criticalThresholdValue = form.get('threshold')?.get('criticalThreshold').get('value').value;
+  const criticalThresholdValue = form.get('threshold')?.get('criticalThreshold')?.get('value')?.value;
   const hasCriticalThreshold = !isThresholdEmpty(criticalThresholdValue);
 
-  const operatorValue = form.get('threshold')?.get('operator').value ?? '>=';
+  const operatorValue = form.get('threshold')?.get('operator')?.value ?? '>=';
 
   if (hasWarningThreshold && hasCriticalThreshold) {
     if ((operatorValue === '<' || operatorValue === '<=') && warningThresholdValue <= criticalThresholdValue) {

@@ -54,16 +54,17 @@ export default function AlertConfigTearSheetStep3({
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator({ metricName, entityType, regex });
 
-  const { aggregation, metric, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat } =
+  const { aggregation, metric, warningThreshold, criticalThreshold, thresholdOperator, metricFormat } =
     getTitlePlaceholderData(form);
 
   const alertNameValue = !isEmpty(form.get('name').value) ? form.get('name').value : undefined;
   const alertDescriptionValue = !isEmpty(form.get('description').value) ? form.get('description').value : undefined;
 
   const alertTitle = useGetAlertTitle(entityType, metric, aggregation);
+
   const alertDescription = useFormattedThresholdValue(
     alertTitle,
-    thresholdOperatorValue(warningThreshold, criticalThreshold),
+    thresholdOperator,
     metricFormat,
     warningThreshold,
     criticalThreshold

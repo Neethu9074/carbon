@@ -36,22 +36,29 @@ export function useFormattedThresholdValue(
   if (!metricLabel) {
     return { WARNING: getDescriptionPlaceholder(), CRITICAL: undefined };
   }
+
+  const operator = warningThreshold != null || criticalThreshold != null ? thresholdOperator : null;
+
   const warningThresholdFormattedValue = formatMetricValue(metricFormat, warningThreshold);
   const criticalThresholdFormattedValue = formatMetricValue(metricFormat, criticalThreshold);
-
-  const warningThresholdDescription =
-    warningThreshold != null
-      ? getThresholdsLowerOrHigherOperatorText(thresholdOperator, metricLabel, warningThresholdFormattedValue)
-      : undefined;
-
-  const criticalThresholdDescription =
-    criticalThreshold != null
-      ? getThresholdsLowerOrHigherOperatorText(thresholdOperator, metricLabel, criticalThresholdFormattedValue)
-      : undefined;
+  const warningThresholdDescription = getThresholdsLowerOrHigherOperatorText(
+    operator,
+    metricLabel,
+    warningThresholdFormattedValue
+  );
+  const criticalThresholdDescription = getThresholdsLowerOrHigherOperatorText(
+    operator,
+    metricLabel,
+    criticalThresholdFormattedValue
+  );
   return { WARNING: warningThresholdDescription, CRITICAL: criticalThresholdDescription };
 }
 
-export function getThresholdsLowerOrHigherOperatorText(operator: string, metricLabel: string, thresholdValue: string) {
+export function getThresholdsLowerOrHigherOperatorText(
+  operator: string | null,
+  metricLabel: string,
+  thresholdValue: string
+) {
   switch (operator) {
     case '>':
       return t('in-alerting:smartAlerts.infrastructure.descriptionIsHigherThan', {
@@ -93,13 +100,21 @@ export function getTitlePlaceholderData(form: MapForm<any>) {
   const aggregation = form.get('rule').get('aggregation')?.value;
   const thresholdOperator = form.get('threshold').get('operator').value;
 
-  const warningThreshold = form.get('threshold').get('warningThreshold').get('value').value;
-  const criticalThreshold = form.get('threshold').get('criticalThreshold').get('value').value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
+  const warningThreshold = form.get('threshold').get('warningThreshold').get('value')?.value;
+  const criticalThreshold = form.get('threshold').get('criticalThreshold').get('value')?.value;
 
-  const thresholdOperatorValue = (warningThreshold: number, criticalThreshold: number): string =>
-    warningThreshold != null || criticalThreshold != null ? thresholdOperator : null;
   const formatter = getFormatter(entityType, metric);
   const metricFormat: NumberFormatter = getMetricFormat(formatter, warningThreshold ?? criticalThreshold);
 
-  return { aggregation, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat, metric, entityType };
+  return {
+    aggregation,
+    warningThreshold,
+    criticalThreshold,
+    thresholdOperator,
+    metricFormat,
+    metric,
+    entityType,
+    thresholdType
+  };
 }

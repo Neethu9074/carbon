@@ -31,8 +31,8 @@ describe('in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSid
       expect.objectContaining({
         threshold: {
           operator: '>=',
-          warningThreshold: { type: 'staticThreshold', value: null },
-          criticalThreshold: { type: 'staticThreshold', value: null }
+          warningThreshold: { type: 'staticThreshold', value: null, isCheckboxSelected: true },
+          criticalThreshold: { type: 'staticThreshold', value: null, isCheckboxSelected: true }
         }
       })
     );
@@ -103,11 +103,13 @@ export function getDefaultConfig() {
         thresholds: {
           WARNING: {
             type: 'staticThreshold',
-            value: 2.0
+            value: 2.0,
+            isCheckboxSelected: true
           },
           CRITICAL: {
             type: 'staticThreshold',
-            value: 5.0
+            value: 5.0,
+            isCheckboxSelected: true
           }
         }
       }

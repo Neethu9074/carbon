@@ -9,11 +9,8 @@ import React, { useEffect, useState } from 'react';
 import { Order, TagFilterExpressionElementUnion, TimeConfig, InfraExploreCursor, Result } from '@instana/types';
 import { AggregationType } from '@instana/types/typeDefinitions';
 
-import {
-  MetricType,
-  Tags
-} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraEntitiesTableList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntitiesTableList';
+import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { getEntitiesData } from 'in-alerting/smart-alerts/infrastructure/components/perEntity/getEntitiesData';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -36,22 +33,11 @@ interface InfraEntityListProps {
   entityType: string;
   metricName: string;
   regex: boolean;
-  setSelectedMetricGroup: React.Dispatch<React.SetStateAction<Tags | null>>;
-  selectedMetricGroup: Tags | null;
 }
 
 export default function InfraEntityList(props: InfraEntityListProps) {
-  const {
-    backendQueryModel,
-    order,
-    timeConfig,
-    entityType,
-    aggregation,
-    crossSeriesAggregation,
-    metricName,
-    regex,
-    setSelectedMetricGroup
-  } = props;
+  const { backendQueryModel, order, timeConfig, entityType, aggregation, crossSeriesAggregation, metricName, regex } =
+    props;
 
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
   const metricInfo: MetricType = {
@@ -111,7 +97,6 @@ export default function InfraEntityList(props: InfraEntityListProps) {
         setBackendQueryModel(backendQueryModel, setFilterExpression, searchBy)
       }
       onOrderByChange={onOrderByChange}
-      setSelectedMetricGroup={setSelectedMetricGroup}
     />
   );
 }

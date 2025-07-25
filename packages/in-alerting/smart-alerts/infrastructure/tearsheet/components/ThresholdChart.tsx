@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Field, MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
@@ -14,16 +14,14 @@ import { ButtonGroup } from '@instana/components';
 import { Order } from '@instana/types';
 
 import {
-  alertConfigWithDefaultThresholdAndTfe,
-  getMetrics,
-  Tags
-} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import {
   ChartViewConfigItem,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
+import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { useSelectedMetricGroup } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
@@ -79,13 +77,13 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
     return chartTimeConfig;
   }, []);
 
-  const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags | null>(null);
+  const { setSelectedMetricGroup } = useSelectedMetricGroup();
 
   useEffect(() => {
     if (groupBy.length === 0) {
       setSelectedMetricGroup(null);
     }
-  }, [groupBy]);
+  }, [groupBy, evaluationType, setSelectedMetricGroup]);
 
   return (
     <Stack>
@@ -108,7 +106,6 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
                     metricName={metricName}
                     alertsPreviewEnabled
                     metricLabel={metricLabel}
-                    selectedMetricGroup={selectedMetricGroup}
                   />
                 </div>
               </BorderedContainer>
@@ -131,8 +128,6 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
                     }}
                     metricMetadatas={metricMetadatas}
                     tagCatalog={tagCatalog}
-                    setSelectedMetricGroup={setSelectedMetricGroup}
-                    selectedMetricGroup={selectedMetricGroup}
                   />
                 </CarbonLayer>
               </>
@@ -155,8 +150,6 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
                     entityType={entityType}
                     regex={regex}
                     metricName={metricName}
-                    setSelectedMetricGroup={setSelectedMetricGroup}
-                    selectedMetricGroup={selectedMetricGroup}
                   />
                 </CarbonLayer>
               </>

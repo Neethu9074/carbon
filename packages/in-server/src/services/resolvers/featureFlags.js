@@ -963,6 +963,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'infraSmartAlertsAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.adaptive.baseline.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'allSmartAlertsViewEnabled',
     instanaCtlKey: 'feature.all.smart.alerts.view.enabled',
     defaultValue: false

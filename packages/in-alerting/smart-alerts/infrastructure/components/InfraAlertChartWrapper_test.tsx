@@ -9,6 +9,7 @@ import React from 'react';
 
 import { Result } from '@instana/types';
 
+import { SelectedMetricGroupProvider } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
@@ -115,7 +116,11 @@ describe('in-alerting/components/InfraAlertChartWrapper', () => {
       alertsPreviewEnabled: true
     };
 
-    const { container } = render(<InfraAlertChartWrapper {...props} />);
+    const { container } = render(
+      <SelectedMetricGroupProvider>
+        <InfraAlertChartWrapper {...props} />
+      </SelectedMetricGroupProvider>
+    );
 
     expect(container.getElementsByClassName('local-css-chart').length).toBe(1);
     expect(container.getElementsByClassName('local-css-markerLanesWrapper').length).toBe(1);

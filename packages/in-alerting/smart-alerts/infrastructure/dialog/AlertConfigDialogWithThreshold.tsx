@@ -122,6 +122,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
 
   useThresholdSuggestion(form, updateForm, setThresholdResult, editMode, {
     isValid,
+    simpleMode,
     alertConfigWithFormModel
   });
 

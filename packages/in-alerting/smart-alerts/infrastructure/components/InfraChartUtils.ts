@@ -38,7 +38,7 @@ export const sparkChartGranularity = minutes.toMillis(30);
 
 export function getEnrichedTagFilterExpression(
   tagFilterExpression: TagFilterExpressionElementUnion,
-  selectedMetricGroup: Tags | undefined
+  selectedMetricGroup: Tags | null
 ) {
   if (selectedMetricGroup) {
     const groupingTFE: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
