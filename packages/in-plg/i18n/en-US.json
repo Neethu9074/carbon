@@ -258,6 +258,7 @@
         "configurationOptions": "Configuration options",
         "monitoringGcr": "Monitoring Google Cloud Run",
         "monitoringAwsFargateRuby": "Monitoring AWS Fargate (Ruby)",
+        "monitoringAwsFargatePhp": "Monitoring AWS Fargate (PHP)",
         "awsServiceDocumentation": "AWS Services documentation",
         "monitoringAwsLambda": "Monitoring AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configuring AWS Lambda monitoring",
@@ -273,7 +274,8 @@
       "nodejs8": "Node.js 8.x",
       "nodejs10Plus": "Node.js 10.x or newer",
       "python2and3": "Python 2.7 and 3.x",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "php": "PHP"
     },
     "bosh": {
       "boshDirectorRuntimeConfig": "BOSH Director runtime configuration",

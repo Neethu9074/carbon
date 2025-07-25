@@ -11,7 +11,7 @@ import { Stack } from '@instana/components';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import { t } from 'in-i18n';
 
-export const prerequisites = (runtime: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'Python' | 'Ruby') => {
+export const prerequisites = (runtime: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'Python' | 'Ruby' | 'Php') => {
   switch (runtime) {
     case 'Go':
       return (
@@ -67,6 +67,15 @@ export const prerequisites = (runtime: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'Py
           />
         </Stack>
       );
+    case 'Php':
+      return (
+        <Stack direction="vertical" gap="small">
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.prerequisiteLinks.networkRequirements')}
+            href="https://ibm.biz/insta-agent-netreqs"
+          />
+        </Stack>
+      );
     default:
       return (
         <Stack direction="vertical" gap="small">
@@ -79,7 +88,7 @@ export const prerequisites = (runtime: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'Py
   }
 };
 
-export const documentations = (runtime: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'Python' | 'Ruby') => {
+export const documentations = (runtime: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'Python' | 'Ruby' | 'Php') => {
   switch (runtime) {
     case 'Go':
       return (
@@ -152,6 +161,19 @@ export const documentations = (runtime: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'P
           <DocumentLink
             text={t('in-plg:agentDetails.aws.documentationLinks.monitoringAwsFargateRuby')}
             href="https://ibm.biz/monitoring-fargate-ruby"
+          />
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.configureTaskDefinition')}
+            href="https://ibm.biz/insta-fargate-taskdef"
+          />
+        </Stack>
+      );
+    case 'Php':
+      return (
+        <Stack direction="vertical" gap="small">
+          <DocumentLink
+            text={t('in-plg:agentDetails.aws.documentationLinks.monitoringAwsFargatePhp')}
+            href="https://ibm.biz/monitoring-fargate-php"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.aws.documentationLinks.configureTaskDefinition')}
