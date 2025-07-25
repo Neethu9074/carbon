@@ -38,8 +38,7 @@ import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/Even
 import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
-// @ts-expect-error No typedef
-import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
+import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 // @ts-expect-error No typedef
 import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
 // @ts-expect-error No typedef
@@ -223,7 +222,7 @@ const IncidentOverview: FC<IncidentOverviewProps> = ({
       onClick={() => {
         // Open notes, generate summary
         setSummaryNotes(true, true);
-        MoveAIChatLauncher('500px');
+        moveAIChatLauncher('500px');
         handleTracking(incident.get('id'), EVENT_AI_GENERATE_SUBMIT_OVERVIEW);
       }}
     >

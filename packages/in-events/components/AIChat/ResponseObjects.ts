@@ -3,8 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ChatInstance, MessageRequest, MessageResponseTypes, TextItem, UserDefinedItem } from '@instana/ai-chat';
+
+import { TableHeader, TableRow } from 'in-events/components/AIChat/TableComponents/useTableState';
 import { t } from 'in-i18n';
 
+// Existing prompt library data
 export const promptLibrary = [
   {
     kind: 'Application',
@@ -40,22 +44,22 @@ export const promptLibrary = [
 ];
 
 // PromptLibrary library prompt object definition
-export const PromptLibraryBubbleObject = {
-  response_type: 'user_defined',
+export const PromptLibraryBubbleObject: UserDefinedItem = {
+  response_type: MessageResponseTypes.USER_DEFINED,
   user_defined: {
     user_defined_type: 'prompt_library'
   }
 };
 
-export const InitialLoadOptions = [
+export const InitialLoadOptions: (TextItem | UserDefinedItem)[] = [
   {
-    response_type: 'text',
+    response_type: MessageResponseTypes.TEXT,
     text: t('in-events:aichat.welcome')
   },
   PromptLibraryBubbleObject
 ];
 
-export function handleDefinedTreeQuestions(request, instance) {
+export function handleDefinedTreeQuestions(request: MessageRequest, instance: ChatInstance) {
   switch (request.input.text) {
     default:
       instance.messaging.addMessage({
@@ -67,15 +71,15 @@ export function handleDefinedTreeQuestions(request, instance) {
 }
 
 // RePromptObject text object definition
-export const RePromptObject = {
-  response_type: 'text',
+export const RePromptObject: TextItem = {
+  response_type: MessageResponseTypes.TEXT,
   text: t('in-events:aichat.anyOtherQs')
 };
 
 // ThumbsFeedback object definition taking in the pos / neg tracking string
-export function ThumbsFeedbackObject(positiveTacking, negativeTracking) {
+export function ThumbsFeedbackObject(positiveTacking: string, negativeTracking: string): UserDefinedItem {
   return {
-    response_type: 'user_defined',
+    response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: {
       user_defined_type: 'thumbs_feedback',
       posTrack: positiveTacking,
@@ -85,9 +89,9 @@ export function ThumbsFeedbackObject(positiveTacking, negativeTracking) {
 }
 
 // ThumbsFeedback object definition taking in the nlg text response
-export function NLGResponseObject(nlgResponse) {
+export function NLGResponseObject(nlgResponse: string): UserDefinedItem {
   return {
-    response_type: 'user_defined',
+    response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: {
       user_defined_type: 'nlg_response',
       text: nlgResponse
@@ -96,9 +100,9 @@ export function NLGResponseObject(nlgResponse) {
 }
 
 // Table Chart object definition that takes in the headers and rows
-export function TableChartObject(headers, rows) {
+export function TableChartObject(headers: TableHeader[], rows: TableRow[]): UserDefinedItem {
   return {
-    response_type: 'user_defined',
+    response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: {
       user_defined_type: 'table_chart',
       headers: headers,
@@ -108,9 +112,9 @@ export function TableChartObject(headers, rows) {
 }
 
 // Events Table object definition that takes in the headers and rows
-export function EventsTableObject(headers, rows) {
+export function EventsTableObject(headers: TableHeader[], rows: TableRow[]): UserDefinedItem {
   return {
-    response_type: 'user_defined',
+    response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: { user_defined_type: 'events_table', headers, rows }
   };
 }

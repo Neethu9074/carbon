@@ -24,7 +24,7 @@ import { CommentList } from 'in-events/components/NotesAndActivity/components/Co
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
-import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
+import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { t } from 'in-i18n';
 
@@ -40,7 +40,7 @@ export function OpenNotesAndActivity({ event }) {
   const openNotes = () => {
     handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
     setSummaryNotes(true, summaryNotesData?.generateAISummary || false);
-    MoveAIChatLauncher('500px');
+    moveAIChatLauncher('500px');
   };
 
   if (!displayNotes) {
@@ -108,7 +108,7 @@ export function NotesAndActivity(props) {
           setSummaryNotes(false, summaryNotesData?.generateAISummary || false);
           setStretchOverlay(false);
           setSearchInput('');
-          MoveAIChatLauncher('50px');
+          moveAIChatLauncher('50px');
         }}
         title={t('in-events:notes.notesActivity')}
         size={(stretchOverlay && 'lg') || 'md'}
@@ -119,9 +119,9 @@ export function NotesAndActivity(props) {
               onClick={() => {
                 setStretchOverlay(!stretchOverlay);
                 if (stretchOverlay) {
-                  MoveAIChatLauncher('500px');
+                  moveAIChatLauncher('500px');
                 } else {
-                  MoveAIChatLauncher('670px');
+                  moveAIChatLauncher('670px');
                 }
               }}
               type={(stretchOverlay && 'lib_actions_minimize') || 'lib_actions_maximize'}
