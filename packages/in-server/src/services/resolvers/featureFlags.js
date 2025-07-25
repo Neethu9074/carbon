@@ -835,7 +835,7 @@ module.exports = exports = [
   {
     uiClientKey: 'incidentTriggeringInfraSaEnabled',
     instanaCtlKey: 'feature.incident.triggering.infra.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'websitesSmartAlertDialogViewEnabled',
