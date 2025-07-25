@@ -92,8 +92,12 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
       {
         key: 'startIntegrating',
         title: t('in-plg:welcomepage.startIntegrating.title'),
-        description: t('in-plg:welcomepage.startIntegrating.description'),
-        buttonName: t('in-plg:welcomepage.startIntegrating.buttonName'),
+        description: newOTelPageEnabled
+          ? t('in-plg:welcomepage.startIntegrating.newDescription')
+          : t('in-plg:welcomepage.startIntegrating.description'),
+        buttonName: newOTelPageEnabled
+          ? t('in-plg:welcomepage.quickLinks.buttonNames.installDataSource')
+          : t('in-plg:welcomepage.startIntegrating.buttonName'),
         buttonType: 'primary',
         href: createRedirectHref('startIntegrating'),
         hasPermission: role?.canConfigureAgents,
