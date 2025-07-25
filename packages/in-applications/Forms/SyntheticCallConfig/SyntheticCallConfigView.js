@@ -53,7 +53,7 @@ export default function SyntheticCallConfigDialog() {
                   stepTitle: t('in-applications:forms.customSyntheticRule.stepTitleConfigureSyntheticEndpoints'),
                   content: (
                     <Fragment>
-                      <DescriptionText>
+                      <DescriptionText className={locals.color}>
                         {t('in-applications:forms.customSyntheticRule.descriptionConfigureSyntheticEndpoints')}
                       </DescriptionText>
 

@@ -34,4 +34,7 @@
     position: relative;
     top: 12px;
   }
+  .color {
+    color: var(--cds-text-primary);
+  }
 }
