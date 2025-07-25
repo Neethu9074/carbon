@@ -402,6 +402,7 @@ export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabl
 export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', true);
 export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', false);
 export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', false);
+export const newOnboardingPageEnabled = isFeatureFlagEnabled('newOnboardingPageEnabled', false);
 export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   'onlyFedRampAllowedAlertChannelsEnabled',
   false
