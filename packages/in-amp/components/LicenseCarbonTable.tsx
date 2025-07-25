@@ -8,6 +8,8 @@ import React from 'react';
 
 import {
   DataTable,
+  DataTableSkeleton,
+  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -16,7 +18,6 @@ import {
   TableHeader,
   TableRow
 } from '@instana/carbon';
-import { Pagination, TableSkeleton } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -62,7 +63,7 @@ export default function LicenseCarbonTable({
   onPaginationChange
 }: LicenseTableProps) {
   if (isLoading) {
-    return <TableSkeleton headers={headers} columnCount={7} showHeader />;
+    return <DataTableSkeleton headers={headers} columnCount={7} showHeader />;
   }
 
   return (
