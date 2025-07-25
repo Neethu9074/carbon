@@ -5,7 +5,7 @@
 
 import { Observable } from '@instana/observables';
 
-import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
+import { navigationParameters$ } from 'in-stores/navigation';
 import { Location } from 'in-stores/navigation/types';
 import { createStore } from 'in-stores/store';
 
@@ -55,11 +55,9 @@ navigationParameters$.subscribe(params => {
 highlightedTimeframe$
   .skipFirst()
   .debounce(500)
-  .subscribe(tf => {
-    mutateUrl(navParams => {
-      addOrDeleteHighlightedTimeframeToParams(navParams, (tf && tf[0]) ?? 0, (tf && tf[1]) ?? 0);
-      return navParams;
-    });
+  .subscribe(highlightedTimeframe => {
+    const event = new CustomEvent(TIMEFRAME_CHANGE_EVENT, { bubbles: true, detail: { highlightedTimeframe } });
+    document.dispatchEvent(event);
   });
 
 export function setHighlightedTimeframe(from: number, to: number) {
@@ -77,3 +75,5 @@ export function addOrDeleteHighlightedTimeframeToParams(params: Location, from?:
     delete params.query[queryKey];
   }
 }
+
+export const TIMEFRAME_CHANGE_EVENT = 'timeframeChanged';
