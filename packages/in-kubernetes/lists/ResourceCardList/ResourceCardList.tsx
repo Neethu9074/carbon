@@ -98,7 +98,7 @@ export default function ResourceCardList({
   }
 
   const onTracking = kubernetesCardClicked;
-  const sortingOptions = getSortingOptions(cardDefinitions, ['unhealthyNodes', 'unhealthyDeployments']);
+  const sortingOptions = getSortingOptions(cardDefinitions);
   const infoCards = getInfoCardData(getHref, cardDefinitions, onTracking, items);
 
   return (

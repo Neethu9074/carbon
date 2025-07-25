@@ -357,10 +357,6 @@
     "switchToCardView": "Switch to card view",
     "switchToTableView": "Switch to table view",
     "sortingOptions": {
-      "unhealthyNodesCritical": "Unhealthy nodes (Critical)",
-      "unhealthyNodesWarnings": "Unhealthy nodes (Warnings)",
-      "unhealthyDeploymentsCritical": "Unhealthy deployments (Critical)",
-      "unhealthyDeploymentsWarnings": "Unhealthy deployments (Warnings)",
       "sortBy": "Sort by",
       "sortOrder": "Sort order",
       "name": "Name"

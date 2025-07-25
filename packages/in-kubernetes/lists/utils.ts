@@ -92,26 +92,7 @@ export function createUrlParameter(pathSegment: string, matrixPrefix: string, in
   };
 }
 
-export function getSortingOptions(cardDefinitions: CardProps[], excludedIds: string[]) {
-  const additionalOptions = [
-    {
-      label: t('in-kubernetes:cloudNative.sortingOptions.unhealthyNodesCritical'),
-      value: 'unhealthyNodesCritical'
-    },
-    {
-      label: t('in-kubernetes:cloudNative.sortingOptions.unhealthyNodesWarnings'),
-      value: 'unhealthyNodesWarnings'
-    },
-    {
-      label: t('in-kubernetes:cloudNative.sortingOptions.unhealthyDeploymentsCritical'),
-      value: 'unhealthyDeploymentsCritical'
-    },
-    {
-      label: t('in-kubernetes:cloudNative.sortingOptions.unhealthyDeploymentsWarnings'),
-      value: 'unhealthyDeploymentsWarnings'
-    }
-  ];
-
+export function getSortingOptions(cardDefinitions: CardProps[]) {
   const cardOptions: DropdownItem[] = cardDefinitions.map(
     ({ cardTitle, cardId }: Pick<Card, 'cardTitle' | 'cardId'>) => ({
       label: cardTitle,
@@ -119,20 +100,13 @@ export function getSortingOptions(cardDefinitions: CardProps[], excludedIds: str
     })
   );
 
-  const cardValues = new Set(cardOptions.map(card => card.value));
-
-  const filteredAdditionalOptions = additionalOptions.filter(
-    option => Array.from(cardValues).some(value => option.value.includes(value)) && !excludedIds.includes(option.value)
-  );
-
   return [
     {
       label: t('in-kubernetes:cloudNative.sortingOptions.name'),
       value: name
     },
-    ...filteredAdditionalOptions,
     ...cardOptions
-  ].filter(({ value }) => !excludedIds.includes(value));
+  ];
 }
 
 export interface GenerateCardProps extends CardProps {
@@ -186,11 +160,8 @@ export function generateCard({
  * Each function safely handles potential undefined values and type variations
  */
 const counterExtractors: Record<WorkloadValues, CounterExtractor> = {
-  // Pod-related counters
   runningPods: item => item.workloads.podCounters?.runningPods ?? 0,
   totalPods: item => item.workloads.podCounters?.totalPods ?? 0,
-
-  // Deployment-related counters
   unhealthyDeployments: item => {
     const counters = item.workloads.deploymentCounters;
     return (counters?.warningDeployments ?? 0) + (counters?.criticalDeployments ?? 0);
@@ -198,12 +169,9 @@ const counterExtractors: Record<WorkloadValues, CounterExtractor> = {
   unhealthyDeploymentsCritical: item => item.workloads.deploymentCounters?.criticalDeployments ?? 0,
   unhealthyDeploymentsWarnings: item => item.workloads.deploymentCounters?.warningDeployments ?? 0,
   totalDeployments: item => item.workloads.deploymentCounters?.totalDeployments ?? 0,
-
-  // Resource counters
   namespaces: item => ('namespaces' in item ? item.namespaces : 0) ?? 0,
   services: item => item.services ?? 0,
   cronJobs: item => item.cronJobs ?? 0,
-
   // Node-related counters
   unhealthyNodes: item => {
     if (!('nodeCounters' in item) || !item.nodeCounters) return 0;
@@ -280,23 +248,19 @@ function getWorkloadSubtitle(id: string, total: number, totalUnhealthy: number, 
  * Used for sorting operations in the UI
  */
 export const mappedSortingOptions: { [key: string]: string } = {
-  runningPods: 'workloads.podCounters.runningPods',
-  unhealthyDeploymentsCritical: 'workloads.deploymentCounters.criticalDeployments',
-  unhealthyDeploymentsWarnings: 'workloads.deploymentCounters.warningDeployments',
-  unhealthyNodesCritical: 'nodeCounters.criticalNodes',
-  unhealthyNodesWarnings: 'nodeCounters.warningNodes'
+  runningPods: 'workloads.podCounters.runningPods'
 };
 
 export const urlStateDefinition = (path: string) => ({
   bind: [
     createUrlParameter(path, 'query', ''),
-    createUrlParameter(path, 'orderBy', 'unhealthyDeploymentsCritical'),
+    createUrlParameter(path, 'orderBy', 'unhealthyDeployments'),
     createUrlParameter(path, 'orderDirection', 'DESC')
   ],
   resets: [
     {
       bind: [
-        createUrlParameter(path, 'orderBy', 'unhealthyDeploymentsCritical'),
+        createUrlParameter(path, 'orderBy', 'unhealthyDeployments'),
         createUrlParameter(path, 'orderDirection', 'DESC')
       ],
       reset: {}
