@@ -22,11 +22,12 @@ import {
   EVENT_AI_LIBRARY_OPEN,
   EVENT_AI_CHAT_FEEDBACK_MENU_CLICK
 } from 'in-services/tracking/tracking';
-import InstructionPop from 'in-events/components/AIChat/CustomPanels/InstructionPop';
 // @ts-expect-error - No type definitions available
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
-import PromptLibrary from 'in-events/components/AIChat/CustomPanels/PromptLibrary';
+import { CustomResponseDefinition } from 'in-events/components/AIChat/UserDefinedResponse';
 import AITooltipContent from 'in-events/components/AIChat/components/AITooltipContent';
+import InstructionPop from 'in-events/components/AIChat/CustomPanels/InstructionPop';
+import PromptLibrary from 'in-events/components/AIChat/CustomPanels/PromptLibrary';
 import LauncherButton from 'in-events/components/AIChat/components/LauncherButton';
 import UserDefinedResponse from 'in-events/components/AIChat/UserDefinedResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -47,8 +48,11 @@ const config = {
 interface ExtendedChatInstance extends ChatInstance {
   trackCta?: any;
 }
+interface AIChatProps {
+  customResponseDefinitions: CustomResponseDefinition[];
+}
 
-export function AIChat() {
+export function AIChat({ customResponseDefinitions }: AIChatProps) {
   // This will move the Chat launcher back to original location.
   // This is needed because we need it to reset on page navigation
   useEffect(() => {
@@ -146,7 +150,11 @@ export function AIChat() {
         config={config}
         renderWriteableElements={renderWriteableElements}
         renderUserDefinedResponse={(props, chatInstance) => (
-          <UserDefinedResponse messageItem={props.messageItem} instance={chatInstance} />
+          <UserDefinedResponse
+            messageItem={props.messageItem}
+            instance={chatInstance}
+            customResponseDefinitions={customResponseDefinitions}
+          />
         )}
         onBeforeRender={(chatInstance: ExtendedChatInstance) => {
           chatInstance.trackCta = trackCta;

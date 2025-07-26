@@ -7,54 +7,72 @@
 import React from 'react';
 
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
-// @ts-expect-error - No type definitions available
-import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/TableComponents/TableChartSwitcher';
 import ThumbsFeedback from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import EventsTable from 'in-events/components/AIChat/TableComponents/EventsTable';
+import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 
 interface UserDefinedResponseProps {
   messageItem: any;
   instance: any;
+  customResponseDefinitions: CustomResponseDefinition[];
 }
+type Cases = { [key: string]: () => JSX.Element };
+export type CustomResponseDefinition = {
+  key: string;
+  handler: () => JSX.Element;
+};
+
+// Little function that handles each of the cases accordingly
+const handleCases = (key: string, cases: any) => {
+  const handler = cases[key];
+  if (handler) {
+    return handler();
+  } else {
+    return undefined;
+  }
+};
 
 /**
  * Renders a user-defined response based on its type
  * @param {Object} props - Component props
  * @param {Object} props.messageItem - The message item to render
  * @param {Object} props.instance - The chat instance
+ * @param {Object} props.customResponseDefinitions - The customResponseDefinitions
  * @returns {React.ReactElement | null} The rendered response
  */
-const UserDefinedResponse: React.FC<UserDefinedResponseProps> = ({ messageItem, instance }) => {
+const UserDefinedResponse: React.FC<UserDefinedResponseProps> = ({
+  messageItem,
+  instance,
+  customResponseDefinitions
+}) => {
   if (!messageItem) {
     return null;
   }
 
-  const type = messageItem.user_defined?.user_defined_type;
-  if (!type) {
-    return null;
-  }
+  // These CASES are the default cases they are available to anyone using this AI Chat
+  // Additional cases can be added here manually with associated keys and entries
+  // OR the user can dynamically pass in additional cases if they dont want to be
+  // managed in this file.
+  const cases: Cases = {
+    prompt_library: () => <PromptLibraryResponse instance={instance} />,
+    table_chart: () => <TableChartSwitcher messageItem={messageItem} />,
+    nlg_response: () => <NLGResponse messageItem={messageItem} />,
+    events_table: () => <EventsTable messageItem={messageItem} />,
+    thumbs_feedback: () => (
+      <ThumbsFeedback
+        TRACKING_EVENT_POS={messageItem.user_defined.posTrack}
+        TRACKING_EVENT_NEG={messageItem.user_defined.negTrack}
+      />
+    )
+  };
 
-  // Render based on message type
-  switch (type) {
-    case 'prompt_library':
-      return <PromptLibraryResponse instance={instance} />;
-    case 'table_chart':
-      return <TableChartSwitcher messageItem={messageItem} />;
-    case 'nlg_response':
-      return <NLGResponse messageItem={messageItem} />;
-    case 'events_table':
-      return <EventsTable messageItem={messageItem} />;
-    case 'thumbs_feedback':
-      return (
-        <ThumbsFeedback
-          TRACKING_EVENT_POS={messageItem.user_defined.posTrack}
-          TRACKING_EVENT_NEG={messageItem.user_defined.negTrack}
-        />
-      );
-    default:
-      return null;
-  }
+  customResponseDefinitions &&
+    customResponseDefinitions.forEach(({ key, handler }) => {
+      cases[key] = handler;
+    });
+
+  return handleCases(messageItem.user_defined?.user_defined_type, cases);
 };
 
 export default UserDefinedResponse;

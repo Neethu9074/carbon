@@ -6,14 +6,20 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { GenericItem } from '@instana/ai-chat';
+
 import { t } from 'in-i18n';
 
 import locals from './NLGResponse.mless';
 
 const MAX_TEXT = 250;
 
-const NLGResponse = ({ messageItem }) => {
-  const originalText = messageItem?.user_defined?.text || '';
+interface NLGResponseProps {
+  messageItem: GenericItem;
+}
+
+const NLGResponse = ({ messageItem }: NLGResponseProps) => {
+  const originalText = (messageItem?.user_defined?.text || '') as string;
   const [showMore, setShowMore] = useState(false);
   // showButton controls the show all button
   const [showButton, setShowButton] = useState(false);
@@ -43,6 +49,7 @@ const NLGResponse = ({ messageItem }) => {
       // When the show less is clicked we display 250 + ...
       setStreamedText(`${originalText.substring(0, MAX_TEXT)}...`);
     }
+    return;
   }, [streamedText, index, showMore, originalText]);
 
   return (
@@ -60,16 +67,21 @@ const NLGResponse = ({ messageItem }) => {
 // In order to make the type writer text look more "natural" and as if its loading.
 // We will increase the intervals of the substrings we are adding to the stream of
 // text by intervals between 1-10.
-const naturalRandomIncrease = (setStreamedText, setIndex, originalText, index) => {
+const naturalRandomIncrease = (
+  setStreamedText: React.Dispatch<React.SetStateAction<string>>,
+  setIndex: React.Dispatch<React.SetStateAction<number>>,
+  originalText: string,
+  index: number
+) => {
   // Generate random number we want to get a substring of
   const interval = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
   // If we have not got to the MAX_TEXT yet, add the substring to the stream text
   if (index + interval <= MAX_TEXT) {
-    setStreamedText(prevText => prevText + originalText.substring(index, interval + index));
-    setIndex(prevIndex => prevIndex + interval);
+    setStreamedText((prevText: string) => prevText + originalText.substring(index, interval + index));
+    setIndex((prevIndex: number) => prevIndex + interval);
   } else if (index + interval > MAX_TEXT) {
     // Once we reach the end, just finish out the substring to MAX_TEXT
-    setStreamedText(prevText => prevText + originalText.substring(index, MAX_TEXT));
+    setStreamedText((prevText: string) => prevText + originalText.substring(index, MAX_TEXT));
     setIndex(MAX_TEXT);
   }
 };
