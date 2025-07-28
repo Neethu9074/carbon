@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/carbon';
 
-import { AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils/utils';
+import { AI_CHAT_TAG_NAME, WAC_WIDGET } from 'in-events/components/AIChat/utils/utils';
 import { useLocalStorage, trySet } from 'in-services/localStorage';
 import { t } from 'in-i18n';
 
@@ -30,7 +30,7 @@ const InstructionPop = ({ setPopOpen }: InstructionPopProps) => {
   }
 
   const shadowRoot = anchor[0]?.shadowRoot;
-  const positionDeterminant = shadowRoot?.getElementById('WACWidget');
+  const positionDeterminant = shadowRoot?.getElementById(WAC_WIDGET);
   const positions = positionDeterminant?.getBoundingClientRect();
   // Based off the positioning of the 'WACWidget' we will position our instructions
   const adjustedTop = (positions && `${positions.top + positions.height - 150}px`) || '0px';

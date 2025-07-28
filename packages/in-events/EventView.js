@@ -25,6 +25,7 @@ import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import AIChatEvents from 'in-events/components/AIChat/AIChatEvents';
 import { spreadTimeConfig, concatQueries } from 'in-events/utils';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -33,7 +34,6 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
-import { AIChat } from 'in-events/components/AIChat/AIChat';
 import EventsChart from 'in-events/components/EventsChart';
 import EventTable from 'in-events/components/EventTable';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -219,7 +219,7 @@ function EventViewComponent(props) {
           </Stack>
         </LeftRightPadding>
       )}
-      {eventsAIChatEnabled && <AIChat />}
+      {eventsAIChatEnabled && <AIChatEvents />}
     </Sticky>
   );
 }

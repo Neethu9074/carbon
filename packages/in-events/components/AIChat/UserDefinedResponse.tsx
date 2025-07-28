@@ -15,7 +15,7 @@ import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse'
 interface UserDefinedResponseProps {
   messageItem: any;
   instance: any;
-  customResponseDefinitions: CustomResponseDefinition[];
+  customResponseDefinitions?: CustomResponseDefinition[];
 }
 type Cases = { [key: string]: () => JSX.Element };
 export type CustomResponseDefinition = {

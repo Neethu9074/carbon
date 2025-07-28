@@ -10,8 +10,11 @@ import { CTA_CLICKED } from 'in-services/util/constants';
 import { track } from 'in-services/tracking/trackers';
 import { user } from 'in-stores/user';
 
-// This is the defined tag name used by the AI Chat
+// This is the defined tag name used by the AI Chat DO NOT CHANGE
+// unless changed needed due to changes on AI Chat package side
 export const AI_CHAT_TAG_NAME = 'cds-aichat-react';
+export const WAC_WIDGET = 'WACWidget';
+export const CONTAINER_SELECTOR = '.WACBotContainer .WACHeader__CenterContainer';
 
 // Constants for launcher button
 export const LAUNCHER_BUTTON_ID = 'aiChatLauncher';
@@ -53,12 +56,11 @@ export function moveAIChatLauncher(pixel: string): void {
  */
 export function setDragListener() {
   const elements = document.getElementsByTagName(AI_CHAT_TAG_NAME);
-  const selector = '.WACBotContainer .WACHeader__CenterContainer';
   if (elements.length !== 1) {
     return;
   }
-  const movable = elements[0].shadowRoot?.getElementById('WACWidget');
-  const AIChatHeader = elements[0].shadowRoot?.querySelector(selector);
+  const movable = elements[0].shadowRoot?.getElementById(WAC_WIDGET);
+  const AIChatHeader = elements[0].shadowRoot?.querySelector(CONTAINER_SELECTOR);
   if (!AIChatHeader || !movable) {
     // If page loads with chat closed
     return;
