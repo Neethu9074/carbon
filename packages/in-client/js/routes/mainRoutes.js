@@ -36,7 +36,7 @@ import { internalMonitoringUnit, newOTelPageEnabled } from 'in-services/featureF
 import { accountPageVisible } from 'in-client/js/CarbonUIShell/SettingsMenuItem.tsx';
 import { agentsPath, datasourcePath } from 'in-stores/navigation/paths/mainPaths';
 import collectorRoutes from 'in-infrastructure/CollectorsView/Navigation/routes';
-import linuxkvmhypervisorRoutes from 'in-linuxkvmhypervisor/navigation/routes';
+import linuxkvmhypervisorRoutes from 'in-linux-kvm-hypervisor/navigation/routes';
 import windowsHypervisorRoutes from 'in-windowshypervisor/navigation/routes';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import vulnerabilityRoutes from 'in-vulnerability-center/navigation/routes';

@@ -5,13 +5,11 @@
  */
 
 import { percentage, kiloBytesTwoDecimalPlaces, bytesPerSecondZeroDecimalPlaces } from 'in-services/formatters/number';
-// @ts-expect-error
-import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
 export default [
   {
-    metric: 'cpuUsage',
+    metric: 'cpuUsageRatio',
     label: t('in-linux-kvm-hypervisor:dashboards.cpuUsage'),
     formatter: percentage.compact
   },

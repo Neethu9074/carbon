@@ -11,7 +11,7 @@ import { useLinuxKVMHypervisorEntityLink } from 'in-linux-kvm-hypervisor/navigat
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { SnapshotData } from 'in-stores/snapshot';
 
-export default function LinuxKVMHypervisorHostDashboard({ snapshot }: { snapshot: SnapshotData }) {
-  const getLinuxKVMHypervisorHostDashboard = useLinuxKVMHypervisorEntityLink('host');
-  return <RedirectWithHash href={getLinuxKVMHypervisorHostDashboard(snapshot.get('id'))} />;
+export default function LinuxKVMHypervisorDashboard({ snapshot }: { snapshot: SnapshotData }) {
+  const getLinuxKVMHypervisorVMDashboard = useLinuxKVMHypervisorEntityLink('vm');
+  return <RedirectWithHash href={getLinuxKVMHypervisorVMDashboard(snapshot.get('id'))} />;
 }

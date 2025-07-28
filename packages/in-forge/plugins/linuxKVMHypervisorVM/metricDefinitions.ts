@@ -11,7 +11,7 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metric: 'cpuUsage',
+    metric: 'cpuUsageRatio',
     label: t('in-linux-kvm-hypervisor:dashboards.cpuUsage'),
     formatter: percentage.compact
   },

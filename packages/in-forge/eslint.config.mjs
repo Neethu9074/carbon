@@ -27,7 +27,7 @@ export default [
           'in-zhmc',
           'in-custom-dashboards',
           'in-nutanix',
-          'in-linuxkvmhypervisor',
+          'in-linux-kvm-hypervisor',
           'in-xenserver',
           'in-windowshypervisor',
           'in-bizops',
