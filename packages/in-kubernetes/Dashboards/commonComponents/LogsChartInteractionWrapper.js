@@ -17,9 +17,9 @@ import LogsChart from 'in-kubernetes/Dashboards/commonComponents/LogsChart';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { loggingEnabled } from 'in-services/featureFlags';
 import RestrictedAccessMessage from 'in-components/rbac';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export const andOperator = { type: 'CONJUNCTION', logicalOperator: 'AND' };
@@ -43,6 +43,7 @@ export const tagEquals = (tag, value) => ({
 });
 
 export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig }) {
+  const [role] = useCurrentUserRole();
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [isHovered$] = useState(create().emit(false));
   const generateLinkToLogs = useGenerateLinkToLogs();

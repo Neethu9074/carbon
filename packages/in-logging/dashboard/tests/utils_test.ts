@@ -15,17 +15,16 @@ import {
   useLoggingNavigationItems
 } from 'in-logging/dashboard/utils';
 import { loggingDashboardPath } from 'in-logging/navigation/paths';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { t } from 'in-i18n';
 
-jest.mock('in-stores/user', () => ({
-  role: {
-    canConfigureLogRetentionPeriod: true,
-    canViewLogVolume: true,
-    canConfigureLogManagement: true
-  }
-}));
+const mockedRole = {
+  canConfigureLogRetentionPeriod: true,
+  canViewLogVolume: true,
+  canConfigureLogManagement: true
+};
 
+jest.mock('in-stores/useCurrentUserRole');
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
@@ -101,6 +100,7 @@ describe('useLoggingNavigationItems', () => {
   });
 
   test('should return correct paths and labels', () => {
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ ...mockedRole }]);
     const { result } = renderHook(() => useLoggingNavigationItems());
     expect(result.current).toHaveLength(4);
     expect(result.current[0].path).toBe(loggingDashboardPath);
@@ -108,31 +108,35 @@ describe('useLoggingNavigationItems', () => {
   });
 
   test('should correctly mark the current tab', () => {
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ ...mockedRole }]);
     const { result } = renderHook(() => useLoggingNavigationItems());
     const isActive = (result.current[0].currentTab as (path: string) => boolean)(loggingDashboardPath);
     expect(isActive).toBe(true);
   });
 
   test('should allow or disallow tabs based on role permissions', () => {
-    role!.canConfigureLogRetentionPeriod = true;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ ...mockedRole, canConfigureLogRetentionPeriod: true }]);
     const { result, rerender } = renderHook(() => useLoggingNavigationItems());
 
     expect(result.current[3].isTabAllowed).toBe(true);
 
-    role!.canConfigureLogRetentionPeriod = false;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ ...mockedRole, canConfigureLogRetentionPeriod: false }]);
     rerender();
 
     expect(result.current[2].isTabAllowed).toBe(false);
   });
 
   test('should conditionally show configuration tab for addon users', () => {
-    role!.canConfigureLogRetentionPeriod = true;
+    const canConfigureLogRetentionPeriod = true;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ ...mockedRole, canConfigureLogRetentionPeriod }]);
     const { result, rerender } = renderHook(() => useLoggingNavigationItems());
 
     expect(result.current[3].isTabAllowed).toBe(true);
 
     (useObservable as jest.Mock).mockReturnValue(undefined);
-    role!.canConfigureLogManagement = false;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([
+      { ...mockedRole, canConfigureLogRetentionPeriod, canConfigureLogManagement: false }
+    ]);
 
     rerender();
 

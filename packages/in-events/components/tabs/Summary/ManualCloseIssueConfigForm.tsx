@@ -18,6 +18,7 @@ import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
 import { disableEventConfigEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { close } from 'in-components/DialogPresenter/store';
 import { manualCloseCTATracker } from 'in-events/tracker';
 import { toHtml } from 'in-services/formatters/markdown';
@@ -52,13 +53,14 @@ export default function ManualCloseIssueConfigForm({
   iconComponent,
   eventType
 }: ManualCloseIssueConfigFormProps) {
+  const [role] = useCurrentUserRole();
   const [form, setForm] = useState<MapForm<ManualCloseInfoForm>>(createForm());
   const [error, setError] = useState<Error[]>([]);
 
   const eventId = event.get('id') as string;
   const manualClosePath = getManualClosePath(eventType);
 
-  const canSuppressAlertAndDisableEvent = disableEventConfigEnabled && user?.role?.canConfigureEventsAndAlerts;
+  const canSuppressAlertAndDisableEvent = disableEventConfigEnabled && role.canConfigureEventsAndAlerts;
 
   if (!form) return <LoadingIndicator size="regular" />;
 

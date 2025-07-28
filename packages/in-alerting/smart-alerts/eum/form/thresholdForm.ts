@@ -56,7 +56,7 @@ function createBaselineEnabledForm(
 ): MapForm<any> {
   const thresholdRule = ruleWithThreshold?.thresholds;
 
-  //If neither WARNING nor CRITICAL thresholds are defined, it defaults to creating a static threshold form.
+  // If neither WARNING nor CRITICAL thresholds are defined, it defaults to creating a static threshold form.
   if (!thresholdRule?.WARNING && !thresholdRule?.CRITICAL) {
     return createStaticThresholdForm(ruleWithThreshold);
   }

@@ -15,14 +15,15 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-synthetics/navigation/paths';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 
 export default function ViewSwitcher() {
+  const [role] = useCurrentUserRole();
   const { matchLocation, createHrefToPath } = useNavigation();
   const isTestsActive = matchLocation(paths.syntheticsPath);
   const isLocationsActive = matchLocation(paths.syntheticLocationPath);

@@ -20,6 +20,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
@@ -30,6 +31,7 @@ import { t, Trans } from 'in-i18n';
 import locals from './AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer({ form, updateForm, errorMessage, userRestrictedApplicationsResult }) {
+  const [role] = useCurrentUserRole();
   const labelField = form.get('label');
   const restrictingApplicationIdField = form.get('restrictingApplicationId');
   const tagFilterExpressionField = form.get('tagFilterExpression');
@@ -158,7 +160,7 @@ export default function AdvancedModeContainer({ form, updateForm, errorMessage, 
             <InboundAllCalls form={form} updateForm={updateForm} apCreation />
           </Section>
 
-          <BuiltInGlobalSmartAlertsPermissionWrapper>
+          <BuiltInGlobalSmartAlertsPermissionWrapper role={role}>
             <Section headingText={t('in-applications:creation.advanced.builtInSmartAlertsScope')}>
               <DescriptionText className={locals.descriptionText}>
                 {t('in-applications:creation.advanced.builtInSmartAlertsScopeDescription')}

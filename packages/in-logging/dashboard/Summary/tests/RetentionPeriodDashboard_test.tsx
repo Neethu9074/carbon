@@ -19,11 +19,13 @@ jest.mock('@instana/hooks', () => ({
 jest.mock('in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/httpCalls', () => ({
   retentionLogsGET: jest.fn()
 }));
-jest.mock('in-stores/user', () => ({
-  role: {
-    canConfigureLogRetentionPeriod: true
-  }
-}));
+jest.mock('in-stores/useCurrentUserRole', () =>
+  jest.fn(() => [
+    {
+      canConfigureLogRetentionPeriod: true
+    }
+  ])
+);
 
 describe('RetentionPeriodDashboard', () => {
   const getLoadingIndicator = () => {

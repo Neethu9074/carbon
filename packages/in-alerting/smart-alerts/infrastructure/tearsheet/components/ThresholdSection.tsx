@@ -9,13 +9,16 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import { getThresholdType } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import EvaluationWindow from 'in-alerting/smart-alerts/components/tearSheet/EvaluationWindow';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
-import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -40,6 +43,8 @@ export default function ThresholdSection({
   const formatter = getFormatter(entityType, metricName);
   const percentageMetric = formatter === 'PERCENTAGE';
   const metricUnitPostfix = getMetricUnitPostfix(formatter);
+
+  const thresholdType = getThresholdType(form);
 
   return (
     <Stack direction="vertical" gap="gutter" align="start">
@@ -93,15 +98,25 @@ export default function ThresholdSection({
         }
         titleWidth="8rem"
       >
-        <MultiThresholdCondition
-          form={form}
-          updateForm={updateForm}
-          percentageMetric={percentageMetric}
-          metricUnitPostfix={metricUnitPostfix}
-          alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
-          showSuggestedValueButton={!isPerEntityEvaluation && !groupBy?.length}
-          setValidNextValue={setValidNextValue}
-        />
+        {thresholdType === STATIC_THRESHOLD && (
+          <MultiThresholdCondition
+            form={form}
+            updateForm={updateForm}
+            percentageMetric={percentageMetric}
+            metricUnitPostfix={metricUnitPostfix}
+            alertChannelPerSeverityEnabled
+            showSuggestedValueButton={!isPerEntityEvaluation && !groupBy?.length}
+            setValidNextValue={setValidNextValue}
+          />
+        )}
+
+        {thresholdType !== STATIC_THRESHOLD && (
+          <MultiThresholdDeviationSliderForm
+            form={form}
+            updateForm={updateForm}
+            defaultValue={defaultDeviationFactor}
+          />
+        )}
       </Section>
 
       {/* Time window */}

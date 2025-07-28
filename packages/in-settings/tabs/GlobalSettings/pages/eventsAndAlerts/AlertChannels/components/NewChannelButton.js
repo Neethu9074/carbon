@@ -47,7 +47,7 @@ export default function NewChannelButton() {
 }
 
 function AlertChannelButton({ type }) {
-  const { location } = useNavigation();
+  const { location, navigate } = useNavigation();
   return (
     configs[type].active !== false && (
       <CarbonMenuItem
@@ -55,7 +55,7 @@ function AlertChannelButton({ type }) {
         // see styles in less file
         className="alertChannelButtonMenu"
         onClick={() => {
-          goToAlertChannelView(type);
+          goToAlertChannelView(type, location, navigate);
           alertChannelCTATrackerSegment({
             EVENT_NAME: SETTINGS_ALERT_CHANNEL_ADD_CLICK,
             path: location.pathname,

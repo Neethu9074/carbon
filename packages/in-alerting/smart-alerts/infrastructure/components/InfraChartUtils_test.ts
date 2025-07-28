@@ -56,7 +56,7 @@ describe('in-alerting/smart-alerts/infrastructure/components/InfraChartUtils.ts'
 
     it('does not modify a tagFilterExpression without a metric group', () => {
       // GIVEN
-      const result = getEnrichedTagFilterExpression(tagFilterExpressionElement, undefined);
+      const result = getEnrichedTagFilterExpression(tagFilterExpressionElement, null);
 
       // THEN
       expect(result).toEqual(tagFilterExpressionElement);
@@ -64,7 +64,7 @@ describe('in-alerting/smart-alerts/infrastructure/components/InfraChartUtils.ts'
 
     it('empty metric group to a non-empty tagFilterExpression', () => {
       // GIVEN
-      const result = getEnrichedTagFilterExpression(tagFilterExpression, undefined);
+      const result = getEnrichedTagFilterExpression(tagFilterExpression, null);
       const Tfe = {
         type: 'EXPRESSION',
         logicalOperator: 'AND',

@@ -33,7 +33,6 @@ import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/Expa
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -181,7 +180,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           <AlertChannelsViewer
             alertChannelIds={alertChannelIds}
             alertChannels={alertChannels}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityApplicationSaEnabled}
+            alertChannelPerSeverityEnabled
           />
         </div>
       </ExpandableLightCard>

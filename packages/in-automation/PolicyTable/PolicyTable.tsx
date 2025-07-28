@@ -28,7 +28,6 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import usePolicies, { refresh, usePaginatedPolicies } from 'in-automation/Policies/usePolicies';
 import { EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
@@ -36,6 +35,7 @@ import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/webs
 import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
+import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { PolicyTypeFilter } from 'in-automation/PolicyTable/tableFilters';
@@ -47,11 +47,11 @@ import { hasError, isLoading, mapData } from 'in-services/util/result';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './PolicyTable.mless';
@@ -72,6 +72,7 @@ export default function Policies({
   hideFilters = false,
   title = t('in-automation:policies.policies')
 }: Readonly<PlociciesProps>) {
+  const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -195,6 +196,7 @@ function PoliciesMoreMenu({
   policy: PolicyTableEntity;
   tearsheetToggleHandler?: Function;
 }) {
+  const [role] = useCurrentUserRole();
   if (!role?.canConfigureAutomationPolicies) return null;
   return (
     <Stack align="end">
@@ -265,7 +267,13 @@ function getColumnDefinition(
           return (
             <NameColumnCell
               config={item.trigger}
-              getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.forecastingConfig)}
+              getSubtitle={config => (
+                <MetricLabel
+                  rule={config.rule}
+                  threshold={config.threshold}
+                  forecastingConfig={config.forecastingConfig}
+                />
+              )}
             />
           );
         }

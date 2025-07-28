@@ -16,9 +16,7 @@
     "editTeamsDialog": {
       "title": "Edit teams",
       "description": "Select teams to associate with this dashboard.",
-      "calloutMessage": "Adding teams will allow team members to view and edit this dashboard. It will also be reflected in the teams page in settings.",
-      "selectorLabel": "Teams",
-      "chooseTeams": "Choose Teams"
+      "calloutMessage": "Adding teams will allow team members to view and edit this dashboard. It will also be reflected in the teams page in settings."
     },
     "grid": {
       "grid": {

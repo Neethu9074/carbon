@@ -45,7 +45,7 @@ import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { hasError, isLoading } from 'in-services/util/result';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 type WebsiteItem = {
   isWebsite: true;
@@ -149,6 +149,7 @@ interface Props {
 }
 
 export default function WebsitesAndMobileListWidget({ type, config, widgetLabel, dashboardTileProps }: Props) {
+  const [role] = useCurrentUserRole();
   const { createHrefToPath, goToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const getLinkToMobileApp = useGenerateLinkToMobileApp();

@@ -19,8 +19,8 @@ import { categoryLocal, sortOptions, categoryGlobal } from 'in-alerting/smart-al
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { eventsPath } from 'in-events/navigation/paths';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 export default function ApplicationSmartAlerts() {
@@ -48,13 +48,14 @@ export function Alerts({
   alertsTab: string;
   noDataDescription: any;
 }) {
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   const getLinkToEditSmartAlert = useSmartAlertEditUrl();
   const location = useLocation();
 
   return (
     <SmartAlertsTableWithUrlState
-      columnDefinitions={createTableColumnDefinition(configsCategory, trackCta, getLinkToEditSmartAlert, {})}
+      columnDefinitions={createTableColumnDefinition(configsCategory, trackCta, getLinkToEditSmartAlert, {}, role)}
       getLocalAlertConfigsFetchFunction={fetchFunction}
       getLocalAlertConfigTitle={() => ''}
       getGlobalAlertConfigTitle={() => ''}

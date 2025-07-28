@@ -13,9 +13,10 @@ import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInst
 import DeployTabSelection from 'in-synthetics/createLocation/steps/DeployTabSelection';
 import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 const PrivateLocation = () => {
+  const [role] = useCurrentUserRole();
   const popProperties: PoPInstallationPropertiesResponse =
     useObservable<any, [number]>(() => getPoPInstallationProperties({ installationType: 'simple' }), [0]) ||
     dummyPoPProperties;

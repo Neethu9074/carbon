@@ -162,6 +162,7 @@ export const pageNames = Object.freeze({
   windowshypervisor: 'Windows Hypervisor',
   linuxkvmhypervisor: 'Linux KVM Hypervisor',
   linuxkvmhypervisor_host: 'Linux KVM Hypervisor Host',
+  linuxkvmhypervisor_vm: 'Linux KVM Hypervisor VM',
   otel_collector: 'OpenTelemetry Collectors'
 } as const);
 type PageNameKeys = keyof typeof pageNames;

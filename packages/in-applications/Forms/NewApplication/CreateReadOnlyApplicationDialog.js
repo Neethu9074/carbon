@@ -15,6 +15,7 @@ import {
   CarbonStack as Stack
 } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { hasPermissionToAddBuiltInSmartAlerts } from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
@@ -27,16 +28,19 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { securityAndAccessAccessControlGroups } from 'in-settings/navigation/paths';
 import { getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import { hasError, isLoading } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Steps from 'in-applications/Forms/components/Steps';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getColor } from 'in-applications/endpointTypes';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';
 
 export default function CreateReadOnlyApplicationDialog({ applicationId }) {
-  const appConfig = useObservable(getApplicationConfigWithAlerting(applicationId), [applicationId]) ?? pendingResult;
+  const [role] = useCurrentUserRole();
+  const appConfig =
+    useObservable(getApplicationConfigWithAlerting(applicationId, role), [applicationId, generateStableHash(role)]) ??
+    pendingResult;
   const isRestrictingApplication = appConfig.data?.restrictingApplication;
   const canConfigureRestrictingApplication = isRestrictingApplication && role.canConfigureTeams;
   const groupInfo =
@@ -140,7 +144,7 @@ export default function CreateReadOnlyApplicationDialog({ applicationId }) {
                     </Typography>
                   )
                 },
-                hasPermissionToAddBuiltInSmartAlerts()
+                hasPermissionToAddBuiltInSmartAlerts(role)
                   ? {
                       stepTitle: t('in-applications:forms.newApplication.stepTitleBuiltInSmartAlertsScope'),
                       content:

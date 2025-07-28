@@ -89,6 +89,7 @@ const Rule = forwardRef(function Rule(
               type={expand ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
               onClick={() => setExpand(!expand)}
               buttonType="button"
+              aria-label={expand ? 'Collapse section' : 'Expand section'}
             />
           ) : (
             <div className={locals.iconPlaceholder} />

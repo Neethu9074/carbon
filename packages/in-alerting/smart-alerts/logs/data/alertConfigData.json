@@ -168,8 +168,10 @@
     "groupbyTagEntity": "NOT_APPLICABLE"
   },
   "form": {
-    "alertChannelIds": [],
-    "alertChannels": null,
+    "alertChannels": {
+      "CRITICAL": [],
+      "WARNING": []
+    },
     "description": "The log count is higher or equal to 12 (AN smart alert)",
     "granularity": 600000,
     "gracePeriod": 1200000,

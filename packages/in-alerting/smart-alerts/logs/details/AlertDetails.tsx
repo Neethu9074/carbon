@@ -36,8 +36,8 @@ import AlertConfiguration from 'in-alerting/smart-alerts/logs/details/AlertConfi
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 
 interface AlertDetailsProps {
@@ -47,6 +47,7 @@ interface AlertDetailsProps {
 const alertDisplayMode = getSmartAlertDisplayMode(logSmartAlertDialogViewEnabled, logSmartAlertFullScreenDesignEnabled);
 
 export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDetailsProps) {
+  const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
   const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
   const listPath = isLogsDashboardHeader ? dashboardAlertsListPath : alertListPath;

@@ -40,9 +40,9 @@ import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAl
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import { Location } from 'in-stores/navigation/types';
-import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 
 const endpointConfig: { asObservable: true } = { asObservable: true };
@@ -61,6 +61,7 @@ const alertDisplayMode = getSmartAlertDisplayMode(
 );
 
 export default function AlertDetails(props: AlertDetailsProps) {
+  const [role] = useCurrentUserRole();
   const { isMainPage, testId } = props;
   return (
     <Alert

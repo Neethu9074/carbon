@@ -38,8 +38,7 @@ import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/Even
 import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
-// @ts-expect-error No typedef
-import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
+import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 // @ts-expect-error No typedef
 import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
 // @ts-expect-error No typedef
@@ -68,6 +67,7 @@ import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -75,7 +75,6 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
 import { getEventType } from 'in-stores/events';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
@@ -223,7 +222,7 @@ const IncidentOverview: FC<IncidentOverviewProps> = ({
       onClick={() => {
         // Open notes, generate summary
         setSummaryNotes(true, true);
-        MoveAIChatLauncher('500px');
+        moveAIChatLauncher('500px');
         handleTracking(incident.get('id'), EVENT_AI_GENERATE_SUBMIT_OVERVIEW);
       }}
     >
@@ -341,6 +340,7 @@ interface TriggeringEventProps {
 }
 
 const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }: TriggeringEventProps): JSX.Element => {
+  const [role] = useCurrentUserRole();
   const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
 

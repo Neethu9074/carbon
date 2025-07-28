@@ -16,13 +16,14 @@ import { newOTelPageEnabled, releaseNotesEnabled } from 'in-services/featureFlag
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import AsyncComponent from 'in-components/AsyncComponent';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import local from './MoreMenuItem.mless';
 
 export default function MoreMenuItem() {
+  const [role] = useCurrentUserRole();
   const { matchLocation, createHrefToPath } = useNavigation();
   const { isSideNavExpanded } = useUIShellContext();
 

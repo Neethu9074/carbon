@@ -6,9 +6,9 @@
 import React from 'react';
 
 import WebsiteOpenIssuesList from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteOpenIssuesList';
+import GenericIndicatorPresenter from 'in-components/GenericIndicatorPresenter/GenericIndicatorPresenter';
 import getWebsiteHealthInfo from 'in-websites/subscriptions/getWebsiteHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -31,7 +31,7 @@ export default connectTo(
     };
   },
   function WebsiteHealthIndicatorBehavior(props) {
-    const { openIssues, maxSeverity, render, healthInfo } = props;
+    const { openIssues, maxSeverity, render, healthInfo, inContentArea, IndicatorPresenter } = props;
 
     if (render) {
       return render(healthInfo);
@@ -46,21 +46,16 @@ export default connectTo(
     }
 
     return (
-      <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea} align="leftTop">
-        {({ toggle, refSetter, isOpen }) => (
-          <props.IndicatorPresenter
-            openIssues={openIssues}
-            maxSeverity={maxSeverity}
-            onClick={toggle}
-            refSetter={refSetter}
-            isOpen={isOpen}
-          />
-        )}
-      </Overlay>
+      <GenericIndicatorPresenter
+        Content={WebsiteOpenIssuesList}
+        contentProps={{ ...props, ...healthInfo }}
+        IndicatorPresenter={IndicatorPresenter}
+        indicatorProps={{
+          openIssues,
+          maxSeverity
+        }}
+        inContentArea={inContentArea}
+      />
     );
   }
 );
-
-function Content(props) {
-  return <WebsiteOpenIssuesList {...props} />;
-}

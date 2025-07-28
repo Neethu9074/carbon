@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import { ThresholdConfigUnion, InfraAlertRuleUnion, ForecastingConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
 import {
@@ -18,7 +17,6 @@ import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-infrastructure/navigation/matrix';
-import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
@@ -30,21 +28,21 @@ import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/const
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer/Footer';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Alerts.mless';
 
 export default function Alerts({ isEventsView = false }: { isEventsView?: boolean }) {
+  const [role] = useCurrentUserRole();
   const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
 
   function getColumnDefinitions() {
@@ -63,7 +61,7 @@ export default function Alerts({ isEventsView = false }: { isEventsView?: boolea
       actionHandlers={handlers}
       getAlertConfigs={() => getAllAlertConfigsWithResult()}
       createRowLinkLocation={createRowLinkLocation}
-      getSubtitle={config => getSubtitle(config.rule, config.threshold, config.forecastingConfig)}
+      getSubtitle={config => (<MetricLabel rule={config.rule} threshold={config.threshold} forecastingConfig={config.forecastingConfig} />)}
       sortOptions={sortOptions}
       alertsTab={isEventsView ? eventsPath : infraSmartAlerts}
       hideAlertIcon
@@ -93,32 +91,6 @@ export default function Alerts({ isEventsView = false }: { isEventsView?: boolea
   );
 }
 
-export function getSubtitle(
-  rule: InfraAlertRuleUnion,
-  threshold: ThresholdConfigUnion & { value?: number },
-  forecastingConfig?: ForecastingConfig
-) {
-  const { type, operator, value } = threshold;
-  const { entityType, metricName, aggregation } = rule;
-
-  if (type === STATIC_THRESHOLD) {
-    const humanReadableOperator = humanReadableThresholdOperator(operator);
-
-    return (
-      <MetricLabel
-        entityType={entityType}
-        metricName={metricName}
-        aggregation={aggregation}
-        humanReadableOperator={humanReadableOperator}
-        value={value ?? 0}
-        forecastingConfig={forecastingConfig ?? null}
-      />
-    );
-  }
-
-  throw new Error('Not yet supported threshold type: ' + type);
-}
-
 function createRowLinkLocation(config: InfraSmartAlertConfigWithMetadata, location: Location): Location {
   const rowLinkLocation = {
     ...location,
@@ -131,35 +103,6 @@ function createRowLinkLocation(config: InfraSmartAlertConfigWithMetadata, locati
   return rowLinkLocation;
 }
 
-interface ThresholdInfoProps {
-  rule: InfraAlertRuleUnion;
-  threshold: ThresholdConfigUnion & { value?: number };
-  forecastingConfig?: ForecastingConfig;
-}
-
-function TriggeringCondition({ rule, threshold, forecastingConfig }: ThresholdInfoProps) {
-  const { type, operator, value } = threshold;
-  const { entityType, metricName, aggregation } = rule;
-
-  if (type === STATIC_THRESHOLD) {
-    const humanReadableOperator = humanReadableThresholdOperator(operator);
-
-    return (
-      <TableCellWrapper>
-        <MetricLabel
-          entityType={entityType}
-          metricName={metricName}
-          aggregation={aggregation}
-          humanReadableOperator={humanReadableOperator}
-          value={value ?? 0}
-          forecastingConfig={forecastingConfig ?? null}
-        />
-      </TableCellWrapper>
-    );
-  }
-  throw new Error('Not yet supported threshold type: ' + type);
-}
-
 function getCarbonTableColumnDefinitions() {
   return [
     {
@@ -167,11 +110,9 @@ function getCarbonTableColumnDefinitions() {
       label: t('in-alerting:table.triggeringAction'),
       ellipsis: '25vw',
       getContent: (config: InfraSmartAlertConfigWithMetadata) => (
-        <TriggeringCondition
-          rule={config.rule}
-          threshold={config.threshold}
-          forecastingConfig={config.forecastingConfig}
-        />
+        <TableCellWrapper>
+          <MetricLabel rule={config.rule} threshold={config.threshold} forecastingConfig={config.forecastingConfig} />
+        </TableCellWrapper>
       ),
       sortable: false
     }

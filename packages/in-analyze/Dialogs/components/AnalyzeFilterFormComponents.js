@@ -14,6 +14,7 @@ import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
@@ -41,6 +42,7 @@ export function NamedSection({ name, children }) {
 }
 
 export function KeySelectionSection({ keys, value, onChange, messages, autoFocus }) {
+  const [role] = useCurrentUserRole();
   const options = keys.map(key => ({
     label: key,
     value: key
@@ -51,7 +53,7 @@ export function KeySelectionSection({ keys, value, onChange, messages, autoFocus
       <SelectBox
         id="key"
         value={value}
-        onChange={e => onChange(get(findSubTreeByFullyQualifiedName(e?.value), ['fullyQualifiedName'], ''))}
+        onChange={e => onChange(get(findSubTreeByFullyQualifiedName(e?.value, role), ['fullyQualifiedName'], ''))}
         options={options}
         autoFocus={autoFocus}
       />
@@ -138,7 +140,8 @@ export function ValueInput(props) {
 }
 
 function ValueInputByType({ tagKey, value, onChange, tagSuggestionResult }) {
-  const nodeInTree = findSubTreeByFullyQualifiedName(tagKey);
+  const [role] = useCurrentUserRole();
+  const nodeInTree = findSubTreeByFullyQualifiedName(tagKey, role);
   const type = nodeInTree ? nodeInTree.type : null;
 
   if (type === TAG_TYPES.BOOLEAN.technicalName) {

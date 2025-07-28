@@ -222,7 +222,7 @@ export default function CustomEndpointMappingDialog({ location }) {
                       stepTitle: t('in-applications:forms.titleConfigureEndpointsMapping'),
                       content: (
                         <>
-                          <DescriptionText>
+                          <DescriptionText className={locals.color}>
                             {t('in-applications:forms.descriptionConfigureEndpointsExtract')}
                           </DescriptionText>
 

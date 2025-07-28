@@ -578,7 +578,8 @@
     "startIntegrating": {
       "title": "Start integrating data",
       "description": "Kickstart your Instana setup and seamless data integration by installing an agent.",
-      "buttonName": "Install agents"
+      "buttonName": "Deploy agent",
+      "newDescription": "Kickstart your Instana setup and seamless data integration by installing an agent or collector."
     },
     "traceInteractions": {
       "title": "Trace interactions",
@@ -848,7 +849,8 @@
         "addUser": "Add user",
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
-        "communityBlogsLink": "Community blogs"
+        "communityBlogsLink": "Community blogs",
+        "installDataSource": "Install a data source"
       },
       "toolTip": {
         "makeDefault": "This action sets the Instana homepage as your default landing page, replacing any custom dashboard you've set."
@@ -982,5 +984,9 @@
     "reportingStatus": "{{reporting}} {{datasource}} reporting ({{nonReporting}} not reporting)",
     "reporting": "Reporting",
     "notReporting": "Not reporting"
+  },
+  "onboarding": {
+  "yourDashboard": "Your dashboard",
+  "gettingStarted": "Getting started"
   }
 }

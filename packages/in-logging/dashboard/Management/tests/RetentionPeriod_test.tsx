@@ -10,7 +10,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import RetentionPeriod from 'in-logging/dashboard/Management/RetentionPeriod';
-import { user } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 jest.mock('in-logging/dashboard/Management/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);
 
@@ -29,9 +29,7 @@ jest.mock('in-logging/api/licence', () => ({
   isAddonUserCached: jest.fn()
 }));
 
-jest.mock('in-stores/user', () => ({
-  user: { role: {} }
-}));
+jest.mock('in-stores/useCurrentUserRole', () => jest.fn(() => [{}]));
 
 jest.mock('in-logging/dashboard/Management/Management.mless', () => ({
   content: 'mocked-content-class'
@@ -47,7 +45,7 @@ describe('RetentionPeriod Component', () => {
   });
 
   test('renders Restricted Access when the user does not have permission', () => {
-    (user as any).role = {};
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{}]);
     (useObservable as jest.Mock).mockReturnValue(false);
 
     render(<RetentionPeriod />);
@@ -59,7 +57,7 @@ describe('RetentionPeriod Component', () => {
   });
 
   test('renders Restricted Access when the user is not an addon user', () => {
-    (user as any).role = { canConfigureLogRetentionPeriod: true };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canConfigureLogRetentionPeriod: true }]);
     (useObservable as jest.Mock).mockReturnValue(false);
 
     render(<RetentionPeriod />);
@@ -71,7 +69,7 @@ describe('RetentionPeriod Component', () => {
   });
 
   test('renders Retention Period content when the user has permission and is an addon user', () => {
-    (user as any).role = { canConfigureLogRetentionPeriod: true };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canConfigureLogRetentionPeriod: true }]);
     (useObservable as jest.Mock).mockReturnValue(true);
 
     render(<RetentionPeriod />);

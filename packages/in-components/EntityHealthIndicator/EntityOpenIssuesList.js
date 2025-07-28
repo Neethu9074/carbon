@@ -23,7 +23,7 @@ export default connectTo(
         .map(result => mapData(result, data => data.openIssues))
     };
   },
-  function EntityOpenIssuesList({ openIssuesResult, snapshotId, close }) {
+  function EntityOpenIssuesList({ openIssuesResult, snapshotId, close, inContentArea }) {
     const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
     const getIssueLink = eventId =>
       getEventsViewFilteredBy({
@@ -42,6 +42,7 @@ export default connectTo(
           additionalDFQFilter: ` event.state:"open"`
         })}
         getIssueLink={getIssueLink}
+        inContentArea={inContentArea}
       />
     );
   }

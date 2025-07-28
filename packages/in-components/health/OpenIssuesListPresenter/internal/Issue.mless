@@ -5,80 +5,9 @@
 
 :local {
   .issue {
-    margin: 0;
-    padding: 1rem 0.75rem 1rem 3.1rem;
-    list-style: none;
-    border-top: 1px solid var(--ids-color-option-neutral-300);
-    position: relative;
-
-    &:first-child {
-      border-top: 0;
+    div {
+      column-gap: var(--cds-spacing-03);
     }
-  }
-
-  .link,
-  .link:hover,
-  .link:active,
-  .link:focus {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-  // Changed the visited color and active:hover:visited to override carbonised link styling
-  .link:visited,
-  .link:active:hover:visited,
-  .link:visited:hover {
-    color: inherit !important; // important was needed to override in Instana theme
-  }
-
-  .clickable:hover {
-    cursor: pointer;
-    background: var(--ids-color-option-neutral-50);
-
-    .stripe {
-      // overwrite background color defined via style attribute on DOM node
-      background-color: var(--ids-color-option-blue-500) !important;
-      width: 2.5rem;
-    }
-
-    .stripeIcon {
-      opacity: 1;
-    }
-  }
-
-  .stripe {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 0.5rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // position above warning icon
-    z-index: 1;
-    transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out;
-  }
-
-  .stripeIcon {
-    flex-shrink: 0;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out 0.05s;
-  }
-
-  .title {
-    font-size: var(--ids-font-size-option-heading-200);
-    color: var(--ids-color-option-neutral-900);
-    margin: 0 0 0.5rem;
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-
-  .icon {
-    position: absolute;
-    margin-left: -2.188rem;
   }
 
   .iconWarning {
@@ -90,27 +19,27 @@
     }
   }
 
-  .description {
-    margin: 0;
-    font-size: var(--ids-font-size-option-heading-100);
+  .icon {
+    vertical-align: middle;
+  }
 
-    & p:last-child {
+  .fixSuggestion {
+    font-size: var(--cds-helper-text-01-font-size, 0.75rem);
+    font-weight: var(--cds-helper-text-01-font-weight, 400);
+    letter-spacing: var(--cds-helper-text-01-letter-spacing, 0.02rem);
+    line-height: var(--cds-help-text-01-line-height, 1rem);
+    color: var(--cds-text-secondary, #525252);
+    word-break: break-all;
+    p:last-child {
       margin-bottom: 0;
     }
   }
 
   .descriptionTooLong {
-    margin: 0;
-    font-style: italic;
-    display: block;
+    margin-bottom: var(--cds-spacing-05);
   }
 
-  .startTime {
-    padding: 0 0 0 0.25rem;
-    color: var(--ids-color-option-neutral-600);
-  }
-
-  .timeSection {
-    margin: 1rem 0 0;
+  div[id^='tag-'] {
+    margin: 0 var(--cds-spacing-03) 0 0;
   }
 }

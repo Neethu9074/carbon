@@ -10,11 +10,12 @@ import { MenuItem } from '@instana/components';
 
 import { isLoggingView, loggingDashboardPath } from 'in-logging/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { loggingEnabled } from 'in-services/featureFlags';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function LogsMenuItem() {
+  const [role] = useCurrentUserRole();
   const { matchLocation, createHrefToPath } = useNavigation();
 
   if (!loggingEnabled || !role?.canViewLogs) return null;

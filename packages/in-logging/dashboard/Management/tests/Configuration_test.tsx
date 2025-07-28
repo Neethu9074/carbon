@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Management from 'in-logging/dashboard/Management/Management';
-import { user } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
@@ -21,9 +21,7 @@ jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
   useNavigation: jest.fn()
 }));
 
-jest.mock('in-stores/user', () => ({
-  user: { role: {} }
-}));
+jest.mock('in-stores/useCurrentUserRole', () => jest.fn(() => [{}]));
 
 jest.mock('in-i18n', () => ({
   t: jest.fn(key => {
@@ -58,7 +56,7 @@ describe('Management Component', () => {
   });
 
   test('renders Restricted Access when no permissions are granted', () => {
-    (user as any).role = {};
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{}]);
 
     render(<Management />);
 
@@ -66,7 +64,7 @@ describe('Management Component', () => {
   });
 
   test('renders Retention Period card when permission is granted', () => {
-    (user as any).role = { canConfigureLogRetentionPeriod: true };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canConfigureLogRetentionPeriod: true }]);
 
     render(<Management />);
 
@@ -78,7 +76,7 @@ describe('Management Component', () => {
   });
 
   test('renders Log Volume card when permission is granted', () => {
-    (user as any).role = { canViewLogVolume: true };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canViewLogVolume: true }]);
 
     render(<Management />);
 
@@ -90,7 +88,7 @@ describe('Management Component', () => {
   });
 
   test('renders Log Integrations card when permission is granted', () => {
-    (user as any).role = { canConfigureLogManagement: true };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canConfigureLogManagement: true }]);
 
     render(<Management />);
 
@@ -102,11 +100,13 @@ describe('Management Component', () => {
   });
 
   test('renders all cards when all permissions are granted', () => {
-    (user as any).role = {
-      canConfigureLogRetentionPeriod: true,
-      canViewLogVolume: true,
-      canConfigureLogManagement: true
-    };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([
+      {
+        canConfigureLogRetentionPeriod: true,
+        canViewLogVolume: true,
+        canConfigureLogManagement: true
+      }
+    ]);
 
     render(<Management />);
 

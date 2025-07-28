@@ -9,14 +9,15 @@ import React from 'react';
 import LogIntegrationsContent from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/Integrations';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import Breadcrumbs from 'in-logging/dashboard/Management/Breadcrumbs';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import RestrictedAccessMessage from 'in-components/rbac';
-import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-logging/dashboard/Management/Management.mless';
 
 export default function LogIntegrations() {
-  if (!user?.role?.canConfigureLogManagement) return <RestrictedAccessMessage />;
+  const [role] = useCurrentUserRole();
+  if (!role.canConfigureLogManagement) return <RestrictedAccessMessage />;
 
   return (
     <div>

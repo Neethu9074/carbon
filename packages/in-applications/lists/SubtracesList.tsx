@@ -26,11 +26,11 @@ import { subtracesList } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { formatMetricIfPresent } from 'in-applications/metrics';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { SubtraceListItem } from 'in-applications/types';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 
 const pathSegment = subtracesList;
 const matrixPrefix = '';
@@ -92,6 +92,7 @@ const CreateSubtraceButton = () => (
 );
 
 export default function SubtracesList() {
+  const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,

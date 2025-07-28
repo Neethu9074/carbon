@@ -57,6 +57,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import SectionLine from 'in-settings/components/SectionLine';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
@@ -64,11 +65,11 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
 import Title from 'in-components/Title/Title';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   const { goToPath } = useNavigation();
   const entityFormParam = {

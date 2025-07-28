@@ -10,8 +10,8 @@ import { InfraAlertEvaluationType } from '@instana/types/typeDefinitions';
 import { Group } from '@instana/types';
 
 import { evaluationTypes } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/GracePeriod';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 
 export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field: MapForm<any>) => void) {
@@ -34,7 +34,7 @@ export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (
     },
     {
       path: ['threshold', 'warningThreshold', 'type'],
-      effects: [requestThresholdSuggestion]
+      effects: [resetOrRequestThresholdSuggestion]
     },
     {
       path: ['threshold', 'operator'],
@@ -47,6 +47,10 @@ export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (
     {
       path: ['evaluationType'],
       effects: [resetGroupBy, resetThreshold, resetOrRequestThresholdSuggestion]
+    },
+    {
+      path: ['groupBy'],
+      effects: [resetOrRequestThresholdSuggestion]
     }
   ];
 
@@ -73,13 +77,21 @@ function requestThresholdSuggestion(form: MapForm<any>): MapForm<any> {
 }
 
 function resetOrRequestThresholdSuggestion(form: MapForm<any>): MapForm<any> {
+  const warningThresholdType = form.get('threshold').get('warningThreshold').get('type').value;
+  const criticalThresholdType = form.get('threshold').get('criticalThreshold').get('type').value;
+  const thresholdType = warningThresholdType ?? criticalThresholdType;
   const evaluationType = (form.get('evaluationType') as Field<InfraAlertEvaluationType>).value;
+  const groupBy = form.get('groupBy').value;
+  const isSingleMetricAlert = evaluationType !== evaluationTypes.perEntity && groupBy.length === 0;
 
-  if (evaluationType === evaluationTypes.perEntity) {
-    return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false));
+  // We don't generate static threshold suggestions for per-entity or group-by alerts because the user has
+  // to pick a single threshold for all groups and it seemed like bad UX to change the threshold as the
+  // user reviewed the different metrics.
+  if (isSingleMetricAlert || thresholdType === ADAPTIVE_BASELINE) {
+    return requestThresholdSuggestion(form);
   }
 
-  return requestThresholdSuggestion(form);
+  return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false));
 }
 
 function resetThreshold(form: MapForm<any>): MapForm<any> {

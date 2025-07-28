@@ -6,9 +6,9 @@
 
 import React from 'react';
 
+import { useLinuxKVMHypervisorEntityLink } from 'in-linux-kvm-hypervisor/navigation/paths';
 // @ts-expect-error needs TS migration
 import RedirectWithHash from 'in-components/RedirectWithHash';
-import { useLinuxKVMHypervisorEntityLink } from 'in-linuxkvmhypervisor/navigation/paths';
 import { SnapshotData } from 'in-stores/snapshot';
 
 export default function LinuxKVMHypervisorHostDashboard({ snapshot }: { snapshot: SnapshotData }) {

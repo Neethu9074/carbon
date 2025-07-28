@@ -163,7 +163,7 @@ export default function ResourceOptimizationTab({
         />
       )}
 
-      {solisEnabled && !isLoading && !turboEnabled && hasCpuUtilizationData && (
+      {solisEnabled && !isLoading && !turboEnabled && !hasRecommendations && hasCpuUtilizationData && (
         // @ts-expect-error TS2304: Cannot find name solis
         // component is loaded from a script in ui-client/packages/in-client/index.html
         <solis-teaser
@@ -176,17 +176,20 @@ export default function ResourceOptimizationTab({
         />
       )}
 
-      {solisEnabled && !isLoading && !turboEnabled && noCpuUtilizationData && (
-        // @ts-expect-error
-        <solis-teaser
-          product="turbonomic"
-          type="banner"
-          variation="optimizations"
-          sub_variation="noTrialNoOptim"
-          product_context="instana"
-          banner_expanded="true"
-        />
-      )}
+      {solisEnabled &&
+        !isLoading &&
+        !turboEnabled &&
+        (hasRecommendations || (!hasRecommendations && noCpuUtilizationData)) && (
+          // @ts-expect-error
+          <solis-teaser
+            product="turbonomic"
+            type="banner"
+            variation="optimizations"
+            sub_variation="noTrialNoOptim"
+            product_context="instana"
+            banner_expanded="true"
+          />
+        )}
 
       {!solisEnabled && (
         <InfoPanel
@@ -233,7 +236,7 @@ export default function ResourceOptimizationTab({
           }}
         />
       )}
-      {(!solisEnabled || turboEnabled) && (
+      {(!solisEnabled || !(solisEnabled && !hasRecommendations && !turboEnabled)) && (
         <div className={locals.charts}>
           <div className={locals.categoriesChart}>
             <ResultAwareChart
@@ -275,11 +278,11 @@ export default function ResourceOptimizationTab({
         </div>
       )}
 
-      {(!solisEnabled || turboEnabled) && (
+      {(!solisEnabled || !(solisEnabled && !hasRecommendations && !turboEnabled)) && (
         <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
       )}
 
-      {solisEnabled && !isLoading && !turboEnabled && (
+      {solisEnabled && !isLoading && !turboEnabled && !hasRecommendations && (
         <>
           <OptimizationNudgesTable applicationId={applicationId} metricType="HIGH" onRowCountUpdate={setHighUtilRows} />
           <OptimizationNudgesTable applicationId={applicationId} metricType="LOW" onRowCountUpdate={setLowUtilRows} />

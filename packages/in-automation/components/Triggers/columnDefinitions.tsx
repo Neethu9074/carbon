@@ -38,7 +38,6 @@ import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/col
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
-import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
@@ -46,6 +45,7 @@ import SyntheticsScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/Sco
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import InfraScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
 import MobileAppScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
+import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
@@ -89,7 +89,9 @@ export const triggerNameColumn: ColumnDefinition<TriggerSpecification> = {
       return (
         <NameColumnCell
           config={item}
-          getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.forecastingConfig)}
+          getSubtitle={config => (
+            <MetricLabel rule={config.rule} threshold={config.threshold} forecastingConfig={config.forecastingConfig} />
+          )}
         />
       );
     }

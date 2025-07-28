@@ -96,7 +96,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'linuxkvmhypervisorEnabled',
+    uiClientKey: 'linuxKVMHypervisorEnabled',
     instanaCtlKey: 'feature.linuxkvmhypervisor.enabled',
     defaultValue: false
   },
@@ -787,6 +787,12 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'analyzeSubtracesEnabled',
+    instanaCtlKey: 'feature.analyze.subtraces.enabled',
+    defaultValue: false
+  },
+
+  {
     uiClientKey: 'customDashboardTopLevelFiltersEnabled',
     instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
     defaultValue: false
@@ -805,31 +811,6 @@ module.exports = exports = [
     uiClientKey: 'syntheticSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.synthetic.smart.alert.full.screen.design.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityWebsiteSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.website.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityMobileAppSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.mobile.app.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityLogSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.log.sa.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'isSmartAlertDialogViewDefaultEnabled',
@@ -854,7 +835,7 @@ module.exports = exports = [
   {
     uiClientKey: 'incidentTriggeringInfraSaEnabled',
     instanaCtlKey: 'feature.incident.triggering.infra.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'websitesSmartAlertDialogViewEnabled',
@@ -982,6 +963,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'infraSmartAlertsAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.adaptive.baseline.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'allSmartAlertsViewEnabled',
     instanaCtlKey: 'feature.all.smart.alerts.view.enabled',
     defaultValue: false
@@ -1049,6 +1035,11 @@ module.exports = exports = [
   {
     uiClientKey: 'fiveMinuteGranularityForAdaptiveThresholdEnabled',
     instanaCtlKey: 'feature.five.minute.granularity.for.adaptive.threshold.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'newOnboardingPageEnabled',
+    instanaCtlKey: 'feature.new.onboarding.page.enabled',
     defaultValue: false
   }
 ];

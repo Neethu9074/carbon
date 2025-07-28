@@ -30,7 +30,7 @@ import {
 } from 'in-cloudfoundry/navigation/paths';
 // @ts-expect-error needs ts migration
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
-import { linuxkvmhypervisor, linuxkvmhypervisorHostListFullyQualified } from 'in-linuxkvmhypervisor/navigation/paths';
+import { linuxkvmhypervisor, linuxkvmhypervisorHostListFullyQualified } from 'in-linux-kvm-hypervisor/navigation/paths';
 import { windowsHypervisor, windowsHypervisorHostListFullyQualified } from 'in-windowshypervisor/navigation/paths';
 import { kubernetes, clusterListFullyQualified as kubernetesClusterList } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error needs ts migration

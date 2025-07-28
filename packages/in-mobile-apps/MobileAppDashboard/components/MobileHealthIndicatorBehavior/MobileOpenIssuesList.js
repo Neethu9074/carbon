@@ -13,6 +13,16 @@ import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
+// A simple solution to avoid some parts of the popup area hidden when too wide.
+// This workaround tackles it, until
+// a fix will have been implemented which solves the layout problem on other areas, too
+// Planned to be tackled in a bigger scope as part of this task:
+// https://instana.kanbanize.com/ctrl_board/37/cards/73986/details/
+function WithMaxWidthWhenInContentArea({ children, maxWidth = '80vw', inContentArea }) {
+  if (inContentArea) return <div style={{ maxWidth }}>{children}</div>;
+  return <>{children}</>;
+}
+
 export default connectTo(
   ({ mobileAppId, timeConfig }) => {
     return {
@@ -21,28 +31,19 @@ export default connectTo(
         timeConfig
       })
         .startWith(indeterminateProgress)
-        .map(result => mapData(result, data => data.openIssues))
+        .map(result => mapData(result, data => data?.openIssues ?? []))
     };
   },
   function MobileOpenIssuesList({ inContentArea, openIssuesResult, eventId, close, mobileAppId }) {
-    // A simple solution to avoid some parts of the popup area hidden when too wide.
-    // This workaround tackles it, until
-    // a fix will have been implemented which solves the layout problem on other areas, too
-    // Planned to be tackled in a bigger scope as part of this task:
-    // https://instana.kanbanize.com/ctrl_board/37/cards/73986/details/
-    function WithMaxWidthWhenInContentArea({ children, maxWidth = '80vw' }) {
-      if (inContentArea) return <div style={{ maxWidth }}>{children}</div>;
-      return <>{children}</>;
-    }
     const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
-    const useIssueLink = eventId =>
+    const useIssueLink = issueId =>
       getEventsViewFilteredBy({
-        eventId,
+        eventId: issueId,
         eventTypeFilter: 'issue'
       });
 
     return (
-      <WithMaxWidthWhenInContentArea>
+      <WithMaxWidthWhenInContentArea inContentArea={inContentArea}>
         <OpenIssuesListPresenter
           close={close}
           openIssuesResult={openIssuesResult}
@@ -53,6 +54,7 @@ export default connectTo(
             additionalDFQFilter: `event.state:"open"`
           })}
           getIssueLink={useIssueLink}
+          inContentArea={inContentArea}
         />
       </WithMaxWidthWhenInContentArea>
     );

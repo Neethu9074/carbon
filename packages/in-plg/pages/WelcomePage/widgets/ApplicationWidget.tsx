@@ -49,10 +49,10 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { applicationsList } from 'in-applications/navigation/paths';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { hasError, isLoading } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getTimeConfig } from 'in-stores/time/config';
-import { role } from 'in-stores/user';
 
 function getApplicationData(params: GetApplicationsWithDefaultsProps) {
   return getApplicationsWithDefaults(params);
@@ -78,6 +78,7 @@ export default function ApplicationWidget({
   widgetLabel,
   dashboardTileProps
 }: ApplicationProps) {
+  const [role] = useCurrentUserRole();
   const getHeaders = () => {
     return [
       {
@@ -112,7 +113,7 @@ export default function ApplicationWidget({
   };
 
   function getConfig([applicationId]: string) {
-    return applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig());
+    return applicationId ? getApplicationConfig(applicationId, role) : successObservable(createNewApplicationConfig());
   }
 
   //@ts-expect-error

@@ -49,7 +49,7 @@ export default function UseSuggestedValueButton({
   return (
     <>
       {showLoadingIndicator ? (
-        <>
+        <div className={locals.loadingContainer}>
           <LoadingIndicator
             size="regular"
             className={classNames({
@@ -60,7 +60,7 @@ export default function UseSuggestedValueButton({
           <div className={locals.loadingIndicatorText}>
             {t('in-alerting:smartAlerts.components.smartAlertDialog.loadingThresholdSuggestion')}
           </div>
-        </>
+        </div>
       ) : (
         <>
           {showButton && (

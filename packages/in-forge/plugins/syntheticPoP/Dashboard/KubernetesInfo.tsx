@@ -13,11 +13,10 @@ import { Observable } from '@instana/observables';
 // @ts-expect-error
 import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernetesClusterByNode';
 // @ts-expect-error
-import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
-// @ts-expect-error
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
 // @ts-expect-error
 import getKubernetesNamespacesByCluster from 'in-subscription/namespacesForCluster';
+import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 import { useClusterDashboard, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error
 import { getSnapshots, SnapshotData } from 'in-stores/snapshot';

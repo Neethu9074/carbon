@@ -29,4 +29,7 @@
     font-size: 0.75rem;
     color: var(--ids-color-option-neutral-600);
   }
+  .color {
+    color: var(--cds-text-primary);
+  }
 }

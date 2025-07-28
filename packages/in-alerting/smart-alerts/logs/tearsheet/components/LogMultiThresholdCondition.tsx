@@ -32,15 +32,13 @@ interface LogMultiThresholdConditionProps {
   updateForm: (form: MapForm<any>) => void;
   percentageMetric: boolean;
   metricUnitPostfix: string;
-  alertChannelPerSeverityEnabled?: boolean;
 }
 
 export default function LogMultiThresholdCondition({
   form,
   updateForm,
   percentageMetric,
-  metricUnitPostfix,
-  alertChannelPerSeverityEnabled
+  metricUnitPostfix
 }: LogMultiThresholdConditionProps) {
   const maxValue = getMaxMetricValue(percentageMetric);
   const warningThresholdValueField = form.get('threshold')?.get('warningThreshold')?.get('value');
@@ -53,28 +51,24 @@ export default function LogMultiThresholdCondition({
 
   const alertChannelSelection = form.get('alertChannels').value;
   useEffect(() => {
-    if (alertChannelPerSeverityEnabled) {
-      updateAlertChannelSelectionOnWarningThresholdFieldChange(
-        alertChannelSelection,
-        warningThresholdValuePresent,
-        criticalThresholdValuePresent,
-        form,
-        updateForm
-      );
-    }
+    updateAlertChannelSelectionOnWarningThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [warningThresholdValueField]);
 
   useEffect(() => {
-    if (alertChannelPerSeverityEnabled) {
-      updateAlertChannelSelectionOnCriticalThresholdFieldChange(
-        alertChannelSelection,
-        warningThresholdValuePresent,
-        criticalThresholdValuePresent,
-        form,
-        updateForm
-      );
-    }
+    updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [criticalThresholdValueField]);
 

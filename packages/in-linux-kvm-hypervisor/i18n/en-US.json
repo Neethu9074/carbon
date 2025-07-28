@@ -1,0 +1,31 @@
+{
+  "linuxkvmhypervisor": "Linux KVM Hypervisor",
+  "noMonitoringDataFound": "No monitoring data found",
+  "hostname": "Host name",
+  "summary": "Summary",
+  "host": "Host",
+  "hosts": "Hosts",
+  "vm": "Virtual machine",
+  "vms": "Virtual machines",
+  "storagePools": "Storage pools",
+  "dashboards": {
+    "address": "IP address",
+    "libvirtVersion": "Libvirt version",
+    "memoryUsage": "Memory utilization",
+    "cpuUsage": "CPU utilization",
+    "networkUsage": "Network utilization",
+    "os": "Operating system",
+    "numberOfVms": "Number of virtual machines",
+    "used": "Used",
+    "free": "Free",
+    "total": "Total",
+    "bytesTX": "Bytes transmitted",
+    "bytesRX": "Bytes received",
+    "vmName": "VM name",
+    "vmState": "VM state",
+    "storagePoolName": "Storage pool name",
+    "storagePoolState": "Storage pool state",
+    "storageMemoryUsed": "Storage memory used",
+    "storageMemoryAvailable": "Storage memory available"
+  }
+}

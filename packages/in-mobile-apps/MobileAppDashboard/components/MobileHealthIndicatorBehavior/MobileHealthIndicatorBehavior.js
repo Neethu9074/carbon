@@ -7,10 +7,14 @@
 import React from 'react';
 
 import MobileOpenIssuesList from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileOpenIssuesList';
+import GenericIndicatorPresenter from 'in-components/GenericIndicatorPresenter/GenericIndicatorPresenter';
 import getMobileHealthInfo from 'in-mobile-apps/subscriptions/getMobileHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
+
+function Content(props) {
+  return <MobileOpenIssuesList {...props} />;
+}
 
 export default connectTo(
   ({ mobileAppId, openIssues, maxSeverity, timeConfig }) => {
@@ -26,15 +30,15 @@ export default connectTo(
 
     return {
       healthInfo: healthInfo$.map(result => result.data),
-      openIssues: healthInfo$.map(result => result.data.openIssues.length),
-      maxSeverity: healthInfo$.map(result => result.data.maxSeverity),
+      openIssues: healthInfo$.map(result => result.data?.openIssues?.length ?? 0),
+      maxSeverity: healthInfo$.map(result => result.data?.maxSeverity ?? 0),
       timeConfig: healthInfo$.map(result => getTimeConfigAlignedToResultTime(timeConfig, result))
     };
   },
   function MobileHealthIndicatorBehavior(props) {
-    const { openIssues, maxSeverity, render, healthInfo } = props;
+    const { openIssues, maxSeverity, render, healthInfo, IndicatorPresenter, inContentArea } = props;
 
-    if (render) {
+    if (render && healthInfo) {
       return render(healthInfo);
     }
 
@@ -43,25 +47,23 @@ export default connectTo(
     }
 
     if (openIssues === 0) {
-      return <props.IndicatorPresenter showCheckAsNeutral maxSeverity={maxSeverity} openIssues={openIssues} />;
+      return <IndicatorPresenter showCheckAsNeutral maxSeverity={maxSeverity} openIssues={openIssues} />;
     }
 
     return (
-      <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea} align="leftTop">
-        {({ toggle, refSetter, isOpen }) => (
-          <props.IndicatorPresenter
-            openIssues={openIssues}
-            maxSeverity={maxSeverity}
-            onClick={toggle}
-            refSetter={refSetter}
-            isOpen={isOpen}
-          />
-        )}
-      </Overlay>
+      <GenericIndicatorPresenter
+        Content={Content}
+        contentProps={{
+          ...props,
+          healthInfo
+        }}
+        IndicatorPresenter={IndicatorPresenter}
+        indicatorProps={{
+          openIssues: openIssues,
+          maxSeverity: maxSeverity
+        }}
+        inContentArea={inContentArea}
+      />
     );
   }
 );
-
-function Content(props) {
-  return <MobileOpenIssuesList {...props} />;
-}

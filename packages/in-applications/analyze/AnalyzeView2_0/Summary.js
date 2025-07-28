@@ -38,13 +38,13 @@ import Logs from 'in-logging/components/TraceDetails/components/Logs';
 import { latency, number } from 'in-services/formatters/number';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { formatPathWithTU } from 'in-services/formatters/url';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -58,6 +58,7 @@ export default function Summary({
   colorCodeType,
   setColorCodeMechanism
 }) {
+  const [role] = useCurrentUserRole();
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
   const { trackJumpToLogs } = useAnalyzeTracker();
   const {

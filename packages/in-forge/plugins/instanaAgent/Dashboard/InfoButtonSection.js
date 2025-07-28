@@ -11,9 +11,9 @@ import LogsDownloadList from 'in-forge/plugins/instanaAgent/Dashboard/LogsDownlo
 import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
 import SensorsInfo from 'in-forge/plugins/instanaAgent/Dashboard/SensorsInfo';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './InfoButtonSection.mless';
@@ -47,6 +47,7 @@ function DownloadButton({ supportsLogsDownload, snapshot }) {
 export default connectTo({
   isInternalVisible: isInternalVisible$
 })(function InfoButtonSection({ snapshot, isInternalVisible }) {
+  const [role] = useCurrentUserRole();
   const supportsLogsDownload = snapshot.getIn(['data', 'capabilities'])?.includes('logdownload');
 
   return (

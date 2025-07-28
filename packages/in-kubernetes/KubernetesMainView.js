@@ -14,6 +14,7 @@ import {
   containerDashboardFullyQualified
 } from 'in-kubernetes/navigation/paths';
 import { kubernetesCloudNativeExperience, openTelemetryKubernetesUnifiedViewEnabled } from 'in-services/featureFlags';
+import ContainerDashboard from 'in-kubernetes/Dashboards/Container/ContainerDashboard';
 import OtelClusterTable from 'in-kubernetes/lists/ClusterTable/OtelClusterTable';
 import NamespaceTable from 'in-kubernetes/lists/NamespaceTable/NamespaceTable';
 import OtelClusterCardView from 'in-kubernetes/lists/OtelClusterCardView';
@@ -23,7 +24,6 @@ import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
 import NamespaceCardView from 'in-kubernetes/lists/NamespaceCardView';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ClusterCardView from 'in-kubernetes/lists/ClusterCardView';
-import ContainerDashboard from 'in-kubernetes/Dashboards/Container/ContainerDashboard';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 

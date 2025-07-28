@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, ReactElement, ReactNode } from 'react';
+import React from 'react';
 
-import { IconButton } from '@instana/carbon';
+import { Typography } from '@instana/components';
 
 import { OpenIssuesResult } from 'in-components/health/OpenIssuesListPresenter';
 import { t } from 'in-i18n';
@@ -19,14 +19,14 @@ interface HeaderProps {
   close?: () => void;
 }
 
-export default function Header({ openIssuesResult, maxIssuesToShow, eventType }: HeaderProps): ReactElement | null {
+export default function Header({ openIssuesResult, eventType }: HeaderProps): React.ReactElement | null {
   if (!openIssuesResult || !openIssuesResult.data) {
     return null;
   }
   const eventTypeContext = eventType.toLowerCase();
   const isCVEIssue = openIssuesResult.data.some(item => item.type === 'cve_issue');
 
-  let title: ReactNode = null;
+  let title: React.ReactNode = null;
   if (openIssuesResult?.progress?.loading) {
     const eventTypeLabel = t('in-components:health.eventType', { context: eventTypeContext, count: 2 });
     title = isCVEIssue
@@ -53,32 +53,12 @@ export default function Header({ openIssuesResult, maxIssuesToShow, eventType }:
           eventType: eventTypeLabel
         });
 
-    title = (
-      <Fragment>
-        {headerText}
-        {openIssueCount > maxIssuesToShow && (
-          <span className={locals.more}>
-            {t('in-components:health.openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere', {
-              maxIssuesToShow: maxIssuesToShow
-            })}
-          </span>
-        )}
-      </Fragment>
-    );
+    title = <Typography variant="label-01">{headerText}</Typography>;
   }
 
   return (
-    <h1 className={locals.header}>
-      <div className={locals.title}>{title}</div>
-      <IconButton
-        /* @ts-expect-error this kind does not exist on button, and will be fixed in a follow-up */
-        kind="action"
-        /* @ts-expect-error this type does not exist on button, and will be fixed in a follow-up */
-        type="lib_openclose_cancel"
-        size="xl"
-        className={locals.close}
-        onClick={close}
-      />
-    </h1>
+    <header>
+      <div className={locals.header}>{title}</div>
+    </header>
   );
 }

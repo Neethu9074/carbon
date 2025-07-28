@@ -44,9 +44,8 @@ export default function StaticOrAdaptiveSwitch({
   bluePrint,
   editMode = false
 }: Props) {
-  const thresholdType = form.get('threshold')?.get('warningThreshold')?.get('type')?.value;
   const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>)?.value;
-  const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
+  const currentType = getThresholdType(form) === ADAPTIVE_BASELINE ? types.adaptive : types.static;
 
   return (
     <Stack gap="xsmall" direction="vertical">
@@ -86,6 +85,16 @@ export default function StaticOrAdaptiveSwitch({
 
   function updateThresholdType(baselineType: StaticOrAdaptiveType) {
     const thresholdType = baselineType === types.static ? STATIC_THRESHOLD : ADAPTIVE_BASELINE;
+    if (thresholdType !== STATIC_THRESHOLD && form.get('forecastingConfig')?.value) {
+      // Reset forecasting config when switching to adaptive threshold
+      form = form.updateIn(['forecastingConfig'], f => f.setValue(null));
+    }
     onThresholdTypeChange(thresholdType, form, setForm, noop, editMode);
   }
+}
+
+export function getThresholdType(form: MapForm<any>) {
+  const warningThresholdType = form.get('threshold')?.get('warningThreshold')?.get('type')?.value;
+  const criticalThresholdType = form.get('threshold')?.get('criticalThreshold')?.get('type')?.value;
+  return warningThresholdType ?? criticalThresholdType;
 }

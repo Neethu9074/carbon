@@ -56,7 +56,7 @@ class EditRuleForm extends React.Component {
     const valueField = matchSpecificationForm.get('value');
 
     return (
-      <form onSubmit={e => this.onSubmit(e, form)}>
+      <form onSubmit={e => this.onSubmit(e, form)} aria-label={t('in-applications:titleCustomSyntheticRule')}>
         <div className={locals.nameSection}>
           <FormGroup>
             <div className={locals.helpText}>{t('in-applications:labelNameRule')}</div>

@@ -16,7 +16,6 @@ import {
   SlideInConfig,
   SlideInHeader,
   SliderState,
-  TeamTagEx,
   TestTypeSelected,
   AssertionTargetFilter
 } from 'in-synthetics/utils/constants';
@@ -27,7 +26,6 @@ import { syntheticAdvancedCreateButtonClick } from 'in-synthetics/tracking/track
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
 import { DNSErrorsExist } from 'in-synthetics/createTests/utils/DNSErrorExist';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import getDefaultTeams from 'in-synthetics/createTests/utils/getDefaultTeams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 
@@ -87,7 +85,6 @@ const CreateSyntheticTestDialogPresenter = ({
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
   const [invalidTimeout, setInvalidTimeout] = useState({ invalid: false, message: '' });
-  const [teams, setTeams] = useState<TeamTagEx[]>(getDefaultTeams(form));
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
   const [targetFilters, setTargetFilters] = useState(getTargetFilters(form, 'targetValues'));
@@ -256,8 +253,6 @@ const CreateSyntheticTestDialogPresenter = ({
           setInvalidHeader={setInvalidHeader}
           invalidJSON={invalidJSON}
           setInvalidJSON={setInvalidJSON}
-          teams={teams}
-          setTeams={setTeams}
           customProperties={customProperties}
           setCustomProperties={setCustomProperties}
           invalidCustomProperty={invalidCustomProperty}

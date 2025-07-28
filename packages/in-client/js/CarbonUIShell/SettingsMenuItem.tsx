@@ -21,7 +21,8 @@ import AccountBillingMenuItem from 'in-client/js/CarbonUIShell/AccountBillingMen
 import DataSourcesMenuItem from 'in-client/js/CarbonUIShell/DataSourceMenuItem';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
 function InternalView() {
@@ -43,9 +44,10 @@ function InternalView() {
   );
 }
 
-export const accountPageVisible =
-  newAccountAndBillingPageEnabled && ampEnabled && role?.canViewAccountAndBillingInformation;
+export const getAccountPageVisible = (role: Role) =>
+  newAccountAndBillingPageEnabled && ampEnabled && role.canViewAccountAndBillingInformation;
 export default function SettingsMenuItem() {
+  const [role] = useCurrentUserRole();
   const { matchLocation, createHrefToPath } = useNavigation();
   if (playwithEnabled) return null;
 
@@ -60,7 +62,7 @@ export default function SettingsMenuItem() {
       />
       {newOTelPageEnabled && <DataSourcesMenuItem />}
 
-      {accountPageVisible && <AccountBillingMenuItem />}
+      {getAccountPageVisible(role) && <AccountBillingMenuItem />}
       <InternalView />
     </>
   );

@@ -60,7 +60,10 @@ class BasicDialog extends React.Component {
     const serviceConfiguration = form.get(serviceConfigIndex);
 
     return (
-      <form onSubmit={e => this.onSubmit(e, form, serviceConfigIndex)}>
+      <form
+        onSubmit={e => this.onSubmit(e, form, serviceConfigIndex)}
+        aria-label={t('in-applications:titleCustomServiceRule')}
+      >
         <div className={locals.queryFormSection}>
           <div className={locals.description}>
             <DescriptionText>{t('in-applications:forms.customService.descriptionCustomServiceRule')}</DescriptionText>

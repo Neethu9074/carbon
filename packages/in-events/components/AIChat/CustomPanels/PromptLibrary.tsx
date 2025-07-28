@@ -17,7 +17,9 @@ import {
   CarbonSearch
 } from '@instana/components';
 
+import { EVENT_AI_LIBRARY_SELECTION_MADE } from 'in-services/tracking/tracking';
 import { promptLibrary } from 'in-events/components/AIChat/ResponseObjects';
+import { handleTracking } from 'in-events/components/AIChat/utils/utils';
 import { t } from 'in-i18n';
 
 import locals from './PromptLibrary.mless';
@@ -64,6 +66,7 @@ const PromptLibrary = ({ instance, setPopOpen }: PromptLibraryProps) => {
                           onClick={() => {
                             const customPanel = instance?.customPanels?.getPanel();
                             const textField = instance?.elements?.getMessageInput?.();
+                            handleTracking(EVENT_AI_LIBRARY_SELECTION_MADE, { promptSelection: question });
                             // On Click we want to take the value of the prompt
                             // and then enter it into the textField
                             if (textField) {

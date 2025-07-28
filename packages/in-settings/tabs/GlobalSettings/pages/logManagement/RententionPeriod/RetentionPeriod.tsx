@@ -43,13 +43,14 @@ import { securityAndAccessActionLogRetention } from 'in-settings/navigation/path
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import { role } from 'in-stores/user';
 
 import locals from './RetentionPeriod.mless';
 
 export default function RetentionPeriod() {
+  const [role] = useCurrentUserRole();
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [isChangingRetention, setIsChangingRetention] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

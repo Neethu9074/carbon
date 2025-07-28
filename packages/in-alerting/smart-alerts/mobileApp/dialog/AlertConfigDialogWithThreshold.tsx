@@ -64,7 +64,6 @@ interface AlertConfigDialogWithThresholdProps {
   isSaving: boolean;
   messages: EnrichedError[];
   setIsSimpleMode: React.Dispatch<React.SetStateAction<boolean>>;
-  alertChannelPerSeverityEnabled: boolean;
 }
 
 const FORM_ID = 'smart-alert-editor';
@@ -83,8 +82,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     selectedChartViewConfigIndex,
     granularity,
     timeConfig,
-    setIsSimpleMode,
-    alertChannelPerSeverityEnabled
+    setIsSimpleMode
   } = props;
 
   useCalculateThresholdOnBackendSignalEmitter(form);
@@ -212,7 +210,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       granularity={granularity}
       timeConfig={timeConfig}
       isTagFilterFormModelValid={isTagFilterFormModelValid}
-      alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+      alertChannelPerSeverityEnabled
     />
   );
 }

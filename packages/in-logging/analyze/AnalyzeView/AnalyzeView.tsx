@@ -19,12 +19,13 @@ import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import { getMetricTemplates } from 'in-logging/api/metricTemplates';
 import { getLabel } from 'in-logging/analyze/AnalyzeView/utils';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { logsPath } from 'in-logging/navigation/paths';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function AnalyzeView() {
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   useTimeSpentInsideComponent(millisSpentOnAnalyzeView =>
     trackCta(ANALYZE_LOGGING_TIME_SPENT, { millisSpentOnAnalyzeView })

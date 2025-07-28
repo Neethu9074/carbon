@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { LegacyRef } from 'react';
+import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
+import GenericIndicatorPresenter from 'in-components/GenericIndicatorPresenter/GenericIndicatorPresenter';
 import BizOpsOpenIssuesList from 'in-bizops/components/BizOpsOpenIssuesList';
-import Overlay from 'in-components/overlays/Overlay';
 
 interface BizOpsHealthIndicatorProps {
   openIssues: number;
@@ -21,13 +21,9 @@ interface BizOpsHealthIndicatorProps {
 }
 
 // Displays health status for a resource with multiple serviceIDs
-export default function BizOpsHealthIndicator({
-  openIssues,
-  maxSeverity,
-  serviceIds,
-  timeConfig,
-  inContentArea
-}: BizOpsHealthIndicatorProps) {
+export default function BizOpsHealthIndicator(props: BizOpsHealthIndicatorProps) {
+  const { openIssues, maxSeverity, inContentArea } = props;
+
   if (openIssues == null || openIssues < 0) {
     return null;
   }
@@ -37,23 +33,17 @@ export default function BizOpsHealthIndicator({
   }
 
   return (
-    <Overlay
-      props={{ openIssues, maxSeverity, serviceIds, timeConfig, inContentArea }}
-      content={Content}
+    <GenericIndicatorPresenter
+      contentProps={{ ...props, close: () => {} }}
+      Content={Content}
       inContentArea={inContentArea}
-      align="leftTop"
-      withoutWrapper
-    >
-      {({ toggle, refSetter }) => (
-        <HealthIndicatorPresenter
-          openIssues={openIssues ?? 0}
-          maxSeverity={maxSeverity ?? 0}
-          onClick={toggle}
-          refSetter={refSetter as LegacyRef<HTMLAnchorElement>}
-          active={false}
-        />
-      )}
-    </Overlay>
+      IndicatorPresenter={HealthIndicatorPresenter}
+      indicatorProps={{
+        openIssues: openIssues ?? 0,
+        maxSeverity: maxSeverity ?? 0,
+        active: false
+      }}
+    />
   );
 }
 

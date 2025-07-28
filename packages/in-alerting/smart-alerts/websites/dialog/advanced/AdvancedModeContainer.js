@@ -32,7 +32,6 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/dialog/advanced/TimeThresholdConfig';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -40,7 +39,6 @@ import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ru
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
-import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -200,26 +198,14 @@ export default function AdvancedModeContainer(props) {
           title: t('in-alerting:smartAlerts.websites.advanced.alertChannelsTitle'),
           valid: true,
           content: (
-            <>
-              {alertChannelPerSeverityWebsiteSaEnabled ? (
-                <ConfigureAlertChannelMT
-                  form={form}
-                  onChange={onChange}
-                  updateForm={updateForm}
-                  setSliderState={setSliderState}
-                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                  numberOfAlertChannelListRows={5}
-                />
-              ) : (
-                <ConfigureAlertChannel
-                  form={form}
-                  onChange={onChange}
-                  setSliderState={setSliderState}
-                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                  numberOfAlertChannelListRows={5}
-                />
-              )}
-            </>
+            <ConfigureAlertChannelMT
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={5}
+            />
           )
         },
         {

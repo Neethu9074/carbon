@@ -17,10 +17,7 @@ import {
 } from '@instana/types';
 import { just } from '@instana/observables';
 
-import {
-  MetricType,
-  Tags
-} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraMetricGroupTableList from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList';
 import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import { setBackendQueryModel } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
@@ -42,8 +39,6 @@ interface InfraMetricGroupProps {
   groupBy: string[];
   metricMetadatas: Result<Metadatas>;
   tagCatalog?: TagCatalog;
-  setSelectedMetricGroup: React.Dispatch<React.SetStateAction<Tags | null>>;
-  selectedMetricGroup: Tags | null;
 }
 
 /**
@@ -122,11 +117,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
   );
 }
 
-interface GroupProps
-  extends Omit<
-    InfraMetricGroupProps,
-    'backendGroupBy' | 'metricMetadatas' | 'selectedMetricGroup' | 'setSelectedMetricGroup' | 'tagCatalog'
-  > {
+interface GroupProps extends Omit<InfraMetricGroupProps, 'backendGroupBy' | 'metricMetadatas' | 'tagCatalog'> {
   cursor?: InfraExploreCursor;
   retrievalSize: number;
 }

@@ -27,7 +27,6 @@ const alertConfigData = {
   includeSynthetic: false,
   name: 'Calls are slower than usual',
   readOnly: false,
-  alertChannelIds: [],
   applicationId: undefined,
   alertChannels: { WARNING: [], CRITICAL: [] },
   applications: {},

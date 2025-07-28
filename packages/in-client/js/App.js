@@ -18,6 +18,7 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import CarbonUIShell from 'in-client/js/CarbonUIShell/CarbonUIShell';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
@@ -28,6 +29,7 @@ import locals from './App.mless';
 
 export default function App() {
   window.RUNTIME_CONTEXT = solisEnabled ? 'solis' : 'standalone';
+  const [role] = useCurrentUserRole();
 
   return (
     <ErrorBoundary name="app">
@@ -49,7 +51,7 @@ export default function App() {
                 <div className={locals.content} role="main">
                   {/* For "Skip to main content" target */}
                   <div tabIndex={-1} id="main-content" style={{ display: 'hidden' }} />
-                  <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+                  <ErrorBoundary name="app-routes">{routes(role)}</ErrorBoundary>
                 </div>
 
                 <ErrorBoundary name="dialogs">

@@ -23,6 +23,7 @@ import {
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { getMetricFormatter } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
+import { STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { NumberFormatter } from 'in-services/formatters/number';
 import { getMetricDefinition } from 'in-sdk/metrics';
@@ -38,10 +39,17 @@ interface Props {
 
 export const AlertThresholdInfos = ({ thresholdOperator, thresholdsMap, rule, metricLabel, evaluationType }: Props) => {
   const { title } = evaluationTypes.info[evaluationType ?? customEvaluationType];
+  const thresholdType = thresholdsMap['WARNING']?.type ?? thresholdsMap['CRITICAL']?.type;
+  let thresholdTypeLabel = '';
+  if (thresholdType === STATIC_THRESHOLD) {
+    thresholdTypeLabel = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold');
+  } else if (thresholdType === ADAPTIVE_BASELINE) {
+    thresholdTypeLabel = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline');
+  }
 
   return (
     <AlertThresholdInfosPresenter
-      thresholdTypeLabel={t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')}
+      thresholdTypeLabel={thresholdTypeLabel}
       metricLabel={metricLabel}
       threshold={<ThresholdInfo thresholdsMap={thresholdsMap} thresholdOperator={thresholdOperator} rule={rule} />}
       scopeLabel={title}
