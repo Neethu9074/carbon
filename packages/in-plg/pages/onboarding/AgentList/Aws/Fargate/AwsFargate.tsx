@@ -12,6 +12,7 @@ import { GoPythonRuntimeContent } from 'in-plg/pages/onboarding/AgentList/Runtim
 import { documentations, prerequisites } from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/SupportView';
 import JavaRuntimeContent from 'in-plg/pages/onboarding/AgentList/Runtimes/JavaRuntimeContent';
 import OnboardingExpandCard from 'in-plg/components/Card/ExpandableCard/OnboardingExpandCard';
+import { PhpRuntimeContent } from 'in-plg/pages/onboarding/AgentList/Runtimes/PhpRuntime';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import DotnetRuntime from 'in-plg/pages/onboarding/AgentList/Runtimes/DotnetRuntime';
@@ -22,7 +23,7 @@ import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { t } from 'in-i18n';
 
 interface RuntimeOption {
-  key: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'Python' | 'Ruby';
+  key: 'Go' | 'Java' | 'Dotnet' | 'NodeJs' | 'Python' | 'Ruby' | 'Php';
   label: string;
 }
 
@@ -42,7 +43,8 @@ export default function AwsFargate({
     { key: 'Dotnet', label: t('in-plg:agentDetails.runtime.dotnet') },
     { key: 'NodeJs', label: t('in-plg:agentDetails.runtime.nodejs') },
     { key: 'Python', label: t('in-plg:agentDetails.runtime.python') },
-    { key: 'Ruby', label: t('in-plg:agentDetails.runtime.ruby') }
+    { key: 'Ruby', label: t('in-plg:agentDetails.runtime.ruby') },
+    { key: 'Php', label: t('in-plg:agentDetails.runtime.php') }
   ];
   const [selectedRuntime, setRuntime] = useState<RuntimeOption>(runtimeOptions[0]);
 
@@ -114,6 +116,18 @@ export default function AwsFargate({
       case 'Ruby':
         return (
           <GoPythonRuntimeContent
+            {...{
+              id,
+              downloadKey,
+              type: 'aws',
+              agentKey,
+              serverlessEndpoint
+            }}
+          />
+        );
+      case 'Php':
+        return (
+          <PhpRuntimeContent
             {...{
               id,
               downloadKey,
