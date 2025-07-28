@@ -35,11 +35,12 @@ import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/n
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isAnalyzeView } from 'in-analyze/navigation/constants';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { any } from 'in-services/fixedStreams';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function AnalyticsMenuItem() {
+  const [role] = useCurrentUserRole();
   const { matchLocation, createHrefToPath } = useNavigation();
   const isActiveLegacy = useObservable(
     any(isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView, isLogsAnalyzeView, isInfraExploreView()),

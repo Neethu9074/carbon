@@ -66,7 +66,7 @@ import {
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import TestListFilters from 'in-synthetics/dashboards/global/tabs/tests/components/TestListFilters';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
@@ -82,6 +82,7 @@ import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { close } from 'in-components/DialogPresenter/store';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
@@ -92,7 +93,6 @@ import { minutes } from 'in-services/time/time';
 import { getTests } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/TestSummaryList.mless';
@@ -119,31 +119,38 @@ const urlStateDefinition: Options<FilterState> = {
     return urlStateProps;
   }
 };
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
+
+function ServerTableWithUrlState(props: Parameters<typeof createServerTableWithUrlState>[0]) {
+  const [role] = useCurrentUserRole();
+  const columnDefinitions = getColumnDefinitions(role);
+  const Component = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions,
+      title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
+      description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
+    }),
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      syntheticTypesUrlParameter,
+      locationsUrlParameter,
+      syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter,
+      syntheticRunNowEnabled ? runTypeUrlParameter : []
+    ],
     columnDefinitions,
-    title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
-    description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
-  }),
-  paginationResettingUrlParameters: [
-    ...timeConfigUrlParameters,
-    syntheticTypesUrlParameter,
-    locationsUrlParameter,
-    syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter,
-    syntheticRunNowEnabled ? runTypeUrlParameter : []
-  ],
-  columnDefinitions,
-  defaultOrderBy: 'successRate',
-  defaultOrderDirection: 'ASC',
-  defaultDisabledColumns: [
-    'avg_response_time',
-    'location',
-    syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
-    'health'
-  ],
-  pathSegment,
-  matrixPrefix
-});
+    defaultOrderBy: 'successRate',
+    defaultOrderDirection: 'ASC',
+    defaultDisabledColumns: [
+      'avg_response_time',
+      'location',
+      syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
+      'health'
+    ],
+    pathSegment,
+    matrixPrefix
+  });
+
+  return <Component {...props} />;
+}
 
 const addFilter = (
   array: string[],
@@ -165,6 +172,7 @@ const addFilter = (
 };
 
 const TestSummaryList = () => {
+  const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
   const location = useLocation();
   let allApplicationIds = new Set<string>();
@@ -258,7 +266,7 @@ const TestSummaryList = () => {
           <CarbonDataTableWithUrlState<TestResultListItem, TestListProps>
             get={getTestSummaryListData}
             paginationResettingUrlParameters={[...timeConfigUrlParameters]}
-            columnDefinitions={columnDefinitions}
+            columnDefinitions={getColumnDefinitions(role)}
             defaultOrderBy="successRate"
             defaultOrderDirection="ASC"
             pathSegment={pathSegment}

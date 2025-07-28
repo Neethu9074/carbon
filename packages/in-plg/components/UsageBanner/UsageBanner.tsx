@@ -11,6 +11,7 @@ import React, { useEffect } from 'react';
 
 import { Link, SvgIcon, Stack, CarbonButton, Tooltip } from '@instana/components';
 import { Observable, create, just } from '@instana/observables';
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
@@ -43,12 +44,12 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { pendingResult } from 'in-services/fixedObjects';
-import { generateStableHash } from '@instana/utils';
 import { isLoading } from 'in-services/util/result';
-import { role, user } from 'in-stores/user';
 import http from 'in-services/http/http';
+import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './UsageBanner.mless';
@@ -58,6 +59,7 @@ interface UsageBannerProps {
 }
 
 export function UsageBanner({ message }: UsageBannerProps) {
+  const [role] = useCurrentUserRole();
   const location = useLocation();
   const history = useHistory();
   const { createHref } = useNavigation();

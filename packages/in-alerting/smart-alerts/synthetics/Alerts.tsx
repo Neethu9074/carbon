@@ -28,18 +28,18 @@ import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-import { Role } from 'in-types';
 
 export interface AlertsProps {
   testId: string;
 }
 
 export default function Alerts({ testId }: AlertsProps) {
-  const handlers = (role as Role).canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
+  const [role] = useCurrentUserRole();
+  const handlers = role.canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
   const location = useLocation();
   return (
     <>

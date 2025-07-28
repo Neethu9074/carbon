@@ -9,15 +9,22 @@ import React from 'react';
 // @ts-expect-error needs TS migration
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent/SideNavigationAndContent.js';
 // @ts-expect-error needs TS migration
+import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
+// @ts-expect-error needs TS migration
 import WithAccountInformation from 'in-amp/components/WithAccountInformation';
+//@ts-expect-error - needs TS migration
+import RestrictedUsage from 'in-amp/components/RestrictedUsage';
 import ConsumptionOverview from 'in-amp/pages/AccountAndBilling/tabs/Usage/ConsumptionOverview';
 // @ts-expect-error needs TS migration
 import UsageCharts from 'in-amp/components/UsageCharts';
 import { addOns, ampUsage, consumptionOverview, dataUsage } from 'in-amp/navigation/paths';
 // @ts-expect-error needs TS migration
 import Usage from 'in-amp/components/Usage';
-import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import AddOns from 'in-amp/pages/AccountAndBilling/tabs/Usage/AddOns';
+import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { t } from 'in-i18n';
 
 type AccountInfoProps = {
@@ -37,10 +44,10 @@ function View(props: any) {
     {
       path: dataUsage,
       label: t('in-amp:accountAndBilling.tabs.dataUsage'),
-      component: Usage
+      component: ampCompanyInfoEnabled ? Usage : RestrictedUsage
     }
   ];
-  if (props.hasPaidLicenses && !onPremLicenseInformationEnabled) {
+  if (props.hasPaidLicenses && ampCompanyInfoEnabled) {
     pages.push(
       {
         path: consumptionOverview,
@@ -56,6 +63,12 @@ function View(props: any) {
   }
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.account_and_billing,
+          pageRootName: pageNames.usage
+        }}
+      />
       <SideNavigationAndContent
         navigationTree={[
           {

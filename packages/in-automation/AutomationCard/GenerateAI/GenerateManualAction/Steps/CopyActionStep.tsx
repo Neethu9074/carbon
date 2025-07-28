@@ -12,7 +12,7 @@ import { Result } from '@instana/types';
 import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import CopyActionStepForm, { ActionForm } from 'in-automation/AutomationCard/GenerateAI/CopyActionStepForm';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { t } from 'in-i18n';
 
 export default function CopyActionStep({
@@ -28,6 +28,7 @@ export default function CopyActionStep({
   clearActionNameExists: () => void;
   result: Result<any> | null;
 }) {
+  const [role] = useCurrentUserRole();
   const actionForm: ActionForm = form.get('action');
 
   return (

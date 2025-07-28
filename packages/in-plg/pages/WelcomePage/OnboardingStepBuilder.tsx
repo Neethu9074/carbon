@@ -28,13 +28,14 @@ import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { hasWebsitesAccess } from 'in-stores/permission';
 import config from 'in-services/config';
-import { role } from 'in-stores/user';
 
 //we cannot provide correct type for activationData as the json object keys are dynamic
 export default function OnboardingStepBuilder({ activation }: { activation: any }) {
+  const [role] = useCurrentUserRole();
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
   const [onboardingItems, setOnboardingItems] = useState<TileDataType[]>([]);
   const { createHrefToPath } = useNavigation();

@@ -10,13 +10,13 @@ import http from 'in-services/http';
 
 const basePath = '/api/application-monitoring/settings/service';
 
-export function getServiceConfigs() {
+export function getServiceConfigs(role) {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `${basePath}`,
     mapToResultObject: true
-  }).map(mapFromServerResponse);
+  }).map(data => mapFromServerResponse(data, role));
 }
 
 export function replaceAllServiceConfigs(configs) {
@@ -83,7 +83,7 @@ function mapToServerResponse(config) {
   return config;
 }
 
-function mapFromServerResponse(response) {
+function mapFromServerResponse(response, role) {
   if (!response.data) {
     return response;
   }
@@ -94,7 +94,7 @@ function mapFromServerResponse(response) {
     for (let i = 0; i < config.matchSpecification.length; i++) {
       const matchSpecification = config.matchSpecification[i];
 
-      const keyValueTag = getKeyValueTag(matchSpecification.key);
+      const keyValueTag = getKeyValueTag(matchSpecification.key, role);
       if (keyValueTag) {
         const name = keyValueTag.fullyQualifiedName;
         const secondLevelName = matchSpecification.key.slice(name.length + 1); // remove the first .
@@ -122,8 +122,8 @@ export function fillEmptyValues(config) {
   return config;
 }
 
-function getKeyValueTag(matchSpecificationKey) {
-  const keyValuePairTag = getKeyValuePairTag(matchSpecificationKey);
+function getKeyValueTag(matchSpecificationKey, role) {
+  const keyValuePairTag = getKeyValuePairTag(matchSpecificationKey, role);
   if (keyValuePairTag) {
     return keyValuePairTag;
   }

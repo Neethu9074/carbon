@@ -56,8 +56,8 @@ import { TableTab } from 'in-plg/components/DashboardTable/TableTab';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { Location } from 'in-stores/navigation/types';
-import { role } from 'in-stores/user';
 
 const syntheticArrayOptions = {
   test: 'test',
@@ -99,6 +99,7 @@ export default function SyntheticMonitoringWidget({
   widgetLabel,
   dashboardTileProps
 }: SyntheticProps) {
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   const [selectedType, setSelectedType] = useState(localStorage.getItem('selectedSyntheticType') ?? 'test');
   const { location, createHref, createHrefToPath } = useNavigation();

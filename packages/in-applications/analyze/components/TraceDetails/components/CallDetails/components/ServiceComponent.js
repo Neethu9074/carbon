@@ -23,17 +23,18 @@ import WebsiteBeaconDetails from 'in-applications/analyze/components/TraceDetail
 import ProfileInformation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ProfileInformation';
 import SpanDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SpanDetails';
 import LogsCard from 'in-logging/components/TraceDetails/components/LogDetails/LogsCard';
-import { timeConfigFromCall } from 'in-applications/metrics';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { timeConfigFromCall } from 'in-applications/metrics';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import Tooltip from 'in-components/Tooltip';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ServiceComponent.mless';
 
 export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon }) {
+  const [role] = useCurrentUserRole();
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);

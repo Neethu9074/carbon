@@ -15,7 +15,7 @@ import {
   globalSettingsAlertingEventCustom
 } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { t } from 'in-i18n';
 
 import locals from './EventSpecificationLink.mless';
@@ -31,6 +31,7 @@ export default function EventSpecificationLink({
   hasMarginRight?: boolean;
   as?: 'button' | 'menuItem';
 }) {
+  const [role] = useCurrentUserRole();
   const isCustom = isCustomEvent(event);
   const eventSpecificationId: string = event.metadata?.eventSpecificationId;
   const { createHrefToPath, goToPath } = useNavigation();

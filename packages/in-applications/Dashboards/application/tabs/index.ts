@@ -29,10 +29,10 @@ import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permissi
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { playwithEnabled } from 'in-services/featureFlags';
-import { role } from 'in-stores/user';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
-const getApplicationTabs = (canConfigureApplications: boolean | null | undefined) => {
+const getApplicationTabs = (canConfigureApplications: boolean | null | undefined, role: Role) => {
   return [
     {
       label: t('in-applications:labelSummary'),

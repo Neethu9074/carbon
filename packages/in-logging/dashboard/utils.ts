@@ -13,8 +13,8 @@ import {
   loggingDashboardPath
 } from 'in-logging/navigation/paths';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isAddonUserCached } from 'in-logging/api/licence';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export function generateQueryWithWinSize(windowSize: number): any {
@@ -81,6 +81,7 @@ interface LoggingNavigationItem {
 }
 
 export const useLoggingNavigationItems = (): LoggingNavigationItem[] => {
+  const [role] = useCurrentUserRole();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
   return [

@@ -36,6 +36,7 @@ import useLogEventAlertConfig from 'in-events/hooks/useLogEventAlertConfig';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import { fixateTimeConfig } from 'in-stores/time/config';
@@ -44,7 +45,6 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -55,6 +55,7 @@ interface Props {
 }
 
 export default function LogEventContent({ event, snapshot, reload }: Props) {
+  const [role] = useCurrentUserRole();
   const alertConfig = useLogEventAlertConfig(event);
   const tagCatalog = useTagCatalog('SMART_ALERTS');
 

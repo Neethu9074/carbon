@@ -58,11 +58,12 @@ import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
-import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
+import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { close } from 'in-components/DialogPresenter/store';
@@ -215,6 +216,7 @@ const onSubmitInvitation = (props: OnSubmitProps) => {
 };
 
 const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAndInviteDialogBoxProps) => {
+  const [role] = useCurrentUserRole();
   const { location, createHref, createHrefToPath } = useNavigation();
   const clonedLocation = cloneLocation(location);
 

@@ -14,16 +14,17 @@ import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { tabs } from 'in-bizops/dashboards/perspectives/tabs';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import { bizopsTabClick } from 'in-bizops/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './BusinessPerspectiveSummary.mless';
 
 export default function BusinessPerspectiveSummary() {
+  const [role] = useCurrentUserRole();
   const location: Location = useLocation();
   const timeConfig = useTimeConfig();
   const perspectiveName =

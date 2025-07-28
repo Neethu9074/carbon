@@ -21,7 +21,7 @@ export const productAreas = Object.freeze({
   cloud_foundry: 'Platforms - Cloud Foundry',
   ibmZ: 'Platforms - IBM Z HMC',
   kubernetes: 'Platforms - Kubernetes',
-  linuxkvmhypervisor: 'Linux KVM Hypervisor',
+  linuxkvmhypervisor: 'Platforms - Linux KVM Hypervisor',
   vsphere: 'Platforms - vSphere',
   openstack: 'Platforms - Openstack',
   ibmpower: 'Platforms - IBM Power HMC',
@@ -34,7 +34,8 @@ export const productAreas = Object.freeze({
   power_vc: 'PowerVC',
   automation: 'Automation',
   vulnerability: 'Vulnerability',
-  data_sources: 'Data Sources'
+  data_sources: 'Data sources',
+  account_and_billing: 'Account and billing'
 } as const);
 
 type ProductAreaKey = keyof typeof productAreas;

@@ -395,6 +395,43 @@ export default function MultiSelectDataTable<
             })
           };
 
+          const getSelectAllSelectionProps = () => {
+            const { ariaLabel, ...cleanedSelectAllSelectionProps } = getSelectionProps({
+              rows,
+              onClick: () => {
+                if (onRowSelect) {
+                  // Row is not yet selected therefore isSelected is still false
+                  const selectedIds = rows.filter(row => !row.isSelected).map(row => row.id);
+                  onRowSelect(selectedIds);
+                }
+              }
+            } as any) as any;
+            // Remove deprecated ariaLabel and replace with aria-label
+            return { 'aria-label': ariaLabel, ...cleanedSelectAllSelectionProps };
+          };
+
+          const getRowSelectionProps = (row: any) => {
+            const { ariaLabel, ...cleanedSelectRowSelectionProps } = getSelectionProps({
+              row,
+              onChange: () => {
+                if (onRowSelect) {
+                  let selectedIds = selectedRows.map(row => row.id);
+                  if (row.isSelected) {
+                    // row was previously selected
+                    selectedIds = selectedIds.filter(id => id !== row.id);
+                  } else {
+                    // row has been selected
+                    selectedIds.push(row.id);
+                  }
+                  onRowSelect(selectedIds);
+                }
+              }
+            }) as any;
+
+            // Remove deprecated ariaLabel and replace with aria-label
+            return { 'aria-label': ariaLabel, ...cleanedSelectRowSelectionProps };
+          };
+
           return (
             <TableContainer
               title={defaultHeaderWithCount(title, tableRows.length, filteredRows.length, isLoading)}
@@ -446,20 +483,7 @@ export default function MultiSelectDataTable<
                   <Table {...getTableProps()} aria-label={title}>
                     <TableHead>
                       <TableRow>
-                        {enableMultSelect && !isEmptyState && (
-                          <TableSelectAll
-                            {...(getSelectionProps({
-                              rows,
-                              onClick: () => {
-                                if (onRowSelect) {
-                                  // Row is not yet selected therefore isSelected is still false
-                                  const selectedIds = rows.filter(row => !row.isSelected).map(row => row.id);
-                                  onRowSelect(selectedIds);
-                                }
-                              }
-                            } as any) as any)}
-                          />
-                        )}
+                        {enableMultSelect && !isEmptyState && <TableSelectAll {...getSelectAllSelectionProps()} />}
                         {headers.map(header => (
                           <TableHeader
                             // @ts-expect-error no correct typedef for Table header
@@ -503,26 +527,7 @@ export default function MultiSelectDataTable<
                               row
                             })}
                           >
-                            {enableMultSelect && (
-                              <TableSelectRow
-                                {...(getSelectionProps({
-                                  row,
-                                  onChange: () => {
-                                    if (onRowSelect) {
-                                      let selectedIds = selectedRows.map(row => row.id);
-                                      if (row.isSelected) {
-                                        // row was previously selected
-                                        selectedIds = selectedIds.filter(id => id !== row.id);
-                                      } else {
-                                        // row has been selected
-                                        selectedIds.push(row.id);
-                                      }
-                                      onRowSelect(selectedIds);
-                                    }
-                                  }
-                                }) as any)}
-                              />
-                            )}
+                            {enableMultSelect && <TableSelectRow {...getRowSelectionProps(row)} />}
                             {row.cells.map(cell => (
                               <TableCell key={`table-cell-${cell.id}`}>{cell.value}</TableCell>
                             ))}
@@ -565,6 +570,8 @@ export default function MultiSelectDataTable<
                                             disabled={row.disabled || item?.disabled}
                                             key={index}
                                             kind="ghost"
+                                            data-testid={`${item.actionType}Icon`}
+                                            autoAlign
                                           >
                                             {item.icon}
                                           </IconButton>

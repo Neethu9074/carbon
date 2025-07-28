@@ -32,11 +32,12 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { FetchedState } from 'in-hooks/utils/types';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
+import { Role } from 'in-types';
 
 import locals from 'in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliManageList.mless';
 
@@ -60,6 +61,7 @@ type InternalSliListProps = SliListProps &
   Pick<ServerTablePresenterProps<SliConfiguration>, OverwrittenServerTableProps>;
 
 export default function SliList(props: SliListProps) {
+  const [role] = useCurrentUserRole();
   const paginatedResult = fetchedStateToPaginatedResult(props.fetchedConfigState);
   const { page = 0, pageSize = 0 } = paginatedResult?.data ?? {};
 
@@ -74,7 +76,7 @@ export default function SliList(props: SliListProps) {
       onRowClick={role?.canConfigureServiceLevelIndicators ? props.selectSli : undefined}
       numSkeletonRows={3}
       isSearchable
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={getColumnDefinitions(role)}
     />
   );
 }
@@ -85,7 +87,7 @@ const getRowProps = () => {
   } as const;
 };
 
-const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps>[] = [
+const getColumnDefinitions = (role: Role): ColumnDefinition<SliConfiguration, InternalSliListProps>[] => [
   {
     id: 'name',
     sortable: true,

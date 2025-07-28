@@ -18,7 +18,7 @@ import {
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import columnDefinitions from 'in-synthetics/dashboards/global/tabs/locations/components/columnDefinitions';
+import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/locations/components/columnDefinitions';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import Filters from 'in-synthetics/dashboards/global/tabs/locations/components/Filters';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -31,12 +31,12 @@ import getLocationList from 'in-synthetics/subscriptions/getLocationList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const pathSegment = '/syntheticLocations';
@@ -49,19 +49,25 @@ const urlStateDefinition = {
   })
 };
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
+function ServerTableWithUrlState(props: Parameters<typeof createServerTableWithUrlState>[0]) {
+  const [role] = useCurrentUserRole();
+  const columnDefinitions = getColumnDefinitions(role);
+  const Component = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions,
+      title: t('in-synthetics:dashboard.noDataAvailable.locationListTitle'),
+      description: t('in-synthetics:dashboard.noDataAvailable.locationListDescription')
+    }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, locationTypesUrlParameter],
     columnDefinitions,
-    title: t('in-synthetics:dashboard.noDataAvailable.locationListTitle'),
-    description: t('in-synthetics:dashboard.noDataAvailable.locationListDescription')
-  }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, locationTypesUrlParameter],
-  columnDefinitions,
-  defaultOrderBy: 'location_name',
-  defaultOrderDirection: 'ASC',
-  pathSegment,
-  matrixPrefix
-});
+    defaultOrderBy: 'location_name',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  });
+
+  return <Component {...props} />;
+}
 
 interface PresenterProps {
   locationTypes: string[];
@@ -78,6 +84,7 @@ function Filter({ locationTypes, isFilterAllowed, setFilter }: PresenterProps) {
 }
 
 export default function LocationList() {
+  const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
   const [{ locationTypes }, setFilter] = useUrlState(urlStateDefinition);
 

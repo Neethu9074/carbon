@@ -10,9 +10,10 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Summary from 'in-logging/dashboard/Summary/Summary';
-import { role } from 'in-stores/user';
 
+jest.mock('in-stores/useCurrentUserRole');
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
@@ -32,8 +33,7 @@ describe('Summary Component', () => {
 
   it('renders correctly with appropriate child components when user has all permissions', () => {
     (useObservable as jest.Mock).mockReturnValueOnce(true);
-    (role as any).canViewLogs = true;
-    (role as any).canViewLogVolume = true;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canViewLogs: true, canViewLogVolume: true }]);
 
     const { container } = render(<Summary />);
 
@@ -46,8 +46,7 @@ describe('Summary Component', () => {
 
   it('does not render LogVolumeDashboard if user does not have log volume permission', () => {
     (useObservable as jest.Mock).mockReturnValueOnce(true);
-    (role as any).canViewLogs = true;
-    (role as any).canViewLogVolume = false;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canViewLogs: true, canViewLogVolume: false }]);
 
     render(<Summary />);
 

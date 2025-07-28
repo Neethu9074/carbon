@@ -8,13 +8,14 @@ import React from 'react';
 import { Stack, SvgIcon, Pill } from '@instana/components';
 
 import { getLogLevelAndColor } from 'in-logging/components/TraceDetails/utils';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { number } from 'in-services/formatters/number';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './LogTooltipContent.mless';
 
 export default function LogTooltipContent({ log }) {
+  const [role] = useCurrentUserRole();
   if (!role.canViewLogs) {
     return (
       <div className={locals.restrictedContent}>

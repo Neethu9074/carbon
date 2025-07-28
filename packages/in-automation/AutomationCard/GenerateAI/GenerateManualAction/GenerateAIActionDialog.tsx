@@ -43,17 +43,18 @@ import { error, hasError, isLoading } from 'in-services/util/result';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
+import { Role } from 'in-types';
 
 import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
 const formId = 'createPolicyAIForm';
 
-function getStepConfigs(hasOotbActions: boolean) {
+function getStepConfigs(hasOotbActions: boolean, role: Role) {
   const actionSteps: StepConfigs = [
     {
       title: hasOotbActions
@@ -285,13 +286,15 @@ function renderCustomSaveAction({
   form,
   isSaving,
   checkActionNameExists,
-  submit
+  submit,
+  role
 }: {
   step: number;
   form: GenerateAIActionForm;
   isSaving: boolean;
   checkActionNameExists: () => void;
   submit: (both: boolean) => void;
+  role: Role;
 }) {
   switch (step) {
     case 1:
@@ -393,6 +396,7 @@ export default function GenerateAIActionDialog({
   selectedDescription,
   selectedEntityType
 }: GenerateAIActionDialogProps) {
+  const [role] = useCurrentUserRole();
   const [step, setStep] = useState(0);
   const [form, setForm] = useGenerateAIActionForm({ trigger, event, selectedDescription, selectedEntityType });
   const onCancel = useOnCancel(step);
@@ -435,7 +439,8 @@ export default function GenerateAIActionDialog({
               form,
               isSaving,
               checkActionNameExists,
-              submit: both => onSubmit({ both, form, setForm, event })
+              submit: both => onSubmit({ both, form, setForm, event }),
+              role
             })}
             form={form}
             onStepChanged={(oldStep, nextStep) =>
@@ -478,7 +483,7 @@ export default function GenerateAIActionDialog({
                   return null;
               }
             }}
-            stepConfigs={getStepConfigs(hasOotbActions)}
+            stepConfigs={getStepConfigs(hasOotbActions, role)}
             additionalStepCheck={step => additionalStepCheck(step, form)}
             noStepCheckOnFirstStep
           />

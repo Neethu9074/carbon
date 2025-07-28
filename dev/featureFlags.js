@@ -155,7 +155,7 @@ module.exports = {
   extrapolateMissingStackedAreaValues: true,
   nutanixEnabled: true,
   xenserverEnabled: true,
-  linuxkvmhypervisorEnabled: true,
+  linuxKVMHypervisorEnabled: true,
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,

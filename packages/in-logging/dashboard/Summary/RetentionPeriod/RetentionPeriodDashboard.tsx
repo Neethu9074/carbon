@@ -14,8 +14,8 @@ import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManag
 import { dashboardRetentionManagementPath } from 'in-logging/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isAddonUserCached } from 'in-logging/api/licence';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';
@@ -30,6 +30,7 @@ interface ErrorObject {
   message: string;
 }
 export default function RetentionPeriodDashboard() {
+  const [role] = useCurrentUserRole();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState({ error: false, message: '' } as ErrorObject);
   const [retentionValue, setRetentionValue] = useState<number | undefined | string>();

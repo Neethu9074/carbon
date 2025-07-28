@@ -162,7 +162,13 @@ export const pageNames = Object.freeze({
   windowshypervisor: 'Windows Hypervisor',
   linuxkvmhypervisor: 'Linux KVM Hypervisor',
   linuxkvmhypervisor_host: 'Linux KVM Hypervisor Host',
-  otel_collector: 'OpenTelemetry Collectors'
+  linuxkvmhypervisor_vm: 'Linux KVM Hypervisor VM',
+  otel_collector: 'OpenTelemetry collectors',
+  usage: 'Usage',
+  entitlements: 'Entitlements',
+  activation_and_adoption: 'Activation and adoption',
+  technologies_reporting: 'Technologies reporting',
+  account_information: 'Account information'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

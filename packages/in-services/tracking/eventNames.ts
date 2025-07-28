@@ -350,6 +350,10 @@ export const SETTINGS_ACCOUNT_BILLING_TENANT_UNIT = 'settings.accountBilling.ten
 export const SETTINGS_ACCOUNT_BILLING_TIMERANGE = 'settings.accountBilling.timeRange';
 export const SETTINGS_ACCOUNT_BILLING_PRESENTATION = 'settings.accountBilling.presentation';
 
+export const ACCOUNT_BILLING_TENANT_UNIT = 'accountBilling.tenantUnit';
+export const ACCOUNT_BILLING_TIMERANGE = 'accountBilling.timeRange';
+export const ACCOUNT_BILLING_PRESENTATION = 'accountBilling.presentation';
+
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
 export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboardingNewUnit.helpAndSupport.clicked';

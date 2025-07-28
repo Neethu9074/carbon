@@ -25,7 +25,6 @@ import { isCategoryGlobal } from 'in-alerting/smart-alerts/components/list/const
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
@@ -180,7 +179,7 @@ function getApplicationLabelObservable([id]) {
   return getApplication({ id }).map(result => result.data?.label);
 }
 
-export function createTableColumnDefinition(configsCategory, trackCta, useSmartAlertCreateUrl, urlParams) {
+export function createTableColumnDefinition(configsCategory, trackCta, useSmartAlertCreateUrl, urlParams, role) {
   const isGlobalSmartAlertConfig = isCategoryGlobal(configsCategory);
   const showActionButtons = isGlobalSmartAlertConfig
     ? role.canConfigureGlobalApplicationSmartAlerts

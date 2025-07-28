@@ -47,11 +47,11 @@ import { hasError, isLoading, mapData } from 'in-services/util/result';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './PolicyTable.mless';
@@ -72,6 +72,7 @@ export default function Policies({
   hideFilters = false,
   title = t('in-automation:policies.policies')
 }: Readonly<PlociciesProps>) {
+  const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -195,6 +196,7 @@ function PoliciesMoreMenu({
   policy: PolicyTableEntity;
   tearsheetToggleHandler?: Function;
 }) {
+  const [role] = useCurrentUserRole();
   if (!role?.canConfigureAutomationPolicies) return null;
   return (
     <Stack align="end">

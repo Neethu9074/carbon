@@ -13,8 +13,9 @@ import { just } from '@instana/observables';
 import { MessageProps, RenderProps } from 'in-settings/tabs/UserSettings/pages/Profile/apiItemViewDefinitions';
 import Profile from 'in-settings/tabs/UserSettings/pages/Profile/Profile';
 import { updateUserName } from 'in-settings/api/userProfile';
+import { Role } from 'in-types';
 
-const mockGetUser = jest.fn(() => ({ email: 'test@test.test', fullName: 'myTestName' }));
+const mockGetUser = jest.fn(() => ({ email: 'test@test.test', fullName: 'myTestName', role: {} as Role }));
 const mockCreateForm = jest.fn(createMapForm);
 const mockTriggerSubmit = jest.fn();
 // @ts-expect-error missing types

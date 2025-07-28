@@ -12,6 +12,7 @@ import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } fr
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { deepFreeze } from 'in-services/util/object';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
 export type AnalyzeDataSource = Lowercase<DataSource | 'profiles'>;
@@ -37,20 +38,20 @@ interface DataSourceConfig<Entity> extends FilterTagKeysConfig {
   getTraceIdByItem: (item: Entity) => string | undefined;
   getCallIdByItem: (item: Entity) => string | undefined;
 }
-type AnalyzeDataSourceConfig<Source extends AnalyzeDataSource> =
-  Source extends Lowercase<DataSource>
-    ? DataSourceConfig<Source extends 'traces' ? TraceItem : CallItem>
-    : FilterTagKeysConfig;
+type AnalyzeDataSourceConfig<Source extends AnalyzeDataSource> = Source extends Lowercase<DataSource>
+  ? DataSourceConfig<Source extends 'traces' ? TraceItem : CallItem>
+  : FilterTagKeysConfig;
 
 let configs: {
   [Source in AnalyzeDataSource]: AnalyzeDataSourceConfig<Source>;
 };
 
 export default function getByDataSource<Source extends AnalyzeDataSource>(
-  dataSource: Source
+  dataSource: Source,
+  role: Role
 ): AnalyzeDataSourceConfig<Source> | {} {
   if (!configs) {
-    const filterTagKeys = getAnalyzeFilterTagKeys();
+    const filterTagKeys = getAnalyzeFilterTagKeys(role);
     configs = {
       traces: {
         filterTagKeys,
@@ -70,7 +71,7 @@ export default function getByDataSource<Source extends AnalyzeDataSource>(
       },
       calls: {
         filterTagKeys,
-        groupTagKeys: getCallGroupTagKeys(),
+        groupTagKeys: getCallGroupTagKeys(role),
         errorneousTagPreset: 'call.erroneous',
         latencyTagPreset: 'call.latency',
         isSyntheticTagPreset: 'call.is_synthetic',

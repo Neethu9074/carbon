@@ -37,13 +37,13 @@ import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { isLoading } from 'in-services/util/result';
 import { deleteAction } from 'in-automation/api';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 const pathSegment = '/actionCatalog';
@@ -56,6 +56,7 @@ export default function ActionCatalog({
   actions: Result<Action[]>;
   actionsType: 'user' | 'ai';
 }) {
+  const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -162,6 +163,7 @@ function ActionCatalogMoreMenu({
   toggleActionTearsheet?: Function;
   togglePolicyTearsheet: Function;
 }>) {
+  const [role] = useCurrentUserRole();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   let manualContent = '';
@@ -267,7 +269,7 @@ function ActionCatalogMoreMenu({
             )}
             {isUserActions && role?.canConfigureAutomationActions && (
               <MoreMenuButton
-                disabled={isNotEditable(action, false) && action.type !== ACTION_TYPE.ANSIBLE}
+                disabled={isNotEditable(action, false, role) && action.type !== ACTION_TYPE.ANSIBLE}
                 icon="lib_actions_delete"
                 onClick={() => showConfirmationDialog(action)}
               >

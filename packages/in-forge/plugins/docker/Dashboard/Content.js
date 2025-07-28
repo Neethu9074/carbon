@@ -25,13 +25,14 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
 import LogsChart from 'in-forge/plugins/docker/Dashboard/LogsChart';
 import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { loggingEnabled } from 'in-services/featureFlags';
 import MetricValue from 'in-components/MetricValue';
 import { useHasLogs } from 'in-logging/hooks';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function DockerDashboard({ snapshot, timeConfig }) {
+  const [role] = useCurrentUserRole();
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
   const snapshotId = snapshot.get('id');
 

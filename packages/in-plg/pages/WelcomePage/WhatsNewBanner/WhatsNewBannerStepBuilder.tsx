@@ -21,11 +21,12 @@ import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile'
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { config } from 'in-services/config';
-import { role } from 'in-stores/user';
 
 export default function WhatsNewBannerStepBuilder() {
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   const [clusters] = useKubernetesClustersConfigs();
   const clusterNumber = clusters?.length ?? 0;

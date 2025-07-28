@@ -95,7 +95,7 @@
         "scheduleTitle": "Schedule: How will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?",
-        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Credentials with teams associated will also be reflected in the teams page in settings.",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. {{syntheticTab}} with teams associated will also be reflected in the teams page in settings.",
         "customPropertiesTitle": "Custom properties (optional)",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
         "frequencyHours": "This test will run every {{frequencyHours}} hours.",

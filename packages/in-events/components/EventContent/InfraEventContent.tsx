@@ -57,12 +57,12 @@ import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
 import { getPluginName } from 'in-sdk/pluginName';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './InfraEventContent.mless';
@@ -74,6 +74,7 @@ interface Props {
 }
 
 export default function InfraEventContent({ event, snapshot, reload }: Props) {
+  const [role] = useCurrentUserRole();
   const alertConfig = useInfraEventAlertConfig(event);
   const evaluationType = alertConfig?.evaluationType ?? customEvaluationType;
   const isPerEntityEvaluation = evaluationType === perEntityEvaluationType;

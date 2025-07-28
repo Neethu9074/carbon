@@ -13,39 +13,39 @@ import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import { flowMapEnabled } from 'in-services/featureFlags';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default [
-  {
-    label: t('in-applications:labelSummary'),
-    path: `${endpointDashboard}/summary`,
-    component: wrapWithMessage(Summary)
-  },
-  flowMapEnabled && {
-    label: t('in-applications:labelFlow'),
-    path: `${endpointDashboard}/flowMap`,
-    component: FlowMap,
-    stickToHeader: true,
-    stickToBottom: true,
-    isFullWidth: true
-  },
-  role.canViewLogs && {
-    label: t('in-applications:labelErrorMessages'),
-    path: `${endpointDashboard}/errorMessages`,
-    component: wrapWithMessage(ErrorMessagesTab)
-  },
-  role.canViewLogs && {
-    label: t('in-applications:labelLogMessages'),
-    path: `${endpointDashboard}/logMessages`,
-    component: wrapWithMessage(LogMessagesTab)
-  },
-  {
-    label: t('in-applications:labelInfrastructure'),
-    path: `${endpointDashboard}/infrastructure`,
-    component: wrapWithMessage(Infrastructure)
-  }
-].filter(v => !!v);
+export default role =>
+  [
+    {
+      label: t('in-applications:labelSummary'),
+      path: `${endpointDashboard}/summary`,
+      component: wrapWithMessage(Summary)
+    },
+    flowMapEnabled && {
+      label: t('in-applications:labelFlow'),
+      path: `${endpointDashboard}/flowMap`,
+      component: FlowMap,
+      stickToHeader: true,
+      stickToBottom: true,
+      isFullWidth: true
+    },
+    role.canViewLogs && {
+      label: t('in-applications:labelErrorMessages'),
+      path: `${endpointDashboard}/errorMessages`,
+      component: wrapWithMessage(ErrorMessagesTab)
+    },
+    role.canViewLogs && {
+      label: t('in-applications:labelLogMessages'),
+      path: `${endpointDashboard}/logMessages`,
+      component: wrapWithMessage(LogMessagesTab)
+    },
+    {
+      label: t('in-applications:labelInfrastructure'),
+      path: `${endpointDashboard}/infrastructure`,
+      component: wrapWithMessage(Infrastructure)
+    }
+  ].filter(v => !!v);
 
 function wrapWithMessage(Component) {
   return props => (

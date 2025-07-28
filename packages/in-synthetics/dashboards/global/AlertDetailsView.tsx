@@ -25,9 +25,9 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Sticky from 'in-components/Sticky/Sticky';
 import { getTest } from 'in-synthetics/api';
 import Footer from 'in-components/Footer';
-import Sticky from 'in-components/Sticky';
 
 const AlertDetailsView = () => {
   const timeConfig = useTimeConfig();

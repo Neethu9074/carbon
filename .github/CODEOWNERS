@@ -269,7 +269,7 @@ packages/in-server                                                              
 packages/in-nutanix                                                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-xenserver                                                                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-windowshypervisor                                                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
-packages/in-linuxkvmhypervisor                                                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+packages/in-linux-kvm-hypervisor                                                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 
 # enable sensors team to update aws iam permissions
 packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx                       @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-sensors

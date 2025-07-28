@@ -30,7 +30,7 @@ import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { role } from 'in-stores/user';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
@@ -117,186 +117,188 @@ function TestLabelContent({ item, runType }: { item: TestResultListItem; runType
   );
 }
 
-let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
-  {
-    id: 'test_name',
-    defaultOrderDirection: 'ASC',
-    label: t('in-synthetics:dashboard.testList.testLabel'),
-    noWrap: true,
-    ellipsis: '15vw',
-    getContent: (item, { runType }) => <TestLabelContent item={item} runType={runType ?? ''} />
-  },
-  {
-    id: 'status',
-    label: t('in-synthetics:dashboard.testList.status'),
-    optional: true,
-    defaultOrderDirection: 'ASC',
-    getContent(item: TestResultListItem) {
-      const status = item?.testResultCommonProperties?.testCommonProperties?.active
-        ? t('in-synthetics:dashboard.testList.active')
-        : t('in-synthetics:dashboard.testList.paused');
-      return (
-        <div>
-          <h4 className={locals.label}>{status}</h4>
-        </div>
-      );
-    }
-  },
-  {
-    id: 'synthetic_type',
-    label: t('in-synthetics:dashboard.testList.type'),
-    optional: true,
-    defaultOrderDirection: 'ASC',
-    getContent(item: TestResultListItem) {
-      const sslDaysRemaining = item?.testResultCommonProperties?.sslDaysRemaining;
-      if (sslDaysRemaining != null) {
+export default function getColumnDefinition(role: Role): ColumnDefinition<TestResultListItem, TestListProps>[] {
+  let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
+    {
+      id: 'test_name',
+      defaultOrderDirection: 'ASC',
+      label: t('in-synthetics:dashboard.testList.testLabel'),
+      noWrap: true,
+      ellipsis: '15vw',
+      getContent: (item, { runType }) => <TestLabelContent item={item} runType={runType ?? ''} />
+    },
+    {
+      id: 'status',
+      label: t('in-synthetics:dashboard.testList.status'),
+      optional: true,
+      defaultOrderDirection: 'ASC',
+      getContent(item: TestResultListItem) {
+        const status = item?.testResultCommonProperties?.testCommonProperties?.active
+          ? t('in-synthetics:dashboard.testList.active')
+          : t('in-synthetics:dashboard.testList.paused');
         return (
           <div>
-            <Stack orientation="vertical">
-              <Stack orientation="horizontal" gap="xsmall">
-                <h4>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
-                <InfoIcon
-                  description={t('in-synthetics:dashboard.testList.sslDaysRemaining', {
-                    daysRemaining: sslDaysRemaining
+            <h4 className={locals.label}>{status}</h4>
+          </div>
+        );
+      }
+    },
+    {
+      id: 'synthetic_type',
+      label: t('in-synthetics:dashboard.testList.type'),
+      optional: true,
+      defaultOrderDirection: 'ASC',
+      getContent(item: TestResultListItem) {
+        const sslDaysRemaining = item?.testResultCommonProperties?.sslDaysRemaining;
+        if (sslDaysRemaining != null) {
+          return (
+            <div>
+              <Stack orientation="vertical">
+                <Stack orientation="horizontal" gap="xsmall">
+                  <h4>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
+                  <InfoIcon
+                    description={t('in-synthetics:dashboard.testList.sslDaysRemaining', {
+                      daysRemaining: sslDaysRemaining
+                    })}
+                    align="bottom"
+                  />
+                </Stack>
+                <span className={locals.secText}>
+                  {t('in-synthetics:dashboard.testList.frequencySubText', {
+                    count: item?.testResultCommonProperties?.testCommonProperties?.frequency
                   })}
-                  align="bottom"
-                />
+                </span>
               </Stack>
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
               <span className={locals.secText}>
                 {t('in-synthetics:dashboard.testList.frequencySubText', {
                   count: item?.testResultCommonProperties?.testCommonProperties?.frequency
                 })}
               </span>
-            </Stack>
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
-            <span className={locals.secText}>
-              {t('in-synthetics:dashboard.testList.frequencySubText', {
-                count: item?.testResultCommonProperties?.testCommonProperties?.frequency
-              })}
-            </span>
-          </div>
-        );
+            </div>
+          );
+        }
       }
-    }
-  },
-  {
-    id: 'successRate',
-    label: t('in-synthetics:dashboard.testList.successRate'),
-    optional: true,
-    defaultOrderDirection: 'ASC',
-    getContent(item: TestResultListItem) {
-      const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
-      const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
-      if (totalRuns != 0) {
-        return (
-          <div>
-            <h4 className={locals.label}>{percentageTwoDecimalPlaces(successRuns / totalRuns)}</h4>
-            <span className={locals.secText}>
-              {t('in-synthetics:dashboard.testList.successRuns', {
-                successRuns: successRuns,
-                totalRuns: totalRuns
-              })}
-            </span>
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.na')}</h4>
-          </div>
-        );
+    },
+    {
+      id: 'successRate',
+      label: t('in-synthetics:dashboard.testList.successRate'),
+      optional: true,
+      defaultOrderDirection: 'ASC',
+      getContent(item: TestResultListItem) {
+        const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
+        const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
+        if (totalRuns != 0) {
+          return (
+            <div>
+              <h4 className={locals.label}>{percentageTwoDecimalPlaces(successRuns / totalRuns)}</h4>
+              <span className={locals.secText}>
+                {t('in-synthetics:dashboard.testList.successRuns', {
+                  successRuns: successRuns,
+                  totalRuns: totalRuns
+                })}
+              </span>
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.na')}</h4>
+            </div>
+          );
+        }
       }
-    }
-  },
-  {
-    id: 'avg_response_time',
-    label: t('in-synthetics:dashboard.testList.latency'),
-    optional: true,
-    defaultOrderDirection: 'DESC',
-    getContent(item: TestResultListItem, { result, timeConfig }) {
-      return (
-        <SparkChart
-          loading={result?.progress?.loading}
-          rollup={getChartGranularity(timeConfig)}
-          //@ts-expect-error
-          timeConfig={getResolvedTimeConfig(timeConfig, result?.time)}
-          aggregation="MEAN"
-          metrics={item?.metrics.avg_response_time}
-          metric={item?.metrics.response_time}
-          tooltipFormatter={meanLatencyFixed.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'location',
-    label: t('in-synthetics:dashboard.testList.locationLabel'),
-    optional: true,
-    defaultOrderDirection: 'ASC',
-    getContent: function Content(item: TestResultListItem) {
-      return <LocationsPresenter item={item} />;
-    }
-  },
-  {
-    id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
-    label: t('in-synthetics:dashboard.testList.associationLabel'),
-    optional: true,
-    defaultOrderDirection: 'ASC',
-    getContent: function Content(item: TestResultListItem) {
-      return <AssociationsContent item={item} />;
-    }
-  },
-  {
-    id: 'health',
-    label: t('in-synthetics:dashboard.testList.health'),
-    optional: true,
-    defaultOrderDirection: 'ASC',
-    getContent: function Content(item: TestResultListItem) {
-      const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
-      const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
-      let severity = totalRuns != 0 && successRuns / totalRuns == 1 ? 0 : 5;
-
-      if (totalRuns != 0) {
+    },
+    {
+      id: 'avg_response_time',
+      label: t('in-synthetics:dashboard.testList.latency'),
+      optional: true,
+      defaultOrderDirection: 'DESC',
+      getContent(item: TestResultListItem, { result, timeConfig }) {
         return (
-          <HealthIndicatorPresenter
-            openIssues={severity}
-            maxSeverity={severity}
-            active={false}
-            iconOnly
-            iconOnlySize="s"
+          <SparkChart
+            loading={result?.progress?.loading}
+            rollup={getChartGranularity(timeConfig)}
+            //@ts-expect-error
+            timeConfig={getResolvedTimeConfig(timeConfig, result?.time)}
+            aggregation="MEAN"
+            metrics={item?.metrics.avg_response_time}
+            metric={item?.metrics.response_time}
+            tooltipFormatter={meanLatencyFixed.compact}
           />
         );
-      } else {
-        return (
-          <div>
-            <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.na')}</h4>
-          </div>
-        );
+      }
+    },
+    {
+      id: 'location',
+      label: t('in-synthetics:dashboard.testList.locationLabel'),
+      optional: true,
+      defaultOrderDirection: 'ASC',
+      getContent: function Content(item: TestResultListItem) {
+        return <LocationsPresenter item={item} />;
+      }
+    },
+    {
+      id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
+      label: t('in-synthetics:dashboard.testList.associationLabel'),
+      optional: true,
+      defaultOrderDirection: 'ASC',
+      getContent: function Content(item: TestResultListItem) {
+        return <AssociationsContent item={item} />;
+      }
+    },
+    {
+      id: 'health',
+      label: t('in-synthetics:dashboard.testList.health'),
+      optional: true,
+      defaultOrderDirection: 'ASC',
+      getContent: function Content(item: TestResultListItem) {
+        const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
+        const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
+        let severity = totalRuns != 0 && successRuns / totalRuns == 1 ? 0 : 5;
+
+        if (totalRuns != 0) {
+          return (
+            <HealthIndicatorPresenter
+              openIssues={severity}
+              maxSeverity={severity}
+              active={false}
+              iconOnly
+              iconOnlySize="s"
+            />
+          );
+        } else {
+          return (
+            <div>
+              <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.na')}</h4>
+            </div>
+          );
+        }
       }
     }
+  ];
+
+  if (role?.canConfigureSyntheticTests) {
+    columnDefinitions.push({
+      id: 'action',
+      label: t('in-synthetics:dashboard.testList.action'),
+      sortable: false,
+      getContent(item: TestResultListItem) {
+        return (
+          <HorizontalFlexWrapper>
+            <div>
+              <ListActionsColumn {...item} />
+            </div>
+          </HorizontalFlexWrapper>
+        );
+      }
+    });
   }
-];
 
-if (role?.canConfigureSyntheticTests) {
-  columnDefinitions.push({
-    id: 'action',
-    label: t('in-synthetics:dashboard.testList.action'),
-    sortable: false,
-    getContent(item: TestResultListItem) {
-      return (
-        <HorizontalFlexWrapper>
-          <div>
-            <ListActionsColumn {...item} />
-          </div>
-        </HorizontalFlexWrapper>
-      );
-    }
-  });
+  return columnDefinitions;
 }
-
-export default columnDefinitions;

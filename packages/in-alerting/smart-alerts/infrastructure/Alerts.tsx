@@ -31,17 +31,18 @@ import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColu
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer/Footer';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Alerts.mless';
 
 export default function Alerts({ isEventsView = false }: { isEventsView?: boolean }) {
+  const [role] = useCurrentUserRole();
   const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
 
   function getColumnDefinitions() {

@@ -29,13 +29,13 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './WebsitesList.mless';
@@ -124,6 +124,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 const RightHeader = () => {
+  const [role] = useCurrentUserRole();
   const { websiteOpenAddFrom } = useWebsiteTracker();
   const linkToNewWebsite = useLinkToNewWebsite();
   if (role.canConfigureEumApplications && !playwithEnabled) {

@@ -43,13 +43,14 @@ import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { mobileAppId } from 'in-mobile-apps/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 export default function Alerts({ mobileAppId, mobileAppLabel, isEventsView = false }: AlertsProps) {
+  const [role] = useCurrentUserRole();
   const handlers = role?.canConfigureMobileAppSmartAlerts ? actionHandlers : {};
 
   const mobileAppData = useGetMobileAppProps();

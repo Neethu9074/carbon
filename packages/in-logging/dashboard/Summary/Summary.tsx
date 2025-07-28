@@ -14,15 +14,16 @@ import { getLogDistributionConfig, getLogVolumeConfig } from 'in-logging/dashboa
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
 export default function Summary() {
+  const [role] = useCurrentUserRole();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
   const timeConfig = useTimeConfig();
   const showLogVolume = role?.canViewLogVolume && isLoggingAddonUser;

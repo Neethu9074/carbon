@@ -11,7 +11,7 @@ import { Link } from '@instana/components';
 
 import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 export const DEFAULT_NUMBER_ROWS = 5;
 export const MAX_NUMBER_ROWS = 2000;
@@ -51,6 +51,18 @@ export function getNoDataHeader(label: string) {
   }
 }
 
+function LinkToAgents() {
+  const [role] = useCurrentUserRole();
+  return (
+    <Link
+      href={newOTelPageEnabled ? `/#${datasourceInstanaAgentPath}` : '/#/agents/installation'}
+      disabled={!role?.canConfigureAgents}
+    >
+      {t('in-plg:welcomepage.noData.infrastructureWidget.link')}
+    </Link>
+  );
+}
+
 export function getNoDataDescription(label: string) {
   switch (label) {
     case 'applicationWidget':
@@ -72,14 +84,7 @@ export function getNoDataDescription(label: string) {
         <Trans
           i18nKey="in-plg:welcomepage.noData.infrastructureWidget.description"
           components={{
-            linkToAgents: (
-              <Link
-                href={newOTelPageEnabled ? `/#${datasourceInstanaAgentPath}` : '/#/agents/installation'}
-                disabled={!role?.canConfigureAgents}
-              >
-                {t('in-plg:welcomepage.noData.infrastructureWidget.link')}
-              </Link>
-            )
+            linkToAgents: <LinkToAgents />
           }}
         />
       );

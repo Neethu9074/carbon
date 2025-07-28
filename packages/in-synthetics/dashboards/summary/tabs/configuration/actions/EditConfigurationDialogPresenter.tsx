@@ -12,14 +12,8 @@ import { generateUniqueShortId } from '@instana/utils';
 import { SyntheticTest } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
-import {
-  ConfigItem,
-  SlideInHeader,
-  TeamTagEx,
-  TestTypeSelected,
-  AssertionTargetFilter
-} from 'in-synthetics/utils/constants';
 import cleanConfigurationForm from 'in-synthetics/dashboards/summary/tabs/configuration/actions/cleanConfigurationForm';
+import { ConfigItem, SlideInHeader, TestTypeSelected, AssertionTargetFilter } from 'in-synthetics/utils/constants';
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { clickSyntheticMonitoringConfigurationTabEditTracker } from 'in-synthetics/tracking/tracker';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
@@ -28,7 +22,6 @@ import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestFo
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { DNSErrorsExist } from 'in-synthetics/createTests/utils/DNSErrorExist';
-import getDefaultTeams from 'in-synthetics/createTests/utils/getDefaultTeams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
@@ -168,7 +161,6 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     }
   };
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
-  const [teams, setTeams] = useState<TeamTagEx[]>(getDefaultTeams(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
   const [targetFilters, setTargetFilters] = useState(getTargetFilters(form, 'targetValues'));
   const [validationFilters, setValidationFilters] = useState(getTargetFilters(form, 'validationRules'));
@@ -353,8 +345,6 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setInvalidHeader={setInvalidHeader}
           invalidJSON={invalidJSON}
           setInvalidJSON={setInvalidJSON}
-          teams={teams}
-          setTeams={setTeams}
           customProperties={customProperties}
           setCustomProperties={setCustomProperties}
           invalidCustomProperty={invalidCustomProperty}

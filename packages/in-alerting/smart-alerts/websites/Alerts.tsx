@@ -47,10 +47,10 @@ import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 function getColumnDefinitions(websiteLabel: string) {
@@ -74,6 +74,7 @@ export default function Alerts({
   websiteLabel: string;
   isEventsView?: boolean;
 }) {
+  const [role] = useCurrentUserRole();
   const handlers = role?.canConfigureWebsiteSmartAlerts ? actionHandlers : {};
 
   const websiteData = useWebsiteData();

@@ -29,20 +29,21 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
+import getTabs from 'in-synthetics/dashboards/summary/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
-import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 
 import locals from './SyntheticSummary.mless';
 
 const SyntheticSummaryDashboard = () => {
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
@@ -90,7 +91,7 @@ const SyntheticSummaryDashboard = () => {
         HeaderComponent={Header}
         location={location}
         // @ts-expect-error
-        tabs={tabs}
+        tabs={getTabs(role)}
         props={props}
         result$={getSyntheticTest({ testId: testId })}
         withProps={result => ({
@@ -106,6 +107,7 @@ const SyntheticSummaryDashboard = () => {
 const Header = (
   props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'label' | 'renderButtonLine' | 'renderMetaInformation'>
 ) => {
+  const [role] = useCurrentUserRole();
   return (
     <DashboardHeader
       {...props}

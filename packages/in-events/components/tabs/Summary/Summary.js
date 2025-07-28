@@ -67,6 +67,7 @@ import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -74,7 +75,6 @@ import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import { eventsPageTracker } from 'in-stores/events';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -263,6 +263,7 @@ function EventContent({ event, latestSnapshot, reload }) {
 }
 
 const EventActions = ({ event, reload, latestSnapshot }) => {
+  const [role] = useCurrentUserRole();
   const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 

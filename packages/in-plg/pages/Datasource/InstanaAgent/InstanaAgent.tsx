@@ -32,11 +32,11 @@ import { datasourceInstanaAgentCatalog } from 'in-plg/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getReportingDatasource } from 'in-plg/api/Datasource';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { emptyList } from 'in-services/fixedImmutables';
 import SearchBar from 'in-components/SearchBar';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 interface InstanaAgentProps {
@@ -112,6 +112,7 @@ function onInstallingAgentBasedintergrationsClick() {
 }
 
 function ButtonLine({ agentSnapshots }: SnapshotDataProp) {
+  const [role] = useCurrentUserRole();
   const { createHrefToPath } = useNavigation();
   const isInternalVisible = useObservable(isInternalVisible$, [isInternalVisible$]);
 

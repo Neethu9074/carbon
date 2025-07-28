@@ -24,11 +24,9 @@ import {
 } from 'in-settings/navigation/paths';
 import { idpConfigV2Enabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { productOwnerPermissions } from 'in-stores/permission';
-import { role } from 'in-stores/user';
+import { Role } from 'in-types';
 
-export function roleHasAnyGlobalPermissions(): boolean {
-  if (!role) return false;
-
+export function roleHasAnyGlobalPermissions(role: Role): boolean {
   return (
     role.canConfigureEventsAndAlerts ||
     role.canConfigureIntegrations ||
@@ -42,9 +40,7 @@ export function roleHasAnyGlobalPermissions(): boolean {
   );
 }
 
-export function roleHasAnySecurityAccessPermissions(): boolean {
-  if (!role) return false;
-
+export function roleHasAnySecurityAccessPermissions(role: Role): boolean {
   return (
     role.canConfigureUsers ||
     role.canConfigureTeams ||
@@ -55,23 +51,23 @@ export function roleHasAnySecurityAccessPermissions(): boolean {
   );
 }
 
-export function findFirstPermittedGlobalPage(): string | undefined {
-  if (role?.canConfigureEventsAndAlerts) {
+export function findFirstPermittedGlobalPage(role: Role): string | undefined {
+  if (role.canConfigureEventsAndAlerts) {
     return globalSettingsAlertingEvents;
   }
-  if (role?.canConfigureIntegrations) {
+  if (role.canConfigureIntegrations) {
     return globalSettingsAlertingAlertChannels;
   }
-  if (role?.canConfigureMaintenanceWindows) {
+  if (role.canConfigureMaintenanceWindows) {
     return globalSettingsAlertingMaintenanceConfigurations;
   }
-  if (role?.canConfigureGlobalAlertPayload) {
+  if (role.canConfigureGlobalAlertPayload) {
     return globalSettingsAlertingCustomPayloadConfiguration;
   }
-  if (role?.canConfigureLogManagement) {
+  if (role.canConfigureLogManagement) {
     return globalSettingsIntegrationsLoggingFalconLogScale;
   }
-  if (role?.canConfigureDatabaseManagement) {
+  if (role.canConfigureDatabaseManagement) {
     return globalSettingsIntegrationsDatabase;
   }
 
@@ -81,21 +77,22 @@ export function findFirstPermittedGlobalPage(): string | undefined {
 export function findFirstPermittedSecurityAndAccessPage(
   isGoogleSSOAvailable: boolean,
   isSamlAvailable: boolean,
-  isLdapAvailable: boolean
+  isLdapAvailable: boolean,
+  role: Role
 ): string | undefined {
-  if (role?.canConfigureUsers) {
+  if (role.canConfigureUsers) {
     return securityAndAccessAccessControlUsers;
   }
-  if (role?.canConfigureTeams) {
+  if (role.canConfigureTeams) {
     return securityAndAccessAccessControlGroups;
   }
-  if (role?.canConfigureApiTokens) {
+  if (role.canConfigureApiTokens) {
     return securityAndAccessAccessControlApiTokens;
   }
-  if (role?.canViewAuditLog) {
+  if (role.canViewAuditLog) {
     return securityAndAccessActionLog;
   }
-  if (role?.canConfigureAuthenticationMethods) {
+  if (role.canConfigureAuthenticationMethods) {
     if (idpConfigV2Enabled && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable)) {
       return securityAndAccessIdentityProviders;
     } else {
@@ -112,13 +109,13 @@ export function findFirstPermittedSecurityAndAccessPage(
       }
     }
   }
-  if (role?.canConfigureTeams && rbacTeamsEnabled) {
+  if (role.canConfigureTeams && rbacTeamsEnabled) {
     return securityAndAccessRoleMapping;
   }
-  if (role?.canConfigureTeams && !rbacTeamsEnabled) {
+  if (role.canConfigureTeams && !rbacTeamsEnabled) {
     return securityAndAccessGroupMapping;
   }
-  if (role?.canConfigureSessionSettings) {
+  if (role.canConfigureSessionSettings) {
     return securityAndAccessTimeouts;
   }
 

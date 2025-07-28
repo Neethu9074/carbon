@@ -22,7 +22,7 @@ import {
   logSmartAlertsEnabled,
   applicationSubtracesEnabled,
   nutanixEnabled,
-  linuxkvmhypervisorEnabled,
+  linuxKVMHypervisorEnabled,
   newOTelPageEnabled
 } from 'in-services/featureFlags';
 import { hasPermission as hasStaticPermission, PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
@@ -459,7 +459,7 @@ export const hasXenServerAccess = hasAccess({
   requiredPermissions: xenServerAccessPermissions
 });
 
-export const linuxKvmHypervisorAccessPermissions: PermissionTuple = [
+export const linuxKVMHypervisorAccessPermissions: PermissionTuple = [
   LimitedAccessScope.LIMITED_LINUX_KVM_HYPERVISOR_SCOPE,
   AreaPermission.ACCESS_LINUX_KVM_HYPERVISOR
 ];
@@ -472,8 +472,8 @@ export const linuxKvmHypervisorAccessPermissions: PermissionTuple = [
  */
 export const hasLinuxKVMHypervisorAccess = hasAccess({
   grantedPermissions: permissions,
-  optionalFeatureFlag: linuxkvmhypervisorEnabled,
-  requiredPermissions: linuxKvmHypervisorAccessPermissions
+  optionalFeatureFlag: linuxKVMHypervisorEnabled,
+  requiredPermissions: linuxKVMHypervisorAccessPermissions
 });
 
 export const anyPlatformAccessPermissions: PermissionTuple[] = [
@@ -488,7 +488,7 @@ export const anyPlatformAccessPermissions: PermissionTuple[] = [
   windowHypervisorAccessPermissions,
   nutanixAccessPermissions,
   xenServerAccessPermissions,
-  linuxKvmHypervisorAccessPermissions
+  linuxKVMHypervisorAccessPermissions
 ];
 
 /**

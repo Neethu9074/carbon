@@ -14,11 +14,13 @@ import { stringValidator, arrayValidator } from 'in-services/validators/jsonType
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { close } from 'in-components/DialogPresenter/store';
-import { user, role } from 'in-stores/user';
+import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function EditAsJsonDialog(props) {
+  const [role] = useCurrentUserRole();
   const [field, setField] = useState(
     createField({
       value: JSON.stringify(props.config, 0, 2),

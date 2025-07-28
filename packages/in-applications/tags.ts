@@ -8,8 +8,7 @@ import { TagFilter, TagType } from '@instana/types';
 import { EntityType, entityTypes, TAG_TYPES } from 'in-analyze/applicationFilter';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { deepCopy } from 'in-services/util/object';
-import { role } from 'in-stores/user';
-import { Nullish } from 'in-types';
+import { Nullish, Role } from 'in-types';
 
 export const defaultGroupings = {
   calls: {
@@ -33,7 +32,7 @@ export const callAnalysisDisabledTags = [
 
 export const traceAnalysisDisabledTags = ['call.latency'] as const;
 
-const disabledLists = {
+const getDisabledList = (role: Role) => ({
   general: (() => {
     const disabledList: Record<string, boolean> = {
       'application.id': !role?.canSeeInternalTags,
@@ -75,7 +74,7 @@ const disabledLists = {
     return (tag?: string): boolean => !!tag && (disabledList[tag] || isBeaconTag(tag));
   })(),
   analyzeFilter: isBeaconTag
-};
+});
 
 function isBeaconTag(tag?: string): boolean {
   return tag?.indexOf('beacon.') === 0 || tag?.indexOf('mobileBeacon.') === 0;
@@ -89,17 +88,17 @@ export function isLatencyTag(tag: string): boolean {
 
 export const getTraceGroupTagKeys = () => ['trace.endpoint.name', 'trace.service.name'];
 
-export const getCallGroupTagKeys = () =>
-  getTagTree()
-    .getChildren({ isTagOnDisabledList: disabledLists.callGroup })
+export const getCallGroupTagKeys = (role: Role) =>
+  getTagTree(role)
+    .getChildren({ isTagOnDisabledList: getDisabledList(role).callGroup })
     .map(node => node.name);
 
-export const getAnalyzeFilterTagKeys = () =>
-  getTagTree()
-    .getChildren({ isTagOnDisabledList: disabledLists.analyzeFilter })
+export const getAnalyzeFilterTagKeys = (role: Role) =>
+  getTagTree(role)
+    .getChildren({ isTagOnDisabledList: getDisabledList(role).analyzeFilter })
     .map(node => node.name);
 
-export function getApplicationCreationTagKeys(): string[] {
+export function getApplicationCreationTagKeys(role: Role): string[] {
   const applicationCreationDisabledlist: Record<string, boolean> = {
     'host.mac': true,
     'docker.container.name': true,
@@ -118,7 +117,7 @@ export function getApplicationCreationTagKeys(): string[] {
     'call.error.message': true,
     'cloudfoundry.container.garden.id': true
   };
-  getTagTree();
+  getTagTree(role);
   let tagKeys: string[] = [];
   Object.keys(tagMap!).forEach(item => {
     const tag = tagMap![item];
@@ -148,23 +147,23 @@ function isDisabled(serverTag: TagKey, isTagOnDisabledList: (tagName?: string) =
 let tagTree: TagTreeNode | null = null;
 let tagMap: Record<string, TagTreeNode> | null = null;
 
-export function getTagTree(): TagTreeNode {
+export function getTagTree(role: Role): TagTreeNode {
   if (tagTree == null) {
-    buildTagTree();
+    buildTagTree(role);
   }
 
   return tagTree!; // buildTagTree will ensure TagTree has been generated before
 }
 
-export function getTagMap(): Record<string, TagTreeNode> {
+export function getTagMap(role: Role): Record<string, TagTreeNode> {
   if (tagMap == null) {
-    buildTagTree();
+    buildTagTree(role);
   }
 
   return tagMap!; // buildTagTree will ensure TagTree has been generated before
 }
 
-function buildTagTree() {
+function buildTagTree(role: Role) {
   const rootNode = createNode('root');
   tagTree = rootNode;
   tagMap = {};
@@ -172,7 +171,7 @@ function buildTagTree() {
   let tags = window?.instana?.tags ?? [];
 
   tags = deepCopy(tags)
-    .filter(tag => !isDisabled(tag, disabledLists.general))
+    .filter(tag => !isDisabled(tag, getDisabledList(role).general))
     // @ts-expect-error The backend type is missing annotations, which makes the name optional. This is very hard to deal with for sorting purposes, because a fallback cannot be defined without changing sort order. I.e. and empty string is sorted differently from undefined
     .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
@@ -232,23 +231,23 @@ function createNode(name: string, props: TagTreeNodeProps = {}): TagTreeNode {
   };
 }
 
-export function findSubTreeByFullyQualifiedName(fullyQualifiedName: string): TagTreeNode {
-  getTagTree();
+export function findSubTreeByFullyQualifiedName(fullyQualifiedName: string, role: Role): TagTreeNode {
+  getTagTree(role);
   return tagMap![fullyQualifiedName];
 }
 
-export function requiresSecondLevelName(fullyQualifiedName: string): boolean {
-  const node = findSubTreeByFullyQualifiedName(fullyQualifiedName);
+export function requiresSecondLevelName(fullyQualifiedName: string, role: Role): boolean {
+  const node = findSubTreeByFullyQualifiedName(fullyQualifiedName, role);
   return node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName;
 }
 
-export function getTagType(fullyQualifiedName: string): TagType | Nullish {
-  const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
+export function getTagType(fullyQualifiedName: string, role: Role): TagType | Nullish {
+  const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName, role);
   return definition ? definition.type : null;
 }
 
-export function getTagEntity(fullyQualifiedName: string): EntityType {
-  const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
+export function getTagEntity(fullyQualifiedName: string, role: Role): EntityType {
+  const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName, role);
   if (definition && definition.canApplyToDestination && definition.canApplyToSource) {
     return entityTypes.SOURCE_AND_DESTINATION;
   } else if (definition && definition.canApplyToDestination && !definition.canApplyToSource) {
@@ -298,8 +297,8 @@ export function getMultipleTagFromList(tagFilter: TagFilter[], _tag: TagFilter):
   return result;
 }
 
-export function getKeyValuePairTag(_tag: string): TagTreeNode | null {
-  const tagMap = getTagMap();
+export function getKeyValuePairTag(_tag: string, role: Role): TagTreeNode | null {
+  const tagMap = getTagMap(role);
   const tags = Object.keys(tagMap).map(key => tagMap[key]);
   for (let i = 0; i < tags.length; i++) {
     const tag = tags[i];
