@@ -29,8 +29,8 @@ import EventsNavItems from 'in-events/components/EventContent/EventsNavItems/Eve
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import { trackClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import { getEventStepConfig } from 'in-events/components/feedback/eventStepConfig';
 import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
-import { eventStepConfig } from 'in-events/components/feedback/eventStepConfig';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -39,6 +39,7 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { isAppDataEntityType } from 'in-services/entityUtils';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DashboardHeader from 'in-components/DashboardHeader';
 import EventsList from 'in-events/components/EventsList';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -221,6 +222,7 @@ function renderMetaInformation({ event }) {
 }
 
 export function FeedbackComponents({ eventData, textVariant = 'body-regular', iconSize = 's' }) {
+  const [role] = useCurrentUserRole();
   const tup = 'thumbsUp';
   const tdown = 'thumbsDown';
   const [feedbackState, setFeedbackState] = useState('');
@@ -252,7 +254,7 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular', ic
       trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_NEGATIVE });
       addActiveDialog(
         <EventFeedbackDialog
-          stepConfig={eventStepConfig}
+          stepConfig={getEventStepConfig(role)}
           closedManuallyTracker={() => {
             trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_CLOSED_MANUALLY });
           }}

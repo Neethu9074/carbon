@@ -19,14 +19,15 @@ import { CONTAINERD_ID, getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { loggingEnabled } from 'in-services/featureFlags';
 import RestrictedAccessMessage from 'in-components/rbac';
 import MetricValue from 'in-components/MetricValue';
 import { useHasLogs } from 'in-logging/hooks';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function ContainerdDashboard({ snapshot, timeConfig }) {
+  const [role] = useCurrentUserRole();
   const snapshotId = snapshot.get('id');
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
 

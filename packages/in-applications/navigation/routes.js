@@ -45,14 +45,13 @@ import {
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
-import { role } from 'in-stores/user';
 
 const alertDisplayMode = getSmartAlertDisplayMode(
   applicationSmartAlertDialogView,
   applicationSmartAlertFullScreenDesignEnabled
 );
 
-export default function applicationRoutes() {
+export default function applicationRoutes(role) {
   const appRoutes = [];
   if (role.canConfigureServiceMapping) {
     appRoutes.push(

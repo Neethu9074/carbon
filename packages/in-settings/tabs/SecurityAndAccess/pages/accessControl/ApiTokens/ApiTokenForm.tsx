@@ -18,6 +18,7 @@ import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import Title from 'in-components/lists/Title/Title';
@@ -26,7 +27,6 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import config from 'in-services/config';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
@@ -46,6 +46,8 @@ interface ApiTokenFormProps {
 const permissionsForList = apiTokenPermissions.filter(permission => !permission.isOwnerPermission);
 
 export default function ApiTokenForm({ form, onChange, disabled, createNewToken, setForm }: ApiTokenFormProps) {
+  const [role] = useCurrentUserRole();
+
   return (
     <fieldset data-testid="apitokenform" disabled={disabled}>
       {!createNewToken

@@ -29,10 +29,10 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { isLogItem } from 'in-logging/analyze/AnalyzeView/utils';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { SPAN_STACK_TRACE } from 'in-logging/queryBuilder';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import logIndicatorLocals from 'in-applications/analyze/components/TraceDetails/components/LogIndicator.mless';
@@ -53,6 +53,7 @@ interface LogDetailsSwitchProps {
 }
 
 export default function LogDetailsSwitch(props: LogDetailsSwitchProps) {
+  const [role] = useCurrentUserRole();
   return role?.canViewLogs ? (
     <ErrorBoundary name="calls-sidebar-log">
       <LogDetails {...props} />

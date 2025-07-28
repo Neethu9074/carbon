@@ -36,7 +36,7 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { Nullish } from 'in-types';
 
 const alertDisplayMode = getSmartAlertDisplayMode(
@@ -49,6 +49,7 @@ export interface AlertDetailsProps {
 }
 
 export default function AlertDetails(props: AlertDetailsProps) {
+  const [role] = useCurrentUserRole();
   return (
     <Alert
       {...props}

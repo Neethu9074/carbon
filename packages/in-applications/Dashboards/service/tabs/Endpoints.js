@@ -31,13 +31,13 @@ import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { capitalize } from 'in-services/formatters/string';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import useUrlState from 'in-hooks/useUrlState';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const pathSegment = '/endpoints';
@@ -250,6 +250,7 @@ const urlStateDefinition = {
 export default function Endpoints(props) {
   const { timeConfig, data, applicationId, serviceId, endpointId, boundaryScope, syntheticCalls } = props;
 
+  const [role] = useCurrentUserRole();
   const endpointTypesSyntheticIncluded = useObservable(
     getEndpointTypes({
       filter: {

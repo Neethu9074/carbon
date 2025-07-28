@@ -30,8 +30,8 @@ import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUt
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { close } from 'in-components/DialogPresenter/store';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function PotentialProblemContentControls({
@@ -48,6 +48,7 @@ export default function PotentialProblemContentControls({
   getPotentialProblemConfig,
   renderSmartAlertDialogComponent
 }) {
+  const [role] = useCurrentUserRole();
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
   const smartAlertCreatePath = getLinkToCreateSmartAlert({ isGlobal: false, migration: false, potentialProblem: true });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();

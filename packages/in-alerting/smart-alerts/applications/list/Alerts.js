@@ -28,12 +28,13 @@ import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/lis
 import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { alertsTab } from 'in-applications/navigation/paths';
 import Footer from 'in-components/Footer/Footer';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 export default function Alerts({ applicationId, boundaryScope, location, data }) {
+  const [role] = useCurrentUserRole();
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
   const { trackCta } = useSegmentTracking();
   const getLinkToEditSmartAlert = useSmartAlertEditUrl();
@@ -45,7 +46,13 @@ export default function Alerts({ applicationId, boundaryScope, location, data })
     <>
       {smartAlertCarbonTableEnabled ? (
         <SmartAlertsTableWithUrlState
-          columnDefinitions={createTableColumnDefinition(configsCategory, trackCta, getLinkToEditSmartAlert, urlParams)}
+          columnDefinitions={createTableColumnDefinition(
+            configsCategory,
+            trackCta,
+            getLinkToEditSmartAlert,
+            urlParams,
+            role
+          )}
           getLocalAlertConfigsFetchFunction={() => getAllAlertConfigs(applicationId, { asObservable: true })}
           getGlobalAlertConfigFetchFunction={() =>
             getAllGlobalAlertConfigsRelatedToApplicationId(applicationId, { asObservable: true })
@@ -97,7 +104,7 @@ export default function Alerts({ applicationId, boundaryScope, location, data })
                 numberOfAlerts
               })
             }
-            columnDefinitions={getColumnDefinitions(isCategoryGlobal(configsCategory), trackCta)}
+            columnDefinitions={getColumnDefinitions(isCategoryGlobal(configsCategory), trackCta, role)}
             sortOptions={sortOptions}
             extraSearchAttributes={[getMetricName]}
             createRowLinkLocation={createRowLinkLocation(configsCategory)}
@@ -117,7 +124,7 @@ function getNoDataMessage(configsCategory) {
   return <Trans i18nKey="in-alerting:smartAlerts.applications.inventory.noLocalAlertDataDescription" />;
 }
 
-function getColumnDefinitions(isGlobalSmartAlertConfig, trackCta) {
+function getColumnDefinitions(isGlobalSmartAlertConfig, trackCta, role) {
   const showActionButtons = isGlobalSmartAlertConfig
     ? role.canConfigureGlobalApplicationSmartAlerts
     : role.canConfigureApplicationSmartAlerts;

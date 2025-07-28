@@ -14,6 +14,7 @@ import {
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
 // eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { operators } from 'in-analyze/applicationFilter';
 
 export default function TagFilterEditor({
@@ -31,7 +32,8 @@ export default function TagFilterEditor({
   onChange,
   autoFocus
 }) {
-  const node = findSubTreeByFullyQualifiedName(tagKey);
+  const [role] = useCurrentUserRole();
+  const node = findSubTreeByFullyQualifiedName(tagKey, role);
 
   return (
     <FlexWrapper>

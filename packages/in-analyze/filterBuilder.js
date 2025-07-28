@@ -79,12 +79,12 @@ export function createFilter(config = {}) {
   });
 }
 
-export function addGroupToTagFilter(tagFilters, groupingDefinition, subGroupName) {
+export function addGroupToTagFilter(tagFilters, groupingDefinition, subGroupName, role) {
   const newTagFilter = {
     name: groupingDefinition.groupbyTag,
     operator: 'EQUALS'
   };
-  const node = findSubTreeByFullyQualifiedName(groupingDefinition.groupbyTag);
+  const node = findSubTreeByFullyQualifiedName(groupingDefinition.groupbyTag, role);
   const type = (node && node.type) || 'STRING';
 
   if (type === 'STRING') {

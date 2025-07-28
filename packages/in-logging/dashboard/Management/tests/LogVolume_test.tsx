@@ -10,7 +10,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import LogVolume from 'in-logging/dashboard/Management/LogVolume';
-import { user } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 jest.mock('in-logging/dashboard/Management/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);
 
@@ -29,9 +29,7 @@ jest.mock('in-logging/api/licence', () => ({
   isAddonUserCached: jest.fn()
 }));
 
-jest.mock('in-stores/user', () => ({
-  user: { role: {} }
-}));
+jest.mock('in-stores/useCurrentUserRole', () => jest.fn(() => [{}]));
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
@@ -43,7 +41,7 @@ describe('LogVolume Component', () => {
   });
 
   test('renders Restricted Access when the user does not have permission', () => {
-    (user as any).role = {};
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{}]);
     (useObservable as jest.Mock).mockReturnValue(false);
 
     render(<LogVolume />);
@@ -55,7 +53,7 @@ describe('LogVolume Component', () => {
   });
 
   test('renders Restricted Access when the user is not an addon user', () => {
-    (user as any).role = { canViewLogVolume: true };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canViewLogVolume: true }]);
     (useObservable as jest.Mock).mockReturnValue(false);
 
     render(<LogVolume />);
@@ -67,7 +65,7 @@ describe('LogVolume Component', () => {
   });
 
   test('renders Log Volume content when the user has permission and is an addon user', () => {
-    (user as any).role = { canViewLogVolume: true };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canViewLogVolume: true }]);
     (useObservable as jest.Mock).mockReturnValue(true);
 
     render(<LogVolume />);

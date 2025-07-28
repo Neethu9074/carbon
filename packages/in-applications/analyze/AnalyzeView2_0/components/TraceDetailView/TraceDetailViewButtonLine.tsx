@@ -26,10 +26,10 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { RenderIcon } from 'in-components/SaveFilters/RenderIcon';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { connection } from 'in-connection/connection';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { seconds } from 'in-services/time/time';
-import { role } from 'in-stores/user';
 
 // No need for a subscription, as this is not getting a response
 const retainTrace = (traceId: string) => connection.send('traceViewed', { traceId });
@@ -40,6 +40,7 @@ interface TraceDetailViewButtonLineProps {
 }
 
 export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetailViewButtonLineProps) {
+  const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
   const { location, createHref } = useNavigation();
   const { trackAnalyzeCallsOfTraceClicked, trackDownloadTraceClicked } = useApplicationTracker();

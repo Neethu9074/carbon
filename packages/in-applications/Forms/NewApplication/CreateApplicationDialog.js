@@ -30,6 +30,7 @@ import { DownstreamScopeSelector } from 'in-applications/Forms/shared/Downstream
 import { BoundaryScopeSelector } from 'in-applications/Forms/shared/BoundaryScopeSelector';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Steps from 'in-applications/Forms/components/Steps';
 import { getColor } from 'in-applications/endpointTypes';
 import BasicForm from 'in-applications/Forms/BasicForm';
@@ -41,6 +42,7 @@ import locals from './CreateApplicationDialog.mless';
 
 // FIXME: this is only used in AP config... we should make it re-usable for creation as well
 export default function CreateApplicationDialog({ applicationId, onCancelHref, getOnSavePath }) {
+  const [role] = useCurrentUserRole();
   const { trackApplicationSubmitted } = useApplicationTracker();
   const title = applicationId
     ? t('in-applications:titleUpdateApplicationPerspective')
@@ -56,7 +58,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
           getOnSavePath={getOnSavePath}
           getEntity={() =>
             applicationId
-              ? getApplicationConfigWithAlerting(applicationId)
+              ? getApplicationConfigWithAlerting(applicationId, role)
               : just({ progress: { loading: false }, errors: [], data: createNewApplicationConfig() })
           }
           updateEntity={applicationConfig => {
@@ -188,7 +190,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
                           />
                         ))
                     },
-                    hasPermissionToAddBuiltInSmartAlerts()
+                    hasPermissionToAddBuiltInSmartAlerts(role)
                       ? {
                           stepTitle: t('in-applications:forms.newApplication.stepTitleBuiltInSmartAlertsScope'),
                           content: form.get('builtInAlertIds').map(field => {

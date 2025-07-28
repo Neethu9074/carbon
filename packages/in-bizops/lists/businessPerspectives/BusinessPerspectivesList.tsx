@@ -25,13 +25,13 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { bizopsCreatePerspectiveClick } from 'in-bizops/tracker';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import ViewSwitcher from 'in-bizops/components/ViewSwitcher';
 import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-bizops/lists/businessPerspectives/BusinessPerspectivesList.mless';
@@ -40,6 +40,7 @@ const pathSegment = businessPerspectivesPath;
 const matrixPrefix = '';
 
 function NewPerspectiveButton() {
+  const [role] = useCurrentUserRole();
   const { location } = useNavigation();
   const trackerProps = {
     path: location.pathname

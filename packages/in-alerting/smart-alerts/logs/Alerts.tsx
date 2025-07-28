@@ -32,14 +32,15 @@ import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { eventsPath } from 'in-events/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 export default function Alerts({ isLogsDashboardHeader = false, isEventsView = false }) {
+  const [role] = useCurrentUserRole();
   const handlers = role?.canConfigureGlobalLogSmartAlerts ? actionHandlers : {};
 
   const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;

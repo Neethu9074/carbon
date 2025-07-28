@@ -30,6 +30,7 @@ import { PolicyFormEntity } from 'in-automation/Policies/types';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import SelectAction from 'in-automation/Policies/SelectAction';
 import usePolicyTags from 'in-automation/hooks/usePolicyTags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { Triggers, isPolicy } from 'in-automation/types';
@@ -39,7 +40,6 @@ import { isLoading } from 'in-services/util/result';
 import Input from 'in-components/form/Input/Input';
 import Label from 'in-components/form/Label/Label';
 import { FetchStatus } from 'in-hooks/utils/types';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policy.mless';
@@ -60,6 +60,7 @@ function CopyPolicyLink({ policy }: { policy: PolicyFormEntity }) {
 }
 
 export function PolicyFormHeader({ policy }: { policy: PolicyFormEntity }) {
+  const [role] = useCurrentUserRole();
   const { isNew } = usePolicyDetailsUrlParams({ copy: false });
 
   return (
@@ -110,6 +111,7 @@ export function PolicyFormBody({
 }
 
 export function PolicyFormFooter({ submitStatus }: { submitStatus: FetchStatus | undefined }) {
+  const [role] = useCurrentUserRole();
   const { isNew } = usePolicyDetailsUrlParams({ copy: false });
   const { form } = usePolicyFormContext();
   const navigateToPolicies = useNavigateToPolicies();
@@ -133,6 +135,7 @@ export function PolicyFormFooter({ submitStatus }: { submitStatus: FetchStatus |
 }
 
 function DetailsSection() {
+  const [role] = useCurrentUserRole();
   const { form, setForm } = usePolicyFormContext();
   const availableTags = usePolicyTags();
 
@@ -211,6 +214,7 @@ function DetailsSection() {
 }
 
 function ScopeSection() {
+  const [role] = useCurrentUserRole();
   const { form, setForm } = usePolicyFormContext();
 
   const scope = form.get('scope');
@@ -281,6 +285,7 @@ function ScopeSection() {
 }
 
 function TypeSection() {
+  const [role] = useCurrentUserRole();
   const { form, setForm } = usePolicyFormContext();
 
   const type = form.getIn(['action', 'type']);

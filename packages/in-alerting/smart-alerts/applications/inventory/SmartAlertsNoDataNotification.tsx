@@ -8,11 +8,12 @@ import React from 'react';
 import { Message } from '@instana/components';
 
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import ArticleContent from 'in-components/ArticleContent';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function SmartAlertsNoDataNotification(): JSX.Element {
+  const [role] = useCurrentUserRole();
   return (
     <EntityPageMainNotification
       icon="lib_events_critical"

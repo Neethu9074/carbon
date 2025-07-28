@@ -28,6 +28,7 @@ import { boundaryScopes } from 'in-applications/constants';
 import { getKeyValuePairTag } from 'in-applications/tags';
 import { emptyArray } from 'in-services/fixedObjects';
 import http, { Response } from 'in-services/http';
+import { Role } from 'in-types';
 
 const basePath = '/api/application-monitoring/settings/application';
 
@@ -103,13 +104,13 @@ export function getApplicationConfigs(): Observable<ApplicationConfig[]> {
   }).map(response => response.body);
 }
 
-export function getApplicationConfig(id: string): Observable<Result<MappedApplicationConfig>> {
+export function getApplicationConfig(id: string, role: Role): Observable<Result<MappedApplicationConfig>> {
   return http<ApplicationConfig>({
     method: 'GET',
     maxRetries: 3,
     url: `${basePath}/${encodeURIComponent(id)}`,
     mapToResultObject: true
-  }).map(mapFromServerResponse);
+  }).map(result => mapFromServerResponse(result, role));
 }
 
 export function addApplicationConfig(config: MappedNewApplicationConfig): Observable<ApplicationConfig> {
@@ -141,13 +142,16 @@ export function deleteApplicationConfig(id: string): Observable<Response<never>>
 }
 
 // application config calls with additional alerting details
-export function getApplicationConfigWithAlerting(id: string): Observable<Result<MappedApplicationConfigWithAlerting>> {
+export function getApplicationConfigWithAlerting(
+  id: string,
+  role: Role
+): Observable<Result<MappedApplicationConfigWithAlerting>> {
   return http<ApplicationConfigWithAlertingDetails>({
     method: 'GET',
     maxRetries: 3,
     url: `${basePath}/${encodeURIComponent(id)}/withAlerting`,
     mapToResultObject: true
-  }).map(mapFromServerResponse) as Observable<Result<MappedApplicationConfigWithAlerting>>;
+  }).map(result => mapFromServerResponse(result, role)) as Observable<Result<MappedApplicationConfigWithAlerting>>;
 }
 
 export function addApplicationConfigWithAlerting(
@@ -210,11 +214,13 @@ function mapToServerResponse(config: MappedApplicationConfig | MappedNewApplicat
 }
 
 function mapFromServerResponse(
-  c: Result<ApplicationConfigWithAlertingDetails>
+  c: Result<ApplicationConfigWithAlertingDetails>,
+  role: Role
 ): Result<MappedApplicationConfigWithAlerting>;
-function mapFromServerResponse(c: Result<ApplicationConfig>): Result<MappedApplicationConfig>;
+function mapFromServerResponse(c: Result<ApplicationConfig>, role: Role): Result<MappedApplicationConfig>;
 function mapFromServerResponse(
-  c: Result<ApplicationConfig | ApplicationConfigWithAlertingDetails>
+  c: Result<ApplicationConfig | ApplicationConfigWithAlertingDetails>,
+  role: Role
 ): Result<MappedApplicationConfig | ApplicationConfigWithAlertingDetails> {
   if (!c.data) {
     return c as unknown as Result<MappedApplicationConfig | ApplicationConfigWithAlertingDetails>; // The actual data is not yet present, so the generic type can be safely ignored
@@ -223,7 +229,7 @@ function mapFromServerResponse(
   const config = deepCopy(c);
   const matchSpecifications = mapMatchSpecificationTreeToList(config.data?.matchSpecification).map(
     (matchSpecification: MappedMatchExpression) => {
-      const keyValueTag = getKeyValuePairTag(matchSpecification.key);
+      const keyValueTag = getKeyValuePairTag(matchSpecification.key, role);
       if (keyValueTag) {
         const name = keyValueTag.fullyQualifiedName;
         const secondLevelName = matchSpecification.key.slice(name.length + 1); // remove the first.

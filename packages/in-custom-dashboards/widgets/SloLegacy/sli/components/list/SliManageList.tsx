@@ -22,8 +22,8 @@ import { deleteSliConfiguration } from 'in-custom-dashboards/widgets/SloLegacy/s
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { DELETED_OBJECT } from 'in-services/util/constants';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliManageList.mless';
@@ -103,6 +103,7 @@ function SliManageListContent<S extends SliType>({
   setSliConfigToEdit,
   onShowCreateForm
 }: SliManageListContentProps<S> & InternalContentProps<S>) {
+  const [role] = useCurrentUserRole();
   const [nameQuery, setNameQuery] = useState<string>('');
   const [orderBy, setOrderBy] = useState<string>('name');
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');

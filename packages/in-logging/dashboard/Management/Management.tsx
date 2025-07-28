@@ -25,13 +25,14 @@ import { hasSeenLogPatternModal, markModalAsSeen } from 'in-logging/dashboard/Ma
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { patternRecognitionEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import RestrictedAccessMessage from 'in-components/rbac';
-import { user } from 'in-stores/user';
 
 import locals from './Management.mless';
 
 export default function Management() {
+  const [role] = useCurrentUserRole();
   const { createHrefToPath, goToPath } = useNavigation();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
   const [openTearsheet, setOpenTearsheet] = useState(false);
@@ -50,9 +51,9 @@ export default function Management() {
     goToPath(dashboardPatternRecognitionPath);
   };
 
-  const shouldShowRetentionPeriod = isLoggingAddonUser && user?.role?.canConfigureLogRetentionPeriod;
-  const shouldShowLogVolume = isLoggingAddonUser && user?.role?.canViewLogVolume;
-  const shouldShowIntegrations = user?.role?.canConfigureLogManagement;
+  const shouldShowRetentionPeriod = isLoggingAddonUser && role.canConfigureLogRetentionPeriod;
+  const shouldShowLogVolume = isLoggingAddonUser && role.canViewLogVolume;
+  const shouldShowIntegrations = role.canConfigureLogManagement;
   const shouldShowPatterRecognition = patternRecognitionEnabled;
   if (!shouldShowRetentionPeriod && !shouldShowLogVolume && !shouldShowIntegrations) return <RestrictedAccessMessage />;
 

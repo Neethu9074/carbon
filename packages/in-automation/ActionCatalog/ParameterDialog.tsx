@@ -25,12 +25,12 @@ import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/back
 import { ActionForm, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import ParameterFormContext from 'in-automation/ActionCatalog/ParameterFormContext';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Action.mless';
@@ -58,6 +58,7 @@ export default function ParameterDialog({
   onRequestToClose,
   isAnsibleParameter
 }: ParameterDialogProps) {
+  const [role] = useCurrentUserRole();
   const actionType = form.get('type').value;
   const parameters = form.get('parameters').value;
 

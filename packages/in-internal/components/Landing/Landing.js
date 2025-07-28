@@ -12,8 +12,9 @@ import { internalMonitoringUnit, pluginMetricStatisticsEnabled } from 'in-servic
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { canSeeExtendedInternalMonitoring, role } from 'in-stores/user';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { canSeeExtendedInternalMonitoring } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
@@ -29,6 +30,7 @@ import locals from './Landing.mless';
 export default connectTo(
   { timeConfig: timeConfig$, isInternalVisible: isInternalVisible$ },
   function Landing({ timeConfig, isInternalVisible }) {
+    const [role] = useCurrentUserRole();
     const granularity = getInfraGranularity(timeConfig);
 
     const { createHref, location } = useNavigation();

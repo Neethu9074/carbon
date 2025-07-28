@@ -34,16 +34,16 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-import { Role } from 'in-types';
 
 export default function SmartAlertList({ isEventsView = false }: { isEventsView?: boolean }) {
-  const handlers = (role as Role).canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
+  const [role] = useCurrentUserRole();
+  const handlers = role.canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
   const location = useLocation();
 
   const List = (

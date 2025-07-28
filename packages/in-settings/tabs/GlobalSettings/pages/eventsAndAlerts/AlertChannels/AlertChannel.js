@@ -40,6 +40,7 @@ import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DescriptionText from 'in-components/form/DescriptionText';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import SectionLine from 'in-settings/components/SectionLine';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
@@ -48,7 +49,6 @@ import { Col, Row } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import List from 'in-settings/components/List';
 import entityForm from 'in-hoc/entityForm';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './AlertChannel.mless';
@@ -89,7 +89,7 @@ function createForm(alertChannel) {
  *
  * TODO: Move this filtering logic to backend based on permissions.
  */
-function filterAlertConfigBasedOnRoles(alertConfigResponse) {
+function filterAlertConfigBasedOnRoles(alertConfigResponse, role) {
   const canConfigureEventsAndAlerts = role.canConfigureEventsAndAlerts;
   const canConfigureApplicationSmartAlerts = role.canConfigureApplicationSmartAlerts;
   const canConfigureWebsiteSmartAlerts = role.canConfigureWebsiteSmartAlerts;
@@ -129,6 +129,7 @@ function filterAlertConfigBasedOnRoles(alertConfigResponse) {
 }
 
 const AlertChannelForm = entityForm(function AlertChannelForm(props) {
+  const [role] = useCurrentUserRole();
   const { entity, form, entityId, message, error, loading } = props;
   const { location } = useNavigation();
   if (!entity || !form) {
@@ -255,7 +256,9 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             tableInCard
             getEntityName={getEntityName}
             columnDefinitions={columnDefinitions}
-            loadEntities={() => getAlertsForAlertChannelId(entityId).map(resp => filterAlertConfigBasedOnRoles(resp))}
+            loadEntities={() =>
+              getAlertsForAlertChannelId(entityId).map(resp => filterAlertConfigBasedOnRoles(resp, role))
+            }
             initialOrderBy="label"
             searchAttributes={['label']}
             pageSizes={pageSizes}

@@ -35,7 +35,7 @@ import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -52,6 +52,7 @@ interface AlertDetailsProps {
 }
 
 export default function AlertDetails(props: AlertDetailsProps) {
+  const [role] = useCurrentUserRole();
   return (
     <Alert
       {...props}

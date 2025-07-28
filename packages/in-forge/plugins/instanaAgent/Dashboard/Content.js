@@ -42,11 +42,11 @@ import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { carbonAlert } from 'in-themes/chartColors';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default connectTo(
@@ -55,6 +55,7 @@ export default connectTo(
     hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot)
   }),
   function InstanaAgentDashboard({ snapshot, timeConfig, isInternalVisible, hostSnapshot }) {
+    const [role] = useCurrentUserRole();
     const snapshotId = snapshot.get('id');
     const metricIds = snapshot.get('metricIds');
     const collectors = metricIds

@@ -21,8 +21,8 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useSubtraceForm } from 'in-applications/hooks/useSubtraceForm';
 import { subtracesList } from 'in-applications/navigation/paths';
 import { Subtrace } from 'in-applications/lists/SubtracesList';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import useFormSubmission from 'in-hooks/useFormSubmission';
-import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 
 import locals from 'in-applications/Dashboards/subtrace/tabs/SubtraceConfiguration.mless';
@@ -43,6 +43,7 @@ export function SubtraceConfiguration({ data: subtrace }: SubtraceConfigurationW
 }
 
 function SubtraceConfigurationContent({ subtraceTabData }: SubtraceConfigurationProps) {
+  const [role] = useCurrentUserRole();
   const subtrace = subtraceTabData as Subtrace;
 
   const { goToPath } = useNavigation();

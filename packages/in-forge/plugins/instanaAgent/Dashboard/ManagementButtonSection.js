@@ -18,8 +18,8 @@ import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
 import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/LogLevel';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/Mode';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ManagementButtonSection.mless';
@@ -29,6 +29,7 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function ManagementButtonSection({ snapshot, isInternalVisible }) {
+    const [role] = useCurrentUserRole();
     return (
       <div className={locals.wrapper}>
         {role.canConfigureAgentRunMode ? (

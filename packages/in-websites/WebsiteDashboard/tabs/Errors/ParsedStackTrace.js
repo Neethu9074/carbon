@@ -8,8 +8,8 @@ import React, { Fragment } from 'react';
 import { InfoIndicator, StackTraceLine, StackTraceLines } from 'in-components/StackTrace';
 import { status } from 'in-websites/definitions/stackTraceLineTranslationStatus';
 import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isNotBlank } from 'in-services/util/string';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function ParsedStackTrace({ websiteId, lines }) {
@@ -23,6 +23,7 @@ export default function ParsedStackTrace({ websiteId, lines }) {
 }
 
 function Indicator({ websiteId, line }) {
+  const [role] = useCurrentUserRole();
   const translationStatus = status[line.translationStatus];
 
   const getLinkToWebsite = useGenerateLinkToWebsite();

@@ -44,50 +44,54 @@ import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAl
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
-import { role } from 'in-stores/user';
+// eslint-disable-next-line no-restricted-imports
+import { Role } from 'in-types';
 
 const alertDisplayMode = getSmartAlertDisplayMode(
   infraSmartAlertDialogViewEnabled,
   infraSmartAlertFullScreenDesignEnabled
 );
 
-const infrastructureRoutes = [
-  <Route key="infraPhysical" path={physicalPath}>
-    {renderAsyncRouteChildren(Map)}
-  </Route>,
-  // Note: `infraAlertDetails` route needs to be added before `infraSmartAlert` route or else it will always display the SA list
-  <Route key="infraAlertDetails" path={infraAlertDetailsFullyQualifiedPath}>
-    {renderAsyncRouteChildren(SmartAlertDetailsView)}
-  </Route>,
-  infraSmartAlertsEnabled && !role?.limitedInfrastructureScope && (
-    <Route key="infraSmartAlert" path={infraSmartAlerts}>
-      {renderAsyncRouteChildren(SmartAlertView)}
+const getInfrastructureRoutes = (role: Role) => {
+  const infrastructureRoutes = [
+    <Route key="infraPhysical" path={physicalPath}>
+      {renderAsyncRouteChildren(Map)}
+    </Route>,
+    // Note: `infraAlertDetails` route needs to be added before `infraSmartAlert` route or else it will always display the SA list
+    <Route key="infraAlertDetails" path={infraAlertDetailsFullyQualifiedPath}>
+      {renderAsyncRouteChildren(SmartAlertDetailsView)}
+    </Route>,
+    infraSmartAlertsEnabled && !role?.limitedInfrastructureScope && (
+      <Route key="infraSmartAlert" path={infraSmartAlerts}>
+        {renderAsyncRouteChildren(SmartAlertView)}
+      </Route>
+    ),
+    (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && !role?.limitedInfrastructureScope && (
+      <Route key="infraSmartAlert" path={infraSmartAlertsFullScreen}>
+        {renderAsyncRouteChildren(AlertConfigTearSheet)}
+      </Route>
+    ),
+    <Route key="infraContainer" path={containerPath}>
+      {renderAsyncRouteChildren(Map)}
+    </Route>,
+    <Route key="infraTable" path={tablePath}>
+      {renderAsyncRouteChildren(TableView)}
+    </Route>,
+    <Route key="infraGraph" path={graphPath}>
+      {renderAsyncRouteChildren(GraphView)}
+    </Route>,
+    <Route key="infraGraphExplorer" path={graphExplorerPath}>
+      {renderAsyncRouteChildren(GraphExplorerView)}
     </Route>
-  ),
-  (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && !role?.limitedInfrastructureScope && (
-    <Route key="infraSmartAlert" path={infraSmartAlertsFullScreen}>
-      {renderAsyncRouteChildren(AlertConfigTearSheet)}
-    </Route>
-  ),
-  <Route key="infraContainer" path={containerPath}>
-    {renderAsyncRouteChildren(Map)}
-  </Route>,
-  <Route key="infraTable" path={tablePath}>
-    {renderAsyncRouteChildren(TableView)}
-  </Route>,
-  <Route key="infraGraph" path={graphPath}>
-    {renderAsyncRouteChildren(GraphView)}
-  </Route>,
-  <Route key="infraGraphExplorer" path={graphExplorerPath}>
-    {renderAsyncRouteChildren(GraphExplorerView)}
-  </Route>
-];
-if (hasInfrastructureAnalyzeAccess) {
-  infrastructureRoutes.push(
-    <Route key="infraExplore" path={infraExplorePath}>
-      {renderAsyncRouteChildren(InfraExploreView)}
-    </Route>
-  );
-}
+  ];
+  if (hasInfrastructureAnalyzeAccess) {
+    infrastructureRoutes.push(
+      <Route key="infraExplore" path={infraExplorePath}>
+        {renderAsyncRouteChildren(InfraExploreView)}
+      </Route>
+    );
+  }
+  return infrastructureRoutes;
+};
 
-export default infrastructureRoutes;
+export default getInfrastructureRoutes;

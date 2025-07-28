@@ -33,6 +33,7 @@ import PolicyControls from 'in-automation/PolicyDetails/PolicyControls';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import usePolicy from 'in-automation/PolicyDetails/usePolicy';
 import { hasError, isLoading } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import SectionLine from 'in-settings/components/SectionLine';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -41,7 +42,6 @@ import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
 import { Triggers } from 'in-automation/types';
 import useUrlState from 'in-hooks/useUrlState';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';
@@ -96,6 +96,7 @@ interface PolicyViewProps {
 }
 
 function PolicyView({ policy, triggers }: PolicyViewProps) {
+  const [role] = useCurrentUserRole();
   const { location } = useNavigation();
   const [{ id }] = useUrlState<{ id: string }>({
     bind: [policyDetailsUrlParameters.id]

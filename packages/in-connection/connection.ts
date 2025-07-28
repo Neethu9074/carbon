@@ -7,6 +7,7 @@ import EventEmitter from 'eventemitter3';
 import { get } from 'lodash';
 
 import WindowHiddenLongTimeState from 'in-connection/states/WindowHiddenLongTimeState';
+import { SharedState, SubscriptionDebuggingData } from 'in-connection/types';
 import ConnectionLostState from 'in-connection/states/ConnectionLostState';
 import WindowHiddenState from 'in-connection/states/WindowHiddenState';
 import WaitForInitState from 'in-connection/states/WaitForInitState';
@@ -14,7 +15,6 @@ import ConnectedState from 'in-connection/states/ConnectedState';
 import { compare } from 'in-services/util/string';
 import { createFsm } from 'in-connection/fsm';
 import { seconds } from 'in-services/time';
-import { SharedState, SubscriptionDebuggingData } from 'in-connection/types';
 
 window.instana.dev = window.instana.dev || {};
 const sharedState: SharedState = (window.instana.dev.ws = {

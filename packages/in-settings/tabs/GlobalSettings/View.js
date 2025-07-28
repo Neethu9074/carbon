@@ -59,10 +59,10 @@ import { recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import { findFirstPermittedGlobalPage } from 'in-settings/tabs/permissions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { isAddonUserCached } from 'in-logging/api/licence';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 function navigationTreeForRole(role) {
@@ -246,6 +246,7 @@ function navigationTreeForRole(role) {
 }
 
 export default function View(props) {
+  const [role] = useCurrentUserRole();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
   return (
@@ -259,7 +260,7 @@ export default function View(props) {
 
       <StickySidebarNavigationAndContent
         navigationTree={navigationTreeForRole(role, isLoggingAddonUser)}
-        redirectToDefaultPage={findFirstPermittedGlobalPage()}
+        redirectToDefaultPage={findFirstPermittedGlobalPage(role)}
         redirectFrom={globalSettings}
         NotFoundPage={NotFoundPage}
         {...props}

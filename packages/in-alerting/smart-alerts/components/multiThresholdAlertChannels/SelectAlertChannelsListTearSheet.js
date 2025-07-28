@@ -23,8 +23,8 @@ import DialogContentWrapper from 'in-alerting/smart-alerts/components/dialog/Dia
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import SlideInView from 'in-components/SlideInView/SlideInView';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import SaveButton from 'in-components/form/SaveButton';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel.mless';
@@ -94,6 +94,7 @@ function SelectListDialogContent({
   numberOfAlertChannelListRows,
   alertChannelPerSeverityEnabled
 }) {
+  const [role] = useCurrentUserRole();
   return (
     <SelectListDialogContentComponent
       listComponent={AlertChannelsListForSlideIn}

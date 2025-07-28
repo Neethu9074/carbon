@@ -24,7 +24,7 @@ import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/Serv
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { role } from 'in-stores/user';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -59,185 +59,188 @@ function LocationLabelContent({ item }: { item: LocationListItem }) {
   );
 }
 
-let columnDefinitions: ColumnDefinition<LocationListItem, LocationListProps>[] = [
-  {
-    id: 'location_name',
-    sortable: true,
-    defaultOrderDirection: 'ASC',
-    label: t('in-synthetics:dashboard.locationList.locationLabel'),
-    getContent: item => <LocationLabelContent item={item} />
-  },
-  {
-    id: 'location_label',
-    sortable: true,
-    defaultOrderDirection: 'ASC',
-    label: t('in-synthetics:dashboard.locationList.locationDisplayLabel'),
-    getContent(item: LocationListItem) {
-      return (
-        <div>
-          <h4 className={locals.label}>{item.displayLabel}</h4>
-        </div>
-      );
-    }
-  },
-  {
-    id: 'status',
-    label: t('in-synthetics:dashboard.locationList.status'),
-    sortable: true,
-    defaultOrderDirection: 'DESC',
-    getContent(item: LocationListItem) {
-      return (
-        <div>
-          <h4 className={locals.label}>{item.status}</h4>
-        </div>
-      );
-    }
-  },
-  {
-    id: 'type',
-    label: t('in-synthetics:dashboard.locationList.type'),
-    sortable: true,
-    defaultOrderDirection: 'ASC',
-    getContent(item: LocationListItem) {
-      return (
-        <div>
-          <h4 className={locals.label}>{item.type}</h4>
-        </div>
-      );
-    }
-  },
-  {
-    id: 'total_tests',
-    label: t('in-synthetics:dashboard.locationList.totalTests'),
-    sortable: true,
-    defaultOrderDirection: 'DESC',
-    getContent(item: LocationListItem) {
-      return (
-        <div>
-          <h4 className={locals.label}>{item.linkedTests}</h4>
-        </div>
-      );
-    }
-  },
-  {
-    id: 'last_test_run',
-    label: t('in-synthetics:dashboard.locationList.lastRun'),
-    sortable: true,
-    defaultOrderDirection: 'DESC',
-    getContent(item: LocationListItem) {
-      if (item.lastRunOn > 0) {
+function getColumnDefinitions(role: Role): ColumnDefinition<LocationListItem, LocationListProps>[] {
+  const columnDefinitions: ColumnDefinition<LocationListItem, LocationListProps>[] = [
+    {
+      id: 'location_name',
+      sortable: true,
+      defaultOrderDirection: 'ASC',
+      label: t('in-synthetics:dashboard.locationList.locationLabel'),
+      getContent: item => <LocationLabelContent item={item} />
+    },
+    {
+      id: 'location_label',
+      sortable: true,
+      defaultOrderDirection: 'ASC',
+      label: t('in-synthetics:dashboard.locationList.locationDisplayLabel'),
+      getContent(item: LocationListItem) {
         return (
           <div>
-            <h4 className={locals.label}>{formatDateTime(item.lastRunOn)}</h4>
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <h4 className={locals.label} />
+            <h4 className={locals.label}>{item.displayLabel}</h4>
           </div>
         );
       }
-    }
-  },
-  {
-    id: 'namespace',
-    label: t('in-synthetics:dashboard.locationList.namespace'),
-    sortable: true,
-    defaultOrderDirection: 'ASC',
-    getContent(item: LocationListItem) {
-      const namespaceId: string = item.namespaceId ?? '';
-      const namespace: string = item.namespace ?? '';
-      const popSnapshotId: string = item.popSnapshotId ?? '';
-      if (namespace === '') {
+    },
+    {
+      id: 'status',
+      label: t('in-synthetics:dashboard.locationList.status'),
+      sortable: true,
+      defaultOrderDirection: 'DESC',
+      getContent(item: LocationListItem) {
         return (
-          <HorizontalFlexWrapper>
+          <div>
+            <h4 className={locals.label}>{item.status}</h4>
+          </div>
+        );
+      }
+    },
+    {
+      id: 'type',
+      label: t('in-synthetics:dashboard.locationList.type'),
+      sortable: true,
+      defaultOrderDirection: 'ASC',
+      getContent(item: LocationListItem) {
+        return (
+          <div>
+            <h4 className={locals.label}>{item.type}</h4>
+          </div>
+        );
+      }
+    },
+    {
+      id: 'total_tests',
+      label: t('in-synthetics:dashboard.locationList.totalTests'),
+      sortable: true,
+      defaultOrderDirection: 'DESC',
+      getContent(item: LocationListItem) {
+        return (
+          <div>
+            <h4 className={locals.label}>{item.linkedTests}</h4>
+          </div>
+        );
+      }
+    },
+    {
+      id: 'last_test_run',
+      label: t('in-synthetics:dashboard.locationList.lastRun'),
+      sortable: true,
+      defaultOrderDirection: 'DESC',
+      getContent(item: LocationListItem) {
+        if (item.lastRunOn > 0) {
+          return (
             <div>
-              <span className={locals.label}>{namespace}</span>
+              <h4 className={locals.label}>{formatDateTime(item.lastRunOn)}</h4>
             </div>
-          </HorizontalFlexWrapper>
-        );
-      } else {
-        return namespaceId === '' || popSnapshotId.length > 0 ? (
-          <HorizontalFlexWrapper>
-            <SvgIcon type={'lib_kubernetes_namespace'} />
+          );
+        } else {
+          return (
             <div>
-              <span className={locals.label}>{namespace}</span>
+              <h4 className={locals.label} />
             </div>
-          </HorizontalFlexWrapper>
-        ) : (
-          <HorizontalFlexWrapper>
-            <SvgIcon type={'lib_kubernetes_namespace'} />
-            <NamespaceLink namespaceId={namespaceId} namespace={namespace} />
-          </HorizontalFlexWrapper>
-        );
+          );
+        }
       }
-    }
-  },
-  {
-    id: 'ipAddresses',
-    label: t('in-synthetics:dashboard.locationList.ipAddressColumn.ipAddress'),
-    sortable: false,
-    getContent(item: LocationListItem) {
-      return <IPAddressPresenter item={item} />;
-    }
-  },
-  {
-    id: 'pop_version',
-    label: t('in-synthetics:dashboard.locationList.popVersion'),
-    sortable: true,
-    defaultOrderDirection: 'DESC',
-    getContent(item: LocationListItem) {
-      return (
-        <div>
-          <h4 className={locals.label}>{item.popVersion}</h4>
-        </div>
-      );
-    }
-  },
-  {
-    id: 'health',
-    label: t('in-synthetics:dashboard.locationList.health'),
-    sortable: false,
-    defaultOrderDirection: 'ASC',
-    getContent(item: LocationListItem, { timeConfig }) {
-      if (item.entityHealthInfo != undefined) {
-        return (
-          <EntityHealthIndicator
-            openIssues={item.entityHealthInfo?.openIssues?.length ?? -1}
-            maxSeverity={item.entityHealthInfo?.maxSeverity ?? -1}
-            IndicatorPresenter={HealthIndicatorPresenter}
-            timeConfig={timeConfig}
-            snapshotId={item.popSnapshotId}
-            inContentArea
-          />
-        );
-      } else {
+    },
+    {
+      id: 'namespace',
+      label: t('in-synthetics:dashboard.locationList.namespace'),
+      sortable: true,
+      defaultOrderDirection: 'ASC',
+      getContent(item: LocationListItem) {
+        const namespaceId: string = item.namespaceId ?? '';
+        const namespace: string = item.namespace ?? '';
+        const popSnapshotId: string = item.popSnapshotId ?? '';
+        if (namespace === '') {
+          return (
+            <HorizontalFlexWrapper>
+              <div>
+                <span className={locals.label}>{namespace}</span>
+              </div>
+            </HorizontalFlexWrapper>
+          );
+        } else {
+          return namespaceId === '' || popSnapshotId.length > 0 ? (
+            <HorizontalFlexWrapper>
+              <SvgIcon type={'lib_kubernetes_namespace'} />
+              <div>
+                <span className={locals.label}>{namespace}</span>
+              </div>
+            </HorizontalFlexWrapper>
+          ) : (
+            <HorizontalFlexWrapper>
+              <SvgIcon type={'lib_kubernetes_namespace'} />
+              <NamespaceLink namespaceId={namespaceId} namespace={namespace} />
+            </HorizontalFlexWrapper>
+          );
+        }
+      }
+    },
+    {
+      id: 'ipAddresses',
+      label: t('in-synthetics:dashboard.locationList.ipAddressColumn.ipAddress'),
+      sortable: false,
+      getContent(item: LocationListItem) {
+        return <IPAddressPresenter item={item} />;
+      }
+    },
+    {
+      id: 'pop_version',
+      label: t('in-synthetics:dashboard.locationList.popVersion'),
+      sortable: true,
+      defaultOrderDirection: 'DESC',
+      getContent(item: LocationListItem) {
         return (
           <div>
-            <span className={locals.label}>{t('in-synthetics:dashboard.locationList.noHealthInfo')}</span>
+            <h4 className={locals.label}>{item.popVersion}</h4>
           </div>
         );
       }
+    },
+    {
+      id: 'health',
+      label: t('in-synthetics:dashboard.locationList.health'),
+      sortable: false,
+      defaultOrderDirection: 'ASC',
+      getContent(item: LocationListItem, { timeConfig }) {
+        if (item.entityHealthInfo != undefined) {
+          return (
+            <EntityHealthIndicator
+              openIssues={item.entityHealthInfo?.openIssues?.length ?? -1}
+              maxSeverity={item.entityHealthInfo?.maxSeverity ?? -1}
+              IndicatorPresenter={HealthIndicatorPresenter}
+              timeConfig={timeConfig}
+              snapshotId={item.popSnapshotId}
+              inContentArea
+            />
+          );
+        } else {
+          return (
+            <div>
+              <span className={locals.label}>{t('in-synthetics:dashboard.locationList.noHealthInfo')}</span>
+            </div>
+          );
+        }
+      }
     }
-  }
-];
+  ];
 
-if (role?.canConfigureSyntheticLocations) {
-  columnDefinitions.push({
-    id: 'action',
-    label: t('in-synthetics:dashboard.testList.action'),
-    sortable: false,
-    getContent(item: LocationListItem, { result }) {
-      return (
-        <HorizontalFlexWrapper>
-          <div>
-            <LocationListActionsColumn item={item} isLoading={result?.progress?.loading ?? false} />
-          </div>
-        </HorizontalFlexWrapper>
-      );
-    }
-  });
+  if (role?.canConfigureSyntheticLocations) {
+    columnDefinitions.push({
+      id: 'action',
+      label: t('in-synthetics:dashboard.testList.action'),
+      sortable: false,
+      getContent(item: LocationListItem, { result }) {
+        return (
+          <HorizontalFlexWrapper>
+            <div>
+              <LocationListActionsColumn item={item} isLoading={result?.progress?.loading ?? false} />
+            </div>
+          </HorizontalFlexWrapper>
+        );
+      }
+    });
+  }
+  return columnDefinitions;
 }
 
 function NamespaceLink({ namespace, namespaceId }: { namespace: string; namespaceId: string }) {
@@ -249,4 +252,4 @@ function NamespaceLink({ namespace, namespaceId }: { namespace: string; namespac
   );
 }
 
-export default columnDefinitions;
+export default getColumnDefinitions;

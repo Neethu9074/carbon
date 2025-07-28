@@ -8,7 +8,7 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import LogIntegrations from 'in-logging/dashboard/Management/LogIntegrations';
-import { user } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 jest.mock('in-logging/dashboard/Management/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);
 
@@ -22,9 +22,7 @@ jest.mock('in-settings/tabs/GlobalSettings/pages/integrations/logging/Integratio
 
 jest.mock('in-components/rbac', () => () => <div>Restricted Access</div>);
 
-jest.mock('in-stores/user', () => ({
-  user: { role: {} }
-}));
+jest.mock('in-stores/useCurrentUserRole', () => jest.fn(() => [{}]));
 
 jest.mock('in-logging/dashboard/Management/Management.mless', () => ({
   content: 'mocked-content-class'
@@ -36,7 +34,7 @@ describe('LogIntegrations Component', () => {
   });
 
   test('renders Restricted Access when the user does not have permission', () => {
-    (user as any).role = {};
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{}]);
 
     render(<LogIntegrations />);
 
@@ -46,7 +44,7 @@ describe('LogIntegrations Component', () => {
   });
 
   test('renders Log Integrations content when the user has permission', () => {
-    (user as any).role = { canConfigureLogManagement: true };
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canConfigureLogManagement: true }]);
 
     render(<LogIntegrations />);
 

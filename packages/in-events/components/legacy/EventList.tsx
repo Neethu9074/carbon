@@ -67,6 +67,7 @@ import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -74,7 +75,6 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
 import { getEventType } from 'in-stores/events';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
@@ -340,6 +340,7 @@ interface TriggeringEventProps {
 }
 
 const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }: TriggeringEventProps): JSX.Element => {
+  const [role] = useCurrentUserRole();
   const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
 

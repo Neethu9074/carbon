@@ -32,13 +32,14 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import getLogs from 'in-logging/subscriptions/getLogs';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const LogsCard = ({ call, processSnapshotId }) => {
+  const [role] = useCurrentUserRole();
   const { logs } = call;
   const { trackCta } = useSegmentTracking();
   const { selectedLog, timeConfigForLogs, setSelectedLog } = useLogsInCallsContext();

@@ -30,11 +30,11 @@ import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-const navigationTree = showPassword => {
+const navigationTree = (showPassword, role) => {
   const password = showPassword
     ? [
         {
@@ -99,6 +99,7 @@ const navigationTree = showPassword => {
 };
 
 export default function View(props) {
+  const [role] = useCurrentUserRole();
   const [changePasswordAvailable, setChangePasswordAvailable] = useState(false);
   useEffect(() => {
     fetchChangePasswordAvailable().once(state => setChangePasswordAvailable(state));
@@ -113,7 +114,7 @@ export default function View(props) {
       />
 
       <StickySidebarNavigationAndContent
-        navigationTree={navigationTree(changePasswordAvailable)}
+        navigationTree={navigationTree(changePasswordAvailable, role)}
         redirectToDefaultPage={userSettingsGeneral}
         redirectFrom={userSettings}
         {...props}

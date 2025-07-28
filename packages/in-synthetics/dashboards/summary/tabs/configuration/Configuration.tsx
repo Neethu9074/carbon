@@ -30,6 +30,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
 import Label from 'in-components/form/Label/Label';
@@ -38,7 +39,6 @@ import { isBlank } from 'in-services/util/string';
 import Dialog from 'in-components/Dialog/Dialog';
 import { removeTest } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
-import { role } from 'in-stores/user';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
 
@@ -52,6 +52,7 @@ interface ActionButtonProps {
 }
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   const { goToPath } = useNavigation();
   let testType = null;

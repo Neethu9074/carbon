@@ -49,6 +49,7 @@ import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import EmptyState from 'in-automation/AutomationCard/EmptyState';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { isManual } from 'in-automation/utils/policy';
@@ -56,7 +57,6 @@ import { isLoading } from 'in-services/util/result';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { deletePolicy } from 'in-automation/api';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/RecommendedActions.mless';
@@ -153,6 +153,7 @@ export function RecActionsMoreMenu({
   trigger: Result<TriggerSpecification>;
   togglePolicyTearsheet?: Function;
 }) {
+  const [role] = useCurrentUserRole();
   const { runActionTrackerSegment } = useSegmentTracker();
   const { entityId } = event;
   const agentSnapShots = useTurboAgentSnapShots();
@@ -494,6 +495,7 @@ export default function RecommendedActions({
   selectedDescription,
   selectedEntityType
 }: RecommendedActionsProps) {
+  const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,

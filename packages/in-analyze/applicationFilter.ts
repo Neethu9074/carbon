@@ -11,6 +11,7 @@ import { TagFilter } from '@instana/types';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { applicationId, serviceId, endpointId, subtraceId } from 'in-analyze/navigation/matrix';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
 export const APPLICATION = {
@@ -216,6 +217,7 @@ export interface ApplicationTagFilter extends Omit<TagFilter, 'name'> {
   name?: string; // Usage suggests that name is actually optional here
 } // TODO: remove this once better typing is available
 export function getTagFilterListForBackendSubscription(
+  role: Role,
   tagFilters: ApplicationTagFilter[] = [],
   defaultFilters: ApplicationTagFilter[] = []
 ): TagFilter[] {
@@ -232,12 +234,12 @@ export function getTagFilterListForBackendSubscription(
       undefined,
       tag.entity
     );
-    return addValue(backendTagFilter, tag);
+    return addValue(backendTagFilter, tag, role);
   });
 }
 
-function addValue(backendTagFilter: TagFilter, tag: ApplicationTagFilter): TagFilter {
-  const node = findSubTreeByFullyQualifiedName(backendTagFilter.name);
+function addValue(backendTagFilter: TagFilter, tag: ApplicationTagFilter, role: Role): TagFilter {
+  const node = findSubTreeByFullyQualifiedName(backendTagFilter.name, role);
   const type = node ? node.type : TAG_TYPES.STRING.technicalName;
 
   if (type === TAG_TYPES.NUMBER.technicalName) {
@@ -252,9 +254,9 @@ function addValue(backendTagFilter: TagFilter, tag: ApplicationTagFilter): TagFi
   }
 }
 
-export function convertToApplicationAreaSpecificTagFilter(tagFilters: TagFilter[]): ApplicationTagFilter[] {
+export function convertToApplicationAreaSpecificTagFilter(tagFilters: TagFilter[], role: Role): ApplicationTagFilter[] {
   return tagFilters.map(({ name, operator, entity, stringValue, booleanValue, numberValue, type }) => {
-    const node = findSubTreeByFullyQualifiedName(name);
+    const node = findSubTreeByFullyQualifiedName(name, role);
     let value = stringValue ?? booleanValue ?? numberValue;
     let secondLevelName;
     if (node?.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName && value) {

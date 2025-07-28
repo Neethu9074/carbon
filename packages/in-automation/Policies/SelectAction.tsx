@@ -27,13 +27,13 @@ import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { listSuccess, success } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
 import CancelButton from 'in-components/form/CancelButton';
 import FormGroup from 'in-components/form/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Policy.mless';
@@ -47,6 +47,7 @@ export const nameColumn: ColumnDefinition<Action> = {
 };
 
 export default function SelectAction({ actions }: { actions: Action[] }) {
+  const [role] = useCurrentUserRole();
   const { form, setForm } = usePolicyFormContext();
 
   const action = form.get('action');

@@ -45,16 +45,17 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { emptyMap } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Col, Row } from 'in-components/layout/Grid';
 import { getEventType } from 'in-stores/events';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventContent.mless';
 
 export default function ApplicationEventContent({ event, snapshot, reload }) {
+  const [role] = useCurrentUserRole();
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState();

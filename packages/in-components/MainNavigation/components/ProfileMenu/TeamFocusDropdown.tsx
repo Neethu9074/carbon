@@ -11,17 +11,18 @@ import { TeamTag } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { deleteTeamFocus, updateTeamFocus } from 'in-api/teams';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 interface TeamFocusDropdownProps {
   teams: TeamTag[];
 }
 
 export default function TeamFocusDropdown(props: TeamFocusDropdownProps) {
+  const [{ teamId }] = useCurrentUserRole();
   const { teams } = props;
   const defaultOption = { displayName: t('in-components:mainNavigation.scope_defaultScope'), id: '' };
 
   const teamsOptions = [...teams, defaultOption];
-  const teamId = window.instana.user?.role?.teamId;
   const [selectedTeamFocus, setSelectedTeamFocus] = useState<TeamTag>(
     teamId ? (teams.find(team => team.id === teamId) as TeamTag) : defaultOption
   );

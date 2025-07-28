@@ -15,20 +15,24 @@ import {
   applicationType
 } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import SliList from 'in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliList';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
-jest.mock('in-stores/user', () => ({
-  role: { canConfigureServiceLevelIndicators: true }
-}));
+jest.mock('in-stores/useCurrentUserRole', () =>
+  jest.fn(() => [
+    {
+      canConfigureServiceLevelIndicators: true
+    }
+  ])
+);
 
 describe('in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliList', () => {
   beforeEach(() => {
-    role.canConfigureServiceLevelIndicators = true;
+    useCurrentUserRole.mockReturnValue([{ canConfigureServiceLevelIndicators: true }]);
   });
 
   it('does not allow to selectSli if role.canConfigureServiceLevelIndicators is false', () => {
     // Given
-    role.canConfigureServiceLevelIndicators = false;
+    useCurrentUserRole.mockReturnValue([{ canConfigureServiceLevelIndicators: false }]);
     const selectSli = jest.fn();
 
     // When
@@ -225,7 +229,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliList', (
   describe('delete column', () => {
     it('does not render a delete icon if role.canConfigureServiceLevelIndicators is false', () => {
       // Given
-      role.canConfigureServiceLevelIndicators = false;
+      useCurrentUserRole.mockReturnValue([{ canConfigureServiceLevelIndicators: false }]);
       const onDelete = jest.fn();
 
       // When

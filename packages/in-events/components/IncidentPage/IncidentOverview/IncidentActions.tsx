@@ -57,13 +57,13 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useSloEventEntity from 'in-events/hooks/useSloEventEntity';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventIcon from 'in-events/components/EventIcon';
 import { emptyMap } from 'in-services/fixedImmutables';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 
 interface IncidentActionsProps {
   incident: EventOrMap;
@@ -72,6 +72,7 @@ interface IncidentActionsProps {
 }
 
 const IncidentActions = ({ incident, triggeringEvent, latestSnapshot }: IncidentActionsProps) => {
+  const [role] = useCurrentUserRole();
   const { location, navigate } = useNavigation();
   const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;

@@ -31,12 +31,12 @@ import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationsListPresenter.mless';
@@ -193,6 +193,7 @@ export default function ApplicationsListPresenter({
   plugin,
   location
 }) {
+  const [role] = useCurrentUserRole();
   const scopeNotification = (applicationId || serviceId || endpointId || tagFilters) && contextScope && (
     <ScopeNotification
       icon={contextScope === 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}

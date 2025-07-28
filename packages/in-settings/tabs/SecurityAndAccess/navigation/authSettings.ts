@@ -26,11 +26,21 @@ import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Lda
 import { idpConfigV2Enabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { isAnyIdpAvailable, isIdpAvailable } from 'in-settings/utils/idp';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
-import { role } from 'in-stores/user';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
-export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: ViewProps) {
-  const authAvailable = role?.canConfigureAuthenticationMethods && isAnyIdpAvailable({ sso, ldap, oidc, saml });
+interface GetNavigationTreeForAuthenticationProps extends ViewProps {
+  role: Role;
+}
+
+export function getNavigationTreeForAuthentication({
+  sso,
+  ldap,
+  oidc,
+  saml,
+  role
+}: GetNavigationTreeForAuthenticationProps) {
+  const authAvailable = role.canConfigureAuthenticationMethods && isAnyIdpAvailable({ sso, ldap, oidc, saml });
 
   if (idpConfigV2Enabled) {
     return [
@@ -57,7 +67,7 @@ export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: Vi
               component: RoleMapping
             },
 
-          role?.canConfigureSessionSettings && {
+          role.canConfigureSessionSettings && {
             path: securityAndAccessTimeouts,
             label: t('in-settings:tabs.sessionTimeouts'),
             component: SessionSettings
@@ -104,7 +114,7 @@ export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: Vi
             }
         ].filter(Boolean)
       },
-      role?.canConfigureSessionSettings && {
+      role.canConfigureSessionSettings && {
         title: t('in-settings:tabs.session'),
         pages: [
           {

@@ -25,9 +25,6 @@ import locals from './CommentList.mless';
 jest.mock('in-stores/user');
 
 jest.mock('in-stores/user', () => ({
-  get role() {
-    return {};
-  },
   get user() {
     return { preferredName: 'John Doe', id: 'asdf' };
   }

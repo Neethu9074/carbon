@@ -6,14 +6,15 @@
 import React from 'react';
 
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import ArticleContent from 'in-components/ArticleContent';
 import { applicationPlugins } from 'in-forge/constants';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationsNoDataNotification.mless';
 
 export default function ApplicationsNoDataNotification() {
+  const [role] = useCurrentUserRole();
   return (
     <EntityPageMainNotification
       plugin={applicationPlugins.application}

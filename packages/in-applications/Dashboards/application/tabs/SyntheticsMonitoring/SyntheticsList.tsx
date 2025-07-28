@@ -25,12 +25,13 @@ import {
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
@@ -45,21 +46,29 @@ const urlStateDefinition = {
   })
 };
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
+function ServerTableWithUrlState(props: Parameters<typeof createServerTableWithUrlState>[0]) {
+  const [role] = useCurrentUserRole();
+  const columnDefinitions = getColumnDefinitions(role);
+  const Component = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions: columnDefinitions.filter(
+        column => !['applicationLabels', 'applicationLabel'].includes(column.id)
+      ),
+      title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
+      description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
+    }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter],
     columnDefinitions: columnDefinitions.filter(
       column => !['applicationLabels', 'applicationLabel'].includes(column.id)
     ),
-    title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
-    description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
-  }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter],
-  columnDefinitions: columnDefinitions.filter(column => !['applicationLabels', 'applicationLabel'].includes(column.id)),
-  defaultOrderBy: 'successRate',
-  defaultOrderDirection: 'ASC',
-  pathSegment,
-  matrixPrefix
-});
+    defaultOrderBy: 'successRate',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  });
+
+  return <Component {...props} />;
+}
 
 export default function SyntheticList() {
   const timeConfig = useTimeConfig();
