@@ -7,7 +7,8 @@
 import React from 'react';
 
 import { Tag } from '@instana/carbon';
-import { Stack } from '@instana/components';
+
+import locals from './TimeWindowPill.mless';
 
 interface TimeWindowPillProps {
   children: string;
@@ -16,10 +17,8 @@ interface TimeWindowPillProps {
 
 export default function TimeWindowPill({ color, children }: TimeWindowPillProps) {
   return (
-    <Tag type={color} size="sm">
-      <Stack gap="xxsmall" direction="horizontal">
-        {children}
-      </Stack>
-    </Tag>
+    <div className={locals.tagAlign}>
+      <Tag type={color}>{children}</Tag>
+    </div>
   );
 }

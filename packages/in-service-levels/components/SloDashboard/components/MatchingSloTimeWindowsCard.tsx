@@ -23,24 +23,25 @@ export default function MatchingSloTimeWindowsCard() {
 
   return (
     <Card>
-      <Stack gap="xxsmall" direction="horizontal" wrap>
+      <Stack gap="xsmall" direction="vertical" wrap>
         <Typography noWrap variant="body-regular">
           {t('in-service-levels:sloChart.sloChartSummary.matchedSLOTimeWindow', { count: timeWindows.length })}
         </Typography>
-
-        {matchingTimeWindows.map((timeWindow, index) => {
-          return (
-            <TimeWindowPill color={timeWindowTagColors[index]} key={index}>
-              {timeWindow}
+        <Stack gap="xxsmall" direction="horizontal" wrap>
+          {matchingTimeWindows.map((timeWindow, index) => {
+            return (
+              <TimeWindowPill color={timeWindowTagColors[index]} key={index}>
+                {timeWindow}
+              </TimeWindowPill>
+            );
+          })}
+          {!isLoading && !hasMatchingTimeWindows && (
+            <TimeWindowPill color="default.ids.color.option.neutral.400">
+              {t('in-service-levels:sloChart.sloChartSummary.noMatchedSLOTimeWindow')}
             </TimeWindowPill>
-          );
-        })}
-        {!isLoading && !hasMatchingTimeWindows && (
-          <TimeWindowPill color="default.ids.color.option.neutral.400">
-            {t('in-service-levels:sloChart.sloChartSummary.noMatchedSLOTimeWindow')}
-          </TimeWindowPill>
-        )}
-        {isLoading && <LoadingSkeleton />}
+          )}
+          {isLoading && <LoadingSkeleton />}
+        </Stack>
       </Stack>
     </Card>
   );

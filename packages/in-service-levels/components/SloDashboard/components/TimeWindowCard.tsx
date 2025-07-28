@@ -26,26 +26,27 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
 
   return (
     <Card size="s">
-      <Stack direction="horizontal" gap="xsmall">
+      <Stack direction="vertical" gap="xsmall">
         <Typography noWrap variant="body-regular">
           {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindow')}
         </Typography>
-
-        <TimeWindowPill>
-          {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindowDetails', {
-            duration,
-            durationUnit,
-            type
-          })}
-        </TimeWindowPill>
-        {isFixedTimeWindow(timeWindow) && (
+        <Stack gap="xxsmall" direction="horizontal" wrap>
           <TimeWindowPill>
-            {t('in-service-levels:sloChart.sloChartSummary.startTime', {
-              startDay,
-              startTime
+            {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindowDetails', {
+              duration,
+              durationUnit,
+              type
             })}
           </TimeWindowPill>
-        )}
+          {isFixedTimeWindow(timeWindow) && (
+            <TimeWindowPill>
+              {t('in-service-levels:sloChart.sloChartSummary.startTime', {
+                startDay,
+                startTime
+              })}
+            </TimeWindowPill>
+          )}
+        </Stack>
       </Stack>
     </Card>
   );
