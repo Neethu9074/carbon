@@ -33,8 +33,6 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
   const username = getUsername();
   const { createHrefToPath } = useNavigation();
   const location = useLocation();
-  const isYourDashboardActive = location.pathname === welcomePage;
-  const isGettingStartedActive = location.pathname === gettingStartedPath;
   const headerTitle = `${t('in-plg:welcomepage.heading')}${username}`;
   const { activeLicenseType } = config;
   const isTrial = activeLicenseType === 'selfService';
@@ -51,13 +49,13 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
             <SecondLevelNavigationItem
               href={createHrefToPath(welcomePage)}
               label={t('in-plg:onboarding.yourDashboard')}
-              isActive={isYourDashboardActive}
+              isActive={location.pathname === welcomePage}
               className={locals.tabItemOverride}
             />
             <SecondLevelNavigationItem
               href={createHrefToPath(gettingStartedPath)}
               label={t('in-plg:onboarding.gettingStarted')}
-              isActive={isGettingStartedActive}
+              isActive={location.pathname === gettingStartedPath}
               className={locals.tabItemOverride}
             />
           </SecondLevelNavigation>
