@@ -15,7 +15,7 @@ import type { CorrectionWithConfiguration } from 'in-service-levels/features/Cor
 import useCorrectionWindows from 'in-service-levels/features/CorrectionWindows/hooks/useCorrectionWindows';
 import { setTimeWindowTypeUrlParameter } from 'in-service-levels/navigation/urlParameters';
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
-import { ServiceLevelErrors, SloTimeWindowTypes } from 'in-service-levels/constants';
+import { ServiceLevelErrors, sloTimeWindowTagColors, SloTimeWindowTypes } from 'in-service-levels/constants';
 import type { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import type { AvailableTimeWindowTypes } from 'in-service-levels/types';
@@ -38,6 +38,7 @@ const TIME_WINDOW_COLOR_TOKEN_PATHS = [
 export interface TimeWindowContext {
   timeWindows: TimeConfig[];
   timeWindowColors: string[];
+  timeWindowTagColors: string[];
   timeWindowTypeParameterDefinition: ParameterDefinition<string>;
   selectedTimeWindowType: AvailableTimeWindowTypes;
   updateSelectedTimeWindowType: (timeWindowType: AvailableTimeWindowTypes) => void;
@@ -111,6 +112,7 @@ function useSelectedTimeWindowContext({
       selectedTimeWindowType,
       timeWindows: timeWindows ?? [],
       timeWindowColors: timeWindows?.map((_, index) => getColorByTimeWindowIndex(index, themes)) ?? [],
+      timeWindowTagColors: timeWindows?.map((_, index) => getColorForTimeWindowTags(index)) ?? [],
       timeWindowTypeParameterDefinition,
       progress: loading,
       updateSelectedTimeWindowType,
@@ -147,6 +149,14 @@ function getColorByTimeWindowIndex(index: number, theme: object): string {
       ? TIME_WINDOW_COLOR_TOKEN_PATHS[index]
       : TIME_WINDOW_COLOR_TOKEN_PATHS[index % TIME_WINDOW_COLOR_TOKEN_PATHS.length];
   return _.get(theme, tokenPath);
+}
+
+function getColorForTimeWindowTags(index: number): string {
+  const color =
+    index < sloTimeWindowTagColors.length
+      ? sloTimeWindowTagColors[index]
+      : sloTimeWindowTagColors[index % sloTimeWindowTagColors.length];
+  return color;
 }
 
 function getTimeWindowTypeParameter(

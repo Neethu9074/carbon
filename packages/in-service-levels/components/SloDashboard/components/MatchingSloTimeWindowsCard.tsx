@@ -15,7 +15,7 @@ import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowCon
 import { t } from 'in-i18n';
 
 export default function MatchingSloTimeWindowsCard() {
-  const { timeWindows, timeWindowColors, progress } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowTagColors, progress } = useSloTimeWindowContext();
 
   const matchingTimeWindows = calculateMatchTimeWindow(timeWindows);
   const hasMatchingTimeWindows = timeWindows.length > 0;
@@ -30,7 +30,7 @@ export default function MatchingSloTimeWindowsCard() {
 
         {matchingTimeWindows.map((timeWindow, index) => {
           return (
-            <TimeWindowPill withDark color={timeWindowColors[index]} key={index}>
+            <TimeWindowPill color={timeWindowTagColors[index]} key={index}>
               {timeWindow}
             </TimeWindowPill>
           );
