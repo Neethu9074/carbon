@@ -63,6 +63,7 @@ const UserDefinedResponse: React.FC<UserDefinedResponseProps> = ({
       <ThumbsFeedback
         TRACKING_EVENT_POS={messageItem.user_defined.posTrack}
         TRACKING_EVENT_NEG={messageItem.user_defined.negTrack}
+        additionalInfo={messageItem.user_defined.additionalInfo}
       />
     )
   };

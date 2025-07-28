@@ -194,6 +194,26 @@ const DATA = {
   }
 };
 
+const API_SAMPLE = {
+  api: {
+    windowSize: 1800000,
+    api_endpoint: '/api/events',
+    entityName: ['JVM'],
+    NLG: 'Test NLG response',
+    aggregation: 'true',
+    from: 1753720523000,
+    to: 1753722323000,
+    state: 'open',
+    filterEventUpdate: 'true'
+  },
+  timestamp:
+    "Model returned:  start  'None',  end  'None'\nPost-Processed:  '2025-07-28 16:35:23'  to  '2025-07-28 17:05:23'",
+  technology: 'events',
+  type: 'chatResponse'
+};
+
+const USER_QUERY_SAMPLE = 'this is my user query';
+
 const mockHttpFunc = jest.fn();
 jest.mock('in-services/http', () => ({
   __esModule: true,
@@ -203,25 +223,24 @@ jest.mock('in-services/http', () => ({
 }));
 
 describe('formatForTable', () => {
-  const nlg = '';
   it('works with empty items array', () => {
-    const fmt = formatForTable(nlg, DATA.emptyItems);
+    const fmt = formatForTable(DATA.emptyItems, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = fmt.output.generic[1].user_defined;
     expect(userDefined.rows.length).toBe(0);
   });
   it('returns empty result if no primary column is found', () => {
-    const fmt = formatForTable(nlg, DATA.noName);
+    const fmt = formatForTable(DATA.noName, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = fmt.output.generic[1].user_defined;
     expect(userDefined.rows.length).toBe(0);
   });
   it('does not error if timestamp is undefined', () => {
-    const fmt = formatForTable(nlg, DATA.noTimestamp);
+    const fmt = formatForTable(DATA.noTimestamp, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = fmt.output.generic[1].user_defined;
     const firstRow = userDefined.rows[0];
     expect(firstRow.timestamp).toBeUndefined();
   });
   it('parses single metric response', () => {
-    const fmt = formatForTable(nlg, DATA.labelKube);
+    const fmt = formatForTable(DATA.labelKube, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = fmt.output.generic[1].user_defined;
     const firstColumn = userDefined.headers[0].key;
     const firstLabel = 'aap/aap-gateway-operator-controller-manager';
@@ -231,7 +250,7 @@ describe('formatForTable', () => {
     expect(userDefined.rows[0].timestamp).toBe('Mar 26, 2025 11:20:54 PM');
   });
   it('parses two metric response with count', () => {
-    const fmt = formatForTable(nlg, DATA.multipleWithCount);
+    const fmt = formatForTable(DATA.multipleWithCount, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = fmt.output.generic[1].user_defined;
     const callsKey = 'calls.sum';
     const meanKey = 'latency.mean';
@@ -246,7 +265,7 @@ describe('formatForTable', () => {
     expect(userDefined.rows[0].timestamp).toBe('Mar 27, 2025 12:08:00 AM');
   });
   it('parses two metric response', () => {
-    const fmt = formatForTable(nlg, DATA.multiple);
+    const fmt = formatForTable(DATA.multiple, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = fmt.output.generic[1].user_defined;
     const firstLabel = '/calc/{id}';
     const callsKey = 'calls.sum';
@@ -261,7 +280,7 @@ describe('formatForTable', () => {
     expect(userDefined.rows[0].timestamp).toBe('Mar 27, 2025 12:08:00 AM');
   });
   it('shows count as a column', () => {
-    const fmt = formatForTable(nlg, DATA.showCount);
+    const fmt = formatForTable(DATA.showCount, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = fmt.output.generic[1].user_defined;
     const firstLabel = 'aap-gateway-operator-controller-manager';
     const tagKey = 'kubernetes.deployment.name';
@@ -269,7 +288,7 @@ describe('formatForTable', () => {
     expect(userDefined.rows[0].count).toBe(987);
   });
   it('parses correctly', () => {
-    const fmt = formatForTable(nlg, DATA.parse);
+    const fmt = formatForTable(DATA.parse, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = fmt.output.generic[1].user_defined;
     const firstColumn = userDefined.headers[0].key;
     const firstLabel = 'instana-agent/controller-manager-5cd6df6d96-75bwg';
@@ -355,14 +374,16 @@ describe('formatForBarChart', () => {
     });
   });
   test('returns correct chart data for one metric column', () => {
-    const tableResponse = formatForTable(nlg, tableDataSingleMetric).output.generic[1].user_defined;
+    const tableResponse = formatForTable(tableDataSingleMetric, USER_QUERY_SAMPLE, API_SAMPLE).output.generic[1]
+      .user_defined;
     const result = formatForBarChart({ headers: tableResponse.headers, rows: tableResponse.rows });
     expect(result?.data?.[0].group).toBe('POST');
     expect(result?.data[0].value).toBe(36.173857868020306);
     expect(result?.options).toEqual(chartOptions);
   });
   test('returns first metric in chart data for multiple metrics columns', () => {
-    const tableResponse = formatForTable(nlg, tableDataDoubleMetric).output.generic[1].user_defined;
+    const tableResponse = formatForTable(tableDataDoubleMetric, USER_QUERY_SAMPLE, API_SAMPLE).output.generic[1]
+      .user_defined;
     const result = formatForBarChart({ headers: tableResponse.headers, rows: tableResponse.rows });
     expect(result?.data?.[0].group).toBe('POST');
     expect(result?.data[0].value).toBe(774);
@@ -492,21 +513,21 @@ describe('formatForEventsTable', () => {
   const nlg = 'Test NLG response';
 
   it('returns empty result for null events', () => {
-    const result = formatForEventsTable(nlg, EVENTS_DATA.nullEvents);
+    const result = formatForEventsTable(EVENTS_DATA.nullEvents, USER_QUERY_SAMPLE, API_SAMPLE);
     expect(result.output.generic[0].user_defined.text).toBe(nlg);
     expect(result.output.generic[1].user_defined.headers).toEqual([]);
     expect(result.output.generic[1].user_defined.rows).toEqual([]);
   });
 
   it('returns empty result for empty events array', () => {
-    const result = formatForEventsTable(nlg, EVENTS_DATA.emptyEvents);
+    const result = formatForEventsTable(EVENTS_DATA.emptyEvents, USER_QUERY_SAMPLE, API_SAMPLE);
     expect(result.output.generic[0].user_defined.text).toBe(nlg);
     expect(result.output.generic[1].user_defined.headers).toEqual([]);
     expect(result.output.generic[1].user_defined.rows).toEqual([]);
   });
 
   it('correctly formats array of events', () => {
-    const result = formatForEventsTable(nlg, EVENTS_DATA.arrayOfEvents);
+    const result = formatForEventsTable(EVENTS_DATA.arrayOfEvents, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = result.output.generic[1].user_defined;
 
     // Check headers
@@ -532,7 +553,7 @@ describe('formatForEventsTable', () => {
   });
 
   it('correctly formats grouped events', () => {
-    const result = formatForEventsTable(nlg, EVENTS_DATA.groupedEvents);
+    const result = formatForEventsTable(EVENTS_DATA.groupedEvents, USER_QUERY_SAMPLE, API_SAMPLE);
     const userDefined = result.output.generic[1].user_defined;
 
     // Check headers - should include group column
@@ -563,7 +584,7 @@ describe('formatForEventsTable', () => {
   });
 
   it('returns empty result for empty grouped events', () => {
-    const result = formatForEventsTable(nlg, EVENTS_DATA.emptyGroupedEvents);
+    const result = formatForEventsTable(EVENTS_DATA.emptyGroupedEvents, USER_QUERY_SAMPLE, API_SAMPLE);
     expect(result.output.generic[0].user_defined.text).toBe(nlg);
     expect(result.output.generic[1].user_defined.headers).toEqual([]);
     expect(result.output.generic[1].user_defined.rows).toEqual([]);

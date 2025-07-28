@@ -16,12 +16,24 @@ import { t } from 'in-i18n';
 
 import locals from './ThumbsFeedback.mless';
 
+// Additional Info can be passed into to tracking
+// in order to get more information such as
+// {query: 'recent incidents', error: 'this error'}
+export type AdditionalInfoObject = {
+  [key: string]: string;
+};
+
 interface ThumbsFeedbackProps {
   TRACKING_EVENT_POS: string;
   TRACKING_EVENT_NEG: string;
+  additionalInfo?: AdditionalInfoObject;
 }
 
-export default function ThumbsFeedback({ TRACKING_EVENT_POS, TRACKING_EVENT_NEG }: ThumbsFeedbackProps) {
+export default function ThumbsFeedback({
+  TRACKING_EVENT_POS,
+  TRACKING_EVENT_NEG,
+  additionalInfo = {}
+}: ThumbsFeedbackProps) {
   const { trackCta } = useSegmentTracking();
   const [feedbackState, setFeedbackState] = useState<'up' | 'down' | null>(null); // up, down, or null
   const [openModal, setOpenModal] = useState(false);
@@ -36,7 +48,7 @@ export default function ThumbsFeedback({ TRACKING_EVENT_POS, TRACKING_EVENT_NEG 
         label={t('in-events:aichat.helpfulResult')}
         onClick={() => {
           setFeedbackState('up');
-          trackCta(TRACKING_EVENT_POS);
+          trackCta(TRACKING_EVENT_POS, additionalInfo);
         }}
       >
         {feedbackState === 'up' ? <ThumbsUpFilled size={'16'} /> : <ThumbsUp size={'16'} />}
@@ -49,7 +61,7 @@ export default function ThumbsFeedback({ TRACKING_EVENT_POS, TRACKING_EVENT_NEG 
         label={t('in-events:aichat.notHelpfulResult')}
         onClick={() => {
           setFeedbackState('down');
-          trackCta(TRACKING_EVENT_NEG);
+          trackCta(TRACKING_EVENT_NEG, additionalInfo);
         }}
       >
         {feedbackState === 'down' ? <ThumbsDownFilled size={'16'} /> : <ThumbsDown size={'16'} />}
@@ -67,7 +79,7 @@ export default function ThumbsFeedback({ TRACKING_EVENT_POS, TRACKING_EVENT_NEG 
         </Button>
       )}
       <FeedbackModal
-        handleSubmitTracking={e => trackCta(EVENT_AI_CHAT_API_RESULT_POS_NEG_FEEDBACK, e)}
+        handleSubmitTracking={e => trackCta(EVENT_AI_CHAT_API_RESULT_POS_NEG_FEEDBACK, { ...e, ...additionalInfo })}
         feedbackState={feedbackState}
         isOpen={openModal}
         setIsOpen={setOpenModal}

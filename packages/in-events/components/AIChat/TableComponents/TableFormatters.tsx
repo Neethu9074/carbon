@@ -8,22 +8,18 @@ import { BarChartOptions, ScaleTypes } from '@carbon/charts';
 import { formatDateTime } from '@instana/format-date';
 
 import {
-  EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE,
-  EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE,
-  EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
-  EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE
-} from 'in-services/tracking/eventNames';
-import {
   ThumbsFeedbackObject,
   NLGResponseObject,
   TableChartObject,
   EventsTableObject
 } from 'in-events/components/AIChat/ResponseObjects';
+import { EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE } from 'in-services/tracking/eventNames';
 import { Entry, TableRow, TableHeader } from 'in-events/components/AIChat/TableComponents/useTableState';
 import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import { t } from 'in-i18n';
 
-export function formatForTable(nlg: string, apiResponse: any) {
+export function formatForTable(apiResponse: any, userQuery: string, queryResponse: any) {
+  const nlg = queryResponse?.api?.NLG;
   // Human readable column names
   const headerAlias: { [key: string]: string } = {
     'label.kubernetesNode': t('in-events:aichat.host'),
@@ -35,7 +31,13 @@ export function formatForTable(nlg: string, apiResponse: any) {
       generic: [
         NLGResponseObject(nlg),
         TableChartObject([], []),
-        ThumbsFeedbackObject(EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE, EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE)
+        ThumbsFeedbackObject(EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE, {
+          nlgResponse: nlg,
+          userQuery: userQuery,
+          apiEndpoint: queryResponse?.api?.api_endpoint || '-',
+          technology: queryResponse?.technology || '-',
+          type: queryResponse?.type || '-'
+        })
       ]
     }
   };
@@ -134,20 +136,33 @@ export function formatForTable(nlg: string, apiResponse: any) {
       generic: [
         NLGResponseObject(nlg),
         TableChartObject(response.data.headers, response.data.rows),
-        ThumbsFeedbackObject(EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE, EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE)
+        ThumbsFeedbackObject(EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE, {
+          nlgResponse: nlg,
+          userQuery: userQuery,
+          apiEndpoint: queryResponse?.api?.api_endpoint || '-',
+          technology: queryResponse?.technology || '-',
+          type: queryResponse?.type || '-'
+        })
       ]
     }
   };
 }
 
-export function formatForEventsTable(nlg: string, apiResponse: any) {
+export function formatForEventsTable(apiResponse: any, userQuery: string, queryResponse: any) {
+  const nlg = queryResponse?.api?.NLG || '';
   // Create response structure with NLG text
   const createResponse = (headers: TableHeader[], rows: TableRow[]) => ({
     output: {
       generic: [
         NLGResponseObject(nlg),
         EventsTableObject(headers, rows),
-        ThumbsFeedbackObject(EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE, EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE)
+        ThumbsFeedbackObject(EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE, {
+          nlgResponse: nlg,
+          userQuery: userQuery,
+          apiEndpoint: queryResponse?.api?.api_endpoint || '-',
+          technology: queryResponse?.technology || '-',
+          type: queryResponse?.type || '-'
+        })
       ]
     }
   });
