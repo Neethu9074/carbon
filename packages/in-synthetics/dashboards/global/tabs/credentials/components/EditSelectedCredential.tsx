@@ -16,11 +16,11 @@ import { showUpdateErrorMessage, showUpdateSuccessMessage } from 'in-synthetics/
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import { syntheticCredentialEditSubmitButtonClick } from 'in-synthetics/tracking/tracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import TeamsStep, { SYNTHETIC_TAB } from 'in-synthetics/createTests/wizard/TeamsStep';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SlideInConfig, SliderState } from 'in-synthetics/utils/constants';
-import TeamsStep from 'in-synthetics/createTests/wizard/TeamsStep';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { close } from 'in-components/DialogPresenter/store';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
@@ -95,7 +95,7 @@ const EditSelectedCredential = ({ item }: Props) => {
         {rbacTeamsEnabled && (
           <Stack gap="xsmall">
             <Typography variant="heading-400">{t('in-synthetics:dialog.createCredential.teams')}</Typography>
-            <TeamsStep form={form} updateForm={updateForm} />
+            <TeamsStep form={form} updateForm={updateForm} tab={SYNTHETIC_TAB.CREDENTIALS} />
           </Stack>
         )}
         <Actions>
