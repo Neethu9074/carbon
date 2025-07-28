@@ -22,6 +22,9 @@ import { addOns, ampUsage, consumptionOverview, dataUsage } from 'in-amp/navigat
 import Usage from 'in-amp/components/Usage';
 import AddOns from 'in-amp/pages/AccountAndBilling/tabs/Usage/AddOns';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { t } from 'in-i18n';
 
 type AccountInfoProps = {
@@ -60,6 +63,12 @@ function View(props: any) {
   }
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.account_and_billing,
+          pageRootName: pageNames.usage
+        }}
+      />
       <SideNavigationAndContent
         navigationTree={[
           {

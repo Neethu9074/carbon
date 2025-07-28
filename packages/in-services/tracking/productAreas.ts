@@ -34,7 +34,8 @@ export const productAreas = Object.freeze({
   power_vc: 'PowerVC',
   automation: 'Automation',
   vulnerability: 'Vulnerability',
-  data_sources: 'Data Sources'
+  data_sources: 'Data sources',
+  account_and_billing: 'Account and billing'
 } as const);
 
 type ProductAreaKey = keyof typeof productAreas;

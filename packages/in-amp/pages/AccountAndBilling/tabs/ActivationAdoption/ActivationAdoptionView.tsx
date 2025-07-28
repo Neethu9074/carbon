@@ -16,6 +16,9 @@ import { getAccountAsResultObservable } from 'in-amp/api/account';
 import CustomerAdoption from 'in-amp/pages/AccountAndBilling/tabs/ActivationAdoption/CustomerAdoption';
 import { ampActivationAdoption, customerAdoption, userUsage } from 'in-amp/navigation/paths';
 import UserUsage from 'in-amp/pages/AccountAndBilling/tabs/ActivationAdoption/UserUsage';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 
 export default function ViewContainer(props: any) {
   const accountInfo = useObservable(getAccountAsResultObservable, []);
@@ -26,6 +29,12 @@ export default function ViewContainer(props: any) {
 function View(props: any) {
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.account_and_billing,
+          pageRootName: pageNames.activation_and_adoption
+        }}
+      />
       <SideNavigationAndContent
         navigationTree={[
           {
