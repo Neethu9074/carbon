@@ -39,8 +39,8 @@ import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events'
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import { controlPlaneEnabled, kubecostEnabled } from 'in-services/featureFlags';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
+import KubeCost from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/KubeCost';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
-import KubeCost from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
