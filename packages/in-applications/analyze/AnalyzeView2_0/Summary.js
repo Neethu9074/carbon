@@ -48,6 +48,7 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Summary.mless';
+import { subtraceDataSource } from 'in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 
 export default function Summary({
   data: trace,
@@ -56,6 +57,7 @@ export default function Summary({
   traceId,
   setCallId,
   colorCodeType,
+  dataSource,
   setColorCodeMechanism
 }) {
   const [role] = useCurrentUserRole();
@@ -238,7 +240,7 @@ export default function Summary({
           </div>
         )}
 
-        {!largeTrace && (
+        {!largeTrace && dataSource !== subtraceDataSource && (
           <Row singleRowTopMargin withoutSideMargin>
             <Col lg={12}>
               <Card

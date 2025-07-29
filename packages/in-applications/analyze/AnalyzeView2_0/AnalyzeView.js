@@ -71,7 +71,7 @@ const defaultSelectableFields = [
   { type: 'metric', metricId: 'errors', aggregationId: 'MEAN' }
 ];
 const callsDataSource = 'calls';
-const subtraceDataSource = 'subtraces';
+export const subtraceDataSource = 'subtraces';
 const tracesDataSource = 'traces';
 
 const defaultChartedMetrics = {
