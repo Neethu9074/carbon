@@ -36,7 +36,7 @@ interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   testLocations: string[];
-  onlineLocations: SyntheticLocation[];
+  onlineLocations?: SyntheticLocation[];
 }
 function CreateSyntheticOnDemandTestDialogPresenter({ form, updateForm, testLocations, onlineLocations }: Props) {
   const locationsField = form.get('locations') as Field<string[]>;

@@ -144,10 +144,10 @@ export interface DataScopeType {
   value: string;
 }
 
-export interface CreateSyntheticOnDemandTestDialogProps {
-  readonly testId: string;
-  readonly testLocations: string[];
-  readonly testType: string;
+export interface CreateSyntheticOnDemandProps {
+  testId: string;
+  testLocations: string[];
+  onlineLocations?: SyntheticLocation[];
 }
 
 export const AssertionFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
