@@ -19,6 +19,9 @@ import ActiveLicenses from 'in-amp/components/ActiveLicenses';
 //@ts-expect-error - needs TS migration
 import QueuedLicenses from 'in-amp/components/QueuedLicenses';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { t } from 'in-i18n';
 
 import locals from 'in-amp/pages/AccountAndBilling/AccountAndBilling.mless';
@@ -43,6 +46,12 @@ export default function ViewContainer(props: any) {
 function View(props: any) {
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.account_and_billing,
+          pageRootName: pageNames.entitlements
+        }}
+      />
       <SideNavigationAndContent
         navigationTree={[
           {

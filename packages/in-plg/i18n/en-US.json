@@ -258,6 +258,7 @@
         "configurationOptions": "Configuration options",
         "monitoringGcr": "Monitoring Google Cloud Run",
         "monitoringAwsFargateRuby": "Monitoring AWS Fargate (Ruby)",
+        "monitoringAwsFargatePhp": "Monitoring AWS Fargate (PHP)",
         "awsServiceDocumentation": "AWS Services documentation",
         "monitoringAwsLambda": "Monitoring AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configuring AWS Lambda monitoring",
@@ -273,7 +274,8 @@
       "nodejs8": "Node.js 8.x",
       "nodejs10Plus": "Node.js 10.x or newer",
       "python2and3": "Python 2.7 and 3.x",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "php": "PHP"
     },
     "bosh": {
       "boshDirectorRuntimeConfig": "BOSH Director runtime configuration",
@@ -946,7 +948,7 @@
   "datasources": {
     "datasources": "Data sources",
     "openTelemetryCollectors": "OpenTelemetry Collectors",
-    "instanaAgents": "Instana Agents",
+    "instanaAgents": "Instana agents",
     "installACollector": "Install a collector",
     "status": {
       "statusUnknown": "Unknown",
@@ -970,8 +972,8 @@
         "emptyState_subtitle": "Click Install an agent to find, deploy, and run an Instana agent "
       },
       "oTelCollector": {
-        "emptyState_title": "Install an OpenTelemetry collector to start viewing data",
-        "emptyState_linktext": "Learn more about Instana oTel collector",
+        "emptyState_title": "Install an OpenTelemetry Collector to start viewing data",
+        "emptyState_linktext": "Learn more about the Instana OTel Collector",
         "emptyState_buttontext": "Install a collector",
         "emptyState_subtitle": "Click Install a collector to find, deploy, and run an OpenTelemetry Collector."
       }

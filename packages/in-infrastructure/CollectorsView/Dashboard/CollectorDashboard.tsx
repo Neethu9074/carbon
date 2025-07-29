@@ -17,6 +17,10 @@ import {
   timeBySecondsTwoDecimalPlaces,
   seconds
 } from 'in-services/formatters/number';
+//@ts-expect-error TS migration
+import { getSnapshotVersionsByTime } from 'in-infrastructure/Dashboard/components/DashboardContent';
+//@ts-expect-error TS migration
+import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialog';
 import CollectorDashboardHeader from 'in-infrastructure/CollectorsView/Dashboard/CollectorDashboardHeader';
 import ActionsButtonSection from 'in-infrastructure/CollectorsView/Dashboard/ActionsButtonSection';
 //@ts-expect-error TS migration
@@ -24,6 +28,7 @@ import { selectedSnapshot$ } from 'in-stores/snapshot';
 import CollectorInfoSidebar from 'in-infrastructure/CollectorsView/Dashboard/Sidebar';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
@@ -38,19 +43,37 @@ export interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
   id: string;
 }
 
-function getMetricByRegex(regexp: RegExp, metrics: string[]) {
-  const foundmetric = metrics.filter(metric => metric.match(regexp));
+function getMetricByRegex(regexp: RegExp, metrics: string[] | undefined) {
+  const metricsArray = metrics || [];
+  const foundmetric = metricsArray.filter(metric => metric.match(regexp));
   return foundmetric;
 }
 
 export default function CollectorDashboard() {
   const snapshot = useObservable(selectedSnapshot$, []) as SnapshotItem;
-  const snapshotId = snapshot?.get('id');
   const timeConfig = useTimeConfig();
+  const snapshotId = snapshot?.get('id');
   const metricsResult = useMetricIds({ snapshotId, timeConfig }).data;
 
-  if (!snapshot || !metricsResult) {
-    return null;
+  const versionsForLive = useObservable(() => getSnapshotVersionsByTime(timeConfig), [timeConfig]);
+  const versionsForFocusedMoment = useObservable(() => getSnapshotVersionsByTime(), []);
+
+  if (snapshot === undefined) {
+    return (
+      <div className={locals.loadingIndicatorWrapper}>
+        <LoadingIndicator />
+      </div>
+    );
+  }
+
+  if (!snapshot) {
+    return (
+      <NotFoundDialog
+        snapshotId={snapshotId}
+        versionsForFocusedMoment={versionsForFocusedMoment}
+        versionsForLive={versionsForLive}
+      />
+    );
   }
 
   return (
@@ -91,7 +114,7 @@ export default function CollectorDashboard() {
             <Column span="100%">
               <DashboardSection title={t('in-infrastructure:collectorView.memoryUsage')}>
                 <Chart
-                  snapshotId={snapshot?.get('id')}
+                  snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   minRollup={10000}
                   y1={{

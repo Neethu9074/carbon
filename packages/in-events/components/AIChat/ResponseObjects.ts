@@ -6,6 +6,7 @@
 import { ChatInstance, MessageRequest, MessageResponseTypes, TextItem, UserDefinedItem } from '@instana/ai-chat';
 
 import { TableHeader, TableRow } from 'in-events/components/AIChat/TableComponents/useTableState';
+import { AdditionalInfoObject } from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import { t } from 'in-i18n';
 
 // Existing prompt library data
@@ -77,13 +78,18 @@ export const RePromptObject: TextItem = {
 };
 
 // ThumbsFeedback object definition taking in the pos / neg tracking string
-export function ThumbsFeedbackObject(positiveTacking: string, negativeTracking: string): UserDefinedItem {
+export function ThumbsFeedbackObject(
+  positiveTacking: string,
+  negativeTracking: string,
+  additionalInfo: AdditionalInfoObject
+): UserDefinedItem {
   return {
     response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: {
       user_defined_type: 'thumbs_feedback',
       posTrack: positiveTacking,
-      negTrack: negativeTracking
+      negTrack: negativeTracking,
+      additionalInfo: additionalInfo
     }
   };
 }

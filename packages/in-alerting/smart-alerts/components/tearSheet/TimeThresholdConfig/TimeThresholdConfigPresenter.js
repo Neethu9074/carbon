@@ -10,6 +10,7 @@ import React from 'react';
 import ConfigureAlertingThresholdTearSheet from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlertingThreshold';
 import TimeThresholdChoice from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/TimeThresholdChoice';
 import SelectTimeThresholdTearSheet from 'in-alerting/smart-alerts/components/tearSheet/SelectTimeThreshold';
+import ConfigureTimeThreshold from 'in-alerting/smart-alerts/components/tearSheet/ConfigureTimeThreshold';
 
 export default function TimeThresholdConfigPresenter({
   form,
@@ -23,23 +24,28 @@ export default function TimeThresholdConfigPresenter({
   return (
     <>
       {hasRadioBtnViewEnabled ? (
-        <TimeThresholdChoice
-          form={form}
-          updateForm={updateForm}
-          hasUserImpactOption={hasUserImpactOption}
-          hasTraceImpactOption={hasTraceImpactOption}
-          impactTimeThresholdDisabled={impactTimeThresholdDisabled}
-        />
+        <>
+          <TimeThresholdChoice
+            form={form}
+            updateForm={updateForm}
+            hasUserImpactOption={hasUserImpactOption}
+            hasTraceImpactOption={hasTraceImpactOption}
+            impactTimeThresholdDisabled={impactTimeThresholdDisabled}
+          />
+          <ConfigureTimeThreshold form={form} onChange={onChange} updateForm={updateForm} />
+        </>
       ) : (
-        <SelectTimeThresholdTearSheet
-          form={form}
-          updateForm={updateForm}
-          hasUserImpactOption={hasUserImpactOption}
-          hasTraceImpactOption={hasTraceImpactOption}
-          impactTimeThresholdDisabled={impactTimeThresholdDisabled}
-        />
+        <>
+          <SelectTimeThresholdTearSheet
+            form={form}
+            updateForm={updateForm}
+            hasUserImpactOption={hasUserImpactOption}
+            hasTraceImpactOption={hasTraceImpactOption}
+            impactTimeThresholdDisabled={impactTimeThresholdDisabled}
+          />
+          <ConfigureAlertingThresholdTearSheet form={form} onChange={onChange} updateForm={updateForm} />
+        </>
       )}
-      <ConfigureAlertingThresholdTearSheet form={form} onChange={onChange} updateForm={updateForm} />
     </>
   );
 }

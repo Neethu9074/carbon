@@ -644,7 +644,7 @@
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
-          "description": "Specify the alert and persistence type and then set the alert trigger."
+          "description": "Refine the alerting criteria to enhance the accuracy."
         },
         "staticOrAdaptive": {
           "config": {
@@ -1030,11 +1030,16 @@
           "triggerAlert": "Trigger alert",
           "triggerAfter": "Trigger after",
           "tracesImpacted": "traces are impacted",
+          "numberOfTracesImpacted": "Number of traces impacted",
           "numberOfUserImpactPostLabel": "or more number of users are impacted",
           "percentageOfUserImpactPostLabel": "or more % of users are impacted",
           "outOfConsecutiveEvaluations": "out of",
+          "violationAcross": "across",
+          "violationsOccurrenceLabel": "Violation occurence(s)",
           "persistenceType": "Persistence type",
           "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations",
+          "bucketsOfTime": "{{granularity}}-minute buckets of time",
+          "numberOfConsecutiveViolationsLabel": "Consecutive {{granularity}}-minute buckets of time that have violations",
           "static": "Static",
           "thresholdValue": "Threshold value"
         }

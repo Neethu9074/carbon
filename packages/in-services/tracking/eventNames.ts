@@ -350,6 +350,10 @@ export const SETTINGS_ACCOUNT_BILLING_TENANT_UNIT = 'settings.accountBilling.ten
 export const SETTINGS_ACCOUNT_BILLING_TIMERANGE = 'settings.accountBilling.timeRange';
 export const SETTINGS_ACCOUNT_BILLING_PRESENTATION = 'settings.accountBilling.presentation';
 
+export const ACCOUNT_BILLING_TENANT_UNIT = 'accountBilling.tenantUnit';
+export const ACCOUNT_BILLING_TIMERANGE = 'accountBilling.timeRange';
+export const ACCOUNT_BILLING_PRESENTATION = 'accountBilling.presentation';
+
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
 export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboardingNewUnit.helpAndSupport.clicked';
@@ -659,10 +663,8 @@ export const EVENT_AI_CHAT_INFRASTRUCTURE = 'event.ai.chat.infrastructure';
 export const EVENT_AI_LIBRARY_OPEN = 'event.ai.library.open';
 export const EVENT_AI_LIBRARY_RESPONSE_OPEN = 'event.ai.library.response.open';
 export const EVENT_AI_LIBRARY_SELECTION_MADE = 'event.ai.library.selection.made';
-export const EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE = 'event.ai.chat.apievent.result.positive';
-export const EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE = 'event.ai.chat.apievent.result.negative';
-export const EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE = 'event.ai.chat.apichat.result.positive';
-export const EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE = 'event.ai.chat.apichat.result.negative';
+export const EVENT_AI_CHAT_API_RESULT_POSITIVE = 'event.ai.chat.apievent.result.positive';
+export const EVENT_AI_CHAT_API_RESULT_NEGATIVE = 'event.ai.chat.apievent.result.negative';
 export const EVENT_AI_CHAT_API_ERROR_POSITIVE = 'event.ai.chat.api.error.positive';
 export const EVENT_AI_CHAT_API_ERROR_NEGATIVE = 'event.ai.chat.api.error.negative';
 export const EVENT_AI_CHAT_API_RESULT_POS_NEG_FEEDBACK = 'event.api.chat.api.result.pos.neg.feedback';

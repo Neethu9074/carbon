@@ -7,10 +7,8 @@
 import { uniqueId } from 'lodash';
 
 import {
-  EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE,
-  EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE,
-  EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE,
-  EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE,
+  EVENT_AI_CHAT_API_RESULT_POSITIVE,
+  EVENT_AI_CHAT_API_RESULT_NEGATIVE,
   EVENT_AI_CHAT_API_ERROR_POSITIVE,
   EVENT_AI_CHAT_API_ERROR_NEGATIVE
 } from 'in-services/tracking/eventNames';
@@ -37,7 +35,8 @@ export async function CustomSendMessages(
 ) {
   // Always show the assistant input field since the feature flag is removed
   instance.updateAssistantInputFieldVisibility(true);
-  async function sendError(nlg, errorMessage) {
+  async function sendError(errorMessage, queryResponse, userQuery) {
+    const nlg = queryResponse?.api?.NLG || '';
     await instance.messaging.addMessage(
       {
         output: {
@@ -48,7 +47,14 @@ export async function CustomSendMessages(
               response_type: 'text',
               text: errorMessage
             },
-            ThumbsFeedbackObject(EVENT_AI_CHAT_API_ERROR_POSITIVE, EVENT_AI_CHAT_API_ERROR_NEGATIVE)
+            ThumbsFeedbackObject(EVENT_AI_CHAT_API_ERROR_POSITIVE, EVENT_AI_CHAT_API_ERROR_NEGATIVE, {
+              errorMessage: errorMessage,
+              nlgResponse: nlg,
+              userQuery: userQuery,
+              apiEndpoint: queryResponse?.api?.api_endpoint || '-',
+              technology: queryResponse?.technology || '-',
+              type: queryResponse?.type || '-'
+            })
           ]
         }
       },
@@ -69,12 +75,14 @@ export async function CustomSendMessages(
     );
   }
 
-  async function showTableData(nlgResponse, apiData, statusMessageId, isEvents) {
-    const tabular = isEvents ? formatForEventsTable(nlgResponse, apiData) : formatForTable(nlgResponse, apiData);
+  async function showTableData(apiData, statusMessageId, queryResponse, userQuery, isEvents) {
+    const nlgResponse = queryResponse?.api?.NLG || '';
+    const tabular = isEvents
+      ? formatForEventsTable(apiData, userQuery, queryResponse)
+      : formatForTable(apiData, userQuery, queryResponse);
+
     await instance.messaging.removeMessages([statusMessageId]);
     if (tabular.output?.generic?.[1]?.user_defined?.rows?.length == 0) {
-      const posTrack = (isEvents && EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE) || EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE;
-      const negTrack = (isEvents && EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE) || EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE;
       await instance.messaging.addMessage(
         {
           output: {
@@ -84,7 +92,13 @@ export async function CustomSendMessages(
                 response_type: 'text',
                 text: t('in-events:aichat.noMatching')
               },
-              ThumbsFeedbackObject(posTrack, negTrack),
+              ThumbsFeedbackObject(EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE, {
+                nlgResponse: nlgResponse,
+                userQuery: userQuery,
+                apiEndpoint: queryResponse?.api?.api_endpoint || '-',
+                technology: queryResponse.technology,
+                type: queryResponse?.type || '-'
+              }),
               RePromptObject
             ]
           }
@@ -136,19 +150,19 @@ export async function CustomSendMessages(
         const publicEndpoint = queryResponse?.api?.api_endpoint;
 
         if (!queryResponse) {
-          sendError(nlgResponse, t('in-events:aichat.noData'));
+          sendError(t('in-events:aichat.noData'), queryResponse, userQuery);
           return;
         }
         if (queryResponse.error) {
-          sendError(nlgResponse, queryResponse.error);
+          sendError(queryResponse.error, queryResponse, userQuery);
           return;
         }
         if (queryResponse.api?.error) {
-          sendError(nlgResponse, queryResponse.api.error);
+          sendError(queryResponse.api.error, queryResponse, userQuery);
           return;
         }
         if (!publicEndpoint) {
-          sendError(nlgResponse, t('in-events:aichat.unableToFindError'));
+          sendError(t('in-events:aichat.unableToFindError'), queryResponse, userQuery);
           return;
         }
         const statusMessageId = uniqueId('aichat_');
@@ -178,20 +192,20 @@ export async function CustomSendMessages(
               const publicApiDataSubset = publicApiData.slice(0, 2000);
               fetchEventsData(publicApiDataSubset, queryResponse.api).once(
                 eventApiData => {
-                  showTableData(nlgResponse, eventApiData, statusMessageId, true);
+                  showTableData(eventApiData, statusMessageId, queryResponse, userQuery, true);
                 },
                 eventApiError => {
                   instance.messaging.removeMessages([statusMessageId]);
-                  sendError(nlgResponse, eventApiError);
+                  sendError(eventApiError, queryResponse, userQuery);
                 }
               );
             } else {
-              showTableData(nlgResponse, publicApiData, statusMessageId, false);
+              showTableData(publicApiData, statusMessageId, queryResponse, userQuery, false);
             }
           },
           publicApiError => {
             instance.messaging.removeMessages([statusMessageId]);
-            sendError(nlgResponse, publicApiError);
+            sendError(publicApiError, queryResponse, userQuery);
           }
         );
       },
@@ -200,9 +214,9 @@ export async function CustomSendMessages(
         instance.messaging.removeMessages([loadingMessageId]);
         const msg = queryError.toString ? queryError.toString() : JSON.stringify(queryError);
         if (msg.includes('HttpRequestTimeoutError')) {
-          sendError('', t('in-events:aichat.problemError'));
+          sendError(t('in-events:aichat.problemError'), queryError, userQuery);
         } else {
-          sendError('', msg);
+          sendError(msg, queryError, userQuery);
         }
       }
     );

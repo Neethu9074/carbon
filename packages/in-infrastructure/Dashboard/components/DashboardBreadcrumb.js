@@ -70,11 +70,10 @@ export default connectTo(
 );
 
 function getHomeBreadcrumb(closeDashboardLink) {
-  if (closeDashboardLink.includes('#/table')) {
-    return t('in-infrastructure:dashboard.comparisonTable');
-  } else if (closeDashboardLink.includes('#/agents')) {
-    return t('in-infrastructure:dashboard.agents');
-  }
+  if (closeDashboardLink.includes('#/table')) return t('in-infrastructure:dashboard.comparisonTable');
+  if (closeDashboardLink.includes('#/agents')) return t('in-infrastructure:dashboard.agents');
+  if (closeDashboardLink.includes('#/datasources')) return t('in-infrastructure:dashboard.dataSources');
+
   return t('in-infrastructure:dashboard.map');
 }
 

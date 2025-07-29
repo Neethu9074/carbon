@@ -21,6 +21,9 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { notBlankValidator } from 'in-services/validators/string';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import Title from 'in-components/Title/Title';
@@ -163,18 +166,27 @@ function AccountSettingsView({ account }) {
   ];
 
   return (
-    <Tile className={locals.tileLayout}>
-      <Stack gap={3}>
-        <Typography variant="heading-03">{t('in-amp:components.accountSettings.billingAddress')}</Typography>
-        {addressFields.map(([label, value]) => (
-          <div className={locals.rowTile}>
-            <div className={locals.labelTile}>
-              <Typography variant="heading-01">{label}</Typography>
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.account_and_billing,
+          pageRootName: pageNames.entitlements
+        }}
+      />
+
+      <Tile className={locals.tileLayout}>
+        <Stack gap={3}>
+          <Typography variant="heading-03">{t('in-amp:components.accountSettings.billingAddress')}</Typography>
+          {addressFields.map(([label, value]) => (
+            <div className={locals.rowTile}>
+              <div className={locals.labelTile}>
+                <Typography variant="heading-01">{label}</Typography>
+              </div>
+              <Typography variant="body-01">{value || valueMissingPlaceholder}</Typography>
             </div>
-            <Typography variant="body-01">{value || valueMissingPlaceholder}</Typography>
-          </div>
-        ))}
-      </Stack>
-    </Tile>
+          ))}
+        </Stack>
+      </Tile>
+    </>
   );
 }

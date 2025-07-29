@@ -15,7 +15,7 @@ import {
 } from 'in-services/tracking/eventNames';
 import { t } from 'in-i18n';
 
-import locals from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost.mless';
+import locals from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/KubeCost.mless';
 
 export function getUpgradeBannerMessage(coreCount: number, trackCta: (eventName: string) => void) {
   if (coreCount < 200) {

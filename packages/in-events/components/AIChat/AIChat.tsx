@@ -14,24 +14,16 @@ import {
   setupDragListeners,
   setupCustomLanguagePack,
   AI_CHAT_TAG_NAME,
-  LAUNCHER_BUTTON_ID
+  LAUNCHER_BUTTON_ID,
+  WAC_WIDGET
 } from 'in-events/components/AIChat/utils/utils';
-import {
-  EVENT_AI_CHAT_OPEN,
-  EVENT_AI_CHAT_CLOSE,
-  EVENT_AI_LIBRARY_OPEN,
-  EVENT_AI_CHAT_FEEDBACK_MENU_CLICK
-} from 'in-services/tracking/tracking';
 // @ts-expect-error - No type definitions available
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import { CustomResponseDefinition } from 'in-events/components/AIChat/UserDefinedResponse';
-import AITooltipContent from 'in-events/components/AIChat/components/AITooltipContent';
-import InstructionPop from 'in-events/components/AIChat/CustomPanels/InstructionPop';
-import PromptLibrary from 'in-events/components/AIChat/CustomPanels/PromptLibrary';
+import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tracking';
 import LauncherButton from 'in-events/components/AIChat/components/LauncherButton';
 import UserDefinedResponse from 'in-events/components/AIChat/UserDefinedResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { t } from 'in-i18n';
 
 import locals from './AIChat.mless';
 
@@ -49,10 +41,34 @@ interface ExtendedChatInstance extends ChatInstance {
   trackCta?: any;
 }
 interface AIChatProps {
-  customResponseDefinitions: CustomResponseDefinition[];
+  customResponseDefinitions?: CustomResponseDefinition[];
+  customMenuOptions?: (...args: any[]) => CustomMenuOption[];
+  customPanelConfig?: CustomPanelConfig;
+  onAfterRender?: (ChatInstance: ExtendedChatInstance) => void;
+  onBeforeRender?: (ChatInstance: ExtendedChatInstance) => void;
+  aiToolTipContent?: React.ReactNode;
+  previewPill?: boolean;
 }
 
-export function AIChat({ customResponseDefinitions }: AIChatProps) {
+type CustomMenuOption = {
+  text: string;
+  handler: () => void;
+};
+
+type CustomPanelConfig = {
+  customPanelElement: (...args: any[]) => JSX.Element;
+};
+
+export function AIChat({
+  customResponseDefinitions,
+  customMenuOptions,
+  customPanelConfig,
+  onAfterRender,
+  onBeforeRender,
+  aiToolTipContent,
+  previewPill = false
+}: AIChatProps) {
+  const customPanelElement = customPanelConfig?.customPanelElement;
   // This will move the Chat launcher back to original location.
   // This is needed because we need it to reset on page navigation
   useEffect(() => {
@@ -62,44 +78,15 @@ export function AIChat({ customResponseDefinitions }: AIChatProps) {
 
   const { trackCta } = useSegmentTracking();
   const [instance, setInstance] = useState<ExtendedChatInstance | null>(null);
-  const [popOpen, setPopOpen] = useState<boolean>(false);
 
   const renderWriteableElements = useMemo(
     () => ({
-      customPanelElement: <PromptLibrary instance={instance as ExtendedChatInstance} setPopOpen={setPopOpen} />,
-      headerBottomElement: <PreviewPill className={locals.previewPill} />,
-      aiTooltipAfterDescriptionElement: <AITooltipContent />
+      customPanelElement: customPanelElement && customPanelElement(instance),
+      headerBottomElement: previewPill && <PreviewPill className={locals.previewPill} />,
+      aiTooltipAfterDescriptionElement: aiToolTipContent
     }),
-    [instance]
+    [instance, customPanelElement, previewPill, aiToolTipContent]
   );
-
-  /**
-   * Set up custom menu options for the AI Chat
-   * @param chatInstance - The chat instance
-   */
-  const setupCustomMenuOptions = (chatInstance: ExtendedChatInstance) => {
-    const customPanel = chatInstance.customPanels.getPanel();
-    const panelOptions = {
-      title: t('in-events:aichat.promptLibrary')
-    };
-    chatInstance.updateCustomMenuOptions([
-      {
-        text: t('in-events:aichat.promptLibrary'),
-        handler: () => {
-          customPanel.open(panelOptions);
-          handleTracking(EVENT_AI_LIBRARY_OPEN);
-          setPopOpen(false);
-        }
-      },
-      {
-        text: t('in-events:aichat.feedback'),
-        handler: () => {
-          handleTracking(EVENT_AI_CHAT_FEEDBACK_MENU_CLICK);
-          window.open('https://your.feedback.ibm.com/jfe/form/SV_7Oj9seFbD9zb4eq', '_blank');
-        }
-      }
-    ]);
-  };
 
   /**
    * Set up launcher button for the AI Chat
@@ -116,7 +103,7 @@ export function AIChat({ customResponseDefinitions }: AIChatProps) {
       launcherElement.style.display = 'none';
       const elements = document.getElementsByTagName(AI_CHAT_TAG_NAME);
       if (elements.length === 1) {
-        const movable = elements[0].shadowRoot?.getElementById('WACWidget');
+        const movable = elements[0].shadowRoot?.getElementById(WAC_WIDGET);
         if (movable) {
           movable.style.right = `32px`;
           movable.style.bottom = `32px`;
@@ -138,7 +125,6 @@ export function AIChat({ customResponseDefinitions }: AIChatProps) {
           // The AI Chat has been closed so we are no longer hiding the AI Launcher
           handleTracking(EVENT_AI_CHAT_CLOSE);
           launcherElement.style.display = '';
-          setPopOpen(false);
         }
       }
     });
@@ -159,15 +145,19 @@ export function AIChat({ customResponseDefinitions }: AIChatProps) {
         onBeforeRender={(chatInstance: ExtendedChatInstance) => {
           chatInstance.trackCta = trackCta;
           setInstance(chatInstance);
+          onBeforeRender && onBeforeRender(chatInstance);
         }}
         onAfterRender={(chatInstance: ExtendedChatInstance) => {
           setupCustomLanguagePack(chatInstance);
-          setupCustomMenuOptions(chatInstance);
+          if (customMenuOptions) {
+            const customPanel = chatInstance.customPanels.getPanel();
+            chatInstance.updateCustomMenuOptions(customMenuOptions(customPanel));
+          }
           setupLauncherButton(chatInstance);
           setupDragListeners();
+          onAfterRender && onAfterRender(chatInstance);
         }}
       />
-      {popOpen && <InstructionPop setPopOpen={setPopOpen} />}
       <LauncherButton />
     </>
   );

@@ -14,7 +14,10 @@ import { FormGroup } from '@instana/carbon';
 import {
   SETTINGS_ACCOUNT_BILLING_PRESENTATION,
   SETTINGS_ACCOUNT_BILLING_TENANT_UNIT,
-  SETTINGS_ACCOUNT_BILLING_TIMERANGE
+  SETTINGS_ACCOUNT_BILLING_TIMERANGE,
+  ACCOUNT_BILLING_PRESENTATION,
+  ACCOUNT_BILLING_TENANT_UNIT,
+  ACCOUNT_BILLING_TIMERANGE
 } from 'in-services/tracking/eventNames';
 import { dataUsageNotificationEnabled, newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
@@ -39,7 +42,8 @@ export default function AmpInformationModifier({
   setTo,
   presentation,
   setPresentation,
-  isAddOn = false
+  isAddOn = false,
+  isTechnologiesReporting = false
 }) {
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
@@ -62,17 +66,25 @@ export default function AmpInformationModifier({
   const { trackCta } = useSegmentTracking();
 
   useEffect(() => {
-    trackCta(SETTINGS_ACCOUNT_BILLING_TENANT_UNIT, { tenantUnit: tenantUnit?.label });
+    trackCta(newAccountAndBillingPageEnabled ? ACCOUNT_BILLING_TENANT_UNIT : SETTINGS_ACCOUNT_BILLING_TENANT_UNIT, {
+      tenantUnit: tenantUnit?.label
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tenantUnit?.label]);
 
   useEffect(() => {
-    trackCta(SETTINGS_ACCOUNT_BILLING_TIMERANGE, { timeRange });
+    trackCta(newAccountAndBillingPageEnabled ? ACCOUNT_BILLING_TIMERANGE : SETTINGS_ACCOUNT_BILLING_TIMERANGE, {
+      timeRange
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeRange]);
 
   useEffect(() => {
-    trackCta(SETTINGS_ACCOUNT_BILLING_PRESENTATION, { presentation });
+    if (!isTechnologiesReporting) {
+      trackCta(newAccountAndBillingPageEnabled ? ACCOUNT_BILLING_PRESENTATION : SETTINGS_ACCOUNT_BILLING_PRESENTATION, {
+        presentation
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [presentation]);
 

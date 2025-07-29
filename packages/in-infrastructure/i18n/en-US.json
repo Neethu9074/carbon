@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "Comparison table",
     "agents": "Agents",
+    "dataSources": "Data sources",
     "map": "Map",
     "infrastructure": "Infrastructure",
     "snapshotVersions": "Snapshot versions",
