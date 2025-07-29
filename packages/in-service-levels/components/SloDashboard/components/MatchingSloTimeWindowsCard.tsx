@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { Tag } from '@instana/carbon';
 import { Card, LoadingSkeleton, Stack, Typography } from '@instana/components';
 import { formatDateShort } from '@instana/format-date';
 import type { TimeConfig } from '@instana/types';
@@ -15,7 +16,7 @@ import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowCon
 import { t } from 'in-i18n';
 
 export default function MatchingSloTimeWindowsCard() {
-  const { timeWindows, timeWindowTagColors, progress } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, progress } = useSloTimeWindowContext();
 
   const matchingTimeWindows = calculateMatchTimeWindow(timeWindows);
   const hasMatchingTimeWindows = timeWindows.length > 0;
@@ -30,18 +31,16 @@ export default function MatchingSloTimeWindowsCard() {
         <Stack gap="xxsmall" direction="horizontal" wrap>
           {matchingTimeWindows.map((timeWindow, index) => {
             return (
-              <TimeWindowPill color={timeWindowTagColors[index]} key={index}>
+              <TimeWindowPill color={timeWindowColors[index]} key={index}>
                 {timeWindow}
               </TimeWindowPill>
             );
           })}
-          {!isLoading && !hasMatchingTimeWindows && (
-            <TimeWindowPill color="default.ids.color.option.neutral.400">
-              {t('in-service-levels:sloChart.sloChartSummary.noMatchedSLOTimeWindow')}
-            </TimeWindowPill>
-          )}
-          {isLoading && <LoadingSkeleton />}
         </Stack>
+        {!isLoading && !hasMatchingTimeWindows && (
+          <Tag size="sm">{t('in-service-levels:sloChart.sloChartSummary.noMatchedSLOTimeWindow')}</Tag>
+        )}
+        {isLoading && <LoadingSkeleton />}
       </Stack>
     </Card>
   );

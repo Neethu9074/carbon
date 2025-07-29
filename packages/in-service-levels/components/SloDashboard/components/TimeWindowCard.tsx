@@ -6,12 +6,11 @@
 
 import React from 'react';
 
+import { Tag } from '@instana/carbon';
 import type { ServiceLevelObjectiveConfiguration, TimeWindow } from '@instana/types';
 import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { Card, Stack, Typography } from '@instana/components';
 import { isFixedTimeWindow } from '@instana/types';
-
-import TimeWindowPill from 'in-service-levels/components/SloDashboard/components/TimeWindowPill';
 import { t } from 'in-i18n';
 
 interface TimeWindowCardProps {
@@ -31,20 +30,20 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
           {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindow')}
         </Typography>
         <Stack gap="xxsmall" direction="horizontal" wrap>
-          <TimeWindowPill>
+          <Tag size="sm">
             {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindowDetails', {
               duration,
               durationUnit,
               type
             })}
-          </TimeWindowPill>
+          </Tag>
           {isFixedTimeWindow(timeWindow) && (
-            <TimeWindowPill>
+            <Tag size="sm">
               {t('in-service-levels:sloChart.sloChartSummary.startTime', {
                 startDay,
                 startTime
               })}
-            </TimeWindowPill>
+            </Tag>
           )}
         </Stack>
       </Stack>

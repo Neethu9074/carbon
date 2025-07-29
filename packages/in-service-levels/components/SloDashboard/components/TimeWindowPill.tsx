@@ -18,7 +18,9 @@ interface TimeWindowPillProps {
 export default function TimeWindowPill({ color, children }: TimeWindowPillProps) {
   return (
     <div className={locals.tagAlign}>
-      <Tag type={color}>{children}</Tag>
+      <Tag className={locals.tagColor} style={{ backgroundColor: color }} size="sm">
+        {children}
+      </Tag>
     </div>
   );
 }

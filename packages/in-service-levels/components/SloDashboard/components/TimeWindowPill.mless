@@ -10,4 +10,8 @@
       margin: 2px;
     }
   }
+
+  .tagColor {
+    color: var(--ids-color-option-white);
+  }
 }

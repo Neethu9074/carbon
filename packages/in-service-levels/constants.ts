@@ -65,5 +65,3 @@ export const SloTimeWindowTypes = Object.freeze({
 });
 
 export const sloStatuses = ['red', 'green'] as const;
-
-export const sloTimeWindowTagColors = ['cyan', 'purple', 'green', 'purple', 'cyan', 'green', 'teal', 'blue'] as const;
