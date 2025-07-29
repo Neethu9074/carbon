@@ -121,6 +121,33 @@ interface ResultListProps {
   dataScope?: DataScopeType;
 }
 
+const startTimeColumnContent = (item: TestResultListItem) => {
+  return <StartTimeColumn item={item} />;
+};
+
+export const locationLabelColumnContent = (item: TestResultListItem) => {
+  const displayLabel = massageLocationDisplayLabel(
+    item?.testResultCommonProperties?.locationDisplayLabel ?? '',
+    item?.testResultCommonProperties?.locationId ?? ''
+  );
+  return <span className={locals.metricLabel}>{displayLabel}</span>;
+};
+
+export const responseTimeColumnContent = (item: TestResultListItem) => {
+  const count = get(item, ['metrics', 'response_time', 0, 1], 0);
+  return <span className={locals.metricLabel}>{timeByMillisZeroDecimalPlaces(count)}</span>;
+};
+
+export const responseSizeColumnContent = (item: TestResultListItem) => {
+  const count = get(item, ['metrics', 'response_size', 0, 1], 0);
+  return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
+};
+
+export const retriesColumnContent = (item: TestResultListItem) => {
+  const count = get(item, ['metrics', 'retries', 0, 1], 0);
+  return <span className={locals.metricLabel}>{count}</span>;
+};
+
 export default function ResultsList({ test, dataScope }: ResultListProps) {
   const timeConfig = useTimeConfig();
   const location = useLocation();
@@ -152,33 +179,6 @@ export default function ResultsList({ test, dataScope }: ResultListProps) {
       locationsDisplayLabels={locationDisplayLabels}
     />
   );
-
-  const startTimeColumnContent = (item: TestResultListItem) => {
-    return <StartTimeColumn item={item} />;
-  };
-
-  const locationLabelColumnContent = (item: TestResultListItem) => {
-    const displayLabel = massageLocationDisplayLabel(
-      item?.testResultCommonProperties?.locationDisplayLabel ?? '',
-      item?.testResultCommonProperties?.locationId ?? ''
-    );
-    return <span className={locals.metricLabel}>{displayLabel}</span>;
-  };
-
-  const responseTimeColumnContent = (item: TestResultListItem) => {
-    const count = get(item, ['metrics', 'response_time', 0, 1], 0);
-    return <span className={locals.metricLabel}>{timeByMillisZeroDecimalPlaces(count)}</span>;
-  };
-
-  const responseSizeColumnContent = (item: TestResultListItem) => {
-    const count = get(item, ['metrics', 'response_size', 0, 1], 0);
-    return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
-  };
-
-  const retriesColumnContent = (item: TestResultListItem) => {
-    const count = get(item, ['metrics', 'retries', 0, 1], 0);
-    return <span className={locals.metricLabel}>{count}</span>;
-  };
 
   let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
     {
@@ -421,7 +421,7 @@ function getSeverity(item: TestResultListItem) {
   return getStatus(item) === 1 ? 0 : 10;
 }
 
-function getRelativeTime(item: TestResultListItem) {
+export function getRelativeTime(item: TestResultListItem) {
   let status = getStatus(item);
   let date = get(item, ['metrics', 'start_time', 0, 1]);
   return status === 1 ? fromNow(date) : formatDateTime(date);

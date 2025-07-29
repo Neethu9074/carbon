@@ -986,3 +986,16 @@ export interface TestListProps {
     mobileApps: string[];
   };
 }
+
+export interface ResultsHeader {
+  key: string;
+  header: string;
+  width?: string;
+  getContent: (item: TestResultListItem) => React.ReactNode;
+}
+
+export interface ExpandableResultListProps {
+  test: TestResultListItem;
+  runType: string | undefined;
+  timeConfig: TimeConfig;
+}

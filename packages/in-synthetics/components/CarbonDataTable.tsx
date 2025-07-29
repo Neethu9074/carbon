@@ -449,7 +449,7 @@ export const CarbonDataTable = React.memo(
                       {/* Empty state handling - shows when no rows are present */}
                       {rows.length === 0 && (
                         <TableRow>
-                          <TableCell colSpan={headers.length}>
+                          <TableCell colSpan={isExpandable ? headers.length + 1 : headers.length}>
                             {/* Show error state if there are errors in the result */}
                             {hasError(result) ? (
                               <ErrorEmptyState
