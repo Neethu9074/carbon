@@ -25,7 +25,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
   const startDay = isFixedTimeWindow(timeWindow) && formatDateShort(timeWindow.startTimestamp);
   const startTime = isFixedTimeWindow(timeWindow) && formatTimeWithoutSeconds(timeWindow.startTimestamp);
 
-  const sloTimezone = timeWindow?.timezone || utcLabel;
+  const sloTimezone = timeWindow.timezone || utcLabel;
 
   return (
     <Card size="s">
