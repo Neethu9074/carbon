@@ -34,6 +34,7 @@ export const productAreas = Object.freeze({
   power_vc: 'PowerVC',
   automation: 'Automation',
   vulnerability: 'Vulnerability',
+  custom_entities: 'Custom Entities',
   data_sources: 'Data sources',
   account_and_billing: 'Account and billing'
 } as const);

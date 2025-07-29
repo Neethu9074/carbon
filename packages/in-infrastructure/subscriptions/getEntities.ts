@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { GetInfrastructureExploreQuery, InfrastructureItem, PaginatedResult, Result } from '@instana/types';
+import { GetInfrastructureExploreQuery, InfrastructureExploreItem, PaginatedResult, Result } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory<
   GetInfrastructureExploreQuery,
-  Result<PaginatedResult<InfrastructureItem>>
+  Result<PaginatedResult<InfrastructureExploreItem>>
 >({
   eventId: 'infrastructure.getEntities'
 });

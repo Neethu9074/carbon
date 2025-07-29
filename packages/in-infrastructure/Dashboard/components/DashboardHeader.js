@@ -178,7 +178,7 @@ function renderMetaInformation({ snapshot, plugin }) {
   );
 }
 
-function getSnapshotIdTagFilter(snapshot) {
+export function getSnapshotIdTagFilter(snapshot) {
   const plugin = snapshot.get('plugin');
   const id = snapshot.get('id');
   if (plugin === 'host') {

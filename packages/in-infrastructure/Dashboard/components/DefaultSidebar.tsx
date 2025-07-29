@@ -7,10 +7,15 @@ import React from 'react';
 
 import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
+//@ts-expect-error TS migration
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import decamelize from 'in-sdk/decamelize';
 
-export default function DefaultSidebar({ snapshot }) {
+interface Props {
+  snapshot: any;
+}
+
+export default function DefaultSidebar({ snapshot }: Readonly<Props>) {
   return (
     <div>
       <Collapsible initiallyOpen>
@@ -20,7 +25,7 @@ export default function DefaultSidebar({ snapshot }) {
             {snapshot
               .get('data')
               .entrySeq()
-              .map(([key, value]) => (
+              .map(([key, value]: string[]) => (
                 <DescriptionItem key={key} title={decamelize(key)}>
                   {value}
                 </DescriptionItem>
