@@ -989,6 +989,9 @@
   },
   "onboarding": {
   "yourDashboard": "Your dashboard",
-  "gettingStarted": "Getting started"
+  "gettingStarted": "Getting started",
+  "title": "Discover the value of Instana",
+  "description": "View suggested tasks to get the most out of Instana.",
+  "taskLabel": "Onboarding task"
   }
 }

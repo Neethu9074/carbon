@@ -12,6 +12,7 @@ import useGetAccountActivation, {
   AccountActivationProp
 } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import { solisEnabled, whatsNewBannerEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
+import GettingStartedContent from 'in-plg/pages/WelcomePage/GettingStarted/GettingStartedContent';
 import { Activation } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
 import { welcomePage, gettingStartedPath } from 'in-plg/navigation/paths';
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
@@ -81,10 +82,6 @@ export default function WelcomePage() {
       )}
     </div>
   );
-}
-
-function GettingStartedContent() {
-  return null;
 }
 
 /**

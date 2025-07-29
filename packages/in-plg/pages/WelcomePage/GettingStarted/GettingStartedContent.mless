@@ -1,0 +1,26 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .tileGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+    gap: 1.5rem;
+    margin-left: 1rem;
+    margin-right: 1.5rem;
+    position: relative;
+  }
+
+  .arrowIcon {
+    font-size: 1.25rem;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+  }
+  .cardWrapper {
+    position: relative;
+  }
+}
