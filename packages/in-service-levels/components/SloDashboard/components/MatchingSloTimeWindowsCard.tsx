@@ -22,7 +22,7 @@ export default function MatchingSloTimeWindowsCard() {
   const isLoading = progress.loading;
 
   return (
-    <Card useMaxAvailableHeight={false}>
+    <Card>
       <Stack gap="xxsmall" direction="horizontal" wrap>
         <Typography noWrap variant="body-regular">
           {t('in-service-levels:sloChart.sloChartSummary.matchedSLOTimeWindow', { count: timeWindows.length })}

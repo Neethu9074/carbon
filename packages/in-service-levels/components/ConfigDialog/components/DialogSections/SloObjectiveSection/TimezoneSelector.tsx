@@ -11,6 +11,7 @@ import { InlineNotification, Stack, Toggle } from '@instana/carbon';
 import TimezoneList from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimezoneList';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { getCurrentFormattedTimezone } from 'in-service-levels/utils/timezone';
+import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 import locals from './TimezoneSelector.mless';
@@ -19,7 +20,7 @@ export default function TimezoneSelector() {
   const { form, onChange } = useContext(SloFormContext);
   const bindTimezoneField = form.getIn(['objective', 'bindTimezone']);
   const timezoneField = form.getIn(['objective', 'timezone']);
-  const isTimezoneSelected = bindTimezoneField.value && timezoneField.value !== '';
+  const isTimezoneSelected = bindTimezoneField.value && timezoneField.value && timezoneField.value !== utcLabel;
 
   const timezoneMessage = isTimezoneSelected
     ? t('in-service-levels:createSloDialog.selectedTimezoneMessage', { timezone: timezoneField.value })

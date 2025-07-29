@@ -268,7 +268,7 @@
     "currentTimezoneMessage": "Your current time zone is {{timezone}}.",
     "disabledToggleLabel": "Disable",
     "enabledToggleLabel": "Enable",
-    "selectedTimezoneMessage": "Your current time zone is set to {{timezone}}.",
+    "selectedTimezoneMessage": "The SLO time zone is set to {{timezone}}.",
     "selectTimezoneMessage": "Select time zone",
     "sloNameLabel": "SLO name",
     "sloNamePlaceholder": "Enter name",
