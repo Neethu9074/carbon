@@ -11,6 +11,9 @@ import { AccessRuleRelationType, AccessType } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import EditTeamsDialog from 'in-custom-dashboards/CustomDashboard/EditTeamsDialog/EditTeamsDialog';
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
+import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const testTeamsResult = {
@@ -50,6 +53,8 @@ jest.mock('in-settings/tabs/SecurityAndAccess/api/tags', () => {
     getTagsResult: jest.fn()
   };
 });
+jest.mock('in-settings/hooks/useIsTeamsAvailable');
+
 jest.mock('in-services/featureFlags', () => ({
   rbacTeamsEnabled: true
 }));
@@ -59,7 +64,10 @@ beforeEach(() => {
 });
 
 describe('EditTeamsDialog', () => {
-  beforeEach(jest.clearAllMocks);
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useIsTeamsAvailable as jest.Mock).mockReturnValue(resultToFetchedStateResponse(success(true)));
+  });
   const testConfig = {
     accessRules: [
       {

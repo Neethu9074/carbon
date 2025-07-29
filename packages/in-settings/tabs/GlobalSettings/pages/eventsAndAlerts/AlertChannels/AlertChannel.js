@@ -33,6 +33,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { useAlertConfigLink } from 'in-websites/navigation/paths';
@@ -42,7 +43,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DescriptionText from 'in-components/form/DescriptionText';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import SectionLine from 'in-settings/components/SectionLine';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
 import { toTitleCase } from 'in-services/util/string';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -130,6 +130,7 @@ function filterAlertConfigBasedOnRoles(alertConfigResponse, role) {
 
 const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   const [role] = useCurrentUserRole();
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const { entity, form, entityId, message, error, loading } = props;
   const { location } = useNavigation();
   if (!entity || !form) {
@@ -234,7 +235,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
                     )
                   )
                 )}
-              {rbacTeamsEnabled && tags && (
+              {isRbacTeamsAvailable && tags && (
                 <Di
                   title={t('in-settings:tabs.teams.teamsTitle')}
                   rowClassName={locals.row}

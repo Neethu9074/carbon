@@ -22,12 +22,13 @@ import { TestResponse, dummyTest, dataScopes, DataScopeType } from 'in-synthetic
 import CreateSyntheticOnDemandTest from 'in-synthetics/createTests/CreateSyntheticOnDemandTest';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
-import { rbacTeamsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
+import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import getTabs from 'in-synthetics/dashboards/summary/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -153,6 +154,7 @@ interface RenderMetaInformationProps {
 }
 
 const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
 
@@ -169,7 +171,7 @@ const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
           </span>
         </div>
       )}
-      {rbacTeamsEnabled && test.data?.rbacTags && <TagsInTable tags={test.data?.rbacTags} />}
+      {isRbacTeamsAvailable && test.data?.rbacTags && <TagsInTable tags={test.data?.rbacTags} />}
     </Stack>
   );
 };

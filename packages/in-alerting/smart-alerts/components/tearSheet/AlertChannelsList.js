@@ -19,6 +19,7 @@ import {
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import List, { defaultHeaderWithCount, areAllRowsOnAllPagesSelected } from 'in-settings/components/List';
 import { getEntityHref, globalSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { clickAlertChannelTracker } from 'in-settings/tracker';
 import { t } from 'in-i18n';
@@ -48,12 +49,13 @@ export default function AlertChannelsList({
   entityResult
 }) {
   const [channelsPreSelected] = useState(preSelectedChannels);
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions(hasRowNavigation)}
+      columnDefinitions={columnDefinitions(hasRowNavigation, undefined, isRbacTeamsAvailable)}
       tableActions={tableActions}
       loadEntities={() => just(entityResult)}
       noDataMessage={noDataMessage}

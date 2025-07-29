@@ -11,9 +11,9 @@ import { getGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import ActionBar from 'in-settings/components/Dialog/ActionBar';
 import { close } from 'in-components/DialogPresenter/store';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import ApiList from 'in-settings/components/ApiList';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -27,6 +27,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
   checkIfSelected,
   toggleItem
 }) {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState([]);
   const disabled = selectedEntities.size === 0;
@@ -34,7 +35,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
   return (
     <Dialog
       className={locals.dialog}
-      title={t('in-settings:tabs.addUserToAGroup', { context: rbacTeamsEnabled && 'teams' })}
+      title={t('in-settings:tabs.addUserToAGroup', { context: isRbacTeamsAvailable && 'teams' })}
       onClose={close}
     >
       <ErroneousResultPresenter errors={errors} addBottomMargin />
@@ -48,7 +49,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
           pageSize={10}
           ListRenderer={ListRenderer}
           getItems={getGroupsAsResultObservable}
-          itemName={rbacTeamsEnabled ? 'Role' : 'Group'}
+          itemName={isRbacTeamsAvailable ? 'Role' : 'Group'}
           orderBy="name"
           searchFields={['name']}
           userId={userId}

@@ -19,7 +19,6 @@ import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePr
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
-import { rbacTeamsEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import ApplicationsSection from 'in-synthetics/createTests//wizard/ApplicationsSection';
 import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLocations';
 import TeamsStep, { SYNTHETIC_TAB } from 'in-synthetics/createTests/wizard/TeamsStep';
@@ -28,6 +27,8 @@ import DNSConfiguration from 'in-synthetics/createTests/advanced/DNSConfiguratio
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -66,6 +67,7 @@ const AdvancedMode = ({
   validationFilters,
   setValidationFilters
 }: AdvancedModeProps) => {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const EMPTY = [] as SyntheticLocation[];
   const getSelectedBlueprintIndex = () => {
     if (testTypeSelected.browser.simple || testTypeSelected.browser.script) {
@@ -252,7 +254,7 @@ const AdvancedMode = ({
           valid: true,
           content: <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
         },
-    ...(rbacTeamsEnabled
+    ...(isRbacTeamsAvailable
       ? [
           {
             scrollId: '7',
