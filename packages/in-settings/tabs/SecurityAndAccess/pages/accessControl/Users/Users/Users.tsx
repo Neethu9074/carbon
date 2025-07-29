@@ -18,15 +18,16 @@ import List, { defaultHeaderWithCount, ColumnDefinition } from 'in-settings/comp
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { USER_INVITE } from 'in-services/tracking/tracking';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { noop } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
 export default function Users() {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const [authOverview] = useAuthOverview();
   const { defaultLogin } = authOverview ?? {};
   const { trackCta } = useSegmentTracking();
@@ -52,7 +53,7 @@ export default function Users() {
         title={t('in-settings:tabs.users')}
         getHeader={defaultHeaderWithCount(t('in-settings:tabs.users'))}
         getEntityName={({ fullName }: UserResult) => t('in-settings:tabs.userWithName', { name: fullName })}
-        columnDefinitions={columnDefinitions}
+        columnDefinitions={getColumnDefinitions(isRbacTeamsAvailable)}
         tableActions={tableActions}
         loadEntities={loadEntities}
         initialOrderBy="fullName"
@@ -88,7 +89,7 @@ const loadEntities = (): Observable<UserResult[]> => {
   return observer;
 };
 
-const columnDefinitions: ColumnDefinition<UserResult>[] = [
+const getColumnDefinitions = (isRbacTeamsAvailable?: boolean): ColumnDefinition<UserResult>[] => [
   {
     id: 'icon',
     sortable: false,
@@ -106,7 +107,7 @@ const columnDefinitions: ColumnDefinition<UserResult>[] = [
   },
   {
     id: 'groupCount',
-    label: t('in-settings:tabs.groupCountCol', { context: rbacTeamsEnabled && 'teams' }),
+    label: t('in-settings:tabs.groupCountCol', { context: isRbacTeamsAvailable && 'teams' }),
     width: 10,
     getContent({ groupCount }: UserResult) {
       if (groupCount === undefined) {

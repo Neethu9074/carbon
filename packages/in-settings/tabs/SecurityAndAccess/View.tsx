@@ -20,6 +20,7 @@ import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/S
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getNavigationTreeForRole } from 'in-settings/tabs/SecurityAndAccess/navigation/accessControl';
 import { findFirstPermittedSecurityAndAccessPage } from 'in-settings/tabs/permissions';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { securityAndAccess } from 'in-settings/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
@@ -63,11 +64,12 @@ export interface ViewProps extends AuthenticationOverview {
 
 export default function View(props: ViewProps) {
   const [role] = useCurrentUserRole();
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const authConfigs = useGetAuthConfigs();
 
   const navigationTree = [
-    ...getNavigationTreeForRole({ ...props, role }),
-    ...getNavigationTreeForAuthentication({ ...props, role })
+    ...getNavigationTreeForRole({ ...props, role, isRbacTeamsAvailable }),
+    ...getNavigationTreeForAuthentication({ ...props, role, isRbacTeamsAvailable })
   ];
 
   return (

@@ -17,12 +17,13 @@ import { Pill, Stack } from '@instana/components';
 import {
   customDashboardTopLevelFiltersEnabled,
   customDashboardsExportPdfEntireDashboard,
-  customDashboardsFastQueryModeEnabled,
-  rbacTeamsEnabled
+  customDashboardsFastQueryModeEnabled
 } from 'in-services/featureFlags';
 import EntityPageMainNotificationLightCardV2 from 'in-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
 // eslint-disable-next-line no-restricted-imports
 import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
+// eslint-disable-next-line no-restricted-imports
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { FastQueryModeToggle } from 'in-custom-dashboards/CustomDashboard/FastQueryModeToggle/FastQueryModeToggle';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
@@ -185,8 +186,9 @@ export default function CustomDashboardPresenter(props) {
 }
 
 function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDiscardChanges, config }) {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   if (!isSaving && (!editable || !hasChanges)) {
-    if (rbacTeamsEnabled) {
+    if (isRbacTeamsAvailable) {
       let pillText = null;
       if (config?.accessRules?.length) {
         const hasGlobalRelation = config.accessRules.some(item => item.relationType === 'GLOBAL');
@@ -246,6 +248,7 @@ function SecondaryButtonLine({
   canCreatePublicCustomDashboards,
   onShare
 }) {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   return (
     <>
       {customDashboardsFastQueryModeEnabled && <FastQueryModeToggle />}
@@ -286,7 +289,7 @@ function SecondaryButtonLine({
           />
         )}
 
-        {editable && rbacTeamsEnabled && (
+        {editable && isRbacTeamsAvailable && (
           <OverflowMenuItem
             itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.editTeams')}
             onClick={onEditTeams}

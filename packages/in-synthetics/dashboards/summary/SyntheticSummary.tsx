@@ -7,9 +7,9 @@
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
+import { SyntheticTest, Result, SyntheticLocation } from '@instana/types';
 import { MenuButton, MenuItem } from '@instana/carbon';
 import { Button, Stack } from '@instana/components';
-import { SyntheticTest } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -18,16 +18,18 @@ import {
   clickSyntheticMonitoringResultsTabTracker
 } from 'in-synthetics/tracking/tracker';
 import { syntheticResultsListPath, syntheticsDashboard, syntheticsSummaryPath } from 'in-synthetics/navigation/paths';
-import { TestResponse, dummyTest, dataScopes, DataScopeType } from 'in-synthetics/utils/constants';
+import { TestResponse, dummyTest, dataScopes, DataScopeType, runTypeCICD } from 'in-synthetics/utils/constants';
 import CreateSyntheticOnDemandTest from 'in-synthetics/createTests/CreateSyntheticOnDemandTest';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
-import { rbacTeamsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
+import { syntheticRunNowEnabled } from 'in-services/featureFlags';
+import { getTest, updateTest, getLocations } from 'in-synthetics/api';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import getTabs from 'in-synthetics/dashboards/summary/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -36,7 +38,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { getTest, updateTest } from 'in-synthetics/api';
+import { pendingResult } from 'in-services/fixedObjects';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer';
 
@@ -52,6 +54,15 @@ const SyntheticSummaryDashboard = () => {
   const [dataScope, setDataScope] = useState(dataScopes.find(dataScope => dataScope.value === runType));
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
 
+  const syntheticLocationList: Result<SyntheticLocation[]> =
+    useObservable<any, any[]>(() => getLocations(), []) ?? pendingResult;
+  const onlineLocations: SyntheticLocation[] =
+    syntheticLocationList.data?.filter(
+      loc =>
+        loc.status === 'Online' &&
+        loc.playbackCapabilities.syntheticType.includes(test?.data?.configuration?.syntheticType) &&
+        loc.playbackCapabilities.executionType?.includes(runTypeCICD)
+    ) ?? [];
   const showDatascopeDropdown =
     syntheticRunNowEnabled && [syntheticsSummaryPath, syntheticResultsListPath].includes(location.pathname);
   const props = {
@@ -63,7 +74,8 @@ const SyntheticSummaryDashboard = () => {
     dataScope,
     setDataScope,
     showDatascopeDropdown,
-    viewPath: syntheticsDashboard
+    viewPath: syntheticsDashboard,
+    onlineLocations
   };
 
   function trackSyntheticTabChange(tab: string) {
@@ -153,6 +165,7 @@ interface RenderMetaInformationProps {
 }
 
 const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
 
@@ -169,7 +182,7 @@ const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
           </span>
         </div>
       )}
-      {rbacTeamsEnabled && test.data?.rbacTags && <TagsInTable tags={test.data?.rbacTags} />}
+      {isRbacTeamsAvailable && test.data?.rbacTags && <TagsInTable tags={test.data?.rbacTags} />}
     </Stack>
   );
 };
@@ -177,13 +190,13 @@ const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
 interface RenderButtonLineProps {
   test: TestResponse;
   setReloadCount: React.Dispatch<React.SetStateAction<number>>;
+  onlineLocations: SyntheticLocation[];
 }
 
-const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
+const RenderButtonLine = ({ test, setReloadCount, onlineLocations }: RenderButtonLineProps) => {
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
   const totalLocations: number = test.data?.locations?.length ?? 0;
-
   const pauseOrResume = (data: SyntheticTest) => {
     const { active, customProperties, configuration } = data;
     const syntheticType: string = configuration.syntheticType;
@@ -234,7 +247,7 @@ const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
         <CreateSyntheticOnDemandTest
           testId={test.data?.id!}
           testLocations={test.data?.locations ?? []}
-          testType={test.data?.configuration?.syntheticType}
+          onlineLocations={onlineLocations}
         />
       )}
     </>

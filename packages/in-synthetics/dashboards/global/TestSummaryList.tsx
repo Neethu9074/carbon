@@ -48,6 +48,12 @@ import {
   typeTagName
 } from 'in-synthetics/tags';
 import {
+  syntheticCarbonTableEnabled,
+  syntheticRbacLimitedEnabled,
+  syntheticRunNowEnabled,
+  syntheticSslImprovementEnabled
+} from 'in-services/featureFlags';
+import {
   addColumnCustomizationNotification,
   removeColumncustomizationNotification
 } from 'in-synthetics/utils/setTestsColumnConfigurationMessage';
@@ -57,13 +63,9 @@ import showNotification, {
   storedAlarmTimeOrNull,
   timeExpired
 } from 'in-synthetics/utils/setReminders';
-import {
-  syntheticCarbonTableEnabled,
-  syntheticRbacLimitedEnabled,
-  syntheticRunNowEnabled
-} from 'in-services/featureFlags';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { ExpandableResultList } from 'in-synthetics/dashboards/global/tabs/tests/components/ExpandableResultList';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
@@ -240,6 +242,10 @@ const TestSummaryList = () => {
     return <TestListFilters result={syntheticTests} filters={filtersTemp} setFilters={setFiltersTemp} />;
   }, [syntheticTests, filtersTemp]);
 
+  const getRowDetails = (row: TestResultListItem) => {
+    return <ExpandableResultList timeConfig={timeConfig} runType={runType} test={row} />;
+  };
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -310,6 +316,7 @@ const TestSummaryList = () => {
             entityIds={entityIds}
             associations={associations}
             loading={syntheticTests.progress.loading}
+            {...(syntheticSslImprovementEnabled ? { isExpandable: true, getRowDetails: getRowDetails } : {})}
           />
         ) : (
           <ServerTableWithUrlState

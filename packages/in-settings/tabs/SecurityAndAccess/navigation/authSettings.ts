@@ -23,14 +23,15 @@ import GoogleSSO from 'in-settings/tabs/SecurityAndAccess/pages/identityProvider
 import Saml from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Ldap/Ldap';
-import { idpConfigV2Enabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { isAnyIdpAvailable, isIdpAvailable } from 'in-settings/utils/idp';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
 interface GetNavigationTreeForAuthenticationProps extends ViewProps {
   role: Role;
+  isRbacTeamsAvailable?: boolean;
 }
 
 export function getNavigationTreeForAuthentication({
@@ -38,7 +39,8 @@ export function getNavigationTreeForAuthentication({
   ldap,
   oidc,
   saml,
-  role
+  role,
+  isRbacTeamsAvailable
 }: GetNavigationTreeForAuthenticationProps) {
   const authAvailable = role.canConfigureAuthenticationMethods && isAnyIdpAvailable({ sso, ldap, oidc, saml });
 
@@ -53,14 +55,14 @@ export function getNavigationTreeForAuthentication({
             component: IdentityProviders
           },
           authAvailable &&
-            !rbacTeamsEnabled &&
+            !isRbacTeamsAvailable &&
             role?.canConfigureTeams && {
               path: securityAndAccessGroupMapping,
               label: t('in-settings:tabs.groupMapping'),
               component: GroupMapping
             },
           authAvailable &&
-            rbacTeamsEnabled &&
+            isRbacTeamsAvailable &&
             role?.canConfigureTeams && {
               path: securityAndAccessRoleMapping,
               label: t('in-settings:tabs.roleMappingNavigationItem'),
@@ -101,13 +103,13 @@ export function getNavigationTreeForAuthentication({
             component: Ldap
           },
           role?.canConfigureTeams &&
-            !rbacTeamsEnabled && {
+            !isRbacTeamsAvailable && {
               path: securityAndAccessGroupMapping,
               label: t('in-settings:tabs.groupMapping'),
               component: GroupMapping
             },
           role?.canConfigureTeams &&
-            rbacTeamsEnabled && {
+            isRbacTeamsAvailable && {
               path: securityAndAccessRoleMapping,
               label: t('in-settings:tabs.roleMappingNavigationItem'),
               component: RoleMapping

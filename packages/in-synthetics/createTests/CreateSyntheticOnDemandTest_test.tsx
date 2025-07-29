@@ -12,9 +12,7 @@ import { t } from 'in-i18n';
 
 describe('CreateSyntheticOnDemandTest', () => {
   it('Run now button gets rendered correctly', () => {
-    render(
-      <CreateSyntheticOnDemandTest testId="obN1wYkqefH9ZVslLG0L" testLocations={['locations']} testType="HTTPAction" />
-    );
+    render(<CreateSyntheticOnDemandTest testId="obN1wYkqefH9ZVslLG0L" testLocations={['locations']} />);
     const element = screen.getByRole('button', {
       name: t('in-synthetics:dialog.createOnDemandTest.buttonLabel')
     });

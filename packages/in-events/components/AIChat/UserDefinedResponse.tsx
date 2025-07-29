@@ -15,7 +15,7 @@ import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse'
 interface UserDefinedResponseProps {
   messageItem: any;
   instance: any;
-  customResponseDefinitions: CustomResponseDefinition[];
+  customResponseDefinitions?: CustomResponseDefinition[];
 }
 type Cases = { [key: string]: () => JSX.Element };
 export type CustomResponseDefinition = {
@@ -63,6 +63,7 @@ const UserDefinedResponse: React.FC<UserDefinedResponseProps> = ({
       <ThumbsFeedback
         TRACKING_EVENT_POS={messageItem.user_defined.posTrack}
         TRACKING_EVENT_NEG={messageItem.user_defined.negTrack}
+        additionalInfo={messageItem.user_defined.additionalInfo}
       />
     )
   };

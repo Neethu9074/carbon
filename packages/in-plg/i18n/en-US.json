@@ -948,7 +948,7 @@
   "datasources": {
     "datasources": "Data sources",
     "openTelemetryCollectors": "OpenTelemetry Collectors",
-    "instanaAgents": "Instana Agents",
+    "instanaAgents": "Instana agents",
     "installACollector": "Install a collector",
     "status": {
       "statusUnknown": "Unknown",
@@ -972,8 +972,8 @@
         "emptyState_subtitle": "Click Install an agent to find, deploy, and run an Instana agent "
       },
       "oTelCollector": {
-        "emptyState_title": "Install an OpenTelemetry collector to start viewing data",
-        "emptyState_linktext": "Learn more about Instana oTel collector",
+        "emptyState_title": "Install an OpenTelemetry Collector to start viewing data",
+        "emptyState_linktext": "Learn more about the Instana OTel Collector",
         "emptyState_buttontext": "Install a collector",
         "emptyState_subtitle": "Click Install a collector to find, deploy, and run an OpenTelemetry Collector."
       }
@@ -993,5 +993,10 @@
   "title": "Discover the value of Instana",
   "description": "View suggested tasks to get the most out of Instana.",
   "taskLabel": "Onboarding task"
+  },
+  "accountBillingPushNotificationMessage": {
+    "description": "You can now view your account and billing information in a separate page from settings.",
+    "buttonText": "View page",
+    "title": "Account and billing now on a separate page"
   }
 }

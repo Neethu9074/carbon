@@ -210,5 +210,11 @@ export default [
     metrics: ['stats.diskUsedPercentage'],
     labels: [t('in-forge:plugins.oracleDB.diskUsed')],
     min: 0
+  },
+  {
+    formatter: number,
+    metrics: ['stats.inActiveRACInstances'],
+    labels: [t('in-forge:plugins.oracleDB.inActiveRACInstances')],
+    min: 0
   }
 ];

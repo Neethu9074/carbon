@@ -12,10 +12,11 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { saveGroups } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import { SETTINGS_USER_GROUP_ADDED } from 'in-services/tracking/tracking';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { t } from 'in-i18n';
 
 export default function AddUserToGroupButton({ userId, refresh }) {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const { trackCta } = useSegmentTracking();
 
   return (
@@ -33,7 +34,7 @@ export default function AddUserToGroupButton({ userId, refresh }) {
       }}
       icon="lib_openclose_add_circle_outline"
     >
-      {t('in-settings:tabs.addToAGroup', { context: rbacTeamsEnabled && 'teams' })}
+      {t('in-settings:tabs.addToAGroup', { context: isRbacTeamsAvailable && 'teams' })}
     </Button>
   );
 }
