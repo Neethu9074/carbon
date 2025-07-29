@@ -16,35 +16,39 @@ import {
   CarbonContainedListItem,
   CarbonSearch
 } from '@instana/components';
+import { ChatInstance } from '@instana/ai-chat';
 
-import { EVENT_AI_LIBRARY_SELECTION_MADE } from 'in-services/tracking/tracking';
-import { promptLibrary } from 'in-events/components/AIChat/ResponseObjects';
 import { handleTracking } from 'in-events/components/AIChat/utils/utils';
 import { t } from 'in-i18n';
 
 import locals from './PromptLibrary.mless';
 
+type QuestionGroup = {
+  kind: string;
+  questions: string[];
+};
+
+type QuestionGroupList = QuestionGroup[];
 interface PromptLibraryProps {
-  setPopOpen: Function;
-  instance: {
-    customPanels: {
-      getPanel: Function;
-    };
-    elements: {
-      getMessageInput: Function;
-    };
-  };
+  setInstructionPopOpen: Function;
+  instance: ChatInstance;
+  library: QuestionGroupList;
+  trackingIdentifier?: string;
 }
 
-const PromptLibrary = ({ instance, setPopOpen }: PromptLibraryProps) => {
+const PromptLibrary = ({ instance, setInstructionPopOpen, library, trackingIdentifier }: PromptLibraryProps) => {
   const [search, setSearch] = useState('');
 
   return (
     <div id="promptLibrary">
       <CarbonTabs>
         <CarbonTabList className={locals.tabsWidth} aria-label={t('in-events:aichat.tabSelection')}>
-          {promptLibrary.map((subject: { kind: string }) => {
-            return <CarbonTab className={locals.tabHeader}>{subject.kind}</CarbonTab>;
+          {library.map((subject: { kind: string }, index: number) => {
+            return (
+              <CarbonTab className={locals.tabHeader} key={`tab-${subject.kind}-${index}`}>
+                {subject.kind}
+              </CarbonTab>
+            );
           })}
         </CarbonTabList>
         <CarbonSearch
@@ -54,19 +58,20 @@ const PromptLibrary = ({ instance, setPopOpen }: PromptLibraryProps) => {
           }}
         />
         <CarbonTabPanels>
-          {promptLibrary.map((subject: { kind: string; questions: Array<string> }) => {
+          {library.map((subject: { kind: string; questions: Array<string> }, index: number) => {
             return (
-              <CarbonTabPanel className={locals.panel}>
+              <CarbonTabPanel className={locals.panel} key={`panel-${index}`}>
                 <CarbonContainedList label={subject.kind} size="lg" className={locals.listHeader}>
                   {subject.questions
                     .filter((question: string) => question.includes(search))
-                    .map((question: string) => {
+                    .map((question: string, index: number) => {
                       return (
                         <CarbonContainedListItem
+                          key={`question-${index}`}
                           onClick={() => {
                             const customPanel = instance?.customPanels?.getPanel();
                             const textField = instance?.elements?.getMessageInput?.();
-                            handleTracking(EVENT_AI_LIBRARY_SELECTION_MADE, { promptSelection: question });
+                            trackingIdentifier && handleTracking(trackingIdentifier, { promptSelection: question });
                             // On Click we want to take the value of the prompt
                             // and then enter it into the textField
                             if (textField) {
@@ -74,7 +79,7 @@ const PromptLibrary = ({ instance, setPopOpen }: PromptLibraryProps) => {
                               customPanel.close();
                               textField.getHTMLElement?.()?.focus();
                               setTimeout(() => {
-                                setPopOpen(true);
+                                setInstructionPopOpen(true);
                               }, 500);
                             }
                           }}

@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 import React, { useEffect, useMemo, useState } from 'react';
+import { merge } from 'lodash';
 
-import { BusEventType, ChatContainer, ChatInstance, ViewType } from '@instana/ai-chat';
+import { BusEventType, ChatContainer, ChatInstance, ViewType, PublicConfig } from '@instana/ai-chat';
 import { PreviewPill } from '@instana/components';
 
 import {
@@ -17,8 +18,6 @@ import {
   LAUNCHER_BUTTON_ID,
   WAC_WIDGET
 } from 'in-events/components/AIChat/utils/utils';
-// @ts-expect-error - No type definitions available
-import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import { CustomResponseDefinition } from 'in-events/components/AIChat/UserDefinedResponse';
 import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tracking';
 import LauncherButton from 'in-events/components/AIChat/components/LauncherButton';
@@ -27,20 +26,13 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 
 import locals from './AIChat.mless';
 
-// Configuration to be passed to the AI Chat
-const config = {
-  messaging: {
-    disablePDFViewer: true,
-    customSendMessage: CustomSendMessages
-  },
-  showLauncher: false
-};
-
 // Extended ChatInstance type to include our custom properties
 interface ExtendedChatInstance extends ChatInstance {
   trackCta?: any;
 }
+
 interface AIChatProps {
+  config: PublicConfig;
   customResponseDefinitions?: CustomResponseDefinition[];
   customMenuOptions?: (...args: any[]) => CustomMenuOption[];
   customPanelConfig?: CustomPanelConfig;
@@ -59,10 +51,18 @@ type CustomPanelConfig = {
   customPanelElement: (...args: any[]) => JSX.Element;
 };
 
+const defaultConfig = {
+  messaging: {
+    disablePDFViewer: true
+  },
+  showLauncher: false
+};
+
 export function AIChat({
   customResponseDefinitions,
   customMenuOptions,
   customPanelConfig,
+  config,
   onAfterRender,
   onBeforeRender,
   aiToolTipContent,
@@ -78,6 +78,12 @@ export function AIChat({
 
   const { trackCta } = useSegmentTracking();
   const [instance, setInstance] = useState<ExtendedChatInstance | null>(null);
+
+  // Combine the default config with the config
+  // passed in.  Config supersedes the default.
+  const chatConfig = useMemo(() => {
+    return merge({}, defaultConfig, config);
+  }, [config]);
 
   const renderWriteableElements = useMemo(
     () => ({
@@ -133,7 +139,7 @@ export function AIChat({
   return (
     <>
       <ChatContainer
-        config={config}
+        config={chatConfig}
         renderWriteableElements={renderWriteableElements}
         renderUserDefinedResponse={(props, chatInstance) => (
           <UserDefinedResponse
