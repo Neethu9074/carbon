@@ -6,10 +6,10 @@
 
 import React from 'react';
 
-import { Tag } from '@instana/carbon';
 import { Card, LoadingSkeleton, Stack, Typography } from '@instana/components';
 import { formatDateShort } from '@instana/format-date';
 import type { TimeConfig } from '@instana/types';
+import { Tag } from '@instana/carbon';
 
 import TimeWindowPill from 'in-service-levels/components/SloDashboard/components/TimeWindowPill';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';

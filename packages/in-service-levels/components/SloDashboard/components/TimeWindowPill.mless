@@ -12,6 +12,6 @@
   }
 
   .tagColor {
-    color: var(--ids-color-option-white);
+    color: var(--cds-text-inverse);
   }
 }

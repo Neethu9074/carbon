@@ -6,11 +6,12 @@
 
 import React from 'react';
 
-import { Tag } from '@instana/carbon';
 import type { ServiceLevelObjectiveConfiguration, TimeWindow } from '@instana/types';
 import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { Card, Stack, Typography } from '@instana/components';
 import { isFixedTimeWindow } from '@instana/types';
+import { Tag } from '@instana/carbon';
+
 import { t } from 'in-i18n';
 
 interface TimeWindowCardProps {
