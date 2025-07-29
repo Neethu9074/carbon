@@ -106,12 +106,12 @@ function FixedStartTimeColumn({ data }: ObjectiveSectionProps) {
 
 function TimezoneColumn({ data }: ObjectiveSectionProps) {
   const { timeWindow } = data.configuration;
-  const timezone = timeWindow.timezone;
+  const timezoneName = timeWindow.timezone ?? '';
 
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.objectiveSection.timezoneLabel')}
-      value={buildTimezoneFromLocationName(timezone)}
+      value={buildTimezoneFromLocationName(timezoneName)}
     />
   );
 }

@@ -73,11 +73,12 @@ export const extractTimeZoneName = (timezone: string): string => {
   return parts[parts.length - 1] || '';
 };
 
-export const buildTimezoneFromLocationName = (timezone: string): string => {
-  if (timezone === '' || timezone === utcLabel) {
+export const buildTimezoneFromLocationName = (timezoneName: string): string => {
+  if (!timezoneName || timezoneName === utcLabel) {
     return utcLabel;
   }
-  const timezoneWithLocation = moment.tz(timezone);
-  const formattedOffset = timezoneWithLocation.format('Z');
-  return `${utcLabel} ${formattedOffset} - ${timezone}`;
+
+  const timezoneMoment = moment.tz(timezoneName);
+  const offset = timezoneMoment.format('Z');
+  return `${utcLabel} ${offset} - ${timezoneName}`;
 };

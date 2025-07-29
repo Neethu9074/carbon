@@ -139,7 +139,7 @@ export default function TimeWindowSelector() {
             ))}
         </Section>
       )}
-      <div>
+      <div className={locals.timeWindowContainer}>
         <Section title="" titleHtmlFor="time-zone" titleWidth={titleWidth}>
           <Stack direction="horizontal" gap="xsmall" inline align="center">
             <TimezoneSelector />

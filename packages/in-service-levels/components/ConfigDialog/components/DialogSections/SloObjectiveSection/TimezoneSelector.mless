@@ -6,7 +6,7 @@
 
 :local {
   .notificationContainer {
-    width: 435px;
+    width: 320px;
     :global {
       .cds--toast-notification__title {
         font-weight: normal;
@@ -19,7 +19,6 @@
   }
 
   .selectField {
-    margin-top: 15px;
     :global {
       .cds--list-box--sm {
         block-size: 3rem;

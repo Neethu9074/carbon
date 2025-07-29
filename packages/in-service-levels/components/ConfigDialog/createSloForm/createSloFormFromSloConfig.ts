@@ -162,7 +162,7 @@ export function getIndicatorFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
 
 export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloObjectiveFields {
   const toggleTimezoneField = !sloConfig.timeWindow.timezone || sloConfig.timeWindow.timezone === utcLabel;
-
+  const timezoneName = sloConfig.timeWindow.timezone ?? '';
   return {
     target: createField<number | undefined>({
       value: sloConfig.target,
@@ -178,7 +178,7 @@ export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
     }),
     type: createField({ value: sloConfig.timeWindow.type }),
     bindTimezone: createField({ value: !toggleTimezoneField }),
-    timezone: createField({ value: buildTimezoneFromLocationName(sloConfig.timeWindow.timezone) })
+    timezone: createField({ value: buildTimezoneFromLocationName(timezoneName) })
   };
 }
 

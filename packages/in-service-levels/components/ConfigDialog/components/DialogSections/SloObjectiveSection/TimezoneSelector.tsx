@@ -33,7 +33,7 @@ export default function TimezoneSelector() {
   };
 
   return (
-    <Stack orientation="horizontal" gap={6}>
+    <Stack orientation="vertical" gap={4}>
       <Toggle
         className={locals.toggleContainer}
         id="slo-objective-timezone-toggle"
@@ -49,17 +49,15 @@ export default function TimezoneSelector() {
         onToggle={handleTimezoneToggle}
         toggled={bindTimezoneField.value}
       />
-      <Stack orientation="vertical" gap={4}>
-        <TimezoneList />
-        <InlineNotification
-          className={locals.notificationContainer}
-          id="timezone-toast-notification"
-          kind="info"
-          hideCloseButton
-          lowContrast
-          subtitle={timezoneMessage}
-        />
-      </Stack>
+      <TimezoneList />
+      <InlineNotification
+        className={locals.notificationContainer}
+        id="timezone-toast-notification"
+        kind="info"
+        hideCloseButton
+        lowContrast
+        subtitle={timezoneMessage}
+      />
     </Stack>
   );
 }
