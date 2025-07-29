@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-
-
 require('in-services/browser').init();
 require('in-stores/timeOffset').init();
 require('in-shortcuts').init();
@@ -19,3 +17,4 @@ require('in-components/SelectedElementHighlighter').init();
 require('in-events/releases/releases').init();
 require('in-components/uiClientUpdateMessage/uiClientUpdate').init();
 require('in-plg/components/DataConsumptionMessage/DataConsumptionMessage').init();
+require('in-plg/components/AccountBillingNotification/AccountBillingPushNotification').init();
