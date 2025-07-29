@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 import React from 'react';
+import { ArrowRight } from '@carbon/icons-react';
 
 import { ExpressiveCard } from '@instana/ibm-products';
-import { IconButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { useOnboardingTiles } from 'in-plg/pages/WelcomePage/GettingStarted/OnboardingTileData';
@@ -26,34 +26,35 @@ export default function GettingStartedContent() {
         <ContentSection title={t('in-plg:onboarding.title')} description={t('in-plg:onboarding.description')}>
           <div className={locals.tileGrid}>
             {onboardingItems.map(item => (
-              <div className={locals.cardWrapper}>
-                <ExpressiveCard
-                  key={item.key}
-                  label={t('in-plg:onboarding.taskLabel')}
-                  title={item.title}
-                  pictogram={item.pictogram}
-                  onClick={() => {
-                    trackCta(item.trackingEvent);
-                    if (item.target === '_blank') {
-                      window.open(item.href, '_blank');
-                    } else {
-                      window.location.href = item.href;
+              <ExpressiveCard
+                key={item.key}
+                label={t('in-plg:onboarding.taskLabel')}
+                title={item.title}
+                pictogram={item.pictogram}
+                onClick={() => {
+                  trackCta(item.trackingEvent);
+                  if (item.target === '_blank') {
+                    window.open(item.href, '_blank');
+                  } else {
+                    window.location.href = item.href;
+                  }
+                }}
+                actionIcons={[
+                  {
+                    id: item.key,
+                    icon: () => <ArrowRight />,
+                    iconDescription: item.title,
+                    onClick: () => {
+                      trackCta(item.trackingEvent);
+                      if (item.target === '_blank') {
+                        window.open(item.href, '_blank');
+                      } else {
+                        window.location.href = item.href;
+                      }
                     }
-                  }}
-                />
-                <IconButton
-                  className={locals.arrowIcon}
-                  type="lib_arrow_right"
-                  onClick={() => {
-                    trackCta(item.trackingEvent);
-                    if (item.target === '_blank') {
-                      window.open(item.href, '_blank');
-                    } else {
-                      window.location.href = item.href;
-                    }
-                  }}
-                />
-              </div>
+                  }
+                ]}
+              />
             ))}
           </div>
         </ContentSection>
