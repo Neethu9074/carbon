@@ -11,14 +11,14 @@ import createRunningComponentsObservable from 'in-subscription/runningComponents
 import createSnapshotVersionsObservable from 'in-subscription/snapshotVersions';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import createDeployedUnitsObservable from 'in-subscription/deployedUnits';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 import createrIsEntityOnlineObservable from 'in-subscription/isOnline';
 import createFoundationsObservable from 'in-subscription/foundations';
+import createEc2TagsObservable from 'in-subscription/ec2Tags';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import createRawPayloadObservable from 'in-subscription/rawPayload';
 import createSnapshotObservable from 'in-subscription/snapshot';
-import createEc2TagsObservable from 'in-subscription/ec2Tags';
-import { navigationParameters$ } from 'in-stores/navigation';
 import createSearchObservable from 'in-subscription/search';
 import { pendingResult } from 'in-services/fixedObjects';
 import { createTrackingStore } from 'in-stores/store';
@@ -75,19 +75,23 @@ export const selectedSnapshotWithId = createTrackingStore({
   })
 }).observable;
 
-export function setSelectedSnapshotId(id, location, navigate) {
+export function setSelectedSnapshotId(id) {
   if (id == null) {
-    clearSelectedSnapshotId(location, navigate);
+    clearSelectedSnapshotId();
   } else {
-    delete location.query.incidentId;
-    location.query[snapshotIdUrlParameter.name] = id;
-    navigate(location);
+    mutateUrl(navParams => {
+      delete navParams.query.incidentId;
+      navParams.query[snapshotIdUrlParameter.name] = id;
+      return navParams;
+    });
   }
 }
 
-export function clearSelectedSnapshotId(location, navigate) {
-  delete location.query[snapshotIdUrlParameter.name];
-  navigate(location);
+export function clearSelectedSnapshotId() {
+  mutateUrl(navParams => {
+    delete navParams.query[snapshotIdUrlParameter.name];
+    return navParams;
+  });
 }
 
 export function getSnapshot(snapshotId, timeConfig) {

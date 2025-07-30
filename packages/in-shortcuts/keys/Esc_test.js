@@ -9,6 +9,7 @@ import sinon from 'sinon';
 /* eslint-env node */
 import { create } from '@instana/observables';
 
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { resetStoreRegistry } from 'in-stores/store';
 
 describe('shortcuts/dashboard', () => {
@@ -50,48 +51,17 @@ describe('shortcuts/dashboard', () => {
     filterDialogSubscription.dispose();
   });
 
-  it('should call handleClearSelectedEvent on Esc press', () => {
-    const handleClearSelectedEvent = sinon.spy();
-
-    const handleEscape = event => {
-      if (event.key === 'Escape') {
-        handleClearSelectedEvent();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-
-    const event = new KeyboardEvent('keydown', { key: 'Escape' });
-    document.dispatchEvent(event);
-
-    sinon.assert.calledOnce(handleClearSelectedEvent);
-
-    document.removeEventListener('keydown', handleEscape);
-  });
-
-  it('should close dashboard first and then sidebar', () => {
-    const dispatchEventSpy = sinon.spy(document, 'dispatchEvent');
-
+  it('should remove snapshotId from URL', () => {
+    // initial call
     expect(selectedSnapshotIdStub).to.have.callCount(1);
-    expect(navigationParametersStub).to.have.callCount(1);
-
-    navigationMock.goToDashboard();
-    expect(navigationParametersStub).to.have.callCount(2);
-    expect(navigationParametersStub.getCall(1).args[0].pathname).to.equal('/foo/dashboard');
 
     navigationMock.setSnapshotId('testId');
-    expect(navigationParametersStub).to.have.callCount(3);
-    expect(navigationParametersStub.getCall(2).args[0].pathname).to.equal('/foo/dashboard');
 
-    const event1 = new KeyboardEvent('keydown', { key: 'Escape' });
-    document.dispatchEvent(event1);
-    expect(dispatchEventSpy.getCall(0).args[0].type).to.equal('keydown');
+    pressEscape();
 
-    const event2 = new KeyboardEvent('keydown', { key: 'Escape' });
-    document.dispatchEvent(event2);
-    expect(dispatchEventSpy.getCall(1).args[0].type).to.equal('keydown');
-
-    dispatchEventSpy.restore();
+    // snapshot was deleted
+    expect(selectedSnapshotIdStub).to.have.callCount(2);
+    expect(selectedSnapshotIdStub.getCall(1).args[0]).to.equal(null);
   });
 
   it('should close the filter dialog if visible', () => {
@@ -104,10 +74,34 @@ describe('shortcuts/dashboard', () => {
     expect(filerDialogStub.getCall(1).args[0]).to.equal(false);
   });
 
+  it('should close dashboard first and then sidebar', () => {
+    // initial call
+    expect(selectedSnapshotIdStub).to.have.callCount(1);
+    expect(navigationParametersStub).to.have.callCount(1);
+
+    navigationMock.goToDashboard();
+    expect(navigationParametersStub).to.have.callCount(2);
+    expect(navigationParametersStub.getCall(1).args[0].pathname).to.equal('/foo/dashboard');
+
+    navigationMock.setSnapshotId('testId');
+    expect(navigationParametersStub).to.have.callCount(3);
+    expect(navigationParametersStub.getCall(2).args[0].pathname).to.equal('/foo/dashboard');
+
+    pressEscape();
+    expect(selectedSnapshotIdStub).to.have.callCount(1);
+    expect(navigationParametersStub).to.have.callCount(4);
+    expect(navigationParametersStub.getCall(3).args[0].pathname).to.equal('/foo');
+
+    pressEscape();
+    expect(selectedSnapshotIdStub).to.have.callCount(2);
+    expect(navigationParametersStub).to.have.callCount(4);
+    expect(selectedSnapshotIdStub.getCall(1).args[0]).to.equal(null);
+  });
+
   function pressEscape() {
     onKeyPressed.emit({
       keyCode: 27,
-      code: 'Escape',
+      code: 'Espace',
       target: {
         tagName: ''
       }
@@ -140,6 +134,12 @@ describe('shortcuts/dashboard', () => {
         navigationParametersStore.applyStateMutation(oldParams => {
           oldParams.pathname = '/foo/dashboard';
           return oldParams;
+        }),
+      mutateUrl: mutator =>
+        navigationParametersStore.applyStateMutation(oldParams => {
+          const clone = cloneLocation(oldParams);
+          mutator(clone);
+          return clone;
         }),
       setSnapshotId: id =>
         navigationParametersStore.applyStateMutation(oldParams => {

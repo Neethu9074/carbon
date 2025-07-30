@@ -24,7 +24,6 @@ import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { isUsageInfoPopupEnabled, playwithEnabled } from 'in-services/featureFlags';
 // @ts-expect-error needs migration
 import connectTo from 'in-hoc/connectTo';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { timeConfig$ } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
@@ -69,9 +68,9 @@ function MapSidebarContent({ SidebarImpl, snapshot, timeConfig }: MapSidebarCont
     if (!containerRef.current || (!isTab(e) && !isEscape(e))) return;
 
     const tagToFocusOnOnExit = document.getElementById(snapshotId);
-    const { location, navigate } = useNavigation();
+
     const handleExit = () => {
-      setSelectedSnapshotId(null, location, navigate);
+      setSelectedSnapshotId(null);
       tagToFocusOnOnExit?.focus();
       e.preventDefault();
     };
