@@ -9,11 +9,17 @@ import { TableHeader, TableRow } from 'in-events/components/AIChat/TableComponen
 import { AdditionalInfoObject } from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import { t } from 'in-i18n';
 
+export const USER_DEFINED_PROMPT_LIBRARY = 'prompt_library';
+export const USER_DEFINED_THUMBS_FEEDBACK = 'thumbs_feedback';
+export const USER_DEFINED_NLG_RESPONSE = 'nlg_response';
+export const USER_DEFINED_TABLE_CHART = 'table_chart';
+export const USER_DEFINED_EVENTS_TABLE = 'events_table';
+
 // PromptLibrary library prompt object definition
 export const PromptLibraryBubbleObject: UserDefinedItem = {
   response_type: MessageResponseTypes.USER_DEFINED,
   user_defined: {
-    user_defined_type: 'prompt_library'
+    user_defined_type: USER_DEFINED_PROMPT_LIBRARY
   }
 };
 
@@ -51,7 +57,7 @@ export function ThumbsFeedbackObject(
   return {
     response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: {
-      user_defined_type: 'thumbs_feedback',
+      user_defined_type: USER_DEFINED_THUMBS_FEEDBACK,
       posTrack: positiveTacking,
       negTrack: negativeTracking,
       additionalInfo: additionalInfo
@@ -64,7 +70,7 @@ export function NLGResponseObject(nlgResponse: string): UserDefinedItem {
   return {
     response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: {
-      user_defined_type: 'nlg_response',
+      user_defined_type: USER_DEFINED_NLG_RESPONSE,
       text: nlgResponse
     }
   };
@@ -75,7 +81,7 @@ export function TableChartObject(headers: TableHeader[], rows: TableRow[]): User
   return {
     response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: {
-      user_defined_type: 'table_chart',
+      user_defined_type: USER_DEFINED_TABLE_CHART,
       headers: headers,
       rows: rows
     }
@@ -86,6 +92,6 @@ export function TableChartObject(headers: TableHeader[], rows: TableRow[]): User
 export function EventsTableObject(headers: TableHeader[], rows: TableRow[]): UserDefinedItem {
   return {
     response_type: MessageResponseTypes.USER_DEFINED,
-    user_defined: { user_defined_type: 'events_table', headers, rows }
+    user_defined: { user_defined_type: USER_DEFINED_EVENTS_TABLE, headers, rows }
   };
 }

@@ -5,6 +5,7 @@
 
 import { BarChartOptions, ScaleTypes } from '@carbon/charts';
 
+import { MessageResponseTypes } from '@instana/ai-chat';
 import { formatDateTime } from '@instana/format-date';
 
 import {
@@ -43,13 +44,13 @@ export function formatForTable(apiResponse: any, userQuery: string, queryRespons
   };
 
   const response: {
-    response_type: 'user_defined';
+    response_type: MessageResponseTypes.USER_DEFINED;
     data: {
       headers: TableHeader[];
       rows: TableRow[];
     };
   } = {
-    response_type: 'user_defined',
+    response_type: MessageResponseTypes.USER_DEFINED,
     data: {
       headers: [],
       rows: []
