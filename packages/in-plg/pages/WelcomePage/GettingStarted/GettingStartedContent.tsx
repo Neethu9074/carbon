@@ -9,7 +9,7 @@ import { ArrowRight } from '@carbon/icons-react';
 import { ExpressiveCard } from '@instana/ibm-products';
 import { t } from '@instana/i18n-react';
 
-import { useOnboardingTiles } from 'in-plg/pages/WelcomePage/GettingStarted/OnboardingTileData';
+import { OnboardingTileData } from 'in-plg/pages/WelcomePage/GettingStarted/OnboardingTileData';
 import { ContentSection } from 'in-plg/pages/WelcomePage/GettingStarted/ContentSection';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -18,7 +18,7 @@ import locals from './GettingStartedContent.mless';
 
 export default function GettingStartedContent() {
   const { trackCta } = useSegmentTracking();
-  const onboardingItems = useOnboardingTiles();
+  const onboardingItems = OnboardingTileData();
 
   return (
     <Container>

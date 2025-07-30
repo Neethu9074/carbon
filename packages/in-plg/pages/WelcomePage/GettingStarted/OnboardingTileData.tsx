@@ -23,7 +23,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
 
-export function useOnboardingTiles() {
+export function OnboardingTileData() {
   const { createHrefToPath } = useNavigation();
 
   const createRedirectHref = (key: string): string => {
