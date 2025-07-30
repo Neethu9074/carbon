@@ -43,6 +43,7 @@ export const pageNames = Object.freeze({
   cloud_foundary_applications: 'Cloud Foundry Applications',
   cloud_foundary_application_summary: 'Cloud Foundry Application > Summary',
   custom_dashboard: 'Custom Dashboard',
+  custom_entities: 'Custom Entities',
   agents: 'Agents',
   comparison_table: 'Comparison Table',
   zhmcs: 'zHMCs',

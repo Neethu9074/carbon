@@ -9,6 +9,8 @@ import AlertConfigTearSheet from 'promise-loader?global,infrastructure!in-alerti
 import GraphExplorerView from 'promise-loader?global,graph-explorer-view!in-infrastructure/GraphExplorer/GraphExplorer';
 // @ts-expect-error module need to be translated to TS
 import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
+// @ts-expect-error
+import CustomEntitiesDashboardsPage from 'promise-loader?global,infrastructure!in-infrastructure/CustomEntity/CustomEntitiesDashboards';
 // @ts-expect-error module need to be translated to TS
 import TableView from 'promise-loader?global,infrastructure!in-infrastructure/tableView/TableView';
 // @ts-expect-error module need to be translated to TS
@@ -37,9 +39,9 @@ import {
   infraSmartAlertFullScreenDesignEnabled
 } from 'in-services/featureFlags';
 // @ts-expect-error module need to be translated to TS
-import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { infraExplorePath, customEntitiesPath } from 'in-infrastructure/navigation/paths';
 // @ts-expect-error module need to be translated to TS
-import { infraExplorePath } from 'in-infrastructure/navigation/paths';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
@@ -86,6 +88,9 @@ const getInfrastructureRoutes = (role: Role) => {
   ];
   if (hasInfrastructureAnalyzeAccess) {
     infrastructureRoutes.push(
+      <Route key="customEntitiesInstances" path={`${customEntitiesPath}/dashboard`}>
+        {renderAsyncRouteChildren(CustomEntitiesDashboardsPage)}
+      </Route>,
       <Route key="infraExplore" path={infraExplorePath}>
         {renderAsyncRouteChildren(InfraExploreView)}
       </Route>

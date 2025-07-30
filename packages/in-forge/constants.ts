@@ -445,6 +445,7 @@ export const hiddenPlugins = [
   'entityStatisticsMember',
   'processingStatisticsMember',
   'steadyMetricExposureEntity',
+  'customEntity',
   'kubeCostPlatform',
   'processingStatistics',
   'componentMetricsEntity'

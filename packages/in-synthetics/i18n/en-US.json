@@ -563,6 +563,16 @@
         "sortLabel": "Sort",
         "selectAllLabel": "Select all ({{totalEntityCount}})",
         "viewAllLabel": "View all ({{totalEntityCount}})"
+      },
+      "resultsList": {
+        "statusLabel": "Status",
+        "startTimeLabel": "Started",
+        "responseTimeLabel": "Response time",
+        "retryCountLabel": "Retry count",
+        "errorMessageLabel": "Error message",
+        "errorHeader": "Failed to load data",
+        "noDataHeader": "No results available",
+        "noDataDescription": "There were no results retrieved for the selected time range."
       }
     },
     "locationList": {

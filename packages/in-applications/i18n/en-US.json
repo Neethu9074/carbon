@@ -304,6 +304,8 @@
     "none": "None",
     "dataSource_calls": "{{formattedCount}} call",
     "dataSource_calls_plural": "{{formattedCount}} calls",
+    "dataSource_subtraces": "{{formattedCount}} subtrace",
+    "dataSource_subtraces_plural": "{{formattedCount}} subtraces",
     "dataSource_traces": "{{formattedCount}} trace",
     "dataSource_traces_plural": "{{formattedCount}} traces",
     "analyzeCallsOfThisTrace": "Analyze calls of this trace",

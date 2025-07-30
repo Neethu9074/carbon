@@ -8,8 +8,13 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import EditSelectedCredential from 'in-synthetics/dashboards/global/tabs/credentials/components/EditSelectedCredential';
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { successObservable } from 'in-services/util/result';
+import { success } from 'in-services/util/result';
+
+jest.mock('in-settings/hooks/useIsTeamsAvailable');
 
 jest.mock('in-services/featureFlags', () => ({
   rbacTeamsEnabled: true
@@ -39,6 +44,11 @@ describe(EditSelectedCredential, () => {
     modifiedAt: 1717620972843,
     rbacTags: []
   };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useIsTeamsAvailable as jest.Mock).mockReturnValue(resultToFetchedStateResponse(success(true)));
+  });
 
   it('should render without crashing', () => {
     render(<EditSelectedCredential item={dummyCredentialData} />);

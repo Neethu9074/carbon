@@ -21,6 +21,11 @@ export function getIconType(snapshotOrPlugin: SnapshotOrPlugin): string {
     }
   }
 
+  //temporary custom entities icon hack until icon is created
+  if (plugin === 'customEntities') {
+    return 'lib_openTelemetry';
+  }
+
   const name = `lib_infra_${plugin}`;
   const nameAlt = `lib_${plugin}`;
   return getSvgIcon(name) ? name : getSvgIcon(nameAlt) ? nameAlt : 'lib_infra_unknownIcon';

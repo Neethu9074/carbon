@@ -144,10 +144,10 @@ export interface DataScopeType {
   value: string;
 }
 
-export interface CreateSyntheticOnDemandTestDialogProps {
-  readonly testId: string;
-  readonly testLocations: string[];
-  readonly testType: string;
+export interface CreateSyntheticOnDemandProps {
+  testId: string;
+  testLocations: string[];
+  onlineLocations?: SyntheticLocation[];
 }
 
 export const AssertionFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
@@ -985,4 +985,17 @@ export interface TestListProps {
     websites: string[];
     mobileApps: string[];
   };
+}
+
+export interface ResultsHeader {
+  key: string;
+  header: string;
+  width?: string;
+  getContent: (item: TestResultListItem) => React.ReactNode;
+}
+
+export interface ExpandableResultListProps {
+  test: TestResultListItem;
+  runType: string | undefined;
+  timeConfig: TimeConfig;
 }

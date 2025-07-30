@@ -27,11 +27,10 @@ import { getCustomDashboardsPaginated, getUsers } from 'in-custom-dashboards/api
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getCustomDashboard } from 'in-custom-dashboards/api';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
-
 
 export default function DashboardWidget({
   config,
@@ -41,6 +40,7 @@ export default function DashboardWidget({
   viewAll = true,
   mainPage
 }: WidgetProps) {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   // @ts-ignore
   const users = useObservable(getUsers, []) ?? null;
   const { createHrefToPath } = useNavigation();
@@ -62,7 +62,7 @@ export default function DashboardWidget({
         header: t('in-plg:welcomepage.component.dashboardWidget.permissions'),
         key: 'permissions'
       },
-      ...(rbacTeamsEnabled
+      ...(isRbacTeamsAvailable
         ? [
             {
               header: t('in-plg:welcomepage.component.dashboardWidget.teams'),
@@ -106,7 +106,7 @@ export default function DashboardWidget({
         return <DashboardPermission id={item?.id} annotations={item?.annotations} />;
       }
     },
-    ...(rbacTeamsEnabled
+    ...(isRbacTeamsAvailable
       ? [
           {
             key: 'teams',

@@ -8,18 +8,15 @@ import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
 import { CarbonInlineLoading as InlineLoading } from '@instana/components';
-import { Result, SyntheticLocation } from '@instana/types';
 import { Tearsheet } from '@instana/ibm-products';
-import { useObservable } from '@instana/hooks';
 
 import CreateSyntheticOnDemandTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticOnDemandTestDialogPresenter';
 import { showCICDCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
-import { runTypeCICD, CICDConfig, CreateSyntheticOnDemandTestDialogProps } from 'in-synthetics/utils/constants';
+import { CICDConfig, CreateSyntheticOnDemandProps } from 'in-synthetics/utils/constants';
 import { createRunNowForm } from 'in-synthetics/createTests/form/createRunNowTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
-import { getLocations, rerunTest } from 'in-synthetics/api';
 import { close } from 'in-components/DialogPresenter/store';
-import { pendingResult } from 'in-services/fixedObjects';
+import { rerunTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/dialog/CreateSyntheticOnDemandTestDialogPresenter.mless';
@@ -27,18 +24,9 @@ import locals from 'in-synthetics/createTests/dialog/CreateSyntheticOnDemandTest
 const CreateSyntheticOnDemandTestDialog = ({
   testId,
   testLocations,
-  testType
-}: CreateSyntheticOnDemandTestDialogProps) => {
+  onlineLocations
+}: CreateSyntheticOnDemandProps) => {
   const [form, updateForm] = useState(createRunNowForm(testLocations));
-  const syntheticLocationList: Result<SyntheticLocation[]> =
-    useObservable<any, any[]>(() => getLocations(), []) ?? pendingResult;
-  let onlineLocations: SyntheticLocation[] =
-    syntheticLocationList.data?.filter(
-      loc =>
-        loc.status === 'Online' &&
-        loc.playbackCapabilities.syntheticType.includes(testType) &&
-        loc.playbackCapabilities.executionType?.includes(runTypeCICD)
-    ) ?? [];
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createSyntheticOnDemandTest = (form: MapForm<any>, testId: string) => {

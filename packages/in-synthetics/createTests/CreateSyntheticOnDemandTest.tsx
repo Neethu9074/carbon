@@ -10,17 +10,17 @@ import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import CreateSyntheticOnDemandTestDialog from 'in-synthetics/createTests/dialog/CreateSyntheticOnDemandTestDialog';
+import { CreateSyntheticOnDemandProps } from 'in-synthetics/utils/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
-interface Props {
-  testId: string;
-  testLocations: string[];
-  testType: string;
-}
-const CreateSyntheticOnDemandTest = ({ testId, testLocations, testType }: Props) => {
+const CreateSyntheticOnDemandTest = ({ testId, testLocations, onlineLocations }: CreateSyntheticOnDemandProps) => {
   const handleClick = () => {
     addActiveDialog(
-      <CreateSyntheticOnDemandTestDialog testId={testId} testLocations={testLocations} testType={testType} />
+      <CreateSyntheticOnDemandTestDialog
+        testId={testId}
+        testLocations={testLocations}
+        onlineLocations={onlineLocations}
+      />
     );
   };
 

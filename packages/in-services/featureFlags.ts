@@ -400,7 +400,6 @@ export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
 export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabled(
   'overrideAdaptiveBaselineSmoothingParamsEnabled'
 );
-export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', true);
 export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', false);
 export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', false);
 export const newOnboardingPageEnabled = isFeatureFlagEnabled('newOnboardingPageEnabled', false);
@@ -408,5 +407,7 @@ export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   'onlyFedRampAllowedAlertChannelsEnabled',
   false
 );
+export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);
+export const customEntitiesViewEnabled = isFeatureFlagEnabled('customEntitiesViewEnabled', false);
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
 export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);

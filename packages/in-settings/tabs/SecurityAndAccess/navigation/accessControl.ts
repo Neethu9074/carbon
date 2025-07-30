@@ -42,7 +42,7 @@ import TeamsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Te
 import UsersPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users';
 import AuditTrailPage from 'in-settings/tabs/SecurityAndAccess/pages/audit/AuditTrail';
 import Roles from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles';
-import { accessControlCarbonTable, rbacTeamsEnabled } from 'in-services/featureFlags';
+import { accessControlCarbonTable } from 'in-services/featureFlags';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { Role } from 'in-types';
 import { t } from 'in-i18n';
@@ -62,9 +62,10 @@ interface NavigationTreeItem {
 
 interface GetNavigationTreeForRoleProps extends ViewProps {
   role?: Role;
+  isRbacTeamsAvailable?: boolean;
 }
 
-export function getNavigationTreeForRole({ role, defaultLogin }: GetNavigationTreeForRoleProps) {
+export function getNavigationTreeForRole({ role, defaultLogin, isRbacTeamsAvailable }: GetNavigationTreeForRoleProps) {
   const navigationTree: NavigationTreeItem[] = [];
 
   if (role?.canConfigureUsers || role?.canConfigureTeams || role?.canConfigureApiTokens) {
@@ -94,7 +95,7 @@ export function getNavigationTreeForRole({ role, defaultLogin }: GetNavigationTr
       }
     }
 
-    if (rbacTeamsEnabled) {
+    if (isRbacTeamsAvailable) {
       if (role.canConfigureTeams) {
         accessControlPages.push({
           idx: 'roles-page',
@@ -112,7 +113,7 @@ export function getNavigationTreeForRole({ role, defaultLogin }: GetNavigationTr
       }
     }
 
-    if (!rbacTeamsEnabled && role.canConfigureTeams) {
+    if (!isRbacTeamsAvailable && role.canConfigureTeams) {
       accessControlPages.push({
         idx: 'groups-page',
         path: securityAndAccessAccessControlGroups,
@@ -159,7 +160,7 @@ export function getNavigationTreeForRole({ role, defaultLogin }: GetNavigationTr
       });
     }
 
-    if (rbacTeamsEnabled) {
+    if (isRbacTeamsAvailable) {
       if (role.canConfigureTeams) {
         accessControlPages.push({
           idx: 'teams-page',

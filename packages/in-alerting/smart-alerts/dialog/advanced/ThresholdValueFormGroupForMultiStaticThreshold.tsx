@@ -14,18 +14,18 @@ import {
   updateAlertChannelSelectionOnCriticalThresholdFieldChange
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
-import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
-import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold.mless';
-
 import {
   WARNING_THRESHOLD,
   CRITICAL_THRESHOLD
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
+import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
+import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold.mless';
 
 interface ThresholdValueFormGroupForMultiStaticThresholdProps {
   form: MapForm<any>;
@@ -56,13 +56,13 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
 }: ThresholdValueFormGroupForMultiStaticThresholdProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const operator = form.get('threshold').get('operator').value;
-  const warningThresholdValue = warningThresholdField.get('value')?.value;
-  const criticalThresholdValue = criticalThresholdField.get('value')?.value;
   const warningThresholdCheckBoxField = warningThresholdField.get('isCheckboxSelected');
   const criticalThresholdCheckBoxField = criticalThresholdField.get('isCheckboxSelected');
-  const warningThresholdValuePresent = warningThresholdCheckBoxField?.value;
-  const criticalThresholdValuePresent = criticalThresholdCheckBoxField?.value;
+  const warningThresholdValue = warningThresholdField.get('value').value;
+  const criticalThresholdValue = criticalThresholdField.get('value').value;
+  const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
+  const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
+  const operator = form.get('threshold').get('operator').value;
   const alertChannelSelection = form.get('alertChannels').value;
 
   useEffect(() => {

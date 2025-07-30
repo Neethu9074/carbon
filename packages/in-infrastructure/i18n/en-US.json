@@ -154,6 +154,18 @@
     "critical": "Critical when {{operator}} {{level}}",
     "warning": "Warning when {{operator}} {{level}}"
   },
+  "customEntities": {
+    "labelDashboard": "Dashboards",
+    "saveChanges": "Save changes",
+    "discardChanges": "Discard changes",
+    "addWidget": "Add widget",
+    "defaultDashboard": "Default dashboard",
+    "dashboardsInfoWidgetDescription": "Add widgets and select metrics to display on the dashboard for the custom entity type. \n\n All instances matching this custom entity type will be displayed using the same dashboard.",
+    "dashboardsInfoWidgetTitle": "This is your custom entity dashboard that you can shape yourself",
+    "failSaveDashboard": "Failed to save the dashboard.",
+    "successfulSaveDashboard": "Entity dashboard updated.",
+    "editDashboard": "Edit dashboards for "
+  },
   "collectorView": {
     "otelCollector": "OpenTelemetry Collector",
     "restartCollector": "Restart collector",

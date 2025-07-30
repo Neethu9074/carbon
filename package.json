@@ -89,7 +89,7 @@
     "@instana/ai-chat": "0.3.2",
     "@instana/carbon": "1.14.2",
     "@instana/carbon-charts": "0.10.0",
-    "@instana/components": "5.28.0",
+    "@instana/components": "5.29.0",
     "@instana/design-tokens": "1.29.0",
     "@instana/format-date": "1.8.2",
     "@instana/format-numbers": "1.7.0",

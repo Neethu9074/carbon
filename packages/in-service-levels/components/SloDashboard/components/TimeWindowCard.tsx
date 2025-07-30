@@ -10,8 +10,8 @@ import type { ServiceLevelObjectiveConfiguration, TimeWindow } from '@instana/ty
 import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { Card, Stack, Typography } from '@instana/components';
 import { isFixedTimeWindow } from '@instana/types';
+import { Tag } from '@instana/carbon';
 
-import TimeWindowPill from 'in-service-levels/components/SloDashboard/components/TimeWindowPill';
 import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
@@ -29,27 +29,27 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
 
   return (
     <Card size="s">
-      <Stack direction="vertical" gap="small">
-        <Stack direction="horizontal" gap="xsmall">
-          <Typography noWrap variant="body-regular">
-            {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindow')}
-          </Typography>
-          <TimeWindowPill>
+      <Stack direction="vertical" gap="xsmall">
+        <Typography noWrap variant="body-regular">
+          {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindow')}
+        </Typography>
+        <Stack gap="xxsmall" direction="horizontal" wrap>
+          <Tag size="sm">
             {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindowDetails', {
               duration,
               durationUnit,
               type
             })}
-          </TimeWindowPill>
+          </Tag>
           {isFixedTimeWindow(timeWindow) && (
-            <TimeWindowPill>
+            <Tag size="sm">
               {t('in-service-levels:sloChart.sloChartSummary.startTime', {
                 startDay,
                 startTime
               })}
-            </TimeWindowPill>
+            </Tag>
           )}
-          <TimeWindowPill>{t('in-service-levels:sloChart.sloChartSummary.timezone', { sloTimezone })}</TimeWindowPill>
+          <Tag>{t('in-service-levels:sloChart.sloChartSummary.timezone', { sloTimezone })}</Tag>
         </Stack>
       </Stack>
     </Card>

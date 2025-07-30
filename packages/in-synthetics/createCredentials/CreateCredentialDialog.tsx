@@ -21,9 +21,9 @@ import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SlideInConfig, SliderState } from 'in-synthetics/utils/constants';
 import StepThree from 'in-synthetics/createCredentials/steps/StepThree';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import StepOne from 'in-synthetics/createCredentials/steps/StepOne';
 import StepTwo from 'in-synthetics/createCredentials/steps/StepTwo';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { createCredential } from 'in-synthetics/api';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -36,6 +36,7 @@ interface Props {
 }
 
 const CreateCredentialDialog = ({ credentialNames, onClose }: Props) => {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const formId = 'new-credential-form';
   const [step, setStep] = useState(0);
   const [form, updateForm] = useState(() => createCredentialForm(credentialNames));
@@ -56,7 +57,7 @@ const CreateCredentialDialog = ({ credentialNames, onClose }: Props) => {
   const stepConfigs = [
     { title: t('in-synthetics:dialog.createCredential.nameValue') },
     { title: t('in-synthetics:dialog.createCredential.associations') },
-    ...(rbacTeamsEnabled ? [{ title: t('in-synthetics:dialog.createCredential.teams') }] : [])
+    ...(isRbacTeamsAvailable ? [{ title: t('in-synthetics:dialog.createCredential.teams') }] : [])
   ];
 
   const onCreate = () => {
@@ -120,7 +121,7 @@ const CreateCredentialDialog = ({ credentialNames, onClose }: Props) => {
                   </SimpleModeStepContentWrapper>
                 );
               case 2:
-                return rbacTeamsEnabled ? (
+                return isRbacTeamsAvailable ? (
                   <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createCredential.teams')}>
                     <StepThree form={form} updateForm={updateForm} />
                   </SimpleModeStepContentWrapper>
