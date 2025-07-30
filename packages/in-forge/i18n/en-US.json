@@ -12188,6 +12188,14 @@
             "installed": "Installed",
             "productText": "Product Text",
             "daysToExpire": "Days To Expire"
+          },
+          "groupPtf": {
+            "tableName": "Group PTF Information",
+            "name": "PTF Group Name",
+            "level": "PTF Group Level",
+            "status": "PTF Group Status",
+            "description": "PTF Group Description",
+            "release": "PTF Group Target Release"
           }
         }
       }
