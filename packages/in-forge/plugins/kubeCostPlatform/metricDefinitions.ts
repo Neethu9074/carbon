@@ -52,6 +52,12 @@ export default [
     min: 0
   },
   {
+    formatter: number,
+    metrics: ['coreCountStats.totalCoreCount'],
+    labels: [t('in-kubernetes:dashboards.kubecost.totalCoreCount')],
+    min: 0
+  },
+  {
     metrics: [
       getDynamicMetricMatch('deploymentCostList', 'cpuCost', t('in-kubernetes:dashboards.kubecost.deployment')),
       getDynamicMetricMatch('deploymentCostList', 'gpuCost', t('in-kubernetes:dashboards.kubecost.deployment')),
