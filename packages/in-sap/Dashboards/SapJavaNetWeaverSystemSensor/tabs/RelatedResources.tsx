@@ -25,7 +25,7 @@ import { number, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 const pathSegment = '/abapsystem';
-const matrixPrefix = 'abapsystemssensor.';
+const matrixPrefix = 'javanetweaversystemssensor.';
 
 let systemSnapshotId = '';
 
@@ -139,6 +139,7 @@ interface GetTableDataParams {
   orderDirection?: string;
   timeConfig: any;
   hostId: string;
+  query?: string;
 }
 
 function getTableData({
@@ -147,7 +148,8 @@ function getTableData({
   orderBy = 'label',
   orderDirection = 'ASC',
   timeConfig,
-  hostId
+  hostId,
+  query = ''
 }: GetTableDataParams) {
   return getRelatedResources({
     pagination: {
@@ -159,6 +161,7 @@ function getTableData({
       direction: orderDirection
     },
     filter: {
+      label: query,
       hostId,
       timeConfig
     }
