@@ -241,7 +241,13 @@ const renderScriptTestTypeContent = (configuration: HttpScriptConfiguration) => 
       <Row key={'configScript'}>
         <LightCard
           className={locals.lastConfigRow}
-          title={t('in-synthetics:dashboard.configuration.configScriptTitle')}
+          title={
+            configuration.fileName
+              ? t('in-synthetics:dashboard.configuration.configScriptTitleWithFileName', {
+                  fileName: configuration.fileName
+                })
+              : t('in-synthetics:dashboard.configuration.configScriptTitle')
+          }
           darkFrame
           framed
         >
