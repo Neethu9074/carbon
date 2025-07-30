@@ -17,11 +17,12 @@ import {
 } from 'in-stores/time/config';
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import { mobileAppsPath, useGetLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
+import { playwithEnabled, mobileAppCrashBeaconEnabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
-import { playwithEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
@@ -101,6 +102,28 @@ const columnDefinitions = [
                 metric={item.metrics.crashesAgg}
                 tooltipFormatter={percentage.detailed}
                 percentageMetric
+              />
+            );
+          }
+        }
+      ]
+    : []),
+  ...(rbacTeamsEnabled
+    ? [
+        {
+          id: 'teams',
+          label: t('in-settings:tabs.teams.teamsTitle'),
+          sortable: false,
+          getContent(item) {
+
+            const teams = item?.mobileApp?.rbacTags || []
+
+            return (
+              <TagsInTable
+                tags={teams.map(team => ({
+                  entity_id: team.id,
+                  displayName: team.displayName || team.name || team.id
+                }))}
               />
             );
           }

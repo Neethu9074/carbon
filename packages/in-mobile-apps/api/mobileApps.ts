@@ -33,14 +33,18 @@ export function removeMobileApp(id: string): Observable<unknown> {
   }).map(response => response.body);
 }
 
-export function addMobileApp(name: string): Observable<MobileAppConfiguration> {
+export function addMobileApp(
+  name: string,
+  teams?: { id: string; displayName: string }[]
+): Observable<MobileAppConfiguration> {
   return http<MobileAppConfiguration>({
     method: 'POST',
     url: configUrl,
     headers: getCsrfHeader(),
     queryParams: {
       name
-    }
+    },
+    data: teams && teams.length > 0 ? teams : undefined
   }).map(response => response.body);
 }
 
@@ -104,5 +108,18 @@ export function removeSourceMapUploadConfiguration(mobileAppId: string, sourceMa
     maxRetries: 3,
     url: `${configUrl}/${encodeURIComponent(mobileAppId)}/sourcemap-upload/${encodeURIComponent(sourceMapConfigId)}`,
     headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+export function updateMobileAppTeams(
+  mobileAppId: string,
+  teams: { id: string; displayName: string }[]
+): Observable<MobileAppConfiguration> {
+  return http<MobileAppConfiguration>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${configUrl}/${encodeURIComponent(mobileAppId)}/teams`,
+    headers: getCsrfHeader(),
+    data: teams && teams.length > 0 ? teams : []
   }).map(response => response.body);
 }

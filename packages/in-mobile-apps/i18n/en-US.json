@@ -435,6 +435,10 @@
       "syntheticMonitoringLabel": "Synthetic monitoring",
       "configurations": {
         "symbolFileConfigLabel": "Stack trace translation",
+        "configurationLabelTeams": "Teams",
+        "teamsDescription": "Select teams to associate with this mobile app.",
+        "teamsCallout": "Adding teams will allow team members to view and edit this mobile app. It will also be reflected in the teams page in settings.",
+        "save": "Save",
         "symbolFileConfig": {
           "clearUploadedFilesUrl": "Remove all files API",
           "dialogMessageConfigurationUpdated": "Configuration updated.",
