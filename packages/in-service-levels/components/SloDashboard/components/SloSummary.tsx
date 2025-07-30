@@ -58,12 +58,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { timeWindows, progress } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
-  const [isNotificationVisible, setNotificationVisible] = useState(true);
   const { timeWindow } = configuration;
-  const sloTimezone = timeWindow?.timezone || utcLabel;
+  const sloTimezone = timeWindow.timezone || utcLabel;
   const isTimezoneBound = sloTimezone && sloTimezone !== utcLabel;
   const isTimezoneMismatch = buildTimezoneFromLocationName(sloTimezone) !== getCurrentFormattedTimezone();
-  const showTimezoneNotification = isTimezoneBound && isTimezoneMismatch && isNotificationVisible;
+  const [isTimezoneNotificationVisible, setTimezoneNotificationVisible] = useState(
+    isTimezoneBound && isTimezoneMismatch
+  );
 
   const { trackCta } = useSegmentTracking();
 
@@ -90,13 +91,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
           </Message>
         </Column>
       )}
-      {showTimezoneNotification && (
+      {isTimezoneNotificationVisible && (
         <Column span="100%" className={locals.toastContainer}>
           <ActionableNotification
             inline
             actionButtonLabel={t('in-service-levels:sloChart.sloChartSummary.editSloTimezone')}
             onActionButtonClick={openEditDialog}
-            onCloseButtonClick={() => setNotificationVisible(false)}
+            onCloseButtonClick={() => setTimezoneNotificationVisible(false)}
             kind="info"
             lowContrast
             title={t('in-service-levels:sloChart.sloChartSummary.sloCreatedTimezone', { sloTimezone })}

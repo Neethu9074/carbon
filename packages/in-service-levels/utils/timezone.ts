@@ -24,11 +24,14 @@ interface TimezoneOption {
   formattedOffset: string;
 }
 
+const buildTimeZoneString = (formattedOffset: string, currentZone: string) =>
+  `${utcLabel}${formattedOffset} - ${currentZone}`;
+
 export const getCurrentFormattedTimezone = (): string => {
   const currentZone = moment.tz.guess();
   const timezone = moment.tz(currentZone);
   const formattedOffset = timezone.format('Z');
-  return `${utcLabel} ${formattedOffset} - ${currentZone}`;
+  return buildTimeZoneString(formattedOffset, currentZone);
 };
 
 function isSupportedTimezone(timezone: string): boolean {
@@ -64,8 +67,8 @@ export const formattedTimezoneList: ComboBoxOption[] = moment.tz
     return result;
   })
   .map(({ name, formattedOffset }: TimezoneOption) => ({
-    label: `UTC ${formattedOffset} - ${name}`,
-    value: `UTC ${formattedOffset} - ${name}`
+    label: buildTimeZoneString(formattedOffset, name),
+    value: buildTimeZoneString(formattedOffset, name)
   }));
 
 export const extractTimeZoneName = (timezone: string): string => {
@@ -80,5 +83,5 @@ export const buildTimezoneFromLocationName = (timezoneName: string): string => {
 
   const timezoneMoment = moment.tz(timezoneName);
   const offset = timezoneMoment.format('Z');
-  return `${utcLabel} ${offset} - ${timezoneName}`;
+  return buildTimeZoneString(offset, timezoneName);
 };
