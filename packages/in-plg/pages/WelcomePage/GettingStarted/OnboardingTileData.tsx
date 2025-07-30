@@ -66,6 +66,14 @@ export function useOnboardingTiles() {
       target: '_blank'
     },
     {
+      key: 'smartAlerts',
+      title: t('in-plg:welcomepage.smartAlerts.title'),
+      description: t('in-plg:welcomepage.smartAlerts.description'),
+      href: createRedirectHref('smartAlerts'),
+      trackingEvent: UNIT_ONBOARDING_GET_ALERTED_CLICK,
+      pictogram: Rocket
+    },
+    {
       key: 'inviteUsers',
       title: t('in-plg:welcomepage.inviteUsers.title'),
       description: t('in-plg:welcomepage.inviteUsers.description'),
@@ -90,27 +98,19 @@ export function useOnboardingTiles() {
       pictogram: Rocket
     },
     {
-      key: 'startMonitoring',
-      title: t('in-plg:welcomepage.startMonitoring.title'),
-      description: t('in-plg:welcomepage.startMonitoring.description'),
-      href: createRedirectHref('startMonitoring'),
-      trackingEvent: UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK,
-      pictogram: Rocket
-    },
-    {
-      key: 'smartAlerts',
-      title: t('in-plg:welcomepage.smartAlerts.title'),
-      description: t('in-plg:welcomepage.smartAlerts.description'),
-      href: createRedirectHref('smartAlerts'),
-      trackingEvent: UNIT_ONBOARDING_GET_ALERTED_CLICK,
-      pictogram: Rocket
-    },
-    {
       key: 'inviteTeammates',
       title: t('in-plg:welcomepage.inviteTeammates.title'),
       description: t('in-plg:welcomepage.inviteTeammates.description'),
       href: createRedirectHref('inviteTeammates'),
       trackingEvent: UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK,
+      pictogram: Rocket
+    },
+    {
+      key: 'startMonitoring',
+      title: t('in-plg:welcomepage.startMonitoring.title'),
+      description: t('in-plg:welcomepage.startMonitoring.description'),
+      href: createRedirectHref('startMonitoring'),
+      trackingEvent: UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK,
       pictogram: Rocket
     }
   ];
