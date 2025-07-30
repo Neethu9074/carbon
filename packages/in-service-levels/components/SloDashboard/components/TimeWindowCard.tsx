@@ -49,7 +49,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
               })}
             </Tag>
           )}
-          <Tag>{t('in-service-levels:sloChart.sloChartSummary.timezone', { sloTimezone })}</Tag>
+          <Tag size="sm">{t('in-service-levels:sloChart.sloChartSummary.timezone', { sloTimezone })}</Tag>
         </Stack>
       </Stack>
     </Card>
