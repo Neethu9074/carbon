@@ -60,6 +60,7 @@ interface ListDataTableProps<ItemType extends Object> {
   isSearchable?: boolean;
   searchPlaceholder?: string;
   setCount?: React.Dispatch<React.SetStateAction<string | undefined>>;
+  toolBarContent?: React.ReactNode;
 }
 
 interface TableState {
@@ -85,7 +86,8 @@ export default function ListDataTable<ItemType extends Object>(props: ListDataTa
     tableActions,
     isSearchable,
     searchPlaceholder,
-    setCount
+    setCount,
+    toolBarContent
   } = props;
 
   const [{ orderBy, orderDirection, page, query, pageSize }, setState] = useState<TableState>({
@@ -161,6 +163,7 @@ export default function ListDataTable<ItemType extends Object>(props: ListDataTa
       isSearchable={isSearchable}
       searchPlaceholder={searchPlaceholder}
       totalHits={filterResult?.length}
+      toolBarContent={toolBarContent}
     />
   );
 }
@@ -183,6 +186,7 @@ interface ListTableProps<ItemType extends object> extends Object {
   rightHeader?: ReactNode;
   isSearchable?: boolean;
   searchPlaceholder?: string;
+  toolBarContent?: React.ReactNode;
 }
 
 function ListTable<ItemType extends object>({
@@ -202,7 +206,8 @@ function ListTable<ItemType extends object>({
   rightHeader,
   isSearchable,
   searchPlaceholder,
-  totalHits
+  totalHits,
+  toolBarContent
 }: ListTableProps<ItemType>) {
   const getEllipsisValue = (ellipsis?: string | boolean, width?: string | number) => {
     if (typeof ellipsis === 'string' || (width !== 'undefined' && ellipsis !== undefined)) {
@@ -269,6 +274,7 @@ function ListTable<ItemType extends object>({
                 labelText={searchPlaceholder}
                 placeholder={searchPlaceholder}
               />
+              {toolBarContent}
             </>
           )}
         </CarbonTableToolbar>

@@ -110,13 +110,13 @@ export default function AlertTestsList({
           loadEntities={loadEntities ? loadEntities : () => syntheticTests}
           listPageSize={pageSize}
           pageSizes={pageSizes}
-          rightHeader={rightHeader}
           isSearchable={isSearchable}
           searchPlaceholder={t('in-settings:tabs.filter')}
           noDataHeader={noDataHeader}
           noDataDescription={noDataDescription}
           initialOrderBy={'label'}
           setCount={setCount}
+          toolBarContent={rightHeader}
         />
       ) : (
         <List<SyntheticTest>

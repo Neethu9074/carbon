@@ -57,7 +57,7 @@ export default function ConfigureAlertTest({
   });
 
   return (
-    <>
+    <div className={locals.container}>
       <AlertTestsList
         // @ts-expect-error
         loadEntities={() => getSelectedTests((form.get('syntheticTestIds') as Field<string[]>)?.value ?? [])}
@@ -102,7 +102,7 @@ export default function ConfigureAlertTest({
         isTearSheet
       />
       <TouchedMessages field={form.get('syntheticTestIds')} />
-    </>
+    </div>
   );
 }
 
