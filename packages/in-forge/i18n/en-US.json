@@ -12737,7 +12737,7 @@
         "connectionChannel": "Connection Channel",
         "agentsWithCount": "MFT Agents ({{len}})",
         "transferStatistics": "Transfer Statistics",
-        "currentTransfers": "Current Transfers",
+        "currentActiveTransfers": "Current active transfers",
         "totalTransfers": "Total Transfers",
         "successfulTransfers": "Successful",
         "failedTransfers": "Failed",
