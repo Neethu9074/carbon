@@ -201,7 +201,7 @@ module.exports = {
   logFilterSaving: true,
   isControlledEnvEnabled: false,
   logFormattingEnabled: true,
-  customEntitiesViewEnabled: false,
+  customEntitiesViewEnabled: true,
   openTelemetryKubernetesUnifiedViewEnabled: true,
   newOTelPageEnabled: true,
   eventsTransientEventEnabled: true,
