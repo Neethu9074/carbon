@@ -1555,6 +1555,22 @@ function AccessControlSection() {
       className={classNames([locals.checkboxGroup, locals.checkboxGroupWithoutLegendText])}
     >
       <CarbonCheckbox
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_USERS])}
+        id="rbac-role-access-control-config-users"
+        labelText={t('in-settings:dialogs.role.permissionLabel', {
+          context: Capability.CAN_CONFIGURE_USERS
+        })}
+        onChange={(_e, { checked: enabled }) => {
+          const updatedPermissions = togglePermissions({
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_USERS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_USERS]
+          });
+          updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
+        }}
+      />
+      <CarbonCheckbox
         checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_TEAMS])}
         id="rbac-role-access-control-config-teams"
         labelText={t('in-settings:dialogs.role.permissionLabel', {

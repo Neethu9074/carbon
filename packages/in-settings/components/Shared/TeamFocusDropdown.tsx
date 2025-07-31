@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Dropdown, Layer } from '@instana/carbon';
 import { TeamTag } from '@instana/types';
@@ -13,6 +13,15 @@ import { t } from '@instana/i18n-react';
 import { deleteTeamFocus, updateTeamFocus } from 'in-api/teams';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
+const DEFAULT_DROPDOWN_ITEM = Object.freeze({
+  displayName: t('in-components:mainNavigation.scope_defaultScope'),
+  id: ''
+} as const);
+
+function getSelectedDropdownItem(teamId: string, teams: TeamTag[]) {
+  return teamId ? (teams.find(team => team.id === teamId) as TeamTag) : DEFAULT_DROPDOWN_ITEM;
+}
+
 interface TeamFocusDropdownProps {
   teams: TeamTag[];
 }
@@ -20,12 +29,15 @@ interface TeamFocusDropdownProps {
 export default function TeamFocusDropdown(props: TeamFocusDropdownProps) {
   const [{ teamId }] = useCurrentUserRole();
   const { teams } = props;
-  const defaultOption = { displayName: t('in-components:mainNavigation.scope_defaultScope'), id: '' };
 
-  const teamsOptions = [...teams, defaultOption];
-  const [selectedTeamFocus, setSelectedTeamFocus] = useState<TeamTag>(
-    teamId ? (teams.find(team => team.id === teamId) as TeamTag) : defaultOption
-  );
+  const teamsOptions = [...teams, DEFAULT_DROPDOWN_ITEM];
+  const [selectedTeamFocus, setSelectedTeamFocus] = useState<TeamTag>(getSelectedDropdownItem(teamId, teams));
+
+  useEffect(() => {
+    const newSelectedTeamFocus = getSelectedDropdownItem(teamId, teams);
+    setSelectedTeamFocus(newSelectedTeamFocus);
+  }, [teamId, teams]);
+
   const onChangeTeamFocus = (selectedItem: TeamTag) => {
     setSelectedTeamFocus(selectedItem);
     if (selectedItem.id === '') {
@@ -44,6 +56,7 @@ export default function TeamFocusDropdown(props: TeamFocusDropdownProps) {
       <Dropdown
         id="scope-selection"
         initialSelectedItem={selectedTeamFocus}
+        selectedItem={selectedTeamFocus}
         itemToString={item => item?.displayName ?? ''}
         items={teamsOptions}
         label={selectedTeamFocus?.displayName}

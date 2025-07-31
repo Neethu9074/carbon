@@ -28,7 +28,7 @@ import {
   PROFILE_MENU_SAAS_CONSOLE_CLICK
 } from 'in-services/tracking/tracking';
 import { isControlledEnvEnabled, tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
-import TeamFocusDropdown from 'in-components/MainNavigation/components/ProfileMenu/TeamFocusDropdown';
+import TeamFocusDropdown from 'in-settings/components/Shared/TeamFocusDropdown';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { userSettingsProfile } from 'in-settings/navigation/paths';

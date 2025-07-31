@@ -37,7 +37,6 @@ export default function Summary() {
           {showLogVolume && <LogVolumeDashboard />}
         </KpiGridRow>
       </div>
-
       <div className={locals.charts}>
         {showLogVolume && (
           <UnifiedMetricsChart

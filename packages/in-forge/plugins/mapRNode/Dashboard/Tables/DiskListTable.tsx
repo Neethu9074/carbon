@@ -11,11 +11,11 @@ import { TimeConfig } from '@instana/types';
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { megaBytes, percentagePlain } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { t } from 'in-i18n';
 
 interface DatasourcesTableProps {
@@ -25,7 +25,7 @@ interface DatasourcesTableProps {
 
 interface Row {
   key: string;
-  diskList: Map<string, string | number>;
+  disk: Map<string, string | number>;
   timeConfig: TimeConfig;
   snapshotId: string;
 }
@@ -42,7 +42,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: Row) {
-        return row.diskList.get('diskName');
+        return row.disk.get('diskName');
       }
     }
   },
@@ -51,7 +51,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row: Row) {
-        return row.diskList.get('totalSpace');
+        return row.disk.get('totalSpace');
       },
       getContent: megaBytes.detailed
     }
@@ -127,7 +127,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: Row) {
-        return row.diskList.get('mount');
+        return row.disk.get('mount');
       }
     }
   },
@@ -136,7 +136,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: Row) {
-        return row.diskList.get('fsType');
+        return row.disk.get('fsType');
       }
     }
   }
@@ -146,10 +146,10 @@ export default function DatasourcesTable({ snapshot, timeConfig }: DatasourcesTa
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'diskList'], emptyMap)
-    .map((diskList: Object, key: string) => {
+    .map((disk: Object, key: string) => {
       return {
         key,
-        diskList,
+        disk,
         timeConfig,
         snapshotId
       };

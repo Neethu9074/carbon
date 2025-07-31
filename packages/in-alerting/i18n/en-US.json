@@ -1323,7 +1323,9 @@
         "alertTestEntityName": "synthetic test {{entityName}}",
         "testAttachedCount": "Tests attached ({{count}})",
         "testAttached": "Tests attached",
-        "noTestAvailable": "No synthetic tests available"
+        "noTestAvailable": "No synthetic tests available",
+        "noTestSelected": "No synthetic tests selected",
+        "noTestSelectedMessage": "To get started, click Add synthetic tests."
       },
       "details": {
         "threshold": "Threshold",

@@ -11,6 +11,7 @@ import { DescriptionItem } from '@instana/components';
 import InfraAlertChartWrapper, {
   useGetMetricLabel
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import SelectedMetricGroupProvider from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
@@ -86,14 +87,16 @@ export default function InfraEventListItemContent({ event, justChart = false }) 
         </>
       )}
       <div className={locals.sectionWrapper}>
-        <InfraAlertChartWrapper
-          alertConfig={alertConfigWithGroupingExpression}
-          timeConfig={timeConfig}
-          metricLabel={metricLabel}
-          predictions={infraPredictiveDetectionEnabled ? predictions : []}
-          lowerBound={infraPredictiveDetectionEnabled ? lowerBound : []}
-          upperBound={infraPredictiveDetectionEnabled ? upperBound : []}
-        />
+        <SelectedMetricGroupProvider>
+          <InfraAlertChartWrapper
+            alertConfig={alertConfigWithGroupingExpression}
+            timeConfig={timeConfig}
+            metricLabel={metricLabel}
+            predictions={infraPredictiveDetectionEnabled ? predictions : []}
+            lowerBound={infraPredictiveDetectionEnabled ? lowerBound : []}
+            upperBound={infraPredictiveDetectionEnabled ? upperBound : []}
+          />
+        </SelectedMetricGroupProvider>
       </div>
       <div className={locals.sectionWrapper}>
         <DescriptionItem inComponents className={locals.title} title={t('in-events:titleScope')}>

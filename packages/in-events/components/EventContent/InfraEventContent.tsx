@@ -31,6 +31,7 @@ import InfraAlertChartWrapper, {
 import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
 // @ts-expect-error
 import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
+import SelectedMetricGroupProvider from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { adjustTimestamp, getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
@@ -236,14 +237,16 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:titleMetrics')}>
-            <InfraAlertChartWrapper
-              alertConfig={alertConfigWithGroupingExpression}
-              timeConfig={timeConfig}
-              metricLabel={metricLabel}
-              predictions={infraPredictiveDetectionEnabled ? predictions : []}
-              lowerBound={infraPredictiveDetectionEnabled ? lowerBound : []}
-              upperBound={infraPredictiveDetectionEnabled ? upperBound : []}
-            />
+            <SelectedMetricGroupProvider>
+              <InfraAlertChartWrapper
+                alertConfig={alertConfigWithGroupingExpression}
+                timeConfig={timeConfig}
+                metricLabel={metricLabel}
+                predictions={infraPredictiveDetectionEnabled ? predictions : []}
+                lowerBound={infraPredictiveDetectionEnabled ? lowerBound : []}
+                upperBound={infraPredictiveDetectionEnabled ? upperBound : []}
+              />
+            </SelectedMetricGroupProvider>
           </Card>
         </Col>
       </Row>

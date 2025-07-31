@@ -14,7 +14,8 @@ import {
   isSyntheticPlugin,
   isMobileAppPlugin,
   isLogPlugin,
-  isOtelDatabasePlugin
+  isOtelDatabasePlugin,
+  isKubernetesControlPlanePlugins
 } from 'in-forge/plugins/pluginTypes';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import { capitalize } from 'in-services/formatters/string';
@@ -62,6 +63,10 @@ function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
   }
   if (isOtelDatabasePlugin(plugin || (snapshot?.get('plugin') as string))) {
     return dataBaseIcon(snapshot, plugin);
+  }
+
+  if (isKubernetesControlPlanePlugins(plugin || (snapshot?.get('plugin') as string))) {
+    return 'lib_kubernetes';
   }
 
   return getInfraIconType(snapshot ?? plugin!);

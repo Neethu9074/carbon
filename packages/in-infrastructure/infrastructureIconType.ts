@@ -5,6 +5,7 @@
 
 import { getSvgIcon } from '@instana/components';
 
+import { isKubernetesControlPlanePlugins } from 'in-forge/plugins/pluginTypes';
 import { SnapshotMap } from 'in-components/EntityLink';
 import { getIconTypeCallback } from 'in-sdk/iconType';
 
@@ -21,9 +22,14 @@ export function getIconType(snapshotOrPlugin: SnapshotOrPlugin): string {
     }
   }
 
-  //temporary custom entities icon hack until icon is created
+  // Temporary custom entities icon hack until icon is created
   if (plugin === 'customEntities') {
     return 'lib_openTelemetry';
+  }
+
+  // Temporary icons for k8s control plane.
+  if (isKubernetesControlPlanePlugins(plugin)) {
+    return 'lib_kubernetes';
   }
 
   const name = `lib_infra_${plugin}`;

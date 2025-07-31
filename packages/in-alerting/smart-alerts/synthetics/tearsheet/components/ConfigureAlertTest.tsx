@@ -57,10 +57,12 @@ export default function ConfigureAlertTest({
   });
 
   return (
-    <>
+    <div className={locals.container}>
       <AlertTestsList
         // @ts-expect-error
         loadEntities={() => getSelectedTests((form.get('syntheticTestIds') as Field<string[]>)?.value ?? [])}
+        noDataHeader={t('in-alerting:smartAlerts.synthetics.selectTests.noTestSelected')}
+        noDataDescription={t('in-alerting:smartAlerts.synthetics.selectTests.noTestSelectedMessage')}
         renderNoDataAvailable={() => (
           <NoItemSelected text={t('in-alerting:smartAlerts.synthetics.selectTests.noTestSelectedText')} height={200} />
         )}
@@ -97,9 +99,10 @@ export default function ConfigureAlertTest({
           </Button>
         }
         pageSize={5}
+        isTearSheet
       />
       <TouchedMessages field={form.get('syntheticTestIds')} />
-    </>
+    </div>
   );
 }
 

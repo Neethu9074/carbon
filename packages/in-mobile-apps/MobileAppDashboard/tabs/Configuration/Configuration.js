@@ -10,14 +10,16 @@ import {
   configurationOptionsFullyQualified,
   configurationPrivacyFullyQualified,
   configurationSymbolFilesFullyQualified,
-  configurationCustomGeoDetailsFullyQualified
+  configurationCustomGeoDetailsFullyQualified,
+  configurationTeamsFullyQualified
 } from 'in-mobile-apps/navigation/paths';
 import StackTraceTranslation from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/StackTraceTranslation/StackTraceTranslation';
 import MobileAppCustomGeoDetails from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/MobileAppCustomGeoDetails';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
 import Privacy from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Privacy';
-import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
+import MobileAppTeams from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Teams';
+import { mobileAppCrashBeaconEnabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default function Configuration(props) {
@@ -39,6 +41,15 @@ export default function Configuration(props) {
         component: () => <MobileAppCustomGeoDetails {...props} />
       }
     ];
+
+    if (rbacTeamsEnabled) {
+      pages.push({
+        label: t('in-mobile-apps:dashboard.tabs.configurations.configurationLabelTeams'),
+        path: configurationTeamsFullyQualified,
+        component: () => <MobileAppTeams {...props} />
+      });
+    }
+
     if (mobileAppCrashBeaconEnabled) {
       let page = {
         label: t('in-mobile-apps:dashboard.tabs.configurations.symbolFileConfigLabel'),

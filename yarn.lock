@@ -3469,21 +3469,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/carbon@npm:1.14.2":
-  version: 1.14.2
-  resolution: "@instana/carbon@npm:1.14.2::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcarbon%2F-%2F%40instana%2Fcarbon-1.14.2.tgz"
+"@instana/carbon@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@instana/carbon@npm:1.15.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcarbon%2F-%2F%40instana%2Fcarbon-1.15.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.72.0
     "@ibm/telemetry-js": 1.8.0
     react: ^17.0.2
-  checksum: 9577069ee7d61947b222d28ec3ba186b00fde3d7f72fa2e9a64bebc3dda346c38aada6cdda55e5d5f044f5d46490e48b35af3e3fffebfc7e0ba0127500c0d11a
+  checksum: dfe63d8f38d4e1e5afd9092937f01ef312d6f6a3a45448ec535f4070971e3c4b59b4a934ab8515639d79dda0856d7b06ab96246f00cdc1294c1cd0c91ad52213
   languageName: node
   linkType: hard
 
-"@instana/components@npm:5.29.0":
-  version: 5.29.0
-  resolution: "@instana/components@npm:5.29.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.29.0.tgz"
+"@instana/components@npm:5.30.0":
+  version: 5.30.0
+  resolution: "@instana/components@npm:5.30.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.30.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/layout": 11.28.0
@@ -3502,7 +3502,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: 2b92f058aa12c77db6aaf28b94c4328f0d518fdd7ed56bee5fb8c4c275bf69ac3bdb4a965b26f6b46c589f8129fa444fc4f7716a2c5560cf28e5fb5a0f4b26ca
+  checksum: 5efe4dc74eaf6dcf7f1b5ed4ba1380a8a199527414465ea99e0844a3324c6b06c87ce09f157e06882d72697416fe35fd7ff2e25a1852f80411ca84f4d90e73b0
   languageName: node
   linkType: hard
 
@@ -24213,9 +24213,9 @@ __metadata:
     "@dnd-kit/core": 6.1.0
     "@dnd-kit/sortable": 8.0.0
     "@instana/ai-chat": 0.3.2
-    "@instana/carbon": 1.14.2
+    "@instana/carbon": 1.15.0
     "@instana/carbon-charts": 0.10.0
-    "@instana/components": 5.29.0
+    "@instana/components": 5.30.0
     "@instana/design-tokens": 1.29.0
     "@instana/eslint-config-commons": 1.4.2
     "@instana/format-date": 1.8.2

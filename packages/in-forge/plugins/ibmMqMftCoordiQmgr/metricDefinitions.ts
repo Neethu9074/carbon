@@ -10,7 +10,7 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: ['currentTransfers'],
-    labels: [t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.currentTransfers')],
+    labels: [t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.currentActiveTransfers')],
     min: 0,
     category: [t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.transferStatistics')],
     formatter: number

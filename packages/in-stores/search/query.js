@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-imports */
 /*
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
@@ -7,8 +6,7 @@
 import { parse } from 'lucene';
 
 import { track, DYNAMIC_FOCUS_QUERY } from 'in-services/tracking/tracking';
-import { SEARCH_QUERY_UPDATED } from 'in-map/useInfraMapEvents';
-import { navigationParameters$ } from 'in-stores/navigation';
+import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
 import { validate } from 'in-api/search';
@@ -69,8 +67,20 @@ unvalidatedQuery$
   .skipFirst()
   .debounce(500)
   .subscribe(query => {
-    const event = new CustomEvent(SEARCH_QUERY_UPDATED, { bubbles: true, detail: { query } });
-    document.dispatchEvent(event);
+    mutateUrl(navParams => {
+      if (query?.notAlterURL) {
+        return navParams;
+      }
+
+      if (!query || !query.query || query.query.length === 1) {
+        // remove empty `q` query-param from URL
+        delete navParams.query.q;
+      } else {
+        navParams.query.q = query.query;
+      }
+
+      return navParams;
+    });
   });
 
 unvalidatedQuery$
@@ -132,7 +142,9 @@ export function setQueryInput(query, context, notAlterURL) {
   unvalidatedQueryStore.mutateTo(contextQuery);
 }
 
-export function mutateQuery(fn, location, navigate) {
-  location.query.q = fn(location.query.q || '');
-  navigate(location);
+export function mutateQuery(fn) {
+  mutateUrl(navParams => {
+    navParams.query.q = fn(navParams.query.q || '');
+    return navParams;
+  });
 }

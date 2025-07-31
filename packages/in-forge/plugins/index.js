@@ -295,6 +295,7 @@ import './otelProcess';
 import './oTelK8sNode';
 import './nutanixHost';
 import './xenServerVM';
+import './mapRCluster';
 import './drbdDevice';
 import './awsAppSync';
 import './azureMySql';

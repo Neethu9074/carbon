@@ -16,7 +16,7 @@ interface TITProps {
 }
 
 export default function TagsInTable({ tags }: TITProps) {
-  if (tags.length > 0) {
+  if (tags?.length > 0) {
     return (
       <div className={locals.tagsContainer}>
         <TagSet

@@ -21,7 +21,7 @@ export default function IbmMqMftCoordiQmgrDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.currentTransfers')}>
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.currentActiveTransfers')}>
           <MetricValue snapshotId={snapshotId} metric="currentTransfers" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.totalTransfers')}>

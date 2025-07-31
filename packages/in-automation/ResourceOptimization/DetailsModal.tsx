@@ -31,6 +31,7 @@ import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimizat
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { playwithEnabled, solisEnabled } from 'in-services/featureFlags';
 import { runResourceOptimizationAction } from 'in-automation/api';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { t, Trans } from 'in-i18n';
@@ -76,6 +77,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
   });
   const resImpactLoading = resourceImpactResult?.progress?.loading;
   const appImpactLoading = appImpactResult?.progress?.loading;
+  const [role] = useCurrentUserRole();
 
   //@ts-expect-error
   const entities = resourceImpactResult?.data?.entitiesList;
@@ -309,7 +311,9 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       onRequestClose={close}
       modalHeading={t('in-automation:resourceOptimization.details')}
       primaryButtonText={t('in-automation:runAction')}
-      primaryButtonDisabled={currentAction?.actionMode === 'RECOMMEND' || playwithEnabled}
+      primaryButtonDisabled={
+        currentAction?.actionMode === 'RECOMMEND' || playwithEnabled || !role?.canRunAutomationActions
+      }
       secondaryButtonText={t('in-automation:cancel')}
       size="lg"
       onRequestSubmit={() => handleRunAction()}

@@ -488,7 +488,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticSslImprovementEnabled',
     instanaCtlKey: 'feature.synthetic.ssl.improvement.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticCarbonTableEnabled',
@@ -1040,6 +1040,16 @@ module.exports = exports = [
   {
     uiClientKey: 'newOnboardingPageEnabled',
     instanaCtlKey: 'feature.new.onboarding.page.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'otelCollectorViewEnabled',
+    instanaCtlKey: 'feature.otel.collector.view.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'customEntitiesViewEnabled',
+    instanaCtlKey: 'feature.custom.entities.view.enabled',
     defaultValue: false
   }
 ];

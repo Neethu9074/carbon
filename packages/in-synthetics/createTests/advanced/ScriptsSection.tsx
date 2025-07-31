@@ -79,9 +79,13 @@ export default function ScriptsSection({
   function deleteScript() {
     if (script.extension !== 'zip') {
       updateForm(
-        form.updateIn(['configuration', 'script'], (field: Item) =>
-          (field as Field<string>).setValue('').setTouched(true)
-        )
+        form
+          .updateIn(['configuration', 'script'], (field: Item) =>
+            (field as Field<string>).setValue('').setTouched(true)
+          )
+          .updateIn(['configuration', 'fileName'], (field: Item) =>
+            (field as Field<string>).setValue('').setTouched(true)
+          )
       );
     } else {
       setZipFile({ name: '', files: [], blob: null });
@@ -91,6 +95,10 @@ export default function ScriptsSection({
       );
       //@ts-expect-error-next-line
       updatedForm = updatedForm.updateIn(['configuration', 'scripts', 'scriptFile'], (field: Item) =>
+        (field as Field<string>).setValue('').setTouched(true)
+      );
+      //@ts-expect-error-next-line
+      updatedForm = updatedForm.updateIn(['configuration', 'fileName'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)
       );
       updateForm(updatedForm);
@@ -106,11 +114,13 @@ export default function ScriptsSection({
   const getScriptFileName = () => {
     let scriptName;
     if (isUpdateConfig && !isUpdated) {
-      scriptName = configForm.get('script')
-        ? t('in-synthetics:dialog.updateTest.scriptSavedMessage')
-        : t('in-synthetics:dialog.updateTest.bundleSavedMessage');
+      let fileName = configForm.get('fileName')?.value;
+      // If fileName is blank, show the "manually added" message
+      scriptName = isBlank(fileName)
+        ? t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptEditedManuallyMessage')
+        : fileName;
     } else {
-      scriptName = isBlank(script.extension)
+      scriptName = isBlank(script.name)
         ? t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptEditedManuallyMessage')
         : script.name;
     }
@@ -186,6 +196,12 @@ export default function ScriptsSection({
                 validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
               }).setTouched(true)
             )
+            .put(
+              'fileName',
+              createField({
+                value: scriptContent.name || configForm.get('fileName')?.value
+              })
+            )
             .updateIn(['syntheticType'], (field: Item) => (field as Field<string>).setValue(testType).setTouched(true))
             .remove('scripts')
         );
@@ -195,6 +211,12 @@ export default function ScriptsSection({
           form
             .get('configuration')
             .updateIn(['script'], (field: Item) => (field as Field<string>).setValue(scriptFile).setTouched(true))
+            .put(
+              'fileName',
+              createField({
+                value: scriptContent.name || configForm.get('fileName')?.value
+              })
+            )
             .updateIn(['syntheticType'], (field: Item) => (field as Field<string>).setValue(testType).setTouched(true))
             .remove('scripts')
         );
@@ -206,6 +228,12 @@ export default function ScriptsSection({
         form
           .get('configuration')
           .put('scripts', createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!))
+          .put(
+            'fileName',
+            createField({
+              value: scriptContent.name || configForm.get('fileName')?.value
+            })
+          )
           .updateIn(['syntheticType'], (field: Item) => (field as Field<string>).setValue(testType).setTouched(true))
           .remove('script')
       );
@@ -219,6 +247,12 @@ export default function ScriptsSection({
           )
           .updateIn(['scripts', 'scriptFile'], (field: Item) =>
             (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
+          )
+          .put(
+            'fileName',
+            createField({
+              value: scriptContent.name || configForm.get('fileName')?.value
+            })
           )
           .updateIn(['syntheticType'], (field: Item) => (field as Field<string>).setValue(testType).setTouched(true))
           .remove('script')

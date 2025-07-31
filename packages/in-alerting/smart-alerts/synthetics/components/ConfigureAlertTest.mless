@@ -6,7 +6,8 @@
 
 :local {
   .selectButton {
-    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
   }
 
   .createButton {
@@ -23,5 +24,8 @@
   }
   .dialogWidth {
     min-width: 80%;
+  }
+  .container {
+    margin-top: 1rem;
   }
 }
