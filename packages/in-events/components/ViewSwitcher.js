@@ -103,7 +103,8 @@ export default function ViewSwitcher({ selectedEventType = null, onChange }) {
               e.preventDefault();
               // to remove filters when changing from one tab to another
               onChange({
-                filter: ''
+                filter: '',
+                eventId: null
               });
               setOrDeleteMatrixKey(location, eventsPath, eventId, null);
               // clicking tab should not cause any Event view page to duplicate segment page views
