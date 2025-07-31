@@ -13,6 +13,7 @@ import React, { FC } from 'react';
 import { TypographyProps, Typography as TypographyWithMargin } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
 
+import gridSettings from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/utils/gridSettings';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import { InvestigationResponse } from 'in-events/subscriptions/rcaInvestigation';
 import { toHtml } from 'in-services/formatters/markdown';
@@ -55,7 +56,7 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
 
       {backendResponse && (
         <Grid narrow className={locals.grid} fullWidth>
-          <Column xlg={4} lg={6} md={4} sm={4}>
+          <Column {...gridSettings.left}>
             <ProductiveCard
               aiLabel={<></>}
               className={locals.cardWithBorder}
@@ -67,7 +68,7 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
             </ProductiveCard>
           </Column>
 
-          <Column xlg={12} lg={10} md={4} sm={4}>
+          <Column {...gridSettings.right}>
             <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.summary')} className={locals.cardWithBorder}>
               <Stack orientation="vertical" gap={5}>
                 <Stack orientation="vertical" gap={3}>
@@ -147,12 +148,12 @@ const InitialState: FC<{
 
 const SingleEntityOutputSkeleton: FC = () => (
   <Grid narrow className={locals.grid} fullWidth>
-    <Column xlg={4} lg={6} md={4} sm={4}>
+    <Column {...gridSettings.left}>
       <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.diagnosis')} className={locals.cardWithBorder}>
         <AISkeletonText lineCount={3} />
       </ProductiveCard>
     </Column>
-    <Column xlg={12} lg={10} md={4} sm={4}>
+    <Column {...gridSettings.right}>
       <ProductiveCard title={t('in-events:RCA.singleEntityLLM.output.summary')} className={locals.cardWithBorder}>
         <AISkeletonText lineCount={3} />
       </ProductiveCard>

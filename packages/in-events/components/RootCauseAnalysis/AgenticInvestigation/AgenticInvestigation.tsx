@@ -13,6 +13,7 @@ import React, { useMemo, useState } from 'react';
 import { Event, VolatileId } from '@instana/types';
 
 import SingleEntityLLM from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/SingleEntityLLM/SingleEntityLLM';
+import gridSettings from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/utils/gridSettings';
 import EntityDetails from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntityDetails';
 import Topology from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/Topology';
 import AutomationCardForPRC from 'in-automation/AutomationCard/AutomationCardForPRC';
@@ -42,10 +43,10 @@ const AgenticInvestigation = ({ incident, volatileId, event }: AgenticInvestigat
       >
         <Stack gap={5}>
           <Grid narrow className={locals.grid} fullWidth>
-            <Column xlg={4} lg={6} md={4} sm={4}>
+            <Column {...gridSettings.left}>
               <EntityDetails />
             </Column>
-            <Column xlg={12} lg={10} md={4} sm={4}>
+            <Column {...gridSettings.right}>
               <Topology incident={incidentJSON} />
             </Column>
           </Grid>
