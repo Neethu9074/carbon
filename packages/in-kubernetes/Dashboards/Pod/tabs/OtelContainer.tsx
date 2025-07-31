@@ -224,11 +224,7 @@ function MonitoredContainers({ data: pod, timeConfig }: { data: PodData; timeCon
     statesMap[allContainerStatuses[i].containerSnapshotId] = allContainerStatuses[i];
   }
 
-  return (
-    <Card>
-      <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} podId={pod.id} statesMap={statesMap} />
-    </Card>
-  );
+  return <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} podId={pod.id} statesMap={statesMap} />;
 }
 
 function UnmonitoredContainers({ containerStatuses }: { containerStatuses: ContainerStatus[] }) {

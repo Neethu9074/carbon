@@ -6,6 +6,7 @@
 
 import { KubernetesQueryFilter, Result } from '@instana/types';
 
+import getOtelKubernetesContainers from 'in-kubernetes/subscriptions/getOtelKubernetesContainers';
 import getOtelKubernetesNodes from 'in-kubernetes/subscriptions/getOtelKubernetesNodes';
 import getOtelKubernetesPods from 'in-kubernetes/subscriptions/getOtelKubernetesPods';
 import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
@@ -151,6 +152,41 @@ export function getOtelKubernetesPodsData({
       label: query,
       clusterId,
       nodeId,
+      workloadControllerId,
+      timeConfig
+    },
+    granularity: getInfraGranularity(timeConfig)
+  });
+}
+
+interface GetOtelKubernetesContainersQuery extends KubernetesQueryFilter, KubernetesQuery {}
+
+export function getOtelKubernetesContainersData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'health',
+  orderDirection = 'DESC',
+  timeConfig,
+  clusterId,
+  nodeId,
+  podId,
+  workloadControllerId
+}: GetOtelKubernetesContainersQuery) {
+  return getOtelKubernetesContainers({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      clusterId,
+      nodeId,
+      podId,
       workloadControllerId,
       timeConfig
     },

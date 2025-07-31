@@ -16,7 +16,6 @@
   },
   "clusterBadgeNameOpenShift": "OpenShift",
   "clusterBadgeNameK8s": "K8s",
-  "containers": "Containers",
   "dashboards": {
     "kubernetesCluster": "Kubernetes cluster",
     "clusterDistributionBadgeType": "{{clusterDistributionName}} cluster",

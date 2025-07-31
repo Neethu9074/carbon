@@ -28,6 +28,7 @@ import useInfiniteSearch from 'in-kubernetes/hooks/useInfiniteSearch/useInfinite
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { QueryParams } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { TrackingFunction, useKubernetesTracker } from 'in-kubernetes/tracker';
+import { clusterOtelListFullyQualified } from 'in-kubernetes/navigation/paths';
 import InfoCards from 'in-kubernetes/lists/components/InfoCards/InfoCards';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
@@ -68,7 +69,8 @@ export default function ResourceCardList({
   cardDefinitions
 }: Readonly<ResourceCardListProps>) {
   const searchRef = useRef<HTMLDivElement>(null);
-  const { location, navigate } = useNavigation();
+  const { location, navigate, matchLocation } = useNavigation();
+  const isOtelCluster = matchLocation(clusterOtelListFullyQualified);
   const [isTooltipSeen, setIsTooltipSeen] = useLocalStorage('k8sClusterNamespaceTooltipSeen', false);
   const [{ orderBy, orderDirection }, setUrlState] = useUrlState(urlStateDefinition);
   const { kubernetesViewModeToggled, kubernetesCardClicked, kubernetesSearchBarCleared, kubernetesSortingChanged } =
@@ -99,7 +101,7 @@ export default function ResourceCardList({
 
   const onTracking = kubernetesCardClicked;
   const sortingOptions = getSortingOptions(cardDefinitions);
-  const infoCards = getInfoCardData(getHref, cardDefinitions, onTracking, items);
+  const infoCards = getInfoCardData(getHref, cardDefinitions, onTracking, isOtelCluster, items);
 
   return (
     <>
@@ -134,8 +136,8 @@ export default function ResourceCardList({
               const selectedOrderDirection = hasSelectedItem
                 ? orderDirection
                 : orderDirection === 'ASC'
-                  ? 'DESC'
-                  : 'ASC';
+                ? 'DESC'
+                : 'ASC';
 
               setUrlState({
                 orderBy: selectedOrderBy,
@@ -204,6 +206,7 @@ function getInfoCardData(
   getHref: (id: string) => string,
   cardDefinitions: CardProps[],
   onTracking: TrackingFunction,
+  isOtelCluster: boolean,
   items?: Item[]
 ) {
   if (!items) {
@@ -218,7 +221,7 @@ function getInfoCardData(
     const subTitle = !isCluster ? item.clusterName : '';
     const distribution = clusterOrNamespace?.clusterDistribution ?? 'kubernetes';
     const icon = isCluster ? `lib_${distribution}` : `lib_kubernetes_namespace`;
-    const version = isCluster ? item?.cluster.version : '';
+    const version = isOtelCluster ? '' : isCluster ? item?.cluster.version : '';
     const href = getHref(id);
     const header = {
       id,
