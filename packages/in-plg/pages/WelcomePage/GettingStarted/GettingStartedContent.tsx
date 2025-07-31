@@ -32,8 +32,8 @@ export default function GettingStartedContent() {
             {onboardingItems.map(item => (
               <ExpressiveCard
                 key={item.key}
-                label={t('in-plg:onboarding.taskLabel')}
-                title={item.title}
+                label={<Typography variant="label-01">{t('in-plg:onboarding.taskLabel')}</Typography>}
+                title={<Typography variant="heading-03"> {item.title}</Typography>}
                 pictogram={item.pictogram}
                 onClick={() => {
                   trackCta(item.trackingEvent);
