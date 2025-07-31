@@ -135,7 +135,9 @@ export function QuickActions(props) {
           <>
             <div className={locals.quickActionsHeader}>
               {t('in-events:notes.summarizeIncident')}
-              <PreviewPill privatePreview />
+              <div className={locals.summaryPreviewPill}>
+                <PreviewPill privatePreview />
+              </div>
               <div className={locals.feedbackWrapper}>
                 <Link href="https://your.feedback.ibm.com/jfe/form/SV_5je3oKfjA0NZM0e" externalWithIcon>
                   {t('in-events:notes.feedback')}

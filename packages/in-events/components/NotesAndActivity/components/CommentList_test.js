@@ -16,6 +16,7 @@ import {
   EditDeleteOverflowMenu,
   EntryIcon
 } from 'in-events/components/NotesAndActivity/components/CommentList';
+import { MS_TEAMS, SERVICE_NOW, SLACK } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_AI_SUMMARY } from 'in-events/components/NotesAndActivity/utils';
 import { ExternalNote } from 'in-events/components/NotesAndActivity/components/NoteTypes/ExternalNote';
 import { WatsonAIAvatar } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
@@ -292,7 +293,7 @@ describe('EntryIcon', () => {
           type: TYPE_NOTE,
           contents: 'Hello',
           timestamp: 1717523244282,
-          origin: 'Slack'
+          origin: SLACK
         }}
       />
     );
@@ -317,7 +318,7 @@ describe('EntryIcon', () => {
           type: TYPE_NOTE,
           contents: 'Hello',
           timestamp: 1717523244282,
-          origin: 'ServiceNow'
+          origin: SERVICE_NOW
         }}
       />
     );
@@ -328,6 +329,31 @@ describe('EntryIcon', () => {
         className: 'local-css-snowIcon',
         size: 'sm',
         type: 'lib_snow_icon',
+        viewBox: '0 0 24 24'
+      })
+    );
+  });
+
+  it('renders the lib_msteams_icon icon', () => {
+    const wrapper = shallow(
+      <EntryIcon
+        displayIcon
+        note={{
+          author: 'John Doe',
+          type: TYPE_NOTE,
+          contents: 'Hello',
+          timestamp: 1717523244282,
+          origin: MS_TEAMS
+        }}
+      />
+    );
+    expect(wrapper.find(WatsonAIAvatar)).toHaveLength(0);
+    expect(wrapper.find(SvgIcon)).toHaveLength(1);
+    expect(wrapper.find(SvgIcon).props()).toEqual(
+      expect.objectContaining({
+        className: 'local-css-msTeamsIcon',
+        size: 'sm',
+        type: 'lib_msteams_icon',
         viewBox: '0 0 24 24'
       })
     );
