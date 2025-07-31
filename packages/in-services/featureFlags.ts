@@ -199,8 +199,6 @@ export const zoomWidgetEnabled = isFeatureFlagEnabled('zoomWidgetEnabled');
 
 export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('lastValueForNonTimeSeriesWidgetEnabled');
 
-export const logSmartAlertsEnabled = isFeatureFlagEnabled('logSmartAlertsEnabled');
-
 export const weaselSubresourceIntegrityEnabled = isFeatureFlagEnabled('weaselSubresourceIntegrityEnabled');
 
 //New Smart alert Design implementation

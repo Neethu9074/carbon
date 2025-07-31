@@ -19,7 +19,6 @@ import {
   sloFullEnabled,
   powervcEnabled,
   infraSmartAlertsEnabled,
-  logSmartAlertsEnabled,
   applicationSubtracesEnabled,
   nutanixEnabled,
   linuxKVMHypervisorEnabled,
@@ -1133,12 +1132,6 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!infraSmartAlertsEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS;
-    });
-  }
-
-  if (!logSmartAlertsEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS;
     });
   }
 

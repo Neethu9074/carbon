@@ -135,7 +135,6 @@ module.exports = {
   allowDownloadMetricsFromCharts: true,
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
-  logSmartAlertsEnabled: true,
   applicationSmartAlertFullScreenDesignEnabled: true,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAdvancedEnabled: true,
