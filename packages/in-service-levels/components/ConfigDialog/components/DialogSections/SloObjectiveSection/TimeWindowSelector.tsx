@@ -96,9 +96,9 @@ export default function TimeWindowSelector() {
           </div>
         </Stack>
         {!timeStamp.valid &&
-          timeStamp.messages.map(({ message }, index) => (
-            <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
-          ))}
+          timeStamp.messages
+            .filter(msg => !msg.path || !msg.path.includes('timezone'))
+            .map(({ message }, index) => <ValidationBlock key={`error-msg-${index}`}>{message}**</ValidationBlock>)}
       </Section>
 
       {isFixed && (

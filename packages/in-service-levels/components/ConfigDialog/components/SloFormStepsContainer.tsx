@@ -35,6 +35,7 @@ function getApplicationAndWebsiteNavItems(form: SloForm): NavItem[] {
   const thresholdField = form.getIn(['indicator', 'threshold']);
   const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
   const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
+  const objectiveForm = form.getIn(['objective']);
 
   const isEntityIdFieldValid = isFieldValid(entityIdField);
   const isNameValid = isFieldValid(nameField);
@@ -44,6 +45,7 @@ function getApplicationAndWebsiteNavItems(form: SloForm): NavItem[] {
   const isDateFieldValid = isFieldValid(dateField);
   const isTimeFieldValid = isFieldValid(timeField);
   const tagFilterFieldValid = isFieldValid(tagFilterField);
+  const isObjectivesValid = isFieldValid(objectiveForm);
 
   return [
     {
@@ -72,7 +74,7 @@ function getApplicationAndWebsiteNavItems(form: SloForm): NavItem[] {
       label: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
       scrollId: '3-select-objective',
       title: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
-      valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid
+      valid: isObjectivesValid && isTargetFieldValid && isDateFieldValid && isTimeFieldValid
     },
     {
       content: <SloNameAndTagsSection />,
@@ -97,6 +99,7 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
   const targetField = form.getIn(['objective', 'target']);
   const indicatorForm = form.get('indicator');
   const thresholdField = form.getIn(['indicator', 'threshold']);
+  const objectiveForm = form.getIn(['objective']);
   const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
   const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
 
@@ -107,6 +110,7 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
   const isIndicatorValid = isFieldValid(indicatorForm);
   const isDateFieldValid = isFieldValid(dateField);
   const isTimeFieldValid = isFieldValid(timeField);
+  const isObjectivesValid = isFieldValid(objectiveForm);
 
   return [
     {
@@ -128,7 +132,7 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
       label: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
       scrollId: '3-select-objective',
       title: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
-      valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid
+      valid: isObjectivesValid && isTargetFieldValid && isDateFieldValid && isTimeFieldValid
     },
     {
       content: <SloNameAndTagsSection />,

@@ -7,6 +7,7 @@
 import React, { useContext } from 'react';
 
 import { InlineNotification, Stack, Toggle } from '@instana/carbon';
+import { ValidationBlock } from '@instana/components';
 
 import TimezoneList from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimezoneList';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
@@ -18,9 +19,11 @@ import locals from './TimezoneSelector.mless';
 
 export default function TimezoneSelector() {
   const { form, onChange } = useContext(SloFormContext);
+  const objectiveForm = form.getIn(['objective']);
   const bindTimezoneField = form.getIn(['objective', 'bindTimezone']);
   const timezoneField = form.getIn(['objective', 'timezone']);
   const isTimezoneSelected = bindTimezoneField.value && timezoneField.value && timezoneField.value !== utcLabel;
+  const showTimezoneValidationError = !objectiveForm.valid && timezoneField.touched;
 
   const timezoneMessage = isTimezoneSelected
     ? t('in-service-levels:createSloDialog.selectedTimezoneMessage', { timezone: timezoneField.value })
@@ -51,6 +54,10 @@ export default function TimezoneSelector() {
         toggled={bindTimezoneField.value}
       />
       <TimezoneList />
+      {showTimezoneValidationError &&
+        objectiveForm.messages
+          .filter(msg => msg.path && msg.path.includes('timezone'))
+          .map(({ message }, index) => <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>)}
       <InlineNotification
         className={locals.notificationContainer}
         id="timezone-toast-notification"

@@ -12,7 +12,7 @@ import { generateStableHash } from '@instana/utils';
 import type {
   CustomBlueprintType,
   SloIndicatorFields,
-  SloTimeWindowFields
+  SloObjectiveFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { isEmptyExpression, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
@@ -21,6 +21,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isSliThresholdOperator } from 'in-service-levels/types';
+import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 export const inputNotUndefinedValidator = (v: any): ValidationResult => {
@@ -35,8 +36,8 @@ export const inputNotUndefinedValidator = (v: any): ValidationResult => {
   return undefined;
 };
 
-export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationResult {
-  const { duration, durationUnit } = timeWindow;
+export function validateTimeWindowAndZone(timeWindow: SloObjectiveFields): ValidationResult {
+  const { duration, durationUnit, bindTimezone, timezone } = timeWindow;
 
   if (duration === undefined || !durationUnit) return;
 
@@ -63,6 +64,16 @@ export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationR
       {
         severity: 'error',
         message: t('in-service-levels:createSloDialog.errorTimeWindowWeek')
+      }
+    ];
+  }
+
+  if (bindTimezone?.value && (!timezone?.value || timezone?.value.trim() === '' || timezone?.value === utcLabel)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-services:validators.theValueMustNotBeBlank'),
+        path: 'timezone'
       }
     ];
   }
@@ -146,7 +157,7 @@ export const indicatorFormValidator = composeAndShortCircuitOnError(
   noEmptyCustomGoodFilterExpressions,
   noEqualCustomTagFilterExpressions
 );
-export const timeWindowValidator = composeAndShortCircuitOnError(validateTimeWindow);
+export const timeWindowValidator = composeAndShortCircuitOnError(validateTimeWindowAndZone);
 
 export function noInvalidTagFilterExpression(tagFilterExpression: FormModelElement[]): ValidationResult {
   try {
