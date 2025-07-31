@@ -4,11 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-// eslint-disable-next-line no-restricted-imports
-import { ActionableNotification } from '@carbon/react';
 import React, { useEffect, useState } from 'react';
 
-import { Grid, Column } from '@instana/carbon';
+import { Grid, Column, ActionableNotification } from '@instana/carbon';
 import { Message } from '@instana/components';
 
 import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
