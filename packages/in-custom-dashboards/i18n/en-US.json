@@ -634,7 +634,6 @@
         "timeBasedSli": "Time-based, {{metricNameLabel}}"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "You are not having the required <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> permission to create or edit SLIs.",
         "sliList": "SLI list",
         "createSli": "Create SLI"
       },
