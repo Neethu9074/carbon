@@ -56,7 +56,7 @@ export default function Actions({
 
     return (
       <div className={locals.actions}>
-        <Button size="sm" kind="ghost" href={analyzeLink} onClick={handleClick}>
+        <Button size="lg" kind="ghost" href={analyzeLink} onClick={handleClick} className={locals.viewButton}>
           {buttonText}
         </Button>
       </div>
@@ -74,7 +74,7 @@ export default function Actions({
 
   return (
     <div className={locals.actions}>
-      <Button kind="ghost" size="sm" href={href} onClick={handleClick}>
+      <Button kind="ghost" size="lg" href={href} onClick={handleClick} className={locals.viewButton}>
         {buttonText}
       </Button>
     </div>

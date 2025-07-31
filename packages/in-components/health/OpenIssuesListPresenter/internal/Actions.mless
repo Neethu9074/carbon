@@ -5,9 +5,14 @@
 
 :local {
   .actions {
-    padding-top: var(--cds-spacing-04);
-    padding-bottom: var(--cds-spacing-04);
     position: relative;
     bottom: 0;
+    width: 100%;
+  }
+
+  button.viewButton,
+  a.viewButton {
+    width: 100%;
+    max-width: 100%;
   }
 }
