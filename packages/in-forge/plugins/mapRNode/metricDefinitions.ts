@@ -45,12 +45,6 @@ export default [
     formatter: percentagePlain.compact
   },
   {
-    metrics: ['metrics.disk.diskTotalSpace'],
-    labels: [t('in-forge:plugins.maprNode.totalSpace')],
-    min: 0,
-    formatter: megaBytes.detailed
-  },
-  {
     metrics: ['metrics.disk.diskUsedSpace'],
     labels: [t('in-forge:plugins.maprNode.usedSpace')],
     min: 0,

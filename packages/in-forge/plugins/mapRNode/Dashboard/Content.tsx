@@ -8,18 +8,15 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-import MetricValue from 'in-components/MetricValue';
+import CPUUtilizationChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/CPUUtilizationChart';
+import DiskReadWriteChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteChart';
+import DiskUsageChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskUsageChart';
+import DiskListTable from 'in-forge/plugins/mapRNode/Dashboard/Tables/DiskListTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number } from 'in-services/formatters/number';
-import { t } from 'in-i18n';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-
-import CPUUtilizationChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/CPUUtilizationChart';
-import DiskUsageChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskUsageChart';
-import DiskReadWriteChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteChart';
-import DiskListTable from 'in-forge/plugins/mapRNode/Dashboard/Tables/DiskListTable';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { t } from 'in-i18n';
 
 export default function MapRNodeDashboard({
   snapshot,
@@ -28,21 +25,20 @@ export default function MapRNodeDashboard({
   snapshot: SnapshotData;
   timeConfig: TimeConfig;
 }) {
-  const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.maprNode.mapRFSDisks')}>
-          <MetricValue snapshotId={snapshotId} metric="metrics.disk.mapRFSDisks" formatter={number.compact} />
+          {getDataFromSnapshotData(snapshot, 'mapRFSDisks')}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.maprNode.failedDisks')}>
-          <MetricValue snapshotId={snapshotId} metric="metrics.disk.failedDisks" formatter={number.compact} />
+          {getDataFromSnapshotData(snapshot, 'failedDisks')}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.maprNode.disks')}>
-          <MetricValue snapshotId={snapshotId} metric="metrics.disk.disks" formatter={number.compact} />
+          {getDataFromSnapshotData(snapshot, 'disks')}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.maprNode.cpus')}>
-          <MetricValue snapshotId={snapshotId} metric="metrics.cpus" formatter={number.compact} />
+          {getDataFromSnapshotData(snapshot, 'cpus')}
         </KpiKeyValue>
       </KpiSection>
 
@@ -56,4 +52,10 @@ export default function MapRNodeDashboard({
       </DashboardSection>
     </div>
   );
+}
+
+function getDataFromSnapshotData(snapshot: SnapshotData, key: String) {
+  const data = snapshot.get('data');
+  var value = data.get(key);
+  return String(value);
 }
