@@ -93,7 +93,6 @@ export default function GettingStartedContent() {
             <Button
               kind="ghost"
               icon="lib_arrow_right"
-              className={locals.joinButton}
               onClick={() => {
                 window.open(
                   'https://community.ibm.com/community/user/groups/community-home?CommunityKey=8d661410-d1fb-4067-ab9a-019475fc541e',

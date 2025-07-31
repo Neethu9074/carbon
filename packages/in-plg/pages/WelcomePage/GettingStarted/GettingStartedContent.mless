@@ -10,8 +10,4 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, auto));
     gap: 1.5rem;
   }
-
-  .joinButton {
-    margin-left: 1rem;
-  }
 }
