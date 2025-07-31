@@ -988,11 +988,21 @@
     "notReporting": "Not reporting"
   },
   "onboarding": {
-  "yourDashboard": "Your dashboard",
-  "gettingStarted": "Getting started",
-  "title": "Suggested onboarding tasks",
-  "description": "View suggested tasks to get the most out of Instana.",
-  "taskLabel": "Onboarding task"
+    "yourDashboard": "Your dashboard",
+    "gettingStarted": "Getting started",
+    "title": "Suggested onboarding tasks",
+    "description": "View suggested tasks to get the most out of Instana.",
+    "taskLabel": "Onboarding task",
+    "joinCommunityLink": "Join the Instana community",
+    "communityblogs": {
+      "title": "Instana community blogs",
+      "description": "Join our Instana community and learn all the exciting things to come!",
+      "blogLabel": "Blog",
+      "gettingStartedBlogTitle": "Getting started with Instana",
+      "gettingStartedBlogDescription": "Learn more about Instana and get the information you need to get started with the product.",
+      "initialDeploymentBlogTitle": "Initial deployment steps with Instana",
+      "initialDeploymentBlogDescription": "Learn how to monitor websites, set up alerts, and more with easy to follow videos for each topic."
+    }
   },
   "accountBillingPushNotificationMessage": {
     "description": "You can now view your account and billing information in a separate page from settings.",

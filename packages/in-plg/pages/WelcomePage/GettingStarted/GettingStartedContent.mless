@@ -13,4 +13,8 @@
     margin-right: 1.5rem;
     position: relative;
   }
+
+  .joinButton {
+    margin-left: 1rem;
+  }
 }
