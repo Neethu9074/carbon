@@ -382,6 +382,8 @@
   },
   "feedback": {
     "skip": "Skip",
+    "positive": "Positive",
+    "negative": "Negative",
     "descriptionUnpleasant": {
       "firstLineApology": "We are sorry you did not have a pleasant experience.",
       "secondLineQuestion": "Can you help us identify where things went wrong?"
