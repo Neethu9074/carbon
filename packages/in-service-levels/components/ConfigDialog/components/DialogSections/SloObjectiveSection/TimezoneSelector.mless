@@ -6,7 +6,7 @@
 
 :local {
   .notificationContainer {
-    width: 320px;
+    width: 20rem;
     :global {
       .cds--toast-notification__title {
         font-weight: normal;
