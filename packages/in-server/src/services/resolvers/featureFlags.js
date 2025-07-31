@@ -488,7 +488,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticSslImprovementEnabled',
     instanaCtlKey: 'feature.synthetic.ssl.improvement.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticCarbonTableEnabled',
