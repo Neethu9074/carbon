@@ -76,7 +76,7 @@ interface PolicyTriggerConfigurationCardProps {
 export default function PolicyTriggerConfigurationCard({ data, triggers }: PolicyTriggerConfigurationCardProps) {
   const { form } = usePolicyFormContext();
   const automatic = form.getIn(['action', 'type', 'automatic']);
-  const selectedTriggerType = triggers[data.type];
+  const selectedTriggerType = triggers[data.type ?? 'builtinEvent'];
   // @ts-ignore
   const selectedTrigger = selectedTriggerType.data?.find(trigger => trigger.id === data.id);
   return (
@@ -89,7 +89,11 @@ export default function PolicyTriggerConfigurationCard({ data, triggers }: Polic
           <CarbonColumn span="100%">
             <CarbonFormGroup legendText={t('in-automation:name')}>
               {selectedTrigger && (
-                <TriggerLink trigger={selectedTrigger} type={data.type} className={local.triggerName} />
+                <TriggerLink
+                  trigger={selectedTrigger}
+                  type={data.type ?? 'builtinEvent'}
+                  className={local.triggerName}
+                />
               )}
             </CarbonFormGroup>
           </CarbonColumn>
@@ -97,10 +101,12 @@ export default function PolicyTriggerConfigurationCard({ data, triggers }: Polic
             <CarbonFormGroup legendText={t('in-automation:description')}>{data?.description}</CarbonFormGroup>
           </CarbonColumn>
           <CarbonColumn span="100%">
-            <CarbonFormGroup legendText={t('in-automation:triggerType')}>{getTriggerType(data.type)}</CarbonFormGroup>
+            <CarbonFormGroup legendText={t('in-automation:triggerType')}>
+              {getTriggerType(data.type ?? 'builtinEvent')}
+            </CarbonFormGroup>
           </CarbonColumn>
           <CarbonColumn span="100%">
-            {selectedTrigger && <TriggerTypeField trigger={selectedTrigger} type={data.type} />}
+            {selectedTrigger && <TriggerTypeField trigger={selectedTrigger} type={data.type ?? 'builtinEvent'} />}
           </CarbonColumn>
           {automatic.value && <ScopeSection />}
         </CarbonGrid>

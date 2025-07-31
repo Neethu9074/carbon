@@ -22,7 +22,7 @@ export function getActionConfigurationFromPolicy(policy: Policy | NewPolicy) {
 
 export function getPolicyTriggerFromTriggers(triggers: Triggers, policy: Policy | NewPolicy) {
   const { type, id } = policy?.trigger ?? {};
-  return (triggers[type]?.data as TriggerSpecification[])?.find(trigger => trigger.id === id);
+  return (triggers[type ?? 'builtinEvent']?.data as TriggerSpecification[])?.find(trigger => trigger.id === id);
 }
 
 export function getPolicyActionFromActions(actions: Action[], policy: Policy | NewPolicy) {

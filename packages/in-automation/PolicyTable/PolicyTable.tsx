@@ -111,7 +111,7 @@ export default function Policies({
   const result: Result<PaginatedResult<PolicyTableEntity>> = mapData(paginatedPolicies, data => ({
     ...data,
     items: data.items.map(policy => {
-      const triggerType = policy.trigger.type;
+      const triggerType = policy.trigger.type ?? 'builtinEvent';
       const triggerItem = getTriggerItem(triggerType, policy);
       return {
         ...policy,
