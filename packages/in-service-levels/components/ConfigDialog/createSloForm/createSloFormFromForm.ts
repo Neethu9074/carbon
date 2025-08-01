@@ -15,7 +15,8 @@ import {
   noInvalidTagFilterExpression,
   targetFieldValidator,
   timeFieldValidator,
-  timeWindowValidator
+  timeWindowValidator,
+  timezoneValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
   createIndicatorOperatorField,
@@ -118,13 +119,21 @@ export const getTimeFields = (form: SloForm) => {
   };
 };
 
+export const getTimezoneFields = (form: SloForm) => {
+  const zoneValue = form.getIn(['objective', 'timezone', 'zone']).value;
+  const toggleTimezoneValue = !zoneValue || zoneValue === utcLabel;
+
+  return {
+    bind: createField<boolean>({ value: toggleTimezoneValue }),
+    zone: createField<string>({ value: zoneValue, validator: timeFieldValidator })
+  };
+};
+
 export const getObjectiveFieldsFromForm = (form: SloForm) => {
   const targetFieldValue = form.getIn(['objective', 'target']).value;
   const durationFieldValue = form.getIn(['objective', 'duration']).value;
   const durationUnitFieldValue = form.getIn(['objective', 'durationUnit']).value;
   const timeWindowType = form.getIn(['objective', 'type']).value;
-  const timezoneValue = form.getIn(['objective', 'timezone']).value;
-  const toggleTimezoneValue = !timezoneValue || timezoneValue === utcLabel;
 
   return {
     target: createField<number | undefined>({ value: targetFieldValue, validator: targetFieldValidator }),
@@ -135,8 +144,7 @@ export const getObjectiveFieldsFromForm = (form: SloForm) => {
     durationUnit: createField<DurationUnitType>({ value: durationUnitFieldValue }),
     startTimestamp: createMapForm({ items: getTimeFields(form) }),
     type: createField({ value: timeWindowType }),
-    bindTimezone: createField({ value: !toggleTimezoneValue }),
-    timezone: createField({ value: timezoneValue })
+    timezone: createMapForm({ items: getTimezoneFields(form), validator: timezoneValidator })
   };
 };
 export const createSloFormFromForm = (form: SloForm): SloForm => {

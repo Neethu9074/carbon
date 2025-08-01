@@ -20,8 +20,8 @@ const emptyTimezoneList: ComboBoxOption[] = [];
 
 export function TimezoneList() {
   const { form, onChange } = useContext(SloFormContext);
-  const timezoneField = form.getIn(['objective', 'timezone']);
-  const bindTimezoneField = form.getIn(['objective', 'bindTimezone']);
+  const zoneField = form.getIn(['objective', 'timezone', 'zone']);
+  const bindField = form.getIn(['objective', 'timezone', 'bind']);
 
   return (
     <div className={locals.selectField}>
@@ -29,12 +29,12 @@ export function TimezoneList() {
         id="slo-objective-timezone-selector"
         className={locals.selectFieldSize}
         placeholder={t('in-service-levels:createSloDialog.selectTimezoneMessage')}
-        value={timezoneField.value}
-        disabled={!bindTimezoneField.value}
-        options={bindTimezoneField.value ? timezoneList : emptyTimezoneList}
+        value={zoneField.value}
+        disabled={!bindField.value}
+        options={bindField.value ? timezoneList : emptyTimezoneList}
         onChange={selectedOption => {
           const value = selectedOption ? (selectedOption as Option).value : '';
-          onChange(['objective', 'timezone'], () => timezoneField.setValue(value).setTouched(true));
+          onChange(['objective', 'timezone', 'zone'], () => zoneField.setValue(value).setTouched(true));
         }}
       />
     </div>

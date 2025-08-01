@@ -12,6 +12,7 @@ import { ValidationBlock } from '@instana/components';
 import TimezoneList from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimezoneList';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { getCurrentFormattedTimezone } from 'in-service-levels/utils/timezone';
+import { isFieldValid } from 'in-service-levels/utils/form';
 import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
@@ -19,21 +20,21 @@ import locals from './TimezoneSelector.mless';
 
 export default function TimezoneSelector() {
   const { form, onChange } = useContext(SloFormContext);
-  const objectiveForm = form.getIn(['objective']);
-  const bindTimezoneField = form.getIn(['objective', 'bindTimezone']);
-  const timezoneField = form.getIn(['objective', 'timezone']);
-  const isTimezoneSelected = bindTimezoneField.value && timezoneField.value && timezoneField.value !== utcLabel;
-  const showTimezoneValidationError = !objectiveForm.valid && timezoneField.touched;
+  const timezoneForm = form.getIn(['objective', 'timezone']);
+  const bindField = form.getIn(['objective', 'timezone', 'bind']);
+  const zoneField = form.getIn(['objective', 'timezone', 'zone']);
+  const isTimezoneSelected = bindField.value && zoneField.value && zoneField.value !== utcLabel;
+  const isTimezoneFormValid = isFieldValid(timezoneForm);
 
   const timezoneMessage = isTimezoneSelected
-    ? t('in-service-levels:createSloDialog.selectedTimezoneMessage', { timezone: timezoneField.value })
+    ? t('in-service-levels:createSloDialog.selectedTimezoneMessage', { timezone: zoneField.value })
     : t('in-service-levels:createSloDialog.currentTimezoneMessage', { timezone: getCurrentFormattedTimezone() });
 
   const handleTimezoneToggle = (toggleValue: boolean) => {
     if (!toggleValue) {
-      onChange(['objective', 'timezone'], () => timezoneField.setValue(''));
+      onChange(['objective', 'timezone', 'zone'], () => zoneField.setValue(''));
     }
-    onChange(['objective', 'bindTimezone'], () => bindTimezoneField.setValue(toggleValue));
+    onChange(['objective', 'timezone', 'bind'], () => bindField.setValue(toggleValue));
   };
 
   return (
@@ -42,7 +43,7 @@ export default function TimezoneSelector() {
         className={locals.toggleContainer}
         id="slo-objective-timezone-toggle"
         value={
-          bindTimezoneField.value
+          bindField.value
             ? t('in-service-levels:createSloDialog.enabledToggleLabel')
             : t('in-service-levels:createSloDialog.disabledToggleLabel')
         }
@@ -51,13 +52,13 @@ export default function TimezoneSelector() {
         labelB={t('in-service-levels:createSloDialog.disabledToggleLabel')}
         size="sm"
         onToggle={handleTimezoneToggle}
-        toggled={bindTimezoneField.value}
+        toggled={bindField.value}
       />
       <TimezoneList />
-      {showTimezoneValidationError &&
-        objectiveForm.messages
-          .filter(msg => msg.path && msg.path.includes('timezone'))
-          .map(({ message }, index) => <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>)}
+      {!isTimezoneFormValid &&
+        timezoneForm.messages.map(({ message }, index) => (
+          <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+        ))}
       <InlineNotification
         className={locals.notificationContainer}
         id="timezone-toast-notification"

@@ -19,7 +19,8 @@ import {
   noInvalidTagFilterExpression,
   targetFieldValidator,
   timeFieldValidator,
-  timeWindowValidator
+  timeWindowValidator,
+  timezoneValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import type {
   SloEntityFields,
@@ -27,6 +28,7 @@ import type {
   SloIndicatorFields,
   SloObjectiveFields,
   SloScopeFields,
+  SloTimezoneFields,
   TimeStampFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
@@ -161,8 +163,6 @@ export function getIndicatorFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
 }
 
 export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloObjectiveFields {
-  const toggleTimezoneField = !sloConfig.timeWindow.timezone || sloConfig.timeWindow.timezone === utcLabel;
-  const timezoneName = sloConfig.timeWindow.timezone ?? '';
   return {
     target: createField<number | undefined>({
       value: sloConfig.target,
@@ -177,8 +177,10 @@ export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
       items: getDefaultTimestampFields(sloConfig)
     }),
     type: createField({ value: sloConfig.timeWindow.type }),
-    bindTimezone: createField({ value: !toggleTimezoneField }),
-    timezone: createField({ value: buildTimezoneFromLocationName(timezoneName) })
+    timezone: createMapForm<SloTimezoneFields>({
+      items: getDefaultTimezoneFields(sloConfig),
+      validator: timezoneValidator
+    })
   };
 }
 
@@ -203,6 +205,15 @@ export function getDefaultTimestampFields(sloConfig: ServiceLevelObjectiveConfig
       value: formatTime(timeStamp)!,
       validator: timeFieldValidator
     })
+  };
+}
+
+export function getDefaultTimezoneFields(sloConfig: ServiceLevelObjectiveConfiguration) {
+  const toggleTimezoneField = !sloConfig.timeWindow.timezone || sloConfig.timeWindow.timezone === utcLabel;
+  const timezoneName = sloConfig.timeWindow.timezone ?? '';
+  return {
+    bind: createField({ value: !toggleTimezoneField }),
+    zone: createField({ value: buildTimezoneFromLocationName(timezoneName) })
   };
 }
 

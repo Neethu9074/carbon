@@ -12,7 +12,8 @@ import { generateStableHash } from '@instana/utils';
 import type {
   CustomBlueprintType,
   SloIndicatorFields,
-  SloObjectiveFields
+  SloObjectiveFields,
+  SloTimezoneFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { isEmptyExpression, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
@@ -36,8 +37,8 @@ export const inputNotUndefinedValidator = (v: any): ValidationResult => {
   return undefined;
 };
 
-export function validateTimeWindowAndZone(timeWindow: SloObjectiveFields): ValidationResult {
-  const { duration, durationUnit, bindTimezone, timezone } = timeWindow;
+export function validateTimeWindow(timeWindow: SloObjectiveFields): ValidationResult {
+  const { duration, durationUnit } = timeWindow;
 
   if (duration === undefined || !durationUnit) return;
 
@@ -68,12 +69,16 @@ export function validateTimeWindowAndZone(timeWindow: SloObjectiveFields): Valid
     ];
   }
 
-  if (bindTimezone?.value && (!timezone?.value || timezone?.value.trim() === '' || timezone?.value === utcLabel)) {
+  return;
+}
+
+export function validateTimezone(timezone: SloTimezoneFields): ValidationResult {
+  const { bind, zone } = timezone;
+  if (bind?.value && (!zone?.value || zone?.value.trim() === '' || zone?.value === utcLabel)) {
     return [
       {
         severity: 'error',
-        message: t('in-services:validators.theValueMustNotBeBlank'),
-        path: 'timezone'
+        message: t('in-services:validators.theValueMustNotBeBlank')
       }
     ];
   }
@@ -157,7 +162,8 @@ export const indicatorFormValidator = composeAndShortCircuitOnError(
   noEmptyCustomGoodFilterExpressions,
   noEqualCustomTagFilterExpressions
 );
-export const timeWindowValidator = composeAndShortCircuitOnError(validateTimeWindowAndZone);
+export const timeWindowValidator = composeAndShortCircuitOnError(validateTimeWindow);
+export const timezoneValidator = composeAndShortCircuitOnError(validateTimezone);
 
 export function noInvalidTagFilterExpression(tagFilterExpression: FormModelElement[]): ValidationResult {
   try {

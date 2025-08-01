@@ -15,7 +15,8 @@ import {
   timeWindowValidator,
   noInvalidTagFilterExpression,
   noBlankEntitySelection,
-  indicatorFormValidator
+  indicatorFormValidator,
+  timezoneValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
   createIndicatorOperatorField,
@@ -75,6 +76,13 @@ export const getDefaultTimeFields = () => {
   };
 };
 
+export const getDefaultTimezoneFields = () => {
+  return {
+    bind: createField<boolean>({ value: false }),
+    zone: createField<string>({ value: '' })
+  };
+};
+
 export const getDefaultObjectiveFields = (): SloObjectiveFields => ({
   target: createField<number | undefined>({
     value: undefined,
@@ -87,8 +95,7 @@ export const getDefaultObjectiveFields = (): SloObjectiveFields => ({
   durationUnit: createField<DurationUnitType>({ value: 'week' }),
   startTimestamp: createMapForm({ items: getDefaultTimeFields() }),
   type: createField<TimeWindowType>({ value: 'fixed' }),
-  bindTimezone: createField<boolean>({ value: false }),
-  timezone: createField<string>({ value: '' })
+  timezone: createMapForm({ items: getDefaultTimezoneFields(), validator: timezoneValidator })
 });
 
 export const createDefaultSloForm = (entityType: SloEntityType): SloForm => {
