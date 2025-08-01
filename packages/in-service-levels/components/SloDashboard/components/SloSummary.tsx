@@ -67,7 +67,9 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { trackCta } = useSegmentTracking();
 
   const openEditDialog = () => {
-    addActiveDialog(<ConfigureSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);
+    addActiveDialog(
+      <ConfigureSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} isEditTimezone />
+    );
   };
 
   useEffect(() => {
