@@ -28,6 +28,7 @@ import {
   SHARE_AND_INVITE_CLOSED,
   SHARE_AND_INVITE_COPY_LINK,
   SHARE_AND_INVITE_NEW_GROUP,
+  SHARE_AND_INVITE_NEW_ROLE,
   SHARE_AND_INVITE_SUBMIT,
   SHARE_AND_INVITE_TRIGGERED
 } from 'in-services/tracking/eventNames';
@@ -489,13 +490,15 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                           : securityAndAccessAccessControlGroupNew
                       )}
                       onClick={() => {
-                        addActiveDialog(
-                          <EditRoleDialog
-                            mode={FORM_MODE.NEW}
-                            formValues={{ permissions: [...LEAST_ROLE_PERMISSIONS] }}
-                          />
-                        );
-                        trackCta(SHARE_AND_INVITE_NEW_GROUP);
+                        if (isRbacTeamsAvailable) {
+                          addActiveDialog(
+                            <EditRoleDialog
+                              mode={FORM_MODE.NEW}
+                              formValues={{ permissions: [...LEAST_ROLE_PERMISSIONS] }}
+                            />
+                          );
+                        }
+                        trackCta(isRbacTeamsAvailable ? SHARE_AND_INVITE_NEW_ROLE : SHARE_AND_INVITE_NEW_GROUP);
                       }}
                     >
                       {isRbacTeamsAvailable
