@@ -29,7 +29,7 @@ const handleCases = (key: string, cases: any) => {
   if (handler) {
     return handler();
   } else {
-    return undefined;
+    return null;
   }
 };
 
