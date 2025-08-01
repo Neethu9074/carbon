@@ -28,8 +28,8 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
-import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { getTest, updateTest, getLocations } from 'in-synthetics/api';
+import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import getTabs from 'in-synthetics/dashboards/summary/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -56,6 +56,8 @@ const SyntheticSummaryDashboard = () => {
 
   const syntheticLocationList: Result<SyntheticLocation[]> =
     useObservable<any, any[]>(() => getLocations(), []) ?? pendingResult;
+  // Check if locations are still loading by comparing with pendingResult
+  const isLocationsLoading = syntheticLocationList.progress.loading;
   const onlineLocations: SyntheticLocation[] =
     syntheticLocationList.data?.filter(
       loc =>
@@ -75,7 +77,8 @@ const SyntheticSummaryDashboard = () => {
     setDataScope,
     showDatascopeDropdown,
     viewPath: syntheticsDashboard,
-    onlineLocations
+    onlineLocations,
+    isLocationsLoading
   };
 
   function trackSyntheticTabChange(tab: string) {
@@ -191,9 +194,10 @@ interface RenderButtonLineProps {
   test: TestResponse;
   setReloadCount: React.Dispatch<React.SetStateAction<number>>;
   onlineLocations: SyntheticLocation[];
+  isLocationsLoading: boolean;
 }
 
-const RenderButtonLine = ({ test, setReloadCount, onlineLocations }: RenderButtonLineProps) => {
+const RenderButtonLine = ({ test, setReloadCount, onlineLocations, isLocationsLoading }: RenderButtonLineProps) => {
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
   const totalLocations: number = test.data?.locations?.length ?? 0;
@@ -246,8 +250,12 @@ const RenderButtonLine = ({ test, setReloadCount, onlineLocations }: RenderButto
       {syntheticRunNowEnabled && (
         <CreateSyntheticOnDemandTest
           testId={test.data?.id!}
-          testLocations={test.data?.locations ?? []}
+          testLocations={
+            test.data?.locations?.filter(testLocId => onlineLocations.some(onlineLoc => onlineLoc.id === testLocId)) ??
+            []
+          }
           onlineLocations={onlineLocations}
+          isLocationsLoading={isLocationsLoading}
         />
       )}
     </>

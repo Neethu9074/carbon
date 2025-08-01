@@ -13,7 +13,15 @@ import CreateSyntheticOnDemandTestDialog from 'in-synthetics/createTests/dialog/
 import { CreateSyntheticOnDemandProps } from 'in-synthetics/utils/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
-const CreateSyntheticOnDemandTest = ({ testId, testLocations, onlineLocations }: CreateSyntheticOnDemandProps) => {
+interface CreateSyntheticOnDemandTestProps extends CreateSyntheticOnDemandProps {
+  isLocationsLoading?: boolean;
+}
+const CreateSyntheticOnDemandTest = ({
+  testId,
+  testLocations,
+  onlineLocations,
+  isLocationsLoading = false
+}: CreateSyntheticOnDemandTestProps) => {
   const handleClick = () => {
     addActiveDialog(
       <CreateSyntheticOnDemandTestDialog
@@ -25,7 +33,12 @@ const CreateSyntheticOnDemandTest = ({ testId, testLocations, onlineLocations }:
   };
 
   return (
-    <Button onClick={handleClick} icon="ib_synthetic_run_now" kind="secondary">
+    <Button
+      onClick={handleClick}
+      icon="ib_synthetic_run_now"
+      kind="secondary"
+      disabled={isLocationsLoading || onlineLocations?.length === 0}
+    >
       {t('in-synthetics:dialog.createOnDemandTest.buttonLabel')}
     </Button>
   );
