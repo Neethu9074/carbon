@@ -21,6 +21,7 @@ import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
 import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
+import { timezoneNotificationDismissedKey, utcLabel } from 'in-service-levels/constants';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import type { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -28,7 +29,6 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { utcLabel } from 'in-service-levels/constants';
 import type { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -60,9 +60,10 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const sloTimezone = timeWindow.timezone || utcLabel;
   const isTimezoneBound = sloTimezone && sloTimezone !== utcLabel;
   const isTimezoneMismatch = buildTimezoneFromLocationName(sloTimezone) !== getCurrentFormattedTimezone();
-  const [isTimezoneNotificationVisible, setTimezoneNotificationVisible] = useState(
-    isTimezoneBound && isTimezoneMismatch
-  );
+  const [isTimezoneNotificationVisible, setTimezoneNotificationVisible] = useState(() => {
+    const dismissed = localStorage.getItem(timezoneNotificationDismissedKey);
+    return !dismissed && isTimezoneBound && isTimezoneMismatch;
+  });
 
   const { trackCta } = useSegmentTracking();
 
@@ -97,7 +98,10 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
             inline
             actionButtonLabel={t('in-service-levels:sloChart.sloChartSummary.editSloTimezone')}
             onActionButtonClick={openEditDialog}
-            onCloseButtonClick={() => setTimezoneNotificationVisible(false)}
+            onCloseButtonClick={() => {
+              localStorage.setItem(timezoneNotificationDismissedKey, 'true');
+              setTimezoneNotificationVisible(false);
+            }}
             kind="info"
             lowContrast
             title={t('in-service-levels:sloChart.sloChartSummary.sloCreatedTimezone', { sloTimezone })}
