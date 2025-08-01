@@ -855,6 +855,7 @@
     },
     "roleMapping": {
       "description": "Create mapping rules that define which Identity Provider (IdP) attributes are mapped to which Instana role. This setup can help significantly reduce your user management workload.<br/><br/> You can delete Identity provider configuration through the API using a token with enough permissions. See <docLink>configuring authentication</docLink> for details.",
+      "deleteEntityDisabled": "Delete {{entity}} is disabled if only one mapping rule exists and deny access when no mapping found is checked.",
       "keyColumn": "Key",
       "newMappingRule": "Create mapping rule",
       "restrictEmptyIdpRolesFailedToSave": "Failed to save IdP deny access without mapping: {{err}}",
