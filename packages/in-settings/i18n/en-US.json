@@ -523,7 +523,6 @@
       "accessControlRoleManagementHelpText": "Permits configuration and management of roles.",
       "accessControlTeamScopeManagementCheckboxLabel": "Team scope management",
       "accessControlTeamScopeManagementHelpText": "Permits configuration of team access scope (and tags).",
-      "accessControlConfigApiTokensHelpText": "Permits creation and configuration of API token.",
       "roleSuccessfullySaved": "Role successfully saved."
     },
     "scope": {
