@@ -9,7 +9,6 @@ import { List, Map } from 'immutable';
 import { useObservable } from '@instana/hooks';
 
 import PrepareClrLoggingEnvironmentButton from 'in-forge/plugins/netCoreRuntimePlatform/Logging/PrepareClrLoggingEnvironmentButton';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
 import { analyzeRelatedInstancesButtonEnabled, vulnerabilityCenterEnabled } from 'in-services/featureFlags';
 import DownloadClrLogButton from 'in-forge/plugins/netCoreRuntimePlatform/Logging/DownloadClrLogButton';
@@ -34,7 +33,6 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './DashboardHeader.mless';
 
@@ -43,12 +41,11 @@ function DashboardHeader(props) {
   const { location } = useNavigation();
   const { trackAnalyzeInfrastructureButtonClicked: trackAnalyzeRelatedInstancesButtonClicked } = useSegmentTracker();
    const [prepareClrLoggingEnvironmentButtonClicked, setPrepareClrLoggingEnvironmentButtonClicked] = useState(false);
-   const isInternalVisible = useObservable(() => isInternalVisible$, []);
-   const agentSnapshot = useObservable(() => {
-    return isInternalVisible$
-      .flatMap(enabled => (enabled ? getAgentSnapshotId(snapshot) : alwaysNull))
-      .flatMap(agentSnapshotId => (agentSnapshotId ? getSnapshot(agentSnapshotId) : alwaysNull));
+  const agentSnapshot = useObservable(() => {
+  return getAgentSnapshotId(snapshot)
+    .flatMap(agentSnapshotId => (agentSnapshotId ? getSnapshot(agentSnapshotId) : alwaysNull));
   }, [snapshot]);
+
 
   return (
     <>
