@@ -33,10 +33,10 @@ interface Row {
 const cols = [
   {
     title: t('in-forge:plugins.mapRCluster.nodeName'),
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row: Row) {
-        return row.snapshot.getIn(['data', 'nodeName']);
+      getSnapshotId(row: Row) {
+        return row.snapshotId;
       }
     }
   },
