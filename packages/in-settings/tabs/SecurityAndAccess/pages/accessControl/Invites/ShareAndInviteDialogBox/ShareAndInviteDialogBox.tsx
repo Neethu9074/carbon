@@ -44,20 +44,28 @@ import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-components/tim
 import { useShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
 // eslint-disable-next-line no-restricted-imports
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
+import {
+  securityAndAccessAccessControlGroupNew,
+  securityAndAccessAccessControlRoles
+} from 'in-settings/navigation/paths';
+import { LEAST_ROLE_PERMISSIONS } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.constants';
+import EditRoleDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog';
 import { onDoInviteUser } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InviteUserButton';
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 // @ts-expect-error file needs TS migration
 import { getUnitKeys } from 'in-api/unitKeys';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig } from 'in-stores/time/config';
-import { securityAndAccessAccessControlGroupNew } from 'in-settings/navigation/paths';
+import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ComboBox, { Option, Options } from 'in-components/ComboBox/ComboBox';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
@@ -66,7 +74,6 @@ import { newOTelPageEnabled } from 'in-services/featureFlags';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import TextArea from 'in-components/form/TextArea/TextArea';
-import { close } from 'in-components/DialogPresenter/store';
 import { successObservable } from 'in-services/util/result';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -217,6 +224,7 @@ const onSubmitInvitation = (props: OnSubmitProps) => {
 
 const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAndInviteDialogBoxProps) => {
   const [role] = useCurrentUserRole();
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const { location, createHref, createHrefToPath } = useNavigation();
   const clonedLocation = cloneLocation(location);
 
@@ -228,9 +236,10 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
 
   const urlResult: ShortUrlProps | undefined | null = useObservable(getShortUrl({ fixateTime }), [fixateTime]);
   const shortUrl = urlResult?.data?.shortUrl;
-  const groups: any =
-    useObservable(role?.canConfigureTeams ? getStrippedGroupsAsResultObservable : successObservable, []) ??
-    pendingResult;
+  const groups =
+    useObservable(role.canConfigureTeams ? getStrippedGroupsAsResultObservable : successObservable, [
+      role.canConfigureTeams
+    ]) ?? pendingResult;
   let timeConfig = useTimeConfig();
   const unitKeys: UnitKeysProps | undefined | null = useObservable(getUnitKeys(), []);
   const pendingInvitationResult = useObservable(getInvitations$, []) ?? pendingResult;
@@ -388,10 +397,23 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                     {(invite.get('groupId') as Field<string>).map((field: Field<string>) => (
                       <Col xs={4}>
                         <Fields
-                          helpText={index === 0 ? t('in-settings:ShareAndInviteDialogBox.group') : null}
+                          helpText={
+                            index === 0
+                              ? isRbacTeamsAvailable
+                                ? t('in-settings:ShareAndInviteDialogBox.role')
+                                : t('in-settings:ShareAndInviteDialogBox.group')
+                              : null
+                          }
                           helpTextIcon={
                             index === 0 ? (
-                              <Tooltip content={t('in-settings:ShareAndInviteDialogBox.groupToolTip')} align="auto">
+                              <Tooltip
+                                content={
+                                  isRbacTeamsAvailable
+                                    ? t('in-settings:ShareAndInviteDialogBox.roleToolTip')
+                                    : t('in-settings:ShareAndInviteDialogBox.groupToolTip')
+                                }
+                                align="auto"
+                              >
                                 <SvgIcon size="xxs" type="lib_help_error_info_outline" />
                               </Tooltip>
                             ) : null
@@ -461,12 +483,24 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                       icon="lib_openclose_add_circle_outline"
                       iconSize="s"
                       kind="action"
-                      href={createHrefToPath(securityAndAccessAccessControlGroupNew)}
+                      href={createHrefToPath(
+                        isRbacTeamsAvailable
+                          ? securityAndAccessAccessControlRoles
+                          : securityAndAccessAccessControlGroupNew
+                      )}
                       onClick={() => {
+                        addActiveDialog(
+                          <EditRoleDialog
+                            mode={FORM_MODE.NEW}
+                            formValues={{ permissions: [...LEAST_ROLE_PERMISSIONS] }}
+                          />
+                        );
                         trackCta(SHARE_AND_INVITE_NEW_GROUP);
                       }}
                     >
-                      {t('in-settings:ShareAndInviteDialogBox.newGroup')}
+                      {isRbacTeamsAvailable
+                        ? t('in-settings:ShareAndInviteDialogBox.newRole')
+                        : t('in-settings:ShareAndInviteDialogBox.newGroup')}
                     </Button>
                   </Col>
                 )}
