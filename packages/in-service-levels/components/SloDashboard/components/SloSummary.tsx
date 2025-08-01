@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Grid, Column } from '@instana/carbon';
+import { Grid, Column, ActionableNotification } from '@instana/carbon';
 import { Message } from '@instana/components';
 
 import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+import { buildTimezoneFromLocationName, getCurrentFormattedTimezone } from 'in-service-levels/utils/timezone';
 import ErrorBudgetKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/ErrorBudgetKpiCard';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
 import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/SloStatusKpiCard';
@@ -19,10 +20,15 @@ import BurnRateChart from 'in-service-levels/components/SloDashboard/components/
 import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/TrafficKpiCard';
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
+import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
+import { getTimezoneNotificationDismissedKey, utcLabel } from 'in-service-levels/constants';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import type { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import type { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -43,12 +49,29 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 }
 
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
+  const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
+
   const { configuration } = data;
 
   const { timeWindows, progress } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
+  const { id, timeWindow } = configuration;
+  const sloTimezone = timeWindow.timezone || utcLabel;
+  const isTimezoneBound = sloTimezone && sloTimezone !== utcLabel;
+  const isTimezoneMismatch = buildTimezoneFromLocationName(sloTimezone) !== getCurrentFormattedTimezone();
+  const [isTimezoneNotificationVisible, setTimezoneNotificationVisible] = useState(() => {
+    const isDismissed = localStorage.getItem(getTimezoneNotificationDismissedKey(id!));
+    return !isDismissed && isTimezoneBound && isTimezoneMismatch;
+  });
+
   const { trackCta } = useSegmentTracking();
+
+  const openEditDialog = () => {
+    addActiveDialog(
+      <ConfigureSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} isEditTimezone />
+    );
+  };
 
   useEffect(() => {
     const { indicator, timeWindow, entity } = configuration;
@@ -69,6 +92,26 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
           </Message>
         </Column>
       )}
+      {isTimezoneNotificationVisible && (
+        <Column span="100%" className={locals.toastContainer}>
+          <ActionableNotification
+            inline
+            actionButtonLabel={t('in-service-levels:sloChart.sloChartSummary.editSloTimezone')}
+            onActionButtonClick={openEditDialog}
+            onCloseButtonClick={() => {
+              localStorage.setItem(getTimezoneNotificationDismissedKey(id!), 'true');
+              setTimezoneNotificationVisible(false);
+            }}
+            kind="info"
+            lowContrast
+            title={t('in-service-levels:sloChart.sloChartSummary.sloCreatedTimezone', { sloTimezone })}
+            subtitle={t('in-service-levels:sloChart.sloChartSummary.currentTimezone', {
+              timezone: getCurrentFormattedTimezone()
+            })}
+          />
+        </Column>
+      )}
+
       <Column sm={4} lg={8}>
         <TimeWindowCard configuration={configuration} />
       </Column>

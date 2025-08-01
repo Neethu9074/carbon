@@ -33,4 +33,10 @@
   .selectField {
     width: auto;
   }
+
+  .timeWindowContainer {
+    :global .li-itemContent {
+      padding-top: 0.3rem;
+    }
+  }
 }

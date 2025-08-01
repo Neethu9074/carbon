@@ -58,7 +58,8 @@ export const mockSlo1: ServiceLevelObjectiveConfiguration = {
     type: 'fixed',
     duration: 2,
     durationUnit: 'week',
-    startTimestamp: 1719340200000
+    startTimestamp: 1719340200000,
+    timezone: ''
   },
   tags: []
 };
@@ -115,7 +116,8 @@ export const mockSlo2: ServiceLevelObjectiveConfiguration = {
     type: 'fixed',
     duration: 1,
     durationUnit: 'week',
-    startTimestamp: 1718143200000
+    startTimestamp: 1718143200000,
+    timezone: ''
   },
   tags: ['NewTag']
 };
@@ -172,7 +174,8 @@ export const mockSlo3: ServiceLevelObjectiveConfiguration = {
     type: 'fixed',
     duration: 1,
     durationUnit: 'day',
-    startTimestamp: 1696370400000
+    startTimestamp: 1696370400000,
+    timezone: ''
   },
   tags: ['test2']
 };
@@ -229,7 +232,8 @@ export const mockSlo4: ServiceLevelObjectiveConfiguration = {
     type: 'fixed',
     duration: 1,
     durationUnit: 'minute',
-    startTimestamp: 1708540200000
+    startTimestamp: 1708540200000,
+    timezone: ''
   },
   tags: ['AndreiK']
 };

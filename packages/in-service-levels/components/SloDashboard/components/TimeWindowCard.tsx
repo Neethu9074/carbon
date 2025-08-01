@@ -12,6 +12,7 @@ import { Card, Stack, Typography } from '@instana/components';
 import { isFixedTimeWindow } from '@instana/types';
 import { Tag } from '@instana/carbon';
 
+import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 interface TimeWindowCardProps {
@@ -23,6 +24,8 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
   const { duration, durationUnit, type } = timeWindow;
   const startDay = isFixedTimeWindow(timeWindow) && formatDateShort(timeWindow.startTimestamp);
   const startTime = isFixedTimeWindow(timeWindow) && formatTimeWithoutSeconds(timeWindow.startTimestamp);
+
+  const sloTimezone = timeWindow.timezone || utcLabel;
 
   return (
     <Card size="s">
@@ -46,6 +49,7 @@ export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
               })}
             </Tag>
           )}
+          <Tag size="sm">{t('in-service-levels:sloChart.sloChartSummary.timezone', { sloTimezone })}</Tag>
         </Stack>
       </Stack>
     </Card>

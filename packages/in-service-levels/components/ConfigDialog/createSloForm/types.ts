@@ -42,6 +42,7 @@ export type SloIndicatorForm = MapForm<SloIndicatorFields>;
 export type SloObjectiveForm = MapForm<SloObjectiveFields>;
 export type SloTimeWindowForm = MapForm<SloTimeWindowFields>;
 export type SloNameTagsForm = MapForm<SloNameTagsFields>;
+export type SloTimezoneForm = MapForm<SloTimezoneFields>;
 
 export type SloTargetFields = {
   target: Field<number | undefined>;
@@ -79,6 +80,7 @@ export type SloObjectiveFields = {
   durationUnit: Field<DurationUnitType>;
   startTimestamp: MapForm<TimeStampFields>;
   type: Field<TimeWindowType>;
+  timezone: MapForm<SloTimezoneFields>;
 };
 
 export type SloTimeWindowFields = {
@@ -96,4 +98,9 @@ export type SloNameTagsFields = {
 export type TimeStampFields = {
   date: Field<string>;
   time: Field<string>;
+};
+
+export type SloTimezoneFields = {
+  bind: Field<boolean>;
+  zone: Field<string>;
 };
