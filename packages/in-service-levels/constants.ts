@@ -70,4 +70,4 @@ export const utcLabel = 'UTC';
 
 export const objectiveSelectFieldScrollId = '3-select-objective';
 
-export const timezoneNotificationDismissedKey = 'timezoneNotificationDismissed';
+export const getTimezoneNotificationDismissedKey = (sloId: string) => `timezoneNotificationDismissed-${sloId}`;

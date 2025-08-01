@@ -21,7 +21,7 @@ import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
 import ConfigureSloDialog from 'in-service-levels/components/ConfigDialog/ConfigureSloDialog';
-import { timezoneNotificationDismissedKey, utcLabel } from 'in-service-levels/constants';
+import { getTimezoneNotificationDismissedKey, utcLabel } from 'in-service-levels/constants';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import type { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -56,13 +56,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { timeWindows, progress } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
-  const { timeWindow } = configuration;
+  const { id, timeWindow } = configuration;
   const sloTimezone = timeWindow.timezone || utcLabel;
   const isTimezoneBound = sloTimezone && sloTimezone !== utcLabel;
   const isTimezoneMismatch = buildTimezoneFromLocationName(sloTimezone) !== getCurrentFormattedTimezone();
   const [isTimezoneNotificationVisible, setTimezoneNotificationVisible] = useState(() => {
-    const dismissed = localStorage.getItem(timezoneNotificationDismissedKey);
-    return !dismissed && isTimezoneBound && isTimezoneMismatch;
+    const isDismissed = localStorage.getItem(getTimezoneNotificationDismissedKey(id!));
+    return !isDismissed && isTimezoneBound && isTimezoneMismatch;
   });
 
   const { trackCta } = useSegmentTracking();
@@ -99,7 +99,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
             actionButtonLabel={t('in-service-levels:sloChart.sloChartSummary.editSloTimezone')}
             onActionButtonClick={openEditDialog}
             onCloseButtonClick={() => {
-              localStorage.setItem(timezoneNotificationDismissedKey, 'true');
+              localStorage.setItem(getTimezoneNotificationDismissedKey(id!), 'true');
               setTimezoneNotificationVisible(false);
             }}
             kind="info"
