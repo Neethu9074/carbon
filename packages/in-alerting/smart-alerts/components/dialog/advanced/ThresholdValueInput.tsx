@@ -47,8 +47,10 @@ export default function ThresholdValueInput({
   ...props
 }: ThresholdValueInputProps) {
   const onValueChange = (targetValue: number | string | null) => {
-    const value = targetValue != null ? shiftDecimalLeft(targetValue, roundDecimalPlaces, percentageMetric) : null;
-
+    const value =
+      targetValue != null && targetValue != ''
+        ? shiftDecimalLeft(targetValue, roundDecimalPlaces, percentageMetric)
+        : null;
     if (updateForm) {
       const updatedForm = getUpdatedForm
         ? getUpdatedForm(value as any)
