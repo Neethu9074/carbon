@@ -17,14 +17,14 @@ export function ExternalNote({ noteObj }) {
   const slack = isSlack(noteObj?.origin);
   return (
     <>
-      {(snow || teams) && (
+      {snow && (
         <>
           <div className={locals.noteTypeHeading}>{`${noteObj?.label}`}</div>
           {`${noteObj.author}: `}
           <div className={locals.contents}>{contents}</div>
         </>
       )}
-      {slack && (
+      {(slack || teams) && (
         <div className={locals.noteTypeHeading}>
           {`${noteObj.author}`}
           <div className={locals.contents}>{`${contents}`}</div>
