@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { ChatInstance } from '@instana/ai-chat';
 import { Tag } from '@instana/carbon';
 
 import { EVENT_AI_LIBRARY_RESPONSE_OPEN } from 'in-services/tracking/tracking';
@@ -15,11 +16,7 @@ import { t } from 'in-i18n';
 import locals from './PromptLibraryResponse.mless';
 
 interface PromptLibraryResponseProps {
-  instance: {
-    customPanels: {
-      getPanel: Function;
-    };
-  };
+  instance: ChatInstance;
 }
 
 export default function PromptLibraryResponse({ instance }: PromptLibraryResponseProps) {

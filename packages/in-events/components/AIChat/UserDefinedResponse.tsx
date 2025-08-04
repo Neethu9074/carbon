@@ -8,6 +8,7 @@ import React from 'react';
 
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/TableComponents/TableChartSwitcher';
+import OptionsResponse from 'in-events/components/AIChat/CustomResponse/OptionsResponse';
 import ThumbsFeedback from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import EventsTable from 'in-events/components/AIChat/TableComponents/EventsTable';
 import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
@@ -56,6 +57,7 @@ const UserDefinedResponse: React.FC<UserDefinedResponseProps> = ({
   // managed in this file.
   const cases: Cases = {
     prompt_library: () => <PromptLibraryResponse instance={instance} />,
+    option_buttons: () => <OptionsResponse messageItem={messageItem} instance={instance} />,
     table_chart: () => <TableChartSwitcher messageItem={messageItem} />,
     nlg_response: () => <NLGResponse messageItem={messageItem} />,
     events_table: () => <EventsTable messageItem={messageItem} />,

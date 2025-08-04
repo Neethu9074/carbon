@@ -7,9 +7,11 @@ import { ChatInstance, MessageRequest, MessageResponseTypes, TextItem, UserDefin
 
 import { TableHeader, TableRow } from 'in-events/components/AIChat/TableComponents/useTableState';
 import { AdditionalInfoObject } from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
+import { Option } from 'in-events/components/AIChat/CustomResponse/OptionsResponse';
 import { t } from 'in-i18n';
 
 export const USER_DEFINED_PROMPT_LIBRARY = 'prompt_library';
+export const USER_DEFINED_OPTION_BUTTONS = 'option_buttons';
 export const USER_DEFINED_THUMBS_FEEDBACK = 'thumbs_feedback';
 export const USER_DEFINED_NLG_RESPONSE = 'nlg_response';
 export const USER_DEFINED_TABLE_CHART = 'table_chart';
@@ -72,6 +74,17 @@ export function NLGResponseObject(nlgResponse: string): UserDefinedItem {
     user_defined: {
       user_defined_type: USER_DEFINED_NLG_RESPONSE,
       text: nlgResponse
+    }
+  };
+}
+
+// ThumbsFeedback object definition taking in the nlg text response
+export function OptionsButtonObject(options: Option[]): UserDefinedItem {
+  return {
+    response_type: MessageResponseTypes.USER_DEFINED,
+    user_defined: {
+      user_defined_type: USER_DEFINED_OPTION_BUTTONS,
+      options: options
     }
   };
 }

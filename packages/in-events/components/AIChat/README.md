@@ -162,6 +162,7 @@ The AIChat component comes with several pre-built response types that you can le
 - `nlg_response`: Displays a natural language generation response
 - `events_table`: Displays an events table with specialized formatting
 - `thumbs_feedback`: Displays a thumbs up/down feedback component
+- `option_buttons`: Displays customizable option buttons for user interaction
 
 These built-in response types are already implemented and can be used directly. You can examine their implementations in the following files:
 
@@ -170,6 +171,7 @@ These built-in response types are already implemented and can be used directly. 
 - `NLGResponse.tsx`: For natural language generation responses
 - `EventsTable.tsx`: For events table responses
 - `ThumbsFeedback.tsx`: For feedback collection
+- `OptionsResponse.tsx`: For option buttons responses
 
 ### Leveraging and Contributing to Response Types
 
