@@ -1385,6 +1385,22 @@ function EventsAndAlertsSection() {
         }}
       />
       <CarbonCheckbox
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_INVOKE_ALERT_CHANNEL])}
+        id="rbac-role-events-and-alerts-invoke-alert-channel"
+        labelText={t('in-settings:dialogs.role.permissionLabel', {
+          context: Capability.CAN_INVOKE_ALERT_CHANNEL
+        })}
+        onChange={(_e, { checked: enabled }) => {
+          const updatedPermissions = togglePermissions({
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_INVOKE_ALERT_CHANNEL],
+            toRemoveOnDisabled: [Capability.CAN_INVOKE_ALERT_CHANNEL]
+          });
+          updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
+        }}
+      />
+      <CarbonCheckbox
         checked={containsAnyPermission(permissionsField.value, [Capability.CAN_MANUALLY_CLOSE_ISSUE])}
         id="rbac-role-events-and-alerts-manually-close"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -1555,6 +1571,22 @@ function AccessControlSection() {
       className={classNames([locals.checkboxGroup, locals.checkboxGroupWithoutLegendText])}
     >
       <CarbonCheckbox
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_USERS])}
+        id="rbac-role-access-control-config-users"
+        labelText={t('in-settings:dialogs.role.permissionLabel', {
+          context: Capability.CAN_CONFIGURE_USERS
+        })}
+        onChange={(_e, { checked: enabled }) => {
+          const updatedPermissions = togglePermissions({
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_USERS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_USERS]
+          });
+          updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
+        }}
+      />
+      <CarbonCheckbox
         checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_TEAMS])}
         id="rbac-role-access-control-config-teams"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -1608,27 +1640,22 @@ function AccessControlSection() {
       {/*     }} */}
       {/*   /> */}
       {/* </CarbonCheckboxGroup> */}
-      <CarbonCheckboxGroup
-        legendText=""
-        helperText={t('in-settings:dialogs.role.accessControlConfigApiTokensHelpText')}
-      >
-        <CarbonCheckbox
-          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_API_TOKENS])}
-          id="rbac-role-access-control-config-api-tokens"
-          labelText={t('in-settings:dialogs.role.permissionLabel', {
-            context: Capability.CAN_CONFIGURE_API_TOKENS
-          })}
-          onChange={(_e, { checked: enabled }) => {
-            const updatedPermissions = togglePermissions({
-              current: permissionsField.value,
-              enabled,
-              toAddOnEnabled: [Capability.CAN_CONFIGURE_API_TOKENS],
-              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_API_TOKENS]
-            });
-            updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
-          }}
-        />
-      </CarbonCheckboxGroup>
+      <CarbonCheckbox
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_API_TOKENS])}
+        id="rbac-role-access-control-config-api-tokens"
+        labelText={t('in-settings:dialogs.role.permissionLabel', {
+          context: Capability.CAN_CONFIGURE_API_TOKENS
+        })}
+        onChange={(_e, { checked: enabled }) => {
+          const updatedPermissions = togglePermissions({
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_API_TOKENS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_API_TOKENS]
+          });
+          updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
+        }}
+      />
       <CarbonCheckbox
         checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS])}
         id="rbac-role-access-control-config-auth-methods"

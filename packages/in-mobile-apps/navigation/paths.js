@@ -81,6 +81,8 @@ export const configurationSymbolFiles = '/symbolFiles';
 export const configurationSymbolFilesFullyQualified = `${configurationTabFullyQualified}${configurationSymbolFiles}`;
 export const configurationCustomGeoDetails = '/customGeoDetails';
 export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFullyQualified}${configurationCustomGeoDetails}`;
+export const configurationTeams = '/teams';
+export const configurationTeamsFullyQualified = `${configurationTabFullyQualified}${configurationTeams}`;
 
 export const alertsTabListFullyQualified = `${mobileAppPathFullyQualified}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;

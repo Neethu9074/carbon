@@ -24,12 +24,8 @@ export default function DiskUsageChart({ snapshot, timeConfig }: { snapshot: Sna
         snapshotId={snapshotId}
         timeConfig={timeConfig}
         y1={{
-          metrics: ['metrics.disk.diskTotalSpace', 'metrics.disk.diskUsedSpace', 'metrics.disk.diskAvailableSpace'],
-          labels: [
-            t('in-forge:plugins.maprNode.totalSpace'),
-            t('in-forge:plugins.maprNode.usedSpace'),
-            t('in-forge:plugins.maprNode.availableSpace')
-          ],
+          metrics: ['metrics.disk.diskUsedSpace', 'metrics.disk.diskAvailableSpace'],
+          labels: [t('in-forge:plugins.maprNode.usedSpace'), t('in-forge:plugins.maprNode.availableSpace')],
           type: 'line',
           formatter: megaBytes.detailed
         }}

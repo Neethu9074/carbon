@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 import React from 'react';
-
 import { Typography } from '@instana/components';
 import { Stack } from '@instana/carbon';
+
 
 import locals from './ContentSection.mless';
 

@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { Collapsible } from '@instana/components';
+
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Info from 'in-forge/plugins/mapRNode/Info';
 import { t } from 'in-i18n';

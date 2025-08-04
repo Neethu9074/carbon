@@ -9,7 +9,6 @@ import { CarbonTag, keyCodes } from '@instana/components';
 
 import { selectedSnapshotId, setSelectedSnapshotId } from 'in-stores/snapshot';
 import { setMapSidebarFocused } from 'in-map/components/MapSidebar/focus';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -30,7 +29,6 @@ export default createStickyNote(
       const { isReturn } = keyCodes;
 
       let label;
-      const { location, navigate } = useNavigation();
       if (snapshot) {
         label = getLabel(snapshot);
       } else if (id.indexOf('grouping=') === 0) {
@@ -40,7 +38,7 @@ export default createStickyNote(
       }
 
       const handleClick = () => {
-        setSelectedSnapshotId(id, location, navigate);
+        setSelectedSnapshotId(id);
       };
 
       const handleKeyDown = e => {

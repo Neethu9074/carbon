@@ -82,8 +82,8 @@ function parseTrigger(policy: PolicyFormEntity, triggers: Triggers): { triggerId
   }
 
   return {
-    triggerType: policy.trigger.type,
-    triggerId: policy.trigger.id
+    triggerType: policy.trigger.type ?? 'builtinEvent',
+    triggerId: policy.trigger.id ?? ''
   };
 }
 

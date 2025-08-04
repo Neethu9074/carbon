@@ -94,7 +94,8 @@
       "traces": "Traces",
       "crashes": "Crashes",
       "perf": "Performance",
-      "dropBeacon": "Dropped beacons"
+      "dropBeacon": "Dropped beacons",
+      "customEntities": "Custom entities"
     }
   },
   "traceDetail": {

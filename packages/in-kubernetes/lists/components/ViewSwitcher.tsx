@@ -8,16 +8,15 @@ import React from 'react';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 
 import {
-  clusterListFullyQualified,
-  namespaceListFullyQualified,
-  exploreFullyQualified,
-  clusterOtelListFullyQualified,
-  containerDashboardFullyQualified
-} from 'in-kubernetes/navigation/paths';
-import {
   useKubernetesNamespacesConfigs,
   useCombinedKubernetesClustersConfigs
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
+import {
+  clusterListFullyQualified,
+  namespaceListFullyQualified,
+  exploreFullyQualified,
+  clusterOtelListFullyQualified
+} from 'in-kubernetes/navigation/paths';
 import {
   kubernetesExploreEnabled,
   playwithEnabled,
@@ -61,14 +60,6 @@ export default function KubernetesViewSwitcher() {
               icon="lib_kubernetes_namespace"
               label={namespacesLabel}
               isActive={matchLocation(namespaceListFullyQualified)}
-            />
-          )}
-          {isOtelCluster && (
-            <SecondLevelNavigationItem
-              href={createHrefToPath(containerDashboardFullyQualified)}
-              icon="lib_kubernetes_container"
-              label={t('in-kubernetes:containers')}
-              isActive={matchLocation(containerDashboardFullyQualified)}
             />
           )}
           {kubernetesExploreEnabled && !playwithEnabled && !isOtelCluster && (

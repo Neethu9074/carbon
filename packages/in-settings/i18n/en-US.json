@@ -501,7 +501,8 @@
       "permissionLabel_CAN_CONFIGURE_AGENTS": "Configuration of agents",
       "permissionLabel_CAN_CONFIGURE_AGENTS_AND_COLLECTORS": "Configuration of agents and collectors",
       "permissionLabel_CAN_CONFIGURE_AGENT_RUN_MODE": "Configuration of agent mode",
-      "permissionLabel_CAN_CONFIGURE_TEAMS": "User and team management",
+      "permissionLabel_CAN_CONFIGURE_TEAMS": "Team management",
+      "permissionLabel_CAN_CONFIGURE_USERS": "User management",
       "permissionLabel_CAN_CONFIGURE_API_TOKENS": "Configuration of API tokens",
       "permissionLabel_CAN_CONFIGURE_AUTHENTICATION_METHODS": "Configuration of authentication methods",
       "permissionLabel_CAN_VIEW_AUDIT_LOG": "Access to audit trail",
@@ -522,7 +523,6 @@
       "accessControlRoleManagementHelpText": "Permits configuration and management of roles.",
       "accessControlTeamScopeManagementCheckboxLabel": "Team scope management",
       "accessControlTeamScopeManagementHelpText": "Permits configuration of team access scope (and tags).",
-      "accessControlConfigApiTokensHelpText": "Permits creation and configuration of API token.",
       "roleSuccessfullySaved": "Role successfully saved."
     },
     "scope": {
@@ -854,6 +854,7 @@
     },
     "roleMapping": {
       "description": "Create mapping rules that define which Identity Provider (IdP) attributes are mapped to which Instana role. This setup can help significantly reduce your user management workload.<br/><br/> You can delete Identity provider configuration through the API using a token with enough permissions. See <docLink>configuring authentication</docLink> for details.",
+      "deleteEntityDisabled": "Delete {{entity}} is disabled if only one mapping rule exists and deny access when no mapping found is checked.",
       "keyColumn": "Key",
       "newMappingRule": "Create mapping rule",
       "restrictEmptyIdpRolesFailedToSave": "Failed to save IdP deny access without mapping: {{err}}",
@@ -2016,8 +2017,11 @@
     "addUser": "Add user",
     "youCanEditThisMessage": "You can edit this message.",
     "group": "Group",
+    "role": "Role",
     "groupToolTip": "When adding users, review IBM Documentation to make sure you're adding users to the right group.",
+    "roleToolTip": "When adding users, review IBM Documentation to make sure you're adding users to the right role.",
     "newGroup": "New group",
+    "newRole": "New role",
     "emailMessage": "Email message (optional)",
     "defaultEmailMessage": "Add a note here if you want to ask for help or provide any relevant information about the page you're sharing.",
     "emailMessageForInviteOnly": "Add a note here if you want ask for help or provide any additional information.",

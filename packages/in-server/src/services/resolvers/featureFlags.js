@@ -488,7 +488,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticSslImprovementEnabled',
     instanaCtlKey: 'feature.synthetic.ssl.improvement.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticCarbonTableEnabled',
@@ -669,11 +669,6 @@ module.exports = exports = [
   {
     uiClientKey: 'agentInstallationV2Enabled',
     instanaCtlKey: 'feature.agent.install.v2.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'logSmartAlertsEnabled',
-    instanaCtlKey: 'feature.log.smart.alerts.enabled',
     defaultValue: true
   },
   {
@@ -1040,6 +1035,16 @@ module.exports = exports = [
   {
     uiClientKey: 'newOnboardingPageEnabled',
     instanaCtlKey: 'feature.new.onboarding.page.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'otelCollectorViewEnabled',
+    instanaCtlKey: 'feature.otel.collector.view.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'customEntitiesViewEnabled',
+    instanaCtlKey: 'feature.custom.entities.view.enabled',
     defaultValue: false
   }
 ];

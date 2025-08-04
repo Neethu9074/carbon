@@ -290,6 +290,8 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular', ic
           color={feedbackState === tup ? themes.default.ids.color.option.neutral['300'] : undefined}
           size="compact"
           type="lib_thumbs_up"
+          isWrapperedByTooltip
+          iconDescription={t('in-events:feedback.positive')}
           iconSize={iconSize}
           onClick={() => {
             if (feedbackState === tup) {
@@ -307,6 +309,8 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular', ic
           size="compact"
           iconSize={iconSize}
           type="lib_thumbs_down"
+          isWrapperedByTooltip
+          iconDescription={t('in-events:feedback.negative')}
           onClick={() => {
             if (feedbackState === tdown) {
               setFeedbackState('');

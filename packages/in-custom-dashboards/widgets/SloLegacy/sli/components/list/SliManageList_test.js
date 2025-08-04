@@ -103,25 +103,6 @@ describe('in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliManageLi
     expect(sliResult).toEqual([expect.objectContaining({ sliName: 'Uncaught typos' })]);
   });
 
-  it('displays an info message if role.canConfigureServiceLevelIndicators if false', () => {
-    // Given
-    useCurrentUserRole.mockReturnValue([{ canConfigureServiceLevelIndicators: false }]);
-
-    // When
-    const listWrapper = shallow(<SliManageList onChange={jest.fn()} entityType={'application'} entityId={''} />);
-    const staticContent = listWrapper.prop('staticContent');
-    const wrapper = shallow(staticContent);
-
-    // Then
-    expect(
-      wrapper.containsMatchingElement(
-        <Message>
-          <Trans i18nKey="in-custom-dashboards:widgets.slo.sliManageList.configSrvLevelIndicatorsMsg" />
-        </Message>
-      )
-    ).toBeTruthy();
-  });
-
   it('does not allow the creation of sli if role.canConfigureServiceLevelIndicators if false', () => {
     // Given
     useCurrentUserRole.mockReturnValue([{ canConfigureServiceLevelIndicators: false }]);

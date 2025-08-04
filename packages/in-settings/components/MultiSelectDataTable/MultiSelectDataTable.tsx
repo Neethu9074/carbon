@@ -30,9 +30,10 @@ import {
   InlineLoading,
   IconButton,
   ToastNotification,
-  ToastNotificationProps
+  ToastNotificationProps,
+  Tooltip
 } from '@instana/carbon';
-import { Pagination, TableSkeleton, Tooltip, CarbonEmptyState } from '@instana/components';
+import { Pagination, TableSkeleton, CarbonEmptyState } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
@@ -564,17 +565,19 @@ export default function MultiSelectDataTable<
                                         <InlineLoading className={locals.loadingIcon} />
                                       ) : row.disabled || item.disabled ? (
                                         // as disabled icon button doesn't show the tooltip
-                                        <Tooltip content={item.label} delay={500}>
-                                          <IconButton
-                                            label={item.label}
-                                            disabled={row.disabled || item?.disabled}
-                                            key={index}
-                                            kind="ghost"
-                                            data-testid={`${item.actionType}Icon`}
-                                            autoAlign
-                                          >
-                                            {item.icon}
-                                          </IconButton>
+                                        <Tooltip label={item.label} enterDelayMs={500} autoAlign>
+                                          <div>
+                                            <IconButton
+                                              label={item.label}
+                                              disabled={row.disabled || item?.disabled}
+                                              key={index}
+                                              kind="ghost"
+                                              data-testid={`${item.actionType}Icon`}
+                                              autoAlign
+                                            >
+                                              {item.icon}
+                                            </IconButton>
+                                          </div>
                                         </Tooltip>
                                       ) : (
                                         <IconButton

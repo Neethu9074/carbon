@@ -65,3 +65,9 @@ export const SloTimeWindowTypes = Object.freeze({
 });
 
 export const sloStatuses = ['red', 'green'] as const;
+
+export const utcLabel = 'UTC';
+
+export const objectiveSelectFieldScrollId = '3-select-objective';
+
+export const getTimezoneNotificationDismissedKey = (sloId: string) => `timezoneNotificationDismissed-${sloId}`;

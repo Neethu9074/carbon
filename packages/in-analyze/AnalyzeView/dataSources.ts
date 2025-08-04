@@ -112,7 +112,8 @@ export const productAreaLabels = Object.freeze<Record<ProductArea, string>>({
   mobileApp: t('in-analyze:analyzeView.dataSources.mobileApps'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
-  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure')
+  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure'),
+  customEntities: t('in-analyze:analyzeView.dataSources.customEntities')
 } as const);
 
 export const productAreaTrackingNames = Object.freeze({
@@ -121,7 +122,8 @@ export const productAreaTrackingNames = Object.freeze({
   mobileApp: pageNames.mobile_apps,
   profiles: pageNames.profiles,
   logs: pageNames.log_smart_alerts,
-  infrastructure: pageNames.infrastructure
+  infrastructure: pageNames.infrastructure,
+  customEntities: pageNames.custom_entities
 } as const);
 
 enum ProductAreaEnum {
@@ -130,7 +132,8 @@ enum ProductAreaEnum {
   mobileApp,
   profiles,
   logs,
-  infrastructure
+  infrastructure,
+  customEntities
 }
 
 enum EntityEnum {
@@ -211,7 +214,8 @@ export const productAreaIcons = Object.freeze<Record<ProductArea, string>>({
   mobileApp: 'lib_mobile_app',
   profiles: 'lib_profiling',
   logs: 'lib_application_logging',
-  infrastructure: 'lib_infrastructure'
+  infrastructure: 'lib_infrastructure',
+  customEntities: 'lib_infrastructure'
 });
 
 const icons = deepFreeze<Record<ProductArea, Icon>>({
@@ -250,6 +254,9 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
   logs: {
     logs: 'lib_application_logging',
     logsConsole: 'lib_application_logging'
+  },
+  customEntities: {
+    customEntities: 'lib_infrastructure'
   }
 });
 

@@ -6,6 +6,8 @@
 
 import { uniqueId } from 'lodash';
 
+import { MessageResponseTypes, AgentMessageType } from '@instana/ai-chat';
+
 import {
   EVENT_AI_CHAT_API_RESULT_POSITIVE,
   EVENT_AI_CHAT_API_RESULT_NEGATIVE,
@@ -43,8 +45,8 @@ export async function CustomSendMessages(
           generic: [
             ...(nlg ? [NLGResponseObject(nlg)] : []),
             {
-              agent_message_type: 'inline_error',
-              response_type: 'text',
+              agent_message_type: AgentMessageType.INLINE_ERROR,
+              response_type: MessageResponseTypes.TEXT,
               text: errorMessage
             },
             ThumbsFeedbackObject(EVENT_AI_CHAT_API_ERROR_POSITIVE, EVENT_AI_CHAT_API_ERROR_NEGATIVE, {
@@ -89,7 +91,7 @@ export async function CustomSendMessages(
             generic: [
               NLGResponseObject(nlgResponse),
               {
-                response_type: 'text',
+                response_type: MessageResponseTypes.TEXT,
                 text: t('in-events:aichat.noMatching')
               },
               ThumbsFeedbackObject(EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE, {
@@ -173,7 +175,7 @@ export async function CustomSendMessages(
               generic: [
                 NLGResponseObject(nlgResponse),
                 {
-                  response_type: 'text',
+                  response_type: MessageResponseTypes.TEXT,
                   text: t('in-events:aichat.findingInfoFrom', { endpoint: queryResponse.api.api_endpoint })
                 },
                 {

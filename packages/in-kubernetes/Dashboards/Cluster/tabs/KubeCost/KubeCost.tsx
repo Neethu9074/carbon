@@ -63,14 +63,13 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
         ? () =>
             getMetricForFocusedMoment({
               snapshotId,
-              metric: 'coreCountStats.coreCountByCluster'
+              metric: 'coreCountStats.totalCoreCount'
             })
               .map((v: [number, number]) => v[1])
               .distinct()
         : undefined,
       [snapshotId, timeConfig]
     ) ?? 0;
-
   if (loading) {
     return <LoadingIndicator />;
   }

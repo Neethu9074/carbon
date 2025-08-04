@@ -15,10 +15,10 @@ import { t } from 'in-i18n';
 import locals from './InstructionPop.mless';
 
 interface InstructionPopProps {
-  setPopOpen: Function;
+  setInstructionPopOpen: Function;
 }
 
-const InstructionPop = ({ setPopOpen }: InstructionPopProps) => {
+const InstructionPop = ({ setInstructionPopOpen }: InstructionPopProps) => {
   const promptKey = 'aichat-promptAcknowledge';
   const [acknowledge] = useLocalStorage(promptKey, false);
   // In order to position our instructions correctly we will use the
@@ -48,7 +48,7 @@ const InstructionPop = ({ setPopOpen }: InstructionPopProps) => {
         <Button
           onClick={() => {
             trySet(promptKey, 'true');
-            setPopOpen(false);
+            setInstructionPopOpen(false);
           }}
           size="sm"
           className={locals.button}

@@ -4,10 +4,23 @@
  * Copyright IBM Corp. 2024
  */
 
-import { string } from 'prop-types';
-
-import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import { t } from 'in-i18n';
+
+export const MS_TEAMS = 'MSTeams';
+export const SERVICE_NOW = 'ServiceNow';
+export const SLACK = 'Slack';
+
+export const isMSTeams = origin => {
+  return origin === MS_TEAMS;
+};
+
+export const isSlack = origin => {
+  return origin === SLACK;
+};
+
+export const isServiceNow = origin => {
+  return origin === SERVICE_NOW;
+};
 
 // Converting the incident summary
 export function convertIncidentSummaryToString(data) {

@@ -24,6 +24,7 @@ import {
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { extractTimeZoneName } from 'in-service-levels/utils/timezone';
 import { parseDateTime } from 'in-services/formatters/date';
 
 export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevelObjectiveConfiguration {
@@ -37,7 +38,10 @@ export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevel
       duration: form.getIn(['objective', 'duration']).value,
       durationUnit: form.getIn(['objective', 'durationUnit']).value,
       type: form.getIn(['objective', 'type']).value,
-      startTimestamp: formToStartTimeStamp(form)
+      startTimestamp: formToStartTimeStamp(form),
+      timezone: form.getIn(['objective', 'timezone', 'bind']).value
+        ? extractTimeZoneName(form.getIn(['objective', 'timezone', 'zone']).value)
+        : ''
     },
     target: form.getIn(['objective', 'target']).value ?? 0
   };
@@ -141,10 +145,12 @@ export function formToTimeWindow(form: SloForm): TimeWindow | FixedTimeWindow | 
   const duration = form.getIn(['objective', 'duration']).value;
   const durationUnit = form.getIn(['objective', 'durationUnit']).value;
   const type = form.getIn(['objective', 'type']).value;
+  const timezone = form.getIn(['objective', 'timezone', 'zone']).value;
   const timeWindow = {
     duration,
     durationUnit,
-    type
+    type,
+    timezone
   };
 
   if (type === 'fixed') {

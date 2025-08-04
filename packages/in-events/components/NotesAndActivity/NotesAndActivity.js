@@ -22,9 +22,9 @@ import { QuickActions } from 'in-events/components/NotesAndActivity/components/Q
 import { ShareSummary } from 'in-events/components/NotesAndActivity/components/ShareSummary';
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
+import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
-import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { t } from 'in-i18n';
 

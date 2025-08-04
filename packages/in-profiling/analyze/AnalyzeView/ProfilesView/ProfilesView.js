@@ -12,6 +12,7 @@ import { Link } from '@instana/components';
 // eslint-disable-next-line import/no-deprecated
 import { useCloseProfilesViewLink } from 'in-components/Profiling/navigation/paths';
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
+import { addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import getProfiles from 'in-components/Profiling/subscriptions/getProfiles';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
@@ -55,6 +56,7 @@ function TimeFixater(props) {
       // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
       // eslint-disable-next-line import/no-deprecated
       setTimeConfig(location, fixateTimeConfig(timeConfig));
+      addOrDeleteHighlightedTimeframeToParams(location, highlightedTimeframe[0], highlightedTimeframe[1]);
       navigate(location, true);
     }
   }, [highlightedTimeframe, location, navigate, timeConfig]);

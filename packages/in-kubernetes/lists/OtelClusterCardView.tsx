@@ -10,6 +10,7 @@ import {
   clusterOtelListFullyQualified,
   nodesDashboard,
   podsDashboard,
+  containersDashboard,
   useGetClusterDashboard,
   clusterList
 } from 'in-kubernetes/navigation/paths';
@@ -37,7 +38,7 @@ export default function OtelCluster() {
     },
     {
       cardId: 'otelContainers',
-      path: `${podsDashboard};pod.phase=Running~`,
+      path: containersDashboard,
       cardTitle: t('in-kubernetes:cloudNative.containers'),
       displaySubtitle: false
     }

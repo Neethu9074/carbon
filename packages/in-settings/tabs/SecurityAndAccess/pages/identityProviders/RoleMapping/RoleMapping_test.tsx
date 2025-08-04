@@ -142,7 +142,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping
     });
 
     // When
-    const { getByText, getByLabelText, getAllByTestId } = render(<RoleMapping />);
+    const { getByText, getByLabelText, getAllByTestId, queryByText } = render(<RoleMapping />);
     const roleMappingDescription = getByText(t('in-settings:tabs.roleMapping.description').substring(0, 100), {
       exact: false
     });
@@ -154,6 +154,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping
     expect(denyAccessCheckBox).toBeInTheDocument();
 
     // Verify that the mapping rule data is displayed in the table
+    const selectCell = getByLabelText('Select row');
     const keyCell = getByText('memberOf');
     const roleCell = getByText('Admin');
     const teamCell = getByText('A-Team');
@@ -162,9 +163,15 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping
     // Simulate clicking the "Deny Access" checkbox to enable the restriction
     fireEvent.click(denyAccessCheckBox);
 
+    // Simulate clicking select row checkbox in the table
+    fireEvent.click(selectCell);
+
     // Get the edit and delete icons from the table row
     const editIcon = getAllByTestId('editIcon')[0];
     const deleteIcon = getAllByTestId('deleteIcon')[0];
+
+    // Batch delete button from the table
+    const batchDeleteButton = queryByText('Delete');
 
     // Then
     // Verify that the regular description and create button are shown
@@ -185,6 +192,9 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping
 
     // Verify that the delete icon is disabled (cannot delete the last mapping rule when deny access is enabled)
     expect(deleteIcon).toHaveAttribute('disabled');
+
+    // Verify the the batch delete button does not exist
+    expect(batchDeleteButton).toBeFalsy();
   });
 
   it('should open create mapping rule dialog when clicking the create button', async () => {
@@ -322,12 +332,19 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping
     });
 
     // When
-    const { getAllByTestId } = render(<RoleMapping />);
+    const { getAllByTestId, getAllByLabelText, queryByText } = render(<RoleMapping />);
     const deleteIcons = getAllByTestId('deleteIcon');
+    const selectCells = getAllByLabelText('Select row');
     expect(deleteIcons.length).toBe(2);
 
     // Simulate clicking the delete icon for the first mapping rule (with key 'group')
     fireEvent.click(deleteIcons[0]);
+
+    // Simulate clicking select row checkbox in the table
+    fireEvent.click(selectCells[0]);
+
+    // Batch delete button from the table
+    const batchDeleteButton = queryByText('Delete');
 
     // Then
     // Verify that the confirmation dialog was shown
@@ -338,5 +355,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/RoleMapping
 
     // Verify that the deleteMapping API was called with the correct mapping rule ID
     expect(deleteMapping).toHaveBeenCalledWith('b1XYZabc_Def456_GHIjk7L');
+
+    // Verify the the batch delete button does exist
+    expect(batchDeleteButton).toBeTruthy();
   });
 });

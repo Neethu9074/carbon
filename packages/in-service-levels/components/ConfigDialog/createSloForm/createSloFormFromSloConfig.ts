@@ -19,7 +19,8 @@ import {
   noInvalidTagFilterExpression,
   targetFieldValidator,
   timeFieldValidator,
-  timeWindowValidator
+  timeWindowValidator,
+  timezoneValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import type {
   SloEntityFields,
@@ -27,6 +28,7 @@ import type {
   SloIndicatorFields,
   SloObjectiveFields,
   SloScopeFields,
+  SloTimezoneFields,
   TimeStampFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
@@ -39,11 +41,13 @@ import {
   defaultBlueprint,
   defaultBoundaryScope,
   defaultSliThresholdOperator,
-  ServiceLevelErrors
+  ServiceLevelErrors,
+  utcLabel
 } from 'in-service-levels/constants';
 import { isCustomBlueprintIndicator, isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { buildTimezoneFromLocationName } from 'in-service-levels/utils/timezone';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { getSloEntityIds } from 'in-service-levels/utils/sloConfig';
 import type { SloBeaconTypes } from 'in-service-levels/types';
@@ -172,7 +176,11 @@ export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
     startTimestamp: createMapForm<TimeStampFields>({
       items: getDefaultTimestampFields(sloConfig)
     }),
-    type: createField({ value: sloConfig.timeWindow.type })
+    type: createField({ value: sloConfig.timeWindow.type }),
+    timezone: createMapForm<SloTimezoneFields>({
+      items: getDefaultTimezoneFields(sloConfig),
+      validator: timezoneValidator
+    })
   };
 }
 
@@ -197,6 +205,15 @@ export function getDefaultTimestampFields(sloConfig: ServiceLevelObjectiveConfig
       value: formatTime(timeStamp)!,
       validator: timeFieldValidator
     })
+  };
+}
+
+export function getDefaultTimezoneFields(sloConfig: ServiceLevelObjectiveConfiguration) {
+  const toggleTimezoneField = !sloConfig.timeWindow.timezone || sloConfig.timeWindow.timezone === utcLabel;
+  const timezoneName = sloConfig.timeWindow.timezone ?? '';
+  return {
+    bind: createField({ value: !toggleTimezoneField }),
+    zone: createField({ value: buildTimezoneFromLocationName(timezoneName) })
   };
 }
 

@@ -5,6 +5,7 @@
  */
 
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
+import { Nullish } from 'in-types';
 
 // comparison is done in case-insensitive
 export default function getResultsToDisplay<AlertConfig extends AlertConfigType>(
@@ -29,6 +30,29 @@ export default function getResultsToDisplay<AlertConfig extends AlertConfigType>
     return searchAttributes
       .map(searchAttribute => {
         const attribute = searchAttribute(config)?.toLowerCase();
+        return filterFunction(lowerCaseQuery, attribute);
+      })
+      .some(Boolean);
+  });
+}
+
+export function getFilterByResults<Itemtype extends Object>(result: Itemtype[], query: string | Nullish) {
+  const getName = (data: any) => data.label;
+
+  const searchAttributes = [getName];
+  const trimmedQuery = query?.trim();
+
+  if (!trimmedQuery) {
+    return result;
+  }
+
+  const lowerCaseQuery = trimmedQuery.toLowerCase();
+  const filterFunction = (query: string, attribute: string) => attribute?.includes(query) ?? false;
+
+  return result.filter(Boolean).filter(data => {
+    return searchAttributes
+      .map(searchAttribute => {
+        const attribute = searchAttribute(data)?.toLowerCase();
         return filterFunction(lowerCaseQuery, attribute);
       })
       .some(Boolean);

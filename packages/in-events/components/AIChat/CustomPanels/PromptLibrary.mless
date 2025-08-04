@@ -34,5 +34,12 @@
     :global(.cds--tabs__nav-item-label-wrapper) {
       justify-content: center;
     }
+    // Helps handle long list of tabs that don't really fit
+    // eventually will need better solution
+    :global(.cds--tabs__nav-item-label) {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 }

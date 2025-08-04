@@ -322,9 +322,7 @@
     },
     "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} test",
-      "buttonSave": "Save",
-      "scriptSavedMessage": "Script added",
-      "bundleSavedMessage": "Bundled scripts added"
+      "buttonSave": "Save"
     },
     "createLocation": {
       "newLocation": "Add location",
@@ -919,6 +917,7 @@
       "associatedApplication": "Associated application",
       "noApplicationAssociated": "No application associated",
       "configScriptTitle": "Script",
+      "configScriptTitleWithFileName": "Script ({{fileName}})",
       "configScriptFileName": "File name",
       "noScriptFileFound": "No script file found.",
       "noCustomProperties": "No custom properties defined for this test.",

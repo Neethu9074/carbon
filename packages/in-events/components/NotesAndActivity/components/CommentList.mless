@@ -26,6 +26,10 @@
     fill: #62d84e;
   }
 
+  .msTeamsIcon {
+    fill: #7b83eb;
+  }
+
   .aiIcon {
     fill: white;
     background-color: var(--cds-chat-avatar-user);
@@ -86,8 +90,8 @@
   }
 
   .myChatEntryInfo {
-    padding-left: 3px;
-    padding-top: 5px;
+    padding-left: 0.65rem;
+    padding-top: 0.3rem;
     color: var(--cds-text-secondary);
   }
 

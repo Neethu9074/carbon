@@ -12,15 +12,14 @@ import { useObservable } from '@instana/hooks';
 import ShareAndInviteDialogBox from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 // @ts-expect-error File needs to be migrated to typescipt
 import { useShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
-import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 // @ts-expect-error file needs TS migration
 import { getUnitKeys } from 'in-api/unitKeys';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
-import { successObservable } from 'in-services/util/result';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { timeConfig$ } from 'in-stores/time/config';
+import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 jest.mock('@instana/hooks', () => ({
@@ -35,21 +34,9 @@ jest.mock('in-components/DashboardHeader/UrlShortener/shortener', () => ({
 jest.mock('in-settings/tabs/SecurityAndAccess/api/groups', () => ({
   getStrippedGroupsAsResultObservable: jest.fn()
 }));
-jest.mock('in-services/util/result', () => ({
-  successObservable: jest.fn()
-}));
 jest.mock('in-api/users', () => ({
   getUsersAsResultObservable: jest.fn(),
   getInvitations$: jest.fn()
-}));
-jest.mock('in-settings/tabs/SecurityAndAccess/api/saml', () => ({
-  getConfigAsResultObservable: jest.fn()
-}));
-jest.mock('in-settings/tabs/SecurityAndAccess/api/ldap', () => ({
-  getConfigAsResultObservable: jest.fn()
-}));
-jest.mock('in-settings/tabs/SecurityAndAccess/api/oidc', () => ({
-  getConfigAsResultObservable: jest.fn()
 }));
 jest.mock('in-stores/time/config', () => {
   const originalModule = jest.requireActual('in-stores/time/config');
@@ -58,6 +45,7 @@ jest.mock('in-stores/time/config', () => {
     timeConfig$: jest.fn()
   };
 });
+jest.mock('in-settings/hooks/useIsTeamsAvailable');
 
 const shortUrlMockData = {
   data: {
@@ -127,59 +115,6 @@ const pendingInvitationMock = {
   time: 1718845213876
 };
 
-const samlMockData = {
-  data: {
-    samlSignInCallbackUrl: 'https://instana.rocks/auth/signIn/saml/callback?client_name=TestClient',
-    samlSignOutCallbackUrl: 'https://instana.rocks/auth/signOut/saml/callback',
-    spEntityId: 'instana',
-    nameIdFormat: 'EMAIL',
-    activated: false
-  },
-  errors: [],
-  progress: {
-    loading: false
-  },
-  time: 1718845213062
-};
-
-const ldapMockData = {
-  data: {
-    url: '',
-    base: '',
-    userDnMapping: '',
-    groupQuery: '',
-    userQueryTemplate: '',
-    emailField: '',
-    groupMemberField: '',
-    roUser: '',
-    userField: '',
-    emptyPass: false,
-    restrictEmptyIdpGroups: false,
-    acceptAnyCA: true
-  },
-  errors: [],
-  progress: {
-    loading: false
-  },
-  time: 1718845213057
-};
-
-const OidMockData = {
-  data: {
-    oidcSignInCallbackUrl: 'https://instana.rocks/auth/signIn/idp/callback?client_name=TestClient',
-    oidcSignOutCallbackUrl: 'https://instana.rocks/auth/signOut/idp/callback',
-    spEntityId: 'instana',
-    activated: false,
-    idpType: '',
-    discoveryUri: ''
-  },
-  errors: [],
-  progress: {
-    loading: false
-  },
-  time: 11111111111111
-};
-
 const timeConfigMockData = {
   to: null,
   windowSize: 3600000,
@@ -189,15 +124,12 @@ const timeConfigMockData = {
 
 describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox', () => {
   beforeEach(() => {
+    (useIsTeamsAvailable as jest.Mock).mockReturnValue(resultToFetchedStateResponse(success(true)));
     (getUnitKeys as jest.Mock).mockReturnValue(() => unitKeysMockData);
     (getStrippedGroupsAsResultObservable as jest.Mock).mockReturnValue(groupsMockData);
-    (successObservable as jest.Mock).mockReturnValue(groupsMockData);
     (getUsersAsResultObservable as jest.Mock).mockReturnValue(userMockData);
     (getInvitations$ as jest.Mock).mockReturnValue(pendingInvitationMock);
     (timeConfig$ as unknown as jest.Mock).mockReturnValue(timeConfigMockData);
-    (getSamlConfig as jest.Mock).mockReturnValue(samlMockData);
-    (getLdapConfig as jest.Mock).mockReturnValue(ldapMockData);
-    (getOidcConfig as jest.Mock).mockReturnValue(OidMockData);
     (useShortUrl as jest.Mock).mockReturnValue(() => shortUrlMockData);
 
     (useObservable as jest.Mock).mockImplementation(callback => {

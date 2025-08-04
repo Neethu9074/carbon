@@ -60,9 +60,10 @@ describe('scriptDetailsUpdater', () => {
   test('Update a test which has .side script configured ', () => {
     configForm = createMapForm()
       .put('syntheticType', createField({ value: 'WebpageScript' }))
-      .put('script', createField({ value: '{"test":"data"}' }));
+      .put('script', createField({ value: '{"test":"data"}' }))
+      .put('fileName', createField({ value: 'test.side' }));
     expect(scriptDetailsUpdater(configForm, true, false)).toStrictEqual({
-      name: 'Script added',
+      name: 'test.side',
       text: '{"test":"data"}',
       extension: 'side'
     });
@@ -74,9 +75,10 @@ describe('scriptDetailsUpdater', () => {
       .put(
         'scripts',
         createZipScriptConfigurationForm('UEsDBBQAAAAAAGt5mVYAAAAAAAAAAALBQYAAAAABAAEAJ0BAACwAwAAAAA=', 'index.js')
-      );
+      )
+      .put('fileName', createField({ value: 'test.zip' }));
     expect(scriptDetailsUpdater(configForm, true, false)).toStrictEqual({
-      name: 'Bundled scripts added',
+      name: 'test.zip',
       text: 'UEsDBBQAAAAAAGt5mVYAAAAAAAAAAALBQYAAAAABAAEAJ0BAACwAwAAAAA=',
       scriptFile: 'index.js',
       extension: 'zip'

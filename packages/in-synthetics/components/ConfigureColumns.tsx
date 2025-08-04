@@ -82,7 +82,8 @@ function SortableItem<ITEM_TYPE extends ListItem>({
   columnDefinitions,
   orderedRowIds,
   setColumnStates,
-  setColDefinitions
+  setColDefinitions,
+  setOrderedRowIds
 }: {
   id: string;
   row: Row | undefined;
@@ -90,6 +91,7 @@ function SortableItem<ITEM_TYPE extends ListItem>({
   orderedRowIds: string[];
   setColumnStates: React.Dispatch<React.SetStateAction<ColumnState[]>>;
   setColDefinitions: React.Dispatch<React.SetStateAction<ColumnDefinition<ITEM_TYPE>[]>>;
+  setOrderedRowIds: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
   // Check if this is the action column or name column
   const isNameOrActionColumn = row?.cells?.some(
@@ -121,12 +123,38 @@ function SortableItem<ITEM_TYPE extends ListItem>({
 
     if (!isVisible || !column?.optional) return;
 
+    // Update the column state to reflect checked status
     setColumnStates(prev => prev.map(col => (col.id === columnId ? { ...col, visible: checked } : col)));
 
-    const columnDefinitionsSorted = orderedRowIds
+    const nameColumnIndex = orderedRowIds.findIndex(id => id === 'test_name');
+    const actionColumnIndex = orderedRowIds.findIndex(id => id === 'action');
+
+    // Get the current index of the column being toggled
+    const currentIndex = orderedRowIds.findIndex(id => id === columnId);
+
+    // Create a new array with the column removed from its current position
+    const newOrderedRowIds = [...orderedRowIds];
+    newOrderedRowIds.splice(currentIndex, 1);
+
+    if (checked) {
+      if (currentIndex > actionColumnIndex) {
+        // Insert right after name column
+        newOrderedRowIds.splice(nameColumnIndex + 1, 0, columnId);
+      } else {
+        // Keep it in the same relative position
+        newOrderedRowIds.splice(currentIndex, 0, columnId);
+      }
+    } else {
+      // Insert the newly unchecked column immediately after action
+      newOrderedRowIds.splice(actionColumnIndex, 0, columnId);
+    }
+
+    // Update column definitions based on new order
+    const columnDefinitionsSorted = newOrderedRowIds
       .map(id => columnDefinitions.find(col => col.id === id))
       .filter(Boolean) as ColumnDefinition<ITEM_TYPE>[];
 
+    setOrderedRowIds(newOrderedRowIds);
     setColDefinitions(columnDefinitionsSorted);
   };
 
@@ -267,10 +295,8 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem>({
   const { columnStates, setColumnStates, enabledColumns, disabledColumns, setMultipleColumnsVisibility } =
     useColumnConfiguration<ITEM_TYPE>(columnDefinitions, visibleColumns);
 
-  const { colDefinitions, setColDefinitions, orderedRowIds, handleDragEnd } = useColumnReordering<ITEM_TYPE>(
-    columnDefinitions,
-    enabledColumns
-  );
+  const { colDefinitions, setColDefinitions, orderedRowIds, setOrderedRowIds, handleDragEnd } =
+    useColumnReordering<ITEM_TYPE>(columnDefinitions, enabledColumns);
 
   // Search state
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -334,8 +360,37 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem>({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const allRowIds = rows.map(row => row.id);
       setMultipleColumnsVisibility(allRowIds, e.target.checked);
+
+      // Identify required columns (always visible) and optional columns
+      const requiredColumnIds = orderedRowIds.filter(id => {
+        const col = columnDefinitions.find(col => col.id === id);
+        return col && !col.optional;
+      });
+
+      const optionalColumnIds = orderedRowIds.filter(id => {
+        const col = columnDefinitions.find(col => col.id === id);
+        return col && col.optional;
+      });
+
+      let newOrderedRowIds: string[];
+
+      if (e.target.checked) {
+        // When selecting all, first put name, then optional columns, then action
+        newOrderedRowIds = ['test_name', ...optionalColumnIds, 'action'];
+      } else {
+        // When unselecting all, keep required columns at the top, then all optional columns
+        newOrderedRowIds = [...requiredColumnIds, ...optionalColumnIds];
+      }
+
+      // Update column definitions based on new order
+      const columnDefinitionsSorted = newOrderedRowIds
+        .map(id => columnDefinitions.find(col => col.id === id))
+        .filter(Boolean) as ColumnDefinition<ITEM_TYPE>[];
+
+      setOrderedRowIds(newOrderedRowIds);
+      setColDefinitions(columnDefinitionsSorted);
     },
-    [rows, setMultipleColumnsVisibility]
+    [rows, setMultipleColumnsVisibility, orderedRowIds, columnDefinitions, setOrderedRowIds, setColDefinitions]
   );
 
   const handleSave = useCallback(() => {
@@ -423,6 +478,7 @@ function ConfigureColumnsTearsheet<ITEM_TYPE extends ListItem>({
                             orderedRowIds={orderedRowIds}
                             setColumnStates={setColumnStates}
                             setColDefinitions={setColDefinitions}
+                            setOrderedRowIds={setOrderedRowIds}
                           />
                         )
                       );

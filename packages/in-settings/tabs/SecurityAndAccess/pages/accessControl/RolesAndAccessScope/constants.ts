@@ -18,7 +18,6 @@ import {
 import {
   applicationSubtracesEnabled,
   infraSmartAlertsEnabled,
-  logSmartAlertsEnabled,
   syntheticsEnabled
 } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
@@ -208,7 +207,7 @@ export const logCapabilities: Array<CapabilityType> = [
   Capability.CAN_DELETE_LOGS,
   Capability.CAN_VIEW_LOG_VOLUME,
   Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD,
-  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : [])
+  Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS
 ];
 
 export const customDashboardCapabilities: Array<CapabilityType> = [

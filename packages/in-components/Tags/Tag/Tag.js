@@ -7,7 +7,6 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { setTagFilter, removeTagFilter } from 'in-stores/search/keywords/tags';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 
 import './Tag.less';
@@ -16,7 +15,7 @@ const block = 'in-tag';
 
 export default function Tag({ active, tag, isDark }) {
   const color = getColorPool('tags').getColorHex(tag);
-  const { location, navigate } = useNavigation();
+
   let className = block;
   if (active) {
     className += ` ${block}__active`;
@@ -36,9 +35,9 @@ export default function Tag({ active, tag, isDark }) {
 
   function onClick() {
     if (active) {
-      removeTagFilter(tag, location, navigate);
+      removeTagFilter(tag);
     } else {
-      setTagFilter(tag, location, navigate);
+      setTagFilter(tag);
     }
   }
 }

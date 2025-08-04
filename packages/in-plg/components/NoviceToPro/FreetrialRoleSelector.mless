@@ -25,7 +25,7 @@
     width: 40%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding-top: var(--cds-spacing-12);
   }
   .roleSelector {
