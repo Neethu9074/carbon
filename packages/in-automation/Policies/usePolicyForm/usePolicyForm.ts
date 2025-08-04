@@ -159,7 +159,7 @@ function createPolicyFormFromPolicy(policy: PolicyFormEntity, actions: Action[],
     }
   });
 }
-function createPolicyFormDefinition(triggerDetails?: TriggerDetailsProps): PolicyForm {
+function createPolicyFormDefinition(actions: Action[], triggerDetails?: TriggerDetailsProps): PolicyForm {
   const { triggerType, triggerId } = triggerDetails ?? {};
   return createMapForm({
     items: {
@@ -200,7 +200,11 @@ function createPolicyFormDefinition(triggerDetails?: TriggerDetailsProps): Polic
             value: false
           })
         },
-        validator: composeAndShortCircuitOnError(form => notBlankValidator(form.actionId.value))
+        validator: composeAndShortCircuitOnError(
+          form => notBlankValidator(form.actionId.value),
+          form => canAutomateActionValidator(form, actions),
+          form => parametersValidator(form, actions)
+        )
       }),
       triggerType: createField<TriggerType>({
         value: triggerType ?? 'builtinEvent',
@@ -237,7 +241,7 @@ function createPolicyForm({
   triggerDetails?: TriggerDetailsProps;
 }) {
   if (policy) return createPolicyFormFromPolicy(policy, actions, triggers);
-  return createPolicyFormDefinition(triggerDetails);
+  return createPolicyFormDefinition(actions, triggerDetails);
 }
 
 export default function usePolicyForm(
