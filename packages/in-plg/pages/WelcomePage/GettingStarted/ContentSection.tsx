@@ -5,7 +5,8 @@
  */
 import React from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
+import { Stack } from '@instana/carbon';
 
 import locals from './ContentSection.mless';
 
