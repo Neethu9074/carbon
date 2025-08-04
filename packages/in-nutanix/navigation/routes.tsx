@@ -4,14 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import DatacenterDashboard from 'promise-loader?global,nutanix!in-nutanix/Dashboards/Datacenter/DatacenterDashboard';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import HostDashboard from 'promise-loader?global,nutanix!in-nutanix/Dashboards/Host/HostDashboard';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import VmDashboard from 'promise-loader?global,nutanix!in-nutanix/Dashboards/Vm/VmDashboard';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import NutanixMainView from 'promise-loader?global,nutanix!in-nutanix/NutanixMainView';
+const DatacenterDashboard = () =>
+  // @ts-expect-error Missing declaration file
+  import(/* webpackChunkName: "nutanix" */ 'in-nutanix/Dashboards/Datacenter/DatacenterDashboard');
+// @ts-expect-error Missing declaration file
+const HostDashboard = () => import(/* webpackChunkName: "nutanix" */ 'in-nutanix/Dashboards/Host/HostDashboard');
+// @ts-expect-error Missing declaration file
+const VmDashboard = () => import(/* webpackChunkName: "nutanix" */ 'in-nutanix/Dashboards/Vm/VmDashboard');
+// @ts-expect-error Missing declaration file
+const NutanixMainView = () => import(/* webpackChunkName: "nutanix" */ 'in-nutanix/NutanixMainView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

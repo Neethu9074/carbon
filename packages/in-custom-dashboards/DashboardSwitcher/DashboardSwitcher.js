@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import NewDashboardDialog from 'promise-loader?global,inCustomDashboards!in-custom-dashboards/NewDashboardDialog';
+const NewDashboardDialog = () =>
+  import(/* webpackChunkName: "inCustomDashboards" */ 'in-custom-dashboards/NewDashboardDialog');
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';

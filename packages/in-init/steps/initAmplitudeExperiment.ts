@@ -11,7 +11,7 @@ import { amplitudeExperimentEnabled } from 'in-services/featureFlags';
 export function init() {
   if (amplitudeExperimentEnabled) {
     // the initialisation happens in this module itself.
-    require('promise-loader?global,initAmplitudeExperiment!in-services/experiments/amplitude/amplitudeInit');
+    import(/* webpackChunkName: "initAmplitudeExperiment" */ 'in-services/experiments/amplitude/amplitudeInit');
   }
   return just(true);
 }

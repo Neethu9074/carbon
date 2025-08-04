@@ -4,16 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-expect-error
-import ActionHistory from 'promise-loader?global!in-automation/components/ActionHistory/ActionHistory';
-// @ts-expect-error
-import ActionCatalogTab from 'promise-loader?global!in-automation/ActionCatalog/ActionCatalogTab';
-// @ts-expect-error
-import ActionDashboard from 'promise-loader?global!in-automation/ActionDashboard/ActionDashboard';
-// @ts-expect-error
-import PolicyDetail from 'promise-loader?global!in-automation/PolicyDetails/PolicyDetails';
-// @ts-expect-error
-import Policies from 'promise-loader?global!in-automation/Policies/Policies';
+const ActionHistory = () =>
+  import(/* webpackChunkName: "global" */ 'in-automation/components/ActionHistory/ActionHistory');
+const ActionCatalogTab = () => import(/* webpackChunkName: "global" */ 'in-automation/ActionCatalog/ActionCatalogTab');
+const ActionDashboard = () => import(/* webpackChunkName: "global" */ 'in-automation/ActionDashboard/ActionDashboard');
+const PolicyDetail = () => import(/* webpackChunkName: "global" */ 'in-automation/PolicyDetails/PolicyDetails');
+const Policies = () => import(/* webpackChunkName: "global" */ 'in-automation/Policies/Policies');
 import { Route } from 'react-router';
 import React from 'react';
 

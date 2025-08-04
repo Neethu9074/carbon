@@ -3,20 +3,33 @@
  * (c) Copyright Instana Inc.
  */
 
-import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog';
-import AlertConfigTearSheet from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheet';
-import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMapping';
-import SyntheticCallConfig from 'promise-loader?global,applications!in-applications/Forms/SyntheticCallConfig/SyntheticCallConfig';
-import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
-import GlobalSmartAlerts from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/list/GlobalSmartAlerts';
-import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
-import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
-import SubtraceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/subtrace/SubtraceDashboard';
-import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
-import AnalyzeView2_0 from 'promise-loader?global,applications!in-applications/analyze/AnalyzeView2_0/AnalyzeView';
-import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
-import SubtracesList from 'promise-loader?global,applications!in-applications/lists/SubtracesList';
-import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
+const CustomEndpointMapping = () =>
+  import(
+    /* webpackChunkName: "applications" */ 'in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog'
+  );
+const AlertConfigTearSheet = () =>
+  import(/* webpackChunkName: "applications" */ 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheet');
+const CustomServiceMapping = () =>
+  import(/* webpackChunkName: "applications" */ 'in-applications/Forms/CustomServiceMapping/CustomServiceMapping');
+const SyntheticCallConfig = () =>
+  import(/* webpackChunkName: "applications" */ 'in-applications/Forms/SyntheticCallConfig/SyntheticCallConfig');
+const ApplicationDashboard = () =>
+  import(/* webpackChunkName: "applications" */ 'in-applications/Dashboards/application/ApplicationDashboard');
+const GlobalSmartAlerts = () =>
+  import(/* webpackChunkName: "applications" */ 'in-alerting/smart-alerts/applications/list/GlobalSmartAlerts');
+const NewApplicationWaiter = () =>
+  import(/* webpackChunkName: "applications" */ 'in-applications/Forms/NewApplication/NewApplicationWaiter');
+const EndpointDashboard = () =>
+  import(/* webpackChunkName: "applications" */ 'in-applications/Dashboards/endpoint/EndpointDashboard');
+const SubtraceDashboard = () =>
+  import(/* webpackChunkName: "applications" */ 'in-applications/Dashboards/subtrace/SubtraceDashboard');
+const ServiceDashboard = () =>
+  import(/* webpackChunkName: "applications" */ 'in-applications/Dashboards/service/ServiceDashboard');
+const AnalyzeView2_0 = () =>
+  import(/* webpackChunkName: "applications" */ 'in-applications/analyze/AnalyzeView2_0/AnalyzeView');
+const ApplicationsList = () => import(/* webpackChunkName: "applications" */ 'in-applications/lists/ApplicationsList');
+const SubtracesList = () => import(/* webpackChunkName: "applications" */ 'in-applications/lists/SubtracesList');
+const ServicesList = () => import(/* webpackChunkName: "applications" */ 'in-applications/lists/ServicesList');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

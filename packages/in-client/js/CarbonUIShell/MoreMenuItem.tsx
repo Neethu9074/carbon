@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error promise loader
-import AboutInstanaDialog from 'promise-loader?global!in-components/AboutInstanaDialog';
+const AboutInstanaDialog = () => import(/* webpackChunkName: "global" */ 'in-components/AboutInstanaDialog');
 import React from 'react';
 
 import { MenuItem, SideNavMenu, SvgIcon, CarbonSideNavLink, useUIShellContext } from '@instana/components';

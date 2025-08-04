@@ -3,22 +3,21 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-// @ts-expect-error module need to be translated to TS
-import SyntheticCredentialView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/CredentialList';
-// @ts-expect-error module need to be translated to TS
-import SyntheticLocationView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/LocationList';
-// @ts-expect-error module need to be translated to TS
-import SyntheticsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/TestSummaryList';
-// @ts-expect-error module need to be translated to TS
-import SmartAlertList from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/SmartAlertList';
-// @ts-expect-error module need to be translated to TS
-import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboards/details/AnalyzeView';
-//@ts-expect-error
-import AlertConfigTearSheet from 'promise-loader?global,synthetics!in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheet';
-//@ts-expect-error
-import SyntheticSummaryDashboard from 'promise-loader?global,synthetics!in-synthetics/dashboards/summary/SyntheticSummary';
-//@ts-expect-error
-import AlertDetailsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/AlertDetailsView';
+const SyntheticCredentialView = () =>
+  import(/* webpackChunkName: "synthetics" */ 'in-synthetics/dashboards/global/CredentialList');
+const SyntheticLocationView = () =>
+  import(/* webpackChunkName: "synthetics" */ 'in-synthetics/dashboards/global/LocationList');
+const SyntheticsView = () =>
+  import(/* webpackChunkName: "synthetics" */ 'in-synthetics/dashboards/global/TestSummaryList');
+const SmartAlertList = () =>
+  import(/* webpackChunkName: "synthetics" */ 'in-synthetics/dashboards/global/SmartAlertList');
+const AnalyzeView = () => import(/* webpackChunkName: "synthetics" */ 'in-synthetics/dashboards/details/AnalyzeView');
+const AlertConfigTearSheet = () =>
+  import(/* webpackChunkName: "synthetics" */ 'in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheet');
+const SyntheticSummaryDashboard = () =>
+  import(/* webpackChunkName: "synthetics" */ 'in-synthetics/dashboards/summary/SyntheticSummary');
+const AlertDetailsView = () =>
+  import(/* webpackChunkName: "synthetics" */ 'in-synthetics/dashboards/global/AlertDetailsView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

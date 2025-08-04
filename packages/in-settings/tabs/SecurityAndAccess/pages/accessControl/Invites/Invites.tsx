@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error
-import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+const ShareAndInviteDialogBox = () =>
+  import(
+    /* webpackChunkName: "shareAndInvite" */ 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox'
+  );
 import React from 'react';
 
 //@ts-expect-error missing typescript migration

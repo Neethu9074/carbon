@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import LinuxKVMHypervisorMainView from 'promise-loader?global,linuxkvmhypervisor!in-linux-kvm-hypervisor/LinuxKVMHypervisorMainView';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import HostDashboard from 'promise-loader?global,linuxkvmhypervisor!in-linux-kvm-hypervisor/Dashboards/Host/HostDashboard';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import VMDashboard from 'promise-loader?global,linuxkvmhypervisor!in-linux-kvm-hypervisor/Dashboards/VM/VMDashboard';
+const LinuxKVMHypervisorMainView = () =>
+  import(/* webpackChunkName: "linuxkvmhypervisor" */ 'in-linux-kvm-hypervisor/LinuxKVMHypervisorMainView');
+const HostDashboard = () =>
+  import(/* webpackChunkName: "linuxkvmhypervisor" */ 'in-linux-kvm-hypervisor/Dashboards/Host/HostDashboard');
+const VMDashboard = () =>
+  import(/* webpackChunkName: "linuxkvmhypervisor" */ 'in-linux-kvm-hypervisor/Dashboards/VM/VMDashboard');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

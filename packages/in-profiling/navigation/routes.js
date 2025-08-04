@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import AnalyzeView from 'promise-loader?global,profiling!in-profiling/analyze/AnalyzeView/AnalyzeView';
+const AnalyzeView = () => import(/* webpackChunkName: "profiling" */ 'in-profiling/analyze/AnalyzeView/AnalyzeView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

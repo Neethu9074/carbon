@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
+const GlobeViewLoader = () =>
+  import(/* webpackChunkName: "globe-view" */ 'in-websites/WebsiteDashboard/components/GlobeView');
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 

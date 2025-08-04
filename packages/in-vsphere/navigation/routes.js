@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import DatacenterDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Datacenter/DatacenterDashboard';
-import HostDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Host/HostDashboard';
-import VmDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Vm/VmDashboard';
-import VSphereMainView from 'promise-loader?global,vsphere!in-vsphere/VSphereMainView';
+const DatacenterDashboard = () =>
+  import(/* webpackChunkName: "vsphere" */ 'in-vsphere/Dashboards/Datacenter/DatacenterDashboard');
+const HostDashboard = () => import(/* webpackChunkName: "vsphere" */ 'in-vsphere/Dashboards/Host/HostDashboard');
+const VmDashboard = () => import(/* webpackChunkName: "vsphere" */ 'in-vsphere/Dashboards/Vm/VmDashboard');
+const VSphereMainView = () => import(/* webpackChunkName: "vsphere" */ 'in-vsphere/VSphereMainView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

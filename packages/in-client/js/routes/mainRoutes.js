@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import AgentView from 'promise-loader?global,infrastructure!in-infrastructure/agentView/AgentView';
-import InternalViews from 'promise-loader?global,internal!in-internal';
+const AgentView = () => import (/* webpackChunkName: "infrastructure" */ 'in-infrastructure/agentView/AgentView');
+const InternalViews = () => import (/* webpackChunkName: "internal" */ 'in-internal');
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 

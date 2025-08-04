@@ -4,8 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-expect-error
-import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+const ShareAndInviteDialogBox = () =>
+  import(
+    /* webpackChunkName: "shareAndInvite" */ 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox'
+  );
 import classNames from 'classnames';
 import React from 'react';
 

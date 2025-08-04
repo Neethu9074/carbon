@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error promise loader
-import NotificationBarSticky from 'promise-loader?global!in-components/Sticky/NotificationBarSticky';
-// @ts-expect-error promise loader
-import NewPlayWithHeader from 'promise-loader?global!in-plg/Demo/NewPlayWithHeader';
+const NotificationBarSticky = () =>
+  // @ts-expect-error file was not migrated to typescript
+  import(/* webpackChunkName: "global" */ 'in-components/Sticky/NotificationBarSticky');
+const NewPlayWithHeader = () => import(/* webpackChunkName: "global" */ 'in-plg/Demo/NewPlayWithHeader');
 import React from 'react';
 
 import { CarbonStack, CarbonHeaderGlobalAction as HeaderGlobalAction } from '@instana/components';

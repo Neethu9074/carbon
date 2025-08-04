@@ -3,24 +3,26 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-//@ts-expect-error module need to be translated to TS
-import AlertConfigTearSheet from 'promise-loader?global,infrastructure!in-alerting/smart-alerts/infrastructure/tearsheet/AlertConfigTearSheet';
-// @ts-expect-error module need to be translated to TS
-import GraphExplorerView from 'promise-loader?global,graph-explorer-view!in-infrastructure/GraphExplorer/GraphExplorer';
-// @ts-expect-error module need to be translated to TS
-import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
-// @ts-expect-error
-import CustomEntitiesDashboardsPage from 'promise-loader?global,infrastructure!in-infrastructure/CustomEntity/CustomEntitiesDashboards';
-// @ts-expect-error module need to be translated to TS
-import TableView from 'promise-loader?global,infrastructure!in-infrastructure/tableView/TableView';
-// @ts-expect-error module need to be translated to TS
-import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
-//@ts-expect-error
-import SmartAlertDetailsView from 'promise-loader?global,infrastructure!in-infrastructure/smartAlertView/AlertDetailsView';
-//@ts-expect-error
-import SmartAlertView from 'promise-loader?global,infrastructure!in-infrastructure/smartAlertView/SmartAlertView';
-// @ts-expect-error module need to be translated to TS
-import Map from 'promise-loader?global,infrastructure!in-map/index';
+const AlertConfigTearSheet = () =>
+  import(
+    /* webpackChunkName: "infrastructure" */ 'in-alerting/smart-alerts/infrastructure/tearsheet/AlertConfigTearSheet'
+  );
+const GraphExplorerView = () =>
+  // @ts-expect-error file was not migrated to typescript
+  import(/* webpackChunkName: "graph-explorer-view" */ 'in-infrastructure/GraphExplorer/GraphExplorer');
+// @ts-expect-error file was not migrated to typescript
+const InfraExploreView = () => import(/* webpackChunkName: "infrastructure" */ 'in-infrastructure/Explore/Explore');
+const CustomEntitiesDashboardsPage = () =>
+  import(/* webpackChunkName: "infrastructure" */ 'in-infrastructure/CustomEntity/CustomEntitiesDashboards');
+const TableView = () => import(/* webpackChunkName: "infrastructure" */ 'in-infrastructure/tableView/TableView');
+// @ts-expect-error file was not migrated to typescript
+const GraphView = () => import(/* webpackChunkName: "graph-view" */ 'in-components/graphView/GraphView');
+const SmartAlertDetailsView = () =>
+  import(/* webpackChunkName: "infrastructure" */ 'in-infrastructure/smartAlertView/AlertDetailsView');
+const SmartAlertView = () =>
+  import(/* webpackChunkName: "infrastructure" */ 'in-infrastructure/smartAlertView/SmartAlertView');
+// @ts-expect-error file was not migrated to typescript
+const Map = () => import(/* webpackChunkName: "infrastructure" */ 'in-map/index');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

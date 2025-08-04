@@ -4,20 +4,23 @@
  * Copyright IBM Corp. 2025
  */
 
-//@ts-expect-error TS migration
-import GlobalApplicationSmartAlerts from 'promise-loader?global,APsmartAlert!in-events/components/SmartAlerts/Components/Application/GlobalApplicationSmartAlerts';
-//@ts-expect-error TS migration
-import ApplicationSmartAlerts from 'promise-loader?global,localApplicationSmartAlerts!in-events/components/SmartAlerts/Components/Application/ApplicationAlerts';
-//@ts-expect-error TS migration
-import SyntheticSmartAlerts from 'promise-loader?global,syntheticsSmartAlerts!in-synthetics/dashboards/global/SmartAlertList';
-//@ts-expect-error TS migration
-import MobileAppSmartAlerts from 'promise-loader?global,mobileAppSmartAlerts!in-alerting/smart-alerts/mobileApp/Alerts';
-//@ts-expect-error TS migration
-import InfraSmartAlerts from 'promise-loader?global,infraSmartAlerts!in-alerting/smart-alerts/infrastructure/Alerts';
-//@ts-expect-error TS migration
-import WebsiteSmartAlerts from 'promise-loader?global,websiteSmartAlerts!in-alerting/smart-alerts/websites/Alerts';
-//@ts-expect-error TS migration
-import LogsSmartAlerts from 'promise-loader?global,logsSmartAlerts!in-alerting/smart-alerts/logs/Alerts';
+const GlobalApplicationSmartAlerts = () =>
+  import(
+    /* webpackChunkName: "APsmartAlert" */ 'in-events/components/SmartAlerts/Components/Application/GlobalApplicationSmartAlerts'
+  );
+const ApplicationSmartAlerts = () =>
+  import(
+    /* webpackChunkName: "localApplicationSmartAlerts" */ 'in-events/components/SmartAlerts/Components/Application/ApplicationAlerts'
+  );
+const SyntheticSmartAlerts = () =>
+  import(/* webpackChunkName: "syntheticsSmartAlerts" */ 'in-synthetics/dashboards/global/SmartAlertList');
+const MobileAppSmartAlerts = () =>
+  import(/* webpackChunkName: "mobileAppSmartAlerts" */ 'in-alerting/smart-alerts/mobileApp/Alerts');
+const InfraSmartAlerts = () =>
+  import(/* webpackChunkName: "infraSmartAlerts" */ 'in-alerting/smart-alerts/infrastructure/Alerts');
+const WebsiteSmartAlerts = () =>
+  import(/* webpackChunkName: "websiteSmartAlerts" */ 'in-alerting/smart-alerts/websites/Alerts');
+const LogsSmartAlerts = () => import(/* webpackChunkName: "logsSmartAlerts" */ 'in-alerting/smart-alerts/logs/Alerts');
 import React, { useEffect, useState } from 'react';
 
 import { CarbonTab, CarbonTabList, CarbonTabPanels, CarbonTabs } from '@instana/components';

@@ -4,23 +4,39 @@
  */
 
 // the following components are all part of the same bundle (kubernetes)
-import DeploymentConfigDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/DeploymentConfig/DeploymentConfigDashboard';
-import PersistentVolumeClaimDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/PersistentVolumeClaim/PersistentVolumeClaimDashboard';
-import PersistentVolumeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/PersistentVolume/PersistentVolumeDashboard';
-import StatefulSetDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/StatefulSet/StatefulSetDashboard';
-import OtelClusterDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/OtelCluster/OtelClusterDashboard';
-import DeploymentDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Deployment/DeploymentDashboard';
-import DaemonSetDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/DaemonSet/DaemonSetDashboard';
-import NamespaceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Namespace/NamespaceDashboard';
-import ContainerDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Container/ContainerDashboard';
-import CronJobDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/CronJob/CronJobDashboard';
-import ClusterDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Cluster/ClusterDashboard';
-import ServiceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Service/ServiceDashboard';
-import OtelNodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Node/OtelNodeDashboard';
-import OtelPodDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Pod/OtelPodDashboard';
-import NodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Node/NodeDashboard';
-import PodDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Pod/PodDashboard';
-import KubernetesMainView from 'promise-loader?global,kubernetes!in-kubernetes/KubernetesMainView';
+const DeploymentConfigDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/DeploymentConfig/DeploymentConfigDashboard');
+const PersistentVolumeClaimDashboard = () =>
+  import(
+    /* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/PersistentVolumeClaim/PersistentVolumeClaimDashboard'
+  );
+const PersistentVolumeDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/PersistentVolume/PersistentVolumeDashboard');
+const StatefulSetDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/StatefulSet/StatefulSetDashboard');
+const OtelClusterDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/OtelCluster/OtelClusterDashboard');
+const DeploymentDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Deployment/DeploymentDashboard');
+const DaemonSetDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/DaemonSet/DaemonSetDashboard');
+const NamespaceDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Namespace/NamespaceDashboard');
+const ContainerDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Container/ContainerDashboard');
+const CronJobDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/CronJob/CronJobDashboard');
+const ClusterDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Cluster/ClusterDashboard');
+const ServiceDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Service/ServiceDashboard');
+const OtelNodeDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Node/OtelNodeDashboard');
+const OtelPodDashboard = () =>
+  import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Pod/OtelPodDashboard');
+const NodeDashboard = () => import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Node/NodeDashboard');
+const PodDashboard = () => import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/Dashboards/Pod/PodDashboard');
+const KubernetesMainView = () => import(/* webpackChunkName: "kubernetes" */ 'in-kubernetes/KubernetesMainView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

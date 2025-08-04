@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-//@ts-expect-error - Cannot find module
-import AccountAndBilling from 'promise-loader?global,amp!in-amp/pages/AccountAndBilling/AccountAndBilling';
+const AccountAndBilling = () =>
+  import(/* webpackChunkName: "amp" */ 'in-amp/pages/AccountAndBilling/AccountAndBilling');
 import { Route } from 'react-router-dom';
 import React from 'react';
 
