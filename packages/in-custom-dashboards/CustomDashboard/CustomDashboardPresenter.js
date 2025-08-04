@@ -82,7 +82,7 @@ export default function CustomDashboardPresenter(props) {
   const loadingSection = result?.progress?.loading && <DefaultLoadingDashboard />;
 
   const errorSection =
-    result?.errors?.[0]?.code === 'NOT_FOUND' ? (
+    result?.errors?.[0]?.code === 'NOT_FOUND' || config?.id === null ? (
       <EntityPageMainNotificationLightCardV2
         icon="lib_missing_data"
         title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.dashboardNotFound')}
@@ -91,6 +91,10 @@ export default function CustomDashboardPresenter(props) {
     ) : (
       <DashboardErroneousResultPresenter errors={result?.errors} />
     );
+
+  if (config?.id === null) {
+    return errorSection;
+  }
 
   return (
     <div ref={ref}>
