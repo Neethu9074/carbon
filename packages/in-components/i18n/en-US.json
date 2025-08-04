@@ -805,6 +805,7 @@
     }
   },
   "copyToClipboardButtonCopy": "Copy",
+  "tooltipCopyToClipboard": "Copy to clipboard",
   "withEmptyStateFallbackTitleNoDataAvailable": "No data available",
   "queryBuilder": {
     "components": {

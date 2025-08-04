@@ -5,9 +5,9 @@
  */
 
 :local {
-
   .buttonMessageBox {
     display: flex;
     align-items: center;
+    padding-top: var(--cds-spacing-05);
   }
 }

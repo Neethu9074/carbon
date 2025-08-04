@@ -13094,7 +13094,7 @@
         "download": "Download",
         "theSelectedFilesCollectively": "The selected files collectively have a size of {{downloadSize}}, which is above the maximum allowed {{maxDownloadSize}} size for download.",
         "noLogsFound": "No logs found",
-        "automaticallyScrollToBottomOnLogChange": "Automatically scroll to bottom on log change:",
+        "automaticallyScrollToBottomOnLogChange": "Automatically scroll to bottom on log change",
         "changeAgentMode": "Change Agent Mode",
         "updateAgent": "Update Agent",
         "resetSensors": "Reset Sensors",

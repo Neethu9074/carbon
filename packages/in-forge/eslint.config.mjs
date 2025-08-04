@@ -11,10 +11,11 @@ import baseConfig from '../../eslint.config.mjs';
 export default [
   ...baseConfig,
   {
+    files: ['**/*.{js,jsx,ts,tsx}'],
     rules: {
       ...createImportRestrictionRule({
         enforceAbsoluteImportPaths: false,
-
+        patterns: ['!@carbon/colors'],
         allowedInPackages: [
           // current package
           'in-forge',
