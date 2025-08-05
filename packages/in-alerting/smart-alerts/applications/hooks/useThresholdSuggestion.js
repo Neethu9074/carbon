@@ -9,16 +9,18 @@ import { useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
+import { PER_AP } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateMultiThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { isValidChartViewEntitySelection } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
   const { isGlobalSmartAlert, isValid, simpleMode, alertConfigWithFormModel, blueprintConfig, editMode } = config;
+  const isEvaluationTypePerAp = alertConfigWithFormModel.evaluationType == PER_AP;
   const thresholdResult = useObservable(
     ([simpleMode, isValid]) =>
       resolveThresholdRequest(alertConfigWithFormModel, isGlobalSmartAlert, blueprintConfig, simpleMode, isValid),
@@ -26,19 +28,26 @@ export function useThresholdSuggestion(form, updateForm, setThresholdResult, con
   );
 
   useEffect(() => {
-    if (!thresholdResult || thresholdResult.progress?.loading) return;
-
-    setThresholdResult(thresholdResult);
-    const { data, errors } = thresholdResult;
-
     const isAdaptiveBaseline = alertConfigWithFormModel.threshold.warningThreshold.type === ADAPTIVE_BASELINE;
+    const isStaticThreshold = alertConfigWithFormModel.threshold?.warningThreshold?.type === STATIC_THRESHOLD;
 
-    if ((!isGlobalSmartAlert || isAdaptiveBaseline) && isValid) {
-      updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, simpleMode, editMode);
-    }
+    if (
+      (isGlobalSmartAlert && !isAdaptiveBaseline) ||
+      (!isGlobalSmartAlert && isStaticThreshold && !isEvaluationTypePerAp)
+    ) {
+      updateForm(
+        form
+          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
+          .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(null))
+      );
+    } else {
+      if (!thresholdResult || thresholdResult.progress?.loading) return;
 
-    if (isGlobalSmartAlert && !isAdaptiveBaseline) {
-      updateForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false)));
+      setThresholdResult(thresholdResult);
+      const { data, errors } = thresholdResult;
+      if ((!isGlobalSmartAlert || isAdaptiveBaseline) && isValid) {
+        updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, simpleMode, editMode);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
