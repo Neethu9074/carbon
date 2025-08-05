@@ -473,7 +473,7 @@
       "permissionLabel_CAN_VIEW_LOGS": "Access Logs",
       "permissionLabel_CAN_CONFIGURE_LOG_MANAGEMENT": "Configuration of log analysis tool integrations",
       "permissionLabel_CAN_DELETE_LOGS": "Log deletion",
-      "permissionLabel_CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS": "Configuration of global Smart Alerts for LogConfiguration of global Smart Alerts for Logs",
+      "permissionLabel_CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS": "Configuration of global Smart Alerts for Logs",
       "permissionLabel_CAN_VIEW_LOG_VOLUME": "Access log ingestion volume report",
       "permissionLabel_CAN_CONFIGURE_LOG_RETENTION_PERIOD": "Configuration of log retention period",
       "permissionLabel_LIMITED_SYNTHETICS_SCOPE": "Access synthetic tests and view their configuration",
