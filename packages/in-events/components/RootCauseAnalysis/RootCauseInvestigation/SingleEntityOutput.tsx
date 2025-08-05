@@ -63,7 +63,7 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
               title={t('in-events:RCA.singleEntityLLM.output.diagnosis')}
             >
               <Typography variant="body-01">
-                <MarkdownRenderer html={toHtml(backendResponse.diagnosis.diagnosis)} />
+                <MarkdownRenderer html={toHtml(backendResponse.diagnosis.diagnosis.summary)} />
               </Typography>
             </ProductiveCard>
           </Column>
