@@ -207,7 +207,7 @@ module.exports = {
   eventsTransientEventEnabled: true,
   overrideAdaptiveBaselineSmoothingParamsEnabled: true,
   msTeamsAppEnabled: true,
-  newAccountAndBillingPageEnabled: false,
+  newAccountAndBillingPageEnabled: true,
   eumSmartAlertCustomMetricsEnabled: true,
   onlyFedRampAllowedAlertChannelsEnabled: false,
   deleteLogsV3Enabled: true,

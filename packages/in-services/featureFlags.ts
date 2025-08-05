@@ -399,7 +399,7 @@ export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabl
   'overrideAdaptiveBaselineSmoothingParamsEnabled'
 );
 export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', false);
-export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', false);
+export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', true);
 export const newOnboardingPageEnabled = isFeatureFlagEnabled('newOnboardingPageEnabled', false);
 export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   'onlyFedRampAllowedAlertChannelsEnabled',
