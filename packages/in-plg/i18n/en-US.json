@@ -564,7 +564,7 @@
     },
     "logging": {
       "title": "Instana logging",
-      "description": "Now accepting logs anywhere through OTel, and with longer retention up to 90-days as an add-on feature.",
+      "description": "Now accepting logs from anywhere through OTel, and with longer retention up to 90-days as an add-on feature.",
       "buttonName": "Explore now"
     },
     "turbonomic": {
