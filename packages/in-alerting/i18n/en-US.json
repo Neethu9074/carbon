@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "Triggers incident",
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "No channels added. Get started by clicking Select alert channels.",
+    "noChannelSelectedDetailPage": "No channels added yet to receive alert notifications.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional filters",
     "groupBy": "Group by",
     "noChannelAvailable": "No alert channels available",
