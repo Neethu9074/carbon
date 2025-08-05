@@ -60,6 +60,8 @@ export function ConfigureColumns<ITEM_TYPE extends ListItem>({
         label={t('in-synthetics:dashboard.testList.configureColumns.dialog.configureButtonLabel')}
         onClick={() => setIsOpen(true)}
         disabled={isResultLoading}
+        autoAlign
+        align="left"
       >
         <Column />
       </IconButton>

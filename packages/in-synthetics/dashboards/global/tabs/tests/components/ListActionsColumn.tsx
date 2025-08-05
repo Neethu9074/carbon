@@ -74,6 +74,7 @@ const ListActionsColumn = ({ testResultCommonProperties }: TestResultListItem) =
         hasIconOnly
         disabled
         renderIcon={() => <InlineLoading />}
+        iconDescription={t('in-synthetics:dashboard.testList.actionLoadingIconDescription')}
         className={locals.loadingIconButton}
       />
     ) : (

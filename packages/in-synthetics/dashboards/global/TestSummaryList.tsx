@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import {
   OrderDirection,
@@ -14,7 +14,6 @@ import {
   SyntheticTest,
   TagFilterExpression,
   TagFilterOperator,
-  TestResultListItem,
   TimeConfig
 } from '@instana/types';
 import { Message as CarbonMessage } from '@instana/components';
@@ -34,8 +33,7 @@ import {
   entityIdsUrlParameter,
   runTypeUrlParameter,
   runTypeScheduled,
-  runTypeCICD,
-  TestListProps
+  runTypeCICD
 } from 'in-synthetics/utils/constants';
 import {
   applicationIdTagName,
@@ -48,12 +46,6 @@ import {
   typeTagName
 } from 'in-synthetics/tags';
 import {
-  syntheticCarbonTableEnabled,
-  syntheticRbacLimitedEnabled,
-  syntheticRunNowEnabled,
-  syntheticSslImprovementEnabled
-} from 'in-services/featureFlags';
-import {
   addColumnCustomizationNotification,
   removeColumncustomizationNotification
 } from 'in-synthetics/utils/setTestsColumnConfigurationMessage';
@@ -63,15 +55,18 @@ import showNotification, {
   storedAlarmTimeOrNull,
   timeExpired
 } from 'in-synthetics/utils/setReminders';
+import {
+  syntheticCarbonTableEnabled,
+  syntheticRbacLimitedEnabled,
+  syntheticRunNowEnabled
+} from 'in-services/featureFlags';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { ExpandableResultList } from 'in-synthetics/dashboards/global/tabs/tests/components/ExpandableResultList';
+import { TestsTableWithUrlState } from 'in-synthetics/dashboards/global/tabs/tests/components/TestsTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
-import TestListFilters from 'in-synthetics/dashboards/global/tabs/tests/components/TestListFilters';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
-import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -183,12 +178,6 @@ const TestSummaryList = () => {
   let associations;
   const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType }, setFilter] =
     useUrlState(urlStateDefinition);
-  const [filtersTemp, setFiltersTemp] = useState<FilterState>({
-    syntheticTypes,
-    locationIds,
-    applicationIds,
-    entityIds
-  });
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const showTestsColumnCustomizationMessage = addColumnCustomizationNotification();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
@@ -224,28 +213,6 @@ const TestSummaryList = () => {
 
   const rightHeader = useFilterHeader(true, syntheticTests, setFilter);
 
-  const onFilterApply = () => {
-    setFilter(filtersTemp);
-  };
-
-  const onFilterCancel = () => {
-    setFiltersTemp({
-      syntheticTypes,
-      locationIds,
-      applicationIds,
-      entityIds
-    });
-  };
-
-  const filterComponent = useMemo(() => {
-    if (syntheticTests.progress.loading) return null;
-    return <TestListFilters result={syntheticTests} filters={filtersTemp} setFilters={setFiltersTemp} />;
-  }, [syntheticTests, filtersTemp]);
-
-  const getRowDetails = (row: TestResultListItem) => {
-    return <ExpandableResultList timeConfig={timeConfig} runType={runType} test={row} />;
-  };
-
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -269,54 +236,14 @@ const TestSummaryList = () => {
           </div>
         )}
         {syntheticCarbonTableEnabled ? (
-          <CarbonDataTableWithUrlState<TestResultListItem, TestListProps>
-            get={getTestSummaryListData}
-            paginationResettingUrlParameters={[...timeConfigUrlParameters]}
-            columnDefinitions={getColumnDefinitions(role)}
-            defaultOrderBy="successRate"
-            defaultOrderDirection="ASC"
-            pathSegment={pathSegment}
-            matrixPrefix={matrixPrefix}
-            timeConfig={timeConfig}
-            searchText={t('in-synthetics:dashboard.testList.searchSyntheticTests')}
-            toolBarContent={
-              syntheticRunNowEnabled ? (
-                <Dropdown
-                  className={locals.dropdownWidth}
-                  items={datascopeRunTypes}
-                  onChange={({ selectedItem }) => {
-                    setFilter({ runType: selectedItem?.value! });
-                  }}
-                  label=""
-                  id="runType"
-                  titleText=""
-                  selectedItem={datascopeRunTypes.find(item => item.value === runType)}
-                  initialSelectedItem={datascopeRunTypes[0]}
-                />
-              ) : undefined
-            }
-            noDataHeader={t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle')}
-            noDataDescription={t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')}
-            errorHeader={t('in-synthetics:dashboard.testList.failedToLoadTestsTitle')}
-            runType={runType}
-            actionButtonContent={role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
-            defaultDisabledColumns={[
-              'avg_response_time',
-              'location',
-              syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
-              'health'
-            ]}
-            isFilterable
-            filters={filterComponent}
-            onFilterApply={onFilterApply}
-            onFilterCancel={onFilterCancel}
+          <TestsTableWithUrlState
             syntheticTypes={syntheticTypes}
             locationIds={locationIds}
-            applicationIds={applicationIds}
-            entityIds={entityIds}
-            associations={associations}
-            loading={syntheticTests.progress.loading}
-            {...(syntheticSslImprovementEnabled ? { isExpandable: true, getRowDetails: getRowDetails } : {})}
+            {...(syntheticRbacLimitedEnabled ? { entityIds, associations } : { applicationIds })}
+            {...(runType ? { runType } : {})}
+            syntheticTests={syntheticTests}
+            timeConfig={timeConfig}
+            setFilter={setFilter}
           />
         ) : (
           <ServerTableWithUrlState

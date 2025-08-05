@@ -974,9 +974,13 @@ export interface FilterConfig {
 }
 
 export interface TestListProps {
+  context?: string;
+  appId?: string;
+  mobileAppId?: string;
+  websiteId?: string;
   timeConfig: TimeConfig;
   runType?: string;
-  syntheticTypes?: string[];
+  syntheticTypes: string[];
   locationIds: string[];
   applicationIds?: string[];
   entityIds?: string[];
@@ -998,4 +1002,13 @@ export interface ExpandableResultListProps {
   test: TestResultListItem;
   runType: string | undefined;
   timeConfig: TimeConfig;
+}
+
+export interface TestsTableWithUrlStateProps extends TestListProps {
+  syntheticTests: Result<SyntheticTest[]>;
+  setFilter: (x: Object) => void;
+  filterComponent?: JSX.Element | null;
+  onFilterApply?: () => void;
+  onFilterCancel?: () => void;
+  isAssociationsContext?: boolean;
 }

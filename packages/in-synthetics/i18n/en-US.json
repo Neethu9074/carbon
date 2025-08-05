@@ -571,7 +571,8 @@
         "errorHeader": "Failed to load data",
         "noDataHeader": "No results available",
         "noDataDescription": "There were no results retrieved for the selected time range."
-      }
+      },
+      "actionLoadingIconDescription": "loading"
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",
