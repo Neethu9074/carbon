@@ -19,10 +19,7 @@ export default {
 export function DesignLibraryCase() {
   return (
     <Wrapper>
-      <OpenIssuesListPresenter
-        openIssuesResult={success([getIssue({ severity: 5 }), getIssue({ severity: 10 })])}
-        getIssueLink={() => '#'}
-      />
+      <OpenIssuesListPresenter openIssuesResult={success([getIssue({ severity: 5 })])} getIssueLink={() => '#'} />
     </Wrapper>
   );
 }
@@ -32,6 +29,7 @@ export function InContentArea() {
     <Wrapper>
       <OpenIssuesListPresenter
         inContentArea
+        analyzeLink="#"
         openIssuesResult={success([
           getIssue({
             description: range(0, 2000)
@@ -49,6 +47,7 @@ export function MarkdownDescription() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
+        analyzeLink="#"
         openIssuesResult={success([
           getIssue({
             title: 'With lists',
@@ -76,6 +75,7 @@ export function LongDescription() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
+        analyzeLink="#"
         openIssuesResult={success([
           getIssue({
             title: 'With long description',
@@ -106,6 +106,7 @@ export function LargeNumberOfIssues() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
+        analyzeLink="#"
         openIssuesResult={success(
           range(1, 20)
             .map(() => Math.round(Math.random() * 10))

@@ -10,9 +10,8 @@
     width: 100%;
   }
 
-  button.viewButton,
-  a.viewButton {
+  .viewButton {
     width: 100%;
-    max-width: 100%;
+    min-width: 100%;
   }
 }
