@@ -42,26 +42,26 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
       data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}
       data-testid="header"
     >
-      <WelcomeToolbar title={headerTitle} />
-      {newOnboardingPageEnabled && isTrial ? (
-        <LeftRightPadding>
-          <SecondLevelNavigation>
-            <SecondLevelNavigationItem
-              href={createHrefToPath(welcomePage)}
-              label={t('in-plg:onboarding.yourDashboard')}
-              isActive={location.pathname === welcomePage}
-              className={locals.tabItemOverride}
-            />
-            <SecondLevelNavigationItem
-              href={createHrefToPath(gettingStartedPath)}
-              label={t('in-plg:onboarding.gettingStarted')}
-              isActive={location.pathname === gettingStartedPath}
-              className={locals.tabItemOverride}
-            />
-          </SecondLevelNavigation>
-        </LeftRightPadding>
-      ) : (
-        onboardingHeaderEnabled && <OnboardingCarousel accountActivationData={accountActivationData} />
+      <WelcomeToolbar title={headerTitle}>
+        {newOnboardingPageEnabled && isTrial && (
+          <LeftRightPadding>
+            <SecondLevelNavigation>
+              <SecondLevelNavigationItem
+                href={createHrefToPath(welcomePage)}
+                label={t('in-plg:onboarding.yourDashboard')}
+                isActive={location.pathname === welcomePage}
+              />
+              <SecondLevelNavigationItem
+                href={createHrefToPath(gettingStartedPath)}
+                label={t('in-plg:onboarding.gettingStarted')}
+                isActive={location.pathname === gettingStartedPath}
+              />
+            </SecondLevelNavigation>
+          </LeftRightPadding>
+        )}
+      </WelcomeToolbar>
+      {!(newOnboardingPageEnabled && isTrial) && onboardingHeaderEnabled && (
+        <OnboardingCarousel accountActivationData={accountActivationData} />
       )}
     </div>
   );

@@ -8,8 +8,13 @@
   .toolbar {
     border-block-end: 1px solid var(--cds-border-subtle);
     padding-inline-end: var(--cds-grid-margin);
-    padding-inline-start: 2.5rem;
     padding-top: 1rem;
+  }
+
+  .toolbarbottom {
     padding-bottom: 1rem;
+  }
+  .title {
+    padding-left: 2.5rem;
   }
 }
