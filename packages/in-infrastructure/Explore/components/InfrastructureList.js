@@ -529,6 +529,11 @@ export function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfi
             const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
             const metricValue = getMetricValue(kpi, formatter, unitConverter);
             const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
+            const hasCustomChartTooltip =
+              threshold &&
+              threshold.thresholdEnabled &&
+              threshold.operator &&
+              (threshold.critical || threshold.warning);
 
             const extremeValue = extremeValueInSeries(threshold, series);
             const { strokeColor, fillColor } = getThresholdColors(threshold, extremeValue, formatterId);
@@ -547,7 +552,7 @@ export function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfi
                 strokeColor={strokeColor}
                 fillColor={fillColor}
                 customChartTooltip={
-                  threshold && (
+                  hasCustomChartTooltip && (
                     <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
                   )
                 }

@@ -845,6 +845,8 @@ function generateMetric({
   const series = getConvertedSeries(metrics[seriesKey], unitConverter);
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
   const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
+  const hasCustomChartTooltip =
+    threshold && threshold.thresholdEnabled && threshold.operator && (threshold.critical || threshold.warning);
   const extremeValue = extremeValueInSeries(threshold, series);
   const { strokeColor, fillColor } = getThresholdColors(threshold, extremeValue, formatterId);
 
@@ -862,7 +864,9 @@ function generateMetric({
       strokeColor={strokeColor}
       fillColor={fillColor}
       customChartTooltip={
-        threshold && <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
+        hasCustomChartTooltip && (
+          <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
+        )
       }
     />
   );

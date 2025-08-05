@@ -20,15 +20,25 @@ export interface ThresholdTooltipProps {
   formatterId: string;
 }
 export default function ThresholdTooltip({ threshold, formatter, formatterId }: ThresholdTooltipProps) {
-  if (!threshold || !threshold.thresholdEnabled || !threshold.operator || (!threshold.critical && !threshold.warning))
+  if (!threshold || !threshold.thresholdEnabled || !threshold.operator) {
     return null;
+  }
+
+  const hasCritical = threshold.critical && threshold.critical.trim() !== '';
+  const hasWarning = threshold.warning && threshold.warning.trim() !== '';
+
+  if (!hasCritical && !hasWarning) {
+    return null;
+  }
+
   const operator = humanReadableThresholdOperator.get(threshold.operator);
+
   return (
     <>
       <Typography onDark variant="body-bold" component="div">
         {t('in-infrastructure:threshold.label')}
       </Typography>
-      {threshold.critical && (
+      {hasCritical && (
         <Typography onDark variant="body-regular" component="div">
           {t('in-infrastructure:threshold.critical', {
             operator,
@@ -36,7 +46,7 @@ export default function ThresholdTooltip({ threshold, formatter, formatterId }: 
           })}
         </Typography>
       )}
-      {threshold.warning && (
+      {hasWarning && (
         <Typography onDark variant="body-regular" component="div">
           {t('in-infrastructure:threshold.warning', {
             operator,
