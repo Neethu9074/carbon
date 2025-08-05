@@ -21,7 +21,12 @@ interface InvestigationProps {
 
 export interface InvestigationResponse {
   diagnosis: {
-    diagnosis: string;
+    diagnosis: {
+      summary: string;
+      what: string;
+      where: string;
+      why: string;
+    };
     reasoning: string;
   };
   event_summary: string;
