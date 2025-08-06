@@ -11,7 +11,14 @@ import { LocationMutator } from 'in-stores/navigation/navigation';
 type GetHrefWithMutation = (locationMutator: LocationMutator) => string;
 
 /**
- * Drop in replacement for getModifiedUrlStream, takes a location mutator function, provides a clean location and returns a href
+ * Creates and returns a function "getHref" that
+ * takes a location mutator function (LocationMutator),
+ * and uses that to create and return a new href.
+ *
+ * This was a replacment for the old getModifiedUrlStream method of in-store/navigation, with this function:
+ * ```
+ * navigationParameters$.map(currentLocation => getModifiedUrl(currentLocation, modifyLocation)).distinct();
+ * ```
  *
  * Multiple hrefs can be created from one hook, see example:
  *

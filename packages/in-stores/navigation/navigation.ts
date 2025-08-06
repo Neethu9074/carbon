@@ -5,7 +5,7 @@
 
 import PropTypes from 'prop-types';
 
-import { IsViewArg, IsViewPredicate, removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
+import { IsViewArg, IsViewPredicate } from 'in-stores/navigation/utils';
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
@@ -58,23 +58,6 @@ export function getModifiedUrl(currentLocation: Location, modifyLocation: Locati
   modifyLocation(newLocation);
   applyResets(currentLocation, newLocation);
   return formatPathWithTU(`/#${stringify(newLocation)}`);
-}
-
-/**
- * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
- */
-export function getModifiedUrlStream(modifyLocation: LocationMutator) {
-  return navigationParameters$.map(currentLocation => getModifiedUrl(currentLocation, modifyLocation)).distinct();
-}
-/**
- * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
- */
-export function getView(path: string) {
-  return getModifiedUrlStream((location: Location) => {
-    // checks the current and next path if navigating into another area.
-    removeDFQueryFromLocationWhenChangingArea(location, path);
-    location.pathname = path;
-  });
 }
 
 /**
