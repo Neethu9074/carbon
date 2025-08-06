@@ -151,7 +151,7 @@ class LogStreamer extends React.PureComponent<LogStreamerProps> {
             size="sm"
             labelText={t('in-forge:plugins.instanaAgent.dashboard.automaticallyScrollToBottomOnLogChange')}
             toggled={scrollToBottomOnChange}
-            id="set-auto-scroll"
+            id={`${logStreamTargetId}-set-auto-scroll`}
             className={locals.toggle}
           />
           <div className={locals.copyButton}>
@@ -160,13 +160,13 @@ class LogStreamer extends React.PureComponent<LogStreamerProps> {
         </Layer>
 
         <div>
-          <Typography variant="code-01" component="pre" >
-              <code
-                className={locals.log}
-                id={logStreamTargetId}
-                dangerouslySetInnerHTML={{ __html: log }}
-                ref={ele => (this.code = ele)}
-              />
+          <Typography variant="code-01" component="pre">
+            <code
+              className={locals.log}
+              id={logStreamTargetId}
+              dangerouslySetInnerHTML={{ __html: log }}
+              ref={ele => (this.code = ele)}
+            />
           </Typography>
         </div>
 
