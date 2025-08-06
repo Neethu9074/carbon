@@ -8,6 +8,11 @@ import React from 'react';
 
 import { IconButton } from '@instana/components';
 
+import {
+  track,
+  OTEL_COLLECTOR_RESTART_CLICKED,
+  OTEL_COLLECTOR_EDIT_CONFIGURATION_CLICKED
+} from 'in-services/tracking/tracking';
 import EditConfigurationDialog from 'in-infrastructure/CollectorsView/Dashboard/EditConfigurationDialog';
 import { SnapshotItem } from 'in-infrastructure/CollectorsView/Dashboard/CollectorDashboard';
 import { restartOtelCollector } from 'in-forge/plugins/instanaAgent/selfMonitoring';
@@ -23,6 +28,7 @@ export default function ActionsButtonSection({ snapshot }: { snapshot: SnapshotI
         type="lib_actions_refresh"
         size="compact"
         onClick={() => {
+          track(OTEL_COLLECTOR_RESTART_CLICKED);
           restartOtelCollector(snapshot);
         }}
         isWrapperedByTooltip
@@ -31,7 +37,10 @@ export default function ActionsButtonSection({ snapshot }: { snapshot: SnapshotI
       <IconButton
         type="lib_actions_settings_edit"
         size="compact"
-        onClick={() => addActiveDialog(<EditConfigurationDialog />)}
+        onClick={() => {
+          track(OTEL_COLLECTOR_EDIT_CONFIGURATION_CLICKED);
+          addActiveDialog(<EditConfigurationDialog />);
+        }}
         isWrapperedByTooltip
         iconDescription={t('in-infrastructure:collectorView.editConfiguration')}
       />
