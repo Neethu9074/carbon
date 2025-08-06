@@ -18,6 +18,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { saveUserSettings } from 'in-services/userSettings';
+import { solisEnabled } from 'in-services/featureFlags';
 import Title from 'in-components/Title';
 
 import locals from './UiConfig.mless';
@@ -112,57 +113,65 @@ export default function UiConfigGeneralPage() {
           onToggle={e => saveSetting('formatNumbersAccordingToEnUs', e)}
         />
       </HorizontalFormGroup>
-      <HorizontalFormGroup noHelpTextSpacer>
-        <Heading text={t('in-settings:languageSelection.language')} htmlFor="language" />
-        <Select
-          id="language"
-          name="language"
-          value={activeLanguage}
-          onChange={e =>
-            saveUserSettings(
-              collationLanguage === activeLanguage
-                ? { preferredLanguage: e.target.value, collationLanguage: e.target.value }
-                : { preferredLanguage: e.target.value },
-              () => window.location.reload()
-            )
-          }
-        >
-          {supportedLanguages
-            .map(code => ({
-              code,
-              label: t('language', { context: code, lng: 'en-US' }),
-              localizedLabel: t('language', { context: code })
-            }))
-            .sort((a, b) => compareIgnoreCase(a.label, b.label))
-            .map(({ code, label, localizedLabel }) => (
-              <option key={code} value={code}>
-                {label} {label !== localizedLabel && ` / ${localizedLabel}`}
-              </option>
-            ))}
-        </Select>
-      </HorizontalFormGroup>
-      <HorizontalFormGroup noHelpTextSpacer>
-        <Heading text={t('in-settings:languageSelection.collationLanguage')} htmlFor="collation-language" />
-        <Select
-          id="collation-language"
-          name="collation-language"
-          value={collationLanguage}
-          onChange={e => saveUserSettings({ collationLanguage: e.target.value }, () => window.location.reload())}
-        >
-          {supportedLanguages
-            .map(code => ({
-              code,
-              label: t('language', { context: code, lng: 'en-US' }),
-              localizedLabel: t('language', { context: code })
-            }))
-            .sort((a, b) => compareIgnoreCase(a.label, b.label))
-            .map(({ code, label, localizedLabel }) => (
-              <option key={code} value={code}>
-                {label} {label !== localizedLabel && ` / ${localizedLabel}`}
-              </option>
-            ))}
-        </Select>
-      </HorizontalFormGroup>
+      {/* Hide language selection options when Solis is enabled with browser language feature */}
+      {!solisEnabled && (
+        <>
+          <HorizontalFormGroup noHelpTextSpacer>
+            <Heading text={t('in-settings:languageSelection.language')} htmlFor="language" />
+            <Select
+              id="language"
+              name="language"
+              value={activeLanguage}
+              onChange={e =>
+                saveUserSettings(
+                  collationLanguage === activeLanguage
+                    ? { preferredLanguage: e.target.value, collationLanguage: e.target.value }
+                    : { preferredLanguage: e.target.value },
+                  () => window.location.reload()
+                )
+              }
+            >
+              {supportedLanguages
+                .map(code => ({
+                  code,
+                  label: t('language', { context: code, lng: 'en-US' }),
+                  localizedLabel: t('language', { context: code })
+                }))
+                .sort((a, b) => compareIgnoreCase(a.label, b.label))
+                .map(({ code, label, localizedLabel }) => (
+                  <option key={code} value={code}>
+                    {label} {label !== localizedLabel && ` / ${localizedLabel}`}
+                  </option>
+                ))}
+            </Select>
+          </HorizontalFormGroup>
+        </>
+      )}
+      <>
+        <HorizontalFormGroup noHelpTextSpacer>
+          <Heading text={t('in-settings:languageSelection.collationLanguage')} htmlFor="collation-language" />
+          <Select
+            id="collation-language"
+            name="collation-language"
+            value={collationLanguage}
+            onChange={e => saveUserSettings({ collationLanguage: e.target.value }, () => window.location.reload())}
+          >
+            {supportedLanguages
+              .map(code => ({
+                code,
+                label: t('language', { context: code, lng: 'en-US' }),
+                localizedLabel: t('language', { context: code })
+              }))
+              .sort((a, b) => compareIgnoreCase(a.label, b.label))
+              .map(({ code, label, localizedLabel }) => (
+                <option key={code} value={code}>
+                  {label} {label !== localizedLabel && ` / ${localizedLabel}`}
+                </option>
+              ))}
+          </Select>
+        </HorizontalFormGroup>
+      </>
+
       <HorizontalFormGroup noHelpTextSpacer>
         <Heading text={t('in-settings:tabs.connectionStrategy')} htmlFor="maintenance-notes" />
         <Button kind="secondary" onClick={() => addActiveDialog(<ChooseConnectionStrategyDialog />)}>
