@@ -16,11 +16,6 @@
     margin: auto;
     line-height: 1.25rem;
   }
-  .verticalLine {
-    width: 0.09rem;
-    height: 1.5rem;
-    background: var(--ids-color-option-neutral-600);
-  }
   .bannerLink {
     text-decoration: underline;
   }

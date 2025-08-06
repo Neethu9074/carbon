@@ -29,4 +29,8 @@
       }
     }
   }
+
+  .flexProperty {
+    align-items: center;
+  }
 }
