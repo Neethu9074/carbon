@@ -213,5 +213,6 @@ module.exports = {
   fiveMinuteGranularityForAdaptiveThresholdEnabled: true,
   otelCollectorViewEnabled: true,
   downtimesOnHostEnabled: true,
-  newOnboardingPageEnabled: false
+  newOnboardingPageEnabled: false,
+  agentEnforcementEnabled: false
 };

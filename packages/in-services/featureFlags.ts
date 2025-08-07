@@ -408,3 +408,4 @@ export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', fal
 export const customEntitiesViewEnabled = isFeatureFlagEnabled('customEntitiesViewEnabled', false);
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
 export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);
+export const agentEnforcementEnabled = isFeatureFlagEnabled('agentEnforcementEnabled', false);

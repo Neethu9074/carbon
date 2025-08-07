@@ -1041,5 +1041,10 @@ module.exports = exports = [
     uiClientKey: 'customEntitiesViewEnabled',
     instanaCtlKey: 'feature.custom.entities.view.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'agentEnforcementEnabled',
+    instanaCtlKey: 'feature.agent.enforcement.enabled',
+    defaultValue: false
   }
 ];
