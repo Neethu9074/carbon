@@ -22,14 +22,14 @@ import {
   NLGResponseObject
 } from 'in-events/components/AIChat/ResponseObjects';
 import { formatForTable, formatForEventsTable } from 'in-events/components/AIChat/TableComponents/TableFormatters';
-import { sendAPIQuery, fetchAPIData, fetchEventsData } from 'in-events/components/AIChat/chatAPI';
+import { sendAPIQuery, fetchAPIData, fetchEventsData } from 'in-events/components/AIChat/api/eventsChatAPI';
 import { t } from 'in-i18n';
 
 // Params:
 // request of type MessageRequest
 // requestOptions of type CustomSendMessageOptions
 // instance of type ChatInstance
-export async function CustomSendMessages(
+export async function EventsCustomSendMessages(
   request,
   // eslint-disable-next-line
   requestOptions,

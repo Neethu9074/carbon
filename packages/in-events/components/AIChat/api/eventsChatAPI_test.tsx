@@ -5,7 +5,7 @@
  */
 
 //@ts-expect-error not ts file - temporary
-import { sendAPIQuery, fetchAPIData } from 'in-events/components/AIChat/chatAPI';
+import { sendAPIQuery, fetchAPIData } from 'in-events/components/AIChat/api/eventsChatAPI';
 
 const mockHttpFunc = jest.fn();
 jest.mock('in-services/http', () => ({

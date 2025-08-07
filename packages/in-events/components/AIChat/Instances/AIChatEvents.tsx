@@ -5,13 +5,13 @@
 
 import React, { useState } from 'react';
 
+// @ts-expect-error - No type definitions available
+import { EventsCustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages';
 import {
   EVENT_AI_LIBRARY_OPEN,
   EVENT_AI_CHAT_FEEDBACK_MENU_CLICK,
   EVENT_AI_LIBRARY_SELECTION_MADE
 } from 'in-services/tracking/tracking';
-// @ts-expect-error - No type definitions available
-import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import AITooltipContent from 'in-events/components/AIChat/components/AITooltipContent';
 import InstructionPop from 'in-events/components/AIChat/CustomPanels/InstructionPop';
 import PromptLibrary from 'in-events/components/AIChat/CustomPanels/PromptLibrary';
@@ -67,7 +67,7 @@ export default function AIChatEvents() {
 // Configuration to be passed to the AI Chat
 const config = {
   messaging: {
-    customSendMessage: CustomSendMessages
+    customSendMessage: EventsCustomSendMessages
   }
 };
 
