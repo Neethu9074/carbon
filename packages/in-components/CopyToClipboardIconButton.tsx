@@ -73,6 +73,7 @@ export default forwardRef(function CopyToClipboardIconButton(
       }}
       iconDescription={t('in-components:tooltipCopyToClipboard')}
       size="sm"
+      autoAlign
     />
   );
 });
