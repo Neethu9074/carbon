@@ -70,13 +70,15 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     mobileEndpoint: 'https://eum-pink-saas.instana.rocks/mobile',
     websiteEndpoint: 'https://eum-pink-saas.instana.rocks',
     websiteScriptSource: 'https://eum.instana.io/eum.min.js',
-    // mcspDetails is used to simulate (MCSP) environment details for testing and UI display in pink env.
+    // mcspDetails,cmrDetails used to simulate (MCSP) environment details for testing and UI display in pink env.
     mcspDetails: {
       isMcspEnvironment: false,
       mcspSaasConsoleUrl: 'https://mock-url.com',
       regionName: 'fake region',
       ownerName: 'firstName lastName'
-    }
+    },
+    // cmrDetails used to simulate details for testing and UI display in magenta.
+    cmrDetails: { accountId: '123456', accountIdType: 'IN', environmentId: 'fake envId' }
   };
 };
 
@@ -104,6 +106,15 @@ exports.getDevModeReleaseConfig = function getDevModeReleaseConfig(envConfig) {
     serverlessEndpoint: 'serverless-magenta-saas.instana.rocks',
     mobileEndpoint: 'https://eum-magenta-saas.instana.rocks/mobile',
     websiteEndpoint: 'https://eum-magenta-saas.instana.rocks',
-    websiteScriptSource: 'https://eum.instana.io/eum.min.js'
+    websiteScriptSource: 'https://eum.instana.io/eum.min.js',
+    // mcspDetails is used to simulate (MCSP) environment details for testing and UI display in magenta env.
+    mcspDetails: {
+      isMcspEnvironment: false,
+      mcspSaasConsoleUrl: 'https://mock-url.com',
+      regionName: 'fake region',
+      ownerName: 'firstName lastName'
+    },
+    // cmrDetails used to simulate details for testing and UI display in magenta.
+    cmrDetails: { accountId: '123456', accountIdType: 'IN', environmentId: 'fake envId' }
   };
 };
