@@ -12898,8 +12898,13 @@
       "messagesOut": "Messages out",
       "uncommittedMessages": "Uncommitted messages",
       "clusterStatus": "Cluster status",
-	    "clusterSuspendIndicator": "Cluster suspend indicator",
-      "mqiFailures": "MQI failures"
+      "clusterSuspendIndicator": "Cluster Suspend Indicator",
+      "mqiFailures": "MQI Failures",
+      "drRole": "DR Role",
+      "drStatus": "DR Status",
+      "drType": "DR Type",
+      "drPort": "DR Port",
+      "drRemoteIp": "DR Remote IP"
     },
     "ibmMqQueueUsage": {
       "dashboard": {
