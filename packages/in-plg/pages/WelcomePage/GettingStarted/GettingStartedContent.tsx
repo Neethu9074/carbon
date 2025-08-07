@@ -106,7 +106,7 @@ export default function GettingStartedContent() {
           </Stack>
         </ContentSection>
       </MainBody>
-      <SidePanel>
+      <SidePanel topMargin={6}>
         <></>
       </SidePanel>
     </Container>
