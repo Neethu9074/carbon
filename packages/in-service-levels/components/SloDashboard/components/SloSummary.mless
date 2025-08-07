@@ -10,7 +10,7 @@
   }
   .toastContainer {
     :global .cds--actionable-notification {
-      max-inline-size: 100rem;
+      max-inline-size: none;
     }
     :global .cds--actionable-notification__title {
       width: 100%;
