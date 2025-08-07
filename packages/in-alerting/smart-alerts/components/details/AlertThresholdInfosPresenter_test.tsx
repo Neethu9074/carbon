@@ -9,6 +9,7 @@ import React from 'react';
 
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { ThresholdInfo } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { t } from 'in-i18n';
 
 describe('in-alerting/components/AlertThresholdInfosPresenter', () => {
@@ -27,7 +28,9 @@ describe('in-alerting/components/AlertThresholdInfosPresenter', () => {
             entityType: 'host',
             aggregation: 'MEAN',
             crossSeriesAggregation: 'SUM',
-            regex: true
+            regex: true,
+            metricGroupBy: [],
+            metricTagFilterExpression: EMPTY_EXPRESSION
           }}
         />
       )

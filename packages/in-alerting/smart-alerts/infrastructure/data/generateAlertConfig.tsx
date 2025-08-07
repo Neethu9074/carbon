@@ -8,6 +8,7 @@ import { GenericInfraAlertRule, StaticThresholdConfig } from '@instana/types';
 
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { defaultTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default function generateAlertConfig(): InfraSmartAlertConfigWithMetadata {
@@ -17,7 +18,9 @@ export default function generateAlertConfig(): InfraSmartAlertConfigWithMetadata
     crossSeriesAggregation: 'MEAN',
     entityType: '',
     metricName: '',
-    regex: false
+    regex: false,
+    metricGroupBy: [],
+    metricTagFilterExpression: EMPTY_EXPRESSION
   };
 
   const threshold: StaticThresholdConfig = {
