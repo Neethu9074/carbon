@@ -58,14 +58,16 @@ const scopeValidator = ({ accessPermissions, actionTags, actionTypes }: ScopeFor
 
   // Validate automation action type and tag filter
   if (accessPermissions?.value?.includes(LimitedAccessScope.LIMITED_AUTOMATION_SCOPE)) {
-    if (actionTags?.value === undefined || actionTags?.value?.length === 0) {
+    const hasActionTags = actionTags?.value !== undefined && actionTags?.value?.length > 0;
+    const hasActionTypes = actionTypes?.value !== undefined && actionTypes?.value?.length > 0;
+
+    // At least one of actionTags or actionTypes must be provided
+    if (!hasActionTags && !hasActionTypes) {
       errors.push({
         severity: 'error',
         message: t('in-settings:dialogs.scope.noActionTagSelectedError'),
         path: 'actionTags'
       });
-    }
-    if (actionTypes?.value === undefined || actionTypes?.value?.length === 0) {
       errors.push({
         severity: 'error',
         message: t('in-settings:dialogs.scope.noActionTypeSelectedError'),
