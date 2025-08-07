@@ -994,6 +994,14 @@
     "description": "View suggested tasks to get the most out of Instana.",
     "taskLabel": "Onboarding task",
     "joinCommunityLink": "Join the Instana community",
+    "videotitle": "Guided videos",
+    "videoDescription": "View our catalog of videos so you can easily set up your environment.",
+    "video": "Video",
+    "videoitem": {
+      "installation": "Installing Instana",
+      "addingAgent": "Adding Agents",
+      "monitorWebsite": "Monitor a Website"
+    },
     "communityblogs": {
       "title": "Instana community blogs",
       "description": "Join our Instana community and learn all the exciting things to come!",

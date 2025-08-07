@@ -11,13 +11,13 @@ export function CommunityBlogsData() {
       key: 'gettingStartedblog',
       title: t('in-plg:onboarding.communityblogs.gettingStartedBlogTitle'),
       description: t('in-plg:onboarding.communityblogs.gettingStartedBlogDescription'),
-      href: 'https://community.ibm.com/community/user/blogs/ciaran-darcy/2025/04/28/getting-started-with-instana'
+      href: 'https://ibm.biz/Getting-Started-with-Instana'
     },
     {
       key: 'initialDeploymentblog',
       title: t('in-plg:onboarding.communityblogs.initialDeploymentBlogTitle'),
       description: t('in-plg:onboarding.communityblogs.initialDeploymentBlogDescription'),
-      href: 'https://community.ibm.com/community/user/blogs/ciaran-darcy/2025/04/28/instanadeployment'
+      href: 'https://ibm.biz/Instana-Initial-Deployment-steps'
     }
   ];
 }

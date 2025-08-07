@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 
 import { OnboardingTileData } from 'in-plg/pages/WelcomePage/GettingStarted/OnboardingTileData';
 import { CommunityBlogsData } from 'in-plg/pages/WelcomePage/GettingStarted/CommunityBlogsData';
+import { GuidedVideoItems } from 'in-plg/pages/WelcomePage/GettingStarted/GuidedVideoItems';
 import { ContentSection } from 'in-plg/pages/WelcomePage/GettingStarted/ContentSection';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -23,7 +24,7 @@ export default function GettingStartedContent() {
   const { trackCta } = useSegmentTracking();
   const onboardingItems = OnboardingTileData();
   const communityBlogsData = CommunityBlogsData();
-
+  const videoList = GuidedVideoItems();
   return (
     <Container>
       <MainBody>
@@ -47,27 +48,45 @@ export default function GettingStartedContent() {
                   {
                     id: item.key,
                     icon: () => <ArrowRight />,
-                    iconDescription: item.title,
-                    onClick: () => {
-                      trackCta(item.trackingEvent);
-                      if (item.target === '_blank') {
-                        window.open(item.href, '_blank');
-                      } else {
-                        window.location.href = item.href;
-                      }
-                    }
+                    iconDescription: item.title
                   }
                 ]}
               />
             ))}
           </div>
         </ContentSection>
+
+        <ContentSection title={t('in-plg:onboarding.videotitle')} description={t('in-plg:onboarding.videoDescription')}>
+          <div className={locals.tileGrid}>
+            {videoList.map(item => (
+              <ExpressiveCard
+                key={item.title}
+                title={item.title}
+                label={t('in-plg:onboarding.video')}
+                onClick={() => {
+                  window.open(`https://www.youtube.com/watch?v=${item.embedId}`, '_blank');
+                }}
+                actionIcons={[
+                  {
+                    id: item.title,
+                    icon: () => <ArrowRight />,
+                    iconDescription: item.title
+                  }
+                ]}
+                media={
+                  <img src={`https://img.youtube.com/vi/${item.embedId}/hqdefault.jpg`} className={locals.image} />
+                }
+              />
+            ))}
+          </div>
+        </ContentSection>
+
         <ContentSection
           title={t('in-plg:onboarding.communityblogs.title')}
           description={t('in-plg:onboarding.communityblogs.description')}
         >
           <Stack gap="1rem">
-            <div className={locals.tileGrid}>
+            <div className={locals.communityBlogtileGrid}>
               {communityBlogsData.map(item => (
                 <ExpressiveCard
                   key={item.key}
@@ -81,10 +100,7 @@ export default function GettingStartedContent() {
                     {
                       id: item.key,
                       icon: () => <Launch />,
-                      iconDescription: item.title,
-                      onClick: () => {
-                        window.open(item.href, '_blank');
-                      }
+                      iconDescription: item.title
                     }
                   ]}
                 />
@@ -94,11 +110,7 @@ export default function GettingStartedContent() {
               kind="ghost"
               icon="lib_arrow_right"
               onClick={() => {
-                window.open(
-                  'https://community.ibm.com/community/user/groups/community-home?CommunityKey=8d661410-d1fb-4067-ab9a-019475fc541e',
-                  '_blank',
-                  'noreferrer'
-                );
+                window.open('https://ibm.biz/Instana-Homepage', '_blank', 'noreferrer');
               }}
             >
               {t('in-plg:onboarding.joinCommunityLink')}
