@@ -8,13 +8,11 @@ import React from 'react';
 
 import PotentialProblemsLane from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLane';
 import getApplicationAlertClusters from 'in-applications/subscriptions/getApplicationAlertClusters';
-import { actionAutomationEnabled, potentialProblemsEnabled } from 'in-services/featureFlags';
+import ActionsLaneWithAccess from 'in-automation/components/MarkersLane/ActionsLaneWithAccess';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 import AlertsLane from 'in-components/Chart/markerLanes/AlertsLane/AlertsLane';
-import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
-import { automationAccessPermissions } from 'in-stores/permission';
-import useHasAccess from 'in-stores/useHasAccess';
+import { potentialProblemsEnabled } from 'in-services/featureFlags';
 
 export default function ApplicationDashboardsMarkerLanes({
   applicationId,
@@ -26,10 +24,6 @@ export default function ApplicationDashboardsMarkerLanes({
   ...remainingProps
 }) {
   return function MarkerLanesApplications(lanesProps) {
-    const hasAutomationAccess = useHasAccess({
-      optionalPrecondition: actionAutomationEnabled,
-      requiredPermissions: automationAccessPermissions
-    });
     return (
       <MarkerLanesPresenter {...lanesProps}>
         <ReleasesLane serviceId={serviceId} applicationId={applicationId} />
@@ -41,16 +35,14 @@ export default function ApplicationDashboardsMarkerLanes({
             serviceId
           }}
         />
-        {hasAutomationAccess && (
-          <ActionsLane
-            applicationId={applicationId}
-            {...lanesProps}
-            {...remainingProps}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            boundaryScope={boundaryScope}
-          />
-        )}
+        <ActionsLaneWithAccess
+          applicationId={applicationId}
+          {...lanesProps}
+          {...remainingProps}
+          serviceId={serviceId}
+          endpointId={endpointId}
+          boundaryScope={boundaryScope}
+        />
         {showPotentialProblemsLane && potentialProblemsEnabled && (
           <PotentialProblemsLane
             {...remainingProps}
