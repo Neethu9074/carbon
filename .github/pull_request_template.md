@@ -72,6 +72,9 @@ This keeps our commit history clean, makes changes more atomic, and makes it eas
 - [ ] [Pull Request Guidelines](https://github.ibm.com/instana/ui-notion-pages/blob/main/Frontend-Enablement/Process/Pull-Request-Guidelines.md) applied
 - [ ] Segment Instrumentation is done for team-wise product analytics.
 - [ ] Add before/after screenshots
+- [ ] Changes to permmissions or team scopes?
+  - [Access Control Guidelines](https://ibm.ent.box.com/notes/1559338112472)
+  - Request review from Team Access Control (@eng-access-control-ping-responder, #brewery-access-control)
 
 <!--
 Really, if not applicable, please REMOVE it.
