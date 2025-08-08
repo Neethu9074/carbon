@@ -12,6 +12,7 @@ import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { t } from 'in-i18n';
 
 interface MultiThresholdAlertPreviewProps {
@@ -29,8 +30,10 @@ export function MultiThresholdAlertPreview({
   placeholderDescription,
   allowedPlaceholders
 }: MultiThresholdAlertPreviewProps) {
-  const isWarningThresholdSelected = form.get('threshold').get('warningThreshold').get('isCheckboxSelected')?.value;
-  const isCriticalThresholdSelected = form.get('threshold').get('criticalThreshold').get('isCheckboxSelected')?.value;
+  const warningThresholdValue = form.get('threshold').get('warningThreshold')?.get('value')?.value;
+  const criticalThresholdValue = form.get('threshold').get('criticalThreshold')?.get('value')?.value;
+  const isWarningThresholdSelected = !isEmpty(warningThresholdValue);
+  const isCriticalThresholdSelected = !isEmpty(criticalThresholdValue);
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
   const entityLabel = metricLabel
     ? metricLabel
