@@ -8919,6 +8919,7 @@
         "maxActive": "Maximum active",
         "maxChildren": "Maximum children",
         "memory": "Memory",
+        "workerPoolMonitoringDisabledNotification": "PHP FPM Worker pool monitoring is disabled. To enable, please update <code>workerPoolMonitoring</code> config under <code>com.instana.plugin.phpfpm</code> plugin in the agent configuration",
         "workerPoolMetricsDashboardNotification": "In order to monitor the worker pool {{pool}}, you need to enable <code>pm.status_path</code> in your PHP-FPM config.",
         "connectionsWithCount": "Connections ({{len}})",
         "processesWithCount": "Processes ({{len}})",
