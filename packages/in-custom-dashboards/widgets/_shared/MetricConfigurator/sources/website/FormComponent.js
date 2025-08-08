@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -17,6 +17,7 @@ import {
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import * as groupingConfiguratorsPerDataSource from 'in-websites/groupingConfigurators';
+import { websitesBusinessConversionGoalsEnabled } from 'in-services/featureFlags';
 import { availableMetrics } from 'in-websites/analyze/AnalyzeView/metrics';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import * as queryBuildersPerDataSource from 'in-websites/queryBuilder';
@@ -42,6 +43,8 @@ export default function FormComponent({
 }) {
   const beaconTypeField = form.get('beaconType');
   const metricField = form.get('metric');
+  const websiteField = form.get('website');
+  const conversionGoalField = form.get('conversionGoal');
   const aggregationField = form.get('aggregation');
   const { QueryBuilder, getTagCatalog } = queryBuildersPerDataSource[beaconTypeField.value] || emptyObject;
   const aggregators = getAggregations(beaconTypeField.value, metricField.value);
@@ -91,6 +94,47 @@ export default function FormComponent({
               </option>
             ))}
         </SelectInSection>
+
+        {websitesBusinessConversionGoalsEnabled && beaconTypeField.value === 'conversionGoals' && (
+          <>
+            <SelectInSection
+              label={t('in-custom-dashboards:widgets.srcWebSite.conversionGoals.websiteSelect')}
+              id="conversion-website-select"
+              value={websiteField.value}
+              onChange={e =>
+                onChange([], form =>
+                  form.updateIn(['website'], field => field.setValue(e.target.value).setTouched(true))
+                )
+              }
+              hasError={!beaconTypeField.valid && beaconTypeField.touched}
+              useAlternateBg
+            >
+              <option value="">{t('in-custom-dashboards:widgets.srcWebSite.formComp.pleaseSelect')}</option>
+              {/* placeholder for now */}
+              <option value="placeholder1">Website 1</option>
+              <option value="placeholder2">Website 2</option>
+              <option value="placeholder3">Website 3</option>
+            </SelectInSection>
+            <SelectInSection
+              label={t('in-custom-dashboards:widgets.srcWebSite.conversionGoals.goalSelect')}
+              id="website-conversion-goal-select"
+              value={conversionGoalField.value}
+              onChange={e =>
+                onChange([], form =>
+                  form.updateIn(['conversionGoal'], field => field.setValue(e.target.value).setTouched(true))
+                )
+              }
+              hasError={!beaconTypeField.valid && beaconTypeField.touched}
+              useAlternateBg
+            >
+              <option value="">{t('in-custom-dashboards:widgets.srcWebSite.formComp.pleaseSelect')}</option>
+              {/* placeholder for now */}
+              <option value="placeholder1">Goal 1</option>
+              <option value="placeholder2">Goal 2</option>
+              <option value="placeholder3">Goal 3</option>
+            </SelectInSection>
+          </>
+        )}
       </Sections>
       <Sections>
         <SelectInSection

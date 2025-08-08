@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -13,6 +13,7 @@ export const resourceLoad = create('resourceLoad');
 export const httpRequest = create('httpRequest');
 export const error = create('error');
 export const custom = create('custom');
+export const conversionGoals = create('pageLoad');
 
 function create(beaconType) {
   return createGroupingConfigurator({

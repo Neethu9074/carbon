@@ -966,6 +966,7 @@
   "tagsDataSourceTitlesHTTPRequest": "HTTP request",
   "tagsDataSourceTitlesError": "JS error",
   "tagsDataSourceTitlesCustom": "Custom event",
+  "tagsDataSourceTitlesConversionGoals": "Conversion goals",
   "facetedSearch": {
     "website": "Website",
     "page": "Page",

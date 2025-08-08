@@ -293,6 +293,13 @@
       },
       "index": {
         "websitesBeacons": "Websites (Beacons)"
+      },
+      "conversionGoals": {
+        "websiteSelect": "Website",
+        "goalSelect": "Conversion goal",
+        "sessionsMetric": "Converted sessions rate",
+        "usersMetric": "Converted users rate",
+        "convertTimeMetric": "Average time to convert"
       }
     },
     "srcSyntheticMonitoring": {

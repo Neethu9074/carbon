@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -18,18 +18,33 @@ import { emptyObject } from 'in-services/fixedObjects';
 import { dataSourceTitles } from 'in-websites/tags';
 
 export function createForm(form, savedState) {
-  return addTagFilterExpressionField(form, savedState).put(
-    'beaconType',
-    createField({
-      value: savedState?.beaconType || 'pageLoad',
-      validator: composeAndShortCircuitOnError(
-        notUndefinedValidator,
-        stringValidator,
-        notBlankValidator,
-        buildEnumValidator(Object.keys(dataSourceTitles))
-      )
-    })
-  );
+  return addTagFilterExpressionField(form, savedState)
+    .put(
+      'beaconType',
+      createField({
+        value: savedState?.beaconType || 'pageLoad',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(Object.keys(dataSourceTitles))
+        )
+      })
+    )
+    .put(
+      'website',
+      createField({
+        value: savedState?.website || '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'conversionGoal',
+      createField({
+        value: savedState?.conversionGoal || '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    );
 }
 
 export function getBeaconType(tagFilterArray) {
