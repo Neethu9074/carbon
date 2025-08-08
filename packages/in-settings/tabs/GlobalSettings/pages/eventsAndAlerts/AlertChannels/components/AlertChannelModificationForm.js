@@ -266,7 +266,7 @@ function getConfig(alertChannel) {
   return fullyQualified[alertChannel.get('kind')];
 }
 
-export function save(alertChannel, form, isCreate) {
+export function save(alertChannel, form, isCreate, setCreatedChannelId) {
   const addRbacTags = obj => {
     let result = obj;
     const rbacTags = form.get('rbacTags');
@@ -282,6 +282,10 @@ export function save(alertChannel, form, isCreate) {
     path: '',
     channel: form.get('kind').value
   });
+
+  const entries = Array.from(alertChannel.entries());
+  const idValue = entries.find(([key]) => key === 'id')?.[1];
+  if (idValue) setCreatedChannelId?.(idValue);
   return saveAlertChannel(fromJS(addRbacTags(getConfig(alertChannel).createEntity(alertChannel, form))), isCreate);
 }
 

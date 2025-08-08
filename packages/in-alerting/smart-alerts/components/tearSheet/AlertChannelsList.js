@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { just, create } from '@instana/observables';
@@ -46,10 +46,15 @@ export default function AlertChannelsList({
   onRowClick,
   hasRowNavigation = true,
   getHeader = leftHeaderWithSelectAll(tableActions, numberOfChannels),
-  entityResult
+  entityResult,
+  createdChannelId
 }) {
-  const [channelsPreSelected] = useState(preSelectedChannels);
   const [isRbacTeamsAvailable] = useIsTeamsAvailable();
+  const [channelsPreSelected, setChannelsPreSelected] = useState(preSelectedChannels);
+  useEffect(() => {
+    createdChannelId && setChannelsPreSelected([...preSelectedChannels, createdChannelId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdChannelId]);
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}

@@ -34,7 +34,9 @@ export default function AlertChannelCreation({
   onCancel,
   isTearsheet,
   setCreateDialogOpen,
-  alertChannelPerSeverityEnabled
+  alertChannelPerSeverityEnabled,
+  setCreatedChannelId,
+  inDialog = false
 }) {
   const alertChannelConfigKeys = getAvailableAlertChannelKinds();
 
@@ -49,7 +51,7 @@ export default function AlertChannelCreation({
   return (
     <div
       style={{
-        height: `calc(100% - ${formFooterRef.current?.offsetHeight ?? 0}px - 1rem)`,
+        height: '100%',
         overflowY: 'auto'
       }}
     >
@@ -82,7 +84,7 @@ export default function AlertChannelCreation({
         <div
           className={classNames({
             [locals.formWrapper]: true,
-            [locals.alertChannelInTearSheet]: isTearsheet
+            [locals.alertChannelInTearSheet]: inDialog
           })}
           key={resetKey}
         >
@@ -111,6 +113,7 @@ export default function AlertChannelCreation({
               })
             }
             formFooterRef={formFooterRef}
+            setCreatedChannelId={setCreatedChannelId}
           />
         </div>
 
@@ -128,7 +131,9 @@ AlertChannelCreation.propTypes = {
   onCancel: PropTypes.func.isRequired,
   isTearsheet: PropTypes.bool,
   setCreateDialogOpen: PropTypes.func,
-  alertChannelPerSeverityEnabled: PropTypes.bool
+  alertChannelPerSeverityEnabled: PropTypes.bool,
+  setCreatedChannelId: PropTypes.func,
+  inDialog: PropTypes.bool
 };
 
 function AlertChannelConfigForm({
@@ -136,7 +141,8 @@ function AlertChannelConfigForm({
   onCancel,
   handleSaveSuccess,
   handleSaveError,
-  formFooterRef
+  formFooterRef,
+  setCreatedChannelId
 }) {
   return (
     <AlertChannelModificationForm
@@ -145,7 +151,9 @@ function AlertChannelConfigForm({
       createDefaultEntity={() => createAlertChannel(null, selectedAlertChannelKey)}
       createForm={createForm}
       getEntityFromApi={getAlertChannel}
-      saveEntity={save}
+      saveEntity={(alertChannel, form, isCreate) => {
+        return save(alertChannel, form, isCreate, setCreatedChannelId);
+      }}
       renderCustomFormActions={({ form, loading }) => {
         const isSaving = loading;
         return (

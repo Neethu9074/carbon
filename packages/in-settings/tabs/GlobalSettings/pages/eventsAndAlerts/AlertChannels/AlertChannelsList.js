@@ -46,7 +46,9 @@ export default function AlertChannelsList({
   detailView,
   alertChannels,
   alertChannelPerSeverityEnabled,
-  getHeader = defaultGetHeader(inSelectListDialog, tableActions)
+  getHeader = defaultGetHeader(inSelectListDialog, tableActions),
+  createdChannelId,
+  selectedItems
 }) {
   const BOUNDED_PATH = '/channels';
   const [isRbacTeamsAvailable] = useIsTeamsAvailable();
@@ -88,6 +90,7 @@ export default function AlertChannelsList({
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       boundedPath={BOUNDED_PATH}
+      customSortEntities={createdChannelId && sortSelecteditems([...selectedItems, createdChannelId])}
       getDetailsHref={
         onRowClick || !hasRowNavigation
           ? null
@@ -205,6 +208,11 @@ function columnDefinitionsAlertLevel(alertChannels) {
       }
     }
   ];
+}
+function sortSelecteditems(selectedIds) {
+  return ({ entities }) => {
+    return entities.sort((a, b) => selectedIds.indexOf(b.id) - selectedIds.indexOf(a.id));
+  };
 }
 
 function checkChannelPresentIn(thresholdType, alertChannels, channelId) {

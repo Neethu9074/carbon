@@ -92,6 +92,7 @@ function SelectListDialogContent({
   const initialState = false;
   const [slideInContentVisible, setSlideInContentVisible] = useState(initialState);
   const [role] = useCurrentUserRole();
+  const [createdChannelId, setCreatedChannelId] = useState(null);
 
   return (
     <SlideInView
@@ -146,14 +147,19 @@ function SelectListDialogContent({
             }}
             pageSize={numberOfAlertChannelListRows}
             preventCloseOnSubmit
+            createdChannelId={createdChannelId}
           />
         </AlertConfigSlideInContentWrapper>
       }
       slideInContent={
         <AlertConfigSlideInContentWrapper>
-          <AlertChannelCreation onCancel={() => setSlideInContentVisible(initialState)} />
+          <AlertChannelCreation
+            onCancel={() => setSlideInContentVisible(initialState)}
+            setCreatedChannelId={setCreatedChannelId}
+          />
         </AlertConfigSlideInContentWrapper>
       }
+      setCreatedChannelId={setCreatedChannelId}
       showSlideInContent={slideInContentVisible}
       onShowSlideInContentChange={setSlideInContentVisible}
       HeaderComponent={NoHeader}

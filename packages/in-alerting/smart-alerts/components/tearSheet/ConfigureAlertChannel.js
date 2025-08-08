@@ -27,6 +27,7 @@ import locals from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlert
 export default function ConfigureAlertChannel({ form, onChange, numberOfAlertChannelListRows = 5 }) {
   const [role] = useCurrentUserRole();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [createdChannelId, setCreatedChannelId] = useState(null);
   const entityResult = useGetChannlelist(createDialogOpen);
   channelListLoading$.emit(entityResult?.length ?? undefined);
 
@@ -61,6 +62,8 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
                       }}
                       isTearsheet
                       setCreateDialogOpen={setCreateDialogOpen}
+                      setCreatedChannelId={setCreatedChannelId}
+                      inDialog
                     />
                   </Dialog>
                 );
@@ -73,6 +76,8 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
         limit={limitForConnectedAlertChannels}
         pageSize={numberOfAlertChannelListRows}
         preventCloseOnSubmit
+        setCreatedChannelId={setCreatedChannelId}
+        createdChannelId={createdChannelId}
       />
       <TouchedMessages field={form.get('alertChannelIds')} />
     </>

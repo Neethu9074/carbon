@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
@@ -95,6 +95,7 @@ function SelectListDialogContent({
   alertChannelPerSeverityEnabled
 }) {
   const [role] = useCurrentUserRole();
+  const [createdChannelId, setCreatedChannelId] = useState(null);
   return (
     <SelectListDialogContentComponent
       listComponent={AlertChannelsListForSlideIn}
@@ -120,6 +121,7 @@ function SelectListDialogContent({
                             }
                             isTearsheet
                             alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+                            setCreatedChannelId={setCreatedChannelId}
                           />
                         </AlertConfigSlideInContentWrapper>
                       }
@@ -168,6 +170,8 @@ function SelectListDialogContent({
         );
       }}
       pageSize={numberOfAlertChannelListRows}
+      createdChannelId={createdChannelId}
+      setCreatedChannelId={setCreatedChannelId}
     />
   );
 }
