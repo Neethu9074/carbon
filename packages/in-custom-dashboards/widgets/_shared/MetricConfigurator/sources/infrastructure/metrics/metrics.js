@@ -7,6 +7,7 @@ export { configureChart } from 'in-custom-dashboards/widgets/_shared/MetricConfi
 
 import FormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/FormComponent';
 import { infraMetricsWidgetEnabled } from 'in-services/featureFlags';
+import { hasInfrastructureAccess } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/form';
@@ -18,4 +19,4 @@ export const label =
   ' ' +
   (infraMetricsWidgetEnabled ? '' : t('in-custom-dashboards:widgets.srcInfrastructure.metrics.comingSoon'));
 export const disabled = !infraMetricsWidgetEnabled;
-export const visible = true;
+export const visible = hasInfrastructureAccess;
