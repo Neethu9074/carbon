@@ -22,7 +22,7 @@ import { getInfraGranularity } from 'in-stores/metric/metric';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
-import './ReportingStatus.less';
+import locals from './ReportingStatus.mless';
 
 interface ReportingStatusProps {
   snapshot: Map<string, string>;
@@ -123,9 +123,10 @@ export default function ReportingStatus({ snapshot, timeConfig }: ReportingStatu
   };
 
   const chartData: ChartData[] = generateChartData();
+  const label = snapshot ? snapshot.get('label', 'host') : 'host';
 
   return (
-    <div>
+    <div className={locals.reportingStatusWrapper}>
       <Stack>
         <StackedBarChart
           options={{
@@ -171,6 +172,10 @@ export default function ReportingStatus({ snapshot, timeConfig }: ReportingStatu
                   type: TruncationTypes.NONE
                 }
               }
+            },
+            fileDownload: {
+              // substringing because filename limits is 256 on most OS': 256 - "-reporting-status" (17) - ".jpg"/".csv"/".png" (3)
+              fileName: `${label.substring(0, 234)}-reporting-status`
             },
             // sleek, grid-less design
             grid: {
@@ -222,23 +227,25 @@ export default function ReportingStatus({ snapshot, timeConfig }: ReportingStatu
             // This is customizing the tooltip when hovering over a segment in the chart
             tooltip: {
               customHTML: (data: ChartData[]) => {
-                const { start, end, status, upTime } = data[0];
-                let statusText;
-
-                if (status.includes('Online')) {
-                  statusText = t('in-forge:plugins.host.dashboard.reporting');
-                } else if (status.includes('issues')) {
-                  statusText = t('in-forge:plugins.host.dashboard.reportingWithIssues');
-                } else {
-                  statusText = t('in-forge:plugins.host.dashboard.notReporting');
-                }
+                const { start, end, upTime } = data[0];
 
                 return `
-                  <div>
-                    <div>${statusText}</div>
-                    <div>${upTime}% ${t('in-forge:plugins.host.dashboard.monitoringSuccess')}</div>
-                    <div>${t('in-forge:plugins.host.dashboard.start')}: ${formatDateTime(start)}</div>
-                    <div>${t('in-forge:plugins.host.dashboard.end')}: ${formatDateTime(end)}</div>
+                  <div class=${locals.dashboardReportingStatusTooltip}>
+                    <div class=${locals.dashboardReportingStatusTooltipTitle}>${upTime}% ${t(
+                  'in-forge:plugins.host.dashboard.monitoringSuccess'
+                )}</div>
+                    <div class=${locals.dashboardReportingStatusTooltipContent}>
+                      <div>
+                        <span class=${locals.dashboardReportingStatusTooltipContentBold}>${t(
+                  'in-forge:plugins.host.dashboard.start'
+                )}:</span> ${formatDateTime(start)}
+                      </div>
+                      <div>
+                        <span class=${locals.dashboardReportingStatusTooltipContentBold}>
+                          ${t('in-forge:plugins.host.dashboard.end')}:
+                        </span> ${formatDateTime(end)}
+                      </div>
+                    </div>
                   </div>
                 `;
               }
@@ -268,7 +275,7 @@ export default function ReportingStatus({ snapshot, timeConfig }: ReportingStatu
 function LegendItem({ backgroundColor, title }: { backgroundColor: string; title: string }) {
   return (
     <Stack direction="horizontal" gap="xsmall">
-      <div className="colourBox" style={{ backgroundColor }} />
+      <div className={locals.colourBox} style={{ backgroundColor }} />
       <Typography variant="helper-text-01">{title}</Typography>
     </Stack>
   );
@@ -287,7 +294,7 @@ function LegendItem({ backgroundColor, title }: { backgroundColor: string; title
  * @param pollRate poll rate for metric - used to calculate expected value in time range
  * @returns AvailabilityVersionsWithValue[] - see interface above
  */
-function processMetricsIntoCategories(
+export function processMetricsIntoCategories(
   metrics: MetricResponse | Nullish,
   timeWindowFrom: number,
   timeWindowTo: number,
@@ -303,7 +310,7 @@ function processMetricsIntoCategories(
       ({
         from: item[0],
         to: item[0] + defaultRollup,
-        availability: Math.round(Math.min(item[1] / (defaultRollup / 1000 / pollRate), 100) * 100)
+        availability: Math.round(Math.min(item[1] / (defaultRollup / 1000 / pollRate), 1) * 100)
       } as AvailabilityVersionsWithValue)
   );
   if (bucketVersions.length === 0) {

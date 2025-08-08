@@ -1,0 +1,50 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .reportingStatusWrapper :global(.cds--cc--title p.title) {
+    font-weight: var(--cds-heading-03-font-weight);
+    font-size: var(--cds-heading-03-font-size);
+    line-height: var(--cds-heading-03-line-height);
+    letter-spacing: var(cds--heading-03-letter-spacing);
+  }
+
+  .reportingStatusWrapper :global(.cds--cc--tooltip .content-box .title-tooltip) {
+    padding: 0;
+  }
+
+  .reportingStatusWrapper :global(.cds--cc--tooltip .content-box .title-tooltip p) {
+    display: none;
+  }
+
+  // Legend colour box
+  .colourBox {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-top: 0.04rem;
+  }
+
+  .dashboardReportingStatusTooltipTitle {
+    background-color: var(--ids-color-option-neutral-200);
+    padding: 0 0.5rem;
+  }
+  .dashboardReportingStatusTooltipContent {
+    padding: 0 0.5rem;
+    font-size: var(--ids-font-size-option-body-regular);
+    font-weight: var(--ids-font-weight-option-body-regular);
+    line-height: var(--ids-line-height-option-body-regular);
+  }
+
+  .dashboardReportingStatusTooltipContentBold {
+    font-size: var(--ids-font-size-option-body-bold);
+    font-weight: var(--ids-font-weight-option-body-bold);
+    line-height: var(--ids-line-height-option-body-bold);
+  }
+
+  .dashboardReportingStatusTooltip {
+    font-family: var(--ids-font-size-option-body);
+  }
+}
