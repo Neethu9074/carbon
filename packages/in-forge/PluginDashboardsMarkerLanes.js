@@ -12,15 +12,24 @@ import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { automationAccessPermissions } from 'in-stores/permission';
 import useHasAccess from 'in-stores/useHasAccess';
 
-export default function PluginDashboardsMarkerLanes(props) {
+function ActionsLaneWithAccess(props) {
   const hasAutomationAccess = useHasAccess({
     optionalPrecondition: actionAutomationEnabled,
     requiredPermissions: automationAccessPermissions
   });
+
+  if (!props.hasActionlane || !hasAutomationAccess) {
+    return null;
+  }
+
+  return <ActionsLane snapshotId={props.snapshotId} {...props} />;
+}
+
+export default function PluginDashboardsMarkerLanes(props) {
   return (
     <MarkerLanesPresenter {...props}>
       <ReleasesLane />
-      {props.hasActionlane && hasAutomationAccess && <ActionsLane snapshotId={props.snapshotId} {...props} />}
+      <ActionsLaneWithAccess {...props} />
     </MarkerLanesPresenter>
   );
 }
