@@ -6,22 +6,74 @@
 
 import React, { useEffect } from 'react';
 
+import {
+  anyPlatformAccessPermissions,
+  applicationsAccessPermissions,
+  bizopsAccessPermissions,
+  eventsAccessPermissions,
+  infrastructureAccessPermissions,
+  mobileAppsAccessPermissions,
+  sloAccessPermissions,
+  syntheticsAccessPermissions,
+  websitesAccessPermissions
+} from 'in-stores/permission';
+import { businessObservabilityEnabled, sloFullEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { getWidget } from 'in-plg/pages/WelcomePage/PageContent';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
+import useHasAccesses from 'in-stores/useHasAccesses';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/pages/CustomDashboards.mless';
 
 export default function CustomDashboards() {
-  const widgetProps = getWidget('dashboardWidget');
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasBizOpsAccess = useHasAccess({
+    optionalPrecondition: businessObservabilityEnabled,
+    requiredPermissions: bizopsAccessPermissions
+  });
+  const hasInfrastructureAccess = useHasAccess({ requiredPermissions: infrastructureAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
+  const hasSyntheticsAccess = useHasAccess({
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
+  const hasAnyPlatformAccess = useHasAccesses({
+    requiredPermissions: anyPlatformAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+  const hasEventsAccess = useHasAccesses({
+    requiredPermissions: eventsAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+  const hasSloAccess = useHasAccesses({
+    optionalPrecondition: sloFullEnabled,
+    requiredPermissions: sloAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+
+  const widgetProps = getWidget('dashboardWidget', {
+    hasAnyPlatformAccess,
+    hasApplicationsAccess,
+    hasBizOpsAccess,
+    hasEventsAccess,
+    hasInfrastructureAccess,
+    hasMobileAppsAccess,
+    hasSloAccess,
+    hasSyntheticsAccess,
+    hasWebsitesAccess
+  });
   const dashboardTileProps = {
     ...widgetProps,
     header: '',
-    icon: ''
+    icon: '',
+    key: ''
   };
 
   // Scroll to the top in case the user comes from the widget in the main page

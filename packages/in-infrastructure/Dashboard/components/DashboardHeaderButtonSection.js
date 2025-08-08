@@ -15,6 +15,7 @@ import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { infraDashboardExportPdfEnabled } from 'in-services/featureFlags';
 import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { MoreMenuCollapser } from 'in-components/MoreMenu';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
@@ -40,6 +41,7 @@ export default connectTo(
     };
   },
   function DashboardHeaderButtonSection(props) {
+    const [role] = useCurrentUserRole();
     const {
       isInternalVisible,
       snapshot,
@@ -59,7 +61,7 @@ export default connectTo(
           numItemsUntilCreatingMenu={numItemsUntilCreatingMenu}
           size="compact"
           items={[
-            ...getDashboardHeaderActions(props),
+            ...getDashboardHeaderActions(props, role),
             isInternalVisible && {
               label: t('in-infrastructure:dashboard.snapshotVersions'),
               icon: 'lib_views_list',

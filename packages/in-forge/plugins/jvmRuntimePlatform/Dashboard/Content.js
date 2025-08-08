@@ -13,12 +13,12 @@ import PrometheusJavaClientMetrics from 'in-forge/plugins/jvmRuntimePlatform/Das
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import PackageRetrievalDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PackageRetrievalDialog';
 import DiagnosticInfoDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/DiagnosticInfoDialog';
+import { infrastructureAccessPermissions, InfrastructureCapability } from 'in-stores/permission';
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import HeapDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/HeapDumpButton';
-import { hasCanCreateHeapDump, hasCanCreateThreadDump } from 'in-stores/permission';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -29,8 +29,10 @@ import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import DiagnosticCommandPresenter from './DiagnosticCommandPresenter';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
+import useHasPermission from 'in-stores/useHasPermission';
 import { alwaysNull } from 'in-services/fixedStreams';
 import MetricValue from 'in-components/MetricValue';
+import useHasAccess from 'in-stores/useHasAccess';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getCodeView } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -48,6 +50,16 @@ export default connectTo(
 );
 
 function JVMDashboard({ snapshot, timeConfig, isInternalVisible, agentSnapshot }) {
+  const hasInfrastructureAccess = useHasAccess({ requiredPermissions: infrastructureAccessPermissions });
+  const hasCanCreateHeapDump = useHasPermission({
+    optionalPrecondition: hasInfrastructureAccess,
+    requiredPermissions: [InfrastructureCapability.CAN_CREATE_HEAP_DUMP]
+  });
+  const hasCanCreateThreadDump = useHasPermission({
+    optionalPrecondition: hasInfrastructureAccess,
+    requiredPermissions: [InfrastructureCapability.CAN_CREATE_THREAD_DUMP]
+  });
+
   const collectors = snapshot.getIn(['data', 'jvm.collectors']);
   const snapshotId = snapshot.get('id');
 

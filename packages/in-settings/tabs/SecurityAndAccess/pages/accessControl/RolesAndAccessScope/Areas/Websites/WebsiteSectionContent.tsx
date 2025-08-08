@@ -9,20 +9,32 @@ import React, { useContext } from 'react';
 import { Li, Typography, Ul } from '@instana/components';
 
 import { CapabilitySubsection } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
+import {
+  applicationsAccessPermissions,
+  Capability,
+  mobileAppsAccessPermissions,
+  websitesAccessPermissions
+} from 'in-stores/permission';
 import { useWebsiteConfigurations } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Websites/hooks';
 import { getAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
 import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
-import { Capability } from 'in-stores/permission';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export const WebsiteSectionContent = () => {
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const [websites, , , { loading }] = useWebsiteConfigurations();
   const { areaColumnHeadline, areaItemIdsWithAccess, isDisabled } = getAreaData({
     area: ProductArea.WEBSITE,
-    permissionsSet
+    permissionsSet,
+    hasApplicationsAccess,
+    hasMobileAppsAccess,
+    hasWebsitesAccess
   });
 
   const websitesConfigurationsWithAccess = websites?.filter(website => areaItemIdsWithAccess.includes(website.id));

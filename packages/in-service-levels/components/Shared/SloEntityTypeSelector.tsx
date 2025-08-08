@@ -9,7 +9,10 @@ import React from 'react';
 import { ButtonGroup, Stack } from '@instana/components';
 import type { SloEntityType } from '@instana/types';
 
-import { sloEntityTypes } from 'in-service-levels/constants';
+import { getSloEntityTypes } from 'in-service-levels/utils/sloConfig';
+import { syntheticsAccessPermissions } from 'in-stores/permission';
+import { syntheticsEnabled } from 'in-services/featureFlags';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export interface SloEntityTypeSelectorProps {
@@ -19,10 +22,14 @@ export interface SloEntityTypeSelectorProps {
 }
 
 export default function SloEntityTypeSelector({ disabled = false, onChange, value }: SloEntityTypeSelectorProps) {
+  const hasSyntheticsAccess = useHasAccess({
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
   return (
     <Stack gap="xxsmall">
       <ButtonGroup
-        buttonPropsList={sloEntityTypes.map(value => ({
+        buttonPropsList={getSloEntityTypes(hasSyntheticsAccess).map(value => ({
           disabled,
           key: value,
           text: t('in-service-levels:general.entityTypes.label', { context: value }),

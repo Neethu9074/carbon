@@ -7,13 +7,15 @@ import { combineLatest } from '@instana/observables';
 
 import { viewGrouping$ } from 'in-infrastructure/perspectives/viewGrouping';
 import createViewStructureObservable from 'in-subscription/reducedView';
+import { infrastructureAccessPermissions } from 'in-stores/permission';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
-import { hasInfrastructureAccess } from 'in-stores/permission';
 import { view$ } from 'in-infrastructure/perspectives/view';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
+import { hasAccess } from 'in-stores/useHasAccess';
 import { isBlank } from 'in-services/util/string';
 import getScope from 'in-subscription/getScope';
+import { role$ } from 'in-stores/user';
 
 export function getViewStructure() {
   return combineLatest([
@@ -22,9 +24,19 @@ export function getViewStructure() {
     searchMatches$,
     debouncedQuery$,
     viewGrouping$,
-    timeConfig$.flatMap(timeConfig => getScope({ timeConfig }))
-  ]).flatMap(([viewType, timeConfig, _searchMatches, query, grouping, scope]) => {
-    const permittedIds = getPermittedIds(_searchMatches ? _searchMatches.toArray() : null, scope, query);
+    timeConfig$.flatMap(timeConfig => getScope({ timeConfig })),
+    role$
+  ]).flatMap(([viewType, timeConfig, _searchMatches, query, grouping, scope, role]) => {
+    const hasInfrastructureAccess = hasAccess({
+      grantedPermissions: role?.permissions ?? [],
+      requiredPermissions: infrastructureAccessPermissions
+    });
+    const permittedIds = getPermittedIds(
+      _searchMatches ? _searchMatches.toArray() : null,
+      scope,
+      query,
+      hasInfrastructureAccess
+    );
     return createViewStructureObservable({
       viewType,
       timeConfig,
@@ -68,7 +80,7 @@ export function getViewStructure() {
   });
 }
 
-export function getPermittedIds(searchMatches, scope, query) {
+export function getPermittedIds(searchMatches, scope, query, hasInfrastructureAccess) {
   if (!hasInfrastructureAccess) return []; // if has no access at all
   if (isBlank(query) || searchMatches === null) return scope; // empty query or searchMatches not yet set then return all accessible (scope)
   return searchMatches; // filtered with rbac by backend

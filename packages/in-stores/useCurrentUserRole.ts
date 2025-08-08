@@ -8,11 +8,11 @@ import { useObservable } from '@instana/hooks';
 
 import { DEFAULT_ROLE } from 'in-stores/constants';
 import { deepCopy } from 'in-services/util/object';
-import { $role } from 'in-stores/user';
+import { role$ } from 'in-stores/user';
 import { Role } from 'in-types';
 
 function updateRole(role: Role) {
-  $role.emit(role);
+  role$.emit(role);
 }
 
 /**
@@ -25,9 +25,19 @@ function updateRole(role: Role) {
  *   of a user.
  **/
 export default function useCurrentUserRole(): [Role, typeof updateRole] {
-  const role = useObservable(() => $role, [$role]) ?? undefined;
+  const role = useObservable(() => role$, [role$]) ?? undefined;
 
   if (!role) return [deepCopy(DEFAULT_ROLE), updateRole];
 
-  return [role, updateRole];
+  const roleCopy = deepCopy(role);
+
+  // In some test scenarios, the permissions array may not yet be defined at
+  // the time of execution. However, the types say that an array must always be
+  // present. For this reason, we ensure that the permissions property is at
+  // least an empty array in the case of an undefined property.
+  if (!Array.isArray(roleCopy.permissions)) {
+    roleCopy.permissions = [];
+  }
+
+  return [roleCopy, updateRole];
 }

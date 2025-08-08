@@ -18,17 +18,17 @@ import {
   applicationSubtracesEnabled,
   logConsoleEnabled
 } from 'in-services/featureFlags';
+import {
+  analyzeAccessPermissions,
+  applicationsAccessPermissions,
+  infrastructureAccessPermissions,
+  mobileAppsAccessPermissions,
+  websitesAccessPermissions
+} from 'in-stores/permission';
 /* eslint-enable no-restricted-imports */
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 /* eslint-disable no-restricted-imports */
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
-import {
-  hasAnalyzeAccess,
-  hasApplicationsAccess,
-  hasInfrastructureAccess,
-  hasMobileAppsAccess,
-  hasWebsitesAccess
-} from 'in-stores/permission';
 import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
@@ -49,13 +49,25 @@ import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
+import useHasAccesses from 'in-stores/useHasAccesses';
+import useHasAccess from 'in-stores/useHasAccess';
 
 import locals from './AnalyzeDataSourceSelector.mless';
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
   const [role] = useCurrentUserRole();
+  const hasAnalyzeAccess = useHasAccesses({
+    requiredPermissions: analyzeAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasInfrastructureAccess = useHasAccess({ requiredPermissions: infrastructureAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
+
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const { trackJumpToLogs } = useAnalyzeTracker();

@@ -17,14 +17,22 @@ import {
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
 import { getScopeFromProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { automationAccessPermissions } from 'in-stores/permission';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export const AutomationSectionContent = () => {
+  const hasAutomationAccess = useHasAccess({
+    optionalPrecondition: actionAutomationEnabled,
+    requiredPermissions: automationAccessPermissions
+  });
   const productArea = ProductArea.AUTOMATION;
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const { areaColumnHeadline, isDisabled } = getAutomationAreaData({
     area: productArea,
-    permissionsSet
+    permissionsSet,
+    hasAutomationAccess
   });
   const scope = getScopeFromProductArea(productArea, permissionsSet);
   return (

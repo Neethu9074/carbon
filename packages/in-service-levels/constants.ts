@@ -13,7 +13,6 @@ import type {
 } from '@instana/types';
 
 import type { SloAggregationOptions, SloBeaconTypes } from 'in-service-levels/types';
-import { hasSyntheticsAccess } from 'in-stores/permission';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
@@ -23,9 +22,13 @@ export const titleWidth = '14.7rem';
 export const defaultBeaconType: SloBeaconTypes = 'httpRequest';
 export const defaultBoundaryScope: ApplicationBoundaryScope = 'ALL';
 
-export const sloEntityTypes: Readonly<SloEntityType[]> = Object.freeze(
-  hasSyntheticsAccess ? (['application', 'website', 'synthetic'] as const) : (['application', 'website'] as const)
-);
+export const sloEntityTypes: Readonly<SloEntityType[]> = Object.freeze([
+  'application',
+  'website',
+  'synthetic'
+] as const);
+
+export const basicSloEntityTypes = Object.freeze(['application', 'website'] as const);
 
 export const enabledBeaconTypes = deepFreeze(['httpRequest'] as const);
 

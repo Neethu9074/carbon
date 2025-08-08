@@ -17,10 +17,12 @@ import {
   physicalPath
 } from 'in-stores/navigation/paths/mainPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { hasInfrastructureAccess } from 'in-stores/permission';
+import { infrastructureAccessPermissions } from 'in-stores/permission';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export default function InfrastructureMenuItem() {
+  const hasInfrastructureAccess = useHasAccess({ requiredPermissions: infrastructureAccessPermissions });
   const { matchLocation, createHrefToPath } = useNavigation();
   const isTableViewActive = useObservable(isTableView('physical'), []);
 

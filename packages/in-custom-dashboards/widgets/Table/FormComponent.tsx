@@ -11,12 +11,14 @@ import { Stack } from '@instana/components';
 
 import { useDataSourceFormSideEffects } from 'in-custom-dashboards/widgets/Table/hooks/useFormSideEffects';
 import TableDataSourceFormSelector from 'in-custom-dashboards/widgets/Table/TableDataSourceFormSelector';
+import { infrastructureAnalyzeAccessPermissions } from 'in-stores/permission';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import { dataSources } from 'in-custom-dashboards/widgets/Table';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-components/workspace/Sections';
 import Header from 'in-components/workspace/Header';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 interface TableWidgetFormComponentProps {
@@ -25,6 +27,10 @@ interface TableWidgetFormComponentProps {
 }
 
 export default function TableWidgetFormComponent({ form, onChange }: TableWidgetFormComponentProps) {
+  const hasInfrastructureAnalyzeAccess = useHasAccess({
+    optionalPrecondition: infraExploreDataEnabled,
+    requiredPermissions: infrastructureAnalyzeAccessPermissions
+  });
   const sourceField = form?.get('source');
   const source = sourceField.value;
 

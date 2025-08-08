@@ -8,7 +8,7 @@ import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { PermissionTuple } from 'in-stores/permission';
 
 interface UseHasAccessProps {
-  optionalFeatureFlag?: boolean;
+  optionalPrecondition?: boolean;
   requiredPermissions: PermissionTuple;
 }
 
@@ -24,13 +24,13 @@ interface HasAccessProps extends UseHasAccessProps {
  */
 export function hasAccess({
   grantedPermissions,
-  optionalFeatureFlag,
+  optionalPrecondition,
   requiredPermissions: [limitedScope, accessPermission]
 }: HasAccessProps): boolean {
-  const isFeatureFlagged = optionalFeatureFlag !== undefined;
-  const isGrantedByFeatureFlag = !isFeatureFlagged || optionalFeatureFlag;
+  const hasPrecondition = optionalPrecondition !== undefined;
+  const isGrantedByPrecondition = !hasPrecondition || optionalPrecondition;
 
-  if (!isGrantedByFeatureFlag) return false;
+  if (!isGrantedByPrecondition) return false;
 
   if (!grantedPermissions.includes(limitedScope)) return true;
 
@@ -41,18 +41,18 @@ export function hasAccess({
  * Check whether a access is granted for the currently active role based on the
  * limited-scope and permissions that are specified by a permission-tuple.
  * @param {object} props
- * @param {boolean} [props.optionalFeatureFlag] in case the permissions needs
- *   to be feature-flag sensitive
+ * @param {boolean} [props.optionalPrecondition] useful if a permission is
+ *   dependent on other conditions such as an feature-flag
  * @param {string[]} props.requiredPermissions tuple of limited-scope and
  *   access-permission
  * @returns {boolean}
  **/
-export default function useHasAccess({ optionalFeatureFlag, requiredPermissions }: UseHasAccessProps): boolean {
+export default function useHasAccess({ optionalPrecondition, requiredPermissions }: UseHasAccessProps): boolean {
   const [role] = useCurrentUserRole();
 
   return hasAccess({
     grantedPermissions: role.permissions,
-    optionalFeatureFlag,
+    optionalPrecondition,
     requiredPermissions
   });
 }

@@ -13,9 +13,15 @@ import {
   applicationAdditionalCapabilities
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { CapabilitySubsection } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
+import {
+  applicationsAccessPermissions,
+  mobileAppsAccessPermissions,
+  websitesAccessPermissions
+} from 'in-stores/permission';
 import { getAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 const sublistContent = (
@@ -28,7 +34,16 @@ const sublistContent = (
 );
 export const ApplicationSectionFullAccessContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { areaColumnHeadline, isDisabled } = getAreaData({ area: ProductArea.APPLICATION, permissionsSet });
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
+  const { areaColumnHeadline, isDisabled } = getAreaData({
+    area: ProductArea.APPLICATION,
+    permissionsSet,
+    hasApplicationsAccess,
+    hasMobileAppsAccess,
+    hasWebsitesAccess
+  });
 
   return (
     <AreaExpandableListItem

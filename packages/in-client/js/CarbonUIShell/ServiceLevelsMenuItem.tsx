@@ -9,12 +9,19 @@ import React from 'react';
 import { MenuItem } from '@instana/components';
 
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
+import { playwithEnabled, sloFullEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { playwithEnabled } from 'in-services/featureFlags';
-import { hasSloAccess } from 'in-stores/permission';
+import { PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
+import { sloAccessPermissions } from 'in-stores/permission';
+import useHasAccesses from 'in-stores/useHasAccesses';
 import { t } from 'in-i18n';
 
 export default function ServiceLevelsMenuItem() {
+  const hasSloAccess = useHasAccesses({
+    optionalPrecondition: sloFullEnabled,
+    requiredPermissions: sloAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
   const { matchLocation, createHrefToPath } = useNavigation();
 
   if (!hasSloAccess || playwithEnabled) return null;

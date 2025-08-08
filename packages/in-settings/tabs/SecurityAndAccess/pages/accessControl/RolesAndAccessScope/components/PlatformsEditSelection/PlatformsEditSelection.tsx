@@ -11,15 +11,15 @@ import { SvgIcon, Stack, Checkbox } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 
 import {
-  hasKubernetesAccess,
-  hasOpenStackAccess,
-  hasPCFAccess,
-  hasPHMCAccess,
-  hasPowerVcAccess,
-  hasSAPAccess,
-  hasVSphereAccess,
-  hasZHMCAccess,
-  hasNutanixAccess
+  kubernetesAccessPermissions,
+  vSphereAccessPermissions,
+  powerVcAccessPermissions,
+  phmcAccessPermissions,
+  zhmcAccessPermissions,
+  pcfAccessPermissions,
+  openStackAccessPermissions,
+  sapAccessPermissions,
+  nutanixAccessPermissions
 } from 'in-stores/permission';
 import {
   getField,
@@ -33,11 +33,22 @@ import {
   ScopedPermissionItem,
   ScopedPermissionType
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import {
+  nutanixEnabled,
+  openstackEnabled,
+  pcfEnabled,
+  phmcEnabled,
+  powervcEnabled,
+  sapEnabled,
+  vsphereEnabled,
+  zhmcEnabled
+} from 'in-services/featureFlags';
 import KubernetesEditSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import Section from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Section';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import useHasAccess from 'in-stores/useHasAccess';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -50,16 +61,38 @@ export interface PlatformsEditSelectionProps<FORM_TYPE extends MapFormItems>
   extends SlideControlProps<SubSlideConfig>,
     FormControlProps<FORM_TYPE> {}
 
-const generalAreas: Array<LimitableProductArea> = [
-  ...(hasPCFAccess ? [ProductArea.PCF] : []),
-  ...(hasPHMCAccess ? [ProductArea.PHMC] : []),
-  ...(hasPowerVcAccess ? [ProductArea.POWERVC] : []),
-  ...(hasZHMCAccess ? [ProductArea.ZHMC] : []),
-  ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
-  ...(hasVSphereAccess ? [ProductArea.VSPHERE] : []),
-  ...(hasSAPAccess ? [ProductArea.SAP] : []),
-  ...(hasNutanixAccess ? [ProductArea.NUTANIX] : [])
-];
+interface GeneralAreasPermission {
+  hasOpenStackAccess: boolean;
+  hasPCFAccess: boolean;
+  hasPHMCAccess: boolean;
+  hasPowerVcAccess: boolean;
+  hasSAPAccess: boolean;
+  hasVSphereAccess: boolean;
+  hasZHMCAccess: boolean;
+  hasNutanixAccess: boolean;
+}
+
+function getGeneralAreas({
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasPowerVcAccess,
+  hasSAPAccess,
+  hasVSphereAccess,
+  hasZHMCAccess,
+  hasNutanixAccess
+}: GeneralAreasPermission): Array<LimitableProductArea> {
+  return [
+    ...(hasPCFAccess ? [ProductArea.PCF] : []),
+    ...(hasPHMCAccess ? [ProductArea.PHMC] : []),
+    ...(hasPowerVcAccess ? [ProductArea.POWERVC] : []),
+    ...(hasZHMCAccess ? [ProductArea.ZHMC] : []),
+    ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
+    ...(hasVSphereAccess ? [ProductArea.VSPHERE] : []),
+    ...(hasSAPAccess ? [ProductArea.SAP] : []),
+    ...(hasNutanixAccess ? [ProductArea.NUTANIX] : [])
+  ];
+}
 
 /**
  * Provides a component that allows to edit the platform access for a group
@@ -72,6 +105,49 @@ export default function _PlatformsEditSelection<FORM_TYPE extends MapFormItems>(
   setShowSubSlide,
   setSubSlideConfig
 }: PlatformsEditSelectionProps<FORM_TYPE>) {
+  const hasKubernetesAccess = useHasAccess({ requiredPermissions: kubernetesAccessPermissions });
+  const hasVSphereAccess = useHasAccess({
+    optionalPrecondition: vsphereEnabled,
+    requiredPermissions: vSphereAccessPermissions
+  });
+  const hasPowerVcAccess = useHasAccess({
+    optionalPrecondition: powervcEnabled,
+    requiredPermissions: powerVcAccessPermissions
+  });
+  const hasPHMCAccess = useHasAccess({
+    optionalPrecondition: phmcEnabled,
+    requiredPermissions: phmcAccessPermissions
+  });
+  const hasZHMCAccess = useHasAccess({
+    optionalPrecondition: zhmcEnabled,
+    requiredPermissions: zhmcAccessPermissions
+  });
+  const hasPCFAccess = useHasAccess({
+    optionalPrecondition: pcfEnabled,
+    requiredPermissions: pcfAccessPermissions
+  });
+  const hasOpenStackAccess = useHasAccess({
+    optionalPrecondition: openstackEnabled,
+    requiredPermissions: openStackAccessPermissions
+  });
+  const hasSAPAccess = useHasAccess({
+    optionalPrecondition: sapEnabled,
+    requiredPermissions: sapAccessPermissions
+  });
+  const hasNutanixAccess = useHasAccess({
+    optionalPrecondition: nutanixEnabled,
+    requiredPermissions: nutanixAccessPermissions
+  });
+  const generalAreas = getGeneralAreas({
+    hasOpenStackAccess,
+    hasPCFAccess,
+    hasPHMCAccess,
+    hasPowerVcAccess,
+    hasSAPAccess,
+    hasVSphereAccess,
+    hasZHMCAccess,
+    hasNutanixAccess
+  });
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet: PermissionSet | undefined = permissionSetField?.value;
 

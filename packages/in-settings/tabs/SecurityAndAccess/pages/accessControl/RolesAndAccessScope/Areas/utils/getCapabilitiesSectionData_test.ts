@@ -24,7 +24,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       // Given
       const { shouldRenderContent } = getCapabilitiesSectionData({
         area: ProductArea.GLOBAL,
-        permissionsSet: mockEmptyPermissionsSet
+        permissionsSet: mockEmptyPermissionsSet,
+        hasAnalyzeAccess: true
       });
 
       // Then
@@ -39,7 +40,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       // Given
       const { shouldRenderContent } = getCapabilitiesSectionData({
         area: ProductArea.GLOBAL,
-        permissionsSet: mockPermissionsSetWithData
+        permissionsSet: mockPermissionsSetWithData,
+        hasAnalyzeAccess: true
       });
 
       // Then

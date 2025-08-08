@@ -11,7 +11,7 @@ import {
   ProductAreaType
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { unionGlobalCapabilities } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
-import { CapabilityType, hasAnalyzeAccess } from 'in-stores/permission';
+import { CapabilityType } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 type CapabilityProductArea = Extract<ProductAreaType, 'GLOBAL'>;
@@ -23,12 +23,17 @@ const capabilitiesDataMap = {
   }
 };
 
-interface getCapabilitiesSectionDataProps {
+interface GetCapabilitiesSectionDataProps {
   area: CapabilityProductArea;
   permissionsSet: PermissionSet;
+  hasAnalyzeAccess?: boolean;
 }
 
-export const getCapabilitiesSectionData = ({ area, permissionsSet }: getCapabilitiesSectionDataProps) => {
+export const getCapabilitiesSectionData = ({
+  area,
+  permissionsSet,
+  hasAnalyzeAccess
+}: GetCapabilitiesSectionDataProps) => {
   const capabilitiesDataMapItem = capabilitiesDataMap[area];
   const productAreaCapabilities = capabilitiesDataMapItem.productAreaCapabilities;
   const disabledColumnHeadline = t('in-settings:productAreas.no_access');

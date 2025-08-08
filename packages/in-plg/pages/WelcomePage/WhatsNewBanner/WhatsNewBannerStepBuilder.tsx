@@ -16,17 +16,20 @@ import {
   CONCERT_INTEGRATION_BUTTON_CLICKED
 } from 'in-services/tracking/eventNames';
 import { useKubernetesClustersConfigs } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
-import { hasKubernetesAccess, hasApplicationsAccess } from 'in-stores/permission';
+import { applicationsAccessPermissions, kubernetesAccessPermissions } from 'in-stores/permission';
 import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { playwithEnabled } from 'in-services/featureFlags';
+import useHasAccess from 'in-stores/useHasAccess';
 import { config } from 'in-services/config';
 
 export default function WhatsNewBannerStepBuilder() {
   const [role] = useCurrentUserRole();
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasKubernetesAccess = useHasAccess({ requiredPermissions: kubernetesAccessPermissions });
   const { trackCta } = useSegmentTracking();
   const [clusters] = useKubernetesClustersConfigs();
   const clusterNumber = clusters?.length ?? 0;

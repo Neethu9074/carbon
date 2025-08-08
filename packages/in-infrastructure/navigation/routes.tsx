@@ -47,7 +47,6 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
-import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 // eslint-disable-next-line no-restricted-imports
 import { Role } from 'in-types';
 
@@ -56,7 +55,7 @@ const alertDisplayMode = getSmartAlertDisplayMode(
   infraSmartAlertFullScreenDesignEnabled
 );
 
-const getInfrastructureRoutes = (role: Role) => {
+const getInfrastructureRoutes = (role: Role, hasInfrastructureAnalyzeAccess?: boolean) => {
   const infrastructureRoutes = [
     <Route key="infraPhysical" path={physicalPath}>
       {renderAsyncRouteChildren(Map)}

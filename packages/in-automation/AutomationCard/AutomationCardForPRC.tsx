@@ -16,9 +16,11 @@ import useScoredActions, {
 import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
+import { automationAccessPermissions } from 'in-stores/permission';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
-import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import useHasAccess from 'in-stores/useHasAccess';
 
 interface AutomationCardProps {
   volatileId: VolatileId;
@@ -84,6 +86,10 @@ function AutomationCardWithOptimization({ volatileId, event }: AutomationCardPro
 }
 
 export default function AutomationCardWrapper({ volatileId, event }: AutomationCardProps) {
+  const hasAutomationAccess = useHasAccess({
+    optionalPrecondition: actionAutomationEnabled,
+    requiredPermissions: automationAccessPermissions
+  });
   if (!hasAutomationAccess) return null;
   return <AutomationCardWithOptimization volatileId={volatileId} event={event} />;
 }

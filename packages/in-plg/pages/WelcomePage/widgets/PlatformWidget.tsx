@@ -23,17 +23,26 @@ import {
   zhmcServer as zhmcServerType
 } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import {
-  hasKubernetesAccess,
-  hasOpenStackAccess,
-  hasPCFAccess,
-  hasPHMCAccess,
-  hasPowerVcAccess,
-  hasVSphereAccess,
-  hasZHMCAccess,
-  hasSAPAccess
+  kubernetesAccessPermissions,
+  openStackAccessPermissions,
+  pcfAccessPermissions,
+  phmcAccessPermissions,
+  powerVcAccessPermissions,
+  sapAccessPermissions,
+  vSphereAccessPermissions,
+  zhmcAccessPermissions
 } from 'in-stores/permission';
 //@ts-expect-error doesn't contain type file
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
+import {
+  openstackEnabled,
+  pcfEnabled,
+  phmcEnabled,
+  powervcEnabled,
+  sapEnabled,
+  vsphereEnabled,
+  zhmcEnabled
+} from 'in-services/featureFlags';
 //@ts-expect-error no declaration file present
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 //@ts-expect-error doesn't contain type file
@@ -87,6 +96,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
 import { success } from 'in-services/util/result';
+import useHasAccess from 'in-stores/useHasAccess';
 
 function handleFavoriteClick(id: string, item: any, isFavourite: boolean, type: string) {
   if (!id && !item) return;
@@ -135,6 +145,35 @@ function getTypeByItem(item: any) {
 }
 
 export default function PlatformWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
+  const hasKubernetesAccess = useHasAccess({ requiredPermissions: kubernetesAccessPermissions });
+  const hasVSphereAccess = useHasAccess({
+    optionalPrecondition: vsphereEnabled,
+    requiredPermissions: vSphereAccessPermissions
+  });
+  const hasPowerVcAccess = useHasAccess({
+    optionalPrecondition: powervcEnabled,
+    requiredPermissions: powerVcAccessPermissions
+  });
+  const hasPHMCAccess = useHasAccess({
+    optionalPrecondition: phmcEnabled,
+    requiredPermissions: phmcAccessPermissions
+  });
+  const hasZHMCAccess = useHasAccess({
+    optionalPrecondition: zhmcEnabled,
+    requiredPermissions: zhmcAccessPermissions
+  });
+  const hasPCFAccess = useHasAccess({
+    optionalPrecondition: pcfEnabled,
+    requiredPermissions: pcfAccessPermissions
+  });
+  const hasOpenStackAccess = useHasAccess({
+    optionalPrecondition: openstackEnabled,
+    requiredPermissions: openStackAccessPermissions
+  });
+  const hasSAPAccess = useHasAccess({
+    optionalPrecondition: sapEnabled,
+    requiredPermissions: sapAccessPermissions
+  });
   const debouncedHandleFavoriteClick = debounce(handleFavoriteClick, 300);
   function getLabel(item: any) {
     return item.isKubernetes ? item.cluster.label : item.label;

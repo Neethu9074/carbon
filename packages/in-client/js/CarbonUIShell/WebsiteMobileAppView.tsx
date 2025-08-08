@@ -11,13 +11,16 @@ import { just } from '@instana/observables';
 
 import { isAnalyzeView as isMobileAppAnalyzeView, mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { isAnalyzeView as isWebsiteAnalyzeView, websiteMonitoringPath } from 'in-websites/navigation/paths';
-import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
+import { mobileAppsAccessPermissions, websitesAccessPermissions } from 'in-stores/permission';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { all, any } from 'in-services/fixedStreams';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export default function WebsiteMobileAppView() {
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
   const { matchLocation, createHrefToPath } = useNavigation();
   const loc = useLocation();
 

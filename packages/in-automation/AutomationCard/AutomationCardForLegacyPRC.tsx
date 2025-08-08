@@ -21,10 +21,12 @@ import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/Automatio
 import RecommendedActionsForLegacyPRC from 'in-automation/AutomationCard/RecommendedActionsForLegacyPRC';
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
+import { automationAccessPermissions } from 'in-stores/permission';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
-import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import useHasAccess from 'in-stores/useHasAccess';
 import { EventOrMap } from 'in-events/types';
 
 interface AutomationCardProps {
@@ -166,6 +168,10 @@ function AutomationCardWithOptimization({ volatileId, event, incident }: Automat
 }
 
 export default function AutomationCardWrapper({ volatileId, event, incident }: AutomationCardProps) {
+  const hasAutomationAccess = useHasAccess({
+    optionalPrecondition: actionAutomationEnabled,
+    requiredPermissions: automationAccessPermissions
+  });
   if (!hasAutomationAccess) return null;
   return <AutomationCardWithOptimization volatileId={volatileId} event={event} incident={incident} />;
 }

@@ -15,7 +15,7 @@ import { Role } from 'in-types';
 jest.mock('in-stores/useCurrentUserRole');
 
 describe('in-stores/useHasAccess', () => {
-  describe('without optional feature-flag', () => {
+  describe('without optional pre-condition', () => {
     it('must return true if role has limited scope and permission to access it', () => {
       // Given
       const grantedPermissions: string[] = ['LIMITED_WEBSITES_SCOPE', 'ACCESS_WEBSITES'];
@@ -68,7 +68,7 @@ describe('in-stores/useHasAccess', () => {
     });
   });
 
-  describe('with optional feature-flag set to true', () => {
+  describe('with optional pre-condition set to true', () => {
     it('must return true if role has limited scope and permission to access it', () => {
       // Given
       const featureFlag = true;
@@ -81,7 +81,7 @@ describe('in-stores/useHasAccess', () => {
       // When
       const { result } = renderHook(() =>
         useHasAccess({
-          optionalFeatureFlag: featureFlag,
+          optionalPrecondition: featureFlag,
           requiredPermissions: [limitedScope, requiredAccessPermission]
         })
       );
@@ -102,7 +102,7 @@ describe('in-stores/useHasAccess', () => {
       // When
       const { result } = renderHook(() =>
         useHasAccess({
-          optionalFeatureFlag: featureFlag,
+          optionalPrecondition: featureFlag,
           requiredPermissions: [limitedScope, requiredAccessPermission]
         })
       );
@@ -123,7 +123,7 @@ describe('in-stores/useHasAccess', () => {
       // When
       const { result } = renderHook(() =>
         useHasAccess({
-          optionalFeatureFlag: featureFlag,
+          optionalPrecondition: featureFlag,
           requiredPermissions: [limitedScope, requiredAccessPermission]
         })
       );
@@ -144,7 +144,7 @@ describe('in-stores/useHasAccess', () => {
       // When
       const { result } = renderHook(() =>
         useHasAccess({
-          optionalFeatureFlag: featureFlag,
+          optionalPrecondition: featureFlag,
           requiredPermissions: [limitedScope, requiredAccessPermission]
         })
       );
@@ -154,7 +154,7 @@ describe('in-stores/useHasAccess', () => {
     });
   });
 
-  describe('with optional feature-flag set to false', () => {
+  describe('with optional pre-condition set to false', () => {
     it('must return false if role has limited scope and permission to access it', () => {
       // Given
       const featureFlag = false;
@@ -167,7 +167,7 @@ describe('in-stores/useHasAccess', () => {
       // When
       const { result } = renderHook(() =>
         useHasAccess({
-          optionalFeatureFlag: featureFlag,
+          optionalPrecondition: featureFlag,
           requiredPermissions: [limitedScope, requiredAccessPermission]
         })
       );
@@ -188,7 +188,7 @@ describe('in-stores/useHasAccess', () => {
       // When
       const { result } = renderHook(() =>
         useHasAccess({
-          optionalFeatureFlag: featureFlag,
+          optionalPrecondition: featureFlag,
           requiredPermissions: [limitedScope, requiredAccessPermission]
         })
       );
@@ -209,7 +209,7 @@ describe('in-stores/useHasAccess', () => {
       // When
       const { result } = renderHook(() =>
         useHasAccess({
-          optionalFeatureFlag: featureFlag,
+          optionalPrecondition: featureFlag,
           requiredPermissions: [limitedScope, requiredAccessPermission]
         })
       );
@@ -230,7 +230,7 @@ describe('in-stores/useHasAccess', () => {
       // When
       const { result } = renderHook(() =>
         useHasAccess({
-          optionalFeatureFlag: featureFlag,
+          optionalPrecondition: featureFlag,
           requiredPermissions: [limitedScope, requiredAccessPermission]
         })
       );

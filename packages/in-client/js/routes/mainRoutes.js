@@ -8,29 +8,6 @@ const InternalViews = () => import (/* webpackChunkName: "internal" */ 'in-inter
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
-import {
-  hasApplicationsAccess,
-  hasBizOpsAccess,
-  hasWebsitesAccess,
-  hasKubernetesAccess,
-  hasMobileAppsAccess,
-  hasInfrastructureAccess,
-  hasSyntheticsAccess,
-  hasVSphereAccess,
-  hasPowerVcAccess,
-  hasPHMCAccess,
-  hasZHMCAccess,
-  hasPCFAccess,
-  hasOpenStackAccess,
-  hasEventsAccess,
-  hasSAPAccess,
-  hasSloAccess,
-  hasAutomationAccess,
-  hasNutanixAccess,
-  hasXenServerAccess,
-  hasWindowsHypervisorAccess,
-  hasLinuxKVMHypervisorAccess
-} from 'in-stores/permission';
 import { getAccountPageVisible } from 'in-client/js/CarbonUIShell/SettingsMenuItem.tsx';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { internalMonitoringUnit, newOTelPageEnabled } from 'in-services/featureFlags';
@@ -46,7 +23,6 @@ import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
-import { canSeeExtendedInternalMonitoring } from 'in-stores/user';
 import configurationRoutes from 'in-settings/navigation/routes';
 import automationRoutes from 'in-automation/navigation/routes';
 import syntheticsRoutes from 'in-synthetics/navigation/routes';
@@ -69,9 +45,33 @@ import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
 import sapRoutes from 'in-sap/navigation/routes';
 
-export default role => (
+export default ({
+  role,
+  hasApplicationsAccess,
+  hasAutomationAccess,
+  hasBizOpsAccess,
+  hasEventsAccess,
+  hasInfrastructureAccess,
+  hasKubernetesAccess,
+  hasLinuxKVMHypervisorAccess,
+  hasMobileAppsAccess,
+  hasNutanixAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasPowerVcAccess,
+  hasSAPAccess,
+  hasSloAccess,
+  hasSyntheticsAccess,
+  hasVSphereAccess,
+  hasWebsitesAccess,
+  hasWindowsHypervisorAccess,
+  hasXenServerAccess,
+  hasZHMCAccess,
+  hasInfrastructureAnalyzeAccess
+}) => (
   <Switch>
-    {hasInfrastructureAccess && getInfrastructureRoutes(role)}
+    {hasInfrastructureAccess && getInfrastructureRoutes(role, hasInfrastructureAnalyzeAccess)}
     {configurationRoutes}
     {collectorRoutes}
     {role.canConfigureAgents && (
@@ -79,7 +79,7 @@ export default role => (
         {renderAsyncRouteChildren(AgentView)}
       </Route>
     )}
-    {(canSeeExtendedInternalMonitoring || internalMonitoringUnit) && (
+    {(role.canSeeExtendedInternalMonitoring || internalMonitoringUnit) && (
       <Route path="/internal" windowTitle="Internal">
         {renderAsyncRouteChildren(InternalViews)}
       </Route>

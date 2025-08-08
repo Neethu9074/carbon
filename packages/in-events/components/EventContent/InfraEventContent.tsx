@@ -28,12 +28,13 @@ import {
 import InfraAlertChartWrapper, {
   useGetMetricLabel
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import SelectedMetricGroupProvider from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
 // @ts-expect-error
 import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
-import SelectedMetricGroupProvider from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
+import { infraExploreDataEnabled, infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import { adjustTimestamp, getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
@@ -51,11 +52,10 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { infrastructureAnalyzeAccessPermissions } from 'in-stores/permission';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
@@ -63,6 +63,7 @@ import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
 import { getPluginName } from 'in-sdk/pluginName';
+import useHasAccess from 'in-stores/useHasAccess';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
@@ -76,6 +77,10 @@ interface Props {
 
 export default function InfraEventContent({ event, snapshot, reload }: Props) {
   const [role] = useCurrentUserRole();
+  const hasInfrastructureAnalyzeAccess = useHasAccess({
+    optionalPrecondition: infraExploreDataEnabled,
+    requiredPermissions: infrastructureAnalyzeAccessPermissions
+  });
   const alertConfig = useInfraEventAlertConfig(event);
   const evaluationType = alertConfig?.evaluationType ?? customEvaluationType;
   const isPerEntityEvaluation = evaluationType === perEntityEvaluationType;

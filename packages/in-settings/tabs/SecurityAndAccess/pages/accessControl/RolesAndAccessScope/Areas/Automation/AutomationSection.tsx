@@ -11,12 +11,20 @@ import { AutomationSectionContent } from 'in-settings/tabs/SecurityAndAccess/pag
 import { getAutomationAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getAutomationAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { automationAccessPermissions } from 'in-stores/permission';
+import useHasAccess from 'in-stores/useHasAccess';
 
 export const AutomationSection = () => {
+  const hasAutomationAccess = useHasAccess({
+    optionalPrecondition: actionAutomationEnabled,
+    requiredPermissions: automationAccessPermissions
+  });
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const { hasFullAreaAccess } = getAutomationAreaData({
     area: ProductArea.AUTOMATION,
-    permissionsSet
+    permissionsSet,
+    hasAutomationAccess
   });
 
   if (hasFullAreaAccess) return <AutomationFullAccessContent />;

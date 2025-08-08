@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { hasBizOpsAccess, AreaPermissions, productAreaPermissions } from 'in-stores/permission';
+import { AreaPermissions, productAreaPermissions } from 'in-stores/permission';
 
 jest.mock('in-services/featureFlags', () => ({
   get businessObservabilityEnabled() {
@@ -14,7 +14,6 @@ jest.mock('in-services/featureFlags', () => ({
 
 describe('in-stores/permissions.ts', () => {
   it('Checks that there is NO BizOps access when the feature flag is disabled', () => {
-    expect(hasBizOpsAccess).toBeFalsy();
     expect(AreaPermissions).toContain('ACCESS_BIZOPS');
     expect(productAreaPermissions).not.toContain('ACCESS_BIZOPS');
     expect(productAreaPermissions).not.toEqual(

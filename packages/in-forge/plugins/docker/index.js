@@ -11,13 +11,14 @@ import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/f
 import containerInfoButtonConfig from 'in-forge/plugins/docker/containerInfoButtonConfig';
 import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
 import metricDefinitions from 'in-forge/plugins/docker/metricDefinitions';
+import { infrastructureAccessPermissions } from 'in-stores/permission';
 import tableDefinition from 'in-forge/plugins/docker/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/docker/kpiDefinitions';
 import { isWithinKubernetes } from 'in-forge/plugins/docker/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
-import { hasInfrastructureAccess } from 'in-stores/permission';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { DOCKER_ID } from 'in-logging/queryBuilder';
+import { hasAccess } from 'in-stores/useHasAccess';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -34,7 +35,11 @@ registerSnapshotDefinition({
     });
   },
 
-  getDashboardHeaderActions({ snapshot, timeConfig }) {
+  getDashboardHeaderActions({ snapshot, timeConfig }, role) {
+    const hasInfrastructureAccess = hasAccess({
+      grantedPermissions: role?.permissions ?? [],
+      requiredPermissions: infrastructureAccessPermissions
+    });
     return [
       {
         getObservables,

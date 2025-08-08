@@ -8,11 +8,12 @@ import { Map } from 'immutable';
 
 import containerInfoButtonConfig from 'in-forge/plugins/podman/containerInfoButtonConfig';
 import metricDefinitions from 'in-forge/plugins/podman/metricDefinitions';
+import { infrastructureAccessPermissions } from 'in-stores/permission';
 import tableDefinition from 'in-forge/plugins/podman/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/podman/kpiDefinitions';
 import { containerInfoEnabled } from 'in-services/featureFlags';
-import { hasInfrastructureAccess } from 'in-stores/permission';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { hasAccess } from 'in-stores/useHasAccess';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -28,7 +29,11 @@ registerSnapshotDefinition({
     });
   },
 
-  getDashboardHeaderActions() {
+  getDashboardHeaderActions(_, role) {
+    const hasInfrastructureAccess = hasAccess({
+      grantedPermissions: role?.permissions ?? [],
+      requiredPermissions: infrastructureAccessPermissions
+    });
     return containerInfoEnabled && hasInfrastructureAccess ? [containerInfoButtonConfig] : [];
   }
 });

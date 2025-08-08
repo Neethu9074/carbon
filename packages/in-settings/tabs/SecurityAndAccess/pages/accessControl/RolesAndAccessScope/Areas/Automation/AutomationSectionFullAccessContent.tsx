@@ -13,11 +13,22 @@ import { getAutomationAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
 import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { automationAccessPermissions } from 'in-stores/permission';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export const AutomationFullAccessContent = () => {
+  const hasAutomationAccess = useHasAccess({
+    optionalPrecondition: actionAutomationEnabled,
+    requiredPermissions: automationAccessPermissions
+  });
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { areaColumnHeadline, isDisabled } = getAutomationAreaData({ area: ProductArea.AUTOMATION, permissionsSet });
+  const { areaColumnHeadline, isDisabled } = getAutomationAreaData({
+    area: ProductArea.AUTOMATION,
+    permissionsSet,
+    hasAutomationAccess
+  });
 
   return (
     <AreaExpandableListItem

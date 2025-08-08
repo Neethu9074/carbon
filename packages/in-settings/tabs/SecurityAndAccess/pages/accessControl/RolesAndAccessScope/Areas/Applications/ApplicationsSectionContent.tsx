@@ -16,15 +16,24 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { CapabilitySubsection } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { useApplicationsConfigurations } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Applications/hooks';
+import {
+  applicationsAccessPermissions,
+  Capability,
+  mobileAppsAccessPermissions,
+  websitesAccessPermissions
+} from 'in-stores/permission';
 import { getAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
-import { Capability } from 'in-stores/permission';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export const ApplicationsSectionContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const [applications, , , { loading }] = useApplicationsConfigurations();
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
   const {
     areaColumnHeadline,
     areaItemIdsWithAccess,
@@ -35,7 +44,10 @@ export const ApplicationsSectionContent = () => {
     hasFullAreaAccess
   } = getAreaData({
     area: ProductArea.APPLICATION,
-    permissionsSet
+    permissionsSet,
+    hasApplicationsAccess,
+    hasMobileAppsAccess,
+    hasWebsitesAccess
   });
   const applicationsToDisplay = applications?.filter(application => areaItemIdsWithAccess.includes(application.id));
   const contributorApplicationsToDisplay = applications?.filter(application =>

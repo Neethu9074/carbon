@@ -16,6 +16,9 @@ import { CapabilitySubsection } from 'in-settings/tabs/SecurityAndAccess/pages/a
 import { getSyntheticAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getSyntheticAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
+import { syntheticsAccessPermissions } from 'in-stores/permission';
+import { syntheticsEnabled } from 'in-services/featureFlags';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 const sublistContent = (
@@ -28,8 +31,16 @@ const sublistContent = (
 );
 
 export const SyntheticMonitoringSectionFullAccessContent = () => {
+  const hasSyntheticsAccess = useHasAccess({
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { areaColumnHeadline, isDisabled } = getSyntheticAreaData({ area: ProductArea.SYNTHETICS, permissionsSet });
+  const { areaColumnHeadline, isDisabled } = getSyntheticAreaData({
+    area: ProductArea.SYNTHETICS,
+    permissionsSet,
+    hasSyntheticsAccess
+  });
 
   return (
     <AreaExpandableListItem

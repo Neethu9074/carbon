@@ -13,7 +13,7 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
-import { hasSyntheticsAccess, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
+import { LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
@@ -38,15 +38,16 @@ interface AreaData {
 interface getAreaDataProps {
   area: ProductAreaWithSyntheticData;
   permissionsSet: PermissionSet;
+  hasSyntheticsAccess: boolean;
 }
 
-const dataMap: Record<ProductAreaWithSyntheticData, dataMapItem> = {
+const getDataMap = (hasSyntheticsAccess: boolean): Record<ProductAreaWithSyntheticData, dataMapItem> => ({
   [ProductArea.SYNTHETICS]: {
     itemIdKey: 'syntheticTestIds',
     limitedAccessScope: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,
     hasAreaAccess: hasSyntheticsAccess
   }
-};
+});
 
 const getSubColumnHeadlineText = (quantity: number) => {
   if (syntheticRbacLimitedEnabled) {
@@ -57,8 +58,8 @@ const getSubColumnHeadlineText = (quantity: number) => {
   return quantity;
 };
 
-export const getSyntheticAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaData => {
-  const areaItemData = dataMap[area];
+export const getSyntheticAreaData = ({ area, permissionsSet, hasSyntheticsAccess }: getAreaDataProps): AreaData => {
+  const areaItemData = getDataMap(hasSyntheticsAccess)[area];
   const areaItemIds = permissionsSet[areaItemData.itemIdKey] ?? [];
 
   const areaAccessScope = getScopeFromProductArea(area, permissionsSet);

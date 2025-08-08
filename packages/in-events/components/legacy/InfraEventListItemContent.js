@@ -13,6 +13,7 @@ import InfraAlertChartWrapper, {
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import SelectedMetricGroupProvider from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import { infraExploreDataEnabled, infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
@@ -26,17 +27,21 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
-import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
+import { infrastructureAnalyzeAccessPermissions } from 'in-stores/permission';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { deepCopy } from 'in-services/util/object';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 import locals from './EventListItemContent.mless';
 
 export default function InfraEventListItemContent({ event, justChart = false }) {
+  const hasInfrastructureAnalyzeAccess = useHasAccess({
+    optionalPrecondition: infraExploreDataEnabled,
+    requiredPermissions: infrastructureAnalyzeAccessPermissions
+  });
   const alertConfig = useInfraEventAlertConfig(event);
   const entityType = alertConfig?.rule?.entityType ?? 'all';
   const tagCatalog = useTagCatalog({ ownerType: entityType });

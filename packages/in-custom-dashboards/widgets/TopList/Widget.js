@@ -20,6 +20,7 @@ import { default as MobileTopListCatalog } from 'in-custom-dashboards/widgets/To
 import { default as BizOpsTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/BizOpsTopListCatalog';
 import { default as InfraTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/InfraTopListCatalog';
 import { default as AppTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/AppTopListCatalog';
+import { customDashboardsFastQueryModeEnabled, infraExploreDataEnabled } from 'in-services/featureFlags';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
@@ -28,11 +29,10 @@ import { useLinkToAnalyze as useLinkToMobileAppAnalyze } from 'in-mobile-apps/na
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { customDashboardsFastQueryModeEnabled } from 'in-services/featureFlags';
 import { createUnitFormatter, getFormatter } from 'in-stores/metric/formatters';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { infrastructureAnalyzeAccessPermissions } from 'in-stores/permission';
 import { useLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
-import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import { isParseableAsNumber } from 'in-services/util/number';
@@ -41,6 +41,7 @@ import { operators } from 'in-analyze/applicationFilter';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTagType } from 'in-applications/tags';
+import useHasAccess from 'in-stores/useHasAccess';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -202,6 +203,10 @@ export function ListWidgetRenderer({
 }
 
 function Label({ item, config, result, tagCatalog }) {
+  const hasInfrastructureAnalyzeAccess = useHasAccess({
+    optionalPrecondition: infraExploreDataEnabled,
+    requiredPermissions: infrastructureAnalyzeAccessPermissions
+  });
   let formModel = fromBackendModel(config.metricConfiguration.tagFilterExpression);
 
   const analyzeHref = useLinkToAnalyze({
