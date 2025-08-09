@@ -15,6 +15,7 @@ import useScoredActions, {
 } from 'in-automation/AutomationCard/useScoredActions';
 import { useRootCauseTopologyDataContext } from 'in-events/components/RootCauseAnalysis/Topology/context/RootCauseTopologyDataContext';
 import { useEntitySelection } from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntitySelectionContext';
+import { InvestigationResponse } from 'in-events/subscriptions/rcaInvestigation';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import { automationAccessPermissions } from 'in-stores/permission';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
@@ -25,9 +26,10 @@ import useHasAccess from 'in-stores/useHasAccess';
 interface AutomationCardProps {
   volatileId: VolatileId;
   event: Event;
+  investigationResponse?: InvestigationResponse | null;
 }
 
-function AutomationCardForPRC({ volatileId, event }: AutomationCardProps) {
+function AutomationCardForPRC({ volatileId, event, investigationResponse }: AutomationCardProps) {
   const [selectedDescription, setSelectedDescription] = useState<string | null>(null);
   const [selectedEntityType, setSelectedEntityType] = useState<string | null>(null);
 
@@ -44,7 +46,13 @@ function AutomationCardForPRC({ volatileId, event }: AutomationCardProps) {
   const isTriggering = selectedNodeInfo?.tags?.has('TRIGGERING');
 
   useEffect(() => {
-    if (selectedEntityId && nodes && selectedNodeInfo && (isRootCause || isTriggering)) {
+    if (
+      investigationResponse === undefined &&
+      selectedEntityId &&
+      nodes &&
+      selectedNodeInfo &&
+      (isRootCause || isTriggering)
+    ) {
       if (isRootCause) {
         setSelectedDescription(selectedNodeInfo.label);
         setSelectedEntityType(selectedNodeInfo.entityType);
@@ -54,7 +62,11 @@ function AutomationCardForPRC({ volatileId, event }: AutomationCardProps) {
         setSelectedEntityType(null);
       }
     }
-  }, [selectedEntityId, nodes, selectedNodeInfo, isTriggering, isRootCause]);
+    if (investigationResponse && investigationResponse !== null && selectedNodeInfo) {
+      setSelectedDescription(investigationResponse.diagnosis.diagnosis.summary);
+      setSelectedEntityType(selectedNodeInfo.entityType);
+    }
+  }, [selectedEntityId, nodes, selectedNodeInfo, isTriggering, isRootCause, investigationResponse]);
 
   return (
     <Row withoutSideMargin>
@@ -70,6 +82,9 @@ function AutomationCardForPRC({ volatileId, event }: AutomationCardProps) {
             setSelectedEntityType={setSelectedEntityType}
             selectedDescription={selectedDescription}
             selectedEntityType={selectedEntityType}
+            summaryType={
+              investigationResponse && investigationResponse !== null ? 'investigation' : isRootCause ? 'prc' : 'event'
+            }
           />
         </Card>
       </Col>
@@ -77,19 +92,25 @@ function AutomationCardForPRC({ volatileId, event }: AutomationCardProps) {
   );
 }
 
-function AutomationCardWithOptimization({ volatileId, event }: AutomationCardProps) {
+function AutomationCardWithOptimization({ volatileId, event, investigationResponse }: AutomationCardProps) {
   return (
     <>
-      <AutomationCardForPRC volatileId={volatileId} event={event} />
+      <AutomationCardForPRC volatileId={volatileId} event={event} investigationResponse={investigationResponse} />
     </>
   );
 }
 
-export default function AutomationCardWrapper({ volatileId, event }: AutomationCardProps) {
+export default function AutomationCardWrapper({ volatileId, event, investigationResponse }: AutomationCardProps) {
   const hasAutomationAccess = useHasAccess({
     optionalPrecondition: actionAutomationEnabled,
     requiredPermissions: automationAccessPermissions
   });
   if (!hasAutomationAccess) return null;
-  return <AutomationCardWithOptimization volatileId={volatileId} event={event} />;
+  return (
+    <AutomationCardWithOptimization
+      volatileId={volatileId}
+      event={event}
+      investigationResponse={investigationResponse}
+    />
+  );
 }

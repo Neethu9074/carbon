@@ -16,10 +16,12 @@ import locals from './AISlugIcon.mless';
 // Each AI Popover holds his own open state so they are independent of each other
 export default function AISlugIcon({
   actionType,
-  align = 'right-start'
+  align = 'right-start',
+  summaryType
 }: {
   actionType: 'manual' | 'script' | 'aiGenerated';
   align?: 'right-start' | 'left-start';
+  summaryType?: string;
 }) {
   const [showPop, setShowPop] = useState(false);
   return (
@@ -44,7 +46,7 @@ export default function AISlugIcon({
             }}
           />
         </div>
-        {actionType === 'manual' && <AIExplainedContentManualAction />}
+        {actionType === 'manual' && <AIExplainedContentManualAction summaryType={summaryType} />}
         {actionType === 'script' && <AIExplainedContentScriptAction />}
         {actionType === 'aiGenerated' && <AIExplainedContentPreGeneratedActions />}
       </CarbonPopoverContent>
@@ -54,7 +56,7 @@ export default function AISlugIcon({
 
 // Static Function that renders the text content within the popover
 // that is explaining the AI being used
-function AIExplainedContentManualAction() {
+function AIExplainedContentManualAction({ summaryType }: { summaryType?: string }) {
   return (
     <div className={locals.popOverWrapper}>
       <div className={locals.popupDescription}>
@@ -69,13 +71,13 @@ function AIExplainedContentManualAction() {
         <div className={locals.bullet}>
           {'- '}
           <div>
-            <Trans i18nKey="in-automation:AITooltip.manualSection.section2.section2EventName" />
-          </div>
-        </div>
-        <div className={locals.bullet}>
-          {'- '}
-          <div>
-            <Trans i18nKey="in-automation:AITooltip.manualSection.section2.section2Description" />
+            {summaryType === 'investigation' ? (
+              <Trans i18nKey="in-automation:AITooltip.manualSection.section2.section2DescriptionInvestigation" />
+            ) : summaryType === 'prc' ? (
+              <Trans i18nKey="in-automation:AITooltip.manualSection.section2.section2DescriptionRootcause" />
+            ) : (
+              <Trans i18nKey="in-automation:AITooltip.manualSection.section2.section2DescriptionEvent" />
+            )}
           </div>
         </div>
         <div className={locals.bullet}>

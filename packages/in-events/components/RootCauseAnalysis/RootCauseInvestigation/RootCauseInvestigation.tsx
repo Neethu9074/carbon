@@ -9,6 +9,7 @@ import { AccordionSkeleton, Accordion, AccordionItem } from '@carbon/react';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { CarbonLayer, PreviewPill, Stack } from '@instana/components';
+import { Event, VolatileId } from '@instana/types';
 import { createLogger } from '@instana/logger';
 import { t } from '@instana/i18n-react';
 
@@ -27,9 +28,16 @@ const logger = createLogger('in-events:RCA.Investigation');
 interface RootCauseInvestigationProps {
   openInvestigation: boolean;
   setOpenInvestigation: React.Dispatch<React.SetStateAction<boolean>>;
+  volatileId: VolatileId;
+  event: Event;
 }
 
-const RootCauseInvestigation = ({ openInvestigation, setOpenInvestigation }: RootCauseInvestigationProps) => {
+const RootCauseInvestigation = ({
+  openInvestigation,
+  setOpenInvestigation,
+  event,
+  volatileId
+}: RootCauseInvestigationProps) => {
   const { incident } = useIncident();
   const { selectedRootCause } = useContext(SelectedRootCauseContext);
   const { rootCauses, rootCauseMetadata } = useContext(RootCauseDataContext);
@@ -137,6 +145,8 @@ const RootCauseInvestigation = ({ openInvestigation, setOpenInvestigation }: Roo
               backendResponse={backendResponse[selectedRootCause]}
               backendLoading={backendLoading[selectedRootCause]}
               error={error[selectedRootCause]}
+              event={event}
+              volatileId={volatileId}
             />
           </Stack>
         </AccordionItem>

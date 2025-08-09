@@ -12,9 +12,11 @@ import React, { FC } from 'react';
 
 import { TypographyProps, Typography as TypographyWithMargin } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
+import { Event, VolatileId } from '@instana/types';
 
 import gridSettings from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/utils/gridSettings';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
+import AutomationCardForPRC from 'in-automation/AutomationCard/AutomationCardForPRC';
 import { InvestigationResponse } from 'in-events/subscriptions/rcaInvestigation';
 import { toHtml } from 'in-services/formatters/markdown';
 import { t, Trans } from 'in-i18n';
@@ -31,13 +33,17 @@ interface SingleEntityOutputProps {
   backendLoading: boolean;
   error: String | null;
   startInvestigation: () => void;
+  volatileId: VolatileId;
+  event: Event;
 }
 
 const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
   backendResponse,
   backendLoading,
   error,
-  startInvestigation
+  startInvestigation,
+  event,
+  volatileId
 }) => {
   return (
     <Stack gap={5} orientation="vertical">
@@ -128,6 +134,9 @@ const SingleEntityOutput: FC<SingleEntityOutputProps> = ({
             </ProductiveCard>
           </Column>
         </Grid>
+      )}
+      {backendResponse && !backendLoading && (
+        <AutomationCardForPRC investigationResponse={backendResponse} event={event} volatileId={volatileId} />
       )}
     </Stack>
   );

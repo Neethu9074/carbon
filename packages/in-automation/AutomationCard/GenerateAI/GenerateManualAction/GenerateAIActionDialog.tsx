@@ -387,6 +387,7 @@ interface GenerateAIActionDialogProps {
   ootbRecommendedActions: Result<ScoredAction[]>;
   selectedDescription?: string | null;
   selectedEntityType?: string | null;
+  summaryType: string;
 }
 
 export default function GenerateAIActionDialog({
@@ -394,11 +395,18 @@ export default function GenerateAIActionDialog({
   trigger,
   ootbRecommendedActions,
   selectedDescription,
-  selectedEntityType
+  selectedEntityType,
+  summaryType
 }: GenerateAIActionDialogProps) {
   const [role] = useCurrentUserRole();
   const [step, setStep] = useState(0);
-  const [form, setForm] = useGenerateAIActionForm({ trigger, event, selectedDescription, selectedEntityType });
+  const [form, setForm] = useGenerateAIActionForm({
+    trigger,
+    event,
+    selectedDescription,
+    selectedEntityType,
+    summaryType
+  });
   const onCancel = useOnCancel(step);
   const generatedAction = useGeneratedAction();
   const { selectNextPromptStepClickTrackerSegment } = useSegmentTracker();
@@ -425,7 +433,7 @@ export default function GenerateAIActionDialog({
           <>
             <Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>
             <Spacer horizontal="small" />
-            {actionAiGenerationEnabled && <AISlugIcon actionType="manual" />}
+            {actionAiGenerationEnabled && <AISlugIcon actionType="manual" summaryType={summaryType} />}
             {!actionAiGenerationEnabled && <AISlugIcon actionType="aiGenerated" />}
           </>
         }
@@ -456,7 +464,13 @@ export default function GenerateAIActionDialog({
               switch (step) {
                 case 0:
                   return (
-                    <ReviewActionStep form={form} setForm={setForm} actions={ootbRecommendedActions} event={event} />
+                    <ReviewActionStep
+                      form={form}
+                      setForm={setForm}
+                      actions={ootbRecommendedActions}
+                      event={event}
+                      summaryType={summaryType}
+                    />
                   );
                 case 1:
                   return (

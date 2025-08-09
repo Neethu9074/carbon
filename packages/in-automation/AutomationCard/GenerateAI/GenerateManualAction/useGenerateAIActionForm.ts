@@ -78,6 +78,7 @@ interface UseGenerateAIActionFormParams {
   event: Event;
   selectedDescription?: string | null;
   selectedEntityType?: string | null;
+  summaryType: string;
 }
 
 function getEventEntity(event: Event): string {
@@ -106,15 +107,19 @@ function createGenerateAIActionForm({
   trigger,
   event,
   selectedDescription,
-  selectedEntityType
+  selectedEntityType,
+  summaryType
 }: UseGenerateAIActionFormParams) {
   const name = event?.problem?.problemText ?? '';
   const description =
-    selectedDescription && selectedDescription !== null
-      ? `Higher than expected error rate going through ${selectedDescription} in ${selectedEntityType} `
+    selectedDescription && selectedDescription !== null && summaryType === 'prc'
+      ? `Higher than expected error rate going through ${selectedDescription} in ${selectedEntityType}`
+      : selectedDescription && selectedDescription !== null && summaryType === 'investigation'
+      ? selectedDescription
       : hasError(trigger)
       ? event?.problem?.fixSuggestion ?? ''
-      : trigger.data!?.description ?? '';
+      : `Event ${name} with description ${trigger.data!?.description ?? ''}`;
+
   const defaultActionName = `AI generated action for ${name}`;
   const defaultActionDescription = `This resolves event: ${description}`;
   const entityType =
@@ -207,7 +212,8 @@ export default function useGenerateAIActionForm({
   trigger,
   event,
   selectedDescription,
-  selectedEntityType
+  selectedEntityType,
+  summaryType
 }: UseGenerateAIActionFormParams) {
-  return useState(createGenerateAIActionForm({ trigger, event, selectedDescription, selectedEntityType }));
+  return useState(createGenerateAIActionForm({ trigger, event, selectedDescription, selectedEntityType, summaryType }));
 }

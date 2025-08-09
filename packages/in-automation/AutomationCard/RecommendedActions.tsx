@@ -389,13 +389,15 @@ function GenerateAIActionButton({
   trigger,
   ootbRecommendedActions,
   selectedDescription,
-  selectedEntityType
+  selectedEntityType,
+  summaryType
 }: {
   event: Event;
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
   selectedDescription?: string | null;
   selectedEntityType?: string | null;
+  summaryType: string;
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
@@ -415,6 +417,7 @@ function GenerateAIActionButton({
             ootbRecommendedActions={ootbRecommendedActions}
             selectedDescription={selectedDescription}
             selectedEntityType={selectedEntityType}
+            summaryType={summaryType}
           />
         );
       }}
@@ -484,6 +487,7 @@ interface RecommendedActionsProps {
   setSelectedEntityType?: (a: string | null) => void;
   selectedDescription?: string | null;
   selectedEntityType?: string | null;
+  summaryType?: string;
 }
 
 export default function RecommendedActions({
@@ -493,7 +497,8 @@ export default function RecommendedActions({
   trigger,
   ootbRecommendedActions,
   selectedDescription,
-  selectedEntityType
+  selectedEntityType,
+  summaryType = 'event'
 }: RecommendedActionsProps) {
   const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
@@ -582,6 +587,7 @@ export default function RecommendedActions({
                 ootbRecommendedActions={ootbRecommendedActions}
                 selectedDescription={selectedDescription}
                 selectedEntityType={selectedEntityType}
+                summaryType={summaryType}
               />
             )}
 

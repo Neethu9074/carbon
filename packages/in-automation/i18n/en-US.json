@@ -168,8 +168,9 @@
     "closeDialogSubDescription": "Are you sure you want to cancel this action? If you proceed, any information you have entered will be lost. This action cannot be undone.",
     "liveGeneration": "Live generation",
     "builtinActions": "Built-in actions ({{count}})",
-    "eventName": "Event name",
-    "eventDescription": "Event description",
+    "investigationSummary": "Investigation summary",
+    "rootcauseSummary": "Root cause summary",
+    "eventSummary": "Event summary",
     "eventEntityType": "Event entity type",
     "noDataAvailableLive": "To see results from AI here, click <strong>Generate</strong>.",
     "noDataAvailableSelectAction": "Make a selection to see content.",
@@ -599,8 +600,9 @@
       },
       "section2": {
         "section2Title": "Input prompt fields",
-        "section2EventName": "<strong>Event name -</strong> The name of the incident, event, or alert.",
-        "section2Description": "<strong>Event description -</strong> The description of the incident or event.",
+        "section2DescriptionEvent": "<strong>Event summary -</strong> The name and description for the incident or event.",
+        "section2DescriptionRootcause": "<strong>Root cause summary -</strong> The summary of the root cause for the incident.",
+        "section2DescriptionInvestigation": "<strong>Investigation summary -</strong> The summary of the investigation into the incident.",
         "section2Entitytype": "<strong>Event entity type -</strong> The type of entity associated with the incident or event."
       },
       "section3": {

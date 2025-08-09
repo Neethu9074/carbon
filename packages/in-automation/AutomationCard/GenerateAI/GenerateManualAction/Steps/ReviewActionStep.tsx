@@ -23,12 +23,14 @@ export default function ReviewActionStep({
   form,
   setForm,
   actions,
-  event
+  event,
+  summaryType
 }: {
   form: GenerateAIActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
   event: Event;
   actions: Result<ScoredAction[]>;
+  summaryType: string;
 }) {
   const showOotbActions = getTriggerTypeFromEvent(event) === 'builtinEvent' && (actions.data?.length ?? 0) > 0;
   const [activeKey, setActiveKey] = useState<ButtonKey>('generate');
@@ -56,7 +58,9 @@ export default function ReviewActionStep({
           </>
         )}
         {activeKey === 'builtinActions' && <SelectActionStep actions={actions} setForm={setForm} />}
-        {activeKey === 'generate' && <PromptStep form={form} setForm={setForm} event={event} />}
+        {activeKey === 'generate' && (
+          <PromptStep form={form} setForm={setForm} event={event} summaryType={summaryType} />
+        )}
       </Stack>
     );
   } else {

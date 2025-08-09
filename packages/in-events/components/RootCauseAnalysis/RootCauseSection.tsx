@@ -23,9 +23,9 @@ import {
   SvgIcon,
   Typography
 } from '@instana/components';
+import { Event, VolatileId } from '@instana/types';
 import { t, Trans } from '@instana/i18n-react';
 import { fromNow } from '@instana/format-date';
-import { Event } from '@instana/types';
 
 import {
   EVENT_RCA_SUGGESTION_HELPFUL,
@@ -61,6 +61,8 @@ import locals from 'in-events/components/legacy/EventList.mless';
 interface RootCauseSectionProps {
   incident: EventOrMap;
   rcaRef: Ref<HTMLDivElement>;
+  volatileId: VolatileId;
+  event: Event;
 }
 
 const getRootCauses = (incident: Event) => {
@@ -79,7 +81,7 @@ const getRootCauses = (incident: Event) => {
     });
 };
 
-const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
+const RootCauseSection = ({ incident, rcaRef, event, volatileId }: RootCauseSectionProps) => {
   const [openInvestigation, setOpenInvestigation] = useState(false);
   const [rootCauseTab, setRootCauseTab] = useState(0);
   const { location } = useNavigation();
@@ -212,6 +214,8 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
                   <RootCauseInvestigation
                     openInvestigation={openInvestigation}
                     setOpenInvestigation={setOpenInvestigation}
+                    event={event}
+                    volatileId={volatileId}
                   />
                 )}
                 {rcaLogsEnabled ? (

@@ -421,6 +421,7 @@ function GenerateAIActionButton({
             ootbRecommendedActions={ootbRecommendedActions}
             selectedDescription={selectedDescription}
             selectedEntityType={selectedEntityType}
+            summaryType="event"
           />
         );
       }}

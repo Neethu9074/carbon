@@ -61,7 +61,7 @@ const AgenticInvestigation = ({ incident, volatileId, event }: AgenticInvestigat
           </ContentSwitcher>
 
           {indexForSwitch === 0 && <AutomationCardForPRC volatileId={volatileId} event={event} />}
-          {indexForSwitch === 1 && <SingleEntityLLM />}
+          {indexForSwitch === 1 && <SingleEntityLLM volatileId={volatileId} event={event} />}
         </Stack>
       </ProductiveCard>
     </div>
