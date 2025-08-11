@@ -44,6 +44,7 @@ import DownloadPdfDialog from 'in-components/DownloadPdf/DownloadPdfDialog/Downl
 import { AiChatContainer } from 'in-custom-dashboards/CustomDashboard/AiChat/AiChatContainer';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { customDashboard } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -53,6 +54,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
+import { remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import { getTrackingMeta } from 'in-custom-dashboards/tracker';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import widgets from 'in-custom-dashboards/widgets';
@@ -334,6 +336,7 @@ export default function CustomDashboardLoader(props) {
               return;
             }
             const targetLocation = { ...location, pathname: customDashboardsPath };
+            remove({ id: config.id, type: customDashboard });
             navigate(targetLocation);
           });
         }}
