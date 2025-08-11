@@ -76,128 +76,40 @@ export default function UsageCharts({
     }
   }
 
+  // Show the "Purchased" metric line only when viewing aggregated metrics and it's explicitly enabled
+  const shouldShowPurchasedMetric = showAggregatedMetrics && showPurchasedMetric;
+
   // Data Chart Y1 definition
-  let dataChartY1 = {
-    ...tenantUnit,
-    metrics: [],
-    labels: [],
-    colors: [],
-    formatter: 'bytes.compact'
-  };
-
-  if (showTrendLine) {
-    dataChartY1.metrics.push('data_ingested_trend_line');
-    dataChartY1.labels.push(t('in-amp:components.usageCharts.trendLine'));
-    dataChartY1.colors.push(carbonAlert.gray60);
-  }
-
-  if (isCumulativeTimeRange) {
-    dataChartY1.metrics.push('data_ingested_total_cumulative');
-    dataChartY1.labels.push('Total');
-    dataChartY1.colors.push(carbonAlert.blue70);
-  } else {
-    dataChartY1.metrics.push('data_ingested_total');
-    dataChartY1.labels.push('Total');
-    dataChartY1.colors.push(carbonAlert.blue70);
-  }
-
-  if (showDataLicenseLine) {
-    dataChartY1.metrics.push('licensed_data');
-    dataChartY1.labels.push('Entitled');
-    dataChartY1.colors.push(carbonAlert.red60);
-  }
+  let dataChartY1 = buildDataChartY1Config({
+    tenantUnit,
+    showTrendLine,
+    isCumulativeTimeRange,
+    showDataLicenseLine
+  });
 
   // DataChartY2 definition
-  let dataChartY2 = {
-    ...tenantUnit,
-    renderer: stackedArea.id,
-    metrics: [],
-    labels: [
-      [t('in-amp:components.usageCharts.infrastructure')],
-      [t('in-amp:components.usageCharts.traces')],
-      [t('in-amp:components.usageCharts.synthetics')],
-      [t('in-amp:components.usageCharts.eumMobile')],
-      [t('in-amp:components.usageCharts.eumWebsite')],
-      [t('in-amp:components.usageCharts.businessMetrics')]
-    ],
-    formatter: 'bytes.compact'
-  };
+  let dataChartY2 = buildDataChartY2Config({
+    tenantUnit,
+    isCumulativeTimeRange
+  });
 
-  if (isCumulativeTimeRange) {
-    dataChartY2.metrics.push(
-      'data_ingested_infrastructure_cumulative',
-      'data_ingested_traces_cumulative',
-      'data_ingested_synthetics_cumulative',
-      'data_ingested_eum_mobile_cumulative',
-      'data_ingested_eum_website_cumulative',
-      'data_ingested_business_metrics_cumulative'
-    );
-  } else {
-    dataChartY2.metrics.push(
-      'bytes_ingested_infrastructure',
-      'bytes_ingested_traces',
-      'bytes_ingested_synthetics',
-      'bytes_ingested_eum_mobile',
-      'bytes_ingested_eum_website',
-      'bytes_ingested_business_metrics'
-    );
-  }
   // APM Chart Y1 definition
-  const apmChartY1 = isCumulativeTimeRange
-    ? {
-        ...tenantUnit,
-        metrics: showTrendLine
-          ? showPurchasedMetric
-            ? ['apm_hosts_trend_line', 'apm_hosts_cumulative', 'licensed_apm_hosts']
-            : ['apm_hosts_cumulative', 'apm_hosts_trend_line']
-          : showPurchasedMetric
-          ? ['apm_hosts_cumulative', 'licensed_apm_hosts']
-          : ['apm_hosts_cumulative'],
-        labels: showTrendLine
-          ? [
-              t('in-amp:components.usageCharts.trendLine'),
-              t('in-amp:components.usageCharts.apmHosts'),
-              t('in-amp:components.usageCharts.purchased')
-            ]
-          : [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
-        colors: showTrendLine
-          ? [carbonAlert.gray60, carbonAlert.blue70, carbonAlert.red60]
-          : [carbonAlert.blue70, carbonAlert.red60]
-      }
-    : {
-        ...tenantUnit,
-        metrics: showPurchasedMetric ? ['apmhost', 'licensed_apm_hosts'] : ['apmhost'],
-        labels: [t('in-amp:components.usageCharts.apmHosts'), t('in-amp:components.usageCharts.purchased')],
-        colors: [carbonAlert.blue70, carbonAlert.red60]
-      };
+  const apmChartY1 = buildHostChartConfig({
+    chartType: 'apm',
+    tenantUnit,
+    isCumulativeTimeRange,
+    showTrendLine,
+    shouldShowPurchasedMetric
+  });
+
   // IQM Chart Y1 definition
-  const iqmChartsY1 = isCumulativeTimeRange
-    ? {
-        ...tenantUnit,
-        metrics: showTrendLine
-          ? showPurchasedMetric
-            ? ['iqm_hosts_trend_line', 'iqm_hosts_cumulative', 'licensed_infra_hosts']
-            : ['iqm_hosts_trend_line', 'iqm_hosts_cumulative']
-          : showPurchasedMetric
-          ? ['iqm_hosts_cumulative', 'licensed_infra_hosts']
-          : ['iqm_hosts_cumulative'],
-        labels: showTrendLine
-          ? [
-              t('in-amp:components.usageCharts.trendLine'),
-              t('in-amp:components.usageCharts.iqmHosts'),
-              t('in-amp:components.usageCharts.purchased')
-            ]
-          : [t('in-amp:components.usageCharts.iqmHosts'), t('in-amp:components.usageCharts.purchased')],
-        colors: showTrendLine
-          ? [carbonAlert.gray60, carbonAlert.blue70, carbonAlert.red60]
-          : [carbonAlert.blue70, carbonAlert.red60]
-      }
-    : {
-        ...tenantUnit,
-        metrics: showPurchasedMetric ? ['infrahost', 'licensed_infra_hosts'] : ['infrahost'],
-        labels: [t('in-amp:components.usageCharts.iqmHosts'), t('in-amp:components.usageCharts.purchased')],
-        colors: [carbonAlert.blue70, carbonAlert.red60]
-      };
+  const iqmChartsY1 = buildHostChartConfig({
+    chartType: 'iqm',
+    tenantUnit,
+    isCumulativeTimeRange,
+    showTrendLine,
+    shouldShowPurchasedMetric
+  });
 
   return (
     <>
@@ -329,4 +241,141 @@ function getEmptyMetricConfig() {
     labels: [],
     colors: []
   };
+}
+
+/**
+ * Builds the data chart Y1 configuration
+ */
+function buildDataChartY1Config({ tenantUnit, showTrendLine, isCumulativeTimeRange, showDataLicenseLine }) {
+  const config = {
+    ...tenantUnit,
+    metrics: [],
+    labels: [],
+    colors: [],
+    formatter: 'bytes.compact'
+  };
+
+  // Add trend line if needed
+  if (showTrendLine) {
+    config.metrics.push('data_ingested_trend_line');
+    config.labels.push(t('in-amp:components.usageCharts.trendLine'));
+    config.colors.push(carbonAlert.gray60);
+  }
+
+  // Add the appropriate total metric
+  if (isCumulativeTimeRange) {
+    config.metrics.push('data_ingested_total_cumulative');
+  } else {
+    config.metrics.push('data_ingested_total');
+  }
+  config.labels.push('Total');
+  config.colors.push(carbonAlert.blue70);
+
+  // Add licensed data line if needed
+  if (showDataLicenseLine) {
+    config.metrics.push('licensed_data');
+    config.labels.push('Entitled');
+    config.colors.push(carbonAlert.red60);
+  }
+
+  return config;
+}
+
+/**
+ * Builds the data chart Y2 configuration
+ */
+function buildDataChartY2Config({ tenantUnit, isCumulativeTimeRange }) {
+  const config = {
+    ...tenantUnit,
+    renderer: stackedArea.id,
+    metrics: [],
+    labels: [
+      [t('in-amp:components.usageCharts.infrastructure')],
+      [t('in-amp:components.usageCharts.traces')],
+      [t('in-amp:components.usageCharts.synthetics')],
+      [t('in-amp:components.usageCharts.eumMobile')],
+      [t('in-amp:components.usageCharts.eumWebsite')],
+      [t('in-amp:components.usageCharts.businessMetrics')]
+    ],
+    formatter: 'bytes.compact'
+  };
+
+  if (isCumulativeTimeRange) {
+    config.metrics.push(
+      'data_ingested_infrastructure_cumulative',
+      'data_ingested_traces_cumulative',
+      'data_ingested_synthetics_cumulative',
+      'data_ingested_eum_mobile_cumulative',
+      'data_ingested_eum_website_cumulative',
+      'data_ingested_business_metrics_cumulative'
+    );
+  } else {
+    config.metrics.push(
+      'bytes_ingested_infrastructure',
+      'bytes_ingested_traces',
+      'bytes_ingested_synthetics',
+      'bytes_ingested_eum_mobile',
+      'bytes_ingested_eum_website',
+      'bytes_ingested_business_metrics'
+    );
+  }
+
+  return config;
+}
+
+/**
+ * Builds host chart configuration (APM or IQM)
+ */
+function buildHostChartConfig({
+  chartType,
+  tenantUnit,
+  isCumulativeTimeRange,
+  showTrendLine,
+  shouldShowPurchasedMetric
+}) {
+  const config = {
+    ...tenantUnit,
+    metrics: [],
+    labels: [],
+    colors: []
+  };
+
+  // Define chart-specific metrics and labels
+  const chartMetrics = {
+    apm: {
+      host: isCumulativeTimeRange ? 'apm_hosts_cumulative' : 'apmhost',
+      trendLine: 'apm_hosts_trend_line',
+      licensed: 'licensed_apm_hosts',
+      label: t('in-amp:components.usageCharts.apmHosts')
+    },
+    iqm: {
+      host: isCumulativeTimeRange ? 'iqm_hosts_cumulative' : 'infrahost',
+      trendLine: 'iqm_hosts_trend_line',
+      licensed: 'licensed_infra_hosts',
+      label: t('in-amp:components.usageCharts.iqmHosts')
+    }
+  };
+
+  const metrics = chartMetrics[chartType];
+
+  // Add trend line if needed (only for cumulative time range)
+  if (isCumulativeTimeRange && showTrendLine) {
+    config.metrics.push(metrics.trendLine);
+    config.labels.push(t('in-amp:components.usageCharts.trendLine'));
+    config.colors.push(carbonAlert.gray60);
+  }
+
+  // Always add the host metric
+  config.metrics.push(metrics.host);
+  config.labels.push(metrics.label);
+  config.colors.push(carbonAlert.blue70);
+
+  // Add purchased metric if needed
+  if (shouldShowPurchasedMetric) {
+    config.metrics.push(metrics.licensed);
+    config.labels.push(t('in-amp:components.usageCharts.purchased'));
+    config.colors.push(carbonAlert.red60);
+  }
+
+  return config;
 }
