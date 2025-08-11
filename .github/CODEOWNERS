@@ -39,6 +39,8 @@ packages/in-custom-dashboards/widgets   @Instana-IBM-GitHub-Enterprise @instana/
 
 packages/in-events                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
 packages/in-events/components/ImpactedBusinessProcesses @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response @instana/eng-bizops
+packages/in-events/components/NotesAndActivity @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-collaboration
+packages/in-events/components/AIChat @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-collaboration
 
 # Shared ownership
 packages/in-forge                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
