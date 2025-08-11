@@ -18,7 +18,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { getGitops } from 'in-automation/api';
 import { Trans, t } from 'in-i18n';
 
-export default function useOnExport() {
+export default function useOnExport(forRecommededAction: boolean) {
   const navigateToActionCatalog = useNavigateToActionCatalog();
   function onExport({
     exportForm,
@@ -44,7 +44,9 @@ export default function useOnExport() {
         }
         createPRSuccessNotification(result?.data?.pull_request_url!);
         close();
-        navigateToActionCatalog();
+        if (!forRecommededAction) {
+          navigateToActionCatalog();
+        }
       });
   }
   return {

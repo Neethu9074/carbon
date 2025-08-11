@@ -26,6 +26,7 @@ import { CloseDialogConfirmation } from 'in-automation/AutomationCard/GenerateAI
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import useOnExport from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useOnExport';
+import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -59,6 +60,8 @@ const stepConfigs: StepConfigs = [
 interface GenerateAIScriptActionDialogProps {
   manualContent: string;
   actionName: string;
+  forRecommededAction?: boolean;
+  eventName?: string;
 }
 
 function additionalStepCheck(step: number, form: GenerateAIScriptActionForm) {
@@ -75,7 +78,7 @@ function onClose() {
   setGeneratedAction(null);
   close();
 }
-function useOnSubmit() {
+function useOnSubmit(forRecommededAction: boolean) {
   const { createActionTrackerSegment, AIActionContentModifiedTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
 
@@ -118,8 +121,12 @@ function useOnSubmit() {
           if (hasError(result)) return;
           trackAction();
           createActionSuccessNotification(result.data?.name!, result.data?.id!);
-          navigateToActionCatalog();
-          refresh();
+          if (forRecommededAction) {
+            refreshScoredActions();
+          } else {
+            navigateToActionCatalog();
+            refresh();
+          }
           onClose();
         },
         () => {
@@ -184,7 +191,8 @@ function RenderCustomAction({
   isSaving,
   isPRCreating,
   submit,
-  setResultUrl
+  setResultUrl,
+  forRecommededAction
 }: {
   step: number;
   form: GenerateAIScriptActionForm;
@@ -192,6 +200,7 @@ function RenderCustomAction({
   isPRCreating: boolean;
   submit: (form: GenerateAIScriptActionForm) => void;
   setResultUrl: React.Dispatch<React.SetStateAction<Result<any> | null>>;
+  forRecommededAction: boolean;
 }) {
   const { exportScriptToExternalSource } = useSegmentTracker();
   const exportForm = form.get('export');
@@ -274,7 +283,7 @@ function RenderCustomAction({
     message.value
   ]);
 
-  const { onExport } = useOnExport();
+  const { onExport } = useOnExport(forRecommededAction);
   switch (step) {
     case 2:
       return () => (
@@ -322,11 +331,16 @@ function RenderCustomAction({
   }
 }
 
-export default function GenerateAIScriptActionDialog({ manualContent, actionName }: GenerateAIScriptActionDialogProps) {
+export default function GenerateAIScriptActionDialog({
+  manualContent,
+  actionName,
+  forRecommededAction = false,
+  eventName
+}: GenerateAIScriptActionDialogProps) {
   const [step, setStep] = useState(0);
   const [resultUrl, setResultUrl] = useState<Result<any> | null>(null);
   const [form, setForm] = useGenerateAIScriptActionForm();
-  const { result, onSubmit } = useOnSubmit();
+  const { result, onSubmit } = useOnSubmit(forRecommededAction);
 
   const onCancel = useOnCancel(step);
   const { aiActionScriptSelectStepNextTrackerSegment, aiActionScriptGenerateStepNextClickTrackerSegment } =
@@ -369,7 +383,8 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
               isSaving,
               submit: form => onSubmit({ form }),
               setResultUrl,
-              isPRCreating
+              isPRCreating,
+              forRecommededAction
             })}
             formId="generateScriptForm"
             onCreate={onCreate}
@@ -399,7 +414,14 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
                     />
                   );
                 case 1:
-                  return <GenerateScriptStep form={form} setForm={setForm} />;
+                  return (
+                    <GenerateScriptStep
+                      form={form}
+                      setForm={setForm}
+                      forRecommededAction={forRecommededAction}
+                      eventName={eventName}
+                    />
+                  );
                 case 2:
                   return (
                     <CopyActionStepScriptAction

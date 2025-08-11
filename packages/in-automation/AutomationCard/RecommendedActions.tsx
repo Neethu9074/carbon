@@ -16,6 +16,7 @@ import {
   scoredActionAiEngineColumn,
   scoredActionScoreColumn
 } from 'in-automation/ActionTable/columnDefinitions';
+import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -31,6 +32,7 @@ import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useRe
 import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import { ACTION_TYPE, EXECUTABLE_ACTIONS, ScoredActionsType } from 'in-automation/constants';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
+import { base64ToUtf8, getManualContentFromFields } from 'in-automation/utils/actionField';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
@@ -154,7 +156,7 @@ export function RecActionsMoreMenu({
   togglePolicyTearsheet?: Function;
 }) {
   const [role] = useCurrentUserRole();
-  const { runActionTrackerSegment } = useSegmentTracker();
+  const { runActionTrackerSegment, generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const { entityId } = event;
   const agentSnapShots = useTurboAgentSnapShots();
   const hrefToActionDashboard = useHrefToActionDashboard();
@@ -162,6 +164,14 @@ export function RecActionsMoreMenu({
   const agents = agentSnapShots?.data?.online ?? [];
   const entityType = scoredAction.entity as Action;
   const policy = scoredAction.entity as Policy;
+  let manualContent = '';
+
+  if (entityType && entityType.type === ACTION_TYPE.MANUAL) {
+    const content = getManualContentFromFields(entityType.fields);
+    if (content.encoding === 'base64') {
+      manualContent = base64ToUtf8(content.value);
+    }
+  }
   if (scoredAction.aiEngine !== 'POLICY' && entityType !== undefined && entityType.type === ACTION_TYPE.EXTERNAL) {
     const isManualExternal = entityType.metadata?.ai;
 
@@ -339,6 +349,30 @@ export function RecActionsMoreMenu({
               }}
             >
               {t('in-automation:ActionCatalog.view')}
+            </MoreMenuButton>
+          )}
+
+          {type === ACTION_TYPE.MANUAL && actionAiGenerationEnabled && (
+            <MoreMenuButton
+              icon="lib_launch_ai"
+              onClick={() => {
+                generateAIButtonClickTrackerSegment({
+                  type: 'script',
+                  location: 'event',
+                  actionName: entityType.name,
+                  actionId: entityType?.id
+                });
+                addActiveDialog(
+                  <GenerateAIScriptActionDialog
+                    manualContent={manualContent}
+                    actionName={entityType.name}
+                    forRecommededAction
+                    eventName={event?.problem?.problemText ?? ''}
+                  />
+                );
+              }}
+            >
+              {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
             </MoreMenuButton>
           )}
 
@@ -599,7 +633,7 @@ export default function RecommendedActions({
             <Spacer horizontal="small" />
           </Stack>
         }
-        searchPlaceholder={t('in-automation:searchActions')}
+        searchPlaceholder={t('in-automation:searchActionsAndPolicies')}
       />
       <CreateNewPolicyTearsheet
         {...policyTearsheetProps}
