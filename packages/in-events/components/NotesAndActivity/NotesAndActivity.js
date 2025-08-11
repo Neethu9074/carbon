@@ -17,18 +17,22 @@ import { useObservable } from '@instana/hooks';
 import Tooltip from 'in-components/Tooltip';
 import { getNotes, filterSearchNotes, getSummaryCount } from 'in-events/components/NotesAndActivity/utils';
 import { handleUpdateDeleteNote } from 'in-events/components/NotesAndActivity/components/utils';
+import { incidentSummarizationEnabled, isControlledEnvEnabled } from 'in-services/featureFlags';
 import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
 import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
 import { ShareSummary } from 'in-events/components/NotesAndActivity/components/ShareSummary';
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
-import { incidentSummarizationEnabled } from 'in-services/featureFlags';
 import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { t } from 'in-i18n';
 
 import locals from './NotesAndActivity.mless';
+
+// isControlledEnvEnabled is true whenever fedramp is enabled
+const notesActivityText =
+  (isControlledEnvEnabled && t('in-events:notes.notesActivityFed')) || t('in-events:notes.notesActivity');
 
 export function OpenNotesAndActivity({ event }) {
   // From the summaryNotes store we get the "open" value
@@ -44,11 +48,13 @@ export function OpenNotesAndActivity({ event }) {
   };
 
   if (!displayNotes) {
+    // isControlledEnvEnabled is true whenever fedramp is enabled
+    const openText = (isControlledEnvEnabled && t('in-events:notes.openNotesFed')) || t('in-events:notes.openNotes');
     return (
-      <Tooltip content={t('in-events:notes.openNotes')}>
+      <Tooltip content={openText}>
         <div onClick={openNotes} className={locals.closedNotesWrapper}>
           <Stack direction="horizontal" gap="xxsmall">
-            {t('in-events:notes.notesActivity')}
+            {notesActivityText}
           </Stack>
           <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
         </div>
@@ -109,7 +115,7 @@ export function NotesAndActivity(props) {
           setSearchInput('');
           MoveAIChatLauncher('50px');
         }}
-        title={t('in-events:notes.notesActivity')}
+        title={notesActivityText}
         size={(stretchOverlay && 'lg') || 'md'}
         subtitle={
           <>
@@ -235,10 +241,13 @@ export function NotesAndActivity(props) {
 
 // Basic empty state for notes
 export function EmptyState() {
+  // isControlledEnvEnabled is true whenever fedramp is enabled
+  const infoText =
+    (isControlledEnvEnabled && t('in-events:notes.noActivityDetailsFed')) || t('in-events:notes.noActivityDetails');
   return (
     <div className={locals.emptyWrapper}>
       <h3 className={locals.emptyHeader}>{t('in-events:notes.noActivity')}</h3>
-      <p className={locals.emptyInfo}>{t('in-events:notes.noActivityDetails')}</p>
+      <p className={locals.emptyInfo}>{infoText}</p>
     </div>
   );
 }
