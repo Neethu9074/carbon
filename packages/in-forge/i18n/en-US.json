@@ -16688,7 +16688,7 @@
       "sqlExecutionAndParseDetails": "SQL execution and parse details",
       "diskUsed": "Disk used",
       "percentage": "Percentage",
-      "inActiveRACInstances": "InActive RAC instances"
+      "inActiveRACInstances": "Inactive RAC Instances"
     },
     "azureCosmosDb": {
       "totalRequests": "Total requests",
