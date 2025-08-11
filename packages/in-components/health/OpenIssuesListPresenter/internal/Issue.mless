@@ -39,7 +39,7 @@
     margin-bottom: var(--cds-spacing-05);
   }
 
-  div[id^='tag-'] {
+  div.tag {
     margin: 0 var(--cds-spacing-03) 0 0;
   }
 }

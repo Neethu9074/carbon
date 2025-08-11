@@ -78,7 +78,7 @@ export default function Issue({ issue, getIssueLink }: IssueProps): React.ReactE
     >
       <Stack gap={3}>
         <div>
-          <Tag type="gray" size="sm" className={locals.tag} id={`tag-${issue.id}`}>
+          <Tag type="gray" size="sm" className={locals.tag}>
             {t('in-components:health.openIssuesListPresenterStarted')}
           </Tag>
           <Typography variant="label-01">{formatDateTime(issue.start)}</Typography>
