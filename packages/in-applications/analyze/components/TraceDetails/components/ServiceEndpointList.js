@@ -91,7 +91,11 @@ export default function ServiceEndpointList({
       getContent(item) {
         return (
           <Tooltip content={number.compact(item.callCount ?? 0)} delay={500}>
-            <span>{withSiPrefixOneDecimalPlace(item.callCount ?? 0)}</span>
+            <span>
+              {(item.callCount ?? 0) >= 1000
+                ? withSiPrefixOneDecimalPlace(item.callCount)
+                : number.compact(item.callCount)}
+            </span>
           </Tooltip>
         );
       }
@@ -103,7 +107,11 @@ export default function ServiceEndpointList({
       getContent(item) {
         return (
           <Tooltip content={number.compact(item.errorCount ?? 0)} delay={500}>
-            <span>{withSiPrefixOneDecimalPlace(item.errorCount ?? 0)}</span>
+            <span>
+              {(item.errorCount ?? 0) >= 1000
+                ? withSiPrefixOneDecimalPlace(item.errorCount)
+                : number.compact(item.errorCount)}
+            </span>
           </Tooltip>
         );
       }
