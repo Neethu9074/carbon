@@ -25,7 +25,7 @@ registry=${registry}/artifactory/api/npm/${repository_key}/ \
 
 RUN npx yarn install --production --frozen-lockfile --cwd /opt/instana/ui-client/target
 
-FROM delivery.instana.io/int-docker-base-images-local/base-images/nodejs:${base_version}
+FROM delivery.instana.io/int-docker-base-images-local/base-images/nodejs22:${base_version}
 
 COPY --from=builder --chown=instana:0 /opt/instana/ui-client/target /opt/instana/ui-client
 COPY --from=builder /usr/bin/run.sh /usr/bin/run.sh
