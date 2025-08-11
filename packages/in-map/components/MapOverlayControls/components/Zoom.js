@@ -5,42 +5,41 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/carbon';
+
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { getSetting$ } from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-import './Zoom.less';
-
-const block = 'in-controls-zoom';
-
 export default connectTo(
   {
     showZoomPanel: getSetting$('zoomPanelIsActive')
   },
   function Zoom({ showZoomPanel }) {
-    if (!showZoomPanel) {
-      return null;
-    }
+    if (!showZoomPanel) return null;
+
+    const zoomInTranslation = t('in-map:zoomIn');
+    const zoomOutTranslation = t('in-map:zoomOut');
 
     return (
-      <div>
+      <Stack orientation="vertical" gap="0.1rem">
         <Control
-          className={`${block}__in`}
+          ariaLabel={zoomInTranslation}
           onClick={CameraControllerServiceLocator.zoomIn}
-          tooltipText={t('in-map:zoomIn')}
+          tooltipText={zoomInTranslation}
           type="lib_openclose_add"
         />
 
         <Control
-          className={`${block}__out`}
+          ariaLabel={zoomOutTranslation}
           onClick={CameraControllerServiceLocator.zoomOut}
-          tooltipText={t('in-map:zoomOut')}
+          tooltipText={zoomOutTranslation}
           size="xl"
           type="lib_openclose_remove"
         />
-      </div>
+      </Stack>
     );
   }
 );

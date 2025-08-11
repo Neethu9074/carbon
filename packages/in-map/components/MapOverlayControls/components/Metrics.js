@@ -24,6 +24,7 @@ const block = 'in-controls-metrics';
 
 export default function Metrics() {
   const activeMetric = useObservable(() => activeMetric$, []);
+  const showMetricsTranslation = t('in-map:showMetrics');
 
   useEffect(() => {
     return () => {
@@ -33,9 +34,10 @@ export default function Metrics() {
 
   return (
     <Control
+      ariaLabel={showMetricsTranslation}
       createMenuContent={createMenuContent}
       isActive={!!activeMetric}
-      tooltipText={t('in-map:showMetrics')}
+      tooltipText={showMetricsTranslation}
       type="lib_datetime_speed"
     />
   );

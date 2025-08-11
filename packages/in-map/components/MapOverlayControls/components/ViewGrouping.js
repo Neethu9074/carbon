@@ -35,11 +35,13 @@ import './ViewGrouping.less';
 const block = 'in-controls-view-grouping';
 
 export default function ViewGrouping() {
+  const configurePerspectiveAndGroupingTranslation = t('in-map:configurePerspectiveAndGrouping');
   return (
     <Control
+      ariaLabel={configurePerspectiveAndGroupingTranslation}
       id="grouping-btn"
       createMenuContent={() => <ViewGroupingMenu />}
-      tooltipText={t('in-map:configurePerspectiveAndGrouping')}
+      tooltipText={configurePerspectiveAndGroupingTranslation}
       type="lib_views_grid"
     />
   );

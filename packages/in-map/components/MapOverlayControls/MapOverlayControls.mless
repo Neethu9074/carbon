@@ -6,11 +6,18 @@
 
 :local {
   .InMapOverlaycontrols {
-    position: absolute;
+    // Because of the lovely Sticky component that calculates the height of the header and the component,
+    // a race condition is introduced. Because of that I noticed that the map controls are sometimes
+    // rendered as if they had bottom set to 0. That is because the sticky rendered the next frame after the absolute positioning
+    // was calculated, meaning that in order for the absolute positioning to be recalculated correctly, a resize event has to be triggered.
+    // Since the controls are positioned at the bottom of the screen, the easiest solution is to position them as fixed. The second fix would be
+    // to rewrite the Sticky component and make it sticky in CSS.
+    position: fixed;
     bottom: 1.25rem;
     right: 1.25rem;
     display: flex;
     align-items: flex-end;
+    gap: 0.8rem;
     transition: bottom 0.25s ease-in-out;
   }
 }

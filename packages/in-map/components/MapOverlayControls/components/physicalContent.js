@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import PhysicalLayouting from 'in-map/components/MapOverlayControls/components/PhysicalLayouting';
 import ShowAggregates from 'in-map/components/MapOverlayControls/components/ShowAggregates';
@@ -14,13 +14,13 @@ import Tags from 'in-map/components/MapOverlayControls/components/Tags';
 
 export default function PhysicalContent() {
   return (
-    <Fragment>
+    <>
       <PhysicalLayouting />
       <ViewGrouping />
       <Tags />
       <ShowAggregates />
       <Metrics />
       <Zoom />
-    </Fragment>
+    </>
   );
 }

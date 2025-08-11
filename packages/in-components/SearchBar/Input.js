@@ -20,6 +20,7 @@ import 'in-components/SearchBar/misc/codeMirrorModes';
 import { applyTransform } from 'in-services/util/dom';
 import CodeMirror from 'in-components/CodeMirror';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import 'in-components/SearchBar/searchTokenDefinitions.less';
 import './Input.less';
@@ -49,6 +50,13 @@ const SearchBarInput = connectTo(
       let autocompleteShownForCursorPosition = null;
       this.isFocused = false;
       this.focusByUserClick = false;
+
+      const textarea = this.editor.getInputField();
+
+      if (textarea) {
+        textarea.setAttribute('aria-label', t('in-components:searchBar.searchInput'));
+        textarea.setAttribute('name', t('in-components:searchBar.searchBar'));
+      }
 
       if (this.props.disabled) {
         return;

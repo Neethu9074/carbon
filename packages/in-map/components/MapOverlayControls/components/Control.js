@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import classNames from 'classnames';
 
 import { IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
@@ -15,75 +16,59 @@ import {
   closeCurrentMenu
 } from 'in-map/components/MapOverlayControls/stores/menuContentStore';
 import { view$, types } from 'in-infrastructure/perspectives/view';
-import Tooltip from 'in-components/Tooltip';
 
-import 'in-map/components/MapOverlayControls/components/Control.less';
-
-const block = 'in-control';
+import locals from './Control.mless';
 
 export default function Control(props) {
-  const onClick = props.onClick;
-  const type = props.type;
-  const createMenuContent = props.createMenuContent;
-  const id = props.id;
-  const tooltipText = props.tooltipText;
-  const className = props.className;
+  const { ariaLabel, onClick, type, createMenuContent, tooltipText, id, className } = props;
+
   const menuContent = useObservable(menuContent$, []);
-  const isActive = props.isActive || (menuContent && menuContent.id === (id ? id : type));
+  const menuId = id ?? type;
+  const isActive = props.isActive || (menuContent && menuContent.id === menuId);
 
   useEffect(() => {
     return () => {
       view$.once(currentView => {
-        if (!menuContent) {
-          return;
-        }
+        if (!menuContent) return;
 
-        if (
-          menuContent.id === 'lib_views_grid' &&
-          (currentView === types.physical || currentView === types.container)
-        ) {
-          return;
-        } else {
-          if (menuContent.id === id || menuContent.id === type) {
-            closeCurrentMenu();
-          }
+        const isGridView = menuContent.id === 'lib_views_grid';
+        const isPhysicalOrContainer = currentView === types.physical || currentView === types.container;
+
+        if (isGridView && isPhysicalOrContainer) return;
+
+        if (menuContent.id === menuId) {
+          closeCurrentMenu();
         }
       });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuContent]);
 
-  let controlClassName = block;
-  if (isActive) {
-    controlClassName += ` ${block}--active`;
-  }
-  if (className) {
-    controlClassName += ` ${className}`;
-  }
+  const controlClassName = classNames(locals.inControl, className, {
+    [locals.inControlActive]: isActive
+  });
+
+  const handleClick = useCallback(() => {
+    onClick?.();
+
+    if (createMenuContent) {
+      toggleContent({
+        id: menuId,
+        content: createMenuContent()
+      });
+    }
+  }, [onClick, createMenuContent, menuId]);
 
   return (
-    <Tooltip content={tooltipText} align="topRight">
-      <div
-        {...(id ? { id } : {})} //only add the `id` if it's defined
-        className={controlClassName}
-        onClick={() => {
-          if (onClick) {
-            onClick();
-          }
-          if (createMenuContent) {
-            toggleContent(getMenuContent(id ? id : type, createMenuContent));
-          }
-        }}
-      >
-        <IconButton className={`${block}__icon`} color={themes.default.ids.color.option.white} type={type} />
-      </div>
-    </Tooltip>
+    <IconButton
+      {...(id && { id })}
+      className={controlClassName}
+      isWrapperedByTooltip
+      onClick={handleClick}
+      color={themes.default.ids.color.option.white}
+      type={type}
+      aria-label={ariaLabel}
+      iconDescription={tooltipText}
+    />
   );
-}
-
-function getMenuContent(type, createMenuContent) {
-  return {
-    id: type,
-    content: createMenuContent()
-  };
 }
