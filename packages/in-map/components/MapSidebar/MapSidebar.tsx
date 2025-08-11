@@ -40,7 +40,15 @@ export default connectTo(
     timeConfig: timeConfig$
   },
   function MapSidebar({ snapshot, timeConfig }: MapSidebarProps) {
-    const SidebarImpl = useObservable(getSidebarImpl, [snapshot?.get('plugin')]);
+    let SidebarImpl = useObservable(getSidebarImpl, [snapshot?.get('plugin')]);
+
+    //Get Dashboard/Sidebar.??? if it exists
+    const dashboardSidebar = useObservable(getDashboardSidebarImpl, [snapshot?.get('plugin')]);
+
+    if (snapshot && !SidebarImpl) {
+      //Use Dashboard/Sidebar.??? which also may not exist
+      SidebarImpl = dashboardSidebar;
+    }
 
     if (!snapshot || !SidebarImpl) return null;
 
@@ -124,4 +132,7 @@ function MapSidebarContent({ SidebarImpl, snapshot, timeConfig }: MapSidebarCont
 
 function getSidebarImpl([plugin]: [string | undefined]): Observable<unknown> | undefined {
   return plugin ? fromPromise(getForgeComponent(`./${plugin}/Sidebar/Details`)) : undefined;
+}
+function getDashboardSidebarImpl([plugin]: [string | undefined]): Observable<unknown> | undefined {
+  return plugin ? fromPromise(getForgeComponent(`./${plugin}/Dashboard/Sidebar`)) : undefined;
 }
