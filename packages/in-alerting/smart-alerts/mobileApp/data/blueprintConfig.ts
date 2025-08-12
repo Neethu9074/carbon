@@ -113,6 +113,8 @@ const mobileAppThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   }
 ]);
 
+export type MobileAppMonitoringBeaconTypeForSmartAlerts = Exclude<MobileAppMonitoringBeaconType, 'dropBeacon' | 'perf'>;
+
 export interface BluePrint extends BluePrintBase {
   readonly type: MobileAlertType;
   readonly defaultMetric: MetricName;
@@ -122,7 +124,7 @@ export interface BluePrint extends BluePrintBase {
   readonly baselineEnabled: boolean;
   readonly getMetricName: (alertRule: MobileAppAlertRule) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
-  readonly getBeaconType: (metricName: MetricName) => MobileAppMonitoringBeaconType;
+  readonly getBeaconType: (metricName: MetricName) => MobileAppMonitoringBeaconTypeForSmartAlerts;
   readonly getAggregation: (alertRule: MobileAppAlertRule) => AggregationType;
   readonly getMetricLabel: (metricName: MetricName, aggregation?: AggregationType) => string;
   readonly name: string;

@@ -14,6 +14,7 @@ import {
 import { Observable } from '@instana/observables';
 
 import { GetMobileAppSuggestionsProps } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { MobileAppMonitoringBeaconTypeForSmartAlerts } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 //@ts-expect-error Needs TS migration
 import { getSuggestions } from 'in-mobile-apps/queryBuilder';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -119,7 +120,7 @@ export const createIsAlertQueryValid = (isQueryValid: isQueryValidType) => {
 };
 
 export function getQueryBuilderForBeaconType(
-  beaconType: MobileAppMonitoringBeaconType | Nullish,
+  beaconType: MobileAppMonitoringBeaconTypeForSmartAlerts | Nullish,
   thresholdType?: ThresholdType
 ): CreateQueryBuilderResponse {
   if (thresholdType === ADAPTIVE_BASELINE) {
