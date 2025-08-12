@@ -707,7 +707,7 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'bidirectionalSlackEnabled',
+    uiClientKey: 'alertChannelBidirectionalSlackEnabled',
     instanaCtlKey: 'feature.alert.channel.bidirectional.slack.enabled',
     defaultValue: true
   },
