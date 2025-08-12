@@ -10,7 +10,6 @@
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(292px, 32%));
   }
-
   .image {
     width: 100%;
     height: 160px;
@@ -20,5 +19,9 @@
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(446px, 49%));
+  }
+  .sidePanel {
+    margin-top: 6rem;
+    padding-top: 0;
   }
 }

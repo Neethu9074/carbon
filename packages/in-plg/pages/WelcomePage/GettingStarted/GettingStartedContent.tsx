@@ -16,15 +16,43 @@ import { CommunityBlogsData } from 'in-plg/pages/WelcomePage/GettingStarted/Comm
 import { GuidedVideoItems } from 'in-plg/pages/WelcomePage/GettingStarted/GuidedVideoItems';
 import { ContentSection } from 'in-plg/pages/WelcomePage/GettingStarted/ContentSection';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
+import SupportViewSectionV2 from 'in-plg/pages/onboarding/Layout/SupportViewSectionV2';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 
 import locals from './GettingStartedContent.mless';
+
+const supportResourceData = [
+  {
+    title: t('in-plg:onboarding.resource.title'),
+    links: [
+      {
+        title: t('in-plg:onboarding.resource.tryInstanaWithSampleData'),
+        href: 'https://play-with.instana.io/'
+      },
+      {
+        title: t('in-plg:onboarding.resource.ibmDocumentation'),
+        href: 'https://www.ibm.com/docs/en/instana-observability/1.0.301'
+      },
+      {
+        title: t('in-plg:onboarding.resource.community'),
+        href: 'https://community.ibm.com/community/user/groups/community-home?CommunityKey=8d661410-d1fb-4067-ab9a-019475fc541e'
+      },
+      {
+        title: t('in-plg:onboarding.resource.getSupport'),
+        href: 'https://www.ibm.com/mysupport/s/?language=en_US'
+      }
+    ]
+  }
+];
+
+const watchDemoVideoId = 'KpyMsT7cLa8';
 
 export default function GettingStartedContent() {
   const { trackCta } = useSegmentTracking();
   const onboardingItems = OnboardingTileData();
   const communityBlogsData = CommunityBlogsData();
   const videoList = GuidedVideoItems();
+
   return (
     <Container>
       <MainBody>
@@ -118,8 +146,28 @@ export default function GettingStartedContent() {
           </Stack>
         </ContentSection>
       </MainBody>
-      <SidePanel topMargin={6}>
-        <></>
+      <SidePanel className={locals.sidePanel}>
+        <Stack gap="2rem">
+          <ExpressiveCard
+            key={t('in-plg:onboarding.resource.watchADemo')}
+            title={t('in-plg:onboarding.resource.watchADemo')}
+            label={t('in-plg:onboarding.video')}
+            onClick={() => {
+              window.open(`https://www.youtube.com/watch?v=${watchDemoVideoId}`, '_blank');
+            }}
+            actionIcons={[
+              {
+                id: t('in-plg:onboarding.resource.watchADemo'),
+                icon: () => <ArrowRight />,
+                iconDescription: t('in-plg:onboarding.resource.watchADemo')
+              }
+            ]}
+            media={
+              <img src={`https://img.youtube.com/vi/${watchDemoVideoId}/hqdefault.jpg`} className={locals.image} />
+            }
+          />
+          <SupportViewSectionV2 items={supportResourceData} />
+        </Stack>
       </SidePanel>
     </Container>
   );

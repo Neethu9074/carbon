@@ -29,20 +29,18 @@ const MainBody = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.
 /**
  * Side panel component for the onboarding layout.
  * @param children - React elements to render inside the panel
- * @param topMargin - Top margin in REM units
+ * @param className - Additional CSS class name
  * @returns Side panel component
  */
 const SidePanel = ({
   children,
-  topMargin = null
+  className
 }: {
   children: JSX.Element | JSX.Element[];
-  topMargin?: number | null;
+  className?: string;
 }): JSX.Element => {
-  const style = topMargin !== null ? { marginTop: `${topMargin}rem` } : undefined;
-
   return (
-    <div className={locals.sidePanel} style={style}>
+    <div className={`${locals.sidePanel}${className ? ` ${className}` : ''}`}>
       <Stack>{children}</Stack>
     </div>
   );

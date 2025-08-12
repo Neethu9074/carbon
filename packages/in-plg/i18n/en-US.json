@@ -1010,6 +1010,14 @@
       "gettingStartedBlogDescription": "Learn more about Instana and get the information you need to get started with the product.",
       "initialDeploymentBlogTitle": "Initial deployment steps with Instana",
       "initialDeploymentBlogDescription": "Learn how to monitor websites, set up alerts, and more with easy to follow videos for each topic."
+    },
+    "resource": {
+      "title": "Resources",
+      "tryInstanaWithSampleData": "Try Instana with sample data",
+      "ibmDocumentation": "IBM documentation",
+      "community": "Community",
+      "getSupport": "Get support",
+      "watchADemo": "Watch a demo"
     }
   },
   "accountBillingPushNotificationMessage": {
