@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Observable, Subject, create } from '@instana/observables';
 import { solisEnabled } from 'in-services/featureFlags';
 
 /**
@@ -34,4 +35,41 @@ export function getSolisIntegrationUrl(url: string, context: string): string {
   let urlObj = new URL(url);
   let currentOrigin = window.location.origin;
   return currentOrigin + (context ? '/' + context : '') + urlObj.pathname + urlObj.hash + urlObj.search;
+}
+
+/*
+
+Example usage:
+
+startTourTriggered$.subscribe((event  :CustomEvent<string>) => {
+// id of clicked tour element as defined in GET /solis/help (see "Server-side integration steps" below for more detail)
+// https://github.ibm.com/solis/solis-central/wiki/solis%E2%80%90nav-adoption-guide
+const clickedTourElementId = event.detail;
+})
+*/
+
+export const startTourTriggered$ = onCustomEvent<CustomEvent<string>>('solis:start-tour');
+
+
+/** extension of the on(...) method in the observables package */
+function onCustomEvent<T extends CustomEvent>(
+  eventType: string,
+  options?: AddEventListenerOptions | boolean
+): Observable<T> {
+  const observable: Subject<T> = create({ start, stop });
+  return observable;
+
+  function listener(e: Event): void {
+    if (e.type === eventType && 'detail' in e) {
+      observable.emit(e as T);
+    }
+  }
+
+  function start() {
+    window.addEventListener(eventType, listener, options);
+  }
+
+  function stop() {
+    window.removeEventListener(eventType, listener, options);
+  }
 }

@@ -56,6 +56,7 @@ import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/Fl
 import SessionTimeoutContainer from 'in-components/SessionTimeoutDialog/SessionTimeoutContainer';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
+import { TourListener } from 'in-plg/components/SolisHelpPanel/TourListener';
 import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -168,7 +169,17 @@ export default function App() {
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">
-                  {window.RUNTIME_CONTEXT === 'solis' ? <solis-nav /> : <CarbonUIShell />}
+                  {window.RUNTIME_CONTEXT === 'solis' ? (
+                    <>
+                      <solis-nav />
+                      {/**   when rendering in solis context, there will be no instana native shell
+                      but in this case, there will be event handlers for communicating
+                      with solis nav */}
+                      <TourListener />
+                    </>
+                  ) : (
+                    <CarbonUIShell />
+                  )}
                 </ErrorBoundary>
                 <div className={locals.content} role="main">
                   {/* For "Skip to main content" target */}

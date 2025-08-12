@@ -42,6 +42,20 @@
   },
   "helpPanel": {
     "panelTitle": "Help",
+    "tourSectionTitle": "Relevant tours",
+      "tours": {
+      "agent": "Install an agent",
+      "websites": "Monitor a website",
+      "applications": "Create an application perspective",
+      "smartAlerts": "Create smart alerts",
+      "inviteUsers": "Invite users",
+      "customDashboards": "Create a dashboard",
+      "maintenanceWindow": "Schedule a maintenance window",
+      "kubernetes": "Cost vulnerability with KubeCost",
+      "logging": "Instana logging",
+      "turbo": "Optimization with Turbonomic",
+      "concert": "Prioritize CVEs with IBM Concert"
+    },
     "articleSectionTitle": "Relevant articles",
     "articles": {
       "home": "Getting started",

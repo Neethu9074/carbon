@@ -11,6 +11,7 @@ const i18next = require('i18next');
 const middleware = require('i18next-http-middleware');
 
 const relevantDocs = require('../solis/helpPanelArticles');
+const relevantTours = require('../solis/helpPanelTours');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers');
@@ -601,6 +602,11 @@ router.get('/solis/help', middleware.handle(i18next), (req, res) => {
 function getHelp(t) {
   let content = {
     sections: [
+      {
+        id: 'relevant_tours',
+        title: t('in-server:helpPanel.tourSectionTitle'),
+        tiles: relevantTours(t)
+      },
       {
         id: 'relevant_articles',
         title: t('in-server:helpPanel.articleSectionTitle'),
