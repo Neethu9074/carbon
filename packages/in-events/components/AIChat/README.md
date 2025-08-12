@@ -29,14 +29,14 @@ import { AIChat } from 'in-events/components/AIChat/AIChat';
 ```jsx
 import React from 'react';
 import { AIChat } from 'in-events/components/AIChat/AIChat';
-import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
+import { EventsCustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages';
 
 export default function MyAIChat() {
   return (
     <AIChat
       config={{
         messaging: {
-          customSendMessage: CustomSendMessages,
+          customSendMessage: EventsCustomSendMessages,
           disablePDFViewer: true
         }
       }}
@@ -47,23 +47,23 @@ export default function MyAIChat() {
 
 ## Required Configuration
 
-The AIChat component requires a custom message handler to be included in the config prop. While you can use the provided `CustomSendMessages` as a reference, you will most likely need to create your own implementation to support your specific API endpoints and backend responses:
+The AIChat component requires a custom message handler to be included in the config prop. While you can use the provided `EventsCustomSendMessages` as a reference, you will most likely need to create your own implementation to support your specific API endpoints and backend responses:
 
 ```jsx
-import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
+import { EventsCustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages';
 // Or import your own custom implementation
 // import { MyCustomSendMessages } from './MyCustomSendMessages';
 
 const config = {
   messaging: {
-    customSendMessage: CustomSendMessages // Or MyCustomSendMessages
+    customSendMessage: EventsCustomSendMessages // Or MyCustomSendMessages
     // Other messaging options...
   }
   // Other config options...
 };
 ```
 
-### Creating Your Own Message Handler
+### Creating Your Own Message Handler AND ChatAPI
 
 The message handler is responsible for:
 - Processing user queries and sending them to your API endpoints
@@ -71,7 +71,7 @@ The message handler is responsible for:
 - Handling error cases and providing appropriate feedback
 - Supporting different response types (tables, events, etc.)
 
-You can use the existing `CustomSendMessages` implementation in `packages/in-events/components/AIChat/CustomSendMessages.js` as a template for your own implementation. Your custom handler should follow this signature:
+You can use the existing `EventsCustomSendMessages` implementation in `in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages.js` as a template for your own implementation. Your custom handler should follow this signature:
 
 ```typescript
 async function MyCustomSendMessages(
@@ -85,6 +85,10 @@ async function MyCustomSendMessages(
   // Format and display responses
 }
 ```
+
+You will also notice inside `EventsCustomSendMessages` there is a reference to `eventsChatAPI.tsx`.  This is because every agent that is being communicated with will need to have their own API handler.  You will need to do something similar with you implementation and add create a chatAPI inside `in-events/components/AIChat/api/`.
+
+PS.  Whenever the `coordinator` agent is implemented we will no longer need to have several `chatAPI.tsx` and there can just be one.
 
 When creating your own implementation, you can leverage the existing response types and utilities to maintain consistency with the rest of the application.
 
@@ -306,7 +310,7 @@ Here's a complete example of how to use the AIChat component:
 ```jsx
 import React, { useState } from 'react';
 import { AIChat } from 'in-events/components/AIChat/AIChat';
-import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
+import { EventsCustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages';
 import { handleTracking } from 'in-events/components/AIChat/utils/utils';
 import AITooltipContent from 'in-events/components/AIChat/components/AITooltipContent';
 import PromptLibrary from 'in-events/components/AIChat/CustomPanels/PromptLibrary';
@@ -316,7 +320,7 @@ export default function AIChatExample() {
 
   const config = {
     messaging: {
-      customSendMessage: CustomSendMessages
+      customSendMessage: EventsCustomSendMessages
     }
   };
 
