@@ -82,7 +82,7 @@ export default function Results(props) {
     },
     [hiddenCalls, fastQueryModeEnabled]
   );
-  const isSubtraceDataSource = dataSource === 'subtraces';
+
   let content = (
     <UngroupedViewTable
       {...props}
@@ -101,7 +101,7 @@ export default function Results(props) {
         const type = typePerDataSource[dataSource];
         const traceIdName = traceIdNamePerDataSource[dataSource];
         return {
-          traceId: isSubtraceDataSource ? item[traceIdName] : item[type][traceIdName],
+          traceId: item[type][traceIdName],
           ...(dataSource === 'calls' && { callId: item[type].id })
         };
       }}
@@ -173,7 +173,7 @@ function LabelServiceContent({ item, type }) {
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const isSubtraceType = type === 'subtrace';
 
-  const label = !isSubtraceType ? item[type].service.label : item.services.map(service => service.label).join(', ');
+  const label = item[type].services?.map(service => service.label).join(', ') ?? item[type].service.label;
   return !isSubtraceType ? (
     <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: item[type].service.id })}>
       {label}
@@ -229,21 +229,18 @@ function getColumnDefinitions(dataSource) {
                   item={item}
                   dataSource={dataSource}
                   getHrefToDetailId={getHrefToDetailId}
-                  linkLabel={isSubtraceType ? item.subtraceName : item[type].label}
+                  linkLabel={item[type].label}
                   groupLabel={groupLabel}
                 />
-
-                {!isSubtraceType && (
-                  <BatchingIndicator
-                    batchCount={item[type].batchCount}
-                    tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
-                      type: getTypeTextByCount(type, 1),
-                      batchCount: item[type].batchCount,
-                      types: getTypeTextByCount(type, item[type].batchCount)
-                    })}
-                    noTopPosition
-                  />
-                )}
+                <BatchingIndicator
+                  batchCount={item[type].batchCount}
+                  tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
+                    type: getTypeTextByCount(type, 1),
+                    batchCount: item[type].batchCount,
+                    types: getTypeTextByCount(type, item[type].batchCount)
+                  })}
+                  noTopPosition
+                />
               </>
             }
           </div>
@@ -265,7 +262,7 @@ function getColumnDefinitions(dataSource) {
             label: t('in-applications:subtraces.labelCallsPerSubtrace'),
             sortable: true,
             getContent(item) {
-              return <span>{item.subtraceCalls}</span>;
+              return <span>{item[type].subtraceCalls}</span>;
             }
           }
         ]
@@ -284,9 +281,9 @@ function LinkToDetailPage({ item, dataSource, getHrefToDetailId, linkLabel, grou
         className={locals.link}
         href={getHrefToDetailId(
           {
-            traceId: isSubtraceType ? item[traceIdName] : item[type][traceIdName],
+            traceId: item[type][traceIdName],
             ...(dataSource === 'calls' && { callId: item[type].id }),
-            subtraceId: isSubtraceType ? item.subtraceConfigId : undefined
+            subtraceId: item.subtraceConfigId
           },
           groupLabel
         )}

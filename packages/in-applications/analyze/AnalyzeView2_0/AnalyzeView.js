@@ -113,7 +113,7 @@ const defaultChartedMetrics = {
       ]
     }
   ],
-  subtraces: [{ metricId: 'subtraceDuration', aggregationId: 'MEAN' }]
+  subtraces: [{ metricId: 'latency', aggregationId: 'MEAN' }]
 };
 const dataSourceParameter = {
   path: analyzePath,
@@ -340,7 +340,7 @@ function getCustomGroupLabel(groupName, groupbyTag) {
 function getUngroupedView(dataSource) {
   const isSubtraceDataSource = dataSource === subtraceDataSource;
   return {
-    defaultOrderBy: isSubtraceDataSource ? 'subtraceTimestamp' : 'timestamp',
+    defaultOrderBy: 'timestamp',
     defaultOrderDirection: 'DESC',
     timestampName: timestampNames[dataSource].ungrouped,
     customFieldRenderingInstructions: {
@@ -350,24 +350,13 @@ function getUngroupedView(dataSource) {
           const timestampName = timestampNames[dataSource].ungrouped;
           return item[type][timestampName];
         }
-      }),
-      subtraceTimestamp: createTableTimestampColumnDefinition({
-        getTimestamp: item => {
-          const type = typePerDataSource[dataSource];
-          const timestampName = timestampNames[dataSource].ungrouped;
-          return item[timestampName];
-        }
       })
     },
     metricFieldExtractors: {
       getColumnId({ metricDefinition }) {
         // 'latency' is the only metric whose raw value (duration) should be displayed in ungrouped view
         if (metricDefinition.metricId === 'latency') {
-          if (isSubtraceDataSource) {
-            return 'subtraceDuration';
-          } else {
-            return metricDefinition.metricId;
-          }
+          return metricDefinition.metricId;
         }
       },
       getColumnLabel({ metricDefinition }) {
@@ -382,10 +371,8 @@ function getUngroupedView(dataSource) {
       },
       ColumnContent(item) {
         const type = typePerDataSource[dataSource];
-        const durationValue = isSubtraceDataSource ? item.subtraceDuration : item[type].duration;
-        const batchingIndicator = isSubtraceDataSource ? (
-          <div />
-        ) : (
+        const durationValue = item[type].duration;
+        const batchingIndicator = (
           <BatchingIndicator
             batchCount={item[type].batchCount}
             tooltipContent={t('in-applications:analyze.listBatchLatencyTooltip', {
@@ -413,7 +400,7 @@ function getUngroupedView(dataSource) {
 function getFixedFields(dataSource) {
   const isSubtraceDataSource = dataSource === subtraceDataSource;
   return [
-    { type: customType, customFieldId: isSubtraceDataSource ? 'subtraceTimestamp' : 'timestamp' },
+    { type: customType, customFieldId: 'timestamp' },
     { type: metricType, metricId: isSubtraceDataSource ? 'latency' : dataSource, aggregationId: 'SUM' }
   ];
 }
@@ -427,12 +414,7 @@ function createMetricCatalogTransformer(dataSource) {
     return {
       ...metricDefinition,
       aggregations: supportedMetrics[metricDefinition.metricId],
-      label:
-        dataSource === tracesDataSource
-          ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
-          : dataSource === callsDataSource
-          ? t('in-applications:metrics.calls', { context: metricDefinition.metricId })
-          : t('in-applications:metrics.subtraces', { context: metricDefinition.metricId })
+      label: t(`in-applications:metrics.${dataSource}`, { context: metricDefinition.metricId })
     };
   };
 }
@@ -444,10 +426,6 @@ function createChartableMetricCatalogTransformer(dataSource) {
       ? dataSourceConstants.subtraces.metricCatalogSupportedChartableMetrics
       : dataSourceConstants.calls.metricCatalogSupportedChartableMetrics;
   return metricDefinition => {
-    //TODO: will remove this once backend supports subtraceDuration metric
-    if (metricDefinition.metricId === 'latency' && dataSource === subtraceDataSource) {
-      metricDefinition = { ...metricDefinition, metricId: 'subtraceDuration' };
-    }
     if (
       !supportedMetrics[metricDefinition.metricId] ||
       (dataSource === tracesDataSource && metricDefinition.customMetric)
@@ -469,7 +447,7 @@ function createChartableMetricCatalogTransformer(dataSource) {
 }
 
 function metricFormatter({ metricId, formatter }) {
-  if (metricId === 'latency' || metricId === 'subtraceDuration') {
+  if (metricId === 'latency') {
     return 'LATENCY';
   }
   return formatter;
@@ -502,7 +480,7 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       {
         renderer: FacetedFilterRangeInput,
         title: t('in-applications:subtraces.labelDuration'),
-        tag: 'subtrace.duration',
+        tag: 'subtrace.latency',
         openByDefault: true
       },
       {

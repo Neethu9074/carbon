@@ -231,8 +231,8 @@ export const dataSourceConstants = {
   subtraces: {
     type: 'subtrace',
     backendDataSource: SUBTRACES,
-    defaultMetrics: [{ metric: 'subtraceDuration', aggregation: 'MEAN' }],
-    defaultCharts: [{ metric: 'subtraceDuration', aggregation: 'MEAN', source: 'SUBTRACE' }],
+    defaultMetrics: [{ metric: 'latency', aggregation: 'MEAN' }],
+    defaultCharts: [{ metric: 'latency', aggregation: 'MEAN', source: 'SUBTRACE' }],
     metricConfiguration: {
       latency: {
         formatter: millis.forcedCompactOnMs.detailed,
@@ -245,9 +245,9 @@ export const dataSourceConstants = {
       latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX']
     },
     metricCatalogSupportedChartableMetrics: {
-      subtraceDuration: ['P25', 'P50', 'P95', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MAX']
+      latency: ['P25', 'P50', 'P95', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MAX']
     },
-    latencyTag: 'subtraceDuration',
+    latencyTag: 'subtrace.duration',
     traceIdName: 'traceId'
   }
 };
