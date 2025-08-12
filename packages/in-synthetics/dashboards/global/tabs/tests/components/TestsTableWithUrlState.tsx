@@ -78,13 +78,13 @@ export const TestsTableWithUrlState = ({
     if (syntheticTests?.progress.loading) return null;
     return (
       <TestListFilters
-        isAssociationsContext
+        isAssociationsContext={isAssociationsContext}
         result={syntheticTests}
         filters={filtersTemp}
         setFilters={setFiltersTemp}
       />
     );
-  }, [syntheticTests, filtersTemp]);
+  }, [syntheticTests, isAssociationsContext, filtersTemp]);
 
   return (
     <CarbonDataTableWithUrlState<TestResultListItem, TestListProps>
