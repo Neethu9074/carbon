@@ -130,7 +130,6 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
 
   const serverTableList = (
     <SmartAlertTablePresenter
-      cardTitle={hasSingleCategory ? getLocalAlertConfigTitle(localSearchResults.length || 0) : undefined}
       columnDefinitions={columnDefinitions}
       result={getListItems(searchResultsSelected.length, listItems, pageSize)}
       orderBy={orderBy}
