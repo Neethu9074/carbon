@@ -19,10 +19,10 @@ import locals from './NotesAndActivity.mless';
 
 jest.mock('in-services/featureFlags');
 
+// FEDRAMP scenario -- if fedramp isControlledEnvEnabled === true
 jest.mock('in-services/featureFlags', () => ({
-  get incidentSummarizationEnabled() {
-    return true;
-  }
+  incidentSummarizationEnabled: true,
+  isControlledEnvEnabled: false
 }));
 
 describe('NotesAndActivity', () => {
