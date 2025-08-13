@@ -53,13 +53,13 @@ export default function SessionsChart({ timeConfig, websiteId }: SessionsChartPr
       <ChartWrapper
         renderPostChartContent={MarkerLanes}
         result={placeholderResult as unknown as Result<MetricData>}
-        title={t('in-websites:websiteDashboard.tabs.businessMonitoring.sessionsChartTitle')}
+        title={t('in-websites:websiteDashboard.tabs.businessImpact.sessionsChartTitle')}
         granularity={granularity}
         timeConfig={timeConfig}
         y1={{
           colors: [chartColors.strokeColors100[5]],
           renderer: Renderer.stackedBar,
-          labels: [t('in-websites:websiteDashboard.tabs.businessMonitoring.sessionsChartStartedLabel')],
+          labels: [t('in-websites:websiteDashboard.tabs.businessImpact.sessionsChartStartedLabel')],
           metricIds: ['started'],
           metrics: []
         }}

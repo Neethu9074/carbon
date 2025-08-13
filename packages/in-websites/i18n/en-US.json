@@ -807,7 +807,8 @@
         "tabLabel": "Synthetic monitoring",
         "noDataTitle": "No synthetic tests are associated with this website."
       },
-      "businessMonitoring": {
+      "businessImpact": {
+        "topListTitle": "Top pages",
         "usersChartTitle": "Users",
         "usersChartTotalLabel": "Total",
         "sessionsChartTitle": "Sessions",

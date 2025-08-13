@@ -54,7 +54,7 @@ export default function ConversionGoals({ timeConfig }: ConversionGoalsProps) {
           setGoalTearsheetOpen(true);
         }}
       >
-        {t('in-websites:websiteDashboard.tabs.businessMonitoring.createConversionGoal')}
+        {t('in-websites:websiteDashboard.tabs.businessImpact.createConversionGoal')}
       </Button>
     );
   };

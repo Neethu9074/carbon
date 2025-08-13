@@ -29,7 +29,7 @@ const conversionGoalsColumnDefinitions: ColumnDefinition<BusinessProcessItem, Co
     id: 'goal_name',
     sortable: true,
     defaultOrderDirection: 'DESC',
-    label: t('in-websites:websiteDashboard.tabs.businessMonitoring.nameColumn'),
+    label: t('in-websites:websiteDashboard.tabs.businessImpact.nameColumn'),
     width: '8rem',
     getContent: () => <ConversionGoalNameContent />
   },
@@ -37,28 +37,28 @@ const conversionGoalsColumnDefinitions: ColumnDefinition<BusinessProcessItem, Co
     id: 'goal_description',
     sortable: true,
     defaultOrderDirection: 'DESC',
-    label: t('in-websites:websiteDashboard.tabs.businessMonitoring.descriptionColumn'),
+    label: t('in-websites:websiteDashboard.tabs.businessImpact.descriptionColumn'),
     getContent: () => 'Description here'
   },
   {
     id: 'goal_sessions',
     sortable: true,
     defaultOrderDirection: 'DESC',
-    label: t('in-websites:websiteDashboard.tabs.businessMonitoring.sessionsColumn'),
+    label: t('in-websites:websiteDashboard.tabs.businessImpact.sessionsColumn'),
     getContent: () => 'Sessions here'
   },
   {
     id: 'goal_users',
     sortable: true,
     defaultOrderDirection: 'DESC',
-    label: t('in-websites:websiteDashboard.tabs.businessMonitoring.usersColumn'),
+    label: t('in-websites:websiteDashboard.tabs.businessImpact.usersColumn'),
     getContent: () => 'Users here'
   },
   {
     id: 'goal_averageTime',
     sortable: true,
     defaultOrderDirection: 'DESC',
-    label: t('in-websites:websiteDashboard.tabs.businessMonitoring.averageTimeColumn'),
+    label: t('in-websites:websiteDashboard.tabs.businessImpact.averageTimeColumn'),
     getContent: () => 'Time here'
   }
 ];

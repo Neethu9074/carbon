@@ -44,7 +44,7 @@ export default function ConversionGoalDetails() {
     return (
       <DashboardHeader
         label={goalName}
-        title={t('in-websites:websiteDashboard.tabs.businessMonitoring.conversionGoalSummary')}
+        title={t('in-websites:websiteDashboard.tabs.businessImpact.conversionGoalSummary')}
       />
     );
   }
@@ -71,13 +71,13 @@ export default function ConversionGoalDetails() {
 const tabs = [
   {
     id: 'summary',
-    label: t('in-websites:websiteDashboard.tabs.businessMonitoring.summaryTab'),
+    label: t('in-websites:websiteDashboard.tabs.businessImpact.summaryTab'),
     path: `${businessConversionSummaryTabFullyQualified}`,
     component: GoalSummary
   },
   {
     id: 'config',
-    label: t('in-websites:websiteDashboard.tabs.businessMonitoring.configurationTab'),
+    label: t('in-websites:websiteDashboard.tabs.businessImpact.configurationTab'),
     path: `${businessConversionConfigTabFullyQualified}`,
     component: GoalConfig
   }

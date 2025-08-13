@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import {
   businessImpactFullyQualified,
   businessConversionGoalsFullyQualified,
@@ -16,7 +18,6 @@ import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigati
 import ConversionGoals from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/ConversionGoals';
 import { websitesBusinessConversionGoalsEnabled } from 'in-services/featureFlags';
 import Summary from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/Summary';
-import { TimeConfig } from '@instana/types';
 import { t } from 'in-i18n';
 
 interface BusinessMonitoringProps {
@@ -32,12 +33,12 @@ export default function BusinessImpact(props: BusinessMonitoringProps) {
         {
           pages: [
             {
-              label: t('in-websites:websiteDashboard.tabs.businessMonitoring.summaryTab'),
+              label: t('in-websites:websiteDashboard.tabs.businessImpact.summaryTab'),
               path: businessImpactFullyQualified,
               component: () => <Summary {...props} />
             },
             websitesBusinessConversionGoalsEnabled && {
-              label: t('in-websites:websiteDashboard.tabs.businessMonitoring.conversionGoalsTab'),
+              label: t('in-websites:websiteDashboard.tabs.businessImpact.conversionGoalsTab'),
               path: businessConversionGoalsFullyQualified,
               component: () => <ConversionGoals {...props} />
             }

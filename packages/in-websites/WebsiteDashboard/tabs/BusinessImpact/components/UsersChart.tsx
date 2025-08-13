@@ -51,13 +51,13 @@ export default function UsersChart({ timeConfig, websiteId }: UsersChartProps) {
       <ChartWrapper
         renderPostChartContent={MarkerLanes}
         result={placeholderResult as unknown as Result<MetricData>}
-        title={t('in-websites:websiteDashboard.tabs.businessMonitoring.usersChartTitle')}
+        title={t('in-websites:websiteDashboard.tabs.businessImpact.usersChartTitle')}
         granularity={granularity}
         timeConfig={timeConfig}
         y1={{
           colors: [chartColors.strokeColors100[13]],
           renderer: Renderer.stackedBar,
-          labels: [t('in-websites:websiteDashboard.tabs.businessMonitoring.usersChartTotalLabel')],
+          labels: [t('in-websites:websiteDashboard.tabs.businessImpact.usersChartTotalLabel')],
           metricIds: ['total'],
           metrics: []
         }}
