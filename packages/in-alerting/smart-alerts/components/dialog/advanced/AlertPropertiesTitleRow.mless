@@ -5,7 +5,9 @@
 
 :local {
   .placeholderMenu {
-    margin-left: 0.5rem;
+    > button {
+      width: 13rem;
+    }
   }
 
   .placeholderMenuButtonWrapper {

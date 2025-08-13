@@ -22,6 +22,7 @@ interface AlertPropertiesProps {
   descriptionPlaceholder?: { WARNING?: string; CRITICAL?: string };
   displayTriggerIncident?: boolean;
   placeholders?: ReadonlyArray<Readonly<Placeholder>>;
+  widerPlaceholderBtn?: boolean;
 }
 
 export default function AlertProperties({
@@ -33,7 +34,8 @@ export default function AlertProperties({
   shouldDisplayAlertLevelSelection = true,
   descriptionPlaceholder,
   displayTriggerIncident = true,
-  placeholders
+  placeholders,
+  widerPlaceholderBtn
 }: AlertPropertiesProps): JSX.Element {
   return (
     <Sections>
@@ -47,6 +49,7 @@ export default function AlertProperties({
         isTearSheet={isTearSheet}
         descriptionPlaceholder={descriptionPlaceholder?.WARNING ?? descriptionPlaceholder?.CRITICAL}
         placeholders={placeholders}
+        widerPlaceholderBtn={widerPlaceholderBtn}
       />
     </Sections>
   );

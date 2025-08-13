@@ -25,6 +25,7 @@ interface AlertDescriptionRowProps {
   isTearSheet?: boolean;
   descriptionPlaceholder?: string;
   placeholders?: ReadonlyArray<Readonly<Placeholder>>;
+  widerPlaceholderBtn?: boolean;
 }
 
 export default function AlertDescriptionRow({
@@ -33,7 +34,8 @@ export default function AlertDescriptionRow({
   getDescriptionPlaceholder,
   isTearSheet,
   descriptionPlaceholder,
-  placeholders
+  placeholders,
+  widerPlaceholderBtn
 }: AlertDescriptionRowProps) {
   return (
     <>
@@ -62,7 +64,12 @@ export default function AlertDescriptionRow({
             />
             {placeholders && placeholders.length !== 0 && (
               <Stack direction="horizontal" distribution="end">
-                <RenderInsertPlaceholder form={form} onChange={onChange} placeholders={placeholders} />
+                <RenderInsertPlaceholder
+                  form={form}
+                  onChange={onChange}
+                  placeholders={placeholders}
+                  widerPlaceholderBtn={widerPlaceholderBtn}
+                />
               </Stack>
             )}
           </Stack>
@@ -88,7 +95,12 @@ export default function AlertDescriptionRow({
             />
             {placeholders && placeholders.length !== 0 && (
               <Stack direction="horizontal" distribution="end">
-                <RenderInsertPlaceholder form={form} onChange={onChange} placeholders={placeholders} />
+                <RenderInsertPlaceholder
+                  form={form}
+                  onChange={onChange}
+                  placeholders={placeholders}
+                  widerPlaceholderBtn={widerPlaceholderBtn}
+                />
               </Stack>
             )}
           </Stack>

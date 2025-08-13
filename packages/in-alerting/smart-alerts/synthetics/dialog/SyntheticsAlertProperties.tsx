@@ -41,9 +41,11 @@ export default function SyntheticsAlertProperties(props: AlertPropertiesProp) {
               onChange={onChange}
               getTitlePlaceholder={getTitlePlaceholder}
               placeholderData={{ placeholders: allowedPlaceholders }}
+              widerPlaceholderBtn
             />
           )}
           placeholders={allowedPlaceholders}
+          widerPlaceholderBtn
         />
       )}
       renderAlertPreview={() => {

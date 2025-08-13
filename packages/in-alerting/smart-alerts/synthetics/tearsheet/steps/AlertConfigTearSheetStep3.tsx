@@ -55,11 +55,13 @@ export default function AlertConfigTearSheetStep3({
                   onChange={onChange}
                   getTitlePlaceholder={getTitlePlaceholder}
                   placeholderData={{ placeholders: allowedPlaceholders }}
+                  widerPlaceholderBtn
                 />
               )}
               shouldDisplayAlertLevelSelection
               isTearSheet
               placeholders={allowedPlaceholders}
+              widerPlaceholderBtn
             />
           )}
           renderAlertPreview={() => (

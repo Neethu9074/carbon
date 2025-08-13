@@ -5,6 +5,7 @@
  */
 
 import { MapForm, Item, Field } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import { Button, Stack } from '@instana/components';
@@ -30,6 +31,7 @@ export interface AlertPropertiesTitleRowProps {
   placeholderData: PlaceholderListWithTooltip;
   showDisabledPlaceholder?: boolean;
   titlePlaceholder?: string;
+  widerPlaceholderBtn?: boolean;
 }
 export default function AlertPropertiesTitleRow({
   form,
@@ -37,7 +39,8 @@ export default function AlertPropertiesTitleRow({
   getTitlePlaceholder,
   placeholderData,
   showDisabledPlaceholder = false,
-  titlePlaceholder
+  titlePlaceholder,
+  widerPlaceholderBtn = false
 }: AlertPropertiesTitleRowProps) {
   const hasError = !form.get('name').valid && form.get('name').touched;
   const { placeholders } = placeholderData;
@@ -75,6 +78,9 @@ export default function AlertPropertiesTitleRow({
                 renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
                   <Button
                     kind="action"
+                    className={classNames({
+                      [locals.placeholderMenu]: widerPlaceholderBtn
+                    })}
                     icon="lib_openclose_add"
                     ref={ref}
                     onClick={e => {

@@ -46,4 +46,9 @@
   .touchedMessage {
     margin-top: 0;
   }
+  .placeholderMenu {
+    > button {
+      width: 13rem;
+    }
+  }
 }

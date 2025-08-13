@@ -5,6 +5,7 @@
  */
 
 import { Item, MapForm } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import { Button } from '@instana/components';
@@ -15,6 +16,8 @@ import { stopPropagation } from 'in-services/util/function';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/components/dialog/AlertDescriptionWithPlaceholders.mless';
+
 interface Placeholder {
   template: string;
 }
@@ -23,14 +26,23 @@ interface RenderInsertPlaceholderProps {
   form: MapForm<any>;
   onChange: (path: string[], updater: (field: Item) => Item) => void;
   placeholders: ReadonlyArray<Readonly<Placeholder>>;
+  widerPlaceholderBtn?: boolean;
 }
 
-export function RenderInsertPlaceholder({ form, onChange, placeholders = [] }: RenderInsertPlaceholderProps) {
+export function RenderInsertPlaceholder({
+  form,
+  onChange,
+  placeholders = [],
+  widerPlaceholderBtn = false
+}: RenderInsertPlaceholderProps) {
   return (
     <MoreMenu
       renderInteractiveElement={({ ref, toggle }) => (
         <Button
           kind="action"
+          className={classNames({
+            [locals.placeholderMenu]: widerPlaceholderBtn
+          })}
           icon="lib_openclose_add"
           ref={ref}
           onClick={e => {
