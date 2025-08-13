@@ -52,7 +52,8 @@
   "sapSolman": "Solution manager",
   "dashboards": {
     "instance": "Instance",
-    "abapdumpstats": "ABAP dump statistics",
+    "abapdumpstatsHour": "ABAP dump statistics (Last {{duration}} hour)",
+    "abapdumpstatsHours": "ABAP dump statistics (Last {{duration}} hours)",
     "cpuUsage": "CPU usage",
     "combinedCpuMetrics": "Overall usage (per user)",
     "userListQueueTime": "Queue time",
@@ -77,7 +78,7 @@
     "spoolWait": "Spool",
     "update2Wait": "Update2",
     "sapIdoc": "IDoc",
-    "jobsInformation": "Jobs information",
+    "jobsInformation": "Jobs information ({{duration}})",
     "prdMins": "PRD mins",
     "scheduleStartTime": "Schedule start time",
     "scheduleStartDate": "Schedule start date",
@@ -634,7 +635,8 @@
     "scheduled": "Scheduled",
     "owner": "Owner",
     "destination": "Destination",
-    "spoolError": "Spool Error",
+    "spoolErrorHour": "Spool Error (Last {{duration}} hour)",
+    "spoolErrorsHours": "Spool Error (Last {{duration}} hours)",
     "rfcSource": "RFC Source",
     "count": "Count",
     "upTime": "Uptime",
@@ -763,7 +765,8 @@
     "waitingTaskCount": "Waiting task",
     "applicationThreadUsage": "Application threads usage",
     "threadUsage": "Threads",
-    "waitingtaskUsage": "Waiting task"
+    "waitingtaskUsage": "Waiting task",
+    "loading": "Loading..."
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",

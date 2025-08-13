@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { TimeConfig } from '@instana/types';
 
@@ -12,6 +12,7 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -111,36 +112,103 @@ interface ChartPresenterProps {
 }
 
 function ChartPresenter({ selectedTabId, selectorComponent, snapshotId, timeConfig }: ChartPresenterProps) {
+  const [cachedChartData, setCachedChartData] = useState<Record<string, any>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const prevTabId = useRef<string | null | undefined>(null);
+
+  const tabMetricsMap = {
+    icmConnections: ['icminfodatastats.maxConn', 'icminfodatastats.peekConn', 'icminfodatastats.curConn'],
+    icmQueue: ['icminfodatastats.maxQueue', 'icminfodatastats.peekQueue', 'icminfodatastats.curQueue'],
+    icmThreads: ['icminfodatastats.maxThr', 'icminfodatastats.peekThr']
+  };
+
   const isConnTab = selectedTabId === 'icmConnections';
   const isQueueTab = selectedTabId === 'icmQueue';
 
-  const y1Metrics = isConnTab
-    ? ['icminfodatastats.maxConn', 'icminfodatastats.peekConn', 'icminfodatastats.curConn']
+  const currentTabMetrics = isConnTab
+    ? tabMetricsMap.icmConnections
     : isQueueTab
-      ? ['icminfodatastats.maxQueue', 'icminfodatastats.peekQueue', 'icminfodatastats.curQueue']
-      : ['icminfodatastats.maxThr', 'icminfodatastats.peekThr'];
+    ? tabMetricsMap.icmQueue
+    : tabMetricsMap.icmThreads;
 
-  const y1Labels = [
+  const currentTabLabels = [
     t('in-sap:dashboards.maximum'),
     t('in-sap:dashboards.peek'),
     ...(isConnTab || isQueueTab ? [t('in-sap:dashboards.current')] : [])
   ];
 
+  useEffect(() => {
+    if (prevTabId.current !== selectedTabId && selectedTabId) {
+      setIsLoading(true);
+
+      const loadingTimer = setTimeout(() => {
+        setIsLoading(false);
+
+        if (!cachedChartData[selectedTabId]) {
+          setCachedChartData(prev => ({
+            ...prev,
+            [selectedTabId]: {
+              metrics: currentTabMetrics,
+              labels: currentTabLabels
+            }
+          }));
+        }
+      }, 800);
+
+      prevTabId.current = selectedTabId;
+      return () => clearTimeout(loadingTimer);
+    }
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTabId]);
+
+  const y1Metrics =
+    isLoading && prevTabId.current && cachedChartData[prevTabId.current]
+      ? cachedChartData[prevTabId.current].metrics
+      : currentTabMetrics;
+
+  const y1Labels =
+    isLoading && prevTabId.current && cachedChartData[prevTabId.current]
+      ? cachedChartData[prevTabId.current].labels
+      : currentTabLabels;
+
   return (
     <>
       <DashboardSection title={t('in-sap:dashboards.icmMetrics')} button={selectorComponent}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: y1Metrics,
-            labels: y1Labels,
-            type: 'line',
-            formatter: number.compact
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
+        <div style={{ position: 'relative' }}>
+          <Chart
+            key={`chart-${snapshotId}`}
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: y1Metrics,
+              labels: y1Labels,
+              type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+
+          {isLoading && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                zIndex: 10
+              }}
+            >
+              <LoadingIndicator text={t('in-sap:dashboards.loading')} />
+            </div>
+          )}
+        </div>
       </DashboardSection>
     </>
   );

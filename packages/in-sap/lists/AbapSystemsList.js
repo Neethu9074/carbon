@@ -151,7 +151,6 @@ export default connectTo(
               } else if (systemSensor === 'sapJavaNetWeaverSystemSensor') {
                 return columnDefinition =>
                   columnDefinition.id !== 'hostName' &&
-                  columnDefinition.id !== 'instances' &&
                   columnDefinition.id !== 'overallRating' &&
                   columnDefinition.id !== 'serviceName';
               } else {

@@ -18433,5 +18433,8 @@
   },
   "abapSystemsensor": {
     "activeABAPInstances": "Active ABAP instances"
+  },
+  "javaNWSystemsensor": {
+    "activeJavaNWInstances": "Active Java NW instances"
   }
 }

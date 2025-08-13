@@ -218,14 +218,11 @@ export default connectTo(
               } else if (pluginName == 'sapJavaNetWeaverInstanceSensor') {
                 return columnDefinition =>
                   columnDefinition.id !== 'overallRating' &&
-                  columnDefinition.id !== 'cpu' &&
-                  columnDefinition.id !== 'memory' &&
                   columnDefinition.id !== 'numberOfDumps' &&
                   columnDefinition.id !== 'inBoundIdoc' &&
                   columnDefinition.id !== 'outBoundIdoc' &&
-                  columnDefinition.id !== 'status' &&
-                  columnDefinition.id !== 'user' &&
                   columnDefinition.id !== 'workProcess' &&
+                  columnDefinition.id !== 'hostName' &&
                   columnDefinition.id !== 'cancelledJob';
               } else {
                 return columnDefinition =>
@@ -234,6 +231,7 @@ export default connectTo(
                   columnDefinition.id !== 'inBoundIdoc' &&
                   columnDefinition.id !== 'outBoundIdoc' &&
                   columnDefinition.id !== 'status' &&
+                  columnDefinition.id !== 'hostName' &&
                   columnDefinition.id !== 'cancelledJob';
               }
             }}
