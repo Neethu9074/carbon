@@ -32,6 +32,7 @@ import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSumm
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/TestSummaryList.mless';
