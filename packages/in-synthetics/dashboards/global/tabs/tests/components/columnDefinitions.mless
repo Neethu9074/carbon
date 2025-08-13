@@ -25,6 +25,15 @@
     text-overflow: ellipsis;
   }
 
+  .truncateText {
+    font-weight: var(--ids-font-weight-option-heading-400);
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 75%;
+    display: block;
+  }
+
   .okayIcon {
     fill: var(--ids-color-option-green-500);
   }

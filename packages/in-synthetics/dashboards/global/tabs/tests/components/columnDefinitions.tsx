@@ -111,7 +111,7 @@ function TestLabelContent({ item, runType }: { item: TestResultListItem; runType
         onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
         title={item?.testResultCommonProperties?.testCommonProperties?.label}
       >
-        <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
+        <h4 className={locals.truncateText}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>
   );
@@ -124,7 +124,7 @@ export default function getColumnDefinition(role: Role): ColumnDefinition<TestRe
       defaultOrderDirection: 'ASC',
       label: t('in-synthetics:dashboard.testList.testLabel'),
       noWrap: true,
-      ellipsis: '15vw',
+      ellipsis: '40vw',
       getContent: (item, { runType }) => <TestLabelContent item={item} runType={runType ?? ''} />
     },
     {
