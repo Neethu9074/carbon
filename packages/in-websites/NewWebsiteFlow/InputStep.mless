@@ -11,8 +11,9 @@
 
   .actionWrapper {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: stretch;
   }
 
   .input {
@@ -20,8 +21,14 @@
     height: 31px;
   }
 
+  .teamDropdown {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
   .button {
     flex-shrink: 0;
-    margin-left: 1rem;
+    margin-top: 1rem;
+    align-self: flex-end;
   }
 }

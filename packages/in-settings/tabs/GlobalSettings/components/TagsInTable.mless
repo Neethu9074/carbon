@@ -9,3 +9,8 @@
     width: 100%;
   }
 }
+:global {
+  .c4p--tag-set .c4p--tag-set__tag-container {
+    align-items: center;
+  }
+}

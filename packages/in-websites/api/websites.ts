@@ -8,9 +8,11 @@ import {
   SourceMapUploadConfig,
   SourceMapUploadConfigs,
   WebsiteConfiguration,
+  Website,
   IpMaskingConfiguration,
   GeoLocationConfiguration,
-  Result
+  Result,
+  TeamTag
 } from '@instana/types';
 import { Observable } from '@instana/observables';
 
@@ -41,6 +43,15 @@ export function getWebsites(): Observable<WebsiteConfiguration[]> {
   });
 }
 
+export function getWebsite(id: string): Observable<Website> {
+  return http<Website>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${configUrl}/${encodeURIComponent(id)}`,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
 export function removeWebsite(id: string): Observable<never> {
   return http<never>({
     method: 'DELETE',
@@ -50,14 +61,15 @@ export function removeWebsite(id: string): Observable<never> {
   }).map(response => response.body);
 }
 
-export function addWebsite(name: string): Observable<WebsiteConfiguration> {
+export function addWebsite(name: string, teams?: TeamTag[]): Observable<WebsiteConfiguration> {
   return http<WebsiteConfiguration>({
     method: 'POST',
     url: configUrl,
     headers: getCsrfHeader(),
     queryParams: {
       name
-    }
+    },
+    data: teams && teams.length > 0 ? teams : undefined
   }).map(response => response.body);
 }
 
@@ -203,4 +215,14 @@ export function updateGeoLocationConfiguration(
     mapToResultObject: true,
     data: ipMaskingConfiguration
   });
+}
+
+export function updateWebsiteTeams(websiteId: string, teams: TeamTag[]): Observable<WebsiteConfiguration> {
+  return http<WebsiteConfiguration>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/teams`,
+    headers: getCsrfHeader(),
+    data: teams && teams.length > 0 ? teams : []
+  }).map(response => response.body);
 }

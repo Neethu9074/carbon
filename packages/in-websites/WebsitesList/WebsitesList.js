@@ -20,8 +20,10 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { useLinkToNewWebsite, useLinkToWebsite, websitesPath } from 'in-websites/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
+import { playwithEnabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
@@ -30,7 +32,6 @@ import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
-import { playwithEnabled } from 'in-services/featureFlags';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -95,6 +96,28 @@ const columnDefinitions = [
       );
     }
   },
+  ...(rbacTeamsEnabled
+    ? [
+        {
+          id: 'teams',
+          label: t('in-settings:tabs.teams.teamsTitle'),
+          sortable: false,
+          getContent(item) {
+            // Use actual teams data if available, otherwise use test data
+            const teams = item?.website.rbacTags ? item.website.rbacTags : [];
+            return (
+              <TagsInTable
+                tags={teams.map(team => ({
+                  entity_id: team.id,
+                  // Handle both possible formats of team data
+                  displayName: team.displayName || team.name || team.id
+                }))}
+              />
+            );
+          }
+        }
+      ]
+    : []),
   {
     id: 'maxSeverity',
     label: t('in-websites:websitesList.websitesListLabelHealth'),

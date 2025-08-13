@@ -530,6 +530,7 @@
         "configurationRenameButton": "Rename",
         "configurationTrackingScriptTitle": "Set up an agent tracking script",
         "saved": "Saved",
+        "save": "Save",
         "ipMasking": {
           "title": "IP masking",
           "help": "IP masking protects end-user privacy by masking (anonymizing) segments of IP addresses. This happens at the earliest possible point within Instana’s ingestion pipeline so that full IP addresses are never stored. Instana always masks IP addresses using rules commonly used in the industry. You can configure stricter IP masking rules if your organization requires this.",
@@ -617,7 +618,10 @@
         "configurationLabelOptions": "Options",
         "configurationLabelPrivacy": "Privacy",
         "configurationLabelJSStackTraceTranslation": "JS stack trace translation",
-        "configurationLabelCustomGeoDetails": "Custom geographic details"
+        "configurationLabelCustomGeoDetails": "Custom geographic details",
+        "configurationLabelTeams": "Teams",
+        "teamsDescription": "Select teams to associate with this website.",
+        "teamsCallout": "Adding teams will allow team members to view and edit this website. It will also be reflected in the teams page in settings."
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Website custom event details",
