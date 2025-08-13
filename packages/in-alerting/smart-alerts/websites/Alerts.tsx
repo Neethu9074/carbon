@@ -99,12 +99,13 @@ export default function Alerts({
         }
         displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
-          role?.canConfigureWebsiteSmartAlerts && !isEventsView ? (
+          role?.canConfigureWebsiteSmartAlerts ? (
             <CreateSmartAlert
               websiteId={websiteData.websiteId ?? ''}
               tagFilters={websiteData.tagFilters}
               timeConfig={websiteData.timeConfig}
               location={websiteData.location}
+              isEventsView={isEventsView}
             />
           ) : undefined
         }

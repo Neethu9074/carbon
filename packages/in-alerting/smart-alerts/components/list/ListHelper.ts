@@ -36,12 +36,15 @@ export default function getResultsToDisplay<AlertConfig extends AlertConfigType>
   });
 }
 
-export function getFilterByResults<Itemtype extends Object>(result: Itemtype[], query: string | Nullish) {
-  const getName = (data: any) => data.label;
+export function getFilterByResults<Itemtype extends { label?: string; name?: string }>(
+  result: Itemtype[],
+  query: string | Nullish
+) {
+  const getLabel = (data: Itemtype) => data.label;
+  const getName = (data: Itemtype) => data.name;
 
-  const searchAttributes = [getName];
+  const searchAttributes = [getLabel, getName];
   const trimmedQuery = query?.trim();
-
   if (!trimmedQuery) {
     return result;
   }
@@ -52,8 +55,9 @@ export function getFilterByResults<Itemtype extends Object>(result: Itemtype[], 
   return result.filter(Boolean).filter(data => {
     return searchAttributes
       .map(searchAttribute => {
-        const attribute = searchAttribute(data)?.toLowerCase();
-        return filterFunction(lowerCaseQuery, attribute);
+        const attributeValue = searchAttribute(data);
+        const attribute = attributeValue?.toLowerCase();
+        return filterFunction(lowerCaseQuery, attribute as string);
       })
       .some(Boolean);
   });

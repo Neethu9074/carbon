@@ -22,6 +22,7 @@ import { OrderDirection } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { getFilterByResults } from 'in-alerting/smart-alerts/components/list/ListHelper';
+import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ColumnDefinition, TableActions } from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
@@ -56,7 +57,7 @@ interface ListDataTableProps<ItemType extends Object> {
   noDataHeader?: string;
   noDataDescription?: string;
   rightHeader?: ReactNode;
-  tableActions: TableActions<ItemType>;
+  tableActions?: TableActions<ItemType>;
   isSearchable?: boolean;
   searchPlaceholder?: string;
   setCount?: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -128,13 +129,24 @@ export default function ListDataTable<ItemType extends Object>(props: ListDataTa
 
   const debounceOnChange = debounce((searchInput?: string) => {
     if (searchInput !== undefined) {
-      setState({ query: searchInput, orderBy, orderDirection, page: 1, pageSize, pageSizes });
+      setState({
+        query: searchInput,
+        orderBy,
+        orderDirection,
+        page: query !== searchInput ? 1 : page,
+        pageSize,
+        pageSizes
+      });
     }
   }, 500);
 
   const filterRows = (searchInputText?: string) => {
     debounceOnChange(searchInputText);
   };
+
+  if (!entities) {
+    return <LoadingList numSkeletonRows={3} />;
+  }
 
   return (
     <ListTable<ItemType>
@@ -228,7 +240,7 @@ function ListTable<ItemType extends object>({
   const carbonHeaders: CarbonHeaders<ItemType> = columnDefinitions.map(item => ({
     key: item?.id,
     header: item?.label || '',
-    isSortable: item?.sortable ?? true,
+    isSortable: item?.sortable ?? false,
     getContent: item?.getContent,
     sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE',
     ellipsis: getEllipsisValue(item.ellipsis, item.width),
@@ -345,8 +357,11 @@ function addTableActions<ItemType extends object>({
   tableActions
 }: {
   columnDefinitions: ColumnDefinition<ItemType>[];
-  tableActions: TableActions<ItemType>;
+  tableActions?: TableActions<ItemType>;
 }) {
+  if (!tableActions) {
+    return columnDefinitions;
+  }
   let allColumns = columnDefinitions;
 
   if (tableActions.deselect) {

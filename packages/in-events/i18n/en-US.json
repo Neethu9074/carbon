@@ -387,7 +387,9 @@
       "selectApplicationToProceed": "Select an application to proceed",
       "noDataEmptyListStateTitle": "No results found",
       "noDataEmptyListStateSubtitle": "Try adjusting your search to find what you're looking for.",
-      "noDataEmptyListStateIllustrationDescription": "Showing no data available"
+      "noDataEmptyListStateIllustrationDescription": "Showing no data available",
+      "selectWebsite": "Select Website",
+      "selectWebsiteToProceed": "Please select a website to proceed "
     }
   },
   "feedback": {

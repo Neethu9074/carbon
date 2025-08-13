@@ -142,6 +142,7 @@ export default function ListServerDataTable({
                         illustrationDescription={t(
                           'in-events:eventsSmartAlerts.dialog.noDataEmptyListStateIllustrationDescription'
                         )}
+                        illustrationPosition="left"
                         className={locals['empty-table']}
                       />
                     </TableCell>
@@ -170,13 +171,15 @@ export default function ListServerDataTable({
         )}
       </DataTable>
 
-      <Pagination
-        totalItems={totalItems}
-        pageSize={pageSize}
-        page={page}
-        pageSizes={[10, 20, 40, 60, 80, 100]}
-        onChange={({ page, pageSize }) => onPaginationChange(page, pageSize)}
-      />
+      {rows?.length > 0 && (
+        <Pagination
+          totalItems={totalItems}
+          pageSize={pageSize}
+          page={page}
+          pageSizes={[10, 20, 40, 60, 80, 100]}
+          onChange={({ page, pageSize }) => onPaginationChange(page, pageSize)}
+        />
+      )}
     </>
   );
 }
