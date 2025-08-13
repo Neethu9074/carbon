@@ -31,15 +31,15 @@ const supportResourceData = [
       },
       {
         title: t('in-plg:onboarding.resource.ibmDocumentation'),
-        href: 'https://www.ibm.com/docs/en/instana-observability/1.0.301'
+        href: 'https://ibm.biz/instana-release-301'
       },
       {
         title: t('in-plg:onboarding.resource.community'),
-        href: 'https://community.ibm.com/community/user/groups/community-home?CommunityKey=8d661410-d1fb-4067-ab9a-019475fc541e'
+        href: 'https://ibm.biz/Instana-Homepage'
       },
       {
         title: t('in-plg:onboarding.resource.getSupport'),
-        href: 'https://www.ibm.com/mysupport/s/?language=en_US'
+        href: 'https://ibm.biz/Support-Troubleshooting'
       }
     ]
   }
