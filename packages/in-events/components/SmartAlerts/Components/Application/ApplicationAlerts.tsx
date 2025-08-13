@@ -12,7 +12,7 @@ import { Result } from '@instana/types';
 //@ts-expect-error
 import { createTableColumnDefinition } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
-import { CreateSmartAlertButtonForCarbonTable } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
+import { CreateSmartAlertFormEvents } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import { getAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import SmartAlertsTableWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import { categoryLocal, sortOptions, categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
@@ -31,6 +31,7 @@ export default function ApplicationSmartAlerts() {
       noDataHeader={t('in-alerting:smartAlerts.applications.inventory.noLocalAlertDataHeader')}
       alertsTab={eventsPath}
       noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.applications.inventory.noLocalAlertDataDescription" />}
+      isGlobal={false}
     />
   );
 }
@@ -40,13 +41,15 @@ export function Alerts({
   fetchFunction,
   noDataHeader,
   alertsTab,
-  noDataDescription
+  noDataDescription,
+  isGlobal = false
 }: {
   configsCategory: typeof categoryLocal | typeof categoryGlobal;
   fetchFunction: () => Observable<Result<AlertConfigType[]>>;
   noDataHeader: string;
   alertsTab: string;
-  noDataDescription: any;
+  noDataDescription: JSX.Element;
+  isGlobal: boolean;
 }) {
   const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
@@ -63,8 +66,8 @@ export function Alerts({
       //@ts-expect-error
       toolBarContent={
         role?.canConfigureGlobalApplicationSmartAlerts && (
-          <CreateSmartAlertButtonForCarbonTable
-            isGlobal
+          <CreateSmartAlertFormEvents
+            isGlobal={isGlobal}
             buttonName={t('in-alerting:smartAlerts.createSmartAlert')}
             location={location}
           />

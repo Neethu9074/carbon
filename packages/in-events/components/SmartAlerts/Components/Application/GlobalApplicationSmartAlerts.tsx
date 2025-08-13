@@ -22,6 +22,7 @@ export default function GlobalApplicationSmartAlerts() {
         <Trans i18nKey="in-alerting:smartAlerts.applications.inventory.noGlobalAlertDataDescription" />
       }
       alertsTab={eventsPath}
+      isGlobal
     />
   );
 }

@@ -378,7 +378,17 @@
     "infraSA": "Infrastructure Smart Alerts",
     "logSA": "Log Smart Alerts",
     "websiteSA": "Website Smart Alerts",
-    "mobileSA": "Mobile Smart Alerts"
+    "mobileSA": "Mobile Smart Alerts",
+    "dialog": {
+      "selectApplication": "Select Application",
+      "name": "Name",
+      "cancel": "Cancel",
+      "proceed": "Proceed",
+      "selectApplicationToProceed": "Select an application to proceed",
+      "noDataEmptyListStateTitle": "No results found",
+      "noDataEmptyListStateSubtitle": "Try adjusting your search to find what you're looking for.",
+      "noDataEmptyListStateIllustrationDescription": "Showing no data available"
+    }
   },
   "feedback": {
     "skip": "Skip",
