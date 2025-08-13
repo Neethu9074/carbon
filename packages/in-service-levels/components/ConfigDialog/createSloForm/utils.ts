@@ -22,9 +22,9 @@ import {
   ServiceLevelErrors
 } from 'in-service-levels/constants';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import { convertToTimestampInTimezone, extractTimeZoneName } from 'in-service-levels/utils/timezone';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { extractTimeZoneName } from 'in-service-levels/utils/timezone';
 import { parseDateTime } from 'in-services/formatters/date';
 
 export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevelObjectiveConfiguration {
@@ -138,7 +138,12 @@ export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
 export function formToStartTimeStamp(form: SloForm): number {
   const date = form.getIn(['objective', 'startTimestamp', 'date']).value;
   const time = form.getIn(['objective', 'startTimestamp', 'time']).value;
-  return parseDateTime(`${date} ${time}`).getTime();
+  const timezone = extractTimeZoneName(form.getIn(['objective', 'timezone', 'zone']).value);
+  if (!timezone) {
+    return parseDateTime(`${date} ${time}`).getTime();
+  }
+  const utcStartTimestamp = convertToTimestampInTimezone(date, time, timezone);
+  return utcStartTimestamp;
 }
 
 export function formToTimeWindow(form: SloForm): TimeWindow | FixedTimeWindow | RollingTimeWindow {

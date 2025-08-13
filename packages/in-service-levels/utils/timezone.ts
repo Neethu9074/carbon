@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import { getIntlDateFormatter } from '@instana/format-date';
+import { formatDateShort, formatTime, formatTimeWithoutSeconds, getIntlDateFormatter } from '@instana/format-date';
 
+import { DATE_FORMAT, DATE_TIME_FORMAT, SHORT_DATE_FORMAT, TIME_FORMAT, utcLabel } from 'in-service-levels/constants';
 // @ts-ignore
 // eslint-disable-next-line no-restricted-imports
 import moment from 'in-services/moment-timezone';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { utcLabel } from 'in-service-levels/constants';
+import { formatDate } from 'in-services/formatters/date';
 import { compare } from 'in-services/util/number';
 
 export interface ComboBoxOption {
@@ -84,4 +85,29 @@ export const buildTimezoneFromLocationName = (timezoneName: string): string => {
   const timezoneMoment = moment.tz(timezoneName);
   const offset = timezoneMoment.format('Z');
   return buildTimeZoneString(offset, timezoneName);
+};
+
+export const convertToTimestampInTimezone = (date: string, time: string, timezone: string): number => {
+  const dateTimeString = `${date} ${time}`;
+  return moment.tz(dateTimeString, DATE_TIME_FORMAT, timezone).valueOf();
+};
+
+const formatWithTimezone = (timestamp: number, format: string, timezone?: string): string => {
+  return timezone ? moment.tz(timestamp, timezone).format(format) : '';
+};
+
+export const formatDateInTimezone = (timestamp: number, timezone?: string): string => {
+  return timezone ? formatWithTimezone(timestamp, DATE_FORMAT, timezone) : formatDate(timestamp) || '';
+};
+
+export const formatTimeInTimezone = (timestamp: number, timezone?: string): string => {
+  return timezone ? formatWithTimezone(timestamp, TIME_FORMAT, timezone) : formatTime(timestamp) || '';
+};
+
+export const formatDateShortInTimezone = (timestamp: number, timezone?: string): string => {
+  return timezone ? formatWithTimezone(timestamp, SHORT_DATE_FORMAT, timezone) : formatDateShort(timestamp) || '';
+};
+
+export const formatTimeShortWithoutSecondsInTimezone = (timestamp: number, timezone?: string): string => {
+  return timezone ? formatWithTimezone(timestamp, TIME_FORMAT, timezone) : formatTimeWithoutSeconds(timestamp) || '';
 };

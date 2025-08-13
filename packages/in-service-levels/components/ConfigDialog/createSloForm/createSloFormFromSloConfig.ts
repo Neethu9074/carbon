@@ -44,10 +44,14 @@ import {
   ServiceLevelErrors,
   utcLabel
 } from 'in-service-levels/constants';
+import {
+  buildTimezoneFromLocationName,
+  formatDateInTimezone,
+  formatTimeInTimezone
+} from 'in-service-levels/utils/timezone';
 import { isCustomBlueprintIndicator, isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { buildTimezoneFromLocationName } from 'in-service-levels/utils/timezone';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { getSloEntityIds } from 'in-service-levels/utils/sloConfig';
 import type { SloBeaconTypes } from 'in-service-levels/types';
@@ -186,15 +190,16 @@ export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
 
 export function getDefaultTimestampFields(sloConfig: ServiceLevelObjectiveConfiguration) {
   const timeWindowType = sloConfig.timeWindow?.type;
+  const timezone = sloConfig.timeWindow.timezone;
   const timeStamp = new Date().setHours(0, 0, 0, 0);
   if (timeWindowType === 'fixed') {
     return {
       date: createField<string>({
-        value: formatDate(sloConfig.timeWindow.startTimestamp) ?? formatDate(timeStamp)!,
+        value: formatDateInTimezone(sloConfig.timeWindow.startTimestamp, timezone) ?? formatDate(timeStamp)!,
         validator: dateFieldValidator
       }),
       time: createField<string>({
-        value: formatTime(sloConfig.timeWindow.startTimestamp) ?? formatTime(timeStamp)!,
+        value: formatTimeInTimezone(sloConfig.timeWindow.startTimestamp, timezone) ?? formatTime(timeStamp)!,
         validator: timeFieldValidator
       })
     };

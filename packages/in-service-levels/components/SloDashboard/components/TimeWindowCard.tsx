@@ -7,11 +7,12 @@
 import React from 'react';
 
 import type { ServiceLevelObjectiveConfiguration, TimeWindow } from '@instana/types';
-import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { Card, Stack, Typography } from '@instana/components';
+import { formatDateShort } from '@instana/format-date';
 import { isFixedTimeWindow } from '@instana/types';
 import { Tag } from '@instana/carbon';
 
+import { formatDateShortInTimezone, formatTimeShortWithoutSecondsInTimezone } from 'in-service-levels/utils/timezone';
 import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
@@ -21,9 +22,10 @@ interface TimeWindowCardProps {
 export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
   const { timeWindow } = configuration;
 
-  const { duration, durationUnit, type } = timeWindow;
-  const startDay = isFixedTimeWindow(timeWindow) && formatDateShort(timeWindow.startTimestamp);
-  const startTime = isFixedTimeWindow(timeWindow) && formatTimeWithoutSeconds(timeWindow.startTimestamp);
+  const { duration, durationUnit, type, timezone } = timeWindow;
+  const startDay = isFixedTimeWindow(timeWindow) && formatDateShortInTimezone(timeWindow.startTimestamp, timezone);
+  const startTime =
+    isFixedTimeWindow(timeWindow) && formatTimeShortWithoutSecondsInTimezone(timeWindow.startTimestamp, timezone);
 
   const sloTimezone = timeWindow.timezone || utcLabel;
 

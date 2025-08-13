@@ -74,3 +74,8 @@ export const utcLabel = 'UTC';
 export const objectiveSelectFieldScrollId = '3-select-objective';
 
 export const getTimezoneNotificationDismissedKey = (sloId: string) => `timezoneNotificationDismissed-${sloId}`;
+
+export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm';
+export const SHORT_DATE_FORMAT = 'MMM D';
+export const DATE_FORMAT = 'YYYY-MM-DD';
+export const TIME_FORMAT = 'HH:mm';
