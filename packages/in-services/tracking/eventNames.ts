@@ -292,6 +292,20 @@ export const WELCOME_PAGE_ADD_USER_CLICK = 'welcomePage.addUser.click';
 export const WELCOME_PAGE_IBM_DOCUMENTATION_CLICK = 'welcomePage.ibmDocumentation.click';
 export const WELCOME_PAGE_RELEASE_NOTES_CLICK = 'welcomePage.releaseNotes.click';
 export const WELCOME_PAGE_WHATS_NEW_LINK_CLICK = 'welcomePage.whatsNewLink.click';
+export const BLOG_GETTINGSTARTED = 'blog.gettingstartedWithInstana.clicked';
+export const BLOG_INITIALDEPLOYMENTSTEP = 'blog.initialDeploymentStepsWithInstana.clicked';
+export const JOIN_INSTANA_COMMUNITY = 'joinInstanaCommunity.clicked';
+export const VIDEO_INSTALLING_INSTANA = 'video.installingInstana.clicked';
+export const VIDEO_ADDING_AGENTS = 'video.addingAgents.clicked';
+export const VIDEO_MONITORWEBSITE = 'video.MonitorWebsite.clicked';
+export const VIDEO_WATCHADEMO = 'video.WatchAdemo.clicked';
+export const LINK_TRY_INSTANA_WITH_SAMPLEDATA = 'link.tryInstana.withSampleData.clicked';
+export const LINK_IBM_DOCUMENTATION = 'link.ibmdocumentation.clicked';
+export const LINK_COMMUNITY = 'link.community.clicked';
+export const GETTINGSTARTED_LINK_TRY_INSTANA = 'gettingStarted.link.tryInstana.clicked';
+export const GETTINGSTARTED_LINK_IBM_DOCUMENTATION = 'gettingStarted.link.ibmDocumentation.clicked';
+export const GETTINGSTARTED_LINK_COMMUNITY = 'gettingStarted.link.community.clicked';
+export const GETTINGSTARTED_LINK_GETSUPPORT = 'gettingStarted.link.getSupport.clicked';
 
 // Owned by Team Alert Response
 // Tracking all team owned components

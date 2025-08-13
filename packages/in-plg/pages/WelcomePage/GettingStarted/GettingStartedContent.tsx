@@ -11,6 +11,14 @@ import { Typography } from '@instana/components';
 import { Button, Stack } from '@instana/carbon';
 import { t } from '@instana/i18n-react';
 
+import {
+  JOIN_INSTANA_COMMUNITY,
+  GETTINGSTARTED_LINK_TRY_INSTANA,
+  GETTINGSTARTED_LINK_IBM_DOCUMENTATION,
+  GETTINGSTARTED_LINK_COMMUNITY,
+  GETTINGSTARTED_LINK_GETSUPPORT,
+  VIDEO_WATCHADEMO
+} from 'in-services/tracking/eventNames';
 import { OnboardingTileData } from 'in-plg/pages/WelcomePage/GettingStarted/OnboardingTileData';
 import { CommunityBlogsData } from 'in-plg/pages/WelcomePage/GettingStarted/CommunityBlogsData';
 import { GuidedVideoItems } from 'in-plg/pages/WelcomePage/GettingStarted/GuidedVideoItems';
@@ -27,19 +35,23 @@ const supportResourceData = [
     links: [
       {
         title: t('in-plg:onboarding.resource.tryInstanaWithSampleData'),
-        href: 'https://play-with.instana.io/'
+        href: 'https://play-with.instana.io/',
+        trackingEvent: GETTINGSTARTED_LINK_TRY_INSTANA
       },
       {
         title: t('in-plg:onboarding.resource.ibmDocumentation'),
-        href: 'https://ibm.biz/instana-release-301'
+        href: 'https://ibm.biz/instana-release-301',
+        trackingEvent: GETTINGSTARTED_LINK_IBM_DOCUMENTATION
       },
       {
         title: t('in-plg:onboarding.resource.community'),
-        href: 'https://ibm.biz/Instana-Homepage'
+        href: 'https://ibm.biz/Instana-Homepage',
+        trackingEvent: GETTINGSTARTED_LINK_COMMUNITY
       },
       {
         title: t('in-plg:onboarding.resource.getSupport'),
-        href: 'https://ibm.biz/Support-Troubleshooting'
+        href: 'https://ibm.biz/Support-Troubleshooting',
+        trackingEvent: GETTINGSTARTED_LINK_GETSUPPORT
       }
     ]
   }
@@ -92,6 +104,7 @@ export default function GettingStartedContent() {
                 title={item.title}
                 label={t('in-plg:onboarding.video')}
                 onClick={() => {
+                  trackCta(item.trackingEvent);
                   window.open(`https://www.youtube.com/watch?v=${item.embedId}`, '_blank');
                 }}
                 actionIcons={[
@@ -122,6 +135,7 @@ export default function GettingStartedContent() {
                   title={<Typography variant="heading-03"> {item.title}</Typography>}
                   description={<Typography variant="body-02">{item.description}</Typography>}
                   onClick={() => {
+                    trackCta(item.trackingEvent);
                     window.open(item.href, '_blank');
                   }}
                   actionIcons={[
@@ -138,6 +152,7 @@ export default function GettingStartedContent() {
               kind="ghost"
               icon="lib_arrow_right"
               onClick={() => {
+                trackCta(JOIN_INSTANA_COMMUNITY);
                 window.open('https://ibm.biz/Instana-Homepage', '_blank', 'noreferrer');
               }}
             >
@@ -153,6 +168,7 @@ export default function GettingStartedContent() {
             title={t('in-plg:onboarding.resource.watchADemo')}
             label={t('in-plg:onboarding.video')}
             onClick={() => {
+              trackCta(VIDEO_WATCHADEMO);
               window.open(`https://www.youtube.com/watch?v=${watchDemoVideoId}`, '_blank');
             }}
             actionIcons={[
