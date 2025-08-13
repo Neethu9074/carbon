@@ -389,7 +389,9 @@
       "noDataEmptyListStateSubtitle": "Try adjusting your search to find what you're looking for.",
       "noDataEmptyListStateIllustrationDescription": "Showing no data available",
       "selectWebsite": "Select Website",
-      "selectWebsiteToProceed": "Please select a website to proceed "
+      "selectWebsiteToProceed": "Please select a website to proceed ",
+      "selectMobileApp": "Select mobile app",
+      "selectMobileAppToProceed": "Please select a mobile app to proceed "
     }
   },
   "feedback": {

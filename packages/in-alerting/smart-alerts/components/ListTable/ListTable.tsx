@@ -55,6 +55,7 @@ interface ListDataTableProps<ItemType extends Object> {
   pageSizes?: Array<number>;
   title?: React.ReactNode;
   noDataHeader?: string;
+  noDataSubHeader?: string;
   noDataDescription?: string;
   rightHeader?: ReactNode;
   tableActions?: TableActions<ItemType>;
@@ -82,6 +83,7 @@ export default function ListDataTable<ItemType extends Object>(props: ListDataTa
     pageSizes,
     title,
     noDataHeader,
+    noDataSubHeader,
     noDataDescription,
     rightHeader,
     tableActions,
@@ -170,6 +172,7 @@ export default function ListDataTable<ItemType extends Object>(props: ListDataTa
       pageSize={pageSize}
       pageSizes={pageSizes}
       noDataHeader={noDataHeader}
+      noDataSubHeader={noDataSubHeader}
       noDataDescription={noDataDescription}
       rightHeader={rightHeader}
       isSearchable={isSearchable}
@@ -194,6 +197,7 @@ interface ListTableProps<ItemType extends object> extends Object {
   title: React.ReactNode;
   pageSizes?: Array<number>;
   noDataHeader?: string;
+  noDataSubHeader?: string;
   noDataDescription?: string;
   rightHeader?: ReactNode;
   isSearchable?: boolean;
@@ -214,6 +218,7 @@ function ListTable<ItemType extends object>({
   pageSize,
   pageSizes,
   noDataHeader,
+  noDataSubHeader,
   noDataDescription,
   rightHeader,
   isSearchable,
@@ -320,7 +325,8 @@ function ListTable<ItemType extends object>({
           <div className={locals.whitebg}>
             <NoDataEmptyState
               title={noDataHeader}
-              subtitle={noDataDescription}
+              subtitle={noDataSubHeader}
+              illustrationDescription={noDataDescription}
               illustrationPosition="left"
               className={locals.noDataTile}
             />
