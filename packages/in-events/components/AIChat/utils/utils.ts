@@ -4,8 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
+// @ts-expect-error - No type definitions available
+import { EventsCustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages';
+import { agentConfigurations } from 'in-events/components/AIChat/config';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { track } from 'in-services/tracking/trackers';
 import { user } from 'in-stores/user';
@@ -205,4 +209,18 @@ export function setupCustomLanguagePack(instance: any): void {
     ai_slug_description: ' '
   };
   instance.updateLanguagePack(customLanguagePack);
+}
+
+/**
+ * We only want to render the AI Chat on certain pages.
+ * Get the location.pathname and see if that exists
+ * in our agentConfiguration.
+ * If it exists we know we are on a page that needs rendering
+ * and we have all necessary configurations that the instance
+ * needs.
+ */
+export function useAgentSpecificData() {
+  const location = useLocation();
+  const { pathname } = location;
+  return agentConfigurations[pathname];
 }

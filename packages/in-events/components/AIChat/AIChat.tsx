@@ -14,6 +14,7 @@ import {
   moveAIChatLauncher,
   setupDragListeners,
   setupCustomLanguagePack,
+  useAgentSpecificData,
   AI_CHAT_TAG_NAME,
   LAUNCHER_BUTTON_ID,
   WAC_WIDGET
@@ -32,7 +33,7 @@ interface ExtendedChatInstance extends ChatInstance {
 }
 
 interface AIChatProps {
-  config: PublicConfig;
+  config?: PublicConfig;
   customResponseDefinitions?: CustomResponseDefinition[];
   customMenuOptions?: (...args: any[]) => CustomMenuOption[];
   customPanelConfig?: CustomPanelConfig;
@@ -51,13 +52,6 @@ type CustomPanelConfig = {
   customPanelElement: (...args: any[]) => JSX.Element;
 };
 
-const defaultConfig = {
-  messaging: {
-    disablePDFViewer: true
-  },
-  showLauncher: false
-};
-
 export function AIChat({
   customResponseDefinitions,
   customMenuOptions,
@@ -68,7 +62,12 @@ export function AIChat({
   aiToolTipContent,
   previewPill = false
 }: AIChatProps) {
+  // Get agent data from our configuration file
+  // If agentData is undefined then we are not on a page where
+  // the chat should be rendered
+  const agentData = useAgentSpecificData();
   const customPanelElement = customPanelConfig?.customPanelElement;
+
   // This will move the Chat launcher back to original location.
   // This is needed because we need it to reset on page navigation
   useEffect(() => {
@@ -82,17 +81,37 @@ export function AIChat({
   // Combine the default config with the config
   // passed in.  Config supersedes the default.
   const chatConfig = useMemo(() => {
-    return merge({}, defaultConfig, config);
-  }, [config]);
+    if (!agentData) {
+      return {};
+    } else {
+      const defaultConfig = {
+        messaging: {
+          customSendMessage: agentData.customSendMessages,
+          disablePDFViewer: true
+        },
+        showLauncher: false
+      };
+      return merge({}, defaultConfig, config);
+    }
+  }, [config, agentData]);
 
-  const renderWriteableElements = useMemo(
-    () => ({
-      customPanelElement: customPanelElement && customPanelElement(instance),
-      headerBottomElement: previewPill && <PreviewPill className={locals.previewPill} />,
-      aiTooltipAfterDescriptionElement: aiToolTipContent
-    }),
-    [instance, customPanelElement, previewPill, aiToolTipContent]
-  );
+  const renderWriteableElements = useMemo(() => {
+    if (!agentData) {
+      return {};
+    } else {
+      return {
+        customPanelElement: customPanelElement && customPanelElement(instance, agentData.promptLibrary),
+        headerBottomElement: previewPill && <PreviewPill className={locals.previewPill} />,
+        aiTooltipAfterDescriptionElement: aiToolTipContent
+      };
+    }
+  }, [instance, customPanelElement, previewPill, aiToolTipContent, agentData]);
+
+  // If no Agent data for this page exists we won't render the chat
+  // This check is moved here after all hooks have been called
+  if (!agentData) {
+    return null;
+  }
 
   /**
    * Set up launcher button for the AI Chat

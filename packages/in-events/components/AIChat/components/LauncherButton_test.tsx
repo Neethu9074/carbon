@@ -34,7 +34,7 @@ describe('LauncherButton Component', () => {
     expect(button.id).toBe(LAUNCHER_BUTTON_ID);
 
     // Check if the chat icon is rendered
-    const chatIcon = screen.getByTestId('svg-icon-lib_actions_chat_launch');
+    const chatIcon = screen.getByTestId('svg-icon-lib_launch_ai');
     expect(chatIcon).toBeInTheDocument();
 
     // Check if the draggable icon is rendered with the correct ID

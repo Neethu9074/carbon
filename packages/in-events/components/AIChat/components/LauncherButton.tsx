@@ -19,7 +19,7 @@ import locals from '../AIChat.mless';
 export const LauncherButton = () => {
   return (
     <CarbonButton className={locals.aiChatDraggableButton} id={LAUNCHER_BUTTON_ID}>
-      <SvgIcon type={'lib_actions_chat_launch'} size="regular" />
+      <SvgIcon type={'lib_launch_ai'} size="regular" />
       {/* @ts-ignore - Adding id prop to SvgIcon */}
       <SvgIcon type={'lib_actions_reorder'} size="xxs" className={locals.draggableSvg} id={DRAGGABLE_ICON} />
     </CarbonButton>

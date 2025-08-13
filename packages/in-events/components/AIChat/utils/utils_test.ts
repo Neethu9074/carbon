@@ -9,11 +9,13 @@ import {
   moveAIChatLauncher,
   setDragListener,
   setupCustomLanguagePack,
+  useAgentSpecificData,
   AI_CHAT_TAG_NAME,
   LAUNCHER_BUTTON_ID,
   WAC_WIDGET,
   CONTAINER_SELECTOR
 } from 'in-events/components/AIChat/utils/utils';
+import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 
 // Mock dependencies
 jest.mock('in-components/ViewTrackingMeta', () => ({
@@ -40,6 +42,16 @@ jest.mock('in-stores/user', () => ({
 // Mock the CTA_CLICKED constant
 jest.mock('in-services/util/constants', () => ({
   CTA_CLICKED: 'CTA Clicked'
+}));
+
+// Mock the useLocation hook
+jest.mock('in-stores/navigation/LocationStateProvider', () => ({
+  useLocation: jest.fn()
+}));
+
+// Mock the eventsPath
+jest.mock('in-stores/navigation/paths/mainPaths', () => ({
+  eventsPath: '/events'
 }));
 
 describe('AIChat Utils', () => {
@@ -173,6 +185,41 @@ describe('AIChat Utils', () => {
         ai_slug_title: ' ',
         ai_slug_description: ' '
       });
+    });
+  });
+
+  describe('useAgentSpecificData', () => {
+    it('should return agent object when pathname is in validPaths', () => {
+      const { useLocation } = require('in-stores/navigation/LocationStateProvider');
+      useLocation.mockReturnValue({ pathname: '/events' });
+
+      const result = useAgentSpecificData();
+      expect(useLocation).toHaveBeenCalled();
+      expect(result).not.toBe(false);
+      // Type assertion to tell TypeScript that result is not false
+      if (result) {
+        expect(result.path).toBe(eventsPath);
+      }
+    });
+
+    it('should return undefined when pathname is not in validPaths', () => {
+      const { useLocation } = require('in-stores/navigation/LocationStateProvider');
+      useLocation.mockReturnValue({ pathname: '/some-other-path' });
+
+      const result = useAgentSpecificData();
+
+      expect(useLocation).toHaveBeenCalled();
+      expect(result).toBe(undefined);
+    });
+
+    it('should return undefined when pathname is a subpath of a valid path', () => {
+      const { useLocation } = require('in-stores/navigation/LocationStateProvider');
+      useLocation.mockReturnValue({ pathname: '/events/details' });
+
+      const result = useAgentSpecificData();
+
+      expect(useLocation).toHaveBeenCalled();
+      expect(result).toBe(undefined);
     });
   });
 });
