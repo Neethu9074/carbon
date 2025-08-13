@@ -883,8 +883,7 @@
       "testsApplied": "Tests applied",
       "filterApplied": "Filter applied",
       "violationsCount": "{{violationsCount}} failures",
-      "testsCount": "{{testsCount}} tests",
-      "numberOfFailures": "Failure alerting"
+      "testsCount": "{{testsCount}} tests"
     },
     "configuration": {
       "configurationTitle": "{{testType}} test configuration",

@@ -518,8 +518,7 @@
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleTimeThreshold": "Time threshold",
         "alertConfigurationTitleAlertChannels": "Alert channels",
-        "alertConfigurationTitleAlertProperties": "Alert properties",
-        "alertsLabelFilters": "Filters"
+        "alertConfigurationTitleAlertProperties": "Alert properties"
       },
       "configuration": {
         "configurationRemoveTitle": "Remove website",

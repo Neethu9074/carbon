@@ -35,7 +35,6 @@ import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -137,7 +136,7 @@ export default function WebsiteDashboard() {
 
   // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
 
-  const hideButtonInTableView = smartAlertCarbonTableEnabled ? location.pathname !== alertsTabListFullyQualified : true;
+  const hideButtonInTableView = location.pathname !== alertsTabListFullyQualified;
 
   const showAlertButton =
     role.canConfigureWebsiteSmartAlerts &&

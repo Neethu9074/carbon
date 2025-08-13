@@ -25,7 +25,6 @@ import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { useTagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
@@ -95,7 +94,7 @@ export default function MobileAppDashboard() {
 
   // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
 
-  const hideButtonInTableView = smartAlertCarbonTableEnabled ? location.pathname !== alertsTabListFullyQualified : true;
+  const hideButtonInTableView = location.pathname !== alertsTabListFullyQualified;
 
   const showAlertButton =
     role.canConfigureMobileAppSmartAlerts &&

@@ -162,7 +162,6 @@ module.exports = {
   customDashboardTopLevelFiltersEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: true,
   aqmDataGridEventTableEnabled: true,
-  smartAlertCarbonTableEnabled: true,
   aqmDisableConfigOnEventViewEnabled: false,
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false,

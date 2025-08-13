@@ -13,14 +13,11 @@ import {
   getAllAlertConfigsWithResult,
   getAllMobileAppAlertConfigsWithResult
 } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
-import {
-  MobileAppSmartAlertConfigWithMetadata,
-  MobileAppSmartAlertConfig
-} from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 //@ts-expect-error TS migartion
 import { useGetMobileAppProps } from 'in-alerting/smart-alerts/mobileApp/hooks/useGetMobileProps';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { alertsTabDetailsFullyQualified, alertsTab, mobileAppPath } from 'in-mobile-apps/navigation/paths';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/mobileApp/hooks/useSmartAlertCreateUrl';
@@ -33,11 +30,9 @@ import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubti
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
-import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { alertCreated, alertId } from 'in-mobile-apps/navigation/matrix';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -65,22 +60,17 @@ export default function Alerts({ mobileAppId, mobileAppLabel, isEventsView = fal
         }}
       />
       <AlertBaseList<MobileAppSmartAlertConfigWithMetadata>
-        extraColumnDefinitions={getExtraColumnDefinition(mobileAppLabel)}
-        actionHandlers={handlers}
         getAlertConfigs={() =>
           isEventsView ? getAllMobileAppAlertConfigsWithResult() : getAllAlertConfigsWithResult(mobileAppId)
         }
-        getSubtitle={config => getSubtitle(config.rule, config.threshold)}
         sortOptions={sortOptions}
         createRowLinkLocation={createRowLinkLocation}
         alertsTab={isEventsView ? eventsPath : alertsTab}
-        // for carbon table
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
         getNameSubtitle={config =>
           isEventsView ? <MobileAppLabel mobileAppID={config.mobileAppId} /> : getMobileAppSubtitle(mobileAppLabel)
         }
-        displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
           role?.canConfigureMobileAppSmartAlerts ? (
             <CreateSmartAlert {...mobileAppData} isEventsView={isEventsView} />
@@ -93,16 +83,6 @@ export default function Alerts({ mobileAppId, mobileAppLabel, isEventsView = fal
       />
     </>
   );
-}
-
-function getExtraColumnDefinition(mobileAppLabel: string) {
-  return [
-    {
-      id: 'filterApplied',
-      label: t('in-alerting:smartAlerts.mobileApp.alertList.filterApplied'),
-      getContent: (entity: MobileAppSmartAlertConfig) => <ScopeColumn config={entity} mobileAppLabel={mobileAppLabel} />
-    }
-  ];
 }
 
 export function getSubtitle(rule: MobileAppAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {

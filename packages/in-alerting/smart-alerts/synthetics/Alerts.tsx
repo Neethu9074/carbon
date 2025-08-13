@@ -6,13 +6,12 @@
 
 import React from 'react';
 
-import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from '@instana/types';
+import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-synthetics/navigation/matrix';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { getCarbonTableColumnDefinitions, getSyntheticsSubtitle } from 'in-synthetics/dashboards/global/SmartAlertList';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
@@ -21,10 +20,7 @@ import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListAc
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
-import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
-import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -51,19 +47,13 @@ export default function Alerts({ testId }: AlertsProps) {
         }}
       />
       <AlertBaseList<SyntheticAlertConfigWithMetadata>
-        extraColumnDefinitions={extraColumnDefinitions}
         getAlertConfigs={() => getAllAlertConfigs(testId, { asObservable: true })}
-        actionHandlers={handlers}
-        getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
         alertsTab={alertsTab}
-        renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
-        // for carbon table
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
         getNameSubtitle={config => getSyntheticsSubtitle(config)}
-        displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert testId={testId} /> : undefined}
         noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
@@ -72,29 +62,6 @@ export default function Alerts({ testId }: AlertsProps) {
     </>
   );
 }
-
-const extraColumnDefinitions = [
-  {
-    id: 'timeThreshold',
-    width: '15%',
-    label: t('in-alerting:smartAlerts.synthetics.alertList.timeThreshold'),
-    getContent: (item: SyntheticAlertConfigWithMetadata) => {
-      return (
-        <DefaultCell
-          title={t('in-alerting:smartAlerts.synthetics.alertList.violationsCount', {
-            violationsCount: item.timeThreshold.violationsCount
-          })}
-          subtitle={t('in-alerting:smartAlerts.synthetics.alertList.timeThreshold')}
-        />
-      );
-    }
-  },
-  {
-    id: 'filterApplied',
-    label: t('in-alerting:smartAlerts.synthetics.alertList.filterApplied'),
-    getContent: (entity: SyntheticAlertConfig) => <ScopeColumn config={entity} />
-  }
-];
 
 function createRowLinkLocation(config: SyntheticAlertConfigWithMetadata, location: Location): Location {
   const rowLinkLocation = {

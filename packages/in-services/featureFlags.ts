@@ -261,9 +261,6 @@ export const mobileAppSmartAlertSlownessBlueprintEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertSlownessBlueprintEnabled'
 );
 
-// SA carbon table
-export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
-
 // SA in events section
 export const allSmartAlertsViewEnabled = isFeatureFlagEnabled('allSmartAlertsViewEnabled');
 

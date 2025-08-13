@@ -27,9 +27,7 @@ import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/Metri
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
-import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
@@ -45,28 +43,12 @@ export default function Alerts({ isEventsView = false }: { isEventsView?: boolea
   const [role] = useCurrentUserRole();
   const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
 
-  function getColumnDefinitions() {
-    return [
-      {
-        id: 'filterApplied',
-        label: '',
-        getContent: (entity: InfraSmartAlertConfigWithMetadata) => <ScopeColumn config={entity} />
-      }
-    ];
-  }
-
   const List = (
     <AlertBaseList<InfraSmartAlertConfigWithMetadata>
-      extraColumnDefinitions={getColumnDefinitions()}
-      actionHandlers={handlers}
       getAlertConfigs={() => getAllAlertConfigsWithResult()}
       createRowLinkLocation={createRowLinkLocation}
-      getSubtitle={config => (<MetricLabel rule={config.rule} threshold={config.threshold} forecastingConfig={config.forecastingConfig} />)}
       sortOptions={sortOptions}
       alertsTab={isEventsView ? eventsPath : infraSmartAlerts}
-      hideAlertIcon
-      // for carbon table
-      displayCarbonTable={smartAlertCarbonTableEnabled}
       extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
       carbonActionHandlers={handlers}
       getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}

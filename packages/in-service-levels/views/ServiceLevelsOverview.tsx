@@ -17,15 +17,10 @@ import {
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
 import CorrectionWindows from 'in-service-levels/features/CorrectionWindows/components/CorrectionWindows';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
-import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SloList from 'in-service-levels/components/SloList/SloList';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -40,7 +35,6 @@ export default function ServiceLevelsOverview() {
   const isServiceLevelsAlertsActive = matchLocation(serviceLevelsAlertsFullyQualified);
   const isServiceLevelsCorrectionWindowsActive = matchLocation(serviceLevelsCorrectionWindowsFullyQualified);
   const isServiceLevelsListActive = !isServiceLevelsAlertsActive && !isServiceLevelsCorrectionWindowsActive;
-  const isServiceLevelsAlertDetailsActive = matchLocation(serviceLevelsAlertDetailsFullyQualified);
 
   return (
     <Sticky
@@ -85,17 +79,6 @@ export default function ServiceLevelsOverview() {
         {isServiceLevelsCorrectionWindowsActive && <CorrectionWindows />}
       </LeftRightPadding>
       <Footer />
-      {isServiceLevelsAlertsActive && !smartAlertCarbonTableEnabled && !isServiceLevelsAlertDetailsActive && (
-        <FloatingActionButtons>
-          <FloatingActionButton
-            icon="lib_alerts_create"
-            kind="primaryv2"
-            onClick={() => addActiveDialog(<CreateSmartAlertDialog />)}
-          >
-            {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
-          </FloatingActionButton>
-        </FloatingActionButtons>
-      )}
     </Sticky>
   );
 }

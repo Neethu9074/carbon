@@ -853,11 +853,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'smartAlertCarbonTableEnabled',
-    instanaCtlKey: 'feature.smart.alert.carbon.table.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'aqmDisableConfigOnEventViewEnabled',
     instanaCtlKey: 'feature.aqm.disable.config.on.event.view.enabled',
     defaultValue: false

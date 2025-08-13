@@ -159,7 +159,6 @@
     "descriptionUnsupportedOperator": "Unsupported operator: {{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "Add Smart Alert",
     "createSmartAlert": "Create Smart Alert",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global application Smart Alert",
@@ -518,8 +517,6 @@
         "noData": "No Smart Alerts configured. Click the button below to configure your first Smart Alerts.",
         "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure Smart Alerts. Please contact your administrator.",
         "noPermissionGlobalSmartAlertEdit": "You don't have the permission to perform this action",
-        "labelGlobalSmartAlertsList": "Global application Smart Alerts ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "Global Application Smart Alerts",
         "labelSmartAlertsTable": "Application Smart Alerts",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -1262,9 +1259,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "Time threshold",
-        "filterApplied": "Filter applied",
-        "violationsCount": "{{violationsCount}} failures",
         "numberOfFailures": "Failure alerting",
         "noDataHeader": "No synthetic Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
@@ -1435,7 +1429,6 @@
         "filter_0": "Filters",
         "filter_1": "Filters",
         "filter_2": "Filters",
-        "filterApplied": "Filter applied",
         "noDataHeader": "No mobile app Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
@@ -2013,7 +2006,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, threshold (Long) {{operator}} {{value}} & (Short) < 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}, threshold {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}, threshold {{operator}} {{value}}",
-        "alertListSloAppliedColumnName": "SLOs applied",
         "sloApplied": "SLOs Applied",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",
