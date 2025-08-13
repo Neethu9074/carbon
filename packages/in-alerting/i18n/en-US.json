@@ -698,7 +698,10 @@
         "configuredAlerts": "Configured alerts ({{numberOfAlerts}})"
       },
       "columns": {
-        "name": "Name"
+        "name": "Name",
+        "severity": "Severity",
+        "status": "Status",
+        "action": "Action"
       }
     },
     "form": {
