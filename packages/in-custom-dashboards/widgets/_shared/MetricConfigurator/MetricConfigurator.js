@@ -13,10 +13,12 @@ import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { infrastructureAccessPermissions } from 'in-stores/permission';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 const { isTab } = keyCodes;
@@ -49,6 +51,7 @@ export default function MetricConfigurator({
   const sourceField = form.get('source');
   const label = form.get('label')?.value;
   const metricLabel = form.get('metricLabel')?.value;
+  const hasInfrastructureAccess = useHasAccess({ requiredPermissions: infrastructureAccessPermissions });
 
   // If datasource is defined, makes the selection
   useEffect(() => {
@@ -95,6 +98,10 @@ export default function MetricConfigurator({
     </Stack>
   );
 
+  const hasPermission = source => {
+    return source === 'INFRASTRUCTURE_METRICS' ? hasInfrastructureAccess : true;
+  };
+
   const dataSourceSection = (
     <SelectInSection
       id="metric-configurator-source"
@@ -108,7 +115,8 @@ export default function MetricConfigurator({
       {Object.values(sources)
         .filter(
           ({ source, visible }) =>
-            (visible && disabledDataSources.indexOf(source) === -1) || sourceField.value === source
+            (visible && disabledDataSources.indexOf(source) === -1 && hasPermission(source)) ||
+            sourceField.value === source
         )
         .sort((a, b) => compareIgnoreCase(a.label, b.label))
         .map(({ source, label, disabled }) => (
