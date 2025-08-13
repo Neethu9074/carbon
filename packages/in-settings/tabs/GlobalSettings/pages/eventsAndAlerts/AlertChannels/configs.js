@@ -21,7 +21,7 @@ import slackBDChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAn
 import splunkChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
 import slackChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
-import { msTeamsAppEnabled, onlyFedRampAllowedAlertChannelsEnabled } from 'in-services/featureFlags';
+import { onlyFedRampAllowedAlertChannelsEnabled } from 'in-services/featureFlags';
 
 export const configs = {
   email: emailChannelConfig,
@@ -30,7 +30,7 @@ export const configs = {
   opsgenie: opsgenieChannelConfig,
   pagerduty: PagerdutyChannelConfig,
   office365: office365ChannelConfig,
-  ...(msTeamsAppEnabled && { msTeams: msTeamsAppChannelConfig }),
+  msTeams: msTeamsAppChannelConfig,
   serviceNowWebhook: serviceNowChannelConfig,
   serviceNowBD: serviceNowBDChannelConfig,
   webhook: webhookChannelConfig,
@@ -73,7 +73,7 @@ export const fullyQualified = {
   [configs.watsonAIOpsWebhook.name]: configs.watsonAIOpsWebhook,
   [configs.zChatOps.name]: configs.zChatOps,
   [configs.salesforceChannelConfig.name]: configs.salesforceChannelConfig,
-  ...(msTeamsAppEnabled && { [configs.msTeams.name]: configs.msTeams })
+  [configs.msTeams.name]: configs.msTeams
 };
 
 export default configs;
