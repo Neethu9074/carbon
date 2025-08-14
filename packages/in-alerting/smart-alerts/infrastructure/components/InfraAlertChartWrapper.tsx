@@ -81,12 +81,12 @@ export default function InfraAlertChartWrapper({
   const { timeThreshold, granularity, tagFilterExpression, rules, forecastingConfig } = alertConfig;
 
   const firstRule: RuleWithThreshold<InfraAlertRuleUnion> = rules[0];
-  const { entityType, metricName, aggregation, crossSeriesAggregation } = firstRule.rule;
+  const { entityType, metricName, aggregation, crossSeriesAggregation, regex } = firstRule.rule;
   const thresholdsMap = firstRule.thresholds;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const formatter = metricDefinition.formatter;
-  const chartViewConfig = createDefaultChartConfig(timeConfig); // == view config
+  const chartViewConfig = createDefaultChartConfig(timeConfig);
   const displayPredictions = predictions && predictions?.length > 0 ? true : false;
 
   const warningThreshold = thresholdsMap[WARNING_SEVERITY];
@@ -184,6 +184,7 @@ export default function InfraAlertChartWrapper({
           minThreshold,
           timeThreshold,
           entityType,
+          regex,
           forecastingConfig
         );
 
@@ -248,6 +249,7 @@ function getAlertsPreviewQuery(
   threshold: ThresholdData,
   timeThreshold: InfraTimeThreshold,
   entityType: string,
+  regex: boolean,
   forecastingConfig?: ForecastingConfig
 ) {
   if (shouldRequestAlertsPreview(threshold)) {
@@ -263,7 +265,7 @@ function getAlertsPreviewQuery(
         granularity,
         tagFilterExpression: enrichedTagFilterExpression,
         timeConfig,
-        regex: false,
+        regex: regex,
         type: entityType
       },
       forecastingConfig
