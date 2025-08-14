@@ -1473,6 +1473,11 @@
   "pluginName_oTelLLM_1": "OTel LLMonitors",
   "pluginName_oTelLLM_2": "OTel LLMonitors",
   "pluginName_oTelLLM": "OTel LLMonitor",
+  "pluginName_oTelMilvusDB_plural": "OTel Milvus DBs",
+  "pluginName_oTelMilvusDB_0": "OTel Milvus DBs",
+  "pluginName_oTelMilvusDB_1": "OTel Milvus DBs",
+  "pluginName_oTelMilvusDB_2": "OTel Milvus DBs",
+  "pluginName_oTelMilvusDB": "OTel Milvus DB",
   "pluginName_oTelVLLM": "OTel vLLM Server",
   "pluginName_oTelVLLM_plural": "OTel vLLM Servers",
   "pluginName_oTelVLLM_0": "OTel vLLM Servers",
@@ -14236,7 +14241,36 @@
         "totalCountByService": "Total request counts by service"
       }
     },
+    "oTelMilvusDB": {
+      "oTelMilvusDB": "OTel Milvus DB",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "label_category_milvus": "Milvus DB",
+      "milvus_status": "Milvus DB Status",
+      "service": "service",
+      "dashboard": {
+        "insert_units": "Insert Units",
+        "upsert_units": "Upsert Units",
+        "delete_units": "Delete Units",
+        "search_distance": "Search Distance",
+        "query_duration": "Query Duration",
+        "totalInsertCount": "Total Insert Count",
+        "totalUpsertCount": "Total Upsert Count",
+        "totalDeleteCount": "Total Delete Count",
 
+        "totalInsertCountByService": "Total Insert Count by Service",
+        "totalUpsertCountByService": "Total Upsert Count by Service",
+        "totalDeleteCountByService": "Total Delete Count by Service",
+
+        "insertCountByService": "Insert count by Service",
+        "upsertCountByService": "Upsert count by Service",
+        "deleteCountByService": "Delete count by Service",
+        "queryDurationByService": "Query Duration by Service",
+        "searchDistanceByService": "Search Distance by Service"
+      }
+    },
     "genai": {
       "genai": "GenAI",
       "watsonx": "Watsonx",
