@@ -19,6 +19,7 @@
   }
 
   .selectField {
+    width: 20rem;
     :global {
       .cds--list-box--sm {
         block-size: 3rem;

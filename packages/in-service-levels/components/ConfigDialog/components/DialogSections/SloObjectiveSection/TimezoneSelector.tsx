@@ -13,7 +13,6 @@ import TimezoneList from 'in-service-levels/components/ConfigDialog/components/D
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { getCurrentFormattedTimezone } from 'in-service-levels/utils/timezone';
 import { isFieldValid } from 'in-service-levels/utils/form';
-import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 import locals from './TimezoneSelector.mless';
@@ -23,12 +22,13 @@ export default function TimezoneSelector() {
   const timezoneForm = form.getIn(['objective', 'timezone']);
   const bindField = form.getIn(['objective', 'timezone', 'bind']);
   const zoneField = form.getIn(['objective', 'timezone', 'zone']);
-  const isTimezoneSelected = bindField.value && zoneField.value && zoneField.value !== utcLabel;
   const isTimezoneFormValid = isFieldValid(timezoneForm);
 
-  const timezoneMessage = isTimezoneSelected
-    ? t('in-service-levels:createSloDialog.selectedTimezoneMessage', { timezone: zoneField.value })
-    : t('in-service-levels:createSloDialog.currentTimezoneMessage', { timezone: getCurrentFormattedTimezone() });
+  const isTimezoneDifferent = zoneField.value !== getCurrentFormattedTimezone();
+  const showTimezoneNotification = bindField.value && zoneField.value && isTimezoneDifferent;
+  const timezoneMessage = t('in-service-levels:createSloDialog.currentTimezoneMessage', {
+    timezone: getCurrentFormattedTimezone()
+  });
 
   const handleTimezoneToggle = (toggleValue: boolean) => {
     if (!toggleValue) {
@@ -59,14 +59,16 @@ export default function TimezoneSelector() {
         timezoneForm.messages.map(({ message }, index) => (
           <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
         ))}
-      <InlineNotification
-        className={locals.notificationContainer}
-        id="timezone-toast-notification"
-        kind="info"
-        hideCloseButton
-        lowContrast
-        subtitle={timezoneMessage}
-      />
+      {showTimezoneNotification && (
+        <InlineNotification
+          className={locals.notificationContainer}
+          id="timezone-toast-notification"
+          kind="info"
+          hideCloseButton
+          lowContrast
+          subtitle={timezoneMessage}
+        />
+      )}
     </Stack>
   );
 }
