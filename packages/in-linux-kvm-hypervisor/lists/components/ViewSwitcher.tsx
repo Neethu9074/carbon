@@ -14,7 +14,7 @@ export default function LinuxKVMHypervisorViewSwitcher() {
   return (
     <>
       <DashboardHeader
-        icon="lib_linux"
+        icon="lib_linux_kvm_hypervisor"
         label={t('in-linux-kvm-hypervisor:linuxkvmhypervisor')}
         title={t('in-linux-kvm-hypervisor:linuxkvmhypervisor')}
       />

@@ -63,7 +63,7 @@ export default function Summary({ timeConfig, data: vm }: SummaryData) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title={t('in-xenserver:dashboards.memoryUsage')} useMaxAvailableHeight>
+          <Card title={t('in-linux-kvm-hypervisor:dashboards.memoryUsage')} useMaxAvailableHeight>
             <InfrastructureMetricChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}

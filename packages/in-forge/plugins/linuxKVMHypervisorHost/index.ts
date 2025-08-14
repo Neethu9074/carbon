@@ -14,5 +14,5 @@ registerSnapshotDefinition({
   plugin: plugins.linuxKVMHypervisorHost,
   kpiDefinitions,
   metricDefinitions,
-  getIconType: () => 'lib_linux_kvm_hypervisor'
+  getIconType: () => 'linux_kvm_hypervisor'
 });

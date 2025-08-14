@@ -28,7 +28,7 @@ const pathSegment = hostList;
 const linuxkvmhypervisorHostLink = ({ hostname, id }) => {
   const getLinuxKVMHypervisorHostDashboard = useLinuxKVMHypervisorEntityLink('host');
 
-  return <EntityLink label={hostname} href={getLinuxKVMHypervisorHostDashboard(id)} icon="lib_linux" />;
+  return <EntityLink label={hostname} href={getLinuxKVMHypervisorHostDashboard(id)} icon="lib_linux_kvm_hypervisor" />;
 };
 
 const columnDefinitions = [
@@ -101,7 +101,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={() => <LinuxKVMHypervisorNoDataNotification icon="lib_linux" />}
+          FallbackComponent={() => <LinuxKVMHypervisorNoDataNotification icon="lib_linux_kvm_hypervisor" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>

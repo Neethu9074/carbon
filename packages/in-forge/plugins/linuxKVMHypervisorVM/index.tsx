@@ -21,7 +21,7 @@ registerSnapshotDefinition({
   getIconType(snapshot: SnapshotData) {
     if (typeof snapshot === 'object') {
       const os = snapshot.getIn(['data', 'os'], '');
-      if (os.match(/windows/i)) {
+      if (os.match(/windows/i) || os.match(/win/i)) {
         return windowsIcon;
       }
     }

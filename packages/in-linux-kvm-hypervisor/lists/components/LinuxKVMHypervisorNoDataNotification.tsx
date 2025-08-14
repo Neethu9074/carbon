@@ -13,7 +13,7 @@ import { t } from 'in-i18n';
 export default function LinuxKVMHypervisorNoDataNotification() {
   return (
     <EntityPageMainNotification
-      icon="lib_linux"
+      icon="lib_linux_kvm_hypervisor"
       title={t('in-linux-kvm-hypervisor:noMonitoringDataFound')}
       explanation={noop}
     />

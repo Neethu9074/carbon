@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import { percentage, kiloBytesTwoDecimalPlaces, bytesPerSecondZeroDecimalPlaces } from 'in-services/formatters/number';
 // @ts-expect-error
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -19,35 +19,5 @@ export default [
     metric: 'memoryUsageRatio',
     label: t('in-linux-kvm-hypervisor:dashboards.memoryUsage'),
     formatter: percentage.compact
-  },
-  {
-    metric: 'memoryTotal',
-    label: t('in-linux-kvm-hypervisor:dashboards.total'),
-    formatter: kiloBytesTwoDecimalPlaces
-  },
-  {
-    metric: 'memoryUsage',
-    label: t('in-linux-kvm-hypervisor:dashboards.used'),
-    formatter: kiloBytesTwoDecimalPlaces
-  },
-  {
-    metric: 'memoryFree',
-    label: t('in-linux-kvm-hypervisor:dashboards.free'),
-    formatter: kiloBytesTwoDecimalPlaces
-  },
-  {
-    metric: 'bytesRx',
-    label: t('in-linux-kvm-hypervisor:dashboards.bytesRX'),
-    formatter: bytesPerSecondZeroDecimalPlaces
-  },
-  {
-    metric: 'bytesTx',
-    label: t('in-linux-kvm-hypervisor:dashboards.bytesTX'),
-    formatter: bytesPerSecondZeroDecimalPlaces
-  },
-  {
-    metric: 'bytesTxRxTotal',
-    label: t('in-linux-kvm-hypervisor:dashboards.total'),
-    formatter: bytesPerSecondZeroDecimalPlaces
   }
 ];
