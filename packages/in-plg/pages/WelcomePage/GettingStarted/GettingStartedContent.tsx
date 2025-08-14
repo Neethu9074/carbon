@@ -23,6 +23,7 @@ import { OnboardingTileData } from 'in-plg/pages/WelcomePage/GettingStarted/Onbo
 import { CommunityBlogsData } from 'in-plg/pages/WelcomePage/GettingStarted/CommunityBlogsData';
 import { GuidedVideoItems } from 'in-plg/pages/WelcomePage/GettingStarted/GuidedVideoItems';
 import { ContentSection } from 'in-plg/pages/WelcomePage/GettingStarted/ContentSection';
+import VideoImage from 'in-plg/pages/WelcomePage/GettingStarted/assets/VideoImage.png';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import SupportViewSectionV2 from 'in-plg/pages/onboarding/Layout/SupportViewSectionV2';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -114,9 +115,7 @@ export default function GettingStartedContent() {
                     iconDescription: item.title
                   }
                 ]}
-                media={
-                  <img src={`https://img.youtube.com/vi/${item.embedId}/hqdefault.jpg`} className={locals.image} />
-                }
+                media={<img src={VideoImage} alt="Visual" className={locals.image} />}
               />
             ))}
           </div>
@@ -178,9 +177,7 @@ export default function GettingStartedContent() {
                 iconDescription: t('in-plg:onboarding.resource.watchADemo')
               }
             ]}
-            media={
-              <img src={`https://img.youtube.com/vi/${watchDemoVideoId}/hqdefault.jpg`} className={locals.image} />
-            }
+            media={<img src={VideoImage} alt="Visual" className={locals.image} />}
           />
           <SupportViewSectionV2 items={supportResourceData} />
         </Stack>
