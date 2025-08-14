@@ -584,17 +584,17 @@ module.exports = exports = [
   {
     uiClientKey: 'rcaTopologyEnabled',
     instanaCtlKey: 'feature.rca.topology.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'rcaAiAutomatedInvestigationEnabled',
     instanaCtlKey: 'feature.ai.automated.investigation.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'rcaAgenticEnabled',
     instanaCtlKey: 'feature.ai.rca.agentic.workflow.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'eventFeedbackEnabled',
