@@ -385,7 +385,7 @@ function HorizontalLine({ marginLeft, lineWidth, depth = 0, isLazyNode, isOrphan
       })}
     >
       {isOrphan && (
-        <Tooltip content={t('in-analyze:traceDetail.components.callTree.orphan')} align={'topMiddle'}>
+        <Tooltip content={t('in-analyze:traceDetail.components.callTree.orphan')} align="topLeft">
           <div className={locals.orphan}>
             <SvgIcon
               type={'lib_help_error_help_circle'}
