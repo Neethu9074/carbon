@@ -116,6 +116,7 @@ export const KUBERNETES_SEARCH_BAR_CLEARED = 'kubernetes.search.bar.cleared';
 export const KUBERNETES_SORTING_CHANGED = 'kubernetes.sorting.changed';
 export const KUBERNETES_CARD_CLICKED = 'kubernetes.card.clicked';
 export const KUBERNETES_POD_VIEW_CHANGED = 'kubernetes.pod.view.changed';
+export const KUBERNETES_CONTROL_PLANE_VIEW_CHANGED = 'kubernetes.control.plane.view.changed';
 
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';

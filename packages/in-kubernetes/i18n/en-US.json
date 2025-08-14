@@ -16,6 +16,16 @@
   },
   "clusterBadgeNameOpenShift": "OpenShift",
   "clusterBadgeNameK8s": "K8s",
+  "controlPlane": {
+    "title": "Control Plane metrics",
+    "description": "Alpha metrics displayed below have no stability guarantees; as such they can be modified or deleted at any time.",
+    "apiServer": "API server",
+    "scheduler": "Scheduler",
+    "etcd": "etcd",
+    "controllerManager": "Controller manager",
+    "details": "Details",
+    "copyToClipboard": "Copy to clipboard"
+  },
   "dashboards": {
     "kubernetesCluster": "Kubernetes cluster",
     "clusterDistributionBadgeType": "{{clusterDistributionName}} cluster",
@@ -31,7 +41,7 @@
     "summary": "Summary",
     "details": "Details",
     "hostCoverage": "Host coverage",
-    "k8SensorVersion": "K8s Sensor Version",
+    "k8SensorVersion": "K8s sensor version",
     "clusterUuid": "Cluster UUID",
     "agentMonitor": "Agent monitor",
     "controlPlane": "Control plane",

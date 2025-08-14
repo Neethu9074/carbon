@@ -6,11 +6,11 @@
 
 import React, { isValidElement, Children } from 'react';
 
-import { Link, SvgIcon, Typography, Spacer } from '@instana/components';
+import { Link, SvgIcon, Typography } from '@instana/components';
+import { Button, HStack, Stack } from '@instana/carbon';
 import { t } from '@instana/i18n-react';
 
 import { DetailsListProps, InfosProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details/types';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { getItem } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/utils';
 import { phasePodListUrlParameter } from 'in-kubernetes/navigation/urlParameters';
@@ -31,7 +31,7 @@ export default function DetailsList({ clusterInfos }: DetailsListProps) {
 
   const uuid = getItem('UUID', clusterInfos);
   const leader = getItem('Leader', clusterInfos);
-  const hostCoverage = getItem('Host Coverage', clusterInfos);
+  const hostCoverage = getItem('Host coverage', clusterInfos);
   const k8SensorVersion = getItem('K8s Sensor Version', clusterInfos);
   location.pathname = `${kubernetes}${clusterDashboard}${phasePodListUrlParameter.path}`;
   setOrDeleteMatrixKey(location, phasePodListUrlParameter.path, 'pod.query', leader?.value);
@@ -60,28 +60,46 @@ export default function DetailsList({ clusterInfos }: DetailsListProps) {
 
   return (
     <Row>
-      {infos.map(({ label, value, nodeValue, hasCopyToClipboard }: InfosProps, index: number) => (
-        <Col lg key={`${label}_${index}`}>
-          <Typography variant="body-small">{label}</Typography>
-          {hasCopyToClipboard ? (
-            <HorizontalFlexWrapper>
-              <Typography variant="heading-200">{nodeValue || value}</Typography>
-              <Spacer horizontal="normal" />
-              <CopyToClipboard
-                getText={() => (isValidElement(value) ? Children.toArray(value.props.children).join('') : `${value}`)}
-              >
-                {ref => (
-                  <span ref={ref} className={locals.copyButton}>
-                    <SvgIcon type="lib_actions_copy" size="s" />
-                  </span>
+      {infos.map(({ label, value, nodeValue, hasCopyToClipboard }: InfosProps, index: number) => {
+        const contentValue = (
+          <Typography component="p" variant="heading-02" noMargin>
+            {nodeValue ?? value}
+          </Typography>
+        );
+
+        return (
+          <Col lg key={`${label}_${index}`}>
+            <Stack gap={1}>
+              <Typography component="p" noMargin variant="body-01">
+                {label}
+              </Typography>
+              <HStack className={locals.stack}>
+                {contentValue}
+                {hasCopyToClipboard && (
+                  <CopyToClipboard
+                    getText={() =>
+                      isValidElement(value) ? Children.toArray(value.props.children).join('') : `${value}`
+                    }
+                  >
+                    {ref => (
+                      <Button
+                        ref={ref}
+                        className={locals.copyButton}
+                        iconSize="xs"
+                        size="sm"
+                        kind="ghost"
+                        iconDescription={t('in-kubernetes:controlPlane.copyToClipboard')}
+                        renderIcon={() => <SvgIcon type="lib_actions_copy" size="s" />}
+                        hasIconOnly
+                      />
+                    )}
+                  </CopyToClipboard>
                 )}
-              </CopyToClipboard>
-            </HorizontalFlexWrapper>
-          ) : (
-            <Typography variant="heading-200">{nodeValue ?? value}</Typography>
-          )}
-        </Col>
-      ))}
+              </HStack>
+            </Stack>
+          </Col>
+        );
+      })}
     </Row>
   );
 }

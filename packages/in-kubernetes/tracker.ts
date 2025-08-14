@@ -12,6 +12,7 @@ import {
   KUBERNETES_SEARCH_BAR_CLEARED,
   KUBERNETES_SORTING_CHANGED,
   KUBERNETES_CARD_CLICKED,
+  KUBERNETES_CONTROL_PLANE_VIEW_CHANGED,
   KUBERNETES_POD_VIEW_CHANGED
 } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -47,6 +48,7 @@ export function useKubernetesTracker(): {
   kubernetesSearchBarCleared: TrackingFunction;
   kubernetesSortingChanged: TrackingFunction;
   kubernetesCardClicked: TrackingFunction;
+  k8sControlPlaneViewChange: TrackingFunction;
   k8sPodViewChange: TrackingFunction;
 } {
   const { trackCta } = useSegmentTracking();
@@ -83,6 +85,10 @@ export function useKubernetesTracker(): {
     dispatchSegmentUIInteractionEvent(KUBERNETES_POD_VIEW_CHANGED, customData);
   }
 
+  function k8sControlPlaneViewChange(customData: UIInteractionPayload): void {
+    dispatchSegmentUIInteractionEvent(KUBERNETES_CONTROL_PLANE_VIEW_CHANGED, customData);
+  }
+
   return {
     k8sTabChange,
     kubernetesTimeShiftSelectTracker,
@@ -91,6 +97,7 @@ export function useKubernetesTracker(): {
     kubernetesSearchBarCleared,
     kubernetesSortingChanged,
     kubernetesCardClicked,
+    k8sControlPlaneViewChange,
     k8sPodViewChange
   };
 }
