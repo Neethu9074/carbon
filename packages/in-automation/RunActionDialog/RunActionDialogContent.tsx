@@ -4,27 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-import classNames from 'classnames';
 import { Field, ListForm, MapForm } from 'formalistic';
-import { fromJS } from 'immutable';
 import React, { useEffect, useMemo } from 'react';
+import classNames from 'classnames';
+import { fromJS } from 'immutable';
 
 import { DescriptionItem, DescriptionList, Link, Spacer, Typography } from '@instana/components';
-import { useObservable } from '@instana/hooks';
-import { combineLatest, just } from '@instana/observables';
 import { Action, AgentSnapshot, DynamicFieldValue, Parameter, VolatileId } from '@instana/types';
+import { combineLatest, just } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
-import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
-import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
-import {
-  ACTION_TRANSLATIONS,
-  ACTION_TYPE,
-  AUTH_TRANSLATIONS,
-  GIT_OPERATIONS,
-  JIRA_OPERATIONS
-} from 'in-automation/constants';
-import { POLICY_CONDITION } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
-import { NewPolicy, ResolvedDynamicParamValue } from 'in-automation/types';
 import {
   base64ToUtf8,
   getAnsibleFields,
@@ -38,25 +27,36 @@ import {
   getScriptFromFields,
   getWebhookFields
 } from 'in-automation/utils/actionField';
-import Code from 'in-components/Code';
-import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
-import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import HelpText from 'in-components/form/HelpText/HelpText';
-import Input from 'in-components/form/Input/Input';
-import Label from 'in-components/form/Label/Label';
-import Notification from 'in-components/form/Notification';
-import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import ValidationBlock from 'in-components/form/ValidationBlock';
-import { Col, Row } from 'in-components/layout/Grid/Grid';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { t } from 'in-i18n';
 import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
-import { getSnapshot, SnapshotData } from 'in-stores/snapshot';
+import {
+  ACTION_TRANSLATIONS,
+  ACTION_TYPE,
+  AUTH_TRANSLATIONS,
+  GIT_OPERATIONS,
+  JIRA_OPERATIONS
+} from 'in-automation/constants';
+import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
+import { POLICY_CONDITION } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { NewPolicy, ResolvedDynamicParamValue } from 'in-automation/types';
+import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import ValidationBlock from 'in-components/form/ValidationBlock';
+import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { getSnapshot, SnapshotData } from 'in-stores/snapshot';
+import HelpText from 'in-components/form/HelpText/HelpText';
+import Notification from 'in-components/form/Notification';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
+import Input from 'in-components/form/Input/Input';
+import Label from 'in-components/form/Label/Label';
+import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
 

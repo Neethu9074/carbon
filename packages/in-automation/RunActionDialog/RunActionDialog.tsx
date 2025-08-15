@@ -5,17 +5,14 @@
  */
 
 import { createField, createListForm, createMapForm, Field, ListForm, MapForm } from 'formalistic';
-import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
+import { isEmpty } from 'lodash';
 
-import { Button } from '@instana/components';
-import { useObservable } from '@instana/hooks';
-import { Observable } from '@instana/observables';
 import { Action, AgentSnapshot, Event, ParameterValue, Policy, VolatileId } from '@instana/types';
+import { Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
-import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
-import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
-import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import RunActionContent, {
   shouldHideParameter,
   TRIGGERING_AGENT,
@@ -24,32 +21,35 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
-import { resolveDynamicParameters, runAction } from 'in-automation/api';
-import { ACTION_TYPE } from 'in-automation/constants';
-import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
-import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
-import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
-import { NewPolicy, ResolvedDynamicParamValue } from 'in-automation/types';
-import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import {
   getAnsibleHostIdFromFields,
   getGitLinkFromFields,
   getGitTypeFromFields,
   getTimeoutFromFields
 } from 'in-automation/utils/actionField';
-import { safeParseJSON } from 'in-automation/utils/json';
 import { getActionConfigurationFromPolicy, isAutomatic, isManual } from 'in-automation/utils/policy';
-import { Option, Options } from 'in-components/ComboBox/ComboBox';
-import Dialog from 'in-components/Dialog/Dialog';
-import { close } from 'in-components/DialogPresenter/store';
-import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import SaveButton from 'in-components/form/SaveButton/SaveButton';
-import useTimeConfig from 'in-hooks/useTimeConfig';
-import { t } from 'in-i18n';
-import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { hasError, isLoading } from 'in-services/util/result';
-import { notBlankValidator } from 'in-services/validators/string';
+import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
+import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
+import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
+import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
+import { NewPolicy, ResolvedDynamicParamValue } from 'in-automation/types';
+import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { resolveDynamicParameters, runAction } from 'in-automation/api';
+import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
+import { Option, Options } from 'in-components/ComboBox/ComboBox';
+import SaveButton from 'in-components/form/SaveButton/SaveButton';
+import { notBlankValidator } from 'in-services/validators/string';
+import { hasError, isLoading } from 'in-services/util/result';
+import { close } from 'in-components/DialogPresenter/store';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { safeParseJSON } from 'in-automation/utils/json';
+import { ACTION_TYPE } from 'in-automation/constants';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import Dialog from 'in-components/Dialog/Dialog';
+import { t } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
 
@@ -381,7 +381,7 @@ function onSave(
             name,
             type: parameterDefinition?.type,
             label,
-            value: parameter.value.trim()
+            value: parameter.value?.trim()
           }
         ];
       }
@@ -738,7 +738,10 @@ function createForm({
               };
             } else if (parameter.type === 'dynamic' && (!policy || (policy && isSchedulePolicy))) {
               const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
-              const { inputParameterValues = [] } = getActionConfigurationFromPolicy(policy as Policy);
+              let inputParameterValues: ParameterValue[] = [];
+              if (policy) {
+                inputParameterValues = getActionConfigurationFromPolicy(policy as Policy).inputParameterValues ?? [];
+              }
               const value = isSchedulePolicy
                 ? inputParameterValues.find(item => item.name === parameter.name)?.value
                 : formatResolvedValue(resolvedValue);

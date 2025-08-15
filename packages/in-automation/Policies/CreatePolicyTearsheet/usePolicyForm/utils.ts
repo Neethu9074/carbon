@@ -119,23 +119,27 @@ export function validateScheduleFilds() {
 function formToStartTime(form: PolicyForm) {
   const time = form.getIn(['schedule', 'start', 'time']).value;
   const date = form.getIn(['schedule', 'start', 'date']).value;
-  const parsedDate = parseDate(date);
+  const isUtcEnabled = getSingle('formatTimestampsAsUtc');
+  let parsedDate;
+
+  if (isUtcEnabled) {
+    // Parse date manually without UTC conversion
+    const [year, month, day] = date.split('-').map(Number);
+    parsedDate = new Date(year, month - 1, day); // month is 0-indexed in JS Date
+  } else {
+    // Use parseDate for non-UTC case
+    parsedDate = parseDate(date);
+  }
 
   const [hours = 0, minutes = 0] = time.split(':').map(Number);
   parsedDate.setHours(hours, minutes, 0, 0);
 
-  // Check if UTC is enabled in user settings
-  const isUtcEnabled = getSingle('formatTimestampsAsUtc');
-
   if (isUtcEnabled) {
-    // If UTC is already enabled, send as is
-    return parsedDate.getTime();
-  } else {
-    // If UTC is not enabled, we need to convert local time to UTC
-    // Add the timezone offset to get the correct UTC time
+    // Convert local time to UTC time
     const timezoneOffset = parsedDate.getTimezoneOffset() * 60000;
-    const utcTimestamp = parsedDate.getTime() + timezoneOffset;
-    return utcTimestamp;
+    return parsedDate.getTime() + timezoneOffset;
+  } else {
+    return parsedDate.getTime();
   }
 }
 

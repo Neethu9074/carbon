@@ -516,23 +516,24 @@ function getStart(policy: PolicyFormEntity) {
   // Check if UTC is enabled in user settings
   const isUtcEnabled = getSingle('formatTimestampsAsUtc');
 
-  let adjustedStartTime = startTime;
+  // Create a date object from the timestamp
+  const date = new Date(startTime);
 
-  // If UTC is not enabled, convert UTC time back to local time
-  if (!isUtcEnabled) {
-    // Create a date from the UTC timestamp
-    const utcDate = new Date(startTime);
-    // Get the timezone offset in milliseconds
-    const timezoneOffset = utcDate.getTimezoneOffset() * 60000;
-    // Subtract the offset to convert from UTC to local time
-    adjustedStartTime = startTime - timezoneOffset;
+  let formattedDate;
+  let formattedTime;
+
+  if (isUtcEnabled) {
+    // Format as UTC time
+    formattedDate = date.toISOString().split('T')[0]; // "YYYY-MM-DD"
+    formattedTime = date.toISOString().split('T')[1].substring(0, 5); // "HH:MM"
+  } else {
+    // Format as local time
+    formattedDate = formatDate(startTime) ?? '';
+    formattedTime = formatTimeWithoutSeconds(startTime) ?? '';
   }
 
-  const time = formatTimeWithoutSeconds(adjustedStartTime) ?? '';
-  const startDate = formatDate(adjustedStartTime) ?? '';
-
   return {
-    startDate,
-    time
+    startDate: formattedDate,
+    time: formattedTime
   };
 }
