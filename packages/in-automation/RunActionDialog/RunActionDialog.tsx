@@ -381,7 +381,7 @@ function onSave(
             name,
             type: parameterDefinition?.type,
             label,
-            value: parameter.value?.trim()
+            value: parameter.value?.trim() ?? ''
           }
         ];
       }
