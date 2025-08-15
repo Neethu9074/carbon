@@ -123,3 +123,8 @@ export const POLICY_TYPE_TRANSLATIONS: Record<TypeConfigurationType, string> = {
   manual: t('in-automation:policies.manual'),
   automatic: t('in-automation:policies.automatic')
 };
+
+
+export const AutomationErrors = Object.freeze({
+  UNEXPECTED_POLICY_CREATION_ERROR: 'unexpected policy creation error',
+});

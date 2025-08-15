@@ -4,30 +4,18 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, ListForm, MapForm } from 'formalistic';
-import React, { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
+import { Field, ListForm, MapForm } from 'formalistic';
 import { fromJS } from 'immutable';
+import React, { useEffect, useMemo } from 'react';
 
-import { Typography, Spacer, Link, DescriptionList, DescriptionItem } from '@instana/components';
-import { Action, Parameter, VolatileId, DynamicFieldValue, AgentSnapshot } from '@instana/types';
-import { combineLatest, just } from '@instana/observables';
+import { DescriptionItem, DescriptionList, Link, Spacer, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { combineLatest, just } from '@instana/observables';
+import { Action, AgentSnapshot, DynamicFieldValue, Parameter, VolatileId } from '@instana/types';
 
-import {
-  getAnsibleFields,
-  getInterpreterToUse,
-  getScriptFromFields,
-  getDocLinkFromFields,
-  getWebhookFields,
-  getGithubFields,
-  getGitlabFields,
-  getJiraFields,
-  getManualContentFromFields,
-  getGitLinkFromFields,
-  base64ToUtf8
-} from 'in-automation/utils/actionField';
-import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
+import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import {
   ACTION_TRANSLATIONS,
   ACTION_TYPE,
@@ -35,28 +23,40 @@ import {
   GIT_OPERATIONS,
   JIRA_OPERATIONS
 } from 'in-automation/constants';
-import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
-import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
+import { POLICY_CONDITION } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
+import { NewPolicy, ResolvedDynamicParamValue } from 'in-automation/types';
+import {
+  base64ToUtf8,
+  getAnsibleFields,
+  getDocLinkFromFields,
+  getGithubFields,
+  getGitlabFields,
+  getGitLinkFromFields,
+  getInterpreterToUse,
+  getJiraFields,
+  getManualContentFromFields,
+  getScriptFromFields,
+  getWebhookFields
+} from 'in-automation/utils/actionField';
+import Code from 'in-components/Code';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
+import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import HelpText from 'in-components/form/HelpText/HelpText';
+import Input from 'in-components/form/Input/Input';
+import Label from 'in-components/form/Label/Label';
+import Notification from 'in-components/form/Notification';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import ValidationBlock from 'in-components/form/ValidationBlock';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { t } from 'in-i18n';
+import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { getSnapshot, SnapshotData } from 'in-stores/snapshot';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
-import ValidationBlock from 'in-components/form/ValidationBlock';
-import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { getSnapshot, SnapshotData } from 'in-stores/snapshot';
-import HelpText from 'in-components/form/HelpText/HelpText';
-import Notification from 'in-components/form/Notification';
-import { Col } from 'in-components/layout/Grid/Grid';
-import { Row } from 'in-components/layout/Grid/Grid';
-import Label from 'in-components/form/Label/Label';
-import Input from 'in-components/form/Input/Input';
-import Code from 'in-components/Code';
-import { t } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
 
@@ -76,6 +76,7 @@ interface RunActionDialogContentProps {
   resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
   policy?: NewPolicy;
   isSaving?: boolean;
+  isSchedulePolicy?: boolean;
 }
 
 export default function RunActionDialogContent({
@@ -89,7 +90,8 @@ export default function RunActionDialogContent({
   errorResolvingDynamicParameters,
   resolvedDynamicParameters,
   policy,
-  isSaving = false
+  isSaving = false,
+  isSchedulePolicy = false
 }: RunActionDialogContentProps) {
   if (!form || isSaving || agentSnapShots?.progress?.loading) return <LoadingIndicator size="xxl" />;
 
@@ -159,6 +161,7 @@ export default function RunActionDialogContent({
               form={form}
               setForm={setForm}
               policy={policy}
+              isSchedulePolicy={isSchedulePolicy}
             />
           </DescriptionItem>
         </DescriptionList>
@@ -225,9 +228,10 @@ function AgentSelection({
         .sort((a, b) => a.label.localeCompare(b.label))
     : [];
 
-  const options = policy
-    ? [...sortedOptions, { value: TRIGGERING_AGENT, label: t('in-automation:policies.triggeringAgent') }]
-    : sortedOptions;
+  const options =
+    policy && policy.trigger.type !== POLICY_CONDITION.SCHEDULE
+      ? [...sortedOptions, { value: TRIGGERING_AGENT, label: t('in-automation:policies.triggeringAgent') }]
+      : sortedOptions;
 
   return (
     <>
@@ -496,8 +500,12 @@ function ParameterInput({
   form,
   setForm,
   errorResolvingDynamicParameters,
-  policy
-}: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm' | 'errorResolvingDynamicParameters' | 'policy'>) {
+  policy,
+  isSchedulePolicy
+}: Pick<
+  RunActionDialogContentProps,
+  'action' | 'form' | 'setForm' | 'errorResolvingDynamicParameters' | 'policy' | 'isSchedulePolicy'
+>) {
   const { inputParameters } = action;
   if (!inputParameters || inputParameters.filter(parameter => !shouldHideParameter(parameter)).length === 0) {
     return (
@@ -526,6 +534,7 @@ function ParameterInput({
               parameter={parameter}
               setForm={setForm}
               policy={policy}
+              isSchedulePolicy={isSchedulePolicy}
             />
           );
         }
@@ -636,7 +645,13 @@ const safeJsonParse = (raw: string) => {
   }
 };
 
-function DynamicParameterInput({ parameter, form, setForm, policy }: ParameterInputParams & { policy?: NewPolicy }) {
+function DynamicParameterInput({
+  parameter,
+  form,
+  setForm,
+  policy,
+  isSchedulePolicy = false
+}: ParameterInputParams & { policy?: NewPolicy; isSchedulePolicy?: boolean }) {
   const parametersForm = form?.get('parameters') as MapForm<any> | undefined;
   const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
 
@@ -656,7 +671,7 @@ function DynamicParameterInput({ parameter, form, setForm, policy }: ParameterIn
             <Label>{t('in-automation:dynamic')}</Label>
           </Row>
           <DynamicTagBasedPayloadConfigurator value={toViewModel(parsedDynamicValue)} disabled />
-          {!policy && (
+          {(!policy || (policy && isSchedulePolicy)) && (
             <>
               <Spacer vertical="small" />
               <Input

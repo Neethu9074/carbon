@@ -82,4 +82,8 @@
       text-decoration: none;
     }
   }
+  .clearXMargin {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
 }

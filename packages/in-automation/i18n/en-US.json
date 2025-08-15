@@ -459,6 +459,7 @@
     "automatic": "Automatic",
     "addAction": "Add action",
     "addEventTrigger": "Add event trigger",
+    "addEventCondition": "Add event condition",
     "action": "Action",
     "atLeastOneOfTheTwoMustBeSelected": "At least one of the two must be selected.",
     "noActionConfigured": "No action configured",
@@ -489,6 +490,7 @@
     "policyType": "Policy type",
     "noPolicies": "There are no policies configured.",
     "filterApplied": "Filter applied",
+    "schedule": "Schedule",
     "createDialog": {
       "success": {
         "title": "Policy was created successfully.",
@@ -522,6 +524,61 @@
       "failure": "Failed to delete policy."
     },
     "websiteSmartAlert": "Website Smart Alert"
+  },
+  "policyCreateTearsheet": {
+    "description": "<Link >Learn more about policies in IBM Docs</Link>",
+    "page1": {
+      "title": "Select condition",
+      "description": "Select the condition that triggers the policy to run. It can be an event that occurs or a schedule you define."
+    },
+    "event": "Event",
+    "schedule": "Schedule",
+    "policyTypeHelperText": "Select when the action will run",
+    "startDate": "Start date",
+    "repeat": "Repeat",
+    "startTime": "Start time",
+    "repeatEvery": "Repeat every",
+    "date": "Date",
+    "intervalDropdown": {
+      "days": "Day(s)",
+      "weeks": "Week(s)"
+    },
+    "selectScope": "Select the scope",
+    "ofTheMonth": "of the month",
+    "repeatOnEvery": "Repeat on every",
+    "select": "Select",
+    "day": "Day",
+    "month": "Month",
+    "recurrenceOptions": "Recurrence options",
+    "endDate": "End date",
+    "occurrences": "Occurrences",
+    "repeatUntil": "Repeat until",
+    "numberOfOccurrences": "Number of occurrences",
+    "forever": "Forever",
+    "byDate": "By date",
+    "byDay": "By day",
+    "daysOfTheWeek": "Days of the week",
+    "days": "Day(s)",
+    "validators": {
+      "daysOfTheWeek": "Must select atleast one day.",
+      "startAndEndDate": "The end date must be after the start date.",
+      "invalidParamsForAutomaticActions": "Automated actions must have all parameters set and the target agent selected. Select Edit action configuration to set them."
+    },
+    "loading": "Loading",
+    "policyUserInitiated": {
+      "label": "User Initiated",
+      "helperText": "This policy will be associated to the event when it occurs and can be run from the recommended actions table in the issue or incident."
+    },
+    "policyAutomatic": {
+      "helperText": "This policy will automatically run the action when the event occurs."
+    },
+    "conditionWhen": {
+      "open": "On event opening",
+      "close": "On event closing"
+    },
+    "back": "Back",
+    "next": "Next"
+
   },
   "infoPanel": {
     "taskGuidance": "User guidance",
@@ -624,6 +681,46 @@
     "preGenerated": {
       "title": "Pre-generated AI actions",
       "text": "Select from a list of actions that are pre-generated using AI models from watsonx to help diagnose or remediate events in your system."
+    }
+  },
+  "general": {
+    "frequency": {
+      "label": "Unknown",
+      "label_0": "Yearly",
+      "label_1": "Monthly",
+      "label_2": "Weekly",
+      "label_3": "Daily",
+      "label_ONE_TIME": "One time only"
+    },
+    "daysOfTheWeek": {
+      "label_0": "Monday",
+      "label_1": "Tuesday",
+      "label_2": "Wednesday",
+      "label_3": "Thursday",
+      "label_4": "Friday",
+      "label_5": "Saturday",
+      "label_6": "Sunday"
+    },
+    "dayInterval": {
+      "label_1": "First",
+      "label_2": "Second",
+      "label_3": "Third",
+      "label_4": "Fourth",
+      "label_-1": "Last"
+    },
+    "month": {
+      "label_1": "January",
+      "label_2": "February",
+      "label_3": "March",
+      "label_4": "April",
+      "label_5": "May",
+      "label_6": "June",
+      "label_7": "July",
+      "label_8": "August",
+      "label_9": "September",
+      "label_10": "October",
+      "label_11": "November",
+      "label_12": "December"
     }
   }
 }

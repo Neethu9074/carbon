@@ -5,8 +5,9 @@
  */
 
 import React, { useState } from 'react';
+import { getTimezoneOffset } from 'date-fns-tz';
 
-import { Button, RadioButton, Spacer, Stack, Typography } from '@instana/components';
+import { Button, Link, Message, RadioButton, Spacer, Stack, Typography } from '@instana/components';
 import { TriggerType } from '@instana/types';
 
 import {
@@ -21,6 +22,24 @@ import {
   triggerNameColumn,
   websiteFilterAppliedColumn
 } from 'in-automation/components/Triggers/columnDefinitions';
+import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
+import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
+import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
+import { Triggers, TriggerSpecification } from 'in-automation/types';
+import { getTriggerType } from 'in-automation/utils/trigger';
+import ComboBox from 'in-components/ComboBox/ComboBox';
+import Dialog from 'in-components/Dialog/Dialog';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import CancelButton from 'in-components/form/CancelButton';
+import FormFooter from 'in-components/form/FormFooter/FormFooter';
+import FormGroup from 'in-components/form/FormGroup';
+import Label from 'in-components/form/Label/Label';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import useServerTableUrlState, {
+  ServerTableUrlState
+} from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -28,44 +47,77 @@ import TabSelect, {
   TabSelectPanel,
   TabSelectPanels
 } from 'in-components/TabSelect';
-import useServerTableUrlState, {
-  ServerTableUrlState
-} from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { usePolicyFormContext } from 'in-automation/Policies/usePolicyForm/usePolicyForm';
-import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
-import { PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
-import { Triggers, TriggerSpecification } from 'in-automation/types';
-import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import { hasError, listSuccess } from 'in-services/util/result';
-import useCurrentUserRole from 'in-stores/useCurrentUserRole';
-import { getTriggerType } from 'in-automation/utils/trigger';
-import CancelButton from 'in-components/form/CancelButton';
-import ComboBox from 'in-components/ComboBox/ComboBox';
-import { merge } from 'in-services/util/resultMerger';
-import FormGroup from 'in-components/form/FormGroup';
-import Label from 'in-components/form/Label/Label';
-import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
+import { hasError, listSuccess } from 'in-services/util/result';
+import { merge } from 'in-services/util/resultMerger';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getSingle } from 'in-services/settings/settings';
 
 import locals from './Policy.mless';
 
+function TimezoneMessage() {
+  const { createHrefToPath } = useNavigation();
+
+  const currentTimezoneId = getSingle('formatTimestampsAsUtc')
+    ? 'UTC'
+    : new Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const settingsHref = getEntityIdView(userSettingsGeneral, '', createHrefToPath);
+
+  const utcOffset = (timezoneID: string) => {
+    if (timezoneID === 'UTC') return '+00:00';
+    const pad = (val: number) => (val < 10 ? '0' + val : val);
+    const offsetInMinutes = getTimezoneOffset(timezoneID) / 60000;
+    const sign = offsetInMinutes >= 0 ? '+' : '-';
+    const offset = Math.abs(offsetInMinutes);
+    const hours = pad(Math.floor(offset / 60));
+    const minutes = pad(offset % 60);
+
+    return sign + hours + ':' + minutes;
+  };
+
+  const message =
+    currentTimezoneId !== 'UTC'
+      ? t('in-settings:maintenanceWindow.timezone.currentTimezoneMessage', {
+          utc_offset: utcOffset(currentTimezoneId)
+        }) + ' '
+      : null;
+
+  return (
+    <div className={locals.timezoneMessage}>
+      {message && (
+        <Message withIcon small>
+          <div>
+            {message}
+            <Link href={settingsHref || ''}>{t('in-settings:tabs.userSettings')}</Link>
+          </div>
+        </Message>
+      )}
+    </div>
+  );
+}
+
 export default function SelectTrigger({
   triggers,
-  inEventPage = false
+  inEventPage = false,
+  legendText,
+  addEventText
 }: {
   triggers: Triggers;
   inEventPage?: boolean;
+  legendText?: string;
+  addEventText?: string;
 }) {
   const [role] = useCurrentUserRole();
   const { form, setForm } = usePolicyFormContext();
 
   const triggerId = form.get('triggerId');
   const triggerType = form.get('triggerType');
-  if (triggerType.value === 'schedule') return <></>;
+  if (triggerType.value === 'schedule') {
+    return <TimezoneMessage />;
+  }
   const selectedTriggerType = triggers[triggerType.value];
   // @ts-ignore
   const selectedTrigger = selectedTriggerType?.data?.find(trigger => trigger.id === triggerId.value);
@@ -105,7 +157,9 @@ export default function SelectTrigger({
         // @ts-expect-error
         result={result}
         leftHeader={
-          <Label hasError={!triggerId.valid && triggerId.touched}>{t('in-automation:policies.eventTrigger')}</Label>
+          <Label hasError={!triggerId.valid && triggerId.touched}>
+            {legendText ?? t('in-automation:policies.eventTrigger')}
+          </Label>
         }
         rightHeader={
           role?.canConfigureAutomationPolicies &&
@@ -115,7 +169,7 @@ export default function SelectTrigger({
               onClick={() => addActiveDialog(<SelectTriggerDialog form={form} setForm={setForm} triggers={triggers} />)}
               icon="lib_openclose_add_circle_outline"
             >
-              {t('in-automation:policies.addEventTrigger')}
+              {addEventText ?? t('in-automation:policies.addEventTrigger')}
             </Button>
           )
         }
@@ -336,7 +390,6 @@ type TriggerTab =
   | 'logSmartAlert'
   | 'sloSmartAlert'
   | 'schedule';
-
 type EventType = 'customEvent' | 'builtinEvent' | null;
 
 function useTriggerFilters({
@@ -352,7 +405,6 @@ function useTriggerFilters({
     selectedTriggerType === 'builtinEvent' || selectedTriggerType === 'customEvent' ? 'event' : selectedTriggerType
   );
   const [eventType, setEventType] = useState<EventType>(null);
-
   const filteredTriggers =
     selectedTab === 'event'
       ? eventType === null
