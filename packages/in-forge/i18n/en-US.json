@@ -8841,6 +8841,7 @@
       "numOfWrites": "Number of writes",
       "readBytes": "Number of bytes read",
       "writeBytes": "Number of bytes write",
+      "state": "State",
       "transmittedBytes": "Number of bytes transmitted",
       "dashboard": {
         "packets": "Packets",
@@ -8889,6 +8890,7 @@
       "readBytes": "Number of bytes read",
       "writeBytes": "Number of bytes write",
       "transmittedBytes": "Number of bytes transmitted",
+      "state": "State",
       "dashboard": {
         "packets": "Packets",
         "bytes": "Bytes",

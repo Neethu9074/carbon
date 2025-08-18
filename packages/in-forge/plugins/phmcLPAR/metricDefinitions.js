@@ -44,6 +44,12 @@ export default [
     formatter: number.compact
   },
   {
+    metrics: ['state'],
+    labels: [t('in-forge:plugins.phmcLPAR.state')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
     metrics: [
       getDynamicMetricMatch('virtualEthernetAdapters', 'sentPackets', t('in-forge:plugins.phmcLPAR.dashboard.packets')),
       getDynamicMetricMatch(
