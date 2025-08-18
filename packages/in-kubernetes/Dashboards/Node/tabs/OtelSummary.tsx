@@ -85,12 +85,12 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
       <Row>
         <Col lg={kpiWidth}>
           <MultiMetricBigNumberKpiCard
-            title={t('in-kubernetes:dashboards.cpuUtilization')}
+            title={t('in-kubernetes:dashboards.cpuUsage')}
             formatter={[resourceQuotaPercentage, percentage.detailed]}
             config={[
               {
                 metricConfiguration: {
-                  metric: 'k8s.node.cpu.utilization',
+                  metric: 'k8s.node.cpu.usage',
                   ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
@@ -206,19 +206,19 @@ export default function OtelSummary({ timeConfig, data: node }: SummaryProps) {
               {
                 metric: 'k8s.node.cpu.usage',
                 label: t('in-kubernetes:dashboards.cpuUsage'),
-                color: usage,
+                color: available,
                 ...defaultChartMetricConfig
               },
               {
                 metric: 'k8s.node.cpu.utilization',
                 label: t('in-kubernetes:dashboards.cpuUtilization'),
-                color: available,
+                color: usage,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
-            colors={[usage, available]}
+            colors={[available, usage]}
             formatter="percentage.detailed"
             tooltipFormatter={percentage.detailed}
             paramTab="cpuTab"

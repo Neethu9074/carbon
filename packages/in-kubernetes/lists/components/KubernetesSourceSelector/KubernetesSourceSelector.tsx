@@ -44,46 +44,51 @@ export default function DataSourceSelector() {
 
   return (
     <>
-      <MenuButton
-        id="dataSourceSelector"
-        kind="tertiary"
-        size="sm"
-        menuTarget={menuContainerRef.current}
-        //@ts-expect-error
-        label={
-          <div className={locals.menubutton}>
-            <SvgIcon
-              className={locals.icon}
-              type={dataSources[selectedItem].icon}
-              color="currentColor"
-              size="xs"
-              aria-label={t('in-kubernetes:sourceSelector.label')}
-            />
-            {dataSources[selectedItem].text}
-          </div>
-        }
-        menuAlignment="bottom-end"
-      >
-        <MenuItem
-          className={classNames({ [locals.menuitem]: true, [locals.selectedOption]: selectedItem === INSTANA_AGENT })}
+      <div data-no-pdf="true" className={locals.menuWrapper}>
+        <MenuButton
+          id="dataSourceSelector"
+          kind="tertiary"
+          size="sm"
+          menuTarget={menuContainerRef.current}
           //@ts-expect-error
-          label={renderMenuLabel(INSTANA_AGENT)}
-          onClick={() => {
-            setSelectedItem(INSTANA_AGENT);
-            goToPath(clusterListFullyQualified);
-          }}
-        />
-        <MenuItem
-          className={classNames({ [locals.menuitem]: true, [locals.selectedOption]: selectedItem === OTEL_COLLECTOR })}
-          //@ts-expect-error
-          label={renderMenuLabel(OTEL_COLLECTOR)}
-          onClick={() => {
-            setSelectedItem(OTEL_COLLECTOR);
-            goToPath(clusterOtelListFullyQualified);
-          }}
-        />
-      </MenuButton>
-      <div ref={menuContainerRef as any} className={locals.dropdownMenu} />
+          label={
+            <div className={locals.menubutton}>
+              <SvgIcon
+                className={locals.icon}
+                type={dataSources[selectedItem].icon}
+                color="currentColor"
+                size="xs"
+                aria-label={t('in-kubernetes:sourceSelector.label')}
+              />
+              {dataSources[selectedItem].text}
+            </div>
+          }
+          menuAlignment="bottom-end"
+        >
+          <MenuItem
+            className={classNames({ [locals.menuitem]: true, [locals.selectedOption]: selectedItem === INSTANA_AGENT })}
+            //@ts-expect-error
+            label={renderMenuLabel(INSTANA_AGENT)}
+            onClick={() => {
+              setSelectedItem(INSTANA_AGENT);
+              goToPath(clusterListFullyQualified);
+            }}
+          />
+          <MenuItem
+            className={classNames({
+              [locals.menuitem]: true,
+              [locals.selectedOption]: selectedItem === OTEL_COLLECTOR
+            })}
+            //@ts-expect-error
+            label={renderMenuLabel(OTEL_COLLECTOR)}
+            onClick={() => {
+              setSelectedItem(OTEL_COLLECTOR);
+              goToPath(clusterOtelListFullyQualified);
+            }}
+          />
+        </MenuButton>
+        <div ref={menuContainerRef as any} className={locals.dropdownMenu} />
+      </div>
     </>
   );
 

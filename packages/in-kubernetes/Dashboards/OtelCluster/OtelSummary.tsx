@@ -104,11 +104,11 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
       <Row>
         <Col lg={2}>
           <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.cpuUtilization')}
+            title={t('in-kubernetes:dashboards.cpuUsage')}
             formatter={percentage.detailed}
             config={{
               metricConfiguration: {
-                metric: 'k8s.cluster.cpu.utilization',
+                metric: 'k8s.cluster.cpu.usage',
                 ...defaultBigNumberMetricConfig
               },
               ...comparisonColors
@@ -179,8 +179,8 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
             metrics={addUsageToMetrics(
               [
                 {
-                  metric: 'k8s.cluster.cpu.utilization',
-                  label: t('in-kubernetes:dashboards.cpuUtilization'),
+                  metric: 'k8s.cluster.cpu.usage',
+                  label: t('in-kubernetes:dashboards.cpuUsage'),
                   color: available,
                   ...defaultMetricConfig,
                   ...isContainerMetric

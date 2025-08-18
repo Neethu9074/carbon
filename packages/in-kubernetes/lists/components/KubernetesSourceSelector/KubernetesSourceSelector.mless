@@ -67,4 +67,10 @@
     min-inline-size: 375px !important;
     padding: 0;
   }
+
+  .menuWrapper {
+    :global .cds--menu-button__trigger:not(.cds--btn--ghost) {
+      min-inline-size: initial;
+    }
+  }
 }
