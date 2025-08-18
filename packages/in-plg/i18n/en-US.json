@@ -1019,10 +1019,5 @@
       "getSupport": "Get support",
       "watchADemo": "Watch a demo"
     }
-  },
-  "accountBillingPushNotificationMessage": {
-    "description": "You can now view your account and billing information in a separate page from settings.",
-    "buttonText": "View page",
-    "title": "Account and billing now on a separate page"
   }
 }
