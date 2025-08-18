@@ -68,7 +68,9 @@
     padding: 0;
   }
 
-  .noGapWrapper {
-    gap: 0 !important;
+  .menuWrapper {
+    :global .cds--menu-button__trigger:not(.cds--btn--ghost) {
+      min-inline-size: initial;
+    }
   }
 }
