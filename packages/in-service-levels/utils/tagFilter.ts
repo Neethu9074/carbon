@@ -14,14 +14,18 @@ import type {
 } from '@instana/types';
 import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
 
+import {
+  isCustomBlueprintIndicator,
+  isSaturationBlueprintIndicator,
+  isTrafficBlueprintIndicator
+} from 'in-service-levels/types';
 import { EQUALS, GREATER_THAN, LESS_OR_EQUAL_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { invert, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { isCustomBlueprintIndicator, isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import type { AggregatedServiceLevelIndicator } from 'in-service-levels/types';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import type { AggregatedServiceLevelIndicator } from 'in-service-levels/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { statusTagName } from 'in-synthetics/tags';
 
@@ -43,7 +47,7 @@ export function createGoodBadTagFilterExpression({
     return getCustomEventBasedTagFilterExpression({ indicator });
   }
 
-  if (isTrafficBlueprintIndicator(indicator)) {
+  if (isTrafficBlueprintIndicator(indicator) || isSaturationBlueprintIndicator(indicator)) {
     return getEmptyTagFilterExpression();
   }
 

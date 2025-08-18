@@ -151,12 +151,17 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
   ];
 }
 
+function getInfrastructureTestNavItems(): NavItem[] {
+  return [];
+}
+
 function getSloFormNavItems(form: SloForm): NavItem[] {
   const entityType = form.getIn(['entity', 'type']).value;
 
   return {
     application: getApplicationAndWebsiteNavItems,
     website: getApplicationAndWebsiteNavItems,
-    synthetic: getSyntheticTestNavItems
+    synthetic: getSyntheticTestNavItems,
+    infrastructure: getInfrastructureTestNavItems
   }[entityType](form);
 }

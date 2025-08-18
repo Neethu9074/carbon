@@ -124,6 +124,7 @@ export function createThresholdFieldValidator(
 
   switch (blueprint) {
     case 'custom':
+    case 'saturation':
       return undefined;
     case 'traffic':
     case 'latency':

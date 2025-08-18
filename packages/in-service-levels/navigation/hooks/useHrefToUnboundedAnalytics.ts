@@ -23,20 +23,21 @@ import {
   analyzePathFullyQualified as websiteAnalyzePathFullyQualified,
   analyzePath as websiteAnalyzePath
 } from 'in-websites/navigation/paths';
-import { createChartedMetric, createGroupBy, createMetricField } from 'in-analyze/navigation/paths';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import { createChartedMetric, createGroupBy, createMetricField } from 'in-analyze/navigation/paths';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import type { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { analyze as applicationAnalyzePath } from 'in-analyze/navigation/constants';
 import { ServiceLevelErrors, defaultBlueprint } from 'in-service-levels/constants';
 import { toSimplifiedFormModelElements } from 'in-service-levels/utils/tagFilter';
-import type { ChartMetric, MetricField } from 'in-analyze/navigation/paths';
 import type { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { hiddenCallsMatrixParameter } from 'in-applications/navigation/matrix';
+import type { ChartMetric, MetricField } from 'in-analyze/navigation/paths';
 import { isAggregatedServiceLevelIndicator } from 'in-service-levels/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
+import type { BaseBlueprintType } from 'in-service-levels/types';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -103,6 +104,7 @@ function getLocationToUnboundedAnalytics({
   if (isWebsiteSloEntity(entity)) {
     return getWebsiteEntityHref({
       entity,
+      blueprint,
       indicator,
       timeConfig,
       tagFilterExpression,
@@ -125,7 +127,7 @@ interface BaseGenerateHrefProps extends NavigationType {
 }
 
 interface GetApplicationSloHrefProps extends BaseGenerateHrefProps {
-  blueprint?: BlueprintType;
+  blueprint: BlueprintType;
   entity: ApplicationSloEntity;
 }
 
@@ -150,18 +152,19 @@ function getApplicationEntityHref({
 
 interface GetWebsiteSloHrefProps extends BaseGenerateHrefProps {
   entity: WebsiteSloEntity;
+  blueprint: BlueprintType;
   indicator: ServiceLevelIndicatorUnion;
 }
 
 function getWebsiteEntityHref({
   location,
   entity,
+  blueprint,
   indicator,
   timeConfig,
   tagFilterExpression
 }: GetWebsiteSloHrefProps): Location {
   const { beaconType } = entity;
-  const { blueprint } = indicator;
   const aggregation = isAggregatedServiceLevelIndicator(indicator) ? indicator.aggregation : undefined;
   const analyzeParameters = createParameters(websiteAnalyzePath);
 
@@ -178,14 +181,14 @@ function getWebsiteEntityHref({
 
 type MetricAggregationTuple = [string, AggregationType];
 
-const applicationChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
+const applicationChartMetrics: Record<BaseBlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['latency', 'DISTRIBUTION'],
   availability: ['calls', 'SUM'],
   custom: ['calls', 'SUM'],
   traffic: ['calls', 'SUM']
 });
 
-const websiteChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
+const websiteChartMetrics: Record<BaseBlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['beaconDuration', 'MEAN'],
   availability: ['beaconErrorRate', 'MEAN'],
   custom: ['beaconErrorRate', 'MEAN'],
@@ -310,8 +313,9 @@ function setDefaultMatrixParameter({
 function getApplicationMetric(blueprint?: BlueprintType): MetricAggregationTuple {
   if (!blueprint || !Object.keys(applicationChartMetrics).includes(blueprint ?? '')) {
     // Fall back to plain calls in case of an unsupported blueprint type
-    return applicationChartMetrics[defaultBlueprint];
+    return applicationChartMetrics[defaultBlueprint as BaseBlueprintType];
   }
+  if (blueprint === 'saturation') throw new Error(ServiceLevelErrors.UNSUPPORTED_BLUEPRINT_TYPE);
   return applicationChartMetrics[blueprint];
 }
 
@@ -320,5 +324,6 @@ function getWebsiteMetric(blueprint?: BlueprintType): MetricAggregationTuple {
     // Fall back to plain beaconCount in case of an unsupported blueprint type
     return ['beaconCount', 'SUM'];
   }
+  if (blueprint === 'saturation') throw new Error(ServiceLevelErrors.UNSUPPORTED_BLUEPRINT_TYPE);
   return websiteChartMetrics[blueprint];
 }
