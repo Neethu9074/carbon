@@ -71,7 +71,7 @@ export default function TraceDetailView(props: TraceDetailViewProps) {
   const { trackCollapseOrExpandTraceDetailSidebar } = useApplicationTracker();
 
   const {
-    detailId: { callId, traceId, colorCode, logId },
+    detailId: { callId, traceId, subtraceConfigId, colorCode, logId },
     getHrefToDetailId,
     backendQueryModel
   } = props;
@@ -123,6 +123,7 @@ export default function TraceDetailView(props: TraceDetailViewProps) {
                 data: result.data,
                 traceId,
                 callId,
+                subtraceConfigId,
                 logId,
                 setCallId: (id: string) => props.setDetailId({ ...props.detailId, callId: id, logId: null }),
                 setLogId: (id: string) => props.setDetailId({ ...props.detailId, callId: null, logId: id }),
@@ -280,9 +281,12 @@ function RetryErrorMessage({ traceId }: { traceId: string }) {
   );
 }
 
-function renderButtonLine(props: { traceId: string; result: Result<TraceSummary> }) {
-  const { traceId, result } = props;
-  return <TraceDetailViewButtonLine traceId={traceId} traceSummary={result?.data} />;
+function renderButtonLine(props: { detailId: DetailId; result: Result<TraceSummary> }) {
+  const { result, detailId } = props;
+  const { traceId, subtraceConfigId } = detailId;
+  return (
+    <TraceDetailViewButtonLine traceId={traceId} subtraceConfigId={subtraceConfigId} traceSummary={result?.data} />
+  );
 }
 
 function RenderContext() {

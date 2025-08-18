@@ -102,7 +102,8 @@ export default function Results(props) {
         const traceIdName = traceIdNamePerDataSource[dataSource];
         return {
           traceId: item[type][traceIdName],
-          ...(dataSource === 'calls' && { callId: item[type].id })
+          ...(dataSource === 'calls' && { callId: item[type].id }),
+          ...(dataSource === 'subtraces' && { subtraceConfigId: item[type].subtraceConfigId })
         };
       }}
       DetailView={TraceDetailView}
@@ -283,7 +284,7 @@ function LinkToDetailPage({ item, dataSource, getHrefToDetailId, linkLabel, grou
           {
             traceId: item[type][traceIdName],
             ...(dataSource === 'calls' && { callId: item[type].id }),
-            subtraceId: item.subtraceConfigId
+            subtraceConfigId: item[type].subtraceConfigId
           },
           groupLabel
         )}
