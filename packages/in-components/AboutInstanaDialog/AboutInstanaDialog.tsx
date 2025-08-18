@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Typography, Link, Stack } from '@instana/components';
 import { AboutModal } from '@instana/ibm-products';
@@ -26,10 +26,31 @@ export default function AboutInstanaDialog() {
     []
   ) as { imageTag: string; commit: string };
   const { createHrefToPath } = useNavigation();
-  const [isOpen, setIsOpen] = useState(true);
+
+  // Add keyboard event listener to handle ESC key
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        // Prevent the event from propagating to other handlers
+        event.stopPropagation();
+        event.preventDefault();
+        // Close the dialog
+        close();
+      }
+    };
+
+    // Add the event listener
+    document.addEventListener('keydown', handleKeyDown, true);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, true);
+    };
+  }, []);
+
   return (
     <AboutModal
-      open={isOpen}
+      open
       closeIconDescription={t('in-components:aboutInstanaDialog.close')}
       content={
         <span className={locals.fontColor}>
@@ -115,7 +136,6 @@ export default function AboutInstanaDialog() {
       modalAriaLabel="About this product"
       onClose={() => {
         close();
-        setIsOpen(false);
       }}
       title={
         <span className={locals.alignTitle}>
