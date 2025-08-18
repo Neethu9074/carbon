@@ -44,7 +44,7 @@ export default function DataSourceSelector() {
 
   return (
     <>
-      <div data-no-pdf="true" className={locals.noGapWrapper}>
+      <div data-no-pdf="true" className={locals.menuWrapper}>
         <MenuButton
           id="dataSourceSelector"
           kind="tertiary"
