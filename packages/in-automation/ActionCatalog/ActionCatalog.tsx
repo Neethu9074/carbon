@@ -14,13 +14,13 @@ import {
   createTagsUrlParameter,
   createTypeUrlParameter
 } from 'in-automation/navigation/urlParameters';
+import CreatePolicyTearsheet, {
+  CreatePolicyTearsheetProps
+} from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import CreateNewActionTearsheet, {
   CreateNewActionTearsheetProps
 } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
-import CreateNewPolicyTearsheet, {
-  CreateNewPolicyTearsheetProps
-} from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { base64ToUtf8, getDocLinkFromFields, getManualContentFromFields } from 'in-automation/utils/actionField';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
@@ -75,7 +75,7 @@ export default function ActionCatalog({
   const [{ tags, types }, setFilter] = useActionCatalogFilterUrlState({ pathSegment, matrixPrefix });
   const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, types, tags });
   const [tearsheetProps, setTearsheetProps] = useState<CreateNewActionTearsheetProps>({ open: false });
-  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
+  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreatePolicyTearsheetProps>({ open: false });
 
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
   const totalHits = paginatedActions.data?.totalHits;
@@ -142,7 +142,7 @@ export default function ActionCatalog({
           setTearsheetProps({ open: false });
         }}
       />
-      <CreateNewPolicyTearsheet
+      <CreatePolicyTearsheet
         {...policyTearsheetProps}
         closeHandler={() => {
           setPolicyTearsheetProps({ open: false });
