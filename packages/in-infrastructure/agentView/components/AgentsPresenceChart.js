@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Card } from '@instana/components';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { debouncedQuery$ } from 'in-stores/search/query';
@@ -27,7 +28,7 @@ export default connectTo(
     }
 
     return (
-      <DashboardSection title={t('in-infrastructure:agentView.reportingAgents')}>
+      <Card title={t('in-infrastructure:agentView.reportingAgents')}>
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeConfig={timeConfig}
@@ -47,7 +48,7 @@ export default connectTo(
             aggregation: 'mean'
           }}
         />
-      </DashboardSection>
+      </Card>
     );
   }
 );
