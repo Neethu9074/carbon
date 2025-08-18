@@ -72,7 +72,6 @@ export default function AlertDetails() {
         getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
         canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
         alertDisplayMode={alertDisplayMode}
-        hideAlertIcon
         isGlobalSmartAlert
       />
     </LeftRightPadding>

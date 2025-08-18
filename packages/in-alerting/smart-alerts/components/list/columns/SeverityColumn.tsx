@@ -6,10 +6,13 @@
 
 import React from 'react';
 
-import { SmartAlertThresholdRuleUnion } from '@instana/types';
-import { IconButton, Stack } from '@instana/components';
+import { IconButtonSvgSizes } from '@instana/components/types/components/IconButton/types';
+import { AutoReposition, IconButton, Stack } from '@instana/components';
 
+import { CRITICAL, WARNING } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
+import { SmartAlertThresholdRuleUnion } from '@instana/types';
+
 import { t } from 'in-i18n';
 
 import locals from './SeverityColumn.mless';
@@ -18,36 +21,44 @@ export default function SeverityColumn({
   criticalThreshold,
   warningThreshold
 }: {
-  criticalThreshold?: SmartAlertThresholdRuleUnion;
-  warningThreshold?: SmartAlertThresholdRuleUnion;
+  criticalThreshold?: SmartAlertThresholdRuleUnion | { severity: number };
+  warningThreshold?: SmartAlertThresholdRuleUnion | { severity: number };
 }) {
   return (
     <Stack direction="horizontal">
-      {criticalThreshold && (
-        <IconButton
-          kind="primaryv2"
-          data-testid="restroreConfigButton"
-          type="lib_error_filled"
-          alignment="right"
-          className={locals.iconCritical}
-          iconSize="xs"
-          iconDescription={t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')}
-          isWrapperedByTooltip
-        />
-      )}
-      {warningThreshold && (
-        <IconButton
-          color={getDesignLibraryColorBySeverity(0.5)}
-          kind="primaryv2"
-          data-testid="restroreConfigButton"
-          type="lib_help_error_warning"
-          alignment="right"
-          className={locals.iconWarning}
-          iconSize="xs"
-          iconDescription={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
-          isWrapperedByTooltip
-        />
-      )}
+      <AutoReposition>
+        {criticalThreshold && <SeverityIcon type={CRITICAL} icon="lib_error_filled" />}
+        {warningThreshold && <SeverityIcon type={WARNING} icon="lib_help_error_warning" />}
+      </AutoReposition>
     </Stack>
+  );
+}
+
+export function SeverityIcon({
+  type,
+  icon,
+  iconSize
+}: {
+  type: string;
+  icon: string;
+  iconSize?: keyof typeof IconButtonSvgSizes;
+}) {
+  return (
+    <IconButton
+      color={type === WARNING ? getDesignLibraryColorBySeverity(0.5) : undefined}
+      kind="primaryv2"
+      data-testid="restroreConfigButton"
+      type={icon}
+      alignment="right"
+      className={type === WARNING ? locals.iconWarning : locals.iconCritical}
+      iconSize={iconSize ?? 'xs'}
+      iconDescription={
+        type === WARNING
+          ? t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')
+          : t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')
+      }
+      isWrapperedByTooltip
+      enterDelayMs={500}
+    />
   );
 }

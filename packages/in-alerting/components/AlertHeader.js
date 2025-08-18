@@ -6,11 +6,17 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
-import { Message, Spacer, Pill, IconButton, Button } from '@instana/components';
+import { Message, Spacer, Pill, IconButton, Button, Stack } from '@instana/components';
 
+import {
+  severityWarning,
+  severityCritical
+} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
+import { CRITICAL, WARNING } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
+import { SeverityIcon } from 'in-alerting/smart-alerts/components/list/columns/SeverityColumn';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
-import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -18,9 +24,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
 import { playwithEnabled } from 'in-services/featureFlags';
-import AlertIcon from 'in-alerting/components/AlertIcon';
 import BackButton from 'in-components/BackButton';
-import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-alerting/components/AlertHeader.mless';
@@ -44,7 +48,6 @@ export default function AlertHeader({
   onConfigDeleteTrigger,
   getLinkToEditOrDuplicateSmartAlertTearSheet,
   isGlobalSmartAlert = false,
-  hideAlertIcon = false,
   alertDisplayMode,
   openSelectorDialog,
   openTearSheet
@@ -66,6 +69,11 @@ export default function AlertHeader({
   const isLatestVersionDeleted =
     extendedAlertConfigVersions.length > 0 && extendedAlertConfigVersions[0].changeSummary.changeType === 'DELETE';
   const isNotLatestRevision = alertRevision.created < extendedAlertConfigVersions[0].created;
+
+  const { rules } = alertConfig;
+  const severity = alertConfig?.severity;
+  const warningThreshold = rules?.[0].thresholds?.WARNING || severity === severityWarning;
+  const criticalThreshold = rules?.[0].thresholds?.CRITICAL || severity === severityCritical;
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [isToggling, setIsToggling] = useState(false);
@@ -175,7 +183,16 @@ export default function AlertHeader({
 
       <div className={locals.labelWrapper}>
         <div className={locals.left}>
-          {!hideAlertIcon && <AlertIcon severity={alertConfig.severity} enabled={alertConfig.enabled} size="l" />}
+          {(!isEmpty(warningThreshold) || !isEmpty(criticalThreshold) || severity) && (
+            <>
+              <Stack direction="horizontal" align="center" gap="xxsmall">
+                {warningThreshold && <SeverityIcon type={WARNING} icon="lib_help_error_warning" iconSize="regular" />}
+
+                {criticalThreshold && <SeverityIcon type={CRITICAL} icon="lib_error_filled" iconSize="regular" />}
+              </Stack>
+              <Spacer size="normal" />
+            </>
+          )}
           <div className={locals.name}>{renderCustomTitle?.() ?? alertConfig.name}</div>
         </div>
 
@@ -384,7 +401,6 @@ AlertHeader.propTypes = {
   onConfigDeleteTrigger: PropTypes.func,
   getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   isGlobalSmartAlert: PropTypes.bool,
-  hideAlertIcon: PropTypes.bool,
   openSelectorDialog: PropTypes.func,
   alertDisplayMode: PropTypes.string,
   openTearSheet: PropTypes.func

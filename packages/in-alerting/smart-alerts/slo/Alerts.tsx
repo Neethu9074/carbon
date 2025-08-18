@@ -58,6 +58,7 @@ export default function Alerts({ sloId }: AlertsProps) {
         noDataHeader={t('in-alerting:smartAlerts.slo.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.slo.alertList.noDataDescription" />}
         toolBarContent={<CreateSmartAlert sloId={sloId} />}
+        hideSeverity
       />
       <Footer />
     </>
