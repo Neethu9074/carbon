@@ -67,4 +67,8 @@
     min-inline-size: 375px !important;
     padding: 0;
   }
+
+  .noGapWrapper {
+    gap: 0 !important;
+  }
 }
