@@ -5,10 +5,10 @@
  */
 
 import React, { useState, useMemo } from 'react';
+import { GenericItem } from '@carbon/ai-chat';
 
 import { ContentSwitcher, Switch } from '@instana/carbon';
 import { SimpleBarChart } from '@instana/carbon-charts';
-import { GenericItem } from '@instana/ai-chat';
 
 import { useTableState, TableRow, TableHeader } from 'in-events/components/AIChat/TableComponents/useTableState';
 import { formatForBarChart } from 'in-events/components/AIChat/TableComponents/TableFormatters';

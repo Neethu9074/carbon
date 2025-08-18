@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useCallback, useMemo } from 'react';
-
 import {
   ChatContainer,
   ChatInstance,
@@ -16,7 +14,9 @@ import {
   TextItem,
   UserDefinedItem,
   WriteableElementName
-} from '@instana/ai-chat';
+} from '@carbon/ai-chat';
+import React, { useCallback, useMemo } from 'react';
+
 import { PreviewPill } from '@instana/components';
 import { Widget } from '@instana/types';
 
@@ -131,8 +131,13 @@ export const AiChatContainer = ({ beforeRender, onAddPromptedWidget }: AiChatCon
 };
 
 const configureInstance = (instance: ChatInstance) => {
-  instance.showLauncherGreetingMessage(hours.toMillis(24));
-  instance.updateLauncherGreetingMessage(LAUNCHER_GREETING);
+  instance.updateLauncherConfig({
+    is_on: true,
+    desktop: {
+      title: LAUNCHER_GREETING,
+      time_to_expand: hours.toMillis(24)
+    }
+  });
   // TODO: improve style modification - maybe check with @carbon/ai-chat team
   instance.updateCSSVariables({ 'BASE-width': '700px', 'BASE-max-height': '950px' });
   instance.messaging.addMessage({

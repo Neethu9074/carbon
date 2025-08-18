@@ -1807,6 +1807,44 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/ai-chat@npm:0.4.0":
+  version: 0.4.0
+  resolution: "@carbon/ai-chat@npm:0.4.0"
+  dependencies:
+    "@ibm/telemetry-js": ^1.9.1
+    "@lit/react": ^1.0.6
+    color: ^4.2.3
+    compute-scroll-into-view: ^3.1.0
+    csv-stringify: ^6.5.2
+    dayjs: ^1.11.10
+    dompurify: ^3.1.6
+    focus-trap-react: ^10.2.3
+    highlight.js: ^11.9.0
+    intl-messageformat: ^10.7.15
+    intl-pluralrules: ^2.0.1
+    markdown-it: ^14.1.0
+    markdown-it-attrs: ^4.1.6
+    react-intl: ^7.1.6
+    react-player: 2.15.1
+    swiper: ^11.1.1
+  peerDependencies:
+    "@carbon/icon-helpers": ">=10.53.0 <11.0.0"
+    "@carbon/icons": ">=11.53.0 <12.0.0"
+    "@carbon/react": ">=1.68.0 <2.0.0"
+    "@carbon/web-components": ">=2.25.0 <3.0.0"
+    "@floating-ui/react": ">=0.27.0 <1.0.0"
+    classnames: ">=2.5.0 <3.0.0"
+    lit: ">=3.1.0 <4.0.0"
+    lodash-es: ">=4.17.0 <5.0.0"
+    react: ">=17.0.0 <20.0.0"
+    react-dom: ">=17.0.0 <20.0.0"
+    react-redux: ">=8.0.0 <10.0.0"
+    redux: ">=4.0.0 <6.0.0"
+    tabbable: ">=6.2.0 <7.0.0"
+  checksum: 40daef982e3f8707a11848d397e10445a8b65dbbbae5f52b33a4710e41ffe4cffa0c75efc1f0a89cb8f542c58aa5761149a49e1cd6328fca87f4445b7b04a7cc
+  languageName: node
+  linkType: hard
+
 "@carbon/charts-react@npm:1.22.7":
   version: 1.22.7
   resolution: "@carbon/charts-react@npm:1.22.7"
@@ -3401,63 +3439,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/ai-chat@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@instana/ai-chat@npm:0.3.2::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fai-chat%2F-%2F%40instana%2Fai-chat-0.3.2.tgz"
-  dependencies:
-    "@ibm/telemetry-js": ^1.9.1
-    "@lit/react": ^1.0.6
-    "@microsoft/fetch-event-source": ^2.0.1
-    color: ^4.2.3
-    compute-scroll-into-view: ^3.1.0
-    csv-stringify: ^6.5.2
-    dayjs: ^1.11.10
-    detect-browser: ^5.3.0
-    dompurify: ^3.1.6
-    focus-trap-react: ^10.2.3
-    highlight.js: ^11.9.0
-    html-tags: ^3.3.1
-    http-status-codes: ^2.3.0
-    intl-messageformat: ^10.7.15
-    intl-pluralrules: ^2.0.1
-    js-cookie: ^3.0.5
-    jwt-decode: ^4.0.0
-    lit: ^3.1.0
-    lodash-es: ^4.17.21
-    markdown-it: ^14.1.0
-    markdown-it-attrs: ^4.1.6
-    markdown-it-sub: ^2.0.0
-    markdown-it-sup: ^2.0.0
-    memoize-one: ^6.0.0
-    react-intl: ^7.1.6
-    react-player: ^2.15.1
-    react-redux: ^8.1.3
-    redux: ^4.2.1
-    reselect: ^4.1.8
-    swiper: ^11.1.1
-    ts-essentials: ^9.4.1
-    utility-types: ^3.10.0
-    uuid: ^9.0.1
-  peerDependencies:
-    "@carbon/icon-helpers": ^10.53.0
-    "@carbon/icons": ^11.53.0
-    "@carbon/icons-react": ^11.51.0
-    "@carbon/react": ^1.68.0
-    "@carbon/web-components": ^2.25.0
-    "@floating-ui/react": ^0.26.0
-    classnames: ^2.5.1
-    prop-types: ^15.7.2
-    react: ^17.0.0 || ^18.0.0 || ^19.0.0
-    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
-    tabbable: ^6.2.0
-    tslib: ^2.6.3
-  dependenciesMeta:
-    react-player:
-      optional: true
-  checksum: 902efa96c7676b3db04d4086bd3ffa335b3b42f06088ee126fecb39c6a03fc625dc33c86b3004d99d2cb9f1ecfd0d7714b0646f535e7cb2b91d3dac8b040a153
-  languageName: node
-  linkType: hard
-
 "@instana/carbon-charts@npm:0.10.0":
   version: 0.10.0
   resolution: "@instana/carbon-charts@npm:0.10.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcarbon-charts%2F-%2F%40instana%2Fcarbon-charts-0.10.0.tgz"
@@ -4269,13 +4250,6 @@ __metadata:
   dependencies:
     "@lit-labs/ssr-dom-shim": ^1.2.0
   checksum: 368d788d9eefdde74e77721e38c78de222dc5ec87d543e0638d0d28f7a8cf530c3d7b49aa8606efeec3f3485abbb22a43b58c2f20c1e6e7f0de266d4c6d125c4
-  languageName: node
-  linkType: hard
-
-"@microsoft/fetch-event-source@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@microsoft/fetch-event-source@npm:2.0.1"
-  checksum: a50e1c0f33220206967266d0a4bbba0703e2793b079d9f6e6bfd48f71b2115964a803e14cf6e902c6fab321edc084f26022334f5eaacc2cec87f174715d41852
   languageName: node
   linkType: hard
 
@@ -10399,13 +10373,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-browser@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "detect-browser@npm:5.3.0"
-  checksum: dd6e08d55da1d9e0f22510ac79872078ae03d9dfa13c5e66c96baedc1c86567345a88f96949161f6be8f3e0fafa93bf179bdb1cd311b14f5f163112fcc70ab49
-  languageName: node
-  linkType: hard
-
 "detect-file@npm:^1.0.0":
   version: 1.0.0
   resolution: "detect-file@npm:1.0.0"
@@ -14305,13 +14272,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"http-status-codes@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "http-status-codes@npm:2.3.0"
-  checksum: dae3b99e0155441b6df28e8265ff27c56a45f82c6092f736414233e9ccf063d5ea93c1e1279e8b499c4642e2538b37995c76b1640ed3f615d0e2883d3a1dcfd5
-  languageName: node
-  linkType: hard
-
 "https-proxy-agent@npm:^5.0.1":
   version: 5.0.1
   resolution: "https-proxy-agent@npm:5.0.1"
@@ -16378,13 +16338,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-cookie@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "js-cookie@npm:3.0.5"
-  checksum: 2dbd2809c6180fbcf060c6957cb82dbb47edae0ead6bd71cbeedf448aa6b6923115003b995f7d3e3077bfe2cb76295ea6b584eb7196cca8ba0a09f389f64967a
-  languageName: node
-  linkType: hard
-
 "js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -16655,13 +16608,6 @@ __metadata:
   version: 4.2.1
   resolution: "just-extend@npm:4.2.1"
   checksum: ff9fdede240fad313efeeeb68a660b942e5586d99c0058064c78884894a2690dc09bba44c994ad4e077e45d913fef01a9240c14a72c657b53687ac58de53b39c
-  languageName: node
-  linkType: hard
-
-"jwt-decode@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "jwt-decode@npm:4.0.0"
-  checksum: 390e2edcb31a92e86c8cbdd1edeea4c0d62acd371f8a8f0a8878e499390c0ecf4c658b365c4e941e4ef37d0170e4ca650aaa49f99a45c0b9695a235b210154b0
   languageName: node
   linkType: hard
 
@@ -17435,20 +17381,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it-sub@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "markdown-it-sub@npm:2.0.0"
-  checksum: fc0a1992f7e6c3acdaa836647ea8d94432f92b228b779702caa7181bb359f31288274e03667e73f2d1686dce30d45922a6c2bedb67373c9244a5fe0fc2d70a85
-  languageName: node
-  linkType: hard
-
-"markdown-it-sup@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "markdown-it-sup@npm:2.0.0"
-  checksum: 14d2081140e6174db78899ba63eaf17c79415ad11566665167dfea6351ed160785566f6bbedd8a657e0b4b9a735d8f7ad72ac9cff61e2f8fbdd4bbd3e685b898
-  languageName: node
-  linkType: hard
-
 "markdown-it@npm:^14.1.0":
   version: 14.1.0
   resolution: "markdown-it@npm:14.1.0"
@@ -17574,13 +17506,6 @@ __metadata:
   version: 5.2.1
   resolution: "memoize-one@npm:5.2.1"
   checksum: a3cba7b824ebcf24cdfcd234aa7f86f3ad6394b8d9be4c96ff756dafb8b51c7f71320785fbc2304f1af48a0467cbbd2a409efc9333025700ed523f254cb52e3d
-  languageName: node
-  linkType: hard
-
-"memoize-one@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "memoize-one@npm:6.0.0"
-  checksum: f185ea69f7cceae5d1cb596266dcffccf545e8e7b4106ec6aa93b71ab9d16460dd118ac8b12982c55f6d6322fcc1485de139df07eacffaae94888b9b3ad7675f
   languageName: node
   linkType: hard
 
@@ -20677,9 +20602,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-player@npm:^2.15.1":
-  version: 2.16.0
-  resolution: "react-player@npm:2.16.0"
+"react-player@npm:2.15.1":
+  version: 2.15.1
+  resolution: "react-player@npm:2.15.1"
   dependencies:
     deepmerge: ^4.0.0
     load-script: ^1.0.0
@@ -20688,11 +20613,11 @@ __metadata:
     react-fast-compare: ^3.0.1
   peerDependencies:
     react: ">=16.6.0"
-  checksum: 9cc78a6099fdf06bbb2e1db75aa57461fb152eb6207a00e6e026dde0675b6f4ad02a45cab7b6c18a9f19e001bf9695a5be0cbe7606eca57a0af501ced717fbe9
+  checksum: 8e065dd7effcbec0bb770393b676145aa8bd46e4d2f9c46b1c15f5c1dff3f1a334f619aa3cc8525f82e6772b773fb9e96745d5e835b5264cd9ce1166ed9e1492
   languageName: node
   linkType: hard
 
-"react-redux@npm:^8.1.3":
+"react-redux@npm:8.1.3":
   version: 8.1.3
   resolution: "react-redux@npm:8.1.3"
   dependencies:
@@ -21029,7 +20954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.2.1":
+"redux@npm:4.2.1":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
@@ -21264,13 +21189,6 @@ __metadata:
   version: 1.0.0
   resolution: "requires-port@npm:1.0.0"
   checksum: eee0e303adffb69be55d1a214e415cf42b7441ae858c76dfc5353148644f6fd6e698926fc4643f510d5c126d12a705e7c8ed7e38061113bdf37547ab356797ff
-  languageName: node
-  linkType: hard
-
-"reselect@npm:^4.1.8":
-  version: 4.1.8
-  resolution: "reselect@npm:4.1.8"
-  checksum: a4ac87cedab198769a29be92bc221c32da76cfdad6911eda67b4d3e7136dca86208c3b210e31632eae31ebd2cded18596f0dd230d3ccc9e978df22f233b5583e
   languageName: node
   linkType: hard
 
@@ -23825,18 +23743,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-essentials@npm:^9.4.1":
-  version: 9.4.2
-  resolution: "ts-essentials@npm:9.4.2"
-  peerDependencies:
-    typescript: ">=4.1.0"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: ef9a15cef66e4c23942cd6a64ab1aa15108cabea187904ba8345bab309f5b5d8f4fc076950391af8fd3914df0349ce11dc716930949f7f5d24ec3a5851ccfe73
-  languageName: node
-  linkType: hard
-
 "tsconfig-paths@npm:^3.15.0":
   version: 3.15.0
   resolution: "tsconfig-paths@npm:3.15.0"
@@ -24078,6 +23984,7 @@ __metadata:
     "@babel/preset-typescript": ^7.14.5
     "@babel/register": ^7.12.1
     "@babel/runtime": 7.26.10
+    "@carbon/ai-chat": 0.4.0
     "@carbon/colors": ^11.21.0
     "@carbon/icons": ^11.56.0
     "@carbon/pictograms-react": 11.63.0
@@ -24096,7 +24003,6 @@ __metadata:
     "@codemirror/view": 6.6.0
     "@dnd-kit/core": 6.1.0
     "@dnd-kit/sortable": 8.0.0
-    "@instana/ai-chat": 0.3.2
     "@instana/carbon": 1.16.0
     "@instana/carbon-charts": 0.10.0
     "@instana/components": 5.32.0
@@ -24273,12 +24179,14 @@ __metadata:
     react-immutable-proptypes: ^2.1.0
     react-input-autosize: ^3.0.0
     react-intersection-observer: ^8.31.0
+    react-redux: 8.1.3
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
     react-select: ^4.3.1
     react-select-async-paginate: ~0.5
     react-test-renderer: ^17
     react-window: ^1.8.11
+    redux: 4.2.1
     rrule: ^2.8.1
     semver: ^5.7.2
     sinon: ^13.0.1
@@ -24673,11 +24581,11 @@ __metadata:
   linkType: hard
 
 "use-sync-external-store@npm:^1.0.0":
-  version: 1.4.0
-  resolution: "use-sync-external-store@npm:1.4.0"
+  version: 1.5.0
+  resolution: "use-sync-external-store@npm:1.5.0"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: dc3843a1b59ac8bd01417bd79498d4c688d5df8bf4801be50008ef4bfaacb349058c0b1605b5b43c828e0a2d62722d7e861573b3f31cea77a7f23e8b0fc2f7e3
+  checksum: 5e639c9273200adb6985b512c96a3a02c458bc8ca1a72e91da9cdc6426144fc6538dca434b0f99b28fb1baabc82e1c383ba7900b25ccdcb43758fb058dc66c34
   languageName: node
   linkType: hard
 
@@ -24704,13 +24612,6 @@ __metadata:
     has-symbols: ^1.0.1
     object.getownpropertydescriptors: ^2.1.0
   checksum: d823c75b3fc66510018596f128a6592c98991df38bc0464a633bdf9134e2de0a1a33199c5c21cc261048a3982d7a19e032ecff8835b3c587f843deba96063e37
-  languageName: node
-  linkType: hard
-
-"utility-types@npm:^3.10.0":
-  version: 3.11.0
-  resolution: "utility-types@npm:3.11.0"
-  checksum: 35a4866927bbea5d037726744028d05c6e37772ded2aabaca21480ce9380185436aef586ead525e327c7f3c640b1a3287769a12ef269c7b165a2ddd50ea6ad61
   languageName: node
   linkType: hard
 
@@ -24745,15 +24646,6 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "uuid@npm:9.0.1"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 39931f6da74e307f51c0fb463dc2462807531dc80760a9bff1e35af4316131b4fc3203d16da60ae33f07fdca5b56f3f1dd662da0c99fea9aaeab2004780cc5f4
   languageName: node
   linkType: hard
 

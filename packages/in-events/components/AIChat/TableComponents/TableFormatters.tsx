@@ -4,8 +4,8 @@
  */
 
 import { BarChartOptions, ScaleTypes } from '@carbon/charts';
+import { MessageResponseTypes } from '@carbon/ai-chat';
 
-import { MessageResponseTypes } from '@instana/ai-chat';
 import { formatDateTime } from '@instana/format-date';
 
 import {

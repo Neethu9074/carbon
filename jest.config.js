@@ -22,7 +22,7 @@ module.exports = {
   transformIgnorePatterns: [
     '.jest/register-context.js',
     'node_modules/jest-runner/build/runTest.js',
-    'node_modules/(?!(@instana/types|@instana/ai-chat)/)', // Enable both @instana/types and @instana/ai-chat to be transformed
+    'node_modules/(?!(@instana/types|@carbon/ai-chat)/)', // Enable both @instana/types and @carbon/ai-chat to be transformed
     '/node_modules/jest-runner/build/index.js'
   ],
   transform: {
@@ -39,6 +39,7 @@ module.exports = {
     '\\.yaml$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.scss$': '<rootDir>/packages/in-test/styleMock.js',
     'd3-(.*)': '<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js',
+    '@carbon/ai-chat': '<rootDir>/packages/in-test/carbonAiChatMock.ts',
     '\\.svg': '<rootDir>/packages/in-test/svgMock.ts'
   }
 };

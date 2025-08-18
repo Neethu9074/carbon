@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2025
  */
 
+import { ChatInstance } from '@carbon/ai-chat';
 import React, { useState } from 'react';
 
 import { Button, ContainedList, ContainedListItem, Stack } from '@instana/carbon';
 import { SvgIcon, Typography } from '@instana/components';
-import { ChatInstance } from '@instana/ai-chat';
 import { timeout } from '@instana/observables';
 
 import {

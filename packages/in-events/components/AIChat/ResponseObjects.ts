@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { ChatInstance, MessageRequest, MessageResponseTypes, TextItem, UserDefinedItem } from '@instana/ai-chat';
+import { ChatInstance, MessageRequest, MessageResponseTypes, TextItem, UserDefinedItem } from '@carbon/ai-chat';
 
 import { TableHeader, TableRow } from 'in-events/components/AIChat/TableComponents/useTableState';
 import { AdditionalInfoObject } from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';

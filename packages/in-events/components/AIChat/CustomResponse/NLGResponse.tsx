@@ -5,8 +5,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-
-import { GenericItem } from '@instana/ai-chat';
+import { GenericItem } from '@carbon/ai-chat';
 
 import { t } from 'in-i18n';
 

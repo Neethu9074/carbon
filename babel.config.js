@@ -76,7 +76,7 @@ module.exports = {
     // code that can't easily be transpiled upon creation
     path.join(__dirname, 'node_modules', '@instana', 'types', '**', '*.ts'),
 
-    // Enable transpilation of @instana/ai-chat for ES modules support
-    path.join(__dirname, 'node_modules', '@instana', 'ai-chat', '**', '*.js')
+    // Enable transpilation of @carbon/ai-chat for ES modules support
+    path.join(__dirname, 'node_modules', '@carbon', 'ai-chat', '**', '*.js')
   ]
 };

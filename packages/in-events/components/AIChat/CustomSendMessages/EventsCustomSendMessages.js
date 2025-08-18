@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import { MessageResponseTypes, AgentMessageType } from '@carbon/ai-chat';
 import { uniqueId } from 'lodash';
-
-import { MessageResponseTypes, AgentMessageType } from '@instana/ai-chat';
 
 import {
   EVENT_AI_CHAT_API_RESULT_POSITIVE,

@@ -4,10 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
+import { GenericItem, ChatInstance, BusEventType } from '@carbon/ai-chat';
 import React, { useState } from 'react';
 import classNames from 'classnames';
-
-import { GenericItem, ChatInstance, BusEventType } from '@instana/ai-chat';
 
 import { handleTracking } from 'in-events/components/AIChat/utils/utils';
 

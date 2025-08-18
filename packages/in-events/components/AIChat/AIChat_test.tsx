@@ -5,9 +5,8 @@
  */
 
 import { render, screen } from '@testing-library/react';
+import { PublicConfig } from '@carbon/ai-chat';
 import React from 'react';
-
-import { PublicConfig } from '@instana/ai-chat';
 
 // Import the component for type checking
 import AIChat from 'in-events/components/AIChat/AIChat';

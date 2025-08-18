@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 import React, { useEffect, useMemo, useState } from 'react';
+import { BusEventType, ChatContainer, ChatInstance, ViewType, PublicConfig } from '@carbon/ai-chat';
 import { merge } from 'lodash';
 
-import { BusEventType, ChatContainer, ChatInstance, ViewType, PublicConfig } from '@instana/ai-chat';
 import { PreviewPill } from '@instana/components';
 
 import {

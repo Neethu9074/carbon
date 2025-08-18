@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
+import { ChatInstance } from '@carbon/ai-chat';
 import React from 'react';
 
-import { ChatInstance } from '@instana/ai-chat';
 import { Tag } from '@instana/carbon';
 
 import { EVENT_AI_LIBRARY_RESPONSE_OPEN } from 'in-services/tracking/tracking';

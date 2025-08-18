@@ -11,7 +11,8 @@ import {
   MessageResponseTypes,
   TextItem,
   UserDefinedItem
-} from '@instana/ai-chat';
+} from '@carbon/ai-chat';
+
 import { Observable, combineLatest, just } from '@instana/observables';
 
 import {

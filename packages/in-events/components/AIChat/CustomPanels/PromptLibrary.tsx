@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import { ChatInstance } from '@carbon/ai-chat';
 import React, { useState } from 'react';
 
 import {
@@ -16,7 +17,6 @@ import {
   CarbonContainedListItem,
   CarbonSearch
 } from '@instana/components';
-import { ChatInstance } from '@instana/ai-chat';
 
 import { handleTracking } from 'in-events/components/AIChat/utils/utils';
 import { t } from 'in-i18n';
