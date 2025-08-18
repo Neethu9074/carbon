@@ -300,6 +300,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
             setQuery({ query: searchQuery });
             setPage(1);
           }, 500)}
+          query={query}
           buttonName={`${addMorePrefix} ${addButtonLabel ?? ''}`.trim()}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}

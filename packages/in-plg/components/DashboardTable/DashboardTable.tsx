@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import {
   CarbonDataTable,
@@ -53,10 +53,12 @@ export const DashboardTable = React.forwardRef<any, DashboardTableProps>(functio
     searchPlaceHolder,
     toggles,
     toggleCallback,
+    query,
     ...otherProps
   }: DashboardTableProps,
   ref
 ) {
+  const [filledDefaultValue, setFilledDefaultValue] = useState(false);
   return (
     <CarbonDataTable ref={ref} rows={rows} headers={headers} {...otherProps} sortRow={sortRow} isSortable={isSortable}>
       {({ headers, getTableProps, getHeaderProps, getToolbarProps, getTableContainerProps }: any) => (
@@ -76,10 +78,19 @@ export const DashboardTable = React.forwardRef<any, DashboardTableProps>(functio
                 placeholder={searchPlaceHolder}
                 className={locals.plgTableSearchBox}
                 size="lg"
+                defaultValue={query} // set default value when there is a query in url parameter
                 labelText={searchPlaceHolder}
-                onChange={(e: '' | React.ChangeEvent<HTMLInputElement>) =>
-                  onSearch?.((e as React.ChangeEvent<HTMLInputElement>).target.value)
-                }
+                onChange={(e: '' | React.ChangeEvent<HTMLInputElement>) => {
+                  let val = (e as React.ChangeEvent<HTMLInputElement>).target?.value ?? '';
+                  // if we have an empty input but we have a previous query, use that query
+                  if (val === '' && query && query !== '' && !filledDefaultValue) {
+                    val = query;
+                  }
+                  // Need state variable to differentiate when user removes search param and
+                  // when it should be filled in by default
+                  setFilledDefaultValue(true);
+                  onSearch?.(val);
+                }}
                 persistent
               />
               {hasAddMore && hasAddPermission && (
