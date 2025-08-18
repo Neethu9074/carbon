@@ -11,14 +11,13 @@ import { useObservable } from '@instana/hooks';
 import { Column, Row } from '@instana/carbon';
 import { Spacer } from '@instana/components';
 
+//@ts-expect-error TS migration
+import { getSnapshotVersionsByTime } from 'in-infrastructure/Dashboard/components/DashboardContent';
 import {
   withSiMultiplyPrefixThreeDecimalPlaces,
   bytes,
-  timeBySecondsTwoDecimalPlaces,
-  seconds
+  timeBySecondsTwoDecimalPlaces
 } from 'in-services/formatters/number';
-//@ts-expect-error TS migration
-import { getSnapshotVersionsByTime } from 'in-infrastructure/Dashboard/components/DashboardContent';
 //@ts-expect-error TS migration
 import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialog';
 import CollectorDashboardHeader from 'in-infrastructure/CollectorsView/Dashboard/CollectorDashboardHeader';
@@ -93,7 +92,7 @@ export default function CollectorDashboard() {
                 <MetricValue
                   snapshotId={snapshotId}
                   metric={getMetricByRegex(new RegExp(/.*otelcol_process_cpu_seconds{.*}/), metricsResult)[0]}
-                  formatter={seconds.fixedCompact}
+                  formatter={timeBySecondsTwoDecimalPlaces}
                   timeWindowAggregation="mean"
                 />
               </KpiCard>

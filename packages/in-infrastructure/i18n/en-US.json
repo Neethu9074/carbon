@@ -182,7 +182,6 @@
     "exporterMetrics": "Exporter metrics",
     "collectorRestartingTitle": "Collector restarting",
     "collectorRestarting": "Collecor restart successfully initiated.",
-    "collectorError": "Collector error",
     "configUpdateSuccessTitle": "Configuration update successful",
     "configUpdateSuccess": "Collector configuration succesfully updated.",
     "update": "Update",
@@ -190,6 +189,15 @@
     "configuration": "Configuration",
     "exporter": "Exporter",
     "processor": "Processor",
-    "receiver": "Receiver"
+    "receiver": "Receiver",
+    "errors": {
+      "updateFailed": "Update failed",
+      "restartFailed": "Restart failed",
+      "loadingFailed": "Loading failed",
+      "failedRestartConnectionError": "Collector failed to restart due to a connection issue. Manually restart the collector to re-establish the connection.",
+      "failedConfigFetchConnectionError": "Configuration failed to load due to a connection issue. Manually restart the collector to re-establish the connection.",
+      "manualRestartLink": "Learn how to restart a collector "
+    }
+
   }
 }
