@@ -25,7 +25,7 @@ import {
   syntheticSslImprovementEnabled
 } from 'in-services/featureFlags';
 import { ExpandableResultList } from 'in-synthetics/dashboards/global/tabs/tests/components/ExpandableResultList';
-import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import TestListFilters from 'in-synthetics/dashboards/global/tabs/tests/components/TestListFilters';
 import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
@@ -54,7 +54,6 @@ export const TestsTableWithUrlState = ({
   setFilter
 }: TestsTableWithUrlStateProps) => {
   const [role] = useCurrentUserRole();
-  const columnDefinitions = getColumnDefinitions(role);
   const [filtersTemp, setFiltersTemp] = useState<FilterState>({
     syntheticTypes,
     locationIds
