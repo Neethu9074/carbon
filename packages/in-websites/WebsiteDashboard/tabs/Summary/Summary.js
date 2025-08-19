@@ -391,7 +391,14 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleGeography')}
             withoutPadding
           >
-            <WebsiteGeoHeatMap canDrillDown tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
+            <WebsiteGeoHeatMap
+              positionControlsAtTheTopOfTheCard
+              areControlsVertical={false}
+              canDrillDown
+              tagFilters={tagFilters}
+              timeConfig={timeConfig}
+              height={300}
+            />
           </Card>
         </Col>
         <Col lg={pageId == null ? 4 : 6}>

@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useRef, useCallback } from 'react';
+import classNames from 'classnames';
 
 import { IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -80,6 +81,8 @@ export default function GeoHeatMapPresenter(props) {
 }
 
 function Content({
+  areControlsVertical = true,
+  positionControlsAtTheTopOfTheCard = false,
   onHomeClick,
   onAreaClick,
   result,
@@ -99,6 +102,7 @@ function Content({
   const projection = mapCode === 'world' ? 'winkel3' : 'mercator';
   const isItGeographyTab = pathname === '/websiteMonitoring/website/geography';
   const iconButtonSize = isItGeographyTab ? 'normal' : 'compact';
+  const tooltipAlignment = positionControlsAtTheTopOfTheCard ? 'bottom' : 'left';
 
   const handleZoomIn = () => {
     if (mapControls?.onZoomIn) {
@@ -158,13 +162,17 @@ function Content({
           }}
           height={`${height}px`}
         />
-
         <Legend data={result.data} valueFormatter={valueFormatter} label={label} />
-
         <div className={controlWrapperClassName}>
-          <ButtonGroup vertical className={locals.zoom}>
+          <ButtonGroup
+            vertical={areControlsVertical}
+            className={classNames({
+              [locals.positionControlsAtTheTop]: positionControlsAtTheTopOfTheCard,
+              [locals.zoom]: !positionControlsAtTheTopOfTheCard
+            })}
+          >
             <IconButton
-              align="left"
+              align={tooltipAlignment}
               type="lib_table_of_contents"
               kind="subtle"
               iconDescription={t('in-components:geoHeatMap.openTable')}
@@ -175,7 +183,7 @@ function Content({
               size={iconButtonSize}
             />
             <IconButton
-              align="left"
+              align={tooltipAlignment}
               type="lib_actions_zoom_in"
               kind="subtle"
               iconDescription={t('in-components:geoHeatMap.tooltipZoomIn')}
@@ -184,7 +192,7 @@ function Content({
               size={iconButtonSize}
             />
             <IconButton
-              align="left"
+              align={tooltipAlignment}
               type="lib_actions_zoom_out"
               kind="subtle"
               iconDescription={t('in-components:geoHeatMap.tooltipZoomOut')}
@@ -193,7 +201,7 @@ function Content({
               size={iconButtonSize}
             />
             <IconButton
-              align="left"
+              align={tooltipAlignment}
               type="lib_home"
               kind="subtle"
               iconDescription={t('in-components:geoHeatMap.tooltipResetView')}

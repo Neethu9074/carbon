@@ -15,9 +15,19 @@ import { t } from 'in-i18n';
 const valueFormatter = v =>
   t('in-websites:websiteDashboard.components.websiteGeoHeatMapPageLoads', { count: v, number: number.compact(v) });
 
-export default function WebsiteGeoHeatMap({ height, tagFilters, timeConfig, canDrillDown, controlWrapperClassName }) {
+export default function WebsiteGeoHeatMap({
+  areControlsVertical,
+  positionControlsAtTheTopOfTheCard,
+  height,
+  tagFilters,
+  timeConfig,
+  canDrillDown,
+  controlWrapperClassName
+}) {
   return (
     <GeoHeatMap
+      areControlsVertical={areControlsVertical}
+      positionControlsAtTheTopOfTheCard={positionControlsAtTheTopOfTheCard}
       canDrillDown={canDrillDown}
       getData={countryCode => getData({ countryCode, tagFilters, timeConfig })}
       height={height}
