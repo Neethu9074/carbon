@@ -13,7 +13,8 @@
     "contentAriaLabel": "Content",
     "filterAriaLabel": "Filter",
     "pageTabsAriaLabel": "Page tabs",
-    "pageSubMenu": "Page sub-menu"
+    "pageSubMenu": "Page sub-menu",
+    "breadcrumbAriaLabel": "Breadcrumb"
   },
   "fileInputButton": {
     "label": {

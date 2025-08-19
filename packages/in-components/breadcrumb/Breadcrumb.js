@@ -54,7 +54,12 @@ export default function Breadcrumb({
   }
   if (href || href$) {
     return (
-      <Link href={href$ ?? href} className={breadcrumbClassName} onClick={() => track(NAVIGATION_BREADCRUMB)}>
+      <Link
+        href={href$ ?? href}
+        aria-current={isActive}
+        className={breadcrumbClassName}
+        onClick={() => track(NAVIGATION_BREADCRUMB)}
+      >
         {crumbContent}
       </Link>
     );
