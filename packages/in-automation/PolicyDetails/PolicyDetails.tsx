@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
+import classNames from 'classnames';
 
 import { Column, Grid, Row, Stack } from '@instana/carbon';
 import { Link, SvgIcon } from '@instana/components';
@@ -13,37 +13,39 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { Policy } from '@instana/types';
 
-import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
-import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
-import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
-import { ACTION_TYPE } from 'in-automation/constants';
-import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import CreatePolicyTearsheet, {
   CreatePolicyTearsheetProps
 } from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
-import PolicyFormContext from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
-import usePolicyForm from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/usePolicyForm';
-import useTriggers from 'in-automation/Policies/useTriggers';
-import ActionConfigurationCard from 'in-automation/PolicyDetails/ActionConfigurationCard';
-import PolicyControls from 'in-automation/PolicyDetails/PolicyControls';
-import PolicyDetailsCard from 'in-automation/PolicyDetails/PolicyDetailsCard';
-import PolicyDetailsdHeader from 'in-automation/PolicyDetails/PolicyDetailsHeader';
-import PolicyTriggerConfigurationCard from 'in-automation/PolicyDetails/PolicyTriggerConfigurationCard';
-import usePolicy from 'in-automation/PolicyDetails/usePolicy';
-import { Triggers } from 'in-automation/types';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
-import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard/DefaultLoadingDashboard';
+import PolicyTriggerConfigurationCard from 'in-automation/PolicyDetails/PolicyTriggerConfigurationCard';
+import usePolicyForm from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/usePolicyForm';
+import PolicyFormContext from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
+import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
+import ActionConfigurationCard from 'in-automation/PolicyDetails/ActionConfigurationCard';
+import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
+import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
+import PolicyDetailsdHeader from 'in-automation/PolicyDetails/PolicyDetailsHeader';
+import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
+import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
+import PolicyDetailsCard from 'in-automation/PolicyDetails/PolicyDetailsCard';
+import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { policiesFullyQualified } from 'in-automation/navigation/paths';
+import PolicyControls from 'in-automation/PolicyDetails/PolicyControls';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
+import usePolicy from 'in-automation/PolicyDetails/usePolicy';
+import { hasError, isLoading } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import useTriggers from 'in-automation/Policies/useTriggers';
+import SectionLine from 'in-settings/components/SectionLine';
+import { pendingResult } from 'in-services/fixedObjects';
 import { eventsPath } from 'in-events/navigation/paths';
+import { ACTION_TYPE } from 'in-automation/constants';
+import { Triggers } from 'in-automation/types';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
-import { pendingResult } from 'in-services/fixedObjects';
-import { hasError, isLoading } from 'in-services/util/result';
-import SectionLine from 'in-settings/components/SectionLine';
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';
 
@@ -98,7 +100,7 @@ interface PolicyViewProps {
 
 function PolicyView({ policy, triggers }: PolicyViewProps) {
   const [role] = useCurrentUserRole();
-  const { location } = useNavigation();
+  const { location, navigate } = useNavigation();
   const [{ id }] = useUrlState<{ id: string }>({
     bind: [policyDetailsUrlParameters.id]
   });
@@ -125,6 +127,21 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
   const from = location.query.from;
   let backLable = from === eventsPath ? t('in-automation:backToEvent') : t('in-automation:backToPolicies');
 
+  const handleBack = () => {
+    delete location.query.from;
+    if (from === eventsPath) {
+      location.pathname = eventsPath;
+      const eventObj = JSON.parse(location.query.eventState as string);
+      delete location.query.eventState;
+      for (const key in eventObj) {
+        setOrDeleteMatrixKey(location, eventsPath, key, eventObj[key]);
+      }
+    } else {
+      location.pathname = policiesFullyQualified;
+    }
+    navigate(location);
+  };
+
   return (
     <ActionFormContext.Provider value={formValue}>
       <PolicyFormContext.Provider
@@ -146,12 +163,7 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
               })}
             >
               {from && (
-                <Link
-                  className={local.link}
-                  onClick={() => {
-                    window.history.back();
-                  }}
-                >
+                <Link className={local.link} onClick={handleBack}>
                   <SvgIcon type="lib_arrow_expand_left" className={local.icon} />
                   {backLable}
                 </Link>
