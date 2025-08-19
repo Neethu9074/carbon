@@ -33,7 +33,7 @@ export default connectTo(
     const [role] = useCurrentUserRole();
     const granularity = getInfraGranularity(timeConfig);
 
-    const { createHref, location } = useNavigation();
+    const { createHref, createHrefToPath, location } = useNavigation();
     const otlpAcceptorsHref = createHref({ ...location, pathname: '/internal/monitoringUnit/otlpAcceptors' });
 
     return (
@@ -557,9 +557,14 @@ export default connectTo(
                       description="Analyze tag sets"
                     />
                     <LinkListItem
+                      label="graphiQL"
+                      href={createHrefToPath( '/internal/thisUnit/graphiql' )}
+                      description={t('in-internal:components.landing.graphiQLDescription')}
+                    />
+                    <LinkListItem
                       // needs i18n...:
                       label="Feature Flags"
-                      href={createHref({ ...location, pathname: '/internal/featureflags' })}
+                      href={createHrefToPath('/internal/thisUnit/featureflags' )}
                       // needs i18n...:
                       description="the feature flags available for this tenant unit."
                     />

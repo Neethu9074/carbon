@@ -142,6 +142,7 @@
       "logMonitoringDesc": "Information about our log processing pipeline.",
       "logHealthProcessor": "log-health-processor (health rule execution)",
       "tagProcessorState": "Tag Processor State",
+      "graphiQLDescription": "graphiql integration",
       "tagProcessorStateDescription": "Explore tag processor's state graph"
     },
     "internalViewWrapper": {
@@ -1107,6 +1108,11 @@
     "snapshotVersions": {
       "snapshotId": "snapshotId...",
       "refresh": "Refresh"
+    },
+    "graphiql": {
+      "title": "GraphiQL endpoint",
+      "connect": "Connect",
+      "retry": "Retry"
     },
     "wsApiTester": {
       "title": "Websocket api tester",
