@@ -308,6 +308,9 @@ export const GETTINGSTARTED_LINK_IBM_DOCUMENTATION = 'gettingStarted.link.ibmDoc
 export const GETTINGSTARTED_LINK_COMMUNITY = 'gettingStarted.link.community.clicked';
 export const GETTINGSTARTED_LINK_GETSUPPORT = 'gettingStarted.link.getSupport.clicked';
 
+export const VIEW_DEPLOYED_AGENTS = 'view.deployed.agents';
+export const VIEW_INSTALLED_COLLECTOR = 'view.installed.collector';
+
 // Owned by Team Alert Response
 // Tracking all team owned components
 export const MANUAL_CLOSE_SUBMIT = 'manualClose.submit';

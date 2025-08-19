@@ -9,7 +9,9 @@ import React, { useEffect, useState } from 'react';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
+import { VIEW_DEPLOYED_AGENTS, VIEW_INSTALLED_COLLECTOR } from 'in-services/tracking/eventNames';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import { AgentSnapshotResponse } from 'in-plg/api/AgentSnapshot';
@@ -40,6 +42,7 @@ const GetDeployedAgents = ({
   datasource = DATASOURCE.AGENT
 }: GetDeployedAgentsProps): JSX.Element | null => {
   const timeConfig = useTimeConfig();
+  const { trackCta } = useSegmentTracking();
   const DEPLOYED_AGENT_CHECK_INTERVAL: number = 10000;
   const [deployedAgentsCount, setDeployedAgentsCount] = useState<number>(0);
   const [intervalCounter, setIntervalCounter] = useState<number>(0);
@@ -128,7 +131,10 @@ const GetDeployedAgents = ({
         <Button
           disabled={datasource === DATASOURCE.AGENT ? !deployedAgentsCount : !isCollectorPresent}
           href={`/#/physical?q=${infraQuery}&timeline.to&timeline.fm&timeline.ar=true`}
-          onClick={() => trackingService.deployAgentsButtonClicked()}
+          onClick={() => {
+            trackCta(datasource === DATASOURCE.AGENT ? VIEW_DEPLOYED_AGENTS : VIEW_INSTALLED_COLLECTOR);
+            trackingService.deployAgentsButtonClicked();
+          }}
         >
           {datasource === DATASOURCE.AGENT
             ? t('in-plg:agentDetails.common.viewDeployedAgents')
