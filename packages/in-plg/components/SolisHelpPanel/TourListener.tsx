@@ -11,10 +11,10 @@ import { startTourTriggered$ } from 'in-services/integrations/solis';
 export const TourListener = () => {
   useEffect(() => {
     const subscription = startTourTriggered$.subscribe(event => {
-      const clickedTourElementId = event.detail;
+      const clickedTourId = event.detail.id ?? event.detail;
       //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
       //the id of the smart walk-thru is taken from walkme editor
-      WalkMeAPI.startFlowById(clickedTourElementId);
+      WalkMeAPI.startFlowById(clickedTourId);
     });
 
     return () => {

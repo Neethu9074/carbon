@@ -5,6 +5,7 @@
  */
 
 import { Observable, Subject, create } from '@instana/observables';
+
 import { solisEnabled } from 'in-services/featureFlags';
 
 /**
@@ -48,8 +49,14 @@ const clickedTourElementId = event.detail;
 })
 */
 
-export const startTourTriggered$ = onCustomEvent<CustomEvent<string>>('solis:start-tour');
+export interface SolisEventDetail {
+  id: string;
+}
 
+export const startTourTriggered$ = onCustomEvent<CustomEvent<SolisEventDetail>>('solis:start-tour');
+export const customTopNavItemClicked$ = onCustomEvent<CustomEvent<SolisEventDetail>>(
+  'solis:custom-top-nav-item-clicked'
+);
 
 /** extension of the on(...) method in the observables package */
 function onCustomEvent<T extends CustomEvent>(

@@ -53,6 +53,7 @@ import {
   actionAutomationEnabled
 } from 'in-services/featureFlags';
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
+import { CustomTopNavItemListener } from 'in-components/SolisListeners/CustomTopNavItemListener';
 import SessionTimeoutContainer from 'in-components/SessionTimeoutDialog/SessionTimeoutContainer';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
@@ -176,6 +177,7 @@ export default function App() {
                       but in this case, there will be event handlers for communicating
                       with solis nav */}
                       <TourListener />
+                      <CustomTopNavItemListener />
                     </>
                   ) : (
                     <CarbonUIShell />

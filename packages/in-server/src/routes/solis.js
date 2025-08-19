@@ -215,12 +215,21 @@ function getUserPermissions(role, features) {
 function generateTopNavItems(t) {
   let topNavItems = [];
   topNavItems.push({
+    id: 'share',
+    type: 'icon_button',
+    mode: 'custom',
+    icon_name: 'share',
+    properties: {
+      label: t('in-server:solis.share')
+    }
+  });
+  topNavItems.push({
     id: 'help',
     type: 'icon_button',
     mode: 'native',
     icon_name: 'help',
     properties: {
-      label: t('in-server:helpPanel.panelTitle')
+      label: t('in-server:solis.helpPanel.panelTitle')
     }
   });
   return topNavItems;
@@ -604,12 +613,12 @@ function getHelp(t) {
     sections: [
       {
         id: 'relevant_tours',
-        title: t('in-server:helpPanel.tourSectionTitle'),
+        title: t('in-server:solis.helpPanel.tourSectionTitle'),
         tiles: relevantTours(t)
       },
       {
         id: 'relevant_articles',
-        title: t('in-server:helpPanel.articleSectionTitle'),
+        title: t('in-server:solis.helpPanel.articleSectionTitle'),
         tiles: relevantDocs(t)
       }
     ]
