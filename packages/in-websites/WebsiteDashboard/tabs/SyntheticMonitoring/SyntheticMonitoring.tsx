@@ -26,13 +26,12 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { TestsTableWithUrlState } from 'in-synthetics/dashboards/global/tabs/tests/components/TestsTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import getServerTableDescription from 'in-synthetics/utils/getServerTableDescription';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { syntheticCarbonTableEnabled } from 'in-services/featureFlags';
-import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pendingResult } from 'in-services/fixedObjects';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -47,8 +46,6 @@ const urlStateDefinition = {
 };
 
 function ServerTableWithUrlState(props: Parameters<typeof createServerTableWithUrlState>[0]) {
-  const [role] = useCurrentUserRole();
-  const columnDefinitions = getColumnDefinitions(role);
   const Component = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
       columnDefinitions: columnDefinitions.filter(
