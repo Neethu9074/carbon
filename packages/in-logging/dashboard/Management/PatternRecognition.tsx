@@ -46,12 +46,14 @@ export default function PatternRecognition() {
     const currentStatus = localToggleStates[id] !== undefined ? localToggleStates[id] : originalStatus;
 
     return (
-      <Toggle
-        labelA={patterRecognitionLocalisationStrings.disabled}
-        labelB={patterRecognitionLocalisationStrings.enabled}
-        checked={currentStatus}
-        onToggle={() => handleToggleChange(id, currentStatus)}
-      />
+      <div aria-label={patterRecognitionLocalisationStrings.patternState}>
+        <Toggle
+          labelA={patterRecognitionLocalisationStrings.disabled}
+          labelB={patterRecognitionLocalisationStrings.enabled}
+          checked={currentStatus}
+          onToggle={() => handleToggleChange(id, currentStatus)}
+        />
+      </div>
     );
   };
 
@@ -107,7 +109,11 @@ export default function PatternRecognition() {
       <Breadcrumbs />
       <section className={locals.content}>
         <KpiGridRow sizes={[3]}>
-          <KpiCard title={patterRecognitionLocalisationStrings.currentPatterns} noTooltipOnTitle>
+          <KpiCard
+            title={patterRecognitionLocalisationStrings.currentPatterns}
+            headingVariant="heading-2"
+            noTooltipOnTitle
+          >
             <div className={locals.body}>
               <p className={locals.patterRecognitionContent}>
                 <span data-testid="patternRecognitionValue" className={locals.number}>

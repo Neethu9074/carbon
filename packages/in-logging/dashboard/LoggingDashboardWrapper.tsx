@@ -57,12 +57,7 @@ function LoggingDashboardWrapper({
           />
         }
       >
-        <section
-          aria-label={t('in-components:pageStructure.contentAriaLabel')}
-          className={classNames(withPadding && locals.content)}
-        >
-          {children}
-        </section>
+        <section className={classNames(withPadding && locals.content)}>{children}</section>
       </Sticky>
     </LoggingPermissionWrapper>
   );
