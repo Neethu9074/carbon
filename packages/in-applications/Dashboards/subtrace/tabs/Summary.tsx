@@ -93,11 +93,11 @@ export function Summary({ data }: Props) {
             ...cardConfig,
             metricConfiguration: {
               ...cardConfig.metricConfiguration,
-              metric: 'subtraceDuration',
+              metric: 'latency',
               aggregation: 'MEAN'
             },
             companionMetricConfiguration: {
-              metric: 'subtraceDuration',
+              metric: 'latency',
               aggregation: 'P90',
               source: 'SUBTRACE',
               queryPrecision: 'FULL',

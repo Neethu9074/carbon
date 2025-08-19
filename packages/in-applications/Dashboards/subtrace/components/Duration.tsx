@@ -24,7 +24,7 @@ interface Props {
 export default function DurationChart({ timeConfig, cardTitle, tagFilterExpression, granularity }: Props): JSX.Element {
   const defaultMetricConfig: SubtraceUnifiedMetricConfiguration = {
     granularity,
-    metric: 'subtraceDuration',
+    metric: 'latency',
     source: 'SUBTRACE',
     tagFilterExpression,
     timeConfig: timeConfig,
