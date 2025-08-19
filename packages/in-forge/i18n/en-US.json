@@ -11359,6 +11359,8 @@
         "writeAwaitTime": "Write time",
         "avgDiscardRequestsTime": "Discard requests time",
         "avgFlushRequestsTime": "Flush requests time",
+        "blockWriteRate": "Block write rate",
+        "blockReadRate": "Block read rate",
         "processBlockedState": "Process blocked state",
         "processWaitingRuntime": "Process waiting runtime",
         "reportingStatus": "Reporting Status",

@@ -101,6 +101,38 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.blockReadRate'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskRow) {
+        return `disk.${row.key}.blockReadRate`;
+      },
+      getContent: millis.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.blockWriteRate'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskRow) {
+        return `disk.${row.key}.blockWriteRate`;
+      },
+      getContent: millis.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
@@ -141,13 +173,17 @@ const DiskTable = function DiskInfo({ snapshotId, timeConfig }: DiskProps) {
               `disk.${row.key}.readAwaitTime`,
               `disk.${row.key}.writeAwaitTime`,
               `disk.${row.key}.avgDiscardRequestsTime`,
-              `disk.${row.key}.avgFlushRequestsTime`
+              `disk.${row.key}.avgFlushRequestsTime`,
+              `disk.${row.key}.blockWriteRate`,
+              `disk.${row.key}.blockReadRate`
             ],
             labels: [
               t('in-forge:plugins.host.dashboard.readAwaitTime'),
               t('in-forge:plugins.host.dashboard.writeAwaitTime'),
               t('in-forge:plugins.host.dashboard.avgDiscardRequestsTime'),
-              t('in-forge:plugins.host.dashboard.avgFlushRequestsTime')
+              t('in-forge:plugins.host.dashboard.avgFlushRequestsTime'),
+              t('in-forge:plugins.host.dashboard.blockWriteRate'),
+              t('in-forge:plugins.host.dashboard.blockReadRate')
             ],
             type: 'line'
           }}
