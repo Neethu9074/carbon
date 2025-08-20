@@ -66,6 +66,9 @@ export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
 
 // CI/CD
 export const runTypeCICD = 'CI/CD';
+// On demand
+export const runTypeOnDemandKey = 'OnDemand';
+export const runTypeOnDemandValue = 'On demand';
 export const runTypeScheduled = 'Scheduled';
 // Default runType to 'Scheduled' to prevent datascope label error when syntheticRunNowEnabled is true
 export const defaultRunType = syntheticRunNowEnabled ? runTypeScheduled : undefined;
