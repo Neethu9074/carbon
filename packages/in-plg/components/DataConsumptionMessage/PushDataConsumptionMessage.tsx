@@ -44,7 +44,7 @@ export default function PushDataConsumptionMessage() {
             type: 'info',
             icon: 'info',
             onClick: () => {
-              const data = { type: 'close' };
+              const data = { requiredProperty: 'dataUsageNotification.close' };
               triggerDataUsageSegmentEvent(data);
               removeMessage('data-consumption-message');
             },
@@ -78,7 +78,7 @@ function DataConsumptionMessageContent({ roundOffValue }: { roundOffValue: numbe
         href={createHrefToPath(ampUsage)}
         onClick={() => {
           setExpandState(true);
-          const data = { type: 'accountAndBilling' };
+          const data = { requiredProperty: 'dataUsageNotification.accountAndBilling' };
           triggerDataUsageSegmentEvent(data);
           removeMessage('data-consumption-message');
         }}

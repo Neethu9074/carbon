@@ -7,39 +7,44 @@
 import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 
-import { segmentData, segmentWithMetaData } from 'in-plg/api/segmentData';
+import { trackEventRequest, trackEventUrl } from 'in-plg/components/DataConsumptionMessage/segment';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http/http';
 import { user } from 'in-stores/user';
 
-const baseUrl = '/api/tracking/freeTrialSelection';
+export const pageLoadUrl = '/api/tracking/pageLoad';
 
-const pageLoadUrl = '/api/tracking/freeTrialSelectionPageLoad';
+export interface pageLoadEventRequest {
+  pageLoadProperties?: Record<string, any>;
+}
 
-const nextUrl = '/api/tracking/freeTrialNext';
-
-export function sendFreeTrialSelectionSegmentEvent(data: segmentWithMetaData): Observable<segmentWithMetaData> {
-  return http<segmentData>({
+export function sendFreeTrialSelectionSegmentEvent(data: trackEventRequest): Observable<trackEventRequest> {
+  return http<trackEventRequest>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `${baseUrl}`,
+    url: `${trackEventUrl}`,
     data
   }).map(response => response.body);
 }
 
-export function triggerFreeTrialSelectionSegmentEvent(data: segmentData) {
-  //@ts-expect-error
-  const withMetaData = { ...data, altUserId: user?.id };
-  const result$ = sendFreeTrialSelectionSegmentEvent(withMetaData);
+export function triggerFreeTrialSelectionSegmentEvent(data: trackEventRequest) {
+  const withAdditionalProperty = {
+    ...data,
+    additionalProperties: {
+      //@ts-expect-error
+      altUserId: user?.id
+    }
+  };
+  const result$ = sendFreeTrialSelectionSegmentEvent(withAdditionalProperty);
   const logger = createLogger('in-plg/components/NoviceToPro/GetStartedFreetrial');
   result$.errors().once(error => {
-    logger.error(`Failed to send ${data?.type} cta event : ${error}`, error);
+    logger.error(`Failed to send ${data?.requiredProperty} cta event : ${error}`, error);
   });
 }
 
-export function sendPageLoadFreeTrial(data: segmentWithMetaData): Observable<segmentWithMetaData> {
-  return http<segmentData>({
+export function sendPageLoadFreeTrial(data: pageLoadEventRequest): Observable<pageLoadEventRequest> {
+  return http<pageLoadEventRequest>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -49,29 +54,42 @@ export function sendPageLoadFreeTrial(data: segmentWithMetaData): Observable<seg
 }
 
 export function triggerPageLoadFreeTrial() {
-  //@ts-expect-error
-  const payload = { altUserId: user?.id };
-  const result$ = sendPageLoadFreeTrial(payload);
+  const withPageLoadProperty = {
+    pageLoadProperties: {
+      name: 'Page Viewed',
+      path: '/',
+      parentPageCategory: 'FreeTrialSelection',
+      parentPageName: 'GettingStarted.Environmentselection',
+      //@ts-expect-error
+      altUserId: user?.id
+    }
+  };
+  const result$ = sendPageLoadFreeTrial(withPageLoadProperty);
   const logger = createLogger('in-plg/components/NoviceToPro/FreetrialRoleSelector');
   result$.errors().once(error => {
     logger.error(`Failed to send Page Load event : ${error}`, error);
   });
 }
 
-export function sendNextSegmentEvent(data: segmentWithMetaData): Observable<segmentWithMetaData> {
-  return http<segmentData>({
+export function sendNextSegmentEvent(data: trackEventRequest): Observable<trackEventRequest> {
+  return http<trackEventRequest>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `${nextUrl}`,
+    url: `${trackEventUrl}`,
     data
   }).map(response => response.body);
 }
 
 export function triggerSendNextFreeTrial() {
-  //@ts-expect-error
-  const payload = { altUserId: user?.id };
-  const result$ = sendNextSegmentEvent(payload);
+  const withAdditionalProperty = {
+    requiredProperty: 'RoleSelector.NEXT',
+    additionalProperties: {
+      //@ts-expect-error
+      altUserId: user?.id
+    }
+  };
+  const result$ = sendNextSegmentEvent(withAdditionalProperty);
   const logger = createLogger('in-plg/components/NoviceToPro/GetStartedFreetrial');
   result$.errors().once(error => {
     logger.error(`Failed to send Page Load event : ${error}`, error);
