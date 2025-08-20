@@ -74,6 +74,7 @@ export default connectTo(
   },
   function AgentView({ agentSnapshotsResult, accountConfig }) {
     const unitKeys = useObservable(getUnitKeys(), []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
+
     if (!accountConfig) {
       return <LoadingIndicator type="dark" />;
     }
@@ -86,7 +87,6 @@ export default connectTo(
             pageRootName: pageNames.agents
           }}
         />
-
         <Switch>
           <Route path={'*/dashboard'} component={Dashboard} />
 
@@ -172,7 +172,6 @@ export default connectTo(
             </Sticky>
           </Route>
         </Switch>
-
         <Footer />
       </>
     );

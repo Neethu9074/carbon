@@ -109,11 +109,7 @@ export default function PatternRecognition() {
       <Breadcrumbs />
       <section className={locals.content}>
         <KpiGridRow sizes={[3]}>
-          <KpiCard
-            title={patterRecognitionLocalisationStrings.currentPatterns}
-            headingVariant="heading-2"
-            noTooltipOnTitle
-          >
+          <KpiCard title={patterRecognitionLocalisationStrings.currentPatterns} headingVariant="heading-2">
             <div className={locals.body}>
               <p className={locals.patterRecognitionContent}>
                 <span data-testid="patternRecognitionValue" className={locals.number}>

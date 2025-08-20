@@ -69,7 +69,7 @@ export default function LogVolumeDashboard() {
           <LoadingSkeleton className={locals.skeleton} />
         </>
       ) : errors && errors?.length > 0 ? (
-        <KpiCard title={localisationStrings.logVolumeTitle} noTooltipOnTitle iconClassName={locals.error}>
+        <KpiCard title={localisationStrings.logVolumeTitle} iconClassName={locals.error}>
           <Stack align="center" distribution="center">
             <span title={errors[0].message}>
               <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />
@@ -77,7 +77,7 @@ export default function LogVolumeDashboard() {
           </Stack>
         </KpiCard>
       ) : (
-        <KpiCard title={localisationStrings.logVolumeTitle} iconAction={logVolumeIcon} noTooltipOnTitle>
+        <KpiCard title={localisationStrings.logVolumeTitle} iconAction={logVolumeIcon}>
           <div className={locals.body}>
             <p className={locals.retentionContent}>
               <span data-testid="retentionValue" className={locals.number}>

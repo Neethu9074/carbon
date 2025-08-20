@@ -21,6 +21,15 @@ export const Default = { args: { borderless: false } };
 
 export const WithTitle = { args: { ...Default.args, value: 'Value', title: 'Title' } };
 
+export const WithTruncatedTitle = {
+  args: {
+    ...Default.args,
+    value: 'Value',
+    title:
+      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
+  }
+};
+
 export const WithRaw = { args: { ...WithTitle.args, value: '10ms', raw: true } };
 
 export const UndefinedValue = { args: { ...Default.args, title: 'Title' } };

@@ -69,7 +69,7 @@ export default function RetentionPeriodDashboard() {
     <>
       {!isLoading ? (
         hasError.error ? (
-          <KpiCard title={localisationStrings.currentRetentionPeriod} noTooltipOnTitle iconClassName={locals.error}>
+          <KpiCard title={localisationStrings.currentRetentionPeriod} iconClassName={locals.error}>
             <Stack align="center" distribution="center">
               <span title={hasError.message as string}>
                 <SvgIcon
@@ -82,7 +82,7 @@ export default function RetentionPeriodDashboard() {
             </Stack>
           </KpiCard>
         ) : (
-          <KpiCard title={localisationStrings.currentRetentionPeriod} iconAction={logRetentionIcon} noTooltipOnTitle>
+          <KpiCard title={localisationStrings.currentRetentionPeriod} iconAction={logRetentionIcon}>
             <div className={locals.body}>
               <p className={locals.retentionContent}>
                 <span data-testid="retentionValue" className={locals.number}>
