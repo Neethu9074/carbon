@@ -13,6 +13,7 @@ import { click as internalToggleClick } from 'in-components/MainNavigation/compo
 import SyntheticMonitoringMenuItem from 'in-client/js/CarbonUIShell/SyntheticMonitoringMenuItem';
 import CustomDashboardsMenuItem from 'in-client/js/CarbonUIShell/CustomDashboardsMenuItem';
 import ProfileMenu from 'in-components/MainNavigation/components/ProfileMenu/ProfileMenu';
+import SoftwareCatalogMenuItem from 'in-client/js/CarbonUIShell/SoftwareCatalogMenuItem';
 import VulnerabilitiesMenuItem from 'in-client/js/CarbonUIShell/VulnerabilitiesMenuItem';
 import InfrastructureMenuItem from 'in-client/js/CarbonUIShell/InfrastructureMenuItem';
 import ServiceLevelsMenuItem from 'in-client/js/CarbonUIShell/ServiceLevelsMenuItem';
@@ -30,6 +31,7 @@ import EventsMenuItem from 'in-client/js/CarbonUIShell/EventsMenuItem';
 import LogsMenuItem from 'in-client/js/CarbonUIShell/LogsMenuItem';
 import MoreMenuItem from 'in-client/js/CarbonUIShell/MoreMenuItem';
 import { playwithEnabled } from 'in-services/featureFlags';
+import { solisEnabled } from 'in-services/featureFlags';
 import Header from 'in-client/js/CarbonUIShell/Header';
 import { t } from 'in-i18n';
 
@@ -106,6 +108,13 @@ export default function CarbonUIShell() {
       <MenuItem isDivider />
       <SettingsMenuItem />
       {!playwithEnabled && <MoreMenuItem />}
+      {solisEnabled && (
+        // temporary solution, as requested while solis qa testing in July - will be removed for Sept. release
+        <>
+          <MenuItem isDivider />
+          <SoftwareCatalogMenuItem />
+        </>
+      )}
     </UIShell>
   );
 }

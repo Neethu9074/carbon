@@ -35,6 +35,7 @@ import {
   playwithEnabled,
   timeOutSessionEnabled,
   solisEnabled,
+  solisInstanaNativeShellEnabled,
   infraExploreDataEnabled,
   syntheticsEnabled,
   vsphereEnabled,
@@ -170,7 +171,7 @@ export default function App() {
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">
-                  {window.RUNTIME_CONTEXT === 'solis' ? (
+                  {solisEnabled && !solisInstanaNativeShellEnabled ? (
                     <>
                       <solis-nav />
                       {/**   when rendering in solis context, there will be no instana native shell

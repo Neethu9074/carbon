@@ -24,8 +24,14 @@ interface EntitySelectionProviderProps {
   incident: Event;
 }
 
-const determineEntitySelectionFromIncident = (incident: Event): string => {
+const determineEntitySelectionFromIncident = (incident: Event): string | null => {
   // get first root cause
+  const rootCauses = getRootCauses(incident);
+
+  // if no root cause found
+  if (rootCauses.length === 0) {
+    return null;
+  }
   const firstRootCause = getRootCauses(incident)[0];
 
   // extract snapshot id or entity id depending on type of entity

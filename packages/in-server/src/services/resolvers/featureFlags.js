@@ -903,6 +903,16 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'solisTestCatalogEnabled',
+    instanaCtlKey: 'feature.solis.test.catalog.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'solisInstanaNativeShellEnabled',
+    instanaCtlKey: 'solis.instana.native.shell.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sloBurnRateEnabled',
     instanaCtlKey: 'feature.slo.burnRate.enabled',
     defaultValue: true
