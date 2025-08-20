@@ -516,6 +516,7 @@
     "viewSwitcherLabelPlatforms": "Platforms",
     "viewSwitcherCustomDashboards": "Custom dashboards",
     "viewSwitcherLabelNutanix": "Nutanix",
+    "viewSwitcherLabelSoftwareCatalog": "Software Catalog",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
     "profileMenu_profileLink": "Profile",

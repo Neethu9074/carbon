@@ -176,6 +176,8 @@ module.exports = {
   sloLiteEnabled: true,
   sloFullEnabled: true,
   solisEnabled: false,
+  solisTestCatalogEnabled: true,
+  solisInstanaNativeShellEnabled: false,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
   tealiumPrivacyEnabled: true,
   relatedEventsDatagridEnabled: true,
