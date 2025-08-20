@@ -76,14 +76,23 @@ function useDashboard(basePath: string, tab: string) {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    (
-      testId: string,
-      testLabel: string,
-      timeConfig?: TimeConfig,
-      failedStatusFilter?: boolean,
-      locationLabelFilters?: string[],
-      locationIds?: string
-    ) => {
+    ({
+      runType = 'Scheduled',
+      testId,
+      testLabel,
+      timeConfig,
+      failedStatusFilter,
+      locationLabelFilters,
+      locationIds
+    }: {
+      testId: string;
+      runType?: string;
+      testLabel?: string;
+      timeConfig?: TimeConfig;
+      failedStatusFilter?: boolean;
+      locationLabelFilters?: string[];
+      locationIds?: string;
+    }) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = `${basePath}${tab}`;
@@ -108,6 +117,8 @@ function useDashboard(basePath: string, tab: string) {
       if (locationLabelFilters != null && locationLabelFilters.length > 0) {
         setOrDeleteMatrixKey(clonedLocation, tab, matrixLocationLabels, stringify(locationLabelFilters));
       }
+
+      setOrDeleteMatrixKey(location, syntheticsDashboard, 'runType', runType);
 
       return createHref(clonedLocation);
     },

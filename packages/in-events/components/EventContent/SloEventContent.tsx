@@ -59,6 +59,7 @@ export default function SloEventContent({ event, snapshot }: SloEventContentProp
               sloLabel={sloLabel}
               entityType={entityType}
               entityId={entityId}
+              sloConfig={sloConfig}
               entityLabel={entityLabel}
               boundaryScope={boundaryScope}
             />

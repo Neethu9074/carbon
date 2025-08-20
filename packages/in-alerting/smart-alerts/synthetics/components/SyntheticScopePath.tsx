@@ -37,7 +37,9 @@ export default function SyntheticScopePath({
       iconType: 'lib_synthetic',
       label: syntheticTestLabel,
       href:
-        syntheticTestId != null ? getSyntheticTestDashboard(syntheticTestId, syntheticTestLabel, timeConfig) : undefined
+        syntheticTestId != null
+          ? getSyntheticTestDashboard({ testId: syntheticTestId, testLabel: syntheticTestLabel, timeConfig })
+          : undefined
     });
   }
 

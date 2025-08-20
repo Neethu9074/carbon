@@ -4,6 +4,7 @@
  */
 
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { just } from '@instana/observables';
@@ -14,26 +15,31 @@ import {
   isServiceEntity,
   isEndpointEntity,
   isWebsiteEntityType,
-  isInfraEntityType
+  isInfraEntityType,
+  isSyntheticEntityType
 } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
+import MultiEntityLabel from 'in-service-levels/components/Shared/MultiEntityLabel';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { getSloConfiguration } from 'in-service-levels/api/sloConfiguration';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
+import { loadEntities } from 'in-service-levels/utils/loadEntities';
 import { Duration } from 'in-events/components/EventDetailsKPIs';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { hasError, isLoading } from 'in-services/util/result';
 import EventIcon from 'in-events/components/EventIcon';
 import { UNKNOWN_LABEL } from 'in-sdk/snapshot/legacy';
 import { isNotBlank } from 'in-services/util/string';
-import { isLoading } from 'in-services/util/result';
 import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
+import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -119,9 +125,8 @@ export const OnEntity = connectTo(
   props => {
     const {
       rawEvent,
-      rawEvent: { entityType, entityLabel, plugin, smartAlert, aggregated }
+      rawEvent: { entityType, entityLabel, plugin, smartAlert, aggregated, entityId, id }
     } = props;
-
     if (isNotBlank(entityLabel)) {
       // use entity label of the event right away if available
       return {
@@ -143,17 +148,30 @@ export const OnEntity = connectTo(
       };
     }
 
+    if (isSyntheticEntityType(entityType)) {
+      return {
+        labels: getEvent(id)
+          .filter(event => !isEmpty(event))
+          .flatMap(event => getSloConfiguration(event.getIn(['metadata', 'sloId'])))
+          .filter(slo => !isLoading(slo) && !hasError(slo))
+          .flatMap(slo => loadEntities(slo.data.entity))
+          .filter(entities => !isLoading(entities) && !hasError(entities))
+          .map(entities => entities.data.map(({ label }) => label))
+      };
+    }
+
     return {
       label: getEntity(rawEvent)
         .filter(entity => !isLoading(entity))
         .map(entity => getLabel(entityType, entity))
     };
   },
-  function OnEntity({ rawEvent, label, smallColumn }) {
-    if (!label) {
+  function OnEntity({ rawEvent, label, smallColumn, labels }) {
+    if (!label && (!labels || labels.length === 0)) {
       return null;
     }
-
+    const hasMultipleLabels = labels && labels.length > 1;
+    const displayLabel = labels && labels.length === 1 ? [labels] : label;
     return (
       <div
         className={classNames({
@@ -162,9 +180,12 @@ export const OnEntity = connectTo(
         })}
       >
         <PluginIcon className={locals.entityIcon} size="s" plugin={rawEvent.plugin} />
-        <div className={locals.smallColumn} title={label}>
-          {label}
-        </div>
+        {!hasMultipleLabels && (
+          <div className={locals.smallColumn} title={displayLabel}>
+            {displayLabel}
+          </div>
+        )}
+        {hasMultipleLabels && <MultiEntityLabel entityType={'test'} labels={labels} />}
       </div>
     );
   }

@@ -1897,7 +1897,11 @@
       "components": {
         "timeOptionsDropdown_minute": "Minutes",
         "timeOptionsDropdown_hour": "Hours",
-        "timeOptionsDropdown_day": "Days"
+        "timeOptionsDropdown_day": "Days",
+        "syntheticScopeTable" : {
+          "searchPlaceholder": "Search synthetic tests",
+          "title": "Synthetic tests ({{count}})"
+        }
       },
       "validators": {
         "noEmptySloIds": "Please select at least one SLO.",

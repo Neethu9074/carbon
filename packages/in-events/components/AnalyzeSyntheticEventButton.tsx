@@ -31,7 +31,14 @@ export default function AnalyzeSyntheticEventButton({
   const getSyntheticTestResultDashboard = useSyntheticTestResultDashboard();
 
   const linkToUA = urlWithoutQueryParameter(
-    getSyntheticTestResultDashboard(testId, syntheticTestLabel, timeConfig, true, [locationLabel], locationId)
+    getSyntheticTestResultDashboard({
+      testId,
+      testLabel: syntheticTestLabel,
+      timeConfig,
+      failedStatusFilter: true,
+      locationLabelFilters: [locationLabel],
+      locationIds: locationId
+    })
   );
 
   return (
