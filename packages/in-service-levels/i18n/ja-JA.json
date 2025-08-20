@@ -263,6 +263,12 @@
     "errorEmptyGoodFilter": "適切なフィルターを定義する必要があります",
     "errorEqualTagFilter": "適切なフィルターと不適切なフィルターは同一であってはなりません",
     "nameAndTagsTitle": "詳細の設定",
+    "bindTimezoneLabel": "タイムゾーンをバインドする",
+    "currentTimezoneMessage": "あなたの現在のタイムゾーンは{{timezone}}です。",
+    "disabledToggleLabel": "無効化",
+    "enabledToggleLabel": "有効にする",
+    "selectedTimezoneMessage": "SLOのタイムゾーンは{{timezone}}に設定されています。",
+    "selectTimezoneMessage": "タイム・ゾーンの選択",
     "sloNameLabel": "SLO 名",
     "sloNamePlaceholder": "名前の入力",
     "tagsLabel": "タグ (オプション)",
@@ -328,16 +334,20 @@
       "timeWindowType_dynamic": "動的時間枠",
       "timeWindowType_rolling": "ローリング時間枠",
       "timeWindowType_fixed": "固定時間枠",
-      "configuredTimeWindow": "設定 SLO 時間枠:",
+      "configuredTimeWindow": "設定された SLO 時間枠",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "開始時刻: {{startDay}}、{{startTime}}",
-      "matchedSLOTimeWindow": "一致する SLO 時間枠: ",
-      "matchedSLOTimeWindow_plural": "一致する SLO 時間枠: ",
-      "matchedSLOTimeWindow_0": "一致する SLO 時間枠: ",
-      "matchedSLOTimeWindow_1": "一致する SLO 時間枠: ",
-      "matchedSLOTimeWindow_2": "一致する SLO 時間枠: ",
+      "matchedSLOTimeWindow": "SLOの時間枠に合わせる",
+      "matchedSLOTimeWindow_plural": "SLOの時間枠に合わせる",
+      "matchedSLOTimeWindow_0": "SLOの時間枠に合わせる",
+      "matchedSLOTimeWindow_1": "SLOの時間枠に合わせる",
+      "matchedSLOTimeWindow_2": "SLOの時間枠に合わせる",
       "noMatchedSLOTimeWindow": "一致する時間枠が見つかりません",
-      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
+      "currentTimezone": "現在のタイムゾーンは {{timezone}} に設定されています。",
+      "editSloTimezone": "SLOタイムゾーンの編集",
+      "sloCreatedTimezone": "このSLOは {{sloTimezone}} で作成されました。",
+      "timezone": "タイムゾーン： {{sloTimezone}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "構成が不完全なため、プレビューを使用できません。",
@@ -509,7 +519,8 @@
         "timeWindowLabel": "時間枠",
         "durationLabel": "長さ",
         "startDateLabel": "開始日",
-        "startTimeLabel": "開始時刻"
+        "startTimeLabel": "開始時刻",
+        "timezoneLabel": "タイム・ゾーン"
       }
     }
   },

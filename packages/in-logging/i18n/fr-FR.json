@@ -88,7 +88,6 @@
       "patternRecognitionSet": {
         "gotIt": "J'ai compris",
         "cancel": "Annuler",
-        "gettingStarted": "Mise en route",
         "howDoesItWorks": "Comment cela fonctionne-t-il ?",
         "firstDescription_0": "La reconnaissance des modèles de journal entraîne un algorithme d'IA à découvrir des modèles récurrents dans vos journaux. En analysant de grands volumes de journaux, il est capable de reconnaître les parties variables et statiques des journaux et d'y découvrir des modèles. \n\n L'algorithme d'IA se base uniquement sur les messages de votre journal et ne les partage pas avec les journaux d'autres clients. Cela assure la confidentialité et la sécurité de vos données.",
         "howWillHelpMe": "Comment cela va-t-il m'aider ?",
@@ -97,7 +96,19 @@
         "popHoverSecondDescription": "En analysant de grands volumes de journaux, il est capable de reconnaître les parties variables et statiques des journaux et d'y découvrir des modèles.\n\nL'algorithme d'IA se base uniquement sur les messages de votre journal et ne les partage pas avec les journaux d'autres clients. Cela assure la confidentialité et la sécurité de vos données",
         "hotItWorks": "Fonctionnement",
         "popHoverFirstDescription": "La reconnaissance des modèles de journal entraîne un algorithme d'IA à découvrir des modèles récurrents dans vos journaux. ",
-        "aiExpained": "Explication de l'IA"
+        "aiExpained": "Explication de l'IA",
+        "currentPatterns": "Modèles actuels",
+        "total": "Total",
+        "discoveredPatterns": "Modèles découverts",
+        "tableDescription": "Gérez les modèles utilisés lors du filtrage et du regroupement.",
+        "id": "ID",
+        "name": "Nom",
+        "patternsSample": "Échantillon de modèles",
+        "state": "Etat",
+        "noLogsDiscovered": "Aucun modèle de journal n'a été découvert pour le moment.",
+        "noLogsDiscoveredDescription": "La reconnaissance des modèles de journal est encore en cours. En raison du volume important de données, les résultats peuvent mettre plus de temps à s'afficher. Revenez ultérieurement.",
+        "enabled": "Activé",
+        "disabled": "Désactivé"
       }
     }
   }

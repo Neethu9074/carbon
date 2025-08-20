@@ -4,41 +4,15 @@
     "createTest": {
       "buttonLabel": "Incluir teste sintético",
       "dialogTitle": "Criar teste sintético",
-      "noLocationFound": "Desculpe! Nenhum local encontrado",
       "noApplicationsFound": "Nenhum aplicativo localizado",
       "noMatchingFound": "Nenhum aplicativo correspondente localizado",
-      "titles": {
-        "step1": "Etapa 1: Tipo de seleção",
-        "step2": "Etapa 2: Detalhes da solicitação",
-        "step3": "Etapa 3: Planejamento",
-        "step4": "Etapa 4: Fornecer detalhes",
-        "step5": "Etapa 5: associar"
-      },
-      "selectTest": {
-        "title": "Qual tipo de teste sintético você gostaria de criar"
-      },
-      "scheduling": {
-        "title": "Planejamento"
-      },
       "requestStep": {
-        "title": "Especificar solicitação",
-        "subTitle": "Terminal",
-        "labelOperation": "Método de HTTP",
         "labelUrl": "URL",
-        "popSubTitle": "Ponto de presença",
-        "uploadScriptTitle": "Fazer upload do script",
         "failureToReadFileContent": "Falha ao ler o conteúdo do arquivo: {{error}}",
         "unsupportedFileFormat": "O arquivo .{{extension}} não é compatível",
-        "emptyScriptFileError": "Código vazio. Nada a validar.",
-        "enterTheScriptMessage": "Inserir o script aqui",
-        "privatePoPLabel": "Privado",
-        "managedPoPLabel": "gerenciado"
+        "emptyScriptFileError": "Código vazio. Nada a validar."
       },
       "basicDetails": {
-        "title": "Qual é o nome desse teste de API simples (ação HTTP)",
-        "scriptTitle": "Qual é o nome desse teste de script de API (script HTTP)",
-        "webpageActionTitle": "Qual é o nome desse teste simples do navegador (ação da página da web)",
-        "browserScriptTitle": "Qual é o nome desse teste de script do navegador?",
         "labelName": "Nome do teste",
         "labelDescription": "Descrição (opcional)",
         "labelFrequency": "Frequência (minuto)",
@@ -49,56 +23,23 @@
       "bluePrint": {
         "title": "Quando usar?",
         "apiSimple": {
-          "name": "API simples",
-          "headline": "API simples (ação HTTP)",
           "whenToUse": {
             "line1": "Use um teste de API simples (ação HTTP) para testar uma única API de REST"
-          },
-          "tipsForUsing": {
-            "title": "Dicas para usar",
-            "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
-            "line2": "Etapa 2: insira o método de HTTP e a URL da página da web que deseja testar. Em seguida, escolha um ou mais locais. Um local representa um Ponto de presença sintético implementado.",
-            "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
-            "line4": "Etapa 4: na seção Nome e descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
           }
         },
         "apiScript": {
-          "name": "Script de API",
-          "headline": "Script de API (script HTTP)",
           "whenToUse": {
             "line1": "Use um teste de script de API (script HTTP) e um script com base em Node.js para testar a sequência de múltiplas APIs de REST"
-          },
-          "tipsForUsing": {
-            "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
-            "line2": "Etapa 2: use a opção Fazer upload do script para fazer upload de um arquivo de script de teste node.js. Em seguida, escolha um ou mais locais. Um local representa um Ponto de presença sintético implementado.",
-            "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
-            "line4": "Etapa 4: na seção Nome do teste e Descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
           }
         },
         "browserSimple": {
-          "name": "Navegador simples",
-          "headline": "Navegador simples (ação da página da web)",
           "whenToUse": {
             "line1": "Use um teste de navegador simples quando desejar testar uma única página da web quanto a erros de HTTP."
-          },
-          "tipsForUsing": {
-            "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
-            "line2": "Etapa 2: insira a URL da página da web que deseja testar. Em seguida, escolha um ou mais locais. Um local representa um Ponto de presença sintético implementado.",
-            "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
-            "line4": "Etapa 4: na seção Nome e descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
           }
         },
         "browserScript": {
-          "name": "Script do navegador",
-          "headline": "Script do navegador (script do navegador)",
           "whenToUse": {
             "line1": "Use um teste de script de navegador quando desejar simular as interações do usuário com seu aplicativo da web usando um script JavaScript ou do Selenium."
-          },
-          "tipsForUsing": {
-            "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
-            "line2": "Etapa 2: use a opção Fazer upload do script para fazer upload de um arquivo de script IDE JavaScript ou Selenium. Em seguida, escolha um ou mais locais. Um local representa um Ponto de presença sintético implementado.",
-            "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
-            "line4": "Etapa 4: na seção Nome do teste e Descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
           }
         },
         "certificateCheck": {
@@ -124,7 +65,6 @@
         "invalidHost": "O formato do host não é válido"
       },
       "advancedMode": {
-        "switchModeButton": "Alternar para o modo avançado",
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "Tipo de teste selecionado",
           "rightListLabel": "Tipo de teste",
@@ -155,7 +95,7 @@
         "scheduleTitle": "Planejamento: Como este teste será executado?",
         "identifyLabel": "Identificar",
         "identifyTitle": "Identificar: o que o teste vai fazer?",
-        "teamsCalloutMessage": "Ao adicionar equipes, as permissões dos membros da equipe serão baseadas nas funções atribuídas na equipe. Os testes com equipes associadas também serão refletidos na página de equipes nas configurações.",
+        "teamsCalloutMessage": "Ao incluir equipes, as permissões dos membros da equipe serão baseadas nas funções designadas na equipe. {{syntheticTab}} com equipes associadas também será refletido na página de equipes nas configurações.",
         "customPropertiesTitle": "Propriedades customizadas (opcional)",
         "frequency": "Esse teste será executado a cada {{frequencyValue}} minutos.",
         "frequencyHours": "Este teste será executado a cada {{frequencyHours}} horas.",
@@ -205,7 +145,6 @@
           "browserUploadFileDescription": "Você pode fazer upload de um único arquivo .js ou .cjs, um arquivo .zip contendo arquivos .js ou .cjs agrupados, ou um script .side gravado pelo Selenium IDE.",
           "node22BrowserUploadFileDescription": "É possível fazer upload de um único arquivo .js, .cjs ou .mjs, um arquivo .zip contendo arquivos .js, .cjs ou .mjs em um pacote configurável ou um script .side gravado pelo Selenium IDE.",
           "sideFileUploadedMessage": "Os scripts Selenium não podem ser modificados ou validados",
-          "bundleFileNotSupportedMessage": "O arquivo não suportado é selecionado. Os pacotes configuráveis são suportados somente no modo avançado.",
           "timeoutFieldLabel": "Tempo limite (opcional)",
           "timeUnitsLabel": "Unidades de tempo",
           "timeoutFieldOptionMinutes": "minutos (m)",
@@ -383,9 +322,7 @@
     },
     "updateTest": {
       "dialogTitle": "Editar teste de {{syntheticType}}",
-      "buttonSave": "Salvar",
-      "scriptSavedMessage": "Script incluído",
-      "bundleSavedMessage": "Os scripts em pacote configurável foram incluídos"
+      "buttonSave": "Salvar"
     },
     "createLocation": {
       "newLocation": "Incluir local",
@@ -558,7 +495,7 @@
         "noMobileAppsAssociated": "Nenhum aplicativo móvel associado.",
         "nodMobileAppAssociatedWithTest": "Nenhum aplicativo móvel associado ao teste selecionado"
       },
-      "testLabel": "Nome",
+      "testLabel": "Nome do Teste",
       "status": "Status",
       "frequencySubText": "A cada {{count}} minuto",
       "frequencySubText_plural": "A cada {{count}} minutos",
@@ -614,7 +551,28 @@
         "associationsSidePanelTitle": "Associações ({{totalAssociations}})",
         "associationsNameHeader": "Nome",
         "associationsHealthHeader": "Funcionamento"
-      }
+      },
+      "filterPanel": {
+        "typeLabel": "Tipo",
+        "locationLabel": "Posição",
+        "associationLabel": "Associação",
+        "applicationLabel": "Aplicativo",
+        "searchPlaceholder": "Localizar classificação",
+        "sortLabel": "Classificar",
+        "selectAllLabel": "Selecionar tudo ({{totalEntityCount}})",
+        "viewAllLabel": "Vizualizar tudo ({{totalEntityCount}})"
+      },
+      "resultsList": {
+        "statusLabel": "Status",
+        "startTimeLabel": "Iniciado",
+        "responseTimeLabel": "Tempo de resposta",
+        "retryCountLabel": "Contagem de novas tentativas",
+        "errorMessageLabel": "Mensagem de erro",
+        "errorHeader": "Falha ao carregar dados",
+        "noDataHeader": "Nenhum resultado disponível",
+        "noDataDescription": "Não houve resultados recuperados para o intervalo de tempo selecionado."
+      },
+      "actionLoadingIconDescription": "carregando"
     },
     "locationList": {
       "locationLiveModeDisabled": "O modo em tempo real não é aplicável na página de locais sintéticos",
@@ -925,8 +883,7 @@
       "testsApplied": "Testes aplicados",
       "filterApplied": "Filtro aplicado",
       "violationsCount": "{{violationsCount}} falhas",
-      "testsCount": "{{testsCount}} testes",
-      "numberOfFailures": "Alerta de falha"
+      "testsCount": "{{testsCount}} testes"
     },
     "configuration": {
       "configurationTitle": "Configuração de teste {{testType}}",
@@ -960,6 +917,7 @@
       "associatedApplication": "Aplicativo associado",
       "noApplicationAssociated": "Não há nenhum aplicativo associado",
       "configScriptTitle": "Script",
+      "configScriptTitleWithFileName": "Script ({{fileName}})",
       "configScriptFileName": "Nome do arquivo",
       "noScriptFileFound": "Não há nenhum arquivo de script localizado.",
       "noCustomProperties": "Não há nenhuma propriedade customizada definida para este teste.",
@@ -1048,6 +1006,20 @@
         "cancelButtonLabel": "Cancelar",
         "deletionSuccess": "A credencial foi excluída."
       }
+    }
+  },
+  "components": {
+    "dataTable": {
+      "filterPanel": {
+        "title": "Filtro",
+        "closeButtonLabel": "Fechar",
+        "cancelButtonLabel": "Cancelar",
+        "applyButtonLabel": "Aplicar"
+      },
+      "noDataHeader": "Dados não disponíveis",
+      "noDataDescription": "Não foram recuperados dados para o intervalo de tempo selecionado.",
+      "errorHeader": "Falha ao carregar dados",
+      "searchText": "Procura"
     }
   }
 }

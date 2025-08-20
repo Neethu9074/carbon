@@ -61,7 +61,11 @@
         "progressBarTitle": "Etape 2 : Fournissez les détails",
         "headline": "Fournissez des détails",
         "perspectiveName": "Nom de la perspective",
-        "perspectiveDescription": "Description"
+        "perspectiveDescription": "Description",
+        "failedToLoad": "Échec du chargement des équipes",
+        "selectTeams": "Sélectionner les équipes",
+        "teams": "Equipes",
+        "information": "Informations"
       }
     },
     "errorMessages": {

@@ -67,14 +67,14 @@
       "totalDataIngestEntitlement": "データ・インジェスト・エントリメント合計",
       "actualDataIngest": "実際のデータ - 取り込み",
       "onDemandDataIngest": "オンデマンド・データ・インジェスト",
-      "noData": "データなし"
+      "csvExporter": "CSV にエクスポート"
     },
     "timePresets": {
       "last7Days": "過去 7 日間",
       "last30Days": "過去 30 日間",
       "last365Days": "過去 365 日間",
       "thisMonth": "今月",
-      "lastMonth": "前月"
+      "lastMonth": "先月"
     },
     "presentationPresets": {
       "distinct": "個別値",
@@ -129,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "2 つのアプリケーション・パースペクティブの作成",
         "oneAlertSetUpAndActivated": "1 つのアラートのセットアップとアクティブ化",
         "oneWebsiteMonitored": "1 つの Web サイトのモニター",
-        "fiveUsers": "5 人のユーザー"
+        "fiveUsers": "5 人のユーザー",
+        "notStarted": "未開始",
+        "tenantUnit": "テナント・ユニット"
       },
       "adoptionKPIs": {
         "applicationPerspective": "アプリケーション・パースペクティブ",
@@ -161,6 +163,17 @@
         "metric_custom_dashboards": "カスタム・ダッシュボード",
         "metric_releases": "リリース"
       },
+      "sparkChartMetricsV2": {
+        "metric_applications": "AP",
+        "metric_reportingapplications": "APの報告",
+        "metric_websites": "Web サイト",
+        "metric_all_alerts": "アラート",
+        "metric_active_alerts": "アクティブ・アラート",
+        "metric_mobile_apps": "アプリ",
+        "metric_alert_channels": "アラート・チャネル",
+        "metric_custom_dashboards": "カスタム・ダッシュボード",
+        "metric_releases": "リリース・マーカー／リリース"
+      },
       "userUsage": "ユーザー使用状況",
       "userSummary": "ユーザー・サマリー",
       "totalUser": "合計ユーザー数",
@@ -180,6 +193,9 @@
     "accountAndBilling": "アカウントと請求",
     "tabs": {
       "usage": "使用法",
+      "dataUsage": "データ使用量",
+      "consumptionOverview": "消費概要",
+      "addOns": "アドオン",
       "technologiesReporting": "テクノロジー・レポート",
       "accountInformation": "アカウント情報",
       "entitlements": "資格",
@@ -198,6 +214,11 @@
     },
     "emptyPage": {
       "subtitle": "表示可能なデータがありません"
+    },
+    "label": {
+      "unit": "ユニット",
+      "timeRange": "時刻範囲",
+      "values": "値"
     }
   }
 }

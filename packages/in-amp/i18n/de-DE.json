@@ -67,7 +67,7 @@
       "totalDataIngestEntitlement": "Nutzungsrecht zur gesamten Datenaufnahme",
       "actualDataIngest": "Tatsächliche Datenaufnahme",
       "onDemandDataIngest": "On-Demand Datenaufnahme",
-      "noData": "Keine Daten"
+      "csvExporter": "In CSV exportieren"
     },
     "timePresets": {
       "last7Days": "Letzte 7 Tage",
@@ -129,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "2 Anwendungsperspektiven erstellt",
         "oneAlertSetUpAndActivated": "1 Alert eingerichtet und aktiviert",
         "oneWebsiteMonitored": "1 Website überwacht",
-        "fiveUsers": "5 Benutzer"
+        "fiveUsers": "5 Benutzer",
+        "notStarted": "Nicht gestartet",
+        "tenantUnit": "Tenant-Einheit"
       },
       "adoptionKPIs": {
         "applicationPerspective": "Anwendungsperspektive",
@@ -161,6 +163,17 @@
         "metric_custom_dashboards": "Benutzerdefinierte Dashboards",
         "metric_releases": "Releases"
       },
+      "sparkChartMetricsV2": {
+        "metric_applications": "APs",
+        "metric_reportingapplications": "Berichterstellungs-APs",
+        "metric_websites": "Websites",
+        "metric_all_alerts": "Alerts",
+        "metric_active_alerts": "Aktive Alerts",
+        "metric_mobile_apps": "Apps",
+        "metric_alert_channels": "Alertkanäle",
+        "metric_custom_dashboards": "Benutzerdefinierte Dashboards",
+        "metric_releases": "Freigabemarker/Freigaben"
+      },
       "userUsage": "Benutzerverwendung",
       "userSummary": "Benutzerzusammenfassung",
       "totalUser": "Benutzer insgesamt",
@@ -180,6 +193,9 @@
     "accountAndBilling": "Konto und Abrechnung",
     "tabs": {
       "usage": "Nutzung",
+      "dataUsage": "Datennutzung",
+      "consumptionOverview": "Nutzungsübersicht",
+      "addOns": "Add-ons",
       "technologiesReporting": "Berichterstattung zu Technologien",
       "accountInformation": "Kontoinformationen",
       "entitlements": "Nutzungsrechte",
@@ -198,6 +214,11 @@
     },
     "emptyPage": {
       "subtitle": "Keine Daten verfügbar"
+    },
+    "label": {
+      "unit": "Einheit",
+      "timeRange": "Zeitbereich",
+      "values": "Werte"
     }
   }
 }

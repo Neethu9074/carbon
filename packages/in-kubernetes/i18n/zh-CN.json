@@ -48,6 +48,7 @@
     "statefulSets": "有状态集",
     "cronJobs": "CronJobs",
     "k8SServices": "K8s 服务",
+    "pod": "Pod",
     "pods": "Pod",
     "persistentVolume": "持久卷",
     "persistentVolumes": "持久卷",
@@ -277,7 +278,9 @@
       "podsTitle": "无可用的 pod",
       "podsDescription": "在所选时间范围内未检索到任何 pod。",
       "endpointsTitle": "无可用的端点",
-      "endpointsDescription": "在所选时间范围内未检索到任何端点。"
+      "endpointsDescription": "在所选时间范围内未检索到任何端点。",
+      "containersTitle": "无可用容器",
+      "containersDescription": "所选时间范围内未检索到任何容器。"
     },
     "kubecost": {
       "costByDeployment": "按部署计算的成本",
@@ -301,7 +304,8 @@
       "namespace": "名称空间",
       "idleCost": "闲置成本",
       "viewInKubeCost": "在 Kubecost 中查看",
-      "coreCountByCluster": "vCPU",
+      "coreCountByCluster": "每个集群的 vCPU",
+      "totalCoreCount": "vCPU 总计",
       "noKubecostData": "使用 Kubecost 为此集群启用成本监控。\n 要配置集成，请按照文档中的 [以下步骤] 进行操作。\n\n[按照以下步骤]：https://ibm.biz/kubecost",
       "totalClusterCost": "集群总成本（最近 14 天）",
       "workloadEfficiency": "工作负载效率",
@@ -328,13 +332,16 @@
     },
     "filesystemCapacity": "文件系统容量",
     "filesystemAvailable": "可用文件系统",
+    "filesystemUsage": "文件系统使用率",
     "filesystemResources": "文件系统资源",
     "memoryAvailable": "可用内存",
     "cpuUtilization": "CPU 利用率",
     "preview": "预览",
     "cpuTime": "CPU 时间",
     "memoryWorkingset": "内存工作集",
-    "memoryRss": "内存 RSS"
+    "memoryRss": "内存 RSS",
+    "memoryPageFaults": "内存页故障",
+    "memoryMajorPageFaults": "内存主要页面故障"
   },
   "cloudNative": {
     "unhealthyNodes": "运行状况不佳的节点数",
@@ -350,10 +357,6 @@
     "switchToCardView": "切换至卡视图",
     "switchToTableView": "切换到表视图",
     "sortingOptions": {
-      "unhealthyNodesCriticals": "运行状况不良的节点（严重）",
-      "unhealthyNodesWarnings": "运行状况不良的节点（警告）",
-      "unhealthyDeploymentsCritical": "运行状况不良的部署（严重）",
-      "unhealthyDeploymentsWarnings": "运行状况不良的部署（警告）",
       "sortBy": "排序依据",
       "sortOrder": "排序",
       "name": "名称"

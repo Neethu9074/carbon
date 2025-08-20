@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "Attiva incident",
     "alertPropertyInfosLabelDescription": "Descrizione",
     "noChannelSelectedText": "Nessun canale aggiunto. Per iniziare fare clic su \"Seleziona canali di avviso\".",
+    "noChannelSelectedDetailPage": "Non sono stati ancora aggiunti canali per ricevere notifiche di avviso.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtri aggiuntivi",
     "groupBy": "Raggruppa per",
     "noChannelAvailable": "Nessun canale di avviso disponibile",
@@ -158,7 +159,6 @@
     "descriptionUnsupportedOperator": "Operatore non supportato: {{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "Aggiungi avviso smart",
     "createSmartAlert": "Crea avviso smart",
     "applicationSmartAlert": "Avviso smart dell'applicazione",
     "globalApplicationSmartAlert": "Applicazione globale Avvisi Smart",
@@ -517,8 +517,6 @@
         "noData": "Non è stato configurato nessun avviso smart. Fai clic sul pulsante qui sotto per configurare i tuoi primi avvisi smart.",
         "noPersmissionToCreateGlobalSmartAlert": "Non si dispone dell'autorizzazione per configurare gli avvisi smart. Contattare l'amministratore.",
         "noPermissionGlobalSmartAlertEdit": "Non si dispone dell'autorizzazione per eseguire questa azione",
-        "labelGlobalSmartAlertsList": "Avvisi smart di applicazione globali ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "Avvisi smart applicazione ({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "Applicazione globale Avvisi Smart",
         "labelSmartAlertsTable": "Avvisi Smart per le applicazioni",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -644,7 +642,7 @@
         },
         "timeThreshold": {
           "title": "Imposta quando le violazioni attivano gli avvisi",
-          "description": "Specificare il tipo di avviso e di persistenza, quindi impostare il trigger di avviso."
+          "description": "Perfezionare i criteri di avviso per migliorare la precisione."
         },
         "staticOrAdaptive": {
           "config": {
@@ -700,7 +698,10 @@
         "configuredAlerts": "Avvisi configurati ({{numberOfAlerts}})"
       },
       "columns": {
-        "name": "Nome"
+        "name": "Nome",
+        "severity": "Gravità",
+        "status": "Stato",
+        "action": "Azione"
       }
     },
     "form": {
@@ -790,7 +791,8 @@
       "ruleStatusCodeValueOptionNone": "Nessuno stato (client interrotto/non riuscito)",
       "warningThresholdValidator": "La soglia di avvertenza deve essere maggiore della soglia critica per gli operatori < e <=.",
       "criticalThresholdValidator": "La soglia critica deve essere maggiore della soglia di avvertenza per gli operatori > e >=.",
-      "sensitivityValidator": "La sensibilità critica dovrebbe essere inferiore alla sensibilità di avvertenza."
+      "sensitivityValidator": "La sensibilità critica dovrebbe essere inferiore alla sensibilità di avvertenza.",
+      "baselineEmpty": "baseline vuota"
     },
     "components": {
       "smartAlertDialog": {
@@ -1020,17 +1022,24 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Le violazioni persistono continuamente",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "Quando viene colpito un numero minimo di tracce",
           "labelUserImpactOfViolationsInSequence": "Quando un certo numero di utenti viene influenzato",
+          "violationsInSequenceLabel": "Quando si verifica una violazione in intervalli di tempo consecutivi",
+          "violationsInPeriodLabel": "Quando si verificano più violazioni in diversi intervalli di tempo",
           "granularity": {
             "description": "Le chiamate vengono effettuate in finestre di {{granularity}} minuti; ogni {{granularity}} minuti, viene calcolato un valore metrico per quella finestra"
           },
           "triggerAlert": "Attiva avviso",
           "triggerAfter": "Attiva dopo",
           "tracesImpacted": "le tracce sono interessate",
+          "numberOfTracesImpacted": "Numero di tracce interessate",
           "numberOfUserImpactPostLabel": "un numero maggiore di utenti è influenzato",
           "percentageOfUserImpactPostLabel": "o una % superiore di utenti viene influenzata",
           "outOfConsecutiveEvaluations": "su",
+          "violationAcross": "tra",
+          "violationsOccurrenceLabel": "Episodi di violazione",
           "persistenceType": "Tipo di persistenza",
           "numberOfConsecutiveViolationsPostLabel": "le finestre di {{granularity}} minuti consecutive hanno violazioni",
+          "bucketsOfTime": "{{granularity}}-intervalli di tempo di un minuto",
+          "numberOfConsecutiveViolationsLabel": "{{granularity}}-intervalli di tempo consecutivi che presentano violazioni",
           "static": "Statico",
           "thresholdValue": "Valore soglia"
         }
@@ -1237,7 +1246,6 @@
     "enable": "Abilita",
     "disable": "Disabilita",
     "synthetics": {
-      "addSmartAlert": "Aggiungi avviso smart sintetico",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} altri filtri",
@@ -1253,9 +1261,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "Soglia temporale",
-        "filterApplied": "Filtro applicato",
-        "violationsCount": "{{violationsCount}} errori",
         "numberOfFailures": "Generazione di avvisi di errore",
         "noDataHeader": "Nessun avviso smart sintetico",
         "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
@@ -1315,7 +1320,9 @@
         "alertTestEntityName": "test sintetico {{entityName}}",
         "testAttachedCount": "Test collegati ({{count}})",
         "testAttached": "Test collegati",
-        "noTestAvailable": "Nessun test sintetico disponibile"
+        "noTestAvailable": "Nessun test sintetico disponibile",
+        "noTestSelected": "Nessun test sintetico selezionato",
+        "noTestSelectedMessage": "Per iniziare, fare clic su Aggiungi test sintetici."
       },
       "details": {
         "threshold": "Soglia",
@@ -1424,7 +1431,6 @@
         "filter_0": "Filtri",
         "filter_1": "Filtri",
         "filter_2": "Filtri",
-        "filterApplied": "Filtro applicato",
         "noDataHeader": "Nessuna applicazione mobile Avvisi Smart",
         "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
       },
@@ -1619,7 +1625,8 @@
             "subtitle": {
               "staticThresholdType": "Soglia statica",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "forecastAlerting": "Previsioni di allerta"
+              "forecastAlerting": "Previsioni di allerta",
+              "adaptiveThreshold": "Soglia adattativa, {{metricName}}"
             }
           }
         },
@@ -1715,6 +1722,11 @@
           "header": "Dove si desidera ricevere la notifica di questo avviso?",
           "description": "Selezionare il/i destinatario/i di questo avviso"
         },
+        "scopeEntity": {
+          "entityType": "Tipo di entità",
+          "pleaseSelect": "Seleziona entità",
+          "loadingEntities": "Caricamento entità..."
+        },
         "scopeFilter": {
           "title": "Scegliere l'ambito dell'infrastruttura",
           "filter": "Filtro",
@@ -1746,10 +1758,10 @@
         }
       },
       "placeholderTitle": "Rilevato problema su {{metricName}}",
-      "descriptionIsHigherThan": "{{metricName}} è superiore a {{value}}.",
+      "descriptionIsHigherThan": "{{metricName}} è maggiore di {{value}}.",
       "descriptionIsHigherOrEqualTo": "{{metricName}} è maggiore o uguale a {{value}}.",
-      "descriptionIsLowerThan": "{{metricName}} è inferiore a {{value}}.",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} è inferiore o uguale a {{value}}.",
+      "descriptionIsLowerThan": "{{metricName}} è minore di {{value}}.",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} è minore o uguale a {{value}}.",
       "evaluationType": {
         "title": "Scegliere il proprio metodo di avviso",
         "custom": {
@@ -2004,7 +2016,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, soglia (Lunga) {{operator}} {{value}} e (Breve) < 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}, soglia {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}, soglia {{operator}} {{value}}",
-        "alertListSloAppliedColumnName": "SLO applicati",
         "sloApplied": "SLO applicati",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLO",

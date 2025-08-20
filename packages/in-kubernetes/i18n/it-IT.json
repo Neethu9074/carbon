@@ -48,6 +48,7 @@
     "statefulSets": "Set Stateful",
     "cronJobs": "CronJobs",
     "k8SServices": "Servizi K8s",
+    "pod": "Pod",
     "pods": "Pod",
     "persistentVolume": "Volume permanente",
     "persistentVolumes": "Volumi persistenti",
@@ -277,7 +278,9 @@
       "podsTitle": "Nessun pod disponibile",
       "podsDescription": "Non è stato richiamato alcun pod per l'intervallo di tempo selezionato.",
       "endpointsTitle": "Nessun endpoint disponibile",
-      "endpointsDescription": "Non è stato richiamato alcun endpoint per l'intervallo di tempo selezionato."
+      "endpointsDescription": "Non è stato richiamato alcun endpoint per l'intervallo di tempo selezionato.",
+      "containersTitle": "Nessun contenitore disponibile",
+      "containersDescription": "Non è stato richiamato alcun contenitore per la fascia oraria selezionata."
     },
     "kubecost": {
       "costByDeployment": "Costo in base all'impiego",
@@ -301,7 +304,8 @@
       "namespace": "Spazio dei nomi",
       "idleCost": "Costo di inattività",
       "viewInKubeCost": "Vista su Kubecost",
-      "coreCountByCluster": "vCPU",
+      "coreCountByCluster": "vCPU per cluster",
+      "totalCoreCount": "Totale vCPU",
       "noKubecostData": "Abilita il monitoraggio dei costi per questo cluster con Kubecost.\n Per configurare l'integrazione, [seguire questa procedura] nella documentazione.\n\n[seguire questa procedura]:https://ibm.biz/kubecost",
       "totalClusterCost": "Costo totale del cluster (ultimi 14 giorni)",
       "workloadEfficiency": "Efficienza del carico di lavoro",
@@ -328,13 +332,16 @@
     },
     "filesystemCapacity": "Capacità del filesystem",
     "filesystemAvailable": "Filesystem disponibile",
+    "filesystemUsage": "Utilizzo del file system",
     "filesystemResources": "Risorse del filesystem",
     "memoryAvailable": "Memoria disponibile",
     "cpuUtilization": "Utilizzo CPU",
     "preview": "Anteprima",
     "cpuTime": "Tempo CPU",
     "memoryWorkingset": "Memoria del set di lavoro",
-    "memoryRss": "Memoria RSS"
+    "memoryRss": "Memoria RSS",
+    "memoryPageFaults": "Errori della pagina di memoria",
+    "memoryMajorPageFaults": "Errori della pagina di memoria principale"
   },
   "cloudNative": {
     "unhealthyNodes": "Nodi non integri",
@@ -350,10 +357,6 @@
     "switchToCardView": "Passa alla vista a schede",
     "switchToTableView": "Passa alla vista tabella",
     "sortingOptions": {
-      "unhealthyNodesCriticals": "Nodi non integri (critici)",
-      "unhealthyNodesWarnings": "Nodi non integri (avvertenze)",
-      "unhealthyDeploymentsCritical": "Distribuzioni non integre (critiche)",
-      "unhealthyDeploymentsWarnings": "Distribuzioni non integre (avvertenze)",
       "sortBy": "Ordina per",
       "sortOrder": "Criterio di ordinamento",
       "name": "Nome"

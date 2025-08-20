@@ -67,14 +67,14 @@
       "totalDataIngestEntitlement": "数据采集权利总数",
       "actualDataIngest": "实际数据采集",
       "onDemandDataIngest": "按需数据采集",
-      "noData": "没有数据"
+      "csvExporter": "导出为 CSV"
     },
     "timePresets": {
       "last7Days": "过去 7 天",
       "last30Days": "过去 30 天",
       "last365Days": "过去 365 天",
       "thisMonth": "本月",
-      "lastMonth": "上个月"
+      "lastMonth": "最近 1 个月"
     },
     "presentationPresets": {
       "distinct": "不同值",
@@ -129,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "已创建 2 个应用程序透视图",
         "oneAlertSetUpAndActivated": "已设置并激活 1 个警报",
         "oneWebsiteMonitored": "已监视 1 个网站",
-        "fiveUsers": "5 个用户"
+        "fiveUsers": "5 个用户",
+        "notStarted": "未启动",
+        "tenantUnit": "租户单元"
       },
       "adoptionKPIs": {
         "applicationPerspective": "应用程序透视图",
@@ -161,6 +163,17 @@
         "metric_custom_dashboards": "定制仪表板",
         "metric_releases": "版本"
       },
+      "sparkChartMetricsV2": {
+        "metric_applications": "AP",
+        "metric_reportingapplications": "报告 AP",
+        "metric_websites": "Web 站点",
+        "metric_all_alerts": "警报",
+        "metric_active_alerts": "活动警报",
+        "metric_mobile_apps": "应用程序",
+        "metric_alert_channels": "警报通道",
+        "metric_custom_dashboards": "定制仪表板",
+        "metric_releases": "发行版标记/发行版"
+      },
       "userUsage": "用户使用情况",
       "userSummary": "用户摘要",
       "totalUser": "用户总数",
@@ -180,6 +193,9 @@
     "accountAndBilling": "账户和记账",
     "tabs": {
       "usage": "用法",
+      "dataUsage": "数据使用量",
+      "consumptionOverview": "使用概览",
+      "addOns": "附加组件",
       "technologiesReporting": "技术报告",
       "accountInformation": "账户信息",
       "entitlements": "权利",
@@ -198,6 +214,11 @@
     },
     "emptyPage": {
       "subtitle": "无可用数据"
+    },
+    "label": {
+      "unit": "单元",
+      "timeRange": "时间范围",
+      "values": "值"
     }
   }
 }

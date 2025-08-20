@@ -15,6 +15,7 @@
   "memoryAllocated": "할당된 메모리",
   "hypervisorTypes": "하이퍼바이저 유형",
   "clusterArch": "클러스터 아키텍처",
+  "version": "버전",
   "dashboards": {
     "system": "시스템",
     "wait": "대기",

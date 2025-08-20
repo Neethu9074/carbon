@@ -67,7 +67,7 @@
       "totalDataIngestEntitlement": "총 데이터 수집 권한",
       "actualDataIngest": "실제 데이터 수집",
       "onDemandDataIngest": "온디맨드 데이터 수집",
-      "noData": "데이터 없음"
+      "csvExporter": "CSV로 내보내기"
     },
     "timePresets": {
       "last7Days": "지난 7일",
@@ -129,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "2개의 애플리케이션 퍼스펙티브 작성됨",
         "oneAlertSetUpAndActivated": "1개의 경보 설정 및 활성화됨",
         "oneWebsiteMonitored": "1개의 웹 사이트 모니터됨",
-        "fiveUsers": "5명의 사용자"
+        "fiveUsers": "5명의 사용자",
+        "notStarted": "시작되지 않음",
+        "tenantUnit": "테넌트 유닛"
       },
       "adoptionKPIs": {
         "applicationPerspective": "애플리케이션 퍼스펙티브",
@@ -161,6 +163,17 @@
         "metric_custom_dashboards": "사용자 정의 대시보드",
         "metric_releases": "릴리스"
       },
+      "sparkChartMetricsV2": {
+        "metric_applications": "AP",
+        "metric_reportingapplications": "AP 보고",
+        "metric_websites": "웹 사이트",
+        "metric_all_alerts": "경보",
+        "metric_active_alerts": "활성 경보",
+        "metric_mobile_apps": "앱",
+        "metric_alert_channels": "경보 채널",
+        "metric_custom_dashboards": "사용자 정의 대시보드",
+        "metric_releases": "릴리스 마커/릴리스"
+      },
       "userUsage": "사용자 사용",
       "userSummary": "사용자 요약",
       "totalUser": "총 사용자",
@@ -180,6 +193,9 @@
     "accountAndBilling": "계정 및 청구",
     "tabs": {
       "usage": "사용량",
+      "dataUsage": "데이터 사용량",
+      "consumptionOverview": "이용 개요",
+      "addOns": "추가 기능",
       "technologiesReporting": "기술 보고",
       "accountInformation": "계정 정보",
       "entitlements": "인타이틀먼트",
@@ -198,6 +214,11 @@
     },
     "emptyPage": {
       "subtitle": "사용 가능한 데이터 없음"
+    },
+    "label": {
+      "unit": "단위",
+      "timeRange": "시간 범위",
+      "values": "값"
     }
   }
 }

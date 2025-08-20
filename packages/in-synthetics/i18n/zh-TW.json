@@ -4,41 +4,15 @@
     "createTest": {
       "buttonLabel": "新增綜合測試",
       "dialogTitle": "建立綜合測試",
-      "noLocationFound": "抱歉！找不到任何位置",
       "noApplicationsFound": "找不到任何應用程式",
       "noMatchingFound": "找不到相符的應用程式",
-      "titles": {
-        "step1": "步驟 1：選取類型",
-        "step2": "步驟 2：要求詳細資料",
-        "step3": "步驟 3：排程",
-        "step4": "步驟 4：提供詳細資料",
-        "step5": "步驟 5: 關聯"
-      },
-      "selectTest": {
-        "title": "您要建立何種類型的綜合測試"
-      },
-      "scheduling": {
-        "title": "排程"
-      },
       "requestStep": {
-        "title": "指定要求",
-        "subTitle": "端點",
-        "labelOperation": "HTTP 方法",
         "labelUrl": "URL",
-        "popSubTitle": "存在點",
-        "uploadScriptTitle": "上傳 Script",
         "failureToReadFileContent": "無法讀取檔案內容：{{error}}",
         "unsupportedFileFormat": ".{{extension}} 檔案不受支援",
-        "emptyScriptFileError": "空代碼。 沒有要驗證的項目。",
-        "enterTheScriptMessage": "在這裡輸入 Script",
-        "privatePoPLabel": "專用",
-        "managedPoPLabel": "受管理"
+        "emptyScriptFileError": "空代碼。 沒有要驗證的項目。"
       },
       "basicDetails": {
-        "title": "此 API 簡式（HTTP 動作）測試的名稱是什麼",
-        "scriptTitle": "此 API Script (HTTP Script) 測試的名稱是什麼",
-        "webpageActionTitle": "此「瀏覽器簡式（網頁動作）」測試的名稱",
-        "browserScriptTitle": "此「瀏覽器 Script」測試的名稱",
         "labelName": "測試的名稱",
         "labelDescription": "說明（選用）",
         "labelFrequency": "頻率（分鐘）",
@@ -49,56 +23,23 @@
       "bluePrint": {
         "title": "何時使用？",
         "apiSimple": {
-          "name": "API 簡式",
-          "headline": "API 簡式 (HTTP 動作)",
           "whenToUse": {
             "line1": "使用 API 簡式（HTTP 動作）測試來測試單一 REST API"
-          },
-          "tipsForUsing": {
-            "title": "使用秘訣",
-            "line1": "步驟 1：選擇您要建立的測試類型。",
-            "line2": "步驟 2：輸入您要測試之網頁的 HTTP 方法及 URL。 然後選擇一或多個位置。 位置代表已部署的綜合服務據點。",
-            "line3": "步驟 3：選擇測試頻率（1 ~ 120 分鐘）。",
-            "line4": "步驟 4：在名稱和說明區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
         },
         "apiScript": {
-          "name": "API Script",
-          "headline": "API Script (HTTP Script)",
           "whenToUse": {
             "line1": "使用 API Script (HTTP Script) 測試及 Node.js 型 Script 來測試多個 Rest API 的順序"
-          },
-          "tipsForUsing": {
-            "line1": "步驟 1：選擇您要建立的測試類型。",
-            "line2": "步驟 2：使用「上傳 Script」選項來上傳 node.js 測試 Script 檔。 然後選擇一或多個位置。 位置代表已部署的綜合服務據點。",
-            "line3": "步驟 3：選擇測試頻率（1 ~ 120 分鐘）。",
-            "line4": "步驟 4：在測試和說明的名稱區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
         },
         "browserSimple": {
-          "name": "瀏覽器簡式",
-          "headline": "瀏覽器簡式（網頁動作）",
           "whenToUse": {
             "line1": "當您想要測試單一網頁是否有 HTTP 錯誤時，請使用「瀏覽器簡式」測試。"
-          },
-          "tipsForUsing": {
-            "line1": "步驟 1：選擇您要建立的測試類型。",
-            "line2": "步驟 2：輸入您要測試之網頁的 URL。 然後選擇一或多個位置。 位置代表已部署的綜合服務據點。",
-            "line3": "步驟 3：選擇測試頻率（1 ~ 120 分鐘）。",
-            "line4": "步驟 4：在名稱和說明區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
         },
         "browserScript": {
-          "name": "瀏覽器 Script",
-          "headline": "瀏覽器 Script（瀏覽器 Script）",
           "whenToUse": {
             "line1": "當您想要使用 JavaScript 或 Selenium IDE Script 來模擬使用者與 Web 應用程式的互動時，請使用「瀏覽器 Script」測試。"
-          },
-          "tipsForUsing": {
-            "line1": "步驟 1：選擇您要建立的測試類型。",
-            "line2": "步驟 2：使用「上傳 Script」選項來上傳 JavaScript 或 Selenium IDE Script 檔。 然後選擇一或多個位置。 位置代表已部署的綜合服務據點。",
-            "line3": "步驟 3：選擇測試頻率（1 ~ 120 分鐘）。",
-            "line4": "步驟 4：在測試和說明的名稱區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
         },
         "certificateCheck": {
@@ -124,7 +65,6 @@
         "invalidHost": "主機格式無效"
       },
       "advancedMode": {
-        "switchModeButton": "切換至進階模式",
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "選取的測試類型",
           "rightListLabel": "測試類型",
@@ -155,7 +95,7 @@
         "scheduleTitle": "排程：這次測試將如何進行？",
         "identifyLabel": "識別",
         "identifyTitle": "識別：測試將執行什麼動作？",
-        "teamsCalloutMessage": "新增團隊時，團隊成員的權限將根據在團隊中指派的角色而定。 與團隊相關的測試也將反映在設定中的團隊頁面中。",
+        "teamsCalloutMessage": "新增團隊時，團隊成員的權限將基於團隊中指派的角色。與團隊相關聯的 {{syntheticTab}} 也將反映在設定的團隊頁面中。",
         "customPropertiesTitle": "自訂內容（選用）",
         "frequency": "此測試將每隔 {{frequencyValue}} 分鐘執行一次。",
         "frequencyHours": "此測試將每隔 {{frequencyHours}} 小時執行一次。",
@@ -205,7 +145,6 @@
           "browserUploadFileDescription": "您可以上傳單一 .js 或 .cjs 檔案、包含組合的 .js 或 .cjs 檔案的 .zip 檔案，或由 Selenium IDE 記錄的 .side Script。",
           "node22BrowserUploadFileDescription": "您可以上傳單一的 .js、.cjs 或 .mjs 檔案、一個包含這些檔案的 .zip 檔案，或由 Selenium IDE 錄製的 .side Script。",
           "sideFileUploadedMessage": "無法修改或驗證 Selenium Script",
-          "bundleFileNotSupportedMessage": "已選取不受支援的檔案。 只有在「進階模式」中才支援軟體組。",
           "timeoutFieldLabel": "逾時（選用）",
           "timeUnitsLabel": "時間單位",
           "timeoutFieldOptionMinutes": "分鐘 (m)",
@@ -383,9 +322,7 @@
     },
     "updateTest": {
       "dialogTitle": "編輯 {{syntheticType}} 測試",
-      "buttonSave": "儲存",
-      "scriptSavedMessage": "已新增 Script",
-      "bundleSavedMessage": "已新增組合 Script"
+      "buttonSave": "儲存"
     },
     "createLocation": {
       "newLocation": "新增位置",
@@ -558,7 +495,7 @@
         "noMobileAppsAssociated": "沒有相關聯的行動應用程式。",
         "nodMobileAppAssociatedWithTest": "沒有與所選測試相關的行動式應用程式"
       },
-      "testLabel": "名稱",
+      "testLabel": "測試名稱",
       "status": "狀態",
       "frequencySubText": "每 {{count}} 分鐘",
       "frequencySubText_plural": "每 {{count}} 分鐘",
@@ -614,7 +551,28 @@
         "associationsSidePanelTitle": "關聯 ({{totalAssociations}})",
         "associationsNameHeader": "名稱",
         "associationsHealthHeader": "性能"
-      }
+      },
+      "filterPanel": {
+        "typeLabel": "類型",
+        "locationLabel": "位置",
+        "associationLabel": "關聯",
+        "applicationLabel": "應用程式",
+        "searchPlaceholder": "尋找分類",
+        "sortLabel": "排序",
+        "selectAllLabel": "全部選取 ({{totalEntityCount}})",
+        "viewAllLabel": "檢視全部 ({{totalEntityCount}})"
+      },
+      "resultsList": {
+        "statusLabel": "狀態",
+        "startTimeLabel": "已開始",
+        "responseTimeLabel": "回應時間",
+        "retryCountLabel": "重試次數",
+        "errorMessageLabel": "錯誤訊息",
+        "errorHeader": "無法載入資料",
+        "noDataHeader": "無可用的結果",
+        "noDataDescription": "所選的時間範圍內未擷取到任何的結果。"
+      },
+      "actionLoadingIconDescription": "載入中"
     },
     "locationList": {
       "locationLiveModeDisabled": "即時模式不適用於綜合位置頁面",
@@ -925,8 +883,7 @@
       "testsApplied": "已套用測試",
       "filterApplied": "套用的過濾器",
       "violationsCount": "{{violationsCount}} 次失敗",
-      "testsCount": "{{testsCount}} 個測試",
-      "numberOfFailures": "失敗警示"
+      "testsCount": "{{testsCount}} 個測試"
     },
     "configuration": {
       "configurationTitle": "{{testType}} 測試配置",
@@ -960,6 +917,7 @@
       "associatedApplication": "相關聯的應用程式",
       "noApplicationAssociated": "沒有相關聯的應用程式",
       "configScriptTitle": "Script",
+      "configScriptTitleWithFileName": "Script ({{fileName}})",
       "configScriptFileName": "檔名",
       "noScriptFileFound": "找不到 Script 檔。",
       "noCustomProperties": "未定義此測試的自訂內容。",
@@ -1048,6 +1006,20 @@
         "cancelButtonLabel": "取消",
         "deletionSuccess": "認證已刪除"
       }
+    }
+  },
+  "components": {
+    "dataTable": {
+      "filterPanel": {
+        "title": "過濾器",
+        "closeButtonLabel": "關閉",
+        "cancelButtonLabel": "取消",
+        "applyButtonLabel": "套用"
+      },
+      "noDataHeader": "沒有可用的資料",
+      "noDataDescription": "未擷取到所選時間範圍內的資料。",
+      "errorHeader": "無法載入資料",
+      "searchText": "搜尋"
     }
   }
 }

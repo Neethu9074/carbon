@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "Tabella di confronto",
     "agents": "Agent",
+    "dataSources": "origini dati",
     "map": "Mappa",
     "infrastructure": "Infrastruttura",
     "snapshotVersions": "Versioni istantanea",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "Questa query ha troppi risultati. Delimitare la ricerca utilizzando un filtro più restrittivo oppure abbreviare l'intervallo di tempo e ripetere l'operazione.",
       "generalError": "Si è verificato un errore non previsto."
     },
+    "warningTitle": "Limite di esportazione superato",
+    "warning": "L'esportazione di {{count}} record supera il limite massimo. Saranno incluse solo le prime {{max}} voci e il processo potrebbe richiedere più tempo del solito per essere completato.",
     "entityTypes": "Tipi di entità {{count, parenthesis}}",
     "relatedInstances": "Analizza istanze"
   },
@@ -150,5 +153,43 @@
     "label": "Soglia",
     "critical": "Critico quando {{operator}} {{level}}",
     "warning": "Avviso quando {{operator}} {{level}}"
+  },
+  "customEntities": {
+    "labelDashboard": "Dashboard",
+    "saveChanges": "Salva le modifiche",
+    "discardChanges": "Ignorare le modifiche",
+    "addWidget": "Aggiungi widget",
+    "defaultDashboard": "Dashboard predefinito",
+    "dashboardsInfoWidgetDescription": "Aggiungi widget e seleziona le metriche da visualizzare sul dashboard per il tipo di entità personalizzata. \n\n Tutte le istanze che corrispondono a questo tipo di entità personalizzata verranno visualizzate utilizzando lo stesso dashboard.",
+    "dashboardsInfoWidgetTitle": "Questo è il dashboard personalizzato delle entità che è possibile modellare autonomamente",
+    "failSaveDashboard": "Impossibile salvare il dashboard.",
+    "successfulSaveDashboard": "Entità del dashboard aggiornata.",
+    "editDashboard": "Modifica dashboard per "
+  },
+  "collectorView": {
+    "otelCollector": "Collettore OpenTelemetry",
+    "restartCollector": "Riavvia collettore",
+    "editConfiguration": "Modifica configurazione",
+    "collectorConfig": "Configurazione del collettore",
+    "cpuTime": "Tempo CPU",
+    "collectorUptime": "Tempo di attività del collettore",
+    "memoryUsage": "Utilizzo della memoria",
+    "metricPointsAccepted": "Punti metrici accettati",
+    "logRecordsAccepted": "Record di log interessati",
+    "metricPointsExported": "Punti metrici esportati",
+    "logRecordsExported": "Punti log esportati",
+    "receiverMetrics": "Metriche del ricevitore",
+    "exporterMetrics": "Metriche dell'esportatore",
+    "collectorRestartingTitle": "Riavvio del collettore",
+    "collectorRestarting": "Il riavvio del collettore è stato eseguito correttamente.",
+    "collectorError": "Errore del collettore",
+    "configUpdateSuccessTitle": "Aggiornamento della configurazione completato correttamente",
+    "configUpdateSuccess": "La configurazione del collettore è stata aggiornata correttamente.",
+    "update": "Aggiorna",
+    "cancel": "Annulla",
+    "configuration": "Configurazione",
+    "exporter": "Programma di esportazione",
+    "processor": "Processore",
+    "receiver": "Ricevente"
   }
 }

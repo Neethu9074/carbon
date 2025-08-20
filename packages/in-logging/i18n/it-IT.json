@@ -88,7 +88,6 @@
       "patternRecognitionSet": {
         "gotIt": "Ok",
         "cancel": "Annulla",
-        "gettingStarted": "Guida introduttiva",
         "howDoesItWorks": "Come funziona?",
         "firstDescription_0": "Il riconoscimento dei modelli di log addestra un algoritmo di AI a scoprire i modelli ricorrenti nei propri log. Analizzando grandi volumi di log, è in grado di riconoscere le porzioni variabili e statiche dei log e di scoprirne i modelli. \n\n L'algoritmo di AI si basa esclusivamente sui messaggi di log del cliente e non li condivide con i log di altri clienti. Questo garantisce la privacy e la sicurezza dei dati del cliente.",
         "howWillHelpMe": "In che modo sarà utile?",
@@ -97,7 +96,19 @@
         "popHoverSecondDescription": "Analizzando grandi volumi di log, è in grado di riconoscere le porzioni variabili e statiche dei log e di scoprirne i modelli.\n\nL'algoritmo di AI si basa esclusivamente sui messaggi di log del cliente e non li condivide con i log di altri clienti. Questo garantisce la privacy e la sicurezza dei propri dati.",
         "hotItWorks": "Modalità di funzionamento",
         "popHoverFirstDescription": "Il riconoscimento dei modelli di log addestra un algoritmo di AI a scoprire i modelli ricorrenti nei propri log. ",
-        "aiExpained": "AI spiegata"
+        "aiExpained": "AI spiegata",
+        "currentPatterns": "Modelli correnti",
+        "total": "Totale",
+        "discoveredPatterns": "Modelli rilevati",
+        "tableDescription": "Gestire i modelli utilizzati per il filtraggio e il raggruppamento.",
+        "id": "ID",
+        "name": "Nome",
+        "patternsSample": "Campione di modelli",
+        "state": "Stato",
+        "noLogsDiscovered": "Non sono stati ancora rilevati modelli di log",
+        "noLogsDiscoveredDescription": "Il riconoscimento dei modelli di log è ancora in corso. A causa dell'elevato volume di dati, la visualizzazione dei risultati potrebbe richiedere più tempo. Controllare di nuovo successivamente.",
+        "enabled": "Abilitato",
+        "disabled": "Disabilitato"
       }
     }
   }

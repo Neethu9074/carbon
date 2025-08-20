@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "비교 표",
     "agents": "에이전트",
+    "dataSources": "데이터 원본",
     "map": "맵",
     "infrastructure": "인프라",
     "snapshotVersions": "스냅샷 버전",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "이 조회의 결과가 너무 많습니다. 보다 제한적인 필터를 사용하여 검색 범위를 좁히거나 시간 범위를 좁혀 다시 시도하십시오.",
       "generalError": "예상치 않은 오류가 발생했습니다."
     },
+    "warningTitle": "내보내기 한계 초과",
+    "warning": "{{count}}개의 레코드를 내보내면 최대 한계를 초과합니다. 처음 {{max}}개의 항목만 포함되며, 프로세스를 완료하는 데 평소보다 시간이 오래 걸릴 수 있습니다.",
     "entityTypes": "엔티티 유형 {{count, parenthesis}}",
     "relatedInstances": "인스턴스 분석"
   },
@@ -150,5 +153,43 @@
     "label": "임계값",
     "critical": "{{operator}} {{level}}인 경우 심각",
     "warning": "{{operator}} {{level}}인 경우 경고"
+  },
+  "customEntities": {
+    "labelDashboard": "대시보드",
+    "saveChanges": "변경사항 저장",
+    "discardChanges": "변경사항 취소",
+    "addWidget": "위젯 추가",
+    "defaultDashboard": "기본 대시보드",
+    "dashboardsInfoWidgetDescription": "위젯을 추가하고 사용자 정의 엔티티 유형에 대해 대시보드에 표시할 메트릭을 선택하십시오. \n\n 이 사용자 정의 엔티티 유형과 일치하는 모든 인스턴스는 동일한 대시보드를 사용하여 표시됩니다.",
+    "dashboardsInfoWidgetTitle": "직접 구성할 수 있는 사용자 정의 엔티티 대시보드",
+    "failSaveDashboard": "대시보드를 저장하는 데 실패했습니다.",
+    "successfulSaveDashboard": "엔티티 대시보드가 업데이트되었습니다.",
+    "editDashboard": "대시보드 편집 대상 "
+  },
+  "collectorView": {
+    "otelCollector": "OpenTelemetry 콜렉터",
+    "restartCollector": "콜렉터 다시 시작",
+    "editConfiguration": "구성 편집",
+    "collectorConfig": "콜렉터 구성",
+    "cpuTime": "CPU 시간",
+    "collectorUptime": "콜렉터 가동시간",
+    "memoryUsage": "메모리 사용량",
+    "metricPointsAccepted": "허용된 메트릭 포인트",
+    "logRecordsAccepted": "허용된 로그 레코드",
+    "metricPointsExported": "내보낸 메트릭 포인트",
+    "logRecordsExported": "내보낸 로그 포인트",
+    "receiverMetrics": "수신자 메트릭",
+    "exporterMetrics": "익스포터 메트릭",
+    "collectorRestartingTitle": "콜렉터 다시 시작 중",
+    "collectorRestarting": "콜렉터의 재시작이 성공적으로 시작되었습니다.",
+    "collectorError": "콜렉터 오류",
+    "configUpdateSuccessTitle": "구성 업데이트 성공",
+    "configUpdateSuccess": "콜렉터 구성이 성공적으로 업데이트되었습니다.",
+    "update": "업데이트",
+    "cancel": "취소",
+    "configuration": "구성",
+    "exporter": "수출자",
+    "processor": "프로세서",
+    "receiver": "수신자"
   }
 }

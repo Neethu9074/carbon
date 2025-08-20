@@ -122,6 +122,8 @@
     "formStateLabel": "상태"
   },
   "searchBar": {
+    "searchInput": "검색 입력",
+    "searchBar": "검색 표시줄",
     "usingTheSearchBar": "3D 맵, 비교 테이블 및 인시던트 보기를 필터링하는 데 Instana 동적 초점 검색 기능을 사용할 수 있습니다. 검색 표시줄에는\\n 부울 연산자뿐만 아니라 퍼지 및 와일드카드 검색을 사용하여 검색할 수 있는 광범위한 기능이 있습니다. 예를 들어, 다음\n조회는 CPU가 네 개 미만인 프로덕션 호스트로 보기를 제한합니다.\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## 구문\n동적 초점은 [lucene 조회 구문](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)을 활용하며 Lucene 표준과 다음과 같은 차이가 있습니다.\n- **기본 연산자:** `AND`\n- **구문 제한조건:** 은 [문서](https://ibm.biz/dynamic-focus-syntax-constraints)에 나열되어 있습니다.\n## 검색 표시줄 상호작용\n검색 표시줄은 검색 필드에 대한 자동 완성을 지원하며 입력하는 동안 lucene 조회를 구문 강조표시합니다.\n입력하면 검색 표시줄은 현재 입력과 일치하는 검색 필드를 제안합니다. `RETURN`을\n눌러 제안된 필드를 수락할 수 있습니다. `CTRL+SPACE` 를 눌러 자동 완성 팝업을 여십시오.\n## Lucene 조회 구문 치트 시트\n- **필드 검색:** `entity.host.cpu.count:>4`\n- **부울 연산자:** `entity.host.cpu.count:<4 AND entity.zone:production`\n- **그룹화:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n- **와일드카드 검색:** `entity.type:container*`\n\n자세한 정보는 [문서](https://ibm.biz/filtering-dynamic-focus)를 참조하십시오.",
     "filtersBtn": "필터",
     "filterPresetsMenuHeading": "필터",
@@ -296,18 +298,14 @@
     "columnizedContentUserInterface": "사용자 인터페이스",
     "columnizedContentBackend": "백엔드",
     "labelRegion": "지역",
-    "labelTag": "태그",
+    "labelTag": "버전",
     "labelCommit": "커미트",
-    "geo": {
-      "title": "지오 데이터"
-    },
     "ibm": "IBM",
     "copyRights": "Copyright © IBM Corp. 2020, 2023",
     "instana": "Instana",
     "close": "닫기",
     "maxMindDescription": "이 데이터에 포함된 GeoLite2 데이터의 생성자는 다음과 같습니다:",
     "maxMind": "MaxMind.",
-    "dynamicGraphDescription": "다음에서 환경 시각화를 참조하십시오:",
     "dynamicGraph": "동적 그래프 쇼케이스."
   },
   "blueprintFormMultistep": {
@@ -403,12 +401,10 @@
     "eventType_issue_0": "문제",
     "eventType_issue_1": "문제",
     "eventType_issue_2": "문제",
-    "openIssuesListPresenterActionsViewIssues": "{{eventType}} 보기",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} {{eventType}} 보기",
+    "viewOpenIssues": "미해결 문제 보기",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "진행 중인 {{eventType}} 로드 중…",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "진행 중인 {{eventType}}을(를) 로드하는 데 실패함",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}}개 진행 중인 {{eventType}}",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(가장 심각한 {{maxIssuesToShow}}개 표시)",
     "openIssuesListPresenterIssueDescriptionOmitted": "문제 설명이 생략되었습니다. 추가 세부사항은 이벤트의 세부사항 보기 내에서 확인할 수 있습니다.",
     "openIssuesListPresenterStarted": "시작됨",
     "noIssues": "문제 없음",
@@ -433,9 +429,9 @@
     "eventType_issue_1": "취약성",
     "eventType_issue_2": "취약성",
     "openIssuesListPresenterActionsViewIssues": "취약성 보기",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} 취약성 보기",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "미해결 취약점 로드 중...",
-    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "열린 취약점 로드 실패",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "미해결 취약점 로드 실패",
+    "viewOpenIssues": "취약성 보기",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}}개 미해결 취약점",
     "noVulnerabilities": "취약점 없음",
     "openVulnerabilities": "{{count}}개 취약점",
@@ -809,6 +805,7 @@
     }
   },
   "copyToClipboardButtonCopy": "복사",
+  "tooltipCopyToClipboard": "클립보드에 복사",
   "withEmptyStateFallbackTitleNoDataAvailable": "사용 가능한 데이터 없음",
   "queryBuilder": {
     "components": {

@@ -263,6 +263,12 @@
     "errorEmptyGoodFilter": "Un filtre approprié doit être défini",
     "errorEqualTagFilter": "Les filtres appropriés et les filtres médiocres ne doivent pas être identiques",
     "nameAndTagsTitle": "Définir les détails",
+    "bindTimezoneLabel": "Association du fuseau horaire",
+    "currentTimezoneMessage": "Votre fuseau horaire actuel est {{timezone}}.",
+    "disabledToggleLabel": "Désactiver",
+    "enabledToggleLabel": "Activer",
+    "selectedTimezoneMessage": "Le fuseau horaire du SLO est défini sur  {{timezone}}.",
+    "selectTimezoneMessage": "Sélectionner le fuseau horaire",
     "sloNameLabel": "Nom d'objectif du niveau de service",
     "sloNamePlaceholder": "Entrez un nom",
     "tagsLabel": "Etiquettes (facultatif)",
@@ -328,16 +334,20 @@
       "timeWindowType_dynamic": "Fenêtre de temps dynamique",
       "timeWindowType_rolling": "Fenêtre de temps glissante",
       "timeWindowType_fixed": "Fenêtre de temps fixe",
-      "configuredTimeWindow": "Fenêtre de temps d'objectif de niveau configurée :",
+      "configuredTimeWindow": "Fenêtre de durée SLO configurée",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "Heure de début : {{startDay}} , {{startTime}}",
-      "matchedSLOTimeWindow": "Fenêtre de temps d'objectif de niveau de service correspondante : ",
-      "matchedSLOTimeWindow_plural": "Fenêtres de temps d'objectif de niveau de service correspondantes : ",
-      "matchedSLOTimeWindow_0": "Fenêtre de temps d'objectif de niveau de service correspondante : ",
-      "matchedSLOTimeWindow_1": "Fenêtre de temps d'objectif de niveau de service correspondante : ",
-      "matchedSLOTimeWindow_2": "Fenêtres de temps d'objectif de niveau de service correspondantes : ",
+      "matchedSLOTimeWindow": "Fenêtre de durée SLO correspondante",
+      "matchedSLOTimeWindow_plural": "Fenêtres de durée SLO correspondantes",
+      "matchedSLOTimeWindow_0": "Fenêtre de durée SLO correspondante",
+      "matchedSLOTimeWindow_1": "Fenêtre de durée SLO correspondante",
+      "matchedSLOTimeWindow_2": "Fenêtres de durée SLO correspondantes",
       "noMatchedSLOTimeWindow": "Aucune fenêtre de temps correspondante n'a été trouvée",
-      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
+      "currentTimezone": "Votre fuseau horaire actuel est défini sur {{timezone}}.",
+      "editSloTimezone": "Modifier le fuseau horaire du SLO",
+      "sloCreatedTimezone": "Ce SLO a été créé dans {{sloTimezone}}",
+      "timezone": "Fuseau horaire : {{sloTimezone}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "L'aperçu n'est pas disponible car la configuration est incomplète.",
@@ -509,7 +519,8 @@
         "timeWindowLabel": "Fenêtre de temps",
         "durationLabel": "Longueur",
         "startDateLabel": "Date de début",
-        "startTimeLabel": "Heure de début"
+        "startTimeLabel": "Heure de début",
+        "timezoneLabel": "Fuseau horaire"
       }
     }
   },

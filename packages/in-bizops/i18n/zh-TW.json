@@ -61,7 +61,11 @@
         "progressBarTitle": "步驟 2：提供詳細資料",
         "headline": "提供詳細資料",
         "perspectiveName": "視景名稱",
-        "perspectiveDescription": "說明"
+        "perspectiveDescription": "說明",
+        "failedToLoad": "載入團隊失敗",
+        "selectTeams": "選取團隊",
+        "teams": "團隊",
+        "information": "資訊"
       }
     },
     "errorMessages": {

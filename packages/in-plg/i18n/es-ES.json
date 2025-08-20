@@ -258,6 +258,7 @@
         "configurationOptions": "Opciones de configuración",
         "monitoringGcr": "Supervisión de Google Cloud Run",
         "monitoringAwsFargateRuby": "Supervisión de AWS Fargate (Ruby)",
+        "monitoringAwsFargatePhp": "Supervisión de AWS Fargate (PHP)",
         "awsServiceDocumentation": "Documentación de Servicios AWS",
         "monitoringAwsLambda": "Supervisión de AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configuración de la supervisión de AWS Lambda",
@@ -273,7 +274,8 @@
       "nodejs8": "Node.js 8.x",
       "nodejs10Plus": "Node.js 10.x o posterior",
       "python2and3": "Python 2.7 y 3.x",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "php": "PHP"
     },
     "bosh": {
       "boshDirectorRuntimeConfig": "Configuración de tiempo de ejecución de BOSH Director",
@@ -562,7 +564,7 @@
     },
     "logging": {
       "title": "Registro de Instana",
-      "description": "Ahora acepta registros en cualquier lugar a través de OTel, y con una retención más larga de hasta 90 días como función adicional.",
+      "description": "Ahora aceptamos registros desde cualquier lugar a través de OTel, y ofrecemos una retención más prolongada de hasta 90 días como una función complementaria.",
       "buttonName": "Explorar ahora"
     },
     "turbonomic": {
@@ -578,7 +580,8 @@
     "startIntegrating": {
       "title": "Iniciar la integración de datos",
       "description": "Inicie la configuración de Instana y la integración de datos transparente instalando un agente.",
-      "buttonName": "Instalar agentes"
+      "buttonName": "Desplegar agente",
+      "newDescription": "Inicie la configuración de Instana y la integración fluida de datos instalando un agente o un recopilador."
     },
     "traceInteractions": {
       "title": "Rastrear interacciones",
@@ -848,7 +851,8 @@
         "addUser": "Añadir usuario",
         "documentation": "Documentación de IBM",
         "releaseNotes": "Notas del release",
-        "communityBlogsLink": "Blogs de la comunidad"
+        "communityBlogsLink": "Blogs de la comunidad",
+        "installDataSource": "Instalar una fuente de datos"
       },
       "toolTip": {
         "makeDefault": "Esta acción establece la página de inicio de Instana como su página de destino predeterminada, reemplazando cualquier panel de control personalizado que haya establecido."
@@ -969,7 +973,7 @@
       },
       "oTelCollector": {
         "emptyState_title": "Instale un recopilador de OpenTelemetry para empezar a visualizar datos",
-        "emptyState_linktext": "Más información sobre el recopilador Instana oTel",
+        "emptyState_linktext": "Más información sobre el recopilador Instana OTel",
         "emptyState_buttontext": "Instalación de un recopilador",
         "emptyState_subtitle": "Haga clic en Instalar un recopilador para buscar, desplegar y ejecutar un recopilador de OpenTelemetry."
       }
@@ -982,5 +986,43 @@
     "reportingStatus": "{{reporting}} {{datasource}} informando ({{nonReporting}} no informando)",
     "reporting": "Informes",
     "notReporting": "No informando"
+  },
+  "onboarding": {
+    "yourDashboard": "Su panel de control",
+    "gettingStarted": "cómo empezar",
+    "title": "Tareas de incorporación sugeridas",
+    "description": "Consulte las tareas sugeridas para beneficiarse al máximo de Instana.",
+    "taskLabel": "Tarea de incorporación",
+    "joinCommunityLink": "Únase a la comunidad de Instana",
+    "videotitle": "Vídeos guiados",
+    "videoDescription": "Vea nuestro catálogo de vídeos para que pueda configurar fácilmente su entorno.",
+    "video": "Vídeo",
+    "videoitem": {
+      "installation": "Instalación de Instana",
+      "addingAgent": "Añadir agentes",
+      "monitorWebsite": "Supervisar un sitio web"
+    },
+    "communityblogs": {
+      "title": "Blogs de la comunidad de Instana",
+      "description": "Únase a nuestra comunidad de Instana y descubra todas las interesantes novedades disponibles próximamente.",
+      "blogLabel": "Blog",
+      "gettingStartedBlogTitle": "Cómo empezar con Instana",
+      "gettingStartedBlogDescription": "Descubra más datos sobre Instana y obtenga toda la información que necesita para comenzar a utilizar el producto.",
+      "initialDeploymentBlogTitle": "Pasos iniciales de implementación con Instana",
+      "initialDeploymentBlogDescription": "Aprenda a supervisar sitios web, configurar alertas y mucho más con vídeos fáciles de seguir para cada uno de los temas."
+    },
+    "resource": {
+      "title": "Recursos",
+      "tryInstanaWithSampleData": "Pruebe Instana con datos de muestra",
+      "ibmDocumentation": "Documentación de IBM",
+      "community": "Comunidad",
+      "getSupport": "Obtener soporte",
+      "watchADemo": "Ver una demostración"
+    }
+  },
+  "accountBillingPushNotificationMessage": {
+    "description": "Ahora puede consultar su cuenta y la información de facturación en una página independiente de la configuración.",
+    "buttonText": "Ver la página",
+    "title": "Cuenta y facturación ahora en una página independiente"
   }
 }

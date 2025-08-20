@@ -88,7 +88,6 @@
       "patternRecognitionSet": {
         "gotIt": "知道了",
         "cancel": "取消",
-        "gettingStarted": "入门",
         "howDoesItWorks": "这如何工作？",
         "firstDescription_0": "日志模式识别用于训练 AI 算法，以发现日志中的重复模式。 通过分析大量日志，它能够识别日志中的可变和静态部分，并从中发现模式。 \n\n AI 算法仅依赖您的日志消息，不会与其他客户端的日志共享。 这确保了您的数据隐私和安全。",
         "howWillHelpMe": "对我有什么帮助？",
@@ -97,7 +96,19 @@
         "popHoverSecondDescription": "通过分析大量日志，它能够识别日志中的可变和静态部分，并从中发现模式。\n\nAI 算法仅依赖您的日志消息，不会与其他客户端的日志共享。 这确保了您数据的隐私和安全。",
         "hotItWorks": "运作方式",
         "popHoverFirstDescription": "日志模式识别用于训练 AI 算法，以发现日志中的重复模式。 ",
-        "aiExpained": "AI 解释"
+        "aiExpained": "AI 解释",
+        "currentPatterns": "当前模式",
+        "total": "总计",
+        "discoveredPatterns": "发现的模式",
+        "tableDescription": "管理用于过滤和分组的模式。",
+        "id": "标识",
+        "name": "名称",
+        "patternsSample": "模式样本",
+        "state": "状态",
+        "noLogsDiscovered": "尚未发现日志模式。",
+        "noLogsDiscoveredDescription": "日志模式识别仍在进行中。 由于数据量较大，结果可能需要较长时间才能出现。 请稍后重新检查。",
+        "enabled": "已启用",
+        "disabled": "已禁用"
       }
     }
   }

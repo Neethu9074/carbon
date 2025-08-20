@@ -122,6 +122,8 @@
     "formStateLabel": "州/省（縣/市）"
   },
   "searchBar": {
+    "searchInput": "搜尋輸入",
+    "searchBar": "搜尋列",
     "usingTheSearchBar": "「Instana 動態焦點」搜尋功能可用來過濾 3D 地圖、對照表和事故視圖。 搜尋列具有使用模糊和萬用字元搜尋以及布林運算子進行搜尋的廣泛能力。 例如，下列查詢會將視圖限制為具有少於四個\nCPU 的正式作業主機：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n\n## 語法\n「動態焦點」會運用 [lucene 查詢語法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)，但與 Lucene 標準之間存在下列差異：\n- **預設運算子：** `AND`\n- **語法限制項：** 列出在 [文件](https://ibm.biz/dynamic-focus-syntax-constraints)\n\n## 搜尋列互動\n搜尋列支援自動填寫搜尋欄位，並且將在您鍵入內容時，強調顯示 lucene 查詢的語法。\n輸入之後，搜尋列將提出符合現行輸入的搜尋欄位。 您可以按一下 `RETURN` 來接受提出的欄位。按一下 `Alt + /` 可開啟自動填寫蹦現畫面。\n\n## Lucene 查詢語法提要\n - **欄位式搜尋：** `entity.host.cpu.count:>4`\n - **布林運算子：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **群組：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **萬用字元搜尋：**`entity.type:container*`\n\n如需相關資訊，請參閱 [文件](https://ibm.biz/filtering-dynamic-focus)。",
     "filtersBtn": "過濾器",
     "filterPresetsMenuHeading": "過濾器",
@@ -296,18 +298,14 @@
     "columnizedContentUserInterface": "使用者介面",
     "columnizedContentBackend": "後端",
     "labelRegion": "地區",
-    "labelTag": "標籤",
+    "labelTag": "版本",
     "labelCommit": "確定",
-    "geo": {
-      "title": "地理資料"
-    },
     "ibm": "IBM",
     "copyRights": "Copyright © IBM Corp. 2020, 2023",
     "instana": "Instana",
     "close": "關閉",
     "maxMindDescription": "本資料包括 GeoLite2 資料，由下列所建立：",
     "maxMind": "MaxMind.",
-    "dynamicGraphDescription": "查看下列位置中您的環境可視化：",
     "dynamicGraph": "動態圖形展示。"
   },
   "blueprintFormMultistep": {
@@ -403,12 +401,10 @@
     "eventType_issue_0": "問題",
     "eventType_issue_1": "問題",
     "eventType_issue_2": "問題",
-    "openIssuesListPresenterActionsViewIssues": "檢視 {{eventType}}",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "檢視 {{openIssueCount}} {{eventType}}",
+    "viewOpenIssues": "檢視未解決的問題",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "正在載入開啟的 {{eventType}}...",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "無法載入開啟的 {{eventType}}",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 個開啟的 {{eventType}}",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "（顯示 {{maxIssuesToShow}} 個最嚴重的問題）",
     "openIssuesListPresenterIssueDescriptionOmitted": "已省略問題說明。可以在事件的詳細視圖內看見其他詳細資料。",
     "openIssuesListPresenterStarted": "開始時間",
     "noIssues": "沒有問題",
@@ -433,10 +429,10 @@
     "eventType_issue_1": "漏洞",
     "eventType_issue_2": "漏洞",
     "openIssuesListPresenterActionsViewIssues": "檢視漏洞",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "檢視 {{openIssueCount}} 個漏洞",
-    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "載入開啟的漏洞…",
-    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "無法載入開啟的漏洞",
-    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 個開啟的漏洞",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "正在載入未解決的漏洞…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "無法載入未解決的漏洞",
+    "viewOpenIssues": "檢視漏洞",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 個未解決的漏洞",
     "noVulnerabilities": "無漏洞",
     "openVulnerabilities": "{{count}} 個漏洞",
     "openVulnerabilities_plural": "{{count}} 個漏洞",
@@ -809,6 +805,7 @@
     }
   },
   "copyToClipboardButtonCopy": "複製",
+  "tooltipCopyToClipboard": "複製到剪貼簿",
   "withEmptyStateFallbackTitleNoDataAvailable": "沒有可用的資料",
   "queryBuilder": {
     "components": {

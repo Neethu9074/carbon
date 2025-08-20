@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "Vergleichstabelle",
     "agents": "Agenten",
+    "dataSources": "Datenquellen",
     "map": "Zuordnung",
     "infrastructure": "Infrastruktur",
     "snapshotVersions": "Momentaufnahmeversionen",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "Diese Abfrage hat zu viele Ergebnisse. Grenzen Sie Ihre Suche mit einem restriktiveren Filter ein oder grenzen Sie Ihren Zeitraum ein und versuchen Sie es erneut.",
       "generalError": "Ein unerwarteter Fehler ist aufgetreten."
     },
+    "warningTitle": "Überschreitung des Exportlimits",
+    "warning": "Der Export von {{count}} Datensätzen überschreitet den Maximalwert. Nur die ersten {{max}} Einträge werden berücksichtigt, und der Vorgang kann länger als üblich dauern.",
     "entityTypes": "Entitätstypen {{count, parenthesis}}",
     "relatedInstances": "Instanzen analysieren"
   },
@@ -150,5 +153,43 @@
     "label": "Schwellenwert",
     "critical": "Kritisch, wenn {{operator}} {{level}}",
     "warning": "Warnung, wenn {{operator}} {{level}}"
+  },
+  "customEntities": {
+    "labelDashboard": "Dashboards",
+    "saveChanges": "Änderungen speichern",
+    "discardChanges": "Änderungen verwerfen",
+    "addWidget": "Widget hinzufügen",
+    "defaultDashboard": "Standarddashboard",
+    "dashboardsInfoWidgetDescription": "Fügen Sie Widgets hinzu und wählen Sie Metriken aus, die auf dem Dashboard für den benutzerdefinierten Entitätstyp angezeigt werden sollen. \n\n Alle Instanzen, die diesem benutzerdefinierten Entitätstyp entsprechen, werden im selben Dashboard angezeigt.",
+    "dashboardsInfoWidgetTitle": "Dies ist Ihr individuelles Entitäten-Dashboard, das Sie selbst gestalten können.",
+    "failSaveDashboard": "Fehler beim Speichern des Dashboards.",
+    "successfulSaveDashboard": "Das Dashboard der Entität wurde aktualisiert.",
+    "editDashboard": "Dashboards bearbeiten für "
+  },
+  "collectorView": {
+    "otelCollector": "OpenTelemetry-Collector",
+    "restartCollector": "Collector neu starten",
+    "editConfiguration": "Konfiguration bearbeiten",
+    "collectorConfig": "Collectorkonfiguration",
+    "cpuTime": "CPU-Zeit",
+    "collectorUptime": "Collectorbetriebszeit",
+    "memoryUsage": "Speicherbelegung",
+    "metricPointsAccepted": "Metrische Punkte akzeptiert",
+    "logRecordsAccepted": "Protokolleinträge akzeptiert",
+    "metricPointsExported": "Metrische Punkte exportiert",
+    "logRecordsExported": "Protokollpunkte exportiert",
+    "receiverMetrics": "Empfängermetriken",
+    "exporterMetrics": "Exporteurmetriken",
+    "collectorRestartingTitle": "Collectorneustart",
+    "collectorRestarting": "Collecorneustart erfolgreich eingeleitet.",
+    "collectorError": "Collectorfehler",
+    "configUpdateSuccessTitle": "Konfigurationsaktualisierung erfolgreich",
+    "configUpdateSuccess": "Die Konfiguration des Collectors wurde erfolgreich aktualisiert.",
+    "update": "Aktualisieren!",
+    "cancel": "Abbrechen",
+    "configuration": "Konfiguration",
+    "exporter": "Exporteur",
+    "processor": "Prozessor",
+    "receiver": "Empfänger"
   }
 }

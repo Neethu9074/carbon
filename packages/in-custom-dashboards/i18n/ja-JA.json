@@ -16,9 +16,7 @@
     "editTeamsDialog": {
       "title": "編集チーム",
       "description": "このダッシュボードに関連付けるチームを選択します。",
-      "calloutMessage": "チームを追加することで、チーム・メンバーはこのダッシュボードを表示および編集できます。 設定のチーム・ページにも反映されます。",
-      "selectorLabel": "チーム",
-      "chooseTeams": "チームを選択する"
+      "calloutMessage": "チームを追加することで、チーム・メンバーはこのダッシュボードを表示および編集できます。 設定のチーム・ページにも反映されます。"
     },
     "grid": {
       "grid": {
@@ -295,6 +293,13 @@
       },
       "index": {
         "websitesBeacons": "Web サイト (ビーコン)"
+      },
+      "conversionGoals": {
+        "websiteSelect": "Web サイト",
+        "goalSelect": "変換ゴール",
+        "sessionsMetric": "変換セッション率",
+        "usersMetric": "変換ユーザー率",
+        "convertTimeMetric": "変換までの平均時間"
       }
     },
     "srcSyntheticMonitoring": {
@@ -477,7 +482,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - はじめに",
-        "text": "Instanaは、マイクロサービスやクラウドネイティブアプリケーションの管理に特別に設計され、最初かつ唯一の完全自動化されたアプリケーションパフォーマンス（APM）ソリューションです。\n\n始めるのは簡単です1。 まだ Instana にアクセスできない場合は、[Instana.com](https://www.instana.com) に進み、無料の試用版に登録します。\n2. 何百もの[サポートされているテクノロジー] (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies) のエコシステムを探索します。\n3. いずれかの [エージェント] (https://ibm.biz/installing-agent) を使用してデータ収集を開始します。\n4. ユース・ケースの [Instana の使用方法] (https://www.ibm.com/docs/en/obi/current?topic=using-instana) について説明します。\n5. 独自の [コア機能] (https://www.ibm.com/docs/en/obi/current?topic=core-capabilities) についてお読みください。\n6. [統合、SDK & API] (https://ibm.biz/integrations-sdks-apis) を使用して Instana を拡張します。\n\nこれで完了です。\n\nお探しのものが見つかりませんか? [documentation] (https: //www.ibm.com/docs/en/obi/current) にホップします。"
+        "text": "Instanaは、マイクロサービスやクラウドネイティブアプリケーションの管理に特別に設計され、最初かつ唯一の完全自動化されたアプリケーションパフォーマンス（APM）ソリューションです。\n\n始めるのは簡単です1。 まだ Instana にアクセスできない場合は、[Instana.com](https://www.instana.com) に進み、無料の試用版に登録します。\n2. サポートされている何百ものテクノロジー（https://www.ibm.com/docs/en/instana-observability/latest?topic=configuring-monitoring-supported-technologies）のエコシステムをご覧ください。\n3. いずれかの [エージェント] (https://ibm.biz/installing-agent) を使用してデータ収集を開始します。\n4. インスタナの使い方をあなたの使用例に合わせて学んでください（https://www.ibm.com/docs/en/instana-observability/latest?topic=using-instana）。\n5. 当社独自の[コア能力](https://www.ibm.com/docs/en/instana-observability/latest?topic=core-capabilities)についてお読みください。\n6. [統合、SDK & API] (https://ibm.biz/integrations-sdks-apis) を使用して Instana を拡張します。\n\nこれで完了です。\n\nお探しのものが見つかりませんか? [ドキュメント](https://www.ibm.com/docs/en/instana-observability/latest)にジャンプ！"
       },
       "formComp": {
         "whatULikeShow": "表示する項目",
@@ -636,7 +641,6 @@
         "timeBasedSli": "時間ベース、{{metricNameLabel}}"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "SLI を作成または編集するために必要な <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 権限がありません。",
         "sliList": "SLI リスト",
         "createSli": "SLI の作成"
       },

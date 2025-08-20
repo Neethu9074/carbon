@@ -61,7 +61,11 @@
         "progressBarTitle": "Schritt 2: Details angeben",
         "headline": "Details angeben",
         "perspectiveName": "Name der Perspektive",
-        "perspectiveDescription": "Beschreibung"
+        "perspectiveDescription": "Beschreibung",
+        "failedToLoad": "Teams konnten nicht geladen werden",
+        "selectTeams": "Teams auswählen",
+        "teams": "Teams",
+        "information": "Informationen"
       }
     },
     "errorMessages": {

@@ -304,6 +304,8 @@
     "none": "無",
     "dataSource_calls": "{{formattedCount}} 個呼叫",
     "dataSource_calls_plural": "{{formattedCount}} 個呼叫",
+    "dataSource_subtraces": "{{formattedCount}} 個子追蹤",
+    "dataSource_subtraces_plural": "{{formattedCount}} 個子追蹤",
     "dataSource_traces": "{{formattedCount}} 個追蹤",
     "dataSource_traces_plural": "{{formattedCount}} 個追蹤",
     "analyzeCallsOfThisTrace": "分析此追蹤的呼叫",
@@ -726,7 +728,7 @@
     "traces_erroneousCalls": "錯誤追蹤",
     "traces_errors": "錯誤追蹤率",
     "subtraces_latency": "持續時間",
-    "subtraces_subtraceDuration": "持續時間"
+    "subtraces_duration": "持續時間"
   },
   "viewLists": {
     "application": "應用程式",
@@ -791,6 +793,6 @@
   "labelSyntheticMonitoring": "綜合監視",
   "labelServiceLevels": "服務水準",
   "labelResourceOptimizations": "最佳化",
-  "titleResourceOverutilization": "過度使用的資源（CPU 使用率超過 {{thresholdUpperLimit}}%）",
-  "titleResourceUnderutilization": "資源利用不足（{{thresholdLowerLimit}}% CPU 用量）"
+  "titleResourceOverutilization": "資源使用過高（CPU 使用率超過 {{thresholdUpperLimit}}）",
+  "titleResourceUnderutilization": "資源使用不足（CPU 使用率低於 {{thresholdLowerLimit}}）"
 }

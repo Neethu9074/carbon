@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "Löst Vorfall aus",
     "alertPropertyInfosLabelDescription": "Beschreibung",
     "noChannelSelectedText": "Keine Kanäle hinzugefügt. Beginnen Sie, indem Sie auf 'Alertkanäle auswählen' klicken.",
+    "noChannelSelectedDetailPage": "Es wurden noch keine Kanäle für den Empfang von Warnmeldungen hinzugefügt.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Zusätzliche Filter",
     "groupBy": "Gruppieren nach",
     "noChannelAvailable": "Keine Alertkanäle verfügbar",
@@ -46,7 +47,7 @@
       "alertingChartLabelViolations": "Verstöße",
       "alertingChartLabelWarningViolations": "Warnung Verstöße",
       "alertingChartLabelCriticalViolations": "Kritische Verstöße",
-      "alertingChartLabelWarningThreshold": "Schwellenwert für Warnung",
+      "alertingChartLabelWarningThreshold": "Warnungsschwellenwert",
       "alertingChartLabelCriticalThreshold": "Kritischer Schwellenwert",
       "alertingChartLabelForecast": "Prognose",
       "alertingChartLabelUpperBound": "Obergrenze",
@@ -158,7 +159,6 @@
     "descriptionUnsupportedOperator": "Nicht unterstützter Operator: {{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "Smart Alert hinzufügen",
     "createSmartAlert": "Intelligenten Alert erstellen",
     "applicationSmartAlert": "Smart Alert für Anwendung",
     "globalApplicationSmartAlert": "Smart Alert für globale Anwendungen",
@@ -517,8 +517,6 @@
         "noData": "Keine Smart Alerts konfiguriert. Klicken Sie auf die Schaltfläche unten, um Ihre ersten Smart Alerts zu konfigurieren.",
         "noPersmissionToCreateGlobalSmartAlert": "Sie verfügen nicht über die Berechtigung zum Konfigurieren von Smart Alerts. Wenden Sie sich an Ihren Administrator.",
         "noPermissionGlobalSmartAlertEdit": "Sie haben nicht die Berechtigung, diese Aktion durchzuführen",
-        "labelGlobalSmartAlertsList": "Smart Alerts für globale Anwendungen ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "Smart Alerts für individuelle Anwendungen ({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "Globale Anwendung Smart Alerts",
         "labelSmartAlertsTable": "Anwendung Smart Alerts",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -644,7 +642,7 @@
         },
         "timeThreshold": {
           "title": "Festlegen, wenn Verstöße Alerts auslösen",
-          "description": "Geben Sie den Alert- und Persistenztyp an und setzen Sie dann den Alertauslöser."
+          "description": "Verfeinern Sie die Warnkriterien, um die Genauigkeit zu erhöhen."
         },
         "staticOrAdaptive": {
           "config": {
@@ -700,7 +698,10 @@
         "configuredAlerts": "Konfigurierte Alerts ({{numberOfAlerts}})"
       },
       "columns": {
-        "name": "Name"
+        "name": "Name",
+        "severity": "Schweregrad",
+        "status": "Status",
+        "action": "Aktion"
       }
     },
     "form": {
@@ -790,7 +791,8 @@
       "ruleStatusCodeValueOptionNone": "Kein Status (Client abgebrochen/fehlgeschlagen)",
       "warningThresholdValidator": "Warnungsschwellenwert muss größer als kritischer Schwellenwert für Operatoren < und < = sein.",
       "criticalThresholdValidator": "Der kritische Schwellenwert muss größer als der Warnungsschwellenwert für die Operatoren > und >= sein.",
-      "sensitivityValidator": "Die kritische Empfindlichkeit sollte geringer sein als die Warnempfindlichkeit."
+      "sensitivityValidator": "Die kritische Empfindlichkeit sollte geringer sein als die Warnempfindlichkeit.",
+      "baselineEmpty": "Vergleichsdaten sind leer"
     },
     "components": {
       "smartAlertDialog": {
@@ -1020,17 +1022,24 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Verstöße bleiben kontinuierlich bestehen",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "Wenn eine minimale Anzahl von Rückverfolgungen betroffen ist",
           "labelUserImpactOfViolationsInSequence": "Wenn eine bestimmte Anzahl von Benutzern betroffen ist",
+          "violationsInSequenceLabel": "Wenn ein Verstoß in aufeinanderfolgenden Zeitabschnitten auftritt",
+          "violationsInPeriodLabel": "Wenn mehrere Verstöße über mehrere Zeitabschnitte hinweg auftreten",
           "granularity": {
             "description": "Aufrufe werden in {{granularity}}-Minuten-Fenstern platziert; alle {{granularity}} Minuten wird ein Messwert für dieses Fenster berechnet"
           },
           "triggerAlert": "Alert auslösen",
           "triggerAfter": "Auslöser nach",
           "tracesImpacted": "Traces sind betroffen",
+          "numberOfTracesImpacted": "Anzahl der betroffenen Traces",
           "numberOfUserImpactPostLabel": "oder eine größere Anzahl von Benutzern betroffen sind",
           "percentageOfUserImpactPostLabel": "oder ein größerer Prozentsatz von Benutzern betroffen sind",
           "outOfConsecutiveEvaluations": "von",
+          "violationAcross": "horizontal",
+          "violationsOccurrenceLabel": "Verstoßvorkommnis(se)",
           "persistenceType": "Persistenztyp",
           "numberOfConsecutiveViolationsPostLabel": "aufeinanderfolgende {{granularity}}-Minutenfenster haben Verstöße",
+          "bucketsOfTime": "{{granularity}}-minütige Zeitabschnitte",
+          "numberOfConsecutiveViolationsLabel": "Aufeinanderfolgende {{granularity}}-minütige Zeitabschnitte, die Verstöße aufweisen",
           "static": "Statisch",
           "thresholdValue": "Schwellenwert"
         }
@@ -1237,7 +1246,6 @@
     "enable": "Aktivieren",
     "disable": "Inaktivieren",
     "synthetics": {
-      "addSmartAlert": "Synthetischen Smart Alert hinzufügen",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} weiterer Filter",
@@ -1253,9 +1261,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "Zeitschwellenwert",
-        "filterApplied": "Angewendeter Filter",
-        "violationsCount": "{{violationsCount}} Fehler",
         "numberOfFailures": "Fehleralerts",
         "noDataHeader": "Keine synthetischen Smart Alerts",
         "noDataDescription": "Klicken Sie auf <strong>Smart Alert erstellen</strong>, um zu beginnen."
@@ -1315,7 +1320,9 @@
         "alertTestEntityName": "Synthetischer Test {{entityName}}",
         "testAttachedCount": "Angehängte Tests ({{count}})",
         "testAttached": "Angehängte Tests",
-        "noTestAvailable": "Keine synthetischen Tests verfügbar"
+        "noTestAvailable": "Keine synthetischen Tests verfügbar",
+        "noTestSelected": "Keine synthetischen Tests ausgewählt",
+        "noTestSelectedMessage": "Klicken Sie zunächst auf \"Synthetische Tests hinzufügen\"."
       },
       "details": {
         "threshold": "Schwellenwert",
@@ -1424,7 +1431,6 @@
         "filter_0": "Filter",
         "filter_1": "Filter",
         "filter_2": "Filter",
-        "filterApplied": "Angewendeter Filter",
         "noDataHeader": "Keine mobile App Smart Alerts",
         "noDataDescription": "Klicken Sie auf <strong>Smart Alert erstellen</strong>, um zu beginnen."
       },
@@ -1619,7 +1625,8 @@
             "subtitle": {
               "staticThresholdType": "Statischer Schwellenwert",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "forecastAlerting": "Vorhersage-Alarmierung"
+              "forecastAlerting": "Vorhersage-Alarmierung",
+              "adaptiveThreshold": "Adaptive Schwelle, {{metricName}}"
             }
           }
         },
@@ -1715,6 +1722,11 @@
           "header": "Wo möchten Sie über diese Warnmeldung benachrichtigt werden?",
           "description": "Wählen Sie den/die Empfänger dieser Warnmeldung"
         },
+        "scopeEntity": {
+          "entityType": "Entitätstyp",
+          "pleaseSelect": "Entität auswählen",
+          "loadingEntities": "Laden von Einheiten ..."
+        },
         "scopeFilter": {
           "title": "Wählen Sie den Umfang der Infrastruktur",
           "filter": "Filter",
@@ -1746,10 +1758,10 @@
         }
       },
       "placeholderTitle": "Problem auf {{metricName}} erkannt",
-      "descriptionIsHigherThan": "{{metricName}} ist höher als {{value}}.",
-      "descriptionIsHigherOrEqualTo": "{{metricName}} ist höher oder gleich {{value}}.",
-      "descriptionIsLowerThan": "{{metricName}} ist niedriger als {{value}}.",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} ist kleiner oder gleich {{value}}.",
+      "descriptionIsHigherThan": "{{metricName}} ist größer als {{value}}.",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} ist größer-gleich {{value}}.",
+      "descriptionIsLowerThan": "{{metricName}} ist kleiner als {{value}}.",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} kleiner-gleich {{value}}.",
       "evaluationType": {
         "title": "Wählen Sie Ihre Benachrichtigungsmethode",
         "custom": {
@@ -2004,7 +2016,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, Schwellenwert (lang) {{operator}} {{value}} & (kurz) < 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}, Schwellenwert {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}, Schwellenwert {{operator}} {{value}}",
-        "alertListSloAppliedColumnName": "Angewendete SLOs",
         "sloApplied": "SLOs angewendet",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",

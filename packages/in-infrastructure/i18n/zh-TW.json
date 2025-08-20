@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "比較表格",
     "agents": "代理程式",
+    "dataSources": "資料來源",
     "map": "圖",
     "infrastructure": "基礎架構",
     "snapshotVersions": "Snapshot 版本",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "此查詢有太多結果。 請使用限制性較強的過濾器來縮小搜尋範圍，或縮小時間範圍，然後再試一次。",
       "generalError": "發生非預期的錯誤。"
     },
+    "warningTitle": "超出匯出限制",
+    "warning": "匯出 {{count}} 筆記錄已超過最大限制。 將僅包含前  {{max}} 個項目，且該程序可能比平常需要更長的時間才能完成。",
     "entityTypes": "實體類型 {{count, parenthesis}}",
     "relatedInstances": "分析實例"
   },
@@ -150,5 +153,43 @@
     "label": "臨界值",
     "critical": "當 {{operator}} {{level}} 時為嚴重",
     "warning": "當 {{operator}} {{level}} 時為警告"
+  },
+  "customEntities": {
+    "labelDashboard": "儀表板",
+    "saveChanges": "儲存變更",
+    "discardChanges": "捨棄變更",
+    "addWidget": "新增小組件",
+    "defaultDashboard": "預設儀表板",
+    "dashboardsInfoWidgetDescription": "新增小工具並選取要在儀表板上顯示的自訂實體類型的度量。 \n\n 所有與此自訂實體類型相符的實例都將使用相同的儀表板顯示。",
+    "dashboardsInfoWidgetTitle": "這是您可以自行塑造的自訂實體儀表板",
+    "failSaveDashboard": "無法儲存儀表板。",
+    "successfulSaveDashboard": "實體儀表板已更新。",
+    "editDashboard": "編輯下項的儀表板 "
+  },
+  "collectorView": {
+    "otelCollector": "OpenTelemetry 收集器",
+    "restartCollector": "重新啟動收集器",
+    "editConfiguration": "編輯配置",
+    "collectorConfig": "收集器配置",
+    "cpuTime": "CPU 時間",
+    "collectorUptime": "收集器執行時間",
+    "memoryUsage": "記憶體用量",
+    "metricPointsAccepted": "接受的度量點數",
+    "logRecordsAccepted": "接受日誌記錄",
+    "metricPointsExported": "匯出的度量點數",
+    "logRecordsExported": "匯出的日誌點",
+    "receiverMetrics": "接收端度量",
+    "exporterMetrics": "匯出端度量",
+    "collectorRestartingTitle": "收集器重新啟動中",
+    "collectorRestarting": "收集器重新啟動已成功起始。",
+    "collectorError": "收集器錯誤",
+    "configUpdateSuccessTitle": "配置更新已成功",
+    "configUpdateSuccess": "收集器配置已成功更新。",
+    "update": "更新",
+    "cancel": "取消",
+    "configuration": "配置",
+    "exporter": "匯出器",
+    "processor": "處理器",
+    "receiver": "接收者"
   }
 }

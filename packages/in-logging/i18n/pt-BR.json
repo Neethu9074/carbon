@@ -88,7 +88,6 @@
       "patternRecognitionSet": {
         "gotIt": "Feito",
         "cancel": "Cancelar",
-        "gettingStarted": "Introdução",
         "howDoesItWorks": "Como funciona?",
         "firstDescription_0": "O reconhecimento de padrões de logs treina um algoritmo de IA para identificar padrões recorrentes em seus logs. Ao analisar grandes volumes de logs, ele é capaz de reconhecer partes variáveis e estáticas dos logs e descobrir padrões neles. \n\n O algoritmo de IA baseia-se apenas nas suas mensagens de log e não as compartilha com os logs de outros clientes. Isso garante a privacidade e segurança dos seus dados.",
         "howWillHelpMe": "Como isso vai me ajudar?",
@@ -97,7 +96,19 @@
         "popHoverSecondDescription": "Ao analisar grandes volumes de logs, ele é capaz de reconhecer partes variáveis e estáticas dos logs e descobrir padrões neles.\n\nO algoritmo de IA baseia-se apenas nas suas mensagens de log e não as compartilha com os logs de outros clientes. Isso garante a privacidade e segurança dos seus dados",
         "hotItWorks": "Como funciona",
         "popHoverFirstDescription": "O reconhecimento de padrões de logs treina um algoritmo de IA para identificar padrões recorrentes em seus logs. ",
-        "aiExpained": "IA explicada"
+        "aiExpained": "IA explicada",
+        "currentPatterns": "Padrões atuais",
+        "total": "Total",
+        "discoveredPatterns": "Padrões descobertos",
+        "tableDescription": "Gerencie os padrões usados ao filtrar e agrupar.",
+        "id": "ID",
+        "name": "Nome",
+        "patternsSample": "Amostra de padrões",
+        "state": "State",
+        "noLogsDiscovered": "Nenhum padrão de log foi descoberto ainda",
+        "noLogsDiscoveredDescription": "O reconhecimento de padrões de logs ainda está em andamento. Devido ao grande volume de dados, os resultados podem demorar mais para aparecer. Volte mais tarde.",
+        "enabled": "Ativado",
+        "disabled": "Desativado"
       }
     }
   }

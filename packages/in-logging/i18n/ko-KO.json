@@ -88,7 +88,6 @@
       "patternRecognitionSet": {
         "gotIt": "확인",
         "cancel": "취소",
-        "gettingStarted": "시작하기",
         "howDoesItWorks": "어떻게 작동되나요?",
         "firstDescription_0": "로그 패턴 인식은 AI 알고리즘을 훈련시켜 로그에서 반복되는 패턴을 발견하도록 합니다. 대량의 로그를 분석함으로써 알고리즘은 로그의 가변적 및 정적 부분을 인식하고 그 안에서 패턴을 발견할 수 있습니다. \n\n AI 알고리즘은 사용자의 로그 메시지에만 의존하며 다른 클라이언트의 로그와 공유하지 않습니다. 이를 통해 데이터의 프라이버시와 보안이 보장됩니다.",
         "howWillHelpMe": "어떻게 도움이 되나요?",
@@ -97,7 +96,19 @@
         "popHoverSecondDescription": "대량의 로그를 분석함으로써 알고리즘은 로그의 가변적 및 정적 부분을 인식하고 그 안에서 패턴을 발견할 수 있습니다.\n\nAI 알고리즘은 사용자의 로그 메시지에만 의존하며 다른 클라이언트의 로그와 공유하지 않습니다. 이를 통해 데이터의 프라이버시와 보안이 보장됩니다.",
         "hotItWorks": "작동 방식",
         "popHoverFirstDescription": "로그 패턴 인식은 AI 알고리즘을 훈련시켜 로그에서 반복되는 패턴을 발견하도록 합니다. ",
-        "aiExpained": "AI 설명"
+        "aiExpained": "AI 설명",
+        "currentPatterns": "현재 패턴",
+        "total": "총계",
+        "discoveredPatterns": "감지된 패턴",
+        "tableDescription": "필터링 및 그룹화에 사용되는 패턴을 관리합니다.",
+        "id": "ID",
+        "name": "이름",
+        "patternsSample": "패턴 샘플",
+        "state": "상태",
+        "noLogsDiscovered": "아직 감지된 로그 패턴 없음",
+        "noLogsDiscoveredDescription": "로그 패턴 인식이 아직 진행 중입니다. 데이터의 볼륨이 많기 때문에 결과가 표시되는 데 시간이 더 오래 걸릴 수 있습니다. 나중에 다시 확인하십시오.",
+        "enabled": "Enabled",
+        "disabled": "사용 안함"
       }
     }
   }

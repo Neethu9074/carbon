@@ -122,6 +122,8 @@
     "formStateLabel": "État"
   },
   "searchBar": {
+    "searchInput": "Entrée de la recherche",
+    "searchBar": "Barre de recherche",
     "usingTheSearchBar": "La fonctionnalité de recherche Instana Dynamic Focus peut être utilisée pour filtrer les mappes 3D, les tables de comparaison et les vues d'incident. La barre de recherche offre des possibilités étendues de recherche à l'aide de recherches approximatives, de caractères génériques et d'opérateurs booléens. Par exemple, la requête suivante\nlimite les vues aux hôtes de production dotés de moins de quatre unités centrales :\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntaxe\nDynamic Focus utilise la [syntaxe de requête lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) avec les différences suivantes par rapport à la norme Lucene :\n- **L'opérateur par défaut :** `ET`\n- **les contraintes de syntaxe :**  sont répertoriés dans la [documentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interaction avec la barre de recherche\nLa barre de recherche prend en charge la saisie semi-automatique dans les zones de recherche et met en évidence la syntaxe de la requête lucene lors de la saisie.\nUne fois la saisie effectuée, la barre de recherche propose des zones de recherche correspondant à la saisie actuelle. Vous pouvez accepter les zones proposées en appuyant sur `RETOUR`'. Appuyez sur `CTRL + BARRE D'ESPACEMENT` pour ouvrir la fenêtre de saisie semi-automatique.\n## Fiche technique de la syntaxe de requête Lucene\n - **Recherche par zone :** `entity.host.cpu.count:>4`\n - **Opérateurs booléens :** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Regroupement :** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Recherches avec des caractères génériques :** `entity.type:container*`\n\nPour plus d'informations, voir la [documentation](https://ibm.biz/filtering-dynamic-focus).",
     "filtersBtn": "Filtres",
     "filterPresetsMenuHeading": "Filtres",
@@ -296,18 +298,14 @@
     "columnizedContentUserInterface": "Interface utilisateur",
     "columnizedContentBackend": "Back-end",
     "labelRegion": "Région",
-    "labelTag": "Étiquette",
+    "labelTag": "Version",
     "labelCommit": "Valider",
-    "geo": {
-      "title": "Données géographiques"
-    },
     "ibm": "IBM",
     "copyRights": "Copyright © IBM Corp. 2020, 2023",
     "instana": "Instana",
     "close": "Fermer",
     "maxMindDescription": "Ces données comprennent les données GeoLite2 créées par",
     "maxMind": "MaxMind.",
-    "dynamicGraphDescription": "Une visualisation de votre environnement est disponible dans la",
     "dynamicGraph": "présentation du graphique dynamique."
   },
   "blueprintFormMultistep": {
@@ -403,12 +401,10 @@
     "eventType_issue_0": "problèmes",
     "eventType_issue_1": "problème",
     "eventType_issue_2": "problèmes",
-    "openIssuesListPresenterActionsViewIssues": "Afficher {{eventType}}",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "Afficher {{openIssueCount}} {{eventType}}",
+    "viewOpenIssues": "Voir les problèmes ouverts",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Chargement de {{eventType}} ouvert...",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Echec du chargement de {{eventType}} ouvert",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} {{eventType}} ouvert",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(affichant {{maxIssuesToShow}} les plus graves)",
     "openIssuesListPresenterIssueDescriptionOmitted": "Description de problème omise. Plus d'informations sont visibles dans la vue détaillée de l'événement.",
     "openIssuesListPresenterStarted": "Démarré",
     "noIssues": "Aucun problème",
@@ -433,10 +429,10 @@
     "eventType_issue_1": "vulnérabilités",
     "eventType_issue_2": "vulnérabilités",
     "openIssuesListPresenterActionsViewIssues": "Voir les vulnérabilités",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "Voir les vulnérabilités {{openIssueCount}}",
-    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Chargement des vulnérabilités ouvertes...",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Chargement des vulnérabilités ouvertes…",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Échec du chargement des vulnérabilités ouvertes",
-    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Vulnérabilités ouvertes",
+    "viewOpenIssues": "Voir les vulnérabilités",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} vulnérabilités ouvertes",
     "noVulnerabilities": "Pas de vulnérabilité",
     "openVulnerabilities": "{{count}} vulnérabilité",
     "openVulnerabilities_plural": "{{count}} vulnérabilités",
@@ -809,6 +805,7 @@
     }
   },
   "copyToClipboardButtonCopy": "Copier",
+  "tooltipCopyToClipboard": "Copier dans le presse-papiers",
   "withEmptyStateFallbackTitleNoDataAvailable": "Aucune donnée disponible",
   "queryBuilder": {
     "components": {

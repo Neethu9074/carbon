@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "Table de comparaison",
     "agents": "Agents",
+    "dataSources": "Sources de données",
     "map": "Mappe",
     "infrastructure": "Infrastructure",
     "snapshotVersions": "Versions d'instantané",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "Cette requête a trop de résultats. Affinez votre recherche à l'aide d'un filtre plus restrictif ou réduisez l'intervalle et réessayez.",
       "generalError": "Une erreur inattendue s'est produite."
     },
+    "warningTitle": "Limite d'exportation dépassée",
+    "warning": "L'exportation de {{count}} enregistrements dépasse la limite maximale. Seules les premières {{max}} entrées seront incluses et l'exécution du processus peut demander plus de temps que d'habitude.",
     "entityTypes": "Types d'entité {{count, parenthesis}}",
     "relatedInstances": "Analyser les instances"
   },
@@ -150,5 +153,43 @@
     "label": "Seuil",
     "critical": "Critique quand {{operator}} {{level}}",
     "warning": "Avertissement quand {{operator}} {{level}}"
+  },
+  "customEntities": {
+    "labelDashboard": "Tableaux de bord",
+    "saveChanges": "Sauvegarder les modifications",
+    "discardChanges": "Annuler les modifications",
+    "addWidget": "Ajouter un widget",
+    "defaultDashboard": "Tableau de bord par défaut",
+    "dashboardsInfoWidgetDescription": "Ajoutez des widgets et sélectionnez des indicateurs à afficher dans le tableau de bord du type d'entité personnalisé. \n\n Toutes les instances correspondant à ce type d'entité personnalisé seront affichées dans le même tableau de bord.",
+    "dashboardsInfoWidgetTitle": "Il s'agit de votre tableau de bord d'entité personnalisé que vous pouvez configurer vous-même.",
+    "failSaveDashboard": "Echec de la sauvegarde du tableau de bord.",
+    "successfulSaveDashboard": "Tableau de bord de l'entité mis à jour.",
+    "editDashboard": "Modifier les tableaux de bord pour "
+  },
+  "collectorView": {
+    "otelCollector": "Collecteur OpenTelemetry",
+    "restartCollector": "Redémarrer le collecteur",
+    "editConfiguration": "Editer une configuration",
+    "collectorConfig": "Configuration du collecteur",
+    "cpuTime": "Temps UC",
+    "collectorUptime": "Temps de fonctionnement du collecteur",
+    "memoryUsage": "Utilisation de la mémoire",
+    "metricPointsAccepted": "Points de métrique acceptés",
+    "logRecordsAccepted": "Enregistrements de journal acceptés",
+    "metricPointsExported": "Points de métrique exportés",
+    "logRecordsExported": "Points de journal exportés",
+    "receiverMetrics": "Métriques du récepteur",
+    "exporterMetrics": "Métriques de l'exportateur",
+    "collectorRestartingTitle": "Redémarrage du collecteur",
+    "collectorRestarting": "Le redémarrage du collecteur a réussi.",
+    "collectorError": "Erreur du collecteur",
+    "configUpdateSuccessTitle": "Mise à jour de la configuration réussie",
+    "configUpdateSuccess": "La mise à jour de la configuration du collecteur a réussi.",
+    "update": "Mettre à jour",
+    "cancel": "Annuler",
+    "configuration": "Configuration",
+    "exporter": "Exportateur",
+    "processor": "Processeur",
+    "receiver": "Destinataire"
   }
 }

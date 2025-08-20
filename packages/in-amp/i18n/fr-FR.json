@@ -67,14 +67,14 @@
       "totalDataIngestEntitlement": "Total de droits d'ingestion de données",
       "actualDataIngest": "Ingestion de données réelles",
       "onDemandDataIngest": "Ingestion de données à la demande",
-      "noData": "Aucune donnée"
+      "csvExporter": "Exporter en CSV"
     },
     "timePresets": {
       "last7Days": "7 derniers jours",
       "last30Days": "Les 30 derniers jours",
       "last365Days": "365 derniers jours",
-      "thisMonth": "Ce mois-ci",
-      "lastMonth": "Mois dernier"
+      "thisMonth": "Ce mois",
+      "lastMonth": "Le mois dernier"
     },
     "presentationPresets": {
       "distinct": "Valeurs distinctes",
@@ -129,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "2 perspective d'application créée",
         "oneAlertSetUpAndActivated": "1 alerte configurée et activée",
         "oneWebsiteMonitored": "1 site Web surveillé",
-        "fiveUsers": "5 utilisateurs"
+        "fiveUsers": "5 utilisateurs",
+        "notStarted": "Non démarré",
+        "tenantUnit": "Unité locataire"
       },
       "adoptionKPIs": {
         "applicationPerspective": "Perspective d'application",
@@ -161,6 +163,17 @@
         "metric_custom_dashboards": "Tableaux de bord personnalisés",
         "metric_releases": "Mises en production"
       },
+      "sparkChartMetricsV2": {
+        "metric_applications": "Applications",
+        "metric_reportingapplications": "Applications de génération de rapports",
+        "metric_websites": "Sites Web",
+        "metric_all_alerts": "Alertes",
+        "metric_active_alerts": "Alertes actives",
+        "metric_mobile_apps": "Applications",
+        "metric_alert_channels": "Canaux d'alerte",
+        "metric_custom_dashboards": "Tableaux de bord personnalisés",
+        "metric_releases": "Marqueurs d'édition / éditions"
+      },
       "userUsage": "Utilisation utilisateurs",
       "userSummary": "Récapitulatif de l'utilisateur",
       "totalUser": "Nombre total d'utilisateurs",
@@ -180,6 +193,9 @@
     "accountAndBilling": "Compte et facturation",
     "tabs": {
       "usage": "Utilisation",
+      "dataUsage": "Utilisation des données",
+      "consumptionOverview": "Aperçu de la consommation",
+      "addOns": "Modules complémentaires",
       "technologiesReporting": "Production de rapports sur les technologies",
       "accountInformation": "Informations de compte",
       "entitlements": "Habilitations",
@@ -198,6 +214,11 @@
     },
     "emptyPage": {
       "subtitle": "Aucune donnée disponible"
+    },
+    "label": {
+      "unit": "Unité",
+      "timeRange": "Intervalle",
+      "values": "Valeurs"
     }
   }
 }

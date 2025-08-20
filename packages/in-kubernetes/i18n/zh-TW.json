@@ -48,6 +48,7 @@
     "statefulSets": "StatefulSets",
     "cronJobs": "CronJobs",
     "k8SServices": "K8s 服務",
+    "pod": "Pod",
     "pods": "Pod",
     "persistentVolume": "持續性磁區",
     "persistentVolumes": "持續性磁區",
@@ -277,7 +278,9 @@
       "podsTitle": "沒有可用的 pod",
       "podsDescription": "所選的時間範圍內未擷取到任何的 Pod。",
       "endpointsTitle": "沒有可用的端點",
-      "endpointsDescription": "所選的時間範圍內未擷取到任何的端點。"
+      "endpointsDescription": "所選的時間範圍內未擷取到任何的端點。",
+      "containersTitle": "沒有可用的儲存器",
+      "containersDescription": "未擷取到所選時間範圍內的儲存器。"
     },
     "kubecost": {
       "costByDeployment": "依部署的成本",
@@ -301,7 +304,8 @@
       "namespace": "名稱空間",
       "idleCost": "閒置成本",
       "viewInKubeCost": "在 Kubecost 中查看",
-      "coreCountByCluster": "vCPU",
+      "coreCountByCluster": "每個叢集的 vCPU",
+      "totalCoreCount": "總 vCPU",
       "noKubecostData": "使用 Kubecost 為此叢集啟用成本監視功能。\n 若要配置整合，請在文件中 [遵循這些步驟]。\n\n[遵循這些步驟]：https://ibm.biz/kubecost",
       "totalClusterCost": "叢集總成本（最近 14 天）",
       "workloadEfficiency": "工作負載效率",
@@ -328,13 +332,16 @@
     },
     "filesystemCapacity": "檔案系統容量",
     "filesystemAvailable": "可用的檔案系統",
+    "filesystemUsage": "檔案系統使用情形",
     "filesystemResources": "檔案系統資源",
     "memoryAvailable": "可用的記憶體",
     "cpuUtilization": "CPU 使用率",
     "preview": "預覽",
     "cpuTime": "CPU 時間",
     "memoryWorkingset": "記憶體工作集",
-    "memoryRss": "記憶體 RSS"
+    "memoryRss": "記憶體 RSS",
+    "memoryPageFaults": "記憶體頁面錯誤",
+    "memoryMajorPageFaults": "記憶體主要頁面錯誤"
   },
   "cloudNative": {
     "unhealthyNodes": "不健全的節點",
@@ -350,10 +357,6 @@
     "switchToCardView": "切換至卡片視圖",
     "switchToTableView": "切換至表格視圖",
     "sortingOptions": {
-      "unhealthyNodesCriticals": "性能不佳的節點（重大）",
-      "unhealthyNodesWarnings": "性能不佳的節點（警告）",
-      "unhealthyDeploymentsCritical": "性能不佳的部署（重大）",
-      "unhealthyDeploymentsWarnings": "性能不佳的部署（警告）",
       "sortBy": "排序方式",
       "sortOrder": "排序",
       "name": "名稱"

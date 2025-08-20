@@ -52,7 +52,8 @@
   "sapSolman": "ソリューション・マネージャー",
   "dashboards": {
     "instance": "インスタンス",
-    "abapdumpstats": "ABAP ダンプ統計",
+    "abapdumpstatsHour": "ABAPダンプ統計 (過去 {{duration}} 時間)",
+    "abapdumpstatsHours": "ABAPダンプ統計 (過去 {{duration}} 時間)",
     "cpuUsage": "CPU 使用率",
     "combinedCpuMetrics": "全体の使用量 (ユーザー当たり)",
     "userListQueueTime": "キュー時間",
@@ -77,7 +78,7 @@
     "spoolWait": "スプール",
     "update2Wait": "Update2",
     "sapIdoc": "IDoc",
-    "jobsInformation": "ジョブ情報",
+    "jobsInformation": "ジョブ情報 ({{duration}})",
     "prdMins": "PRD (分)",
     "scheduleStartTime": "開始時刻をスケジュール設定する",
     "scheduleStartDate": "予定開始日",
@@ -616,7 +617,8 @@
     "scheduled": "スケジュール済み",
     "owner": "所有者",
     "destination": "宛先",
-    "spoolError": "スプール・エラー",
+    "spoolErrorHour": "スプール・エラー (過去 {{duration}} 時間)",
+    "spoolErrorsHours": "スプール・エラー (過去 {{duration}} 時間)",
     "rfcSource": "RFC ソース",
     "count": "数",
     "upTime": "アップタイム",
@@ -744,7 +746,8 @@
     "waitingTaskCount": "待機中のタスク",
     "applicationThreadUsage": "アプリケーション・スレッドの使用状況",
     "threadUsage": "スレッド数",
-    "waitingtaskUsage": "待機中のタスク"
+    "waitingtaskUsage": "待機中のタスク",
+    "loading": "ロード中..."
   },
   "viewAllEntityName_unknownEntity_plural": "すべて",
   "viewAllEntityName_unknownEntity_0": "すべて",

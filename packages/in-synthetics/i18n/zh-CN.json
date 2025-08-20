@@ -4,41 +4,15 @@
     "createTest": {
       "buttonLabel": "添加合成测试",
       "dialogTitle": "创建合成测试",
-      "noLocationFound": "对不起！找不到任何位置",
       "noApplicationsFound": "找不到应用程序",
       "noMatchingFound": "找不到匹配的应用程序",
-      "titles": {
-        "step1": "步骤 1：选择类型",
-        "step2": "步骤 2：请求详细信息",
-        "step3": "步骤 3：调度",
-        "step4": "步骤 4：提供详细信息",
-        "step5": "步骤 5：关联"
-      },
-      "selectTest": {
-        "title": "您想创建什么样的合成测试"
-      },
-      "scheduling": {
-        "title": "调度"
-      },
       "requestStep": {
-        "title": "指定请求",
-        "subTitle": "端点",
-        "labelOperation": "HTTP 方法",
         "labelUrl": "URL",
-        "popSubTitle": "存在点",
-        "uploadScriptTitle": "上载脚本",
         "failureToReadFileContent": "未能读取文件内容：{{error}}",
         "unsupportedFileFormat": ".{{extension}} 文件不受支持",
-        "emptyScriptFileError": "空代码。 没有要验证的内容。",
-        "enterTheScriptMessage": "在此处输入脚本",
-        "privatePoPLabel": "专用",
-        "managedPoPLabel": "受管"
+        "emptyScriptFileError": "空代码。 没有要验证的内容。"
       },
       "basicDetails": {
-        "title": "此 API 简单（HTTP 操作）测试的名称",
-        "scriptTitle": "此 API 脚本（HTTP 脚本）测试的名称",
-        "webpageActionTitle": "此浏览器简单（Web 页面操作）测试的名称",
-        "browserScriptTitle": "此浏览器脚本测试的名称",
         "labelName": "测试的名称",
         "labelDescription": "描述（可选）",
         "labelFrequency": "频率（分钟）",
@@ -49,56 +23,23 @@
       "bluePrint": {
         "title": "何时使用？",
         "apiSimple": {
-          "name": "API 简单",
-          "headline": "API 简单（HTTP 操作）",
           "whenToUse": {
             "line1": "使用 API 简单（HTTP 操作）测试来测试单个 Rest API"
-          },
-          "tipsForUsing": {
-            "title": "使用提示",
-            "line1": "步骤 1：选择要创建的测试类型。",
-            "line2": "步骤 2：输入要测试的 Web 页面的 HTTP 方法和 URL。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
-            "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
-            "line4": "步骤 4：在“名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
         },
         "apiScript": {
-          "name": "API 脚本",
-          "headline": "API 脚本（HTTP 脚本）",
           "whenToUse": {
             "line1": "使用 API 脚本（HTTP 脚本）测试和基于 Node.js 的脚本来测试多个 REST API 的序列"
-          },
-          "tipsForUsing": {
-            "line1": "步骤 1：选择要创建的测试类型。",
-            "line2": "步骤 2：使用“上载脚本”选项来上载 node.js 测试脚本文件。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
-            "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
-            "line4": "步骤 4：在“测试的名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
         },
         "browserSimple": {
-          "name": "浏览器简单",
-          "headline": "浏览器简单（Web 页面操作）",
           "whenToUse": {
             "line1": "如果要对单个 Web 页面进行 HTTP 错误测试，请使用浏览器简单测试。"
-          },
-          "tipsForUsing": {
-            "line1": "步骤 1：选择要创建的测试类型。",
-            "line2": "步骤 2：输入要测试的 Web 页面的 URL。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
-            "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
-            "line4": "步骤 4：在“名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
         },
         "browserScript": {
-          "name": "浏览器脚本",
-          "headline": "浏览器脚本 (BrowserScript)",
           "whenToUse": {
             "line1": "如果要使用 JavaScript 或 Selenium IDE 脚本来模拟用户与 Web 应用程序的交互，请使用浏览器脚本测试。"
-          },
-          "tipsForUsing": {
-            "line1": "步骤 1：选择要创建的测试类型。",
-            "line2": "步骤 2：使用“上载脚本”选项来上载 JavaScript 或 Selenium IDE 脚本文件。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
-            "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
-            "line4": "步骤 4：在“测试的名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
         },
         "certificateCheck": {
@@ -124,7 +65,6 @@
         "invalidHost": "主机格式无效"
       },
       "advancedMode": {
-        "switchModeButton": "切换到高级模式",
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "所选测试类型",
           "rightListLabel": "测试类型",
@@ -155,7 +95,7 @@
         "scheduleTitle": "调度：此测试将如何运行？",
         "identifyLabel": "识别",
         "identifyTitle": "识别：测试将要做什么？",
-        "teamsCalloutMessage": "添加团队时，团队成员的权限将基于团队中分配的角色。 与团队相关联的测试也将反映在设置中的团队页面。",
+        "teamsCalloutMessage": "添加团队时，团队成员的权限将基于团队中分配的角色。与团队相关联的 {{syntheticTab}} 也将反映在设置的团队页面中。",
         "customPropertiesTitle": "定制属性（可选）",
         "frequency": "此测试将每 {{frequencyValue}} 分钟运行一次。",
         "frequencyHours": "此测试将每 {{frequencyHours}} 小时运行一次。",
@@ -205,7 +145,6 @@
           "browserUploadFileDescription": "您可以上传单个.js 或.cjs 文件、包含捆绑.js 或.cjs 文件的.zip 文件或由 Selenium IDE 录制的.side 脚本。",
           "node22BrowserUploadFileDescription": "您可以上传单个 .js、.cjs 或 .mjs 文件，也可以上传包含捆绑 .js、.cjs 或 .mjs 文件的 .zip 文件，还可以上传 Selenium IDE 录制的 .side 脚本。",
           "sideFileUploadedMessage": "无法修改或验证 Selenium 脚本",
-          "bundleFileNotSupportedMessage": "选择了不受支持的文件。 仅在高级方式下支持捆绑软件。",
           "timeoutFieldLabel": "时区（可选）",
           "timeUnitsLabel": "时间单位",
           "timeoutFieldOptionMinutes": "分钟 (m)",
@@ -383,9 +322,7 @@
     },
     "updateTest": {
       "dialogTitle": "编辑 {{syntheticType}} 测试",
-      "buttonSave": "保存",
-      "scriptSavedMessage": "已添加脚本",
-      "bundleSavedMessage": "已添加捆绑脚本"
+      "buttonSave": "保存"
     },
     "createLocation": {
       "newLocation": "添加位置",
@@ -558,7 +495,7 @@
         "noMobileAppsAssociated": "无关联的移动应用。",
         "nodMobileAppAssociatedWithTest": "没有与所选测试相关联的移动应用程序。"
       },
-      "testLabel": "名称",
+      "testLabel": "测试名称",
       "status": "状态",
       "frequencySubText": "每 {{count}} 分钟",
       "frequencySubText_plural": "每 {{count}} 分钟",
@@ -614,7 +551,28 @@
         "associationsSidePanelTitle": "关联 ({{totalAssociations}})",
         "associationsNameHeader": "名称",
         "associationsHealthHeader": "运行状况"
-      }
+      },
+      "filterPanel": {
+        "typeLabel": "Type",
+        "locationLabel": "位置",
+        "associationLabel": "关联",
+        "applicationLabel": "应用程序",
+        "searchPlaceholder": "查找分类",
+        "sortLabel": "排序",
+        "selectAllLabel": "全选 ({{totalEntityCount}})",
+        "viewAllLabel": "查看全部 ({{totalEntityCount}})"
+      },
+      "resultsList": {
+        "statusLabel": "状态",
+        "startTimeLabel": "已启动",
+        "responseTimeLabel": "响应时间",
+        "retryCountLabel": "重试计数",
+        "errorMessageLabel": "错误消息",
+        "errorHeader": "未能装入数据",
+        "noDataHeader": "无可用结果",
+        "noDataDescription": "在所选时间范围内未检索到任何结果。"
+      },
+      "actionLoadingIconDescription": "正在加载"
     },
     "locationList": {
       "locationLiveModeDisabled": "“实时方式”在“合成位置”页面中不适用",
@@ -925,8 +883,7 @@
       "testsApplied": "已应用的测试",
       "filterApplied": "已应用过滤器",
       "violationsCount": "{{violationsCount}} 个故障",
-      "testsCount": "{{testsCount}} 个测试",
-      "numberOfFailures": "故障警报"
+      "testsCount": "{{testsCount}} 个测试"
     },
     "configuration": {
       "configurationTitle": "{{testType}} 测试配置",
@@ -960,6 +917,7 @@
       "associatedApplication": "关联应用程序",
       "noApplicationAssociated": "未关联任何应用程序",
       "configScriptTitle": "脚本",
+      "configScriptTitleWithFileName": "脚本 ({{fileName}})",
       "configScriptFileName": "文件名",
       "noScriptFileFound": "找不到脚本文件。",
       "noCustomProperties": "没有为此测试定义任何定制属性。",
@@ -1048,6 +1006,20 @@
         "cancelButtonLabel": "取消",
         "deletionSuccess": "已删除凭证"
       }
+    }
+  },
+  "components": {
+    "dataTable": {
+      "filterPanel": {
+        "title": "过滤",
+        "closeButtonLabel": "关闭",
+        "cancelButtonLabel": "取消",
+        "applyButtonLabel": "应用"
+      },
+      "noDataHeader": "无可用数据",
+      "noDataDescription": "所选时间范围内没有检索到数据。",
+      "errorHeader": "未能装入数据",
+      "searchText": "搜索"
     }
   }
 }

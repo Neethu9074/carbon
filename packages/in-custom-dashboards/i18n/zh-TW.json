@@ -16,9 +16,7 @@
     "editTeamsDialog": {
       "title": "編輯團隊",
       "description": "選取要與此儀表板關聯的團隊。",
-      "calloutMessage": "新增團隊後，團隊成員將能夠檢視和編輯此儀表板。 這也在設定中的團隊頁面。",
-      "selectorLabel": "團隊",
-      "chooseTeams": "選擇團隊"
+      "calloutMessage": "新增團隊後，團隊成員將能夠檢視和編輯此儀表板。 這也在設定中的團隊頁面。"
     },
     "grid": {
       "grid": {
@@ -295,6 +293,13 @@
       },
       "index": {
         "websitesBeacons": "網站（引標）"
+      },
+      "conversionGoals": {
+        "websiteSelect": "網站",
+        "goalSelect": "轉換目標",
+        "sessionsMetric": "轉換的階段作業率",
+        "usersMetric": "轉換的使用者率",
+        "convertTimeMetric": "平均轉換時間"
       }
     },
     "srcSyntheticMonitoring": {
@@ -477,7 +482,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - 入門",
-        "text": "Instana 是第一個也是唯一完全自動化的應用程式效能 (APM) 解決方案，專門針對管理微服務和雲端原生應用程式的挑戰而設計。\n\n入門很容易 1. 如果您尚未存取 Instana，請移至 [Instana.com](https://www.instana.com) 並註冊免費試用版。\n2. 探索我們由數百種 [支援的技術] (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies) 組成的生態系統。\n3. 使用其中一個 [代理程式] (https://ibm.biz/installing-agent) 開始收集資料。\n4. 針對您的使用案例進一步瞭解 [如何使用 Instana] (https://www.ibm.com/docs/en/obi/current?topic=using-instana)。\n5. 閱讀我們的獨特 [核心功能] (https://www.ibm.com/docs/en/obi/current?topic=core-capabilities)。\n6. 使用我們的 [整合、SDK 及 API] (https://ibm.biz/integrations-sdks-apis) 延伸 Instana。\n\n就這樣！\n\n找不到您要尋找的內容？ 跳至 [文件] (跳至 [文件] (https://www.ibm.com/docs/en/obi/current)！"
+        "text": "Instana 是第一個也是唯一完全自動化的應用程式效能 (APM) 解決方案，專門針對管理微服務和雲端原生應用程式的挑戰而設計。\n\n入門很容易 1. 如果您尚未存取 Instana，請移至 [Instana.com](https://www.instana.com) 並註冊免費試用版。\n2. 探索我們數百種[支援的技術](https://www.ibm.com/docs/en/instana-observability/latest?topic=configuring-monitoring-supported-technologies)的生態系統。\n3. 使用其中一個 [代理程式] (https://ibm.biz/installing-agent) 開始收集資料。\n4. 了解在您的使用案例中[如何使用 Instana](https://www.ibm.com/docs/en/instana-observability/latest?topic=using-instana)。\n5. 了解我們唯一的[核心能力](https://www.ibm.com/docs/en/instana-observability/latest?topic=core-capabilities)。\n6. 使用我們的 [整合、SDK 及 API] (https://ibm.biz/integrations-sdks-apis) 延伸 Instana。\n\n就這樣！\n\n找不到您要尋找的內容？ 跳到[文件](https://www.ibm.com/docs/en/instana-observability/latest)！"
       },
       "formComp": {
         "whatULikeShow": "您想要顯示什麼？",
@@ -636,7 +641,6 @@
         "timeBasedSli": "時間型，{{metricNameLabel}}"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "您沒有必要的 <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 權限來建立或編輯 SLI。",
         "sliList": "SLI 清單",
         "createSli": "建立 SLI"
       },

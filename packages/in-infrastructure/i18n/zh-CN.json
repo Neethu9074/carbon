@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "比较表",
     "agents": "代理程序",
+    "dataSources": "数据源",
     "map": "图",
     "infrastructure": "基础架构",
     "snapshotVersions": "快照版本",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "此查询的结果过多。 请使用限制性更强的过滤器缩小搜索范围或者缩小时间范围，然后重试。",
       "generalError": "发生意外错误。"
     },
+    "warningTitle": "已超出导出限制",
+    "warning": "导出 {{count}} 条记录超出最大限制。 只包含前 {{max}} 个条目，并且该过程可能需要比平时更长的时间才能完成。",
     "entityTypes": "实体类型 {{count, parenthesis}}",
     "relatedInstances": "分析实例"
   },
@@ -150,5 +153,43 @@
     "label": "阈值",
     "critical": "{{operator}} {{level}} 时发出严重错误",
     "warning": "{{operator}} {{level}} 时发出警告"
+  },
+  "customEntities": {
+    "labelDashboard": "仪表板",
+    "saveChanges": "保存更改",
+    "discardChanges": "丢弃更改",
+    "addWidget": "添加窗口小部件",
+    "defaultDashboard": "默认仪表板",
+    "dashboardsInfoWidgetDescription": "为自定义实体类型添加窗口小部件，并选择要在仪表板上显示的指标。 \n\n 与此定制实体类型匹配的所有实例都将通过相同的仪表板显示。",
+    "dashboardsInfoWidgetTitle": "这是您可以自行打造的定制实体仪表板",
+    "failSaveDashboard": "无法保存仪表板。",
+    "successfulSaveDashboard": "实体仪表板已更新。",
+    "editDashboard": "编辑仪表板 "
+  },
+  "collectorView": {
+    "otelCollector": "OpenTelemetry 收集器",
+    "restartCollector": "重新启动收集器",
+    "editConfiguration": "编辑配置",
+    "collectorConfig": "收集器配置",
+    "cpuTime": "CPU 时间",
+    "collectorUptime": "收集器正常运行时间",
+    "memoryUsage": "内存使用率",
+    "metricPointsAccepted": "已接受指标点",
+    "logRecordsAccepted": "已接受日志记录",
+    "metricPointsExported": "已导出指标点",
+    "logRecordsExported": "已导出日志点",
+    "receiverMetrics": "接收器指标",
+    "exporterMetrics": "导出器指标",
+    "collectorRestartingTitle": "收集器重启",
+    "collectorRestarting": "已成功启动收集器重启。",
+    "collectorError": "收集器错误",
+    "configUpdateSuccessTitle": "配置更新成功",
+    "configUpdateSuccess": "已成功更新收集器配置。",
+    "update": "更新",
+    "cancel": "取消",
+    "configuration": "配置",
+    "exporter": "导出器",
+    "processor": "处理器",
+    "receiver": "接收方"
   }
 }

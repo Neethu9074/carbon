@@ -52,7 +52,8 @@
   "sapSolman": "Gestor de soluciones",
   "dashboards": {
     "instance": "Instancia",
-    "abapdumpstats": "Estadísticas de volcado de ABAP",
+    "abapdumpstatsHour": "Estadísticas de volcado de ABAP (última {{duration}} hora)",
+    "abapdumpstatsHours": "Estadísticas de volcado de ABAP (últimas {{duration}} horas)",
     "cpuUsage": "Uso de CPU",
     "combinedCpuMetrics": "Uso general (por usuario)",
     "userListQueueTime": "Hora de la cola",
@@ -77,7 +78,7 @@
     "spoolWait": "Spool",
     "update2Wait": "Update2",
     "sapIdoc": "IDoc",
-    "jobsInformation": "Información de trabajos",
+    "jobsInformation": "Información sobre trabajos ({{duration}})",
     "prdMins": "PRD mins",
     "scheduleStartTime": "Hora de inicio de planificación",
     "scheduleStartDate": "Fecha de inicio de planificación",
@@ -616,7 +617,8 @@
     "scheduled": "Planificado",
     "owner": "Propietario",
     "destination": "Destino",
-    "spoolError": "Error de spool",
+    "spoolErrorHour": "Error de spool (última {{duration}} hora)",
+    "spoolErrorsHours": "Error de spool (últimas {{duration}} horas)",
     "rfcSource": "Origen RFC",
     "count": "Count",
     "upTime": "Tiempo de funcionamiento",
@@ -744,7 +746,8 @@
     "waitingTaskCount": "Tarea en espera",
     "applicationThreadUsage": "Uso de subproceso de aplicación",
     "threadUsage": "Hebras",
-    "waitingtaskUsage": "Tarea en espera"
+    "waitingtaskUsage": "Tarea en espera",
+    "loading": "Cargando..."
   },
   "viewAllEntityName_unknownEntity_plural": "todos",
   "viewAllEntityName_unknownEntity_0": "todos",

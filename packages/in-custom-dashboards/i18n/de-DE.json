@@ -16,9 +16,7 @@
     "editTeamsDialog": {
       "title": "Teams bearbeiten",
       "description": "Wählen Sie Teams aus, die Sie diesem Dashboard zuordnen möchten.",
-      "calloutMessage": "Das Hinzufügen von Teams ermöglicht es den Teammitgliedern, dieses Dashboard anzuzeigen und zu bearbeiten. Es wird auch auf der Seite \"Teams\" in den Einstellungen angezeigt.",
-      "selectorLabel": "Teams",
-      "chooseTeams": "Teams auswählen"
+      "calloutMessage": "Das Hinzufügen von Teams ermöglicht es den Teammitgliedern, dieses Dashboard anzuzeigen und zu bearbeiten. Es wird auch auf der Seite \"Teams\" in den Einstellungen angezeigt."
     },
     "grid": {
       "grid": {
@@ -295,6 +293,13 @@
       },
       "index": {
         "websitesBeacons": "Websites (Beacons)"
+      },
+      "conversionGoals": {
+        "websiteSelect": "Website",
+        "goalSelect": "Konvertierungsziel",
+        "sessionsMetric": "Rate der konvertierten Sitzungen",
+        "usersMetric": "Rate der konvertierten Nutzer",
+        "convertTimeMetric": "Durchschnittliche Zeit bis zur Konversion"
       }
     },
     "srcSyntheticMonitoring": {
@@ -477,7 +482,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Erste Schritte",
-        "text": "Instana ist die erste und einzige voll automatisierte APM-Lösung (APM = Application Performance), die speziell für die Herausforderungen bei der Verwaltung von Mikroservice- und cloudnativen Anwendungen entwickelt wurde.\n\nDer Einstieg ist einfach1. Wenn Sie noch keinen Zugriff auf Instana haben, rufen Sie [Instana.com] (https://www.instana.com) auf und registrieren Sie sich für eine kostenlose Testversion.\n2. Lernen Sie unser Ökosystem von Hunderten [unterstützten Technologien](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies) kennen.\n3. Starten Sie die Datenerfassung mit einem unserer [Agenten](https://ibm.biz/installing-agent).\n4. Hier erfahren Sie mehr über die [Verwendung von Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) für Ihre Anwendungsfälle.\n5. Lesen Sie mehr über unsere einzigartigen [Kernkompetenzen](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).\n6. Erweitern Sie Instana mit [Integrationen, SDK und APIs](https://ibm.biz/integrations-sdks-apis).\n\nDas ist alles!\n\nHaben Sie nicht gefunden, wonach Sie gesucht haben? Rufen Sie die [Dokumentation] auf (https://www.ibm.com/docs/de/obi/current)!"
+        "text": "Instana ist die erste und einzige voll automatisierte APM-Lösung (APM = Application Performance), die speziell für die Herausforderungen bei der Verwaltung von Mikroservice- und cloudnativen Anwendungen entwickelt wurde.\n\nDer Einstieg ist einfach1. Wenn Sie noch keinen Zugriff auf Instana haben, rufen Sie [Instana.com] (https://www.instana.com) auf und registrieren Sie sich für eine kostenlose Testversion.\n2. Erkunden Sie unser Ökosystem mit Hunderten von [unterstützten Technologien](https://www.ibm.com/docs/en/instana-observability/latest?topic=configuring-monitoring-supported-technologies).\n3. Starten Sie die Datenerfassung mit einem unserer [Agenten](https://ibm.biz/installing-agent).\n4. Erfahren Sie, [wie Sie Instana für Ihre Anwendungsfälle nutzen](https://www.ibm.com/docs/en/instana-observability/latest?topic=using-instana).\n5. Lesen Sie über unsere einzigartigen [Kernkompetenzen](https://www.ibm.com/docs/en/instana-observability/latest?topic=core-capabilities).\n6. Erweitern Sie Instana mit [Integrationen, SDK und APIs](https://ibm.biz/integrations-sdks-apis).\n\nDas ist alles!\n\nHaben Sie nicht gefunden, wonach Sie gesucht haben? Wechseln Sie zur [Dokumentation](https://www.ibm.com/docs/en/instana-observability/latest)!"
       },
       "formComp": {
         "whatULikeShow": "Was möchten Sie anzeigen?",
@@ -636,7 +641,6 @@
         "timeBasedSli": "Zeitbasiert, {{metricNameLabel}}"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "Sie verfügen nicht über die Berechtigung <em>CAN_CONFIGURE_SERVICE_LEVEL_INDIKATOREN</em>, um SLIs zu erstellen oder zu bearbeiten.",
         "sliList": "SLI-Liste",
         "createSli": "SLI erstellen"
       },

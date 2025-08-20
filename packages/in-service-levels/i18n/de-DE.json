@@ -263,6 +263,12 @@
     "errorEmptyGoodFilter": "Ein guter Filter muss definiert werden",
     "errorEqualTagFilter": "Filter für 'Gut' und 'Schlecht ' dürfen nicht identisch sein",
     "nameAndTagsTitle": "Details festlegen",
+    "bindTimezoneLabel": "Zeitzone binden",
+    "currentTimezoneMessage": "Ihre aktuelle Zeitzone ist {{timezone}}.",
+    "disabledToggleLabel": "Inaktivieren",
+    "enabledToggleLabel": "Aktivieren",
+    "selectedTimezoneMessage": "Die SLO-Zeitzone ist auf {{timezone}} eingestellt.",
+    "selectTimezoneMessage": "Zeitzone auswählen",
     "sloNameLabel": "SLO-Name",
     "sloNamePlaceholder": "Name eingeben",
     "tagsLabel": "Tags (optional)",
@@ -328,16 +334,20 @@
       "timeWindowType_dynamic": "Dynamisches Zeitfenster",
       "timeWindowType_rolling": "Rotierendes Zeitfenster",
       "timeWindowType_fixed": "Festes Zeitfenster",
-      "configuredTimeWindow": "Konfiguriertes SLO-Zeitfenster:",
+      "configuredTimeWindow": "Konfiguriertes SLO-Zeitfenster",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "Startzeit: {{startDay}}, {{startTime}}",
-      "matchedSLOTimeWindow": "Zeitfenster für die Anpassung der SLO: ",
-      "matchedSLOTimeWindow_plural": "Übereinstimmende SLO-Zeitfenster: ",
-      "matchedSLOTimeWindow_0": "Zeitfenster für die Anpassung der SLO: ",
-      "matchedSLOTimeWindow_1": "Zeitfenster für die Anpassung der SLO: ",
-      "matchedSLOTimeWindow_2": "Übereinstimmende SLO-Zeitfenster: ",
+      "matchedSLOTimeWindow": "Passendes SLO-Zeitfenster",
+      "matchedSLOTimeWindow_plural": "Passende SLO-Zeitfenster",
+      "matchedSLOTimeWindow_0": "Passendes SLO-Zeitfenster",
+      "matchedSLOTimeWindow_1": "Passendes SLO-Zeitfenster",
+      "matchedSLOTimeWindow_2": "Passende SLO-Zeitfenster",
       "noMatchedSLOTimeWindow": "Es wurde kein passendes Zeitfenster gefunden",
-      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
+      "currentTimezone": "Ihre aktuelle Zeitzone ist auf {{timezone}} eingestellt.",
+      "editSloTimezone": "SLO-Zeitzone bearbeiten",
+      "sloCreatedTimezone": "Diese SLO wurde in {{sloTimezone}} erstellt",
+      "timezone": "Zeitzone: {{sloTimezone}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "Die Vorschau ist nicht verfügbar, da die Konfiguration unvollständig ist.",
@@ -509,7 +519,8 @@
         "timeWindowLabel": "Zeitfenster",
         "durationLabel": "Länge",
         "startDateLabel": "Startdatum",
-        "startTimeLabel": "Startzeit"
+        "startTimeLabel": "Startzeit",
+        "timezoneLabel": "Zeitzone"
       }
     }
   },

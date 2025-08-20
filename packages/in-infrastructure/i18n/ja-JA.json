@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "比較表",
     "agents": "エージェント",
+    "dataSources": "データ・ソース",
     "map": "マップ",
     "infrastructure": "インフラストラクチャー",
     "snapshotVersions": "スナップショットのバージョン",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "この照会の結果が多すぎます。 より制限的なフィルターを使用して検索を絞り込むか、時刻範囲を絞り込んでから再試行してください。",
       "generalError": "予期しないエラーが発生しました。"
     },
+    "warningTitle": "エクスポート制限超過",
+    "warning": "{{count}} 件のレコードをエクスポートすると、最大制限を超えます。 最初の {{max}} エントリーのみが含まれ、完了までに通常より時間がかかる場合があります。",
     "entityTypes": "エンティティー・タイプ {{count, parenthesis}}",
     "relatedInstances": "インスタンスの分析"
   },
@@ -150,5 +153,43 @@
     "label": "しきい値",
     "critical": "{{operator}} がクリティカル {{level}}",
     "warning": "{{operator}} 時の警告 {{level}}"
+  },
+  "customEntities": {
+    "labelDashboard": "ダッシュボード",
+    "saveChanges": "変更の保存",
+    "discardChanges": "変更の破棄",
+    "addWidget": "ウィジェットの追加",
+    "defaultDashboard": "デフォルト・ダッシュボード",
+    "dashboardsInfoWidgetDescription": "ウィジェットを追加し、カスタム・エンティティ・タイプのダッシュボードに表示するメトリクスを選択します。 \n\n このカスタム・エンティティ・タイプに一致するすべてのインスタンスは、同一のダッシュボードで表示されます。",
+    "dashboardsInfoWidgetTitle": "これは、あなた自身で形作ることができるカスタム・エンティティ・ダッシュボードです",
+    "failSaveDashboard": "ダッシュボードを保存できませんでした。",
+    "successfulSaveDashboard": "ダッシュボードが更新されました。",
+    "editDashboard": "ダッシュボードの編集 "
+  },
+  "collectorView": {
+    "otelCollector": "OpenTelemetry コレクター",
+    "restartCollector": "コレクターの再起動",
+    "editConfiguration": "構成の編集",
+    "collectorConfig": "コレクター構成",
+    "cpuTime": "CPU 時間",
+    "collectorUptime": "コレクター稼働時間",
+    "memoryUsage": "メモリー使用率",
+    "metricPointsAccepted": "メトリック・ポイント受け入れ可",
+    "logRecordsAccepted": "ログ記録受け入れ可",
+    "metricPointsExported": "メトリック・ポイントをエクスポート",
+    "logRecordsExported": "ログ・ポイントのエクスポート",
+    "receiverMetrics": "レシーバー・メトリクス",
+    "exporterMetrics": "エクスポーター・メトリクス",
+    "collectorRestartingTitle": "コレクターの再起動",
+    "collectorRestarting": "コレクターの再起動が正常に開始されました。",
+    "collectorError": "コレクター・エラー",
+    "configUpdateSuccessTitle": "設定の更新に成功しました",
+    "configUpdateSuccess": "コレクターの設定が正常に更新されました。",
+    "update": "Update",
+    "cancel": "キャンセル",
+    "configuration": "構成",
+    "exporter": "エクスポーター",
+    "processor": "プロセッサー",
+    "receiver": "レシーバー"
   }
 }

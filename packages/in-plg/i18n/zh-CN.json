@@ -258,6 +258,7 @@
         "configurationOptions": "配置选项",
         "monitoringGcr": "监视 Google Cloud Run",
         "monitoringAwsFargateRuby": "监视 AWS Fargate (Ruby)",
+        "monitoringAwsFargatePhp": "监控 AWS Fargate (PHP)",
         "awsServiceDocumentation": "AWS 服务文档",
         "monitoringAwsLambda": "监视 AWS Lambda",
         "configuringAwsLambdaMonitoring": "配置 AWS Lambda 监视",
@@ -273,7 +274,8 @@
       "nodejs8": "Node.js 8.x",
       "nodejs10Plus": "Node.js 10.x 或更高版本",
       "python2and3": "Python 2.7 和 3.x",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "php": "PHP"
     },
     "bosh": {
       "boshDirectorRuntimeConfig": "BOSH Director 运行时配置",
@@ -578,7 +580,8 @@
     "startIntegrating": {
       "title": "开始集成数据",
       "description": "通过安装代理程序启动 Instana 设置和无缝数据集成。",
-      "buttonName": "安装代理程序"
+      "buttonName": "部署代理程序",
+      "newDescription": "通过安装代理程序或收集器启动 Instana 设置和无缝数据集成。"
     },
     "traceInteractions": {
       "title": "跟踪交互",
@@ -848,7 +851,8 @@
         "addUser": "添加用户",
         "documentation": "IBM 文档",
         "releaseNotes": "发行说明",
-        "communityBlogsLink": "社区博客"
+        "communityBlogsLink": "社区博客",
+        "installDataSource": "安装数据源"
       },
       "toolTip": {
         "makeDefault": "此操作会将 Instana 主页设置为您的缺省登录页面，并替换您设置的任何自定义仪表板。"
@@ -944,7 +948,7 @@
   "datasources": {
     "datasources": "数据源",
     "openTelemetryCollectors": "OpenTelemetry 收集器",
-    "instanaAgents": "Instana 代理程序",
+    "instanaAgents": "Instana 代理",
     "installACollector": "安装收集器",
     "status": {
       "statusUnknown": "未知",
@@ -968,8 +972,8 @@
         "emptyState_subtitle": "单击“安装代理”以查找、部署和运行 Instana 代理 "
       },
       "oTelCollector": {
-        "emptyState_title": "安装 OpenTelemetry 收集器以开始查看数据",
-        "emptyState_linktext": "了解有关 Instana  oTel  收集器的更多信息",
+        "emptyState_title": "安装 OpenTelemetry 收集器以开始查看数据。",
+        "emptyState_linktext": "了解有关 OTel 收集器的更多信息",
         "emptyState_buttontext": "安装收集器",
         "emptyState_subtitle": "单击“安装收集器”以查找、部署并运行 OpenTelemetry 收集器。"
       }
@@ -982,5 +986,43 @@
     "reportingStatus": "{{reporting}} {{datasource}} 项报告（{{nonReporting}} 项未报告）",
     "reporting": "报告",
     "notReporting": "未报告"
+  },
+  "onboarding": {
+    "yourDashboard": "您的仪表板",
+    "gettingStarted": "入门",
+    "title": "建议的加入任务",
+    "description": "查看推荐任务，以充分利用 Instana。",
+    "taskLabel": "加入任务",
+    "joinCommunityLink": "加入 Instana 社区",
+    "videotitle": "指导视频",
+    "videoDescription": "观看我们的视频目录，以便您轻松设置环境。",
+    "video": "视频",
+    "videoitem": {
+      "installation": "安装 Instana",
+      "addingAgent": "添加代理",
+      "monitorWebsite": "监视 Web 站点"
+    },
+    "communityblogs": {
+      "title": "Instana 社区博客",
+      "description": "加入我们的 Instana 社区，了解即将推出的所有精彩内容！",
+      "blogLabel": "博客",
+      "gettingStartedBlogTitle": "Instana 入门",
+      "gettingStartedBlogDescription": "了解更多关于 Instana 的信息，并获取开始使用该产品所需的信息。",
+      "initialDeploymentBlogTitle": "使用 Instana 的初始部署步骤",
+      "initialDeploymentBlogDescription": "利用每个主题的简单易懂的视频，学习如何监控网站、设置警报等。"
+    },
+    "resource": {
+      "title": "资源",
+      "tryInstanaWithSampleData": "使用样本数据试用 Instana",
+      "ibmDocumentation": "IBM 文档",
+      "community": "社区",
+      "getSupport": "获取支持",
+      "watchADemo": "观看演示"
+    }
+  },
+  "accountBillingPushNotificationMessage": {
+    "description": "现在，您可以在单独的设置页面查看您的账户和账单信息。",
+    "buttonText": "查看页面",
+    "title": "账户和账单现已移至单独页面"
   }
 }

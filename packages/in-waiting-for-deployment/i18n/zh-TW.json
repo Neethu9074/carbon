@@ -93,6 +93,7 @@
     "applicationDirectory": "應用程式目錄",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Fargate on ECS 上的 Python 支援，就與任何 Python 應用程式的運作方式相同。請遵循 <go>Python 文件</go>的指示。",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "在 ECS 上的 Ruby on Fargate 的支援與任何 Ruby 應用程式的運作方式相同。請遵循 <go>Ruby 文件</go>的指示。",
+    "theSupportForPhpOnFargateOnEcsWorksTheSameWayAsWithAnyPhpApplicationFollowTheInstructionsOfThe": "ECS 上 Fargate 對 PHP 的支援方式與任何 PHP 應用程式相同。 遵循 <go>PHP 說明文件</go>的指示。",
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate 支援是設計成與 Elastic Container Service (ECS) 上的 AWS Fargate 搭配運作。",
     "selectYourApplicationRuntime": "選取您的應用程式執行時期：",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "以 Go 寫成的 AWS Lambda 函數需要手動檢測，才能收集追蹤資料。請遵循 <go>AWS Lambda Go 文件</go>的指示。",
@@ -282,7 +283,8 @@
     "nodejs10Plus": "Node.js 10.x 或更新版本",
     "python": "Python",
     "python2and3": "Python 2.7 及 3.x",
-    "ruby": "Ruby"
+    "ruby": "Ruby",
+    "php": "PHP"
   },
   "baseImg": {
     "glibcLinux": "Linux (glibc-based)",

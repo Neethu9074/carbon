@@ -15,6 +15,7 @@
   "memoryAllocated": "Mémoire allouée",
   "hypervisorTypes": "Types d'hyperviseur",
   "clusterArch": "Architecture d'un cluster",
+  "version": "Version",
   "dashboards": {
     "system": "Système",
     "wait": "Wait",
