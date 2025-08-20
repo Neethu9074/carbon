@@ -42,7 +42,7 @@ export default function BusinessImpact(props: BusinessMonitoringProps) {
               path: businessConversionGoalsFullyQualified,
               component: () => <ConversionGoals {...props} />
             }
-          ]
+          ].filter(Boolean)
         }
       ]}
       redirectToDefaultPage={businessImpactFullyQualified}
