@@ -89,7 +89,7 @@ export default function GettingStartedContent() {
                   {
                     id: item.key,
                     icon: () => <ArrowRight />,
-                    iconDescription: item.title
+                    iconDescription: t('in-plg:onboarding.tryNow')
                   }
                 ]}
               />
@@ -112,7 +112,7 @@ export default function GettingStartedContent() {
                   {
                     id: item.title,
                     icon: () => <ArrowRight />,
-                    iconDescription: item.title
+                    iconDescription: t('in-plg:onboarding.tryNow')
                   }
                 ]}
                 media={<img src={VideoImage} alt="Visual" className={locals.image} />}
@@ -141,7 +141,7 @@ export default function GettingStartedContent() {
                     {
                       id: item.key,
                       icon: () => <Launch />,
-                      iconDescription: item.title
+                      iconDescription: t('in-plg:onboarding.LearnMore')
                     }
                   ]}
                 />
@@ -163,8 +163,8 @@ export default function GettingStartedContent() {
       <SidePanel className={locals.sidePanel}>
         <Stack gap="2rem">
           <ExpressiveCard
-            key={t('in-plg:onboarding.resource.watchADemo')}
-            title={t('in-plg:onboarding.resource.watchADemo')}
+            key={t('in-plg:onboarding.resource.seeInstanaInAction')}
+            title={t('in-plg:onboarding.resource.seeInstanaInAction')}
             label={t('in-plg:onboarding.video')}
             onClick={() => {
               trackCta(VIDEO_WATCHADEMO);
@@ -172,9 +172,9 @@ export default function GettingStartedContent() {
             }}
             actionIcons={[
               {
-                id: t('in-plg:onboarding.resource.watchADemo'),
+                id: t('in-plg:onboarding.resource.seeInstanaInAction'),
                 icon: () => <ArrowRight />,
-                iconDescription: t('in-plg:onboarding.resource.watchADemo')
+                iconDescription: t('in-plg:onboarding.tryNow')
               }
             ]}
             media={<img src={VideoImage} alt="Visual" className={locals.image} />}

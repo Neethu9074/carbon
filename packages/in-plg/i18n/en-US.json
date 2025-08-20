@@ -991,25 +991,35 @@
     "yourDashboard": "Your dashboard",
     "gettingStarted": "Getting started",
     "title": "Suggested onboarding tasks",
-    "description": "View suggested tasks to get the most out of Instana.",
+    "description": "Get the most out of Instana by completing the following tasks.",
     "taskLabel": "Onboarding task",
     "joinCommunityLink": "Join the Instana community",
     "videotitle": "Guided videos",
-    "videoDescription": "View our catalog of videos so you can easily set up your environment.",
+    "tryNow": "Try now",
+    "LearnMore": "Learn more",
+    "videoDescription": "Simplify your setup process by using the video catalog.",
     "video": "Video",
+    "tasks": {
+      "setUpFirstDatasource": "Set up your first data source",
+      "verifyTracing": "Verify tracing",
+      "createApplicationPerspective": "Create an application perspective",
+      "inviteYourTeammate": "Invite your teammates",
+      "setUpSmartAlert": "Set up a Smart Alert",
+      "monitorWebsite": "Monitor a website"
+    },
     "videoitem": {
-      "installation": "Installing Instana",
-      "addingAgent": "Adding Agents",
-      "monitorWebsite": "Monitor a Website"
+      "installation": "How to install Instana",
+      "addingAgent": "How to add agents",
+      "monitorWebsite": "How to monitor a website"
     },
     "communityblogs": {
       "title": "Instana community blogs",
-      "description": "Join our Instana community and learn all the exciting things to come!",
+      "description": "Stay updated on all the exciting news by joining our Instana community.",
       "blogLabel": "Blog",
       "gettingStartedBlogTitle": "Getting started with Instana",
-      "gettingStartedBlogDescription": "Learn more about Instana and get the information you need to get started with the product.",
-      "initialDeploymentBlogTitle": "Initial deployment steps with Instana",
-      "initialDeploymentBlogDescription": "Learn how to monitor websites, set up alerts, and more with easy to follow videos for each topic."
+      "gettingStartedBlogDescription": "Find more about Instana and review the information you need to get started.",
+      "initialDeploymentBlogTitle": "Initial installation steps with Instana",
+      "initialDeploymentBlogDescription": "Build your foundation in monitoring websites and setting up alerts with guided videos."
     },
     "resource": {
       "title": "Resources",
@@ -1017,7 +1027,7 @@
       "ibmDocumentation": "IBM documentation",
       "community": "Community",
       "getSupport": "Get support",
-      "watchADemo": "Watch a demo"
+      "seeInstanaInAction": "See Instana in action"
     }
   }
 }
