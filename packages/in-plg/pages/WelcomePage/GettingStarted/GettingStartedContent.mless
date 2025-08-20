@@ -20,6 +20,9 @@
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(446px, 49%));
   }
+  .completed {
+    grid-column: span 3;
+ }
   .sidePanel {
     margin-top: 6rem;
     padding-top: 0;

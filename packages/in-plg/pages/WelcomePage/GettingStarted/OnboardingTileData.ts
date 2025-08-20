@@ -28,7 +28,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
 
-export function OnboardingTileData() {
+export function useOnboardingTileData(statusFlags: Record<string, boolean>) {
   const { createHrefToPath } = useNavigation();
 
   const createRedirectHref = (key: string): string => {
@@ -50,13 +50,14 @@ export function OnboardingTileData() {
     }
   };
 
-  return [
+  const allTasks = [
     {
       key: 'startIntegrating',
       title: t('in-plg:onboarding.tasks.setUpFirstDatasource'),
       href: createRedirectHref('startIntegrating'),
       trackingEvent: UNIT_ONBOARDING_START_INTEGRATING_CLICK,
-      pictogram: Data_1
+      pictogram: Data_1,
+      isActionCompleted: statusFlags.firstAgentInstalled
     },
     {
       key: 'traceInteractions',
@@ -64,35 +65,44 @@ export function OnboardingTileData() {
       href: createRedirectHref('traceInteractions'),
       trackingEvent: UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK,
       pictogram: Explore,
-      target: '_blank'
+      target: '_blank',
+      isActionCompleted: statusFlags.tracingReported
     },
     {
       key: 'appPerspective',
       title: t('in-plg:onboarding.tasks.createApplicationPerspective'),
       href: createRedirectHref('appPerspective'),
       trackingEvent: UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK,
-      pictogram: AnalyticsCustom
+      pictogram: AnalyticsCustom,
+      isActionCompleted: statusFlags.twoApplicationPerspectivesCreated
     },
     {
       key: 'inviteUsers',
       title: t('in-plg:onboarding.tasks.inviteYourTeammate'),
       href: createRedirectHref('inviteUsers'),
       trackingEvent: UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK,
-      pictogram: ShareKnowledge
+      pictogram: ShareKnowledge,
+      isActionCompleted: statusFlags.additionalUserInvited
     },
     {
       key: 'smartAlerts',
       title: t('in-plg:onboarding.tasks.setUpSmartAlert'),
       href: createRedirectHref('smartAlerts'),
       trackingEvent: UNIT_ONBOARDING_GET_ALERTED_CLICK,
-      pictogram: NotificationNew
+      pictogram: NotificationNew,
+      isActionCompleted: statusFlags.oneAlertSetUpAndActivated
     },
     {
       key: 'startMonitoring',
       title: t('in-plg:onboarding.tasks.monitorWebsite'),
       href: createRedirectHref('startMonitoring'),
       trackingEvent: UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK,
-      pictogram: CloudMonitoring
+      pictogram: CloudMonitoring,
+      isActionCompleted: statusFlags.oneWebsiteMonitored
     }
   ];
+  const defaultTasks = allTasks.filter(task => !task.isActionCompleted);
+  const completedTasks = allTasks.filter(task => task.isActionCompleted);
+
+  return { defaultTasks, completedTasks };
 }

@@ -999,6 +999,8 @@
     "LearnMore": "Learn more",
     "videoDescription": "Simplify your setup process by using the video catalog.",
     "video": "Video",
+    "showCompleted": "Show completed tasks",
+    "hideCompleted": "Hide completed tasks",
     "tasks": {
       "setUpFirstDatasource": "Set up your first data source",
       "verifyTracing": "Verify tracing",

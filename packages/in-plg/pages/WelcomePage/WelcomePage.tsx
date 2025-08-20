@@ -54,7 +54,7 @@ export default function WelcomePage() {
         {newOnboardingPageEnabled && isTrial ? (
           <Stack direction="vertical">
             {location.pathname === welcomePage && <PageContent />}
-            {location.pathname === gettingStartedPath && <GettingStartedContent />}
+            {location.pathname === gettingStartedPath && <GettingStartedContent activation={activation} />}
           </Stack>
         ) : (
           <Stack direction="vertical">

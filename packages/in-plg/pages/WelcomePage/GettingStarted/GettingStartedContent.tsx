@@ -3,8 +3,8 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2025
  */
-import React from 'react';
-import { ArrowRight, Launch } from '@carbon/icons-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, Launch, Checkmark } from '@carbon/icons-react';
 
 import { ExpressiveCard } from '@instana/ibm-products';
 import { Typography } from '@instana/components';
@@ -19,7 +19,7 @@ import {
   GETTINGSTARTED_LINK_GETSUPPORT,
   VIDEO_WATCHADEMO
 } from 'in-services/tracking/eventNames';
-import { OnboardingTileData } from 'in-plg/pages/WelcomePage/GettingStarted/OnboardingTileData';
+import { useOnboardingTileData } from 'in-plg/pages/WelcomePage/GettingStarted/OnboardingTileData';
 import { CommunityBlogsData } from 'in-plg/pages/WelcomePage/GettingStarted/CommunityBlogsData';
 import { GuidedVideoItems } from 'in-plg/pages/WelcomePage/GettingStarted/GuidedVideoItems';
 import { ContentSection } from 'in-plg/pages/WelcomePage/GettingStarted/ContentSection';
@@ -27,6 +27,7 @@ import VideoImage from 'in-plg/pages/WelcomePage/GettingStarted/assets/VideoImag
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import SupportViewSectionV2 from 'in-plg/pages/onboarding/Layout/SupportViewSectionV2';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import config from 'in-services/config';
 
 import locals from './GettingStartedContent.mless';
 
@@ -57,44 +58,90 @@ const supportResourceData = [
     ]
   }
 ];
-
 const watchDemoVideoId = 'KpyMsT7cLa8';
 
-export default function GettingStartedContent() {
+export default function GettingStartedContent({ activation }: { activation: any }) {
   const { trackCta } = useSegmentTracking();
-  const onboardingItems = OnboardingTileData();
   const communityBlogsData = CommunityBlogsData();
   const videoList = GuidedVideoItems();
+  const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
+  const [statusFlags, setStatusFlags] = useState({
+    firstAgentInstalled: true,
+    tracingReported: true,
+    threeAgentsInstalled: true,
+    twoApplicationPerspectivesCreated: true,
+    oneAlertSetUpAndActivated: true,
+    oneWebsiteMonitored: true
+  });
+
+  useEffect(() => {
+    if (!activation || Object.keys(activation).length === 0) return;
+
+    setStatusFlags({
+      firstAgentInstalled: activation[currentTenantUnit]?.fa?.status ?? true,
+      tracingReported: activation[currentTenantUnit]?.tr?.status ?? true,
+      threeAgentsInstalled: activation[currentTenantUnit]?.ai?.status ?? true,
+      twoApplicationPerspectivesCreated: activation[currentTenantUnit]?.ap?.status ?? true,
+      oneAlertSetUpAndActivated: activation[currentTenantUnit]?.sas?.status ?? true,
+      oneWebsiteMonitored: activation[currentTenantUnit]?.w?.status ?? true
+    });
+  }, [activation, currentTenantUnit]);
+  const { defaultTasks, completedTasks } = useOnboardingTileData(statusFlags);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   return (
     <Container>
       <MainBody>
         <ContentSection title={t('in-plg:onboarding.title')} description={t('in-plg:onboarding.description')}>
-          <div className={locals.tileGrid}>
-            {onboardingItems.map(item => (
-              <ExpressiveCard
-                key={item.key}
-                label={<Typography variant="label-01">{t('in-plg:onboarding.taskLabel')}</Typography>}
-                title={<Typography variant="heading-03"> {item.title}</Typography>}
-                pictogram={item.pictogram}
-                onClick={() => {
-                  trackCta(item.trackingEvent);
-                  if (item.target === '_blank') {
-                    window.open(item.href, '_blank');
-                  } else {
-                    window.location.href = item.href;
-                  }
-                }}
-                actionIcons={[
-                  {
-                    id: item.key,
-                    icon: () => <ArrowRight />,
-                    iconDescription: t('in-plg:onboarding.tryNow')
-                  }
-                ]}
-              />
-            ))}
-          </div>
+          <Stack gap={5}>
+            <div className={locals.tileGrid}>
+              {defaultTasks.map(item => (
+                <ExpressiveCard
+                  key={item.key}
+                  label={<Typography variant="label-01">{t('in-plg:onboarding.taskLabel')}</Typography>}
+                  title={<Typography variant="heading-03">{item.title}</Typography>}
+                  pictogram={item.pictogram}
+                  onClick={() => {
+                    trackCta(item.trackingEvent);
+                    item.target === '_blank' ? window.open(item.href, '_blank') : (window.location.href = item.href);
+                  }}
+                  actionIcons={[
+                    {
+                      id: item.key,
+                      icon: () => <ArrowRight />,
+                      iconDescription: item.title
+                    }
+                  ]}
+                />
+              ))}
+              {showCompleted && <div className={locals.completed} />}
+              {showCompleted &&
+                completedTasks.map(item => (
+                  <ExpressiveCard
+                    key={item.key}
+                    label={<Typography variant="label-01">{t('in-plg:onboarding.taskLabel')}</Typography>}
+                    title={<Typography variant="heading-03">{item.title}</Typography>}
+                    pictogram={Checkmark}
+                    onClick={() => {
+                      trackCta(item.trackingEvent);
+                      item.target === '_blank' ? window.open(item.href, '_blank') : (window.location.href = item.href);
+                    }}
+                    actionIcons={[
+                      {
+                        id: item.key,
+                        icon: () => <ArrowRight />,
+                        iconDescription: item.title
+                      }
+                    ]}
+                  />
+                ))}
+            </div>
+            {completedTasks.length > 0 && (
+              <Button kind="ghost" onClick={() => setShowCompleted(prev => !prev)}>
+                {showCompleted ? t('in-plg:onboarding.hideCompleted') : t('in-plg:onboarding.showCompleted')}
+              </Button>
+            )}
+          </Stack>
         </ContentSection>
 
         <ContentSection title={t('in-plg:onboarding.videotitle')} description={t('in-plg:onboarding.videoDescription')}>
@@ -125,7 +172,7 @@ export default function GettingStartedContent() {
           title={t('in-plg:onboarding.communityblogs.title')}
           description={t('in-plg:onboarding.communityblogs.description')}
         >
-          <Stack gap="1rem">
+          <Stack gap={5}>
             <div className={locals.communityBlogtileGrid}>
               {communityBlogsData.map(item => (
                 <ExpressiveCard
