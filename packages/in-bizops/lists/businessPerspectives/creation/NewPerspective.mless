@@ -5,54 +5,70 @@
  */
 
 :local {
-  .contentParent {
-    grid-column: 1 / span 3;
-    grid-template-columns: 1fr 2fr 2fr;
-    grid-column-gap: 10px;
-    height: fit-content;
-    padding: 0px 10px;
-    display: grid;
+  .tearsheetOuter {
+    z-index: 130 !important;
   }
 
-  .leftContent {
-    grid-column: 1 / span 2;
-    max-width: 100%;
+  .mainDiv {
+    margin: var(--cds-spacing-07);
   }
 
-  .rightContent {
-    grid-column: 3 / span 1;
-    max-width: 100%;
+  .headline {
+    font-size: var(--cds-heading-03-font-size);
+    font-weight: var(--cds-heading-01-font-weight);
+    margin-bottom: var(--cds-spacing-03);
   }
 
-  .contentColumn {
-    padding: 0 0.5rem;
-    margin-top: 0.5rem 0 1rem;
-    overflow-y: auto;
+  .subtitle {
+    color: var(--cds-text-secondary);
+    font-size: var(--cds-label-02-font-size);
+    margin-bottom: var(--cds-spacing-05);
   }
 
-  .queryBuilder {
+  .textInput {
+    margin-bottom: var(--cds-spacing-06);
+    width: 40%;
+  }
+
+  .textArea {
+    margin-bottom: var(--cds-spacing-08);
+  }
+
+  .listHeader {
     display: flex;
-    align-items: center;
-    width: 100%;
+    align-content: flex-end;
+    align-items: flex-end;
+    gap: 10px;
   }
 
-  .dialog {
-    width: 66.25rem;
-    padding: 0 1rem 1rem 1rem;
-    height: 35rem;
-    background-color: var(--ids-color-option-white);
-    background-clip: content-box;
+  .listHeadline {
+    font-size: var(--cds-heading-03-font-size);
+    font-weight: var(--cds-heading-01-font-weight);
   }
 
-  .headerText {
-    color: var(--ids-color-option-neutral-600);
+  .influencerCard {
     margin: 0;
-    font-size: var(--ids-font-size-option-heading-200);
+    padding: var(--cds-spacing-05) 0 0 0;
   }
 
-  .processesLiveListMessages {
-    color: var(--ids-color-option-neutral-600);
-    margin: 0;
-    font-size: var(--ids-font-size-option-body-small);
+  .filterCard {
+    border: 1px solid var(--cds-border-subtle-02);
+  }
+
+  .filterCardFlex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .emptyState {
+    margin: var(--cds-spacing-05);
+  }
+}
+
+:global {
+  /* We need to increase the width of the influencer to fit the content */
+  .c4p--tearsheet__influencer--wide:has(.bizops-processes-live-list) {
+    flex-basis: 375px;
+    background-color: var(--cds-layer);
   }
 }

@@ -20,7 +20,6 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { bizopsCreatePerspectiveClick } from 'in-bizops/tracker';
@@ -34,35 +33,8 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from 'in-bizops/lists/businessPerspectives/BusinessPerspectivesList.mless';
-
 const pathSegment = businessPerspectivesPath;
 const matrixPrefix = '';
-
-function NewPerspectiveButton() {
-  const [role] = useCurrentUserRole();
-  const { location } = useNavigation();
-  const trackerProps = {
-    path: location.pathname
-  };
-
-  const createDisabled = role?.limitedBizOpsScope;
-
-  if (createDisabled) return <></>;
-  return (
-    <Button
-      kind="action"
-      onClick={() => {
-        bizopsCreatePerspectiveClick(trackerProps);
-        addActiveDialog(<NewPerspectiveDialogPresenter />);
-      }}
-      className={locals.button}
-      icon="lib_openclose_add_circle_outline"
-    >
-      {t('in-bizops:perspectives.newPerspective')}
-    </Button>
-  );
-}
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
@@ -80,9 +52,34 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function BusinessPerspectivesList() {
   const timeConfig = useTimeConfig();
+  const [createOpen, setCreateOpen] = React.useState(false);
+
+  function NewPerspectiveButton() {
+    const [role] = useCurrentUserRole();
+    const { location } = useNavigation();
+    const trackerProps = {
+      path: location.pathname
+    };
+
+    const createDisabled = role?.limitedBizOpsScope;
+
+    if (createDisabled) return <></>;
+    return (
+      <Button
+        kind="action"
+        icon="lib_openclose_add_circle_outline"
+        onClick={() => {
+          bizopsCreatePerspectiveClick(trackerProps);
+          setCreateOpen(true);
+        }}
+      >
+        {t('in-bizops:perspectives.newPerspective')}
+      </Button>
+    );
+  }
 
   return (
-    <div className={locals.perspectiveList}>
+    <>
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Title title={t('in-bizops:lists.pageTitle')} />
@@ -100,7 +97,8 @@ export default function BusinessPerspectivesList() {
         </LeftRightPadding>
         <Footer />
       </Sticky>
-    </div>
+      <NewPerspectiveDialogPresenter open={createOpen} setOpen={setCreateOpen} />
+    </>
   );
 }
 

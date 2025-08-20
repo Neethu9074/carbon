@@ -8,17 +8,18 @@ import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
 import { BusinessPerspective } from '@instana/types';
+import { Tearsheet } from '@instana/ibm-products';
+import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Modal } from '@instana/carbon';
 
-import { NewPerspectiveFormStepOne } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepOne';
-import { NewPerspectiveFormStepTwo } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepTwo';
+// @ts-expect-error Module needs to be translated to TS
+import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
-import { isQueryValid } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
-import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import { NewPerspectiveForm } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import ProcessesLiveList from 'in-bizops/lists/businessPerspectives/creation/ProcessesLiveList';
 import { businessPerspectiveDashboard, summaryTab } from 'in-bizops/navigation/paths';
-import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
@@ -26,38 +27,33 @@ import { createBusinessPerspective } from 'in-bizops/api/perspectives';
 import { HttpResponse, PerspectiveItem } from 'in-bizops/utils/types';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { bizopsPerspectiveCreated } from 'in-bizops/tracker';
-import { close } from 'in-components/DialogPresenter/store';
 import { TIMEOUT_IN_MS } from 'in-bizops/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
-import locals from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.mless';
+import local from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.mless';
 
-export function NewPerspectiveDialogPresenter() {
+interface NewPerspectiveDialogPresenterProps {
+  setOpen: (open: boolean) => void;
+  open: boolean;
+}
+
+export function NewPerspectiveDialogPresenter({ setOpen, open }: NewPerspectiveDialogPresenterProps) {
   const timeConfig = useTimeConfig();
   const { location, navigate } = useNavigation();
 
-  const stepConfigs: StepConfigs = [
-    {
-      title: t('in-bizops:perspectives.dialog.stepOne.progressBarTitle'),
-      validateIntermediately: [['tagFilterExpression']]
-    },
-    { title: t('in-bizops:perspectives.dialog.stepTwo.progressBarTitle') }
-  ];
-
   const [form, updateForm] = useState(createNewPerspectiveForm());
-  const formId = 'new-business-perspective-form';
-
-  const [step, setStep] = useState(0);
+  const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
 
   const blueprintCatalogResult =
     useObservable(getBusinessMonitoringTagCatalog({ useCase: 'FILTERING' }), []) ?? pendingResult;
 
   const tagFilterExpressionFormModel = form.get('tagFilterExpression')?.value;
-  const validTagFilterExpressionResult =
-    useObservable(isQueryValid, [tagFilterExpressionFormModel, timeConfig]) ?? pendingResult;
+  const tagFilterExpressionEmpty = tagFilterExpressionFormModel.length == 0;
+  const validTagFilterExpressionQuery =
+    !tagFilterExpressionEmpty &&
+    validateFormModel({ tagCatalog: blueprintCatalogResult?.data, formModel: tagFilterExpressionFormModel }).isValid;
 
   function onCreate(form: MapForm<any>) {
     const requestBody: PerspectiveItem = {
@@ -73,7 +69,7 @@ export function NewPerspectiveDialogPresenter() {
     an API request to create a new perspective
   */
   function onSuccess(item: BusinessPerspective) {
-    close();
+    setOpen(false);
     const trackerData = {
       path: location.pathname,
       successFlag: true,
@@ -96,7 +92,7 @@ export function NewPerspectiveDialogPresenter() {
   }
 
   function onError(data: HttpResponse) {
-    close();
+    setOpen(false);
     const trackerData = {
       path: location.pathname,
       successFlag: false,
@@ -113,53 +109,63 @@ export function NewPerspectiveDialogPresenter() {
   }
 
   return (
-    <DialogWithSlideInView
-      title={t('in-bizops:perspectives.dialog.title')}
-      onClose={close}
-      doNotCloseOnOutsideClick
-      withoutBodyPadding
-    >
-      <div className={locals.dialog}>
-        <SimpleModePageNavigation
-          onClose={close}
-          stepConfigs={stepConfigs}
-          form={form}
-          formId={formId}
-          updateForm={updateForm}
-          simpleModeStep={step}
-          setSimpleModeStep={setStep}
-          additionalStepCheck={() => validTagFilterExpressionResult?.data}
-          noStepCheckOnFirstStep
-          onCreate={() => {
-            onCreate(form);
-          }}
-          onStepChanged={noop}
-          renderStep={(step: number) => {
-            switch (step) {
-              case 0:
-                return (
-                  <NewPerspectiveFormStepOne
-                    form={form}
-                    updateForm={updateForm}
-                    blueprintCatalogResult={blueprintCatalogResult}
-                    timeConfig={timeConfig}
-                  />
-                );
-              case 1:
-                return (
-                  <NewPerspectiveFormStepTwo
-                    form={form}
-                    updateForm={updateForm}
-                    blueprintCatalogResult={blueprintCatalogResult}
-                    timeConfig={timeConfig}
-                  />
-                );
-              default:
-                return null;
+    <>
+      {/* @ts-expect-error the tearsheet type is missing the children prop for some reason */}
+      <Tearsheet
+        className={local.tearsheetOuter}
+        title={t('in-bizops:perspectives.dialog.title')}
+        actions={[
+          {
+            key: 1,
+            kind: 'primary',
+            label: t('in-bizops:perspectives.dialog.create'),
+            disabled: !validTagFilterExpressionQuery || !form.hierarchyValid,
+            onClick: () => {
+              onCreate(form);
+              setOpen(false);
             }
-          }}
-        />
-      </div>
-    </DialogWithSlideInView>
+          },
+          {
+            key: 2,
+            kind: 'secondary',
+            label: t('in-bizops:perspectives.dialog.cancel'),
+            onClick: () => {
+              setCancelConfirmOpen(true);
+            }
+          }
+        ]}
+        influencer={
+          <div className={local.influencer}>
+            <ProcessesLiveList
+              tagFilterExpressionFormModel={tagFilterExpressionFormModel}
+              blueprintCatalogResult={blueprintCatalogResult}
+              timeConfig={timeConfig}
+            />
+          </div>
+        }
+        influencerPosition="right"
+        influencerWidth="wide"
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <NewPerspectiveForm form={form} updateForm={updateForm} blueprintCatalogResult={blueprintCatalogResult} />
+      </Tearsheet>
+      <Modal
+        danger
+        size="sm"
+        open={cancelConfirmOpen}
+        modalHeading={t('in-bizops:perspectives.dialog.cancelModal.heading')}
+        primaryButtonText={t('in-bizops:perspectives.dialog.cancelModal.confirm')}
+        secondaryButtonText={t('in-bizops:perspectives.dialog.cancelModal.continue')}
+        onRequestSubmit={() => {
+          updateForm(createNewPerspectiveForm());
+          setOpen(false);
+          setCancelConfirmOpen(false);
+        }}
+        onRequestClose={() => setCancelConfirmOpen(false)}
+      >
+        <Typography variant="body-01">{t('in-bizops:perspectives.dialog.cancelModal.body')}</Typography>
+      </Modal>
+    </>
   );
 }
