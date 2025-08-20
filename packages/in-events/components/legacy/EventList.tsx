@@ -38,7 +38,6 @@ import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/Even
 import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
-import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 // @ts-expect-error No typedef
 import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
 // @ts-expect-error No typedef
@@ -48,6 +47,7 @@ import { FeedbackComponents } from 'in-events/components/EventTable';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import AutomationCardForLegacyPRC from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
+import { getRootCauses } from 'in-events/components/RootCauseAnalysis/utils/getRootCauses';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
@@ -58,6 +58,7 @@ import EventListProviders from 'in-events/components/providers/EventListProvider
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
+import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 // @ts-expect-error No typedef
 import { getEvent } from 'in-stores/events';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
@@ -97,7 +98,7 @@ const IncidentEventList: FC<IncidentEventListProps> = ({ incident, latestSnapsho
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const eventType = getEventType(incident);
-  const hasRootCauses = incident.getIn(['metadata', 'rootCause', 'found']) ?? false;
+  const hasRootCauses = getRootCauses(incident.toJS()).length !== 0;
 
   const { location } = useNavigation();
 
