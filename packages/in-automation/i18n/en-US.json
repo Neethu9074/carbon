@@ -248,7 +248,7 @@
   "aiGenerated": "AI-generated",
   "ActionCatalog": {
     "actionCatalog": "Action catalog",
-    "newAction": "New action",
+    "createAction": "Create action",
     "createANewAction": "Create a new action",
     "configureActionEntityName": "Configure action: {{entityName}}",
     "lastModified": "Last modified",
@@ -440,7 +440,7 @@
   },
   "policies": {
     "policies": "Policies",
-    "newPolicy": "New policy",
+    "createPolicy": "Create policy",
     "selectEventTrigger": "Select event trigger",
     "eventTrigger": "Event trigger",
     "unknownPolicy": "Unknown policy",

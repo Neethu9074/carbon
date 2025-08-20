@@ -111,7 +111,7 @@ export default function ActionCatalog({
           <>
             {role?.canConfigureAutomationActions && isUserActions && (
               <Button kind="action" onClick={() => toggleActionTearsheet({})} icon="lib_openclose_add_circle_outline">
-                {t('in-automation:ActionCatalog.newAction')}
+                {t('in-automation:ActionCatalog.createAction')}
               </Button>
             )}
             <>

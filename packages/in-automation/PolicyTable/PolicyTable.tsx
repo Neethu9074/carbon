@@ -6,26 +6,9 @@
 
 import React, { useState } from 'react';
 
-import { Button, Spacer, Stack, Typography } from '@instana/components';
 import { EventSpecificationInfo, PaginatedResult, Policy, Result, Trigger, TriggerType } from '@instana/types';
+import { Button, Spacer, Stack, Typography } from '@instana/components';
 
-import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
-import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
-import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
-import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
-import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
-import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
-import { deletePolicy } from 'in-automation/api';
-import { tagsColumn } from 'in-automation/components/columnDefinitions';
-import { TagsFilter } from 'in-automation/components/tableFilters';
-import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
-import CreatePolicyTearsheet, { CreatePolicyTearsheetProps } from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
-import usePolicies, { refresh, usePaginatedPolicies } from 'in-automation/Policies/usePolicies';
-import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
-import useTriggers from 'in-automation/Policies/useTriggers';
-import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
-import { PolicyTypeFilter } from 'in-automation/PolicyTable/tableFilters';
 import {
   isApplicationSmartAlert,
   isEventSpecification,
@@ -37,20 +20,39 @@ import {
   isWebsiteSmartAlert,
   TriggerSpecification
 } from 'in-automation/types';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import MoreMenu from 'in-components/MoreMenu/MoreMenu';
-import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
-import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import CreatePolicyTearsheet, {
+  CreatePolicyTearsheetProps
+} from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import Tooltip from 'in-components/Tooltip/Tooltip';
-import WithSubscript from 'in-components/WithSubscript/WithSubscript';
-import { t, Trans } from 'in-i18n';
-import { hasError, isLoading, mapData } from 'in-services/util/result';
+import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
+import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
+import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
+import usePolicies, { refresh, usePaginatedPolicies } from 'in-automation/Policies/usePolicies';
 import { EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
+import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
+import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
+import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
+import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
+import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
+import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { PolicyTypeFilter } from 'in-automation/PolicyTable/tableFilters';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import { hasError, isLoading, mapData } from 'in-services/util/result';
+import WithSubscript from 'in-components/WithSubscript/WithSubscript';
+import { TagsFilter } from 'in-automation/components/tableFilters';
+import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import useTriggers from 'in-automation/Policies/useTriggers';
+import MoreMenu from 'in-components/MoreMenu/MoreMenu';
+import Tooltip from 'in-components/Tooltip/Tooltip';
+import { deletePolicy } from 'in-automation/api';
+import { t, Trans } from 'in-i18n';
 
 import locals from './PolicyTable.mless';
 
@@ -143,7 +145,7 @@ export default function Policies({
                   onClick={() => policyTearsheetToggleHandler({})}
                   icon="lib_openclose_add_circle_outline"
                 >
-                  {t('in-automation:policies.newPolicy')}
+                  {t('in-automation:policies.createPolicy')}
                 </Button>
               )}
               <>
