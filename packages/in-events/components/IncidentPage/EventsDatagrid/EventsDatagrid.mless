@@ -9,35 +9,40 @@
     position: relative; //needed for sticky header
 
     .table {
-      display: grid;
+      .tableHeaderRow {
+        display: flex;
+        align-items: center;
+        min-block-size: 3rem; // needed for sortable rows increasing size
 
-      .tableHead {
-        display: grid;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-
-        .tableHeaderRow {
+        .tableHeader {
           display: flex;
           align-items: center;
-          width: 100%;
-          height: 100%;
         }
       }
 
       .tableBody {
-        display: grid;
+        display: flex;
+        flex-direction: column;
         position: relative;
 
         .tableRow {
           display: flex;
+          align-items: center;
+          min-block-size: 2.5rem;
           position: absolute;
+          top: 0;
+          left: 0;
           width: 100%;
 
           .tableCell {
-            display: flex;
-            align-items: center;
+            height: 100%;
+            > td {
+              height: 100%;
+            }
           }
+        }
+        .tableExpandedRow {
+          block-size: 50rem;
         }
       }
     }
