@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Column, Dropdown, MultiSelect, NumberInput } from '@instana/carbon';
 
-import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
 import { daysOfTheWeekOptions, ONE_TIME } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
+import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
 import { getValidationMessage, isFieldValid } from 'in-automation/utils/form';
 import { t } from 'in-i18n';
 
@@ -71,7 +71,7 @@ export default function WeeklySection() {
           invalidText={getValidationMessage(daysOfTheWeekField)}
           sortItems={items => [...items].sort((a, b) => a.value - b.value)}
           titleText={t('in-automation:policyCreateTearsheet.daysOfTheWeek')}
-          id="correction-window-days-of-the-week"
+          id="policy-scheduling-days-of-the-week"
           items={daysOfTheWeekOptions}
           selectedItems={daysOfTheWeekOptions.filter(({ value }) => daysOfTheWeekField.value.includes(value))}
         />

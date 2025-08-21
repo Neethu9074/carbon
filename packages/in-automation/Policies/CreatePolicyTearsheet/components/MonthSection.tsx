@@ -29,7 +29,7 @@ export default function MonthSection() {
         }}
         label={t('in-automation:policyCreateTearsheet.select')}
         titleText={t('in-automation:policyCreateTearsheet.month')}
-        id="correction-window-month"
+        id="policy-scheduling-month"
         invalid={!isMonthFieldValid}
         invalidText={getValidationMessage(monthField)}
         items={monthOptions}

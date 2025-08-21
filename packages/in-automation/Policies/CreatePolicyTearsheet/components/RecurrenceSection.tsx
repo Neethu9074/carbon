@@ -60,7 +60,7 @@ function EndDateSection() {
 
   return (
     <FormGroup>
-      <Label htmlFor="correction-window-end-date">{t('in-automation:policyCreateTearsheet.endDate')}</Label>
+      <Label htmlFor="policy-scheduling-end-date">{t('in-automation:policyCreateTearsheet.endDate')}</Label>
       <DateInput
         id="policy-scheduling-end-date"
         placeholder="YYYY-MM-DD"
