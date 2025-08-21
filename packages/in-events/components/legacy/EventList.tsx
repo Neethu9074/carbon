@@ -28,6 +28,8 @@ import {
   rcaAgenticEnabled
 } from 'in-services/featureFlags';
 import AgenticInvestigationWorkflow from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/AgenticInvestigation';
+// import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { toHtml } from 'in-services/formatters/markdown';
 // @ts-expect-error No typedef
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 // @ts-expect-error No typedef
@@ -68,8 +70,6 @@ import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import useCurrentUserRole from 'in-stores/useCurrentUserRole';
-import { toHtml } from 'in-services/formatters/markdown';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -346,9 +346,7 @@ interface TriggeringEventProps {
 }
 
 const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }: TriggeringEventProps): JSX.Element => {
-  const [role] = useCurrentUserRole();
-  const canCloseManually = role?.canManuallyCloseIssue;
-  const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
+  const timeConfig = incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
 
   return (
     <Stack gap="xsmall">
