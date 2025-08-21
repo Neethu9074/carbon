@@ -92,7 +92,7 @@ const tourList = t =>
     title: config.title,
     action: {
       type: 'tour',
-      tourId: config.tourId
+      tour_id: config.tourId
     },
     route_regex: config.route
   }));
