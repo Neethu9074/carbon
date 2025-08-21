@@ -32,6 +32,7 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigationToAlertConfig } from 'in-infrastructure/navigation/paths';
@@ -77,7 +78,7 @@ function AlertConfigTearSheetContent({
   const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode, true));
+  const [form, setForm] = useState(() => alertFormDefinition(populateRulesInConfig(alertConfig), editMode, true));
   const updateForm = useInfraSmartAlertFormSideEffects(form, setForm);
 
   const [isSaving, setIsSaving] = useState(false);

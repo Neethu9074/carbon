@@ -21,6 +21,8 @@ import {
   Severity,
   SmartAlertThresholdRuleUnion,
   ThresholdOperator,
+  StaticThresholdRule,
+  AdaptiveThresholdRule,
   ForecastingConfig
 } from '@instana/types';
 
@@ -232,7 +234,10 @@ export function useGetMetricLabel(entityType: string, metricName: string, aggreg
  * In the alert preview, we pass the warning threshold if it is present. Otherwise, critical threshold.
  */
 function getThresholdWithLowestSeverity(thresholdsMap: { [P in Severity]?: SmartAlertThresholdRuleUnion }) {
-  if (!isEmpty((thresholdsMap[WARNING_SEVERITY] as any)?.isCheckboxSelected)) {
+  if (
+    !isEmpty((thresholdsMap[WARNING_SEVERITY] as StaticThresholdRule)?.value) ||
+    !isEmpty((thresholdsMap[WARNING_SEVERITY] as AdaptiveThresholdRule)?.deviationFactor)
+  ) {
     return thresholdsMap[WARNING_SEVERITY];
   }
 
