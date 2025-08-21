@@ -549,7 +549,8 @@
   "configureCorrectionWindowDialog": {
     "validators": {
       "daysOfTheWeek": "Must select atleast one day.",
-      "startAndEndDate": "The end date must be after the start date."
+      "startAndEndDate": "The end date must be after the start date.",
+      "startTime": "Time does not have the format {{timeFormat}}"
     },
     "components": {
       "scopeSection": {
