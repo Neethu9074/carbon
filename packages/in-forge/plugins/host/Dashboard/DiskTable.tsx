@@ -9,10 +9,14 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
+import {
+  bytesTwoDecimalPlaces,
+  bytesPerSecondZeroDecimalPlaces,
+  zeroDecimalPlaces
+} from 'in-services/formatters/number';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { millis } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -103,14 +107,46 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.host.dashboard.blockReadRate'),
+    title: t('in-forge:plugins.host.dashboard.byteReadRate'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: DiskRow) {
         return row.snapshotId;
       },
       getMetricName(row: DiskRow) {
-        return `disk.${row.key}.blockReadRate`;
+        return `disk.${row.key}.byteReadRate`;
+      },
+      getContent: bytesPerSecondZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.byteWriteRate'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskRow) {
+        return `disk.${row.key}.byteWriteRate`;
+      },
+      getContent: bytesPerSecondZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.latency'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskRow) {
+        return `disk.${row.key}.latency`;
       },
       getContent: millis.detailed,
       getTimeWindowAggregation() {
@@ -119,16 +155,32 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.host.dashboard.blockWriteRate'),
+    title: t('in-forge:plugins.host.dashboard.throughput'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: DiskRow) {
         return row.snapshotId;
       },
       getMetricName(row: DiskRow) {
-        return `disk.${row.key}.blockWriteRate`;
+        return `disk.${row.key}.throughput`;
       },
-      getContent: millis.detailed,
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.transferRate'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskRow) {
+        return `disk.${row.key}.transferRate`;
+      },
+      getContent: bytesPerSecondZeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -174,17 +226,28 @@ const DiskTable = function DiskInfo({ snapshotId, timeConfig }: DiskProps) {
               `disk.${row.key}.writeAwaitTime`,
               `disk.${row.key}.avgDiscardRequestsTime`,
               `disk.${row.key}.avgFlushRequestsTime`,
-              `disk.${row.key}.blockWriteRate`,
-              `disk.${row.key}.blockReadRate`
+              `disk.${row.key}.byteWriteRate`,
+              `disk.${row.key}.byteReadRate`,
+              `disk.${row.key}.transferRate`,
+              `disk.${row.key}.latency`
             ],
             labels: [
               t('in-forge:plugins.host.dashboard.readAwaitTime'),
               t('in-forge:plugins.host.dashboard.writeAwaitTime'),
               t('in-forge:plugins.host.dashboard.avgDiscardRequestsTime'),
               t('in-forge:plugins.host.dashboard.avgFlushRequestsTime'),
-              t('in-forge:plugins.host.dashboard.blockWriteRate'),
-              t('in-forge:plugins.host.dashboard.blockReadRate')
+              t('in-forge:plugins.host.dashboard.byteWriteRate'),
+              t('in-forge:plugins.host.dashboard.byteReadRate'),
+              t('in-forge:plugins.host.dashboard.transferRate'),
+              t('in-forge:plugins.host.dashboard.latency')
             ],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            formatter: zeroDecimalPlaces,
+            metrics: [`disk.${row.key}.throughput`],
+            labels: [t('in-forge:plugins.host.dashboard.throughput')],
             type: 'line'
           }}
         />
