@@ -410,6 +410,8 @@
     "openIssuesListPresenterIssueDescriptionOmitted": "Issue description omitted. More details are visible within the event's detail view.",
     "openIssuesListPresenterStarted": "Started",
     "noIssues": "No issues",
+    "capitalIssue": "Issue",
+    "capitalIssue_plural": "Issues",
     "openIssues": "{{count}} issue",
     "openIssues_plural": "{{count}} issues",
     "openIssues_0": "{{count}} issues",

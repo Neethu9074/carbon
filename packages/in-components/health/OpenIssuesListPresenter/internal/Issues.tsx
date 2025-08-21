@@ -10,6 +10,7 @@ import { StructuredListSkeleton, ContainedList } from '@instana/carbon';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import Issue from 'in-components/health/OpenIssuesListPresenter/internal/Issue';
 import { OpenIssuesResult } from 'in-components/health/OpenIssuesListPresenter';
+import { t } from 'in-i18n';
 
 import locals from './Issues.mless';
 
@@ -32,7 +33,7 @@ export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink
 
   return (
     <div className={locals.issues}>
-      <ContainedList kind="on-page" action="" label="">
+      <ContainedList kind="on-page" label={t('in-components:health.capitalIssue', { count: openIssues.length })}>
         {openIssues.slice(0, maxIssuesToShow).map(issue => (
           <Issue key={issue.id} issue={issue} getIssueLink={getIssueLink ? () => getIssueLink(issue.id) : undefined} />
         ))}
