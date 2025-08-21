@@ -398,7 +398,7 @@ export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabl
 );
 export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', false);
 export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', true);
-export const newOnboardingPageEnabled = isFeatureFlagEnabled('newOnboardingPageEnabled', false);
+export const newOnboardingPageEnabled = isFeatureFlagEnabled('newOnboardingPageEnabled', true);
 export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   'onlyFedRampAllowedAlertChannelsEnabled',
   false

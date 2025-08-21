@@ -14,7 +14,6 @@ import useGetAccountActivation, {
 import { solisEnabled, whatsNewBannerEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
 import GettingStartedContent from 'in-plg/pages/WelcomePage/GettingStarted/GettingStartedContent';
 import { Activation } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
-import { welcomePage, gettingStartedPath } from 'in-plg/navigation/paths';
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -26,6 +25,7 @@ import config from 'in-services/config';
 import locals from 'in-plg/pages/WelcomePage/WelcomePage.mless';
 
 export default function WelcomePage() {
+  const [selectedWelcomePage, setSelectedWelcomePage] = useState(1);
   const { location } = useNavigation();
   const activation = useGetAccountActivation();
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
@@ -37,12 +37,18 @@ export default function WelcomePage() {
     setRandomNumber(Math.random());
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [selectedWelcomePage]);
+
   return (
     <div className={locals.container}>
       <ThemeProvider>
         <WelcomeHeader
           onboardingHeaderEnabled={showCarousal(activation, currentTenantUnit, activeLicenseType)}
           accountActivationData={activation}
+          selectedWelcomePage={selectedWelcomePage}
+          setSelectedWelcomePage={setSelectedWelcomePage}
         />
         <ViewTrackingMeta
           data={{
@@ -53,8 +59,8 @@ export default function WelcomePage() {
         />
         {newOnboardingPageEnabled && isTrial ? (
           <Stack direction="vertical">
-            {location.pathname === welcomePage && <PageContent />}
-            {location.pathname === gettingStartedPath && <GettingStartedContent activation={activation} />}
+            {selectedWelcomePage === 0 && <PageContent />}
+            {selectedWelcomePage === 1 && <GettingStartedContent activation={activation} />}
           </Stack>
         ) : (
           <Stack direction="vertical">

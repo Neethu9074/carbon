@@ -30,17 +30,38 @@ const activation = {
 
 describe('WelcomeHeader Tests', () => {
   it('Check if Header exsists', () => {
-    render(<WelcomeHeader onboardingHeaderEnabled accountActivationData={activation} />);
+    render(
+      <WelcomeHeader
+        onboardingHeaderEnabled
+        accountActivationData={activation}
+        selectedWelcomePage={0}
+        setSelectedWelcomePage={jest.fn()}
+      />
+    );
     expect(screen.getByTestId('header')).toBeInTheDocument();
   });
 
   it('Check if Datepicker exsists', () => {
-    render(<WelcomeHeader onboardingHeaderEnabled accountActivationData={activation} />);
+    render(
+      <WelcomeHeader
+        onboardingHeaderEnabled
+        accountActivationData={activation}
+        selectedWelcomePage={0}
+        setSelectedWelcomePage={jest.fn()}
+      />
+    );
     expect(screen.getByTestId('date-picker')).toBeInTheDocument();
   });
 
   it('Check Welcome Header content when onboardingHeaderEnabled is true', async () => {
-    render(<WelcomeHeader onboardingHeaderEnabled accountActivationData={activation} />);
+    render(
+      <WelcomeHeader
+        onboardingHeaderEnabled
+        accountActivationData={activation}
+        selectedWelcomePage={0}
+        setSelectedWelcomePage={jest.fn()}
+      />
+    );
 
     expect(screen.getByText(t('in-plg:welcomepage.heading') + ', Stan!')).toBeInTheDocument();
     expect(screen.getByText(t(t('in-components:time.dashboardHeaderButtonLive')))).toBeInTheDocument();

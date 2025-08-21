@@ -11,6 +11,7 @@ import { Stack, Typography } from '@instana/components';
 
 import { newOnboardingPageEnabled } from 'in-services/featureFlags';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
+import config from 'in-services/config';
 
 import locals from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar.mless';
 
@@ -30,11 +31,13 @@ interface WelcomeToolbarProps {
 }
 
 export default function WelcomeToolbar({ title, children }: WelcomeToolbarProps) {
+  const { activeLicenseType } = config;
+  const isTrial = activeLicenseType === 'selfService';
   return (
     <div
       className={classNames({
         [locals.toolbar]: true,
-        [locals.toolbarbottom]: !newOnboardingPageEnabled
+        [locals.toolbarbottom]: !(newOnboardingPageEnabled && isTrial)
       })}
     >
       <Stack direction="horizontal" distribution="spaceBetween" align="center">

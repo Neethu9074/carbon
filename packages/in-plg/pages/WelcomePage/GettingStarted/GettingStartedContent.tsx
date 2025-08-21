@@ -98,8 +98,8 @@ export default function GettingStartedContent({ activation }: { activation: any 
               {defaultTasks.map(item => (
                 <ExpressiveCard
                   key={item.key}
-                  label={<Typography variant="label-01">{t('in-plg:onboarding.taskLabel')}</Typography>}
-                  title={<Typography variant="heading-03">{item.title}</Typography>}
+                  label={t('in-plg:onboarding.taskLabel')}
+                  title={item.title}
                   pictogram={item.pictogram}
                   onClick={() => {
                     trackCta(item.trackingEvent);
@@ -119,8 +119,8 @@ export default function GettingStartedContent({ activation }: { activation: any 
                 completedTasks.map(item => (
                   <ExpressiveCard
                     key={item.key}
-                    label={<Typography variant="label-01">{t('in-plg:onboarding.taskLabel')}</Typography>}
-                    title={<Typography variant="heading-03">{item.title}</Typography>}
+                    label={t('in-plg:onboarding.taskLabel')}
+                    title={item.title}
                     pictogram={Checkmark}
                     onClick={() => {
                       trackCta(item.trackingEvent);
@@ -177,8 +177,8 @@ export default function GettingStartedContent({ activation }: { activation: any 
               {communityBlogsData.map(item => (
                 <ExpressiveCard
                   key={item.key}
-                  label={<Typography variant="label-01">{t('in-plg:onboarding.communityblogs.blogLabel')}</Typography>}
-                  title={<Typography variant="heading-03"> {item.title}</Typography>}
+                  label={t('in-plg:onboarding.communityblogs.blogLabel')}
+                  title={item.title}
                   description={<Typography variant="body-02">{item.description}</Typography>}
                   onClick={() => {
                     trackCta(item.trackingEvent);

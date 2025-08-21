@@ -1035,7 +1035,7 @@ module.exports = exports = [
   {
     uiClientKey: 'newOnboardingPageEnabled',
     instanaCtlKey: 'feature.new.onboarding.page.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'otelCollectorViewEnabled',

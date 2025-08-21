@@ -12,11 +12,10 @@ import { t } from '@instana/i18n-react';
 
 import OnboardingCarousel from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel';
 import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
+import { YOUR_DASHBOARD_CLICKED, GETTINGSTARTED_CLICKED } from 'in-services/tracking/eventNames';
 import { playwithEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
 import WelcomeToolbar from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
-import { welcomePage, gettingStartedPath } from 'in-plg/navigation/paths';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import config from 'in-services/config';
@@ -27,14 +26,20 @@ import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
 interface WelcomeHeaderProps {
   onboardingHeaderEnabled: boolean;
   accountActivationData: AccountActivationProp;
+  selectedWelcomePage: number;
+  setSelectedWelcomePage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivationData }: WelcomeHeaderProps) {
+export default function WelcomeHeader({
+  onboardingHeaderEnabled,
+  accountActivationData,
+  selectedWelcomePage,
+  setSelectedWelcomePage
+}: WelcomeHeaderProps) {
   const username = getUsername();
-  const { createHrefToPath } = useNavigation();
-  const location = useLocation();
   const headerTitle = `${t('in-plg:welcomepage.heading')}${username}`;
   const { activeLicenseType } = config;
+  const { trackCta } = useSegmentTracking();
   const isTrial = activeLicenseType === 'selfService';
   return (
     <div
@@ -47,14 +52,20 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
           <LeftRightPadding>
             <SecondLevelNavigation>
               <SecondLevelNavigationItem
-                href={createHrefToPath(welcomePage)}
                 label={t('in-plg:onboarding.yourDashboard')}
-                isActive={location.pathname === welcomePage}
+                isActive={selectedWelcomePage === 0}
+                onClick={() => {
+                  trackCta(YOUR_DASHBOARD_CLICKED);
+                  setSelectedWelcomePage(0);
+                }}
               />
               <SecondLevelNavigationItem
-                href={createHrefToPath(gettingStartedPath)}
                 label={t('in-plg:onboarding.gettingStarted')}
-                isActive={location.pathname === gettingStartedPath}
+                isActive={selectedWelcomePage === 1}
+                onClick={() => {
+                  trackCta(GETTINGSTARTED_CLICKED);
+                  setSelectedWelcomePage(1);
+                }}
               />
             </SecondLevelNavigation>
           </LeftRightPadding>
