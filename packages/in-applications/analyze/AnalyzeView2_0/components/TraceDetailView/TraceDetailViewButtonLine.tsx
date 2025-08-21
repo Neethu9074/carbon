@@ -16,7 +16,9 @@ import { DownloadOptionsDropdown } from 'in-applications/analyze/AnalyzeView2_0/
 // @ts-expect-error needs ts migration
 import { updateLocationToAnalyze } from 'in-applications/navigation/paths';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { CONJUNCTION, FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
+import { OPERATOR_AND } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { traceDownloadUrl } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
@@ -108,14 +110,14 @@ export function TraceDetailViewButtonLine({ subtraceConfigId, traceId, traceSumm
   const locationAnalyzeCallsOfThisTrace = useMemo(() => {
     updateLocationToAnalyze(location, {
       dataSource: 'calls',
-      formModel: applyTraceIdFilter(traceIdInUrl),
+      formModel: applyFilter(traceIdInUrl, subtraceConfigId),
       facets: null,
       timeConfig: adjustedTimeConfig,
       hiddenCalls: { includeInternal: true, includeSynthetic: true },
       resetUndefinedParams: false
     });
     return location;
-  }, [adjustedTimeConfig, location, traceIdInUrl]);
+  }, [adjustedTimeConfig, location, subtraceConfigId, traceIdInUrl]);
 
   if (!role?.canViewLogs || !role?.canViewTraceDetails) {
     return null;
@@ -196,7 +198,16 @@ export function TraceDetailViewButtonLine({ subtraceConfigId, traceId, traceSumm
   );
 }
 
-function applyTraceIdFilter(traceId: string) {
-  const traceIdFilterExpression = [tagFilter('trace.id', EQUALS, traceId)];
-  return traceIdFilterExpression;
+function applyFilter(traceIdInUrl: string, subtraceConfigIdInUrl: string | Nullish) {
+  const filterExpression: FormModelElement[] = [tagFilter('trace.id', EQUALS, traceIdInUrl)];
+  if (analyzeSubtracesEnabled && subtraceConfigIdInUrl) {
+    filterExpression.push(
+      {
+        type: CONJUNCTION,
+        logicalOperator: OPERATOR_AND
+      },
+      tagFilter('subtrace.config.id', EQUALS, subtraceConfigIdInUrl)
+    );
+  }
+  return filterExpression;
 }
