@@ -109,7 +109,7 @@ export default function GettingStartedContent({ activation }: { activation: any 
                     {
                       id: item.key,
                       icon: () => <ArrowRight />,
-                      iconDescription: item.title
+                      iconDescription: t('in-plg:onboarding.tryNow')
                     }
                   ]}
                 />
@@ -130,7 +130,7 @@ export default function GettingStartedContent({ activation }: { activation: any 
                       {
                         id: item.key,
                         icon: () => <ArrowRight />,
-                        iconDescription: item.title
+                        iconDescription: t('in-plg:onboarding.tryNow')
                       }
                     ]}
                   />
