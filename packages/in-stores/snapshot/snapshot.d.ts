@@ -23,3 +23,10 @@ export function getPhysicalHierarchy(opts: {
   includeCluster?: boolean;
   includeKubernetes?: boolean;
 }): Observable<List<string>>;
+
+interface SnapshotParams {
+  snapshotId: string;
+  timeConfig?: TimeConfig;
+}
+
+export function shouldStayInCurrentTimeModeForNavigationToSnapshot(params: SnapshotParams): Observable<boolean>;

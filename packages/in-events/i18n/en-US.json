@@ -150,6 +150,7 @@
   "headerReportedDate": "Reported date",
   "headerCvssScore": "CVSS Score",
   "unidentifiedEntity": "Unidentified entity",
+  "viewMore": "View more",
   "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",
   "headerStatus": "Status",
   "eventHelpfulText": "Was this event helpful?",

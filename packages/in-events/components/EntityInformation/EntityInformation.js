@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { LoadingSkeleton, Stack, SvgIcon, Tooltip } from '@instana/components';
@@ -25,10 +26,10 @@ import {
   useLinkToEndpointDashboard,
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
+import EntityHierarchicalLink from 'in-events/components/EntityInformation/EntityHierarchialLink';
 import { getSnapshot, getSnapshotOrDefaultOnTimeout } from 'in-stores/snapshot';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -110,9 +111,10 @@ function InfraEntityInformation({
     []
   );
   const snapshot = entity?.get('plugin') === 'hostWinService' ? hostSnapshot : undefined;
+
   return (
     <EntityInformationPresenter shouldDisplayDefaultLabel={shouldDisplayDefaultLabel}>
-      <HierarchicalLink
+      <EntityHierarchicalLink
         timeConfig={linkTimeConfig}
         snapshot={snapshot ?? entity}
         className={locals.link}
@@ -177,7 +179,13 @@ function LegacyAppDataEntityInformation({ entity, entityType, label, linkTimeCon
  * @param {*} props.entityId - Entity ID of trigerring entity
  * @param {*} props.boundaryScope - Possible boundary scope of given entity
  */
-function GenericUnidentifiedEntityInformation({ linkTimeConfig, entityType, entityId, boundaryScope }) {
+function GenericUnidentifiedEntityInformation({
+  linkTimeConfig,
+  entityType,
+  entityId,
+  boundaryScope,
+  shouldDisplayDefaultLabel
+}) {
   const { createHref } = useNavigation();
 
   const entityLabel = t('in-events:unidentifiedEntity');
@@ -216,14 +224,16 @@ function GenericUnidentifiedEntityInformation({ linkTimeConfig, entityType, enti
     });
 
     return (
-      <EntityInformationPresenter shouldDisplayDefaultLabel>
-        <Stack direction="horizontal" gap="small">
-          <Link href={linkToPhysicalDashboard}>{entityLabel}</Link>
-          <Tooltip align="rightMiddle" content={t('in-events:unidentifiedEntityTooltip')}>
-            <SvgIcon type="lib_help_error_help_outline" size="s" />
-          </Tooltip>
-        </Stack>
-      </EntityInformationPresenter>
+      <div className={classNames({ [locals.entityContainer]: shouldDisplayDefaultLabel })}>
+        <EntityInformationPresenter shouldDisplayDefaultLabel={shouldDisplayDefaultLabel}>
+          <Stack direction="horizontal" gap="small">
+            <Link href={linkToPhysicalDashboard}>{entityLabel}</Link>
+            <Tooltip align="rightMiddle" content={t('in-events:unidentifiedEntityTooltip')}>
+              <SvgIcon type="lib_help_error_help_outline" size="s" />
+            </Tooltip>
+          </Stack>
+        </EntityInformationPresenter>
+      </div>
     );
   }
 }
@@ -231,9 +241,11 @@ function GenericUnidentifiedEntityInformation({ linkTimeConfig, entityType, enti
 function EntityInformationPresenter({ children, shouldDisplayDefaultLabel, label }) {
   if (shouldDisplayDefaultLabel && !label) label = t('in-events:entityInfoPresenterDefaultLabel');
   return (
-    <div className={locals.container}>
-      <span className={locals.label}>{label}</span>
+    <Stack align="start" gap={shouldDisplayDefaultLabel ? 'xsmall' : 'disabled'} direction="horizontal">
+      <Typography variant="heading-100" noMargin>
+        {label}
+      </Typography>
       {children}
-    </div>
+    </Stack>
   );
 }
