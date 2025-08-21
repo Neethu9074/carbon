@@ -26,8 +26,8 @@ import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
 interface WelcomeHeaderProps {
   onboardingHeaderEnabled: boolean;
   accountActivationData: AccountActivationProp;
-  selectedWelcomePage: number;
-  setSelectedWelcomePage: React.Dispatch<React.SetStateAction<number>>;
+  selectedWelcomePage: string;
+  setSelectedWelcomePage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function WelcomeHeader({
@@ -53,18 +53,18 @@ export default function WelcomeHeader({
             <SecondLevelNavigation>
               <SecondLevelNavigationItem
                 label={t('in-plg:onboarding.yourDashboard')}
-                isActive={selectedWelcomePage === 0}
+                isActive={selectedWelcomePage === 'yourDashboard'}
                 onClick={() => {
                   trackCta(YOUR_DASHBOARD_CLICKED);
-                  setSelectedWelcomePage(0);
+                  setSelectedWelcomePage('yourDashboard');
                 }}
               />
               <SecondLevelNavigationItem
                 label={t('in-plg:onboarding.gettingStarted')}
-                isActive={selectedWelcomePage === 1}
+                isActive={selectedWelcomePage === 'gettingStarted'}
                 onClick={() => {
                   trackCta(GETTINGSTARTED_CLICKED);
-                  setSelectedWelcomePage(1);
+                  setSelectedWelcomePage('gettingStarted');
                 }}
               />
             </SecondLevelNavigation>

@@ -109,7 +109,8 @@ export default function GettingStartedContent({ activation }: { activation: any 
                     {
                       id: item.key,
                       icon: () => <ArrowRight />,
-                      iconDescription: t('in-plg:onboarding.tryNow')
+                      iconDescription:
+                        item.target === '_blank' ? t('in-plg:onboarding.LearnMore') : t('in-plg:onboarding.tryNow')
                     }
                   ]}
                 />
@@ -130,7 +131,8 @@ export default function GettingStartedContent({ activation }: { activation: any 
                       {
                         id: item.key,
                         icon: () => <ArrowRight />,
-                        iconDescription: t('in-plg:onboarding.tryNow')
+                        iconDescription:
+                          item.target === '_blank' ? t('in-plg:onboarding.LearnMore') : t('in-plg:onboarding.tryNow')
                       }
                     ]}
                   />

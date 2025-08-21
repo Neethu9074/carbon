@@ -25,7 +25,13 @@ import config from 'in-services/config';
 import locals from 'in-plg/pages/WelcomePage/WelcomePage.mless';
 
 export default function WelcomePage() {
-  const [selectedWelcomePage, setSelectedWelcomePage] = useState(1);
+  const reportingData = window.instana.reportingData;
+  const [selectedWelcomePage, setSelectedWelcomePage] = useState(() => {
+    if (reportingData && (reportingData.hostCount > 0 || reportingData.serverlessCount > 0)) {
+      return 'yourDashboard';
+    }
+    return 'gettingStarted';
+  });
   const { location } = useNavigation();
   const activation = useGetAccountActivation();
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
@@ -59,8 +65,8 @@ export default function WelcomePage() {
         />
         {newOnboardingPageEnabled && isTrial ? (
           <Stack direction="vertical">
-            {selectedWelcomePage === 0 && <PageContent />}
-            {selectedWelcomePage === 1 && <GettingStartedContent activation={activation} />}
+            {selectedWelcomePage === 'yourDashboard' && <PageContent />}
+            {selectedWelcomePage === 'gettingStarted' && <GettingStartedContent activation={activation} />}
           </Stack>
         ) : (
           <Stack direction="vertical">

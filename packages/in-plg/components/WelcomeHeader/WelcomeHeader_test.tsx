@@ -34,7 +34,7 @@ describe('WelcomeHeader Tests', () => {
       <WelcomeHeader
         onboardingHeaderEnabled
         accountActivationData={activation}
-        selectedWelcomePage={0}
+        selectedWelcomePage={'yourDashboard'}
         setSelectedWelcomePage={jest.fn()}
       />
     );
@@ -46,7 +46,7 @@ describe('WelcomeHeader Tests', () => {
       <WelcomeHeader
         onboardingHeaderEnabled
         accountActivationData={activation}
-        selectedWelcomePage={0}
+        selectedWelcomePage={'yourDashboard'}
         setSelectedWelcomePage={jest.fn()}
       />
     );
@@ -58,7 +58,7 @@ describe('WelcomeHeader Tests', () => {
       <WelcomeHeader
         onboardingHeaderEnabled
         accountActivationData={activation}
-        selectedWelcomePage={0}
+        selectedWelcomePage={'yourDashboard'}
         setSelectedWelcomePage={jest.fn()}
       />
     );
