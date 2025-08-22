@@ -1067,5 +1067,10 @@ module.exports = exports = [
     uiClientKey: 'agentEnforcementEnabled',
     instanaCtlKey: 'feature.agent.enforcement.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'pollRateSupportForUnifiedMetricsEnabled',
+    instanaCtlKey: 'feature.poll.rate.support.for.unified.metrics.enabled',
+    defaultValue: false
   }
 ];
