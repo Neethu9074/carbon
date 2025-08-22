@@ -12,6 +12,7 @@ import { Action, ConditionWhen, TriggerType } from '@instana/types';
 
 import {
   canAutomateActionValidator,
+  customTimeValidator,
   dateFieldValidator,
   daysOfTheWeekValidator,
   parametersValidator,
@@ -201,7 +202,11 @@ export function createStartFields({
     }),
     time: createField({
       ...time,
-      validator: composeValidators(notBlankValidator, v => timeValidator(v, 'HH:mm'))
+      validator: composeValidators(
+        notBlankValidator,
+        v => customTimeValidator(v),
+        v => timeValidator(v, 'HH:mm')
+      )
     })
   };
 }

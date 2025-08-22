@@ -8,17 +8,17 @@ import { ValidationResult } from 'formalistic';
 
 import { Action } from '@instana/types';
 
-import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
-import { t } from 'in-i18n';
-import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { notBlankValidator } from 'in-services/validators/string';
-import { dateValidator } from 'in-services/validators/date';
-import { isNotBlank } from 'in-services/util/string';
 import {
   ActionConfigurationFormItems,
   PolicyTypeFormItems,
   ScopeFormItems
 } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notBlankValidator } from 'in-services/validators/string';
+import { isBlank, isNotBlank } from 'in-services/util/string';
+import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
+import { dateValidator } from 'in-services/validators/date';
+import { t } from 'in-i18n';
 
 export function scopeValidator(form: ScopeFormItems): ValidationResult {
   if (form.applyOn.value === 'dfq' && form.query.value === '') {
@@ -113,5 +113,33 @@ export function daysOfTheWeekValidator(arr: number[]): ValidationResult {
     ];
   }
 
+  return null;
+}
+
+export function customTimeValidator(v: string): ValidationResult {
+  if (isBlank(v)) {
+    return null;
+  }
+
+  if (v.includes(';')) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-services:validators.timeDoesNotHaveTheFormat', {
+          timeFormat: 'HH:mm'
+        })
+      }
+    ];
+  }
+
+  const [hours, minutes] = v.split(':').map(Number);
+  if (hours > 23 || minutes > 59) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-automation:validators.timeIsInvalid')
+      }
+    ];
+  }
   return null;
 }

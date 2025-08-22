@@ -578,7 +578,9 @@
     },
     "back": "Back",
     "next": "Next"
-
+  },
+  "validators": {
+    "timeIsInvalid": "Time is invalid"
   },
   "infoPanel": {
     "taskGuidance": "User guidance",
