@@ -18,6 +18,7 @@ import {
   InputValues,
   ValidationMessages
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/modalTypes';
+import { getTimeFormatValidation } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/utils';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { formatTimeWithoutSeconds } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
@@ -127,18 +128,34 @@ export default function useDeleteLogsV3Form() {
     inputValues.startTime,
     maxRetentionDays
   );
-  let validationMessages: ValidationMessages = {
+  const timeFormat = getTimeFormatValidation(form, inputValues, localisationStrings);
+
+  let validationMessages: ValidationMessages & {
+    startTime?: string | null;
+    endTime?: string | null;
+  } = {
     reason: getValidationMessage('reason'),
     validation: getValidationMessage('validation'),
     tagFilterExpression: tagFilterExpressionValidationMessage,
     timeRange: timeRangeValidationMessage,
-    retention: retentionValidation
+    retention: retentionValidation,
+    startTime: timeFormat.startTime,
+    endTime: timeFormat.endTime
   };
 
   const canGoNextStep =
-    !validationMessages.tagFilterExpression && !validationMessages.timeRange && !validationMessages.retention;
+    !validationMessages.tagFilterExpression &&
+    !validationMessages.timeRange &&
+    !validationMessages.retention &&
+    !validationMessages.startTime &&
+    !validationMessages.endTime;
 
-  const canSubmit = form.hierarchyValid && !timeRangeValidationMessage && !retentionValidation;
+  const canSubmit =
+    form.hierarchyValid &&
+    !timeRangeValidationMessage &&
+    !retentionValidation &&
+    !timeFormat.startTime &&
+    !timeFormat.endTime;
 
   const resetForm = () => setForm(getInitialFormState());
   const touchForm = () => setForm(form.setTouched(true, { recurse: true }));
