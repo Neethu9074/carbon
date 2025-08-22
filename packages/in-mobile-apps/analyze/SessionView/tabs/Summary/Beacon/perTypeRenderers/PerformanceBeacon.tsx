@@ -14,6 +14,7 @@ import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beac
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
 // @ts-expect-error Could not find a declaration file for module
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
+import BeaconStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/BeaconStack';
 import { LeftHeaderProps } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/types';
 import { latencyFixed, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
@@ -178,19 +179,41 @@ export const Body: FC<{ beacon: MobileAppMonitoringBeacon }> = ({ beacon }) => {
             )}
           </>
         );
+      case PERFORMANCE_SUBTYPES.ANR:
+        return (
+          <>
+            <Fragment>
+              <Row>
+                <Col lg={6}>
+                  <Dl>
+                    <Di title={t('in-mobile-apps:sessionView.tabsSumCrashBeacon.errorMsg')}>{'ANR'}</Di>
+                  </Dl>
+                </Col>
+              </Row>
+              {isNotBlank(beacon.stackTrace) && (
+                <Row>
+                  <Col lg={12}>
+                    <BeaconStack
+                      textProp={t(
+                        'in-mobile-apps:sessionView.tabsSumPerformanceBeacon.stackTraceButtonFocusedThreadsStackTrace'
+                      )}
+                      beacon={beacon}
+                    />
+                  </Col>
+                </Row>
+              )}
+            </Fragment>
+          </>
+        );
       default:
         return null;
     }
   };
 
-  if (beacon.performanceSubtype == PERFORMANCE_SUBTYPES.ANR) {
-    return null;
-  }
-
   return (
     <Fragment>
       <Row>
-        <Col lg={8}>
+        <Col lg={12}>
           <BodyHeader>{getLabel(beacon)}</BodyHeader>
           <Dl>{renderBodyContent()}</Dl>
         </Col>

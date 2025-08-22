@@ -11,6 +11,7 @@ export const viewId = 'viewId';
 export const httpRequestId = 'httpRequestId';
 export const customEventId = 'customEventId';
 export const crashId = 'crashId';
+export const anrId = 'anrId';
 
 // analyze
 export const tagFilters = 'tagFilters';

@@ -70,11 +70,7 @@ export default function Beacon(props) {
                 <TypeHeader beacon={beacon} />
                 <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
               </div>
-              <div
-                className={classNames(locals.rightHeader, {
-                  [locals.disabledHeader]: beacon.performanceSubtype === PERFORMANCE_SUBTYPES.ANR
-                })}
-              >
+              <div className={locals.rightHeader}>
                 <BackendTraceButton beacon={beacon} />
                 {beacon.type === 'crash' && (
                   <ViewCrashGroupButton
@@ -87,7 +83,7 @@ export default function Beacon(props) {
             </div>
           </Tooltip>
 
-          {expanded && beacon.performanceSubtype !== PERFORMANCE_SUBTYPES.ANR && (
+          {expanded && (
             <div className={locals.body}>
               <beaconRenderers.Body {...props} />
             </div>

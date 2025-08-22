@@ -110,6 +110,7 @@ export const mobileAppExcessiveNetworkUsageEnabled = isFeatureFlagEnabled(
   'mobileAppExcessiveNetworkUsageEnabled',
   true
 );
+export const mobileAppAnrTabEnabled = isFeatureFlagEnabled('mobileAppAnrTabEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled(
   'eumImpactedUsersForWebsiteAndMobileAlertEnabled',

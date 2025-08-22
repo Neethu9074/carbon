@@ -17,9 +17,10 @@ import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/ta
 // @ts-expect-error Could not find a declaration file for module
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
+import { mobileAppExcessiveNetworkUsageEnabled, mobileAppAnrTabEnabled } from 'in-services/featureFlags';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
+import AnrStackTraces from 'in-mobile-apps/MobileAppDashboard/tabs/Performance/AnrStackTraces';
 import { number, percentage, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
-import { mobileAppExcessiveNetworkUsageEnabled } from 'in-services/featureFlags';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -262,43 +263,6 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             renderPostChartContent={MarkerLane}
           />
         </Col>
-
-        <Col lg={4}>
-          <MobileAppChartWrapper
-            title={t('in-mobile-apps:dashboard.tabs.appNotRespondingGridTitle')}
-            timeConfig={timeConfig}
-            viewInAnalytics={viewInAnalytics}
-            y1={{
-              renderer: Renderer.stackedBar,
-              formatter: number.compact,
-              labels: [t('in-mobile-apps:dashboard.tabs.androidLabel'), t('in-mobile-apps:dashboard.tabs.iosLabel')],
-              metricIds: ['anrAndroidCount', 'anrIOSCount'],
-              colors: [carbonCategorical.teal50, carbonCategorical.purple70]
-            }}
-            metricsConfiguration={{
-              timeConfig,
-              tagFilters: tagFiltersForAnr,
-              metrics: {
-                anrAndroidCount: {
-                  metric: 'anrAndroidCount',
-                  granularity,
-                  aggregation: 'SUM',
-                  beaconType: 'perf',
-                  omitMetricInAnalytics: true
-                },
-                anrIOSCount: {
-                  metric: 'anrIOSCount',
-                  granularity,
-                  aggregation: 'SUM',
-                  beaconType: 'perf',
-                  omitMetricInAnalytics: true
-                }
-              }
-            }}
-            renderPostChartContent={MarkerLane}
-          />
-        </Col>
-
         <Col lg={4}>
           <MobileAppChartWrapper
             title={t('in-mobile-apps:dashboard.tabs.lowMemoryGridTitle')}
@@ -334,9 +298,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             renderPostChartContent={MarkerLane}
           />
         </Col>
-      </Row>
-      {mobileAppExcessiveNetworkUsageEnabled && (
-        <Row>
+        {mobileAppExcessiveNetworkUsageEnabled && (
           <Col lg={4}>
             <MobileAppChartWrapper
               toolTipIcon="lib_help_error_info_outline"
@@ -365,6 +327,49 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
               }}
               renderPostChartContent={MarkerLane}
             />
+          </Col>
+        )}
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <MobileAppChartWrapper
+            title={t('in-mobile-apps:dashboard.tabs.appNotRespondingGridTitle')}
+            timeConfig={timeConfig}
+            viewInAnalytics={viewInAnalytics}
+            y1={{
+              renderer: Renderer.stackedBar,
+              formatter: number.compact,
+              labels: [t('in-mobile-apps:dashboard.tabs.androidLabel'), t('in-mobile-apps:dashboard.tabs.iosLabel')],
+              metricIds: ['anrAndroidCount', 'anrIOSCount'],
+              colors: [carbonCategorical.teal50, carbonCategorical.purple70]
+            }}
+            metricsConfiguration={{
+              timeConfig,
+              tagFilters: tagFiltersForAnr,
+              metrics: {
+                anrAndroidCount: {
+                  metric: 'anrAndroidCount',
+                  granularity,
+                  aggregation: 'SUM',
+                  beaconType: 'perf',
+                  omitMetricInAnalytics: true
+                },
+                anrIOSCount: {
+                  metric: 'anrIOSCount',
+                  granularity,
+                  aggregation: 'SUM',
+                  beaconType: 'perf',
+                  omitMetricInAnalytics: true
+                }
+              }
+            }}
+          />
+        </Col>
+      </Row>
+      {mobileAppAnrTabEnabled && (
+        <Row>
+          <Col lg={12}>
+            <AnrStackTraces mobileAppId={mobileAppId} timeConfig={timeConfig} tagFilters={tagFilters} />
           </Col>
         </Row>
       )}

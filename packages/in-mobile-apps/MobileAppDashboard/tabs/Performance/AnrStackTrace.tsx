@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import React, { Fragment } from 'react';
@@ -16,7 +16,7 @@ import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/
 // @ts-expect-error Could not find a declaration file for module
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import {
-  crashesTabFullyQualified,
+  performanceTabFullyQualified,
   detailsPath,
   useGetLinkToMobileApp,
   useLinkToAnalyze
@@ -43,10 +43,9 @@ import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
 import BackButton from 'in-components/BackButton';
 import Footer from 'in-components/Footer';
-import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from './Crash.mless';
+import locals from 'in-mobile-apps/MobileAppDashboard/tabs/Crashes/Crash.mless';
 
 const metrics = ['beaconCount', 'uniqueUsersOrSessions'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
@@ -56,29 +55,29 @@ const labels = [
   t('in-mobile-apps:dashboard.tabs.affectedUsersLabel')
 ];
 
-const beaconType = 'crash';
+const beaconTypePerf = 'perf';
 const viewGroupByFilter = 'mobileBeacon.view.name';
 const deviceGroupByFilter = 'mobileBeacon.device.model';
 const osGroupByFilter = 'mobileBeacon.os.nameVersion';
 const appVersionGroupByFilter = 'mobileBeacon.app.version';
 
-interface CrashProp {
+interface AnrStackTraceProp {
   location: any;
   timeConfig: TimeConfig;
   mobileAppId: string;
 }
 
-export default connectTo(({ location, timeConfig, mobileAppId }: CrashProp) => {
+export default connectTo(({ location, timeConfig, mobileAppId }: AnrStackTraceProp) => {
   const observables: Record<string, any> = {};
 
-  const crashId = getMatrixParameter(location, '/details', 'crashId');
-  observables.crashId = just(crashId);
-  if (crashId) {
+  const anrId = getMatrixParameter(location, '/details', 'anrId');
+  observables.anrId = just(anrId);
+  if (anrId) {
     observables.result = getMobileAppBeacons({
       tagFilters: [
         {
           name: 'mobileBeacon.type',
-          stringValue: beaconType,
+          stringValue: beaconTypePerf,
           operator: 'EQUALS',
           type: 'TAG_FILTER',
           entity: 'NOT_APPLICABLE'
@@ -91,8 +90,8 @@ export default connectTo(({ location, timeConfig, mobileAppId }: CrashProp) => {
           entity: 'NOT_APPLICABLE'
         },
         {
-          name: 'mobileBeacon.crash.groupLabel',
-          stringValue: crashId,
+          name: 'mobileBeacon.anrStack.label',
+          stringValue: anrId,
           operator: 'EQUALS',
           type: 'TAG_FILTER',
           entity: 'NOT_APPLICABLE'
@@ -109,10 +108,10 @@ export default connectTo(({ location, timeConfig, mobileAppId }: CrashProp) => {
     });
   }
   return observables;
-})(CrashTab);
+})(AnrStackTraceTab);
 
-interface CrashTabProp {
-  crashId: string;
+interface AnrStackTraceTabProp {
+  anrId: string;
   result: any;
   mobileAppId: string;
   mobileAppLabel: string;
@@ -121,26 +120,44 @@ interface CrashTabProp {
   timeConfig: TimeConfig;
 }
 
-function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFilters, timeConfig }: CrashTabProp) {
-  const tagCatalogCrash = useTagCatalog('crash');
+function AnrStackTraceTab({
+  anrId,
+  result,
+  mobileAppId,
+  mobileAppLabel,
+  viewId,
+  tagFilters,
+  timeConfig
+}: AnrStackTraceTabProp) {
+  const tagCatalogPerf = useTagCatalog('perf');
 
-  const tagFiltersWithCrashId = tagFilters.slice();
-  tagFiltersWithCrashId.push(
-    {
-      name: 'mobileBeacon.type',
-      stringValue: 'crash',
+  const tagFiltersWithAnrAnalyze = tagFilters.slice();
+  tagFiltersWithAnrAnalyze.push({
+    name: 'mobileBeacon.performanceSubtype',
+    stringValue: 'App not responding or freezing',
+    operator: 'EQUALS',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
+
+  const tagFiltersWithAnr = tagFilters.slice();
+  tagFiltersWithAnr.push({
+    name: 'mobileBeacon.anrStack.label',
+    stringValue: anrId,
+    operator: 'EQUALS',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
+
+  if (anrId) {
+    tagFiltersWithAnrAnalyze.push({
+      name: 'mobileBeacon.anrStack.label',
+      stringValue: anrId,
       operator: 'EQUALS',
       type: 'TAG_FILTER',
       entity: 'NOT_APPLICABLE'
-    },
-    {
-      name: 'mobileBeacon.crash.groupLabel',
-      stringValue: crashId,
-      operator: 'EQUALS',
-      type: 'TAG_FILTER',
-      entity: 'NOT_APPLICABLE'
-    }
-  );
+    });
+  }
 
   const occurencesAnalyzeHref = useLinkToAnalyze();
 
@@ -148,10 +165,10 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
 
   const analyzeCrashesHref = useLinkToAnalyze();
 
-  const mobileAppHref = useGetLinkToMobileApp(mobileAppId, { tabPath: '/crashes', viewId });
+  const mobileAppHref = useGetLinkToMobileApp(mobileAppId, { tabPath: '/performance', viewId });
 
-  if (!crashId) {
-    return <RedirectWithHash to={crashesTabFullyQualified} />;
+  if (!anrId) {
+    return <RedirectWithHash to={performanceTabFullyQualified} />;
   }
 
   const MarkerLane = MobileAppMarkerLane({ mobileAppId });
@@ -166,12 +183,11 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
     const viewInAnalytics = {
       mobileAppLabel,
       group: {
-        groupbyTag: 'mobileBeacon.crash.groupLabel'
+        groupbyTag: 'mobileBeacon.performanceSubtype'
       }
     };
 
     const firstBeacon = result.data?.items?.[0]?.beacon;
-
     content = (
       <Fragment>
         <Row>
@@ -182,22 +198,22 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
               aggregation={'SUM'}
               formatter={number.compact}
               timeConfig={timeConfig}
-              tagFilters={tagFiltersWithCrashId}
+              tagFilters={tagFiltersWithAnr}
               iconAction={{
                 text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href:
-                  tagCatalogCrash &&
+                  tagCatalogPerf &&
                   occurencesAnalyzeHref({
-                    beaconType: 'crash',
+                    beaconType: 'perf',
                     formModel: translateDemocratisationTagFiltersToFormModel({
                       mobileAppLabel,
-                      tagFilters: tagFiltersWithCrashId,
-                      tagCatalog: tagCatalogCrash
+                      tagFilters: tagFiltersWithAnrAnalyze,
+                      tagCatalog: tagCatalogPerf
                     }),
                     groupBy: {
-                      groupbyTag: 'mobileBeacon.crash.groupLabel'
+                      groupbyTag: 'mobileBeacon.performanceSubtype'
                     }
                   })
               }}
@@ -210,22 +226,22 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
               aggregation={'DISTINCT_COUNT'}
               formatter={number.compact}
               timeConfig={timeConfig}
-              tagFilters={tagFiltersWithCrashId}
+              tagFilters={tagFiltersWithAnr}
               iconAction={{
                 text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href:
-                  tagCatalogCrash &&
+                  tagCatalogPerf &&
                   usersAnalyzeHref({
-                    beaconType: 'crash',
+                    beaconType: 'perf',
                     formModel: translateDemocratisationTagFiltersToFormModel({
                       mobileAppLabel,
-                      tagFilters: tagFiltersWithCrashId,
-                      tagCatalog: tagCatalogCrash
+                      tagFilters: tagFiltersWithAnrAnalyze,
+                      tagCatalog: tagCatalogPerf
                     }),
                     groupBy: {
-                      groupbyTag: 'mobileBeacon.crash.groupLabel'
+                      groupbyTag: 'mobileBeacon.performanceSubtype'
                     },
                     fields: [
                       {
@@ -249,15 +265,15 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
         {firstBeacon && (
           <Row>
             <Col lg={12}>
-              <Card title={t('in-mobile-apps:dashboard.tabs.crashes.crashInfoTitle')}>
+              <Card title={t('in-mobile-apps:dashboard.tabs.performance.anrInfoTitle')}>
                 <Dl>
-                  <Di title={t('in-mobile-apps:dashboard.tabs.crashes.crashInfoMessage')}>
-                    {firstBeacon.errorMessage}
-                  </Di>
+                  <Di title={t('in-mobile-apps:dashboard.tabs.performance.anrMessage')}>ANR</Di>
                 </Dl>
                 <BeaconStack
                   beacon={firstBeacon}
-                  textProp={t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonCrashedThreadsStackTrace')}
+                  textProp={t(
+                    'in-mobile-apps:sessionView.tabsSumPerformanceBeacon.stackTraceButtonFocusedThreadsStackTrace'
+                  )}
                   optionalLabel
                 />
               </Card>
@@ -281,14 +297,14 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
               }}
               metricsConfiguration={{
                 timeConfig,
-                tagFilters: tagFiltersWithCrashId,
+                tagFilters: tagFiltersWithAnr,
                 metrics: {
                   beaconCount: {
                     metric: 'beaconCount',
                     granularity,
                     aggregation: 'SUM',
                     omitMetricInAnalytics: true,
-                    beaconType: 'crash'
+                    beaconType: 'perf'
                   }
                 }
               }}
@@ -309,13 +325,13 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
               }}
               metricsConfiguration={{
                 timeConfig,
-                tagFilters: tagFiltersWithCrashId,
+                tagFilters: tagFiltersWithAnr,
                 metrics: {
                   uniqueUsersOrSessions: {
                     metric: 'uniqueUsersOrSessions',
                     granularity,
                     aggregation: 'DISTINCT_COUNT',
-                    beaconType: 'crash'
+                    beaconType: 'perf'
                   }
                 }
               }}
@@ -328,12 +344,13 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
               mobileAppId={mobileAppId}
               mobileAppLabel={mobileAppLabel}
               timeConfig={timeConfig}
-              tagFilters={tagFiltersWithCrashId}
+              tagFilters={tagFiltersWithAnr}
+              tagFiltersAnalyze={tagFiltersWithAnrAnalyze}
               metrics={metrics}
               labels={labels}
               aggregations={aggregations}
               formatters={formatters}
-              beaconType={beaconType}
+              beaconType={beaconTypePerf}
               beaconGroupByFilter={appVersionGroupByFilter}
               linkToAllLabel={t('in-mobile-apps:dashboard.tabs.viewAllVersions')}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'appversionsTab', paramMetric: 'beaconCount' }}
@@ -350,12 +367,13 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                 mobileAppId={mobileAppId}
                 mobileAppLabel={mobileAppLabel}
                 timeConfig={timeConfig}
-                tagFilters={tagFiltersWithCrashId}
+                tagFilters={tagFiltersWithAnr}
+                tagFiltersAnalyze={tagFiltersWithAnrAnalyze}
                 metrics={metrics}
                 labels={labels}
                 aggregations={aggregations}
                 formatters={formatters}
-                beaconType={beaconType}
+                beaconType={beaconTypePerf}
                 beaconGroupByFilter={viewGroupByFilter}
                 linkToAllLabel={t('in-mobile-apps:dashboard.tabs.viewAllViewsLink')}
                 urlMatrixParamConfig={{ path: detailsPath, paramTab: 'viewsTab', paramMetric: 'beaconCount' }}
@@ -369,12 +387,13 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
               mobileAppId={mobileAppId}
               mobileAppLabel={mobileAppLabel}
               timeConfig={timeConfig}
-              tagFilters={tagFiltersWithCrashId}
+              tagFilters={tagFiltersWithAnr}
+              tagFiltersAnalyze={tagFiltersWithAnrAnalyze}
               metrics={metrics}
               labels={labels}
               aggregations={aggregations}
               formatters={formatters}
-              beaconType={beaconType}
+              beaconType={beaconTypePerf}
               beaconGroupByFilter={deviceGroupByFilter}
               linkToAllLabel={t('in-mobile-apps:dashboard.tabs.viewAllDevices')}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'devicesTab', paramMetric: 'beaconCount' }}
@@ -387,12 +406,13 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
               mobileAppId={mobileAppId}
               mobileAppLabel={mobileAppLabel}
               timeConfig={timeConfig}
-              tagFilters={tagFiltersWithCrashId}
+              tagFilters={tagFiltersWithAnr}
+              tagFiltersAnalyze={tagFiltersWithAnrAnalyze}
               metrics={metrics}
               labels={labels}
               aggregations={aggregations}
               formatters={formatters}
-              beaconType={beaconType}
+              beaconType={beaconTypePerf}
               beaconGroupByFilter={osGroupByFilter}
               linkToAllLabel={t('in-mobile-apps:dashboard.tabs.viewAllOs')}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'platformsTab', paramMetric: 'beaconCount' }}
@@ -406,14 +426,9 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
 
   return (
     <Fragment>
-      <Title
-        title={t('in-mobile-apps:dashboard.tabs.crashes.crashTitleMobileAppCrashDetails')}
-        dynamic={result?.data?.message}
-      />
-
       <div className={locals.actions}>
         <BackButton
-          label={t('in-mobile-apps:dashboard.tabs.crashes.backToCrashList')}
+          label={t('in-mobile-apps:dashboard.tabs.performance.backToPerfTab')}
           href={mobileAppHref}
           withoutMargin
         />
@@ -421,19 +436,19 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
         <Button
           kind="secondary"
           href={
-            tagCatalogCrash &&
+            tagCatalogPerf &&
             analyzeCrashesHref({
-              beaconType: 'crash',
+              beaconType: 'perf',
               formModel: translateDemocratisationTagFiltersToFormModel({
                 mobileAppLabel,
-                tagFilters: tagFiltersWithCrashId,
-                tagCatalog: tagCatalogCrash
+                tagFilters: tagFiltersWithAnrAnalyze,
+                tagCatalog: tagCatalogPerf
               }),
               groupBy: {}
             })
           }
         >
-          {t('in-mobile-apps:dashboard.tabs.crashes.crashesButtonAnalyzeCrashes')}
+          {t('in-mobile-apps:dashboard.tabs.performance.anrButtonAnalyzeANR')}
         </Button>
       </div>
 

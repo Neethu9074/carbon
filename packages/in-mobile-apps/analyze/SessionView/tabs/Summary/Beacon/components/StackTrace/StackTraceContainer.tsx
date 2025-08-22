@@ -24,16 +24,17 @@ export type StackTraceProp = {
   onChange: (pretty: boolean) => void;
   data: FormatedStackTrace;
   children: (props: ChildrenProp) => React.ReactElement;
+  textProp: string;
 };
 
-export default function StackTraceContainer({ data, onChange, pretty, children }: StackTraceProp) {
+export default function StackTraceContainer({ data, onChange, pretty, children, textProp }: StackTraceProp) {
   return children({
     actions: data.supportPretty ? (
       <ButtonGroup
         className={locals.buttonGroup}
         buttonPropsList={[
           {
-            text: t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonCrashedThreadsStackTrace'),
+            text: textProp,
             key: 'crashed',
             size: 'compact',
             onClick: () => onChange(true)

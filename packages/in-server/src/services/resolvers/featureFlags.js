@@ -356,6 +356,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'mobileAppAnrTabEnabled',
+    instanaCtlKey: 'feature.eum.mobile.anr.tab.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'eumImpactedUsersForAppAlertEnabled',
     instanaCtlKey: 'feature.eum.impacted.users.appalert.enabled',
     defaultValue: false

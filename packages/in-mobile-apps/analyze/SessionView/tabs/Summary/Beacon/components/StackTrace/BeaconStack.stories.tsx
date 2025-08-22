@@ -19,11 +19,11 @@ export default {
 };
 
 export function StackTraceIOS() {
-  return <BeaconStack beacon={testData.iosBeacon} />;
+  return <BeaconStack beacon={testData.iosBeacon} textProp={'Crashed threads'} />;
 }
 
 export function StackTraceAndroid() {
-  return <BeaconStack beacon={testData.androidBeacon} />;
+  return <BeaconStack beacon={testData.androidBeacon} textProp={'Crashed threads'} />;
 }
 
 const dummyBeaconData = {

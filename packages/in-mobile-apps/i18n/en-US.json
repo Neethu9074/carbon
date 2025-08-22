@@ -275,7 +275,8 @@
       "usedMemoryLabel": "Used memory",
       "availableMemoryLabel": "Available memory",
       "maximumAvailableMemoryLabel": "Maximum available memory",
-      "appStatusLabel": "App state"
+      "appStatusLabel": "App state",
+      "stackTraceButtonFocusedThreadsStackTrace": "Focused threads"
     },
     "tabsSumDroppedBeacons": {
       "droppedBeaconsLabel": "Dropped beacons",
@@ -517,6 +518,19 @@
         "viewTopListLinkLabel": "View all views",
         "viewTopListTitle": "Views"
       },
+      "performance": {
+        "anrLabelLocation": "Stack trace location",
+        "anrLabelOccurrences": "Occurrences",
+        "anrLabelAffectedUsers": "Affected users",
+        "anrLabelLowestAppVersion": "Lowest App Version",
+        "anrLabeHighestAppVersion": "Highest App Version",
+        "anrButtonAnalyzeANR": "Analyze ANR",
+        "anrInfoTitle": "Details",
+        "anrMessage": "Message",
+        "backToPerfTab": "Back to Performance",
+        "anrTableHeader": "App not responding or freezing",
+        "anrTableTooltip": "Details for this metric are not collected on the iOS platform due to OS restrictions."
+      },
       "smartAlerts": "Smart Alerts"
     },
     "noDataAvailable": {
@@ -528,6 +542,8 @@
       "customEventsDescription": "There were no custom events retrieved for the selected time range.",
       "crashesTitle": "No crashes available",
       "crashesDescription": "There were no crashes for the selected time range.",
+      "anrTitle": "No ANRs available",
+      "anrDescription": "There were no ANRs for the selected time range",
       "syntheticMonitoring": {
         "title": "No synthetic tests are associated with this mobile app."
       }

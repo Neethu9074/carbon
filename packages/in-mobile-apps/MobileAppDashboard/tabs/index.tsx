@@ -15,11 +15,11 @@ import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/
 // @ts-expect-error Could not find a declaration file for module
 import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
 import SyntheticMonitoring from 'in-mobile-apps/MobileAppDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
-import Performance from 'in-mobile-apps/MobileAppDashboard/tabs/Performance/Performance';
 import Dependency from 'in-mobile-apps/MobileAppDashboard/tabs/Dependency/Dependency';
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
+import Performance from 'in-mobile-apps/MobileAppDashboard/tabs/Performance';
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
 import Crashes from 'in-mobile-apps/MobileAppDashboard/tabs/Crashes';
 import Alerts from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts';
