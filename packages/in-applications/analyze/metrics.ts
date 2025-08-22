@@ -247,7 +247,7 @@ export const dataSourceConstants = {
     metricCatalogSupportedChartableMetrics: {
       latency: ['P25', 'P50', 'P95', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MAX']
     },
-    latencyTag: 'subtrace.duration',
+    latencyTag: 'subtrace.latency',
     traceIdName: 'traceId'
   }
 };

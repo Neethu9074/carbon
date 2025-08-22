@@ -28,15 +28,7 @@ const typePerDataSource = {
 export default function SplitScreenTraceDetailContent({ dataSource, ungroupedViewConfiguration, ...props }) {
   const { trackTraceViewTraceListClicked } = useApplicationTracker();
   const type = typePerDataSource[dataSource];
-  const needSubtraceItem = type === 'subtrace' && props.subtraceTimestamp; //todo Remove this when Padmajan updates the subtrace
-  const item = !needSubtraceItem //todo Remove this when Padmajan updates the subtrace
-    ? props[type]
-    : {
-        subtraceTimestamp: props.subtraceTimestamp,
-        label: props.subtraceName,
-        duration: props.subtraceDuration,
-        batchCount: 0
-      }; //todo Remove this when Padmajan updates the subtrace
+  const item = props[type];
   const { label, duration, batchCount } = item;
   const timestamp = item[ungroupedViewConfiguration.timestampName];
   const severity = getSeverity({ item: props, dataSource });

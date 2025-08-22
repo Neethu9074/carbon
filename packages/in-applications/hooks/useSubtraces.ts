@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import { SubtraceItem, Order, PaginatedResult, Pagination, Result } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { getSubtracesWithDefaults } from 'in-applications/subscriptions/getSubtraces';
-import { SubtraceItem, Order, PaginatedResult, Pagination, Result } from '@instana/types';
 import { getValueFromSingleValueMetric } from 'in-applications/metrics';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -48,7 +48,7 @@ export const useSubtraces = ({ order, pagination, query = '' }: Props): Result<P
       subtraceCount: getValueFromSingleValueMetric(item.metrics?.subtraceCount),
       calls: getValueFromSingleValueMetric(item.metrics?.calls),
       errorRate: getValueFromSingleValueMetric(item.metrics?.errorRate),
-      duration: getValueFromSingleValueMetric(item.metrics?.duration)
+      latency: getValueFromSingleValueMetric(item.metrics?.latency)
     })) ?? [];
 
   return { ...result, data: { ...result.data!, items: subtraceListItems } };

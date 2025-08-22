@@ -28,6 +28,11 @@ interface Props {
 export function Summary({ data }: Props) {
   const timeConfig = useTimeConfig();
   const subtraceId = data?.id;
+
+  if (!subtraceId) {
+    return null;
+  }
+
   const tagFilterExpression: TagFilter = {
     name: 'subtrace.config.id',
     operator: 'EQUALS',
