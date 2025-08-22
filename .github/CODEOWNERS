@@ -327,9 +327,6 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/busines
 # Custom Widget Table
 packages/in-custom-dashboards/widgets/Table @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui @instana/eng-infrastructure
 
-# Website tabs
-packages/in-websites/WebsiteDashboard/tabs/BusinessImpact   @Instana-IBM-GitHub-Enterprise @instana/eng-bizops @instana/eng-ui
-
 packages/in-sap                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-enterprise-apps
 packages/in-synthetics              @Instana-IBM-Github-Enterprise @instana/eng-synthetics-server @instana/eng-ui
 packages/in-test                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui
@@ -341,6 +338,9 @@ packages/in-websites                @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-eum                     @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
 packages/in-websites/alerting       @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-zhmc                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/power-and-z
+
+# Website tabs
+packages/in-websites/WebsiteDashboard/tabs/BusinessImpact   @Instana-IBM-GitHub-Enterprise @instana/eng-bizops @instana/eng-ui
 
 # Container images
 /containers/ @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui

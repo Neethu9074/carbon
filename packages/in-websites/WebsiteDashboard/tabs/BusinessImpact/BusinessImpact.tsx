@@ -7,47 +7,60 @@
 import React from 'react';
 
 import { TimeConfig } from '@instana/types';
+import { Card } from '@instana/components';
 
-import {
-  businessImpactFullyQualified,
-  businessConversionGoalsFullyQualified,
-  websiteMonitoringPath
-} from 'in-websites/navigation/paths';
-// @ts-expect-error needs migration to TS
-import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
-import ConversionGoals from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/ConversionGoals';
+import SessionsChart from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/components/SessionsChart';
+import TopPagesList from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/components/TopPagesList';
+import UsersChart from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/components/UsersChart';
 import { websitesBusinessConversionGoalsEnabled } from 'in-services/featureFlags';
-import Summary from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/Summary';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { t } from 'in-i18n';
 
-interface BusinessMonitoringProps {
+interface BusinessImpactProps {
   websiteId: string;
   timeConfig: TimeConfig;
   tagFilters: any;
 }
 
-export default function BusinessImpact(props: BusinessMonitoringProps) {
+export default function BusinessImpact({ websiteId, timeConfig }: BusinessImpactProps) {
   return (
-    <StickySidebarNavigationAndContent
-      navigationTree={[
-        {
-          pages: [
-            {
-              label: t('in-websites:websiteDashboard.tabs.businessImpact.summaryTab'),
-              path: businessImpactFullyQualified,
-              component: () => <Summary {...props} />
-            },
-            websitesBusinessConversionGoalsEnabled && {
-              label: t('in-websites:websiteDashboard.tabs.businessImpact.conversionGoalsTab'),
-              path: businessConversionGoalsFullyQualified,
-              component: () => <ConversionGoals {...props} />
-            }
-          ].filter(Boolean)
-        }
-      ]}
-      redirectToDefaultPage={businessImpactFullyQualified}
-      redirectFrom={websiteMonitoringPath}
-      {...props}
-    />
+    <>
+      {websitesBusinessConversionGoalsEnabled && (
+        <Row>
+          <Col md>
+            {/* TODO:  These cards will be replaced with their proper components once they are implemented. */}
+            <Card title={t('in-websites:websiteDashboard.tabs.businessImpact.conversionGoals')}>
+              <></>
+            </Card>
+          </Col>
+          <Col md>
+            <Card title={t('in-websites:websiteDashboard.tabs.businessImpact.funnels')}>
+              <></>
+            </Card>
+          </Col>
+          <Col md>
+            <Card title={t('in-websites:websiteDashboard.tabs.businessImpact.activeSessions')}>
+              <></>
+            </Card>
+          </Col>
+        </Row>
+      )}
+      <Row>
+        <Col lg>
+          <SessionsChart websiteId={websiteId} timeConfig={timeConfig} />
+        </Col>
+        <Col lg>
+          <UsersChart websiteId={websiteId} timeConfig={timeConfig} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg>
+          <TopPagesList timeConfig={timeConfig} />
+        </Col>
+        <Col lg>
+          <></>
+        </Col>
+      </Row>
+    </>
   );
 }
