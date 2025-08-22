@@ -47,10 +47,9 @@ export default function ThresholdValueInput({
   ...props
 }: ThresholdValueInputProps) {
   const onValueChange = (targetValue: number | string | null) => {
-    const value =
-      targetValue != null && targetValue !== ''
-        ? shiftDecimalLeft(targetValue, roundDecimalPlaces, percentageMetric)
-        : null;
+    const isValidNumber = targetValue != null && targetValue !== '';
+
+    const value = isValidNumber ? shiftDecimalLeft(targetValue, roundDecimalPlaces, percentageMetric) : null;
     if (updateForm) {
       const updatedForm = getUpdatedForm
         ? getUpdatedForm(value as any)
@@ -62,7 +61,8 @@ export default function ThresholdValueInput({
     }
   };
 
-  const hasError = !thresholdField?.valid && thresholdField?.touched;
+  const hasError =
+    (!thresholdField?.valid && thresholdField?.touched) || thresholdField?.value >= Number.MAX_SAFE_INTEGER;
 
   const value = shiftDecimalRight(thresholdField?.value, roundDecimalPlaces, percentageMetric);
 
@@ -78,6 +78,7 @@ export default function ThresholdValueInput({
         name={name}
         type={type}
         min={0}
+        max={Number.MAX_SAFE_INTEGER}
         step={parseInt(step) ?? 1}
         className={classNames({
           [locals.narrowControl]: isSmall,

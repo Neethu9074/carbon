@@ -118,7 +118,7 @@ function createStaticThresholdMapForm(threshold?: StaticThresholdRule, editMode?
     .put(
       'value',
       createField({
-        value: (threshold as any)?.isCheckboxSelected === true ? (threshold?.value ?? 0) : null
+        value: (threshold as any)?.isCheckboxSelected === true ? threshold?.value ?? 0 : null
       }).setTouched(editMode ? !isEmpty(threshold?.value) : false)
     )
     .put(
@@ -290,6 +290,19 @@ function validateStaticThresholdMapForm({
   const hasWarningThreshold = !isEmpty(warningThresholdValue);
   const criticalThresholdValue = criticalThreshold.get('value')?.value;
   const hasCriticalThreshold = !isEmpty(criticalThresholdValue);
+
+  // check if thresholdValue is greater than `MAX_SAFE_INTEGER`
+  if (hasWarningThreshold || hasCriticalThreshold) {
+    const thresholdValue = hasWarningThreshold ? warningThresholdValue : criticalThresholdValue;
+    if (thresholdValue >= Number.MAX_SAFE_INTEGER || thresholdValue < 0) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-alerting:smartAlerts.form.invalidNumber')
+        }
+      ];
+    }
+  }
 
   if (hasWarningThreshold && hasCriticalThreshold) {
     const operatorValue = operator?.value;

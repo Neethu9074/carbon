@@ -55,6 +55,7 @@ export interface AlertTypeConfig {
     sensitivityValidator?: string;
     baselineEmpty?: string;
     numericValidation?: string;
+    invalidNumber?: string;
   };
   numericValidation?: boolean;
 }
@@ -69,7 +70,8 @@ const ALERT_TYPE_CONFIGS: Record<AlertCategory, AlertTypeConfig> = {
       selectAtLeastOneThreshold: t('in-alerting:smartAlerts.infrastructure.form.selectAtLeastOneThreshold'),
       warningThresholdValidator: t('in-alerting:smartAlerts.form.warningThresholdValidator'),
       criticalThresholdValidator: t('in-alerting:smartAlerts.form.criticalThresholdValidator'),
-      sensitivityValidator: t('in-alerting:smartAlerts.form.sensitivityValidator')
+      sensitivityValidator: t('in-alerting:smartAlerts.form.sensitivityValidator'),
+      invalidNumber: t('in-alerting:smartAlerts.form.invalidNumber')
     }
   },
 
@@ -443,6 +445,19 @@ function validateStaticThresholdForm(formData: any, config: AlertTypeConfig): Va
   const hasWarningThreshold = !isEmpty(warningThresholdValue);
   const criticalThresholdValue = criticalThreshold.get('value')?.value;
   const hasCriticalThreshold = !isEmpty(criticalThresholdValue);
+
+  // check if thresholdValue is greater than `MAX_SAFE_INTEGER` and > 0
+  if (hasWarningThreshold || hasCriticalThreshold) {
+    const thresholdValue = hasWarningThreshold ? warningThresholdValue : criticalThresholdValue;
+    if (thresholdValue >= Number.MAX_SAFE_INTEGER || thresholdValue < 0) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-alerting:smartAlerts.form.invalidNumber')
+        }
+      ];
+    }
+  }
 
   // Threshold comparison validation
   if (hasWarningThreshold && hasCriticalThreshold) {
