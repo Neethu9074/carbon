@@ -3,13 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { CarbonStack as Stack, Typography } from '@instana/components';
 
 import { Trans } from 'in-i18n';
 
-export default function Step({ stepNumber, stepTitle, content }) {
+interface StepProps {
+  stepNumber: number;
+  stepTitle: string;
+  content: ReactNode;
+}
+export default function Step({ stepNumber, stepTitle, content }: StepProps): JSX.Element {
   return (
     <Stack gap={4}>
       <Typography variant="heading-02">
