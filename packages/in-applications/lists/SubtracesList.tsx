@@ -63,25 +63,25 @@ const columnDefinitions: ColumnDefinition<SubtraceListItem>[] = [
     id: 'subtraceCount',
     label: t('in-applications:subtraces.subtracesList.count'),
     getContent: item => <MetricValue value={number.compact(item.subtraceCount ?? 0)} />,
-    sortable: false
+    sortable: true
   },
   {
     id: 'latency',
     label: t('in-applications:subtraces.meanDuration'),
     getContent: item => <MetricValue value={formatMetricIfPresent(item.latency, latency.detailed)} />,
-    sortable: false
+    sortable: true
   },
   {
     id: 'calls',
     label: t('in-applications:subtraces.subtracesList.meanSubcallCount'),
     getContent: item => <MetricValue value={number.compact(item.calls ?? 0)} />,
-    sortable: false
+    sortable: true
   },
   {
     id: 'errorRate',
     label: t('in-applications:subtraces.subtracesList.meanErrorRate'),
     getContent: item => <MetricValue value={formatMetricIfPresent(item.errorRate, percentage.detailed)} />,
-    sortable: false
+    sortable: true
   }
 ];
 
