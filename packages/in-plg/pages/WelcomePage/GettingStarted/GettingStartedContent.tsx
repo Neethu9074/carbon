@@ -101,6 +101,7 @@ export default function GettingStartedContent({ activation }: { activation: any 
                   label={t('in-plg:onboarding.taskLabel')}
                   title={item.title}
                   pictogram={item.pictogram}
+                  className={locals.customPictogramSize}
                   onClick={() => {
                     trackCta(item.trackingEvent);
                     item.target === '_blank' ? window.open(item.href, '_blank') : (window.location.href = item.href);
@@ -123,6 +124,7 @@ export default function GettingStartedContent({ activation }: { activation: any 
                     label={t('in-plg:onboarding.taskLabel')}
                     title={item.title}
                     pictogram={Checkmark}
+                    className={locals.customPictogramSize}
                     onClick={() => {
                       trackCta(item.trackingEvent);
                       item.target === '_blank' ? window.open(item.href, '_blank') : (window.location.href = item.href);
@@ -164,7 +166,11 @@ export default function GettingStartedContent({ activation }: { activation: any 
                     iconDescription: t('in-plg:onboarding.tryNow')
                   }
                 ]}
-                media={<img src={VideoImage} alt="Visual" className={locals.image} />}
+                media={
+                  <div className={locals.aspectRatioCard}>
+                    <img src={VideoImage} alt="Visual" />
+                  </div>
+                }
               />
             ))}
           </div>
@@ -226,7 +232,11 @@ export default function GettingStartedContent({ activation }: { activation: any 
                 iconDescription: t('in-plg:onboarding.tryNow')
               }
             ]}
-            media={<img src={VideoImage} alt="Visual" className={locals.image} />}
+            media={
+              <div className={locals.aspectRatioCard}>
+                <img src={VideoImage} alt="Visual" />
+              </div>
+            }
           />
           <SupportViewSectionV2 items={supportResourceData} />
         </Stack>
