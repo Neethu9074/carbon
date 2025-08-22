@@ -5,13 +5,15 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Typography } from '@instana/components';
+import { Callout } from '@instana/carbon';
 
 import TeamAssociationDropdown, {
   useTaggedTeamsSelection
-} from 'in-settings/components/Shared/TeamAssociationDropdown/TeamAssociationDropdown';import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
-import ValidationBlock from 'in-components/form/ValidationBlock';
+} from 'in-settings/components/Shared/TeamAssociationDropdown/TeamAssociationDropdown';
 import { playwithEnabled, rbacTeamsEnabled } from 'in-services/featureFlags';
+import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
@@ -44,13 +46,30 @@ export default function InputStep({ field, saveError, loading, onChange, onSubmi
               className={locals.input}
               disabled={loading}
             />
-            { rbacTeamsEnabled && <div className={locals.teamDropdown}>
-              <TeamAssociationDropdown
-                onTeamsSelectionChanged={onTeamsChange}
-                assignedTeamTags={teamsSelected || []}
-                teamsTagged={teamsTagged || []}
-              />
-            </div>}
+            {rbacTeamsEnabled && (
+              <div className={locals.teamDropdown}>
+                <div>
+                  <h1 className={locals.title}>{t('in-mobile-apps:newAppFlow.teamsLabel')}</h1>
+                  <Typography variant="body-01">
+                    {t('in-mobile-apps:dashboard.tabs.configurations.teamsDescription')}
+                  </Typography>
+                  <Callout
+                    className={locals.message}
+                    subtitle={t('in-mobile-apps:dashboard.tabs.configurations.teamsCallout')}
+                    lowContrast
+                  />
+                  <div className={locals.dropdownRow}>
+                    <div className={locals.teamsSelector}>
+                      <TeamAssociationDropdown
+                        onTeamsSelectionChanged={onTeamsChange}
+                        assignedTeamTags={teamsSelected || []}
+                        teamsTagged={teamsTagged || []}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <Button
               type="submit"
               kind="create"

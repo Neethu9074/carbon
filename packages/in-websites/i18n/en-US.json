@@ -336,7 +336,7 @@
   },
   "newWebsiteFlow": {
     "inputStepTitleAddWebsite": "Add website",
-    "inputStepParagraphGetStarted": "Get started with website monitoring to better understand how your website performance impacts user experience.  Configuration is simple!",
+    "inputStepParagraphGetStarted": "Get started with website monitoring to better understand how your website performance impacts user experience.",
     "inputStepLabelWebsiteName": "Website name",
     "inputStepButtonAddWebsite": "Add website",
     "inputStepNewWebsiteTitle": "New website",

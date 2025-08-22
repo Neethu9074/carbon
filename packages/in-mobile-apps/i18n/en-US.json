@@ -559,10 +559,11 @@
   },
   "newAppFlow": {
     "addMobileAppTitle": "Add mobile app",
-    "addMobileAppDesc": "Get started with mobile app monitoring to better understand how your mobile app performance impacts user experience. Configuration is simple!",
+    "addMobileAppDesc": "Get started with mobile app monitoring to better understand how your mobile app performance impacts user experience.",
     "mobileAppNameLabel": "Mobile app name",
     "addMobileAppBtn": "Add mobile app",
     "newMobileAppTitle": "New mobile app",
+    "teamsLabel": "Teams (optional)",
     "everythingIsReadyTitle": "Everything's ready!",
     "everythingIsReadyMsg": "Everything is ready to monitor your mobile app <strong>{{mobileAppName}}</strong>. <linkToInstallation>Add the agent to your mobile app</linkToInstallation> to track real users or go to the dashboard.",
     "keyLabel": "Key",
