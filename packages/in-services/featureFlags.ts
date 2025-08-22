@@ -115,7 +115,8 @@ export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnab
   'eumImpactedUsersForWebsiteAndMobileAlertEnabled',
   true
 );
-
+export const mobileAppFastTriageEnabled = isFeatureFlagEnabled('mobileAppFastTriageEnabled', false);
+export const websiteFastTriageEnabled = isFeatureFlagEnabled('websiteFastTriageEnabled', false);
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
 
 // EUM beacon query optimization

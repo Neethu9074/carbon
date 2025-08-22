@@ -7,12 +7,14 @@ import {
   playwithEnabled,
   syntheticRbacLimitedEnabled,
   websiteUserBreakdownEnabled,
-  websitesBusinessMonitoringEnabled
+  websitesBusinessMonitoringEnabled,
+  websiteFastTriageEnabled
 } from 'in-services/featureFlags';
 import SyntheticMonitoring from 'in-websites/WebsiteDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
 import SloDashboardList from 'in-service-levels/components/Shared/SloDashboardList/SloDashboardList';
 import BusinessImpact from 'in-websites/WebsiteDashboard/tabs/BusinessImpact/BusinessImpact';
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
+import Dependency from 'in-websites/WebsiteDashboard/tabs/Dependency/Dependency';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import CustomEvents from 'in-websites/WebsiteDashboard/tabs/CustomEvents';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
@@ -33,6 +35,12 @@ export const getWebsiteTabs = role =>
       path: `${websitePathFullyQualified}/summary`,
       component: Summary
     },
+    websiteFastTriageEnabled && {
+      label: t('in-websites:websiteDashboard.tabs.indexLabelDependency'),
+      path: `${websitePathFullyQualified}/dependency`,
+      component: Dependency
+    },
+
     {
       label: t('in-websites:websiteDashboard.tabs.indexLabelSpeed'),
       path: `${websitePathFullyQualified}/speed`,

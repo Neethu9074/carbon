@@ -336,6 +336,7 @@
       "customEventsLabel": "Custom events",
       "viewsLabel": "Views",
       "configurationLabel": "Configuration",
+      "dependencyLabel": "Dependencies",
       "nameLabel": "Name",
       "occurrencesLabel": "Occurrences",
       "screenRenderingDuration": "Rendering duration",

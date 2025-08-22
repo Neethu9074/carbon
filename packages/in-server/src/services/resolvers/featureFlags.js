@@ -376,6 +376,17 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'mobileAppFastTriageEnabled',
+    instanaCtlKey: 'feature.eum.mobile.app.fast.triage.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websiteFastTriageEnabled',
+    instanaCtlKey: 'feature.eum.website.fast.triage.enabled',
+    defaultValue: false
+  },
+
+  {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false

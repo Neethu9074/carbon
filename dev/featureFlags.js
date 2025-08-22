@@ -82,6 +82,8 @@ module.exports = {
   websiteBeaconQueryOptimizationEnabled: true,
   eumImpactedUsersForAppAlertEnabled: true,
   eumImpactedUsersForWebsiteAndMobileAlertEnabled: true,
+  mobileAppFastTriageEnabled: false,
+  websiteFastTriageEnabled: false,
   controlPlaneEnabled: true,
   kubecostEnabled: true,
   largeTracesV2Enabled: true,

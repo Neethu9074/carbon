@@ -866,6 +866,7 @@
       "indexLabelBusinessMonitoring": "Business impact",
       "indexLabelConfiguration": "Configuration",
       "indexLabelServiceLevels": "Service levels",
+      "indexLabelDependency": "Dependencies",
       "pagesLabelName": "Name",
       "pagesLabelPageViews": "Page views",
       "pagesLabelOnLoadTime": "onLoad time",
