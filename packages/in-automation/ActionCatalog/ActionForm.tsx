@@ -306,7 +306,7 @@ function TypeSection({ action, actionFilter }: { action?: ActionFormEntity; acti
             onChange={e => {
               setForm(form => {
                 // Update 'type'
-                const updatedForm = form.updateIn(['type'], item =>
+                let updatedForm = form.updateIn(['type'], item =>
                   item.setValue(e.target.value as ActionType).setTouched(true)
                 );
                 const type = updatedForm.get('type').value;
@@ -314,7 +314,11 @@ function TypeSection({ action, actionFilter }: { action?: ActionFormEntity; acti
                   type === ACTION_TYPE.GITHUB || type === ACTION_TYPE.GITLAB || type === ACTION_TYPE.JIRA;
                 // Check the updated form state and conditionally update 'ticketActionType'
                 if (isGHGLJIRA) {
-                  return updatedForm.updateIn(['ticketActionType'], item => item.setValue('open').setTouched(true));
+                  updatedForm = updatedForm.updateIn(['ticketActionType'], item =>
+                    item.setValue('open').setTouched(true)
+                  );
+                  updatedForm = checkIdParameter(updatedForm, 'open');
+                  return updatedForm;
                 }
 
                 return updatedForm;
@@ -511,17 +515,33 @@ function ScriptSection() {
   );
 }
 
+const descriptions: Record<string, string> = {
+  [ACTION_TYPE.GITLAB]: 'Gitlab issue id',
+  [ACTION_TYPE.JIRA]: 'Jira ticket id',
+  [ACTION_TYPE.GITHUB]: 'Github issue id'
+};
+
 function checkIdParameter(form: ActionForm, type: string) {
   const parameters = form.get('parameters').value;
+  const actionType = form.get('type').value;
   const hasIdParameter = parameters.find(parameter => parameter.value.name === 'id') !== undefined;
   if (type == OPEN && hasIdParameter) {
     return form.updateIn(['parameters'], item =>
       item.setValue(parameters.filter(parameter => parameter.value.name !== 'id'))
     );
   }
-  if (type == OPEN || hasIdParameter) return form;
-  parameters.push(createTicketIdParameter('Issue', 'Github issue id'));
-  return form.updateIn(['parameters'], item => item.setValue(parameters));
+  if (type === OPEN) return form;
+
+  const description = descriptions[actionType];
+  if (hasIdParameter) {
+    const updatedParams = parameters.map(parameter => {
+      return parameter.value.name === 'id' ? { ...parameter, description } : parameter;
+    });
+    return form.updateIn(['parameters'], item => item.setValue(updatedParams));
+  } else {
+    parameters.push(createTicketIdParameter('Issue', description));
+    return form.updateIn(['parameters'], item => item.setValue(parameters));
+  }
 }
 
 function GithubSection() {
