@@ -451,6 +451,7 @@
       "permissionLabel_CAN_VIEW_TRACE_DETAILS": "View call details in the trace detail view",
       "permissionLabel_CAN_CONFIGURE_SERVICE_MAPPING": "Customize service rules and endpoint mapping",
       "permissionLabel_CAN_CONFIGURE_APPLICATIONS": "Create, configure and delete application perspectives",
+      "permissionLabel_CAN_CONFIGURE_SUBTRACES": "Create, configure and delete subtraces",
       "permissionLabel_CAN_CONFIGURE_APPLICATION_SMART_ALERTS": "Configuration of Smart Alerts for Applications",
       "permissionLabel_CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS": "Configuration of global Smart Alerts for Applications",
       "permissionLabel_LIMITED_PCF_SCOPE": "View Cloud Foundry",
