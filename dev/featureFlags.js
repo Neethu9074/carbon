@@ -94,7 +94,7 @@ module.exports = {
   playwithTestEnabled: false,
   playWithReleaseEnabled: false,
   assistmeEnabled: true,
-  walkmeToolEnabled: true,
+  walkmeToolEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
   syntheticsFilterForMaintenanceWindowsEnabled: true,
