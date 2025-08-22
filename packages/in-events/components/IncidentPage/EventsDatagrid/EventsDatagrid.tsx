@@ -11,7 +11,6 @@ import {
   TableBatchActions,
   TableBody,
   TableCell,
-  TableExpandedRow,
   TableExpandHeader,
   TableExpandRow,
   TableHead,
@@ -30,7 +29,7 @@ import {
   OnChangeFn,
   RowSelectionState
 } from '@tanstack/react-table';
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { Filter } from '@carbon/icons-react';
 
@@ -108,7 +107,7 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
     loadMore,
     showExpand = true,
     headers,
-    height = 200,
+    height = 400,
     multiSelect = false,
     canMultiSelect,
     multiSelectActions,
@@ -169,6 +168,21 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
   // capture expand state
   const [expanded, setExpanded] = useState<ExpandedStateList>({});
 
+  // Create a ref to store the virtualizer instance
+  const rowVirtualizerRef = useRef<ReturnType<typeof useVirtualizer<HTMLDivElement, Element>> | null>(null);
+
+  // Custom wrapper for setExpanded that also triggers row height recalculation
+  const handleSetExpanded = useCallback(
+    (newExpandedState: ExpandedStateList) => {
+      setExpanded(newExpandedState);
+      // We need to wait for the state to be updated before recalculating
+      setTimeout(() => {
+        rowVirtualizerRef.current?.measure();
+      }, 0);
+    },
+    [rowVirtualizerRef]
+  );
+
   useEffect(() => {
     setData(events);
   }, [events]);
@@ -180,7 +194,7 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
     getExpandedRowModel: getExpandedRowModel(),
     getRowId: row => row.id || '',
     // @ts-expect-error
-    onExpandedChange: setExpanded,
+    onExpandedChange: handleSetExpanded,
     state: {
       expanded,
       rowSelection: multiSelectState
@@ -195,9 +209,12 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => tableContainerRef.current,
-    estimateSize: () => 40,
-    overscan: 10
+    estimateSize: index => (expanded[rows[index].id] ? 600 : 40),
+    overscan: 20
   });
+
+  // Store the virtualizer instance in our ref for access in handleSetExpanded
+  rowVirtualizerRef.current = rowVirtualizer;
 
   // callback for when the user has reached the bottom of the table to load more data
   const fetchMoreOnBottomReached = useCallback(() => {
@@ -264,18 +281,26 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
         <EventsAppliedFilters currentFilters={currentFilters} onFilterChange={onFilterChange} eventType={eventType} />
         {/* Sticky header */}
         <Table size="md" className={locals.table}>
-          <TableHead className={locals.tableHead}>
+          <TableHead>
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id} className={locals.tableHeaderRow}>
-                {showExpand && <TableExpandHeader aria-label="expand row" />}
+                {showExpand && (
+                  <TableExpandHeader
+                    aria-label="expand row"
+                    className={locals.tableHeader}
+                    style={{
+                      width: 40
+                    }}
+                  />
+                )}
                 {headerGroup.headers.map(header => (
                   <TableHeader
                     key={header.id}
                     isSortable={enableSorting && header.column.columnDef.enableSorting}
                     isSortHeader={sortingState.orderBy === header.column.id}
                     sortDirection={sortingState.orderDirection || 'NONE'}
+                    className={locals.tableHeader}
                     style={{
-                      display: 'flex',
                       width: header.getSize()
                     }}
                     onClick={() => {
@@ -314,20 +339,28 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
 
               if (showExpand) {
                 return (
-                  // @ts-expect-error
-                  <Fragment key={row.id} data-index={vrow.index} ref={rowVirtualizer.measureElement}>
+                  <TableRow
+                    data-index={vrow.index}
+                    key={vrow.key as number}
+                    className={locals.tableRow}
+                    style={{
+                      height: `${vrow.size}px`,
+                      transform: `translateY(${vrow.start}px)`,
+                      flexDirection: 'column'
+                    }}
+                  >
                     <TableExpandRow
                       aria-label="row expanded"
-                      key={row.id}
+                      className={locals.tableRow}
                       onExpand={() => {
                         const isRowExpanded = !!expanded[row.id];
                         if (isRowExpanded) {
                           const newExpansionState = { ...expanded, [row.id]: false };
-                          setExpanded(newExpansionState);
+                          handleSetExpanded(newExpansionState);
                           return;
                         }
                         const newExpansionState = { ...expanded, [row.id]: true };
-                        setExpanded(newExpansionState);
+                        handleSetExpanded(newExpansionState);
                       }}
                       isExpanded={!!expanded[row.id]}
                     >
@@ -343,19 +376,30 @@ const EventsDatagrid: React.FC<EventsDatagridProps> = props => {
                         </TableCell>
                       ))}
                     </TableExpandRow>
-                    <TableExpandedRow colSpan={columns.length + 1}>
-                      {expanded?.[row.id] ? <EventExpandedComponent event={row.original} /> : <></>}
-                    </TableExpandedRow>
-                  </Fragment>
+                    {expanded?.[row.id] && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          transform: 'translate(2.5rem, 2.5rem)',
+                          width: 'calc(80% - 2rem)' /* Account for potential padding/margins */,
+                          left: 0,
+                          right: 0
+                        }}
+                      >
+                        <EventExpandedComponent event={row.original} />
+                      </div>
+                    )}
+                  </TableRow>
                 );
               }
 
               return (
                 <TableRow
                   data-index={vrow.index}
-                  key={row.id}
+                  key={vrow.key as number}
                   className={locals.tableRow}
                   style={{
+                    height: `${vrow.size}px`,
                     transform: `translateY(${vrow.start}px)`
                   }}
                 >
