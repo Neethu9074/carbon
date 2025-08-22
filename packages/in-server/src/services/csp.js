@@ -42,7 +42,8 @@ const allowedScriptOriginsWalkMe = [
   ...allowedScriptOriginsIbmCommon,
   'https://cdn.walkme.com',
   'https://playerserver.walkme.com',
-  'https://ec.walkme.com'
+  'https://ec.walkme.com',
+  'blob:'
 ];
 
 const allowedScriptOriginsWalkMePlayBack = [
@@ -60,12 +61,12 @@ exports.getCsp = (
   solisEnabled,
   isControlledEnvEnabled
 ) => {
-  if (isSessionPlayBackRequired) {
-    return `script-src 'self'  'nonce-${nonce}' ${allowedScriptOriginsWalkMePlayBack.join(' ')}`;
-  } else if (solisEnabled && !isControlledEnvEnabled) {
+  if (solisEnabled && !isControlledEnvEnabled) {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(
       ' '
     )} 'http://localhost:3015' 'blob:http://localhost:3015'; img-src * data:; connect-src *`; //For local testing only
+  } else if (isSessionPlayBackRequired) {
+    return `script-src 'self'  'nonce-${nonce}' ${allowedScriptOriginsWalkMePlayBack.join(' ')}`;
   } else if (walkmeEnabled) {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
   } else if (ibmCommonEnabled) {
