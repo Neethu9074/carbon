@@ -12,13 +12,9 @@ import { TagFilterExpressionElementUnion } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 
-import {
-  getLogsOnIntervalObservable,
-  HighlightedText,
-  LINE_HEIGHT,
-  useAbsoluteUrlToItem
-} from 'in-logging/analyze/ConsoleView/utils';
+import { getLogsOnIntervalObservable, LINE_HEIGHT, useAbsoluteUrlToItem } from 'in-logging/analyze/ConsoleView/utils';
 import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
+import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import useResizeObserver from 'in-hooks/useResizeObserver';
@@ -66,6 +62,7 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
     const log = logs[index];
     const logLevel = getLogLevel(log.tags);
     const path = useAbsoluteUrlToItem(log.itemId);
+    const triggeConsoleNavigation = () => goToPath(path.hash);
 
     return (
       <div
@@ -74,7 +71,7 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
           overflow: 'hidden'
         }}
         onClick={() => {
-          goToPath(path.hash);
+          triggeConsoleNavigation();
         }}
       >
         <div className={locals.logLine} style={{ lineHeight: `${LINE_HEIGHT}px` }}>
@@ -83,7 +80,12 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
             <span>{logLevel}</span>
           </div>
           <div className={locals.textContainer}>
-            <HighlightedText text={log.message} keyword={searchValue} />
+            <LogMessage
+              tags={log.tags}
+              message={log.message}
+              triggeConsoleNavigation={triggeConsoleNavigation}
+              isConsoleView
+            />
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ import { interval } from '@instana/observables';
 
 import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig } from 'in-stores/time/config';
-import { LOG_LEVEL, LOG_MESSAGE_TIMESTAMP } from 'in-logging/queryBuilder';
+import { LOG_CUSTOM, LOG_LEVEL, LOG_MESSAGE_TIMESTAMP } from 'in-logging/queryBuilder';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import { logsPath } from 'in-logging/navigation/paths';
@@ -1813,7 +1813,7 @@ export const getLogsOnIntervalObservable = (filters: TagFilterExpressionElementU
       },
       tagFilterExpression: filters,
       retrievalSize: RETRIEVAL_SIZE,
-      requestedTags: [LOG_LEVEL, LOG_MESSAGE_TIMESTAMP]
+      requestedTags: [LOG_LEVEL, LOG_MESSAGE_TIMESTAMP, LOG_CUSTOM]
     }))
     .flatMap(params => getLogs(params))
     .scan((items: LogItem[] = [], result) => [...items, ...(result.data?.items ?? [])]);

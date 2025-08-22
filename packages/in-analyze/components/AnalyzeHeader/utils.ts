@@ -11,6 +11,8 @@ import { Entity } from 'in-analyze/AnalyzeView/dataSources';
 import { Location } from 'in-stores/navigation/types';
 import { isNotBlank } from 'in-services/util/string';
 
+const betaSections = ['logsConsole'];
+
 export function getActiveConfiguration(location: Location): ActiveConfiguration {
   for (const { matrixPath, matrixParam, productArea, pathPrefix } of dataSourceSources) {
     if (pathPrefix && !location.pathname.startsWith(pathPrefix)) {
@@ -18,11 +20,13 @@ export function getActiveConfiguration(location: Location): ActiveConfiguration 
     }
 
     const dataSource = getMatrixParameter(location, matrixPath, matrixParam) as Entity;
+
     if (isNotBlank(dataSource)) {
       return {
         productArea,
         dataSource,
-        ua2: true
+        ua2: true,
+        ...(betaSections.includes(dataSource) ? { beta: true } : {})
       };
     }
   }

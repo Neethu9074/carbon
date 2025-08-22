@@ -246,7 +246,7 @@ packages/in-kubernetes/Dashboards/Cluster/tabs/KubeCost    @Instana-IBM-GitHub-E
 packages/in-kubernetes/Dashboards/ArgoCD                   @Instana-IBM-GitHub-Enterprise @instana/ai-observability @instana/eng-k8s @instana/eng-ui
 
 # Logging specific areas
-packages/in-logging                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-logging/*                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 # code needs to be shifted - this will be a follow-up, and has already been discussed
 packages/in-components/Logging      @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
