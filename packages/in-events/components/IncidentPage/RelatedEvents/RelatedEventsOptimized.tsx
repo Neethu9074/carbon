@@ -94,20 +94,18 @@ const RelatedEventsOptimized = ({ incident, triggeringEventId }: RelatedEventPro
             </Typography>
           </Collapsible.Header>
           <Collapsible.Content>
-            <LeftRightPadding>
-              <div className={locals.accordionContent}>
-                <Button type="button" kind="secondary" onClick={() => setChangesAreVisible(!changesAreVisible)}>
-                  {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
-                </Button>
-                {recentEventIds.length !== 0 && !rawRelatedEvents && <LoadingIndicator size="xl" />}
-                <EventsDatagrid
-                  events={rawRelatedEvents as RawEvent[]}
-                  loading={rawRelatedEventsLoading}
-                  loadMore={loadMore}
-                  canLoadMore={canLoadMore}
-                />
-              </div>
-            </LeftRightPadding>
+            <div className={locals.accordionContent}>
+              <Button type="button" kind="secondary" onClick={() => setChangesAreVisible(!changesAreVisible)}>
+                {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
+              </Button>
+              {recentEventIds.length !== 0 && !rawRelatedEvents && <LoadingIndicator size="xl" />}
+              <EventsDatagrid
+                events={rawRelatedEvents as RawEvent[]}
+                loading={rawRelatedEventsLoading}
+                loadMore={loadMore}
+                canLoadMore={canLoadMore}
+              />
+            </div>
           </Collapsible.Content>
         </Collapsible>
       </CarbonLayer>
