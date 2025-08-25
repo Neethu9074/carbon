@@ -30,28 +30,6 @@ export const mockSlo1: ServiceLevelObjectiveConfiguration = {
     type: 'eventBased',
     threshold: 75,
     aggregation: undefined,
-    goodEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: false,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
-    badEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: true,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
     blueprint: 'latency'
   },
   timeWindow: {
@@ -88,28 +66,6 @@ export const mockSlo2: ServiceLevelObjectiveConfiguration = {
     type: 'timeBased',
     threshold: 904,
     aggregation: 'MEAN',
-    goodEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: false,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
-    badEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: true,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
     blueprint: 'latency'
   },
   timeWindow: {
@@ -146,28 +102,6 @@ export const mockSlo3: ServiceLevelObjectiveConfiguration = {
     type: 'timeBased',
     threshold: 20,
     aggregation: 'MEAN',
-    goodEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: false,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
-    badEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: true,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
     blueprint: 'availability'
   },
   timeWindow: {
@@ -204,28 +138,6 @@ export const mockSlo4: ServiceLevelObjectiveConfiguration = {
     type: 'eventBased',
     threshold: 50,
     aggregation: undefined,
-    goodEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: false,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
-    badEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: true,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
     blueprint: 'availability'
   },
   timeWindow: {

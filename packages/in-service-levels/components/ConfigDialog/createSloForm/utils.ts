@@ -53,6 +53,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
   if (entityType === 'synthetic') {
     return {
       type: 'synthetic',
+      includeUnscheduledTestResults: false,
       syntheticTestIds: form.getIn(['entity', 'entityIds']).value,
       tagFilterExpression: emptyTagFilterExpression
     };
