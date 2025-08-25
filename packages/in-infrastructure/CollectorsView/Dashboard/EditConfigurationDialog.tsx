@@ -17,6 +17,8 @@ import { loadRawAgentConfigurationOtel, updateOTelConfiguration } from 'in-forge
 import { selectedSnapshot$, SnapshotData } from 'in-stores/snapshot';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ConfigFlowChart from 'in-infrastructure/CollectorsView/ConfigurationEditor/ConfigFlowChart';
+import { OTEL_COLLECTOR_UPDATE_CONFIGURATOIN_CLICKED } from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
@@ -61,6 +63,8 @@ export default function EditConfigurationDialog() {
     }
   }
 
+  const { trackCta } = useSegmentTracking();
+
   return (
     <Modal
       title={t('in-infrastructure:collectorView.collectorConfig')}
@@ -68,6 +72,7 @@ export default function EditConfigurationDialog() {
       primaryButtonText={t('in-infrastructure:collectorView.update')}
       secondaryButtonText={t('in-infrastructure:collectorView.cancel')}
       onRequestSubmit={() => {
+        trackCta(OTEL_COLLECTOR_UPDATE_CONFIGURATOIN_CLICKED);
         updateOTelConfiguration(snapshot, config, close, getErrorMessage);
       }}
       modalHeading={t('in-infrastructure:collectorView.configuration')}
