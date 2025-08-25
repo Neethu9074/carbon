@@ -20,8 +20,6 @@ import {
 } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 
-import local from 'in-client/js/CarbonUIShell/header/GetAnswers.mless';
-
 export default function GetAnswers() {
   const termsAndPrivacySettingsStore = useObservable(termsAndPrivacySettingsStore$, []);
   const isWalkMeEnabled = tealiumPrivacyEnabled
@@ -31,12 +29,7 @@ export default function GetAnswers() {
   const showGetAnswers = !isControlledEnvEnabled && isWalkMeEnabled && assistmeEnabled && isAssistMeScriptLoaded;
 
   if (showGetAnswers) {
-    return (
-      <>
-        <div className={local.verticalLine} />
-        <AssistMe />
-      </>
-    );
+    return <AssistMe />;
   }
   return null;
 }

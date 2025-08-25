@@ -47,24 +47,23 @@ export default function Header({ expanded, onClickSideNavExpand }: HeaderContent
   const DeferredGetAnswers = createAsyncViewComponent(GetAnswers);
 
   return (
-    <Stack orientation="horizontal" gap="0.75rem">
+    <Stack orientation="horizontal">
       {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
       <AsyncComponent component={NotificationBarSticky} />
       {!playwithEnabled && (
         <Stack orientation="horizontal" gap="0rem">
-          <Stack orientation="horizontal" gap="0.75rem" className={local.flexProperty}>
+          <Stack orientation="horizontal" className={local.flexProperty}>
             <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')} themeStyle="light">
               <Button
                 id="shareButton"
                 kind="ghost"
+                className={local.button}
                 target="_blank"
                 onClick={() =>
                   addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
                 }
                 renderIcon={() => <IconForButton icon="lib_actions_share" iconSize="s" />}
-              >
-                {t('in-plg:licenseBanner.share')}
-              </Button>
+              />
             </Tooltip>
             <DeferredGetAnswers />
           </Stack>
@@ -77,7 +76,7 @@ export default function Header({ expanded, onClickSideNavExpand }: HeaderContent
               aria-haspopup="true"
               tooltipAlignment="end"
             >
-              <UserIcon size="s" color="var(--cds-icon-secondary)" className={local.userIcon} />
+              <UserIcon size="s" color="var(--cds-icon-primary)" className={local.userIcon} />
             </HeaderGlobalAction>
           </div>
         </Stack>

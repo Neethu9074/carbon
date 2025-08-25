@@ -40,9 +40,8 @@
     "buyNowBtn": "Buy on AWS",
     "buyNowBtnIbm": "Buy on IBM",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>.",
-    "getAnswers": "Get answers",
-    "share": "Share",
-    "shareTooltip": "Share this page with colleagues and invite them to collaborate in Instana.",
+    "shareTooltip": "Share this page and invite your team",
+    "getAnswersTooltip": "Guided answers here",
     "titleDetail": {
       "trial": "Trial",
       "sandboxTrial": "Sandbox trial"
