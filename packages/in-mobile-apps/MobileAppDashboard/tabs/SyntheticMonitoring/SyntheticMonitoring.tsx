@@ -31,7 +31,7 @@ import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSumm
 import getServerTableDescription from 'in-synthetics/utils/getServerTableDescription';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { syntheticCarbonTableEnabled } from 'in-services/featureFlags';
+import { syntheticSslImprovementEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -100,7 +100,7 @@ const SyntheticMonitoring = ({ mobileAppId, timeConfig }: Props) => {
 
   return (
     <>
-      {syntheticCarbonTableEnabled ? (
+      {syntheticSslImprovementEnabled ? (
         <TestsTableWithUrlState
           isAssociationsContext
           context={'mobile'}

@@ -14,8 +14,8 @@ import { useObservable } from '@instana/hooks';
 
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
+import { syntheticSslImprovementEnabled } from 'in-services/featureFlags';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
-import { syntheticCarbonTableEnabled } from 'in-services/featureFlags';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import { getTest, updateTest } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -66,7 +66,7 @@ const ListActionsColumn = ({ testResultCommonProperties }: TestResultListItem) =
   };
 
   // For tests without location(s), disable the Pause/Resume button
-  return syntheticCarbonTableEnabled ? (
+  return syntheticSslImprovementEnabled ? (
     syntheticTest.progress.loading ? (
       <Button
         kind="ghost"

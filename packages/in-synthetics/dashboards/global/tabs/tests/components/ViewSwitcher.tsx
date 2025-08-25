@@ -8,7 +8,7 @@ import React from 'react';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { syntheticCarbonTableEnabled, syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
+import { syntheticSslImprovementEnabled, syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -52,12 +52,12 @@ export default function ViewSwitcher() {
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticsPath)}
               label={
-                syntheticCarbonTableEnabled
+                syntheticSslImprovementEnabled
                   ? t('in-synthetics:dashboard.testList.secondaryLabels.syntheticTests')
                   : t('in-synthetics:dashboard.testList.secondaryLabels.tests')
               }
               isActive={isTestsActive && !isLocationsActive && !isCredentialsActive && !isSmartAlertsActive}
-              icon={syntheticCarbonTableEnabled ? '' : 'lib_synthetic'}
+              icon={syntheticSslImprovementEnabled ? '' : 'lib_synthetic'}
             />
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticLocationPath)}

@@ -30,8 +30,8 @@ import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/compon
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { syntheticSslImprovementEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { syntheticCarbonTableEnabled } from 'in-services/featureFlags';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -100,7 +100,7 @@ export default function SyntheticList() {
 
   return (
     <>
-      {syntheticCarbonTableEnabled ? (
+      {syntheticSslImprovementEnabled ? (
         <TestsTableWithUrlState
           isAssociationsContext
           context={'application'}

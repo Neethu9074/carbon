@@ -56,7 +56,7 @@ import showNotification, {
   timeExpired
 } from 'in-synthetics/utils/setReminders';
 import {
-  syntheticCarbonTableEnabled,
+  syntheticSslImprovementEnabled,
   syntheticRbacLimitedEnabled,
   syntheticRunNowEnabled
 } from 'in-services/featureFlags';
@@ -229,7 +229,7 @@ const TestSummaryList = () => {
             />
           </div>
         )}
-        {syntheticCarbonTableEnabled ? (
+        {syntheticSslImprovementEnabled ? (
           <TestsTableWithUrlState
             syntheticTypes={syntheticTypes}
             locationIds={locationIds}
@@ -272,7 +272,7 @@ const TestSummaryList = () => {
       </LeftRightPadding>
       <Footer />
 
-      {!syntheticCarbonTableEnabled &&
+      {!syntheticSslImprovementEnabled &&
         (role?.canConfigureSyntheticTests || role?.canConfigureGlobalSyntheticSmartAlerts) && (
           <FloatingActionButtons>
             <FloatingActionButtonMenu>
