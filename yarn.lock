@@ -3652,10 +3652,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.304.508":
-  version: 1.304.508
-  resolution: "@instana/types@npm:1.304.508::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.304.508.tgz"
-  checksum: ff510cf405d935804c0837d567729897c40c1dc15c465aeb62574181ef9755ec36a7e294f9f77fa0caa33281fad62864f90c9856e8489c1fec45c8f0882197d4
+"@instana/types@npm:1.304.514":
+  version: 1.304.514
+  resolution: "@instana/types@npm:1.304.514::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.304.514.tgz"
+  checksum: 998cfb07878422f2f66259808bbb01c155be33e8f1681bfa31786ca903ba7b1090b28a1ef4e754a2a1c76461b7402b31a19ed04ad977fa6c60b1f207ed3126f7
   languageName: node
   linkType: hard
 
@@ -24869,7 +24869,7 @@ __metadata:
     "@instana/observables": ^1.11.0
     "@instana/pseudo-translation": 1.6.0
     "@instana/roemitter": ^1.5.2
-    "@instana/types": 1.304.508
+    "@instana/types": 1.304.514
     "@instana/utils": ^1.5.4
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
