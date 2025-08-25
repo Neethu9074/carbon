@@ -132,15 +132,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           )}
         </div>
       </KpiSection>
-
       {downtimesOnHostEnabled && (
-        <Columize>
-          <DashboardSection>
-            <ReportingStatus snapshot={snapshot} timeConfig={timeConfig} />
-          </DashboardSection>
-        </Columize>
+        <DashboardSection>
+          <ReportingStatus snapshot={snapshot} timeConfig={timeConfig} />
+        </DashboardSection>
       )}
-
       <Columize>
         <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuUsage')}>
           {isAixOs(snapshot) && (
