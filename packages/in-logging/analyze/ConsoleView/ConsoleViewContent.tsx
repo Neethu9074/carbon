@@ -163,16 +163,18 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
             </span>
           </nav>
         )}
-        <VariableSizeList
-          ref={windowRef as LegacyRef<VariableSizeList>}
-          outerRef={listRef}
-          height={height ?? 100}
-          width={'100%'}
-          itemCount={logs.length}
-          itemSize={getItemSize}
-        >
-          {Row}
-        </VariableSizeList>
+        <section data-testid="logConsoleVirtualList">
+          <VariableSizeList
+            ref={windowRef as LegacyRef<VariableSizeList>}
+            outerRef={listRef}
+            height={height ?? 100}
+            width={'100%'}
+            itemCount={logs.length}
+            itemSize={getItemSize}
+          >
+            {Row}
+          </VariableSizeList>
+        </section>
       </pre>
     </div>
   );
