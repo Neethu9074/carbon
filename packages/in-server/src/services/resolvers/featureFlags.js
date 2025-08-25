@@ -1031,7 +1031,7 @@ module.exports = exports = [
   {
     uiClientKey: 'downtimesOnHostEnabled',
     instanaCtlKey: 'feature.downtimes.on.host.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'deleteLogsV3Enabled',

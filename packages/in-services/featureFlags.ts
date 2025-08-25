@@ -408,7 +408,7 @@ export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
 export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);
 export const customEntitiesViewEnabled = isFeatureFlagEnabled('customEntitiesViewEnabled', false);
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
-export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);
+export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', true);
 export const agentEnforcementEnabled = isFeatureFlagEnabled('agentEnforcementEnabled', false);
 export const pollRateSupportForUnifiedMetricsEnabled = isFeatureFlagEnabled(
   'pollRateSupportForUnifiedMetricsEnabled',
