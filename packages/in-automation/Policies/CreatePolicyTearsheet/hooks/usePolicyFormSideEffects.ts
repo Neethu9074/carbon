@@ -7,15 +7,17 @@
 import { createMapForm } from 'formalistic';
 import { Frequency } from 'rrule';
 
-import { ONE_TIME, POLICY_CONDITION } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
-import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
+import { TriggerType } from '@instana/types';
+
 import {
   createReccurenceFields,
   createStartFields
 } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/usePolicyFormHelper';
-import type { Effect } from 'in-hooks/useFormSideEffects';
+import { ONE_TIME, POLICY_CONDITION } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
+import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
+import { TRIGGERING_AGENT } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
-import { TriggerType } from '@instana/types';
+import type { Effect } from 'in-hooks/useFormSideEffects';
 
 function resetRecurrence(form: PolicyForm) {
   const schedule = form.get('schedule');
@@ -87,7 +89,13 @@ function resetTrigger(form: PolicyForm) {
       .updateIn(['action', 'type', 'automatic'], item => item.setValue(true))
       .updateIn(['action', 'type'], item => item.setTouched(false))
       .updateIn(['scope', 'applyOn'], item => item.setValue('all').setTouched(false))
-      .updateIn(['action', 'isSchedulePolicy'], item => item.setValue(true));
+      .updateIn(['action', 'isSchedulePolicy'], item => item.setValue(true))
+      .updateIn(['action', 'agentId'], item => {
+        if (form.getIn(['action', 'agentId']).value === TRIGGERING_AGENT) {
+          return item.setValue('');
+        }
+        return item;
+      });
   } else {
     return form
       .updateIn(['triggerId'], item => item.setValue('').setTouched(false))

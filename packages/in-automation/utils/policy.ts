@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Policy, Action, ActionConfiguration } from '@instana/types';
+import { Action, ActionConfiguration, Policy } from '@instana/types';
 
+import { POLICY_CONDITION } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
 import { NewActionConfiguration, NewPolicy, TriggerSpecification, Triggers } from 'in-automation/types';
-import { POLICY_TYPE } from 'in-automation/constants';
 import { PolicyFormEntity } from 'in-automation/Policies/types';
+import { POLICY_TYPE } from 'in-automation/constants';
 
 export const isManual = (item: Policy | NewPolicy) =>
   item.typeConfigurations.some(typeConfiguration => typeConfiguration.name === POLICY_TYPE.MANUAL);
@@ -31,4 +32,5 @@ export function getPolicyActionFromActions(actions: Action[], policy: Policy | N
   return actions.find(action => action.id === id);
 }
 
-export const isScheduledPolicy = (policy: PolicyFormEntity): boolean => policy.trigger.type === 'schedule';
+export const isScheduledPolicy = (policy: PolicyFormEntity): boolean =>
+  policy.trigger.type === POLICY_CONDITION.SCHEDULE;

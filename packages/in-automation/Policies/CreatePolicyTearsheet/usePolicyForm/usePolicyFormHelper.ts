@@ -43,6 +43,7 @@ import {
   ONE_TIME,
   POLICY_CONDITION
 } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
+import { TRIGGERING_AGENT } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import { maxValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { ApplyOn, ScopeFormItems } from 'in-automation/Policies/usePolicyForm/types';
@@ -63,8 +64,10 @@ function parsePolicy(policy: PolicyFormEntity) {
     typeConfiguration => typeConfiguration.name === (isManual(policy) ? POLICY_TYPE.MANUAL : POLICY_TYPE.AUTOMATIC)
   )!;
 
-  const { agentId = '', inputParameterValues = [] } = getActionConfigurationFromPolicy(policy);
-
+  let { agentId = '', inputParameterValues = [] } = getActionConfigurationFromPolicy(policy);
+  if (isScheduledPolicy(policy) && agentId === TRIGGERING_AGENT) {
+    agentId = '';
+  }
   return {
     name: policy.name,
     description: policy.description ?? '',
