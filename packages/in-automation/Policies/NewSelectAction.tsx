@@ -9,34 +9,34 @@ import React, { useState } from 'react';
 import { Button, IconButton, RadioButton, Spacer, Stack } from '@instana/components';
 import { Action } from '@instana/types';
 
-import { descriptionColumn, NameColumn } from 'in-automation/ActionTable/columnDefinitions';
-import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
-import { tagsColumn } from 'in-automation/components/columnDefinitions';
-import { TagsFilter } from 'in-automation/components/tableFilters';
-import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
-import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
-import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
-import { getPolicyFromForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/utils';
-import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import Dialog from 'in-components/Dialog/Dialog';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import CancelButton from 'in-components/form/CancelButton';
-import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import FormGroup from 'in-components/form/FormGroup';
-import Label from 'in-components/form/Label/Label';
-import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
+import { getPolicyFromForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/utils';
+import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
+import { descriptionColumn, NameColumn } from 'in-automation/ActionTable/columnDefinitions';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import Tooltip from 'in-components/Tooltip/Tooltip';
-import { t } from 'in-i18n';
+import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
+import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
+import { TagsFilter } from 'in-automation/components/tableFilters';
+import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { listSuccess, success } from 'in-services/util/result';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
+import CancelButton from 'in-components/form/CancelButton';
+import FormGroup from 'in-components/form/FormGroup';
+import Tooltip from 'in-components/Tooltip/Tooltip';
+import Label from 'in-components/form/Label/Label';
+import Dialog from 'in-components/Dialog/Dialog';
+import { t } from 'in-i18n';
 
 import locals from './Policy.mless';
-import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
 
 export const nameColumn: ColumnDefinition<Action> = {
   id: 'name',
@@ -173,7 +173,7 @@ function SelectActionDialog({
 
   function onChange(item: Action) {
     setSelectedId(item.id);
-    setServerTableUrlState({ page: 1, query: '' });
+    setServerTableUrlState({ page: 1, query });
   }
 
   const columnDefinitions: ColumnDefinition<Action>[] = [
