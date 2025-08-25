@@ -74,7 +74,7 @@ export default function EventsSelection({ form, setForm }: Props) {
       <Events
         setTitle={false}
         loadEntities={() => getSelectedEventsForAlert(selectedEvents, eventConfigs)}
-        hasRowNavigation={false}
+        hasRowNavigation
         noDataMessage={t('in-settings:tabs.noEventsSelected')}
         tableActions={eventSelectionTableActions(form, setForm)}
         pageSize={10}
