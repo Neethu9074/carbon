@@ -73,13 +73,18 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
         onClick={() => {
           triggeConsoleNavigation();
         }}
+        data-testid="logConsoleRow"
       >
         <div className={locals.logLine} style={{ lineHeight: `${LINE_HEIGHT}px` }}>
           <span>{formatDateTime(log.timestamp)}</span>
-          <div className={locals.level} style={{ background: getLogLevelColor(logLevel) }}>
+          <div
+            className={locals.level}
+            style={{ background: getLogLevelColor(logLevel) }}
+            data-testid="logConsoleLevel"
+          >
             <span>{logLevel}</span>
           </div>
-          <div className={locals.textContainer}>
+          <div className={locals.textContainer} data-testid="logConsoleMesage">
             <LogMessage
               tags={log.tags}
               message={log.message}
@@ -126,13 +131,14 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
   const hasSearch = searchValue.length > 0;
 
   return (
-    <div className={locals.consoleView}>
+    <div className={locals.consoleView} data-testid="logConsoleTailingToggle">
       <fieldset>
         <CarbonSearch
           onClear={() => setSearchValue('')}
           value={searchValue}
           onChange={handleSearchChange}
           labelText="Search logs"
+          data-testid="logConsoleSearchInput"
         />
         <div className={locals.toggleContainer}>
           <label htmlFor="tailingToggle">Tailing</label>
@@ -141,7 +147,7 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
       </fieldset>
       <pre className={locals.consoleContainer} ref={ref as RefObject<HTMLPreElement>}>
         {hasSearch && (
-          <nav className={locals.searchNavigation}>
+          <nav className={locals.searchNavigation} data-testid="logConsoleSearchArrows">
             <IconButton
               type="lib_arrow_down"
               disabled={isSearchNavigationDisabled}
