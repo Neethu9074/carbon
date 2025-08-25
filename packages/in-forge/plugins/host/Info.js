@@ -9,7 +9,7 @@ import { DescriptionList, DescriptionItem } from '@instana/components';
 
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
-import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
+import { isWindows, isZos, isAixOs } from 'in-forge/plugins/host/hostUtils';
 import { t } from 'in-i18n';
 
 export default function HardwareInfo({ snapshot }) {
@@ -62,7 +62,19 @@ export default function HardwareInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.host.hardwareModel')}>{data.get('hardwareModel')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.osVendorName')}>{data.get('osVendorName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.osVendorId')}>{data.get('osVendorId')}</DescriptionItem>
-
+      {isAixOs(snapshot) && (
+        <>
+          <DescriptionItem title={t('in-forge:plugins.host.physicalProcessorCount')}>
+            {data.get('physicalProcessorCount')}
+          </DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.host.systemBoardUuid')}>
+            {data.get('systemBoardUuid')}
+          </DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.host.virtualMachineIdentifier')}>
+            {data.get('virtualMachineIdentifier')}
+          </DescriptionItem>
+        </>
+      )}
       {start && (
         <DescriptionItem title={t('in-forge:plugins.host.startedAt')}>
           {formatDateTime(start)} ({fromNowAccurately(start)})
