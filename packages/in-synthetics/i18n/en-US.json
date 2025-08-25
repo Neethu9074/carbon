@@ -457,9 +457,9 @@
         "scheduledMenuLabel": "Scheduled",
         "onDemandMenuLabel": "On demand",
         "allLabel": "All",
-        "scheduledLabel": "Data scope : Scheduled",
-        "onDemandLabel": "Data scope : On demand",
-        "dashboardHeaderLabel": "Data based on : {{dataScopeLabel}}"
+        "scheduledLabel": "Test execution : Scheduled",
+        "onDemandLabel": "Test execution : On demand",
+        "dashboardHeaderLabel": "Test execution : {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissions for synthetic monitoring",
