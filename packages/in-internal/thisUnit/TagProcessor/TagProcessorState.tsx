@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { intervalToDuration } from 'date-fns';
 import React, { useCallback } from 'react';
 import { isArray, isEqual } from 'lodash';
 
@@ -18,8 +19,10 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
+import { formatDateTime } from 'in-services/formatters/date';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input/Input';
 import { success } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
@@ -96,6 +99,7 @@ function StatePresenter({ state }: { state: State }) {
         <Source source={state.key.source} />
         <TagSetGenerating tagSetGenerating={state.tagSetGenerating} />
         <Type type={getType(state)} />
+        <Expiration timestamp={state?.expirationMs} />
       </div>
       {selfTags && <Tags tags={selfTags} stateKey={state.key} />}
       {otherTags.map(tags => (
@@ -135,6 +139,51 @@ function Type({ type }: { type?: string }) {
   } else {
     return null;
   }
+}
+
+function Expiration({ timestamp }: { timestamp?: number }) {
+  if (!timestamp) {
+    return null;
+  }
+
+  // For the main display, show only the relative time
+  const now = Date.now();
+  const isInFuture = timestamp > now;
+
+  // Format the relative time correctly for both past and future dates
+  let relativeTime: string;
+  if (isInFuture) {
+    // For future dates (expiration hasn't happened yet)
+    const intervals = intervalToDuration({ start: new Date(), end: new Date(timestamp) });
+    const selectedDuration = Object.entries(intervals).find(([_, value]) => (value as number) > 0);
+
+    if (selectedDuration) {
+      const [unit, value] = selectedDuration as [string, number];
+      relativeTime = t('in-internal:thisUnit.tagProcessor.inTime', {
+        value,
+        unit
+      });
+    } else {
+      relativeTime = t('in-internal:thisUnit.tagProcessor.soon');
+    }
+  } else {
+    // For past dates (already expired)
+    relativeTime = t('in-internal:thisUnit.tagProcessor.expired');
+  }
+
+  // For the tooltip, show the absolute time
+  const absoluteTime = formatDateTime(timestamp);
+
+  // Choose pill type based on whether the date is in the future or past
+  const pillType = isInFuture ? 'cyan' : 'red';
+
+  return (
+    <Tooltip content={absoluteTime} align="bottomLeft">
+      <Pill type={pillType}>
+        {t('in-internal:thisUnit.tagProcessor.expires')} {relativeTime}
+      </Pill>
+    </Tooltip>
+  );
 }
 
 function Tags({ tags, stateKey }: { tags: TagsWithSource; stateKey: Key }) {

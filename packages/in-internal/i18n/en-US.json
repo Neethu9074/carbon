@@ -1100,7 +1100,11 @@
       "selfTags": "Self Tags",
       "tagsInheritedFrom": "Tags inherited from ",
       "more": "+{{more}} more",
-      "info": "{{tagCount}} tags, {{connectionCount}} connections"
+      "info": "{{tagCount}} tags, {{connectionCount}} connections",
+      "expires": "Expires:",
+      "inTime": "in {{value}} {{unit}}",
+      "soon": "soon",
+      "expired": "expired"
     },
     "graphExplorer": {
       "snapshotId": "snapshotId..."
