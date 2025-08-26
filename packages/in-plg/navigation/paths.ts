@@ -22,6 +22,7 @@ export const datasourceTypes = {
 } as const;
 export type SelectedDatasource = (typeof datasourceTypes)[keyof typeof datasourceTypes];
 const allowedDatasourceValues = Object.values(datasourceTypes).join('|');
+export const datasourcesPath = '/datasources';
 export const datasourceCatalogPath = `/datasources/:selecteddatasource(${allowedDatasourceValues})/installation`;
 export const datasourceItemPath = `/datasources/:selecteddatasource(${allowedDatasourceValues})/installation/:selectedservice`;
 export const datasourcePagePath = `/datasources/:selecteddatasource(${allowedDatasourceValues})`;

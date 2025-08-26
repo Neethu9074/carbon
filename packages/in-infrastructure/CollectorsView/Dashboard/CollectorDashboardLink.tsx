@@ -6,19 +6,15 @@
 
 import React from 'react';
 
+import { InfrastructureExploreItem } from '@instana/types';
 import { Link } from '@instana/components';
 
-import { Collector } from 'in-plg/pages/Datasource/OTelCollector/OTelCollector';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 
-interface Props {
-  collector: Collector;
-}
-
-export default function CollectorDashboardLink({ collector }: Props) {
+export default function CollectorDashboardLink(collector: InfrastructureExploreItem) {
   const { label, snapshotId } = collector;
 
-  const href = useGetDashboardLink()(snapshotId);
+  const href = useGetDashboardLink()(snapshotId || '');
 
   return <Link href={href}>{label}</Link>;
 }

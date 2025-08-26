@@ -6,48 +6,29 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { EntityHealthInfo, TimeConfig } from '@instana/types';
+import { InfrastructureExploreItem } from '@instana/types';
 import { Typography } from '@instana/components';
 import { Button, Stack } from '@instana/carbon';
-import { useObservable } from '@instana/hooks';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CollectorDashboardLink from 'in-infrastructure/CollectorsView/Dashboard/CollectorDashboardLink';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { datasourceOtemCollectorCatalog, datasourcesPath } from 'in-plg/navigation/paths';
 import NoDataEmptyState from 'in-plg/components/NoDataEmptyState/NoDataEmptyState';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { datasourceOtemCollectorCatalog } from 'in-plg/navigation/paths';
-import getEntities from 'in-infrastructure/subscriptions/getEntities';
-import { datasourceOtelCollectorPath } from 'in-plg/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { useCollectors } from 'in-applications/hooks/useCollectors';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 import locals from 'in-plg/pages/Datasource/OTelCollector/OTelCollector.mless';
 
-export interface Collector {
-  label?: string;
-  entityHealthInfo?: EntityHealthInfo;
-  metrics?: Map<string, any>;
-  plugin?: string;
-  snapshotId: string;
-}
-
-interface GetCollectorsProps {
-  timeConfig: TimeConfig;
-  retrievalSize: number;
-}
-
 const LOAD_CHUNK_SIZE = 10;
 const matrixPrefix = '';
-const pathSegment = datasourceOtelCollectorPath;
+const pathSegment = datasourcesPath;
 
 const OTelCollector = () => {
-  const timeConfig = useTimeConfig();
   const { createHrefToPath, goToPath } = useNavigation();
   const [loading, setLoading] = useState(true);
   const [retrievalSize, setRetrievalSize] = useState(LOAD_CHUNK_SIZE);
@@ -58,12 +39,12 @@ const OTelCollector = () => {
     defaultPageSize: 10
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
-  const collectorsResult = useObservable(getCollectors({ timeConfig, retrievalSize }), [timeConfig, retrievalSize]);
-
-  const collectors = collectorsResult?.data?.items as unknown as Collector[];
+  const collectorsResult = useCollectors({
+    retrievalSize,
+    query
+  });
+  const collectors = collectorsResult?.data?.items as unknown as InfrastructureExploreItem[];
   const totalHits = collectorsResult?.data?.totalHits ?? 0;
-  const errors = collectorsResult?.errors;
-
   useEffect(() => {
     if (collectorsResult !== undefined) {
       setLoading(false);
@@ -78,44 +59,18 @@ const OTelCollector = () => {
     {
       id: 'collectorId',
       label: t('in-plg:datasources.collectorId'),
-      getContent: (row: Collector) => <CollectorDashboardLink collector={row} />
+      getContent: (row: InfrastructureExploreItem) => <CollectorDashboardLink {...row} />
     },
     {
       id: 'health',
       label: t('in-plg:datasources.health'),
-      getContent: (row: Collector) => <HealthStatus entityHealthInfo={row.entityHealthInfo} />
+      getContent: (row: InfrastructureExploreItem) => <HealthStatus entityHealthInfo={row.entityHealthInfo} />
     }
   ];
 
   const canLoadMore = collectors?.length < totalHits;
 
-  function getCollectors({ timeConfig, retrievalSize }: GetCollectorsProps) {
-    return getEntities({
-      filter: {
-        tagFilterExpression: {
-          logicalOperator: 'AND',
-          type: 'EXPRESSION',
-          elements: [
-            {
-              name: 'otel.attribute.entity.type',
-              operator: 'EQUALS',
-              value: 'otel-collector',
-              type: 'TAG_FILTER',
-              entity: NOT_APPLICABLE
-            }
-          ]
-        },
-        timeConfig
-      },
-      order: { by: 'id', direction: 'ASC' },
-      type: 'openTelemetry',
-      pagination: { retrievalSize }
-    });
-  }
-
-  if (collectorsResult?.progress?.loading) return <LoadingIndicator />;
-
-  if (!collectorsResult?.progress?.loading && !collectorsResult?.data?.items?.length)
+  if (!collectorsResult?.progress?.loading && !collectorsResult?.data?.items?.length && !query)
     return (
       <NoDataEmptyState
         title={t('in-plg:datasources.noData.oTelCollector.emptyState_title')}
@@ -146,24 +101,16 @@ const OTelCollector = () => {
           >
             {t('in-plg:datasources.installACollector')}
           </Button>
-          <ServerTablePresenter<Collector, ServerTablePresenterProps<Collector>>
+          <ServerTablePresenter<InfrastructureExploreItem, ServerTablePresenterProps<InfrastructureExploreItem>>
             columnDefinitions={columnDefinitions}
-            result={{
-              progress: { loading },
-              errors: errors ?? [],
-              data: {
-                items: collectors ?? [],
-                page: 0,
-                pageSize: collectors?.length,
-                totalHits: collectors?.length
-              }
-            }}
+            result={collectorsResult}
             onChange={setServerTableUrlState}
             query={query}
             pageSize={pageSize}
             page={page}
             orderBy={orderBy}
             orderDirection={orderDirection}
+            isSearchable
           />
           {canLoadMore && (
             <div className={locals.loadMoreButton}>
