@@ -161,12 +161,14 @@ export default function CreateNewPolicyTearsheet({
 
   return (
     <>
-      <ViewTrackingMeta
-        data={{
-          productArea: productAreas.automation,
-          pageRootName: pageNames.automation_policy_create
-        }}
-      />
+      {!inEventPage && (
+        <ViewTrackingMeta
+          data={{
+            productArea: productAreas.automation,
+            pageRootName: pageNames.automation_policy_create
+          }}
+        />
+      )}
       {/* @ts-expect-error */}
       <Tearsheet
         open={open}
