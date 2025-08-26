@@ -24,6 +24,7 @@ export default class AmMapReactWrapper extends React.Component {
 
     if (this.map) {
       this.map.destroy();
+      this.map.cleanup?.();
       this.map = null;
     }
 

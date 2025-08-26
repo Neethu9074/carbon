@@ -6,7 +6,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import classNames from 'classnames';
 
-import { IconButton } from '@instana/components';
+import { IconButton, keyCodes } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { amCharts, canDrillDownToMap, getMapName, loadMap } from 'in-components/AmMap/libraryWrapper';
@@ -181,6 +181,7 @@ function Content({
               ref={modalLaunchButtonRef}
               defaultOpen={false}
               size={iconButtonSize}
+              id="mapTableButton"
             />
             <IconButton
               align={tooltipAlignment}
@@ -233,31 +234,61 @@ function onDidMount({
       const areaData = data[p.id.toLowerCase()];
       const value = areaData ? areaData.value : undefined;
       let balloonText = areaData ? areaData.title : p.title;
-      if (value == null) {
-        balloonText += `: ${notDefinedValue}`;
+
+      if (value === null || value === undefined) {
+        balloonText = `${balloonText}: ${notDefinedValue}`;
       } else {
-        balloonText += `: ${valueFormatter(value)}`;
+        balloonText = `${balloonText}: ${valueFormatter(value)}`;
       }
+
       return {
         id: p.id,
         value,
         balloonText,
-        color: value == null || value === 0 ? '#ddd' : undefined
+        color: value === null || value === undefined || value === 0 ? '#ddd' : undefined,
+        tabIndex: areaData ? 0 : -1,
+        accessible: !!areaData,
+        accessibleLabel: balloonText
       };
     })
   };
 
   const lightColor = lightGreenToDarkGreenHex[0];
   const darkColor = Object.keys(data).length > 0 ? lightGreenToDarkGreenHex[1] : lightColor;
+
+  // AmChart library ignores all the a11y params you set on the areas.
+  // As a result, it renders role of menuitem everywhere.
+  // We have to correct that manually after rendering the map
+  const setAreaAccessibility = () => {
+    const paths = containerElement.querySelectorAll('path[role="menuitem"]');
+    paths.forEach(path => {
+      const tabIndex = path.getAttribute('tabindex');
+
+      if (tabIndex === '-1') {
+        path.removeAttribute('role');
+        return;
+      }
+
+      path.setAttribute('role', 'button');
+    });
+  };
+
   const listeners = [
     {
       event: 'clickMapObject',
       method: e => {
         // disable the ugly selected color that cannot really be configured.
         map.returnInitialColor(map.selectedObject);
+
         if (onAreaClick && e.mapObject.id) {
           onAreaClick(e.mapObject.id);
         }
+      }
+    },
+    {
+      event: 'rendered',
+      method: () => {
+        setAreaAccessibility();
       }
     }
   ];
@@ -272,24 +303,57 @@ function onDidMount({
       dataProvider,
       hideCredits: true,
       listeners,
-
       mouseWheelZoomEnabled: true,
       zoomControl: {
         homeButtonEnabled: false,
         zoomControlEnabled: false
       },
-
       areasSettings: {
         autoZoom: true,
         rollOverOutlineColor: '#17A1E6',
         rollOverColor: '#74c7f1',
-
         color: lightColor,
         colorSolid: darkColor
       }
     },
     0
   );
+
+  const focusableAreas = map.dataProvider.areas.filter(area => area.tabIndex === 0);
+  const lastFocusableArea = focusableAreas.at(-1);
+
+  // This is necessary to make return key press trigger zooming into the area and
+  // transitioning into detailed state view for countries like the US or Germany
+  const handleKeyUp = e => {
+    if (keyCodes.isReturn(e) && map.focusedItem && onAreaClick) {
+      e.preventDefault();
+      map.returnInitialColor(map.selectedObject);
+      onAreaClick(map.focusedItem.id);
+    }
+  };
+
+  // This is necessary to escape the trap focus the map weirdly implements
+  const handleKeyDown = e => {
+    if (keyCodes.isTab(e) && map.focusedItem?.id === lastFocusableArea?.id) {
+      e.preventDefault();
+
+      map.focusedItem = undefined;
+      document.getElementById('mapTableButton')?.focus();
+    }
+  };
+
+  // We attach event listeners to the whole document when the map is present,
+  // because the map handles keyboard interaction in weird way.
+  // Each time you focus on an area, the actual active element of the map is the body,
+  // so attaching it to the actual map parent container will not do anything
+  document.addEventListener('keyup', handleKeyUp);
+  document.addEventListener('keydown', handleKeyDown);
+
+  // This gets called in in-components/AmMap/ReactWrapper during unmounting
+  map.cleanup = () => {
+    document.removeEventListener('keyup', handleKeyUp);
+    document.removeEventListener('keydown', handleKeyDown);
+  };
 
   const onZoomIn = () => map.zoomIn();
   const onZoomOut = () => map.zoomOut();

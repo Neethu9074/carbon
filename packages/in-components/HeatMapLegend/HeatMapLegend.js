@@ -10,20 +10,14 @@ import locals from './HeatMapLegend.mless';
 
 export default function HeatMapLegend({ className, valueFrom, colorFrom, valueTo, colorTo, light, label }) {
   return (
-    <div
-      className={classNames({
-        [locals.wrapper]: true,
-        [className]: className
-      })}
-    >
-      {label && <span>{label}</span>}
+    <div className={classNames(locals.wrapper, className)}>
+      {label && <span className={locals.label}>{label}</span>}
       <div
         style={{ backgroundImage: `linear-gradient(to right, ${colorFrom}, ${colorTo})` }}
         className={locals.colors}
       />
       <div
-        className={classNames({
-          [locals.values]: true,
+        className={classNames(locals.values, {
           [locals.light]: light
         })}
       >

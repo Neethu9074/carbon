@@ -437,10 +437,10 @@
       "pageTopListTitle": "Pages",
       "pageTopListLinkLabelViewAllPages": "View all pages",
       "websiteGeoHeatMapPageLoads": "{{number}} page loads",
-      "websiteGeoHeatMapPageLoads_plural": "{{number}} pages loads",
-      "websiteGeoHeatMapPageLoads_0": "{{number}} pages loads",
-      "websiteGeoHeatMapPageLoads_1": "{{number}} pages loads",
-      "websiteGeoHeatMapPageLoads_2": "{{number}} pages loads"
+      "websiteGeoHeatMapPageLoads_plural": "{{number}} page loads",
+      "websiteGeoHeatMapPageLoads_0": "{{number}} page loads",
+      "websiteGeoHeatMapPageLoads_1": "{{number}} page load",
+      "websiteGeoHeatMapPageLoads_2": "{{number}} page loads"
     },
     "tabs": {
       "ajax": {
