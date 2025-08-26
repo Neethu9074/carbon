@@ -65,7 +65,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { TestsTableWithUrlState } from 'in-synthetics/dashboards/global/tabs/tests/components/TestsTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
+import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
@@ -117,31 +117,37 @@ const urlStateDefinition: Options<FilterState> = {
   }
 };
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
+function ServerTableWithUrlState(props: Parameters<typeof createServerTableWithUrlState>[0]) {
+  const [role] = useCurrentUserRole();
+  const columnDefinitions = getColumnDefinitions(role);
+  const Component = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions,
+      title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
+      description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
+    }),
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      syntheticTypesUrlParameter,
+      locationsUrlParameter,
+      syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter,
+      syntheticRunNowEnabled ? runTypeUrlParameter : []
+    ],
     columnDefinitions,
-    title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
-    description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
-  }),
-  paginationResettingUrlParameters: [
-    ...timeConfigUrlParameters,
-    syntheticTypesUrlParameter,
-    locationsUrlParameter,
-    syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter,
-    syntheticRunNowEnabled ? runTypeUrlParameter : []
-  ],
-  columnDefinitions,
-  defaultOrderBy: 'successRate',
-  defaultOrderDirection: 'ASC',
-  defaultDisabledColumns: [
-    'avg_response_time',
-    'location',
-    syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
-    'health'
-  ],
-  pathSegment,
-  matrixPrefix
-});
+    defaultOrderBy: 'successRate',
+    defaultOrderDirection: 'ASC',
+    defaultDisabledColumns: [
+      'avg_response_time',
+      'location',
+      syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
+      'health'
+    ],
+    pathSegment,
+    matrixPrefix
+  });
+
+  return <Component {...props} />;
+}
 
 const addFilter = (
   array: string[],
