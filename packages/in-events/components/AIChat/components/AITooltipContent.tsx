@@ -50,10 +50,10 @@ export const AITooltipContent = () => {
           className={locals.graniteLink}
           onClick={e => {
             e.stopPropagation();
-            window.open('https://huggingface.co/ibm-granite/granite-3.3-8b-instruct', '_blank', 'noopener,noreferrer');
+            window.open('https://www.ibm.com/products/watsonx-ai/foundation-models', '_blank', 'noopener,noreferrer');
           }}
         >
-          {t('in-events:aichat.granite')}
+          {t('in-events:aichat.mistralMedium')}
           <Launch className={locals.launchIcon} size={16} />
         </span>
       </div>
