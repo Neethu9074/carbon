@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { merge } from 'lodash';
 
 import { BusEventType, ChatContainer, ChatInstance, ViewType, PublicConfig } from '@instana/ai-chat';
+import { InlineNotification } from '@instana/carbon';
 import { PreviewPill } from '@instana/components';
 
 import {
@@ -24,6 +25,7 @@ import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tr
 import LauncherButton from 'in-events/components/AIChat/components/LauncherButton';
 import UserDefinedResponse from 'in-events/components/AIChat/UserDefinedResponse';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { t } from 'in-i18n';
 
 import locals from './AIChat.mless';
 
@@ -99,9 +101,18 @@ export function AIChat({
     if (!agentData) {
       return {};
     } else {
+      const headerBottom = () => {
+        return (
+          <>
+            {previewPill && <PreviewPill className={locals.previewPill} />}
+            <InlineNotification lowContrast hideCloseButton kind="info" title={t('in-events:aichat.IBMAwareMsg')} />
+          </>
+        );
+      };
+
       return {
         customPanelElement: customPanelElement && customPanelElement(instance, agentData.promptLibrary),
-        headerBottomElement: previewPill && <PreviewPill className={locals.previewPill} />,
+        headerBottomElement: headerBottom(),
         aiTooltipAfterDescriptionElement: aiToolTipContent
       };
     }

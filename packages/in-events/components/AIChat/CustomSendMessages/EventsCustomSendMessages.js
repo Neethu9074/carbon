@@ -215,7 +215,7 @@ export async function EventsCustomSendMessages(
       queryError => {
         instance.messaging.removeMessages([loadingMessageId]);
         const msg = queryError.toString ? queryError.toString() : JSON.stringify(queryError);
-        if (msg.includes('HttpRequestTimeoutError')) {
+        if (msg.includes('HttpRequestTimeoutError' || 'Request timed out')) {
           sendError(t('in-events:aichat.problemError'), queryError, userQuery);
         } else {
           sendError(msg, queryError, userQuery);
