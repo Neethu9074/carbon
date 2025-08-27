@@ -37,6 +37,7 @@ export async function EventsCustomSendMessages(
   // Always show the assistant input field since the feature flag is removed
   instance.updateAssistantInputFieldVisibility(true);
   async function sendError(errorMessage, queryResponse, userQuery) {
+    instance.updateIsLoadingCounter('decrease');
     const nlg = queryResponse?.api?.NLG || '';
     await instance.messaging.addMessage(
       {
@@ -74,9 +75,11 @@ export async function EventsCustomSendMessages(
         ),
       500
     );
+    instance.updateIsLoadingCounter('decrease');
   }
 
   async function showTableData(apiData, statusMessageId, queryResponse, userQuery, isEvents) {
+    instance.updateIsLoadingCounter('decrease');
     const nlgResponse = queryResponse?.api?.NLG || '';
     const tabular = isEvents
       ? formatForEventsTable(apiData, userQuery, queryResponse)
@@ -121,32 +124,16 @@ export async function EventsCustomSendMessages(
         );
       }, 500);
     }
+    instance.updateIsLoadingCounter('decrease');
   }
 
   // If the input message is valid and not blank we will want to make an API call
   const userQuery = request.input.text;
   if (userQuery !== undefined && userQuery !== '') {
-    // Feature flag removed, always proceed with the query
-
-    const loadingMessageId = uniqueId('aichat_');
-    instance.messaging.addMessage(
-      {
-        id: loadingMessageId,
-        output: {
-          generic: [
-            {
-              response_type: 'stream_loading'
-            }
-          ]
-        }
-      },
-      { silent: false }
-    );
-
+    instance.updateIsLoadingCounter('increase');
     sendAPIQuery(userQuery).once(
       // On Success
       queryResponse => {
-        instance.messaging.removeMessages([loadingMessageId]);
         const nlgResponse = queryResponse?.api?.NLG;
         const publicEndpoint = queryResponse?.api?.api_endpoint;
 
@@ -212,7 +199,6 @@ export async function EventsCustomSendMessages(
       },
       // Query error
       queryError => {
-        instance.messaging.removeMessages([loadingMessageId]);
         const msg = queryError.toString ? queryError.toString() : JSON.stringify(queryError);
         if (msg.includes('HttpRequestTimeoutError')) {
           sendError(t('in-events:aichat.problemError'), queryError, userQuery);
