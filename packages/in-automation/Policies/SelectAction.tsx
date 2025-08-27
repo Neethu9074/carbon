@@ -170,7 +170,7 @@ function SelectActionDialog({
 
   function onChange(item: Action) {
     setSelectedId(item.id);
-    setServerTableUrlState({ page: 1, query: '' });
+    setServerTableUrlState({ page: 1, query });
   }
 
   const columnDefinitions: ColumnDefinition<Action>[] = [
