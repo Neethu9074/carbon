@@ -15,6 +15,8 @@ export interface ValidationMessages {
   retention: string | null;
   startTime: string | null;
   endTime: string | null;
+  startDate: string | null;
+  endDate: string | null;
 }
 
 export interface InputValues {

@@ -77,3 +77,12 @@ export const modalLocalisationStrings = {
   invalidTimeRangeFuture: t('in-settings:tabs.deleteLogs.invalidTimeRangeFuture'),
   filterLimitReached: t('in-settings:tabs.deleteLogs.filterLimitReached')
 };
+
+export const validationLocalisationStrings = {
+  typeValidation: t('in-settings:tabs.deleteLogs.typeToContinue', { logs: t('in-settings:tabs.deleteLogs.logs') }),
+  untilDateValidationMessage: t('in-settings:tabs.deleteLogs.untilDateValidationMessage'),
+  reasonValidationMessage: t('in-settings:tabs.deleteLogs.reasonValidationMessage'),
+  untilTimeValidationMessage: t('in-settings:tabs.deleteLogs.untilTimeValidationMessage'),
+  correctTimeFormat: t('in-settings:tabs.deleteLogs.correctTimeFormat'),
+  validDate: t('in-settings:tabs.deleteLogs.validDate')
+};

@@ -34,6 +34,9 @@ export const SelectLogsPage = ({ validationMessages, setInputValues, inputValues
               onChange={e => setInputValues.startDate((e as Date[])[0])}
               locale={activeLocale}
             />
+            <ValidationBlock>
+              {validationMessages.startDate && <div>{validationMessages.startDate}</div>}
+            </ValidationBlock>
           </section>
           {(validationMessages.timeRange || validationMessages.retention) && (
             <ValidationBlock>
@@ -63,6 +66,7 @@ export const SelectLogsPage = ({ validationMessages, setInputValues, inputValues
               value={new Date(inputValues.endDate)}
               onChange={e => setInputValues.endDate((e as Date[])[0])}
             />
+            <ValidationBlock>{validationMessages.endDate && <div>{validationMessages.endDate}</div>}</ValidationBlock>
           </section>
         </Label>
         {/* End Time */}

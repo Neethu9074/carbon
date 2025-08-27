@@ -5,13 +5,17 @@
  */
 
 import { createField, createMapForm, MapForm, Severity } from 'formalistic';
+import { isValid as isValidDate } from 'date-fns';
 import { useEffect, useState } from 'react';
 import React from 'react';
 
 import { Typography } from '@instana/components';
 
+import {
+  modalLocalisationStrings,
+  validationLocalisationStrings
+} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { DeleteLogsFormFields } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/modalTypes';
-import { modalLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { InputValues } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/modalTypes';
 import { formatDate, formatTimeWithoutSeconds } from 'in-services/formatters/date';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -43,16 +47,22 @@ export const validateTime = (value: string) => {
 
 export const isValidTime = (v: string) => /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/.test(v);
 
-export const getTimeFormatValidation = (form: MapForm<any>, inputValues: InputValues, localisationStrings: any) => {
-  const startTouched = form.get('deletionStartTime')?.touched;
-  const endTouched = form.get('deletionEndTime')?.touched;
+export const getTimeFormatValidation = (form: MapForm<any>, inputValues: InputValues) => {
+  const startTimeTouched = form.get('deletionStartTime')?.touched;
+  const endTimeTouched = form.get('deletionEndTime')?.touched;
+  const startDateTouched = form.get('deletionStartDate')?.touched;
+  const endDateTouched = form.get('deletionEndDate')?.touched;
 
-  const invalidStart = startTouched && !isValidTime(inputValues.startTime as string);
-  const invalidEnd = endTouched && !isValidTime(inputValues.endTime as string);
+  const invalidStartTime = startTimeTouched && !isValidTime(inputValues.startTime as string);
+  const invalidEndTime = endTimeTouched && !isValidTime(inputValues.endTime as string);
+  const invalidStartDate = startDateTouched && !isValidDate(inputValues.startDate);
+  const invalidEndDate = endDateTouched && !isValidDate(inputValues.endDate);
 
   return {
-    startTime: invalidStart ? localisationStrings.correctTimeFormat : null,
-    endTime: invalidEnd ? localisationStrings.correctTimeFormat : null
+    startTime: invalidStartTime ? validationLocalisationStrings.correctTimeFormat : null,
+    endTime: invalidEndTime ? validationLocalisationStrings.correctTimeFormat : null,
+    startDate: invalidStartDate ? validationLocalisationStrings.validDate : null,
+    endDate: invalidEndDate ? validationLocalisationStrings.validDate : null
   } as const;
 };
 

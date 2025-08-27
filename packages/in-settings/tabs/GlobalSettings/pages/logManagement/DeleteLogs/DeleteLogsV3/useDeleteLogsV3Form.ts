@@ -18,18 +18,10 @@ import {
   InputValues,
   ValidationMessages
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/modalTypes';
+import { validationLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { getTimeFormatValidation } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/utils';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { formatTimeWithoutSeconds } from 'in-services/formatters/date';
-import { t } from 'in-i18n';
-
-const localisationStrings = {
-  typeValidation: t('in-settings:tabs.deleteLogs.typeToContinue', { logs: t('in-settings:tabs.deleteLogs.logs') }),
-  untilDateValidationMessage: t('in-settings:tabs.deleteLogs.untilDateValidationMessage'),
-  reasonValidationMessage: t('in-settings:tabs.deleteLogs.reasonValidationMessage'),
-  untilTimeValidationMessage: t('in-settings:tabs.deleteLogs.untilTimeValidationMessage'),
-  correctTimeFormat: t('in-settings:tabs.deleteLogs.correctTimeFormat')
-};
 
 const getInitialFormState = () => {
   const form = createMapForm<any>();
@@ -46,7 +38,7 @@ const getInitialFormState = () => {
       createField({
         value: '',
         validator: value =>
-          value === 'LOGS' ? null : [{ severity: 'error', message: localisationStrings.typeValidation }]
+          value === 'LOGS' ? null : [{ severity: 'error', message: validationLocalisationStrings.typeValidation }]
       })
     )
     .put(
@@ -54,7 +46,7 @@ const getInitialFormState = () => {
       createField({
         value: '',
         validator: value =>
-          value !== '' ? null : [{ severity: 'error', message: localisationStrings.reasonValidationMessage }]
+          value !== '' ? null : [{ severity: 'error', message: validationLocalisationStrings.reasonValidationMessage }]
       })
     )
     .put(
@@ -128,7 +120,7 @@ export default function useDeleteLogsV3Form() {
     inputValues.startTime,
     maxRetentionDays
   );
-  const timeFormat = getTimeFormatValidation(form, inputValues, localisationStrings);
+  const timeFormat = getTimeFormatValidation(form, inputValues);
 
   let validationMessages: ValidationMessages & {
     startTime?: string | null;
@@ -140,7 +132,9 @@ export default function useDeleteLogsV3Form() {
     timeRange: timeRangeValidationMessage,
     retention: retentionValidation,
     startTime: timeFormat.startTime,
-    endTime: timeFormat.endTime
+    endTime: timeFormat.endTime,
+    startDate: timeFormat.startDate,
+    endDate: timeFormat.endDate
   };
 
   const canGoNextStep =
@@ -148,7 +142,9 @@ export default function useDeleteLogsV3Form() {
     !validationMessages.timeRange &&
     !validationMessages.retention &&
     !validationMessages.startTime &&
-    !validationMessages.endTime;
+    !validationMessages.endTime &&
+    !validationMessages.startDate &&
+    !validationMessages.endDate;
 
   const canSubmit =
     form.hierarchyValid &&
