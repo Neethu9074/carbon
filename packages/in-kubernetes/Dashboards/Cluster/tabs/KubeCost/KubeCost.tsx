@@ -30,6 +30,8 @@ import { solisEnabled } from 'in-services/featureFlags';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
+import locals from './KubeCost.mless';
+
 interface SummaryProps {
   data: KubernetesCluster;
   timeConfig: TimeConfig;
@@ -87,17 +89,19 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
 
           {solisEnabled ? (
             <>
-              {!isEnterprise && (
-                // @ts-expect-error TS2304: Cannot find name solis
-                // component is loaded from a script in ui-client/packages/in-client/index.html
-                <solis-teaser
-                  product="kubecost"
-                  type="banner"
-                  variation="licensing"
-                  sub_variation="enterprise"
-                  banner_expanded="true"
-                />
-              )}
+              <div className={locals.solisBanner}>
+                {!isEnterprise && (
+                  // @ts-expect-error TS2304: Cannot find name solis
+                  // component is loaded from a script in ui-client/packages/in-client/index.html
+                  <solis-teaser
+                    product="kubecost"
+                    type="banner"
+                    variation="licensing"
+                    sub_variation="enterprise"
+                    banner_expanded="true"
+                  />
+                )}
+              </div>
               {!isEnterprise && (
                 <>
                   <Spacer size="normal" />
@@ -115,15 +119,19 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
       ) : (
         <>
           {solisEnabled ? (
-            // @ts-expect-error TS2304: Cannot find name solis
-            // component is loaded from a script in ui-client/packages/in-client/index.html
-            <solis-teaser
-              product="kubecost"
-              type="banner"
-              variation="licensing"
-              sub_variation="free"
-              banner_expanded="true"
-            />
+            <div className={locals.solisBanner}>
+              {
+                // @ts-expect-error TS2304: Cannot find name solis
+                // component is loaded from a script in ui-client/packages/in-client/index.html
+                <solis-teaser
+                  product="kubecost"
+                  type="banner"
+                  variation="licensing"
+                  sub_variation="free"
+                  banner_expanded="true"
+                />
+              }
+            </div>
           ) : (
             <Banner
               targetProductName="KubeCost"

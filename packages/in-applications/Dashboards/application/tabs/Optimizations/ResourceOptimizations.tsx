@@ -17,17 +17,19 @@ import {
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import OptimizationNudgesTable from 'in-applications/Dashboards/application/tabs/Optimizations/OptimizationNudgesTable';
 import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
+import { useConfiguredAgents } from 'in-applications/Dashboards/application/tabs/hooks/useConfiguredAgents';
 import { useResourceOptimization } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import { isAgentEnabled, isTurboEnabled } from 'in-applications/Dashboards/application/tabs/utils';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import { isTurboEnabled } from 'in-applications/Dashboards/application/tabs/utils';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
 import useSolisMetaLoading from 'in-applications/hooks/useSolisMetaLoading';
 import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { fixedTimestamp } from 'in-test/util/generateMetrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -125,9 +127,12 @@ export default function ResourceOptimizationTab({
     });
     pieLabels = pieLabels.map(label => (label.indexOf('_') === -1 ? label : label.split('_')[0]));
   }
+  const agentResponse: OUT | null | undefined = useConfiguredAgents('turbo');
 
-  const isLoading = useSolisMetaLoading();
+  const isLoading = useSolisMetaLoading() || agentResponse == null || agentResponse?.progress.loading;
   const turboEnabled = isTurboEnabled();
+  const isTurboAgentEnabled = isAgentEnabled(agentResponse);
+
   const actionCount = Object.values(actionCategoryCounts || {}).reduce((sum, count) => sum + count, 0);
   const hasRecommendations = actionCount > 0;
 
@@ -139,57 +144,70 @@ export default function ResourceOptimizationTab({
 
   return (
     <div className={locals.contentContainer}>
-      {solisEnabled && !isLoading && turboEnabled && hasRecommendations && (
-        // @ts-expect-error TS2304: Cannot find name solis
-        // component is loaded from a script in ui-client/packages/in-client/index.html
-        <solis-teaser
-          product="turbonomic"
-          type="banner"
-          variation="optimizations"
-          sub_variation="trialConfig"
-          banner_expanded="false"
-        />
-      )}
-
-      {solisEnabled && !isLoading && turboEnabled && !hasRecommendations && (
-        // @ts-expect-error TS2304: Cannot find name solis
-        // component is loaded from a script in ui-client/packages/in-client/index.html
-        <solis-teaser
-          product="turbonomic"
-          type="banner"
-          variation="optimizations"
-          sub_variation="trialOnly"
-          banner_expanded="true"
-        />
-      )}
-
-      {solisEnabled && !isLoading && !turboEnabled && !hasRecommendations && hasCpuUtilizationData && (
-        // @ts-expect-error TS2304: Cannot find name solis
-        // component is loaded from a script in ui-client/packages/in-client/index.html
-        <solis-teaser
-          product="turbonomic"
-          type="banner"
-          variation="optimizations"
-          sub_variation="noTrialOptim"
-          product_context="instana"
-          banner_expanded="true"
-        />
-      )}
-
-      {solisEnabled &&
-        !isLoading &&
-        !turboEnabled &&
-        (hasRecommendations || (!hasRecommendations && noCpuUtilizationData)) && (
-          // @ts-expect-error
+      <div className={locals.solisBanner}>
+        {solisEnabled && !isLoading && turboEnabled && hasRecommendations && (
+          // @ts-expect-error TS2304: Cannot find name solis
+          // component is loaded from a script in ui-client/packages/in-client/index.html
           <solis-teaser
             product="turbonomic"
             type="banner"
             variation="optimizations"
-            sub_variation="noTrialNoOptim"
+            sub_variation="trialConfig"
+            banner_expanded="false"
+          />
+        )}
+
+        {solisEnabled && !isLoading && turboEnabled && !hasRecommendations && isTurboAgentEnabled && (
+          // @ts-expect-error TS2304: Cannot find name solis
+          // component is loaded from a script in ui-client/packages/in-client/index.html
+          <solis-teaser
+            product="turbonomic"
+            type="banner"
+            variation="optimizations"
+            sub_variation="trialConfig"
+            banner_expanded="false"
+          />
+        )}
+        {solisEnabled && !isLoading && turboEnabled && !hasRecommendations && !isTurboAgentEnabled && (
+          // @ts-expect-error TS2304: Cannot find name solis
+          // component is loaded from a script in ui-client/packages/in-client/index.html
+          <solis-teaser
+            product="turbonomic"
+            type="banner"
+            variation="optimizations"
+            sub_variation="trialOnly"
+            banner_expanded="true"
+          />
+        )}
+
+        {solisEnabled && !isLoading && !turboEnabled && !hasRecommendations && hasCpuUtilizationData && (
+          // @ts-expect-error TS2304: Cannot find name solis
+          // component is loaded from a script in ui-client/packages/in-client/index.html
+          <solis-teaser
+            product="turbonomic"
+            type="banner"
+            variation="optimizations"
+            sub_variation="noTrialOptim"
             product_context="instana"
             banner_expanded="true"
           />
         )}
+
+        {solisEnabled &&
+          !isLoading &&
+          !turboEnabled &&
+          (hasRecommendations || (!hasRecommendations && noCpuUtilizationData)) && (
+            // @ts-expect-error
+            <solis-teaser
+              product="turbonomic"
+              type="banner"
+              variation="optimizations"
+              sub_variation="noTrialNoOptim"
+              product_context="instana"
+              banner_expanded="true"
+            />
+          )}
+      </div>
 
       {!solisEnabled && (
         <InfoPanel

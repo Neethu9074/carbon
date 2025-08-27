@@ -25,4 +25,7 @@
     height: 328px;
     width: 65%;
   }
+  .solisBanner {
+    margin-top: -1.5rem;
+  }
 }

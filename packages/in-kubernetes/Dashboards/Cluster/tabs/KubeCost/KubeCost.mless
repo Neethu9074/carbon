@@ -16,4 +16,7 @@
       margin-left: auto;
     }
   }
+  .solisBanner {
+    margin-top: -1.5rem;
+  }
 }

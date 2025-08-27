@@ -16,19 +16,23 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error Module needs to be translated to TS
 import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
+import { isConcertEnabledFromToken, isAgentEnabled } from 'in-applications/Dashboards/application/tabs/utils';
+import { useConfiguredAgents } from 'in-applications/Dashboards/application/tabs/hooks/useConfiguredAgents';
 import DetectionColumnDefinitions from 'in-vulnerability-center/Dashboard/DetectionColumnDefinitions';
-import { isConcertEnabledFromToken } from 'in-applications/Dashboards/application/tabs/utils';
 import DetectionDetailDialog from 'in-vulnerability-center/Dashboard/DetectionDetailDialog';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConcertBanner from 'in-vulnerability-center/components/ConcertBanner';
 import useSolisMetaLoading from 'in-applications/hooks/useSolisMetaLoading';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { solisEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
+
+import locals from './CveVulnerabilities.mless';
 
 interface CVEEventsResponse {
   data?: CVEEventsResponseData;
@@ -48,7 +52,9 @@ export default function AffectedCvePresenter() {
   const matrixPrefix = '';
 
   const [isTableEmpty, setIsTableEmpty] = useState<boolean | null>(null);
-  const isLoading = useSolisMetaLoading();
+  const agentResponse: OUT | null | undefined = useConfiguredAgents('concert');
+
+  const isLoading = useSolisMetaLoading() || agentResponse == null || agentResponse?.progress.loading;
   const isConcertEnabled = useMemo(() => {
     if (!isLoading) {
       return isConcertEnabledFromToken();
@@ -56,6 +62,10 @@ export default function AffectedCvePresenter() {
       return false;
     }
   }, [isLoading]);
+
+  const isConcertAgentEnabled = useMemo(() => {
+    return isAgentEnabled(agentResponse);
+  }, [agentResponse]);
 
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
@@ -149,52 +159,66 @@ export default function AffectedCvePresenter() {
       {((solisEnabled && !isLoading) || !solisEnabled) && (
         <Stack gap="large">
           {!solisEnabled && <ConcertBanner expanded="showVulnerabilityInfoPanel" />}
-          {solisEnabled && !isTableEmpty && isConcertEnabled && (
-            // @ts-expect-error TS2304: Cannot find name solis
-            // component is loaded from a script in ui-client/packages/in-client/index.html
-            <solis-teaser
-              product="concert"
-              type="banner"
-              variation="vulnerabilities"
-              sub_variation="trialConfig"
-              banner_expanded="false"
-            />
-          )}
-          {solisEnabled && !isTableEmpty && !isConcertEnabled && (
-            // @ts-expect-error TS2304: Cannot find name solis
-            // component is loaded from a script in ui-client/packages/in-client/index.html
-            <solis-teaser
-              product="concert"
-              type="banner"
-              variation="vulnerabilities"
-              sub_variation="noTrialNoOptim"
-              product_context="instana"
-              banner_expanded="true"
-            />
-          )}
-          {solisEnabled && isTableEmpty && isConcertEnabled && (
-            // @ts-expect-error TS2304: Cannot find name solis
-            // component is loaded from a script in ui-client/packages/in-client/index.html
-            <solis-teaser
-              product="concert"
-              type="banner"
-              variation="vulnerabilities"
-              sub_variation="trialOnly"
-              banner_expanded="true"
-            />
-          )}
-          {solisEnabled && isTableEmpty && !isConcertEnabled && (
-            // @ts-expect-error TS2304: Cannot find name solis
-            // component is loaded from a script in ui-client/packages/in-client/index.html
-            <solis-teaser
-              product="concert"
-              type="banner"
-              variation="vulnerabilities"
-              sub_variation="noTrialNoOptim"
-              product_context="instana"
-              banner_expanded="true"
-            />
-          )}
+          <div className={locals.solisBanner}>
+            {solisEnabled && !isTableEmpty && isConcertEnabled && (
+              // @ts-expect-error TS2304: Cannot find name solis
+              // component is loaded from a script in ui-client/packages/in-client/index.html
+              <solis-teaser
+                product="concert"
+                type="banner"
+                variation="vulnerabilities"
+                sub_variation="trialConfig"
+                banner_expanded="false"
+              />
+            )}
+            {solisEnabled && !isTableEmpty && !isConcertEnabled && (
+              // @ts-expect-error TS2304: Cannot find name solis
+              // component is loaded from a script in ui-client/packages/in-client/index.html
+              <solis-teaser
+                product="concert"
+                type="banner"
+                variation="vulnerabilities"
+                sub_variation="noTrialNoOptim"
+                product_context="instana"
+                banner_expanded="true"
+              />
+            )}
+            {solisEnabled && isTableEmpty && isConcertEnabled && isConcertAgentEnabled && (
+              // @ts-expect-error TS2304: Cannot find name solis
+              // component is loaded from a script in ui-client/packages/in-client/index.html
+              <solis-teaser
+                product="concert"
+                type="banner"
+                variation="vulnerabilities"
+                sub_variation="trialConfig"
+                banner_expanded="false"
+              />
+            )}
+            {solisEnabled && isTableEmpty && !isConcertEnabled && (
+              // @ts-expect-error TS2304: Cannot find name solis
+              // component is loaded from a script in ui-client/packages/in-client/index.html
+              <solis-teaser
+                product="concert"
+                type="banner"
+                variation="vulnerabilities"
+                sub_variation="noTrialNoOptim"
+                product_context="instana"
+                banner_expanded="true"
+              />
+            )}
+            {solisEnabled && isTableEmpty && isConcertEnabled && !isConcertAgentEnabled && (
+              // @ts-expect-error TS2304: Cannot find name solis
+              // component is loaded from a script in ui-client/packages/in-client/index.html
+              <solis-teaser
+                product="concert"
+                type="banner"
+                variation="vulnerabilities"
+                sub_variation="trialOnly"
+                product_context="instana"
+                banner_expanded="true"
+              />
+            )}
+          </div>
           {(!(solisEnabled && !isConcertEnabled && isTableEmpty) || !solisEnabled) && (
             <ServerTableWithUrlState
               get={fetchCVEEvents}
