@@ -495,7 +495,8 @@
     "watsonXDesc": "IBM watsonx is powered by the latest AI models to intelligently process conversations and provide help whenever and wherever you may need it.",
     "helpfulResult": "This result was helpful",
     "notHelpfulResult": "This result was not helpful",
-    "result": "result"
+    "result": "result",
+    "IBMAwareMsg": "IBM is aware of and working to resolve issues around the accuracy of chat responses to your queries and prompts."
   },
   "notes": {
     "recommendedActions": "Recommended actions",
