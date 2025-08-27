@@ -138,6 +138,8 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
       }
     } else {
       location.pathname = policiesFullyQualified;
+      const idParameter = policyDetailsUrlParameters.id;
+      setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, null);
     }
     navigate(location);
   };

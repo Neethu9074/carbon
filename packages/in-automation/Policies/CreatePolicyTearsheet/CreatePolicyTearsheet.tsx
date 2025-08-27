@@ -10,37 +10,38 @@ import { Link, LoadingSkeleton } from '@instana/components';
 import { CreateTearsheet } from '@instana/ibm-products';
 import { Policy, Result } from '@instana/types';
 
-import useActions from 'in-automation/ActionCatalog/useActions';
-import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
-import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import { AutomationErrors } from 'in-automation/constants';
-import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
-import ActionConfigurationStep from 'in-automation/Policies/CreatePolicyTearsheet/ActionConfigurationStep';
-import locals from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet.mless';
-import PolicyDetailsStep from 'in-automation/Policies/CreatePolicyTearsheet/PolicyDetailsStep';
-import PolicyFormContext from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
-import TriggerConfigurationStep from 'in-automation/Policies/CreatePolicyTearsheet/TriggerConfigurationStep';
-import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
-import usePolicyForm from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/usePolicyForm';
-import { getPolicyFromForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/utils';
-import { refresh } from 'in-automation/Policies/usePolicies';
-import usePolicy from 'in-automation/Policies/usePolicy';
-import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUrlParams';
-import useTriggers from 'in-automation/Policies/useTriggers';
-import { refreshPolicy } from 'in-automation/PolicyDetails/usePolicy';
-import { useSegmentTracker } from 'in-automation/tracker';
-import { PolicyDialogMode } from 'in-automation/types';
-import { isAIActionCopy } from 'in-automation/utils/action';
 import {
   getPolicyActionFromActions,
   getPolicyTriggerFromTriggers,
   isAutomatic,
   isManual
 } from 'in-automation/utils/policy';
+import TriggerConfigurationStep from 'in-automation/Policies/CreatePolicyTearsheet/TriggerConfigurationStep';
+import ActionConfigurationStep from 'in-automation/Policies/CreatePolicyTearsheet/ActionConfigurationStep';
+import usePolicyForm from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/usePolicyForm';
+import { getPolicyFromForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/utils';
+import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import PolicyDetailsStep from 'in-automation/Policies/CreatePolicyTearsheet/PolicyDetailsStep';
+import PolicyFormContext from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
+import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
+import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
+import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUrlParams';
+import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { t, Trans } from 'in-i18n';
-import { seconds } from 'in-services/time/time';
+import { refreshPolicy } from 'in-automation/PolicyDetails/usePolicy';
+import useActions from 'in-automation/ActionCatalog/useActions';
+import { refresh } from 'in-automation/Policies/usePolicies';
+import useTriggers from 'in-automation/Policies/useTriggers';
+import { isAIActionCopy } from 'in-automation/utils/action';
+import { AutomationErrors } from 'in-automation/constants';
+import { useSegmentTracker } from 'in-automation/tracker';
+import usePolicy from 'in-automation/Policies/usePolicy';
+import { PolicyDialogMode } from 'in-automation/types';
 import { isLoading } from 'in-services/util/result';
+import { seconds } from 'in-services/time/time';
+import { t, Trans } from 'in-i18n';
+
+import locals from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet.mless';
 
 export interface CreatePolicyTearsheetProps {
   policyId?: string;
@@ -68,7 +69,7 @@ export default function CreatePolicyTearsheet({
   const policy = usePolicy({ id, isCopy });
   const actions = useActions();
   const triggers = useTriggers();
-  const loading = isLoading(policy, actions);
+  const loading = isLoading(policy, actions, ...Object.values(triggers));
   const mode: PolicyDialogMode = isNew ? 'NEW' : 'EDIT';
   const { createPolicyTrackerSegment, editPolicyTrackerSegment } = useSegmentTracker();
   const { form, setForm, resetForm, updateForm, doSubmit, errors } = usePolicyForm(
