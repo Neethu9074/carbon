@@ -62,27 +62,26 @@ const EventListItem = ({ event, timeConfig }: EventListItemProps) => {
   const severity = event.severity;
   return (
     <Li key={event.id}>
-      <Link href={analyseEvent} ellipsis>
-        <Stack direction="horizontal" align="center">
-          {getSeverity(severity) === warning ? (
-            <AutoReposition>
-              <SeverityIcon type={WARNING} icon="lib_help_error_warning" />
-            </AutoReposition>
-          ) : undefined}
+      <Stack direction="horizontal" align="center">
+        {getSeverity(severity) === warning ? (
+          <AutoReposition>
+            <SeverityIcon type={WARNING} icon="lib_help_error_warning" />
+          </AutoReposition>
+        ) : undefined}
 
-          {getSeverity(severity) === critical ? (
-            <AutoReposition>
-              <SeverityIcon type={CRITICAL} icon="lib_error_filled" />
-            </AutoReposition>
-          ) : undefined}
-
+        {getSeverity(severity) === critical ? (
+          <AutoReposition>
+            <SeverityIcon type={CRITICAL} icon="lib_error_filled" />
+          </AutoReposition>
+        ) : undefined}
+        <Link href={analyseEvent} ellipsis>
           <div className={locals.label}>
             <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
             &nbsp;
             <span>{getDurationOrActive(event)}</span>
           </div>
-        </Stack>
-      </Link>
+        </Link>
+      </Stack>
     </Li>
   );
 };
