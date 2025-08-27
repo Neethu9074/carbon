@@ -27,6 +27,8 @@ import { t } from 'in-i18n';
 
 import locals from './SlosApplied.mless';
 
+const DEFAULT_PAGE_SIZE = 10;
+
 function LinkToSloDashboard({ slo }: { slo: ServiceLevelObjectiveConfiguration }) {
   const getHrefToSloDashboard = useGetHrefToSloDashboard();
   return <Link href={getHrefToSloDashboard(slo.id!)}>{slo.name}</Link>;
@@ -48,7 +50,7 @@ function useSlosAppliedTable(item: CorrectionWindowListItem) {
   return useReactTable({
     columns,
     data,
-    initialState: { pagination: { pageSize: 5 } },
+    initialState: { pagination: { pageSize: DEFAULT_PAGE_SIZE } },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel()
@@ -106,16 +108,19 @@ export default function SlosApplied({ item, className }: SlosAppliedProps) {
           </ContainedListItem>
         );
       })}
-      <Pagination
-        disabled={failedToLoadSlos}
-        page={table.getState().pagination.pageIndex + 1}
-        totalItems={table.getRowCount()}
-        pageSize={table.getState().pagination.pageSize}
-        onChange={({ pageSize, page }) => {
-          table.setPagination({ pageIndex: page - 1, pageSize });
-        }}
-        pageSizes={[5, 10, 20, 30, 40, 50]}
-      />
+      {/* Tables with results fewer than 10 doesn't need pagination  */}
+      {table.getRowCount() > DEFAULT_PAGE_SIZE && (
+        <Pagination
+          disabled={failedToLoadSlos}
+          page={table.getState().pagination.pageIndex + 1}
+          totalItems={table.getRowCount()}
+          pageSize={table.getState().pagination.pageSize}
+          onChange={({ pageSize, page }) => {
+            table.setPagination({ pageIndex: page - 1, pageSize });
+          }}
+          pageSizes={[10, 20, 30, 40, 50]}
+        />
+      )}
     </ContainedList>
   );
 }
