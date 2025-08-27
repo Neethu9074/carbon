@@ -41,7 +41,8 @@
     "newPerspective": "Create",
     "lists": {
       "descriptionLabel": "Description",
-      "numberProcessesLabel": "Number of processes"
+      "numberProcessesLabel": "Number of processes",
+      "teams": "Teams"
     },
     "processesLiveList": {
       "title": "Matched business processes",

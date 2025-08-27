@@ -31,6 +31,10 @@
   }
 
   .textArea {
+    margin-bottom: var(--cds-spacing-06);
+  }
+
+  .teamsSelect {
     margin-bottom: var(--cds-spacing-08);
   }
 

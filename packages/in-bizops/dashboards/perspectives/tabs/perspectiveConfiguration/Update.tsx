@@ -14,10 +14,12 @@ import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/co
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
 import { businessPerspectiveConfigPath, businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { TeamsSelection } from 'in-bizops/lists/businessPerspectives/components/TeamsSelection';
 import { MAX_DESCRIPTION_SIZE, MAX_NAME_SIZE, TIMEOUT_IN_MS } from 'in-bizops/utils/constants';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { updateBusinessPerspective } from 'in-bizops/api/perspectives';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { PerspectiveItem } from 'in-bizops/utils/types';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
@@ -39,6 +41,7 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
 
   const nameField = form.get('perspectiveName');
   const descriptionField = form.get('perspectiveDescription');
+  const rbacTagsField = form.get('rbacTags').value;
   const tagFilterExpressionField = form.get('tagFilterExpression');
 
   // Only enable saving if there are changes between the current config and the user changes,
@@ -46,6 +49,7 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
   const formChanges: Boolean =
     !isEqual(perspective?.name, nameField.value) ||
     !isEqual(perspective?.description, descriptionField.value) ||
+    !isEqual(perspective?.rbacTags, rbacTagsField.value) ||
     !isEqual(perspective.tagFilterExpression, tagFilterExpressionField.value);
   const enableSave: Boolean = formChanges && form.hierarchyValid;
 
@@ -58,6 +62,7 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
       id: perspectiveId,
       name: form.get('perspectiveName').value,
       description: form.get('perspectiveDescription').value,
+      rbacTags: form.get('rbacTags').value,
       tagFilterExpression: toBackendQueryModel(form.get('tagFilterExpression').value)
     };
     updateBusinessPerspective(perspectiveId, requestBody).once(
@@ -133,6 +138,20 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
             warn={descriptionField.touched && !descriptionField.valid}
             warnText={descriptionField.messages[0]?.message}
           />
+
+          {rbacTeamsEnabled && (
+            <>
+              <Spacer vertical="normal" />
+
+              <TeamsSelection
+                onChange={e =>
+                  updateForm(form.updateIn(['rbacTags'], field => field.setValue(e) || '').setTouched(true))
+                }
+                selectedTeams={rbacTagsField}
+                overflowAlign={'top'}
+              />
+            </>
+          )}
         </FormGroup>
 
         <Typography variant="body-regular">

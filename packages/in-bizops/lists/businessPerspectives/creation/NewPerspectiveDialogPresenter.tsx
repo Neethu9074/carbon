@@ -59,6 +59,7 @@ export function NewPerspectiveDialogPresenter({ setOpen, open }: NewPerspectiveD
     const requestBody: PerspectiveItem = {
       name: form.get('perspectiveName').value,
       description: form.get('perspectiveDescription').value,
+      rbacTags: form.get('rbacTags').value,
       tagFilterExpression: toBackendQueryModel(form.get('tagFilterExpression').value)
     };
     createBusinessPerspective(requestBody).once(onSuccess, onError);

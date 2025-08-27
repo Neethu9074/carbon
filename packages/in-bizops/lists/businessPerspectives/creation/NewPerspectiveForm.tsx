@@ -12,7 +12,9 @@ import { Result, TagCatalog } from '@instana/types';
 import { Card } from '@instana/components';
 
 import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import { TeamsSelection } from 'in-bizops/lists/businessPerspectives/components/TeamsSelection';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import local from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.mless';
@@ -30,6 +32,7 @@ export function NewPerspectiveForm({ form, updateForm, blueprintCatalogResult }:
   }
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const perspectiveNameField = form.get('perspectiveName');
+  const rbacTags = form.get('rbacTags');
 
   return (
     <div className={local.mainDiv}>
@@ -64,6 +67,15 @@ export function NewPerspectiveForm({ form, updateForm, blueprintCatalogResult }:
           )
         }
       />
+      {rbacTeamsEnabled && (
+        <div className={local.teamsSelect}>
+          <TeamsSelection
+            onChange={e => updateForm(form.updateIn(['rbacTags'], field => field.setValue(e) || '').setTouched(true))}
+            selectedTeams={rbacTags.value}
+            overflowAlign={'top'}
+          />
+        </div>
+      )}
 
       <Card useMaxAvailableHeight={false} className={local.filterCard}>
         <div className={local.filterCardFlex}>

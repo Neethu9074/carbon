@@ -21,7 +21,8 @@ const emptyForm: FormProps = {
   perspective: {
     tagFilterExpression: [],
     name: '',
-    description: ''
+    description: '',
+    rbacTags: []
   }
 };
 
@@ -46,6 +47,12 @@ const createNewPerspectiveForm = ({ perspective }: FormProps = emptyForm): MapFo
       createField({
         value: perspective.description,
         validator: stringMaxLengthValidator(MAX_DESCRIPTION_SIZE)
+      })
+    )
+    .put(
+      'rbacTags',
+      createField({
+        value: perspective.rbacTags
       })
     );
 };

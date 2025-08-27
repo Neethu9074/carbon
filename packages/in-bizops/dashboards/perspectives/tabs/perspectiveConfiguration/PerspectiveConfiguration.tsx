@@ -47,6 +47,7 @@ export default function PerspectiveConfiguration() {
       id: data.id,
       name: data.name || data.label,
       description: data.description,
+      rbacTags: data.rbacTags,
       tagFilterExpression: fromBackendModel(data.tagFilterExpression)
     };
 

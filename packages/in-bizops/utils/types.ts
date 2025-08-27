@@ -14,12 +14,18 @@ import {
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
+export interface RbacTags {
+  id: string;
+  displayName: string;
+}
+
 // id is optional since the request body of the perspective API does not need the id since it is supplied as part of the URL
 // This type is a catch all for multiple various perspective formats used in different parts of the UI
 export interface PerspectiveItem {
   id?: string;
   description?: string;
   name: string;
+  rbacTags?: RbacTags[];
   tagFilterExpression?: TagFilterExpressionElementUnion | FormModelElement[];
 }
 

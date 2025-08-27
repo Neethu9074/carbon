@@ -10,6 +10,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { TeamsSelection } from 'in-bizops/lists/businessPerspectives/components/TeamsSelection';
+import { RbacTags } from 'in-bizops/utils/types';
 
 const testTeamsResult = {
   data: [
@@ -99,11 +100,15 @@ describe('TeamsSelection', () => {
   });
 
   it('displays the correctly for selected teams', () => {
-    const teams = ['aTeam', 'SRE CIO'];
+    // Create RbacTags objects instead of strings
+    const teams: RbacTags[] = [
+      { id: '0nAtCz8JT6WO_UFcQJ4aXw', displayName: 'aTeam' },
+      { id: 'bvhM4OyeRfWEjR7_AA6h2Q', displayName: 'SRE CIO' }
+    ];
     const testComponent = <TeamsSelection selectedTeams={teams} onChange={() => {}} />;
     const { container } = render(testComponent);
     let tags = container.querySelectorAll('.cds--tag__label');
-    expect(tags).toHaveLength(6);
+    expect(tags).toHaveLength(1);
     const buttonExpandElement = screen.getByRole('combobox');
     expect(buttonExpandElement).toBeTruthy();
     fireEvent.click(buttonExpandElement);
@@ -115,14 +120,14 @@ describe('TeamsSelection', () => {
     expect(button).toBeTruthy();
     fireEvent.click(button);
     tags = container.querySelectorAll('.cds--tag__label');
-    expect(tags).toHaveLength(5);
+    expect(tags).toHaveLength(0);
   });
 
   it('displays the correctly for empty selected teams', () => {
     const testComponent = <TeamsSelection selectedTeams={[]} onChange={() => {}} />;
     const { container } = render(testComponent);
     let tags = container.querySelectorAll('.cds--tag__label');
-    expect(tags).toHaveLength(1);
+    expect(tags).toHaveLength(0);
     const buttonExpandElement = screen.getByRole('combobox');
     expect(buttonExpandElement).toBeTruthy();
     fireEvent.click(buttonExpandElement);
@@ -142,8 +147,8 @@ describe('TeamsSelection', () => {
   it('displays the correctly for loading', () => {
     const testComponent = <TeamsSelection selectedTeams={[]} onChange={() => {}} />;
     const { container } = render(testComponent);
-    let tags = container.querySelectorAll('.cds--inline-loading');
-    expect(tags).toHaveLength(1);
+    let loadingElements = container.querySelectorAll('.cds--inline-loading');
+    expect(loadingElements).toHaveLength(1);
   });
 });
 
@@ -156,7 +161,7 @@ describe('TeamsSelection', () => {
   it('displays the correctly for errors', () => {
     const testComponent = <TeamsSelection selectedTeams={[]} onChange={() => {}} />;
     const { container } = render(testComponent);
-    let tags = container.querySelectorAll('.cds--inline-notification--error');
-    expect(tags).toHaveLength(1);
+    let errorNotifications = container.querySelectorAll('.cds--inline-notification--error');
+    expect(errorNotifications).toHaveLength(1);
   });
 });

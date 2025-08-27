@@ -7,10 +7,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { BusinessPerspectiveItem, TimeConfig } from '@instana/types';
+import { BusinessPerspectiveItem, OrderDirection, TimeConfig } from '@instana/types';
 
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+// eslint-disable-next-line no-restricted-imports
+import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { businessPerspectiveDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import BizOpsHealthIndicator from 'in-bizops/components/BizOpsHealthIndicator';
@@ -18,6 +20,7 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { bizopsPerspectivesListSelect } from 'in-bizops/tracker';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -95,6 +98,28 @@ export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveI
       );
     }
   },
+  ...(rbacTeamsEnabled
+    ? [
+        {
+          id: 'perspective_rbac_teams',
+          sortable: false,
+          defaultOrderDirection: 'DESC' as OrderDirection,
+          label: t('in-bizops:perspectives.lists.teams'),
+          getContent(item: BusinessPerspectiveItem) {
+            const rbacTags = item.businessPerspective?.rbacTags || [];
+            return (
+              <TagsInTable
+                tags={rbacTags.map(tag => ({
+                  entity_id: tag.id,
+                  id: tag.id,
+                  displayName: tag.displayName
+                }))}
+              />
+            );
+          }
+        }
+      ]
+    : []),
   {
     id: 'health',
     sortable: false,
