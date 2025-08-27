@@ -26,6 +26,12 @@ export default [
     formatter: number
   },
   {
+    metrics: ['drStatusMetric'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.drStatus')],
+    min: 0,
+    formatter: number
+  },
+  {
     metrics: ['connectionCount'],
     labels: [t('in-forge:plugins.ibmMqQueueManager.connections')],
     min: 0,
