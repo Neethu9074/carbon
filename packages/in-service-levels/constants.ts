@@ -60,6 +60,8 @@ export const defaultTrafficType: TrafficIndicatorType = 'all';
 
 export const defaultSliThresholdOperator: SLIThresholdOperator = '>';
 
+export const eventSliThresholdOperator: SLIThresholdOperator = '<=';
+
 export const sliThresholdOperators: SLIThresholdOperator[] = ['>', '>=', '<', '<='];
 
 export const SloTimeWindowTypes = Object.freeze({

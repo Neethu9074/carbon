@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import { isSyntheticSloEntity } from '@instana/types';
 import { KeyValue } from '@instana/components';
 
 import type {
@@ -15,8 +14,8 @@ import type {
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import TagFilterQueryBuilder from 'in-service-levels/components/SloDashboard/components/configuration/components/TagFilterQueryBuilder';
 import SloConfigSection from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
+import { defaultSliThresholdOperator, eventSliThresholdOperator } from 'in-service-levels/constants';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
-import { defaultSliThresholdOperator } from 'in-service-levels/constants';
 import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -32,7 +31,7 @@ const contentDefinitions: RowDefinition[] = [
   {
     id: 'goodBadEvents',
     columns: [{ getContent: GoodEventsColumn }, { getContent: BadEventsColumn }],
-    shouldRender: ({ configuration: { indicator } }) => indicator.type === 'eventBased'
+    shouldRender: ({ configuration: { indicator } }) => indicator.blueprint === 'custom'
   },
   {
     id: 'aggregation',
@@ -55,16 +54,11 @@ const contentDefinitions: RowDefinition[] = [
 ];
 
 export default function IndicatorSection({ data }: IndicatorSectionProps) {
-  // We do not support custom event filters for synthetics SLOs
-  const filteredRows = isSyntheticSloEntity(data.configuration.entity)
-    ? contentDefinitions.filter(row => row.id !== 'goodBadEvents')
-    : contentDefinitions;
-
   return (
     <SloConfigSection
       data={data}
       label={t('in-service-levels:sloDashboard.components.indicatorSection.title')}
-      contentDefinitions={filteredRows}
+      contentDefinitions={contentDefinitions}
     />
   );
 }
@@ -92,19 +86,21 @@ function ThresholdColumn({ data }: IndicatorSectionProps) {
   const { indicator } = data.configuration;
   if (indicator.blueprint === 'custom' && indicator.type === 'eventBased') return null;
 
-  const { threshold, blueprint, operator } = indicator;
+  const { threshold, blueprint, operator, type } = indicator;
 
-  const value =
-    blueprint === 'availability'
-      ? percentage.detailed(threshold)
-      : blueprint === 'traffic'
-      ? `${operator ?? defaultSliThresholdOperator} ${threshold}`
-      : threshold;
+  const formattedThreshold = blueprint === 'availability' ? percentage.detailed(threshold) : threshold;
+
+  const formattedThresholdWithOperator =
+    blueprint === 'traffic'
+      ? `${operator ?? defaultSliThresholdOperator} ${formattedThreshold}`
+      : type === 'eventBased'
+      ? `${eventSliThresholdOperator} ${formattedThreshold}`
+      : formattedThreshold;
 
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.indicatorSection.thresholdLabel', { context: blueprint })}
-      value={value}
+      value={formattedThresholdWithOperator}
     />
   );
 }

@@ -20,6 +20,7 @@ import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryB
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import type { QueryBuilderComponent } from 'in-components/QueryBuilder';
+import { isCustomBlueprintIndicator } from 'in-service-levels/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
@@ -32,8 +33,8 @@ interface FilterInfoProps {
 }
 export default function FilterInfo({ entity, indicator }: FilterInfoProps) {
   let content = undefined;
-  if (isSyntheticSloEntity(entity)) {
-    content = <></>;
+  if (isSyntheticSloEntity(entity) || !isCustomBlueprintIndicator(indicator)) {
+    return null;
   } else if (isApplicationSloEntity(entity)) {
     content = <ApplicationFilterInfoContent entity={entity} indicator={indicator} />;
   } else if (isWebsiteSloEntity(entity)) {
