@@ -9,14 +9,13 @@ import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
 
-//@ts-expect-error TS Migration
-import AlertChannelsListForSlideIn from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import {
   updateDefaultSelectionsToForm,
   getThresholdFieldStatus
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
+import AlertChannelsListForSlideIn from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectionList';
 import SelectListDialogContentComponent from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/dialog/AlertChannelCreation';
 import DialogContentWrapper from 'in-alerting/smart-alerts/components/dialog/DialogContentWrapper';

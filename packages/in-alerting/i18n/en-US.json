@@ -29,6 +29,7 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional filters",
     "groupBy": "Group by",
     "noChannelAvailable": "No alert channels available",
+    "noChannelCreateMessage": "To get started, click Create alert channels.",
     "optional": "Optional",
     "on": "On",
     "off": "Off",

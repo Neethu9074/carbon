@@ -32,7 +32,7 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
   channelListLoading$.emit(entityResult?.length ?? undefined);
 
   return (
-    <>
+    <div className={locals.container}>
       <AlertChannelSelectListTearsheet
         listComponent={AlertChannelsList}
         entityResult={entityResult}
@@ -43,7 +43,6 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
         listComponentRightHeader={
           role.canConfigureIntegrations && (
             <Button
-              className={locals.createAlertChannelButton}
               kind="action"
               icon="lib_openclose_add"
               onClick={() => {
@@ -80,7 +79,7 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
         createdChannelId={createdChannelId}
       />
       <TouchedMessages field={form.get('alertChannelIds')} />
-    </>
+    </div>
   );
 }
 

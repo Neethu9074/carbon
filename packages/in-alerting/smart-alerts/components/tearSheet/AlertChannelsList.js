@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { just, create } from '@instana/observables';
-import { Button } from '@instana/components';
+import { Stack, Button } from '@instana/components';
 
 import {
   columnDefinitions,
@@ -16,10 +16,11 @@ import {
   getKind,
   getStringifiedParameters,
   createFilters
-} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+} from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectionList';
 import List, { defaultHeaderWithCount, areAllRowsOnAllPagesSelected } from 'in-settings/components/List';
 import { getEntityHref, globalSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { clickAlertChannelTracker } from 'in-settings/tracker';
 import { t } from 'in-i18n';
@@ -58,7 +59,7 @@ export default function AlertChannelsList({
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
-      getHeader={getHeader}
+      getCustomHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation, undefined, isRbacTeamsAvailable)}
       tableActions={tableActions}
@@ -73,7 +74,9 @@ export default function AlertChannelsList({
       searchWidth={'100%'}
       searchMaxWidth={240}
       extraFilters={createFilters(hiddenIds)}
-      customSortEntities={sortSelecteditems(channelsPreSelected)}
+      customSortEntities={
+        channelsPreSelected && channelsPreSelected.length > 0 ? sortSelectedItems(channelsPreSelected) : undefined
+      }
       searchPlaceholder={t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.searchPlaceholder')}
       onRowClick={onRowClick}
       getDetailsHref={
@@ -93,9 +96,40 @@ export default function AlertChannelsList({
   );
 }
 
-function sortSelecteditems(selectedIds) {
-  return ({ entities }) => {
-    return entities.sort((a, b) => selectedIds.indexOf(b.id) - selectedIds.indexOf(a.id));
+function sortSelectedItems(selectedIds) {
+  return ({ entities = [], columnDefinitions, orderByState, orderDirectionState }) => {
+    if (!entities.length || !orderByState) return entities;
+
+    const { selectedEntities, nonSelectedEntities } = entities.reduce(
+      (acc, entity) => {
+        const key = selectedIds.includes(entity.id) ? 'selectedEntities' : 'nonSelectedEntities';
+        acc[key].push(entity);
+        return acc;
+      },
+      { selectedEntities: [], nonSelectedEntities: [] }
+    );
+
+    const sortFn = getSortFunction(columnDefinitions, orderByState, orderDirectionState);
+    return [...selectedEntities.sort(sortFn), ...nonSelectedEntities.sort(sortFn)];
+  };
+}
+
+function getSortFunction(columnDefinitions, orderBy, direction) {
+  const columnDef = columnDefinitions.find(col => col.id === orderBy);
+
+  return (a, b) => {
+    const getValue = columnDef?.getValue ?? (row => row[orderBy]);
+    let valueA = getValue(a) ?? '';
+    let valueB = getValue(b) ?? '';
+
+    if (typeof valueA === 'string' && typeof valueB === 'string') {
+      valueA = valueA.toLowerCase();
+      valueB = valueB.toLowerCase();
+    }
+
+    if (valueA === valueB) return 0;
+    const comparison = valueA < valueB ? -1 : 1;
+    return direction === 'ASC' ? comparison : -comparison;
   };
 }
 
@@ -106,7 +140,7 @@ function getAlertChannelTitle(channelCount) {
 }
 
 function leftHeaderWithSelectAll(tableActions, numberOfChannels) {
-  const entityName = getAlertChannelTitle(numberOfChannels);
+  const tableTitle = getAlertChannelTitle(numberOfChannels);
   return function LeftHeaderWithSelectAll(totalHits, filteredHits, entitiesBeforePagination) {
     const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
     if (
@@ -116,39 +150,31 @@ function leftHeaderWithSelectAll(tableActions, numberOfChannels) {
       tableActions.selectCheckbox.setAllOnAllPages
     ) {
       return (
-        <>
-          <div
-            className={classNames({
-              [locals.grid3]: true,
-              [locals.grid2]: !numberOfChannels
-            })}
+        <Stack direction="horizontal" align="center">
+          <AlertTypography variant="heading-200" noMargin content={tableTitle} />
+          <Button
+            kind="action"
+            onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
+            disabled={allSelected ? true : false}
           >
-            <span className={locals.channelTitle}>{entityName}</span>
+            {t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.selectAll', {
+              len: entitiesBeforePagination.length
+            })}
+          </Button>
+          {numberOfChannels > 0 && (
             <Button
               kind="action"
-              onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
-              disabled={allSelected ? true : false}
+              className={locals.colorDanger}
+              onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, false)}
             >
-              {t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.selectAll', {
-                len: entitiesBeforePagination.length
-              })}
+              {t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.clearAll')}
             </Button>
-            {numberOfChannels > 0 && (
-              <Button
-                kind="action"
-                className={locals.colorDanger}
-                onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, false)}
-              >
-                {t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.clearAll')}
-              </Button>
-            )}
-          </div>
-          <div className={locals.scopeMargin} />
-        </>
+          )}
+        </Stack>
       );
     } else {
-      const getHeaderFunction = defaultHeaderWithCount(entityName);
-      return <span className={locals.channelTitle}>{getHeaderFunction(totalHits, filteredHits)}</span>;
+      const getHeaderFunction = defaultHeaderWithCount(tableTitle);
+      return <AlertTypography variant="heading-200" noMargin content={getHeaderFunction(totalHits, filteredHits)} />;
     }
   };
 }

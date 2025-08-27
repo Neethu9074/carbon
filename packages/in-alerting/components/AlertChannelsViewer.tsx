@@ -6,11 +6,12 @@
 import React from 'react';
 
 import { Severity } from '@instana/types/typeDefinitions';
+import { Observable } from '@instana/observables';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-//@ts-expect-error TS migration
-import AlertChannelsList from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
-import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
+import AlertChannelsList, {
+  AlertChannel
+} from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectionList';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
@@ -31,26 +32,25 @@ export default function AlertChannelsViewer({
     <>
       <AlertChannelsList
         setTitle={false}
-        loadEntities={() => getSelectedAlertChannels(alertChannelIds)}
+        loadEntities={() => getSelectedAlertChannels(alertChannelIds) as Observable<AlertChannel[] | null>}
         hasRowNavigation={role?.canConfigureIntegrations}
-        renderNoDataAvailable={() => (
-          <NoChannelSelected text={t('in-alerting:components.noChannelSelectedDetailPage')} />
-        )}
+        noDataDescription={t('in-alerting:components.noChannelSelectedDetailPage')}
         isSearchable={false}
-        getHeader={() => null}
         rightHeader={null}
         detailView
-        alertChannels={alertChannels}
+        alertChannels={alertChannels as Record<string, string[]>}
         alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
       />
     </>
   );
 }
 
-const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function (selectedChannels) {
+const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function (selectedChannels: string[]) {
   if (selectedChannels.length === 0) {
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
   return getAlertChannelsInfosMutable(selectedChannels).startWith(null);
 });
+
+// Made with Bob

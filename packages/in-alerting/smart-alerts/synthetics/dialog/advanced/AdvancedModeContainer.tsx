@@ -110,6 +110,7 @@ export default function AdvancedModeContainer(
               setSliderState={setSliderState}
               setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
               numberOfAlertChannelListRows={5}
+              isSelectedList
             />
           )
         },

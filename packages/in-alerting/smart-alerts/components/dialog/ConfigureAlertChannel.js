@@ -10,9 +10,9 @@ import { Button } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
-import AlertChannelsList from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogContentComponent from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
+import AlertChannelsList from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectionList';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/dialog/AlertChannelCreation';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
@@ -32,13 +32,15 @@ export default function ConfigureAlertChannel({
   setSliderState,
   setCustomSlideInHeaderConfig,
   numberOfAlertChannelListRows = 5,
-  isTearSheet = false
+  isTearSheet = false,
+  isSelectedList = false
 }) {
   return (
     <>
       <AlertChannelsList
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(form.get('alertChannelIds').value)}
+        isSelectedList={isSelectedList}
         hasRowNavigation={false}
         renderNoDataAvailable={() => <NoChannelSelected />}
         tableActions={alertChannelSelectionTableActions(form, onChange)}
@@ -103,6 +105,7 @@ function SelectListDialogContent({
             listComponentRightHeader={
               role.canConfigureIntegrations && (
                 <Button
+                  className={locals.createAlertChannelButton}
                   kind="action"
                   icon="lib_actions_build_outline"
                   onClick={() => {
@@ -201,5 +204,6 @@ ConfigureAlertChannel.propTypes = {
   setSliderState: PropTypes.func.isRequired,
   setCustomSlideInHeaderConfig: PropTypes.func.isRequired,
   numberOfAlertChannelListRows: PropTypes.number,
-  isTearSheet: PropTypes.bool
+  isTearSheet: PropTypes.bool,
+  isSelectedList: PropTypes.bool
 };

@@ -25,7 +25,7 @@ import {
   getKind,
   getStringifiedParameters,
   createFilters
-} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+} from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectionList';
 import { getEntityHref, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { SETTINGS_ALERT_CHANNEL_CLICK } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -35,7 +35,7 @@ import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { t } from 'in-i18n';
 
-import locals from './AlertChannelsList.mless';
+import locals from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/AlertChannelsList.mless';
 
 /**
  * A searchable list of all configured alert channels that does not reveal confidential or pure configuration related
@@ -64,7 +64,7 @@ export default function AlertChannelsList({
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
-      getHeader={getHeader}
+      getCustomHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={getColumnDefinitions(
         hasRowNavigation,
@@ -192,10 +192,10 @@ function leftHeaderWithSelectAll(form, onChange) {
 
     if (entitiesBeforePagination && entitiesBeforePagination.length > 0) {
       return (
-        <Stack>
-          <span className={locals.channelTitle}>{getHeaderFunction(totalHits, filteredHits)}</span>
-          {numberOfChannels > 0 && !warningThresholdFieldDisabled && !criticalThresholdFieldDisabled && (
-            <div className={locals.leftHeader}>
+        <div className={locals.leftHeaderContainer}>
+          <Stack direction="horizontal" align="center">
+            <AlertTypography variant="heading-200" noMargin content={getHeaderFunction(totalHits, filteredHits)} />
+            {numberOfChannels > 0 && !warningThresholdFieldDisabled && !criticalThresholdFieldDisabled && (
               <Stack direction="horizontal" align="center">
                 <AlertTypography
                   variant={'body-regular'}
@@ -220,12 +220,12 @@ function leftHeaderWithSelectAll(form, onChange) {
                   onToggle={updateAllToggleAndFormForCritical(enabledChannels, entitiesBeforePagination, onChange)}
                 />
               </Stack>
-            </div>
-          )}
-        </Stack>
+            )}
+          </Stack>
+        </div>
       );
     } else {
-      return <span className={locals.channelTitle}>{getHeaderFunction(totalHits, filteredHits)}</span>;
+      return <AlertTypography variant="heading-200" noMargin content={getHeaderFunction(totalHits, filteredHits)} />;
     }
   };
 }

@@ -8,6 +8,7 @@ import { find, debounce, isEmpty, reverse, sortBy } from 'lodash';
 import React, { ReactNode, useEffect, useState } from 'react';
 
 import {
+  CarbonTableBatchActions,
   DataTable,
   Stack,
   Pagination,
@@ -38,6 +39,13 @@ interface CarbonHeader<ITEM_TYPE extends Object> {
   sortDirection?: OrderDirection | 'NONE';
 }
 
+export interface RowProps {
+  cells: object[];
+  disabled: boolean;
+  id: string;
+  isExpanded: boolean;
+  isSelected: boolean;
+}
 interface CarbonRow {
   id: string;
   [key: string]: string | JSX.Element;
@@ -60,9 +68,13 @@ interface ListDataTableProps<ItemType extends Object> {
   rightHeader?: ReactNode;
   tableActions?: TableActions<ItemType>;
   isSearchable?: boolean;
+  isSelectable?: boolean;
   searchPlaceholder?: string;
   setCount?: React.Dispatch<React.SetStateAction<string | undefined>>;
   toolBarContent?: React.ReactNode;
+  selectedItems?: string[];
+  setSelectedItems?: React.Dispatch<React.SetStateAction<string[]>>;
+  customSortEntities?: ({ entities }: { entities: ItemType[] }) => ItemType[];
 }
 
 interface TableState {
@@ -88,14 +100,18 @@ export default function ListDataTable<ItemType extends Object>(props: ListDataTa
     rightHeader,
     tableActions,
     isSearchable,
+    isSelectable,
     searchPlaceholder,
     setCount,
-    toolBarContent
+    toolBarContent,
+    selectedItems,
+    setSelectedItems,
+    customSortEntities
   } = props;
 
   const [{ orderBy, orderDirection, page, query, pageSize }, setState] = useState<TableState>({
     orderBy: initialOrderBy,
-    orderDirection: 'NONE',
+    orderDirection: 'ASC',
     page: 1,
     query: undefined,
     pageSize: listPageSize
@@ -119,15 +135,23 @@ export default function ListDataTable<ItemType extends Object>(props: ListDataTa
 
     setFilterResult(filterByResult);
 
-    const data =
+    let sortedData =
       filterByResult.length > 0
-        ? sortEntities<ItemType>(filterByResult, columnDefinitions, orderBy, orderDirection).slice(offset, until)
+        ? sortEntities<ItemType>(filterByResult, columnDefinitions, orderBy, orderDirection)
         : filterByResult;
+
+    // Apply custom sort if provided
+    if (customSortEntities && sortedData.length > 0) {
+      sortedData = customSortEntities({ entities: sortedData });
+    }
+
+    // Apply pagination
+    const data = sortedData.length > 0 ? sortedData.slice(offset, until) : sortedData;
 
     setCount?.(getHeaderWithCount(data.length, entities?.length));
     setResult(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entities, orderBy, orderDirection, offset, until, query, page, pageSize]);
+  }, [entities, orderBy, orderDirection, offset, until, query, page, pageSize, customSortEntities]);
 
   const debounceOnChange = debounce((searchInput?: string) => {
     if (searchInput !== undefined) {
@@ -176,9 +200,12 @@ export default function ListDataTable<ItemType extends Object>(props: ListDataTa
       noDataDescription={noDataDescription}
       rightHeader={rightHeader}
       isSearchable={isSearchable}
+      isSelectable={isSelectable}
       searchPlaceholder={searchPlaceholder}
       totalHits={filterResult?.length}
       toolBarContent={toolBarContent}
+      selectedItems={selectedItems}
+      setSelectedItems={setSelectedItems}
     />
   );
 }
@@ -201,8 +228,11 @@ interface ListTableProps<ItemType extends object> extends Object {
   noDataDescription?: string;
   rightHeader?: ReactNode;
   isSearchable?: boolean;
+  isSelectable?: boolean;
   searchPlaceholder?: string;
   toolBarContent?: React.ReactNode;
+  selectedItems?: string[];
+  setSelectedItems?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 function ListTable<ItemType extends object>({
@@ -222,9 +252,12 @@ function ListTable<ItemType extends object>({
   noDataDescription,
   rightHeader,
   isSearchable,
+  isSelectable = false,
   searchPlaceholder,
   totalHits,
-  toolBarContent
+  toolBarContent,
+  selectedItems = [],
+  setSelectedItems
 }: ListTableProps<ItemType>) {
   const getEllipsisValue = (ellipsis?: string | boolean, width?: string | number) => {
     if (typeof ellipsis === 'string' || (width !== 'undefined' && ellipsis !== undefined)) {
@@ -270,6 +303,9 @@ function ListTable<ItemType extends object>({
     header = <span className={locals.carbonRightHeader}>{rightHeader}</span>;
   }
 
+  const isRowSelected = selectedItems?.length ? true : false;
+  const displayCarbonToolbar = isSearchable || isRowSelected;
+
   return (
     <Stack gap="small">
       {/* Table Title */}
@@ -279,23 +315,33 @@ function ListTable<ItemType extends object>({
       </Stack>
 
       <span>
-        <CarbonTableToolbar>
-          {/* Carbon table search bar and Create SA button */}
-          {isSearchable && (
-            <>
-              <CarbonTableToolbarSearch
-                defaultExpanded
-                expanded
-                defaultValue={query}
-                onChange={(e: React.ChangeEvent<HTMLInputElement> | '') => filterRows(e ? e?.target?.value : query)}
-                labelText={searchPlaceholder}
-                placeholder={searchPlaceholder}
-              />
-              {toolBarContent}
-            </>
-          )}
-        </CarbonTableToolbar>
-
+        {displayCarbonToolbar && (
+          <CarbonTableToolbar>
+            {/* Carbon table search bar and Create SA button */}
+            {isSearchable && !isRowSelected ? (
+              <>
+                <CarbonTableToolbarSearch
+                  defaultExpanded
+                  expanded
+                  defaultValue={query}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement> | '') => filterRows(e ? e?.target?.value : query)}
+                  labelText={searchPlaceholder}
+                  placeholder={searchPlaceholder}
+                />
+                {toolBarContent}
+              </>
+            ) : (
+              // Carbon table batch actions, such as Pause, Delete, and Cancel, will only be displayed if the row is selected.
+              <CarbonTableBatchActions
+                onCancel={() => handleToolBarActionCancel?.(setSelectedItems)}
+                totalSelected={selectedItems?.length || 0}
+                shouldShowBatchActions={isRowSelected}
+              >
+                <>{/* bulk actions go here <CarbonTableBatchAction/>*/}</>
+              </CarbonTableBatchActions>
+            )}
+          </CarbonTableToolbar>
+        )}
         {/* Carbon Table */}
         <DataTable
           headers={carbonHeaders}
@@ -304,7 +350,11 @@ function ListTable<ItemType extends object>({
             filterRows(value?.target?.value);
           }}
           sortRow={sortState => sortRow(sortState, pageSize, pageSizes, onChange, query)}
-          allRowSelected={false}
+          allRowSelected={result.length > 0 && result.every(item => selectedItems.includes((item as TableRow).id))}
+          isSelectable={isSelectable}
+          rowSelected={selectedItems}
+          onSelectAllRows={() => handleSelectAll(selectedItems, result, setSelectedItems)}
+          onSelectRow={(row: RowProps) => handleRowSelect(row, selectedItems, setSelectedItems)}
           isSearchEnabled={false}
         />
 
@@ -447,4 +497,58 @@ export function getHeaderWithCount(totalHits: number, filteredHits: number) {
   } else {
     return `(${filteredHits}/${totalHits})`;
   }
+}
+
+interface TableRow {
+  id: string;
+  [key: string]: any;
+}
+
+function handleSelectAll<ItemType extends object>(
+  selectedData: string[],
+  listItems: ItemType[],
+  setSelectedRows?: React.Dispatch<React.SetStateAction<string[]>>
+) {
+  if (!setSelectedRows) return;
+
+  // Get IDs of items on the current page
+  const currentPageIds = listItems.map(row => (row as TableRow).id);
+
+  // Check if all items on the current page are selected
+  const allCurrentPageSelected = currentPageIds.every(id => selectedData.includes(id));
+
+  if (allCurrentPageSelected) {
+    // If all items on current page are selected, deselect only those items
+    const newSelectedData = selectedData.filter(id => !currentPageIds.includes(id));
+    setSelectedRows(newSelectedData);
+  } else {
+    // If not all items on current page are selected, select all items on current page
+    // while preserving selections from other pages
+    const newSelectedData = [...selectedData];
+
+    // Add any IDs from current page that aren't already selected
+    currentPageIds.forEach(id => {
+      if (!newSelectedData.includes(id)) {
+        newSelectedData.push(id);
+      }
+    });
+
+    setSelectedRows(newSelectedData);
+  }
+}
+
+function handleRowSelect(
+  row: RowProps,
+  selectedData: string[],
+  setSelectedRows?: React.Dispatch<React.SetStateAction<string[]>>
+) {
+  const revisedSelectedData = selectedData.includes(row.id)
+    ? selectedData.filter(id => id !== row.id)
+    : [...selectedData, row.id];
+
+  setSelectedRows?.(revisedSelectedData);
+}
+
+function handleToolBarActionCancel(setSelectedRows?: React.Dispatch<React.SetStateAction<string[]>>) {
+  setSelectedRows?.([]);
 }

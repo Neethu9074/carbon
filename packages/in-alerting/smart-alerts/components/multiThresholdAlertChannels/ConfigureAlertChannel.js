@@ -16,9 +16,9 @@ import {
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import SelectAlertChannelsListTearSheet from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/SelectAlertChannelsListTearSheet';
-import AlertChannelsListForSlideIn from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
+import AlertChannelsListForSlideIn from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectionList';
 import AlertChannelsList from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/AlertChannelsList';
 import SelectListDialogContentComponent from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/dialog/AlertChannelCreation';
@@ -51,7 +51,7 @@ export default function ConfigureAlertChannel({
   const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
   const selectedChannelsArrayField = form.get('hiddenFields').get('selectedChannelList');
   return (
-    <>
+    <div className={locals.container}>
       <AlertChannelsList
         setTitle={false}
         form={form}
@@ -63,69 +63,60 @@ export default function ConfigureAlertChannel({
         tableActions={alertChannelSelectionTableActions(form, updateForm)}
         simpleMode={simpleMode}
         rightHeader={
-          <Stack gap="xxsmall">
-            {!warningThresholdFieldDisabled &&
-              !criticalThresholdFieldDisabled &&
-              selectedChannelsArrayField.value.length > 0 && (
-                <>
-                  <Spacer vertical="large" /> <Spacer vertical="xsmall" />
-                </>
-              )}
-            <Button
-              kind="action"
-              disabled={warningThresholdFieldDisabled && criticalThresholdFieldDisabled && !simpleMode}
-              onClick={() => {
-                if (!isTearSheet) {
-                  setSliderState({
-                    slideInConfig: {
-                      component: (
-                        <SelectListDialogContent
-                          form={form}
-                          onSubmit={selectedIds => {
-                            const currentAlertChannelIds = selectedChannelsArrayField.value;
-                            updateDefaultSelectionsToForm(
-                              form,
-                              updateForm,
-                              selectedChannels,
-                              warningThresholdFieldDisabled,
-                              criticalThresholdFieldDisabled,
-                              selectedIds,
-                              currentAlertChannelIds
-                            );
-                            setSliderState({ isVisible: false });
-                          }}
-                          numberOfAlertChannelListRows={numberOfAlertChannelListRows}
-                          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                          setSliderState={setSliderState}
-                          selectedIds={selectedChannelsArrayField.value}
-                        />
-                      ),
-                      title: t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButtonTitle')
-                    },
-                    isVisible: true
-                  });
-                } else {
-                  addActiveDialog(
-                    <SelectAlertChannelsListTearSheet
-                      form={form}
-                      updateForm={updateForm}
-                      close={close}
-                      numberOfAlertChannelListRows={numberOfAlertChannelListRows}
-                      alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
-                    />
-                  );
-                }
-              }}
-              icon="lib_openclose_add_circle_outline"
-            >
-              {t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButton')}
-            </Button>
-            <Spacer size="disabled" />
-          </Stack>
+          <Button
+            className={locals.selectButton}
+            kind="action"
+            disabled={warningThresholdFieldDisabled && criticalThresholdFieldDisabled && !simpleMode}
+            onClick={() => {
+              if (!isTearSheet) {
+                setSliderState({
+                  slideInConfig: {
+                    component: (
+                      <SelectListDialogContent
+                        form={form}
+                        onSubmit={selectedIds => {
+                          const currentAlertChannelIds = selectedChannelsArrayField.value;
+                          updateDefaultSelectionsToForm(
+                            form,
+                            updateForm,
+                            selectedChannels,
+                            warningThresholdFieldDisabled,
+                            criticalThresholdFieldDisabled,
+                            selectedIds,
+                            currentAlertChannelIds
+                          );
+                          setSliderState({ isVisible: false });
+                        }}
+                        numberOfAlertChannelListRows={numberOfAlertChannelListRows}
+                        setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                        setSliderState={setSliderState}
+                        selectedIds={selectedChannelsArrayField.value}
+                      />
+                    ),
+                    title: t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButtonTitle')
+                  },
+                  isVisible: true
+                });
+              } else {
+                addActiveDialog(
+                  <SelectAlertChannelsListTearSheet
+                    form={form}
+                    updateForm={updateForm}
+                    close={close}
+                    numberOfAlertChannelListRows={numberOfAlertChannelListRows}
+                    alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+                  />
+                );
+              }
+            }}
+            icon="lib_openclose_add_circle_outline"
+          >
+            {t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButton')}
+          </Button>
         }
       />
       <TouchedMessages field={form.get('alertChannels')} />
-    </>
+    </div>
   );
 }
 

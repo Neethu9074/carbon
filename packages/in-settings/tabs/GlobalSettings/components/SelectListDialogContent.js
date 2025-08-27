@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@instana/components';
 
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import { t } from 'in-i18n';
@@ -60,9 +59,11 @@ export default function SelectListDialogContent({
           setTitle={false}
           pageSize={pageSize}
           hiddenIds={hiddenIds}
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+          isSelectable
           hasRowNavigation={false}
           createdChannelId={createdChannelId}
-          selectedItems={selectedItems}
           noDataMessage={t('in-settings:tabs.noItemsAvailable')}
           onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}
           tableActions={{
@@ -94,7 +95,6 @@ export default function SelectListDialogContent({
           inSelectListDialog
           renderNoDataAvailable={() => <NoChannelSelected text={t('in-alerting:components.noChannelAvailable')} />}
         />
-        {errorMessage && <ValidationBlock className={locals.errorMessage}>{errorMessage}</ValidationBlock>}
       </FormGroup>
 
       {renderCustomFormActions?.(numberOfItems) ?? (

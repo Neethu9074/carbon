@@ -5,6 +5,15 @@
 
 :local {
   .createAlertChannelButton {
+    display: flex;
+    align-items: center;
+  }
+  .selectButton {
+    display: flex;
+    align-items: center;
     margin-bottom: 0.25rem;
+  }
+  .container {
+    padding: 1rem 0;
   }
 }

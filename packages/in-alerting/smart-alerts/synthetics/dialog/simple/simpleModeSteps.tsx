@@ -55,7 +55,7 @@ export const stepRenderers = [
     </SimpleModeStepContentWrapper>
   ),
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => (
-    <SimpleAlertConfigDialogStep3 {...parentProps} />
+    <SimpleAlertConfigDialogStep3 {...parentProps} isSelectedList />
   ),
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => <DialogAlertProperties {...parentProps} />
 ];

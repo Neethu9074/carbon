@@ -5,7 +5,7 @@
  */
 
 :local {
-  .leftHeaderContainer {
-    font-size: 1.5rem;
+  .container {
+    padding: 1rem 0;
   }
 }

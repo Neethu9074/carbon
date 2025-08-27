@@ -11,7 +11,7 @@ import { Checkbox, Typography } from '@instana/components';
 
 import AlertChannelsList, {
   noRightHeader
-} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+} from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectionList';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/GlobalSettings/components/SelectListDialogButton';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
@@ -20,6 +20,8 @@ import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { t } from 'in-i18n';
+
+import locals from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/Step4.mless';
 
 export default function Step4({ form, setForm }) {
   const selectedChannels = form.get('selectedAlertChannels') ? form.get('selectedAlertChannels').value.toJS() : [];
@@ -30,33 +32,36 @@ export default function Step4({ form, setForm }) {
 
   return (
     <Fragment>
-      <div style={{ marginTop: '2rem' }} />
-      <SectionHeading>{t('in-settings:tabs.4Alerting')}</SectionHeading>
-      <AlertChannelsList
-        setTitle={false}
-        loadEntities={() => getSelectedAlertChannels(selectedChannels, alertChannelInfos)}
-        hasRowNavigation={false}
-        noDataMessage={t('in-settings:tabs.noAlertChannelsSelected')}
-        tableActions={alertChannelSelectionTableActions(form, setForm)}
-        rightHeader={
-          <SelectListDialogButton
-            form={form}
-            onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
-            title={t('in-settings:tabs.addAlertChannels')}
-            label={t('in-settings:tabs.addAlertChannels')}
-            listComponent={props => <AlertChannelsList {...props} loadEntities={() => alertChannelInfos} />}
-            listComponentRightHeader={noRightHeader}
-            hiddenIds={form.get('selectedAlertChannels').value.toJS()}
-            limit={limitForConnectedAlertChannels}
-            createSubmitLabel={numberOfItems =>
-              numberOfItems > 0
-                ? t('in-settings:tabs.addNumberOfItemsChannel', { count: numberOfItems })
-                : t('in-settings:tabs.add')
-            }
-            requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAlertChannel')}
-          />
-        }
-      />
+      <div className={locals.container}>
+        <SectionHeading>{t('in-settings:tabs.4Alerting')}</SectionHeading>
+        <Typography variant="heading-200">{t('in-settings:tabs.alertChannels')}</Typography>
+        <AlertChannelsList
+          setTitle={false}
+          loadEntities={() => getSelectedAlertChannels(selectedChannels, alertChannelInfos)}
+          hasRowNavigation={false}
+          noDataMessage={t('in-settings:tabs.noAlertChannelsSelected')}
+          tableActions={alertChannelSelectionTableActions(form, setForm)}
+          isSelectedList
+          rightHeader={
+            <SelectListDialogButton
+              form={form}
+              onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
+              title={t('in-settings:tabs.addAlertChannels')}
+              label={t('in-settings:tabs.addAlertChannels')}
+              listComponent={props => <AlertChannelsList {...props} loadEntities={() => alertChannelInfos} />}
+              listComponentRightHeader={noRightHeader}
+              hiddenIds={form.get('selectedAlertChannels').value.toJS()}
+              limit={limitForConnectedAlertChannels}
+              createSubmitLabel={numberOfItems =>
+                numberOfItems > 0
+                  ? t('in-settings:tabs.addNumberOfItemsChannel', { count: numberOfItems })
+                  : t('in-settings:tabs.add')
+              }
+              requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAlertChannel')}
+            />
+          }
+        />
+      </div>
       <Typography variant="heading-200">{t('in-settings:tabs.alertTitleAdditions')}</Typography>
       <Checkbox
         checked={includeEntityNameInLegacyAlerts}
