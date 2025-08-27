@@ -462,8 +462,6 @@
         "dashboardHeaderLabel": "Test execution : {{dataScopeLabel}}"
       },
       "popDialog": {
-        "popUpDialogTitle": "Permissions for synthetic monitoring",
-        "popUpDialog": "Please check the <documentationLink>document</documentationLink> for information about setting synthetic monitoring permissions",
         "button": "Deploy a PoP",
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import {
   OrderDirection,
@@ -49,12 +49,6 @@ import {
   addColumnCustomizationNotification,
   removeColumncustomizationNotification
 } from 'in-synthetics/utils/setTestsColumnConfigurationMessage';
-import showNotification, {
-  calculateNextOccurrence,
-  setReminder,
-  storedAlarmTimeOrNull,
-  timeExpired
-} from 'in-synthetics/utils/setReminders';
 import {
   syntheticSslImprovementEnabled,
   syntheticRbacLimitedEnabled,
@@ -86,7 +80,6 @@ import useUrlState, { Options } from 'in-hooks/useUrlState';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { minutes } from 'in-services/time/time';
 import { getTests } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
@@ -178,7 +171,6 @@ const TestSummaryList = () => {
   let associations;
   const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType }, setFilter] =
     useUrlState(urlStateDefinition);
-  const storedDialogAlarm = storedAlarmTimeOrNull();
   const showTestsColumnCustomizationMessage = addColumnCustomizationNotification();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
   if (syntheticRbacLimitedEnabled && !syntheticTests?.progress?.loading) {
@@ -199,17 +191,6 @@ const TestSummaryList = () => {
     websites: Array.from(allWebsiteIds),
     mobileApps: Array.from(allMobileAppIds)
   };
-
-  useEffect(() => {
-    if (storedDialogAlarm === null) {
-      setReminder(calculateNextOccurrence(minutes.toMillis(0)));
-      showNotification();
-    } else {
-      if (timeExpired()) {
-        showNotification();
-      }
-    }
-  }, [storedDialogAlarm]);
 
   const rightHeader = useFilterHeader(true, syntheticTests, setFilter);
 
@@ -500,3 +481,5 @@ export const getTestSummaryListData = ({
 };
 
 export default TestSummaryList;
+
+// Made with Bob
