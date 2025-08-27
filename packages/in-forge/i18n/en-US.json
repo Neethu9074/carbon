@@ -14858,7 +14858,7 @@
       "nodeName": "Node name",
       "mapRFSDisks": "MapR file System disks",
       "health": "Health",
-      "totalMapRFSDisks": "Total MapR file System disks",
+      "totalMapRFSDisks": "Total MapR file system disks",
       "services": "Services",
       "serviceName": "Service name",
       "active": "Active",

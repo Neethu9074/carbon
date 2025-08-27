@@ -10,6 +10,7 @@ import { TimeConfig } from '@instana/types';
 
 import CPUUtilizationChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/CPUUtilizationChart';
 import DiskReadWriteChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteChart';
+import Notification from 'in-forge/plugins/mapRNode/Dashboard/Notification/Notification';
 import DiskUsageChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskUsageChart';
 import DiskListTable from 'in-forge/plugins/mapRNode/Dashboard/Tables/DiskListTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -27,6 +28,7 @@ export default function MapRNodeDashboard({
 }) {
   return (
     <div>
+      <Notification snapshot={snapshot} />
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.maprNode.mapRFSDisks')}>
           {getDataFromSnapshotData(snapshot, 'mapRFSDisks')}
