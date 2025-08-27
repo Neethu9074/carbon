@@ -148,7 +148,7 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
               }}
               secondaryCta={{
                 label: t('in-kubernetes:dashboards.kubecost.learnMore'),
-                href: 'https://www.apptio.com/products/kubecost/contact/?utm_medium=referral&utm_source=instana-app&utm_campaign=cloud-dvop_global-global-en_kubecost&utm_term=instana',
+                href: 'https://www.apptio.com/products/kubecost/contact-us-instana/?utm_medium=referral&utm_source=instana-app&utm_campaign=cloud-f2f_global-global-en_kubecost&utm_term=instana',
                 target: '_blank'
               }}
             />

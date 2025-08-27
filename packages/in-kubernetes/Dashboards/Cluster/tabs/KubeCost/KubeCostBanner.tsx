@@ -34,7 +34,7 @@ export default function KubeCostBanner({ coreCount }: KubeCostBannerProps) {
         description={t('in-kubernetes:dashboards.kubecost.upgradeDescription')}
         primaryCta={{
           label: t('in-kubernetes:dashboards.kubecost.upgradeNow'),
-          href: 'https://www.apptio.com/products/kubecost/contact/?utm_medium=referral&utm_source=instana-app&utm_campaign=cloud-dvop_global-global-en_kubecost&utm_term=instana',
+          href: 'https://www.apptio.com/products/kubecost/contact-us-instana/?utm_medium=referral&utm_source=instana-app&utm_campaign=cloud-f2f_global-global-en_kubecost&utm_term=instana',
           target: '_blank'
         }}
       />
