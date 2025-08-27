@@ -568,7 +568,9 @@
     "positiveFeedback": "This summary was helpful",
     "negativeFeedback": "This summary was not helpful",
     "surveyButtonTxt": "Share your feedback",
-    "summaryLower": "summary"
+    "summaryLower": "summary",
+    "prcTitle": "PRC: ",
+    "prcFull": "Probable root cause: "
   },
   "incident": {
     "overviewTitle": "Incident overview",

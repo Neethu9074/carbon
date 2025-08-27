@@ -66,6 +66,7 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
   // Calculate the first 5 and last values for incidents / actions
   // These are used to determine if their show more buttons should be visible
   const relatedEventSummary = noteObj?.data?.get('watsonxSummary')?.get('recentEventsSummary') || [];
+  const prc = noteObj?.data?.get('watsonxSummary')?.get('probableRootCause');
   const firstFiveRelated = subArray(relatedEventSummary, 0, 5);
   const lastRelated = subArray(relatedEventSummary, 5, relatedEventSummary.size);
   const actionHistory = noteObj?.data?.get('actionHistorySummary') || [];
@@ -85,7 +86,11 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
   const actionHistorySummary = incidentNotesTopActionsEnabled
     ? convertTopActionsToString(recommendedActions?.data || [])
     : convertActionsToString(actionHistory);
-  const fullSummaryText = `${incidentSummary}${notesSummary}\n${actionHistorySummary}`;
+
+  const prcString = `${t('in-events:notes.prcFull')}\n\n${prc}\n`;
+  const fullSummaryText = prc
+    ? `${incidentSummary}${notesSummary}\n${prcString}\n${actionHistorySummary}`
+    : `${incidentSummary}${notesSummary}\n${actionHistorySummary}`;
 
   //Feedback collection
   const { trackCta } = useSegmentTracking();
@@ -123,6 +128,14 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
         <div className={locals.contentsHeader}>{t('in-events:notes.sumNotes')}</div>
         <NotesEntry notesList={notesSummaryData} />
       </div>
+
+      {/* Probable root cause */}
+      {prc && (
+        <div className={locals.summarySection}>
+          <div className={locals.contentsHeader}>{t('in-events:notes.prcTitle')}</div>
+          {prc}
+        </div>
+      )}
 
       {/* Summarization of Actions to take */}
       {!incidentNotesTopActionsEnabled && (
