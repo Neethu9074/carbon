@@ -33,6 +33,7 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { connection } from 'in-connection/connection';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { DetailId } from 'in-applications/types';
 import { seconds } from 'in-services/time/time';
 import { Nullish } from 'in-types';
 
@@ -42,34 +43,42 @@ import locals from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetai
 const retainTrace = (traceId: string) => connection.send('traceViewed', { traceId });
 
 interface TraceDetailViewButtonLineProps {
-  subtraceConfigId: string | Nullish;
-  traceId: string;
+  detailId: DetailId;
   traceSummary?: TraceSummary;
+  setDetailId: (detailId: DetailId) => void;
 }
 interface SubtraceConfig {
-  id: string;
-  label: string;
+  id?: string;
+  label?: string;
 }
-export function TraceDetailViewButtonLine({ subtraceConfigId, traceId, traceSummary }: TraceDetailViewButtonLineProps) {
+export function TraceDetailViewButtonLine({ detailId, setDetailId, traceSummary }: TraceDetailViewButtonLineProps) {
   const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
-  const [subtraceConfigOptions, setSubtraceConfigOptions] = useState<SubtraceConfig[]>([{ id: '', label: '' }]);
-  const [selectedSubtraceConfig, setSelectedSubtraceConfig] = useState<SubtraceConfig | Nullish>({ id: '', label: '' });
   const { location, createHref } = useNavigation();
   const { trackAnalyzeCallsOfTraceClicked, trackDownloadTraceClicked } = useApplicationTracker();
   const [traceSaved, setTraceSaved] = useState(
     traceSummary?.traceRetentionState === 'PERSISTING' || traceSummary?.traceRetentionState === 'PERSISTED'
   );
+  const { traceId, subtraceConfigId } = detailId;
 
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
 
   const traceIdInUrl = traceSummary?.id ?? traceId;
 
+  // TODO: need to change after backend updates type
+  const subtraceConfigsInTrace: SubtraceConfig[] =
+    traceSummary?.subtracesInTrace?.map(subtraceConfig => ({
+      label: subtraceConfig.subtraceName,
+      id: subtraceConfig.subtraceId
+    })) ?? [];
+  const selectedSubtraceConfig = subtraceConfigsInTrace?.find(subtraceConfig => subtraceConfig.id === subtraceConfigId);
+
   const retainTraceAndDisableStoring = (traceId: string) => {
     retainTrace(traceId);
     setTraceSaved(true);
   };
+
   // if a non-large trace is viewed for at least 15s store it long term
   useEffect(() => {
     let traceViewedTimeoutId: NodeJS.Timeout;
@@ -80,17 +89,6 @@ export function TraceDetailViewButtonLine({ subtraceConfigId, traceId, traceSumm
       clearTimeout(traceViewedTimeoutId);
     };
   }, [traceId, traceSummary?.traceRetentionState]);
-  useEffect(() => {
-    //need to change after backend updates type
-    const subtraceConfigsInTrace: any = traceSummary?.subtracesInTrace?.map(subtraceConfig => ({
-      label: subtraceConfig.subtraceName,
-      id: subtraceConfig.subtraceId
-    }));
-    setSubtraceConfigOptions(subtraceConfigsInTrace);
-    setSelectedSubtraceConfig(
-      subtraceConfigsInTrace.find((config: SubtraceConfig) => config.id === subtraceConfigId) ?? { id: '', label: '' }
-    );
-  }, [subtraceConfigId, traceSummary?.subtracesInTrace]);
 
   let adjustedTimeConfig = timeConfig;
   if (traceSummary) {
@@ -182,12 +180,12 @@ export function TraceDetailViewButtonLine({ subtraceConfigId, traceId, traceSumm
           </Button>
         </Tooltip>
       )}
-      {analyzeSubtracesEnabled && subtraceConfigId && (
+      {analyzeSubtracesEnabled && selectedSubtraceConfig && (
         <Dropdown
           aria-label={'Subtrace configurations'}
           className={locals.subtraceDropdown}
-          onChange={e => setSelectedSubtraceConfig(e.selectedItem)}
-          items={subtraceConfigOptions}
+          onChange={e => setDetailId({ ...detailId, subtraceConfigId: e.selectedItem?.id })}
+          items={subtraceConfigsInTrace}
           label=""
           id="subtraceConfig"
           titleText={''}

@@ -281,12 +281,13 @@ function RetryErrorMessage({ traceId }: { traceId: string }) {
   );
 }
 
-function renderButtonLine(props: { detailId: DetailId; result: Result<TraceSummary> }) {
-  const { result, detailId } = props;
-  const { traceId, subtraceConfigId } = detailId;
-  return (
-    <TraceDetailViewButtonLine traceId={traceId} subtraceConfigId={subtraceConfigId} traceSummary={result?.data} />
-  );
+function renderButtonLine(props: {
+  detailId: DetailId;
+  result: Result<TraceSummary>;
+  setDetailId: (detailId: DetailId) => void;
+}) {
+  const { result, detailId, setDetailId } = props;
+  return <TraceDetailViewButtonLine detailId={detailId} traceSummary={result?.data} setDetailId={setDetailId} />;
 }
 
 function RenderContext() {
