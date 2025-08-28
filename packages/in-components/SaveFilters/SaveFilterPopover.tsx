@@ -158,7 +158,11 @@ export const SaveFilterPopover = ({
       name: filter.name,
       tagFilterExpression: backendQueryModel,
       ...(includeGroup && {
-        group: { tag: group.groupbyTag, entity: group.groupbyTagEntity ?? NOT_APPLICABLE } as SavedFilterGroup
+        group: {
+          tag: group.groupbyTag,
+          entity: group.groupbyTagEntity ?? NOT_APPLICABLE,
+          secondLevelKey: group.groupbyTagSecondLevelKey
+        } as SavedFilterGroup
       }),
       area: String(dataSource).toUpperCase() as SavedFilterArea
     };
@@ -310,6 +314,7 @@ const hasGroupStateChanged = (selectedGroup: SavedFilterGroup, groupInQueryBuild
     (isGroupEmpty && isGroupQueryBuilderEmpty) ||
     (selectedGroup?.tag === groupInQueryBuilder?.groupbyTag &&
       (selectedGroup.entity === groupInQueryBuilder?.groupbyTagEntity ||
-        (selectedGroup.entity === NOT_APPLICABLE && !groupInQueryBuilder?.groupbyTagEntity)))
+        (selectedGroup.entity === NOT_APPLICABLE && !groupInQueryBuilder?.groupbyTagEntity)) &&
+      selectedGroup.secondLevelKey === groupInQueryBuilder.groupbyTagSecondLevelKey)
   );
 };

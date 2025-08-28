@@ -81,7 +81,8 @@ export const SavedFilters = ({ dataSource, result, setUrlState, setFilterToEdit 
         ? {
             groupBy: {
               groupbyTag: filter.group.tag,
-              groupbyTagEntity: filter.group.entity !== NOT_APPLICABLE ? filter.group.entity : null
+              groupbyTagEntity: filter.group.entity !== NOT_APPLICABLE ? filter.group.entity : null,
+              groupbyTagSecondLevelKey: filter.group.secondLevelKey
             }
           }
         : {
