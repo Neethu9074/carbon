@@ -224,7 +224,7 @@ export const SaveFilterPopover = ({
               </Typography>
             </div>
             <div className={locals.textInputContainer}>
-              <span className={locals.charactercounter}>
+              <span className={locals.characterCounter}>
                 {filter.name.length}/{maxLength}
               </span>
               <Layer>

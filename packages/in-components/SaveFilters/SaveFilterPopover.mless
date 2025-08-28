@@ -6,22 +6,25 @@
 
 :local {
   .saveFilterPopoverContainer {
-    max-width: 18rem;
+    width: 18rem;
     padding: 0.75rem;
+    box-sizing: border-box;
   }
+
   .buttonWrapper {
     display: flex;
     justify-content: space-between;
-    margin: auto;
+    gap: 0.5rem;
     width: 100%;
+
     button {
-      min-width: 8rem;
+      flex: 1;
     }
   }
   .textInputContainer {
     position: relative;
   }
-  .charactercounter {
+  .characterCounter {
     position: absolute;
     right: 0;
   }
