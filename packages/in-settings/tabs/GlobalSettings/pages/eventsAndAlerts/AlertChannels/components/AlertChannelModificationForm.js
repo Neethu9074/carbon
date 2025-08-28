@@ -53,7 +53,7 @@ function AlertChannelModificationForm(props) {
     setMinHeight = false
   } = props;
   const [isRbacTeamsAvailable] = useIsTeamsAvailable();
-  const teamsAssigned = entity.get('rbacTags');
+  const teamsAssigned = entity.get('rbacTags') ?? [];
   const assignedTeamTags = Array.from(teamsAssigned, team => ({
     id: team.get('id'),
     displayName: team.get('displayName')
