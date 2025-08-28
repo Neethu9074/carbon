@@ -228,7 +228,7 @@ module.exports = exports = [
   {
     uiClientKey: 'persistentVolumeSupportEnabled',
     instanaCtlKey: 'feature.kubernetes.pvc.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'kubernetesExploreEnabled',
