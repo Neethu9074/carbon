@@ -117,6 +117,10 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig, duration }: 
   );
   // @ts-expect-error Module needs to be translated to TS
   const [{ status }, setPhase] = useState(statusMap);
+  const cardTitle =
+    String(duration) == '1'
+      ? t('in-sap:dashboards.jobsInformation', { duration })
+      : t('in-sap:dashboards.jobsInformationHours', { duration });
   const rightHeader = (
     <ComboBox
       placeholder={t('in-sap:dashboards.status')}
@@ -176,7 +180,7 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig, duration }: 
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.jobsInformation', { duration: duration })}
+      cardTitle={cardTitle}
       cols={cols}
       rows={rows}
       initialSortColumn={0}
