@@ -34,6 +34,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
+import { solisEnabled } from 'in-services/featureFlags';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -248,7 +249,7 @@ export default function ApplicationsListPresenter({
           />
         </WithEmptyStateFallback>
       </LeftRightPadding>
-
+      {solisEnabled && <solis-teaser product="concert" type="pop-up" variation="resilience" />}
       <Footer />
       <FloatingActionButtons>
         <FloatingActionButtonMenu>

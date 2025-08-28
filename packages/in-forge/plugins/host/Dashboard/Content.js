@@ -38,6 +38,7 @@ import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Disks from 'in-forge/plugins/host/Dashboard/Disks';
+import { solisEnabled } from 'in-services/featureFlags';
 import MetricValue from 'in-components/MetricValue';
 import ReportingStatus from './ReportingStatus';
 import Footer from 'in-components/Footer';
@@ -636,6 +637,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             </div>
           </div>
         </DashboardSection>
+      )}
+      {solisEnabled && (
+        <solis-sidekick
+          correlation_id={snapshot.get('id')}
+          title={snapshot.getIn(['data', 'hostname'])}
+          context="infrastructure"
+          product="instana"
+        />
       )}
       <Footer smallMargin />
     </div>

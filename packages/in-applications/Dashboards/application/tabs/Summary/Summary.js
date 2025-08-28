@@ -22,6 +22,7 @@ import { summaryTab } from 'in-applications/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
+import { solisEnabled } from 'in-services/featureFlags';
 import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import { t } from 'in-i18n';
@@ -137,6 +138,14 @@ export default function Summary({
           />
         </Col>
       </Row>
+      {solisEnabled && (
+        <solis-sidekick
+          correlation_id={applicationId}
+          title={application.label}
+          context="application"
+          product="instana"
+        />
+      )}
       <Footer />
     </Fragment>
   );
