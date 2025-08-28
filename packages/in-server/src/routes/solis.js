@@ -1,7 +1,6 @@
 /*
- * IBM Confidential
- * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2025
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
  */
 
 const express = require('express');
@@ -91,7 +90,7 @@ router.get('/solis/nav', middleware.handle(i18next), async (req, res) => {
     }
 
     const navItems = {
-      top: generateTopNavItems(t),
+      top: generateTopNavItems(t, req.tenant, req.unit),
       side: generateSideNavItems(t, role, featureFlags, infraResource)
     };
 
@@ -212,8 +211,39 @@ function getUserPermissions(role, features) {
     hasVSphereAccess
   };
 }
-function generateTopNavItems(t) {
-  let topNavItems = [];
+
+function generateTopNavItems(t, tenantName, unitName) {
+  const topNavItems = [];
+
+  const tenantAndUnit = tenantName + ' | ' + unitName;
+
+  topNavItems.push({
+    id: 'switch_tenant',
+    type: 'icon_button',
+    mode: 'custom', // enables sending a custom event
+    properties: {
+      label: tenantAndUnit,
+      children: tenantAndUnit,
+      style: {
+        // uses solis-nav internal variable
+        color: 'var(--text-secondary, #C6C6C6)',
+        padding: '8px',
+
+        // from Figma design: Utility styles/label-01, Text/text-secondary
+        // only have to override this size according to design:
+        fontSize: '12px',
+
+        width: 'auto', // overriding width or the icon button
+        maxWidth: '150px',
+
+        // to enable the ellipsis:
+        display: 'inline-block',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden'
+      }
+    }
+  });
   topNavItems.push({
     id: 'share',
     type: 'icon_button',
@@ -232,6 +262,7 @@ function generateTopNavItems(t) {
       label: t('in-server:solis.helpPanel.panelTitle')
     }
   });
+
   return topNavItems;
 }
 
