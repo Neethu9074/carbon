@@ -1379,7 +1379,7 @@
     "savingGroup": "グループを保存しています",
     "groupSuccessfullySaved": "グループが正常に保存されました。",
     "groups": "グループ",
-    "roles": "役割",
+    "roles": "ロール",
     "groupDeleteTooltip_Default": "Default グループは組み込みグループであり、削除したり名前変更したりすることができません。",
     "groupDeleteTooltip_Owner": "Owner グループは組み込みグループであり、削除したり名前変更したりすることができません。",
     "deleteGroupMessage": "このテナントのすべてのユニットから <strong>{{groupName}}</strong> を削除しますか? この操作は元に戻せません。",

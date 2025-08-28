@@ -528,7 +528,7 @@
     "profileMenu_privacy": "プライバシー",
     "profileMenu_logOut": "ログアウト",
     "profileMenu_switcherContainer": "スイッチャー・コンテナ",
-    "scope_title": "範囲",
+    "scope_title": "スコープ",
     "scope_defaultScope": "デフォルト・スコープ"
   },
   "metricConfigurator": {
