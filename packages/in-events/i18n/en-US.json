@@ -525,7 +525,6 @@
     "addComment": "Add comment",
     "notesLabelText": "Add incident notes",
     "sumGenerated": "Summary of incident:",
-    "sumActions": "Successful actions taken for similar incidents:",
     "sumActionsTitle": "Top recommended actions for this incident:",
     "introRecActionSingular": "There is one recommended action with a high confidence level.",
     "introRecActionSingularNoLevel": "There is one recommended action.",

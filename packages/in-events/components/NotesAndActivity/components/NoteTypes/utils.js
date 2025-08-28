@@ -49,23 +49,6 @@ export function convertNotesSummaryToString(data) {
   return stringSummary;
 }
 
-// Taking the in the response of the actions and converting it to a string
-export function convertActionsToString(data) {
-  var stringSummary = `${t('in-events:notes.sumActions')}\n\n`;
-  if (data?.length == 0 || data?.size == 0) {
-    stringSummary += `${t('in-events:notes.noSumActions')}\n`;
-  }
-  data?.map(entry => {
-    const props = Object.fromEntries(entry);
-    const actionName = props.actionName;
-    const actionType = props.actionType;
-    stringSummary += `${actionName}\n`;
-    stringSummary += `type: ${actionType}\n`;
-  });
-
-  return stringSummary;
-}
-
 // Return summary of top three recommended actions
 export function convertTopActionsToString(actions) {
   // Omit from summary if no actions are found

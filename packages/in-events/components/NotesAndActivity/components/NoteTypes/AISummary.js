@@ -13,7 +13,6 @@ import { useObservable } from '@instana/hooks';
 
 import {
   EVENT_AI_SHOW_MORE_INCIDENTS,
-  EVENT_AI_SHOW_MORE_ACTIONS,
   EVENT_AI_SHARE_OPENED,
   EVENT_AI_RUN_ACTION,
   NOTES_SUMMARY_FEEDBACK_NEGATIVE,
@@ -22,7 +21,6 @@ import {
 } from 'in-services/tracking/eventNames';
 import {
   convertIncidentSummaryToString,
-  convertActionsToString,
   convertTopActionsToString,
   convertNotesSummaryToString
 } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
@@ -32,7 +30,6 @@ import { TopThreeActions } from 'in-events/components/NotesAndActivity/component
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import { incidentNotesTopActionsEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
@@ -57,7 +54,6 @@ import locals from './AISummary.mless';
 export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryData, event }) {
   // Show alls that handle showing more incidents / Actions
   const [showAllIncidents, setShowAllIncidents] = useState(false);
-  const [showAllActions, setShowAllActions] = useState(false);
   const [feedbackState, setFeedbackState] = useState(null); // up, down, or null
 
   // Little Slice function for grabbing the first 5 entries for incidents / actions
@@ -69,23 +65,18 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
   const prc = noteObj?.data?.get('watsonxSummary')?.get('probableRootCause');
   const firstFiveRelated = subArray(relatedEventSummary, 0, 5);
   const lastRelated = subArray(relatedEventSummary, 5, relatedEventSummary.size);
-  const actionHistory = noteObj?.data?.get('actionHistorySummary') || [];
   const triggeringEvent = useObservable(getEvent(event?.get('triggeringEvent')), [event?.get('triggeringEvent')]);
   const trigger = useTrigger({ event: event?.toJS() || {} });
   const userActions = useScoredActions({ trigger, event: event?.toJS() || {}, type: 'default' });
   const recommendedActions = useUserRecommendedScoredActions({ actions: userActions });
   const firstThreeActions = (recommendedActions?.data || []).slice(0, 3);
-  const firstFiveAction = subArray(actionHistory, 0, 5);
-  const lastAction = subArray(actionHistory, 5, actionHistory.size);
   // Only one entry so dont need show more
   const notesSummaryData = noteObj?.data?.get('watsonxSummary')?.get('notesSummary') || [];
   // The full summarization that includes incident, notes, and action summary
   // Used for copy and share button
   const incidentSummary = convertIncidentSummaryToString(relatedEventSummary);
   const notesSummary = convertNotesSummaryToString(notesSummaryData);
-  const actionHistorySummary = incidentNotesTopActionsEnabled
-    ? convertTopActionsToString(recommendedActions?.data || [])
-    : convertActionsToString(actionHistory);
+  const actionHistorySummary = convertTopActionsToString(recommendedActions?.data || []);
 
   const prcString = `${t('in-events:notes.prcFull')}\n\n${prc}\n`;
   const fullSummaryText = prc
@@ -138,29 +129,12 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
       )}
 
       {/* Summarization of Actions to take */}
-      {!incidentNotesTopActionsEnabled && (
-        <div className={locals.summarySection}>
-          <div className={locals.contentsHeader}>{t('in-events:notes.sumActions')}</div>
-          <ActionEntry actionList={firstFiveAction} noteId={noteObj?.id} event={event} />
-          {showAllActions && <ActionEntry actionList={lastAction} event={event} />}
-          {lastAction.size > 0 && (
-            <ShowAllButton
-              setShowAllType={setShowAllActions}
-              showAllValue={showAllActions}
-              trackingType={EVENT_AI_SHOW_MORE_ACTIONS}
-              noteId={noteObj?.id}
-            />
-          )}
-        </div>
-      )}
-      {incidentNotesTopActionsEnabled && (
-        <TopThreeActions
-          recommendedActions={recommendedActions}
-          firstThreeActions={firstThreeActions}
-          triggeringEvent={triggeringEvent?.toJS()}
-          trigger={trigger}
-        />
-      )}
+      <TopThreeActions
+        recommendedActions={recommendedActions}
+        firstThreeActions={firstThreeActions}
+        triggeringEvent={triggeringEvent?.toJS()}
+        trigger={trigger}
+      />
 
       <div className={locals.shareCopyWrapper}>
         {/* Share summarization button */}

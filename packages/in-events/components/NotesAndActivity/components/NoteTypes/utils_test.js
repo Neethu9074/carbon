@@ -6,7 +6,6 @@
 
 import {
   convertIncidentSummaryToString,
-  convertActionsToString,
   convertTopActionsToString,
   convertNotesSummaryToString
 } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
@@ -65,66 +64,6 @@ describe('convertIncidentSummaryToString', () => {
 
     expect(result).toBe(
       'This summary is AI generated\n\nSummary of incident:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\n\n'
-    );
-  });
-});
-
-describe('convertActionsToString', () => {
-  test('should convert the action object to a string', () => {
-    const actionData = [
-      new Map([
-        ['actionName', 'Label 1'],
-        ['actionType', 'Summary 1']
-      ]),
-      new Map([
-        ['actionName', 'Label 2'],
-        ['actionType', 'Summary 2']
-      ])
-    ];
-
-    const result = convertActionsToString(actionData);
-
-    expect(result).toBe(
-      'Successful actions taken for similar incidents:\n\nLabel 1\ntype: Summary 1\nLabel 2\ntype: Summary 2\n'
-    );
-  });
-
-  test('should handle an empty array', () => {
-    const actionData = [];
-
-    const result = convertActionsToString(actionData);
-
-    expect(result).toBe(
-      'Successful actions taken for similar incidents:\n\nNo data available at the time the summary was generated.\n'
-    );
-  });
-
-  test('should handle null input', () => {
-    const actionData = null;
-
-    const result = convertActionsToString(actionData);
-
-    expect(result).toBe('Successful actions taken for similar incidents:\n\n');
-  });
-
-  test('should handle long names and types', () => {
-    const actionData = [
-      new Map([
-        [
-          'actionName',
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.'
-        ],
-        [
-          'actionType',
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.'
-        ]
-      ])
-    ];
-
-    const result = convertActionsToString(actionData);
-
-    expect(result).toBe(
-      'Successful actions taken for similar incidents:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\ntype: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\n'
     );
   });
 });

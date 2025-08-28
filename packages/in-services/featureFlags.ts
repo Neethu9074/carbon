@@ -65,7 +65,6 @@ export const logFilterSaving = isFeatureFlagEnabled('logFilterSaving');
 export const patternRecognitionEnabled = isFeatureFlagEnabled('patternRecognitionEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
-export const incidentNotesTopActionsEnabled = isFeatureFlagEnabled('incidentNotesTopActionsEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const alertChannelBidirectionalSlackEnabled = isFeatureFlagEnabled('alertChannelBidirectionalSlackEnabled');
 export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled');
