@@ -8,19 +8,19 @@ import { useEffect, useState } from 'react';
 
 import { Action, Error, Policy } from '@instana/types';
 
-import { saveNewPolicyNew, savePolicyNew } from 'in-automation/api';
-import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
-import usePolicyFormSideEffects, {
-  PolicyFormSideEffectsReturnType
-} from 'in-automation/Policies/CreatePolicyTearsheet/hooks/usePolicyFormSideEffects';
-import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
 import {
   createPolicyFormDefinition,
   createPolicyFormFromPolicy
 } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/usePolicyFormHelper';
-import { PolicyFormEntity } from 'in-automation/Policies/types';
-import { PolicyDialogMode, Triggers } from 'in-automation/types';
+import usePolicyFormSideEffects, {
+  PolicyFormSideEffectsReturnType
+} from 'in-automation/Policies/CreatePolicyTearsheet/hooks/usePolicyFormSideEffects';
+import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
+import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import useFormSubmission, { DoSubmitFunction } from 'in-hooks/useFormSubmission';
+import { saveNewPolicyNew, savePolicyNew } from 'in-automation/api';
+import { PolicyDialogMode, Triggers } from 'in-automation/types';
+import { PolicyFormEntity } from 'in-automation/Policies/types';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
@@ -28,15 +28,17 @@ export function createPolicyForm({
   policy,
   actions,
   triggers,
-  triggerDetails
+  triggerDetails,
+  actionId
 }: {
   policy: PolicyFormEntity;
   actions: Action[];
   triggers: Triggers;
   triggerDetails?: TriggerDetailsProps;
+  actionId?: string;
 }) {
   if (policy) return createPolicyFormFromPolicy(policy, actions, triggers);
-  return createPolicyFormDefinition(actions, triggerDetails);
+  return createPolicyFormDefinition(actions, triggerDetails, actionId);
 }
 
 interface usePolicyFormReturn {
@@ -55,17 +57,18 @@ export default function usePolicyForm(
   actions: Action[],
   triggers: Triggers,
   triggerDetails?: TriggerDetailsProps,
-  loading = false
+  loading = false,
+  actionId?: string
 ): usePolicyFormReturn {
-  const [form, setForm] = useState(createPolicyForm({ policy, actions, triggers, triggerDetails }));
+  const [form, setForm] = useState(createPolicyForm({ policy, actions, triggers, triggerDetails, actionId }));
   const updateForm = usePolicyFormSideEffects(form, setForm);
   const [submitStatus, doSubmit] = useFormSubmission(getFormSubmitAction(mode));
   const [errors, setErrors] = useState<Error[] | undefined>(undefined);
 
   useEffect(() => {
-    setForm(createPolicyForm({ policy, actions, triggers, triggerDetails }));
+    setForm(createPolicyForm({ policy, actions, triggers, triggerDetails, actionId }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [policy, triggerDetails, loading]);
+  }, [policy, triggerDetails, loading, actionId]);
 
   return {
     form,

@@ -78,7 +78,8 @@ export default function CreatePolicyTearsheet({
     actions.data!,
     triggers,
     triggerDetails,
-    loading
+    loading,
+    actionId
   );
   const navigateToPolicyPolicies = useNavigateToPolicies();
   const isActionPreSelected = form.getIn(['action', 'isActionPreSelected']).value;
@@ -132,14 +133,6 @@ export default function CreatePolicyTearsheet({
       });
     });
   };
-
-  useEffect(() => {
-    if (actionId) {
-      setForm(form => form.updateIn(['action', 'actionId'], item => item.setValue(actionId as string)));
-      setForm(form => form.updateIn(['action', 'isActionPreSelected'], item => item.setValue(true)));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actionId]);
 
   useEffect(() => {
     if (!open) {

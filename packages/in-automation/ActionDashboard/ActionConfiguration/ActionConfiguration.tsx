@@ -13,9 +13,9 @@ import CreateNewActionTearsheet, {
   CreateNewActionTearsheetProps,
   isNotEditableContext
 } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
-import CreateNewPolicyTearsheet, {
-  CreateNewPolicyTearsheetProps
-} from 'in-automation/Policies/CreateNewPolicyTearsheet';
+import CreatePolicyTearsheet, {
+  CreatePolicyTearsheetProps
+} from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
 import ActionConfigurationCard from 'in-automation/ActionDashboard/ActionConfiguration/ActionConfigurationCard';
 import ParameterDetailsCard from 'in-automation/ActionDashboard/ActionConfiguration/ParameterDetailsCard';
 import ActionDetailsCard from 'in-automation/ActionDashboard/ActionConfiguration/ActionDetailsCard';
@@ -43,7 +43,7 @@ export default function ActionConfiguration({ data }: ActionConfigurationProps) 
     [form]
   );
   const [tearsheetProps, setTearsheetProps] = useState<CreateNewActionTearsheetProps>({ open: false });
-  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
+  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreatePolicyTearsheetProps>({ open: false });
 
   if (!data) return null;
   const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(data.type);
@@ -82,7 +82,7 @@ export default function ActionConfiguration({ data }: ActionConfigurationProps) 
           setTearsheetProps({ open: false });
         }}
       />
-      <CreateNewPolicyTearsheet
+      <CreatePolicyTearsheet
         {...policyTearsheetProps}
         closeHandler={() => {
           setPolicyTearsheetProps({ open: false });

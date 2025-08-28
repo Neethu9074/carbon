@@ -401,7 +401,11 @@ export function createPolicyFormFromPolicy(
     }
   });
 }
-export function createPolicyFormDefinition(actions: Action[], triggerDetails?: TriggerDetailsProps): PolicyForm {
+export function createPolicyFormDefinition(
+  actions: Action[],
+  triggerDetails?: TriggerDetailsProps,
+  actionId?: string
+): PolicyForm {
   const { triggerType, triggerId } = triggerDetails ?? {};
   return createMapForm({
     items: {
@@ -422,7 +426,7 @@ export function createPolicyFormDefinition(actions: Action[], triggerDetails?: T
             value: []
           }),
           actionId: createField({
-            value: ''
+            value: actionId || ''
           }),
           agentId: createField({
             value: ''
@@ -439,7 +443,7 @@ export function createPolicyFormDefinition(actions: Action[], triggerDetails?: T
             validator: policyTypeValidator
           }),
           isActionPreSelected: createField({
-            value: false
+            value: !!actionId
           }),
           isSchedulePolicy: createField({
             value: false
