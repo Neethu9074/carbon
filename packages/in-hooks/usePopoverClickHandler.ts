@@ -25,9 +25,9 @@ export default function usePopoverClickHandler() {
   const callbackToggle = useCallback(toggle, [open]);
 
   const clickOutside = (event: Event) => {
-    if (open) {
+    if (open && event?.target instanceof Node) {
       // if click outside - close
-      const inside = ref.current?.contains(event?.target as Node);
+      const inside = ref.current?.contains(event?.target);
       if (!inside) callbackToggle();
     }
   };
@@ -40,9 +40,11 @@ export default function usePopoverClickHandler() {
     };
 
     window.addEventListener?.('click', handler, true);
+    window.addEventListener?.('focus', handler, true);
 
     return () => {
       window.removeEventListener?.('click', handler);
+      window.removeEventListener?.('focus', handler);
     };
   }, [callbackClickOutside]);
 

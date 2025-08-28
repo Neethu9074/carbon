@@ -66,14 +66,14 @@ export default function GenericIndicatorPresenter({
         dropShadow
         align={inContentArea ? 'left-start' : 'bottom-start'}
       >
+        <div>
+          <IndicatorPresenter {...indicatorProps} onClick={toggle} isOpen={open} />
+        </div>
         {open && (
           <PopoverContent>
             <Content {...contentProps} inContentArea={inContentArea} close={toggle} />
           </PopoverContent>
         )}
-        <div>
-          <IndicatorPresenter {...indicatorProps} onClick={toggle} isOpen={open} />
-        </div>
       </Popover>
     </ConditionalWrap>
   );
