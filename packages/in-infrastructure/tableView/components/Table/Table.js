@@ -155,7 +155,7 @@ class Table extends React.Component {
         carbonRow['isSelected'] = data.rows[i].rowConfig.isSelected;
         data.rows[i].columns.map((column, i) => {
           // get column header name and assign value to that
-          carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
+          carbonRow[carbonHeaders[i]['header']] = column?.content ?? '-';
         });
         carbonRows.push(carbonRow);
       }
