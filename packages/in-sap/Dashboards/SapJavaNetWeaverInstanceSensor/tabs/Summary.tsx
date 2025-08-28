@@ -10,8 +10,10 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { nanos, number, twoDecimalPlacesPerSecond, megaBytes, bytes } from 'in-services/formatters/number';
+import WebContainerMetrics from 'in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/tabs/WebContainer';
+import { nanos, number, twoDecimalPlacesPerSecond, bytes } from 'in-services/formatters/number';
 import DiskUsageKPI from 'in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/tabs/DiskUsageKPI';
+import MemoryMetrics from 'in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/tabs/Memory';
 import UpTimeKPI from 'in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/tabs/upTime';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -92,19 +94,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.memoryMetrics')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: megaBytes.detailed,
-              metrics: ['customMetrics.memory.allocated', 'customMetrics.memory.used'],
-              labels: [t('in-sap:dashboards.allocated'), t('in-sap:dashboards.used')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
+        <MemoryMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
       </Columize>
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.diskSpace')}>
@@ -364,6 +354,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
           />
         </DashboardSection>
       </Columize>
+      <WebContainerMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );
 }
