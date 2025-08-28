@@ -226,7 +226,7 @@ export function createStore({
     const row = data.get(rowKey);
     for (let i = 0, length = row.columns.length; i < length; i++) {
       const column = row.columns[i];
-      if (column.subscription) {
+      if (column?.subscription) {
         column.subscription.dispose();
       }
     }
@@ -302,7 +302,7 @@ export function createStore({
 function updateContentForAllColumns(row) {
   for (let i = 0, length = row.columns.length; i < length; i++) {
     const column = row.columns[i];
-    if (column.requiresContentRefresh) {
+    if (column?.requiresContentRefresh) {
       column.requiresContentRefresh = false;
       column.refreshContent();
       row.mutationCount++;
