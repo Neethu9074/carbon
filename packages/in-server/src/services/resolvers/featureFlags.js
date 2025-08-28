@@ -1072,5 +1072,10 @@ module.exports = exports = [
     uiClientKey: 'pollRateSupportForUnifiedMetricsEnabled',
     instanaCtlKey: 'feature.poll.rate.support.for.unified.metrics.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'fedrampDeploymentEnabled',
+    instanaCtlKey: 'feature.fedramp.deployment.enabled',
+    defaultValue: false
   }
 ];

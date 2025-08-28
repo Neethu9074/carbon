@@ -101,25 +101,26 @@ const OTelCollector = () => {
           >
             {t('in-plg:datasources.installACollector')}
           </Button>
-          <ServerTablePresenter<InfrastructureExploreItem, ServerTablePresenterProps<InfrastructureExploreItem>>
-            columnDefinitions={columnDefinitions}
-            result={collectorsResult}
-            onChange={setServerTableUrlState}
-            query={query}
-            pageSize={pageSize}
-            page={page}
-            orderBy={orderBy}
-            orderDirection={orderDirection}
-            isSearchable
-          />
-          {canLoadMore && (
-            <div className={locals.loadMoreButton}>
-              <Button onClick={() => setRetrievalSize(size => size + LOAD_CHUNK_SIZE)} disabled={loading}>
-                {loading ? t('in-plg:datasources.loading') : t('in-plg:datasources.loadMore')}
-              </Button>
-            </div>
-          )}
         </Stack>
+        <br />
+        <ServerTablePresenter<InfrastructureExploreItem, ServerTablePresenterProps<InfrastructureExploreItem>>
+          columnDefinitions={columnDefinitions}
+          result={collectorsResult}
+          onChange={setServerTableUrlState}
+          query={query}
+          pageSize={pageSize}
+          page={page}
+          orderBy={orderBy}
+          orderDirection={orderDirection}
+          isSearchable
+        />
+        {canLoadMore && (
+          <div className={locals.loadMoreButton}>
+            <Button onClick={() => setRetrievalSize(size => size + LOAD_CHUNK_SIZE)} disabled={loading}>
+              {loading ? t('in-plg:datasources.loading') : t('in-plg:datasources.loadMore')}
+            </Button>
+          </div>
+        )}
       </LeftRightPadding>
     </section>
   );

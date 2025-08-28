@@ -219,5 +219,6 @@ module.exports = {
   otelCollectorViewEnabled: true,
   downtimesOnHostEnabled: true,
   newOnboardingPageEnabled: true,
-  agentEnforcementEnabled: false
+  agentEnforcementEnabled: false,
+  fedrampDeploymentEnabled: false
 };

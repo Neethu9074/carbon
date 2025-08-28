@@ -414,3 +414,5 @@ export const pollRateSupportForUnifiedMetricsEnabled = isFeatureFlagEnabled(
   'pollRateSupportForUnifiedMetricsEnabled',
   false
 );
+
+export const fedrampDeploymentEnabled = isFeatureFlagEnabled('fedrampDeploymentEnabled');

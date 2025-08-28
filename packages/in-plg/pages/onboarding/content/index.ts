@@ -594,7 +594,7 @@ export function getEntriesForFreeTrialV2() {
     },
     [datasource.instana_agent]: {
       accordionTitle: t('in-plg:agentDetails.common.instanaAgents'),
-      accordionDesciption: t('in-plg:agentDetails.common.instanaAgentsDesciption'),
+      accordionDesciption: t('in-plg:agentDetails.common.instanaAgentsDescription'),
       data: [
         {
           id: 'k8_helm',
