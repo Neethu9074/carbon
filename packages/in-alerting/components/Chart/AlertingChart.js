@@ -17,6 +17,7 @@ import {
   createLineWithMultiAdaptiveBaseline
 } from 'in-alerting/components/Chart/renderer/Renderer';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { calculateFirstBucketInChartStartTime } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { getMetricFormatter } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
@@ -372,7 +373,9 @@ export function getY1ForMultiThreshold(
           operator,
           criticalThreshold?.baseline ?? warningThreshold?.baseline,
           warningThreshold?.deviationFactor ?? 0,
-          criticalThreshold?.deviationFactor ?? 0
+          criticalThreshold?.deviationFactor ?? 0,
+          viewConfig,
+          granularity
         );
       }
 
@@ -388,13 +391,18 @@ function getMaxForAdaptiveBaselineChartMultiThreshold(
   operator,
   baseline,
   warningSensitivity,
-  criticalSensitivity
+  criticalSensitivity,
+  viewConfig,
+  granularity
 ) {
   if (baselineEntriesFromMetadata === undefined) {
+    // Baseline data may exceed what's needed for the current viewConfig — use only the required data points.
+    const startTime = calculateFirstBucketInChartStartTime(viewConfig.timeConfig, granularity);
+    const trimmedBaseline = (baseline || []).filter(baselineEntry => baselineEntry[0] >= startTime);
     return getMaxForBaselineChartMultiThreshold(
       metricsMaxValue,
       operator,
-      baseline,
+      trimmedBaseline,
       warningSensitivity,
       criticalSensitivity
     );

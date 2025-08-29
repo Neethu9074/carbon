@@ -90,7 +90,7 @@ export function getThresholdInTimeframe(
   return thresholdInTimeframe;
 }
 
-function calculateFirstBucketInChartStartTime(timeConfig: TimeConfig, granularity: Granularity): number {
+export function calculateFirstBucketInChartStartTime(timeConfig: TimeConfig, granularity: Granularity): number {
   const to = timeConfig.to ?? Date.now();
   return to - timeConfig.windowSize - granularity;
 }
