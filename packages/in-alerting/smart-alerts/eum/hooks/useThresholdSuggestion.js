@@ -35,7 +35,7 @@ const filterOutThresholdResultInfinityValues = thresholdResult => {
 };
 
 export default function useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, config) {
-  const { isValid, simpleMode, alertConfigWithFormModel, blueprintConfig } = config;
+  const { isValid, simpleMode, alertConfigWithFormModel, blueprintConfig, editMode } = config;
   const thresholdResult = useObservable(
     ([simpleMode, isValid]) => resolveThresholdRequest(alertConfigWithFormModel, blueprintConfig, simpleMode, isValid),
     [simpleMode, isValid, form]
@@ -47,10 +47,10 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
     const patchedThresholdResult = filterOutThresholdResultInfinityValues(thresholdResult);
 
     setThresholdResult(patchedThresholdResult);
-    const { data, errors, time } = patchedThresholdResult;
+    const { data, errors } = patchedThresholdResult;
 
     if (isValid) {
-      updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
+      updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, simpleMode, editMode);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

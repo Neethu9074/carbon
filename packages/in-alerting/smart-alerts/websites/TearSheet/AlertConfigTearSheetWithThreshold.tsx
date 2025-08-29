@@ -97,7 +97,8 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
     isValid,
     simpleMode: false,
     alertConfigWithFormModel,
-    blueprintConfig
+    blueprintConfig,
+    editMode
   });
 
   // this hook will validate each step and prevents navigation

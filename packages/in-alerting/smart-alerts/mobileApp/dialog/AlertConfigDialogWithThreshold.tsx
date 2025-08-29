@@ -147,7 +147,8 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     isValid,
     simpleMode,
     alertConfigWithFormModel,
-    blueprintConfig
+    blueprintConfig,
+    editMode
   });
 
   const hasCustomPayloadValidDynamicTags = useVerifyCustomPayloadItemsWithTagCatalog(

@@ -108,7 +108,8 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
     isValid,
     simpleMode: false,
     alertConfigWithFormModel,
-    blueprintConfig
+    blueprintConfig,
+    editMode
   });
 
   return (

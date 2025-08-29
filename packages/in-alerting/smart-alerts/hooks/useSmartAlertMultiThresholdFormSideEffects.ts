@@ -199,7 +199,7 @@ function resetThresholdValue(form: MapForm<any>, thresholdType: string) {
     )
     .updateIn(['threshold', thresholdType], thresholdMapForm =>
       (thresholdMapForm as MapForm<any>).updateIn(['isCheckboxSelected'], item =>
-        (item as Field<boolean>).setValue(thresholdType === 'warningThreshold').setTouched(false)
+        (item as Field<boolean>).setValue(false).setTouched(false)
       )
     );
 }

@@ -69,7 +69,7 @@ function createBaselineEnabledForm(
       return createHistoricBaselineForm(ruleWithThreshold, editMode);
     }
     if (isAdaptiveThresholdRule(thresholdRule?.WARNING)) {
-      return createAdaptiveBaselineForm(ruleWithThreshold);
+      return createAdaptiveBaselineForm(ruleWithThreshold, editMode);
     }
   }
 
@@ -81,7 +81,7 @@ function createBaselineEnabledForm(
       return createHistoricBaselineForm(ruleWithThreshold, editMode);
     }
     if (isAdaptiveThresholdRule(thresholdRule?.CRITICAL)) {
-      return createAdaptiveBaselineForm(ruleWithThreshold);
+      return createAdaptiveBaselineForm(ruleWithThreshold, editMode);
     }
   }
 
@@ -107,7 +107,7 @@ function createStaticThresholdForm(
   });
 }
 
-function createStaticThresholdMapForm(threshold?: StaticThresholdRule, editMode?: boolean): MapForm<any> {
+function createStaticThresholdMapForm(threshold?: StaticThresholdRule, editMode: boolean = false): MapForm<any> {
   return createMapForm()
     .put(
       'type',
@@ -164,7 +164,7 @@ function createHistoricBaselineMapForm(
   threshold?: StaticBaselineThresholdRule,
   seasonality: string = DAILY,
   baseline?: BaselineDataSeries,
-  editMode?: boolean
+  editMode: boolean = false
 ): MapForm<any> {
   return createMapForm()
     .put(
@@ -211,7 +211,8 @@ function createHistoricBaselineMapForm(
 }
 
 function createAdaptiveBaselineForm(
-  ruleWithThreshold?: RuleWithThreshold<WebsiteAlertRuleUnion> | RuleWithThreshold<MobileAppAlertRuleUnion> | undefined
+  ruleWithThreshold?: RuleWithThreshold<WebsiteAlertRuleUnion> | RuleWithThreshold<MobileAppAlertRuleUnion> | undefined,
+  editMode: boolean = false
 ) {
   const thresholdRule = ruleWithThreshold?.thresholds;
   const warningThreshold = ruleWithThreshold?.thresholds?.WARNING as AdaptiveThresholdRule;
@@ -233,14 +234,15 @@ function createAdaptiveBaselineForm(
       baseline: createField({
         value: commonBaseline
       }),
-      warningThreshold: createAdaptiveBaselineMapForm(warningThreshold, seasonality, adaptability),
-      criticalThreshold: createAdaptiveBaselineMapForm(criticalThreshold, seasonality, adaptability)
+      warningThreshold: createAdaptiveBaselineMapForm(warningThreshold, editMode, seasonality, adaptability),
+      criticalThreshold: createAdaptiveBaselineMapForm(criticalThreshold, editMode, seasonality, adaptability)
     }
   });
 }
 
 function createAdaptiveBaselineMapForm(
   threshold?: AdaptiveThresholdRule,
+  editMode: boolean = false,
   seasonality?: Seasonality,
   adaptability?: number
 ): MapForm<any> {
@@ -260,8 +262,8 @@ function createAdaptiveBaselineMapForm(
     .put(
       'deviationFactor',
       createField({
-        value: threshold?.deviationFactor ?? defaultDeviationFactor
-      })
+        value: threshold?.deviationFactor
+      }).setTouched(editMode ? (threshold as any)?.isCheckboxSelected : false)
     )
     .put(
       'seasonality',

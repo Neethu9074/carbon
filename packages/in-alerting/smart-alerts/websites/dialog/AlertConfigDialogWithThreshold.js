@@ -106,7 +106,8 @@ function SmartAlertConfigDialogWithQueryValidation({ alertConfigWithFormModel, b
     isValid,
     simpleMode,
     alertConfigWithFormModel,
-    blueprintConfig
+    blueprintConfig,
+    editMode
   });
 
   const hasCustomPayloadValidDynamicTags = useVerifyCustomPayloadItemsWithTagCatalog(

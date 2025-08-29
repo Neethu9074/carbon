@@ -15,6 +15,7 @@ import {
   MobileAppAlertRuleUnion,
   LogAlertRuleUnion
 } from '@instana/types';
+
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -107,15 +108,14 @@ function getMultithresholdThresholdRule(
     thresholdData = {
       ...currentThreshold,
       ...data,
-      value: currentThreshold?.value ?? data?.value,
-      isCheckboxSelected:
-        simpleMode === true
-          ? data != null || currentThreshold?.isCheckboxSelected
-          : (currentThreshold?.isCheckboxSelected ?? data?.value !== undefined)
+      isCheckboxSelected: simpleMode
+        ? data != null || currentThreshold?.isCheckboxSelected
+        : data?.value !== undefined || currentThreshold?.isCheckboxSelected
     };
     if (isCriticalThreshold) {
-      thresholdData.value = simpleMode === true ? null : (currentThreshold?.value ?? null);
-      thresholdData.isCheckboxSelected = currentThreshold?.isCheckboxSelected ?? thresholdData.value;
+      thresholdData.value = simpleMode ? null : currentThreshold?.value ?? null;
+      thresholdData.isCheckboxSelected =
+        thresholdData?.value != null ? true : Boolean(currentThreshold?.isCheckboxSelected);
     }
   } else {
     thresholdData = {
