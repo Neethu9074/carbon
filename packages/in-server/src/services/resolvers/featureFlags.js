@@ -1011,7 +1011,7 @@ module.exports = exports = [
   {
     uiClientKey: 'eventsTransientEventEnabled',
     instanaCtlKey: 'feature.events.transient.events.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'newAccountAndBillingPageEnabled',

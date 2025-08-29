@@ -397,7 +397,7 @@ export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
 export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabled(
   'overrideAdaptiveBaselineSmoothingParamsEnabled'
 );
-export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', false);
+export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', true);
 export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', true);
 export const newOnboardingPageEnabled = isFeatureFlagEnabled('newOnboardingPageEnabled', true);
 export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
