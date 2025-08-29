@@ -219,5 +219,6 @@ module.exports = {
   downtimesOnHostEnabled: true,
   newOnboardingPageEnabled: true,
   agentEnforcementEnabled: false,
-  fedrampDeploymentEnabled: false
+  fedrampDeploymentEnabled: false,
+  contextualOnboardingEnabled: false
 };

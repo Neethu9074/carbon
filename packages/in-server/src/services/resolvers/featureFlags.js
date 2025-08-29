@@ -1072,5 +1072,10 @@ module.exports = exports = [
     uiClientKey: 'fedrampDeploymentEnabled',
     instanaCtlKey: 'feature.fedramp.deployment.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'contextualOnboardingEnabled',
+    instanaCtlKey: 'feature.contextual.onboarding.enabled',
+    defaultValue: false
   }
 ];

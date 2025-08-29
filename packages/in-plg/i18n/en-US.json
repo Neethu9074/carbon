@@ -869,6 +869,9 @@
     "AgentzoneLister": {
       "EGEurope": "e.g. Europe",
       "Add": "Add"
+    },
+    "Banner": {
+      "howToGetStarted": "How to get started"
     }
   },
   "assistme": {
