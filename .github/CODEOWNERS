@@ -245,6 +245,9 @@ packages/in-kubernetes                                     @Instana-IBM-GitHub-E
 packages/in-kubernetes/Dashboards/Cluster/tabs/KubeCost    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-k8s @instana/eng-enterprise-apps
 packages/in-kubernetes/Dashboards/ArgoCD                   @Instana-IBM-GitHub-Enterprise @instana/ai-observability @instana/eng-k8s @instana/eng-ui
 
+#GenAI observability
+packages/in-gen-ai-observability    @Instana-IBM-GitHub-Enterprise @instana/ai-observability  @instana/eng-ui
+
 # Logging specific areas
 packages/in-logging/*                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 # code needs to be shifted - this will be a follow-up, and has already been discussed
