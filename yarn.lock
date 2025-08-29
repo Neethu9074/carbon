@@ -3485,9 +3485,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:5.32.1":
-  version: 5.32.1
-  resolution: "@instana/components@npm:5.32.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.32.1.tgz"
+"@instana/components@npm:5.33.0":
+  version: 5.33.0
+  resolution: "@instana/components@npm:5.33.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.33.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/layout": 11.28.0
@@ -3506,7 +3506,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: 6a46248b1cc3a01f0f81fbf9c258d59d3c53a43dc2b5953a2c4f0fd6b308dc40a61b7f335b74e64342c8dc28b8860e62602f11513b5be8b6b9b52b7f955c0148
+  checksum: 8433be89e944421e6e543af3039e72293dfc96941d8e028e73321182117ece5bc8b54b2ac3f0ce5b6d38b44bd3c5aac439233bcdcf2792fcce7b0f2e3bdf5f2a
   languageName: node
   linkType: hard
 
@@ -24855,7 +24855,7 @@ __metadata:
     "@dnd-kit/sortable": 8.0.0
     "@instana/carbon": 1.17.0
     "@instana/carbon-charts": 0.10.0
-    "@instana/components": 5.32.1
+    "@instana/components": 5.33.0
     "@instana/design-tokens": 1.29.0
     "@instana/eslint-config-commons": 1.4.2
     "@instana/format-date": 1.8.3

@@ -89,7 +89,7 @@
     "@dnd-kit/sortable": "8.0.0",
     "@instana/carbon": "1.17.0",
     "@instana/carbon-charts": "0.10.0",
-    "@instana/components": "5.32.1",
+    "@instana/components": "5.33.0",
     "@instana/design-tokens": "1.29.0",
     "@instana/format-date": "1.8.3",
     "@instana/format-numbers": "1.7.0",
