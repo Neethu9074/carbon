@@ -16,9 +16,9 @@ import {
   TagFilterOperator,
   TimeConfig
 } from '@instana/types';
-import { Message as CarbonMessage } from '@instana/components';
+import { Message as CarbonMessage, Typography } from '@instana/components';
+import { Button, Dropdown, HStack, VStack } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
-import { Dropdown } from '@instana/carbon';
 
 import {
   CurrentState,
@@ -36,6 +36,13 @@ import {
   runTypeCICD
 } from 'in-synthetics/utils/constants';
 import {
+  syntheticSslImprovementEnabled,
+  syntheticRbacLimitedEnabled,
+  syntheticRunNowEnabled,
+  contextualOnboardingEnabled,
+  syntheticInstanaHostedPoPEnabled
+} from 'in-services/featureFlags';
+import {
   applicationIdTagName,
   locationIdTagName,
   websiteIdTagName,
@@ -49,11 +56,6 @@ import {
   addColumnCustomizationNotification,
   removeColumncustomizationNotification
 } from 'in-synthetics/utils/setTestsColumnConfigurationMessage';
-import {
-  syntheticSslImprovementEnabled,
-  syntheticRbacLimitedEnabled,
-  syntheticRunNowEnabled
-} from 'in-services/featureFlags';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { TestsTableWithUrlState } from 'in-synthetics/dashboards/global/tabs/tests/components/TestsTableWithUrlState';
@@ -64,21 +66,27 @@ import FloatingActionButtonMenu from 'in-components/FloatingActionButton/Floatin
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
+import CreateNewLocationDialog from 'in-synthetics/createLocation/CreateNewLocationDialog';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { getLocationData } from 'in-synthetics/dashboards/global/LocationList';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
+import { syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { close } from 'in-components/DialogPresenter/store';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
+import Banner from 'in-plg/components/Banner/Banner';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTests } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
@@ -194,6 +202,18 @@ const TestSummaryList = () => {
 
   const rightHeader = useFilterHeader(true, syntheticTests, setFilter);
 
+  const locationListObservable = getLocationData({
+    timeConfig: timeConfig,
+    orderBy: 'location_name',
+    orderDirection: 'ASC',
+    page: 1,
+    pageSize: 1,
+    query: '',
+    locationTypes: []
+  });
+
+  const locationCount = useObservable(locationListObservable, []) ?? pendingResult;
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -216,46 +236,56 @@ const TestSummaryList = () => {
             />
           </div>
         )}
-        {syntheticSslImprovementEnabled ? (
-          <TestsTableWithUrlState
-            syntheticTypes={syntheticTypes}
-            locationIds={locationIds}
-            {...(syntheticRbacLimitedEnabled ? { entityIds, associations } : { applicationIds })}
-            {...(runType ? { runType } : {})}
-            syntheticTests={syntheticTests}
-            timeConfig={timeConfig}
-            setFilter={setFilter}
-          />
-        ) : (
-          <ServerTableWithUrlState
-            get={getTestSummaryListData}
-            timeConfig={timeConfig}
-            rightHeader={rightHeader}
-            cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
-            toolBarContent={
-              syntheticRunNowEnabled && (
-                <Dropdown
-                  className={locals.dropdownWidth}
-                  items={datascopeRunTypes}
-                  onChange={({ selectedItem }) => {
-                    setFilter({ runType: selectedItem?.value! });
-                  }}
-                  label=""
-                  id="runType"
-                  titleText=""
-                  selectedItem={datascopeRunTypes.find(item => item.value === runType)}
-                  initialSelectedItem={datascopeRunTypes[0]}
-                />
-              )
-            }
-            runType={runType}
-            syntheticTypes={syntheticTypes}
-            locationIds={locationIds}
-            applicationIds={applicationIds}
-            entityIds={entityIds}
-            associations={associations}
-          />
-        )}
+        <VStack gap={5}>
+          {contextualOnboardingEnabled && (
+            <Banner
+              heading={t('in-synthetics:components.banner.heading')}
+              expanded={locationCount?.data?.items?.length === 0}
+              expandedContentLeft={<ExpandedContentLeft />}
+              expandedContentRight={<ExpandedContentRight />}
+            />
+          )}
+          {syntheticSslImprovementEnabled ? (
+            <TestsTableWithUrlState
+              syntheticTypes={syntheticTypes}
+              locationIds={locationIds}
+              {...(syntheticRbacLimitedEnabled ? { entityIds, associations } : { applicationIds })}
+              {...(runType ? { runType } : {})}
+              syntheticTests={syntheticTests}
+              timeConfig={timeConfig}
+              setFilter={setFilter}
+            />
+          ) : (
+            <ServerTableWithUrlState
+              get={getTestSummaryListData}
+              timeConfig={timeConfig}
+              rightHeader={rightHeader}
+              cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
+              toolBarContent={
+                syntheticRunNowEnabled && (
+                  <Dropdown
+                    className={locals.dropdownWidth}
+                    items={datascopeRunTypes}
+                    onChange={({ selectedItem }) => {
+                      setFilter({ runType: selectedItem?.value! });
+                    }}
+                    label=""
+                    id="runType"
+                    titleText=""
+                    selectedItem={datascopeRunTypes.find(item => item.value === runType)}
+                    initialSelectedItem={datascopeRunTypes[0]}
+                  />
+                )
+              }
+              runType={runType}
+              syntheticTypes={syntheticTypes}
+              locationIds={locationIds}
+              applicationIds={applicationIds}
+              entityIds={entityIds}
+              associations={associations}
+            />
+          )}
+        </VStack>
       </LeftRightPadding>
       <Footer />
 
@@ -482,4 +512,39 @@ export const getTestSummaryListData = ({
 
 export default TestSummaryList;
 
-// Made with Bob
+const ExpandedContentLeft = () => {
+  const { location, createHref } = useNavigation();
+  const [role] = useCurrentUserRole();
+  return (
+    <VStack gap={7}>
+      <Typography variant="body-02">{t('in-synthetics:components.banner.expandedLeftContent')}</Typography>
+      <Button
+        renderIcon={() => <IconForButton icon="lib_openclose_add" iconSize="xs" />}
+        onClick={() => {
+          addActiveDialog(<CreateNewLocationDialog onClose={close} />);
+        }}
+        href={createHref({ ...location, pathname: syntheticLocationPath })}
+        disabled={!role?.canConfigureSyntheticLocations || !syntheticInstanaHostedPoPEnabled}
+      >
+        {t('in-synthetics:components.banner.AddALocation')}
+      </Button>
+    </VStack>
+  );
+};
+
+const ExpandedContentRight = () => (
+  <HStack>
+    <div>
+      <Typography variant="heading-01">{t('in-synthetics:components.banner.step1')}</Typography>
+      <Typography variant="body-01">{t('in-synthetics:components.banner.step1Content')}</Typography>
+    </div>
+    <div>
+      <Typography variant="heading-01">{t('in-synthetics:components.banner.step2')}</Typography>
+      <Typography variant="body-01">{t('in-synthetics:components.banner.step2Content')}</Typography>
+    </div>
+    <div>
+      <Typography variant="heading-01">{t('in-synthetics:components.banner.step3')}</Typography>
+      <Typography variant="body-01">{t('in-synthetics:components.banner.step3Content')}</Typography>
+    </div>
+  </HStack>
+);

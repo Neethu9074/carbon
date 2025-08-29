@@ -1018,6 +1018,17 @@
       "noDataDescription": "There were no data retrieved for the selected time range.",
       "errorHeader": "Failed to load data",
       "searchText": "Search"
+    },
+    "banner": {
+      "heading": "What is synthetic monitoring?",
+      "expandedLeftContent": "Synthetic monitoring, or synthetic testing, mimics potential user behavior as they engage with your application to determine how it’s working. Start creating a synthetic test to simulate customer behavior before and discover how the application is performing and impacting user experience. You can learn more in IBM Documentation.",
+      "AddALocation": "Add a location",
+      "step1": "Step 1",
+      "step1Content": "Add a location to start synthetic monitoring.",
+      "step2": "Step 2",
+      "step2Content": "Create your first test and assign it to the configured location.",
+      "step3": "Step 3",
+      "step3Content": "Save credentials and start the monitoring tests."
     }
   }
 }
