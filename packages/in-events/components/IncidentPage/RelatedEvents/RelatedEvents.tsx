@@ -27,6 +27,7 @@ import {
   CarbonTableExpandedRow,
   Link
 } from '@instana/components';
+import { IconButtonSvgSizes } from '@instana/components/types/components/IconButton/types';
 import { formatDate, formatTime } from '@instana/format-date';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -302,7 +303,13 @@ const RelatedEventsTable = ({
         </Link>
       </Tooltip>
     ),
-    type: <EventIcon event={ev} tooltipLabel={getEventSeverityLabelWithEventType(ev, timeConfig)} size="xs" />,
+    type: (
+      <EventIcon
+        event={ev}
+        tooltipLabel={getEventSeverityLabelWithEventType(ev, timeConfig)}
+        size={'xs' as unknown as IconButtonSvgSizes}
+      />
+    ),
     duration: <EventDurationMarker event={ev} justText />,
     id: ev.get('id'),
     on: <OnEntity rawEvent={convertEventToRawEvent(ev.toJS())} />

@@ -7,26 +7,26 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Size } from '@instana/components/types/components/SvgIcon/types';
+import { IconButtonSvgSizes } from '@instana/components/types/components/IconButton/types';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/carbon';
 
 import {
-  getIcon,
-  getColorForEventAtFocusedMomentAsStream,
-  getEventType,
   EVENT_TYPES,
-  getEventStatusAtFocusMoment
+  getColorForEventAtFocusedMomentAsStream,
+  getEventStatusAtFocusMoment,
+  getEventType,
+  getIcon
 } from 'in-stores/events';
-import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-events/components/EventIcon.mless';
 
 interface EventIconProps {
   event: any;
   tooltipLabel: string;
-  size?: Size;
+  size?: IconButtonSvgSizes;
   className?: string;
   disableColorCalculation?: boolean;
 }
@@ -47,16 +47,28 @@ export default function EventIcon({ className, event, tooltipLabel, size, disabl
   const color = useObservable(colorObservable, [event]);
   const finalColor = typeof color === 'string' ? color : 'var(--cds-icon-on-color-disabled)';
 
+  const IconElement = (
+    <SvgIcon
+      color={finalColor || 'var(--cds-icon-on-color-disabled)'}
+      style={{ fill: finalColor || 'var(--cds-icon-on-color-disabled)' }}
+      className={classNames(className, {
+        [locals.waringIcon]: isIssueWarning && eventOpenOrClosed
+      })}
+      type={getIcon(eventType)}
+      size={size || 's'}
+    />
+  );
+
   return (
-    <Tooltip content={tooltipLabel} align="rightMiddle">
-      <SvgIcon
-        color={finalColor || 'var(--cds-icon-on-color-disabled)'}
-        className={classNames(className, {
-          [locals.waringIcon]: isIssueWarning && eventOpenOrClosed
-        })}
-        type={getIcon(eventType)}
-        size={size || 's'}
-      />
-    </Tooltip>
+    <IconButton
+      kind={'ghost'}
+      label={tooltipLabel}
+      align="right"
+      size={'sm'}
+      type="reset"
+      className={classNames({ [locals.iconButton]: size === ('regular' as unknown as IconButtonSvgSizes) })}
+    >
+      {IconElement}
+    </IconButton>
   );
 }

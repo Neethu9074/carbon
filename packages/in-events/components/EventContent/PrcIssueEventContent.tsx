@@ -9,16 +9,17 @@ import { ScaleTypes } from '@carbon/charts';
 import React from 'react';
 
 import {
-  Card,
   CarbonLayer,
   CarbonTable,
-  CarbonTableHeader,
-  CarbonTableRow,
-  CarbonTableHead,
   CarbonTableBody,
   CarbonTableCell,
+  CarbonTableHead,
+  CarbonTableHeader,
+  CarbonTableRow,
+  Card,
   Link
 } from '@instana/components';
+import { IconButtonSvgSizes } from '@instana/components/types/components/IconButton/types';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
@@ -41,7 +42,7 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { OnEntity } from 'in-events/components/EventsListRow';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventIcon from 'in-events/components/EventIcon';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
@@ -159,7 +160,13 @@ function AffectedIncidentsTable({ prcAttachedIncidents, headers, timeConfig }: A
     const start = inc.get('start') as number;
     return {
       id: inc.get('id'),
-      type: <EventIcon event={incident} tooltipLabel={getEventSeverityLabelWithEventType(inc, timeConfig)} size="xs" />,
+      type: (
+        <EventIcon
+          event={incident}
+          tooltipLabel={getEventSeverityLabelWithEventType(inc, timeConfig)}
+          size={'xs' as unknown as IconButtonSvgSizes}
+        />
+      ),
       name: (
         <Tooltip content={t('in-events:affectedIncidents.affectedIncident')}>
           <Link

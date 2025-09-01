@@ -16,7 +16,7 @@
   .item {
     display: flex;
     flex-direction: row;
-    gap: var(--cds-spacing-06);
+    gap: var(--cds-spacing-04);
     align-items: center;
     padding: var(--cds-spacing-04) var(--cds-spacing-05);
     cursor: pointer;

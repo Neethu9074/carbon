@@ -14,4 +14,9 @@
       fill: var(--cds-support-warning);
     }
   }
+
+  .iconButton {
+    padding: 0.2rem 0.05rem 0.2rem 0.5rem;
+    margin-right: 0.25rem;
+  }
 }

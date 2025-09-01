@@ -353,7 +353,7 @@ function hasServiceImpact(event) {
   return isAppDataEntityType(entityType);
 }
 
-function renderIcon(event, timeConfig, size = 'l') {
+function renderIcon(event, timeConfig, size = 'regular') {
   return (
     <EventIcon
       className={locals.icon}
