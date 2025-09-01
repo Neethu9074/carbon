@@ -12,7 +12,6 @@ import React from 'react';
 
 import DownloadPdfDialog from 'in-components/DownloadPdf/DownloadPdfDialog/DownloadPdfDialog';
 
-jest.mock('jspdf');
 jest.mock('dom-to-image');
 
 const pdfSettings = {
@@ -37,8 +36,8 @@ describe('DownloadPdfDialog Component', () => {
       save: jest.fn()
     };
 
-    // @ts-expect-error
-    jsPDF.mockImplementation(() => mockPdfInstance);
+    // Use the global mock with proper casting
+    (jsPDF as unknown as jest.Mock).mockImplementation(() => mockPdfInstance);
 
     // @ts-expect-error
     domtoimage.toPng.mockResolvedValue('mocked-url');

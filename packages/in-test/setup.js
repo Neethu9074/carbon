@@ -21,6 +21,24 @@ require('babel-plugin-require-context-hook/register')();
 require('@testing-library/jest-dom');
 require('jest-canvas-mock');
 
+if (typeof TextEncoder === 'undefined') {
+  global.TextEncoder = require('util').TextEncoder;
+}
+if (typeof TextDecoder === 'undefined') {
+  global.TextDecoder = require('util').TextDecoder;
+}
+
+jest.mock('jspdf', () => {
+  const mockJsPDF = jest.fn().mockImplementation(() => ({
+    addPage: jest.fn(),
+    save: jest.fn(),
+    output: jest.fn().mockReturnValue(new Blob())
+  }));
+  return {
+    jsPDF: mockJsPDF
+  };
+});
+
 // eslint-disable-next-line no-restricted-imports
 const i18n = require('i18next');
 // eslint-disable-next-line no-restricted-imports

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 
 import { t } from 'in-i18n';
 

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import jsPDF, { jsPDFOptions } from 'jspdf';
+import { jsPDF, jsPDFOptions } from 'jspdf';
 
 type ImageType = 'jpeg' | 'png';
 
