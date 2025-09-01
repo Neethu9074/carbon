@@ -280,6 +280,9 @@ packages/in-linux-kvm-hypervisor                                                
 # enable sensors team to update aws iam permissions
 packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx                       @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-sensors
 
+# enable team agent to handle the agent catalogue pages
+packages/in-plg/pages/onboarding/AgentList                                                @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-agent
+
 # enable everybody can add/remove feature-flags
 packages/in-server/src/services/resolvers/featureFlags.js
 packages/in-services/featureFlags.ts
