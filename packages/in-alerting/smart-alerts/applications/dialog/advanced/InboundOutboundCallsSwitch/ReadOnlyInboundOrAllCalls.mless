@@ -5,7 +5,7 @@
 
 :local {
   .icon {
-    color: var(--cds-icon-primary);
+    fill: var(--cds-text-secondary);
     margin: 0 4px;
   }
 
@@ -14,7 +14,7 @@
   }
 
   .title {
-    color: var(--cds-text-primary);
+    color: var(--cds-text-secondary);
     font-size: 0.75rem;
   }
 
