@@ -362,7 +362,7 @@ const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }: Triggeri
           html={toHtml(triggeringEvent.getIn(['problem', 'fixSuggestion']))}
         />
       </Stack>
-      <Stack direction="horizontal" align="center">
+      <Stack direction="horizontal" align="start">
         <Typography variant="heading-100" noMargin>
           {t('in-events:incident.triggeringEntity')}:
         </Typography>

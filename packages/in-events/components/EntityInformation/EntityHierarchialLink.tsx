@@ -6,7 +6,7 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { CarbonButton, Link, SvgIcon, Stack } from '@instana/components';
+import { CarbonButton, Link, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
@@ -97,17 +97,6 @@ export default function EntityHierarchicalLink({
   return (
     <div className={locals.container}>
       {link}
-      {!isExpanded && (
-        <CarbonButton
-          className={locals.ghostBtn}
-          kind="ghost"
-          size="sm"
-          onClick={() => setExpanded(true)}
-          renderIcon={() => <SvgIcon type="lib_openclose_add_box" size="s" />}
-        >
-          {t('in-events:viewMore')}
-        </CarbonButton>
-      )}
       {isExpanded && (
         <EntityHierarchy
           hierarchy={hierarchy}
@@ -120,6 +109,28 @@ export default function EntityHierarchicalLink({
           filterId={snapshotId}
         />
       )}
+      <ShowHideButton setExpanded={setExpanded} isExpanded={isExpanded} />
     </div>
+  );
+}
+
+interface ShowHideButtonProps {
+  setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+  isExpanded: boolean;
+}
+
+function ShowHideButton({ setExpanded, isExpanded }: ShowHideButtonProps) {
+  return (
+    <CarbonButton
+      className={locals.ghostBtn}
+      kind="ghost"
+      size="sm"
+      onClick={() => (!isExpanded ? setExpanded(true) : setExpanded(false))}
+      renderIcon={() => (
+        <SvgIcon type={!isExpanded ? 'lib_openclose_add_box' : 'lib_openclose_remove_circle_outline'} size="s" />
+      )}
+    >
+      {!isExpanded ? t('in-events:viewMore') : t('in-events:viewless')}
+    </CarbonButton>
   );
 }

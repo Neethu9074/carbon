@@ -12,7 +12,6 @@
     "errorLoadingData": "Error loading data."
   },
   "noDataAvailable": "No data available",
-  "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of service:",
   "titleDetail": "Detail",
   "titleMetrics": "Metrics",
@@ -151,6 +150,8 @@
   "headerCvssScore": "CVSS Score",
   "unidentifiedEntity": "Unidentified entity",
   "viewMore": "View more",
+  "viewless": "View less",
+  "triggeringEntity": "Triggering entity",
   "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",
   "headerStatus": "Status",
   "eventHelpfulText": "Was this event helpful?",

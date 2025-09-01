@@ -239,9 +239,9 @@ function GenericUnidentifiedEntityInformation({
 }
 
 function EntityInformationPresenter({ children, shouldDisplayDefaultLabel, label }) {
-  if (shouldDisplayDefaultLabel && !label) label = t('in-events:entityInfoPresenterDefaultLabel');
+  if (shouldDisplayDefaultLabel && !label) label = t('in-events:triggeringEntity');
   return (
-    <Stack align="start" gap={shouldDisplayDefaultLabel ? 'xsmall' : 'disabled'} direction="horizontal">
+    <Stack align="start" gap={shouldDisplayDefaultLabel ? 'xsmall' : 'disabled'} direction="vertical">
       <Typography variant="heading-100" noMargin>
         {label}
       </Typography>
