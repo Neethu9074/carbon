@@ -8,6 +8,7 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
+import getErrorMessages, { getAllErrorMessagesThenFilter } from 'in-applications/subscriptions/getErrorMessages';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
@@ -18,7 +19,6 @@ import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 
@@ -137,6 +137,25 @@ function getTableData({
   boundaryScope,
   timeConfig
 }) {
+  const errorWithoutMessageText = t('in-applications:dashboards.errorCallWithoutMessage');
+  const trimmedQuery = query.trim().toLowerCase();
+
+  // Check if we're searching for error messages without text
+  if (trimmedQuery && errorWithoutMessageText.trim().toLowerCase().includes(trimmedQuery)) {
+    return getAllErrorMessagesThenFilter({
+      query,
+      page,
+      pageSize: 100, // increased pageSize = higher possibility to get all items + get correct table behavior
+      orderBy,
+      orderDirection,
+      applicationId,
+      serviceId,
+      endpointId,
+      boundaryScope,
+      timeConfig
+    });
+  }
+
   return getErrorMessages({
     pagination: {
       page,
@@ -153,7 +172,10 @@ function getTableData({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
-      applicationBoundaryScope: boundaryScope
+      applicationBoundaryScope: boundaryScope,
+      includeInternalCalls: false,
+      includeSyntheticCalls: false,
+      useLongTermDataOnly: false
     },
     metrics: {
       erroneousCallsAgg: {
@@ -165,7 +187,8 @@ function getTableData({
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       }
-    }
+    },
+    supportedOrderByCriteria: false
   });
 }
 
