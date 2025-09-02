@@ -78,7 +78,7 @@
     },
     "common": {
       "agentDeployment": "Agent deployment",
-      "dataSources": "Data sources",
+      "dataSources": "Agents & collectors",
       "step1": "Step 1: ",
       "step2": "Step 2: ",
       "step3": "Step 3: ",
@@ -847,7 +847,7 @@
       },
       "buttonNames": {
         "deployAgent": "Deploy agent",
-        "setUpADataSource": "Set up a data source",
+        "setUpADataSource": "Install agents or collectors",
         "addUser": "Add user",
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
@@ -949,7 +949,7 @@
     "next": "Next"
   },
   "datasources": {
-    "datasources": "Data sources",
+    "datasources": "Agents & collectors",
     "openTelemetryCollectors": "OpenTelemetry Collectors",
     "instanaAgents": "Instana agents",
     "installACollector": "Install a collector",

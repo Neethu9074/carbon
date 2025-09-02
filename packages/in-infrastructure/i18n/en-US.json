@@ -59,7 +59,7 @@
   "dashboard": {
     "comparisonTable": "Comparison table",
     "agents": "Agents",
-    "dataSources": "Data sources",
+    "dataSources": "Agents & collectors",
     "map": "Map",
     "infrastructure": "Infrastructure",
     "snapshotVersions": "Snapshot versions",
@@ -198,6 +198,5 @@
       "failedConfigFetchConnectionError": "Configuration failed to load due to a connection issue. Manually restart the collector to re-establish the connection.",
       "manualRestartLink": "Learn how to restart a collector "
     }
-
   }
 }
