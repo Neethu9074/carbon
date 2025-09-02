@@ -183,6 +183,7 @@ export default function LogAlertChartWrapper({
           </MarkerLanesPresenter>
         );
       }}
+      nonInteractive
     />
   );
 }
