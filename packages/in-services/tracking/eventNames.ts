@@ -148,6 +148,7 @@ export const WHATS_NEW_OPENED = 'whatsnew.opened';
 export const WHATS_NEW_CLOSED = 'whatsnew.closed';
 export const ONBOARDING_CHECKLIST_OPENED = 'onboardingChecklist.opened';
 export const ONBOARDING_CHECKLIST_CLOSED = 'onboardingChecklist.closed';
+export const SOLIS_HELP_PANEL_TOUR_PREFIX = 'solisTour.';
 
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';

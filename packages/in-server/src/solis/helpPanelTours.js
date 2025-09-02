@@ -59,7 +59,7 @@ const getTourConfigs = t => [
     kind: 'secondary',
     title: t('in-server:solis.helpPanel.tours.websites'),
     tourId: '1644666',
-    route: '/#/websiteMonitoring/website[^ ]*'
+    route: '/#/websiteMonitoring/[^ ]*'
   },
   {
     id: 'turbo',

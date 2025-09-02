@@ -15,13 +15,13 @@ const getDocConfigs = t => [
     id: 'websites',
     title: t('in-server:solis.helpPanel.articles.websites'),
     href: 'https://ibm.biz/monitoring-websites',
-    route: '/#/websiteMonitoring/website[^ ]*'
+    route: '/#/websiteMonitoring/[^ ]*'
   },
   {
     id: 'mobile-apps',
     title: t('in-server:solis.helpPanel.articles.mobileApps'),
     href: 'https://ibm.biz/mob-app',
-    route: '/#/mobileAppMonitoring/mobileApp[^ ]*'
+    route: '/#/mobileAppMonitoring/[^ ]*'
   },
   {
     id: 'bizops',
