@@ -21,6 +21,7 @@ import { useObservable } from '@instana/hooks';
 
 import {
   notesAndActivityEnabled,
+  incidentSummarizationEnabled,
   rcaUIEnabled,
   relatedEventsDatgridEnabled,
   businessObservabilityEnabled,
@@ -214,27 +215,29 @@ const IncidentOverview: FC<IncidentOverviewProps> = ({
   const summaryOpen = useObservable(summaryNotes$, [summaryNotes$])?.open || false;
 
   // Create a React element for the left header content to fix type issues
-  const leftHeaderContent = notesAndActivityEnabled ? (
-    <CarbonButton
-      kind={'tertiary'}
-      className={locals.actionsButton}
-      size={'sm'}
-      id="generate_summary_ai_header"
-      disabled={summaryOpen}
-      renderIcon={() => {
-        // @ts-expect-error id not part of svg icon
-        return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
-      }}
-      onClick={() => {
-        // Open notes, generate summary
-        setSummaryNotes(true, true);
-        moveAIChatLauncher('500px');
-        handleTracking(incident.get('id'), EVENT_AI_GENERATE_SUBMIT_OVERVIEW);
-      }}
-    >
-      <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>
-    </CarbonButton>
-  ) : undefined;
+  // We only show this Generate Summary button if the Notes and activity && incident summarization flags are set
+  const leftHeaderContent =
+    notesAndActivityEnabled && incidentSummarizationEnabled ? (
+      <CarbonButton
+        kind={'tertiary'}
+        className={locals.actionsButton}
+        size={'sm'}
+        id="generate_summary_ai_header"
+        disabled={summaryOpen}
+        renderIcon={() => {
+          // @ts-expect-error id not part of svg icon
+          return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
+        }}
+        onClick={() => {
+          // Open notes, generate summary
+          setSummaryNotes(true, true);
+          moveAIChatLauncher('500px');
+          handleTracking(incident.get('id'), EVENT_AI_GENERATE_SUBMIT_OVERVIEW);
+        }}
+      >
+        <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>
+      </CarbonButton>
+    ) : undefined;
 
   return (
     <Row withoutSideMargin>
