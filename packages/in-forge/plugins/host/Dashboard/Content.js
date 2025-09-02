@@ -127,7 +127,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               <MetricValue
                 snapshotId={snapshot.get('id')}
                 metric="cpu.physicalConsumption"
-                formatter={number.twoDecimalPlaces}
+                formatter={number.detailed}
               />
             </KpiKeyValue>
           )}

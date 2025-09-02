@@ -151,7 +151,7 @@ export default [
     label: t('in-forge:plugins.host.avgRunQueue'),
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,
-    formatter: value => (value < 0 ? t('in-forge:plugins.host.notCollected') : number.twoDecimalPlaces(value))
+    formatter: value => (value < 0 ? t('in-forge:plugins.host.notCollected') : number.detailed(value))
   },
   {
     metric: 'ctxt',
