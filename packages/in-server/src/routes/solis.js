@@ -180,6 +180,7 @@ function getUserPermissions(role, features) {
     hasKubernetesAccess ||
     hasSAPAccess ||
     hasNutanixAccess;
+  const hasSloAccess = hasApplicationsAccess || hasSyntheticsAccess || hasWebsitesAccess;
 
   return {
     hasWebsitesAccess,
@@ -190,6 +191,7 @@ function getUserPermissions(role, features) {
     hasInfrastructureAnalyzeAccess,
     hasAutomationAccess,
     hasSyntheticsAccess,
+    hasSloAccess,
     hasAPlatformAccess,
     hasAnalyzeAccess:
       hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess || hasInfrastructureAnalyzeAccess,
@@ -338,18 +340,6 @@ function generateSideNavItems(t, role, features, infraResource) {
     });
   }
 
-  // Infrastructure
-  if (permissions.hasInfrastructureAccess) {
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'layers',
-        label: t('in-server:mainNavigation.viewSwitcherlabelInfrastructure'),
-        path: '#/physical'
-      }
-    });
-  }
-
   // Platforms
   if (permissions.hasAPlatformAccess) {
     navItems.push({
@@ -362,23 +352,21 @@ function generateSideNavItems(t, role, features, infraResource) {
     });
   }
 
-  // Tools
-  navItems.push({
-    type: 'menu',
-    properties: {
-      label: t('in-server:mainNavigation.viewSwitcherLabelTools'),
-      links: generateToolItems(t, role, permissions, features, infraResource)
-    }
-  });
+  // Infrastructure
+  if (permissions.hasInfrastructureAccess) {
+    navItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'layers',
+        label: t('in-server:mainNavigation.viewSwitcherlabelInfrastructure'),
+        path: '#/physical'
+      }
+    });
+  }
 
-  // Administration
-  navItems.push({
-    type: 'menu',
-    properties: {
-      label: t('in-server:mainNavigation.viewSwitcherLabelAdministration'),
-      links: generateAdministrationItems(t, role, features)
-    }
-  });
+  navItems.push(...generateToolItems(t, role, permissions, features, infraResource));
+
+  navItems.push(...generateAdministrationItems(t, role, features));
 
   return navItems;
 }
@@ -466,26 +454,36 @@ function generateToolItems(t, role, permissions, features, infraResource) {
 
   // CustomDashboards
   toolItems.push({
-    icon_name: 'dashboard',
-    label: t('in-server:mainNavigation.viewSwitcherCustomDashboards'),
-    path: '#/customDashboards'
+    type: 'link',
+    properties: {
+      hasDivider: true,
+      icon_name: 'dashboard',
+      label: t('in-server:mainNavigation.viewSwitcherCustomDashboards'),
+      path: '#/customDashboards'
+    }
   });
 
   // Logging
   if (features.loggingEnabled) {
     toolItems.push({
-      icon_name: 'cloud--logging',
-      label: t('in-server:mainNavigation.viewSwitcherLabelLogs'),
-      path: '#/logging'
+      type: 'link',
+      properties: {
+        icon_name: 'cloud--logging',
+        label: t('in-server:mainNavigation.viewSwitcherLabelLogs'),
+        path: '#/logging'
+      }
     });
   }
 
   // Synthetics
   if (permissions.hasSyntheticsAccess) {
     toolItems.push({
-      icon_name: 'cloud--monitoring',
-      label: t('in-server:mainNavigation.labelSyntheticMonitoring'),
-      path: '#/syntheticTests'
+      type: 'link',
+      properties: {
+        icon_name: 'cloud--monitoring',
+        label: t('in-server:mainNavigation.labelSyntheticMonitoring'),
+        path: '#/syntheticTests'
+      }
     });
   }
 
@@ -505,54 +503,60 @@ function generateToolItems(t, role, permissions, features, infraResource) {
     }
 
     toolItems.push({
-      icon_name: 'data-analytics',
-      label: t('in-server:mainNavigation.viewSwitcherLabelAnalytics'),
-      path: analyzePath
+      type: 'link',
+      properties: {
+        icon_name: 'data-analytics',
+        label: t('in-server:mainNavigation.viewSwitcherLabelAnalytics'),
+        path: analyzePath
+      }
     });
   }
   // VulnerabilityCenter
   if (features.vulnerabilityCenterEnabled) {
     toolItems.push({
-      icon_name: 'security',
-      label: t('in-server:mainNavigation.viewVulnerabilityCenter'),
-      path: '#/vulnerability-center'
+      type: 'link',
+      properties: {
+        icon_name: 'security',
+        label: t('in-server:mainNavigation.viewVulnerabilityCenter'),
+        path: '#/vulnerability-center'
+      }
     });
   }
 
   // Incidents
   if (permissions.hasEventsAccess) {
     toolItems.push({
-      icon_name: 'warning--alt',
-      label: t('in-server:mainNavigation.viewSwitcherLabelEvents'),
-      path: '#/events;view=incident',
-      ...(infraResource.incidentCount > 0 && { badge: infraResource.incidentCount })
+      type: 'link',
+      properties: {
+        icon_name: 'warning--alt',
+        label: t('in-server:mainNavigation.viewSwitcherLabelEvents'),
+        path: '#/events;view=incident',
+        ...(infraResource.incidentCount > 0 && { badge: infraResource.incidentCount })
+      }
     });
   }
 
   // AutomationMenu
   if (permissions.hasAutomationAccess) {
     toolItems.push({
-      icon_name: 'workflow-automation',
-      label: t('in-server:mainNavigation.automation'),
-      path: '#/automation/actionCatalog'
+      type: 'link',
+      properties: {
+        icon_name: 'workflow-automation',
+        label: t('in-server:mainNavigation.automation'),
+        path: '#/automation/actionCatalog'
+      }
     });
   }
 
   // SloDashboard
-  if (permissions.hasApplicationsAccess && !features.playwithEnabled) {
+  if (permissions.hasSloAccess && !features.playwithEnabled) {
     toolItems.push({
-      icon_name: 'service-levels',
-      label: t('in-server:mainNavigation.viewSwitcherLabelSlo'),
-      path: '#/slo'
-    });
-  }
-
-  // agents
-  if (role?.canConfigureAgents && !features.newOTelPageEnabled) {
-    toolItems.push({
-      icon_name: 'settings--services',
-      label: t('in-server:mainNavigation.viewSwitcherLabelAgents'),
-      path: '#/agents'
+      type: 'link',
+      properties: {
+        icon_name: 'service-levels',
+        label: t('in-server:mainNavigation.viewSwitcherLabelSlo'),
+        path: '#/slo'
+      }
     });
   }
 
@@ -565,23 +569,157 @@ function generateAdministrationItems(t, role, features) {
   // Settings
   if (!features.playwithEnabled) {
     adminItems.push({
-      icon_name: 'settings',
-      label: t('in-server:mainNavigation.viewSwitcherLabelSettings'),
-      path: '#/config'
+      type: 'link',
+      properties: {
+        hasDivider: true,
+        icon_name: 'settings',
+        label: t('in-server:mainNavigation.viewSwitcherLabelSettings'),
+        path: '#/config'
+      }
+    });
+  }
+
+  // Datasources
+  // Only show the Datasources menu item if the new OpenTelemetry page is enabled
+  if (role?.canConfigureAgents && features.newOTelPageEnabled) {
+    adminItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'data--reference', // TODO: there is no appropriate carbon icon available
+        label: t('in-server:mainNavigation.viewSwitcherLabelDataSources'),
+        path: '#/datasources/instanaagent' // this is currently under discussion by PLG team
+      }
+    });
+  }
+
+  // account & billing
+  if (features.newAccountAndBillingPageEnabled && features.ampEnabled && role.canViewAccountAndBillingInformation) {
+    adminItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'account',
+        label: t('in-server:mainNavigation.viewSwitcherLabelAccountAndBilling'),
+        path: '#/accountAndBilling'
+      }
     });
   }
 
   // Internal
-  // todo: update the check with (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()
+  // Remark: The old comparision of the current url is not longer possible,
+  // and no checking if user already had clicked 10 times and activated it.
+  // This is what we have in the client:
+  //  window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()
   if (features.internalMonitoringUnit || role?.canSeeExtendedInternalMonitoring) {
     adminItems.push({
-      icon_name: 'locked',
-      label: t('in-server:mainNavigation.viewSwitcherLabelInternal'),
-      path: '#/internal'
+      type: 'link',
+      properties: {
+        icon_name: 'locked',
+        label: t('in-server:mainNavigation.viewSwitcherLabelInternal'),
+        path: '#/internal'
+      }
     });
   }
+
+  // see "moreItems" below
+
+  // The following menu items should be top nav
+  // // release note
+
+  // // doc
+  // moreItems.push({
+  //   type: 'link',
+  //   properties: {
+  // label: t('in-server:mainNavigation.viewSwitcherLabelDocumentation'),
+  //     path: 'https://www.ibm.com/docs/en/obi/current'
+  //   }
+  // });
+
+  // // Support
+  // moreItems.push({
+  //   type: 'link',
+  //   properties: {
+  //     label: t('in-server:mainNavigation.viewSwitcherLabelSupport'),
+  //     path: 'https://www.ibm.com/mysupport/s/?language=en_US'
+  //   }
+  // });
+
+  // More
+  /* TODO Activate only, when the supported way of having buttons/links in in
+  solis shell.
+  Atm. it only can contain relative paths - so the instana native features won't be available.
+
+  Comment out for that reason.
+   */
+
+  /*
+  adminItems.push({
+    type: 'menu',
+    icon_name: 'overflow-menu--vertical',
+    properties: {
+      hasDivider: true,
+      isEventDriven: true,
+      isRoot: true,
+      icon_name: 'overflow-menu--vertical',
+      label: t('in-server:mainNavigation.viewSwitcherLabelMore'),
+      links: generateMoreItems(t, role)
+    }
+  });
+  */
   return adminItems;
 }
+
+/* see above: functionality is currently not supported by solis-nav:
+function generateMoreItems(t, role) {
+  let moreItems = [];
+
+  // release note
+  moreItems.push({
+    id: "release",
+    isEventDriven: true, // <- maybe a possible approach, not available yet.
+    label: t('in-server:mainNavigation.viewSwitcherLabelSupport'),
+    path: 'https://www.ibm.com/mysupport/s/?language=en_US',
+    //TODO: define as an externa link
+  });
+
+  // doc
+  moreItems.push({
+    id: "docs",
+    isEventDriven: true,
+    label: t('in-server:mainNavigation.viewSwitcherLabelDocumentation'),
+    path: 'https://www.ibm.com/docs/en/obi/current'
+    //TODO: define as an externa link
+  });
+
+  // Support
+  moreItems.push({
+    id: "support",
+    isEventDriven: true,
+    label: t('in-server:mainNavigation.viewSwitcherLabelSupport'),
+    path: 'https://www.ibm.com/mysupport/s/?language=en_US',
+    //TODO: define as an externa link
+  });
+
+
+  // Only show the Agents menu item if the new OpenTelemetry page is NOT enabled
+  // agents
+  if (role?.canConfigureAgents && !features.newOTelPageEnabled) {
+    moreItems.push({
+      icon_name: 'data--reference', // TODO: there is no appropriate carbon icon available
+      label: t('in-server:mainNavigation.viewSwitcherLabelAgents'),
+      path: '#/datasources/instanaagent'
+    });
+  }
+
+  // TODO: needs still About here?
+  moreItems.push({
+    id: "about",
+    isEventDriven: true, // or something similar like th top-nav works, to trigger an action
+    label: t('in-server:mainNavigation.viewSwitcherLabelAboutInstana'),
+  });
+
+  return moreItems;
+}
+*/
 
 router.get('/solis/about', middleware.handle(i18next), async (req, res) => {
   try {
