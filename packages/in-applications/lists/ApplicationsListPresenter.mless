@@ -13,3 +13,8 @@
     }
   }
 }
+:global {
+  solis-teaser::part(popup) {
+    right: 20rem;
+  }
+}
