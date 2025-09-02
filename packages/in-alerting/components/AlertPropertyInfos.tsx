@@ -84,7 +84,10 @@ export default function AlertPropertyInfos({
         title={t('in-alerting:components.alertPropertyInfosLabelDescription')}
       >
         <Typography variant="body-regular">
-          <DangerousHtmlPresenter html={renderCustomDescription ? renderCustomDescription() : toHtml(description)} />
+          <DangerousHtmlPresenter
+            className={locals.description}
+            html={renderCustomDescription ? renderCustomDescription() : toHtml(description)}
+          />
         </Typography>
       </AlertSection>
     </Sections>
