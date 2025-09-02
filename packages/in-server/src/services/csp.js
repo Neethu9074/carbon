@@ -63,7 +63,7 @@ exports.getCsp = (
   const styleSrc = `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`;
 
   if (solisEnabled && !isControlledEnvEnabled) {
-    return `${styleSrc}; script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(
+    return `style-src 'self' 'unsafe-inline'; script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(
       ' '
     )} 'http://localhost:3015' 'blob:http://localhost:3015'; img-src * data:; connect-src *`; //For local testing only
   } else if (isSessionPlayBackRequired) {
