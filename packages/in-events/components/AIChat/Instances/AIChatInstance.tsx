@@ -19,7 +19,7 @@ import { handleTracking } from 'in-events/components/AIChat/utils/utils';
 import { AIChat } from 'in-events/components/AIChat/AIChat';
 import { t } from 'in-i18n';
 
-export default function AIChatEvents() {
+export default function AIChatInstance() {
   const [instructionPopOpen, setInstructionPopOpen] = useState<boolean>(false);
   return (
     <>

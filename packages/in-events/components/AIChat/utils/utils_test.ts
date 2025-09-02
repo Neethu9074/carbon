@@ -25,6 +25,10 @@ jest.mock('in-components/ViewTrackingMeta', () => ({
   })
 }));
 
+jest.mock('in-services/featureFlags', () => ({
+  eventsAIChatEnabled: true
+}));
+
 jest.mock('in-services/tracking/segment/EventTracker', () => ({
   eventTracker: jest.fn()
 }));
@@ -209,7 +213,7 @@ describe('AIChat Utils', () => {
       const result = useAgentSpecificData();
 
       expect(useLocation).toHaveBeenCalled();
-      expect(result).toBe(undefined);
+      expect(result).toBe(false);
     });
 
     it('should return undefined when pathname is a subpath of a valid path', () => {
@@ -219,7 +223,7 @@ describe('AIChat Utils', () => {
       const result = useAgentSpecificData();
 
       expect(useLocation).toHaveBeenCalled();
-      expect(result).toBe(undefined);
+      expect(result).toBe(false);
     });
   });
 });

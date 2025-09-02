@@ -7,11 +7,13 @@
 import { EventsCustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages';
 import { EventsPromptLibrary } from 'in-events/components/AIChat/PromptLibraries/EventsPromptLibrary';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
+import { eventsAIChatEnabled } from 'in-services/featureFlags';
 
 type AgentConfig = {
   path: string;
   customSendMessages: typeof EventsCustomSendMessages;
   promptLibrary: typeof EventsPromptLibrary;
+  featureFlag: boolean;
 };
 
 /*
@@ -30,6 +32,7 @@ export const agentConfigurations: Record<string, AgentConfig> = {
   [eventsPath]: {
     path: eventsPath,
     customSendMessages: EventsCustomSendMessages,
-    promptLibrary: EventsPromptLibrary
+    promptLibrary: EventsPromptLibrary,
+    featureFlag: eventsAIChatEnabled
   }
 };

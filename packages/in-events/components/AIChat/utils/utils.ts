@@ -222,5 +222,10 @@ export function setupCustomLanguagePack(instance: any): void {
 export function useAgentSpecificData() {
   const location = useLocation();
   const { pathname } = location;
-  return agentConfigurations[pathname];
+  const agentConfig = agentConfigurations[pathname];
+  // If the agent config is found and feature flag on
+  if (agentConfig && agentConfig.featureFlag) {
+    return agentConfig;
+  }
+  return false;
 }

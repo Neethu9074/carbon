@@ -65,7 +65,7 @@ export function AIChat({
   previewPill = false
 }: AIChatProps) {
   // Get agent data from our configuration file
-  // If agentData is undefined then we are not on a page where
+  // If agentData is false then we are not on a page where
   // the chat should be rendered
   const agentData = useAgentSpecificData();
   const customPanelElement = customPanelConfig?.customPanelElement;
@@ -73,9 +73,11 @@ export function AIChat({
   // This will move the Chat launcher back to original location.
   // This is needed because we need it to reset on page navigation
   useEffect(() => {
-    moveAIChatLauncher('50px');
-    setupDragListeners();
-  }, []);
+    if (agentData) {
+      moveAIChatLauncher('50px');
+      setupDragListeners();
+    }
+  }, [agentData]);
 
   const { trackCta } = useSegmentTracking();
   const [instance, setInstance] = useState<ExtendedChatInstance | null>(null);

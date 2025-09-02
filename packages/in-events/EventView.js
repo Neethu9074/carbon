@@ -22,7 +22,6 @@ import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeader
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import SmartAlerts from 'in-events/components/SmartAlerts/Components/SmartAlerts';
 import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
-import AIChatEvents from 'in-events/components/AIChat/Instances/AIChatEvents';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -219,7 +218,6 @@ function EventViewComponent(props) {
           </Stack>
         </LeftRightPadding>
       )}
-      {eventsAIChatEnabled && <AIChatEvents />}
     </Sticky>
   );
 }
