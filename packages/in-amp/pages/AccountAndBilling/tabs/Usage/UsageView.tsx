@@ -14,6 +14,7 @@ import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnol
 import WithAccountInformation from 'in-amp/components/WithAccountInformation';
 //@ts-expect-error - needs TS migration
 import RestrictedUsage from 'in-amp/components/RestrictedUsage';
+import { ampCompanyInfoEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import ConsumptionOverview from 'in-amp/pages/AccountAndBilling/tabs/Usage/ConsumptionOverview';
 // @ts-expect-error needs TS migration
 import UsageCharts from 'in-amp/components/UsageCharts';
@@ -21,7 +22,6 @@ import { addOns, ampUsage, consumptionOverview, dataUsage } from 'in-amp/navigat
 // @ts-expect-error needs TS migration
 import Usage from 'in-amp/components/Usage';
 import AddOns from 'in-amp/pages/AccountAndBilling/tabs/Usage/AddOns';
-import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -32,11 +32,14 @@ type AccountInfoProps = {
 };
 
 export default function ViewContainer(props: any) {
-  return (
-    <WithAccountInformation>
-      {({ hasPaidLicenses }: AccountInfoProps) => <View hasPaidLicenses={hasPaidLicenses} {...props} />}
-    </WithAccountInformation>
-  );
+  if (ampCompanyInfoEnabled) {
+    return (
+      <WithAccountInformation>
+        {({ hasPaidLicenses }: AccountInfoProps) => <View hasPaidLicenses={hasPaidLicenses} {...props} />}
+      </WithAccountInformation>
+    );
+  }
+  return <View {...props} />;
 }
 
 function View(props: any) {
@@ -44,10 +47,10 @@ function View(props: any) {
     {
       path: dataUsage,
       label: t('in-amp:accountAndBilling.tabs.dataUsage'),
-      component: ampCompanyInfoEnabled ? Usage : RestrictedUsage
+      component: ampCompanyInfoEnabled || !onPremLicenseInformationEnabled ? Usage : RestrictedUsage
     }
   ];
-  if (props.hasPaidLicenses && ampCompanyInfoEnabled) {
+  if (props.hasPaidLicenses && (ampCompanyInfoEnabled || !onPremLicenseInformationEnabled)) {
     pages.push(
       {
         path: consumptionOverview,

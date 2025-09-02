@@ -9,7 +9,6 @@ import {
   CustomEventMobileAppAlertRule,
   MobileAppAlertRule,
   MobileAppMonitoringBeaconType,
-  TagFilterOperator,
   ThresholdConfig,
   StatusCodeMobileAppAlertRule,
   ThresholdOperator,
@@ -87,11 +86,7 @@ interface BluePrintBase {
   readonly isCustomRateMetric: typeof isCustomRateMetric;
   readonly getMetricsRequest: () => typeof getMobileAppMetrics;
   readonly getRuleTagFilterFormModel: (alertRule: MobileAppAlertRule) => FormModelElement[];
-  readonly getEntityTagFilterFormModel: (alertConfig: MobileAppSmartAlertConfig) => {
-    name: string;
-    operator: TagFilterOperator;
-    value?: any;
-  };
+  readonly getEntityTagFilterFormModel: (alertConfig: MobileAppSmartAlertConfig) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
     alertConfig: MobileAppSmartAlertConfig,
     timeConfig: FixedTimeConfig
@@ -143,8 +138,9 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
   getMetricsRequest: () => getMobileAppMetrics,
   getRuleTagFilterFormModel: () => [],
-  getEntityTagFilterFormModel: (alertConfig: MobileAppSmartAlertConfig) =>
-    tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId),
+  getEntityTagFilterFormModel: (alertConfig: MobileAppSmartAlertConfig) => [
+    tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId)
+  ],
   getExtraAnalyzeLinkTagFilterFormModel: () => [],
   getThresholdTypeOptions: () => mobileAppThresholdTypeOptions,
   thresholdDefaults: {
@@ -188,6 +184,13 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   text: t('in-alerting:smartAlerts.mobileApp.data.statusCodeBlueprintConfigText'),
   getBeaconType: () => 'httpRequest',
   getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
+  getEntityTagFilterFormModel: (alertConfig: MobileAppSmartAlertConfig) =>
+    joinExpressions({
+      expressions: [
+        tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId),
+        tagFilter('mobileBeacon.type', EQUALS, 'httpRequest')
+      ]
+    }),
   getRuleTagFilterFormModel: (alertRule: MobileAppAlertRule) => [
     tagFilter(
       'mobileBeacon.http.status',
