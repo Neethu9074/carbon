@@ -3,15 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Stack } from '@instana/components';
 
 import {
   getLabel as getDroppedBeaconLabel,
   getDurationTime
 } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/DroppedBeacon';
-import { PERFORMANCE_SUBTYPES } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import { getLabel } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
@@ -19,10 +18,14 @@ import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/compone
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
 import { ChartsPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
+import getMobileAppEnuSessions from 'in-mobile-apps/subscriptions/getMobileAppEnuSessions';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { toTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import EnuModal from 'in-mobile-apps/analyze/AnalyzeView2_0/components/EnuModal';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { number } from 'in-services/formatters/number';
 import HealthDot from 'in-components/health/HealthDot';
 import Tooltip from 'in-components/Tooltip';
@@ -337,24 +340,98 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
   });
 }
 
-function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel, noEllipsis }) {
-  return (
-    <Link
-      className={noEllipsis ? locals.noEllipsis : locals.link}
-      href={
-        beacon.sessionId
-          ? getHrefToDetailId(
-              {
-                sessionId: beacon.sessionId,
-                beaconId: beacon.beaconId,
-                beaconTimestamp: beacon.timestamp
-              },
-              groupLabel
-            )
-          : null
+// Function to fetch session IDs of sessions that have contributed to an ENU
+const getBeaconGroupInfo = (tagFilterExpression, setSessionResponses, startWindow) => {
+  const responses = [];
+
+  getMobileAppEnuSessions({
+    timeConfig: {
+      to: startWindow,
+      focusedMoment: startWindow,
+      windowSize: 86400000,
+      autoRefresh: false
+    },
+    pagination: {
+      retrievalSize: 10
+    },
+    tagFilterExpression: tagFilterExpression,
+    group: {
+      groupbyTag: 'mobileBeacon.sessionId',
+      tagType: 'STRING'
+    }
+  }).subscribe(r => {
+    for (let i = 0; i <= 10 && i < r?.data?.items?.length; i++) {
+      if (r?.data?.items[i]?.name) {
+        responses.push(r.data.items[i].name);
       }
-    >
-      {linkLabel}
-    </Link>
+    }
+    setSessionResponses(responses);
+  });
+};
+
+function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel, noEllipsis }) {
+  const [sessionResponses, setSessionResponses] = useState([]);
+  const startWindow = beacon.timestamp;
+  useEffect(() => {
+    if (!beacon.sessionId) {
+      const tagFilterExpression = toTagFilter({
+        name: 'mobileBeacon.userSessionId',
+        operator: 'EQUALS',
+        entity: 'NOT_APPLICABLE',
+        type: 'TAG_FILTER',
+        value: beacon.userSessionId
+      });
+
+      getBeaconGroupInfo(tagFilterExpression, setSessionResponses, startWindow);
+    }
+  }, [beacon.sessionId, beacon.userSessionId, startWindow]);
+
+  const handleClick = e => {
+    if (!beacon.sessionId) {
+      e.stopPropagation();
+      // Only open dialog if there are 5 or less sessions
+      if (sessionResponses.length <= 5) {
+        addActiveDialog(
+          <EnuModal
+            sessionResponses={sessionResponses}
+            mobileAppName={beacon.mobileAppLabel}
+            mobileAppId={beacon.mobileAppId}
+            usedMb={beacon.usedMb}
+            beaconTimeStamp={beacon.timestamp}
+            getHrefToDetailId={getHrefToDetailId}
+            groupLabel={groupLabel}
+          />
+        );
+      }
+    }
+  };
+
+  return (
+    <>
+      <Link
+        className={noEllipsis ? locals.noEllipsis : locals.link}
+        href={
+          beacon.sessionId
+            ? getHrefToDetailId(
+                {
+                  sessionId: beacon.sessionId,
+                  beaconId: beacon.beaconId,
+                  beaconTimestamp: beacon.timestamp
+                },
+                groupLabel
+              )
+            : null
+        }
+        onClick={handleClick}
+      >
+        {beacon.sessionId ? (
+          linkLabel
+        ) : (
+          <span className={locals.message} onClick={handleClick}>
+            {linkLabel}
+          </span>
+        )}
+      </Link>
+    </>
   );
 }

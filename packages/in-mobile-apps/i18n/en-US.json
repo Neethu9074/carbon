@@ -276,7 +276,12 @@
       "availableMemoryLabel": "Available memory",
       "maximumAvailableMemoryLabel": "Maximum available memory",
       "appStatusLabel": "App state",
-      "stackTraceButtonFocusedThreadsStackTrace": "Focused threads"
+      "stackTraceButtonFocusedThreadsStackTrace": "Focused threads",
+      "enuModalTitle": "Excessive background network usage",
+      "enuModalMobileAppName": "Mobile app",
+      "enuModalUsedMb": "Usage amount",
+      "enuModalAffectedSessions": "Contributing sessions"
+
     },
     "tabsSumDroppedBeacons": {
       "droppedBeaconsLabel": "Dropped beacons",

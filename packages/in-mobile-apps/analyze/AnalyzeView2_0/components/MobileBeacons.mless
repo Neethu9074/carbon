@@ -32,4 +32,13 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
+
+  .message {
+    margin: 0.75rem 0;
+    color: var(--cds-link-primary);
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 }
