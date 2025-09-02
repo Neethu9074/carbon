@@ -13,7 +13,7 @@ import {
   useUserRecommendedScoredActions,
   useAIRecommendedScoredActions,
   usePaginatedScoredActions
-} from './useScoredActions';
+} from 'in-automation/AutomationCard/useScoredActions';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { pendingResult } from 'in-services/fixedObjects';
 import { ACTION_TYPE } from 'in-automation/constants';
@@ -21,7 +21,7 @@ import { ScoredAction } from 'in-automation/types';
 import { success } from 'in-services/util/result';
 
 // Mock dependencies
-jest.mock('./shared', () => ({
+jest.mock('in-automation/AutomationCard/shared', () => ({
   getTriggerTypeFromEvent: jest.fn()
 }));
 

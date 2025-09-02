@@ -6,7 +6,7 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import useActionHistoryCount, { refreshHistory } from './useHistory';
+import useActionHistoryCount, { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 // Mock dependencies

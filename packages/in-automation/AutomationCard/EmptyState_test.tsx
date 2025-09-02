@@ -9,11 +9,11 @@ import React from 'react';
 
 import { Event } from '@instana/types';
 
-import EmptyState from './EmptyState';
+import EmptyState from 'in-automation/AutomationCard/EmptyState';
 import { t } from 'in-i18n';
 
 // Mock the CreatePolicyButton component
-jest.mock('./CreatePolicyButton', () => {
+jest.mock('in-automation/AutomationCard/CreatePolicyButton', () => {
   return {
     __esModule: true,
     default: jest.fn(() => <button data-testid="create-policy-button">Create Policy</button>)
@@ -21,7 +21,7 @@ jest.mock('./CreatePolicyButton', () => {
 });
 
 // Mock the CSS module
-jest.mock('./EmptyState.mless', () => ({
+jest.mock('in-automation/AutomationCard/EmptyState.mless', () => ({
   emptyRecomendedActions: 'emptyRecomendedActions',
   emptyStateContent: 'emptyStateContent',
   emptyStateSubtitle: 'emptyStateSubtitle'

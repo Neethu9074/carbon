@@ -9,8 +9,8 @@ import React from 'react';
 
 import { Event, VolatileId } from '@instana/types';
 
+import AutomationCardForPRC from 'in-automation/AutomationCard/AutomationCardForPRC';
 import { InvestigationResponse } from 'in-events/subscriptions/rcaInvestigation';
-import AutomationCardForPRC from './AutomationCardForPRC';
 
 // Mock dependencies
 jest.mock('in-automation/AutomationCard/useScoredActions', () => {

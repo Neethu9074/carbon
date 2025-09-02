@@ -7,13 +7,13 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import AutomationCardButtonGroup from './AutomationCardButtonGroup';
+import AutomationCardButtonGroup from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 
 // Mock the imported functions
 const mockSetActiveKey = jest.fn();
 
-jest.mock('./AutomationCardButtonGroup', () => {
-  const originalModule = jest.requireActual('./AutomationCardButtonGroup');
+jest.mock('in-automation/AutomationCard/AutomationCardButtonGroup', () => {
+  const originalModule = jest.requireActual('in-automation/AutomationCard/AutomationCardButtonGroup');
   return {
     __esModule: true,
     ...originalModule,

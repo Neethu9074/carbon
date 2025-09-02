@@ -6,7 +6,7 @@
 
 import { Event, Action } from '@instana/types';
 
-import { getTriggerTypeFromEvent, getTriggerIdFromEvent, createBasePolicy } from './shared';
+import { getTriggerTypeFromEvent, getTriggerIdFromEvent, createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { ACTION_TYPE } from 'in-automation/constants';
 
 describe('shared utility functions', () => {
@@ -258,7 +258,9 @@ describe('shared utility functions', () => {
     });
 
     it('sets trigger type and id from event', () => {
-      jest.spyOn(require('./shared'), 'getTriggerTypeFromEvent').mockReturnValue('builtinEvent');
+      jest
+        .spyOn(require('in-automation/AutomationCard/shared'), 'getTriggerTypeFromEvent')
+        .mockReturnValue('builtinEvent');
 
       const policy = createBasePolicy(mockEvent, mockAction);
 

@@ -19,12 +19,12 @@ import {
   getSyntheticSmartAlertConfig,
   getWebsiteSmartAlertConfig
 } from 'in-automation/api';
-import { getTriggerTypeFromEvent, getTriggerIdFromEvent } from './shared';
+import { getTriggerTypeFromEvent, getTriggerIdFromEvent } from 'in-automation/AutomationCard/shared';
+import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTrigger from './useTrigger';
 
 // Mock dependencies
-jest.mock('./shared', () => ({
+jest.mock('in-automation/AutomationCard/shared', () => ({
   getTriggerTypeFromEvent: jest.fn(),
   getTriggerIdFromEvent: jest.fn()
 }));

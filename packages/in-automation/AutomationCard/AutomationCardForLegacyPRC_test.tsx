@@ -10,7 +10,7 @@ import React from 'react';
 
 import { Event, VolatileId } from '@instana/types';
 
-import AutomationCardForLegacyPRC from './AutomationCardForLegacyPRC';
+import AutomationCardForLegacyPRC from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
 import { EventOrMap } from 'in-events/types';
 
 // Mock dependencies
