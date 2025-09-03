@@ -28,8 +28,6 @@
     "installAgentBasedIntegrations": "Install agent-based integrations",
     "installAgentBasedOverlayDescription": "Agent-based integrations allow Instana to collect metrics from systems where the traditional Instana agent cannot run.",
     "support": "We support integrating with:",
-    "sap": "SAP",
-    "omegamon": "Omegamon",
     "itmv6": "ITM v6",
     "apmv8": "APM v8",
     "apmV8ToolKitInfo": "For Instana integration support for an existing IBM APM V8 environment which requires an additional runtime dropin, view documentation.",

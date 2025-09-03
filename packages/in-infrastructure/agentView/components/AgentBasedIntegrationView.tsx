@@ -59,8 +59,6 @@ const AgentBasedIntegrationView = () => {
           <Description lines={[t('in-infrastructure:agentView.support')]} />
           <Listing
             items={[
-              <div>{t('in-infrastructure:agentView.sap')}</div>,
-              t('in-infrastructure:agentView.omegamon'),
               t('in-infrastructure:agentView.itmv6'),
               <Stack direction="horizontal" gap="xsmall" align="center">
                 {t('in-infrastructure:agentView.apmv8')}
