@@ -18,6 +18,7 @@ import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldL
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getGracePeriod } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/logs/form/thresholdForm';
+import { logSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import createRuleForm from 'in-alerting/smart-alerts/logs/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 
@@ -115,7 +116,7 @@ export default function alertFormDefinition(
       })
     )
     .put('rule', createRuleForm())
-    .put('threshold', createThresholdForm(rules?.[0] ?? {}, editMode))
+    .put('threshold', createThresholdForm(rules?.[0] ?? {}, 'logCount', editMode))
     .put(
       'timeThreshold',
       createTimeThresholdForm(
@@ -124,7 +125,7 @@ export default function alertFormDefinition(
         rules?.[0]?.thresholds?.WARNING?.type as ThresholdType
       )
     )
-    .put('hiddenFields', createHiddenFieldsForm(alertChannelList, editMode))
+    .put('hiddenFields', createHiddenFieldsForm(alertChannelList))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false))
     .put(
       'alertChannels',
@@ -136,12 +137,18 @@ export default function alertFormDefinition(
   return form;
 }
 
-export function createHiddenFieldsForm(alertChannelList: string[], calculateThresholdOnBackend = false) {
+export function createHiddenFieldsForm(alertChannelList: string[]) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
       createField({
-        value: calculateThresholdOnBackend
+        value: logSmartAlertsAdaptiveBaselineEnabled ? true : false
+      })
+    )
+    .put(
+      'suggestedThresholdValue',
+      createField({
+        value: null
       })
     )
     .put(

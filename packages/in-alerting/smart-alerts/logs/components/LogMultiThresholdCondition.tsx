@@ -5,166 +5,84 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Checkbox, Stack, SvgIcon } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { ThresholdType } from '@instana/types/typeDefinitions';
 
-import {
-  updateAlertChannelSelectionOnWarningThresholdFieldChange,
-  updateAlertChannelSelectionOnCriticalThresholdFieldChange
-} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
-import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
-import {
-  getMaxMetricValue,
-  getThresholdTypeOptions
-} from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
-import {
-  WARNING_THRESHOLD,
-  CRITICAL_THRESHOLD
-} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import Tooltip from 'in-components/Tooltip';
+import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
+import { getMaxMetricValue } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import ThresholdLabel from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdLabel';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/logs/form/thresholdForm';
+import { logSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/logs/components/LogMultiThresholdCondition.mless';
 
 interface LogMultiThresholdConditionProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   percentageMetric: boolean;
   metricUnitPostfix: string;
+  groupBy?: string[];
 }
+
+type SupportedThresholdType = typeof STATIC_THRESHOLD | typeof ADAPTIVE_BASELINE;
 
 export default function LogMultiThresholdCondition({
   form,
   updateForm,
   percentageMetric,
-  metricUnitPostfix
+  metricUnitPostfix,
+  groupBy
 }: LogMultiThresholdConditionProps) {
   const maxValue = getMaxMetricValue(percentageMetric);
-  const thresholdType = getThresholdTypeOptions();
-  const warningThresholdField = form.get('threshold').get('warningThreshold').get('value');
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold').get('value');
-  const warningThresholdValue = warningThresholdField.value;
-  const criticalThresholdValue = criticalThresholdField.value;
-  const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
-  const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
-  const alertChannelSelection = form.get('alertChannels').value;
-  const operator = form.get('threshold').get('operator').value;
+  const thresholdType = (form.get('threshold').get('warningThreshold').get('type') as Field<ThresholdType>).value;
+  const showSuggestedValueButton = logSmartAlertsAdaptiveBaselineEnabled && !groupBy?.length;
+  const thresholdTypeLabel =
+    thresholdType === STATIC_THRESHOLD
+      ? t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')
+      : t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline');
 
-  useEffect(() => {
-    updateAlertChannelSelectionOnWarningThresholdFieldChange(
-      alertChannelSelection,
-      warningThresholdValuePresent,
-      criticalThresholdValuePresent,
-      form,
-      updateForm
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [warningThresholdField]);
+  const supportedThresholdType = thresholdType as SupportedThresholdType;
 
-  useEffect(() => {
-    updateAlertChannelSelectionOnCriticalThresholdFieldChange(
-      alertChannelSelection,
-      warningThresholdValuePresent,
-      criticalThresholdValuePresent,
-      form,
-      updateForm
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [criticalThresholdField]);
-
-  return (
-    <div className={locals.gridWrapper}>
-      <SvgIcon className={locals.icon} type="lib_alerting_threshold_icon" />
-      <span className={locals.label}>{t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')}</span>
-      <div className={locals.infraThresholdOperatorWrapper}>
-        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
-        <span>{thresholdType[0].label}</span>
-      </div>
-      <span />
-      <Checkbox
-        label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
-        size="large"
-        checked={warningThresholdValuePresent}
-        onChange={({ target }) => {
-          setValidNextValue({
-            isChecked: target.checked,
-            thresholdValue: criticalThresholdValue,
-            thresholdType: WARNING_THRESHOLD,
-            updateForm,
-            updatedThresholdValue,
-            percentageMetric,
-            operator
-          });
-        }}
-      />
-      <Stack direction="horizontal" align="center">
-        <ThresholdValueInputWithValidationMessage
-          max={maxValue}
-          form={form}
-          updateForm={updateForm}
-          percentageMetric={percentageMetric}
-          metricUnitPostfix={metricUnitPostfix}
-          thresholdField={warningThresholdField}
-          getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
-          isMultiThreshold
-          id="warningThreshold"
-        />
-        <Tooltip
-          align="bottomMiddle"
-          content={t('in-alerting:smartAlerts.logs.advancedModeContainer.threshold.tooltipText')}
-        >
-          <SvgIcon type="lib_help_error_info_outline" size="s" color={themes.default.ids.color.option.neutral['700']} />
-        </Tooltip>
-      </Stack>
-      <span />
-      <Checkbox
-        label={t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')}
-        size="large"
-        checked={criticalThresholdValuePresent}
-        onChange={({ target }) => {
-          setValidNextValue({
-            isChecked: target.checked,
-            thresholdValue: warningThresholdValue,
-            thresholdType: CRITICAL_THRESHOLD,
-            updateForm,
-            updatedThresholdValue,
-            percentageMetric,
-            operator
-          });
-        }}
-      />
-      <ThresholdValueInputWithValidationMessage
-        max={maxValue}
+  const thresholdComponentMap: Partial<Record<SupportedThresholdType, React.ReactNode>> = {
+    [STATIC_THRESHOLD]: (
+      <ThresholdValueFormGroupForMultiStaticThreshold
         form={form}
         updateForm={updateForm}
-        percentageMetric={percentageMetric}
+        maxValue={maxValue}
         metricUnitPostfix={metricUnitPostfix}
-        thresholdField={criticalThresholdField}
-        getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'criticalThreshold')}
-        isMultiThreshold
-        id="criticalThreshold"
+        percentageMetric={percentageMetric}
+        label={t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')}
+        showSuggestedValueButton={showSuggestedValueButton}
       />
-      <span />
-      <span />
-      <Stack gap="small">
-        <TouchedMessages field={form.get('threshold')} />
+    ),
+    [ADAPTIVE_BASELINE]: (
+      <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+    )
+  };
 
-        <span>{t('in-alerting:smartAlerts.components.smartAlertDialog.multiThresholdAlertNotificationInfo')}</span>
-      </Stack>
+  const thresholdComponent = thresholdComponentMap[supportedThresholdType];
+
+  return (
+    <div>
+      <ThresholdConditionFormGroup>
+        <ThresholdOperatorDropDown
+          form={form}
+          updateForm={updateForm}
+          customOnChange={newOperator => {
+            updateForm(
+              form.updateIn(['threshold', 'operator'], f => (f as Field<any>).setValue(newOperator).setTouched(true))
+            );
+          }}
+          allOptions
+        />
+        <ThresholdLabel>{thresholdTypeLabel}</ThresholdLabel>
+      </ThresholdConditionFormGroup>
+
+      {thresholdComponent}
     </div>
   );
-
-  function updatedThresholdValue(targetValue: number | null, thresholdType: string) {
-    return form.updateIn(['threshold', thresholdType], thresholdMapForm =>
-      (thresholdMapForm as MapForm<any>).updateIn(['value'], item =>
-        (item as Field<any>).setValue(targetValue).setTouched(true)
-      )
-    );
-  }
 }

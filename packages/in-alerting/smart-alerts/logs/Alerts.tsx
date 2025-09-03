@@ -18,6 +18,7 @@ import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/compone
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
@@ -25,7 +26,6 @@ import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubti
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import CreateSmartAlert from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
@@ -87,7 +87,6 @@ export function getColumnDefinitions() {
 
 export function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }) {
   const { type, operator, value } = threshold;
-  const subtitleElements = [t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.staticThresholdType')];
 
   if (type === STATIC_THRESHOLD) {
     const formattedValue = value
@@ -96,17 +95,19 @@ export function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }
         : number.forcedCompact.detailed(value)
       : 0;
     const humanReadableOperator = humanReadableThresholdOperator(operator);
-
-    subtitleElements.push(
-      t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.metricThresholdValue', {
-        metricName: t('in-events:logSmartAlerts.logs'),
-        operator: humanReadableOperator,
-        value: formattedValue
-      })
-    );
+    return t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.staticThresholdType', {
+      metricName: t('in-events:logSmartAlerts.logs'),
+      operator: humanReadableOperator,
+      value: formattedValue
+    });
+  }
+  if (type === ADAPTIVE_BASELINE) {
+    return t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.adaptiveThresholdType', {
+      metricName: t('in-events:logSmartAlerts.logs')
+    });
   }
 
-  return <>{subtitleElements.join(', ')}</>;
+  return '';
 }
 
 function createRowLinkLocation(

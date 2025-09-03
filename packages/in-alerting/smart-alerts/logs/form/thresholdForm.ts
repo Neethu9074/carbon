@@ -4,128 +4,38 @@
  * Copyright IBM Corp. 2024
  */
 
-import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
+import { MapForm } from 'formalistic';
+
+import { LogAlertRuleUnion, RuleWithThreshold } from '@instana/types/typeDefinitions';
 
 import {
-  LogAlertRuleUnion,
-  isStaticThresholdRule,
-  RuleWithThreshold,
-  SmartAlertThresholdRule,
-  StaticThresholdRule
-} from '@instana/types/typeDefinitions';
+  createUnifiedThresholdForm,
+  createThresholdRuleForm
+} from 'in-alerting/smart-alerts/shared/form/thresholdForm';
+import { LogAlertType } from 'in-alerting/smart-alerts/logs/data/blueprintConfig';
 
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { t } from 'in-i18n';
+export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(
   ruleWithThreshold: RuleWithThreshold<LogAlertRuleUnion> | undefined, // supporting old javascript based code
+  _alertType: LogAlertType, // Unused, but required for API compatibility with `updateMultiThresholdInForm`
   editMode?: boolean
 ): MapForm<any> {
-  if (!ruleWithThreshold) {
-    return createThresholdRuleForm();
-  }
-
-  return createThresholdRuleForm(ruleWithThreshold, editMode);
-}
-
-function createStaticThresholdForm(threshold?: StaticThresholdRule, editMode: boolean = false): MapForm<any> {
-  return createMapForm()
-    .put(
-      'type',
-      createField({
-        value: threshold?.type ?? STATIC_THRESHOLD
-      })
-    )
-    .put(
-      'value',
-      createField({
-        value: threshold?.value ?? null
-      }).setTouched(editMode ? !isEmpty(threshold?.value) : false)
-    );
-}
-
-function createThresholdMapForm(threshold?: SmartAlertThresholdRule, editMode?: boolean): MapForm<any> {
-  if (!threshold || isStaticThresholdRule(threshold)) {
-    return createStaticThresholdForm(threshold, editMode);
-  }
-  throw new Error(`Unknown threshold type ${threshold?.type}.`);
-}
-
-export function createThresholdRuleForm(
-  ruleWithThreshold?: RuleWithThreshold<LogAlertRuleUnion>,
-  editMode?: boolean
-): MapForm<any> {
-  const warningThreshold = ruleWithThreshold?.thresholds?.WARNING;
-  const criticalThreshold = ruleWithThreshold?.thresholds?.CRITICAL;
-
-  return createMapForm({
-    validator: validateForm,
-    items: {
-      operator: createField({
-        value: ruleWithThreshold?.thresholdOperator ?? '>='
-      }),
-      warningThreshold: createThresholdMapForm(warningThreshold, editMode),
-      criticalThreshold: createThresholdMapForm(criticalThreshold, editMode)
-    }
+  // Use the unified threshold form with log configuration
+  return createUnifiedThresholdForm(ruleWithThreshold, {
+    alertCategory: 'logs',
+    alertType: _alertType,
+    editMode
   });
 }
 
-function validateForm({
-  operator,
-  warningThreshold,
-  criticalThreshold
-}: {
-  operator: Field<string>;
-  warningThreshold: MapForm<any>;
-  criticalThreshold: MapForm<any>;
-}): ValidationResult {
-  const warningThresholdValue = warningThreshold.get('value')?.value;
-  const hasWarningThreshold = !isEmpty(warningThresholdValue);
-  const criticalThresholdValue = criticalThreshold.get('value')?.value;
-  const hasCriticalThreshold = !isEmpty(criticalThresholdValue);
+// Export createThresholdRuleForm for backward compatibility
+export { createThresholdRuleForm };
 
-  // check if thresholdValue is greater than `MAX_SAFE_INTEGER` and > 0
-  if (hasWarningThreshold || hasCriticalThreshold) {
-    const thresholdValue = hasWarningThreshold ? warningThresholdValue : criticalThresholdValue;
-    if (thresholdValue >= Number.MAX_SAFE_INTEGER || thresholdValue < 0) {
-      return [
-        {
-          severity: 'error',
-          message: t('in-alerting:smartAlerts.form.invalidNumber')
-        }
-      ];
-    }
-  }
-
-  if (hasWarningThreshold && hasCriticalThreshold) {
-    const operatorValue = operator?.value;
-
-    if ((operatorValue === '<' || operatorValue === '<=') && warningThresholdValue <= criticalThresholdValue) {
-      return [
-        {
-          severity: 'error',
-          message: t('in-alerting:smartAlerts.form.warningThresholdValidator')
-        }
-      ];
-    } else if ((operatorValue === '>' || operatorValue === '>=') && warningThresholdValue >= criticalThresholdValue) {
-      return [
-        {
-          severity: 'error',
-          message: t('in-alerting:smartAlerts.form.criticalThresholdValidator')
-        }
-      ];
-    }
-  }
-
-  if (!hasWarningThreshold && !hasCriticalThreshold) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-alerting:smartAlerts.logs.form.selectAtLeastOneThreshold')
-      }
-    ];
-  }
-
-  return null;
+// Re-export helper function that may be used by existing log code
+export function createLogThresholdRuleForm(
+  ruleWithThreshold?: RuleWithThreshold<LogAlertRuleUnion>,
+  editMode?: boolean
+): MapForm<any> {
+  return createThresholdRuleForm(ruleWithThreshold, 'logs', editMode);
 }

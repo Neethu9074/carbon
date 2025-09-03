@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { TimeConfig } from '@instana/types';
 
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import { days } from 'in-services/time';
+import { days, hours } from 'in-services/time';
 import { t } from 'in-i18n';
 
 export const chartViewConfigPropType = PropTypes.shape({
@@ -34,6 +34,14 @@ export const chartViewConfig7days: ChartViewConfigItem = {
   timeConfig: {
     autoRefresh: false,
     windowSize: days.toMillis(7)
+  }
+};
+
+export const chartViewConfig6hours: ChartViewConfigItem = {
+  label: t('in-alerting:components.chart.chartViewConfigsLast6Hours'),
+  timeConfig: {
+    autoRefresh: false,
+    windowSize: hours.toMillis(6)
   }
 };
 /**

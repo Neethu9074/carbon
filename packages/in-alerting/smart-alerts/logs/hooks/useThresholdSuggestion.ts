@@ -1,24 +1,33 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import { Field, MapForm } from 'formalistic';
 import { useEffect } from 'react';
 
+import {
+  Result,
+  ThresholdConfigUnion,
+  Seasonality,
+  ThresholdSuggestionResponse,
+  TagFilterExpression
+} from '@instana/types';
 // @ts-expect-error '@instana/observables' does not export 'empty'
 import { Observable, empty } from '@instana/observables';
-import { Result, ThresholdConfigUnion, Seasonality, ThresholdSuggestionResponse } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import getInfraMetricsThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsThresholdSuggestion';
-import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { useSelectedMetricGroup } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
-import { getEnrichedTagFilterExpression } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
-import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import getLogMetricsThresholdSuggestion from 'in-alerting/smart-alerts/logs/subscriptions/getLogMetricsThresholdSuggestion';
+import { getExpressionWithLogsGroupingTags, SelectedMetric } from 'in-events/components/EventContent/tagFilterUtils';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { updateMultiThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
+import createThresholdForm from 'in-alerting/smart-alerts/logs/form/thresholdForm';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+
+const metricName = 'logs_distribution';
 
 export default function useThresholdSuggestion(
   form: MapForm<any>,
@@ -27,13 +36,13 @@ export default function useThresholdSuggestion(
   editMode: boolean,
   config: any
 ) {
-  const { isValid, simpleMode, alertConfigWithFormModel } = config;
-  const { selectedMetricGroup } = useSelectedMetricGroup();
+  const { tagFilterValid, simpleMode, alertConfigWithFormModel } = config;
+  const selectedMetricGroup = useObservable(selectedMetricGroup$, []) as SelectedMetric;
   const thresholdResult = useObservable(
-    ([isValid, _, selectedMetricGroup]) => {
-      return resolveThresholdRequest(alertConfigWithFormModel, isValid, selectedMetricGroup);
+    ([tagFilterValid, _, selectedMetricGroup]) => {
+      return resolveThresholdRequest(alertConfigWithFormModel, tagFilterValid, selectedMetricGroup);
     },
-    [isValid, form, selectedMetricGroup]
+    [tagFilterValid, form, selectedMetricGroup]
   );
 
   useEffect(() => {
@@ -42,12 +51,12 @@ export default function useThresholdSuggestion(
     setThresholdResult(thresholdResult);
     const { data, errors } = thresholdResult;
 
-    if (isValid) {
+    if (tagFilterValid) {
       updateMultiThresholdInForm(
         createThresholdForm,
         form,
         updateForm,
-        data as { type: string; value?: any; baseline?: number[] },
+        data as { type: string; value?: number; baseline?: number[] },
         errors,
         simpleMode,
         editMode
@@ -57,7 +66,7 @@ export default function useThresholdSuggestion(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
 
-  // This would normally be handled in useInfraSmartAlertFormSideEffects, but since selectedMetricGroup
+  // This would normally be handled in useSmartAlertFormSideEffects, but since selectedMetricGroup
   // is not part of the form state, we need to handle it here.
   useEffect(() => {
     setThresholdResult(null);
@@ -72,13 +81,21 @@ export default function useThresholdSuggestion(
 
 function shouldSkipFetchingThresholdSuggestion(
   isValid: boolean,
-  alertConfigWithFormModel: InfraSmartAlertConfigWithMetadata & {
+  alertConfigWithFormModel: LogSmartAlertConfigWithMetadata & {
     hiddenFields: { calculateThresholdOnBackend: boolean };
   }
-) {
-  const {
-    hiddenFields: { calculateThresholdOnBackend }
-  } = alertConfigWithFormModel;
+): boolean {
+  const { hiddenFields, groupBy, threshold } = alertConfigWithFormModel as typeof alertConfigWithFormModel & {
+    threshold: { warningThreshold: { type: string } };
+  };
+
+  const { calculateThresholdOnBackend } = hiddenFields;
+  const { warningThreshold } = threshold;
+
+  if (warningThreshold.type === STATIC_THRESHOLD && groupBy) {
+    return true;
+  }
+
   return !isValid || !calculateThresholdOnBackend;
 }
 
@@ -88,7 +105,7 @@ type ThresholdConfigWithSmoothingOverrides = ThresholdConfigUnion & {
 };
 
 function resolveThresholdRequest(
-  alertConfigWithFormModel: InfraSmartAlertConfigWithMetadata & {
+  alertConfigWithFormModel: LogSmartAlertConfigWithMetadata & {
     hiddenFields: { calculateThresholdOnBackend: boolean };
     threshold: {
       warningThreshold?: ThresholdConfigWithSmoothingOverrides;
@@ -96,38 +113,33 @@ function resolveThresholdRequest(
     };
   },
   isValid: boolean,
-  selectedMetricGroup: Tags | null
+  selectedMetricGroup: SelectedMetric
 ): Observable<Result<ThresholdSuggestionResponse>> {
-  const {
-    rule: { metricName, aggregation, entityType, crossSeriesAggregation, regex },
-    threshold,
-    granularity,
-    tagFilterExpression
-  } = alertConfigWithFormModel;
-
+  let { threshold, granularity, tagFilterExpression } = alertConfigWithFormModel;
   const operator = threshold.operator;
   const type =
     alertConfigWithFormModel.threshold.warningThreshold?.type ||
     alertConfigWithFormModel.threshold.criticalThreshold?.type;
 
-  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel) || !metricName) {
+  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel)) {
     return empty;
   }
 
-  const enrichedTagFilterExpression = getEnrichedTagFilterExpression(tagFilterExpression, selectedMetricGroup);
+  tagFilterExpression = toBackendQueryModel(tagFilterExpression as any);
+
+  const enrichedTagFilterExpression = selectedMetricGroup
+    ? getExpressionWithLogsGroupingTags(tagFilterExpression as TagFilterExpression, [selectedMetricGroup])
+    : tagFilterExpression;
 
   const seasonality = threshold.warningThreshold?.seasonality ?? threshold.criticalThreshold?.seasonality;
   const adaptability = threshold.warningThreshold?.adaptability ?? threshold.criticalThreshold?.adaptability;
 
-  return getInfraMetricsThresholdSuggestion({
+  return getLogMetricsThresholdSuggestion({
     tagFilterExpression: enrichedTagFilterExpression,
     metric: {
       metric: metricName,
       granularity,
-      aggregation,
-      type: entityType,
-      crossSeriesAggregation,
-      regex
+      aggregation: 'SUM'
     },
     operator,
     fallbackOnError: true,

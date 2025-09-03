@@ -10,16 +10,19 @@ import { MapForm } from 'formalistic';
 import { CarbonLayer, Spacer, Stack, StackItem, ButtonGroup } from '@instana/components';
 import { create } from '@instana/observables';
 
-import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
 import {
+  chartViewConfig6hours,
   ChartViewConfigItem,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
+import { getThresholdType } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
+import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import { t } from 'in-i18n';
@@ -36,8 +39,9 @@ interface ThresholdChartProps {
 
 export function ThresholdChart({ form, onChartViewConfigChange, selectedChartViewConfigIndex }: ThresholdChartProps) {
   const tagCatalog = useTagCatalog('SMART_ALERTS');
-  const chartViewConfigs = defaultChartViewConfigs;
   const groupByTag = form.get('groupBy').value;
+  const thresholdType = getThresholdType(form);
+  const chartViewConfigs = ADAPTIVE_BASELINE === thresholdType ? [chartViewConfig6hours] : defaultChartViewConfigs;
 
   const groupBy = useMemo(() => {
     return groupByTag ? [groupByTag] : [];
@@ -76,6 +80,7 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
                       to: timeConfig.to,
                       focusedMoment: timeConfig.focusedMoment
                     }}
+                    alertsPreviewEnabled
                   />
                 </div>
               </BorderedContainer>

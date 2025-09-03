@@ -65,7 +65,8 @@
       "chartAlertsPreviewLanePresenterTooltip_1": "Alerts: {{count}}",
       "chartAlertsPreviewLanePresenterTooltip_2": "Alerts: {{count}}",
       "chartViewConfigsLast24Hours": "Last 24 hours",
-      "chartViewConfigsLast7Days": "Last 7 days"
+      "chartViewConfigsLast7Days": "Last 7 days",
+      "chartViewConfigsLast6Hours": "Last 6 hours"
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "You are looking at a deleted alert configuration. Modifications are not possible.",
     "alertPropertyInfosWarning": "Warning",
@@ -1804,8 +1805,8 @@
         "columns": {
           "name": {
             "subtitle": {
-              "staticThresholdType": "Static threshold",
-              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+              "staticThresholdType": "Static threshold, {{metricName}} {{operator}} {{value}}",
+              "adaptiveThresholdType": "Adaptive threshold, {{metricName}}"
             }
           }
         },
@@ -1820,8 +1821,7 @@
         },
         "threshold": {
           "label": "Threshold",
-          "title": "Threshold: When is the condition violated?",
-          "tooltipText": "The threshold value defined here will be evaluated based on the time granularity specified below."
+          "title": "Threshold: When is the condition violated?"
         },
         "timeThreshold": {
           "label": "Time threshold",

@@ -979,6 +979,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logSmartAlertsAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.log.smart.alerts.adaptive.baseline.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'allSmartAlertsViewEnabled',
     instanaCtlKey: 'feature.all.smart.alerts.view.enabled',
     defaultValue: false

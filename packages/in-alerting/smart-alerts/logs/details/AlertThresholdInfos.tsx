@@ -11,6 +11,8 @@ import { Stack } from '@instana/components';
 
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -22,11 +24,21 @@ interface Props {
 }
 
 export const AlertThresholdInfos = ({ thresholdOperator, thresholdsMap, metricLabel }: Props) => {
+  const thresholdType = thresholdsMap[WARNING_SEVERITY]?.type ?? thresholdsMap[CRITICAL_SEVERITY]?.type;
+  let thresholdTypeLabel = '';
+  if (thresholdType === STATIC_THRESHOLD) {
+    thresholdTypeLabel = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold');
+  } else if (thresholdType === ADAPTIVE_BASELINE) {
+    thresholdTypeLabel = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline');
+  }
+
   return (
     <AlertThresholdInfosPresenter
-      thresholdTypeLabel={t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')}
+      thresholdTypeLabel={thresholdTypeLabel}
       metricLabel={metricLabel}
-      threshold={<ThresholdInfo thresholdsMap={thresholdsMap} thresholdOperator={thresholdOperator} />}
+      {...(thresholdType === STATIC_THRESHOLD && {
+        threshold: <ThresholdInfo thresholdsMap={thresholdsMap} thresholdOperator={thresholdOperator} />
+      })}
     />
   );
 };

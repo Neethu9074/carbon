@@ -199,6 +199,7 @@ module.exports = {
   mobileAppSmartAlertSlownessBlueprintEnabled: true,
   regexMatchEnabled: true,
   infraSmartAlertsAdaptiveBaselineEnabled: true,
+  logSmartAlertsAdaptiveBaselineEnabled: true,
   whatsNewBannerEnabled: true,
   allSmartAlertsViewEnabled: true,
   apMetricsDeltaFetchingEnabled: true,

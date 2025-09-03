@@ -9,9 +9,14 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import LogMultiThresholdCondition from 'in-alerting/smart-alerts/logs/tearsheet/components/LogMultiThresholdCondition';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
+import { getThresholdType } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
+import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
 import EvaluationWindow from 'in-alerting/smart-alerts/components/tearSheet/EvaluationWindow';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/logs/form/thresholdForm';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
+import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -22,6 +27,8 @@ export default function ThresholdSection({
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
 }) {
+  const thresholdType = getThresholdType(form);
+
   return (
     <Stack direction="vertical" gap="gutter" align="start">
       {/* Metric name */}
@@ -78,12 +85,24 @@ export default function ThresholdSection({
         }
         titleWidth="8rem"
       >
-        <LogMultiThresholdCondition
-          form={form}
-          updateForm={updateForm}
-          percentageMetric={false}
-          metricUnitPostfix={''}
-        />
+        {thresholdType === STATIC_THRESHOLD && (
+          <MultiThresholdCondition
+            form={form}
+            updateForm={updateForm}
+            percentageMetric={false}
+            metricUnitPostfix={''}
+            alertChannelPerSeverityEnabled
+            setValidNextValue={setValidNextValue}
+          />
+        )}
+
+        {thresholdType !== STATIC_THRESHOLD && (
+          <MultiThresholdDeviationSliderForm
+            form={form}
+            updateForm={updateForm}
+            defaultValue={defaultDeviationFactor}
+          />
+        )}
       </Section>
       {/* Evaluation Window */}
       <EvaluationWindow form={form} updateForm={updateForm} smartAlertType="logSA" />

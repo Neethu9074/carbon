@@ -7,8 +7,12 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Result, AdaptiveBaselineSuggestionResponse, isAdaptiveBaselineConfig } from '@instana/types';
 import { Stack } from '@instana/components';
 
+import StaticOrAdaptiveSwitch, {
+  getThresholdType
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
@@ -25,16 +29,21 @@ import {
 } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import { LogMultiThresholdAlertPreview } from 'in-alerting/smart-alerts/logs/dialog/advanced/LogMultiThresholdAlertPreview';
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
+import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
+import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/logs/hooks/useOnThresholdTypeChange';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
 import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { logSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { MessageType } from 'in-components/MessageStack';
@@ -63,11 +72,20 @@ export default function AdvancedModeContainer(
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     TagBasedPayloadConfigurator,
-    messages
+    messages,
+    thresholdResult
   } = props;
+  const thresholdType = getThresholdType(form);
   const tagCatalog = useTagCatalog('SMART_ALERTS');
   const groupBy = form.get('groupBy').value;
+  const logOnThresholdTypeChange = useOnThresholdTypeChange();
   const placeholders = getAllowedPlaceholders({ groupBy: groupbyForPlaceholder(groupBy) });
+  const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: MapForm<any>) => {
+    if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
+      onChartViewConfigChange?.(0);
+    }
+    return updateForm?.(updatedForm);
+  };
 
   return (
     <StepsContainer
@@ -109,13 +127,35 @@ export default function AdvancedModeContainer(
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.threshold.title'),
           valid: isThresholdSectionValid(),
           content: (
-            <ThresholdSelectionInteractiveChart
-              form={form}
-              onChartViewConfigChange={onChartViewConfigChange}
-              selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              updateForm={updateForm}
-              tagCatalog={tagCatalog}
-            />
+            <>
+              {logSmartAlertsAdaptiveBaselineEnabled && (
+                <LightCard
+                  title={t(
+                    'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'
+                  )}
+                  withoutPadding
+                  darkFrame
+                >
+                  <StaticOrAdaptiveSwitch
+                    form={form}
+                    setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
+                    onThresholdTypeChange={logOnThresholdTypeChange}
+                  />
+                </LightCard>
+              )}
+              <ThresholdSelectionInteractiveChart
+                form={form}
+                onChartViewConfigChange={onChartViewConfigChange}
+                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                updateForm={updateForm}
+                tagCatalog={tagCatalog}
+              />
+              {thresholdType === ADAPTIVE_BASELINE && (
+                <AdaptiveBaselineErrorMessage
+                  thresholdResult={thresholdResult as Result<AdaptiveBaselineSuggestionResponse>}
+                />
+              )}
+            </>
           )
         },
         {

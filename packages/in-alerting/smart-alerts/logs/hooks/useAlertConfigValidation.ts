@@ -6,8 +6,8 @@
 
 import { MapForm } from 'formalistic';
 
-import { isEmpty as isThresholdEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingFullScreenTearSheet';
+import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
 
 export default function useAlertConfigValidation(
   stepConfigs: AlertingTearSheetStepConfigs[],
@@ -22,7 +22,7 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[1],
-      valid: isThresholdSectionValid(form) && isTimeThresholdValid(form)
+      valid: isThresholdSectionValid(form) && form.get('threshold').hierarchyValid && isTimeThresholdValid(form)
     },
     {
       ...stepConfigs[2],
@@ -42,22 +42,7 @@ function isTimeThresholdValid(form: MapForm<any>) {
 }
 
 function isThresholdSectionValid(form: MapForm<any>) {
-  const warningThresholdValue = form.get('threshold')?.get('warningThreshold').get('value').value;
-  const hasWarningThreshold = !isThresholdEmpty(warningThresholdValue);
-  const criticalThresholdValue = form.get('threshold')?.get('criticalThreshold').get('value').value;
-  const hasCriticalThreshold = !isThresholdEmpty(criticalThresholdValue);
-
-  const operatorValue = form.get('threshold')?.get('operator').value ?? '>=';
-
-  if (hasWarningThreshold && hasCriticalThreshold) {
-    if ((operatorValue === '<' || operatorValue === '<=') && warningThresholdValue <= criticalThresholdValue) {
-      return false;
-    } else if ((operatorValue === '>' || operatorValue === '>=') && warningThresholdValue >= criticalThresholdValue) {
-      return false;
-    }
-  }
-
-  if (!hasWarningThreshold && !hasCriticalThreshold) {
+  if (fieldTouchedAndInvalid(form.get('threshold'))) {
     return false;
   }
 

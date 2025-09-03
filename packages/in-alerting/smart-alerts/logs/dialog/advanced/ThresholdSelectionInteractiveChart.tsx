@@ -7,18 +7,20 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { RuleWithThreshold } from '@instana/types/typeDefinitions';
-import { LogAlertRuleUnion } from '@instana/types';
-
+import { getThresholdType } from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
+import {
+  chartViewConfig6hours,
+  chartViewConfigs as defaultChartViewConfigs
+} from 'in-alerting/components/Chart/chartViewConfig';
 import LogMultiThresholdCondition from 'in-alerting/smart-alerts/logs/components/LogMultiThresholdCondition';
-import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { CatalogResponse } from 'in-logging/api/catalog';
 import { t } from 'in-i18n';
@@ -38,7 +40,8 @@ export default function ThresholdSelectionInteractiveChart({
   selectedChartViewConfigIndex,
   tagCatalog
 }: ThresholdProps): JSX.Element {
-  const chartViewConfigs = defaultChartViewConfigs;
+  const thresholdType = getThresholdType(form);
+  const chartViewConfigs = ADAPTIVE_BASELINE === thresholdType ? [chartViewConfig6hours] : defaultChartViewConfigs;
   const groupByTag = form.get('groupBy').value;
 
   const groupBy = useMemo(() => {
@@ -60,7 +63,13 @@ export default function ThresholdSelectionInteractiveChart({
 
   return (
     <BorderedContainer>
-      <LogMultiThresholdCondition form={form} updateForm={updateForm} percentageMetric={false} metricUnitPostfix={''} />
+      <LogMultiThresholdCondition
+        form={form}
+        updateForm={updateForm}
+        percentageMetric={false}
+        metricUnitPostfix={''}
+        groupBy={groupBy}
+      />
       <ChartViewConfigurator
         chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={onChartViewConfigChange}
@@ -78,6 +87,7 @@ export default function ThresholdSelectionInteractiveChart({
                 to: timeConfig.to,
                 focusedMoment: timeConfig.focusedMoment
               }}
+              alertsPreviewEnabled
             />
             {groupBy && groupBy?.length > 0 && (
               <LogMetricGroup
@@ -96,24 +106,4 @@ export default function ThresholdSelectionInteractiveChart({
       </ChartViewConfigurator>
     </BorderedContainer>
   );
-}
-
-// TODO: Replace this with the identical function in
-// packages/in-alerting/smart-alerts/components/utils/formUtils.ts
-export function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
-  const tagFilterExpression = form.get('tagFilterExpression').value;
-  const warningThresholdField = form.get('threshold').get('warningThreshold');
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
-
-  const ruleWithThreshold: RuleWithThreshold<LogAlertRuleUnion> = {
-    rule: form.get('rule').toJS(),
-    thresholdOperator: form.get('threshold').get('operator').value,
-    thresholds: { WARNING: warningThresholdField.toJS(), CRITICAL: criticalThresholdField.toJS() }
-  };
-
-  return {
-    ...form.toJS(),
-    rules: [ruleWithThreshold],
-    tagFilterExpression: toBackendQueryModel(tagFilterExpression)
-  };
 }

@@ -14,26 +14,6 @@ import { updateMultiThresholdInForm } from 'in-alerting/smart-alerts/components/
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
-// Remove thresholds with "Infinity" values to avoid chart rendering issues.
-// TODO: Remove this once the backend is fixed.
-const filterOutThresholdResultInfinityValues = thresholdResult => {
-  if (!Array.isArray(thresholdResult?.data?.baseline)) {
-    return thresholdResult;
-  }
-
-  const filteredBaseline = thresholdResult.data.baseline.filter(
-    ([timestamp, baseline, bound]) => Number.isFinite(baseline) && Number.isFinite(bound)
-  );
-
-  return {
-    ...thresholdResult,
-    data: {
-      ...thresholdResult.data,
-      baseline: filteredBaseline
-    }
-  };
-};
-
 export default function useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, config) {
   const { isValid, simpleMode, alertConfigWithFormModel, blueprintConfig, editMode } = config;
   const thresholdResult = useObservable(
@@ -44,10 +24,8 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
   useEffect(() => {
     if (!thresholdResult || thresholdResult.progress?.loading) return;
 
-    const patchedThresholdResult = filterOutThresholdResultInfinityValues(thresholdResult);
-
-    setThresholdResult(patchedThresholdResult);
-    const { data, errors } = patchedThresholdResult;
+    setThresholdResult(thresholdResult);
+    const { data, errors } = thresholdResult;
 
     if (isValid) {
       updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, simpleMode, editMode);

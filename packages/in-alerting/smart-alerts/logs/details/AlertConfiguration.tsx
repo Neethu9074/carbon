@@ -6,7 +6,14 @@
 
 import React, { useState, useMemo } from 'react';
 
-import { TagCatalog, TagFilter, RuleWithThreshold, LogAlertRuleUnion } from '@instana/types';
+import {
+  TagCatalog,
+  TagFilter,
+  RuleWithThreshold,
+  LogAlertRuleUnion,
+  ThresholdConfig,
+  isAdaptiveBaselineConfig
+} from '@instana/types';
 import { Message, Stack } from '@instana/components';
 import { create } from '@instana/observables';
 
@@ -14,8 +21,13 @@ import {
   replaceDescriptionPlaceholdersWithMarkup,
   replaceTitlePlaceholdersWithMarkup
 } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
+import {
+  chartViewConfig6hours,
+  chartViewConfigs as defaultChartViewConfigs
+} from 'in-alerting/components/Chart/chartViewConfig';
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/useTagBasedPayoadConfigurator';
+import { CRITICAL_SEVERITY, WARNING_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
@@ -30,7 +42,6 @@ import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetr
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
-import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -77,6 +88,12 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator();
   const groupingFilter = groupBy && toUIGrouping(logsGroupbyTag(groupBy));
+  const thresholdType = thresholdsMap[WARNING_SEVERITY]?.type ?? thresholdsMap[CRITICAL_SEVERITY]?.type;
+  const thresholdConfig = { operator: thresholdOperator, type: thresholdType } as ThresholdConfig;
+
+  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdConfig)
+    ? [chartViewConfig6hours]
+    : defaultChartViewConfigs;
 
   return (
     <AlertDetailsCard>

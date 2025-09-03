@@ -17,7 +17,8 @@ import {
   ThresholdType,
   AdaptiveThresholdRule,
   WebsiteAlertRuleUnion,
-  MobileAppAlertRuleUnion
+  MobileAppAlertRuleUnion,
+  LogAlertRuleUnion
 } from '@instana/types/typeDefinitions';
 
 import { STATIC_THRESHOLD, HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -33,7 +34,8 @@ export type SupportedAlertRuleUnion =
   | InfraAlertRuleUnion
   | ApplicationAlertRuleUnion
   | WebsiteAlertRuleUnion
-  | MobileAppAlertRuleUnion;
+  | MobileAppAlertRuleUnion
+  | LogAlertRuleUnion;
 
 // Types for the unified threshold form system
 export type AlertCategory = 'infrastructure' | 'eum' | 'logs' | 'applications';
@@ -91,9 +93,9 @@ const ALERT_TYPE_CONFIGS: Record<AlertCategory, AlertTypeConfig> = {
   },
 
   logs: {
-    supportedThresholdTypes: ['staticThreshold'],
+    supportedThresholdTypes: ['staticThreshold', 'adaptiveBaseline'],
     defaultOperator: '>=',
-    showCheckboxes: false,
+    showCheckboxes: true,
     i18nEntries: {
       selectAtLeastOneThreshold: t('in-alerting:smartAlerts.logs.form.selectAtLeastOneThreshold'),
       warningThresholdValidator: t('in-alerting:smartAlerts.form.warningThresholdValidator'),

@@ -192,6 +192,7 @@
         "thresholds": {
           "WARNING": {
             "type": "staticThreshold",
+            "isCheckboxSelected": true,
             "value": 20
           }
         }

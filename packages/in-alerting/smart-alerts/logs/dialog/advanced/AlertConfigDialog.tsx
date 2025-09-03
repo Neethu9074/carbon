@@ -7,8 +7,7 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { LogAlertRuleUnion, LogAlertConfig, VersionedConfig } from '@instana/types';
-import { RuleWithThreshold } from '@instana/types/typeDefinitions';
+import { LogAlertConfig, VersionedConfig } from '@instana/types';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialogWithThreshold';
@@ -21,7 +20,8 @@ import { dashboardAlertDetailsFullPath, alertsDetailsPath } from 'in-logging/nav
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
 import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { getRuleWithThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -44,7 +44,7 @@ export default function AlertConfigDialog({
   startWithSimpleMode
 }: AlertConfigDialogType) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(populateRulesInConfig(alertConfig), editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
 
   const duplicateFrom = alertConfig?.duplicateFrom;
@@ -94,24 +94,6 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
     // @ts-expect-error ts can't determine nested fields of MapForm<any>
     setForm(externalForm.updateIn(path, updater));
   };
-}
-
-export function getRuleWithThreshold(form: MapForm<any>) {
-  const warningThresholdField = form.get('threshold').get('warningThreshold');
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
-  const warningThreshold = !isEmpty(warningThresholdField.get('value').value)
-    ? { WARNING: warningThresholdField.toJS() }
-    : {};
-  const criticalThreshold = !isEmpty(criticalThresholdField.get('value').value)
-    ? { CRITICAL: criticalThresholdField.toJS() }
-    : {};
-  const ruleWithThreshold: RuleWithThreshold<LogAlertRuleUnion> = {
-    rule: form.get('rule').toJS(),
-    thresholdOperator: form.get('threshold').get('operator').value,
-    thresholds: { ...warningThreshold, ...criticalThreshold }
-  };
-
-  return ruleWithThreshold;
 }
 
 export function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {

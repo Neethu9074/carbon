@@ -12,6 +12,7 @@ import { VersionedConfig } from '@instana/types';
 import AlertConfigDialog, { toAlertConfig } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import alertFormDefinition from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
+import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import data from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
 
 const mockTriggerReload = jest.fn();
@@ -51,7 +52,7 @@ describe('in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog', () =
   });
 
   it('test alertFormDefinition', () => {
-    const form = alertFormDefinition(data.form as unknown as LogSmartAlertConfig & VersionedConfig, false);
+    const form = alertFormDefinition(populateRulesInConfig(data.form), false);
 
     const resultData = data.form;
     delete (resultData as any).hiddenFields;

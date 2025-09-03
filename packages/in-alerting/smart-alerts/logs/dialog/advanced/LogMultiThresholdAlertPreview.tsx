@@ -11,7 +11,6 @@ import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/compo
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import { t } from 'in-i18n';
 
@@ -26,12 +25,8 @@ export function LogMultiThresholdAlertPreview({
   getDescriptionPlaceholder,
   allowedPlaceholders
 }: LogMultiThresholdAlertPreviewProps) {
-  const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const warningThresholdValue = warningThresholdField.get('value').value;
-  const criticalThresholdValue = criticalThresholdField.get('value').value;
-  const isWarningThresholdDefined = !isEmpty(warningThresholdValue);
-  const isCriticalThresholdDefined = !isEmpty(criticalThresholdValue);
+  const isWarningThresholdSelected = form.get('threshold').get('warningThreshold').get('isCheckboxSelected')?.value;
+  const isCriticalThresholdSelected = form.get('threshold').get('criticalThreshold').get('isCheckboxSelected')?.value;
   const entityLabel = t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.preview.subtitle');
   const name = form.get('name').value;
 
@@ -39,8 +34,8 @@ export function LogMultiThresholdAlertPreview({
     <MultiThresholdAlertPreviewCommon
       form={form}
       getDescriptionPlaceholder={getDescriptionPlaceholder}
-      isWarningDefined={isWarningThresholdDefined}
-      isCriticalDefined={isCriticalThresholdDefined}
+      isWarningDefined={isWarningThresholdSelected}
+      isCriticalDefined={isCriticalThresholdSelected}
       entityLabel={entityLabel}
       entityIconType="lib_application_logging"
       renderHeadline={() => (

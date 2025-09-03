@@ -22,6 +22,7 @@ import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data
 import { InfraAlertType } from 'in-alerting/smart-alerts/infrastructure/data/blueprintConfig';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { MobileAlertType } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { LogAlertType } from 'in-alerting/smart-alerts/logs/data/blueprintConfig';
 import { t } from 'in-i18n';
 
 type MultithresholdAlertRuleUnion =
@@ -31,7 +32,12 @@ type MultithresholdAlertRuleUnion =
   | MobileAppAlertRuleUnion
   | LogAlertRuleUnion;
 
-type MultithresholdAlertType = ApplicationAlertType | InfraAlertType | WebsitesAlertType | MobileAlertType;
+type MultithresholdAlertType =
+  | ApplicationAlertType
+  | InfraAlertType
+  | WebsitesAlertType
+  | MobileAlertType
+  | LogAlertType;
 
 export function updateMultiThresholdInForm<R extends MultithresholdAlertRuleUnion, T extends MultithresholdAlertType>(
   createThresholdForm: (

@@ -22,9 +22,10 @@ import local from 'in-alerting/smart-alerts/logs/components/LogMetricChart.mless
 interface LogMetricChartProps {
   alertConfig: LogSmartAlertConfigWithMetadata;
   timeConfig: TimeConfig;
+  alertsPreviewEnabled?: boolean;
 }
 
-export function LogMetricChart({ alertConfig, timeConfig }: LogMetricChartProps) {
+export function LogMetricChart({ alertConfig, timeConfig, alertsPreviewEnabled = false }: LogMetricChartProps) {
   const { groupBy } = alertConfig;
   const selectedMetricGroup = useObservable(selectedMetricGroup$, []) as SelectedMetric;
   const chartPreviewName = selectedMetricGroup?.groupbyValue ?? '';
@@ -52,7 +53,7 @@ export function LogMetricChart({ alertConfig, timeConfig }: LogMetricChartProps)
         alertConfig={alertConfig}
         timeConfig={timeConfig}
         selectedMetricGroup={selectedMetricGroup ?? undefined}
-        alertsPreviewEnabled
+        alertsPreviewEnabled={alertsPreviewEnabled}
       />
     </div>
   );

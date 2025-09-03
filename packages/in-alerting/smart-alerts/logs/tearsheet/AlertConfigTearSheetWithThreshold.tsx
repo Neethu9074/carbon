@@ -13,6 +13,7 @@ import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichS
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/logs/tearsheet/steps/TearSheetStepConfigs';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/logs/hooks/useAlertConfigValidation';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/logs/hooks/useThresholdSuggestion';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -59,6 +60,14 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
     updateTagFilterExpression
   );
 
+  const [thresholdResult, setThresholdResult] = useState();
+
+  useThresholdSuggestion(form, updateForm, setThresholdResult, editMode, {
+    tagFilterValid,
+    simpleMode: false,
+    alertConfigWithFormModel
+  });
+
   return (
     <AlertingFullScreenTearSheet
       {...props}
@@ -66,7 +75,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       isEditMode={editMode}
       tearSheetTitle={tearSheetTitle}
       stepConfigs={navItems}
-      thresholdResult={null}
+      thresholdResult={thresholdResult}
       setTagFilterValid={setTagFilterValid}
       handleFormSubmit={() => handleFormSubmit(onCreate)}
       actionButtonLabel={getButtonLabel(editMode)}

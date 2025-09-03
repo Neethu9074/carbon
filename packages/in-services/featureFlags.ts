@@ -166,6 +166,9 @@ export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'
 );
 
+// Logs Smart Alerts
+export const logSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled('logSmartAlertsAdaptiveBaselineEnabled');
+
 // Table custom widget
 export const customWidgetEventsTableEnabled = isFeatureFlagEnabled('customWidgetEventsTableEnabled');
 export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('customWidgetTableInfraDataSourceEnabled');

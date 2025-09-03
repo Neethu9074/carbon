@@ -21,6 +21,7 @@ import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/a
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/logs/dialog/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/logs/hooks/useThresholdSuggestion';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
@@ -110,6 +111,14 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     onStepChanged: () => {}
   });
 
+  const [thresholdResult, setThresholdResult] = useState();
+
+  useThresholdSuggestion(form, updateForm, setThresholdResult, editMode, {
+    tagFilterValid,
+    simpleMode,
+    alertConfigWithFormModel
+  });
+
   const footer = (
     <AdvancedModeFooter
       form={form}
@@ -146,7 +155,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       SimpleModeElement={SimpleModeContainer}
       onChartViewConfigChange={onChartViewConfigChange}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-      thresholdResult={null}
+      thresholdResult={thresholdResult}
       timeConfig={timeConfig}
       isTagFilterFormModelValid={tagFilterValid}
       setTagFilterValid={setTagFilterValid}

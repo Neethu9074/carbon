@@ -10,40 +10,39 @@ import {
   Granularity,
   LogTimeThreshold,
   Result,
-  StaticThresholdData,
   TagFilter,
   TagFilterExpression,
   ThresholdData,
   TimeConfig,
-  StaticThresholdRule,
   ThresholdOperator,
   Severity,
   SmartAlertThresholdRuleUnion,
   GetLogMetricAlertsPreviewQuery,
   RuleWithThreshold,
-  LogAlertRuleUnion
+  LogAlertRuleUnion,
+  AdaptiveThresholdRule,
+  StaticThresholdRule
 } from '@instana/types';
 
+//prettier-ignore
+//@ts-expect-error TS migration
+import { getY1ForMultiThreshold, getRendererBasedOnThresholdTypeForMultiThreshold } from 'in-alerting/components/Chart/AlertingChart';
+//@ts-expect-error TS migration
+import { extendMetricConfiguration, getThreshold } from 'in-alerting/components/Chart/AlertingChartWrapper';
 // @ts-expect-error TS migration
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
-//@ts-expect-error TS migration
-import { extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { SelectedMetric, getExpressionWithLogsGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
-//@ts-expect-error TS migration
-import { getY1ForMultiThreshold } from 'in-alerting/components/Chart/AlertingChart';
 import { getChartConfig, getUnifiedMetricConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getLogMetricsAlertPreview from 'in-alerting/smart-alerts/logs/subscriptions/getLogMetricsAlertPreview';
 import { zeroFillAndClipMetric, applyPostProcessing, Metrics } from 'in-alerting/components/Chart/chartUtils';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
-import { createLineWithMultiStaticThreshold } from 'in-alerting/components/Chart/renderer/Renderer';
-import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -74,14 +73,21 @@ export default function LogAlertChartWrapper({
   const { granularity, tagFilterExpression, timeThreshold, rules } = alertConfig;
   const firstRule: RuleWithThreshold<LogAlertRuleUnion> = rules[0];
   const thresholdsMap = firstRule.thresholds;
-  // we only support static threshold(s) in Log SA.
-  const warningThreshold = (thresholdsMap[WARNING_SEVERITY] as StaticThresholdRule)?.value;
-  const criticalThreshold = (thresholdsMap[CRITICAL_SEVERITY] as StaticThresholdRule)?.value;
+  const warningThreshold = thresholdsMap[WARNING_SEVERITY];
+  const criticalThreshold = thresholdsMap[CRITICAL_SEVERITY];
   const thresholdOperator = firstRule.thresholdOperator;
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
-  const renderer = createLineWithMultiStaticThreshold(thresholdOperator, warningThreshold, criticalThreshold);
+  const renderer = getRendererBasedOnThresholdTypeForMultiThreshold(
+    thresholdOperator,
+    warningThreshold,
+    criticalThreshold,
+    false,
+    granularity,
+    undefined,
+    timeConfig
+  );
 
   const enrichedTagFilterExpression = selectedMetricGroup
     ? getExpressionWithLogsGroupingTags(tagFilterExpression as TagFilterExpression, [selectedMetricGroup])
@@ -89,6 +95,7 @@ export default function LogAlertChartWrapper({
 
   const unifiedMetricConfig = getUnifiedMetricConfig(logSumMetricId, enrichedTagFilterExpression, granularity);
 
+  const minThreshold = getThresholdData(getThresholdWithLowestSeverity(thresholdsMap)!, thresholdOperator);
   const y1Props = getY1ForMultiThreshold(
     logSumMetricId,
     t('in-alerting:smartAlerts.logs.logCount'),
@@ -96,9 +103,9 @@ export default function LogAlertChartWrapper({
     renderer,
     granularity,
     thresholdOperator,
-    thresholdsMap[WARNING_SEVERITY],
-    thresholdsMap[CRITICAL_SEVERITY],
-    [],
+    warningThreshold,
+    criticalThreshold,
+    undefined,
     chartViewConfig
   );
 
@@ -121,14 +128,14 @@ export default function LogAlertChartWrapper({
     };
   } else {
     const metricValues = getMetricValues(metricResult) ?? [];
+    const thresholdValues = getThreshold(y1Props, minThreshold.type, metricValues, timeConfig, true);
     metricResults = {
       progress: finishedProgress,
       errors: {},
       time: metricResult?.time,
       data: {
         [logSumMetricId]: metricValues,
-        warningThreshold: metricValues.map(([time]) => [time, warningThreshold]),
-        criticalThreshold: metricValues.map(([time]) => [time, criticalThreshold])
+        ...thresholdValues
       }
     };
   }
@@ -154,23 +161,11 @@ export default function LogAlertChartWrapper({
           return;
         }
 
-        const isWarningThresholdDefined = !isEmpty(warningThreshold);
-        const isCriticalThresholdDefined = !isEmpty(criticalThreshold);
-        const isGreaterOp = isGreaterOperatorOrUndefined(thresholdOperator);
-        if (
-          isWarningThresholdDefined &&
-          isCriticalThresholdDefined &&
-          ((isGreaterOp && criticalThreshold < warningThreshold) ||
-            (!isGreaterOp && warningThreshold < criticalThreshold))
-        ) {
-          return;
-        }
-
         const alertsPreviewQuery = getAlertsPreviewQuery(
           timeConfig,
           enrichedTagFilterExpression,
           granularity,
-          getThresholdData(getThresholdWithLowestSeverity(thresholdsMap)!, thresholdOperator),
+          minThreshold,
           timeThreshold
         );
 
@@ -203,7 +198,10 @@ function getThresholdData(rule: SmartAlertThresholdRuleUnion, operator: Threshol
  * In the alert preview, we pass the warning threshold if it is present. Otherwise, critical threshold.
  */
 function getThresholdWithLowestSeverity(thresholdsMap: { [P in Severity]?: SmartAlertThresholdRuleUnion }) {
-  if (!isEmpty((thresholdsMap[WARNING_SEVERITY] as StaticThresholdRule)?.value)) {
+  if (
+    !isEmpty((thresholdsMap[WARNING_SEVERITY] as StaticThresholdRule)?.value) ||
+    !isEmpty((thresholdsMap[WARNING_SEVERITY] as AdaptiveThresholdRule)?.deviationFactor)
+  ) {
     return thresholdsMap[WARNING_SEVERITY];
   }
 
@@ -239,8 +237,8 @@ function getAlertsPreviewQuery(
 }
 
 function shouldRequestAlertsPreview(threshold: ThresholdData) {
-  if (threshold.type === STATIC_THRESHOLD) {
-    return (threshold as StaticThresholdData).value != null;
+  if ([STATIC_THRESHOLD, ADAPTIVE_BASELINE].includes(threshold.type)) {
+    return !!((threshold as any)?.value || (threshold as any)?.baseline);
   }
   return false;
 }

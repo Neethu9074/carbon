@@ -20,12 +20,13 @@ import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/logs/co
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/logs/tearsheet/getAlertingUrlParameters';
-import { getRuleWithThreshold } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { dashboardAlertDetailsFullPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { useAlertConfig } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
+import { getRuleWithThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -67,7 +68,7 @@ function AlertConfigTearSheetContent({
   editMode: boolean;
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode, true));
+  const [form, setForm] = useState(() => alertFormDefinition(populateRulesInConfig(alertConfig), editMode, true));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
 
