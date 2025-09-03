@@ -20,7 +20,7 @@ export const EventsPromptLibrary = [
     questions: [
       'Show me the total number of failed queries to DB2 database with host name <host-name>.',
       'Show me the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace <namespace-name>.',
-      'Show me the top <number> queues with highest queue depth for last <duration> minutes group. Group by queue name.',
+      'Show me the top <number> queues with highest queue depth for last <duration> minutes.',
       'What is the sum of aggregated CPU requests for kubernetes deployment <app-name> in namespace <namespace-name> for last <duration> hours?',
       'What is the count of pods for deployments labeled as environment=<environment-name> in the namespace <namespace-name>?'
     ]
