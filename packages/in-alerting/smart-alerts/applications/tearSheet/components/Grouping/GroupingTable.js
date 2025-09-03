@@ -4,9 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+// eslint-disable-next-line no-restricted-imports
+import { ContainedList, ContainedListItem, ExpandableSearch } from '@carbon/react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import { debounce, cloneDeep } from 'lodash';
 
 import { Ul, LiLoadMore, LiHorizontalIndicator, Li, ColumnizedContent, SvgIcon, Spacer } from '@instana/components';
+import { Button, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -44,6 +48,61 @@ import { t } from 'in-i18n';
 
 import locals from './GroupingTable.mless';
 
+// Helper function to create a tag filter for search
+function createSearchTagFilter(searchValue, evaluationType) {
+  // Determine the tag name based on evaluation type
+  let tagName = 'service.name';
+  let entity = 'DESTINATION';
+
+  if (evaluationType === PER_AP_ENDPOINT) {
+    tagName = 'endpoint.name';
+  }
+
+  return {
+    type: 'TAG_FILTER',
+    name: tagName,
+    operator: 'CONTAINS',
+    entity: entity,
+    value: searchValue
+  };
+}
+
+// Helper function to modify tagFilterExpression with search term
+function getModifiedTagFilterExpression(originalExpression, searchTerm, evaluationType) {
+  if (!searchTerm) {
+    return originalExpression;
+  }
+
+  const clonedExpression = cloneDeep(originalExpression);
+
+  // Create search tag filter
+  const searchFilter = createSearchTagFilter(searchTerm, evaluationType);
+
+  // If the original expression is empty or doesn't have elements
+  if (!clonedExpression || !clonedExpression.elements || clonedExpression.elements.length === 0) {
+    return {
+      type: 'EXPRESSION',
+      logicalOperator: 'AND',
+      elements: [searchFilter]
+    };
+  }
+
+  // If the original expression already has an AND operator at the top level
+  if (clonedExpression.logicalOperator === 'AND') {
+    // Add the search filter to the elements
+    clonedExpression.elements.push(searchFilter);
+    return clonedExpression;
+  }
+
+  // If the original expression has a different operator (like OR)
+  // Wrap it in an AND expression with the search filter
+  return {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements: [clonedExpression, searchFilter]
+  };
+}
+
 export default function GroupingTable({
   tagFilterExpression,
   includeInternal,
@@ -59,6 +118,30 @@ export default function GroupingTable({
 
   const [prevItems, setPrevItems] = useState([]);
   const [prevTotalHits, setPrevTotalHits] = useState(0);
+  const [inputValue, setInputValue] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const originalTagFilterExpressionRef = useRef(tagFilterExpression);
+
+  // Create a debounced function for API calls
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSetSearchTerm = useCallback(
+    debounce(value => {
+      setSearchTerm(value);
+    }, 700),
+    [setSearchTerm]
+  );
+
+  // Handle search input changes - update UI immediately but debounce API calls
+  const handleSearchChange = useCallback(
+    e => {
+      const value = e.target.value;
+      // Update UI immediately
+      setInputValue(value);
+      // Debounce the actual API call
+      debouncedSetSearchTerm(value);
+    },
+    [debouncedSetSearchTerm]
+  );
 
   const backendMetrics = useStableObjectInstance(
     fields
@@ -120,19 +203,33 @@ export default function GroupingTable({
 
   const APMetricColumnDefinitions = applicationMetricColumns({ fields, timeConfig });
 
+  // Store the original tagFilterExpression when it changes
+  useEffect(() => {
+    originalTagFilterExpressionRef.current = tagFilterExpression;
+  }, [tagFilterExpression]);
+
+  // Create a modified tagFilterExpression based on search term for non-PER_AP evaluation types
+  const effectiveTagFilterExpression = useMemo(() => {
+    if (evaluationType === PER_AP || !searchTerm) {
+      return tagFilterExpression;
+    }
+    return getModifiedTagFilterExpression(originalTagFilterExpressionRef.current, searchTerm, evaluationType);
+  }, [evaluationType, searchTerm, tagFilterExpression]);
+
   let { items, progress, canLoadMore, loadMore, totalHits } = useCursorPagination(
     ({ cursor }) => {
       return getData({
         includeInternal,
         includeSynthetic,
-        tagFilterExpression,
+        tagFilterExpression: effectiveTagFilterExpression,
         timeConfig,
         metrics: backendMetrics,
         cursor,
         metricDefinitionByEvaluationType,
         evaluationType,
         pagination,
-        granularity
+        granularity,
+        query: evaluationType === PER_AP ? searchTerm : '' // Only use query for PER_AP
       });
     },
     [
@@ -141,8 +238,9 @@ export default function GroupingTable({
       pagination,
       includeInternal,
       includeSynthetic,
-      tagFilterExpression.toString(),
-      timeConfig
+      effectiveTagFilterExpression,
+      timeConfig,
+      searchTerm
     ]
   );
 
@@ -169,10 +267,11 @@ export default function GroupingTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
+  // Reset previous items when evaluation type or search term changes
   useEffect(() => {
     setPrevItems([]);
-    // set the items array to [] when groupby evaluation is changed
-  }, [evaluationType]);
+    // set the items array to [] when groupby evaluation is changed or search term changes
+  }, [evaluationType, searchTerm]);
 
   totalHits = useMemo(() => {
     if (evaluationType !== PER_AP) {
@@ -190,72 +289,96 @@ export default function GroupingTable({
     if (evaluationType !== PER_AP) {
       return canLoadMore;
     }
+    if (totalHits === 0) return false;
     return Math.ceil(totalHits / pagination.pageSize) !== pagination.page;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
   return (
     <div className={locals.groupTableWrapper}>
-      {items.length > 0 && (
-        <div className={locals.block}>
-          <AlertTypography variant="body-bold" color="color900" content={getContent(totalHits, evaluationType)} />
-          <AlertTypography
-            variant="body-small"
-            color="color700"
-            content={t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupbyDescription')}
-          />
-          <Spacer vertical="xsmall" />
-        </div>
-      )}
       <div className={locals.wrapper}>
-        <Ul className={locals.tableContainer}>
-          {items.length > 0 && (
-            <>
-              {items.map((item, index) => {
-                const label = getLabel(item);
-                const key = `${label}-${index}`;
-                return (
-                  <Li key={key} toggleContentOnRowClick={false}>
-                    <div className={locals.list}>
-                      <div className={locals.label}>
-                        <ColumnizedContent columnDefinitions={labelColumnDefinitions} item={item} />
-                      </div>
-                      {evaluationType !== PER_AP ? (
-                        <div className={locals.metrics}>
-                          <ColumnizedContent
-                            columnDefinitions={metricColumnDefinitions}
-                            item={item}
-                            f
-                            progress={progress}
-                            timeConfig={timeConfig}
-                            sparkChartGranularity={granularity}
-                          />
-                        </div>
-                      ) : (
+        <ContainedList
+          label={
+            <Stack gap="disabled">
+              <AlertTypography variant="body-bold" color="color900" content={getContent(totalHits, evaluationType)} />
+              <AlertTypography
+                variant="body-small"
+                color="color700"
+                content={t('in-alerting:smartAlerts.applications.tearSheet.grouping.groupbyDescription')}
+              />
+            </Stack>
+          }
+          className={locals.tableContainer}
+          kind="on-page"
+          action={
+            <ExpandableSearch
+              placeholder={t('in-alerting:components.searchByName')}
+              labelText={t('in-alerting:components.search')}
+              value={inputValue}
+              onChange={handleSearchChange}
+              closeButtonLabelText={t('in-alerting:components.clearSearch')}
+              size="lg"
+            />
+          }
+        >
+          {items && items.length > 0 ? (
+            items.map((item, index) => {
+              const label = getLabel(item);
+              const key = `${label}-${index}`;
+              return (
+                <ContainedListItem key={key}>
+                  <div className={locals.list}>
+                    <div className={locals.label}>
+                      <ColumnizedContent columnDefinitions={labelColumnDefinitions} item={item} />
+                    </div>
+                    {evaluationType !== PER_AP ? (
+                      <div className={locals.metrics}>
                         <ColumnizedContent
-                          columnDefinitions={APMetricColumnDefinitions}
+                          columnDefinitions={metricColumnDefinitions}
                           item={item}
-                          f
                           progress={progress}
                           timeConfig={timeConfig}
                           sparkChartGranularity={granularity}
                         />
-                      )}
-                    </div>
-                  </Li>
-                );
-              })}
-              {canLoadMore && !progress.loading && (
-                <LiLoadMore
-                  loadMore={() => {
+                      </div>
+                    ) : (
+                      <ColumnizedContent
+                        columnDefinitions={APMetricColumnDefinitions}
+                        item={item}
+                        progress={progress}
+                        timeConfig={timeConfig}
+                        sparkChartGranularity={granularity}
+                      />
+                    )}
+                  </div>
+                </ContainedListItem>
+              );
+            })
+          ) : !progress?.loading ? (
+            <ContainedListItem>
+              <Stack align="center">{t('in-alerting:components.noItemsAvailable')}</Stack>
+            </ContainedListItem>
+          ) : (
+            <></>
+          )}
+          {canLoadMore && !progress.loading && (
+            <ContainedListItem>
+              <Stack align="center">
+                <Button
+                  kind="action"
+                  onClick={() => {
                     return evaluationType === PER_AP ? loadMoreData(pagination, setPagination, progress) : loadMore();
                   }}
-                />
-              )}
-            </>
+                  size="compact"
+                >
+                  {t('in-alerting:components.loadMore')}
+                </Button>
+              </Stack>
+            </ContainedListItem>
           )}
+
           {progress?.loading && <LiHorizontalIndicator progress={progress} />}
-        </Ul>
+        </ContainedList>
       </div>
     </div>
   );

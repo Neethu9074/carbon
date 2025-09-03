@@ -95,7 +95,8 @@ export function getData({
   metricDefinitionByEvaluationType,
   evaluationType,
   pagination,
-  granularity
+  granularity,
+  query = ''
 }) {
   if (evaluationType === PER_AP) {
     const order = {
@@ -105,6 +106,7 @@ export function getData({
 
     return getApplicationsWithDefaults({
       timeConfig,
+      query,
       page: pagination?.page ?? 1,
       pageSize: pagination?.pageSize ?? 5,
       orderBy: order.by,
