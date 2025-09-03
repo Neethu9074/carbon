@@ -7,7 +7,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { BusEventType, ChatContainer, ChatInstance, ViewType, PublicConfig } from '@carbon/ai-chat';
 import { merge } from 'lodash';
 
-import { InlineNotification } from '@instana/carbon';
 import { PreviewPill } from '@instana/components';
 
 import {
@@ -81,6 +80,7 @@ export function AIChat({
 
   const { trackCta } = useSegmentTracking();
   const [instance, setInstance] = useState<ExtendedChatInstance | null>(null);
+  const [displayWarning, setDisplayWarning] = useState(true);
 
   // Combine the default config with the config
   // passed in.  Config supersedes the default.
@@ -103,22 +103,16 @@ export function AIChat({
     if (!agentData) {
       return {};
     } else {
-      const headerBottom = () => {
-        return (
-          <>
-            {previewPill && <PreviewPill className={locals.previewPill} />}
-            <InlineNotification lowContrast hideCloseButton kind="info" title={t('in-events:aichat.IBMAwareMsg')} />
-          </>
-        );
-      };
-
       return {
         customPanelElement: customPanelElement && customPanelElement(instance, agentData.promptLibrary),
-        headerBottomElement: headerBottom(),
+        headerBottomElement: previewPill && <PreviewPill className={locals.previewPill} />,
+        beforeInputElement: displayWarning && (
+          <div className={locals.beforeInputElement}>{t('in-events:aichat.accuracyOfAi')}</div>
+        ),
         aiTooltipAfterDescriptionElement: aiToolTipContent
       };
     }
-  }, [instance, customPanelElement, previewPill, aiToolTipContent, agentData]);
+  }, [instance, customPanelElement, previewPill, aiToolTipContent, agentData, displayWarning]);
 
   // If no Agent data for this page exists we won't render the chat
   // This check is moved here after all hooks have been called
@@ -194,6 +188,16 @@ export function AIChat({
           setupLauncherButton(chatInstance);
           setupDragListeners();
           onAfterRender && onAfterRender(chatInstance);
+
+          // When the warning is displayed we need to remove it whenever
+          // the first message is sent
+          displayWarning &&
+            chatInstance.on({
+              type: 'pre:send' as BusEventType,
+              handler: () => {
+                setDisplayWarning(false);
+              }
+            });
         }}
       />
       <LauncherButton />

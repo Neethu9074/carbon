@@ -497,7 +497,7 @@
     "helpfulResult": "This result was helpful",
     "notHelpfulResult": "This result was not helpful",
     "result": "result",
-    "IBMAwareMsg": "IBM is aware of and working to resolve issues around the accuracy of chat responses to your queries and prompts."
+    "accuracyOfAi": "Accuracy of generated answers may vary. Please double-check responses."
   },
   "notes": {
     "recommendedActions": "Recommended actions",
