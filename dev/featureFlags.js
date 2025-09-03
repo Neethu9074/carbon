@@ -216,5 +216,6 @@ module.exports = {
   msTeamsAppEnabled: true,
   newAccountAndBillingPageEnabled: false,
   eumSmartAlertCustomMetricsEnabled: true,
-  onlyFedRampAllowedAlertChannelsEnabled: false
+  onlyFedRampAllowedAlertChannelsEnabled: false,
+  fedrampDeploymentEnabled: false
 };

@@ -1050,5 +1050,10 @@ module.exports = exports = [
     uiClientKey: 'onlyFedRampAllowedAlertChannelsEnabled',
     instanaCtlKey: 'feature.only.fed.ramp.allowed.alert.channels.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'fedrampDeploymentEnabled',
+    instanaCtlKey: 'feature.fedramp.deployment.enabled',
+    defaultValue: false
   }
 ];

@@ -6,17 +6,21 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Typography, SearchInput } from '@instana/components';
+import { Stack, Typography, SearchInput, Message } from '@instana/components';
+import { Link } from '@instana/carbon';
 
 import { score, filter } from 'in-plg/pages/onboarding/content/ContentUtils';
 import { getEntriesForFreeTrialV2 } from 'in-plg/pages/onboarding/content';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { fedrampDeploymentEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import { pageNames } from 'in-services/tracking/pageNames';
 import CardGridV2 from 'in-plg/components/Card/CardGridV2';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
+
+import locals from './AgentCatalog.mless';
 
 export default function AgentCatalogV2(props: any) {
   const trackingService = !props.fromOnboarding ? createTracker('agent.installation') : createTracker('onboarding');
@@ -57,22 +61,43 @@ export default function AgentCatalogV2(props: any) {
       <LeftRightPadding>
         <Stack direction="vertical">
           <Typography variant="heading-04">{t('in-plg:agentDetails.common.dataSources')}</Typography>
+          {fedrampDeploymentEnabled ? (
+            <Message>
+              <Trans
+                i18nKey="in-plg:agentDetails.common.fedrampMessage"
+                components={{
+                  documentationLink: (
+                    <Link
+                      className={locals.link}
+                      inline
+                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=regulatory-compliance"
+                      target="_blank"
+                    >
+                      {null}
+                    </Link>
+                  )
+                }}
+              />
+            </Message>
+          ) : (
+            <>
+              <SearchInput
+                width="100%"
+                onChange={onQueryChange}
+                query={query}
+                autoFocus
+                onBlur={() => {
+                  if (query) {
+                    trackingService.catalogPageSearchUsed({ query });
+                  }
+                }}
+                hasError={false}
+                placeholder={t('in-components:searchInput.placeholderSearch')}
+              />
 
-          <SearchInput
-            width="100%"
-            onChange={onQueryChange}
-            query={query}
-            autoFocus
-            onBlur={() => {
-              if (query) {
-                trackingService.catalogPageSearchUsed({ query });
-              }
-            }}
-            hasError={false}
-            placeholder={t('in-components:searchInput.placeholderSearch')}
-          />
-
-          <CardGridV2 data={filteredEntities} {...props} />
+              <CardGridV2 data={filteredEntities} {...props} />
+            </>
+          )}
         </Stack>
       </LeftRightPadding>
     </Stack>

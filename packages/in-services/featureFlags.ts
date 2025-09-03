@@ -420,3 +420,5 @@ export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   'onlyFedRampAllowedAlertChannelsEnabled',
   false
 );
+
+export const fedrampDeploymentEnabled = isFeatureFlagEnabled('fedrampDeploymentEnabled');

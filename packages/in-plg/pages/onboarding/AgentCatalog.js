@@ -6,12 +6,14 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { SvgIcon, Stack, Typography, Spacer, SearchInput } from '@instana/components';
+import { SvgIcon, Stack, Typography, Spacer, SearchInput, Message } from '@instana/components';
+import { Link } from '@instana/carbon';
 
 import { score, filter } from 'in-plg/pages/onboarding/content/ContentUtils';
 import { getEntriesForFreeTrial } from 'in-plg/pages/onboarding/content';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { fedrampDeploymentEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -19,7 +21,7 @@ import createTracker from 'in-waiting-for-deployment/tracker';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { pageNames } from 'in-services/tracking/pageNames';
 import CardGrid from 'in-plg/components/Card/CardGrid';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './AgentCatalog.mless';
 
@@ -65,24 +67,46 @@ export default function AgentCatalog(props) {
       </Stack>
       <LeftRightPadding className={locals.catalog}>
         <Stack direction="vertical">
-          <SearchInput
-            width="100%"
-            onChange={onQueryChange}
-            query={query}
-            autoFocus
-            onBlur={() => {
-              if (query) {
-                trackingService.catalogPageSearchUsed({ query });
-              }
-            }}
-            hasError={false}
-            placeholder={t('in-components:searchInput.placeholderSearch')}
-          />
-          <Spacer vertical="xxsmall" />
-          <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentDeployment')} (${
-            filteredEntities.length
-          })`}</Typography>
-          <CardGrid data={filteredEntities} {...props} />
+          {fedrampDeploymentEnabled ? (
+            <Message>
+              <Trans
+                i18nKey="in-plg:agentDetails.common.fedrampMessage"
+                components={{
+                  documentationLink: (
+                    <Link
+                      className={locals.link}
+                      inline
+                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=regulatory-compliance"
+                      target="_blank"
+                    >
+                      {null}
+                    </Link>
+                  )
+                }}
+              />
+            </Message>
+          ) : (
+            <>
+              <SearchInput
+                width="100%"
+                onChange={onQueryChange}
+                query={query}
+                autoFocus
+                onBlur={() => {
+                  if (query) {
+                    trackingService.catalogPageSearchUsed({ query });
+                  }
+                }}
+                hasError={false}
+                placeholder={t('in-components:searchInput.placeholderSearch')}
+              />
+              <Spacer vertical="xxsmall" />
+              <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentDeployment')} (${
+                filteredEntities.length
+              })`}</Typography>
+              <CardGrid data={filteredEntities} {...props} />
+            </>
+          )}
         </Stack>
       </LeftRightPadding>
     </Stack>
