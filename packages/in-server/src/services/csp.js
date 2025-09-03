@@ -7,10 +7,10 @@ const { get } = require('lodash');
 
 const serverConfig = require('../serverConfig.js');
 
-const allowedScriptOrigins = ['https://*.instana.io', 'https://*.instana.tools'];
+const allowedScriptOrigins = ['*.instana.io', '*.instana.tools'];
 
 if (isRequiringInstanaRocks()) {
-  allowedScriptOrigins.push('https://*.instana.rocks');
+  allowedScriptOrigins.push('*.instana.rocks');
 }
 
 const allowedScriptOriginsTrustArc = [
@@ -42,7 +42,8 @@ const allowedScriptOriginsWalkMe = [
   ...allowedScriptOriginsIbmCommon,
   'https://cdn.walkme.com',
   'https://playerserver.walkme.com',
-  'https://ec.walkme.com'
+  'https://ec.walkme.com',
+  'blob:'
 ];
 
 const allowedScriptOriginsWalkMePlayBack = [
@@ -60,20 +61,18 @@ exports.getCsp = (
   solisEnabled,
   isControlledEnvEnabled
 ) => {
-  const styleSrc = `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`;
-
   if (solisEnabled && !isControlledEnvEnabled) {
-    return `style-src 'self' 'unsafe-inline'; script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(
       ' '
     )} 'http://localhost:3015' 'blob:http://localhost:3015'; img-src * data:; connect-src *`; //For local testing only
   } else if (isSessionPlayBackRequired) {
-    return `${styleSrc}; script-src 'self'  'nonce-${nonce}' ${allowedScriptOriginsWalkMePlayBack.join(' ')}`;
+    return `script-src 'self'  'nonce-${nonce}' ${allowedScriptOriginsWalkMePlayBack.join(' ')}`;
   } else if (walkmeEnabled) {
-    return `${styleSrc}; script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
   } else if (ibmCommonEnabled) {
-    return `${styleSrc}; script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(' ')}`;
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(' ')}`;
   } else {
-    return `${styleSrc}; script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
   }
 };
 
