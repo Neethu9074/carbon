@@ -464,6 +464,7 @@
     "numCalls": "# Calls",
     "meanLatency": "Mean latency",
     "findingInfoFrom": "Finding that info from {{endpoint}}",
+    "findingInfo": "Finding that information",
     "noData": "No data returned from API",
     "welcome": "Hello and welcome!\nI'm happy to provide details about your environment, specifically your applications, infrastructure and events.  Ask a question or get started by exploring the prompt library.",
     "tableView": "Table view",

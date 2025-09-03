@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error - No type definitions available
-import { EventsCustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages';
 import { agentConfigurations } from 'in-events/components/AIChat/config';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';

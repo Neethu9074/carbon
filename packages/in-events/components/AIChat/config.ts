@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error - No type definitions available
 import { EventsCustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages/EventsCustomSendMessages';
 import { EventsPromptLibrary } from 'in-events/components/AIChat/PromptLibraries/EventsPromptLibrary';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';

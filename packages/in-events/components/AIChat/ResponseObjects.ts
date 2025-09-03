@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { ChatInstance, MessageRequest, MessageResponseTypes, TextItem, UserDefinedItem } from '@carbon/ai-chat';
+import { MessageResponseTypes, TextItem, UserDefinedItem } from '@carbon/ai-chat';
 
 import { TableHeader, TableRow } from 'in-events/components/AIChat/TableComponents/useTableState';
 import { AdditionalInfoObject } from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
@@ -32,17 +32,6 @@ export const InitialLoadOptions: (TextItem | UserDefinedItem)[] = [
   },
   PromptLibraryBubbleObject
 ];
-
-export function handleDefinedTreeQuestions(request: MessageRequest, instance: ChatInstance) {
-  switch (request.input.text) {
-    default:
-      instance.messaging.addMessage({
-        output: {
-          generic: InitialLoadOptions
-        }
-      });
-  }
-}
 
 // RePromptObject text object definition
 export const RePromptObject: TextItem = {

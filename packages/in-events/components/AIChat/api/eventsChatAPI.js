@@ -63,3 +63,21 @@ export function fetchEventsData(eventsPayload, apiPayload) {
   });
   return obj.map(response => response.body);
 }
+
+/**
+ * Send a query to the agent API (currently same as traditional query, will update later when backend updates)
+ * @param {string} query - The user's query to send to the agent API
+ * @returns {Object} - An observable that will emit the agent's response
+ */
+export function sendAgentQuery(query) {
+  const obj = http({
+    method: 'POST',
+    maxRetries: 3,
+    url: 'api/chat/query',
+    headers: getCsrfHeader(),
+    data: {
+      query: query
+    }
+  });
+  return obj.map(response => response.body);
+}
