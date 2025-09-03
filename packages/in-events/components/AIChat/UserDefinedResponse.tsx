@@ -8,10 +8,11 @@ import React from 'react';
 
 import PromptLibraryResponse from 'in-events/components/AIChat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-events/components/AIChat/TableComponents/TableChartSwitcher';
+import MarkdownResponse from 'in-events/components/AIChat/CustomResponse/MarkdownResponse';
+import TypeTextResponse from 'in-events/components/AIChat/CustomResponse/TypeTextResponse';
 import OptionsResponse from 'in-events/components/AIChat/CustomResponse/OptionsResponse';
 import ThumbsFeedback from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
 import EventsTable from 'in-events/components/AIChat/TableComponents/EventsTable';
-import NLGResponse from 'in-events/components/AIChat/CustomResponse/NLGResponse';
 
 interface UserDefinedResponseProps {
   messageItem: any;
@@ -59,7 +60,8 @@ const UserDefinedResponse: React.FC<UserDefinedResponseProps> = ({
     prompt_library: () => <PromptLibraryResponse instance={instance} />,
     option_buttons: () => <OptionsResponse messageItem={messageItem} instance={instance} />,
     table_chart: () => <TableChartSwitcher messageItem={messageItem} />,
-    nlg_response: () => <NLGResponse messageItem={messageItem} />,
+    typetext_response: () => <TypeTextResponse messageItem={messageItem} />,
+    markdown_response: () => <MarkdownResponse messageItem={messageItem} />,
     events_table: () => <EventsTable messageItem={messageItem} />,
     thumbs_feedback: () => (
       <ThumbsFeedback

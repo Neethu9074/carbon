@@ -26,7 +26,7 @@ import { sendAPIQuery, fetchAPIData, fetchEventsData } from 'in-events/component
 import {
   RePromptObject,
   ThumbsFeedbackObject,
-  NLGResponseObject,
+  TypeTextObject,
   InitialLoadOptions
 } from 'in-events/components/AIChat/ResponseObjects';
 // @ts-expect-error - No type definitions available
@@ -95,7 +95,7 @@ async function sendError(instance: ChatInstance, errorMessage: string, queryResp
   const message = {
     output: {
       generic: [
-        ...(nlg ? [NLGResponseObject(nlg)] : []),
+        ...(nlg ? [TypeTextObject(nlg)] : []),
         {
           agent_message_type: AgentMessageType.INLINE_ERROR,
           response_type: MessageResponseTypes.TEXT,
@@ -152,7 +152,7 @@ async function handleTableData(
     const message = {
       output: {
         generic: [
-          NLGResponseObject(nlgResponse),
+          TypeTextObject(nlgResponse),
           noMatchingMessage,
           ThumbsFeedbackObject(
             EVENT_AI_CHAT_API_RESULT_POSITIVE,

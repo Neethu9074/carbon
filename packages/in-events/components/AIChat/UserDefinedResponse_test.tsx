@@ -30,7 +30,7 @@ jest.mock('in-events/components/AIChat/TableComponents/EventsTable', () => ({
   default: () => <div data-testid="events-table">Events Table</div>
 }));
 
-jest.mock('in-events/components/AIChat/CustomResponse/NLGResponse', () => ({
+jest.mock('in-events/components/AIChat/CustomResponse/TypeTextResponse', () => ({
   __esModule: true,
   default: () => <div data-testid="nlg-response">NLG Response</div>
 }));
@@ -65,10 +65,10 @@ describe('UserDefinedResponse Component', () => {
     expect(screen.getByTestId('table-chart-switcher')).toBeInTheDocument();
   });
 
-  it('renders nlg_response response correctly', () => {
+  it('renders typetext_response response correctly', () => {
     const messageItem = {
       user_defined: {
-        user_defined_type: 'nlg_response'
+        user_defined_type: 'typetext_response'
       }
     };
 

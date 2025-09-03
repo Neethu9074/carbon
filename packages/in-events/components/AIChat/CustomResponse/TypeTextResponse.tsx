@@ -9,15 +9,15 @@ import { GenericItem } from '@carbon/ai-chat';
 
 import { t } from 'in-i18n';
 
-import locals from './NLGResponse.mless';
+import locals from './TypeTextResponse.mless';
 
 const MAX_TEXT = 250;
 
-interface NLGResponseProps {
+interface TypeTextResponseProps {
   messageItem: GenericItem;
 }
 
-const NLGResponse = ({ messageItem }: NLGResponseProps) => {
+const TypeTextResponse = ({ messageItem }: TypeTextResponseProps) => {
   const originalText = (messageItem?.user_defined?.text || '') as string;
   const [showMore, setShowMore] = useState(false);
   // showButton controls the show all button
@@ -85,4 +85,4 @@ const naturalRandomIncrease = (
   }
 };
 
-export default NLGResponse;
+export default TypeTextResponse;

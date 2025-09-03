@@ -163,7 +163,7 @@ The AIChat component comes with several pre-built response types that you can le
 
 - `prompt_library`: Displays a prompt library with suggested queries
 - `table_chart`: Displays data in a table or chart format with toggle options
-- `nlg_response`: Displays a natural language generation response
+- `typetext_response`: Displays text with a type writer effect
 - `events_table`: Displays an events table with specialized formatting
 - `thumbs_feedback`: Displays a thumbs up/down feedback component
 - `option_buttons`: Displays customizable option buttons for user interaction
@@ -172,7 +172,7 @@ These built-in response types are already implemented and can be used directly. 
 
 - `PromptLibraryResponse.tsx`: For prompt library responses
 - `TableChartSwitcher.tsx`: For table/chart toggle views
-- `NLGResponse.tsx`: For natural language generation responses
+- `TypeTextResponse.tsx`: For rendering text with a typewriter effect
 - `EventsTable.tsx`: For events table responses
 - `ThumbsFeedback.tsx`: For feedback collection
 - `OptionsResponse.tsx`: For option buttons responses

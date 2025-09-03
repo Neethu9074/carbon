@@ -10,7 +10,7 @@ import { formatDateTime } from '@instana/format-date';
 
 import {
   ThumbsFeedbackObject,
-  NLGResponseObject,
+  TypeTextObject,
   TableChartObject,
   EventsTableObject
 } from 'in-events/components/AIChat/ResponseObjects';
@@ -30,7 +30,7 @@ export function formatForTable(apiResponse: any, userQuery: string, queryRespons
   const emptyResult = {
     output: {
       generic: [
-        NLGResponseObject(nlg),
+        TypeTextObject(nlg),
         TableChartObject([], []),
         ThumbsFeedbackObject(EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE, {
           nlgResponse: nlg,
@@ -135,7 +135,7 @@ export function formatForTable(apiResponse: any, userQuery: string, queryRespons
   return {
     output: {
       generic: [
-        NLGResponseObject(nlg),
+        TypeTextObject(nlg),
         TableChartObject(response.data.headers, response.data.rows),
         ThumbsFeedbackObject(EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE, {
           nlgResponse: nlg,
@@ -155,7 +155,7 @@ export function formatForEventsTable(apiResponse: any, userQuery: string, queryR
   const createResponse = (headers: TableHeader[], rows: TableRow[]) => ({
     output: {
       generic: [
-        NLGResponseObject(nlg),
+        TypeTextObject(nlg),
         EventsTableObject(headers, rows),
         ThumbsFeedbackObject(EVENT_AI_CHAT_API_RESULT_POSITIVE, EVENT_AI_CHAT_API_RESULT_NEGATIVE, {
           nlgResponse: nlg,
