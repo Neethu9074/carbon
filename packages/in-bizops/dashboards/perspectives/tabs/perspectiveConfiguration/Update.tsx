@@ -41,7 +41,7 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
 
   const nameField = form.get('perspectiveName');
   const descriptionField = form.get('perspectiveDescription');
-  const rbacTagsField = form.get('rbacTags').value;
+  const rbacTagsField = form.get('rbacTags');
   const tagFilterExpressionField = form.get('tagFilterExpression');
 
   // Only enable saving if there are changes between the current config and the user changes,
@@ -147,7 +147,7 @@ export function Update({ perspective, updateCount, setUpdateCount, perspectiveId
                 onChange={e =>
                   updateForm(form.updateIn(['rbacTags'], field => field.setValue(e) || '').setTouched(true))
                 }
-                selectedTeams={rbacTagsField}
+                selectedTeams={rbacTagsField.value}
                 overflowAlign={'top'}
               />
             </>
