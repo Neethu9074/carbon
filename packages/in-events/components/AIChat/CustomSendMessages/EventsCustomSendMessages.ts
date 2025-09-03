@@ -21,18 +21,16 @@ import {
   EVENT_AI_CHAT_API_ERROR_POSITIVE,
   EVENT_AI_CHAT_API_ERROR_NEGATIVE
 } from 'in-services/tracking/eventNames';
-// @ts-expect-error - No type definitions available
-import { sendAPIQuery, fetchAPIData, fetchEventsData } from 'in-events/components/AIChat/api/eventsChatAPI';
 import {
   RePromptObject,
   ThumbsFeedbackObject,
   TypeTextObject,
   InitialLoadOptions
 } from 'in-events/components/AIChat/ResponseObjects';
-// @ts-expect-error - No type definitions available
-import { sendAgentQuery } from 'in-events/components/AIChat/api/eventsChatAPI';
 import { formatForTable, formatForEventsTable } from 'in-events/components/AIChat/TableComponents/TableFormatters';
+import { sendAPIQuery, fetchAPIData, fetchEventsData } from 'in-events/components/AIChat/api/eventsChatAPI';
 import { AdditionalInfoObject } from 'in-events/components/AIChat/CustomResponse/ThumbsFeedback';
+import { sendAgentQuery } from 'in-events/components/AIChat/api/eventsChatAPI';
 import { t } from 'in-i18n';
 
 /**

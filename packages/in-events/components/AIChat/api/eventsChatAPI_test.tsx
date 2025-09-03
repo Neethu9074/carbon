@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-//@ts-expect-error not ts file - temporary
 import { sendAPIQuery, fetchAPIData } from 'in-events/components/AIChat/api/eventsChatAPI';
 
 const mockHttpFunc = jest.fn();
@@ -20,7 +19,7 @@ const sampleReturn = [{ body: {} }];
 describe('fetchAPIData', () => {
   it('should remove api_endpoint from payload', () => {
     mockHttpFunc.mockReturnValue(sampleReturn);
-    const value = fetchAPIData({ api_endpoint: 654, windowStart: 987 });
+    const value = fetchAPIData({ api_endpoint: '/test', windowStart: 987 });
     expect(value).not.toBeNull();
     expect(mockHttpFunc).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -29,7 +28,7 @@ describe('fetchAPIData', () => {
     );
     expect(mockHttpFunc).not.toHaveBeenCalledWith(
       expect.objectContaining({
-        data: { api_endpoint: 654 }
+        data: { api_endpoint: '/test' }
       })
     );
   });
