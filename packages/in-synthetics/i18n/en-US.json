@@ -550,6 +550,14 @@
         "associationsNameHeader": "Name",
         "associationsHealthHeader": "Health"
       },
+      "tagFilter": {
+        "filters": "Unknown filter",
+        "filters_type": "Type: {{value}}",
+        "filters_location": "Location: {{value}}",
+        "filters_association": "Association: {{value}}",
+        "filters_application": "Application: {{value}}",
+        "clearFilters": "Clear filters"
+      },
       "filterPanel": {
         "typeLabel": "Type",
         "locationLabel": "Location",

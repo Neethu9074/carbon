@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
 import { TestResultListItem } from '@instana/types';
 import { Dropdown } from '@instana/carbon';
@@ -28,9 +28,11 @@ import { ExpandableResultList } from 'in-synthetics/dashboards/global/tabs/tests
 import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import TestListFilters from 'in-synthetics/dashboards/global/tabs/tests/components/TestListFilters';
 import CarbonDataTableWithUrlState from 'in-synthetics/components/CarbonDataTableWithUrlState';
+import TagFilters from 'in-synthetics/dashboards/global/tabs/tests/components/TagFilters';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
+import useTestListFilter from 'in-synthetics/hooks/useTestListFilter';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
@@ -57,23 +59,63 @@ export const TestsTableWithUrlState = ({
   const columnDefinitions = getColumnDefinitions(role);
   const [filtersTemp, setFiltersTemp] = useState<FilterState>({
     syntheticTypes,
-    locationIds
+    locationIds,
+    ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds })
   });
+
+  // Keep filtersTemp in sync with the global filter state
+  useEffect(() => {
+    setFiltersTemp({
+      syntheticTypes,
+      locationIds,
+      ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds })
+    });
+  }, [syntheticTypes, locationIds, entityIds, applicationIds]);
+
+  const { getFilterLabel, tagFilters, setTagFilters, resetFilters } =
+    useTestListFilter({
+      filterUrlPathParams: {
+        syntheticTypes,
+        locationIds,
+        ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds })
+      },
+      setFilter: setFilter
+    }) || {};
 
   const getRowDetails = (row: TestResultListItem) => {
     return <ExpandableResultList timeConfig={timeConfig} runType={runType} test={row} />;
   };
 
-  const onFilterApply = () => {
+  const onFilterApply = useCallback(() => {
+    setTagFilters([
+      {
+        id: 'type',
+        value: filtersTemp.syntheticTypes
+      },
+      {
+        id: 'location',
+        value: filtersTemp.locationIds
+      },
+      syntheticRbacLimitedEnabled
+        ? {
+            id: 'association',
+            value: filtersTemp.entityIds
+          }
+        : {
+            id: 'application',
+            value: filtersTemp.applicationIds
+          }
+    ]);
     setFilter(filtersTemp);
-  };
+  }, [filtersTemp, setTagFilters, setFilter]);
 
-  const onFilterCancel = () => {
+  const onFilterCancel = useCallback(() => {
     setFiltersTemp({
       syntheticTypes,
-      locationIds
+      locationIds,
+      ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds })
     });
-  };
+  }, [syntheticTypes, locationIds, entityIds, applicationIds]);
 
   const filterComponent = useMemo(() => {
     if (syntheticTests?.progress.loading) return null;
@@ -86,6 +128,19 @@ export const TestsTableWithUrlState = ({
       />
     );
   }, [syntheticTests, isAssociationsContext, filtersTemp]);
+
+  const tagFilterContent = useMemo(
+    () => (
+      <TagFilters
+        columnFilters={tagFilters}
+        setColumnFilters={setTagFilters}
+        getFilterLabel={getFilterLabel}
+        resetFilters={resetFilters}
+        setFilter={setFilter}
+      />
+    ),
+    [tagFilters, setTagFilters, getFilterLabel, resetFilters, setFilter]
+  );
 
   return (
     <CarbonDataTableWithUrlState<TestResultListItem, TestListProps>
@@ -144,6 +199,7 @@ export const TestsTableWithUrlState = ({
       onFilterApply={onFilterApply}
       onFilterCancel={onFilterCancel}
       {...(syntheticSslImprovementEnabled ? { isExpandable: true, getRowDetails: getRowDetails } : {})}
+      tagFilterContent={tagFilterContent}
     />
   );
 };

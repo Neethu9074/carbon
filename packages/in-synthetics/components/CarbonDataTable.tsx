@@ -189,6 +189,7 @@ export const CarbonDataTable = React.memo(
     page,
     isFilterable,
     filters,
+    tagFilterContent,
     onFilterApply,
     onFilterCancel,
     getBatchActionItems,
@@ -381,6 +382,7 @@ export const CarbonDataTable = React.memo(
                     </Button>
                   }
                 />
+                {!isLoading && tagFilterContent}
 
                 {/* Loading state - shows skeleton while data is loading */}
                 {isLoading ? (

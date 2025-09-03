@@ -65,6 +65,7 @@ export type CarbonDataTableWithUrlStateProps<
     loading?: boolean;
     isExpandable?: boolean;
     getRowDetails?: (result: ITEM_TYPE) => ReactNode;
+    tagFilterContent?: JSX.Element;
   };
 
 export interface CarbonDataTablePresenterProps<ITEM_TYPE extends ListItem> {
@@ -128,6 +129,7 @@ export interface CarbonDataTableProps<ITEM_TYPE extends ListItem> {
   onFilterApply?: () => void;
   onFilterCancel?: () => void;
   fixedLayout?: boolean;
+  tagFilterContent?: JSX.Element;
 }
 
 export interface ConfigureColumnsProps<ITEM_TYPE extends ListItem> {

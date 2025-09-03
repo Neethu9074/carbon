@@ -124,15 +124,19 @@ const OptionCheckbox = ({
     [idPrefix, option.value]
   );
 
+  // Truncate label to first 35 characters for display
+  const displayLabel = option.label.length > 35 ? `${option.label.slice(0, 35)}...` : option.label;
+
   return (
     <Checkbox
       key={option.value}
+      title={option.label} // Full label as tooltip
       id={checkboxId}
-      labelText={option.label}
+      labelText={displayLabel}
       value={option.value}
       checked={isSelected}
       onChange={e => onChange(option.value, e.target.checked)}
-      aria-label={option.label}
+      aria-label={option.label} // Keep full label for accessibility
     />
   );
 };

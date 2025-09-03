@@ -1015,3 +1015,39 @@ export interface TestsTableWithUrlStateProps extends TestListProps {
   onFilterCancel?: () => void;
   isAssociationsContext?: boolean;
 }
+
+export interface ColumnFilter {
+  id: string;
+  value: string[] | undefined;
+}
+
+export interface UseTagFiltersParams {
+  columnFilters: ColumnFilter[];
+  setColumnFilters: (change: ColumnFilter[]) => void;
+  getFilterLabel: ({ id, value }: { value: string; id: string }) => string;
+  setFilter: (x: Object) => void;
+}
+
+export interface TagFiltersProps {
+  columnFilters: ColumnFilter[];
+  setColumnFilters: (change: ColumnFilter[]) => void;
+  resetFilters: () => void;
+  getFilterLabel: ({ id, value }: { value: string; id: string }) => string;
+  setFilter: (x: Object) => void;
+}
+
+export interface Tag {
+  id: string;
+  label: string;
+  category?: string;
+  onClose: () => void;
+}
+
+export interface useTestListFilterProps {
+  filterUrlPathParams: FilterState;
+  setFilter: (x: Object) => void;
+}
+export interface FilterPanelAnimationProps<ITEM_TYPE> {
+  page: number;
+  result: Result<PaginatedResult<ITEM_TYPE>>;
+}
