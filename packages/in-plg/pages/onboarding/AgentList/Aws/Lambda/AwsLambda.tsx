@@ -35,7 +35,7 @@ const runtimeOptions: RuntimeOption[] = [
   { key: 'Java', label: t('in-plg:agentDetails.runtime.java') },
   { key: 'NodeJs10', label: t('in-plg:agentDetails.runtime.nodejs10Plus') },
   { key: 'NodeJs8', label: t('in-plg:agentDetails.runtime.nodejs8') },
-  { key: 'Python', label: t('in-plg:agentDetails.runtime.python2and3') },
+  { key: 'Python', label: t('in-plg:agentDetails.runtime.python') },
   { key: 'Ruby', label: t('in-plg:agentDetails.runtime.ruby') }
 ];
 

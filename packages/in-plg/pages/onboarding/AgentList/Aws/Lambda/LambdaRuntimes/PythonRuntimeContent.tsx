@@ -58,7 +58,7 @@ export default function PythonRuntimeContent({
   serverlessEndpoint
 }: OnboardingProps): JSX.Element {
   const [awsRegion, setAwsRegion] = useState(awsRegionOptions[6]);
-  const [lambdaHandler, setLambdaHandler] = useState('index.handler');
+  const [lambdaHandler, setLambdaHandler] = useState('lambda_function.lambda_handler');
   const [functionName, setFunctionName] = useState('my-lambda-function');
   const lambdaLayerVersionApiBaseUrl = `https://lambda-layers.instana.${instanaDomain}`;
 
@@ -82,7 +82,7 @@ export default function PythonRuntimeContent({
             i18nKey={'in-plg:agentDetails.aws.referDocumentationForSettingUpAwsSensor'}
             components={{
               awsSensorDoc: (
-                <Link href="https://ibm.biz/monitor-aws" target="_blank">
+                <Link href="https://ibm.biz/AWS_Lambda" target="_blank">
                   {t('in-plg:agentDetails.aws.documentationLinks.awsServiceDocumentation')}
                 </Link>
               )
@@ -132,7 +132,7 @@ export default function PythonRuntimeContent({
             </Typography>
             <KeyValue
               label={t('in-plg:agentDetails.aws.autoWrapHandler')}
-              value={<InputWithButton type="copy" inputValue={'instana-aws-lambda-auto-wrap.handler'} />}
+              value={<InputWithButton type="copy" inputValue={'instana.lambda_handler'} />}
               withGap
             />
           </Stack>
@@ -155,7 +155,14 @@ export default function PythonRuntimeContent({
           </Stack>
           <KeyValue
             label={'LAMBDA_HANDLER'}
-            value={<InputWithButton type="copy" inputValue={'index.handler'} />}
+            value={
+              <InputWithButton
+                type="copy"
+                inputValue={
+                  lambdaHandler !== 'lambda_function.lambda_handler' ? lambdaHandler : 'lambda_function.lambda_handler'
+                }
+              />
+            }
             withGap
           />
         </Wrapper>
@@ -172,7 +179,7 @@ export default function PythonRuntimeContent({
               withGap
             />
             <KeyValue
-              label={t('in-plg:agentDetails.aws.lambdaFunctionName')}
+              label={t('in-plg:agentDetails.aws.lambdaFunctionHandler')}
               value={<FormInputPlg value={functionName} onChange={setFunctionName} />}
               withGap
             />
@@ -187,7 +194,7 @@ export default function PythonRuntimeContent({
               `   --layers ${pythonLayerArn} \\`,
               '   --handler instana.lambda_handler',
               `   --environment "Variables={${
-                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANDLER=${lambdaHandler}, `
+                lambdaHandler !== 'lambda_function.lambda_handler' ? `LAMBDA_HANDLER=${lambdaHandler}, ` : ''
               }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
           />
