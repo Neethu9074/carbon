@@ -43,21 +43,23 @@ export function getTeamsByUserId(): Observable<Result<TeamTag[]>> {
   );
 }
 
-export function updateTeamFocus(teamId: string) {
+export function updateTeamFocus(teamId: string): Observable<Result<void>> {
   return http({
     method: 'PUT',
     maxRetries: 3,
+    mapToResultObject: true,
     url: `${teamFocusUrl}/${teamId}`,
     headers: getCsrfHeader()
   });
 }
 
-export function deleteTeamFocus() {
+export function deleteTeamFocus(): Observable<Result<void>> {
   return http({
-    method: 'DELETE',
+    headers: getCsrfHeader(),
+    mapToResultObject: true,
     maxRetries: 3,
-    url: teamFocusUrl,
-    headers: getCsrfHeader()
+    method: 'DELETE',
+    url: teamFocusUrl
   });
 }
 

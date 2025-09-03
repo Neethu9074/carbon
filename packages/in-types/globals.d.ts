@@ -37,9 +37,10 @@ export type PreEvaluatedPermissions = {
 export interface Role extends PreEvaluatedPermissions {
   id: string;
   name: string;
-  teamId: string;
   // all product permissions
   permissions: Array<string>;
+  teamId: string;
+  wasUpdatedAtRuntime?: boolean;
 }
 
 export interface User {

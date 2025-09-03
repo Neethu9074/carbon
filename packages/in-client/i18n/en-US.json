@@ -1,6 +1,8 @@
 {
-  "landingPage":
-    {
-      "makeDefault": "Make default"
-    }
+  "landingPage": {
+    "makeDefault": "Make default"
+  },
+  "carbonUiShell": {
+    "globalLoadingIndicatorDescription": "Loading"
+  }
 }

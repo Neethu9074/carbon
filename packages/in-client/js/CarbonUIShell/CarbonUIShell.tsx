@@ -15,6 +15,7 @@ import CustomDashboardsMenuItem from 'in-client/js/CarbonUIShell/CustomDashboard
 import ProfileMenu from 'in-components/MainNavigation/components/ProfileMenu/ProfileMenu';
 import SoftwareCatalogMenuItem from 'in-client/js/CarbonUIShell/SoftwareCatalogMenuItem';
 import VulnerabilitiesMenuItem from 'in-client/js/CarbonUIShell/VulnerabilitiesMenuItem';
+import GlobalLoadingIndicator from 'in-client/js/CarbonUIShell/GlobalLoadingIndicator';
 import InfrastructureMenuItem from 'in-client/js/CarbonUIShell/InfrastructureMenuItem';
 import ServiceLevelsMenuItem from 'in-client/js/CarbonUIShell/ServiceLevelsMenuItem';
 import ApplicationsMenuItem from 'in-client/js/CarbonUIShell/ApplicationsMenuItem';
@@ -115,6 +116,7 @@ export default function CarbonUIShell() {
           <SoftwareCatalogMenuItem />
         </>
       )}
+      <GlobalLoadingIndicator />
     </UIShell>
   );
 }

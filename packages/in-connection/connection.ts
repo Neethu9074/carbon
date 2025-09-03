@@ -6,8 +6,8 @@
 import EventEmitter from 'eventemitter3';
 import { get } from 'lodash';
 
+import { SharedState, SubscriptionDebuggingData, SubscriptionDescription } from 'in-connection/types';
 import WindowHiddenLongTimeState from 'in-connection/states/WindowHiddenLongTimeState';
-import { SharedState, SubscriptionDebuggingData } from 'in-connection/types';
 import ConnectionLostState from 'in-connection/states/ConnectionLostState';
 import WindowHiddenState from 'in-connection/states/WindowHiddenState';
 import WaitForInitState from 'in-connection/states/WaitForInitState';
@@ -107,4 +107,67 @@ export function getInitializationCallStack(subscriptionId: number) {
 export function getSubscriptionPayload(subscriptionId: number) {
   const subscription = sharedState.subscriptions.get(subscriptionId);
   return subscription ? subscription.payload : null;
+}
+
+/**
+ * Disconnects the current socket connection if it exists
+ * @private
+ * @returns {boolean} True if there was an active connection that could be disconnected
+ */
+function disconnect(): boolean {
+  if (sharedState.socket && sharedState.socket.readyState === WebSocket.OPEN) {
+    sharedState.socket.close();
+    sharedState.socket = undefined;
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Disconnects the current socket connection and reinitializes it.
+ * @private
+ * @returns {Map<number, SubscriptionDescription<T>>} A copy of the existing subscriptions before reconnecting
+ */
+function reconnect<T>(): Map<number, SubscriptionDescription<T>> {
+  // Store existing subscriptions before reconnecting
+  const existingSubscriptions = new Map(sharedState.subscriptions);
+
+  disconnect();
+
+  // Re-initialize the connection
+  connection.init();
+
+  return existingSubscriptions;
+}
+
+/**
+ * Re-subscribes to all previously active subscriptions.
+ * @private
+ * @param {Map<number, SubscriptionDescription<T>>} subscriptions - The subscriptions to restore
+ */
+function resubscribe<T>(subscriptions: Map<number, SubscriptionDescription<T>>) {
+  subscriptions.forEach((subscription, subscriptionId) => {
+    if (subscription.isSubscribedToBackend) {
+      connection.subscribe<T>({
+        subscriptionId,
+        event: subscription.event,
+        payload: subscription.payload,
+        disposeSubscriptionOnDocumentHidden: subscription.disposeSubscriptionOnDocumentHidden,
+        listener: subscription.listener,
+        initializationCallStack: subscription.initializationCallStack
+      });
+    }
+  });
+}
+
+/**
+ * Refreshes all connections and subscriptions.
+ * This is useful when changing team focus (and apply new permissions) without
+ * reloading the page, or in any other scenario where connections need to be
+ * refreshed.
+ */
+export function refreshConnection() {
+  const existingSubscriptions = reconnect();
+  resubscribe(existingSubscriptions);
 }

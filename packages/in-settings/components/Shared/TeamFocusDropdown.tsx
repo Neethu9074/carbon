@@ -4,22 +4,63 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Dropdown, Layer } from '@instana/carbon';
 import { TeamTag } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import { triggerCacheInvalidation } from 'in-services/util/memoizingObservableGenerator';
+import { useGlobalLoadingIndicator } from 'in-hooks/useGlobalLoadingIndicator';
 import { deleteTeamFocus, updateTeamFocus } from 'in-api/teams';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { refreshConnection } from 'in-connection/connection';
+import { fetchUserInfo } from 'in-settings/api/userProfile';
+import { isLoading } from 'in-services/util/result';
+import { Role } from 'in-types';
+
+// Amount of milliseconds that will pass until we hide the loading indicator
+// after reconnecting.
+const HIDE_LOADING_INDICATOR_DELAY = 1000;
 
 const DEFAULT_DROPDOWN_ITEM = Object.freeze({
   displayName: t('in-components:mainNavigation.scope_defaultScope'),
   id: ''
 } as const);
 
-function getSelectedDropdownItem(teamId: string, teams: TeamTag[]) {
+function getSelectedDropdownItem(teamId: string, teams: TeamTag[]): TeamTag {
   return teamId ? (teams.find(team => team.id === teamId) as TeamTag) : DEFAULT_DROPDOWN_ITEM;
+}
+
+function fetchCurrentRole(callback: (role: Role) => void): void {
+  fetchUserInfo()
+    .filter(result => !isLoading(result))
+    .once(({ data }) => data && callback(data.role));
+}
+
+function useLoadingIndicator(): [VoidFunction, VoidFunction] {
+  const timeoutRef = useRef<number>();
+  const [, setGlobalLoading] = useGlobalLoadingIndicator();
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current !== undefined) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  return [
+    function show() {
+      setGlobalLoading(true);
+    },
+    function hide() {
+      // A little hack to conceal content shifts: Wait a short amount of time to
+      // make sure most of components in tree have been updated before we hide
+      // the GlobalLoadingIndicator.
+      timeoutRef.current = window.setTimeout(() => setGlobalLoading(false), HIDE_LOADING_INDICATOR_DELAY);
+    }
+  ];
 }
 
 interface TeamFocusDropdownProps {
@@ -27,7 +68,8 @@ interface TeamFocusDropdownProps {
 }
 
 export default function TeamFocusDropdown(props: TeamFocusDropdownProps) {
-  const [{ teamId }] = useCurrentUserRole();
+  const [showLoadingIndicator, hideLoadingIndicator] = useLoadingIndicator();
+  const [{ teamId }, updateCurrentUserRole] = useCurrentUserRole();
   const { teams } = props;
 
   const teamsOptions = [...teams, DEFAULT_DROPDOWN_ITEM];
@@ -38,16 +80,24 @@ export default function TeamFocusDropdown(props: TeamFocusDropdownProps) {
     setSelectedTeamFocus(newSelectedTeamFocus);
   }, [teamId, teams]);
 
-  const onChangeTeamFocus = (selectedItem: TeamTag) => {
+  const onAfterTeamFocusUpdated = (): void => {
+    fetchCurrentRole(updateCurrentUserRole);
+    triggerCacheInvalidation();
+    refreshConnection();
+    hideLoadingIndicator();
+  };
+
+  const onChangeTeamFocus = (selectedItem: TeamTag): void => {
+    showLoadingIndicator();
     setSelectedTeamFocus(selectedItem);
     if (selectedItem.id === '') {
-      deleteTeamFocus().once(() => {
-        window.location.reload();
-      });
+      deleteTeamFocus()
+        .filter(result => !isLoading(result))
+        .once(onAfterTeamFocusUpdated);
     } else {
-      updateTeamFocus(selectedItem.id).once(() => {
-        window.location.reload();
-      });
+      updateTeamFocus(selectedItem.id)
+        .filter(result => !isLoading(result))
+        .once(onAfterTeamFocusUpdated);
     }
   };
 

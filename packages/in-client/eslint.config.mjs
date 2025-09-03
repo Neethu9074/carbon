@@ -26,6 +26,7 @@ export default [
           'in-custom-dashboards',
           'in-events',
           'in-hoc',
+          'in-hooks',
           'in-infrastructure',
           'in-init',
           'in-integrations',

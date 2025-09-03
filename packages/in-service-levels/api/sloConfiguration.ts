@@ -25,7 +25,11 @@ import { error } from 'in-services/util/result';
 import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
-const refreshSignal = create<string>().emit('');
+const refreshSignal = create().emit(Date.now());
+
+export function refreshSloConfigs() {
+  refreshSignal.emit(Date.now());
+}
 
 const sloConfigurationUrl = '/api/settings/slo' as const;
 export interface GetAllSloConfigurationsArguments {

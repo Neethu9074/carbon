@@ -12,7 +12,8 @@ import { role$ } from 'in-stores/user';
 import { Role } from 'in-types';
 
 function updateRole(role: Role) {
-  role$.emit(role);
+  const newRole = deepCopy({ ...role, wasUpdatedAtRuntime: true });
+  role$.emit(newRole);
 }
 
 /**

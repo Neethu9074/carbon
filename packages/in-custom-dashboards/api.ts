@@ -21,7 +21,11 @@ import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 import http, { Response } from 'in-services/http';
 import { seconds } from 'in-services/time/time';
 
-const refreshSignal = create<string>().emit('');
+const refreshSignal = create().emit(Date.now());
+
+export function refreshCustomDashboards() {
+  refreshSignal.emit(Date.now());
+}
 
 export const getCustomDashboards = memoize<void, Result<CustomDashboardPreview[]>>(
   getCustomDashboardsInternal,
