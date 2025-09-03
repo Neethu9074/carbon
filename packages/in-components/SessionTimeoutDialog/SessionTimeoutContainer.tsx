@@ -11,7 +11,7 @@ import SessionTimeoutDialog from 'in-components/SessionTimeoutDialog/SessionTime
 import getSessionTimeouts from 'in-subscription/getSessionTimeouts';
 import { minutes, hours } from 'in-services/time/time';
 
-const FIVE_MINUTES = minutes.toMillis(5);
+const FIVE_MINUTES = minutes.toMillis(2);
 
 export default function SessionTimeoutContainer() {
   const [showModel, setShowModel] = useState(true);

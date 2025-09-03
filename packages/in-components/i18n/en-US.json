@@ -638,11 +638,14 @@
     "fillerTextAt": " at "
   },
   "sessionTimeout": {
-    "title": "Session Timeout",
-    "message": "Due to inactivity you will logged out in:",
-    "loggedInButton": "Stay Logged in",
+    "title": "Session timeout",
+    "message": "Your session will expire in 2 minutes due to inactivity. Would you like to stay logged in for another 8 hours? Staying logged in will reload the page.",
+    "loggedInButton": "Stay logged in",
     "logOutButton": "Log out",
-    "failedToUpdateSession": "Failed to update idle session"
+    "loading": "In progress",
+    "successUpdateSessionTitle": "Successfully logged in",
+    "successUpdateSessionDescription": "Your session has been extended by 8 hours",
+    "failedToUpdateSession": "Unable to update session due to server error. Try logging in again."
   },
   "time": {
     "lastMinute": "Last minute",

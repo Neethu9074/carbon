@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { CarbonModal } from '@instana/components';
+import { CarbonModal, Typography, Stack } from '@instana/components';
+import { InlineNotification } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
 import { createLogger } from '@instana/logger';
 
@@ -28,7 +29,8 @@ const signOut = () => {
 const convertMilliSecondsToTimer = (ms: number) => {
   const date = new Date(ms);
   // this is extracting the time from e.g. 2024-12-02T17:47:23.450Z'
-  const formatted = date.toISOString().substr(11, 8);
+  const formatted = date.toISOString().substr(14, 5);
+
   return formatted;
 };
 
@@ -37,6 +39,8 @@ export default function SessionTimeoutDialog(props: {
   showModel: boolean;
   setShowModel: (flag: boolean) => void;
 }) {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
   const counter: number | null | undefined = useObservable(counter$, []);
   if (!counter) {
     // to handle undefined counter state
@@ -52,36 +56,42 @@ export default function SessionTimeoutDialog(props: {
 
   return (
     <CarbonModal
-      size="xs"
+      size="sm"
       open={props.showModel}
       modalHeading={t('in-components:sessionTimeout.title')}
       primaryButtonText={t('in-components:sessionTimeout.loggedInButton')}
+      loadingStatus={isLoading ? 'active' : 'inactive'}
+      loadingDescription={t('in-components:sessionTimeout.loading')}
       secondaryButtonText={t('in-components:sessionTimeout.logOutButton')}
       onRequestSubmit={() => {
+        setIsLoading(true);
         http({
           method: 'GET',
           url: '/api/checkUserAccessPermitted'
         }).once(
           () => {
+            addMessage(
+              {
+                title: t('in-components:sessionTimeout.successUpdateSessionTitle'),
+                type: 'success',
+                icon: 'success',
+                content: t('in-components:sessionTimeout.successUpdateSessionDescription')
+              },
+              'ui-update-notification'
+            );
             // Todo : later, remove it when we get an in-time update from the server.
             // Currently, we just refresh the page as the easiest solution to get all things updated,
             // because the session/idle time-out values are updated from server with a delay of
             // up to one minute.
             // see https://jsw.ibm.com/browse/INSTA-31309
+            setIsLoading(false);
             window.location.reload(); // To update with latest
           },
           error => {
-            logger.error(`failed to update timeout session: ${error.message}`, error);
-            // handling error scenario like env is down.
-            addMessage(
-              {
-                type: 'danger',
-                timeout: 5000,
-                title: t('in-components:sessionTimeout.failedToUpdateSession'),
-                content: ''
-              },
-              'failedToUpdateSession'
-            );
+            setIsLoading(false);
+            setIsError(true);
+            const errorMessage = error.message || t('in-components:sessionTimeout.failedToUpdateSession');
+            logger.error(`failed to update timeout session: ${errorMessage}`, error);
           }
         );
       }}
@@ -93,7 +103,19 @@ export default function SessionTimeoutDialog(props: {
         props.setShowModel(false);
       }}
     >
-      {t('in-components:sessionTimeout.message') + ' ' + convertMilliSecondsToTimer(counter)}
+      <Stack gap="xsmall">
+        <Typography variant="body-regular">{t('in-components:sessionTimeout.message')}</Typography>
+        <Typography variant="heading-03">{`${convertMilliSecondsToTimer(counter)} minutes`}</Typography>
+
+        {isError && (
+          <InlineNotification
+            title={t('in-components:sessionTimeout.failedToUpdateSession')}
+            kind="error"
+            hideCloseButton
+            lowContrast
+          />
+        )}
+      </Stack>
     </CarbonModal>
   );
 }
