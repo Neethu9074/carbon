@@ -955,6 +955,7 @@
         "thresholdTypeOptionAdaptiveBaseline": "Adaptive threshold",
         "useSuggestedvalue": "Use suggested value",
         "loadingThresholdSuggestion": "Loading threshold suggestion",
+        "noThresholdSuggestionAvailable": "No threshold suggestion available.",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit global Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create Smart Alert",

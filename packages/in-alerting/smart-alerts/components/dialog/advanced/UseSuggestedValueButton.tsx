@@ -43,8 +43,35 @@ export default function UseSuggestedValueButton({
   const thresholdValueManuallyChanged = thresholdField?.touched;
   const thresholdValue = thresholdField?.value;
   const showLoadingIndicator = !isGlobalSmartAlert && calculateThresholdOnBackend;
+  const SUGGESTION_TIMEOUT = 15000;
 
   const showButton = useShowButton(suggestedThresholdValue, thresholdValueManuallyChanged);
+
+  // Add state to track if suggestion timed out
+  const [suggestionTimedOut, setSuggestionTimedOut] = useState(false);
+
+  // Set a timeout to automatically clear the loader after 15 seconds
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    if (showLoadingIndicator) {
+      setSuggestionTimedOut(false);
+      timeoutId = setTimeout(() => {
+        // Automatically stop loading after 15 seconds
+        const updatedForm = form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
+          (f as Field<boolean>).setValue(false)
+        );
+        updateForm(updatedForm);
+        setSuggestionTimedOut(true);
+      }, SUGGESTION_TIMEOUT); // Auto-clear after 15 seconds
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [showLoadingIndicator, form, updateForm]);
 
   return (
     <>
@@ -63,7 +90,12 @@ export default function UseSuggestedValueButton({
         </div>
       ) : (
         <>
-          {showButton && (
+          {suggestionTimedOut && (
+            <div className={locals.loadingIndicatorText}>
+              {t('in-alerting:smartAlerts.components.smartAlertDialog.noThresholdSuggestionAvailable')}
+            </div>
+          )}
+          {showButton && !suggestionTimedOut && (
             <div
               className={classNames({
                 [locals.buttonWrapper]: !isTearSheet,
