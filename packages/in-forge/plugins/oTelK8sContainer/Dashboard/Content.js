@@ -36,7 +36,7 @@ export default function OTelK8SContainerDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.oTelK8sContainer.dashboard.cpunodeutilization')}>
           <MetricValue
             snapshotId={snapshotId}
-            metric="container.cpu.node.utilization"
+            metric="k8s.container.cpu.node.utilization"
             formatter={percentageTwoDecimalPlaces}
             windowForLatest={WINDOW_FOR_LATEST_METRIC}
           />
