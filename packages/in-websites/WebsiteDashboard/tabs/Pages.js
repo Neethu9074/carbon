@@ -18,6 +18,7 @@ import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { websitePageTransitionDurationEnabled } from 'in-services/featureFlags';
 import changeExplanation from 'in-websites/emptyListExplanation';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import { ms, number } from 'in-services/formatters/number';
@@ -84,6 +85,28 @@ const columnDefinitions = [
       );
     }
   },
+  ...(websitePageTransitionDurationEnabled
+    ? [
+        {
+          id: 'pageTraDurationAgg',
+          label: t('in-websites:websiteDashboard.tabs.pagesLabelTransitionDuration'),
+          defaultOrderDirection: 'DESC',
+          getContent(item, { result, timeConfig }) {
+            return (
+              <SparkChart
+                loading={result?.progress?.loading}
+                rollup={getSparkChartGranularity(timeConfig)}
+                timeConfig={getResolvedTimeConfig(timeConfig, result)}
+                aggregation="MEAN"
+                metrics={item.metrics.pageTraDuration || []}
+                metric={item.metrics.pageTraDurationAgg}
+                tooltipFormatter={ms.compact}
+              />
+            );
+          }
+        }
+      ]
+    : []),
   {
     id: 'errorsAgg',
     label: t('in-websites:websiteDashboard.tabs.pagesLabelJSErrors'),
@@ -191,6 +214,15 @@ function getTableData({
       },
       onLoadTime: {
         metric: 'onLoadTime',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      pageTraDurationAgg: {
+        metric: 'pageTraDuration',
+        aggregation: 'MEAN'
+      },
+      pageTraDuration: {
+        metric: 'pageTraDuration',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
       }

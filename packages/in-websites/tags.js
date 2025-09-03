@@ -68,7 +68,7 @@ export const defaultGroupings = {
     groupbyTag: 'beacon.location.path'
   },
   pageChange: {
-    groupbyTag: 'beacon.page.name'
+    groupbyTag: 'beacon.location.path'
   },
   resourceLoad: {
     groupbyTag: 'beacon.http.origin'

@@ -52,6 +52,7 @@ export const metricRenderers = {
   pageChange: {
     beaconCount: 'stackedBar',
     pageTransitions: 'stackedBar',
+    pageTraDuration: 'stackedArea',
     ...uniqueMetrics
   },
   resourceLoad: {

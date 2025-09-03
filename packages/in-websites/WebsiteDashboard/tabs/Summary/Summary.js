@@ -17,14 +17,15 @@ import { latency, meanLatency, millis, number } from 'in-services/formatters/num
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
+import { websitePageTransitionDurationEnabled } from 'in-services/featureFlags';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { summaryTab, useLinkToAnalyze } from 'in-websites/navigation/paths';
+import { chartColors, carbonAlert } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Col, Row } from 'in-components/layout/Grid';
-import { carbonAlert } from 'in-themes/chartColors';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
@@ -385,7 +386,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
       </Row>
 
       <Row>
-        <Col lg={pageId == null ? 4 : 6}>
+        <Col lg={4}>
           <Card
             headingVariant="heading-3"
             title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleGeography')}
@@ -401,7 +402,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             />
           </Card>
         </Col>
-        <Col lg={pageId == null ? 4 : 6}>
+        <Col lg={4}>
           <ErrorTopList
             tagFilters={tagFilters}
             timeConfig={timeConfig}
@@ -411,6 +412,114 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             renderHistoricDataIndicator
           />
         </Col>
+
+        {/* Transition duration chart in Summary Dashboard */}
+        {websitePageTransitionDurationEnabled && pageId && (
+          <Col lg={4}>
+            <WebsiteChartWrapper
+              title={t('in-websites:websiteDashboard.tabs.speedCardTitleTransitionDuration')}
+              timeConfig={timeConfig}
+              shareMaxAxisDomain
+              viewInAnalytics={{
+                websiteLabel
+              }}
+              y1={{
+                renderer: Renderer.integral,
+                calculateStackDifferences: true,
+                formatter: millis.forcedFixedCompact,
+                colors: chartColors.strokeColors100,
+                labels: [
+                  t('in-websites:websiteDashboard.tabs.speedLabel50th'),
+                  t('in-websites:websiteDashboard.tabs.speedLabel75th'),
+                  t('in-websites:websiteDashboard.tabs.speedLabel90th'),
+                  t('in-websites:websiteDashboard.tabs.speedLabel95th'),
+                  t('in-websites:websiteDashboard.tabs.speedLabel99th'),
+                  t('in-websites:websiteDashboard.tabs.speedLabelMax')
+                ],
+                defaultDisabledMetrics: ['pageTraDurationMax'],
+                metricIds: [
+                  'pageTraDuration50th',
+                  'pageTraDuration75th',
+                  'pageTraDuration90th',
+                  'pageTraDuration95th',
+                  'pageTraDuration99th',
+                  'pageTraDurationMax'
+                ]
+              }}
+              y2={{
+                renderer: Renderer.line,
+                formatter: millis.forcedFixedCompact,
+                colors: [chartColors.strokeColors100[5]],
+                labels: [t('in-websites:websiteDashboard.tabs.speedLabelMean')],
+                defaultDisabledMetrics: ['pageTraDurationMean'],
+                metricIds: ['pageTraDurationMean']
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                tagFilters,
+                metrics: {
+                  pageTraDuration50th: {
+                    metric: 'pageTraDuration',
+                    granularity,
+                    aggregation: 'P50',
+                    analyzeMetricName: 'pageTraDuration',
+                    beaconType: 'pageChange',
+                    omitMetricInAnalytics: true
+                  },
+                  pageTraDuration75th: {
+                    metric: 'pageTraDuration',
+                    granularity,
+                    aggregation: 'P75',
+                    analyzeMetricName: 'pageTraDuration',
+                    beaconType: 'pageChange'
+                  },
+                  pageTraDuration90th: {
+                    metric: 'pageTraDuration',
+                    granularity,
+                    aggregation: 'P90',
+                    analyzeMetricName: 'pageTraDuration',
+                    beaconType: 'pageChange',
+                    omitMetricInAnalytics: true
+                  },
+                  pageTraDuration95th: {
+                    metric: 'pageTraDuration',
+                    granularity,
+                    aggregation: 'P95',
+                    analyzeMetricName: 'pageTraDuration',
+                    beaconType: 'pageChange',
+                    omitMetricInAnalytics: true
+                  },
+                  pageTraDuration99th: {
+                    metric: 'pageTraDuration',
+                    granularity,
+                    aggregation: 'P99',
+                    analyzeMetricName: 'pageTraDuration',
+                    beaconType: 'pageChange',
+                    omitMetricInAnalytics: true
+                  },
+                  pageTraDurationMax: {
+                    metric: 'pageTraDuration',
+                    granularity,
+                    aggregation: 'MAX',
+                    analyzeMetricName: 'pageTraDuration',
+                    beaconType: 'pageChange',
+                    omitMetricInAnalytics: true
+                  },
+                  pageTraDurationMean: {
+                    metric: 'pageTraDuration',
+                    granularity,
+                    aggregation: 'MEAN',
+                    analyzeMetricName: 'pageTraDuration',
+                    beaconType: 'pageChange',
+                    omitMetricInAnalytics: true
+                  }
+                }
+              }}
+              renderPostChartContent={MarkerLanes}
+            />
+          </Col>
+        )}
+
         {pageId == null && (
           <Col lg={4}>
             <PagesTopList

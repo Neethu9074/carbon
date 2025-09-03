@@ -84,6 +84,7 @@ module.exports = {
   eumImpactedUsersForAppAlertEnabled: true,
   eumImpactedUsersForWebsiteAndMobileAlertEnabled: true,
   mobileAppFastTriageEnabled: false,
+  websitePageTransitionDurationEnabled: false,
   websiteFastTriageEnabled: false,
   controlPlaneEnabled: true,
   kubecostEnabled: true,

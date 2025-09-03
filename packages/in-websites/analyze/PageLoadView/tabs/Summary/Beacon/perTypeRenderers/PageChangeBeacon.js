@@ -10,7 +10,8 @@ import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon
 import MapKeyToTranslatedDisplayName from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/EumTagMap';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
-import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import { latencyFixed, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import { websitePageTransitionDurationEnabled } from 'in-services/featureFlags';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -36,6 +37,12 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
+    {websitePageTransitionDurationEnabled && (
+      <KeyValueHeader
+        label={t('in-websites:analyze.analyzeView.pageLoadView.pageChangeBeaconLabelTransitionDuration')}
+        value={latencyFixed.compact(beacon.duration)}
+      />
+    )}
   </Fragment>
 );
 

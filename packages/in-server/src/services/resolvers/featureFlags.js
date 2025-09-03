@@ -390,6 +390,11 @@ module.exports = exports = [
     instanaCtlKey: 'feature.eum.website.fast.triage.enabled',
     defaultValue: false
   },
+  {
+    uiClientKey: 'websitePageTransitionDurationEnabled',
+    instanaCtlKey: 'feature.eum.website.page.transition.duration.enabled',
+    defaultValue: false
+  },
 
   {
     uiClientKey: 'controlPlaneEnabled',
