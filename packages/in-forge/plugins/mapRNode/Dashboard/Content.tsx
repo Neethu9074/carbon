@@ -8,8 +8,9 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+import DiskReadWriteOperationsChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteOperationsChart';
+import DiskReadWriteThroughputChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteThroughputChart';
 import CPUUtilizationChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/CPUUtilizationChart';
-import DiskReadWriteChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskReadWriteChart';
 import Notification from 'in-forge/plugins/mapRNode/Dashboard/Notification/Notification';
 import DiskUsageChart from 'in-forge/plugins/mapRNode/Dashboard/Charts/DiskUsageChart';
 import DiskListTable from 'in-forge/plugins/mapRNode/Dashboard/Tables/DiskListTable';
@@ -48,7 +49,8 @@ export default function MapRNodeDashboard({
       <DashboardSection title={t('in-forge:plugins.maprNode.diskDetails')}>
         <Columize>
           <DiskUsageChart snapshot={snapshot} timeConfig={timeConfig} />
-          <DiskReadWriteChart snapshot={snapshot} timeConfig={timeConfig} />
+          <DiskReadWriteOperationsChart snapshot={snapshot} timeConfig={timeConfig} />
+          <DiskReadWriteThroughputChart snapshot={snapshot} timeConfig={timeConfig} />
         </Columize>
         <DiskListTable snapshot={snapshot} timeConfig={timeConfig} />
       </DashboardSection>

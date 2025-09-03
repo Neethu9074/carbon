@@ -6,24 +6,16 @@
 
 import React from 'react';
 
-import { Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 export default {
-  mapr_connect_error: {
+  mapr_monitoring_error: {
     issueDescription: {
-      Component: function mapRConnectionError({ error }: { error: string }) {
-        return (
-          <span>
-            <Trans
-              i18nKey="in-forge:plugins.maprNode.connectErrorIssueDescription"
-              components={{
-                code: <code />
-              }}
-              values={{ error: error }}
-            />
-          </span>
-        );
+      Component: function mapRMonitoringError({ error }: { error: string }) {
+        return <div>{error}</div>;
       }
-    }
+    },
+    explanationLinkLabel: t('in-forge:plugins.maprNode.troubleshootingDocs'),
+    explanationLinkHref: `https://ibm.biz/monitoring_Mapr`
   }
 };

@@ -13,7 +13,6 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { kiloBytes } from 'in-services/formatters/number';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -26,7 +25,7 @@ export default function DiskReadWriteChart({
 }) {
   const snapshotId = snapshot.get('id');
   return (
-    <DashboardSection title={t('in-forge:plugins.maprNode.diskReadWrite')}>
+    <DashboardSection title={t('in-forge:plugins.maprNode.diskReadWriteOperations')}>
       <Chart
         snapshotId={snapshotId}
         timeConfig={timeConfig}
@@ -35,12 +34,6 @@ export default function DiskReadWriteChart({
           labels: [t('in-forge:plugins.maprNode.diskReads'), t('in-forge:plugins.maprNode.diskWrites')],
           type: 'line',
           formatter: number.compact
-        }}
-        y2={{
-          metrics: ['metrics.disk.diskReadKB', 'metrics.disk.diskWriteKB'],
-          labels: [t('in-forge:plugins.maprNode.diskReadKB'), t('in-forge:plugins.maprNode.diskWriteKB')],
-          type: 'line',
-          formatter: kiloBytes.detailed
         }}
       />
     </DashboardSection>
