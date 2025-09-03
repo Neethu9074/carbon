@@ -219,6 +219,7 @@ module.exports = {
   fiveMinuteGranularityForAdaptiveThresholdEnabled: true,
   otelCollectorViewEnabled: true,
   downtimesOnHostEnabled: true,
+  newTopologyEnabled: true,
   newOnboardingPageEnabled: true,
   agentEnforcementEnabled: false,
   fedrampDeploymentEnabled: false,

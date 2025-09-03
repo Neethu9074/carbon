@@ -6,6 +6,10 @@
 
 import { EntityId } from '@instana/types';
 
+export interface EntityIdWithSnapshotId extends EntityId {
+  snapshotId: string;
+}
+
 export interface RootCause {
   snapshotId: string;
   probFailure: number;
@@ -14,6 +18,9 @@ export interface RootCause {
   prcIssueId: string;
   events: any[];
   timestamp: number;
+  topology: {
+    shortestPath: EntityIdWithSnapshotId[];
+  };
 }
 
 export interface Explainability {

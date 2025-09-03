@@ -13,10 +13,12 @@ import React, { useMemo, useState } from 'react';
 import { Event, VolatileId } from '@instana/types';
 
 import SingleEntityLLM from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/SingleEntityLLM/SingleEntityLLM';
+import NewTopology from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/NewTopology/NewTopology';
 import gridSettings from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/utils/gridSettings';
 import EntityDetails from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/EntityDetails';
 import Topology from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/Topology';
 import AutomationCardForPRC from 'in-automation/AutomationCard/AutomationCardForPRC';
+import { newTopologyEnabled } from 'in-services/featureFlags';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
@@ -47,6 +49,7 @@ const AgenticInvestigation = ({ incident, volatileId, event }: AgenticInvestigat
               <EntityDetails />
             </Column>
             <Column {...gridSettings.right}>
+              {newTopologyEnabled && <NewTopology incident={incidentJSON} />}
               <Topology incident={incidentJSON} />
             </Column>
           </Grid>

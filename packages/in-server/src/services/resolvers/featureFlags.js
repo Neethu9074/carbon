@@ -1074,6 +1074,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'newTopologyEnabled',
+    instanaCtlKey: 'feature.new.topology.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'pollRateSupportForUnifiedMetricsEnabled',
     instanaCtlKey: 'feature.poll.rate.support.for.unified.metrics.enabled',
     defaultValue: false
