@@ -16,7 +16,7 @@ export default function SubViewHeader({ children, iconType, iconColor }) {
       {iconType && (
         <SvgIcon className={locals.icon} type={iconType} color={iconColor ?? themes.default.ids.color.option.black} />
       )}
-      <h1 className={locals.header}>{children}</h1>
+      <h3 className={locals.header}>{children}</h3>
     </div>
   );
 }

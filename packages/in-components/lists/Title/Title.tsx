@@ -11,5 +11,5 @@ export type childrenProp = {
   children: ReactNode;
 };
 export default function Title({ children }: childrenProp) {
-  return <h2 className={locals.title}>{children}</h2>;
+  return <h3 className={locals.title}>{children}</h3>;
 }
