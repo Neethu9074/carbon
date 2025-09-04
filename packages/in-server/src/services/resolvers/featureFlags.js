@@ -1028,6 +1028,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'fedrampDeploymentEnabled',
+    instanaCtlKey: 'feature.fedramp.deployment.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'fiveMinuteGranularityForAdaptiveThresholdEnabled',
     instanaCtlKey: 'feature.five.minute.granularity.for.adaptive.threshold.enabled',
     defaultValue: false

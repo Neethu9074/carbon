@@ -115,7 +115,8 @@
       "openTelemetryCollectors": "OpenTelemetry Collectors",
       "openTelemetryCollectorsDesciption": "OpenTelemetry Collectors are a standardized way to collect and export telemetry data from applications. They can be used as an alternative to native agents, providing a flexible and scalable solution for observability.",
       "instanaAgents": "Instana agents",
-      "instanaAgentsDesciption": "Instana agents collect data from various platforms and services, including hosts, cloud services, serverless platforms, and website and mobile applications. They run as a separate process and automatically deploy sensors that send metrics back to the agent for analysis and visualization."
+      "instanaAgentsDesciption": "Instana agents collect data from various platforms and services, including hosts, cloud services, serverless platforms, and website and mobile applications. They run as a separate process and automatically deploy sensors that send metrics back to the agent for analysis and visualization.",
+      "fedrampMessage": "See the <documentationLink>documentation</documentationLink> for agent installation instructions."
     },
     "kubernetes": {
       "kubernetes": {

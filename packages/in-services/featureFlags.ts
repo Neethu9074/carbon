@@ -408,3 +408,4 @@ export const customEntitiesViewEnabled = isFeatureFlagEnabled('customEntitiesVie
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
 export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);
 export const agentEnforcementEnabled = isFeatureFlagEnabled('agentEnforcementEnabled', false);
+export const fedrampDeploymentEnabled = isFeatureFlagEnabled('fedrampDeploymentEnabled');
