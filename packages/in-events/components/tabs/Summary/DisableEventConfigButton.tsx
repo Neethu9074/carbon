@@ -29,8 +29,8 @@ import {
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/tabs/Summary/DisableEventConfigButton.mless';
@@ -50,6 +50,7 @@ export default function DisableEventConfigButton({
   eventType,
   buttonType = 'button'
 }: DisableEventConfigButtonProps) {
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   const segmentPropertyChannel = 'EVENT_ACTIONS';
   const ctaEvent = 'event.actions.pause';

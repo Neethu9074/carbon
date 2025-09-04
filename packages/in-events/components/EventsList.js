@@ -15,7 +15,7 @@ import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable
 import { aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { t } from 'in-i18n';
 
 import locals from './EventsList.mless';
@@ -26,6 +26,7 @@ export default function EventsList(props) {
 }
 
 function List(props) {
+  const [role] = useCurrentUserRole();
   const {
     selectedEventId,
     onItemClicked,

@@ -16,15 +16,18 @@ import {
   TagFilterExpressionElementUnion,
   TimeConfig
 } from '@instana/types';
+import { ContainedList, ContainedListItem } from '@instana/carbon';
+import { NoDataEmptyState } from '@instana/ibm-products';
+import { Card, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Li, Ul } from '@instana/components';
 
+//import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
+import getBusinessProcesses from 'in-bizops/subscriptions/getBusinessProcesses';
 // @ts-expect-error Module needs to be translated to TS
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
-import getBusinessProcesses from 'in-bizops/subscriptions/getBusinessProcesses';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
@@ -71,34 +74,49 @@ export default function ProcessesLiveList({
   const processesList =
     useObservable(getBusinessProcesses(businessDataQuery), [tagFilterExpressionFormModel]) ?? pendingResult;
 
+  const processCount =
+    tagFilterExpressionEmpty || !validTagFilterExpressionQuery ? 0 : processesList?.data?.items?.length;
+
+  const listHeader = (
+    <div className={local.listHeader}>
+      <div className={local.listHeadline}>{t('in-bizops:perspectives.processesLiveList.title')}</div>
+      <Pill type="cool-gray">{processCount}</Pill>
+    </div>
+  );
+
   return (
-    <>
-      <Ul>
-        <Li forceAlternateBg>
-          <h2 className={local.headerText}>{t('in-bizops:perspectives.processesLiveList.title')}</h2>
-        </Li>
-      </Ul>
-      <Ul>
-        {tagFilterExpressionEmpty ? (
-          <Li className={local.processesLiveListMessages}>{t('in-bizops:perspectives.processesLiveList.empty')}</Li>
-        ) : !validTagFilterExpressionQuery ? (
-          <Li className={local.processesLiveListMessages}>
-            {t('in-bizops:perspectives.processesLiveList.invalidQuery')}
-          </Li>
-        ) : processesList?.progress?.loading ? (
-          <Li>
-            <LoadingIndicator text={t('in-bizops:perspectives.processesLiveList.loadingStateLabel')} />
-          </Li>
-        ) : processesList?.data?.items?.length == 0 ? (
-          <Li className={local.processesLiveListMessages}>
-            {t('in-bizops:perspectives.processesLiveList.noMatchedProcesses')}
-          </Li>
-        ) : (
-          processesList?.data?.items?.map((item: BusinessProcessItem) => (
-            <Li key={item.businessProcess.definitionId}>{item.businessProcess.definitionName}</Li>
-          ))
-        )}
-      </Ul>
-    </>
+    <Card className={local.influencerCard}>
+      <div className="bizops-processes-live-list">
+        <ContainedList label={listHeader} kind="on-page">
+          {processesList?.progress?.loading ? (
+            <LoadingIndicator />
+          ) : processesList?.data?.items?.length == 0 ? (
+            <NoDataEmptyState
+              className={local.emptyState}
+              title={t('in-bizops:perspectives.processesLiveList.noMatchedProcesses')}
+              subtitle={t('in-bizops:perspectives.processesLiveList.empty')}
+            />
+          ) : tagFilterExpressionEmpty ? (
+            <NoDataEmptyState
+              className={local.emptyState}
+              title={t('in-bizops:perspectives.processesLiveList.noMatchedProcesses')}
+              subtitle={t('in-bizops:perspectives.processesLiveList.empty')}
+            />
+          ) : !validTagFilterExpressionQuery ? (
+            <NoDataEmptyState
+              className={local.emptyState}
+              title={t('in-bizops:perspectives.processesLiveList.noMatchedProcesses')}
+              subtitle={t('in-bizops:perspectives.processesLiveList.invalidQuery')}
+            />
+          ) : (
+            processesList?.data?.items?.map((item: BusinessProcessItem) => (
+              <ContainedListItem key={item.businessProcess.definitionId}>
+                {item.businessProcess.definitionName}
+              </ContainedListItem>
+            ))
+          )}
+        </ContainedList>
+      </div>
+    </Card>
   );
 }

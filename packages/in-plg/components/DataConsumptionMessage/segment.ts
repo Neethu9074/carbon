@@ -7,29 +7,40 @@
 import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 
-import { segmentData, segmentWithMetaData } from 'in-plg/api/segmentData';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http/http';
 import { user } from 'in-stores/user';
 
-const baseUrl = '/api/tracking/dataUsageNotification';
+export const trackEventUrl = '/api/tracking/ctaEvent';
 
-export function sendDataUsageSegmentEvent(data: segmentWithMetaData): Observable<segmentWithMetaData> {
-  return http<segmentData>({
+export interface trackEventRequest {
+  requiredProperty: string;
+  additionalProperties?: Record<string, any>;
+}
+
+export function sendDataUsageSegmentEvent(data: trackEventRequest): Observable<trackEventRequest> {
+  return http<trackEventRequest>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `${baseUrl}`,
+    url: `${trackEventUrl}`,
     data
-  }).map(response => response.body);
+  }).map(response => {
+    return response.body;
+  });
 }
 
-export function triggerDataUsageSegmentEvent(data: segmentData) {
-  //@ts-expect-error
-  const withMetaData = { ...data, altUserId: user?.id };
-  const result$ = sendDataUsageSegmentEvent(withMetaData);
+export function triggerDataUsageSegmentEvent(data: trackEventRequest) {
+  const withAdditionalProperty = {
+    ...data,
+    additionalProperties: {
+      //@ts-expect-error
+      altUserId: user?.id
+    }
+  };
+  const result$ = sendDataUsageSegmentEvent(withAdditionalProperty);
   const logger = createLogger('in-plg/components/DataConsumptionMessage/PushDataConsumptionMessage');
   result$.errors().once(error => {
-    logger.error(`Failed to send ${data?.type} cta event : ${error}`, error);
+    logger.error(`Failed to send ${data?.requiredProperty} cta event : ${error}`, error);
   });
 }

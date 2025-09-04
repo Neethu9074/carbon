@@ -10,10 +10,11 @@ import { MenuItem } from '@instana/components';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { datasourcePath } from 'in-stores/navigation/paths/mainPaths';
 import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { t } from 'in-i18n';
 
 export default function DataSourcesMenuItem() {
+  const [role] = useCurrentUserRole();
   const { matchLocation, createHrefToPath } = useNavigation();
 
   if (!role?.canConfigureAgents) return null;

@@ -8,17 +8,17 @@ import React from 'react';
 
 import { Button } from '@instana/carbon';
 
-import { AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils';
+import { AI_CHAT_TAG_NAME, WAC_WIDGET } from 'in-events/components/AIChat/utils/utils';
 import { useLocalStorage, trySet } from 'in-services/localStorage';
 import { t } from 'in-i18n';
 
 import locals from './InstructionPop.mless';
 
-interface InsturctionPopProps {
-  setPopOpen: Function;
+interface InstructionPopProps {
+  setInstructionPopOpen: Function;
 }
 
-const InstructionPop = ({ setPopOpen }: InsturctionPopProps) => {
+const InstructionPop = ({ setInstructionPopOpen }: InstructionPopProps) => {
   const promptKey = 'aichat-promptAcknowledge';
   const [acknowledge] = useLocalStorage(promptKey, false);
   // In order to position our instructions correctly we will use the
@@ -28,7 +28,9 @@ const InstructionPop = ({ setPopOpen }: InsturctionPopProps) => {
   if (acknowledge || anchor.length !== 1) {
     return <div />;
   }
-  const positionDeterminant = anchor[0].shadowRoot.getElementById('WACWidget');
+
+  const shadowRoot = anchor[0]?.shadowRoot;
+  const positionDeterminant = shadowRoot?.getElementById(WAC_WIDGET);
   const positions = positionDeterminant?.getBoundingClientRect();
   // Based off the positioning of the 'WACWidget' we will position our instructions
   const adjustedTop = (positions && `${positions.top + positions.height - 150}px`) || '0px';
@@ -46,7 +48,7 @@ const InstructionPop = ({ setPopOpen }: InsturctionPopProps) => {
         <Button
           onClick={() => {
             trySet(promptKey, 'true');
-            setPopOpen(false);
+            setInstructionPopOpen(false);
           }}
           size="sm"
           className={locals.button}

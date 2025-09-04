@@ -17,6 +17,6 @@ export const metricRenderers = {
     traces: 'stackedBar'
   },
   subtraces: {
-    subtraceDuration: 'stackedBar'
+    latency: 'stackedBar'
   }
 };

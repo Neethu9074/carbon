@@ -8,6 +8,9 @@
   .patternSampleColumn {
     padding: 1rem 0;
     line-height: 1.25rem;
+    > span {
+      display: inline-block;
+    }
   }
 
   .content {

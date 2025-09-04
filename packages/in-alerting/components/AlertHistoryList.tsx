@@ -5,15 +5,21 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { AutoReposition, Li, LiLoadMore, Stack, Ul } from '@instana/components';
 import { TimeConfig, RawEvent, Result, Cursor } from '@instana/types';
-import { Li, LiLoadMore, Stack, Ul } from '@instana/components';
 import { Disposable, on } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
+import {
+  CRITICAL,
+  WARNING,
+  critical,
+  warning
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
 import { GetEventsViewProps, useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { getDesignLibraryColorBySeverity, getIcon, getEventType } from 'in-stores/events';
+import { SeverityIcon } from 'in-alerting/smart-alerts/components/list/columns/SeverityColumn';
 import { formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
@@ -23,7 +29,6 @@ import useCursorPagination, { State } from 'in-hooks/useCursorPagination';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { isLoading } from 'in-services/util/result';
 import ListTitle from 'in-components/lists/Title';
-import WithIcon from 'in-components/WithIcon';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventsListRowDense.mless';
@@ -54,19 +59,29 @@ const EventListItem = ({ event, timeConfig }: EventListItemProps) => {
   const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
   const analyseEvent = getEventsViewFilteredBy(viewFilterParams);
 
-  const eventType = getEventType(event);
   const severity = event.severity;
-
   return (
     <Li key={event.id}>
       <Link href={analyseEvent} ellipsis>
-        <WithIcon icon={getIcon(eventType)} iconColor={getDesignLibraryColorBySeverity(severity)}>
+        <Stack direction="horizontal" align="center">
+          {getSeverity(severity) === warning ? (
+            <AutoReposition>
+              <SeverityIcon type={WARNING} icon="lib_help_error_warning" />
+            </AutoReposition>
+          ) : undefined}
+
+          {getSeverity(severity) === critical ? (
+            <AutoReposition>
+              <SeverityIcon type={CRITICAL} icon="lib_error_filled" />
+            </AutoReposition>
+          ) : undefined}
+
           <div className={locals.label}>
             <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
             &nbsp;
             <span>{getDurationOrActive(event)}</span>
           </div>
-        </WithIcon>
+        </Stack>
       </Link>
     </Li>
   );
@@ -187,4 +202,11 @@ export default function AlertHistoryList(props: AlertHistoryListProps) {
       <AlertDetailsCard>{<AlertHistoryListPresenter {...props} tableProps={tableProps} />}</AlertDetailsCard>
     </Stack>
   );
+}
+
+function getSeverity(severity: number) {
+  if (severity > 5) {
+    return critical;
+  }
+  return warning;
 }

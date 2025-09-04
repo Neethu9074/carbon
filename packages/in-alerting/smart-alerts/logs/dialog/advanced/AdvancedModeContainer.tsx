@@ -30,11 +30,9 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
 import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
-import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
@@ -138,26 +136,14 @@ export default function AdvancedModeContainer(
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.alertChannel.title'),
           valid: true,
           content: (
-            <>
-              {alertChannelPerSeverityLogSaEnabled ? (
-                <ConfigureAlertChannelMT
-                  form={form}
-                  onChange={onChange}
-                  updateForm={updateForm}
-                  setSliderState={setSliderState}
-                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                  numberOfAlertChannelListRows={5}
-                />
-              ) : (
-                <ConfigureAlertChannel
-                  form={form}
-                  onChange={onChange}
-                  setSliderState={setSliderState}
-                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                  numberOfAlertChannelListRows={5}
-                />
-              )}
-            </>
+            <ConfigureAlertChannelMT
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={5}
+            />
           )
         },
         {
@@ -186,6 +172,7 @@ export default function AdvancedModeContainer(
                     />
                   )}
                   shouldDisplayAlertLevelSelection={false}
+                  placeholders={placeholders}
                 />
               )}
               renderAlertPreview={() => (

@@ -45,43 +45,27 @@ export const setGeneratedAction = (action: Result<AIActionContent> | null) => ge
 
 function PromptInputs({
   form,
-  setForm
+  setForm,
+  summaryType
 }: {
   form: GenerateAIActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
+  summaryType: string;
 }) {
   const promptForm = form.get('prompt');
-  const eventName = promptForm.get('eventName');
   const eventDescription = promptForm.get('eventDescription');
   const eventEntityType = promptForm.get('eventEntityType');
 
   return (
     <>
-      {eventName.map(field => (
-        <FormGroup>
-          <Label htmlFor="event-name" hasError={!field.valid && field.touched}>
-            {t('in-automation:GenerateAIActionDialog.eventName')}
-          </Label>
-          <Input
-            id="event-name"
-            type="text"
-            value={field.value}
-            onChange={e =>
-              setForm(form =>
-                form.updateIn(['prompt', 'eventName'], item => item.setValue(e.target.value).setTouched(true))
-              )
-            }
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-            autoFocus
-          />
-          <TouchedMessages field={field} />
-        </FormGroup>
-      ))}
       {eventDescription.map(field => (
         <FormGroup>
           <Label htmlFor="event-description" hasError={!field.valid && field.touched}>
-            {t('in-automation:GenerateAIActionDialog.eventDescription')}
+            {summaryType === 'investigation'
+              ? t('in-automation:GenerateAIActionDialog.investigationSummary')
+              : summaryType === 'prc'
+              ? t('in-automation:GenerateAIActionDialog.rootcauseSummary')
+              : t('in-automation:GenerateAIActionDialog.eventSummary')}
           </Label>
           <TextArea
             id="event-description"
@@ -140,13 +124,21 @@ function generateAIActionForm({
   const eventDescription = promptForm.get('eventDescription').value;
   const eventEntityType = promptForm.get('eventEntityType').value;
   const eventId = event.id;
-  const generateAIActionPayload = {
-    eventId,
-    eventName,
-    eventDescription,
-    eventEntityType
-  };
-
+  let generateAIActionPayload = {};
+  if (eventDescription.includes('with description')) {
+    generateAIActionPayload = {
+      eventId,
+      eventName,
+      eventDescription,
+      eventEntityType
+    };
+  } else {
+    generateAIActionPayload = {
+      eventId,
+      eventDiagnosis: eventDescription,
+      eventEntityType
+    };
+  }
   setGeneratedAction(pendingResult);
   setSelectedAction(null);
   generateAIAction(generateAIActionPayload)
@@ -275,11 +267,13 @@ function ActionPreview({
 export default function PromptStep({
   form,
   setForm,
-  event
+  event,
+  summaryType
 }: {
   form: GenerateAIActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
   event: Event;
+  summaryType: string;
 }) {
   return (
     <Row>
@@ -305,7 +299,7 @@ export default function PromptStep({
         </Typography>
 
         <Spacer vertical="normal" />
-        <PromptInputs form={form} setForm={setForm} />
+        <PromptInputs form={form} setForm={setForm} summaryType={summaryType} />
         <GenerateButton form={form} setForm={setForm} event={event} />
       </Col>
       <Col lg={5}>

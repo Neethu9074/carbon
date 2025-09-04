@@ -6,12 +6,11 @@
 import React from 'react';
 
 import { builtInGlobalApplicationSmartAlertsEnabled } from 'in-services/featureFlags';
-import { role } from 'in-stores/user';
 
-export default function BuiltInGlobalSmartAlertsPermissionWrapper({ children }) {
-  return <>{hasPermissionToAddBuiltInSmartAlerts() ? children : null}</>;
+export default function BuiltInGlobalSmartAlertsPermissionWrapper({ children, role }) {
+  return <>{hasPermissionToAddBuiltInSmartAlerts(role) ? children : null}</>;
 }
 
-export function hasPermissionToAddBuiltInSmartAlerts() {
+export function hasPermissionToAddBuiltInSmartAlerts(role) {
   return role.canConfigureGlobalApplicationSmartAlerts && builtInGlobalApplicationSmartAlertsEnabled;
 }

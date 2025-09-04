@@ -26,15 +26,15 @@ import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlPar
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
+import { getPageTabs, getWebsiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
 import { toTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { pageTabs, websiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
+import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -42,12 +42,12 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DashboardHeader from 'in-components/DashboardHeader';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import useUrlState from 'in-hooks/useUrlState';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-websites/WebsiteDashboard/Warning.mless';
@@ -61,6 +61,7 @@ export const urlStateDefinition = {
 const deprecationTimeFrame = 1728000000;
 
 export default function WebsiteDashboard() {
+  const [role] = useCurrentUserRole();
   const { trackCta } = useSegmentTracking();
   const { tabChange } = useWebsiteTracker();
   const [weaselVersion, setWeaselVersion] = useState('');
@@ -135,7 +136,7 @@ export default function WebsiteDashboard() {
 
   // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
 
-  const hideButtonInTableView = smartAlertCarbonTableEnabled ? location.pathname !== alertsTabListFullyQualified : true;
+  const hideButtonInTableView = location.pathname !== alertsTabListFullyQualified;
 
   const showAlertButton =
     role.canConfigureWebsiteSmartAlerts &&
@@ -167,7 +168,7 @@ export default function WebsiteDashboard() {
         })}
         HeaderComponent={Header}
         location={location}
-        tabs={props.pageId ? pageTabs : websiteTabs}
+        tabs={props.pageId ? getPageTabs(role) : getWebsiteTabs(role)}
         tabChangeTracker={tabChange}
         props={{ ...props, tagFilters, customTagFilters }}
         withoutBreadcrumb

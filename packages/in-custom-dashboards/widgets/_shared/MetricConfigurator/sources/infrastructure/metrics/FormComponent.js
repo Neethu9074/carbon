@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 import { Spacer, Stack, Toggle } from '@instana/components';
 
@@ -180,6 +180,14 @@ export default function FormComponent({
     isCrossSeriesAggregationRestricted
   });
 
+  const isEntityCountMetric = useMemo(() => metric === '__entity_count', [metric]);
+
+  useEffect(() => {
+    if (isEntityCountMetric && !isSumCrossSeriesAggregation) {
+      setIsSumCrossSeriesAggregation(true);
+    }
+  }, [isEntityCountMetric, isSumCrossSeriesAggregation, onChange, setIsSumCrossSeriesAggregation]);
+
   useEffect(() => {
     if (metricCatalog.data) {
       const metadata = getMetricInCatalog({
@@ -288,9 +296,12 @@ export default function FormComponent({
                     <span>
                       <Toggle
                         id="metric-configurator-cross-series-aggregation"
-                        checked={isSumCrossSeriesAggregation}
-                        disabled={!isCrossSeriesSumAggregationToggleEnabled}
-                        onToggle={e => setIsSumCrossSeriesAggregation(e)}
+                        checked={isEntityCountMetric ? true : isSumCrossSeriesAggregation}
+                        disabled={isEntityCountMetric ? true : !isCrossSeriesSumAggregationToggleEnabled}
+                        onToggle={e => {
+                          if (isEntityCountMetric) return;
+                          setIsSumCrossSeriesAggregation(e);
+                        }}
                       />
                     </span>
                   </Tooltip>

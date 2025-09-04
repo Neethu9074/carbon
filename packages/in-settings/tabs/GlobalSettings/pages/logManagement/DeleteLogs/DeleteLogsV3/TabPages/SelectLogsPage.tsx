@@ -51,6 +51,8 @@ export const SelectLogsPage = ({ validationMessages, setInputValues, inputValues
           size="sm"
           value={inputValues.startTime as string}
           onChange={e => setInputValues.startTime(e)}
+          invalid={!!validationMessages.startTime}
+          invalidText={validationMessages.startTime}
         />
         {/* End Date */}
         <Label htmlFor="deletionEndDate">
@@ -71,6 +73,8 @@ export const SelectLogsPage = ({ validationMessages, setInputValues, inputValues
           size="sm"
           value={inputValues.endTime as string}
           onChange={e => setInputValues.endTime(e)}
+          invalid={!!validationMessages.endTime}
+          invalidText={validationMessages.endTime}
         />
       </section>
       <div className={locals.loggingInteraction}>

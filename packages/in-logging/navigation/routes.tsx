@@ -3,34 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-//@ts-expect-error needs TS migration
-import PatternRecognition from 'promise-loader?global,logging!in-logging/dashboard/Management/PatternRecognition';
-//@ts-expect-error
-import DashboardSmartAlertDetailsView from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts/SmartAlertDetails';
-//@ts-expect-error
-import AlertConfigTearSheet from 'promise-loader?global,logging!in-alerting/smart-alerts/logs/tearsheet/AlertConfigTearSheet';
-//@ts-expect-error
-import SmartAlertDetailsView from 'promise-loader?global,logging!!in-alerting/smart-alerts/logs/details/AlertDetails';
-//@ts-expect-error needs TS migration
-import LoggingAnalytics from 'promise-loader?global,logging!in-logging/analyze/LoggingAnalytics';
-//@ts-expect-error
-import LoggingDashboardWrapper from 'promise-loader?global,logging!in-logging/dashboard/LoggingDashboardWrapper';
-//@ts-expect-error
-import RetentionPeriod from 'promise-loader?global,logging!in-logging/dashboard/Management/RetentionPeriod';
-//@ts-expect-error
-import LogIntegrations from 'promise-loader?global,logging!in-logging/dashboard/Management/LogIntegrations';
-//@ts-expect-error needs TS migration
-import DeleteLogs from 'promise-loader?global,logging!in-logging/dashboard/DeleteLogs';
-//@ts-expect-error
-import SmartAlerts from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts/SmartAlerts';
-//@ts-expect-error
-import Management from 'promise-loader?global,logging!in-logging/dashboard/Management/Management';
-//@ts-expect-error
-import LogVolume from 'promise-loader?global,logging!in-logging/dashboard/Management/LogVolume';
-//@ts-expect-error
-import SmartAlertList from 'promise-loader?global,logging!in-alerting/smart-alerts/logs/Alerts';
-//@ts-expect-error
-import Summary from 'promise-loader?global,logging!in-logging/dashboard/Summary/Summary';
+const PatternRecognition = () =>
+  import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/Management/PatternRecognition');
+const DashboardSmartAlertDetailsView = () =>
+  import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/SmartAlerts/SmartAlertDetails');
+const AlertConfigTearSheet = () =>
+  import(/* webpackChunkName: "logging" */ 'in-alerting/smart-alerts/logs/tearsheet/AlertConfigTearSheet');
+const SmartAlertDetailsView = () =>
+  import(/* webpackChunkName: "logging" */ 'in-alerting/smart-alerts/logs/details/AlertDetails');
+const LoggingAnalytics = () => import(/* webpackChunkName: "logging" */ 'in-logging/analyze/LoggingAnalytics');
+const LoggingDashboardWrapper = () =>
+  import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/LoggingDashboardWrapper');
+const RetentionPeriod = () =>
+  import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/Management/RetentionPeriod');
+const LogIntegrations = () =>
+  import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/Management/LogIntegrations');
+const DeleteLogs = () => import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/DeleteLogs');
+const SmartAlerts = () => import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/SmartAlerts/SmartAlerts');
+const Management = () => import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/Management/Management');
+const LogVolume = () => import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/Management/LogVolume');
+const SmartAlertList = () => import(/* webpackChunkName: "logging" */ 'in-alerting/smart-alerts/logs/Alerts');
+const Summary = () => import(/* webpackChunkName: "logging" */ 'in-logging/dashboard/Summary/Summary');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

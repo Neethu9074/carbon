@@ -116,7 +116,8 @@ function getTableData({
   orderBy = 'label',
   orderDirection = 'ASC',
   timeConfig,
-  hostId
+  hostId,
+  query = ''
 }: {
   page?: number;
   pageSize?: number;
@@ -124,6 +125,7 @@ function getTableData({
   orderDirection?: string;
   timeConfig: TimeConfig;
   hostId: string;
+  query?: string;
 }) {
   return getInstanceRelatedResourcesListsForSensors({
     pagination: {
@@ -135,6 +137,7 @@ function getTableData({
       direction: orderDirection
     },
     filter: {
+      label: query,
       hostId,
       timeConfig
     }

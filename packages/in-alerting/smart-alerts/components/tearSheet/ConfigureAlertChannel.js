@@ -18,14 +18,16 @@ import AlertChannelsList from 'in-alerting/smart-alerts/components/tearSheet/Ale
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Dialog from 'in-components/Dialog/Dialog';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlertChannel.mless';
 
 export default function ConfigureAlertChannel({ form, onChange, numberOfAlertChannelListRows = 5 }) {
+  const [role] = useCurrentUserRole();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [createdChannelId, setCreatedChannelId] = useState(null);
   const entityResult = useGetChannlelist(createDialogOpen);
   channelListLoading$.emit(entityResult?.length ?? undefined);
 
@@ -60,6 +62,8 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
                       }}
                       isTearsheet
                       setCreateDialogOpen={setCreateDialogOpen}
+                      setCreatedChannelId={setCreatedChannelId}
+                      inDialog
                     />
                   </Dialog>
                 );
@@ -72,6 +76,8 @@ export default function ConfigureAlertChannel({ form, onChange, numberOfAlertCha
         limit={limitForConnectedAlertChannels}
         pageSize={numberOfAlertChannelListRows}
         preventCloseOnSubmit
+        setCreatedChannelId={setCreatedChannelId}
+        createdChannelId={createdChannelId}
       />
       <TouchedMessages field={form.get('alertChannelIds')} />
     </>

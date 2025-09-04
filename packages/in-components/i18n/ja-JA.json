@@ -122,6 +122,8 @@
     "formStateLabel": "都道府県/州"
   },
   "searchBar": {
+    "searchInput": "検索入力",
+    "searchBar": "検索バー",
     "usingTheSearchBar": "Instana ダイナミック・フォーカス検索機能を使用して、3D マップ、比較表、インシデント・ビューをフィルタリングできます。 検索バーには、ファジー検索とワイルドカード検索、およびブール演算子を使用して検索するための広範な機能があります。 例えば、以下の\n照会は、CPU が 4 つ未満の実動ホストにビューを制限します。\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 構文\n動的フォーカスでは、Lucene 標準とは異なり、[lucene 照会構文](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) を利用します。\n- **デフォルト演算子:** `AND`\n- **構文制約:** は、[資料](https://ibm.biz/dynamic-focus-syntax-constraints)\n## 検索バーの相互作用\nにリストされています。検索バーは、検索フィールドのオートコンプリートをサポートしており、入力中に構文によって lucene 照会が強調表示されます。\n入力すると、検索バーは現在の入力に一致する検索フィールドを提案します。 「RETURN」を押すと、提案されたフィールドを受け入れることができます。「CTRL + SPACE」を押すと、オートコンプリート・ポップアップが開きます。\n## Lucene 照会構文虎の巻\n- **フィールド検索:** `entity.host.cpu.count:>4`\n- **ブール演算子:** `entity.host.cpu.count:<4 AND entity.zone:production`\n- **Grouping:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n- **ワイルドカード検索:** `entity.type:container*`\n\n詳しくは、[資料](https://ibm.biz/filtering-dynamic-focus) を参照してください。\n",
     "filtersBtn": "フィルター",
     "filterPresetsMenuHeading": "フィルター",
@@ -296,18 +298,14 @@
     "columnizedContentUserInterface": "ユーザー・インターフェース",
     "columnizedContentBackend": "バックエンド",
     "labelRegion": "リージョン",
-    "labelTag": "タグ",
+    "labelTag": "バージョン",
     "labelCommit": "コミット",
-    "geo": {
-      "title": "地域データ"
-    },
     "ibm": "IBM",
     "copyRights": "著作権 © IBM Corp. 2020, 2023",
     "instana": "Instana",
     "close": "閉じる",
     "maxMindDescription": "このデータには、以下によって作成されたGeoLite2データが含まれています",
     "maxMind": "MaxMind.",
-    "dynamicGraphDescription": "環境の視覚化をご覧ください",
     "dynamicGraph": "ダイナミック・グラフのショーケース。"
   },
   "blueprintFormMultistep": {
@@ -403,12 +401,10 @@
     "eventType_issue_0": "問題",
     "eventType_issue_1": "問題",
     "eventType_issue_2": "問題",
-    "openIssuesListPresenterActionsViewIssues": "{{eventType}}の表示",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} 件の {{eventType}} の表示",
+    "viewOpenIssues": "未解決の問題を表示する",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "開いている {{eventType}} をロード中…",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "開いている {{eventType}} のロードに失敗しました",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 件の開いている {{eventType}}",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(最も重大な {{maxIssuesToShow}} 件を表示)",
     "openIssuesListPresenterIssueDescriptionOmitted": "問題の説明が省略されました。 詳細は、イベントの詳細ビューに表示されます。",
     "openIssuesListPresenterStarted": "開始済み",
     "noIssues": "問題なし",
@@ -433,10 +429,10 @@
     "eventType_issue_1": "脆弱性",
     "eventType_issue_2": "脆弱性",
     "openIssuesListPresenterActionsViewIssues": "脆弱性を見る",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} 脆弱性を見る",
-    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "オープンな脆弱性をロードしています…",
-    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "ロードに失敗したオープンな脆弱性",
-    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} オープンな脆弱性",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "オープンな脆弱性をロードしています...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "オープンな脆弱性のロードに失敗しました",
+    "viewOpenIssues": "脆弱性を見る",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 件のオープンな脆弱性",
     "noVulnerabilities": "脆弱性なし",
     "openVulnerabilities": "{{count}} 脆弱性",
     "openVulnerabilities_plural": "{{count}} 脆弱性",
@@ -809,6 +805,7 @@
     }
   },
   "copyToClipboardButtonCopy": "コピー",
+  "tooltipCopyToClipboard": "クリップボードにコピー",
   "withEmptyStateFallbackTitleNoDataAvailable": "表示可能なデータがありません",
   "queryBuilder": {
     "components": {

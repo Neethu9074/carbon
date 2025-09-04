@@ -32,6 +32,10 @@ export function getThresholdValueForPercentageMetric(value: number | null, perce
 export function shiftDecimalRight(num: number | null | string, places: number = 2, percentageMetric: boolean) {
   if (num === null || num === '' || num === 0 || !percentageMetric) return num;
 
+  if (Number(num) < 0) {
+    return num;
+  }
+
   let [integer, decimal = ''] = num.toString().split('.');
 
   // Append necessary zeros if decimal part is shorter than places
@@ -50,6 +54,14 @@ export function shiftDecimalLeft(
 ): number | null | string {
   if (num == null || num === '' || num === 0 || !percentageMetric) {
     return num;
+  }
+
+  if (Number(num) < 0) {
+    return num;
+  }
+
+  if (Number(num) >= Number.MAX_SAFE_INTEGER) {
+    return Number.MAX_SAFE_INTEGER;
   }
 
   let str = num.toString();

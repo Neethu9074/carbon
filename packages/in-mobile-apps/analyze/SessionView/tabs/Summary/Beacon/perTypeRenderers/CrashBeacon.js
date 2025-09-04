@@ -72,7 +72,10 @@ export const Body = ({ beacon }) => {
       <Row>
         {isNotBlank(beacon.stackTrace) && (
           <Col lg={12}>
-            <BeaconStack beacon={beacon} />
+            <BeaconStack
+              textProp={t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonCrashedThreadsStackTrace')}
+              beacon={beacon}
+            />
           </Col>
         )}
       </Row>

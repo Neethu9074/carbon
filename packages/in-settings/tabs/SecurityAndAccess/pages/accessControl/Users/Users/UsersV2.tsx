@@ -4,8 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-// @ts-expect-error
-import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+const ShareAndInviteDialogBox = () =>
+  import(
+    /* webpackChunkName: "shareAndInvite" */ 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox'
+  );
 import { TrashCan, UserAvatar } from '@carbon/icons-react';
 import React from 'react';
 
@@ -25,11 +27,11 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { hasError, isLoading } from 'in-services/util/result';
 import { USER_INVITE } from 'in-services/tracking/tracking';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
@@ -49,14 +51,14 @@ const CustomUserListInfo = () => {
   );
 };
 
-const headers = [
+const getHeaders = (isRbacTeamsAvailable?: boolean) => [
   {
     key: 'fullName',
     header: t('in-settings:tabs.name')
   },
   {
     key: 'groupCount',
-    header: t('in-settings:tabs.groupCountCol', { context: rbacTeamsEnabled && 'teams' })
+    header: t('in-settings:tabs.groupCountCol', { context: isRbacTeamsAvailable && 'teams' })
   },
   {
     key: 'tfaEnabled',
@@ -87,6 +89,7 @@ const createMenuItemsForRow = (
   ];
 };
 export default function UsersV2() {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const [authOverview] = useAuthOverview();
   const { defaultLogin } = authOverview ?? {};
   const { createHrefToPath } = useNavigation();
@@ -175,7 +178,7 @@ export default function UsersV2() {
       {!defaultLogin && <CustomUserListInfo />}
       <MultiSelectDataTable
         title={t('in-settings:tabs.users')}
-        tableHeaders={headers}
+        tableHeaders={getHeaders(isRbacTeamsAvailable)}
         tableRows={rows}
         loading={loading}
         searchPlaceholderText={t('in-settings:components.search')}

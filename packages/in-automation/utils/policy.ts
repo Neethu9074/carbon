@@ -8,6 +8,7 @@ import { Policy, Action, ActionConfiguration } from '@instana/types';
 
 import { NewActionConfiguration, NewPolicy, TriggerSpecification, Triggers } from 'in-automation/types';
 import { POLICY_TYPE } from 'in-automation/constants';
+import { PolicyFormEntity } from 'in-automation/Policies/types';
 
 export const isManual = (item: Policy | NewPolicy) =>
   item.typeConfigurations.some(typeConfiguration => typeConfiguration.name === POLICY_TYPE.MANUAL);
@@ -22,10 +23,12 @@ export function getActionConfigurationFromPolicy(policy: Policy | NewPolicy) {
 
 export function getPolicyTriggerFromTriggers(triggers: Triggers, policy: Policy | NewPolicy) {
   const { type, id } = policy?.trigger ?? {};
-  return (triggers[type]?.data as TriggerSpecification[])?.find(trigger => trigger.id === id);
+  return (triggers[type ?? 'builtinEvent']?.data as TriggerSpecification[])?.find(trigger => trigger.id === id);
 }
 
 export function getPolicyActionFromActions(actions: Action[], policy: Policy | NewPolicy) {
   const { id } = getActionConfigurationFromPolicy(policy).action;
   return actions.find(action => action.id === id);
 }
+
+export const isScheduledPolicy = (policy: PolicyFormEntity): boolean => policy.trigger.type === 'schedule';

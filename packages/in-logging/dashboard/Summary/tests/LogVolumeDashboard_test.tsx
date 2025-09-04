@@ -11,8 +11,8 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import LogVolumeDashboard from 'in-logging/dashboard/Summary/LogVolume/LogVolumeDashboard';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { role } from 'in-stores/user';
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
@@ -26,9 +26,13 @@ jest.mock('in-logging/api/licence', () => ({
   isAddonUserCached: jest.fn()
 }));
 
-jest.mock('in-stores/user', () => ({
-  role: { canViewLogVolume: false }
-}));
+jest.mock('in-stores/useCurrentUserRole', () =>
+  jest.fn(() => [
+    {
+      canViewLogVolume: false
+    }
+  ])
+);
 
 describe('LogVolumeDashboard', () => {
   beforeEach(() => {
@@ -111,7 +115,7 @@ describe('LogVolumeDashboard', () => {
       })
       .mockReturnValueOnce(true);
 
-    (role as any).canViewLogVolume = true;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ canViewLogVolume: true }]);
 
     render(<LogVolumeDashboard />);
 

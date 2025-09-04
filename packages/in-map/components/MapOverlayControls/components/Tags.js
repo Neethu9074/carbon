@@ -17,11 +17,13 @@ export default connectTo(
     filteredTags: filteredTags$.startWith(emptyList)
   },
   function Tags({ filteredTags }) {
+    const showTagsTranslation = t('in-map:showTags');
     return (
       <Control
+        ariaLabel={showTagsTranslation}
         createMenuContent={createMenuContent}
         isActive={filteredTags.size > 0}
-        tooltipText={t('in-map:showTags')}
+        tooltipText={showTagsTranslation}
         type="lib_views_tag"
       />
     );

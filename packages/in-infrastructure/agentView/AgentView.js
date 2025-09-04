@@ -37,6 +37,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AgentCatalogV2 from 'in-plg/pages/onboarding/AgentCatalogV2';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { close } from 'in-components/DialogPresenter/store';
 import Datasource from 'in-plg/pages/Datasource/Datasource';
@@ -51,7 +52,6 @@ import { getUnitKeys } from 'in-api/unitKeys';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 export default connectTo(
@@ -74,6 +74,7 @@ export default connectTo(
   },
   function AgentView({ agentSnapshotsResult, accountConfig }) {
     const unitKeys = useObservable(getUnitKeys(), []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
+
     if (!accountConfig) {
       return <LoadingIndicator type="dark" />;
     }
@@ -86,7 +87,6 @@ export default connectTo(
             pageRootName: pageNames.agents
           }}
         />
-
         <Switch>
           <Route path={'*/dashboard'} component={Dashboard} />
 
@@ -172,7 +172,6 @@ export default connectTo(
             </Sticky>
           </Route>
         </Switch>
-
         <Footer />
       </>
     );
@@ -188,6 +187,7 @@ function onInstallingAgentBasedintergrationsClick() {
 }
 
 function ButtonLine({ agentSnapshots }) {
+  const [role] = useCurrentUserRole();
   const { createHrefToPath } = useNavigation();
   const isInternalVisible = useObservable(isInternalVisible$, [isInternalVisible$]);
 

@@ -34,6 +34,7 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 // @ts-expect-error No typedef available
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
+import { aqmDisableConfigOnEventViewEnabled, infraExploreDataEnabled } from 'in-services/featureFlags';
 import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
@@ -50,20 +51,20 @@ import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUti
 import InfraAlertConfigButton from 'in-events/components/InfraAlertConfigButton';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import AnalyzeSloEventButton from 'in-events/components/AnalyzeSloEventButton';
-import { aqmDisableConfigOnEventViewEnabled } from 'in-services/featureFlags';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
+import { infrastructureAnalyzeAccessPermissions } from 'in-stores/permission';
 import SloAlertConfigButton from 'in-events/components/SloAlertConfigButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useSloEventEntity from 'in-events/hooks/useSloEventEntity';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventIcon from 'in-events/components/EventIcon';
 import { emptyMap } from 'in-services/fixedImmutables';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
+import useHasAccess from 'in-stores/useHasAccess';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 
 interface IncidentActionsProps {
   incident: EventOrMap;
@@ -72,6 +73,7 @@ interface IncidentActionsProps {
 }
 
 const IncidentActions = ({ incident, triggeringEvent, latestSnapshot }: IncidentActionsProps) => {
+  const [role] = useCurrentUserRole();
   const { location, navigate } = useNavigation();
   const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
@@ -156,6 +158,10 @@ const MobileAppSmartAlertActions = ({ event }: ActionProps) => {
 };
 
 const InfraSmartAlertActions = ({ event }: ActionProps) => {
+  const hasInfrastructureAnalyzeAccess = useHasAccess({
+    optionalPrecondition: infraExploreDataEnabled,
+    requiredPermissions: infrastructureAnalyzeAccessPermissions
+  });
   const alertConfig = useInfraEventAlertConfig(event);
 
   if (!alertConfig) {

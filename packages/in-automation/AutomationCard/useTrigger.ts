@@ -27,9 +27,10 @@ interface UseTriggerParams {
   event: Event;
 }
 
-function getTrigger(event: Event): () => Observable<Result<TriggerSpecification>> {
+function getTrigger(event: Event): () => Observable<Result<TriggerSpecification>> | undefined {
   const triggerId = getTriggerIdFromEvent(event);
   const triggerType = getTriggerTypeFromEvent(event);
+  if (triggerType === 'schedule') return () => undefined;
   switch (triggerType) {
     case 'builtinEvent':
     case 'customEvent':

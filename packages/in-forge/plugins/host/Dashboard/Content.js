@@ -34,18 +34,19 @@ import { downtimesOnHostEnabled } from 'in-services/featureFlags';
 import DiskTable from 'in-forge/plugins/host/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Disks from 'in-forge/plugins/host/Dashboard/Disks';
 import MetricValue from 'in-components/MetricValue';
 import ReportingStatus from './ReportingStatus';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
+  const [role] = useCurrentUserRole();
   const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
 
   var memoryUsedMetrics = ['memory.used'];
@@ -131,15 +132,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           )}
         </div>
       </KpiSection>
-
       {downtimesOnHostEnabled && (
-        <Columize>
-          <DashboardSection>
-            <ReportingStatus snapshot={snapshot} timeConfig={timeConfig} />
-          </DashboardSection>
-        </Columize>
+        <DashboardSection>
+          <ReportingStatus snapshot={snapshot} timeConfig={timeConfig} />
+        </DashboardSection>
       )}
-
       <Columize>
         <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuUsage')}>
           {isAixOs(snapshot) && (

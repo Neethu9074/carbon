@@ -19,18 +19,17 @@ export default {
 export function DesignLibraryCase() {
   return (
     <Wrapper>
-      <OpenIssuesListPresenter
-        openIssuesResult={success([getIssue({ severity: 5 }), getIssue({ severity: 10 })])}
-        getIssueLink={() => '#'}
-      />
+      <OpenIssuesListPresenter openIssuesResult={success([getIssue({ severity: 5 })])} getIssueLink={() => '#'} />
     </Wrapper>
   );
 }
 
-export function LongFixSuggestion() {
+export function InContentArea() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
+        inContentArea
+        analyzeLink="#"
         openIssuesResult={success([
           getIssue({
             description: range(0, 2000)
@@ -48,6 +47,7 @@ export function MarkdownDescription() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
+        analyzeLink="#"
         openIssuesResult={success([
           getIssue({
             title: 'With lists',
@@ -71,10 +71,42 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
   );
 }
 
-export function LargeNumberOfIsses() {
+export function LongDescription() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
+        analyzeLink="#"
+        openIssuesResult={success([
+          getIssue({
+            title: 'With long description',
+            description: `dfjklajlkdfjalkjflkajlfdjlajfljdlfjalfjljfdljal
+            dajlfjaldfjlajfljaldfjldajfljadljflajdlfjsalkjfljsdlafjldsa
+            fdlajflkajldfjlakdsjflkasdjflkajlfjlajfldsajlfkjalfjljlaf
+            fdlajflajslfjaljflajfljadlfjlajflajfljalfjlajflajfljfldaj
+            flajfdlajfljaldfjlasjflasjfljalfjlajflsjfljaljflajfjfjlajf
+            fjklajflajlfjalfjlajflakjflajfljalfjlajflajfljalfjaljflasjf
+            jdflafjldajlfjadljfladjfljdalfjldsjfldjlfjdsalfjlasdjfldjlfj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            fdlajflajlfjlajdflkjlfdjalkfdjlkajflajdlfjdlkajflkjdalfjladj
+            dfjalfjlkajflasdjfljalfjldajflajlfjldjflajdfljdljfljdfljal`.trim()
+          })
+        ])}
+      />
+    </Wrapper>
+  );
+}
+
+export function LargeNumberOfIssues() {
+  return (
+    <Wrapper>
+      <OpenIssuesListPresenter
+        analyzeLink="#"
         openIssuesResult={success(
           range(1, 20)
             .map(() => Math.round(Math.random() * 10))

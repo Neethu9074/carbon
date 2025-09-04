@@ -15,6 +15,7 @@
   "memoryAllocated": "配置的記憶體",
   "hypervisorTypes": "Hypervisor 類型",
   "clusterArch": "叢集架構",
+  "version": "版本",
   "dashboards": {
     "system": "系統",
     "wait": "等待",

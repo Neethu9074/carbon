@@ -30,8 +30,8 @@ import { setActiveKey } from 'in-automation/AutomationCard/OptimizationsButtonGr
 import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { playwithEnabled, solisEnabled } from 'in-services/featureFlags';
-import { getSolisIntegrationUrl } from 'in-services/integrations/solis';
 import { runResourceOptimizationAction } from 'in-automation/api';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { t, Trans } from 'in-i18n';
@@ -77,6 +77,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
   });
   const resImpactLoading = resourceImpactResult?.progress?.loading;
   const appImpactLoading = appImpactResult?.progress?.loading;
+  const [role] = useCurrentUserRole();
 
   //@ts-expect-error
   const entities = resourceImpactResult?.data?.entitiesList;
@@ -310,7 +311,9 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       onRequestClose={close}
       modalHeading={t('in-automation:resourceOptimization.details')}
       primaryButtonText={t('in-automation:runAction')}
-      primaryButtonDisabled={currentAction?.actionMode === 'RECOMMEND' || playwithEnabled}
+      primaryButtonDisabled={
+        currentAction?.actionMode === 'RECOMMEND' || playwithEnabled || !role?.canRunAutomationActions
+      }
       secondaryButtonText={t('in-automation:cancel')}
       size="lg"
       onRequestSubmit={() => handleRunAction()}
@@ -334,7 +337,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
             {currentAction?.actionDetailsURL && (
               <div className={locals.turboLink}>
                 <Link
-                  href={getSolisIntegrationUrl(currentAction?.actionDetailsURL, 'turbonomic')}
+                  href={currentAction?.actionDetailsURL}
                   linkIconType={'lib_views_external_link'}
                   external={!solisEnabled}
                 >

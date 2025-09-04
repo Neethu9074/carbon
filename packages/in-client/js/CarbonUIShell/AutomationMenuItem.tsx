@@ -10,10 +10,16 @@ import { MenuItem } from '@instana/components';
 
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { hasAutomationAccess } from 'in-stores/permission';
+import { automationAccessPermissions } from 'in-stores/permission';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export default function AutomationMenuItem() {
+  const hasAutomationAccess = useHasAccess({
+    optionalPrecondition: actionAutomationEnabled,
+    requiredPermissions: automationAccessPermissions
+  });
   const { matchLocation, createHrefToPath } = useNavigation();
 
   if (!hasAutomationAccess) return null;

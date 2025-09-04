@@ -8,7 +8,7 @@ import { createField, createListForm, createMapForm, Field, ListForm, MapForm } 
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 
-import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from '@instana/types';
+import { Action, AgentSnapshot, Event, ParameterValue, Policy, VolatileId } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
@@ -21,23 +21,27 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
-import { getTimeoutFromFields, getAnsibleHostIdFromFields } from 'in-automation/utils/actionField';
+import {
+  getAnsibleHostIdFromFields,
+  getGitLinkFromFields,
+  getGitTypeFromFields,
+  getTimeoutFromFields
+} from 'in-automation/utils/actionField';
+import { getActionConfigurationFromPolicy, isAutomatic, isManual } from 'in-automation/utils/policy';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import { getGitLinkFromFields, getGitTypeFromFields } from 'in-automation/utils/actionField';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
-import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
-import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
+import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
+import { NewPolicy, ResolvedDynamicParamValue } from 'in-automation/types';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { resolveDynamicParameters, runAction } from 'in-automation/api';
 import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
-import { isAutomatic, isManual } from 'in-automation/utils/policy';
-import { notBlankValidator } from 'in-services/validators/string';
-import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
+import SaveButton from 'in-components/form/SaveButton/SaveButton';
+import { notBlankValidator } from 'in-services/validators/string';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
@@ -57,6 +61,7 @@ interface RunActionDialogProps {
   policy?: NewPolicy;
   executePolicy?: Policy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
+  isSchedulePolicy?: boolean;
 }
 
 export default function RunActionDialog({
@@ -66,7 +71,8 @@ export default function RunActionDialog({
   test,
   policy,
   handleSave,
-  executePolicy
+  executePolicy,
+  isSchedulePolicy = false
 }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
@@ -84,7 +90,8 @@ export default function RunActionDialog({
     action,
     resolvedDynamicParameters,
     policy,
-    executePolicy
+    executePolicy,
+    isSchedulePolicy
   });
   const { runActionTrackerSegment, testActionTrackerSegment } = useSegmentTracker();
   return (
@@ -111,6 +118,7 @@ export default function RunActionDialog({
               errorResolvingDynamicParameters={errorResolvingDynamicParameters}
               resolvedDynamicParameters={resolvedDynamicParameters}
               policy={policy}
+              isSchedulePolicy={isSchedulePolicy}
             />
           </div>
           <FormFooter>
@@ -269,7 +277,8 @@ const useRunActionForm = ({
   action,
   resolvedDynamicParameters,
   policy,
-  executePolicy
+  executePolicy,
+  isSchedulePolicy = false
 }: {
   volatileId: VolatileId;
   agentSnapShots: OUT | null | undefined;
@@ -277,13 +286,24 @@ const useRunActionForm = ({
   resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
   policy?: NewPolicy;
   executePolicy?: Policy;
+  isSchedulePolicy: boolean;
 }) => {
   const [form, setForm] = useState<MapForm<any>>();
   useEffect(() => {
     if (agentSnapShots && resolvedDynamicParameters && !form) {
-      setForm(createForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters, policy, executePolicy }));
+      setForm(
+        createForm({
+          volatileId,
+          agentSnapShots,
+          action,
+          resolvedDynamicParameters,
+          policy,
+          executePolicy,
+          isSchedulePolicy
+        })
+      );
     }
-  }, [agentSnapShots, form, volatileId, action, resolvedDynamicParameters, policy, executePolicy]);
+  }, [agentSnapShots, form, volatileId, action, resolvedDynamicParameters, policy, executePolicy, isSchedulePolicy]);
   return [form, setForm] as const;
 };
 
@@ -347,7 +367,6 @@ function onSave(
     return;
   }
   setIsSaving(true);
-
   const targetAgent = form?.get('targetAgent') as Field<string>;
   const parameters = form?.get('parameters') as MapForm<any>;
   const inputParameters = parameters.reduce<ParameterValue[]>((acc, parameter, key) => {
@@ -355,6 +374,17 @@ function onSave(
     const name = parameterDefinition?.name ?? '';
     const label = parameterDefinition?.label ?? '';
     if (parameterDefinition?.type === 'dynamic' && policy) {
+      if (policy.trigger.type === 'schedule') {
+        return [
+          ...acc,
+          {
+            name,
+            type: parameterDefinition?.type,
+            label,
+            value: parameter.value?.trim() ?? ''
+          }
+        ];
+      }
       return acc;
     }
     if (parameterDefinition?.type === 'vault') {
@@ -576,7 +606,8 @@ function RunActionFooter({
   );
 }
 
-interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'action' | 'policy' | 'executePolicy'> {
+interface CreateFormParams
+  extends Pick<RunActionDialogProps, 'volatileId' | 'action' | 'policy' | 'executePolicy' | 'isSchedulePolicy'> {
   agentSnapShots: OUT;
   resolvedDynamicParameters: ResolvedDynamicParamValue[];
 }
@@ -654,7 +685,8 @@ function createForm({
   action,
   resolvedDynamicParameters,
   policy,
-  executePolicy
+  executePolicy,
+  isSchedulePolicy
 }: CreateFormParams) {
   const executeOrNewPolicy = policy || executePolicy;
   return (
@@ -704,12 +736,20 @@ function createForm({
                   }
                 })
               };
-            } else if (parameter.type === 'dynamic' && !policy) {
+            } else if (parameter.type === 'dynamic' && (!policy || (policy && isSchedulePolicy))) {
               const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
+              let inputParameterValues: ParameterValue[] = [];
+              if (policy) {
+                inputParameterValues = getActionConfigurationFromPolicy(policy as Policy).inputParameterValues ?? [];
+              }
+              const value = isSchedulePolicy
+                ? inputParameterValues.find(item => item.name === parameter.name)?.value
+                : formatResolvedValue(resolvedValue);
+
               return {
                 ...acc,
                 [parameter.name]: createField({
-                  value: formatResolvedValue(resolvedValue),
+                  value: value,
                   validator: parameter.required ? notBlankValidator : undefined
                 })
               };

@@ -304,6 +304,8 @@
     "none": "无",
     "dataSource_calls": "{{formattedCount}} 个调用",
     "dataSource_calls_plural": "{{formattedCount}} 个调用",
+    "dataSource_subtraces": "{{formattedCount}} 个子跟踪",
+    "dataSource_subtraces_plural": "{{formattedCount}} 个子跟踪",
     "dataSource_traces": "{{formattedCount}} 个跟踪",
     "dataSource_traces_plural": "{{formattedCount}} 个跟踪",
     "analyzeCallsOfThisTrace": "分析此跟踪的调用",
@@ -726,7 +728,7 @@
     "traces_erroneousCalls": "错误跟踪",
     "traces_errors": "错误跟踪率",
     "subtraces_latency": "持续时间",
-    "subtraces_subtraceDuration": "持续时间"
+    "subtraces_duration": "持续时间"
   },
   "viewLists": {
     "application": "应用程序",
@@ -791,6 +793,6 @@
   "labelSyntheticMonitoring": "合成监视",
   "labelServiceLevels": "服务级别",
   "labelResourceOptimizations": "优化",
-  "titleResourceOverutilization": "过度使用的资源（CPU 使用率超过 {{thresholdUpperLimit}}%）",
-  "titleResourceUnderutilization": "未充分利用的资源（CPU 使用率超过 {{thresholdLowerLimit}}%）"
+  "titleResourceOverutilization": "过度使用的资源（CPU 使用率超过 {{thresholdUpperLimit}}）",
+  "titleResourceUnderutilization": "未充分利用的资源（CPU 使用率低于 {{thresholdLowerLimit}}）"
 }

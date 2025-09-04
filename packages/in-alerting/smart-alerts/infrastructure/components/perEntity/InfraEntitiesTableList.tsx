@@ -10,11 +10,9 @@ import { InfrastructureExploreItem, Order, Result, TimeConfig } from '@instana/t
 
 //@ts-expect-error TS migration needed
 import { setDefaultEntity } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
-import {
-  MetricType,
-  Tags
-} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { getColumnDefinition } from 'in-alerting/smart-alerts/infrastructure/components/perEntity/getColumnDefinition';
+import { useSelectedMetricGroup } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
 import { getGranularity } from 'in-infrastructure/Explore/services/metrics';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
@@ -33,22 +31,12 @@ interface InfraEntitiesTableListProps extends State<any, any> {
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
-  setSelectedMetricGroup: React.Dispatch<React.SetStateAction<Tags | null>>;
 }
 
 export default function InfraEntitiesTableList(props: InfraEntitiesTableListProps) {
-  const {
-    errors,
-    progress,
-    items,
-    metrics,
-    type,
-    retrievalSize,
-    metricMetadatas,
-    timeConfig,
-    loadMore,
-    setSelectedMetricGroup
-  } = props;
+  const { errors, progress, items, metrics, type, retrievalSize, metricMetadatas, timeConfig, loadMore } = props;
+
+  const { setSelectedMetricGroup } = useSelectedMetricGroup();
 
   const hasErrors = errors && errors?.length > 0;
   const isLoading = progress && progress?.loading;

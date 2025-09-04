@@ -4,12 +4,16 @@
  */
 
 // all the lazy loaded views. Bundle name: websites
-import WebsiteDashboard from 'promise-loader?global,websites!in-websites/WebsiteDashboard/WebsiteDashboard';
-import ConversionGoalDetails from 'promise-loader?global,websites!in-websites/WebsiteDashboard/tabs/BusinessImpact/ConversionGoalDetails';
-import AlertConfigTearSheet from 'promise-loader?global,websites!in-alerting/smart-alerts/websites/TearSheet/AlertConfigTearSheet';
-import AnalyzeView2_0 from 'promise-loader?global,websites!in-websites/analyze/AnalyzeView2_0/AnalyzeView';
-import NewWebsiteFlow from 'promise-loader?global,websites!in-websites/NewWebsiteFlow/NewWebsiteFlow';
-import WebsitesList from 'promise-loader?global,websites!in-websites/WebsitesList/WebsitesList';
+const WebsiteDashboard = () =>
+  import(/* webpackChunkName: "websites" */ 'in-websites/WebsiteDashboard/WebsiteDashboard');
+const ConversionGoalDetails = () =>
+  import(/* webpackChunkName: "websites" */ 'in-websites/WebsiteDashboard/tabs/BusinessImpact/ConversionGoalDetails');
+const AlertConfigTearSheet = () =>
+  import(/* webpackChunkName: "websites" */ 'in-alerting/smart-alerts/websites/TearSheet/AlertConfigTearSheet');
+const AnalyzeView2_0 = () =>
+  import(/* webpackChunkName: "websites" */ 'in-websites/analyze/AnalyzeView2_0/AnalyzeView');
+const NewWebsiteFlow = () => import(/* webpackChunkName: "websites" */ 'in-websites/NewWebsiteFlow/NewWebsiteFlow');
+const WebsitesList = () => import(/* webpackChunkName: "websites" */ 'in-websites/WebsitesList/WebsitesList');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

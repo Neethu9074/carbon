@@ -43,8 +43,8 @@ const AgentViewKpis = ({ agentSnapshotsResult, heading, subHeading }: any) => {
 
   return (
     <div data-testid="agent-view-kpis">
-      <Card title={heading} useMaxAvailableHeight={false} hasMarginBottom>
-        <Stack gap="0.85rem">
+      <Card title={heading} useMaxAvailableHeight={false}>
+        <Stack gap="1.15rem">
           <Typography variant="body-compact-01">{subHeading}</Typography>
           <Typography variant="heading-06">{`${reporting}/${total}`}</Typography>
           <MeterChart

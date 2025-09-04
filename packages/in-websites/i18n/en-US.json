@@ -336,7 +336,7 @@
   },
   "newWebsiteFlow": {
     "inputStepTitleAddWebsite": "Add website",
-    "inputStepParagraphGetStarted": "Get started with website monitoring to better understand how your website performance impacts user experience.  Configuration is simple!",
+    "inputStepParagraphGetStarted": "Get started with website monitoring to better understand how your website performance impacts user experience.",
     "inputStepLabelWebsiteName": "Website name",
     "inputStepButtonAddWebsite": "Add website",
     "inputStepNewWebsiteTitle": "New website",
@@ -518,8 +518,7 @@
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleTimeThreshold": "Time threshold",
         "alertConfigurationTitleAlertChannels": "Alert channels",
-        "alertConfigurationTitleAlertProperties": "Alert properties",
-        "alertsLabelFilters": "Filters"
+        "alertConfigurationTitleAlertProperties": "Alert properties"
       },
       "configuration": {
         "configurationRemoveTitle": "Remove website",
@@ -530,6 +529,7 @@
         "configurationRenameButton": "Rename",
         "configurationTrackingScriptTitle": "Set up an agent tracking script",
         "saved": "Saved",
+        "save": "Save",
         "ipMasking": {
           "title": "IP masking",
           "help": "IP masking protects end-user privacy by masking (anonymizing) segments of IP addresses. This happens at the earliest possible point within Instana’s ingestion pipeline so that full IP addresses are never stored. Instana always masks IP addresses using rules commonly used in the industry. You can configure stricter IP masking rules if your organization requires this.",
@@ -617,7 +617,10 @@
         "configurationLabelOptions": "Options",
         "configurationLabelPrivacy": "Privacy",
         "configurationLabelJSStackTraceTranslation": "JS stack trace translation",
-        "configurationLabelCustomGeoDetails": "Custom geographic details"
+        "configurationLabelCustomGeoDetails": "Custom geographic details",
+        "configurationLabelTeams": "Teams",
+        "teamsDescription": "Select teams to associate with this website.",
+        "teamsCallout": "Adding teams will allow team members to view and edit this website. It will also be reflected in the teams page in settings."
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Website custom event details",
@@ -804,13 +807,16 @@
         "tabLabel": "Synthetic monitoring",
         "noDataTitle": "No synthetic tests are associated with this website."
       },
-      "businessMonitoring": {
+      "businessImpact": {
+        "topListTitle": "Top pages",
         "usersChartTitle": "Users",
         "usersChartTotalLabel": "Total",
         "sessionsChartTitle": "Sessions",
         "sessionsChartStartedLabel": "Started",
         "summaryTab": "Summary",
-        "conversionGoalsTab": "Conversion goals",
+        "conversionGoals": "Conversion goals",
+        "funnels": "Funnels",
+        "activeSessions": "Active sessions",
         "configurationTab": "Configuration",
         "conversionGoalSummary": "Conversion goal",
         "nameColumn": "Name",
@@ -862,6 +868,7 @@
       "indexLabelBusinessMonitoring": "Business impact",
       "indexLabelConfiguration": "Configuration",
       "indexLabelServiceLevels": "Service levels",
+      "indexLabelDependency": "Dependencies",
       "pagesLabelName": "Name",
       "pagesLabelPageViews": "Page views",
       "pagesLabelOnLoadTime": "onLoad time",
@@ -966,6 +973,7 @@
   "tagsDataSourceTitlesHTTPRequest": "HTTP request",
   "tagsDataSourceTitlesError": "JS error",
   "tagsDataSourceTitlesCustom": "Custom event",
+  "tagsDataSourceTitlesConversionGoals": "Conversion goals",
   "facetedSearch": {
     "website": "Website",
     "page": "Page",

@@ -40,7 +40,6 @@ interface StatusCodeThresholdConditionProps {
     statusCode: Option[];
   };
   onChartViewConfigChange: (arg: number) => void;
-  alertChannelPerSeverityEnabled: boolean;
   children?: ReactNode;
 }
 
@@ -54,7 +53,6 @@ export default function StatusCodeThresholdCondition({
   isPercentageMetric,
   ruleMetricNameOptions,
   onChartViewConfigChange,
-  alertChannelPerSeverityEnabled,
   children
 }: StatusCodeThresholdConditionProps) {
   const metricName = form.get('rule').get('metricName').value;
@@ -142,7 +140,7 @@ export default function StatusCodeThresholdCondition({
             max={maxValue}
             metricUnitPostfix={metricUnitPostfix}
             percentageMetric={percentageMetric}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+            alertChannelPerSeverityEnabled
           />
         )}
 

@@ -4,8 +4,10 @@
  */
 
 // all the lazy loaded views. Bundle name: customDashboarding
-import CustomDashboard from 'promise-loader?global,customDashboarding!in-custom-dashboards/CustomDashboard/CustomDashboard';
-import CustomDashboardsPage from 'promise-loader?global,customDashboarding!in-custom-dashboards/pages/CustomDashboards';
+const CustomDashboard = () =>
+  import(/* webpackChunkName: "customDashboarding" */ 'in-custom-dashboards/CustomDashboard/CustomDashboard');
+const CustomDashboardsPage = () =>
+  import(/* webpackChunkName: "customDashboarding" */ 'in-custom-dashboards/pages/CustomDashboards');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

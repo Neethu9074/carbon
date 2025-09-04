@@ -27,7 +27,6 @@ import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/use
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
-import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
@@ -243,12 +242,7 @@ function toAlertConfig(form) {
     alertConfig = mapStatusCodeSelection(alertConfig);
   }
   alertConfig.applicationId = undefined;
-
-  if (alertChannelPerSeverityApplicationSaEnabled) {
-    alertConfig.alertChannelIds = null;
-  } else {
-    alertConfig.alertChannels = null;
-  }
+  alertConfig.alertChannelIds = null;
   alertConfig.gracePeriod = calculateEffectiveGracePeriodForBackend(gracePeriod, granularity);
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);

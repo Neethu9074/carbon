@@ -7,12 +7,12 @@
 // @ts-expect-error needs TS migration
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/linuxKVMHypervisorHost/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/linuxKVMHypervisorHost/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
-
-const linuxPlugin = plugins.host + '_linux';
 
 registerSnapshotDefinition({
   plugin: plugins.linuxKVMHypervisorHost,
+  kpiDefinitions,
   metricDefinitions,
-  getIconType: () => linuxPlugin
+  getIconType: () => 'linux_kvm_hypervisor'
 });

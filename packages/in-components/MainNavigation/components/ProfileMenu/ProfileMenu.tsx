@@ -27,14 +27,10 @@ import {
   PROFILE_MENU_USER_PROFILE_CLICK,
   PROFILE_MENU_SAAS_CONSOLE_CLICK
 } from 'in-services/tracking/tracking';
-import {
-  isControlledEnvEnabled,
-  rbacTeamsEnabled,
-  tealiumPrivacyEnabled,
-  tenantSwitcherEnabled
-} from 'in-services/featureFlags';
-import TeamFocusDropdown from 'in-components/MainNavigation/components/ProfileMenu/TeamFocusDropdown';
+import { isControlledEnvEnabled, tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import TeamFocusDropdown from 'in-settings/components/Shared/TeamFocusDropdown';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { userSettingsProfile } from 'in-settings/navigation/paths';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
@@ -50,6 +46,7 @@ interface ProfileMenuProps {
 }
 
 export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: ProfileMenuProps): JSX.Element {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
   const { trackCta } = useSegmentTracking();
   const activeLicenseType = config.activeLicenseType;
@@ -59,7 +56,8 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
   const shouldShowMcspMenuItems =
     isMcspEnvironment && (activeLicenseType === 'hostBasedPaid' || activeLicenseType === 'paidPerUse');
 
-  const teamsObservable = useObservable(rbacTeamsEnabled ? getTeamsByUserId() : just(null), []) ?? pendingResult;
+  const teamsObservable =
+    useObservable(isRbacTeamsAvailable ? getTeamsByUserId() : just(null), [isRbacTeamsAvailable]) ?? pendingResult;
   const teams: TeamTag[] = teamsObservable?.data ?? [];
   const sortedTeams = [...teams].sort((a, b) => a.displayName.localeCompare(b.displayName));
   const isTeamsLoading = isLoading(teamsObservable);
@@ -104,12 +102,12 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
           </Typography>
         </div>
         <SwitcherDivider className={local.profileMenu_switcherDivider} />
-        {rbacTeamsEnabled && !isTeamsLoading && (
+        {isRbacTeamsAvailable && !isTeamsLoading && (
           <div className={local.profileMenu_teamFocusSection}>
             <TeamFocusDropdown teams={sortedTeams} />
           </div>
         )}
-        {rbacTeamsEnabled && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
+        {isRbacTeamsAvailable && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
         <div className={local.profileMenu_unitTenantSection}>
           <Typography variant="label-01" onDark>
             <label className={local.profileMenu_label}>

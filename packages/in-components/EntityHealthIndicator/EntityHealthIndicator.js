@@ -5,41 +5,33 @@
 
 import React from 'react';
 
+import GenericIndicatorPresenter from 'in-components/GenericIndicatorPresenter/GenericIndicatorPresenter';
 import EntityOpenIssuesList from 'in-components/EntityHealthIndicator/EntityOpenIssuesList';
-import Overlay from 'in-components/overlays/Overlay';
 
-import locals from './EntityHealthIndicator.mless';
+// Wrapper component for EntityOpenIssuesList to apply styling
+const StyledEntityOpenIssuesList = props => <EntityOpenIssuesList {...props} />;
 
 export default function EntityHealthIndicator(props) {
-  const { openIssues, maxSeverity } = props;
+  const { openIssues, maxSeverity, inContentArea, IndicatorPresenter } = props;
 
   if (openIssues == null || openIssues < 0) {
     return null;
   }
 
   if (openIssues === 0) {
-    return <props.IndicatorPresenter showCheckAsNeutral maxSeverity={maxSeverity} openIssues={openIssues} />;
+    return <IndicatorPresenter showCheckAsNeutral maxSeverity={maxSeverity} openIssues={openIssues} />;
   }
 
   return (
-    <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea}>
-      {({ toggle, refSetter, isOpen }) => (
-        <props.IndicatorPresenter
-          openIssues={openIssues}
-          maxSeverity={maxSeverity}
-          onClick={toggle}
-          refSetter={refSetter}
-          isOpen={isOpen}
-        />
-      )}
-    </Overlay>
-  );
-}
-
-function Content(props) {
-  return (
-    <div className={locals.entityHealthIndicator}>
-      <EntityOpenIssuesList {...props} />
-    </div>
+    <GenericIndicatorPresenter
+      Content={StyledEntityOpenIssuesList}
+      contentProps={{ ...props }}
+      IndicatorPresenter={IndicatorPresenter}
+      indicatorProps={{
+        openIssues,
+        maxSeverity
+      }}
+      inContentArea={inContentArea}
+    />
   );
 }

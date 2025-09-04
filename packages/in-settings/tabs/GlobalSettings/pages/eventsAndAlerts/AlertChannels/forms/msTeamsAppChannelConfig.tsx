@@ -12,6 +12,7 @@ import { TextInput } from '@instana/carbon';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
+import { msTeamsAppEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -254,6 +255,7 @@ export default {
   label,
   isBeta: true,
   testAPI: null,
+  active: msTeamsAppEnabled,
   feedbackLink: 'https://your.feedback.ibm.com/jfe/form/SV_1LjNh1TWZ6kFJT8',
 
   getParameters(): Array<AlertChannelParameterValue> {

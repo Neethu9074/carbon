@@ -122,6 +122,8 @@
     "formStateLabel": "省/直辖市/自治区"
   },
   "searchBar": {
+    "searchInput": "搜索输入",
+    "searchBar": "搜索栏",
     "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下\\n查询将视图限制为具有少于四个 CPU 的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n\n## 语法\n动态焦点利用 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) 与 Lucene 标准有以下差异：\n- **缺省运算符：** ` AND `\n- **语法约束：** 在[文档](https://ibm.biz/dynamic-focus-syntax-constraints)\n中列出。\n\n## 搜索栏交互\n搜索栏支持自动完成搜索字段，并在您输入时将语法突出显示 lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。\n\n## Lucene 查询语法备忘单\n - **字段搜索：**`entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://ibm.biz/filtering-dynamic-focus)以获取更多信息。",
     "filtersBtn": "过滤器",
     "filterPresetsMenuHeading": "过滤器",
@@ -296,18 +298,14 @@
     "columnizedContentUserInterface": "用户界面",
     "columnizedContentBackend": "后端",
     "labelRegion": "区域",
-    "labelTag": "标记",
+    "labelTag": "版本",
     "labelCommit": "落实",
-    "geo": {
-      "title": "地理位置数据"
-    },
     "ibm": "IBM",
     "copyRights": "Copyright © IBM Corp. 2020, 2023",
     "instana": "Instana",
     "close": "关闭",
     "maxMindDescription": "这些数据包含 GeoLite2 数据，创建者为：",
     "maxMind": "MaxMind.",
-    "dynamicGraphDescription": "请在",
     "dynamicGraph": "动态图表展示中查看环境的可视化效果。"
   },
   "blueprintFormMultistep": {
@@ -403,12 +401,10 @@
     "eventType_issue_0": "问题",
     "eventType_issue_1": "问题",
     "eventType_issue_2": "问题",
-    "openIssuesListPresenterActionsViewIssues": "查看{{eventType}}",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "查看 {{openIssueCount}} 个 {{eventType}}",
+    "viewOpenIssues": "查看未决问题",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "正在装入未解决的 {{eventType}}…",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "无法加载未解决的 {{eventType}}",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 个未解决的 {{eventType}}",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "（显示 {{maxIssuesToShow}} 个最严重）",
     "openIssuesListPresenterIssueDescriptionOmitted": "已省略问题描述。可在事件的详细视图中看到更多详细信息。",
     "openIssuesListPresenterStarted": "开始",
     "noIssues": "没有问题",
@@ -433,9 +429,9 @@
     "eventType_issue_1": "漏洞",
     "eventType_issue_2": "漏洞",
     "openIssuesListPresenterActionsViewIssues": "查看漏洞",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "查看 {{openIssueCount}} 个漏洞",
-    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "正在装入未解决漏洞…",
-    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "未能装入未解决漏洞",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "正在加载未解决的漏洞…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "未能加载未解决的漏洞",
+    "viewOpenIssues": "查看漏洞",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 个未解决漏洞",
     "noVulnerabilities": "无漏洞",
     "openVulnerabilities": "{{count}} 个漏洞",
@@ -809,6 +805,7 @@
     }
   },
   "copyToClipboardButtonCopy": "复制",
+  "tooltipCopyToClipboard": "复制到剪贴板",
   "withEmptyStateFallbackTitleNoDataAvailable": "无可用数据",
   "queryBuilder": {
     "components": {

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import ConfigurationView from 'promise-loader?global,configView!in-settings/ConfigurationView';
+const ConfigurationView = () => import(/* webpackChunkName: "configView" */ 'in-settings/ConfigurationView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

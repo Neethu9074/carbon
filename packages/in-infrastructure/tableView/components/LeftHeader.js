@@ -9,6 +9,7 @@ import MetricSelector from 'in-infrastructure/tableView/components/MetricSelecto
 import { addMetric, metrics$ } from 'in-infrastructure/tableView/stores/metrics';
 import TypeSelector from 'in-infrastructure/tableView/components/TypeSelector';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getPluginName } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -23,13 +24,14 @@ export default connectTo(
     selectedMetrics: metrics$
   },
   function Header({ plugin, selectedMetrics }) {
+    const { location, navigate } = useNavigation();
     return (
       <header className={block}>
         <TypeSelector />
         <MetricSelector
           className={`${block}__selector`}
           plugin={plugin}
-          onChange={addSelectedMetric}
+          onChange={e => addSelectedMetric(e, location, navigate)}
           selectedMetrics={selectedMetrics}
           label={t('in-infrastructure:tableView.visualizeMetricForSelected', { plugins: getPluginName(plugin, 2) })}
         />
@@ -38,8 +40,8 @@ export default connectTo(
   }
 );
 
-function addSelectedMetric(e) {
+function addSelectedMetric(e, location, navigate) {
   e.preventDefault();
-  addMetric(e.target.value);
+  addMetric(e.target.value, location, navigate);
   e.target.value = '-1';
 }

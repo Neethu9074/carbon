@@ -98,6 +98,7 @@
         "popHoverFirstDescription":"Log pattern recognition trains an AI algorithm to discover recurrent patterns in your logs. ",
         "aiExpained": "AI explained",
         "currentPatterns": "Current patterns",
+        "patternState": "Pattern state",
         "total": "Total",
         "discoveredPatterns": "Discovered patterns",
         "tableDescription": "Manage the patterns used when filtering and grouping.",

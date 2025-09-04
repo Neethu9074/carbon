@@ -12,6 +12,12 @@ const mobileAppPlugins = ['mobileApp'];
 const syntheticPlugins = ['syntheticTest'];
 const logPlugins = ['log'];
 const oTelDatabasePlugins = ['oTelDatabase'];
+const kubernetesControlPlanePlugins = [
+  'kubernetesApiServer',
+  'kubernetesControllerManager',
+  'kubernetesScheduler',
+  'kubernetesEtcd'
+];
 
 export function isAppDataPlugin(plugin: string | Nullish): boolean {
   if (plugin) {
@@ -44,4 +50,8 @@ export function isLogPlugin(plugin: string | Nullish): boolean {
 
 export function isOtelDatabasePlugin(plugin: string | Nullish): boolean {
   return plugin ? oTelDatabasePlugins.includes(plugin) : false;
+}
+
+export function isKubernetesControlPlanePlugins(plugin: string | Nullish): boolean {
+  return plugin ? kubernetesControlPlanePlugins.includes(plugin) : false;
 }

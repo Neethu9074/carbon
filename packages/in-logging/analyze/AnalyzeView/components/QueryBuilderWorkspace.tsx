@@ -56,7 +56,8 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
     disableHeader,
     showGroupingConfiguration = true,
     showTimeSelection = true,
-    setUrlState
+    setUrlState,
+    formModelWithFacets
   } = props;
   const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged } = useAnalyzeTracker();
   const tracking: QueryBuilderTrackingFunctions = {
@@ -88,6 +89,7 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
               useLastValidStateWhenErroneous
               getSuggestionLabel={({ item }) => item}
               tracking={tracking}
+              getSuggestionsProps={{ formModelWithFacets }}
             />
 
             {showGroupingConfiguration && (

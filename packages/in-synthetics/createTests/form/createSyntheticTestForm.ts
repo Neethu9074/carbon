@@ -175,6 +175,12 @@ function createBrowserScriptConfigurationForm(savedState?: Record<string, any>) 
       })
     )
     .put(
+      'fileName',
+      createField({
+        value: savedState?.scriptFileName ?? ''
+      })
+    )
+    .put(
       'timeout',
       createField({
         value: savedState?.timeout ?? '0m',
@@ -211,6 +217,12 @@ function createAdvancedScriptConfigurationForm(savedState?: Record<string, any>)
       createField({
         value: savedState?.syntheticType,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'fileName',
+      createField({
+        value: savedState?.scriptFileName ?? ''
       })
     )
     .put(

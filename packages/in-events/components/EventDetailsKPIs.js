@@ -248,7 +248,6 @@ export const ImpactedKPI = ({ event }) => {
 const CarbonDateTimeKpiCard = ({ title, time }) => (
   <KpiCard
     title={title}
-    noTooltipOnTitle
     value={time}
     renderValue={value => (
       <Tooltip content={`${formatDate(time)} ${formatTime(time)}`}>

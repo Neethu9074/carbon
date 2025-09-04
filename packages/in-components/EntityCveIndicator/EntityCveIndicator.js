@@ -5,15 +5,22 @@
 
 import React from 'react';
 
+import GenericIndicatorPresenter from 'in-components/GenericIndicatorPresenter/GenericIndicatorPresenter';
 import EntityOpenIssuesList from 'in-components/EntityCveIndicator/EntityOpenIssuesList';
 import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
-import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './EntityCveIndicator.mless';
 
+// Wrapper component for EntityOpenIssuesList to apply styling
+const StyledEntityOpenIssuesList = props => (
+  <div className={locals.entityCveIndicator}>
+    <EntityOpenIssuesList {...props} />
+  </div>
+);
+
 export default function EntityCveIndicator(props) {
   const { trackVulnerabilitiesButtonInContainersDashboard } = useVulnerabilityTracker();
-  const { openIssues, maxSeverity } = props;
+  const { openIssues, maxSeverity, inContentArea, IndicatorPresenter } = props;
 
   if (openIssues == null || openIssues < 0) {
     return null;
@@ -24,26 +31,16 @@ export default function EntityCveIndicator(props) {
   }
 
   return (
-    <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea}>
-      {({ toggle, refSetter }) => (
-        <props.IndicatorPresenter
-          openIssues={openIssues}
-          maxSeverity={maxSeverity}
-          onClick={() => {
-            toggle();
-            trackVulnerabilitiesButtonInContainersDashboard();
-          }}
-          refSetter={refSetter}
-        />
-      )}
-    </Overlay>
-  );
-}
-
-function Content(props) {
-  return (
-    <div className={locals.entityCveIndicator}>
-      <EntityOpenIssuesList {...props} />
-    </div>
+    <GenericIndicatorPresenter
+      Content={StyledEntityOpenIssuesList}
+      contentProps={props}
+      IndicatorPresenter={IndicatorPresenter}
+      indicatorProps={{
+        openIssues,
+        maxSeverity,
+        onClick: trackVulnerabilitiesButtonInContainersDashboard
+      }}
+      inContentArea={inContentArea}
+    />
   );
 }

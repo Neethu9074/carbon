@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import GetStartedFreetrial from 'promise-loader?global,getStartedFreetrial!in-plg/components/NoviceToPro/GetStartedFreetrial';
+const GetStartedFreetrial = () => import (/* webpackChunkName: "getStartedFreetrial" */ 'in-plg/components/NoviceToPro/GetStartedFreetrial');
 import ReactDOM from 'react-dom';
 import React from 'react';
 

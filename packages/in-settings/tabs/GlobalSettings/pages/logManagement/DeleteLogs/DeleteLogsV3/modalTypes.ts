@@ -13,6 +13,8 @@ export interface ValidationMessages {
   tagFilterExpression: string | null;
   timeRange: string | null;
   retention: string | null;
+  startTime: string | null;
+  endTime: string | null;
 }
 
 export interface InputValues {

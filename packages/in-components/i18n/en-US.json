@@ -13,7 +13,8 @@
     "contentAriaLabel": "Content",
     "filterAriaLabel": "Filter",
     "pageTabsAriaLabel": "Page tabs",
-    "pageSubMenu": "Page sub-menu"
+    "pageSubMenu": "Page sub-menu",
+    "breadcrumbAriaLabel": "Breadcrumb"
   },
   "fileInputButton": {
     "label": {
@@ -122,6 +123,8 @@
     "formStateLabel": "State"
   },
   "searchBar": {
+    "searchInput": "Search input",
+    "searchBar": "Search bar",
     "usingTheSearchBar": "The Instana Dynamic Focus search functionality can be used to filter the 3D maps, comparison tables and incident views. The search bar has\nextensive abilities to search using fuzzy and wildcard searches as well as boolean operators. For example, the following\nquery restricts views to production hosts with less than four CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\nDynamic Focus leverages the [lucene query syntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) with the following differences from the Lucene standard:\n- **Default operator:** `AND`\n- **Syntax constraints:** are listed in the [documentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Search Bar Interaction\nThe search bar supports autocompletion for search fields and will syntax highlight the lucene query while you type.\nOnce typing, the search bar will propose search fields that match the current input. You can accept proposed fields\nby hitting `RETURN`. Hit `CTRL+SPACE` to open the auto completion popup.\n## Lucene Query Syntax Cheat Sheet\n - **Fielded search:** `entity.host.cpu.count:>4`\n - **Boolean operators:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Grouping:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Wildcard searches:** `entity.type:container*`\n\nPlease refer to the [documentation](https://ibm.biz/filtering-dynamic-focus) for more information.",
     "filtersBtn": "Filters",
     "filterPresetsMenuHeading": "Filters",
@@ -300,7 +303,7 @@
     "labelTag": "Version",
     "labelCommit": "Commit",
     "ibm": "IBM",
-    "copyRights": "Copyright © IBM Corp. 2020, 2023",
+    "copyRights": "Copyright © IBM Corp. 2020, 2025",
     "instana": "Instana",
     "close": "Close",
     "maxMindDescription": "This data includes GeoLite2 data created by",
@@ -400,15 +403,15 @@
     "eventType_issue_0": "issues",
     "eventType_issue_1": "issue",
     "eventType_issue_2": "issues",
-    "openIssuesListPresenterActionsViewIssues": "View {{eventType}}",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "View {{openIssueCount}} {{eventType}}",
+    "viewOpenIssues": "View open issues",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading open {{eventType}}…",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Failed to load open {{eventType}}",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} open {{eventType}}",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(displaying {{maxIssuesToShow}} most severe)",
     "openIssuesListPresenterIssueDescriptionOmitted": "Issue description omitted. More details are visible within the event's detail view.",
     "openIssuesListPresenterStarted": "Started",
     "noIssues": "No issues",
+    "capitalIssue": "Issue",
+    "capitalIssue_plural": "Issues",
     "openIssues": "{{count}} issue",
     "openIssues_plural": "{{count}} issues",
     "openIssues_0": "{{count}} issues",
@@ -430,10 +433,10 @@
     "eventType_issue_1": "vulnerabilities",
     "eventType_issue_2": "vulnerabilities",
     "openIssuesListPresenterActionsViewIssues": "View vulnerabilities",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "View {{openIssueCount}} vulnerabilities",
-    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading Open vulnerabilities…",
-    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Failed To Load Open vulnerabilities",
-    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Open vulnerabilities",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading open vulnerabilities…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Failed to load open vulnerabilities",
+    "viewOpenIssues": "View vulnerabilities",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} open vulnerabilities",
     "noVulnerabilities": "No vulnerabilities",
     "openVulnerabilities": "{{count}} vulnerability",
     "openVulnerabilities_plural": "{{count}} vulnerabilities",
@@ -807,6 +810,7 @@
     }
   },
   "copyToClipboardButtonCopy": "Copy",
+  "tooltipCopyToClipboard": "Copy to clipboard",
   "withEmptyStateFallbackTitleNoDataAvailable": "No data available",
   "queryBuilder": {
     "components": {

@@ -22,6 +22,7 @@ import {
   duplicateAlertConfig,
   getHeaderTitle
 } from 'in-alerting/smart-alerts/infrastructure/tearsheet/sharedFunctions';
+import { SelectedMetricGroupProvider } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
@@ -31,8 +32,8 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigationToAlertConfig } from 'in-infrastructure/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -77,21 +78,22 @@ function AlertConfigTearSheetContent({
   const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode, true));
+  const [form, setForm] = useState(() => alertFormDefinition(populateRulesInConfig(alertConfig), editMode, true));
   const updateForm = useInfraSmartAlertFormSideEffects(form, setForm);
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
   const navigateToAlertConfig = useNavigationToAlertConfig();
 
-  const { aggregation, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat, entityType, metric } =
+  const { aggregation, warningThreshold, criticalThreshold, thresholdOperator, metricFormat, entityType, metric } =
     getTitlePlaceholderData(form);
 
   const metricLabel = useGetAlertTitle(entityType, metric, aggregation);
   const alertTitle = generateTitle(metricLabel);
+
   const alertDescription = useFormattedThresholdValue(
     metricLabel,
-    thresholdOperatorValue(warningThreshold, criticalThreshold),
+    thresholdOperator,
     metricFormat,
     warningThreshold,
     criticalThreshold
@@ -100,34 +102,36 @@ function AlertConfigTearSheetContent({
   const { trackCta } = useSegmentTracking();
   return (
     <>
-      <AlertConfigTearSheetWithThreshold
-        updateForm={updateForm}
-        form={form}
-        onChange={createOnChange(updateForm, form)}
-        onChartViewConfigChange={setSelectedChartViewConfigIndex}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
-        onCreate={() => {
-          createOrSaveAlertFromTearSheet({
-            form,
-            setForm,
-            navigateToAlertConfig,
-            editMode,
-            setIsSaving,
-            setMessages,
-            toAlertConfig,
-            trackCta,
-            duplicateFrom,
-            placeHolderText: { alertTitle, alertDescription }
-          });
-        }}
-        editMode={editMode}
-        isSaving={isSaving}
-        messages={messages}
-        cancelTearSheet={cancelTearSheet}
-        withTrackClose={() => undefined}
-        tearSheetTitle={getHeaderTitle(editMode)}
-      />
+      <SelectedMetricGroupProvider>
+        <AlertConfigTearSheetWithThreshold
+          updateForm={updateForm}
+          form={form}
+          onChange={createOnChange(updateForm, form)}
+          onChartViewConfigChange={setSelectedChartViewConfigIndex}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
+          onCreate={() => {
+            createOrSaveAlertFromTearSheet({
+              form,
+              setForm,
+              navigateToAlertConfig,
+              editMode,
+              setIsSaving,
+              setMessages,
+              toAlertConfig,
+              trackCta,
+              duplicateFrom,
+              placeHolderText: { alertTitle, alertDescription }
+            });
+          }}
+          editMode={editMode}
+          isSaving={isSaving}
+          messages={messages}
+          cancelTearSheet={cancelTearSheet}
+          withTrackClose={() => undefined}
+          tearSheetTitle={getHeaderTitle(editMode)}
+        />
+      </SelectedMetricGroupProvider>
     </>
   );
 }
@@ -170,8 +174,7 @@ function toAlertConfig(
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: alertChannelPerSeverityInfraSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
-    alertChannels: alertChannelPerSeverityInfraSaEnabled ? form.get(fieldNames.alertChannels).value : null,
+    alertChannels: form.get(fieldNames.alertChannels).value,
     description: form.get(fieldNames.description).value || (alertDescription?.WARNING ?? alertDescription?.CRITICAL),
     name: form.get(fieldNames.name).value || alertTitle,
     triggering: form.get(fieldNames.triggering).value,

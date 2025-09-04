@@ -82,6 +82,7 @@ export function ThresholdSection(props) {
   );
 }
 
+// TODO: Callers should reference packages/in-alerting/smart-alerts/components/utils/formUtils.ts instead.
 export function toAlertConfig(form) {
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const ruleWithThreshold = getRuleWithThreshold(form);

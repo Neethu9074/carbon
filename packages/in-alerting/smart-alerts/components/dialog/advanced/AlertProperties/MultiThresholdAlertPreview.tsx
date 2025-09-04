@@ -30,31 +30,36 @@ export function MultiThresholdAlertPreview({
   placeholderDescription,
   allowedPlaceholders
 }: MultiThresholdAlertPreviewProps) {
-  const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const warningThresholdValue = warningThresholdField.get('value').value;
-  const criticalThresholdValue = criticalThresholdField.get('value').value;
-  const isWarningThresholdDefined = !isEmpty(warningThresholdValue);
-  const isCriticalThresholdDefined = !isEmpty(criticalThresholdValue);
+  const warningThresholdValue = form.get('threshold').get('warningThreshold')?.get('value')?.value;
+  const criticalThresholdValue = form.get('threshold').get('criticalThreshold')?.get('value')?.value;
+  const isWarningThresholdSelected = !isEmpty(warningThresholdValue);
+  const isCriticalThresholdSelected = !isEmpty(criticalThresholdValue);
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
   const entityLabel = metricLabel
     ? metricLabel
     : t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.properties.preview.subtitle');
   const name = form.get('name').value;
+  const description = form.get('description')?.value;
   const titleWithReplacedPlaceholders = name
     ? replacePlaceholdersWithMarkup(allowedPlaceholders ?? [], name, ({ name }) => name)
     : placeholderTitle || getTitlePlaceholder();
 
+  const descriptionWithReplacedPlaceholders = replacePlaceholdersWithMarkup(
+    allowedPlaceholders ?? [],
+    description,
+    ({ name }) => name
+  );
   return (
     <MultiThresholdAlertPreviewCommon
       form={form}
       getDescriptionPlaceholder={getDescriptionPlaceholder}
       descriptionPlaceholder={placeholderDescription}
-      isWarningDefined={isWarningThresholdDefined}
-      isCriticalDefined={isCriticalThresholdDefined}
+      isWarningDefined={isWarningThresholdSelected}
+      isCriticalDefined={isCriticalThresholdSelected}
       entityLabel={entityLabel}
       entityIconType="lib_infrastructure"
       renderHeadline={() => <AlertPreviewHeadline title={titleWithReplacedPlaceholders} />}
+      descriptionWithReplacedPlaceholders={descriptionWithReplacedPlaceholders}
     />
   );
 }

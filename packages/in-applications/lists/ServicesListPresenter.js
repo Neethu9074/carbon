@@ -44,6 +44,7 @@ import getService from 'in-applications/subscriptions/getService';
 import { newServiceView } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -54,7 +55,6 @@ import { isBlank } from 'in-services/util/string';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ServicesList.mless';
@@ -222,6 +222,7 @@ export default function ServicesList({
   snapshotId,
   plugin
 }) {
+  const [role] = useCurrentUserRole();
   tagFilters = tagFilters ? tagFilters.map(tagFilter => ({ ...tagFilter, stringValue: tagFilter.value })) : [];
   const { location, createHref } = useNavigation();
   const [callTypes, setCallTypes] = useState(null);

@@ -6,17 +6,9 @@
 
 import { get } from 'lodash';
 
-import type {
-  ApplicationSloEntity,
-  BoundaryScope,
-  Result,
-  SyntheticSloEntity,
-  TagFilter,
-  TagFilterExpression,
-  WebsiteSloEntity
-} from '@instana/types';
+import type { BoundaryScope, Result, SloEntityUnion, TagFilter, TagFilterExpression } from '@instana/types';
+import { isInfraSloEntity, isSyntheticSloEntity } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
-import { isSyntheticSloEntity } from '@instana/types';
 import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -33,7 +25,7 @@ import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { alwaysNull } from 'in-services/fixedStreams';
 
 interface UseBasicTagFilterExpressionProps {
-  entity: ApplicationSloEntity | WebsiteSloEntity | SyntheticSloEntity;
+  entity: SloEntityUnion;
   withLabels?: boolean;
 }
 
@@ -42,11 +34,12 @@ export default function useBasicTagFilterExpression({
   withLabels
 }: UseBasicTagFilterExpressionProps): TagFilterExpression {
   const isSyntheticEntity = isSyntheticSloEntity(entity);
+  const isInfraEntity = isInfraSloEntity(entity);
   const { tagFilterExpression } = entity;
 
   const basicTagFilter =
     useObservable(() => {
-      if (isSyntheticEntity) return just([]);
+      if (isSyntheticEntity || isInfraEntity) return just([]);
 
       if (!withLabels) return just(getInternalIdTagFilter(entity));
 

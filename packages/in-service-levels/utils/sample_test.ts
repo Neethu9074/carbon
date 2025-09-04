@@ -11,11 +11,6 @@ import { calculateTimeConfigFromTimeWindow } from 'in-service-levels/utils/time'
 import { getErrorBudgetSampleData } from 'in-service-levels/utils/sample';
 import { hours } from 'in-services/time/time';
 
-jest.mock('in-stores/permission', () => ({
-  __esModule: true,
-  hasSyntheticsAccess: true
-}));
-
 describe('in-service-levels/utils/sample', () => {
   beforeAll(() => {
     jest.useFakeTimers().setSystemTime(testDate);
@@ -41,7 +36,8 @@ describe('in-service-levels/utils/sample', () => {
           duration: 1,
           durationUnit: 'week',
           type: 'fixed',
-          startTimestamp: Date.now()
+          startTimestamp: Date.now(),
+          timezone: ''
         };
         const timeConfig = calculateTimeConfigFromTimeWindow(timeWindow);
         const granularity = hours.toMillis(1);

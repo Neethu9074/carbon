@@ -14,6 +14,7 @@ import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/S
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -29,6 +30,7 @@ export default function SimpleCreateStep3({
   errorMessage,
   isValidTagFilterExpression
 }) {
+  const [role] = useCurrentUserRole();
   const labelField = form.get('label');
 
   return (
@@ -62,7 +64,7 @@ export default function SimpleCreateStep3({
         <InboundAllCalls form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
         <Spacer vertical="normal" />
 
-        <BuiltInGlobalSmartAlertsPermissionWrapper>
+        <BuiltInGlobalSmartAlertsPermissionWrapper role={role}>
           <AddAllBuiltInGlobalSmartAlerts
             onChange={alertIds =>
               updateForm(form.updateIn(['builtInAlertIds'], field => field.setValue(alertIds).setTouched(true)))

@@ -28,7 +28,8 @@ export default function AwsFargateContent({ agentKey, downloadKey, serverlessEnd
     t('in-waiting-for-deployment:runtime.dotnet'),
     t('in-waiting-for-deployment:runtime.nodejs'),
     t('in-waiting-for-deployment:runtime.python'),
-    t('in-waiting-for-deployment:runtime.ruby')
+    t('in-waiting-for-deployment:runtime.ruby'),
+    t('in-waiting-for-deployment:runtime.php')
   ];
   const baseImageOptions = [
     t('in-waiting-for-deployment:baseImg.glibcLinux'),
@@ -246,6 +247,31 @@ export default function AwsFargateContent({ agentKey, downloadKey, serverlessEnd
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe"
           href="https://ibm.biz/monitoring-ruby"
+        />
+        <Spacer />
+        <Description
+          lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
+        />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </>
+    );
+  } else if (selectedRuntime === runtimeOptions[6]) {
+    steps = (
+      <>
+        <Spacer />
+
+        <TextWithLink
+          i18nKey="in-waiting-for-deployment:content.theSupportForPhpOnFargateOnEcsWorksTheSameWayAsWithAnyPhpApplicationFollowTheInstructionsOfThe"
+          href="https://ibm.biz/monitoring-php"
         />
         <Spacer />
         <Description

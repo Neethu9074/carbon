@@ -8,12 +8,14 @@ import React from 'react';
 
 import { Spacer, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/carbon';
 import { t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
 
 import { ChartProps, EtcdProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/types';
 import EtcdChartsV3 from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/EtcdChartsV3';
 import EtcdChartsV2 from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/EtcdChartsV2';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import getEtcdHosts from 'in-kubernetes/subscriptions/getEtcdHosts';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -37,7 +39,14 @@ export default function Etcd({ clusterId, timeConfig }: EtcdProps) {
   const clusterVersion = etcdHostData?.clusterVersion;
 
   if (!clusterVersion) {
-    return null;
+    return (
+      <Stack gap={5}>
+        <Typography variant="heading-02" noMargin>
+          {t('in-kubernetes:dashboards.etcd')}
+        </Typography>
+        <NoDataAvailable height={160} />
+      </Stack>
+    );
   }
 
   const renderValue = (value: string) => <span>{value}</span>;
@@ -47,7 +56,9 @@ export default function Etcd({ clusterId, timeConfig }: EtcdProps) {
   return (
     <>
       <SectionLine isFullWidth />
-      <Typography variant="heading-400">{t('in-kubernetes:dashboards.etcd')}</Typography>
+      <Typography variant="heading-02">{t('in-kubernetes:dashboards.etcd')}</Typography>
+      <Spacer vertical="normal" />
+
       <KpiGridRow sizes={[true, true]}>
         <KpiCard title={t('in-kubernetes:dashboards.cluster')} value={clusterVersion} />
         <KpiCard title={t('in-kubernetes:dashboards.availability')} value={availability} renderValue={renderValue} />

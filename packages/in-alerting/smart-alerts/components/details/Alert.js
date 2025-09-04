@@ -59,7 +59,6 @@ export default function Alert({
   getLinkToEditOrDuplicateSmartAlertTearSheet,
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false,
-  hideAlertIcon = false,
   alertDisplayMode,
   urlParams
 }) {
@@ -180,7 +179,6 @@ export default function Alert({
             trackCta(ALERTING_DELETE_TRIGGER, alertConfigForTracking);
           }}
           getLinkToEditOrDuplicateSmartAlertTearSheet={getLinkToEditOrDuplicateSmartAlertTearSheet}
-          hideAlertIcon={hideAlertIcon}
           alertDisplayMode={alertDisplayMode}
         />
 
@@ -233,7 +231,6 @@ Alert.propTypes = {
   getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
   canConfigureIndividualAlertConfigs: PropTypes.bool,
-  hideAlertIcon: PropTypes.bool,
   alertDisplayMode: PropTypes.string,
   urlParams: PropTypes.object
 };

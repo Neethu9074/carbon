@@ -21,14 +21,22 @@ import { getCapabilitiesSectionData } from 'in-settings/tabs/SecurityAndAccess/p
 import { CapabilitySubsection } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
+import { PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
+import { analyzeAccessPermissions } from 'in-stores/permission';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
+import useHasAccesses from 'in-stores/useHasAccesses';
 import { t } from 'in-i18n';
 
 export const GlobalFunctionsSection = () => {
+  const hasAnalyzeAccess = useHasAccesses({
+    requiredPermissions: analyzeAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const { columnHeadline, shouldRenderContent } = getCapabilitiesSectionData({
     area: ProductArea.GLOBAL,
-    permissionsSet
+    permissionsSet,
+    hasAnalyzeAccess
   });
 
   if (!shouldRenderContent) return null;

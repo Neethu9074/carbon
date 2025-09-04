@@ -35,6 +35,7 @@ import useAction from 'in-automation/ActionCatalog/useAction';
 import { saveAction, saveNewAction } from 'in-automation/api';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import SectionLine from 'in-settings/components/SectionLine';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
@@ -61,6 +62,7 @@ export default function CreateNewActionTearsheet({
   open = false,
   closeHandler
 }: CreateNewActionTearsheetProps) {
+  const [role] = useCurrentUserRole();
   const { isCopy, id, isNew } = useActionDetailsUrlParams({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
@@ -134,7 +136,7 @@ export default function CreateNewActionTearsheet({
           pageRootName: pageNames.automation_action_create
         }}
       />
-      <isNotEditableContext.Provider value={action.data ? isNotEditable(action.data, isCopy) : false}>
+      <isNotEditableContext.Provider value={action.data ? isNotEditable(action.data, isCopy, role) : false}>
         {
           // @ts-expect-error
           <Tearsheet
@@ -335,10 +337,11 @@ interface ActionDetailsProps {
 }
 
 function ActionDetails({ action, actionFilter, form, setForm, copy, actionId }: ActionDetailsProps) {
+  const [role] = useCurrentUserRole();
   const { isCopy } = useActionDetailsUrlParams({ copy, actionId });
 
   return (
-    <isNotEditableContext.Provider value={action ? isNotEditable(action, isCopy) : false}>
+    <isNotEditableContext.Provider value={action ? isNotEditable(action, isCopy, role) : false}>
       <ActionFormContext.Provider
         value={{
           form,

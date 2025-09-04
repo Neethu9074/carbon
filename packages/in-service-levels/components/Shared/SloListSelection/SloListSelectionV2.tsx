@@ -40,9 +40,12 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import FilterFlyout from 'in-service-levels/components/Shared/Table/FilterFlyout';
 import TagFilters from 'in-service-levels/components/Shared/Table/TagFilters';
 import useDebouncedSearch from 'in-service-levels/hooks/useDebouncedSearch';
+import { getSloEntityTypes } from 'in-service-levels/utils/sloConfig';
+import { syntheticsAccessPermissions } from 'in-stores/permission';
 import type { SelectSloListItem } from 'in-service-levels/types';
-import { sloEntityTypes } from 'in-service-levels/constants';
+import { syntheticsEnabled } from 'in-services/featureFlags';
 import { isFieldValid } from 'in-service-levels/utils/form';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 import locals from './SloListSelectionV2.mless';
@@ -95,6 +98,10 @@ export default function SloListSelection({
   setColumnFiltersFromLocalFilters,
   resetLocalFiltersToColumnFilters
 }: SloListSelectionProps) {
+  const hasSyntheticsAccess = useHasAccess({
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
   const isSloIdsFieldValid = isFieldValid(sloIdsField);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -161,7 +168,7 @@ export default function SloListSelection({
                     legendText={t('in-service-levels:sloListSelection.entityType')}
                   >
                     <RadioButton labelText={t('in-service-levels:general.all')} value={undefined} />
-                    {sloEntityTypes.map(entityType => (
+                    {getSloEntityTypes(hasSyntheticsAccess).map(entityType => (
                       <RadioButton
                         key={entityType}
                         labelText={t('in-service-levels:general.entityTypes.label', { context: entityType })}

@@ -24,8 +24,9 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SETTINGS_USER_INVITE_SUBMIT } from 'in-services/tracking/tracking';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { close } from 'in-components/DialogPresenter/store';
 import { successObservable } from 'in-services/util/result';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -61,6 +62,7 @@ export interface PendingInvite {
   groupId: string;
 }
 export default function InviteUserDialog() {
+  const [role] = useCurrentUserRole();
   const { goToPath } = useNavigation();
   const { trackCta } = useSegmentTracking();
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string }>();

@@ -61,7 +61,11 @@
         "progressBarTitle": "步骤 2：提供详细信息",
         "headline": "提供详细信息",
         "perspectiveName": "透视图名称",
-        "perspectiveDescription": "描述"
+        "perspectiveDescription": "描述",
+        "failedToLoad": "加载团队失败",
+        "selectTeams": "选择团队",
+        "teams": "团队",
+        "information": "信息"
       }
     },
     "errorMessages": {

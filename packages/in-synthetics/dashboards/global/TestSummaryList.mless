@@ -13,7 +13,7 @@
   }
 
   .dropdownWidth {
-    width: 14rem;
+    width: 20rem;
     :global .cds--list-box {
       max-block-size: 3rem !important;
       border: none;

@@ -29,13 +29,13 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import EventIcon from 'in-events/components/EventIcon';
 import { number } from 'in-services/formatters/number';
 import { EventMap, EventOrMap } from 'in-events/types';
 import { Row, Col } from 'in-components/layout/Grid';
 import { bar } from 'in-stores/metric/renderer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface Props {
@@ -45,6 +45,7 @@ interface Props {
 }
 
 export default function SyntheticEventContent({ event, snapshot, reload }: Props) {
+  const [role] = useCurrentUserRole();
   const alertConfig = useSyntheticEventAlertConfig(event);
 
   if (!alertConfig) {

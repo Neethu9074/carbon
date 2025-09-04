@@ -10,8 +10,11 @@ import { TagCatalog, TagFilter, RuleWithThreshold, LogAlertRuleUnion } from '@in
 import { Message, Stack } from '@instana/components';
 import { create } from '@instana/observables';
 
+import {
+  replaceDescriptionPlaceholdersWithMarkup,
+  replaceTitlePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/useTagBasedPayoadConfigurator';
 import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -28,7 +31,6 @@ import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogCha
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
-import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -177,7 +179,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
           <AlertChannelsViewer
             alertChannelIds={alertChannelIds}
             alertChannels={alertChannels}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityLogSaEnabled}
+            alertChannelPerSeverityEnabled
           />
         </div>
       </ExpandableLightCard>
@@ -194,6 +196,9 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
           disableTrigger
           shouldDisplayAlertLevelSection={false}
           renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig.name, alertConfig.groupBy)}
+          renderCustomDescription={() =>
+            replaceDescriptionPlaceholdersWithMarkup(alertConfig.description, alertConfig.groupBy)
+          }
         />
       </ExpandableLightCard>
 

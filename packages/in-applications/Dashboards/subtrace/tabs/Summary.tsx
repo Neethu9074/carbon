@@ -28,6 +28,11 @@ interface Props {
 export function Summary({ data }: Props) {
   const timeConfig = useTimeConfig();
   const subtraceId = data?.id;
+
+  if (!subtraceId) {
+    return null;
+  }
+
   const tagFilterExpression: TagFilter = {
     name: 'subtrace.config.id',
     operator: 'EQUALS',
@@ -93,11 +98,11 @@ export function Summary({ data }: Props) {
             ...cardConfig,
             metricConfiguration: {
               ...cardConfig.metricConfiguration,
-              metric: 'subtraceDuration',
+              metric: 'latency',
               aggregation: 'MEAN'
             },
             companionMetricConfiguration: {
-              metric: 'subtraceDuration',
+              metric: 'latency',
               aggregation: 'P90',
               source: 'SUBTRACE',
               queryPrecision: 'FULL',

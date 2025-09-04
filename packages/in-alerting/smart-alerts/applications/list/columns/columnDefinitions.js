@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Stack, SvgIcon, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
@@ -20,12 +21,12 @@ import TableNameColumnCell from 'in-alerting/smart-alerts/components/table/Table
 import { getSubtitle } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
+import SeverityColumn from 'in-alerting/smart-alerts/components/list/columns/SeverityColumn';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { isCategoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
@@ -180,7 +181,7 @@ function getApplicationLabelObservable([id]) {
   return getApplication({ id }).map(result => result.data?.label);
 }
 
-export function createTableColumnDefinition(configsCategory, trackCta, useSmartAlertCreateUrl, urlParams) {
+export function createTableColumnDefinition(configsCategory, trackCta, useSmartAlertCreateUrl, urlParams, role) {
   const isGlobalSmartAlertConfig = isCategoryGlobal(configsCategory);
   const showActionButtons = isGlobalSmartAlertConfig
     ? role.canConfigureGlobalApplicationSmartAlerts
@@ -201,6 +202,19 @@ export function createTableColumnDefinition(configsCategory, trackCta, useSmartA
         isCategoryGlobal={isGlobalSmartAlertConfig}
       />
     )
+  };
+
+  const severityColumn = {
+    id: 'severity',
+    label: t('in-alerting:smartAlerts.list.columns.severity'),
+    sortable: true,
+    ellipsis: '10vw',
+    getContent: config => {
+      const { rules } = config;
+      const warningThreshold = rules?.[0].thresholds?.WARNING;
+      const criticalThreshold = rules?.[0].thresholds?.CRITICAL;
+      return <SeverityColumn warningThreshold={warningThreshold} criticalThreshold={criticalThreshold} />;
+    }
   };
 
   const triggeringAction = {
@@ -235,5 +249,5 @@ export function createTableColumnDefinition(configsCategory, trackCta, useSmartA
       );
     }
   };
-  return [nameColumn, triggeringAction, actionHandler];
+  return [nameColumn, triggeringAction, severityColumn, actionHandler];
 }

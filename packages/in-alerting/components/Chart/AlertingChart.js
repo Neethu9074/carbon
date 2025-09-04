@@ -562,7 +562,7 @@ export function getRendererBasedOnThresholdTypeForMultiThreshold(
   timeConfig,
   displayPredictions = false
 ) {
-  const definedThresholdType = warningThreshold?.type ? warningThreshold.type : criticalThreshold.type;
+  const definedThresholdType = warningThreshold?.type ?? criticalThreshold?.type;
   switch (definedThresholdType) {
     case STATIC_THRESHOLD: {
       return createLineWithMultiStaticThreshold(

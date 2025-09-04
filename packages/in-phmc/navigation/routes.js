@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import SharedProcessorPoolDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/SharedProcessorPool/SharedProcessorPoolDashboard';
-import SystemDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Systems/SystemDashboard';
-import PhmcDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Phmc/PhmcDashboard';
-import ViosDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Vios/ViosDashboard';
-import LparDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Lpar/LparDashboard';
-import PhmcMainView from 'promise-loader?global,phmc!in-phmc/PhmcMainView';
+const SharedProcessorPoolDashboard = () =>
+  import(/* webpackChunkName: "phmc" */ 'in-phmc/Dashboards/SharedProcessorPool/SharedProcessorPoolDashboard');
+const SystemDashboard = () => import(/* webpackChunkName: "phmc" */ 'in-phmc/Dashboards/Systems/SystemDashboard');
+const PhmcDashboard = () => import(/* webpackChunkName: "phmc" */ 'in-phmc/Dashboards/Phmc/PhmcDashboard');
+const ViosDashboard = () => import(/* webpackChunkName: "phmc" */ 'in-phmc/Dashboards/Vios/ViosDashboard');
+const LparDashboard = () => import(/* webpackChunkName: "phmc" */ 'in-phmc/Dashboards/Lpar/LparDashboard');
+const PhmcMainView = () => import(/* webpackChunkName: "phmc" */ 'in-phmc/PhmcMainView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

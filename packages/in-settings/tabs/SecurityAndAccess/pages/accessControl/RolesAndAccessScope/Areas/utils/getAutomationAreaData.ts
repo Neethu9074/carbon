@@ -13,7 +13,7 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
-import { hasAutomationAccess, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
+import { LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 type ProductAreaWithAutomationData = Extract<ProductAreaType, 'AUTOMATION'>;
@@ -30,20 +30,21 @@ interface AreaData {
   isDisabled: boolean;
 }
 
-interface getAreaDataProps {
+interface GetAreaDataProps {
   area: ProductAreaWithAutomationData;
   permissionsSet: PermissionSet;
+  hasAutomationAccess: boolean;
 }
 
-const dataMap: Record<ProductAreaWithAutomationData, dataMapItem> = {
+const getDataMap = (hasAutomationAccess: boolean): Record<ProductAreaWithAutomationData, dataMapItem> => ({
   [ProductArea.AUTOMATION]: {
     limitedAccessScope: LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
     hasAreaAccess: hasAutomationAccess
   }
-};
+});
 
-export const getAutomationAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaData => {
-  const areaItemData = dataMap[area];
+export const getAutomationAreaData = ({ area, permissionsSet, hasAutomationAccess }: GetAreaDataProps): AreaData => {
+  const areaItemData = getDataMap(hasAutomationAccess)[area];
 
   const areaAccessScope = getScopeFromProductArea(area, permissionsSet);
   const isDisabled = areaAccessScope === ScopedPermissionItem.NO_ACCESS;

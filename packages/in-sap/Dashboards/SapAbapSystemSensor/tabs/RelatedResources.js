@@ -120,7 +120,15 @@ export default function RelatedResources(props) {
   return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} hostId={systemSnapshotId} />;
 }
 
-function getTableData({ page = 0, pageSize = 20, orderBy = 'label', orderDirection = 'ASC', timeConfig, hostId }) {
+function getTableData({
+  query = '',
+  page = 0,
+  pageSize = 20,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  hostId
+}) {
   return getRelatedResources({
     pagination: {
       page,
@@ -131,6 +139,7 @@ function getTableData({ page = 0, pageSize = 20, orderBy = 'label', orderDirecti
       direction: orderDirection
     },
     filter: {
+      label: query,
       hostId,
       timeConfig
     }

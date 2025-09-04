@@ -30,35 +30,30 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { eventsPath } from 'in-events/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 export default function Alerts({ isLogsDashboardHeader = false, isEventsView = false }) {
+  const [role] = useCurrentUserRole();
   const handlers = role?.canConfigureGlobalLogSmartAlerts ? actionHandlers : {};
 
   const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
 
   const List = (
     <AlertBaseList<LogSmartAlertConfigWithMetadata>
-      extraColumnDefinitions={getColumnDefinitions()}
-      actionHandlers={handlers}
       getAlertConfigs={() => getAllAlertConfigsWithResult()}
-      getSubtitle={config => getSubtitle(config.threshold)}
       sortOptions={sortOptions}
       alertsTab={isEventsView ? eventsPath : alertsPath}
       createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, isLogsDashboardHeader)}
-      // for carbon table
       extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
       carbonActionHandlers={handlers}
       getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
-      displayCarbonTable={smartAlertCarbonTableEnabled}
-      toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
+      toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlert /> : undefined}
       noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
       noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
       useSmartAlertCreateUrl={useSmartAlertCreateUrl}

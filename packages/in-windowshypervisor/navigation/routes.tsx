@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import WindowsHypervisorMainView from 'promise-loader?global,windowshypervisor!in-windowshypervisor/WindowsHypervisorMainView';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import HostDashboard from 'promise-loader?global,windowshypervisor!in-windowshypervisor/Dashboards/Host/HostDashboard';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import VMDashboard from 'promise-loader?global,windowshypervisor!in-windowshypervisor/Dashboards/VM/VMDashboard';
+const WindowsHypervisorMainView = () =>
+  import(/* webpackChunkName: "windowshypervisor" */ 'in-windowshypervisor/WindowsHypervisorMainView');
+const HostDashboard = () =>
+  import(/* webpackChunkName: "windowshypervisor" */ 'in-windowshypervisor/Dashboards/Host/HostDashboard');
+const VMDashboard = () =>
+  import(/* webpackChunkName: "windowshypervisor" */ 'in-windowshypervisor/Dashboards/VM/VMDashboard');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

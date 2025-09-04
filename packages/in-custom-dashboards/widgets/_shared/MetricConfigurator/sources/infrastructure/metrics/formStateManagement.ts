@@ -31,11 +31,7 @@ export function formCallbacks({ onChange, metricDefaultFormatter }: BindProps) {
   return {
     onMetricChange({ metric, levelType, allowedCrossSeriesAggregations, label, parentLabels }: Node) {
       onChange([], form => {
-        const aggregation = parseAggregation(
-          form.getIn(['aggregation']).value,
-          form.getIn(['crossSeriesAggregation']).value,
-          allowedCrossSeriesAggregations
-        );
+        const aggregation = parseAggregation(form.getIn(['aggregation']).value, 'MEAN', allowedCrossSeriesAggregations);
         let f = form
           .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
           .updateIn(['type'], field => field.setValue(levelType).setTouched(true))

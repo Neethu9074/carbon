@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import { useEffect } from 'react';
 import React from 'react';
 
 import { Select } from '@instana/components';
@@ -134,6 +135,14 @@ function Content({
   const isCrossSeriesSumAggregationToggleEnabled = isCrossSeriesSumToggleEnabled(aggregation);
   const allowedCrossSeriesAggregations = metric.get('allowedCrossSeriesAggregations').value;
   const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations?.length === 1;
+  const isEntityCountMetric = metric.get('metric')?.value === '__entity_count';
+
+  useEffect(() => {
+    if (isEntityCountMetric && metric.get('crossSeriesAggregation')?.value !== 'SUM') {
+      onChange([i, 'crossSeriesAggregation'], field => field.setValue('SUM').setTouched(true));
+    }
+  }, [isEntityCountMetric, i, metric, onChange]);
+
   return (
     <>
       <Col xs={4}>
@@ -194,6 +203,7 @@ function Content({
               <span
                 id={`metric-configuration-cross-series-aggregation-${i}`}
                 onClick={() => {
+                  if (isEntityCountMetric) return;
                   if (!isCrossSeriesSumAggregationToggleEnabled) return;
                   onChange([i, 'crossSeriesAggregation'], field =>
                     field.setValue(isSumCrossSeriesAggregation ? undefined : 'SUM').setTouched(true)

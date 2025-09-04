@@ -28,13 +28,17 @@ interface LogMessageProps {
   setIsHovered?: React.Dispatch<React.SetStateAction<boolean>>;
   getHrefWithAdditionalTagFilter?: GetHrefWithAdditionalTagFilter;
   getHrefToGroupedView?: GetHrefToGroupedView;
+  triggeConsoleNavigation?: () => void;
+  isConsoleView?: boolean;
 }
 
 export default function LogMessage({
   tags,
   message,
   getHrefWithAdditionalTagFilter,
-  getHrefToGroupedView
+  getHrefToGroupedView,
+  triggeConsoleNavigation,
+  isConsoleView
 }: LogMessageProps) {
   return useMemo(() => {
     const JSONString = getPrettifiedJSON(message);
@@ -50,7 +54,16 @@ export default function LogMessage({
     return (
       <>
         {fillWithParams(toChunks(message, ['{}']), paramTags).map(({ type, value }, i) =>
-          type === MESSAGE_CHUNK ? <MessageTag key={i} message={value} /> : <ParamTag key={i} tag={value as LogTag} />
+          type === MESSAGE_CHUNK ? (
+            <MessageTag key={i} message={value} />
+          ) : (
+            <ParamTag
+              key={i}
+              tag={value as LogTag}
+              triggeConsoleNavigation={triggeConsoleNavigation}
+              isConsoleView={isConsoleView}
+            />
+          )
         )}
       </>
     );
@@ -79,9 +92,11 @@ function MessageTag({ message, setIsHovered }: MessageTagProps) {
 
 interface ParamTagProps {
   tag: LogTag;
+  isConsoleView?: boolean;
+  triggeConsoleNavigation?: () => void;
 }
 
-function ParamTag({ tag }: ParamTagProps) {
+function ParamTag({ tag, isConsoleView, triggeConsoleNavigation }: ParamTagProps) {
   const value = String((tag.stringValue ?? tag.doubleValue ?? tag.booleanValue ?? tag.longValue) || '');
   const { trackCta } = useSegmentTracking();
   const { getHrefWithAdditionalTagFilter, getHrefToGroupedView } = useParamTagLinks();
@@ -119,12 +134,12 @@ function ParamTag({ tag }: ParamTagProps) {
         {({ toggle, refSetter, isOpen }) => (
           <span
             className={classNames({
-              [locals.parameterClickable]: true,
+              [locals.parameterClickable]: !isConsoleView,
               [locals.parameterOpen]: isOpen
             })}
             onClick={event => {
               event.stopPropagation();
-              toggle();
+              !isConsoleView ? toggle() : triggeConsoleNavigation?.();
             }}
             ref={refSetter as React.MutableRefObject<HTMLSpanElement>}
           >

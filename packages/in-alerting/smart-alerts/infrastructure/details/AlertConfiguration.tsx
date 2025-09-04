@@ -10,23 +10,23 @@ import { isEmpty } from 'lodash';
 import { InfraAlertRuleUnion, Order, TagCatalog, TagFilter, RuleWithThreshold } from '@instana/types';
 import { Stack } from '@instana/components';
 
+import {
+  replaceDescriptionPlaceholdersWithMarkup,
+  replaceTitlePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import {
   getQueryBuilder,
   getGroupByQueryBuilder
 } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
-import {
-  getMetrics,
-  Tags
-} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
+import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import SelectedMetricGroupProvider from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import ForecastAlertingDescription from 'in-alerting/smart-alerts/infrastructure/details/ForecastAlertingDescription';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
-import { alertChannelPerSeverityInfraSaEnabled, incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/utils/titlePlaceholders';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
@@ -46,6 +46,7 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
+import { incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
@@ -71,6 +72,7 @@ const initialChartConfigIndex = 0;
 export default function AlertConfiguration({ alertConfig }: { alertConfig: InfraSmartAlertConfigWithMetadata }) {
   const {
     name,
+    description,
     timeThreshold,
     granularity,
     gracePeriod,
@@ -115,156 +117,153 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const groupingFilter = groupBy && toUIGrouping(groupBy);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator({ metricName, regex, entityType });
-  const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags | null>(null);
 
   return (
     <AlertDetailsCard>
-      <ListTitle>{t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfiguration')}</ListTitle>
-      <ExpandableLightCard
-        title={t('in-alerting:smartAlerts.details.header')}
-        useMaxAvailableHeight={false}
-        openByDefault
-        darkFrame
-      >
-        <AlertThresholdInfos
-          thresholdOperator={thresholdOperator}
-          thresholdsMap={thresholdsMap}
-          rule={{ metricName, entityType } as InfraAlertRuleUnion}
-          metricLabel={metricLabel}
-          evaluationType={evaluationType}
-        />
-      </ExpandableLightCard>
-
-      <ChartViewConfigurator
-        chartViewConfigs={chartViewConfigs}
-        onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTrigger')}
-        doNotSetDefaultHeight
-        framed
-      >
-        {chartViewConfig => (
-          <>
-            <h1 className={locals.title}>{t('in-events:titleMetrics')}</h1>
-            <InfraMetricChart
-              alertConfig={alertConfig}
-              timeConfig={chartViewConfig.timeConfig}
-              groupBy={groupBy}
-              entityType={entityType}
-              metricName={metricName}
-              metricLabel={metricLabel}
-              selectedMetricGroup={selectedMetricGroup}
-            />
-            {evaluationType === 'CUSTOM' && groupBy.length > 0 && (
-              <InfraMetricGroup
-                backendQueryModel={tagFilterExpression}
-                backendGroupBy={groupBy}
-                order={order as Order}
-                type={entityType}
-                metrics={metrics}
-                groupBy={groupBy}
-                timeConfig={{
-                  ...chartViewConfig.timeConfig,
-                  to: timeConfig.to,
-                  focusedMoment: timeConfig.focusedMoment
-                }}
-                metricMetadatas={metricMetadatas}
-                tagCatalog={tagCatalog}
-                setSelectedMetricGroup={setSelectedMetricGroup}
-                selectedMetricGroup={selectedMetricGroup}
-              />
-            )}
-            {isPerEntityEvaluation && !isEmpty(entityType) && !isEmpty(metricName) && (
-              <InfraEntityList
-                backendQueryModel={tagFilterExpression}
-                order={order as Order}
-                timeConfig={{
-                  ...chartViewConfig.timeConfig,
-                  to: timeConfig.to,
-                  focusedMoment: timeConfig.focusedMoment
-                }}
-                metricMetadatas={metricMetadatas}
-                aggregation={aggregation}
-                crossSeriesAggregation={crossSeriesAggregation}
-                entityType={entityType}
-                regex={regex}
-                metricName={metricName}
-                setSelectedMetricGroup={setSelectedMetricGroup}
-                selectedMetricGroup={selectedMetricGroup}
-              />
-            )}
-          </>
-        )}
-      </ChartViewConfigurator>
-
-      <ExpandableLightCard
-        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleScope')}
-        useMaxAvailableHeight={false}
-        openByDefault
-        bodyWithoutPadding
-        darkFrame
-      >
-        <div className={locals.paddingBodyWrapper}>
-          <Stack gap="xsmall">
-            <ScopeConfigPresenter
-              tagFilterFormModel={tagFilterFormModel}
-              queryBuilder={
-                (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
-              }
-              scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
-            />
-
-            <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupingFilter as TagFilter[]} />
-          </Stack>
-        </div>
-      </ExpandableLightCard>
-      <ExpandableLightCard
-        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTimeThreshold')}
-        useMaxAvailableHeight={false}
-        openByDefault
-        darkFrame
-      >
-        <Stack gap="large">
-          <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-          <GracePeriodDescription gracePeriod={gracePeriod} granularity={granularity} />
-          <ForecastAlertingDescription forecastingConfig={forecastingConfig} />
-        </Stack>
-      </ExpandableLightCard>
-      <ExpandableLightCard
-        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertChannels')}
-        useMaxAvailableHeight={false}
-        bodyWithoutPadding
-        openByDefault
-        darkFrame
-      >
-        <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer
-            alertChannelIds={alertChannelIds}
-            alertChannels={alertChannels}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
+      <SelectedMetricGroupProvider>
+        <ListTitle>{t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfiguration')}</ListTitle>
+        <ExpandableLightCard
+          title={t('in-alerting:smartAlerts.details.header')}
+          useMaxAvailableHeight={false}
+          openByDefault
+          darkFrame
+        >
+          <AlertThresholdInfos
+            thresholdOperator={thresholdOperator}
+            thresholdsMap={thresholdsMap}
+            rule={{ metricName, entityType } as InfraAlertRuleUnion}
+            metricLabel={metricLabel}
+            evaluationType={evaluationType}
           />
-        </div>
-      </ExpandableLightCard>
-      <ExpandableLightCard
-        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertProperties')}
-        useMaxAvailableHeight={false}
-        bodyWithoutPadding
-        openByDefault
-        darkFrame
-      >
-        <AlertPropertyInfos
-          alertConfig={alertConfig}
-          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(name, groupBy, evaluationType)}
-          disableTrigger={!incidentTriggeringInfraSaEnabled}
-          shouldDisplayAlertLevelSection={false}
+        </ExpandableLightCard>
+
+        <ChartViewConfigurator
+          chartViewConfigs={chartViewConfigs}
+          onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTrigger')}
+          doNotSetDefaultHeight
+          framed
+        >
+          {chartViewConfig => (
+            <>
+              <h1 className={locals.title}>{t('in-events:titleMetrics')}</h1>
+              <InfraMetricChart
+                alertConfig={alertConfig}
+                timeConfig={chartViewConfig.timeConfig}
+                groupBy={groupBy}
+                entityType={entityType}
+                metricName={metricName}
+                metricLabel={metricLabel}
+              />
+              {evaluationType === 'CUSTOM' && groupBy.length > 0 && (
+                <InfraMetricGroup
+                  backendQueryModel={tagFilterExpression}
+                  backendGroupBy={groupBy}
+                  order={order as Order}
+                  type={entityType}
+                  metrics={metrics}
+                  groupBy={groupBy}
+                  timeConfig={{
+                    ...chartViewConfig.timeConfig,
+                    to: timeConfig.to,
+                    focusedMoment: timeConfig.focusedMoment
+                  }}
+                  metricMetadatas={metricMetadatas}
+                  tagCatalog={tagCatalog}
+                />
+              )}
+              {isPerEntityEvaluation && !isEmpty(entityType) && !isEmpty(metricName) && (
+                <InfraEntityList
+                  backendQueryModel={tagFilterExpression}
+                  order={order as Order}
+                  timeConfig={{
+                    ...chartViewConfig.timeConfig,
+                    to: timeConfig.to,
+                    focusedMoment: timeConfig.focusedMoment
+                  }}
+                  metricMetadatas={metricMetadatas}
+                  aggregation={aggregation}
+                  crossSeriesAggregation={crossSeriesAggregation}
+                  entityType={entityType}
+                  regex={regex}
+                  metricName={metricName}
+                />
+              )}
+            </>
+          )}
+        </ChartViewConfigurator>
+
+        <ExpandableLightCard
+          title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleScope')}
+          useMaxAvailableHeight={false}
+          openByDefault
+          bodyWithoutPadding
+          darkFrame
+        >
+          <div className={locals.paddingBodyWrapper}>
+            <Stack gap="xsmall">
+              <ScopeConfigPresenter
+                tagFilterFormModel={tagFilterFormModel}
+                queryBuilder={
+                  (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
+                }
+                scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
+              />
+
+              <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupingFilter as TagFilter[]} />
+            </Stack>
+          </div>
+        </ExpandableLightCard>
+        <ExpandableLightCard
+          title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTimeThreshold')}
+          useMaxAvailableHeight={false}
+          openByDefault
+          darkFrame
+        >
+          <Stack gap="large">
+            <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+            <GracePeriodDescription gracePeriod={gracePeriod} granularity={granularity} />
+            <ForecastAlertingDescription forecastingConfig={forecastingConfig} />
+          </Stack>
+        </ExpandableLightCard>
+        <ExpandableLightCard
+          title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertChannels')}
+          useMaxAvailableHeight={false}
+          bodyWithoutPadding
+          openByDefault
+          darkFrame
+        >
+          <div className={locals.alertChannelsWrapper}>
+            <AlertChannelsViewer
+              alertChannelIds={alertChannelIds}
+              alertChannels={alertChannels}
+              alertChannelPerSeverityEnabled
+            />
+          </div>
+        </ExpandableLightCard>
+        <ExpandableLightCard
+          title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertProperties')}
+          useMaxAvailableHeight={false}
+          bodyWithoutPadding
+          openByDefault
+          darkFrame
+        >
+          <AlertPropertyInfos
+            alertConfig={alertConfig}
+            renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(name, groupBy, evaluationType)}
+            disableTrigger={!incidentTriggeringInfraSaEnabled}
+            shouldDisplayAlertLevelSection={false}
+            renderCustomDescription={() => replaceDescriptionPlaceholdersWithMarkup(description, groupBy, evaluationType)}
+          />
+        </ExpandableLightCard>
+        <GlobalCustomPayloadCard context="INFRA" ownerType={entityType} />
+        <CustomPayloadCard
+          customPayloadFields={customPayloadFields}
+          TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+          openByDefault
         />
-      </ExpandableLightCard>
-      <GlobalCustomPayloadCard context="INFRA" ownerType={entityType} />
-      <CustomPayloadCard
-        customPayloadFields={customPayloadFields}
-        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
-        openByDefault
-      />
+      </SelectedMetricGroupProvider>
     </AlertDetailsCard>
   );
 }

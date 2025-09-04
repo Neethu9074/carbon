@@ -42,6 +42,21 @@ export default function HaInfo({ snapshot }) {
             <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.runningNode')}>
               {data.get('runningNode')}
             </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.drRole')}>
+              {data.get('drRole')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.drStatus')}>
+              {data.get('drStatus')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.drType')}>
+              {data.get('drType')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.drPort')}>
+              {data.get('drPort')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.drRemoteIp')}>
+              {data.get('drRemoteIp')}
+            </DescriptionItem>
             {standbyNodes && (
               <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.standbyNodes')}>
                 {standbyNodes.map((item, index) => (

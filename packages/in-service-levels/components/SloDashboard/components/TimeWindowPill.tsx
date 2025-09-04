@@ -6,22 +6,21 @@
 
 import React from 'react';
 
-import { Pill, Stack, Typography } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { Tag } from '@instana/carbon';
+
+import locals from './TimeWindowPill.mless';
 
 interface TimeWindowPillProps {
   children: string;
   color?: string;
-  withDark?: boolean;
 }
-export default function TimeWindowPill({ color, children, withDark }: TimeWindowPillProps) {
+
+export default function TimeWindowPill({ color, children }: TimeWindowPillProps) {
   return (
-    <Pill color={color ?? themes.default.ids.color.option.neutral[400]}>
-      <Stack gap="xxsmall" direction="horizontal">
-        <Typography onDark={withDark} variant="body-small">
-          {children}
-        </Typography>
-      </Stack>
-    </Pill>
+    <div className={locals.tagAlign}>
+      <Tag className={locals.tagColor} style={{ backgroundColor: color }} size="sm">
+        {children}
+      </Tag>
+    </div>
   );
 }

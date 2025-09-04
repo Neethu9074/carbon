@@ -8,8 +8,8 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from '@instana/components';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import ParentProcess from 'in-forge/plugins/process/ParentProcess';
+import { supportsOpenFiles } from 'in-forge/plugins/process/util';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -38,7 +38,7 @@ export default connectTo(
         <DescriptionItem title={t('in-forge:plugins.process.job')}>{data.get('job')}</DescriptionItem>
         <ParentProcess snapshotId={snapshotId} />
 
-        {hostSnapshot && supportsOpenFiles(hostSnapshot) && openFilesMax != null && (
+        {supportsOpenFiles(hostSnapshot, data) && openFilesMax != null && (
           <DescriptionItem title={t('in-forge:plugins.process.maxOpenFiles')}>
             {zeroDecimalPlaces(openFilesMax)}
           </DescriptionItem>

@@ -5,6 +5,11 @@
 
 //@ts-expect-error needs TS migration
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
+import {
+  resourceOptimizationActionsEnabled,
+  syntheticsEnabled,
+  vulnerabilityCenterEnabled
+} from 'in-services/featureFlags';
 //@ts-expect-error needs TS migration
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 //@ts-expect-error needs TS migration
@@ -20,19 +25,29 @@ import CveVulnerabilities from 'in-applications/Dashboards/application/tabs/Vuln
 //@ts-expect-error needs TS migration
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
-import { resourceOptimizationActionsEnabled, vulnerabilityCenterEnabled } from 'in-services/featureFlags';
 //@ts-expect-error needs TS migration
 import Map from 'in-applications/Dashboards/application/tabs/Map';
 import SloDashboardList from 'in-service-levels/components/Shared/SloDashboardList/SloDashboardList';
+import { infrastructureAccessPermissions, syntheticsAccessPermissions } from 'in-stores/permission';
 import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
-import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { playwithEnabled } from 'in-services/featureFlags';
-import { role } from 'in-stores/user';
+import { hasAccess } from 'in-stores/useHasAccess';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
-const getApplicationTabs = (canConfigureApplications: boolean | null | undefined) => {
+const getApplicationTabs = (canConfigureApplications: boolean | null | undefined, role: Role) => {
+  const hasInfrastructureAccess = hasAccess({
+    grantedPermissions: role.permissions,
+    requiredPermissions: infrastructureAccessPermissions
+  });
+  const hasSyntheticsAccess = hasAccess({
+    grantedPermissions: role.permissions,
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
+
   return [
     {
       label: t('in-applications:labelSummary'),

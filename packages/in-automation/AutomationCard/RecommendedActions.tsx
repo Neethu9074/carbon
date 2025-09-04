@@ -16,6 +16,7 @@ import {
   scoredActionAiEngineColumn,
   scoredActionScoreColumn
 } from 'in-automation/ActionTable/columnDefinitions';
+import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -31,6 +32,7 @@ import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useRe
 import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import { ACTION_TYPE, EXECUTABLE_ACTIONS, ScoredActionsType } from 'in-automation/constants';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
+import { base64ToUtf8, getManualContentFromFields } from 'in-automation/utils/actionField';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
@@ -49,6 +51,7 @@ import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import EmptyState from 'in-automation/AutomationCard/EmptyState';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { isManual } from 'in-automation/utils/policy';
@@ -56,7 +59,6 @@ import { isLoading } from 'in-services/util/result';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { deletePolicy } from 'in-automation/api';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/RecommendedActions.mless';
@@ -153,7 +155,8 @@ export function RecActionsMoreMenu({
   trigger: Result<TriggerSpecification>;
   togglePolicyTearsheet?: Function;
 }) {
-  const { runActionTrackerSegment } = useSegmentTracker();
+  const [role] = useCurrentUserRole();
+  const { runActionTrackerSegment, generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const { entityId } = event;
   const agentSnapShots = useTurboAgentSnapShots();
   const hrefToActionDashboard = useHrefToActionDashboard();
@@ -161,6 +164,14 @@ export function RecActionsMoreMenu({
   const agents = agentSnapShots?.data?.online ?? [];
   const entityType = scoredAction.entity as Action;
   const policy = scoredAction.entity as Policy;
+  let manualContent = '';
+
+  if (entityType && entityType.type === ACTION_TYPE.MANUAL) {
+    const content = getManualContentFromFields(entityType.fields);
+    if (content.encoding === 'base64') {
+      manualContent = base64ToUtf8(content.value);
+    }
+  }
   if (scoredAction.aiEngine !== 'POLICY' && entityType !== undefined && entityType.type === ACTION_TYPE.EXTERNAL) {
     const isManualExternal = entityType.metadata?.ai;
 
@@ -341,6 +352,30 @@ export function RecActionsMoreMenu({
             </MoreMenuButton>
           )}
 
+          {type === ACTION_TYPE.MANUAL && actionAiGenerationEnabled && (
+            <MoreMenuButton
+              icon="lib_launch_ai"
+              onClick={() => {
+                generateAIButtonClickTrackerSegment({
+                  type: 'script',
+                  location: 'event',
+                  actionName: entityType.name,
+                  actionId: entityType?.id
+                });
+                addActiveDialog(
+                  <GenerateAIScriptActionDialog
+                    manualContent={manualContent}
+                    actionName={entityType.name}
+                    forRecommededAction
+                    eventName={event?.problem?.problemText ?? ''}
+                  />
+                );
+              }}
+            >
+              {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+            </MoreMenuButton>
+          )}
+
           <MoreMenuButton
             icon="lib_views_show"
             requireTitle
@@ -388,13 +423,15 @@ function GenerateAIActionButton({
   trigger,
   ootbRecommendedActions,
   selectedDescription,
-  selectedEntityType
+  selectedEntityType,
+  summaryType
 }: {
   event: Event;
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
   selectedDescription?: string | null;
   selectedEntityType?: string | null;
+  summaryType: string;
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
@@ -414,6 +451,7 @@ function GenerateAIActionButton({
             ootbRecommendedActions={ootbRecommendedActions}
             selectedDescription={selectedDescription}
             selectedEntityType={selectedEntityType}
+            summaryType={summaryType}
           />
         );
       }}
@@ -483,6 +521,7 @@ interface RecommendedActionsProps {
   setSelectedEntityType?: (a: string | null) => void;
   selectedDescription?: string | null;
   selectedEntityType?: string | null;
+  summaryType?: string;
 }
 
 export default function RecommendedActions({
@@ -492,8 +531,10 @@ export default function RecommendedActions({
   trigger,
   ootbRecommendedActions,
   selectedDescription,
-  selectedEntityType
+  selectedEntityType,
+  summaryType = 'event'
 }: RecommendedActionsProps) {
+  const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -580,6 +621,7 @@ export default function RecommendedActions({
                 ootbRecommendedActions={ootbRecommendedActions}
                 selectedDescription={selectedDescription}
                 selectedEntityType={selectedEntityType}
+                summaryType={summaryType}
               />
             )}
 
@@ -591,7 +633,7 @@ export default function RecommendedActions({
             <Spacer horizontal="small" />
           </Stack>
         }
-        searchPlaceholder={t('in-automation:searchActions')}
+        searchPlaceholder={t('in-automation:searchActionsAndPolicies')}
       />
       <CreateNewPolicyTearsheet
         {...policyTearsheetProps}

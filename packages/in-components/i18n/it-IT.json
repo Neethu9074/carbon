@@ -122,6 +122,8 @@
     "formStateLabel": "Stato"
   },
   "searchBar": {
+    "searchInput": "Input di ricerca",
+    "searchBar": "Barra di ricerca",
     "usingTheSearchBar": "La funzionalità di ricerca Instana Dynamic Focus può essere utilizzata per filtrare le mappe 3D, le tabelle di confronto e le viste degli incidenti. La barra di ricerca ha ampie capacità di ricerca utilizzando ricerche fuzzy e jolly oltre a operatori booleani. Ad esempio, la seguente\nquery restringe le viste agli host di produzione con meno di quattro CPU:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Sintassi\nDynamic Focus utilizza efficacemente la [sintassi della query lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) con le seguenti differenze dallo standard Lucene:\n- **Operatore predefinito:** `AND`\n- **Vincoli di sintassi:** sono elencati nella [documentazione](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interazione della barra di ricerca\nLa barra di ricerca supporta il completamento automatico dei campi di ricerca e metterà in evidenza la sintassi della query lucene durante la digitazione.\nDurante la digitazione, la barra di ricerca proporrà i campi di ricerca che corrispondono all'input corrente. È possibile accettare i campi proposti premendo `INVIO`. Premere `CTRL+SPAZIO` per aprire la finestra a comparsa di completamento automatico.\n## Foglio di riepilogo della sintassi della query lucene\n - **Ricerca a campi:** `entity.host.cpu.count:>4`\n - **Operatori booleani:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Raggruppamento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Ricerche con caratteri jolly:** `entity.type:container*`\n\nPer ulteriori informazioni, fare riferimento alla [documentazione](https://ibm.biz/filtering-dynamic-focus).",
     "filtersBtn": "Filtri",
     "filterPresetsMenuHeading": "Filtri",
@@ -296,18 +298,14 @@
     "columnizedContentUserInterface": "Interfaccia utente",
     "columnizedContentBackend": "Backend",
     "labelRegion": "Regione",
-    "labelTag": "Tag",
+    "labelTag": "Versione",
     "labelCommit": "Esegui il commit",
-    "geo": {
-      "title": "Dati Geo"
-    },
     "ibm": "IBM",
     "copyRights": "Copyright © IBM Corp. 2020, 2023",
     "instana": "Instana",
     "close": "Chiudi",
     "maxMindDescription": "Questi dati includono i dati di GeoLite2 creati da",
     "maxMind": "MaxMind.",
-    "dynamicGraphDescription": "Vedere una visualizzazione dell'ambiente in uso nella vetrina",
     "dynamicGraph": "Grafica dinamica."
   },
   "blueprintFormMultistep": {
@@ -403,12 +401,10 @@
     "eventType_issue_0": "problemi",
     "eventType_issue_1": "problema",
     "eventType_issue_2": "problemi",
-    "openIssuesListPresenterActionsViewIssues": "Visualizza {{eventType}}",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "Visualizza {{openIssueCount}} {{eventType}}",
+    "viewOpenIssues": "Visualizza i problemi aperti",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Caricamento del {{eventType}} aperto…",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Impossibile caricare il {{eventType}} aperto",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} {{eventType}} aperti",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(visualizzazione dei {{maxIssuesToShow}} più gravi)",
     "openIssuesListPresenterIssueDescriptionOmitted": "Descrizione del problema omessa. Ulteriori dettagli sono visibili all'interno della vista dettagli dell'evento.",
     "openIssuesListPresenterStarted": "Avviato",
     "noIssues": "Nessun problema",
@@ -433,9 +429,9 @@
     "eventType_issue_1": "vulnerabilità",
     "eventType_issue_2": "vulnerabilità",
     "openIssuesListPresenterActionsViewIssues": "Visualizza vulnerabilità",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "Visualizza {{openIssueCount}} vulnerabilità",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Caricamento delle vulnerabilità aperte...",
-    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Caricamento delle vulnerabilità aperte non riuscito",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Impossibile caricare le vulnerabilità aperte",
+    "viewOpenIssues": "Visualizza vulnerabilità",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} vulnerabilità aperte",
     "noVulnerabilities": "Nessuna vulnerabilità",
     "openVulnerabilities": "{{count}} vulnerabilità",
@@ -809,6 +805,7 @@
     }
   },
   "copyToClipboardButtonCopy": "Copia",
+  "tooltipCopyToClipboard": "Copia negli appunti",
   "withEmptyStateFallbackTitleNoDataAvailable": "Nessun dato disponibile",
   "queryBuilder": {
     "components": {

@@ -43,6 +43,7 @@ export function getErrorMessage(queryError: boolean) {
   return;
 }
 
+// TODO: Callers should reference packages/in-alerting/smart-alerts/components/utils/formUtils.ts instead.
 export default function toAlertConfigWithRules<T>(form: MapForm<any>): EumAlertConfigWithRules<T> {
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const ruleWithThreshold = getRuleWithThreshold(form);

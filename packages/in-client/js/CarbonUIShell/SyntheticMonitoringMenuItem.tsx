@@ -10,10 +10,16 @@ import { MenuItem } from '@instana/components';
 
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { hasSyntheticsAccess } from 'in-stores/permission';
+import { syntheticsAccessPermissions } from 'in-stores/permission';
+import { syntheticsEnabled } from 'in-services/featureFlags';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export default function SyntheticMonitoringMenuItem() {
+  const hasSyntheticsAccess = useHasAccess({
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
   const { matchLocation, createHrefToPath } = useNavigation();
 
   if (!hasSyntheticsAccess) return null;

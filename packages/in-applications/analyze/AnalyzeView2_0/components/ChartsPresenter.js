@@ -117,7 +117,7 @@ export function ChartsPresenter(props) {
               metric: metricId,
               aggregation: aggregationId
             }),
-          onChartRemoved: trackUa2ChartRemoved(emptyObject)
+          onChartRemoved: () => trackUa2ChartRemoved(emptyObject)
         }}
         CustomChartFactory={({ metricConfig, chartProps }) => {
           if (isLatencyDistributionChart(metricConfig)) {

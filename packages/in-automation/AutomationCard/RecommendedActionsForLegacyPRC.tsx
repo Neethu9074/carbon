@@ -54,6 +54,7 @@ import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import EmptyState from 'in-automation/AutomationCard/EmptyState';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { isManual } from 'in-automation/utils/policy';
@@ -62,7 +63,6 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { deletePolicy } from 'in-automation/api';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/RecommendedActions.mless';
@@ -159,6 +159,7 @@ function RecActionsMoreMenu({
   trigger: Result<TriggerSpecification>;
   togglePolicyTearsheet?: Function;
 }) {
+  const [role] = useCurrentUserRole();
   const { runActionTrackerSegment } = useSegmentTracker();
   const { entityId } = event;
   const agentSnapShots = useTurboAgentSnapShots();
@@ -420,6 +421,7 @@ function GenerateAIActionButton({
             ootbRecommendedActions={ootbRecommendedActions}
             selectedDescription={selectedDescription}
             selectedEntityType={selectedEntityType}
+            summaryType="event"
           />
         );
       }}
@@ -506,6 +508,7 @@ export default function RecommendedActionsForLegacyPRC({
   selectedDescription,
   selectedEntityType
 }: RecommendedActionsProps) {
+  const [role] = useCurrentUserRole();
   const globalTimeConfig = useTimeConfig();
   const [selectedRCA, setSelectedRCA] = useState<string>('triggeringEvent');
 

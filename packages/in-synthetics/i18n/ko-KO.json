@@ -4,41 +4,15 @@
     "createTest": {
       "buttonLabel": "합성 테스트 추가",
       "dialogTitle": "합성 테스트 작성",
-      "noLocationFound": "죄송합니다! 위치를 발견할 수 없음",
       "noApplicationsFound": "발견된 애플리케이션이 없음",
       "noMatchingFound": "일치하는 애플리케이션이 없습니다.",
-      "titles": {
-        "step1": "단계 1: 유형 선택",
-        "step2": "단계 2: 세부사항 요청",
-        "step3": "단계 3: 스케줄링",
-        "step4": "4단계: 세부사항 제공",
-        "step5": "Step5: 연관"
-      },
-      "selectTest": {
-        "title": "작성하려는 합성 테스트 종류"
-      },
-      "scheduling": {
-        "title": "스케줄링"
-      },
       "requestStep": {
-        "title": "요청 지정",
-        "subTitle": "엔드포인트",
-        "labelOperation": "HTTP 메소드(HTTP method)",
         "labelUrl": "URL",
-        "popSubTitle": "인식 위치",
-        "uploadScriptTitle": "스크립트 업로드",
         "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}",
         "unsupportedFileFormat": "{{extension}} 파일은 지원되지 않습니다.",
-        "emptyScriptFileError": "코드가 비어 있습니다. 유효성을 검증할 항목이 없습니다.",
-        "enterTheScriptMessage": "여기에 스크립트 입력",
-        "privatePoPLabel": "개인용",
-        "managedPoPLabel": "관리형"
+        "emptyScriptFileError": "코드가 비어 있습니다. 유효성을 검증할 항목이 없습니다."
       },
       "basicDetails": {
-        "title": "이 API 단순(HTTP 조치) 테스트의 이름",
-        "scriptTitle": "이 API 스크립트(HTTP 스크립트) 테스트의 이름",
-        "webpageActionTitle": "이 브라우저 단순(웹 페이지 조치) 테스트의 이름은 무엇입니까?",
-        "browserScriptTitle": "이 브라우저 스크립트 테스트의 이름은 무엇입니까?",
         "labelName": "테스트 이름",
         "labelDescription": "설명(선택사항)",
         "labelFrequency": "빈도(분)",
@@ -49,56 +23,23 @@
       "bluePrint": {
         "title": "사용 시기",
         "apiSimple": {
-          "name": "API 단순",
-          "headline": "API 단순(HTTP 조치)",
           "whenToUse": {
             "line1": "단일 REST API를 테스트하려면 API 단순(HTTP 조치) 테스트 사용"
-          },
-          "tipsForUsing": {
-            "title": "사용 팁",
-            "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
-            "line2": "2단계: 테스트할 웹 페이지의 HTTP 메소드 및 URL을 입력하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
-            "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
-            "line4": "4단계: 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
         },
         "apiScript": {
-          "name": "API 스크립트",
-          "headline": "API 스크립트(HTTP 스크립트)",
           "whenToUse": {
             "line1": "API 스크립트(HTTP 스크립트) 테스트 및 Node.js 기반 스크립트를 사용하여 다중 Rest API 시퀀스 테스트"
-          },
-          "tipsForUsing": {
-            "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
-            "line2": "2단계: 스크립트 업로드 옵션을 사용하여 node.js 테스트 스크립트 파일을 업로드하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
-            "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
-            "line4": "4단계: 테스트 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
         },
         "browserSimple": {
-          "name": "브라우저 단순",
-          "headline": "브라우저 단순(웹 페이지 조치)",
           "whenToUse": {
             "line1": "단일 웹페이지의 HTTP 오류를 테스트하려면 브라우저 단순 테스트를 사용하십시오."
-          },
-          "tipsForUsing": {
-            "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
-            "line2": "2단계: 테스트할 웹 페이지의 URL을 입력하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
-            "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
-            "line4": "4단계: 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
         },
         "browserScript": {
-          "name": "브라우저 스크립트",
-          "headline": "브라우저 스크립트",
           "whenToUse": {
             "line1": "JavaScript 또는 Selenium IDE 스크립트를 사용하여 웹 애플리케이션과의 사용자 상호작용을 시뮬레이션하려면 브라우저 스크립트 테스트를 사용하십시오."
-          },
-          "tipsForUsing": {
-            "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
-            "line2": "2단계: 스크립트 업로드 옵션을 사용하여 JavaScript 또는 Selenium IDE 스크립트 파일을 업로드하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
-            "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
-            "line4": "4단계: 테스트 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
         },
         "certificateCheck": {
@@ -124,7 +65,6 @@
         "invalidHost": "호스트 형식이 유효하지 않음"
       },
       "advancedMode": {
-        "switchModeButton": "고급 모드로 전환",
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "선택된 테스트 유형",
           "rightListLabel": "검정 유형",
@@ -155,7 +95,7 @@
         "scheduleTitle": "스케줄: 이 테스트는 어떻게 진행됩니까?",
         "identifyLabel": "식별",
         "identifyTitle": "식별: 테스트는 무엇을 하나요?",
-        "teamsCalloutMessage": "팀을 추가할 때 팀원들의 권한은 팀에서 할당된 역할에 따라 결정됩니다. 팀과 연관된 테스트는 설정의 팀 페이지에도 반영됩니다.",
+        "teamsCalloutMessage": "팀을 추가할 때, 팀 멤버의 권한은 팀에 지정된 역할에 따라 결정됩니다. 연관된 팀이 있는 {{syntheticTab}}도 설정의 팀 페이지에 반영됩니다.",
         "customPropertiesTitle": "사용자 정의 특성(선택사항)",
         "frequency": "이 테스트는 {{frequencyValue}}분마다 실행됩니다.",
         "frequencyHours": "이 테스트는 {{frequencyHours}}시간마다 실행됩니다.",
@@ -205,7 +145,6 @@
           "browserUploadFileDescription": "단일 .js 또는 .cjs 파일, 번들된 .js 또는 .cjs 파일이 포함된 .zip 파일, 또는 Selenium IDE에서 기록한 .side 스크립트 중 하나를 업로드할 수 있습니다.",
           "node22BrowserUploadFileDescription": "단일 .js, .cjs 또는 .mjs 파일, 번들 .js, .cjs 또는 .mjs 파일이 포함된 .zip 파일 또는 Selenium IDE에서 기록한 .side 스크립트 중 하나를 업로드할 수 있습니다.",
           "sideFileUploadedMessage": "Selenium 스크립트는 수정하거나 유효성 검증할 수 없습니다.",
-          "bundleFileNotSupportedMessage": "지원되지 않는 파일을 선택했습니다. 번들은 고급 모드에서만 지원됩니다.",
           "timeoutFieldLabel": "제한시간(선택사항)",
           "timeUnitsLabel": "시간 단위",
           "timeoutFieldOptionMinutes": "분 (m)",
@@ -383,9 +322,7 @@
     },
     "updateTest": {
       "dialogTitle": "{{syntheticType}} 테스트 편집",
-      "buttonSave": "저장",
-      "scriptSavedMessage": "스크립트 추가 완료",
-      "bundleSavedMessage": "번들 스크립트 추가"
+      "buttonSave": "저장"
     },
     "createLocation": {
       "newLocation": "위치 추가",
@@ -558,7 +495,7 @@
         "noMobileAppsAssociated": "연관된 모바일 앱이 없습니다.",
         "nodMobileAppAssociatedWithTest": "선택된 테스트와 연관된 모바일 앱이 없습니다."
       },
-      "testLabel": "이름",
+      "testLabel": "테스트 이름",
       "status": "상태",
       "frequencySubText": "{{count}}분마다",
       "frequencySubText_plural": "{{count}}분마다",
@@ -614,7 +551,28 @@
         "associationsSidePanelTitle": "연관 ({{totalAssociations}})",
         "associationsNameHeader": "이름",
         "associationsHealthHeader": "상태"
-      }
+      },
+      "filterPanel": {
+        "typeLabel": "유형",
+        "locationLabel": "위치",
+        "associationLabel": "연관",
+        "applicationLabel": "애플리케이션",
+        "searchPlaceholder": "분류 찾기",
+        "sortLabel": "정렬",
+        "selectAllLabel": "모두 선택({{totalEntityCount}}개)",
+        "viewAllLabel": "모두 보기({{totalEntityCount}}개)"
+      },
+      "resultsList": {
+        "statusLabel": "상태",
+        "startTimeLabel": "시작됨",
+        "responseTimeLabel": "응답 시간",
+        "retryCountLabel": "재시도 횟수",
+        "errorMessageLabel": "오류 메시지",
+        "errorHeader": "데이터 로드 실패",
+        "noDataHeader": "사용 가능한 결과가 없음",
+        "noDataDescription": "선택한 시간 범위에 대해 검색된 결과가 없습니다."
+      },
+      "actionLoadingIconDescription": "로드 중"
     },
     "locationList": {
       "locationLiveModeDisabled": "합성 위치 페이지에서는 라이브 모드를 적용할 수 없음",
@@ -925,8 +883,7 @@
       "testsApplied": "적용된 테스트 수",
       "filterApplied": "필터 적용됨",
       "violationsCount": "{{violationsCount}} 실패",
-      "testsCount": "{{testsCount}} 테스트",
-      "numberOfFailures": "실패 경보"
+      "testsCount": "{{testsCount}} 테스트"
     },
     "configuration": {
       "configurationTitle": "{{testType}} 테스트 구성",
@@ -960,6 +917,7 @@
       "associatedApplication": "연관된 애플리케이션",
       "noApplicationAssociated": "연관된 애플리케이션 없음",
       "configScriptTitle": "스크립트",
+      "configScriptTitleWithFileName": "스크립트({{fileName}})",
       "configScriptFileName": "파일 이름",
       "noScriptFileFound": "스크립트 파일을 찾을 수 없습니다.",
       "noCustomProperties": "이 테스트에 대해 정의된 사용자 정의 특성이 없습니다.",
@@ -1048,6 +1006,20 @@
         "cancelButtonLabel": "취소",
         "deletionSuccess": "신임 정보 삭제 완료"
       }
+    }
+  },
+  "components": {
+    "dataTable": {
+      "filterPanel": {
+        "title": "필터",
+        "closeButtonLabel": "닫기",
+        "cancelButtonLabel": "취소",
+        "applyButtonLabel": "적용"
+      },
+      "noDataHeader": "사용 가능한 데이터 없음",
+      "noDataDescription": "선택한 시간 범위에 대해 검색된 데이터가 없습니다.",
+      "errorHeader": "데이터 로드 실패",
+      "searchText": "검색"
     }
   }
 }

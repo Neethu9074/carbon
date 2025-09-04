@@ -20,14 +20,15 @@ import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/S
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getNavigationTreeForRole } from 'in-settings/tabs/SecurityAndAccess/navigation/accessControl';
 import { findFirstPermittedSecurityAndAccessPage } from 'in-settings/tabs/permissions';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { securityAndAccess } from 'in-settings/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { isIdpAvailable } from 'in-settings/utils/idp';
 import { getInvitations$ } from 'in-api/users';
-import { role } from 'in-stores/user';
 
 const useGetAuthConfigs = () => {
   return {
@@ -62,11 +63,13 @@ export interface ViewProps extends AuthenticationOverview {
 }
 
 export default function View(props: ViewProps) {
+  const [role] = useCurrentUserRole();
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const authConfigs = useGetAuthConfigs();
 
   const navigationTree = [
-    ...getNavigationTreeForRole({ ...props, role }),
-    ...getNavigationTreeForAuthentication(props)
+    ...getNavigationTreeForRole({ ...props, role, isRbacTeamsAvailable }),
+    ...getNavigationTreeForAuthentication({ ...props, role, isRbacTeamsAvailable })
   ];
 
   return (
@@ -83,7 +86,8 @@ export default function View(props: ViewProps) {
         redirectToDefaultPage={findFirstPermittedSecurityAndAccessPage(
           isIdpAvailable(props.sso),
           isIdpAvailable(props.oidc),
-          isIdpAvailable(props.ldap)
+          isIdpAvailable(props.ldap),
+          role
         )}
         redirectFrom={securityAndAccess}
         NotFoundPage={NotFoundPage}

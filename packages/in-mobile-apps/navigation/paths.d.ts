@@ -15,6 +15,7 @@ export declare const mobileAppMonitoringPath: string;
 export declare const alertsTabDetailsFullyQualified: string;
 export declare const alertsTabListFullyQualified: string;
 export declare const crashesTabFullyQualified: string;
+export declare const performanceTabFullyQualified: string;
 export declare const alertsTab: string;
 export declare const summaryTab: string;
 export declare const detailsPath: string;
@@ -70,6 +71,11 @@ export function useLinkToCustomEvent(): (
 export function useLinkToCrash(): (
   mobileAppId: string,
   { crashId, viewId }: { crashId?: string; viewId?: string }
+) => string;
+
+export function useLinkToPerformance(): (
+  mobileAppId: string,
+  { anrId, viewId }: { anrId?: string; viewId?: string }
 ) => string;
 
 export const useGetAlertConfigLink: () => (

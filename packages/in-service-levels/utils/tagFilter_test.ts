@@ -283,6 +283,7 @@ describe('in-service-levels/utils/tagFilter', () => {
 
     const entity: SyntheticSloEntity = {
       type: 'synthetic',
+      includeUnscheduledTestResults: false,
       syntheticTestIds: ['testId1', 'testId2'],
       tagFilterExpression: {
         type: 'EXPRESSION',
@@ -321,6 +322,7 @@ describe('in-service-levels/utils/tagFilter', () => {
 
     const entity: SyntheticSloEntity = {
       type: 'synthetic',
+      includeUnscheduledTestResults: false,
       syntheticTestIds: ['testId1', 'testId2'],
       tagFilterExpression: {
         type: 'EXPRESSION',

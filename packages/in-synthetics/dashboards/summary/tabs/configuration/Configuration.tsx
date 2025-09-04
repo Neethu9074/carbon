@@ -14,7 +14,6 @@ import { Button } from '@instana/components';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
-import { rbacTeamsEnabled, syntheticDnsEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
 import { clickSyntheticMonitoringConfigurationTabDeleteTracker } from 'in-synthetics/tracking/tracker';
@@ -23,13 +22,16 @@ import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/secti
 import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sections/TestType';
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
+import { syntheticDnsEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Teams from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Teams';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
 import Label from 'in-components/form/Label/Label';
@@ -38,7 +40,6 @@ import { isBlank } from 'in-services/util/string';
 import Dialog from 'in-components/Dialog/Dialog';
 import { removeTest } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
-import { role } from 'in-stores/user';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
 
@@ -52,6 +53,8 @@ interface ActionButtonProps {
 }
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
+  const [role] = useCurrentUserRole();
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const { trackCta } = useSegmentTracking();
   const { goToPath } = useNavigation();
   let testType = null;
@@ -267,7 +270,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       <Schedule test={test.data} />
       <Identify test={test.data} />
       {(syntheticRbacLimitedEnabled || syntheticRbacLimitedEnabled) && <Associations test={test.data} />}
-      {rbacTeamsEnabled && <Teams test={test.data} />}
+      {isRbacTeamsAvailable && <Teams test={test.data} />}
       <CustomProperties test={test.data} />
     </Card>
   );

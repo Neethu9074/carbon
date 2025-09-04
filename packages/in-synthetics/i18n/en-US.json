@@ -95,7 +95,7 @@
         "scheduleTitle": "Schedule: How will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?",
-        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. Credentials with teams associated will also be reflected in the teams page in settings.",
+        "teamsCalloutMessage": "When adding teams, permissions of team members will be based on roles assigned in the team. {{syntheticTab}} with teams associated will also be reflected in the teams page in settings.",
         "customPropertiesTitle": "Custom properties (optional)",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
         "frequencyHours": "This test will run every {{frequencyHours}} hours.",
@@ -322,9 +322,7 @@
     },
     "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} test",
-      "buttonSave": "Save",
-      "scriptSavedMessage": "Script added",
-      "bundleSavedMessage": "Bundled scripts added"
+      "buttonSave": "Save"
     },
     "createLocation": {
       "newLocation": "Add location",
@@ -459,9 +457,9 @@
         "scheduledMenuLabel": "Scheduled",
         "onDemandMenuLabel": "On demand",
         "allLabel": "All",
-        "scheduledLabel": "Data scope : Scheduled",
-        "onDemandLabel": "Data scope : On demand",
-        "dashboardHeaderLabel": "Data based on : {{dataScopeLabel}}"
+        "scheduledLabel": "Test execution : Scheduled",
+        "onDemandLabel": "Test execution : On demand",
+        "dashboardHeaderLabel": "Test execution : {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissions for synthetic monitoring",
@@ -563,7 +561,18 @@
         "sortLabel": "Sort",
         "selectAllLabel": "Select all ({{totalEntityCount}})",
         "viewAllLabel": "View all ({{totalEntityCount}})"
-      }
+      },
+      "resultsList": {
+        "statusLabel": "Status",
+        "startTimeLabel": "Started",
+        "responseTimeLabel": "Response time",
+        "retryCountLabel": "Retry count",
+        "errorMessageLabel": "Error message",
+        "errorHeader": "Failed to load data",
+        "noDataHeader": "No results available",
+        "noDataDescription": "There were no results retrieved for the selected time range."
+      },
+      "actionLoadingIconDescription": "loading"
     },
     "locationList": {
       "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",
@@ -874,8 +883,7 @@
       "testsApplied": "Tests applied",
       "filterApplied": "Filter applied",
       "violationsCount": "{{violationsCount}} failures",
-      "testsCount": "{{testsCount}} tests",
-      "numberOfFailures": "Failure alerting"
+      "testsCount": "{{testsCount}} tests"
     },
     "configuration": {
       "configurationTitle": "{{testType}} test configuration",
@@ -909,6 +917,7 @@
       "associatedApplication": "Associated application",
       "noApplicationAssociated": "No application associated",
       "configScriptTitle": "Script",
+      "configScriptTitleWithFileName": "Script ({{fileName}})",
       "configScriptFileName": "File name",
       "noScriptFileFound": "No script file found.",
       "noCustomProperties": "No custom properties defined for this test.",

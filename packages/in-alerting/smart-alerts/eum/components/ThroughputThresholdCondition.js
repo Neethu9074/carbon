@@ -40,7 +40,7 @@ export default function ThroughputThresholdCondition({
         <Dropdown
           value={metricName}
           items={ruleMetricNameOptions.throughput}
-          className={locals.dropdownmd}
+          className={locals.dropdownlg}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
           }}

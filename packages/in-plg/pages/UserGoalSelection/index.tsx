@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-// @ts-expect-error
-import UserGoalSelectionDialog from 'promise-loader?global,usergoalselectiondialog!in-plg/pages/UserGoalSelection/UserGoalSelectionDialog';
+const UserGoalSelectionDialog = () =>
+  import(/* webpackChunkName: "usergoalselectiondialog" */ 'in-plg/pages/UserGoalSelection/UserGoalSelectionDialog');
 import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';

@@ -22,7 +22,6 @@ import { NoDataEmptyState } from '@instana/ibm-products';
 
 import { TableProps, ColumnDefinition, TableState } from 'in-components/tables/ServerTable/types';
 import { RowProps } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
-import AlertTypography from 'in-alerting/components/AlertTypography';
 import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
@@ -76,7 +75,6 @@ export default function SmartAlertTablePresenter<
   ItemType extends ListItem,
   PropsType extends ServerTablePresenterProps<ItemType>
 >({
-  cardTitle,
   columnDefinitions,
   result,
   onChange,
@@ -152,8 +150,6 @@ export default function SmartAlertTablePresenter<
   const displayCarbonToolbar = isSearchable || isRowSelected;
   return (
     <Stack gap="small">
-      {/* Table Title */}
-      {cardTitle && <AlertTypography variant="heading-03" content={cardTitle} />}
       <span>
         {/* Carbon table toolbar */}
         {displayCarbonToolbar && (

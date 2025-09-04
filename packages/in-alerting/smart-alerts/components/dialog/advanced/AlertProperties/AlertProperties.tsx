@@ -9,6 +9,7 @@ import React, { ReactNode } from 'react';
 import TriggersIncidentRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/TriggersIncidentRow';
 import AlertDescriptionRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertDescriptionRow';
 import AlertLevelRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
+import { Placeholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import Sections from 'in-components/workspace/Sections';
 
 interface AlertPropertiesProps {
@@ -20,6 +21,8 @@ interface AlertPropertiesProps {
   shouldDisplayAlertLevelSelection?: boolean;
   descriptionPlaceholder?: { WARNING?: string; CRITICAL?: string };
   displayTriggerIncident?: boolean;
+  placeholders?: ReadonlyArray<Readonly<Placeholder>>;
+  widerPlaceholderBtn?: boolean;
 }
 
 export default function AlertProperties({
@@ -30,7 +33,9 @@ export default function AlertProperties({
   isTearSheet,
   shouldDisplayAlertLevelSelection = true,
   descriptionPlaceholder,
-  displayTriggerIncident = true
+  displayTriggerIncident = true,
+  placeholders,
+  widerPlaceholderBtn
 }: AlertPropertiesProps): JSX.Element {
   return (
     <Sections>
@@ -43,6 +48,8 @@ export default function AlertProperties({
         onChange={onChange}
         isTearSheet={isTearSheet}
         descriptionPlaceholder={descriptionPlaceholder?.WARNING ?? descriptionPlaceholder?.CRITICAL}
+        placeholders={placeholders}
+        widerPlaceholderBtn={widerPlaceholderBtn}
       />
     </Sections>
   );

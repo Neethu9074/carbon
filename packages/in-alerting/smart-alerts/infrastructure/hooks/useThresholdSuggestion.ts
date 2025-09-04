@@ -7,74 +7,95 @@
 import { Field, MapForm } from 'formalistic';
 import { useEffect } from 'react';
 
-import { Result, ThresholdType, StaticThresholdSuggestionResponse, ThresholdSuggestionResponse } from '@instana/types';
+import {
+  Result,
+  ThresholdConfigUnion,
+  Seasonality,
+  ThresholdSuggestionResponse,
+  AdaptiveBaselineSuggestionResponse
+} from '@instana/types';
 //@ts-ignore
 import { Observable, empty } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import getInfraMetricsThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsThresholdSuggestion';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { useSelectedMetricGroup } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import { getEnrichedTagFilterExpression } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { updateMultiThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
+
+// Remove thresholds with "Infinity" values to avoid chart rendering issues.
+// TODO: Remove this once the backend is fixed.
+const filterOutThresholdResultInfinityValues = (thresholdResult: Result<ThresholdSuggestionResponse>) => {
+  if (!Array.isArray((thresholdResult as Result<AdaptiveBaselineSuggestionResponse>)?.data?.baseline)) {
+    return thresholdResult;
+  }
+
+  const filteredBaseline = (thresholdResult as Result<AdaptiveBaselineSuggestionResponse>).data?.baseline.filter(
+    ([_timestamp, baseline, bound]) => Number.isFinite(baseline) && Number.isFinite(bound)
+  );
+
+  return {
+    ...thresholdResult,
+    data: {
+      ...thresholdResult.data,
+      baseline: filteredBaseline
+    }
+  };
+};
 
 export default function useThresholdSuggestion(
   form: MapForm<any>,
   updateForm: (form: MapForm<any>) => void,
   setThresholdResult: React.Dispatch<React.SetStateAction<Result<ThresholdSuggestionResponse> | any>>,
-  editMode: boolean | undefined,
+  editMode: boolean,
   config: any
 ) {
-  const { isValid, alertConfigWithFormModel } = config;
+  const { isValid, simpleMode, alertConfigWithFormModel } = config;
+  const { selectedMetricGroup } = useSelectedMetricGroup();
   const thresholdResult = useObservable(
-    ([isValid]) => resolveThresholdRequest(alertConfigWithFormModel, isValid),
-    [isValid, form]
+    ([isValid, _, selectedMetricGroup]) => {
+      return resolveThresholdRequest(alertConfigWithFormModel, isValid, selectedMetricGroup);
+    },
+    [isValid, form, selectedMetricGroup]
   );
 
   useEffect(() => {
     if (!thresholdResult || thresholdResult.progress?.loading) return;
 
-    setThresholdResult(thresholdResult);
-    const data = thresholdResult?.data as StaticThresholdSuggestionResponse;
+    const patchedThresholdResult = filterOutThresholdResultInfinityValues(thresholdResult);
+
+    setThresholdResult(patchedThresholdResult);
+    const { data, errors } = patchedThresholdResult;
 
     if (isValid) {
-      // @ts-ignore
-      let updatedForm: MapForm<any> = form
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false))
-        // @ts-expect-error ts has problems with nested fields on MapForm<any>
-        .updateIn(['hiddenFields', 'suggestedThresholdValue'], (f: Field<number>) => f.setValue(data?.value));
-
-      const warningThresholdForm = form.get('threshold')?.get('warningThreshold');
-
-      if (shouldAddNewThresholdData(editMode, warningThresholdForm)) {
-        // @ts-ignore
-        updatedForm = updatedForm?.updateIn(['threshold', 'warningThreshold'], (thresholdMapForm: MapForm<any>) =>
-          thresholdMapForm.updateIn(['value'], item =>
-            (item as Field<any>)
-              .setValue(data?.value)
-              .setTouched((warningThresholdForm.get('value') as Field<string>).touched)
-          )
-        );
-      }
-
-      updateForm(updatedForm);
+      updateMultiThresholdInForm(
+        createThresholdForm,
+        form,
+        updateForm,
+        data as { type: string; value?: any; baseline?: number[] },
+        errors,
+        simpleMode,
+        editMode
+      );
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
-}
 
-function shouldAddNewThresholdData(editMode: boolean | undefined, warningThresholdForm: MapForm<any>): boolean {
-  if (editMode) {
-    return false;
-  }
-
-  const type = (warningThresholdForm?.get('type') as Field<ThresholdType>)?.value;
-
-  if (type === STATIC_THRESHOLD) {
-    return !warningThresholdForm?.get('value')?.touched;
-  }
-
-  return false;
+  // This would normally be handled in useInfraSmartAlertFormSideEffects, but since selectedMetricGroup
+  // is not part of the form state, we need to handle it here.
+  useEffect(() => {
+    setThresholdResult(null);
+    if (selectedMetricGroup) {
+      updateForm(
+        form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(true))
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMetricGroup, setThresholdResult]);
 }
 
 function shouldSkipFetchingThresholdSuggestion(
@@ -86,29 +107,45 @@ function shouldSkipFetchingThresholdSuggestion(
   const {
     hiddenFields: { calculateThresholdOnBackend }
   } = alertConfigWithFormModel;
-
   return !isValid || !calculateThresholdOnBackend;
 }
+
+type ThresholdConfigWithSmoothingOverrides = ThresholdConfigUnion & {
+  seasonality?: Seasonality;
+  adaptability?: number;
+};
 
 function resolveThresholdRequest(
   alertConfigWithFormModel: InfraSmartAlertConfigWithMetadata & {
     hiddenFields: { calculateThresholdOnBackend: boolean };
+    threshold: {
+      warningThreshold?: ThresholdConfigWithSmoothingOverrides;
+      criticalThreshold?: ThresholdConfigWithSmoothingOverrides;
+    };
   },
-  isValid: boolean
+  isValid: boolean,
+  selectedMetricGroup: Tags | null
 ): Observable<Result<ThresholdSuggestionResponse>> {
   const {
     rule: { metricName, aggregation, entityType, crossSeriesAggregation, regex },
-    threshold: { operator, type },
+    threshold,
     granularity,
-    tagFilterExpression,
-    groupBy
+    tagFilterExpression
   } = alertConfigWithFormModel;
 
-  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel) || groupBy?.length > 0 || !metricName) {
+  const operator = threshold.operator;
+  const type =
+    alertConfigWithFormModel.threshold.warningThreshold?.type ||
+    alertConfigWithFormModel.threshold.criticalThreshold?.type;
+
+  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel) || !metricName) {
     return empty;
   }
 
-  const enrichedTagFilterExpression = getEnrichedTagFilterExpression(tagFilterExpression, undefined);
+  const enrichedTagFilterExpression = getEnrichedTagFilterExpression(tagFilterExpression, selectedMetricGroup);
+
+  const seasonality = threshold.warningThreshold?.seasonality ?? threshold.criticalThreshold?.seasonality;
+  const adaptability = threshold.warningThreshold?.adaptability ?? threshold.criticalThreshold?.adaptability;
 
   return getInfraMetricsThresholdSuggestion({
     tagFilterExpression: enrichedTagFilterExpression,
@@ -122,7 +159,8 @@ function resolveThresholdRequest(
     },
     operator,
     fallbackOnError: true,
-    adaptability: 1,
-    type
+    seasonality,
+    adaptability: adaptability ?? 1,
+    type: type!
   });
 }

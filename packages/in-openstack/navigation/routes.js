@@ -3,10 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import HypervisorDashboard from 'promise-loader?global,openstack!in-openstack/Dashboards/Hypervisors/HypervisorDashboard';
-import InstanceDashboard from 'promise-loader?global,openstack!in-openstack/Dashboards/Instances/InstanceDashboard';
-import RegionDashboard from 'promise-loader?global,openstack!in-openstack/Dashboards/Regions/RegionDashboard';
-import OpenstackMainView from 'promise-loader?global,openstack!in-openstack/OpenstackMainView';
+const HypervisorDashboard = () =>
+  import(/* webpackChunkName: "openstack" */ 'in-openstack/Dashboards/Hypervisors/HypervisorDashboard');
+const InstanceDashboard = () =>
+  import(/* webpackChunkName: "openstack" */ 'in-openstack/Dashboards/Instances/InstanceDashboard');
+const RegionDashboard = () =>
+  import(/* webpackChunkName: "openstack" */ 'in-openstack/Dashboards/Regions/RegionDashboard');
+const OpenstackMainView = () => import(/* webpackChunkName: "openstack" */ 'in-openstack/OpenstackMainView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

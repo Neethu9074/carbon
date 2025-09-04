@@ -62,12 +62,16 @@ function generateAIActionForm({
   form,
   setForm,
   aiActionScriptGenerateAIButtonTrackerSegment,
-  aiActionGenerateErrorTrackerSegment
+  aiActionGenerateErrorTrackerSegment,
+  forRecommededAction,
+  eventName
 }: {
   form: GenerateAIScriptActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIScriptActionForm>>;
   aiActionScriptGenerateAIButtonTrackerSegment: TrackingFunction;
   aiActionGenerateErrorTrackerSegment: TrackingFunction;
+  forRecommededAction: boolean;
+  eventName?: string;
 }) {
   const promptForm = form.get('prompt');
 
@@ -108,7 +112,16 @@ function generateAIActionForm({
             .updateIn(['action', 'aiGeneratedContent'], item =>
               item.setValue(res.data?.content?.replace(/\bHere['’]s\b/gi, 'Here is a') ?? '')
             )
-            .updateIn(['action', 'description'], item => item.setValue(promptStep.value).setTouched(true))
+            // if generate script is invoked from recommended actions, include event name in action description.
+            // This will help NLP algorithm in backend to show up this action in rec actions
+            .updateIn(['action', 'description'], item => {
+              let descriptionValue = promptStep.value;
+              if (forRecommededAction && eventName) {
+                descriptionValue = `script for ${eventName}\n` + descriptionValue;
+              }
+
+              return item.setValue(descriptionValue).setTouched(true);
+            })
             .updateIn(['action', 'feedbackState'], item => item.setValue('').setTouched(true))
         );
       },
@@ -125,10 +138,14 @@ function generateAIActionForm({
 
 function GenerateScriptButton({
   form,
-  setForm
+  setForm,
+  forRecommededAction,
+  eventName
 }: {
   form: GenerateAIScriptActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIScriptActionForm>>;
+  forRecommededAction: boolean;
+  eventName?: string;
 }) {
   const generatedAction = useGeneratedAction();
   const promptForm = form.get('prompt');
@@ -151,7 +168,9 @@ function GenerateScriptButton({
             form,
             setForm,
             aiActionScriptGenerateAIButtonTrackerSegment,
-            aiActionGenerateErrorTrackerSegment
+            aiActionGenerateErrorTrackerSegment,
+            forRecommededAction,
+            eventName
           });
         }}
         icon="lib_generate_ai"
@@ -222,10 +241,14 @@ function ScriptSection({
 
 export default function GenerateScriptStep({
   form,
-  setForm
+  setForm,
+  forRecommededAction,
+  eventName
 }: {
   form: GenerateAIScriptActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIScriptActionForm>>;
+  forRecommededAction: boolean;
+  eventName?: string;
 }) {
   const promptForm = form.get('prompt');
   const promptStep = promptForm.get('promptStep');
@@ -316,7 +339,12 @@ export default function GenerateScriptStep({
                 })}
               >
                 <Code mode="markdown" lineWrapping value={field.value} onChange={onChangeValue} />
-                <GenerateScriptButton form={form} setForm={setForm} />
+                <GenerateScriptButton
+                  form={form}
+                  setForm={setForm}
+                  forRecommededAction={forRecommededAction}
+                  eventName={eventName}
+                />
               </div>
               <TouchedMessages field={field} />
             </FormGroup>

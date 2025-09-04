@@ -24,14 +24,15 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       // Given
       const { shouldRenderContent } = getCapabilitiesSectionData({
         area: ProductArea.GLOBAL,
-        permissionsSet: mockEmptyPermissionsSet
+        permissionsSet: mockEmptyPermissionsSet,
+        hasAnalyzeAccess: true
       });
 
       // Then
       expect(shouldRenderContent).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
         numberOfcapabilitiesUserHas: 0,
-        totalNumberOfAreaCapabilities: 28
+        totalNumberOfAreaCapabilities: 29
       });
     });
 
@@ -39,14 +40,15 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       // Given
       const { shouldRenderContent } = getCapabilitiesSectionData({
         area: ProductArea.GLOBAL,
-        permissionsSet: mockPermissionsSetWithData
+        permissionsSet: mockPermissionsSetWithData,
+        hasAnalyzeAccess: true
       });
 
       // Then
       expect(shouldRenderContent).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
         numberOfcapabilitiesUserHas: 15,
-        totalNumberOfAreaCapabilities: 28
+        totalNumberOfAreaCapabilities: 29
       });
     });
   });

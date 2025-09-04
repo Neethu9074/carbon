@@ -34,8 +34,8 @@ import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 
 const alertDisplayMode = getSmartAlertDisplayMode(
@@ -44,6 +44,7 @@ const alertDisplayMode = getSmartAlertDisplayMode(
 );
 
 export default function AlertDetails() {
+  const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
   return (
     <LeftRightPadding>
@@ -71,7 +72,6 @@ export default function AlertDetails() {
         getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
         canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
         alertDisplayMode={alertDisplayMode}
-        hideAlertIcon
         isGlobalSmartAlert
       />
     </LeftRightPadding>

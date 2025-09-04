@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "Tabla de comparación",
     "agents": "Agentes.",
+    "dataSources": "Orígenes de datos",
     "map": "Correlación",
     "infrastructure": "Infraestructura",
     "snapshotVersions": "Versiones de instantáneas",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "Esta consulta tiene demasiados resultados. Restrinja la búsqueda utilizando un filtro más restrictivo o reduzca el intervalo de tiempo e inténtelo de nuevo.",
       "generalError": "Se ha producido un error inesperado."
     },
+    "warningTitle": "Límite de exportación superado",
+    "warning": "La exportación de {{count}} registros supera el límite máximo. Sólo se incluirán las primeras {{max}} entradas, y el proceso podría tardar más de lo habitual en completarse.",
     "entityTypes": "Tipos de entidad {{count, parenthesis}}",
     "relatedInstances": "Analizar instancias"
   },
@@ -150,5 +153,43 @@
     "label": "Umbral",
     "critical": "Crítico cuando {{operator}} {{level}}",
     "warning": "Aviso cuando {{operator}} {{level}}"
+  },
+  "customEntities": {
+    "labelDashboard": "Paneles de control",
+    "saveChanges": "Guardar cambios",
+    "discardChanges": "Descartar los cambios",
+    "addWidget": "Añadir widget",
+    "defaultDashboard": "Panel de control predeterminado",
+    "dashboardsInfoWidgetDescription": "Añada widgets y seleccione las métricas que se mostrarán en el panel de control para el tipo de entidad personalizada. \n\n Todas las instancias que coincidan con este tipo de entidad personalizada se mostrarán en el mismo panel de control.",
+    "dashboardsInfoWidgetTitle": "Es el panel de control de entidad personalizado que se puede configurar",
+    "failSaveDashboard": "No se ha podido guardar el panel de control.",
+    "successfulSaveDashboard": "Panel de control de entidad actualizado.",
+    "editDashboard": "Editar paneles de control para "
+  },
+  "collectorView": {
+    "otelCollector": "Recopilador de OpenTelemetry",
+    "restartCollector": "Reiniciar recopilador",
+    "editConfiguration": "Editar configuración",
+    "collectorConfig": "Configuración del recopilador",
+    "cpuTime": "Tiempo de CPU",
+    "collectorUptime": "Tiempo de funcionamiento del recopilador",
+    "memoryUsage": "Uso de memoria",
+    "metricPointsAccepted": "Puntos de métricas aceptados",
+    "logRecordsAccepted": "Anotaciones de registro aceptadas",
+    "metricPointsExported": "Puntos de métricas exportados",
+    "logRecordsExported": "Puntos de registro exportados",
+    "receiverMetrics": "Métricas del receptor",
+    "exporterMetrics": "Métricas del exportador",
+    "collectorRestartingTitle": "Reinicio del recopilador",
+    "collectorRestarting": "Reinicio del recopilador iniciado correctamente.",
+    "collectorError": "Error del recopilador",
+    "configUpdateSuccessTitle": "La configuración se ha actualizado correctamente.",
+    "configUpdateSuccess": "La configuración del recopilador se ha actualizado correctamente.",
+    "update": "Actualizar",
+    "cancel": "Cancelar",
+    "configuration": "Configuración",
+    "exporter": "Exportador",
+    "processor": "Procesador",
+    "receiver": "Receptor"
   }
 }

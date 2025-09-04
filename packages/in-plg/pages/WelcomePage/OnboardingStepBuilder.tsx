@@ -6,6 +6,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { generateStableHash } from '@instana/utils';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -26,15 +27,18 @@ import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
+import { websitesAccessPermissions } from 'in-stores/permission';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { CTA_CLICKED } from 'in-services/util/constants';
-import { hasWebsitesAccess } from 'in-stores/permission';
+import useHasAccess from 'in-stores/useHasAccess';
 import config from 'in-services/config';
-import { role } from 'in-stores/user';
 
 //we cannot provide correct type for activationData as the json object keys are dynamic
 export default function OnboardingStepBuilder({ activation }: { activation: any }) {
+  const [role] = useCurrentUserRole();
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
   const [onboardingItems, setOnboardingItems] = useState<TileDataType[]>([]);
   const { createHrefToPath } = useNavigation();
@@ -92,8 +96,12 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
       {
         key: 'startIntegrating',
         title: t('in-plg:welcomepage.startIntegrating.title'),
-        description: t('in-plg:welcomepage.startIntegrating.description'),
-        buttonName: t('in-plg:welcomepage.startIntegrating.buttonName'),
+        description: newOTelPageEnabled
+          ? t('in-plg:welcomepage.startIntegrating.newDescription')
+          : t('in-plg:welcomepage.startIntegrating.description'),
+        buttonName: newOTelPageEnabled
+          ? t('in-plg:welcomepage.quickLinks.buttonNames.installDataSource')
+          : t('in-plg:welcomepage.startIntegrating.buttonName'),
         buttonType: 'primary',
         href: createRedirectHref('startIntegrating'),
         hasPermission: role?.canConfigureAgents,
@@ -194,7 +202,8 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         }
       }
     ],
-    [createRedirectHref, sendEventsToSegment, statusFlags]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [createRedirectHref, sendEventsToSegment, statusFlags, hasWebsitesAccess, generateStableHash(role)]
   );
 
   useEffect(() => {

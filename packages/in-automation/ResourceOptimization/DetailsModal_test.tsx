@@ -16,6 +16,7 @@ import {
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import DetailsModal from 'in-automation/ResourceOptimization/DetailsModal';
 import { runResourceOptimizationAction } from 'in-automation/api';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { useSegmentTracker } from 'in-automation/tracker';
 
 jest.mock('@instana/hooks', () => ({
@@ -35,7 +36,14 @@ jest.mock('in-automation/tracker', () => ({
   useSegmentTracker: jest.fn()
 }));
 
+jest.mock('in-stores/useCurrentUserRole', () => ({
+  __esModule: true,
+  default: jest.fn()
+}));
+
 const mockRunOptimizationTrackerSegment = jest.fn();
+
+const mockUpdateRole = jest.fn(); // this mocks the updateRole function
 
 beforeEach(() => {
   (useObservable as jest.Mock).mockImplementation(() => mockResourceImpactResult);
@@ -52,11 +60,16 @@ beforeEach(() => {
   (useSegmentTracker as jest.Mock).mockImplementation(() => ({
     runOptimizationTrackerSegment: mockRunOptimizationTrackerSegment
   }));
+  (useCurrentUserRole as jest.Mock).mockImplementation(() => mockCurrentUserRoleResult);
 });
 
 interface DetailsModalProps {
   currentAction: RecommendedAction;
   agents: AgentSnapshot[];
+}
+
+interface Role {
+  canRunAutomationActions: boolean;
 }
 
 const props: DetailsModalProps = {
@@ -259,6 +272,8 @@ const mockImpactedAppsResult = {
   progress: { loading: false },
   time: 1730931497615
 };
+
+const mockCurrentUserRoleResult: [Role, typeof mockUpdateRole] = [{ canRunAutomationActions: true }, mockUpdateRole];
 
 describe('DetailsModal Initial Render', () => {
   beforeEach(jest.clearAllMocks);

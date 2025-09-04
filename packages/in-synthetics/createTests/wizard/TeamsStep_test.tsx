@@ -10,40 +10,33 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import TeamsStep from 'in-synthetics/createTests/wizard/TeamsStep';
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import TeamsStep, { SYNTHETIC_TAB } from 'in-synthetics/createTests/wizard/TeamsStep';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
+import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const testTeamsResult = {
   data: [
     {
       id: 'OiP5zdr6SCOeOC3j6e-xqw',
-      name: 'vishnu-test-team',
-      usersCount: 1,
-      hasScope: false
+      displayName: 'vishnu-test-team'
     },
     {
       id: 'VkIOoe81QlGdcpfF09v46w',
-      name: 'czhang-team2',
-      usersCount: 0,
-      hasScope: false
+      displayName: 'czhang-team2'
     },
     {
       id: '0nAtCz8JT6WO_UFcQJ4aXw',
-      name: 'aTeam',
-      usersCount: 0,
-      hasScope: false
+      displayName: 'aTeam'
     },
     {
       id: 'NDD9l1KfRvy2OIDO650iOg',
-      name: 'Rose Test team',
-      usersCount: 2,
-      hasScope: false
+      displayName: 'Rose Test team'
     },
     {
       id: 'bvhM4OyeRfWEjR7_AA6h2Q',
-      name: 'SRE CIO',
-      usersCount: 0,
-      hasScope: false
+      displayName: 'SRE CIO'
     }
   ],
   errors: [],
@@ -52,14 +45,18 @@ const testTeamsResult = {
   },
   time: 1747675225549
 };
+
+jest.mock('in-settings/hooks/useIsTeamsAvailable');
+
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
-jest.mock('in-api/teams', () => {
+jest.mock('in-settings/tabs/SecurityAndAccess/api/tags', () => {
   return {
-    getTeamsOverview: jest.fn()
+    getTagsResult: jest.fn()
   };
 });
+
 jest.mock('in-services/featureFlags', () => ({
   rbacTeamsEnabled: true
 }));
@@ -69,7 +66,10 @@ beforeEach(() => {
 });
 
 describe('TeamsStep', () => {
-  beforeEach(jest.clearAllMocks);
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useIsTeamsAvailable as jest.Mock).mockReturnValue(resultToFetchedStateResponse(success(true)));
+  });
   const selectedTeams = [
     {
       id: '0nAtCz8JT6WO_UFcQJ4aXw',
@@ -88,15 +88,17 @@ describe('TeamsStep', () => {
   );
 
   const updateForm = jest.fn();
-  const testComponent = <TeamsStep form={form} updateForm={updateForm} />;
+  const testComponent = <TeamsStep form={form} updateForm={updateForm} tab={SYNTHETIC_TAB.TESTS} />;
   it('renders the callout message', () => {
     render(testComponent);
-    const title = screen.getByText(t('in-synthetics:dialog.createTest.advancedMode.teamsCalloutMessage'));
+    const title = screen.getByText(
+      t('in-synthetics:dialog.createTest.advancedMode.teamsCalloutMessage', { syntheticTab: SYNTHETIC_TAB.TESTS })
+    );
     expect(title).toBeInTheDocument();
   });
   it('renders the drop down', () => {
     render(testComponent);
-    const dropdown = screen.getByText(t('in-custom-dashboards:customDashboard.editTeamsDialog.chooseTeams'));
+    const dropdown = screen.getByText(t('in-settings:tabs.chooseTeams'));
     expect(dropdown).toBeInTheDocument();
   });
   it('renders the correct teams when drop down is expanded', () => {

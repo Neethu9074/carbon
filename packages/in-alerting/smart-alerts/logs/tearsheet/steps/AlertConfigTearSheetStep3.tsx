@@ -62,6 +62,7 @@ export default function AlertConfigTearSheetStep3({
               )}
               shouldDisplayAlertLevelSelection={false}
               isTearSheet
+              placeholders={placeholders}
             />
           )}
           renderAlertPreview={() => (

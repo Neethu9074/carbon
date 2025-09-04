@@ -12,6 +12,7 @@ import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } fr
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { deepFreeze } from 'in-services/util/object';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
 export type AnalyzeDataSource = Lowercase<DataSource | 'profiles'>;
@@ -37,20 +38,20 @@ interface DataSourceConfig<Entity> extends FilterTagKeysConfig {
   getTraceIdByItem: (item: Entity) => string | undefined;
   getCallIdByItem: (item: Entity) => string | undefined;
 }
-type AnalyzeDataSourceConfig<Source extends AnalyzeDataSource> =
-  Source extends Lowercase<DataSource>
-    ? DataSourceConfig<Source extends 'traces' ? TraceItem : CallItem>
-    : FilterTagKeysConfig;
+type AnalyzeDataSourceConfig<Source extends AnalyzeDataSource> = Source extends Lowercase<DataSource>
+  ? DataSourceConfig<Source extends 'traces' ? TraceItem : CallItem>
+  : FilterTagKeysConfig;
 
 let configs: {
   [Source in AnalyzeDataSource]: AnalyzeDataSourceConfig<Source>;
 };
 
 export default function getByDataSource<Source extends AnalyzeDataSource>(
-  dataSource: Source
+  dataSource: Source,
+  role: Role
 ): AnalyzeDataSourceConfig<Source> | {} {
   if (!configs) {
-    const filterTagKeys = getAnalyzeFilterTagKeys();
+    const filterTagKeys = getAnalyzeFilterTagKeys(role);
     configs = {
       traces: {
         filterTagKeys,
@@ -70,7 +71,7 @@ export default function getByDataSource<Source extends AnalyzeDataSource>(
       },
       calls: {
         filterTagKeys,
-        groupTagKeys: getCallGroupTagKeys(),
+        groupTagKeys: getCallGroupTagKeys(role),
         errorneousTagPreset: 'call.erroneous',
         latencyTagPreset: 'call.latency',
         isSyntheticTagPreset: 'call.is_synthetic',
@@ -111,7 +112,8 @@ export const productAreaLabels = Object.freeze<Record<ProductArea, string>>({
   mobileApp: t('in-analyze:analyzeView.dataSources.mobileApps'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
-  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure')
+  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure'),
+  customEntities: t('in-analyze:analyzeView.dataSources.customEntities')
 } as const);
 
 export const productAreaTrackingNames = Object.freeze({
@@ -120,7 +122,8 @@ export const productAreaTrackingNames = Object.freeze({
   mobileApp: pageNames.mobile_apps,
   profiles: pageNames.profiles,
   logs: pageNames.log_smart_alerts,
-  infrastructure: pageNames.infrastructure
+  infrastructure: pageNames.infrastructure,
+  customEntities: pageNames.custom_entities
 } as const);
 
 enum ProductAreaEnum {
@@ -129,7 +132,8 @@ enum ProductAreaEnum {
   mobileApp,
   profiles,
   logs,
-  infrastructure
+  infrastructure,
+  customEntities
 }
 
 enum EntityEnum {
@@ -210,7 +214,8 @@ export const productAreaIcons = Object.freeze<Record<ProductArea, string>>({
   mobileApp: 'lib_mobile_app',
   profiles: 'lib_profiling',
   logs: 'lib_application_logging',
-  infrastructure: 'lib_infrastructure'
+  infrastructure: 'lib_infrastructure',
+  customEntities: 'lib_infrastructure'
 });
 
 const icons = deepFreeze<Record<ProductArea, Icon>>({
@@ -249,6 +254,9 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
   logs: {
     logs: 'lib_application_logging',
     logsConsole: 'lib_application_logging'
+  },
+  customEntities: {
+    customEntities: 'lib_infrastructure'
   }
 });
 

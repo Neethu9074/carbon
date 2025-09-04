@@ -61,11 +61,11 @@
 
   .alertLevelIcon {
     &.severityLow {
-      fill: var(--ids-color-option-yellow-500);
+      fill: var(--cds-support-warning);
     }
 
     &.severityHigh {
-      fill: var(--ids-color-option-red-500);
+      fill: var(--cds-support-error);
     }
   }
 
@@ -96,5 +96,22 @@
     padding-left: 0.25rem !important;
     .breakWord();
     white-space: normal;
+  }
+
+  .iconWarning {
+    cursor: auto;
+
+    path:first-of-type {
+      fill: var(--ids-color-option-black);
+    }
+    path:last-of-type {
+      fill: var(--cds-support-warning);
+    }
+  }
+
+  .iconCritical {
+    cursor: auto;
+
+    fill: var(--cds-support-error) !important;
   }
 }

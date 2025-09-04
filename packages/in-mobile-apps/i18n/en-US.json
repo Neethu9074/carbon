@@ -275,7 +275,8 @@
       "usedMemoryLabel": "Used memory",
       "availableMemoryLabel": "Available memory",
       "maximumAvailableMemoryLabel": "Maximum available memory",
-      "appStatusLabel": "App state"
+      "appStatusLabel": "App state",
+      "stackTraceButtonFocusedThreadsStackTrace": "Focused threads"
     },
     "tabsSumDroppedBeacons": {
       "droppedBeaconsLabel": "Dropped beacons",
@@ -336,6 +337,7 @@
       "customEventsLabel": "Custom events",
       "viewsLabel": "Views",
       "configurationLabel": "Configuration",
+      "dependencyLabel": "Dependencies",
       "nameLabel": "Name",
       "occurrencesLabel": "Occurrences",
       "screenRenderingDuration": "Rendering duration",
@@ -435,6 +437,10 @@
       "syntheticMonitoringLabel": "Synthetic monitoring",
       "configurations": {
         "symbolFileConfigLabel": "Stack trace translation",
+        "configurationLabelTeams": "Teams",
+        "teamsDescription": "Select teams to associate with this mobile app.",
+        "teamsCallout": "Adding teams will allow team members to view and edit this mobile app. It will also be reflected in the teams page in settings.",
+        "save": "Save",
         "symbolFileConfig": {
           "clearUploadedFilesUrl": "Remove all files API",
           "dialogMessageConfigurationUpdated": "Configuration updated.",
@@ -512,6 +518,19 @@
         "viewTopListLinkLabel": "View all views",
         "viewTopListTitle": "Views"
       },
+      "performance": {
+        "anrLabelLocation": "Stack trace location",
+        "anrLabelOccurrences": "Occurrences",
+        "anrLabelAffectedUsers": "Affected users",
+        "anrLabelLowestAppVersion": "Lowest App Version",
+        "anrLabeHighestAppVersion": "Highest App Version",
+        "anrButtonAnalyzeANR": "Analyze ANR",
+        "anrInfoTitle": "Details",
+        "anrMessage": "Message",
+        "backToPerfTab": "Back to Performance",
+        "anrTableHeader": "App not responding or freezing",
+        "anrTableTooltip": "Details for this metric are not collected on the iOS platform due to OS restrictions."
+      },
       "smartAlerts": "Smart Alerts"
     },
     "noDataAvailable": {
@@ -523,6 +542,8 @@
       "customEventsDescription": "There were no custom events retrieved for the selected time range.",
       "crashesTitle": "No crashes available",
       "crashesDescription": "There were no crashes for the selected time range.",
+      "anrTitle": "No ANRs available",
+      "anrDescription": "There were no ANRs for the selected time range",
       "syntheticMonitoring": {
         "title": "No synthetic tests are associated with this mobile app."
       }
@@ -538,10 +559,11 @@
   },
   "newAppFlow": {
     "addMobileAppTitle": "Add mobile app",
-    "addMobileAppDesc": "Get started with mobile app monitoring to better understand how your mobile app performance impacts user experience. Configuration is simple!",
+    "addMobileAppDesc": "Get started with mobile app monitoring to better understand how your mobile app performance impacts user experience.",
     "mobileAppNameLabel": "Mobile app name",
     "addMobileAppBtn": "Add mobile app",
     "newMobileAppTitle": "New mobile app",
+    "teamsLabel": "Teams (optional)",
     "everythingIsReadyTitle": "Everything's ready!",
     "everythingIsReadyMsg": "Everything is ready to monitor your mobile app <strong>{{mobileAppName}}</strong>. <linkToInstallation>Add the agent to your mobile app</linkToInstallation> to track real users or go to the dashboard.",
     "keyLabel": "Key",

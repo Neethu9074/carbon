@@ -39,12 +39,12 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { formatDateTime } from 'in-services/formatters/date';
 import { deleteActionInstance } from 'in-automation/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './ActionHistoryTable.mless';
@@ -206,6 +206,7 @@ export default function ActionHistoryTable({
   actionHistoryDeleteCallback,
   policyId
 }: ActionHistoryTableProps) {
+  const [role] = useCurrentUserRole();
   const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
 
   let columnDefinitions: ColumnDefinition<ActionInstance>[] = [
@@ -343,7 +344,7 @@ export default function ActionHistoryTable({
     }
   };
 
-  if (role?.canDeleteAutomationActionHistory) {
+  if (role.canDeleteAutomationActionHistory) {
     columnDefinitions.push(deleteColumn);
   }
 

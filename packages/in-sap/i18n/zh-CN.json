@@ -52,7 +52,8 @@
   "sapSolman": "解决方案管理员",
   "dashboards": {
     "instance": "实例",
-    "abapdumpstats": "ABAP 转储统计信息",
+    "abapdumpstatsHour": "ABAP 转储统计（过去 {{duration}} 小时）",
+    "abapdumpstatsHours": "ABAP 转储统计（过去 {{duration}} 小时）",
     "cpuUsage": "CPU 使用率",
     "combinedCpuMetrics": "总体使用情况（每个用户）",
     "userListQueueTime": "排队时间",
@@ -77,7 +78,7 @@
     "spoolWait": "假脱机",
     "update2Wait": "Update2",
     "sapIdoc": "IDoc",
-    "jobsInformation": "作业信息",
+    "jobsInformation": "作业信息 ({{duration}})",
     "prdMins": "PRD 分钟数",
     "scheduleStartTime": "计划开始时间",
     "scheduleStartDate": "调度开始日期",
@@ -616,7 +617,8 @@
     "scheduled": "已调度",
     "owner": "所有者",
     "destination": "目标",
-    "spoolError": "假脱机错误",
+    "spoolErrorHour": "假脱机错误（过去 {{duration}} 小时）",
+    "spoolErrorsHours": "假脱机错误（过去 {{duration}} 小时）",
     "rfcSource": "RFC 来源",
     "count": "计数",
     "upTime": "正常运行时间",
@@ -744,7 +746,8 @@
     "waitingTaskCount": "正在等待的任务",
     "applicationThreadUsage": "应用程序线程使用情况",
     "threadUsage": "线程",
-    "waitingtaskUsage": "正在等待的任务"
+    "waitingtaskUsage": "正在等待的任务",
+    "loading": "正在加载..."
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",

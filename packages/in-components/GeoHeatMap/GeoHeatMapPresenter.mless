@@ -19,4 +19,12 @@
     left: 0.5rem;
     bottom: 0.5rem;
   }
+
+  // workaround for the website summary page
+  // to position the icons visually at the top
+  .positionControlsAtTheTop {
+    position: absolute;
+    right: 0;
+    top: -3.8rem;
+  }
 }

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { just, create } from '@instana/observables';
@@ -19,6 +19,7 @@ import {
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import List, { defaultHeaderWithCount, areAllRowsOnAllPagesSelected } from 'in-settings/components/List';
 import { getEntityHref, globalSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { clickAlertChannelTracker } from 'in-settings/tracker';
 import { t } from 'in-i18n';
@@ -45,15 +46,21 @@ export default function AlertChannelsList({
   onRowClick,
   hasRowNavigation = true,
   getHeader = leftHeaderWithSelectAll(tableActions, numberOfChannels),
-  entityResult
+  entityResult,
+  createdChannelId
 }) {
-  const [channelsPreSelected] = useState(preSelectedChannels);
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
+  const [channelsPreSelected, setChannelsPreSelected] = useState(preSelectedChannels);
+  useEffect(() => {
+    createdChannelId && setChannelsPreSelected([...preSelectedChannels, createdChannelId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdChannelId]);
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions(hasRowNavigation)}
+      columnDefinitions={columnDefinitions(hasRowNavigation, undefined, isRbacTeamsAvailable)}
       tableActions={tableActions}
       loadEntities={() => just(entityResult)}
       noDataMessage={noDataMessage}

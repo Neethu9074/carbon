@@ -16,10 +16,10 @@ import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable'
 import { SETTINGS_ALERT_CHANNEL_CLICK } from 'in-services/tracking/eventNames';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -46,14 +46,20 @@ export default function AlertChannelsList({
   detailView,
   alertChannels,
   alertChannelPerSeverityEnabled,
-  getHeader = defaultGetHeader(inSelectListDialog, tableActions)
+  getHeader = defaultGetHeader(inSelectListDialog, tableActions),
+  createdChannelId,
+  selectedItems
 }) {
   const BOUNDED_PATH = '/channels';
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const { location, createHrefToPath } = useNavigation();
   const channelListColumnDefinitions =
     alertChannelPerSeverityEnabled && detailView
-      ? [...columnDefinitions(hasRowNavigation, createHrefToPath), ...columnDefinitionsAlertLevel(alertChannels)]
-      : columnDefinitions(hasRowNavigation, createHrefToPath);
+      ? [
+          ...columnDefinitions(hasRowNavigation, createHrefToPath, isRbacTeamsAvailable),
+          ...columnDefinitionsAlertLevel(alertChannels)
+        ]
+      : columnDefinitions(hasRowNavigation, createHrefToPath, isRbacTeamsAvailable);
   const [{ query }] = useUrlState({
     bind: [
       {
@@ -84,6 +90,7 @@ export default function AlertChannelsList({
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       boundedPath={BOUNDED_PATH}
+      customSortEntities={createdChannelId && sortSelecteditems([...selectedItems, createdChannelId])}
       getDetailsHref={
         onRowClick || !hasRowNavigation
           ? null
@@ -108,7 +115,7 @@ export default function AlertChannelsList({
 }
 
 // removed 'createHrefToPath', which was initialised within the GetContent, because UI was crashing with an error while searching: : Rendered more hooks than during the previous render.
-export function columnDefinitions(hasRowNavigation, createHrefToPath) {
+export function columnDefinitions(hasRowNavigation, createHrefToPath, isRbacTeamsAvailable) {
   const columns = [
     {
       id: 'name',
@@ -160,7 +167,7 @@ export function columnDefinitions(hasRowNavigation, createHrefToPath) {
       }
     }
   ];
-  if (rbacTeamsEnabled) {
+  if (isRbacTeamsAvailable) {
     columns.push({
       id: 'teams',
       label: t('in-settings:tabs.teams.teamsTitle'),
@@ -201,6 +208,11 @@ function columnDefinitionsAlertLevel(alertChannels) {
       }
     }
   ];
+}
+function sortSelecteditems(selectedIds) {
+  return ({ entities }) => {
+    return entities.sort((a, b) => selectedIds.indexOf(b.id) - selectedIds.indexOf(a.id));
+  };
 }
 
 function checkChannelPresentIn(thresholdType, alertChannels, channelId) {

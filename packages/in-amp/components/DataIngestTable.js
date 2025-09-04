@@ -7,6 +7,7 @@ import React from 'react';
 
 import {
   DataTable,
+  DataTableSkeleton,
   Table,
   TableBody,
   TableCell,
@@ -17,7 +18,7 @@ import {
   TableRow,
   TableContainer
 } from '@instana/carbon';
-import { TableSkeleton, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/carbon';
 
@@ -75,7 +76,7 @@ const DataIngestTable = () => {
           )
         }
       >
-        <TableSkeleton headers={[]} rowCount={16} columnCount={12} compact />
+        <DataTableSkeleton headers={[]} rowCount={4} columnCount={10} compact />
       </TableContainer>
     );
   }

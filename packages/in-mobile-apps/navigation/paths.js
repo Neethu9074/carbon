@@ -19,7 +19,8 @@ import {
   beaconTimestamp as beaconTimestampMatrixParameter,
   httpRequestId as httpRequestIdMatrixParameter,
   customEventId as customEventIdMatrixParameter,
-  crashId as crashIdMatrixParameter
+  crashId as crashIdMatrixParameter,
+  anrId as anrIdMatrixParameter
 } from 'in-mobile-apps/navigation/matrix';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -66,6 +67,8 @@ export const usersTab = '/users';
 export const usersTabFullyQualified = `${mobileAppPathFullyQualified}${usersTab}`;
 export const crashesTab = '/crashes';
 export const crashesTabFullyQualified = `${mobileAppPathFullyQualified}${crashesTab}`;
+export const performanceTab = '/performance';
+export const performanceTabFullyQualified = `${mobileAppPathFullyQualified}${performanceTab}`;
 export const httpRequestsTab = '/httpRequests';
 export const httpRequestsTabFullyQualified = `${mobileAppPathFullyQualified}${httpRequestsTab}`;
 export const customEventsTab = '/customEvents';
@@ -81,6 +84,8 @@ export const configurationSymbolFiles = '/symbolFiles';
 export const configurationSymbolFilesFullyQualified = `${configurationTabFullyQualified}${configurationSymbolFiles}`;
 export const configurationCustomGeoDetails = '/customGeoDetails';
 export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFullyQualified}${configurationCustomGeoDetails}`;
+export const configurationTeams = '/teams';
+export const configurationTeamsFullyQualified = `${configurationTabFullyQualified}${configurationTeams}`;
 
 export const alertsTabListFullyQualified = `${mobileAppPathFullyQualified}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
@@ -210,6 +215,26 @@ export function useLinkToCrash() {
       }
 
       setOrDeleteMatrixKey(location, '/details', crashIdMatrixParameter, crashId);
+
+      return createHref(location);
+    },
+    [location, createHref]
+  );
+}
+
+export function useLinkToPerformance() {
+  const { location, createHref } = useNavigation();
+
+  return useCallback(
+    (mobileAppId, { anrId, viewId } = emptyObject) => {
+      location.pathname = `${mobileAppPathFullyQualified}/performance/details`;
+      setOrDeleteMatrixKey(location, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+
+      if (viewId !== undefined) {
+        setOrDeleteMatrixKey(location, mobileAppPath, viewIdMatrixParameter, viewId);
+      }
+
+      setOrDeleteMatrixKey(location, '/details', anrIdMatrixParameter, anrId);
 
       return createHref(location);
     },

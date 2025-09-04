@@ -66,7 +66,12 @@ export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
 
 // CI/CD
 export const runTypeCICD = 'CI/CD';
+// On demand
+export const runTypeOnDemandKey = 'OnDemand';
+export const runTypeOnDemandValue = 'On demand';
 export const runTypeScheduled = 'Scheduled';
+// Default runType to 'Scheduled' to prevent datascope label error when syntheticRunNowEnabled is true
+export const defaultRunType = syntheticRunNowEnabled ? runTypeScheduled : undefined;
 
 export const DNSTransportOptions: { label: string; value: string }[] = [
   {
@@ -142,10 +147,10 @@ export interface DataScopeType {
   value: string;
 }
 
-export interface CreateSyntheticOnDemandTestDialogProps {
-  readonly testId: string;
-  readonly testLocations: string[];
-  readonly testType: string;
+export interface CreateSyntheticOnDemandProps {
+  testId: string;
+  testLocations: string[];
+  onlineLocations?: SyntheticLocation[];
 }
 
 export const AssertionFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
@@ -604,8 +609,6 @@ export interface AdvancedModeProps {
   setInvalidHeader: React.Dispatch<React.SetStateAction<Invalid>>;
   invalidJSON: Invalid;
   setInvalidJSON: React.Dispatch<React.SetStateAction<Invalid>>;
-  teams: TeamTagEx[];
-  setTeams: React.Dispatch<React.SetStateAction<TeamTagEx[]>>;
   customProperties: ConfigItem[];
   setCustomProperties: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
   invalidCustomProperty: Invalid;
@@ -635,20 +638,6 @@ export interface ConfigItem {
   key: string;
   value: string;
   error: Record<string, ErrorType>;
-}
-
-export interface TeamTagEx {
-  tag_id?: string;
-  id?: string;
-  entity_id?: string;
-  displayName: string;
-}
-
-export interface TeamRaw {
-  id: string;
-  name: string;
-  hasScope?: boolean;
-  usersCount?: number;
 }
 
 export interface Validation {
@@ -988,9 +977,13 @@ export interface FilterConfig {
 }
 
 export interface TestListProps {
+  context?: string;
+  appId?: string;
+  mobileAppId?: string;
+  websiteId?: string;
   timeConfig: TimeConfig;
   runType?: string;
-  syntheticTypes?: string[];
+  syntheticTypes: string[];
   locationIds: string[];
   applicationIds?: string[];
   entityIds?: string[];
@@ -999,4 +992,26 @@ export interface TestListProps {
     websites: string[];
     mobileApps: string[];
   };
+}
+
+export interface ResultsHeader {
+  key: string;
+  header: string;
+  width?: string;
+  getContent: (item: TestResultListItem) => React.ReactNode;
+}
+
+export interface ExpandableResultListProps {
+  test: TestResultListItem;
+  runType: string | undefined;
+  timeConfig: TimeConfig;
+}
+
+export interface TestsTableWithUrlStateProps extends TestListProps {
+  syntheticTests: Result<SyntheticTest[]>;
+  setFilter: (x: Object) => void;
+  filterComponent?: JSX.Element | null;
+  onFilterApply?: () => void;
+  onFilterCancel?: () => void;
+  isAssociationsContext?: boolean;
 }

@@ -14,7 +14,7 @@ import AmpSettings from 'in-settings/tabs/AMP/View';
 import { ampEnabled, newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import SecurityAndAccess from 'in-settings/tabs/SecurityAndAccess/View';
 import { Tab } from 'in-components/LocationAwareTabView/types';
-import { role } from 'in-stores/user';
+import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
 const globalTab: Tab<unknown, any> = {
@@ -41,13 +41,13 @@ const ampTab: Tab<unknown, any> = {
   component: AmpSettings
 };
 
-export default function getTabs(): Array<Tab<unknown, any>> {
+export default function getTabs(role: Role): Array<Tab<unknown, any>> {
   const ampTabVisible = !newAccountAndBillingPageEnabled && ampEnabled && role?.canViewAccountAndBillingInformation;
 
   return [
-    roleHasAnyGlobalPermissions() && globalTab,
+    roleHasAnyGlobalPermissions(role) && globalTab,
     userTab,
-    roleHasAnySecurityAccessPermissions() && securityAndAccessTab,
+    roleHasAnySecurityAccessPermissions(role) && securityAndAccessTab,
     ampTabVisible && ampTab
   ].filter(Boolean) as Array<Tab<unknown, any>>;
 }

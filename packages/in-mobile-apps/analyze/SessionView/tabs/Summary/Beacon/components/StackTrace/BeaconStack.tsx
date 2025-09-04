@@ -17,16 +17,18 @@ import locals from './BeaconStack.mless';
 
 export default function BeaconStackTrace({
   beacon,
-  optionalLabel
+  optionalLabel,
+  textProp
 }: {
   beacon: MobileAppMonitoringBeacon;
   optionalLabel?: boolean;
+  textProp: string;
 }) {
   const [pretty, setPretty] = useState(true);
 
   const formatedData = formatStackTrace(beacon, pretty);
   return (
-    <StackTraceContainer data={formatedData} pretty={pretty} onChange={pretty => setPretty(pretty)}>
+    <StackTraceContainer textProp={textProp} data={formatedData} pretty={pretty} onChange={pretty => setPretty(pretty)}>
       {({ actions, content }) => (
         <Fragment>
           <div className={locals.header}>

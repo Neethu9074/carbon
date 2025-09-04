@@ -9,13 +9,16 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { CarbonButton as Button, CarbonStack as Stack, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TraceSummary } from '@instana/types';
+import { Dropdown } from '@instana/carbon';
 import { t } from '@instana/i18n-react';
 
 import { DownloadOptionsDropdown } from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/DownloadOptionsDropdown';
 // @ts-expect-error needs ts migration
 import { updateLocationToAnalyze } from 'in-applications/navigation/paths';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { CONJUNCTION, FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
+import { OPERATOR_AND } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { traceDownloadUrl } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
@@ -23,24 +26,35 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { analyzeSubtracesEnabled } from 'in-services/featureFlags';
 import { RenderIcon } from 'in-components/SaveFilters/RenderIcon';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { connection } from 'in-connection/connection';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { seconds } from 'in-services/time/time';
-import { role } from 'in-stores/user';
+import { Nullish } from 'in-types';
+
+import locals from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/TraceDetailViewButtonLine.mless';
 
 // No need for a subscription, as this is not getting a response
 const retainTrace = (traceId: string) => connection.send('traceViewed', { traceId });
 
 interface TraceDetailViewButtonLineProps {
+  subtraceConfigId: string | Nullish;
   traceId: string;
   traceSummary?: TraceSummary;
 }
-
-export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetailViewButtonLineProps) {
+interface SubtraceConfig {
+  id: string;
+  label: string;
+}
+export function TraceDetailViewButtonLine({ subtraceConfigId, traceId, traceSummary }: TraceDetailViewButtonLineProps) {
+  const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
+  const [subtraceConfigOptions, setSubtraceConfigOptions] = useState<SubtraceConfig[]>([{ id: '', label: '' }]);
+  const [selectedSubtraceConfig, setSelectedSubtraceConfig] = useState<SubtraceConfig | Nullish>({ id: '', label: '' });
   const { location, createHref } = useNavigation();
   const { trackAnalyzeCallsOfTraceClicked, trackDownloadTraceClicked } = useApplicationTracker();
   const [traceSaved, setTraceSaved] = useState(
@@ -56,7 +70,6 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
     retainTrace(traceId);
     setTraceSaved(true);
   };
-
   // if a non-large trace is viewed for at least 15s store it long term
   useEffect(() => {
     let traceViewedTimeoutId: NodeJS.Timeout;
@@ -67,6 +80,17 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
       clearTimeout(traceViewedTimeoutId);
     };
   }, [traceId, traceSummary?.traceRetentionState]);
+  useEffect(() => {
+    //need to change after backend updates type
+    const subtraceConfigsInTrace: any = traceSummary?.subtracesInTrace?.map(subtraceConfig => ({
+      label: subtraceConfig.subtraceName,
+      id: subtraceConfig.subtraceId
+    }));
+    setSubtraceConfigOptions(subtraceConfigsInTrace);
+    setSelectedSubtraceConfig(
+      subtraceConfigsInTrace.find((config: SubtraceConfig) => config.id === subtraceConfigId) ?? { id: '', label: '' }
+    );
+  }, [subtraceConfigId, traceSummary?.subtracesInTrace]);
 
   let adjustedTimeConfig = timeConfig;
   if (traceSummary) {
@@ -86,14 +110,14 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
   const locationAnalyzeCallsOfThisTrace = useMemo(() => {
     updateLocationToAnalyze(location, {
       dataSource: 'calls',
-      formModel: applyTraceIdFilter(traceIdInUrl),
+      formModel: applyFilter(traceIdInUrl, subtraceConfigId),
       facets: null,
       timeConfig: adjustedTimeConfig,
       hiddenCalls: { includeInternal: true, includeSynthetic: true },
       resetUndefinedParams: false
     });
     return location;
-  }, [adjustedTimeConfig, location, traceIdInUrl]);
+  }, [adjustedTimeConfig, location, subtraceConfigId, traceIdInUrl]);
 
   if (!role?.canViewLogs || !role?.canViewTraceDetails) {
     return null;
@@ -158,11 +182,32 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
           </Button>
         </Tooltip>
       )}
+      {analyzeSubtracesEnabled && subtraceConfigId && (
+        <Dropdown
+          aria-label={'Subtrace configurations'}
+          className={locals.subtraceDropdown}
+          onChange={e => setSelectedSubtraceConfig(e.selectedItem)}
+          items={subtraceConfigOptions}
+          label=""
+          id="subtraceConfig"
+          titleText={''}
+          selectedItem={selectedSubtraceConfig}
+        />
+      )}
     </Stack>
   );
 }
 
-function applyTraceIdFilter(traceId: string) {
-  const traceIdFilterExpression = [tagFilter('trace.id', EQUALS, traceId)];
-  return traceIdFilterExpression;
+function applyFilter(traceIdInUrl: string, subtraceConfigIdInUrl: string | Nullish) {
+  const filterExpression: FormModelElement[] = [tagFilter('trace.id', EQUALS, traceIdInUrl)];
+  if (analyzeSubtracesEnabled && subtraceConfigIdInUrl) {
+    filterExpression.push(
+      {
+        type: CONJUNCTION,
+        logicalOperator: OPERATOR_AND
+      },
+      tagFilter('subtrace.config.id', EQUALS, subtraceConfigIdInUrl)
+    );
+  }
+  return filterExpression;
 }

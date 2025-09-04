@@ -129,7 +129,7 @@ export default connectTo(
   }
 );
 
-function getSnapshotVersionsByTime(timeConfig) {
+export function getSnapshotVersionsByTime(timeConfig) {
   return selectedSnapshotId$.flatMap(snapshotId => {
     if (!snapshotId) {
       return alwaysEmptyImmutableList;

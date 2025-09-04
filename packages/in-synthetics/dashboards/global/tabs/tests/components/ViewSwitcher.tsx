@@ -8,21 +8,22 @@ import React from 'react';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { syntheticCarbonTableEnabled, syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
+import { syntheticSslImprovementEnabled, syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-synthetics/navigation/paths';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 
 export default function ViewSwitcher() {
+  const [role] = useCurrentUserRole();
   const { matchLocation, createHrefToPath } = useNavigation();
   const isTestsActive = matchLocation(paths.syntheticsPath);
   const isLocationsActive = matchLocation(paths.syntheticLocationPath);
@@ -51,12 +52,12 @@ export default function ViewSwitcher() {
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticsPath)}
               label={
-                syntheticCarbonTableEnabled
+                syntheticSslImprovementEnabled
                   ? t('in-synthetics:dashboard.testList.secondaryLabels.syntheticTests')
                   : t('in-synthetics:dashboard.testList.secondaryLabels.tests')
               }
               isActive={isTestsActive && !isLocationsActive && !isCredentialsActive && !isSmartAlertsActive}
-              icon={syntheticCarbonTableEnabled ? '' : 'lib_synthetic'}
+              icon={syntheticSslImprovementEnabled ? '' : 'lib_synthetic'}
             />
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticLocationPath)}

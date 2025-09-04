@@ -258,6 +258,7 @@
         "configurationOptions": "構成オプション",
         "monitoringGcr": "Google Cloud Run のモニタリング",
         "monitoringAwsFargateRuby": "AWS Fargate (Ruby) のモニター",
+        "monitoringAwsFargatePhp": "AWS Fargate（PHP）のモニタリング",
         "awsServiceDocumentation": "AWS サービスに関する文書",
         "monitoringAwsLambda": "AWS Lambda のモニター",
         "configuringAwsLambdaMonitoring": "AWS Lambda モニターの構成",
@@ -273,7 +274,8 @@
       "nodejs8": "Node.js 8.x",
       "nodejs10Plus": "Node.js 10.x 以降",
       "python2and3": "Python 2.7 および 3.x",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "php": "PHP"
     },
     "bosh": {
       "boshDirectorRuntimeConfig": "BOSH Director ランタイム構成",
@@ -562,7 +564,7 @@
     },
     "logging": {
       "title": "Instanaロギング",
-      "description": "現在、OTelを通じてどこからでもログを受け入れることができ、アドオン機能として最大90日間の長期保存が可能です。",
+      "description": "OTelを通じてどこからでもログを受信できるようになり、アドオン機能として最大90日間の長期保存が可能になりました。",
       "buttonName": "詳細はこちら"
     },
     "turbonomic": {
@@ -578,7 +580,8 @@
     "startIntegrating": {
       "title": "データの統合を始める",
       "description": "エージェントをインストールすることで、Instanaのセットアップとシームレスなデータ統合を開始します。",
-      "buttonName": "エージェントのインストール"
+      "buttonName": "エージェントのデプロイ",
+      "newDescription": "エージェントまたはコレクターをインストールして、Instana のセットアップとシームレスなデータ統合を開始しましょう。"
     },
     "traceInteractions": {
       "title": "相互作用トレース",
@@ -848,7 +851,8 @@
         "addUser": "ユーザーの追加",
         "documentation": "IBM 資料",
         "releaseNotes": "リリース情報",
-        "communityBlogsLink": "コミュニティー・ブログ"
+        "communityBlogsLink": "コミュニティー・ブログ",
+        "installDataSource": "データ・ソースをインストールする"
       },
       "toolTip": {
         "makeDefault": "このアクションにより、Instana のホーム・ページがデフォルトのランディング・ページとして設定され、カスタム・ダッシュボードが置き換えられます。"
@@ -944,7 +948,7 @@
   "datasources": {
     "datasources": "データ・ソース",
     "openTelemetryCollectors": "OpenTelemetryコレクター",
-    "instanaAgents": "Instana エージェント",
+    "instanaAgents": "Instanaエージェント",
     "installACollector": "コレクターのインストール",
     "status": {
       "statusUnknown": "不明",
@@ -968,8 +972,8 @@
         "emptyState_subtitle": "「エージェントのインストール」をクリックして、Instanaエージェントを検索、デプロイ、実行します。 "
       },
       "oTelCollector": {
-        "emptyState_title": "OpenTelemetryコレクターをインストールしてデータの表示を開始します",
-        "emptyState_linktext": "Instana oTelコレクターについての詳細はこちら",
+        "emptyState_title": "OpenTelemetryコレクターをインストールして、データの表示を開始しましょう",
+        "emptyState_linktext": "Instana OTel Collector について詳しく知る",
         "emptyState_buttontext": "コレクターのインストール",
         "emptyState_subtitle": "OpenTelemetryを検索、展開、実行するには、「コレクターのインストール」をクリックします。"
       }
@@ -982,5 +986,43 @@
     "reportingStatus": "{{reporting}} {{datasource}}レポーティング({{nonReporting}}レポーティングしない)",
     "reporting": "レポート作成",
     "notReporting": "レポートなし"
+  },
+  "onboarding": {
+    "yourDashboard": "ダッシュボード",
+    "gettingStarted": "始めに",
+    "title": "オンボーディング・タスクの提案",
+    "description": "Instanaを最大限に活用するための推奨タスクを確認してください。",
+    "taskLabel": "オンボーディング・タスク",
+    "joinCommunityLink": "インスタナのコミュニティーに参加する",
+    "videotitle": "ガイドビデオ",
+    "videoDescription": "ビデオカタログをご覧いただくことで、簡単に環境を設定することができます。",
+    "video": "ビデオ",
+    "videoitem": {
+      "installation": "インスタナのインストール",
+      "addingAgent": "エージェントの追加",
+      "monitorWebsite": "Web サイトのモニター"
+    },
+    "communityblogs": {
+      "title": "インスタナ・コミュニティー・ブログ",
+      "description": "Instanaのコミュニティーに参加して、これから始まるワクワクすることを学びましょう！",
+      "blogLabel": "ブログ",
+      "gettingStartedBlogTitle": "Instana の概要",
+      "gettingStartedBlogDescription": "Instanaについての詳細と、製品を使い始めるために必要な情報をご覧ください。",
+      "initialDeploymentBlogTitle": "Instanaの初期導入手順",
+      "initialDeploymentBlogDescription": "ウェブサイトの監視方法やアラートの設定方法など、各トピックに分かりやすいビデオで学びましょう。"
+    },
+    "resource": {
+      "title": "リソース",
+      "tryInstanaWithSampleData": "サンプルデータでInstanaを試す",
+      "ibmDocumentation": "IBM 資料",
+      "community": "コミュニティー",
+      "getSupport": "サポートの利用",
+      "watchADemo": "デモを見る"
+    }
+  },
+  "accountBillingPushNotificationMessage": {
+    "description": "設定とは別のページでアカウント情報と請求先情報を確認できるようになりました。",
+    "buttonText": "ページの表示",
+    "title": "アカウントと請求が別のページに移動しました。"
   }
 }

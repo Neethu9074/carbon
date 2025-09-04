@@ -132,9 +132,23 @@ const ExpandableRowComponent = <ITEM_TYPE extends ListItem>({
       onExpand={() => toggleRowExpansion(row.id)}
     >
       {isSelectable && <TableSelectRow {...getSelectionProps({ row })} />}
-      {row.cells.map((cell: Cell) => (
-        <TableCell key={cell.id}>{cell.value}</TableCell>
-      ))}
+      {row.cells.map((cell: Cell, i: number) => {
+        const header = headers[i];
+        return (
+          <TableCell
+            key={cell.id}
+            style={header.width && !header.useMinimumAmountOfHorizontalSpace ? { maxWidth: header.width } : {}}
+            className={classNames({
+              [locals[`rowWidth.w-${header.width}`]]: header.width && !header.useMinimumAmountOfHorizontalSpace,
+              [locals.noWrap]: header.noWrap,
+              [locals.ellipsis]: header.ellipsis,
+              [locals.tableMinimumHorizontalSpace]: header.useMinimumAmountOfHorizontalSpace
+            })}
+          >
+            {cell.value}
+          </TableCell>
+        );
+      })}
     </TableExpandRow>
     {isExpanded && <TableExpandedRow colSpan={headers.length + 2}>{rowIdToExpanded[row.id] ?? ''}</TableExpandedRow>}
   </Fragment>
@@ -314,6 +328,8 @@ export const CarbonDataTable = React.memo(
                           }}
                           label={t('in-synthetics:components.dataTable.filterPanel.title')}
                           kind="ghost"
+                          autoAlign
+                          align="right"
                         >
                           <Filter />
                         </IconButton>
@@ -449,7 +465,7 @@ export const CarbonDataTable = React.memo(
                       {/* Empty state handling - shows when no rows are present */}
                       {rows.length === 0 && (
                         <TableRow>
-                          <TableCell colSpan={headers.length}>
+                          <TableCell colSpan={isExpandable ? headers.length + 1 : headers.length}>
                             {/* Show error state if there are errors in the result */}
                             {hasError(result) ? (
                               <ErrorEmptyState

@@ -76,7 +76,7 @@ describe('AlertConfiguration : in-alerting/smart-alerts/logs/details/AlertConfig
       screen.getByText(t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleAlertChannels'))
     ).toBeInTheDocument();
     if (alertConfig.alertChannelIds.length == 0) {
-      expect(screen.getByText(t('in-alerting:components.noChannelSelectedText'))).toBeInTheDocument();
+      expect(screen.getByText(t('in-alerting:components.noChannelSelectedDetailPage'))).toBeInTheDocument();
     }
   });
 

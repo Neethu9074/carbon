@@ -66,27 +66,10 @@ const Topology = ({ incident }: TopologyProps) => {
         <RootCauseTopology
           relationships={relationships}
           nodes={nodes}
-          height={'40vh'}
+          height={'60vh'}
           width={'100%'}
           showSidePanel={false}
         />
-        {/* <ProductiveCard
-          title="Topology"
-          className={locals.cardWithBorder}
-          actionIcons={[
-            {
-              icon: DataClass
-            },
-            {
-              icon: ZoomIn
-            },
-            {
-              icon: ZoomOut
-            }
-          ]}
-        > */}
-
-        {/* </ProductiveCard> */}
       </RCATopologyAPContext.Provider>
     </RCATopologyTimeWindowContext.Provider>
   );

@@ -37,11 +37,11 @@ import { getLabel as defaultGetLabel, GROUP_COLORS } from 'in-components/Analyze
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
+import { withSiPrefixOneDecimalPlace, number } from 'in-services/formatters/number';
 import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
@@ -535,22 +535,27 @@ function metricColumns({
         const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
         const customFormatterId = getCustomMetricUiFormatterName?.(field.metricId, field.aggregationId);
         let formatter;
-        if (customFormatterId != null) {
-          formatter = getFormatter(customFormatterId);
-        } else {
-          // The width of metric values rendered using NUMBER formatter can vary significantly which may
-          // break column alignment, use more dense SI prefix based formatter instead.
-          formatter = isNumberFormatter(metricDefinition?.formatter)
-            ? withSiPrefixOneDecimalPlace
-            : field.metricId === 'latency' && customLatencyUiFormatterName
-            ? getBackendFormatter(customLatencyUiFormatterName)
-            : getBackendFormatter(metricDefinition?.formatter);
-        }
+
         return {
           shrink: false,
           width: '16rem',
           minWidth: '9rem',
           getContent({ item: { metrics }, timeConfig, progress, sparkChartGranularity }) {
+            if (customFormatterId != null) {
+              formatter = getFormatter(customFormatterId);
+            } else {
+              const isNumberFmt = isNumberFormatter(metricDefinition?.formatter);
+              const metricValue = metrics[getSingleNumberMetricId(field)]?.[0]?.[1];
+              // The width of metric values rendered using NUMBER formatter can vary significantly which may
+              // break column alignment, use more dense SI prefix based formatter instead.
+              formatter = isNumberFmt
+                ? metricValue >= 1000
+                  ? withSiPrefixOneDecimalPlace
+                  : number.compact
+                : field.metricId === 'latency' && customLatencyUiFormatterName
+                ? getBackendFormatter(customLatencyUiFormatterName)
+                : getBackendFormatter(metricDefinition?.formatter);
+            }
             return (
               <div className={locals.sparkChartWrapper}>
                 <SparkChart

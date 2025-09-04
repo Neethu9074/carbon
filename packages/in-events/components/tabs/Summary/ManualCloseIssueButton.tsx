@@ -12,9 +12,9 @@ import { useObservable } from '@instana/hooks';
 import ManualCloseIssueConfigForm from 'in-events/components/tabs/Summary/ManualCloseIssueConfigForm';
 import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { EventOrMap } from 'in-events/types';
 import { getEvents } from 'in-events/api';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 type ManualCloseIssueButtonProps = {
@@ -34,6 +34,7 @@ export default function ManualCloseIssueButton({
   eventType,
   buttonType = 'button'
 }: ManualCloseIssueButtonProps) {
+  const [role] = useCurrentUserRole();
   const [manuallyClosed, setManuallyClosed] = useState<boolean>(false);
   const [eventIDForAfterManualCheck, setEventIDForAfterManualCheck] = useState<string>('');
 

@@ -15,10 +15,6 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-import {
-  mobileAppSmartAlertsAdaptiveBaselineEnabled,
-  alertChannelPerSeverityMobileAppSaEnabled
-} from 'in-services/featureFlags';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
@@ -40,12 +36,12 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import TimeThresholdConfig from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/TimeThresholdConfig';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
+import { mobileAppSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
@@ -207,26 +203,14 @@ export default function AdvancedModeContainer(
           title: t('in-alerting:smartAlerts.mobileApp.advanced.alertChannelsTitle'),
           valid: true,
           content: (
-            <>
-              {alertChannelPerSeverityMobileAppSaEnabled ? (
-                <ConfigureAlertChannelMT
-                  form={form}
-                  onChange={onChange}
-                  updateForm={updateForm}
-                  setSliderState={setSliderState}
-                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                  numberOfAlertChannelListRows={5}
-                />
-              ) : (
-                <ConfigureAlertChannel
-                  form={form}
-                  onChange={onChange}
-                  setSliderState={setSliderState}
-                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                  numberOfAlertChannelListRows={5}
-                />
-              )}
-            </>
+            <ConfigureAlertChannelMT
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={5}
+            />
           )
         },
         {
@@ -250,6 +234,7 @@ export default function AdvancedModeContainer(
                       placeholderData={{ placeholders: severityPlaceholderList }}
                     />
                   )}
+                  placeholders={severityPlaceholderList}
                 />
               )}
               renderAlertPreview={() => (
@@ -270,6 +255,11 @@ export default function AdvancedModeContainer(
                     />
                   )}
                   isTearSheet={false}
+                  descriptionWithReplacedPlaceholders={replacePlaceholdersWithMarkup(
+                    severityPlaceholderList,
+                    form.get('description').value,
+                    ({ name }) => name
+                  )}
                 />
               )}
             />

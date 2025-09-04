@@ -12,8 +12,9 @@ import { internalMonitoringUnit, pluginMetricStatisticsEnabled } from 'in-servic
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { canSeeExtendedInternalMonitoring, role } from 'in-stores/user';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { canSeeExtendedInternalMonitoring } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
@@ -29,9 +30,10 @@ import locals from './Landing.mless';
 export default connectTo(
   { timeConfig: timeConfig$, isInternalVisible: isInternalVisible$ },
   function Landing({ timeConfig, isInternalVisible }) {
+    const [role] = useCurrentUserRole();
     const granularity = getInfraGranularity(timeConfig);
 
-    const { createHref, location } = useNavigation();
+    const { createHref, createHrefToPath, location } = useNavigation();
     const otlpAcceptorsHref = createHref({ ...location, pathname: '/internal/monitoringUnit/otlpAcceptors' });
 
     return (
@@ -555,9 +557,14 @@ export default connectTo(
                       description="Analyze tag sets"
                     />
                     <LinkListItem
+                      label="graphiQL"
+                      href={createHrefToPath( '/internal/thisUnit/graphiql' )}
+                      description={t('in-internal:components.landing.graphiQLDescription')}
+                    />
+                    <LinkListItem
                       // needs i18n...:
                       label="Feature Flags"
-                      href={createHref({ ...location, pathname: '/internal/featureflags' })}
+                      href={createHrefToPath('/internal/thisUnit/featureflags' )}
                       // needs i18n...:
                       description="the feature flags available for this tenant unit."
                     />

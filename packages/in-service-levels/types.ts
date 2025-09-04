@@ -16,7 +16,9 @@ import type {
   Application,
   Website,
   ServiceLevelObjectiveConfiguration,
-  CorrectionConfiguration
+  CorrectionConfiguration,
+  SaturationBlueprintIndicator,
+  BlueprintType
 } from '@instana/types';
 
 import { SloTimeWindowTypes, sliThresholdOperators } from 'in-service-levels/constants';
@@ -25,6 +27,8 @@ import type { ProductArea } from 'in-services/tracking/productAreas';
 import type { PageName } from 'in-services/tracking/pageNames';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
+
+export type BaseBlueprintType = Exclude<BlueprintType, 'saturation'>;
 
 export function isAggregatedServiceLevelIndicator(
   indicator: ServiceLevelIndicatorUnion
@@ -54,6 +58,12 @@ export function isTrafficBlueprintIndicator(
   indicator: ServiceLevelIndicatorUnion
 ): indicator is TrafficBlueprintIndicator {
   return indicator.blueprint === 'traffic';
+}
+
+export function isSaturationBlueprintIndicator(
+  indicator: ServiceLevelIndicatorUnion
+): indicator is SaturationBlueprintIndicator {
+  return indicator.blueprint === 'saturation';
 }
 
 export function isAvailableTimeWindowType(timeWindowType: any): timeWindowType is AvailableTimeWindowTypes {

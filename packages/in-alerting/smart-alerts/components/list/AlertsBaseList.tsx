@@ -6,17 +6,19 @@
 
 import React, { ReactNode } from 'react';
 
+import { Result, RuleWithThreshold } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { Card } from '@instana/components';
-import { Result } from '@instana/types';
 
+import {
+  severityCritical,
+  severityWarning
+} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
 import SmartAlertsTableWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
-import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsListWithUrlState';
 import { ColumnDefinition as ServerTableColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
 import TableNameColumnCell from 'in-alerting/smart-alerts/components/table/TableNameColumnCell';
 import { SortOption } from 'in-alerting/smart-alerts/components/list/TableSortingConfigurator';
-import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
+import SeverityColumn from 'in-alerting/smart-alerts/components/list/columns/SeverityColumn';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
@@ -47,24 +49,19 @@ export interface AlertURLProps {
 
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   getAlertConfigs: () => Observable<Result<AlertConfig[]>>;
-  extraColumnDefinitions: ColumnDefinition<AlertConfig>[];
   extraCarbonTableColumnDefinitions: ServerTableColumnDefinition<AlertConfig>[];
   noDataHeader: string;
   noDataDescription: string | JSX.Element;
-  getSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element);
   getNameSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element);
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
-  actionHandlers?: ActionHandlers<AlertConfig>;
   carbonActionHandlers?: ActionHandlers<AlertConfig>;
   sortOptions?: SortOption[];
   alertsTab: string;
-  renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode);
-  hideAlertIcon?: boolean;
-  displayCarbonTable?: boolean;
   toolBarContent?: JSX.Element;
   isSelectable?: boolean;
   useSmartAlertCreateUrl?: (args: AlertURLProps) => string;
   displayTitle?: boolean;
+  hideSeverity?: boolean;
 }
 
 export interface AlertConfigType {
@@ -76,6 +73,7 @@ export interface AlertConfigType {
   created: number;
   initialCreated: number;
   rule?: { alertType?: string };
+  rules?: RuleWithThreshold<any>[];
 }
 
 export interface ColumnDefinition<AlertConfig extends AlertConfigType> {
@@ -85,140 +83,53 @@ export interface ColumnDefinition<AlertConfig extends AlertConfigType> {
   getContent: (entity: AlertConfig) => ReactNode;
   sortable?: boolean;
   ellipsis?: string;
+  hideSeverity?: boolean;
 }
 
 export default function AlertBaseList<AlertConfig extends AlertConfigType>({
-  extraColumnDefinitions,
   extraCarbonTableColumnDefinitions,
   getAlertConfigs,
-  getSubtitle,
   getNameSubtitle,
   createRowLinkLocation,
   sortOptions = [],
-  actionHandlers,
   carbonActionHandlers,
   alertsTab,
-  renderName,
-  hideAlertIcon,
-  displayCarbonTable = false,
   toolBarContent = undefined,
   isSelectable = false,
   noDataHeader,
   noDataDescription,
   useSmartAlertCreateUrl,
-  displayTitle = false
+  displayTitle = false,
+  hideSeverity = false
 }: AlertBaseListProps<AlertConfig>) {
-  const columnDef = createColumnDefinition(
-    extraColumnDefinitions,
-    actionHandlers,
-    getSubtitle,
-    renderName,
-    hideAlertIcon,
-    useSmartAlertCreateUrl
-  );
-
   const columnDefForTable = createTableColumnDefinition(
     extraCarbonTableColumnDefinitions,
     getNameSubtitle,
     carbonActionHandlers,
     createRowLinkLocation,
-    useSmartAlertCreateUrl
+    useSmartAlertCreateUrl,
+    hideSeverity
   );
 
   return (
-    <>
-      {displayCarbonTable ? (
-        <SmartAlertsTableWithUrlState<AlertConfig>
-          columnDefinitions={columnDefForTable}
-          getLocalAlertConfigsFetchFunction={getAlertConfigs}
-          getLocalAlertConfigTitle={(numberOfAlerts: number) =>
-            !displayTitle
-              ? t('in-alerting:smartAlerts.list.header.configuredAlerts', {
-                  numberOfAlerts
-                })
-              : ''
-          }
-          alertsTab={alertsTab}
-          toolBarContent={toolBarContent}
-          isSelectable={isSelectable}
-          noDataHeader={noDataHeader}
-          noDataDescription={noDataDescription}
-          sortOptions={sortOptions}
-        />
-      ) : (
-        <Card size="l">
-          <SmartAlertsListWithUrlState<AlertConfig>
-            columnDefinitions={columnDef.map(toAlertListColumns)}
-            getLocalAlertConfigsFetchFunction={getAlertConfigs}
-            getLocalAlertConfigTitle={(numberOfAlerts: number) =>
-              t('in-alerting:smartAlerts.list.header.configuredAlerts', {
-                numberOfAlerts
-              })
-            }
-            sortOptions={sortOptions}
-            pageSize={15}
-            createRowLinkLocation={createRowLinkLocation}
-            alertsTab={alertsTab}
-          />
-        </Card>
-      )}
-    </>
+    <SmartAlertsTableWithUrlState<AlertConfig>
+      columnDefinitions={columnDefForTable}
+      getLocalAlertConfigsFetchFunction={getAlertConfigs}
+      getLocalAlertConfigTitle={(numberOfAlerts: number) =>
+        !displayTitle
+          ? t('in-alerting:smartAlerts.list.header.configuredAlerts', {
+              numberOfAlerts
+            })
+          : ''
+      }
+      alertsTab={alertsTab}
+      toolBarContent={toolBarContent}
+      isSelectable={isSelectable}
+      noDataHeader={noDataHeader}
+      noDataDescription={noDataDescription}
+      sortOptions={sortOptions}
+    />
   );
-}
-
-function createColumnDefinition<AlertConfig extends AlertConfigType>(
-  extraColumnDefinitions: ColumnDefinition<AlertConfig>[],
-  actionHandlers: ActionHandlers<AlertConfig> | undefined,
-  getSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element),
-  renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode),
-  hideAlertIcon?: boolean,
-  useSmartAlertCreateUrl?: (args: AlertURLProps) => string
-) {
-  const nameColumn: ColumnDefinition<AlertConfig> = {
-    id: 'name',
-    width: '35%',
-    label: t('in-alerting:smartAlerts.list.columns.name'),
-    getContent: config => (
-      <NameColumnCell<AlertConfig>
-        config={config}
-        getSubtitle={getSubtitle}
-        renderName={renderName}
-        hideAlertIcon={hideAlertIcon ?? false}
-      />
-    )
-  };
-
-  if (actionHandlers) {
-    const actionsColumn = {
-      id: 'actions',
-      label: 'Action',
-      getContent: (config: AlertConfig) => (
-        <ListActionsColumn
-          config={config}
-          actionHandlers={actionHandlers}
-          isLoading={false}
-          useSmartAlertCreateUrl={useSmartAlertCreateUrl}
-        />
-      )
-    };
-    return [nameColumn, ...extraColumnDefinitions, actionsColumn];
-  }
-  return [nameColumn, ...extraColumnDefinitions];
-}
-
-/** adapter, because we use a different column format:
- *  getContent: ( config: AlertConfig }) {}
- *
- *  compared the one, used Smart-Alert-List, based on {ColumnizedContent}
- *  getContent: ({ config }: { config: AlertConfig }) {}
- */
-function toAlertListColumns<AlertConfig extends AlertConfigType>(column: ColumnDefinition<AlertConfig>) {
-  return {
-    ...column,
-    getContent: ({ config }: { config: AlertConfig }) => {
-      return column.getContent(config);
-    }
-  };
 }
 
 function createTableColumnDefinition<AlertConfig extends AlertConfigType>(
@@ -226,7 +137,8 @@ function createTableColumnDefinition<AlertConfig extends AlertConfigType>(
   getNameSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element),
   carbonActionHandlers?: ActionHandlers<AlertConfig>,
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location,
-  useSmartAlertCreateUrl?: (args: AlertURLProps) => string
+  useSmartAlertCreateUrl?: (args: AlertURLProps) => string,
+  hideSeverity?: boolean
 ) {
   const nameColumn: ColumnDefinition<AlertConfig> = {
     id: 'name',
@@ -240,6 +152,22 @@ function createTableColumnDefinition<AlertConfig extends AlertConfigType>(
         createRowLinkLocation={createRowLinkLocation}
       />
     )
+  };
+
+  const severityColumn: ColumnDefinition<AlertConfig> = {
+    id: 'severity',
+    label: t('in-alerting:smartAlerts.list.columns.severity'),
+    sortable: true,
+    ellipsis: '10vw',
+    getContent: config => {
+      const { rules } = config;
+      const severity = { severity: config?.severity };
+      const warningThreshold =
+        rules?.[0].thresholds?.WARNING || config?.severity === severityWarning ? severity : undefined;
+      const criticalThreshold =
+        rules?.[0].thresholds?.CRITICAL || config?.severity === severityCritical ? severity : undefined;
+      return <SeverityColumn warningThreshold={warningThreshold} criticalThreshold={criticalThreshold} />;
+    }
   };
 
   if (carbonActionHandlers) {
@@ -257,8 +185,13 @@ function createTableColumnDefinition<AlertConfig extends AlertConfigType>(
       ),
       sortable: false
     };
-    return [nameColumn, ...(extraCarbonTableColumnDefinitions ?? []), actionsColumn];
+    return [
+      nameColumn,
+      ...(extraCarbonTableColumnDefinitions ?? []),
+      ...(hideSeverity ? [] : [severityColumn]),
+      actionsColumn
+    ];
   }
 
-  return [nameColumn, ...(extraCarbonTableColumnDefinitions ?? [])];
+  return [nameColumn, ...(extraCarbonTableColumnDefinitions ?? []), ...(hideSeverity ? [] : [severityColumn])];
 }

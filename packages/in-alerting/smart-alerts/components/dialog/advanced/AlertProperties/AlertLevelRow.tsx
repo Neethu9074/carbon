@@ -14,8 +14,8 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow.mless';
 
-const severityWarning = 5;
-const severityCritical = 10;
+export const severityWarning = 5;
+export const severityCritical = 10;
 
 const severitySelectOptions = {
   [severityWarning]: {

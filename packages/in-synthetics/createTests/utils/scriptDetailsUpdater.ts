@@ -8,7 +8,6 @@ import { Field, MapForm } from 'formalistic';
 
 import { Code } from 'in-synthetics/utils/constants';
 import { isNotBlank } from 'in-services/util/string';
-import { t } from 'in-i18n';
 
 export const isSideScript = (script: string) => {
   try {
@@ -35,13 +34,13 @@ export function scriptDetailsUpdater(
   if (isUpdateConfig && !isUpdated) {
     if (configForm.get('script')) {
       return {
-        name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
+        name: configForm.get('fileName')?.value || '',
         text: (configForm.get('script') as Field<string>).value,
         extension: getExtension(configForm)
       };
     } else {
       return {
-        name: t('in-synthetics:dialog.updateTest.bundleSavedMessage'),
+        name: configForm.get('fileName')?.value || '',
         text: (configForm.getIn(['scripts', 'bundle']) as Field<string>).value,
         scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
         extension: 'zip'

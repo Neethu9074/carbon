@@ -9,8 +9,7 @@ import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
 // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
-// eslint-disable-next-line import/no-deprecated
-import { mutateUrl } from 'in-stores/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HistogramChartContextMenu from 'in-components/HistogramChart/components/HistogramChartOverlay/components/HistogramChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
@@ -46,6 +45,7 @@ export default function HistogramChartOverlay({
   tooltipRenderer // object with a function: `render({from, to, style})` which will be used to render a tooltip,
 }) {
   const tooltipRef = useRef();
+  const { location, navigate } = useNavigation();
   const { trackLatencySelectionChanged } = useAnalyzeTracker();
   // If the selection is adjustable the glass pane element which captures mouse events must be wider than
   // the chart on both sides (left and right) by GLASS_PANE_OFFSET, in order to:
@@ -133,8 +133,8 @@ export default function HistogramChartOverlay({
   useEffect(() => {
     if ((selection?.from || selection?.to) && timeConfig.to == null) {
       // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
-      // eslint-disable-next-line import/no-deprecated
-      mutateUrl(location => setTimeConfig(location, fixateTimeConfig(timeConfig)), true);
+      setTimeConfig(location, fixateTimeConfig(timeConfig));
+      navigate(location, true);
     }
     // only track updates for selection changes
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -9,9 +9,7 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -25,6 +23,17 @@ const typeCol = {
   }
 };
 
+const getStatusLabel = (value: number) => {
+  switch (value) {
+    case 0:
+      return 'Disabled';
+    case 1:
+      return 'Enabled';
+    default:
+      return '-';
+  }
+};
+
 const logEnabled = {
   title: t('in-forge:plugins.oTelDatabase.dashboard.dbLogEnabled'),
   type: 'metric',
@@ -35,7 +44,7 @@ const logEnabled = {
     getMetricName(row: any) {
       return 'db.database.log.enabled_' + row.name;
     },
-    getContent: number.compact,
+    getContent: getStatusLabel,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -52,7 +61,7 @@ const buffLogEnabled = {
     getMetricName(row: any) {
       return 'db.database.buff.log.enabled_' + row.name;
     },
-    getContent: number.compact,
+    getContent: getStatusLabel,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -69,7 +78,7 @@ const caseInsensitive = {
     getMetricName(row: any) {
       return 'db.database.case.insensitive_' + row.name;
     },
-    getContent: number.compact,
+    getContent: getStatusLabel,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -86,7 +95,7 @@ const ansiCompliant = {
     getMetricName(row: any) {
       return 'db.database.ansi.compliant_' + row.name;
     },
-    getContent: number.compact,
+    getContent: getStatusLabel,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -103,7 +112,7 @@ const nlsEnabled = {
     getMetricName(row: any) {
       return 'db.database.nls.enabled_' + row.name;
     },
-    getContent: number.compact,
+    getContent: getStatusLabel,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -149,39 +158,6 @@ export default function databaseTable({ snapshot, timeConfig }: { snapshot: Snap
       cardTitle={t('in-forge:plugins.oTelDatabase.dashboard.database', { count: rows.length })}
       cols={cols}
       rows={rows}
-      getRowDetails={getRowDetails}
     />
-  );
-}
-
-function getRowDetails(row: any) {
-  const snapshotId = row.snapshotId;
-  const timeConfig = row.timeConfig;
-
-  return (
-    <div>
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          metrics: [
-            'db.tablespace.log.enabled_' + row.name,
-            'db.tablespace.buff.log.enabled_' + row.name,
-            'db.tablespace.case.insensitive_' + row.name,
-            'db.tablespace.ansi.compliant_' + row.name,
-            'db.tablespace.nls.enabled_' + row.name
-          ],
-          labels: [
-            t('in-forge:plugins.oTelDatabase.dashboard.dbLogEnabled'),
-            t('in-forge:plugins.oTelDatabase.dashboard.dbBuffLogEnabled'),
-            t('in-forge:plugins.oTelDatabase.dashboard.dbCaseInsensitive'),
-            t('in-forge:plugins.oTelDatabase.dashboard.dbAnsiCompliant'),
-            t('in-forge:plugins.oTelDatabase.dashboard.dbNlsEnabled')
-          ],
-          type: 'line',
-          formatter: number.detailed
-        }}
-      />
-    </div>
   );
 }

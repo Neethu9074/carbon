@@ -18,11 +18,9 @@ import { sloSmartAlertDetailsUrlParameters } from 'in-service-levels/navigation/
 import { getAllSloAlertConfigurations } from 'in-alerting/smart-alerts/slo/api/sloAlertConfig';
 import { getActionHandlers } from 'in-alerting/smart-alerts/slo/list/AlertListHandlers';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
-import SloAppliedColumn from 'in-alerting/smart-alerts/slo/list/SloAppliedColumn';
 import AlertTypeColumn from 'in-alerting/smart-alerts/slo/list/AlertTypeColumn';
 import CreateSmartAlert from 'in-alerting/smart-alerts/slo/CreateSmartAlert';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { sortOptions } from 'in-alerting/smart-alerts/slo/constants';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -49,16 +47,10 @@ export default function Alerts({ sloId }: AlertsProps) {
       />
 
       <AlertBaseList<ServiceLevelsAlertConfigWithMetadata>
-        extraColumnDefinitions={columnDefinitions}
         getAlertConfigs={() => getAllSloAlertConfigurations(sloId)}
         createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, sloId)}
         alertsTab={serviceLevelsAlertsSegment}
-        getSubtitle={config =>
-          (config.rule.metric === 'BURN_RATE' && t('in-alerting:smartAlerts.slo.alertList.deprecatedLabel')) || ''
-        }
         sortOptions={sortOptions}
-        // for carbon table
-        displayCarbonTable={smartAlertCarbonTableEnabled}
         getNameSubtitle={config =>
           (config.rule.metric === 'BURN_RATE' && t('in-alerting:smartAlerts.slo.alertList.deprecatedLabel')) || ''
         }
@@ -66,33 +58,12 @@ export default function Alerts({ sloId }: AlertsProps) {
         noDataHeader={t('in-alerting:smartAlerts.slo.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.slo.alertList.noDataDescription" />}
         toolBarContent={<CreateSmartAlert sloId={sloId} />}
+        hideSeverity
       />
       <Footer />
     </>
   );
 }
-
-const columnDefinitions = [
-  {
-    id: 'alertType',
-    label: t('in-alerting:table.triggeringAction'),
-    width: '30%',
-    getContent: (config: ServiceLevelsAlertConfigWithMetadata) => <AlertTypeColumn config={config} />
-  },
-  {
-    id: 'sloApplied',
-    label: t('in-alerting:smartAlerts.slo.alertList.alertListSloAppliedColumnName'),
-    getContent: (config: ServiceLevelsAlertConfigWithMetadata) => <SloAppliedColumn config={config} />
-  },
-  // used custom action handler component since we conditionally render alert actions
-  {
-    id: 'slo-actions',
-    label: '',
-    getContent: (config: ServiceLevelsAlertConfigWithMetadata) => (
-      <ListActionsColumn config={config} actionHandlers={getActionHandlers(config)} isLoading={false} />
-    )
-  }
-];
 
 function getCarbonTableColumnDefinitions() {
   return [

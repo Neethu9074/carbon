@@ -12,13 +12,9 @@ import { TagFilterExpressionElementUnion } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 
-import {
-  getLogsOnIntervalObservable,
-  HighlightedText,
-  LINE_HEIGHT,
-  useAbsoluteUrlToItem
-} from 'in-logging/analyze/ConsoleView/utils';
+import { getLogsOnIntervalObservable, LINE_HEIGHT, useAbsoluteUrlToItem } from 'in-logging/analyze/ConsoleView/utils';
 import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
+import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import useResizeObserver from 'in-hooks/useResizeObserver';
@@ -66,6 +62,7 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
     const log = logs[index];
     const logLevel = getLogLevel(log.tags);
     const path = useAbsoluteUrlToItem(log.itemId);
+    const triggeConsoleNavigation = () => goToPath(path.hash);
 
     return (
       <div
@@ -74,16 +71,26 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
           overflow: 'hidden'
         }}
         onClick={() => {
-          goToPath(path.hash);
+          triggeConsoleNavigation();
         }}
+        data-testid="logConsoleRow"
       >
         <div className={locals.logLine} style={{ lineHeight: `${LINE_HEIGHT}px` }}>
           <span>{formatDateTime(log.timestamp)}</span>
-          <div className={locals.level} style={{ background: getLogLevelColor(logLevel) }}>
+          <div
+            className={locals.level}
+            style={{ background: getLogLevelColor(logLevel) }}
+            data-testid="logConsoleLevel"
+          >
             <span>{logLevel}</span>
           </div>
-          <div className={locals.textContainer}>
-            <HighlightedText text={log.message} keyword={searchValue} />
+          <div className={locals.textContainer} data-testid="logConsoleMesage">
+            <LogMessage
+              tags={log.tags}
+              message={log.message}
+              triggeConsoleNavigation={triggeConsoleNavigation}
+              isConsoleView
+            />
           </div>
         </div>
       </div>
@@ -124,13 +131,14 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
   const hasSearch = searchValue.length > 0;
 
   return (
-    <div className={locals.consoleView}>
+    <div className={locals.consoleView} data-testid="logConsoleTailingToggle">
       <fieldset>
         <CarbonSearch
           onClear={() => setSearchValue('')}
           value={searchValue}
           onChange={handleSearchChange}
           labelText="Search logs"
+          data-testid="logConsoleSearchInput"
         />
         <div className={locals.toggleContainer}>
           <label htmlFor="tailingToggle">Tailing</label>
@@ -139,7 +147,7 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
       </fieldset>
       <pre className={locals.consoleContainer} ref={ref as RefObject<HTMLPreElement>}>
         {hasSearch && (
-          <nav className={locals.searchNavigation}>
+          <nav className={locals.searchNavigation} data-testid="logConsoleSearchArrows">
             <IconButton
               type="lib_arrow_down"
               disabled={isSearchNavigationDisabled}
@@ -155,16 +163,18 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
             </span>
           </nav>
         )}
-        <VariableSizeList
-          ref={windowRef as LegacyRef<VariableSizeList>}
-          outerRef={listRef}
-          height={height ?? 100}
-          width={'100%'}
-          itemCount={logs.length}
-          itemSize={getItemSize}
-        >
-          {Row}
-        </VariableSizeList>
+        <section data-testid="logConsoleVirtualList">
+          <VariableSizeList
+            ref={windowRef as LegacyRef<VariableSizeList>}
+            outerRef={listRef}
+            height={height ?? 100}
+            width={'100%'}
+            itemCount={logs.length}
+            itemSize={getItemSize}
+          >
+            {Row}
+          </VariableSizeList>
+        </section>
       </pre>
     </div>
   );

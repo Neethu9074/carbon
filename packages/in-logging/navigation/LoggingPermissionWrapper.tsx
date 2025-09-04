@@ -7,7 +7,7 @@
 import React from 'react';
 
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { Role } from 'in-types';
 
 export interface LoggingPermissionWrapperProps {
@@ -21,6 +21,7 @@ export default function PermissionWrapper({
   permissionLabel,
   children
 }: LoggingPermissionWrapperProps) {
+  const [role] = useCurrentUserRole();
   const hasPermission = role?.[requiredPermission];
 
   if (!hasPermission) {

@@ -17,6 +17,7 @@ import {
 } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
+import { alertChannelBidirectionalSlackEnabled } from 'in-services/featureFlags';
 import { SETTINGS_ALERT_CHANNEL_CREATE } from 'in-services/tracking/eventNames';
 import { alertChannelCTATrackerSegment } from 'in-settings/tracker';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -63,6 +64,7 @@ export default {
   testAPI: null,
   isAlpha: false,
   isBeta: true,
+  active: alertChannelBidirectionalSlackEnabled,
   feedbackLink: 'https://your.feedback.ibm.com/jfe/form/SV_74ceKBDf54cWmAS',
   customSubmit: {
     noCreateAPI: true,

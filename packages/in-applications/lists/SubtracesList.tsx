@@ -26,11 +26,11 @@ import { subtracesList } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { formatMetricIfPresent } from 'in-applications/metrics';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { SubtraceListItem } from 'in-applications/types';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 
 const pathSegment = subtracesList;
 const matrixPrefix = '';
@@ -63,25 +63,25 @@ const columnDefinitions: ColumnDefinition<SubtraceListItem>[] = [
     id: 'subtraceCount',
     label: t('in-applications:subtraces.subtracesList.count'),
     getContent: item => <MetricValue value={number.compact(item.subtraceCount ?? 0)} />,
-    sortable: false
+    sortable: true
   },
   {
-    id: 'duration',
+    id: 'latency',
     label: t('in-applications:subtraces.meanDuration'),
-    getContent: item => <MetricValue value={formatMetricIfPresent(item.duration, latency.detailed)} />,
-    sortable: false
+    getContent: item => <MetricValue value={formatMetricIfPresent(item.latency, latency.detailed)} />,
+    sortable: true
   },
   {
     id: 'calls',
     label: t('in-applications:subtraces.subtracesList.meanSubcallCount'),
     getContent: item => <MetricValue value={number.compact(item.calls ?? 0)} />,
-    sortable: false
+    sortable: true
   },
   {
     id: 'errorRate',
     label: t('in-applications:subtraces.subtracesList.meanErrorRate'),
     getContent: item => <MetricValue value={formatMetricIfPresent(item.errorRate, percentage.detailed)} />,
-    sortable: false
+    sortable: true
   }
 ];
 
@@ -92,6 +92,7 @@ const CreateSubtraceButton = () => (
 );
 
 export default function SubtracesList() {
+  const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,

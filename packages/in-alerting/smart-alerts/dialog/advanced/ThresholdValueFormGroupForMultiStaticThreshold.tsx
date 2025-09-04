@@ -14,8 +14,14 @@ import {
   updateAlertChannelSelectionOnCriticalThresholdFieldChange
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
+import {
+  WARNING_THRESHOLD,
+  CRITICAL_THRESHOLD
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { setValidNextValue } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
 
@@ -26,12 +32,13 @@ interface ThresholdValueFormGroupForMultiStaticThresholdProps {
   updateForm: (form: MapForm<any>) => void;
   maxValue: number;
   metricUnitPostfix: string;
-  percentageMetric: boolean;
+  percentageMetric?: boolean;
   hasSmallInputField?: boolean;
   isGlobalSmartAlert?: boolean;
   label?: string;
   isTearSheet?: boolean;
   showLabel?: boolean;
+  showSuggestedValueButton?: boolean;
 }
 
 export default function ThresholdValueFormGroupForMultiStaticThreshold({
@@ -44,14 +51,18 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
   isGlobalSmartAlert,
   label = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdValue'),
   isTearSheet = false,
-  showLabel
+  showLabel,
+  showSuggestedValueButton = true
 }: ThresholdValueFormGroupForMultiStaticThresholdProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
   const warningThresholdCheckBoxField = warningThresholdField.get('isCheckboxSelected');
   const criticalThresholdCheckBoxField = criticalThresholdField.get('isCheckboxSelected');
-  const warningThresholdValuePresent = warningThresholdCheckBoxField?.value;
-  const criticalThresholdValuePresent = criticalThresholdCheckBoxField?.value;
+  const warningThresholdValue = warningThresholdField.get('value').value;
+  const criticalThresholdValue = criticalThresholdField.get('value').value;
+  const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
+  const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
+  const operator = form.get('threshold').get('operator').value;
   const alertChannelSelection = form.get('alertChannels').value;
 
   useEffect(() => {
@@ -85,9 +96,17 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
               label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
               size="large"
               checked={warningThresholdValuePresent}
-              onChange={() =>
-                updateForm(updatedThresholdCheckboxSelection(warningThresholdValuePresent, 'warningThreshold'))
-              }
+              onChange={({ target }) => {
+                setValidNextValue({
+                  isChecked: target.checked,
+                  thresholdValue: criticalThresholdValue,
+                  thresholdType: WARNING_THRESHOLD,
+                  updateForm,
+                  updatedThresholdValue,
+                  percentageMetric,
+                  operator
+                });
+              }}
             />
             <ThresholdValueInputWithValidationMessage
               max={maxValue}
@@ -103,25 +122,35 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
               id="warningThreshold"
             />
 
-            <UseSuggestedValueButton
-              form={form}
-              updateForm={updateForm}
-              metricUnitPostfix={metricUnitPostfix}
-              percentageMetric={percentageMetric}
-              thresholdField={warningThresholdField.get('value')}
-              isMultiThreshold
-              isGlobalSmartAlert={isGlobalSmartAlert}
-              getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
-            />
+            {showSuggestedValueButton && (
+              <UseSuggestedValueButton
+                form={form}
+                updateForm={updateForm}
+                metricUnitPostfix={metricUnitPostfix}
+                percentageMetric={percentageMetric}
+                thresholdField={warningThresholdField.get('value')}
+                isMultiThreshold
+                isGlobalSmartAlert={isGlobalSmartAlert}
+                getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
+              />
+            )}
           </div>
           <div className={locals.multiThresholdFieldContainer}>
             <Checkbox
               label={t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')}
               size="large"
               checked={criticalThresholdValuePresent}
-              onChange={() =>
-                updateForm(updatedThresholdCheckboxSelection(criticalThresholdValuePresent, 'criticalThreshold'))
-              }
+              onChange={({ target }) => {
+                setValidNextValue({
+                  isChecked: target.checked,
+                  thresholdValue: warningThresholdValue,
+                  thresholdType: CRITICAL_THRESHOLD,
+                  updateForm,
+                  updatedThresholdValue,
+                  percentageMetric,
+                  operator
+                });
+              }}
             />
             <ThresholdValueInputWithValidationMessage
               max={maxValue}
@@ -156,9 +185,5 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
           (item as Field<any>).setValue(targetValue === null ? false : true).setTouched(true)
         )
       );
-  }
-
-  function updatedThresholdCheckboxSelection(isChecked: boolean, thresholdType: string) {
-    return updatedThresholdValue(isChecked ? null : 0, thresholdType);
   }
 }

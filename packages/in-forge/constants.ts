@@ -7,13 +7,13 @@ export const ID_OF_UNMONITORED_ZONE = '5nXT64z0gY0pShCaT5VQ7wGu-0E';
 export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 // host: "region" - pluginId: "com.instana.forge.selfmonitoring.RegionEntity" - steadyId: "region"
 export const ID_OF_REGION = '7c238Z6UhpGTsuCTCehWnBoiaxs';
-export const DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL = 120_000;
-export const DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS = 300_000;
+export const DEFAULT_POLL_RATE = 1000;
 
 export const oTelPlugins = {
   openTelemetry: 'openTelemetry',
   oTelDatabase: 'oTelDatabase',
   oTelLLM: 'oTelLLM',
+  oTelMilvusDB: 'oTelMilvusDB',
   oTelVLLM: 'oTelVLLM',
   oTelDcgm: 'oTelDcgm',
   otelHost: 'otelHost',
@@ -277,8 +277,10 @@ export const nonServicePlugins = {
   kubernetesHorizontalPodAutoscaler: 'kubernetesHorizontalPodAutoscaler',
   liferayApplicationContainer: 'liferayApplicationContainer',
   linuxKVMHypervisorHost: 'linuxKVMHypervisorHost',
+  linuxKVMHypervisorVM: 'linuxKVMHypervisorVM',
   lxc: 'lxc',
   mapRNode: 'mapRNode',
+  mapRCluster: 'mapRCluster',
   mariaDbDatabase: 'mariaDbDatabase',
   memcached: 'memcached',
   mongoDb: 'mongoDb',
@@ -444,6 +446,7 @@ export const hiddenPlugins = [
   'entityStatisticsMember',
   'processingStatisticsMember',
   'steadyMetricExposureEntity',
+  'customEntity',
   'kubeCostPlatform',
   'processingStatistics',
   'componentMetricsEntity'
@@ -670,7 +673,8 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.activeJobsInfo.IbmiActiveJobsInfo',
   ibmiAuditJournalsInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.auditJournal.IbmiAuditJournalInfo',
-  ibmiLicensedProgramInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.licensedprograminfo.IbmiLicensedProgramInfo',
+  ibmiLicensedProgramInfo:
+    'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.licensedprograminfo.IbmiLicensedProgramInfo',
   ibmIMessageQueueInfo:
     'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.messageQueue.IbmIMessageQueueInfo',
   ibmiDiskInfo: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.diskInfo.IbmiDiskInfo',
@@ -743,8 +747,11 @@ export const fullyQualifiedPlugins = {
   liferayApplicationContainer: 'com.instana.forge.infrastructure.application.liferay.LiferayApplicationContainer',
   linuxKVMHypervisorHost:
     'com.instana.forge.infrastructure.paas.linuxkvmhypervisor.derivedentity.host.LinuxKVMHypervisorHost',
+  linuxKVMHypervisorVM:
+    'com.instana.forge.infrastructure.paas.linuxkvmhypervisor.derivedentity.vm.LinuxKVMHypervisorVM',
   lxc: 'com.instana.forge.infrastructure.virtualization.lxc.Lxc',
   mapRNode: 'com.instana.forge.infrastructure.database.mapr.MapRNode',
+  mapRCluster: 'com.instana.forge.infrastructure.database.mapr.MapRCluster',
   mariaDbDatabase: 'com.instana.forge.infrastructure.database.mariadb.MariaDbDatabase',
   memcached: 'com.instana.forge.infrastructure.cache.memcached.Memcached',
   mongoDb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
@@ -773,6 +780,7 @@ export const fullyQualifiedPlugins = {
   openTelemetry: 'com.instana.forge.infrastructure.custom.opentelemetry.OpenTelemetry',
   oTelDatabase: 'com.instana.forge.infrastructure.custom.sensorsdk.database.OTelDatabase',
   oTelLLM: 'com.instana.forge.infrastructure.custom.sensorsdk.llmonitor.OTelLLM',
+  oTelMilvusDB: 'com.instana.forge.infrastructure.custom.sensorsdk.milvusdb.OTelMilvusDB',
   oTelVLLM: 'com.instana.forge.infrastructure.custom.sensorsdk.vllm.OTelVLLM',
   oTelDcgm: 'com.instana.forge.infrastructure.custom.sensorsdk.dcgm.OTelDcgm',
   oTelJvm: 'com.instana.forge.infrastructure.custom.sensorsdk.jvm.OTelJvm',
@@ -897,7 +905,8 @@ export const fullyQualifiedPlugins = {
   sapAbapInstanceSensor: 'com.instana.forge.infrastructure.paas.sapjco.SapAbapInstanceSensor',
   sapAbapSystemSensor: 'com.instana.forge.infrastructure.paas.sapjco.derivedentity.system.SapAbapSystemSensor',
   sapJavaNetWeaverInstanceSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.SapJavaNetWeaverInstanceSensor',
-  sapJavaNetWeaverSystemSensor: 'com.instana.forge.infrastructure.paas.sapnetweaver.derivedentity.system.SapJavaNetWeaverSystemSensor',
+  sapJavaNetWeaverSystemSensor:
+    'com.instana.forge.infrastructure.paas.sapnetweaver.derivedentity.system.SapJavaNetWeaverSystemSensor',
   remoteHost: 'com.instana.forge.infrastructure.remote.remotehost.RemoteHost',
   processGroup: 'com.instana.forge.infrastructure.remote.processgroup.ProcessGroup'
 };

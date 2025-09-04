@@ -263,6 +263,12 @@
     "errorEmptyGoodFilter": "必须定义一个合适的过滤器",
     "errorEqualTagFilter": "合适与不合适的过滤器不能相同",
     "nameAndTagsTitle": "设置详细信息",
+    "bindTimezoneLabel": "绑定时区",
+    "currentTimezoneMessage": "您当前所在的时区是 {{timezone}}。",
+    "disabledToggleLabel": "禁用",
+    "enabledToggleLabel": "启用",
+    "selectedTimezoneMessage": "SLO 时区已设置为 {{timezone}}。",
+    "selectTimezoneMessage": "选择时区",
     "sloNameLabel": "SLO 名称",
     "sloNamePlaceholder": "输入名称",
     "tagsLabel": "标记（可选）",
@@ -328,16 +334,20 @@
       "timeWindowType_dynamic": "动态时间窗口",
       "timeWindowType_rolling": "滚动时间窗口",
       "timeWindowType_fixed": "固定时间窗口",
-      "configuredTimeWindow": "配置的 SLO 时间窗口：",
+      "configuredTimeWindow": "配置的 SLO 时间窗口",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "开始时间：{{startDay}}，{{startTime}}",
-      "matchedSLOTimeWindow": "匹配的 SLO 时间窗口： ",
-      "matchedSLOTimeWindow_plural": "匹配的 SLO 时间窗口： ",
-      "matchedSLOTimeWindow_0": "匹配的 SLO 时间窗口： ",
-      "matchedSLOTimeWindow_1": "匹配的 SLO 时间窗口： ",
-      "matchedSLOTimeWindow_2": "匹配的 SLO 时间窗口： ",
+      "matchedSLOTimeWindow": "匹配 SLO 时间窗口",
+      "matchedSLOTimeWindow_plural": "匹配 SLO 时间窗口",
+      "matchedSLOTimeWindow_0": "匹配 SLO 时间窗口",
+      "matchedSLOTimeWindow_1": "匹配 SLO 时间窗口",
+      "matchedSLOTimeWindow_2": "匹配 SLO 时间窗口",
       "noMatchedSLOTimeWindow": "未找到匹配的时间窗口",
-      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
+      "currentTimezone": "您当前的时区设置为 {{timezone}}。",
+      "editSloTimezone": "编辑 SLO 时区",
+      "sloCreatedTimezone": "该 SLO 创建于 {{sloTimezone}}",
+      "timezone": "时区： {{sloTimezone}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "预览不可用，因为配置不完整。",
@@ -509,7 +519,8 @@
         "timeWindowLabel": "时间窗口",
         "durationLabel": "长度",
         "startDateLabel": "开始日期",
-        "startTimeLabel": "开始时间"
+        "startTimeLabel": "开始时间",
+        "timezoneLabel": "时区"
       }
     }
   },

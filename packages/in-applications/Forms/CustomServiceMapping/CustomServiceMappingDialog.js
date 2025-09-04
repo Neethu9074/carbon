@@ -21,6 +21,7 @@ import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { hasError, isLoading } from 'in-services/util/result';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
@@ -33,6 +34,7 @@ import locals from './CustomServiceMappingDialog.mless';
 const getServiceMappingTagCatalog = getApplicationTagCatalog({ useCase: 'SERVICE_MAPPING' });
 
 export default function CustomServiceMappingDialog() {
+  const [role] = useCurrentUserRole();
   const { createHrefToPath } = useNavigation();
   const timeConfig = useTimeConfig();
   const tagCatalogResult = useObservable(getServiceMappingTagCatalog, [timeConfig]);
@@ -47,7 +49,7 @@ export default function CustomServiceMappingDialog() {
       saveButtonLabel={t('in-applications:buttonSave')}
       onCancelHref={createHrefToPath(servicesList)}
       getOnSavePath={() => servicesList}
-      getEntity={getServiceMappingConfig(tagCatalogResult$)}
+      getEntity={getServiceMappingConfig(tagCatalogResult$, role)}
       updateEntity={serviceConfigs => {
         serviceConfigs.map(
           serviceConfig => (serviceConfig.id = serviceConfig.id === [] ? serviceConfig.id : generateUniqueShortId())
@@ -115,9 +117,9 @@ export default function CustomServiceMappingDialog() {
   );
 }
 
-function getServiceMappingConfig(catalogResult$) {
+function getServiceMappingConfig(catalogResult$, role) {
   return () =>
-    combineLatest([getServiceConfigs(), catalogResult$], true).map(result => {
+    combineLatest([getServiceConfigs(role), catalogResult$], true).map(result => {
       const [serviceConfigResult, tagCatalogResult] = result;
       if (isLoading(serviceConfigResult, tagCatalogResult)) {
         return pendingResult;

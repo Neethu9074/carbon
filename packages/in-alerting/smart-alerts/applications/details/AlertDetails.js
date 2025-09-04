@@ -48,7 +48,7 @@ import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAl
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 const endpointConfig = { asObservable: true };
 
@@ -65,6 +65,7 @@ export default function AlertDetails(props) {
 }
 
 function GlobalAlertDetails(props) {
+  const [role] = useCurrentUserRole();
   const urlParams = {
     isGlobal: true
   };
@@ -101,6 +102,7 @@ function GlobalAlertDetails(props) {
 }
 
 function IndividualAlertDetails(props) {
+  const [role] = useCurrentUserRole();
   const urlParams = {
     isGlobal: false
   };

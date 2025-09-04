@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "Triggers incident",
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "No channels added. Get started by clicking Select alert channels.",
+    "noChannelSelectedDetailPage": "No channels added yet to receive alert notifications.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional filters",
     "groupBy": "Group by",
     "noChannelAvailable": "No alert channels available",
@@ -158,7 +159,6 @@
     "descriptionUnsupportedOperator": "Unsupported operator: {{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "Add Smart Alert",
     "createSmartAlert": "Create Smart Alert",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global application Smart Alert",
@@ -517,8 +517,6 @@
         "noData": "No Smart Alerts configured. Click the button below to configure your first Smart Alerts.",
         "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure Smart Alerts. Please contact your administrator.",
         "noPermissionGlobalSmartAlertEdit": "You don't have the permission to perform this action",
-        "labelGlobalSmartAlertsList": "Global application Smart Alerts ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "Global Application Smart Alerts",
         "labelSmartAlertsTable": "Application Smart Alerts",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -644,7 +642,7 @@
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
-          "description": "Specify the alert and persistence type and then set the alert trigger."
+          "description": "Refine the alerting criteria to enhance the accuracy."
         },
         "staticOrAdaptive": {
           "config": {
@@ -700,7 +698,10 @@
         "configuredAlerts": "Configured alerts ({{numberOfAlerts}})"
       },
       "columns": {
-        "name": "Name"
+        "name": "Name",
+        "severity": "Severity",
+        "status": "Status",
+        "action": "Action"
       }
     },
     "form": {
@@ -790,7 +791,9 @@
       "ruleStatusCodeValueOptionNone": "No Status (Client Aborted / Failed)",
       "warningThresholdValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
       "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators.",
-      "sensitivityValidator": "Critical sensitivity should be smaller than warning sensitivity."
+      "sensitivityValidator": "Critical sensitivity should be smaller than warning sensitivity.",
+      "baselineEmpty": "baseline is empty",
+      "invalidNumber": "Please enter a valid threshold value"
     },
     "components": {
       "smartAlertDialog": {
@@ -1020,17 +1023,25 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Violations persist continuously",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "When a minimum number of traces are impacted",
           "labelUserImpactOfViolationsInSequence": "When a certain amount of users are impacted",
+          "violationsInSequenceLabel": "When a violation occurs over a consecutive buckets of time",
+          "violationsInPeriodLabel": "When multiple violation occurs over multiple buckets of time",
+
           "granularity": {
             "description": "Calls are placed in {{granularity}}-minute windows; every {{granularity}} minutes, a metric value is calculated for that window"
           },
           "triggerAlert": "Trigger alert",
           "triggerAfter": "Trigger after",
           "tracesImpacted": "traces are impacted",
+          "numberOfTracesImpacted": "Number of traces impacted",
           "numberOfUserImpactPostLabel": "or more number of users are impacted",
           "percentageOfUserImpactPostLabel": "or more % of users are impacted",
           "outOfConsecutiveEvaluations": "out of",
+          "violationAcross": "across",
+          "violationsOccurrenceLabel": "Violation occurence(s)",
           "persistenceType": "Persistence type",
           "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations",
+          "bucketsOfTime": "{{granularity}}-minute buckets of time",
+          "numberOfConsecutiveViolationsLabel": "Consecutive {{granularity}}-minute buckets of time that have violations",
           "static": "Static",
           "thresholdValue": "Threshold value"
         }
@@ -1252,9 +1263,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "Time threshold",
-        "filterApplied": "Filter applied",
-        "violationsCount": "{{violationsCount}} failures",
         "numberOfFailures": "Failure alerting",
         "noDataHeader": "No synthetic Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
@@ -1314,7 +1322,9 @@
         "alertTestEntityName": "synthetic test {{entityName}}",
         "testAttachedCount": "Tests attached ({{count}})",
         "testAttached": "Tests attached",
-        "noTestAvailable": "No synthetic tests available"
+        "noTestAvailable": "No synthetic tests available",
+        "noTestSelected": "No synthetic tests selected",
+        "noTestSelectedMessage": "To get started, click Add synthetic tests."
       },
       "details": {
         "threshold": "Threshold",
@@ -1423,7 +1433,6 @@
         "filter_0": "Filters",
         "filter_1": "Filters",
         "filter_2": "Filters",
-        "filterApplied": "Filter applied",
         "noDataHeader": "No mobile app Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
@@ -1610,7 +1619,8 @@
             "subtitle": {
               "staticThresholdType": "Static threshold",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "forecastAlerting": "Forecast alerting"
+              "forecastAlerting": "Forecast alerting",
+              "adaptiveThreshold": "Adaptive threshold, {{metricName}}"
             }
           }
         },
@@ -1742,10 +1752,10 @@
         }
       },
       "placeholderTitle": "Problem on {{metricName}} detected",
-      "descriptionIsHigherThan": "{{metricName}} is higher than {{value}}.",
-      "descriptionIsHigherOrEqualTo": "{{metricName}} is higher or equal to {{value}}.",
-      "descriptionIsLowerThan": "{{metricName}} is lower than {{value}}.",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} is lower or equal to {{value}}.",
+      "descriptionIsHigherThan": "{{metricName}} is greater than {{value}}.",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} is greater than or equal to {{value}}.",
+      "descriptionIsLowerThan": "{{metricName}} is less than {{value}}.",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} is less than or equal to {{value}}.",
       "evaluationType": {
         "title": "Choose your alerting method",
         "custom": {
@@ -1888,7 +1898,11 @@
       "components": {
         "timeOptionsDropdown_minute": "Minutes",
         "timeOptionsDropdown_hour": "Hours",
-        "timeOptionsDropdown_day": "Days"
+        "timeOptionsDropdown_day": "Days",
+        "syntheticScopeTable" : {
+          "searchPlaceholder": "Search synthetic tests",
+          "title": "Synthetic tests ({{count}})"
+        }
       },
       "validators": {
         "noEmptySloIds": "Please select at least one SLO.",
@@ -2000,7 +2014,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, threshold (Long) {{operator}} {{value}} & (Short) < 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}, threshold {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}, threshold {{operator}} {{value}}",
-        "alertListSloAppliedColumnName": "SLOs applied",
         "sloApplied": "SLOs Applied",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLOs",

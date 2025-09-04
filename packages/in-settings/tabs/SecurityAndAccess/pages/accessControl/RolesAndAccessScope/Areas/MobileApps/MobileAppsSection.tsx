@@ -8,15 +8,27 @@ import React, { useContext } from 'react';
 
 import { MobileSectionFullAccessContent } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/MobileApps/MobileSectionFullAccessContent';
 import { MobileAppsSectionContent } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/MobileApps/MobileAppsSectionContent';
+import {
+  applicationsAccessPermissions,
+  mobileAppsAccessPermissions,
+  websitesAccessPermissions
+} from 'in-stores/permission';
 import { getAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import useHasAccess from 'in-stores/useHasAccess';
 
 export const MobileAppsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
   const { hasFullAreaAccess } = getAreaData({
     area: ProductArea.MOBILE_APP,
-    permissionsSet
+    permissionsSet,
+    hasApplicationsAccess,
+    hasMobileAppsAccess,
+    hasWebsitesAccess
   });
 
   if (hasFullAreaAccess) return <MobileSectionFullAccessContent />;

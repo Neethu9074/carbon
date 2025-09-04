@@ -7,10 +7,9 @@
 import React from 'react';
 
 import { nutanixClusterListFullyQualified } from 'in-nutanix/navigation/paths';
-// import { getView } from 'in-stores/navigation';
-import { t } from 'in-i18n';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import { t } from 'in-i18n';
 
 export default function HomeViewBreadcrumb() {
   const { goToPath } = useNavigation();

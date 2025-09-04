@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button, Column, Grid, Stack } from '@instana/carbon';
+import { Button, Stack, HStack } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error typescript migration needed
@@ -32,11 +32,11 @@ import { datasourceInstanaAgentCatalog } from 'in-plg/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getReportingDatasource } from 'in-plg/api/Datasource';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { emptyList } from 'in-services/fixedImmutables';
 import SearchBar from 'in-components/SearchBar';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 interface InstanaAgentProps {
@@ -72,27 +72,23 @@ const InstanaAgent = ({ agentSnapshotsResult }: InstanaAgentProps) => {
 
   return (
     <section aria-label={t('in-plg:datasources.content')}>
-      <Stack gap="1rem">
-        <LeftRightPadding>
-          <SearchBar style={{ maxWidth: '100%' }} theme="light" />
+      <LeftRightPadding>
+        <Stack gap={5}>
+          <SearchBar style={{ maxWidth: '100%', padding: 0 }} theme="light" />
           <RenderButtonLine agentSnapshots={agentSnapshotsResult} />
-        </LeftRightPadding>
-        <Grid fullWidth narrow>
-          <Column sm={16} md={8} lg={4}>
-            <AgentViewKpis
-              heading={t('in-plg:agentViewKpis.instanaAgents')}
-              subHeading={t('in-plg:agentViewKpis.totalReportingAgents')}
-              agentSnapshotsResult={agentSnapshotsResult}
-            />
-          </Column>
-          <Column sm={16} md={8} lg={12}>
-            <AgentsPresenceChart />
-          </Column>
-          <Column sm={16} md={16} lg={16}>
+          <Stack gap={6}>
+            <HStack gap={6}>
+              <AgentViewKpis
+                heading={t('in-plg:agentViewKpis.instanaAgents')}
+                subHeading={t('in-plg:agentViewKpis.totalReportingAgents')}
+                agentSnapshotsResult={agentSnapshotsResult}
+              />
+              <AgentsPresenceChart />
+            </HStack>
             <AgentsTable agentSnapshotsResult={agentSnapshotsResult} />
-          </Column>
-        </Grid>
-      </Stack>
+          </Stack>
+        </Stack>
+      </LeftRightPadding>
     </section>
   );
 };
@@ -112,6 +108,7 @@ function onInstallingAgentBasedintergrationsClick() {
 }
 
 function ButtonLine({ agentSnapshots }: SnapshotDataProp) {
+  const [role] = useCurrentUserRole();
   const { createHrefToPath } = useNavigation();
   const isInternalVisible = useObservable(isInternalVisible$, [isInternalVisible$]);
 
@@ -127,6 +124,7 @@ function ButtonLine({ agentSnapshots }: SnapshotDataProp) {
             kind="ghost"
             renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
             href={createHrefToPath(datasourceInstanaAgentCatalog)}
+            size="md"
           >
             {t('in-infrastructure:agentView.installAgents')}
           </Button>
@@ -135,6 +133,7 @@ function ButtonLine({ agentSnapshots }: SnapshotDataProp) {
             kind="ghost"
             renderIcon={() => <IconForButton icon="lib_openclose_add_circle_outline" iconSize="xs" />}
             onClick={onInstallingAgentBasedintergrationsClick}
+            size="md"
           >
             {t('in-infrastructure:agentView.installAgentBasedIntegrations')}
           </Button>
@@ -149,6 +148,7 @@ function ButtonLine({ agentSnapshots }: SnapshotDataProp) {
               infraEventCTAClicked({ event: AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED });
               updateAllAgents({ agentSnapshots });
             }}
+            size="md"
           >
             {t('in-infrastructure:agentView.updateAllAgents')}
           </Button>
@@ -159,6 +159,7 @@ function ButtonLine({ agentSnapshots }: SnapshotDataProp) {
               infraEventCTAClicked({ event: AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED });
               resetAllAgents({ agentSnapshots });
             }}
+            size="md"
           >
             {t('in-infrastructure:agentView.resetAllAgents')}
           </Button>

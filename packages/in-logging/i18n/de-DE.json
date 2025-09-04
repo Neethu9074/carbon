@@ -88,7 +88,6 @@
       "patternRecognitionSet": {
         "gotIt": "Verstanden",
         "cancel": "Abbrechen",
-        "gettingStarted": "Einführung",
         "howDoesItWorks": "Wie funktioniert das?",
         "firstDescription_0": "Die Mustererkennung in Protokollen trainiert einen KI-Algorithmus, um wiederkehrende Muster in Ihren Protokollen zu entdecken. Durch die Analyse großer Mengen an Protokollen kann es variable und statische Teile der Protokolle erkennen und Muster darin entdecken. \n\n Der KI-Algorithmus verlässt sich ausschließlich auf Ihre Protokollnachrichten und teilt diese nicht mit den Protokollen anderer Kunden. Dadurch werden die Privatsphäre und die Sicherheit Ihrer Daten gewährleistet.",
         "howWillHelpMe": "Wie kann er mir helfen?",
@@ -97,7 +96,19 @@
         "popHoverSecondDescription": "Durch die Analyse großer Mengen an Protokollen kann es variable und statische Teile der Protokolle erkennen und Muster darin entdecken.\n\nDer KI-Algorithmus verlässt sich ausschließlich auf Ihre Protokollnachrichten und teilt diese nicht mit den Protokollen anderer Kunden. Dies gewährleistet die Privatsphäre und Sicherheit Ihrer Daten",
         "hotItWorks": "Funktionsweise",
         "popHoverFirstDescription": "Die Mustererkennung in Protokollen trainiert einen KI-Algorithmus, um wiederkehrende Muster in Ihren Protokollen zu entdecken. ",
-        "aiExpained": "KI erklärt"
+        "aiExpained": "KI erklärt",
+        "currentPatterns": "Aktuelle Muster",
+        "total": "Gesamtzahl",
+        "discoveredPatterns": "Entdeckte Muster",
+        "tableDescription": "Verwalten Sie die Muster, die beim Filtern und Gruppieren verwendet werden.",
+        "id": "ID",
+        "name": "Name",
+        "patternsSample": "Musterbeispiel",
+        "state": "Status",
+        "noLogsDiscovered": "Noch keine Protokollmuster entdeckt",
+        "noLogsDiscoveredDescription": "Die Erkennung von Protokollmustern ist noch im Gange. Aufgrund des hohen Datenvolumens kann es länger dauern, bis die Ergebnisse angezeigt werden. Versuchen Sie es später erneut.",
+        "enabled": "Aktiviert",
+        "disabled": "Inaktiviert"
       }
     }
   }

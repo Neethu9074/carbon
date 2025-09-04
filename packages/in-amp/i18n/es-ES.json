@@ -67,7 +67,7 @@
       "totalDataIngestEntitlement": "Autorización de ingesta de datos total",
       "actualDataIngest": "Ingesta de datos real",
       "onDemandDataIngest": "Intesta de datos bajo demanda",
-      "noData": "No hay datos"
+      "csvExporter": "Exportar a CSV"
     },
     "timePresets": {
       "last7Days": "Últimos 7 días",
@@ -129,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "2 perspectivas de aplicación creadas",
         "oneAlertSetUpAndActivated": "1 alerta establecida y activada",
         "oneWebsiteMonitored": "1 sitio web supervisado",
-        "fiveUsers": "5 usuarios"
+        "fiveUsers": "5 usuarios",
+        "notStarted": "No iniciado",
+        "tenantUnit": "Unidad de arrendatario"
       },
       "adoptionKPIs": {
         "applicationPerspective": "Perspectiva de aplicación",
@@ -161,6 +163,17 @@
         "metric_custom_dashboards": "Paneles de control personalizados",
         "metric_releases": "Releases"
       },
+      "sparkChartMetricsV2": {
+        "metric_applications": "AP",
+        "metric_reportingapplications": "Informes sobre AP",
+        "metric_websites": "Sitios web",
+        "metric_all_alerts": "Alertas",
+        "metric_active_alerts": "Alertas activas",
+        "metric_mobile_apps": "Aplicaciones",
+        "metric_alert_channels": "Canales de alertas",
+        "metric_custom_dashboards": "Paneles de control personalizados",
+        "metric_releases": "Marcadores de release / releases"
+      },
       "userUsage": "Uso de usuarios",
       "userSummary": "Resumen de usuarios",
       "totalUser": "Total de usuarios",
@@ -180,6 +193,9 @@
     "accountAndBilling": "Cuenta y facturación",
     "tabs": {
       "usage": "Uso",
+      "dataUsage": "Uso de datos",
+      "consumptionOverview": "Resumen del consumo",
+      "addOns": "Complementos",
       "technologiesReporting": "Notificación de tecnologías",
       "accountInformation": "Información de la cuenta",
       "entitlements": "Titularidades",
@@ -198,6 +214,11 @@
     },
     "emptyPage": {
       "subtitle": "No hay datos disponibles."
+    },
+    "label": {
+      "unit": "Unidad",
+      "timeRange": "Intervalo de tiempo",
+      "values": "Valores"
     }
   }
 }

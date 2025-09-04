@@ -30,7 +30,7 @@ import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { role } from 'in-stores/user';
+import { user, tenant } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
@@ -111,7 +111,7 @@ function TestLabelContent({ item, runType }: { item: TestResultListItem; runType
         onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
         title={item?.testResultCommonProperties?.testCommonProperties?.label}
       >
-        <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
+        <h4 className={locals.truncateText}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>
   );
@@ -123,7 +123,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.testList.testLabel'),
     noWrap: true,
-    ellipsis: '15vw',
+    ellipsis: '40vw',
     getContent: (item, { runType }) => <TestLabelContent item={item} runType={runType ?? ''} />
   },
   {
@@ -282,7 +282,12 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
   }
 ];
 
-if (role?.canConfigureSyntheticTests) {
+// Get the current role directly from user or tenant
+// Note: We're not using the deprecated 'role' import, but accessing the properties directly
+// This is a non-React module, so we can't use the useCurrentUserRole hook here
+const currentRole = user?.role ?? tenant?.role;
+
+if (currentRole?.canConfigureSyntheticTests) {
   columnDefinitions.push({
     id: 'action',
     label: t('in-synthetics:dashboard.testList.action'),

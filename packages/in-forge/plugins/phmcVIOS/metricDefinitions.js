@@ -19,7 +19,6 @@ export default [
     min: 0,
     formatter: number.detailed
   },
-
   {
     metrics: ['entitledProcUnitsPercentage'],
     labels: [t('in-forge:plugins.phmcVIOS.entitledProcUnitsPercentage')],
@@ -43,6 +42,12 @@ export default [
     labels: [t('in-forge:plugins.phmcVIOS.utilizedMemPercentage')],
     min: 0,
     formatter: percentage.detailed
+  },
+  {
+    metrics: ['state'],
+    labels: [t('in-forge:plugins.phmcVIOS.state')],
+    min: 0,
+    formatter: number.compact
   },
   {
     metrics: [

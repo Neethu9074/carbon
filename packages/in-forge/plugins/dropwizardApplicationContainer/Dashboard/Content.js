@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import DropwizardDashboardExtensions from 'promise-loader?global,internal!in-internal/monitoringUnit/DropwizardDashboardExtensions';
+const DropwizardDashboardExtensions = () => import (/* webpackChunkName: "internal" */ 'in-internal/monitoringUnit/DropwizardDashboardExtensions');
 import React from 'react';
 
 import { createAsyncComponentWithLoadingIndicatorPlaceholder } from 'in-components/routing/createAsyncComponent';

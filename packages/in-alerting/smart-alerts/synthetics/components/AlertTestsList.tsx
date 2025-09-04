@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 import { Result, SyntheticTest } from '@instana/types';
 import { Observable } from '@instana/observables';
@@ -14,11 +14,15 @@ import AssociationsContentPresenter from 'in-synthetics/dashboards/global/tabs/t
 import ApplicationLabelContent from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationLabelContent';
 import List, { ColumnDefinition, leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
+import ListDataTable from 'in-alerting/smart-alerts/components/ListTable/ListTable';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
+import AlertTypography from 'in-alerting/components/AlertTypography';
+import { pageSizes } from 'in-alerting/smart-alerts/data/constants';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TrProps } from 'in-components/tables/ServerTable/types';
+import { defaultRunType } from 'in-synthetics/utils/constants';
 import { getTestsAsResultObservable } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -44,6 +48,9 @@ export interface AlertTestsListProps {
   ) => ReactNode;
   displayApplicationLabel?: boolean;
   hasRowNavigation?: boolean;
+  noDataHeader?: string;
+  noDataDescription?: string;
+  isTearSheet?: boolean;
 }
 
 export default function AlertTestsList({
@@ -59,42 +66,85 @@ export default function AlertTestsList({
   onRowClick,
   inSelectListDialog = false,
   displayApplicationLabel = true,
-  hasRowNavigation = false
+  hasRowNavigation = false,
+  noDataHeader,
+  noDataDescription,
+  isTearSheet = false
 }: AlertTestsListProps): JSX.Element {
-  const syntheticTests = getTestsAsResultObservable('')
+  const [count, setCount] = useState<string | undefined>(undefined);
+  const syntheticTests = getTestsAsResultObservable(defaultRunType)
     .map((result: Result<SyntheticTest[]> | null) => {
       if (result == null || result?.progress?.loading) {
         return null;
       }
+
       return (result as Result<SyntheticTest[]>)?.data ?? [];
     })
     .startWith(null);
 
+  const Title = ({ count }: { count: string | undefined }) => {
+    return (
+      <AlertTypography
+        variant="heading-200"
+        noMargin
+        content={
+          count
+            ? `${t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')} ${count}`
+            : t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')
+        }
+      />
+    );
+  };
+
   return (
-    <List<SyntheticTest>
-      title={setTitle ? t('in-alerting:smartAlerts.synthetics.selectTests.alertTests') : null}
-      getHeader={setTitle ? defaultGetHeader(inSelectListDialog, tableActions) : () => null}
-      getEntityName={getEntityName}
-      columnDefinitions={
-        displayApplicationLabel
-          ? [...columnDefinitions(hasRowNavigation), applicationLabel()]
-          : columnDefinitions(hasRowNavigation)
-      }
-      tableActions={tableActions}
-      //@ts-expect-error
-      loadEntities={loadEntities ? loadEntities : () => syntheticTests}
-      noDataMessage={noDataMessage}
-      renderNoDataAvailable={renderNoDataAvailable}
-      pageSize={pageSize}
-      initialOrderBy="label"
-      rightHeader={rightHeader}
-      isSearchable={isSearchable}
-      searchAttributes={['label']}
-      extraFilters={createFilters(hiddenIds ?? [])}
-      searchPlaceholder={t('in-settings:tabs.filter')}
-      onRowClick={onRowClick}
-      getRowProps={getRowProps}
-    />
+    <>
+      {isTearSheet ? (
+        <ListDataTable<SyntheticTest>
+          title={<Title count={count} />}
+          columnDefinitions={
+            displayApplicationLabel
+              ? [...columnDefinitions(hasRowNavigation), applicationLabel()]
+              : columnDefinitions(hasRowNavigation)
+          }
+          tableActions={tableActions}
+          loadEntities={loadEntities ? loadEntities : () => syntheticTests}
+          listPageSize={pageSize}
+          pageSizes={pageSizes}
+          isSearchable={isSearchable}
+          searchPlaceholder={t('in-settings:tabs.filter')}
+          noDataHeader={noDataHeader}
+          noDataDescription={noDataDescription}
+          initialOrderBy={'label'}
+          setCount={setCount}
+          toolBarContent={rightHeader}
+        />
+      ) : (
+        <List<SyntheticTest>
+          title={setTitle ? t('in-alerting:smartAlerts.synthetics.selectTests.alertTests') : null}
+          getHeader={setTitle ? defaultGetHeader(inSelectListDialog, tableActions) : () => null}
+          getEntityName={getEntityName}
+          columnDefinitions={
+            displayApplicationLabel
+              ? [...columnDefinitions(hasRowNavigation), applicationLabel()]
+              : columnDefinitions(hasRowNavigation)
+          }
+          tableActions={tableActions}
+          //@ts-expect-error
+          loadEntities={loadEntities ? loadEntities : () => syntheticTests}
+          noDataMessage={noDataMessage}
+          renderNoDataAvailable={renderNoDataAvailable}
+          pageSize={pageSize}
+          initialOrderBy="label"
+          rightHeader={rightHeader}
+          isSearchable={isSearchable}
+          searchAttributes={['label']}
+          extraFilters={createFilters(hiddenIds ?? [])}
+          searchPlaceholder={t('in-settings:tabs.filter')}
+          onRowClick={onRowClick}
+          getRowProps={getRowProps}
+        />
+      )}
+    </>
   );
 }
 
@@ -110,6 +160,11 @@ function TestLabelContent({ item }: { item: SyntheticTest }) {
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
 
+  // Add runType parameter to prevent datascope label error
+  if (defaultRunType) {
+    setOrDeleteMatrixKey(location, syntheticsDashboard, 'runType', defaultRunType);
+  }
+
   return <Link href={createHref(location)}>{item?.label}</Link>;
 }
 
@@ -118,7 +173,7 @@ function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<Sy
     {
       id: 'test_name',
       label: t('in-synthetics:dashboard.testList.testLabel'),
-      width: 50,
+      ellipsis: '25vw',
       getContent(entity: SyntheticTest) {
         return (
           <Tooltip content={entity.label} delay={500} align="auto" forceTheme>

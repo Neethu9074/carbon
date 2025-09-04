@@ -35,13 +35,13 @@ export default function GetStartedFreetrial({ handleButtonClick }: GetStartedFre
   const currentStep = 1;
 
   const clickFreeTrial = (): void => {
-    const data = { type: 'freeTrial' };
+    const data = { requiredProperty: 'GettingStarted.freeTrial' };
     triggerFreeTrialSelectionSegmentEvent(data);
     handleButtonClick();
   };
 
   const clickPlayWith = (): void => {
-    const data = { type: 'sandBox' };
+    const data = { requiredProperty: 'GettingStarted.sandBox' };
     triggerFreeTrialSelectionSegmentEvent(data);
     const userSettings = Object.freeze({ ...userSettingsGlobal, showFreetrialSelection: true });
     saveUserSettings(userSettings, savedBackendSettings => {

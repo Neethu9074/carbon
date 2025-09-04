@@ -55,7 +55,7 @@ import locals from './RoleMapping.mless';
 const createMenuItemsForRow = (
   roleMappings: GroupMappingOverview[],
   row: Omit<DataTableRow<RoleMappingRow<GroupMappingOverview>[], GroupMappingOverview>, 'rowData'>,
-  idpDenyAccessWhenNoMappingFound: boolean,
+  isTableDeleteActionDisabled: boolean,
   setMessage: React.Dispatch<React.SetStateAction<Notification | undefined>>
 ): Array<OverflowMenuItemProps> => {
   const roleMapping = roleMappings.filter(item => item.id === row.id)[0];
@@ -70,9 +70,10 @@ const createMenuItemsForRow = (
     {
       actionType: 'delete',
       icon: <TrashCan />,
-      label: t('in-settings:components.deleteEntity', { entity: key }),
-      // Do not allow deleting when only one mapping exists and deny access with no mapping is enabled
-      disabled: idpDenyAccessWhenNoMappingFound && roleMappings.length === 1
+      label: isTableDeleteActionDisabled
+        ? t('in-settings:tabs.roleMapping.deleteEntityDisabled', { entity: key })
+        : t('in-settings:components.deleteEntity', { entity: key }),
+      disabled: isTableDeleteActionDisabled
     }
   ];
 };
@@ -125,6 +126,8 @@ const RoleMapping = () => {
   const [message, setMessage] = useState<Notification>();
   const { trackCta } = useSegmentTracking();
   const isIdpDenyAccessCheckDisabled = idpDenyAccessField.value === false && dataTableResult?.data?.length === 0;
+  // Do not allow deleting when only one mapping exists and deny access with no mapping is enabled
+  const isTableDeleteActionDisabled = idpDenyAccessField.value === true && dataTableResult?.data?.length === 1;
 
   const errorMessage: Notification | undefined = hasErrors
     ? {
@@ -217,9 +220,11 @@ const RoleMapping = () => {
 
         <MultiSelectDataTable
           boundedPath="/roleMapping"
-          getBatchActionItems={() => ROLE_MAPPING_TABLE_BATCH_ACTIONS}
+          getBatchActionItems={() => (idpDenyAccessField.value === true ? [] : ROLE_MAPPING_TABLE_BATCH_ACTIONS)}
           getEntityName={({ key }) => t('in-settings:tabs.roleMapping.roleMappingWithName', { name: key })}
-          getMenuItems={row => createMenuItemsForRow(dataTableResult.data, row, idpDenyAccessField?.value, setMessage)}
+          getMenuItems={row =>
+            createMenuItemsForRow(dataTableResult.data, row, isTableDeleteActionDisabled, setMessage)
+          }
           initalSortConfig={ROLE_MAPPING_TABLE_ORDER}
           labelNew={t('in-settings:tabs.roleMapping.newMappingRule')}
           loading={loading}

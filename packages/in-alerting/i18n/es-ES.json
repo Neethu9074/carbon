@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "Incidencia de activadores",
     "alertPropertyInfosLabelDescription": "Descripción",
     "noChannelSelectedText": "No se han añadido canales. Para empezar, haga clic en Seleccionar canales de alerta.",
+    "noChannelSelectedDetailPage": "Aún no se han agregado canales para recibir notificaciones de alerta.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros adicionales",
     "groupBy": "Agrupar por",
     "noChannelAvailable": "No hay canales de alerta disponibles",
@@ -158,7 +159,6 @@
     "descriptionUnsupportedOperator": "Operador no soportado: {{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "Añadir alerta inteligente",
     "createSmartAlert": "Crear alerta inteligente",
     "applicationSmartAlert": "Añadir alerta inteligente",
     "globalApplicationSmartAlert": "Alerta inteligente de aplicación global",
@@ -517,8 +517,6 @@
         "noData": "No se ha configurado ninguna alerta inteligente. Haga clic en el botón de abajo para configurar sus primeras alertas inteligentes.",
         "noPersmissionToCreateGlobalSmartAlert": "No tiene el permiso para configurar alertas inteligentes. Póngase en contacto con su administrador.",
         "noPermissionGlobalSmartAlertEdit": "No tiene permiso para realizar esta acción",
-        "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicación global ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "Alertas inteligentes de aplicación ({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "Alertas inteligentes de aplicaciones globales",
         "labelSmartAlertsTable": "Alertas inteligentes de aplicaciones",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -644,7 +642,7 @@
         },
         "timeThreshold": {
           "title": "Establecer cuándo las infracciones activan alertas",
-          "description": "Especifique el tipo de alerta y persistencia y luego establezca el activador de alerta."
+          "description": "Refinar los criterios de alerta para mejorar la precisión."
         },
         "staticOrAdaptive": {
           "config": {
@@ -700,7 +698,10 @@
         "configuredAlerts": "Alertas configuradas ({{numberOfAlerts}})"
       },
       "columns": {
-        "name": "Nombre"
+        "name": "Nombre",
+        "severity": "Gravedad",
+        "status": "Estado",
+        "action": "Acción"
       }
     },
     "form": {
@@ -790,7 +791,8 @@
       "ruleStatusCodeValueOptionNone": "Sin estado (Cliente cancelado / fallido)",
       "warningThresholdValidator": "El umbral de aviso debe ser mayor que el umbral crítico para los operadores < y < =.",
       "criticalThresholdValidator": "El umbral crítico debe ser mayor que el umbral de aviso para los operadores > y >=.",
-      "sensitivityValidator": "La sensibilidad crítica debe ser menor que la sensibilidad de aviso."
+      "sensitivityValidator": "La sensibilidad crítica debe ser menor que la sensibilidad de aviso.",
+      "baselineEmpty": "la línea base está vacía"
     },
     "components": {
       "smartAlertDialog": {
@@ -1020,17 +1022,24 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "Las infracciones persisten continuamente",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "Cuando se ve afectado un número mínimo de rastreos",
           "labelUserImpactOfViolationsInSequence": "Cuando afecta a un determinado número de usuarios",
+          "violationsInSequenceLabel": "Cuando se produce una infracción durante intervalos de tiempo consecutivos",
+          "violationsInPeriodLabel": "Cuando se producen varias infracciones en varios intervalos de tiempo",
           "granularity": {
             "description": "Las llamadas se realizan en ventanas de {{granularity}} minutos; cada {{granularity}} minutos se calcula un valor métrico para esa ventana"
           },
           "triggerAlert": "Activar alerta",
           "triggerAfter": "Activar después de",
           "tracesImpacted": "los rastreos se ven afectados",
+          "numberOfTracesImpacted": "Número de rastreos afectados",
           "numberOfUserImpactPostLabel": "o más usuarios se ven afectados",
           "percentageOfUserImpactPostLabel": "o más del % de los usuarios se ven afectados",
           "outOfConsecutiveEvaluations": "de",
+          "violationAcross": "en",
+          "violationsOccurrenceLabel": "Aparición(es) de la infracción",
           "persistenceType": "Tipo de persistencia",
           "numberOfConsecutiveViolationsPostLabel": "ventanas consecutivas de {{granularity}} de minutos tienen infracciones",
+          "bucketsOfTime": "Intervalos de tiempo de {{granularity}} minutos",
+          "numberOfConsecutiveViolationsLabel": "Intervalos de tiempo consecutivos de {{granularity}} minutos con infracciones",
           "static": "Estático",
           "thresholdValue": "Valor del umbral"
         }
@@ -1237,7 +1246,6 @@
     "enable": "Habilitar",
     "disable": "Inhabilitar",
     "synthetics": {
-      "addSmartAlert": "Añadir alerta inteligente sintética",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} filtro más",
@@ -1253,9 +1261,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "Umbral de tiempo",
-        "filterApplied": "Filtro aplicado",
-        "violationsCount": "{{violationsCount}} anomalías",
         "numberOfFailures": "Alerta de anomalía",
         "noDataHeader": "No hay alertas inteligentes sintéticas",
         "noDataDescription": "Para empezar, haga clic en <strong>Crear alerta inteligente</strong>."
@@ -1315,7 +1320,9 @@
         "alertTestEntityName": "prueba sintética {{entityName}}",
         "testAttachedCount": "Pruebas adjuntas ({{count}})",
         "testAttached": "Pruebas adjuntas",
-        "noTestAvailable": "No hay pruebas sintéticas disponibles"
+        "noTestAvailable": "No hay pruebas sintéticas disponibles",
+        "noTestSelected": "No se ha seleccionado ninguna prueba sintética.",
+        "noTestSelectedMessage": "Para empezar, haga clic en Añadir pruebas sintéticas."
       },
       "details": {
         "threshold": "Umbral",
@@ -1424,7 +1431,6 @@
         "filter_0": "Filtros",
         "filter_1": "Filtros",
         "filter_2": "Filtros",
-        "filterApplied": "Filtro aplicado",
         "noDataHeader": "Alertas inteligentes no de aplicación móvil",
         "noDataDescription": "Para empezar, haga clic en <strong>Crear alerta inteligente</strong>."
       },
@@ -1619,7 +1625,8 @@
             "subtitle": {
               "staticThresholdType": "Umbral estático",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "forecastAlerting": "Alertas de previsión"
+              "forecastAlerting": "Alertas de previsión",
+              "adaptiveThreshold": "Umbral adaptable, {{metricName}}"
             }
           }
         },
@@ -1714,6 +1721,11 @@
         "step4": {
           "header": "¿Dónde quiere que se le notifique esta alerta?",
           "description": "Seleccione el destinatario o destinatarios de esta alerta"
+        },
+        "scopeEntity": {
+          "entityType": "Tipo de entidad",
+          "pleaseSelect": "Seleccionar entidad",
+          "loadingEntities": "Cargando entidades..."
         },
         "scopeFilter": {
           "title": "Elegir el ámbito de la infraestructura",
@@ -2004,7 +2016,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}}, umbral (Largo) {{operator}} {{value}} y (Corto) < 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}, umbral {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}, umbral {{operator}} {{value}}",
-        "alertListSloAppliedColumnName": "SLO aplicados",
         "sloApplied": "SLO aplicados",
         "sloCount": "{{count}} SLO",
         "sloCount_plural": "{{count}} SLO",

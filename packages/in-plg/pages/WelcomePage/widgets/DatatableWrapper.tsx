@@ -106,7 +106,6 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   } = props;
 
   const [{ query }, setQuery] = useUrlState({
-    //useState<string>(urlQuery || '');
     bind: [
       {
         path: '/customDashboards',
@@ -290,7 +289,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           iconColor={themes.default.ids.color.option.white}
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
-          viewAll={(viewAll ?? hasContent) ? true : false}
+          viewAll={viewAll ?? hasContent}
           hasNoDataTile={hasNoDataTile}
           addMore={addMore}
           addData={addData}
@@ -301,6 +300,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
             setQuery({ query: searchQuery });
             setPage(1);
           }, 500)}
+          query={query}
           buttonName={`${addMorePrefix} ${addButtonLabel ?? ''}`.trim()}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}

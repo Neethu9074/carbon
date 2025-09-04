@@ -8,19 +8,26 @@ import { SortableContext, arrayMove, verticalListSortingStrategy, useSortable } 
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import React, { useEffect, ReactNode, useMemo, useState } from 'react';
 
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import {
-  hasWebsitesAccess,
-  hasMobileAppsAccess,
-  hasApplicationsAccess,
-  hasAPlatformAccess,
-  hasBizOpsAccess,
-  hasInfrastructureAccess,
-  hasSyntheticsAccess,
-  hasEventsAccess,
-  hasSloAccess
+  anyPlatformAccessPermissions,
+  applicationsAccessPermissions,
+  bizopsAccessPermissions,
+  eventsAccessPermissions,
+  infrastructureAccessPermissions,
+  mobileAppsAccessPermissions,
+  sloAccessPermissions,
+  syntheticsAccessPermissions,
+  websitesAccessPermissions
 } from 'in-stores/permission';
+import {
+  businessObservabilityEnabled,
+  playwithEnabled,
+  sloFullEnabled,
+  syntheticsEnabled
+} from 'in-services/featureFlags';
 import WebsitesAndMobileListWidget from 'in-plg/pages/WelcomePage/widgets/WebsitesAndMobileListWidget';
 import SyntheticMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/SyntheticMonitoringWidget';
 import BusinessMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/BusinessMonitoringWidget';
@@ -33,7 +40,9 @@ import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import PlatformWidget from 'in-plg/pages/WelcomePage/widgets/PlatformWidget';
 import { QuickLinks } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinks';
 import { setSingle, settings$ } from 'in-services/settings/settings';
-import { playwithEnabled } from 'in-services/featureFlags';
+import { PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
+import useHasAccesses from 'in-stores/useHasAccesses';
+import useHasAccess from 'in-stores/useHasAccess';
 import { UiSettings } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -46,10 +55,9 @@ interface WidgetOrdering {
 }
 
 const settingsKey = 'WidgetOrdering';
-const itemIds: WidgetOrdering[] = [];
 
 export interface DashboardTileParamProps {
-  key: number;
+  key: string | number;
   header: string;
   icon?: string;
   toggles?: ReactNode;
@@ -162,12 +170,37 @@ const widgetData = [
   }
 ];
 
-const tableEntryArray: any[] = widgetData
-  .filter(
+type WidgetDataItem = (typeof widgetData)[number];
+type WidgetData = WidgetDataItem[];
+
+interface PagePermissions {
+  hasAnyPlatformAccess?: boolean;
+  hasApplicationsAccess?: boolean;
+  hasBizOpsAccess?: boolean;
+  hasEventsAccess?: boolean;
+  hasInfrastructureAccess?: boolean;
+  hasMobileAppsAccess?: boolean;
+  hasSloAccess?: boolean;
+  hasSyntheticsAccess?: boolean;
+  hasWebsitesAccess?: boolean;
+}
+
+const getTableEntryArray = ({
+  hasAnyPlatformAccess,
+  hasApplicationsAccess,
+  hasBizOpsAccess,
+  hasEventsAccess,
+  hasInfrastructureAccess,
+  hasMobileAppsAccess,
+  hasSloAccess,
+  hasSyntheticsAccess,
+  hasWebsitesAccess
+}: PagePermissions): WidgetData =>
+  widgetData.filter(
     ele =>
       (ele.key === 'applicationWidget' && hasApplicationsAccess) ||
       (ele.key === 'eventsWidget' && hasEventsAccess) ||
-      (ele.key === 'platformsWidget' && hasAPlatformAccess) ||
+      (ele.key === 'platformsWidget' && hasAnyPlatformAccess) ||
       (ele.key === 'businessMonitoringWidget' && hasBizOpsAccess) ||
       (ele.key === 'incidentsWidget' && !playwithEnabled) ||
       (ele.key === 'websitesWidget' && hasWebsitesAccess) ||
@@ -176,22 +209,73 @@ const tableEntryArray: any[] = widgetData
       (ele.key === 'syntheticWidget' && hasSyntheticsAccess) ||
       (ele.key === 'dashboardWidget' && !playwithEnabled) ||
       (ele.key === 'serviceLevelsWidget' && hasSloAccess)
-  )
-  .map(ele => {
-    itemIds.push({ id: ele.key });
-    return ele;
-  });
+  );
+
+function getItemIds(tableEntryArray: WidgetData): WidgetOrdering[] {
+  return tableEntryArray.map(ele => ({ id: ele.key }));
+}
 
 export default function PageContent() {
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasBizOpsAccess = useHasAccess({
+    optionalPrecondition: businessObservabilityEnabled,
+    requiredPermissions: bizopsAccessPermissions
+  });
+  const hasInfrastructureAccess = useHasAccess({ requiredPermissions: infrastructureAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
+  const hasSyntheticsAccess = useHasAccess({
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
+  const hasAnyPlatformAccess = useHasAccesses({
+    requiredPermissions: anyPlatformAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+  const hasEventsAccess = useHasAccesses({
+    requiredPermissions: eventsAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+  const hasSloAccess = useHasAccesses({
+    optionalPrecondition: sloFullEnabled,
+    requiredPermissions: sloAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+
   return (
     <div className={locals.dashboardTilesWrapper}>
       <QuickLinks />
-      <RenderTable />
+      <RenderTable
+        {...{
+          hasAnyPlatformAccess,
+          hasApplicationsAccess,
+          hasBizOpsAccess,
+          hasEventsAccess,
+          hasInfrastructureAccess,
+          hasMobileAppsAccess,
+          hasSloAccess,
+          hasSyntheticsAccess,
+          hasWebsitesAccess
+        }}
+      />
     </div>
   );
 }
 
-function filterItems(orderedItems: WidgetOrdering[]): WidgetOrdering[] {
+function filterItems(
+  orderedItems: WidgetOrdering[],
+  {
+    hasAnyPlatformAccess,
+    hasApplicationsAccess,
+    hasBizOpsAccess,
+    hasEventsAccess,
+    hasInfrastructureAccess,
+    hasMobileAppsAccess,
+    hasSloAccess,
+    hasSyntheticsAccess,
+    hasWebsitesAccess
+  }: PagePermissions
+): WidgetOrdering[] {
   return orderedItems.filter(({ id }: { id: string }) => {
     if (
       (id === 'incidentsWidget' && playwithEnabled) ||
@@ -200,7 +284,7 @@ function filterItems(orderedItems: WidgetOrdering[]): WidgetOrdering[] {
       (id === 'mobileListWidget' && !hasMobileAppsAccess) ||
       (id === 'businessMonitoringWidget' && !hasBizOpsAccess) ||
       (id === 'applicationWidget' && !hasApplicationsAccess) ||
-      (id === 'platformsWidget' && !hasAPlatformAccess) ||
+      (id === 'platformsWidget' && !hasAnyPlatformAccess) ||
       (id === 'infrastructureWidget' && !hasInfrastructureAccess) ||
       (id === 'syntheticWidget' && !hasSyntheticsAccess) ||
       (id === 'eventsWidget' && !hasEventsAccess) ||
@@ -212,7 +296,8 @@ function filterItems(orderedItems: WidgetOrdering[]): WidgetOrdering[] {
   });
 }
 
-function getOrderedItems(settings: UiSettings | null | undefined): WidgetOrdering[] {
+function getOrderedItems(settings: UiSettings | null | undefined, tableEntryArray: WidgetData): WidgetOrdering[] {
+  const itemIds = getItemIds(tableEntryArray);
   const orderingFromSettings = settings?.[settingsKey];
   if (orderingFromSettings) {
     const result: WidgetOrdering[] = orderingFromSettings.ordering;
@@ -227,13 +312,20 @@ function getOrderedItems(settings: UiSettings | null | undefined): WidgetOrderin
   return itemIds;
 }
 
-function RenderTable() {
+function RenderTable(props: PagePermissions) {
   const storedSettings: UiSettings | null | undefined = useObservable(settings$, []);
-  const getOrdered = useMemo(() => getOrderedItems(storedSettings), [storedSettings]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const tableEntryArray = useMemo(() => getTableEntryArray(props), [generateStableHash(props)]);
+  const getOrdered = useMemo(
+    () => getOrderedItems(storedSettings, tableEntryArray),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [storedSettings, generateStableHash(tableEntryArray)]
+  );
 
   const itemOrder = useMemo(() => {
-    return filterItems(getOrdered);
-  }, [getOrdered]);
+    return filterItems(getOrdered, props);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getOrdered, generateStableHash(props)]);
 
   const [internalItemOrder, setItemOrder] = useState<WidgetOrdering[]>(itemOrder);
 
@@ -306,6 +398,6 @@ function RenderTable() {
   );
 }
 
-export function getWidget(widgetName: string) {
-  return tableEntryArray.find(item => item.key === widgetName) ?? null;
+export function getWidget(widgetName: string, permissions: PagePermissions) {
+  return getTableEntryArray(permissions).find(item => item.key === widgetName) ?? null;
 }

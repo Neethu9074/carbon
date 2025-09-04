@@ -31,14 +31,15 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { datasourceInstanaAgentPath } from 'in-plg/navigation/paths';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getPageType } from 'in-plg/Demo/NewPlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { role } from 'in-stores/user';
 
 import locals from 'in-plg/pages/WelcomePage/quickLinks/QuickLinks.mless';
 
 export const QuickLinks = () => {
+  const [role] = useCurrentUserRole();
   const { createHrefToPath } = useNavigation();
   const { trackCta } = useSegmentTracking();
   const location = useLocation();

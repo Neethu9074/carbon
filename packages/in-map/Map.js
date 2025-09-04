@@ -103,7 +103,12 @@ export default function Map() {
       />
 
       <Title title={getTitle(view)} />
-      <canvas className={locals.canvas} ref={ref} />
+      <canvas
+        role="application"
+        aria-label={t('in-map:accessibility.infrastructureMap')}
+        className={locals.canvas}
+        ref={ref}
+      />
       <StickyNoteHoster />
       <TooltipHoster />
       <MapNoContentMessage />

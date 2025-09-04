@@ -86,6 +86,8 @@ export const configurationCustomGeoDetails = '/customGeoDetails';
 export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFullyQualified}${configurationCustomGeoDetails}`;
 export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
 export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
+export const configurationTeams = '/teams';
+export const configurationTeamsFullyQualified = `${configurationTabFullyQualified}${configurationTeams}`;
 export const configurationAlerts = '/alerts';
 
 export const websiteSmartAlerts = '/smartAlerts';

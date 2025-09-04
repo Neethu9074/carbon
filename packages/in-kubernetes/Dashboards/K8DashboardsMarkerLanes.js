@@ -5,19 +5,16 @@
 
 import React from 'react';
 
+import ActionsLaneWithAccess from 'in-automation/components/MarkersLane/ActionsLaneWithAccess';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 import CDEventsLane from 'in-components/Chart/markerLanes/CDEventsLane/CDEventsLane';
-import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
-import { hasAutomationAccess } from 'in-stores/permission';
 
 export default function K8DashboardsMarkerLanes(props) {
   return (
     <MarkerLanesPresenter {...props}>
       <ReleasesLane />
-      {props.hasActionlane && hasAutomationAccess && (
-        <ActionsLane snapshotId={props.snapshotId} {...props} boundaryScope="ALL" />
-      )}
+      <ActionsLaneWithAccess snapshotId={props.snapshotId} {...props} boundaryScope="ALL" />
       <CDEventsLane {...props} />
     </MarkerLanesPresenter>
   );

@@ -116,14 +116,14 @@ export type SubtraceMetrics = {
   subtraceCount: SubtracesMetricConfiguration;
   calls: SubtracesMetricConfiguration;
   errorRate: SubtracesMetricConfiguration;
-  duration: SubtracesMetricConfiguration;
+  latency: SubtracesMetricConfiguration;
 };
 
 export type SubtraceListItem = Required<Omit<SubtraceItem, 'metrics'>> & {
   subtraceCount?: number;
   calls?: number;
   errorRate?: number;
-  duration?: number;
+  latency?: number;
 };
 
 // form fields
@@ -140,6 +140,7 @@ export type SubtraceFormPath = MapPath<SubtraceFormFields>;
 // #region TraceDetailView
 export type DetailId = {
   traceId: string;
+  subtraceConfigId: string | Nullish;
   callId: string | Nullish;
   logId: string | Nullish;
   colorCode: string | Nullish;

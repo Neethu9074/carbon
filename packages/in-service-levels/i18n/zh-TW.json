@@ -263,6 +263,12 @@
     "errorEmptyGoodFilter": "必須定義良好的過濾器",
     "errorEqualTagFilter": "好的和壞的過濾器不能完全相同",
     "nameAndTagsTitle": "設定詳細資料",
+    "bindTimezoneLabel": "連結時區",
+    "currentTimezoneMessage": "您目前的時區是 {{timezone}}。",
+    "disabledToggleLabel": "停用",
+    "enabledToggleLabel": "啟用",
+    "selectedTimezoneMessage": "SLO 時區設定為 {{timezone}}。",
+    "selectTimezoneMessage": "選取時區",
     "sloNameLabel": "SLO 名稱",
     "sloNamePlaceholder": "輸入名稱",
     "tagsLabel": "標籤（選用項目）",
@@ -328,16 +334,20 @@
       "timeWindowType_dynamic": "動態時間範圍",
       "timeWindowType_rolling": "輪詢時間範圍",
       "timeWindowType_fixed": "固定時間範圍",
-      "configuredTimeWindow": "已配置 SLO 時間範圍：",
+      "configuredTimeWindow": "配置的 SLO 時間範圍",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "開始時間：{{startDay}}，{{startTime}}",
-      "matchedSLOTimeWindow": "相符 SLO 時間範圍： ",
-      "matchedSLOTimeWindow_plural": "比對 SLO 時間範圍： ",
-      "matchedSLOTimeWindow_0": "相符 SLO 時間範圍： ",
-      "matchedSLOTimeWindow_1": "相符 SLO 時間範圍： ",
-      "matchedSLOTimeWindow_2": "比對 SLO 時間範圍： ",
+      "matchedSLOTimeWindow": "相符的 SLO 時間範圍",
+      "matchedSLOTimeWindow_plural": "相符的 SLO 時間範圍",
+      "matchedSLOTimeWindow_0": "相符的 SLO 時間範圍",
+      "matchedSLOTimeWindow_1": "相符的 SLO 時間範圍",
+      "matchedSLOTimeWindow_2": "相符的 SLO 時間範圍",
       "noMatchedSLOTimeWindow": "找不到相符的時間範圍",
-      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
+      "currentTimezone": "您目前的時區設定為 {{timezone}}。",
+      "editSloTimezone": "編輯 SLO 時區",
+      "sloCreatedTimezone": "此 SLO 已在 {{sloTimezone}} 中建立",
+      "timezone": "時區： {{sloTimezone}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "無法使用預覽，因為配置不完整。",
@@ -509,7 +519,8 @@
         "timeWindowLabel": "時間範圍",
         "durationLabel": "長度",
         "startDateLabel": "開始日期",
-        "startTimeLabel": "開始時間"
+        "startTimeLabel": "開始時間",
+        "timezoneLabel": "時區"
       }
     }
   },

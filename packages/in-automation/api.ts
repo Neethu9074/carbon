@@ -4,42 +4,44 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Observable } from '@instana/observables';
 import {
   Action,
-  VolatileId,
+  ActionInstance,
+  ActionNameExists,
+  ActionType,
   Event,
   EventSpecificationInfo,
-  ActionInstance,
-  Policy,
-  TagCatalog,
-  ParameterValue,
   GetDynamicParameterValues,
-  TriggerType,
-  SyntheticAlertConfigWithMetadata,
-  ServiceLevelsAlertConfigWithMetadata,
-  ActionType,
-  ActionNameExists,
   ImpactedApplicationDetails,
-  ResourceOptimization
+  ParameterValue,
+  Policy,
+  ResourceOptimization,
+  Result,
+  ServiceLevelsAlertConfigWithMetadata,
+  SyntheticAlertConfigWithMetadata,
+  TagCatalog,
+  TriggerType,
+  VolatileId
 } from '@instana/types';
+
 
 import {
   ApplicationSmartAlertConfigWithMetadata,
   GlobalApplicationsSmartAlertConfigWithMetadata
 } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
-import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
-import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
-import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
-import submitTurbonomicResourceImpact from 'in-automation/subscriptions/submitTurbonomicResourceImpact';
-import { ActionFilter, NewAction, ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
-import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
+import { MobileAppSmartAlertConfigWithMetadata, WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import submitActionExecution from 'in-automation/subscriptions/submitActionExecution';
-import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { mapData } from 'in-services/util/result';
-import { minutes } from 'in-services/time';
+import submitTurbonomicResourceImpact from 'in-automation/subscriptions/submitTurbonomicResourceImpact';
+import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
+import { ActionFilter, NewAction, NewPolicy, ResolvedDynamicParamValue } from 'in-automation/types';
 import http from 'in-services/http';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { minutes } from 'in-services/time';
+import { mapData } from 'in-services/util/result';
 
 const automationAPIBase = '/api/automation';
 const turboAPIBase = '/api/turbonomic';
@@ -378,6 +380,17 @@ export function saveNewPolicy(policy: NewPolicy) {
   });
 }
 
+export function saveNewPolicyNew(payload: NewPolicy): Observable<Result<Policy>> {
+  return http<Policy>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: policiesUrl,
+    data: payload,
+    mapToResultObject: true
+  });
+}
+
 export function deletePolicy(id: string) {
   return http<Policy>({
     method: 'DELETE',
@@ -394,6 +407,18 @@ export function savePolicy(policy: NewPolicy, id: string) {
     headers: getCsrfHeader(),
     url: `${policiesUrl}/${id}`,
     data: policy,
+    mapToResultObject: true
+  });
+}
+
+export function savePolicyNew(payload: Policy): Observable<Result<Policy>> {
+  const { id } = payload;
+  return http<Policy>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${policiesUrl}/${id}`,
+    data: payload,
     mapToResultObject: true
   });
 }

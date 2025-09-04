@@ -462,9 +462,11 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
       const entityEnabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
       const customDefinedDisableLabel = actionDefinition.disableLabel || t('in-settings:components.disable');
       const customDefinedEnableLabel = actionDefinition.enableLabel || t('in-settings:components.enable');
+      const labelTextContent = entityEnabled ? customDefinedDisableLabel : customDefinedEnableLabel;
       return (
-        <Tooltip content={entityEnabled ? customDefinedDisableLabel : customDefinedEnableLabel} delay={500}>
+        <Tooltip content={labelTextContent} delay={500}>
           <IconButton
+            aria-label={labelTextContent}
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
             type={entityEnabled ? 'lib_actions_pause' : 'lib_actions_play'}

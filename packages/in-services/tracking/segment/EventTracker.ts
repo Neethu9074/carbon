@@ -27,7 +27,7 @@ export const eventTracker = ({ data, segmentEventName }: EventTrackerProps) => {
     }
 
     const url = window.location.href;
-    const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType } = config;
+    const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType, cmrDetails } = config;
     if (!tenantUnitId) {
       return;
     }
@@ -52,7 +52,10 @@ export const eventTracker = ({ data, segmentEventName }: EventTrackerProps) => {
       altUserId: userId,
       platformTitle: productPlatformTitle,
       roles: [userSelfDefinedRole],
-      'user.bluemixId': userId
+      'user.bluemixId': userId,
+      accountId: cmrDetails?.trackingAccountId,
+      accountIdType: cmrDetails?.trackingAccountIdType,
+      environment: cmrDetails?.environmentId
     };
     window.analytics.track(segmentEventName, segmentProperties);
   } catch (e) {

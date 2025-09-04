@@ -189,6 +189,7 @@ router.get('/', async (req, res) => {
     clientConfig.amplitudeKey = getAmplitudeKey();
     const environmentInfo = JSON.parse(getEnvironmentInfo);
     clientConfig.mcspDetails = environmentInfo.mcspDetails;
+    clientConfig.cmrDetails = environmentInfo.cmrDetails;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const segmentKeyValue = clientConfig.segmentKey;
     const walkmeKeyValue = clientConfig.walkmeKey;

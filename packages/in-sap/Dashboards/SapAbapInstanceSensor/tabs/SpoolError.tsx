@@ -23,6 +23,7 @@ interface SpoolErrorRow {
 interface SpoolErrorRowProps {
   snapshotId: string;
   timeConfig: TimeConfig;
+  duration: string;
 }
 
 const cols = [
@@ -82,7 +83,7 @@ const cols = [
   }
 ];
 
-export default function SpoolError({ snapshotId, timeConfig }: SpoolErrorRowProps) {
+export default function SpoolError({ snapshotId, timeConfig, duration }: SpoolErrorRowProps) {
   const data = useObservable(
     () => getRawPayloadWithTimestamp(snapshotId, 'spoolErrorStats', timeConfig),
     [snapshotId, timeConfig]
@@ -96,11 +97,15 @@ export default function SpoolError({ snapshotId, timeConfig }: SpoolErrorRowProp
         };
       })
     : [];
+  const cardTitle =
+    String(duration) === '1'
+      ? t('in-sap:dashboards.spoolErrorHour', { duration })
+      : t('in-sap:dashboards.spoolErrorsHours', { duration });
 
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.spoolError')}
+      cardTitle={cardTitle}
       cols={cols}
       rows={rows}
       initialSortColumn={0}

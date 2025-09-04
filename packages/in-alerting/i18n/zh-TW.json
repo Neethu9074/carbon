@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "觸發發生事件",
     "alertPropertyInfosLabelDescription": "說明",
     "noChannelSelectedText": "未新增通道。 按一下「選取警示通道」即可開始。",
+    "noChannelSelectedDetailPage": "尚未新增任何通道來接收警示通知。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他過濾器",
     "groupBy": "分組方式",
     "noChannelAvailable": "沒有可用的警示通道",
@@ -45,7 +46,7 @@
       "alertingChartLabelThreshold": "臨界值",
       "alertingChartLabelViolations": "違規",
       "alertingChartLabelWarningViolations": "警告違規",
-      "alertingChartLabelCriticalViolations": "嚴重違規",
+      "alertingChartLabelCriticalViolations": "重大違規",
       "alertingChartLabelWarningThreshold": "警告臨界值",
       "alertingChartLabelCriticalThreshold": "嚴重臨界值",
       "alertingChartLabelForecast": "預測",
@@ -158,7 +159,6 @@
     "descriptionUnsupportedOperator": "不支援的運算子：{{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "新增智慧型警示",
     "createSmartAlert": "建立智慧型警示",
     "applicationSmartAlert": "應用程式智慧型警示",
     "globalApplicationSmartAlert": "廣域應用程式智慧型警示",
@@ -517,8 +517,6 @@
         "noData": "未配置任何智慧型警示。 按下面的按鈕來配置您的第一個智慧型警示。",
         "noPersmissionToCreateGlobalSmartAlert": "您沒有配置智慧型警示的權限。 請與管理者聯絡。",
         "noPermissionGlobalSmartAlertEdit": "您沒有執行此動作的權限",
-        "labelGlobalSmartAlertsList": "廣域智慧型警示 ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "應用程式智慧型警示 ({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "廣域應用程式智慧型警示",
         "labelSmartAlertsTable": "應用程式智慧型警示",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -644,7 +642,7 @@
         },
         "timeThreshold": {
           "title": "在違規觸發警示時設定",
-          "description": "指定警示及持續性類型，然後設定警示觸發程式。"
+          "description": "優化警示標準以提升準確性。"
         },
         "staticOrAdaptive": {
           "config": {
@@ -700,7 +698,10 @@
         "configuredAlerts": "已配置的警示數 ({{numberOfAlerts}})"
       },
       "columns": {
-        "name": "名稱"
+        "name": "名稱",
+        "severity": "嚴重性",
+        "status": "狀態",
+        "action": "動作"
       }
     },
     "form": {
@@ -790,7 +791,8 @@
       "ruleStatusCodeValueOptionNone": "無狀態（用戶端已中斷/失敗）",
       "warningThresholdValidator": "對於 < 及 <= 運算子，警告臨界值應該大於嚴重臨界值。",
       "criticalThresholdValidator": "對於 > 及 >= 運算子，嚴重臨界值應該大於警告臨界值。",
-      "sensitivityValidator": "嚴重靈敏度應小於警告靈敏度。"
+      "sensitivityValidator": "嚴重靈敏度應小於警告靈敏度。",
+      "baselineEmpty": "基準線是空的"
     },
     "components": {
       "smartAlertDialog": {
@@ -1020,17 +1022,24 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "違規不斷持續存在",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "當最少數量的追蹤資料受到影響時",
           "labelUserImpactOfViolationsInSequence": "當一定數量的使用者受到影響",
+          "violationsInSequenceLabel": "當連續的時間段內發生違規時",
+          "violationsInPeriodLabel": "當多個時間段內發生多次違規時",
           "granularity": {
             "description": "呼叫會被放置在 {{granularity}} 分鐘的視窗中；每 {{granularity}} 分鐘，為該視窗計算一個度量值"
           },
           "triggerAlert": "觸發警示",
           "triggerAfter": "觸發後",
           "tracesImpacted": "追蹤資料受到影響",
+          "numberOfTracesImpacted": "受影響的追蹤數",
           "numberOfUserImpactPostLabel": "或更多數量的使用者受到影響",
           "percentageOfUserImpactPostLabel": "或更多比例的使用者受到影響時",
           "outOfConsecutiveEvaluations": "超出",
+          "violationAcross": "跨越",
+          "violationsOccurrenceLabel": "違規發生次數",
           "persistenceType": "持續性類型",
           "numberOfConsecutiveViolationsPostLabel": "連續的 {{granularity}} 分鐘視窗有違規情況",
+          "bucketsOfTime": "{{granularity}} 分鐘的時段",
+          "numberOfConsecutiveViolationsLabel": "發生違規的連續 {{granularity}} 分鐘時段",
           "static": "靜態",
           "thresholdValue": "臨界值"
         }
@@ -1237,7 +1246,6 @@
     "enable": "啟用",
     "disable": "停用",
     "synthetics": {
-      "addSmartAlert": "新增綜合智慧型警示",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
@@ -1253,9 +1261,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "時間臨界值",
-        "filterApplied": "套用的過濾器",
-        "violationsCount": "{{violationsCount}} 次失敗",
         "numberOfFailures": "失敗警示",
         "noDataHeader": "沒有綜合智慧型警示",
         "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
@@ -1315,7 +1320,9 @@
         "alertTestEntityName": "綜合測試 {{entityName}}",
         "testAttachedCount": "附加的測試 ({{count}})",
         "testAttached": "附加的測試",
-        "noTestAvailable": "沒有可用的綜合測試"
+        "noTestAvailable": "沒有可用的綜合測試",
+        "noTestSelected": "未選取綜合測試",
+        "noTestSelectedMessage": "若要開始，請按一下新增綜合測試。"
       },
       "details": {
         "threshold": "臨界值",
@@ -1424,7 +1431,6 @@
         "filter_0": "過濾器",
         "filter_1": "過濾器",
         "filter_2": "過濾器",
-        "filterApplied": "套用的過濾器",
         "noDataHeader": "沒有行動應用程式智慧型警示",
         "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       },
@@ -1619,7 +1625,8 @@
             "subtitle": {
               "staticThresholdType": "靜態臨界值",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "forecastAlerting": "預測警示"
+              "forecastAlerting": "預測警示",
+              "adaptiveThreshold": "適應性臨界值，{{metricName}}"
             }
           }
         },
@@ -1715,6 +1722,11 @@
           "header": "您希望在何處收到此警示的通知？",
           "description": "選取此警示的接收者"
         },
+        "scopeEntity": {
+          "entityType": "實體類型",
+          "pleaseSelect": "選取實體",
+          "loadingEntities": "正在載入實體..."
+        },
         "scopeFilter": {
           "title": "選擇基礎架構的範圍",
           "filter": "過濾器",
@@ -1746,10 +1758,10 @@
         }
       },
       "placeholderTitle": "偵測到 {{metricName}} 上的問題",
-      "descriptionIsHigherThan": "{{metricName}} 高於 {{value}}。",
-      "descriptionIsHigherOrEqualTo": "{{metricName}} 高於或等於 {{value}}。",
-      "descriptionIsLowerThan": "{{metricName}} 低於 {{value}}。",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} 低於或等於 {{value}}。",
+      "descriptionIsHigherThan": "{{metricName}} 大於 {{value}}。",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} 大於或等於 {{value}}。",
+      "descriptionIsLowerThan": "{{metricName}} 小於 {{value}}。",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} 小於或等於 {{value}}。",
       "evaluationType": {
         "title": "選擇您的警示方法",
         "custom": {
@@ -2004,7 +2016,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}}、臨界值（長）{{operator}} {{value}} &（短）< 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}，臨界值 {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}，臨界值 {{operator}} {{value}}",
-        "alertListSloAppliedColumnName": "已套用 SLO",
         "sloApplied": "已套用 SLO",
         "sloCount": "{{count}} 個 SLO",
         "sloCount_plural": "{{count}} 個 SLO",

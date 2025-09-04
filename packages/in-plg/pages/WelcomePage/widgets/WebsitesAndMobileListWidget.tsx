@@ -29,13 +29,13 @@ import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import { mobileAppMonitoringPath, useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
+import { mobileAppsAccessPermissions, websitesAccessPermissions } from 'in-stores/permission';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
-import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { getWebsitesWithDefaults } from 'in-plg/subscriptions/getWebsites';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -45,7 +45,8 @@ import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { hasError, isLoading } from 'in-services/util/result';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import useHasAccess from 'in-stores/useHasAccess';
 
 type WebsiteItem = {
   isWebsite: true;
@@ -149,6 +150,9 @@ interface Props {
 }
 
 export default function WebsitesAndMobileListWidget({ type, config, widgetLabel, dashboardTileProps }: Props) {
+  const [role] = useCurrentUserRole();
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
   const { createHrefToPath, goToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const getLinkToMobileApp = useGenerateLinkToMobileApp();

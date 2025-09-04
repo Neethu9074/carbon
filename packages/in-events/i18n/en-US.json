@@ -150,6 +150,7 @@
   "headerReportedDate": "Reported date",
   "headerCvssScore": "CVSS Score",
   "unidentifiedEntity": "Unidentified entity",
+  "viewMore": "View more",
   "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",
   "headerStatus": "Status",
   "eventHelpfulText": "Was this event helpful?",
@@ -378,10 +379,26 @@
     "infraSA": "Infrastructure Smart Alerts",
     "logSA": "Log Smart Alerts",
     "websiteSA": "Website Smart Alerts",
-    "mobileSA": "Mobile Smart Alerts"
+    "mobileSA": "Mobile Smart Alerts",
+    "dialog": {
+      "selectApplication": "Select Application",
+      "name": "Name",
+      "cancel": "Cancel",
+      "proceed": "Proceed",
+      "selectApplicationToProceed": "Select an application to proceed",
+      "noDataEmptyListStateTitle": "No results found",
+      "noDataEmptyListStateSubtitle": "Try adjusting your search to find what you're looking for.",
+      "noDataEmptyListStateIllustrationDescription": "Showing no data available",
+      "selectWebsite": "Select Website",
+      "selectWebsiteToProceed": "Please select a website to proceed ",
+      "selectMobileApp": "Select mobile app",
+      "selectMobileAppToProceed": "Please select a mobile app to proceed "
+    }
   },
   "feedback": {
     "skip": "Skip",
+    "positive": "Positive",
+    "negative": "Negative",
     "descriptionUnpleasant": {
       "firstLineApology": "We are sorry you did not have a pleasant experience.",
       "secondLineQuestion": "Can you help us identify where things went wrong?"
@@ -484,7 +501,9 @@
     "aiEngine": "AI engine",
     "viewAllRecActions": "View all recommended actions",
     "openNotes": "Open summary and notes",
+    "openNotesFed": "Open notes",
     "notesActivity": "Summary and notes with AI",
+    "notesActivityFed": "Notes",
     "confirmDelete": "Confirm deletion",
     "you": "You {{date}}",
     "youEdited": "You (edited) {{date}}",
@@ -517,6 +536,7 @@
     "summaryAIGen": "This summary is AI generated",
     "noActivity": "No notes yet",
     "noActivityDetails": "There are no summaries or notes to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.",
+    "noActivityDetailsFed": "There are no notes to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.",
     "noResults": "Nothing found",
     "noResultsDetails": "There are no results based on your query. Try updating the search terms.",
     "aiExplained": "AI explained",

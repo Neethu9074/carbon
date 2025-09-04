@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-//@ts-expect-error - Cannot find module
-import WelcomePage from 'promise-loader?global,plg!in-plg/pages/WelcomePage/WelcomePage';
+const WelcomePage = () => import(/* webpackChunkName: "plg" */ 'in-plg/pages/WelcomePage/WelcomePage');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

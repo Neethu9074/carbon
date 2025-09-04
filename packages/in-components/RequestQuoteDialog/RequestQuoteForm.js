@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import geodata from 'promise-loader?global,geonames!in-components/RequestQuoteDialog/geodata';
+const geodata = () => import (/* webpackChunkName: "geonames" */ 'in-components/RequestQuoteDialog/geodata');
 import React from 'react';
 
 import { fromPromise } from '@instana/observables';

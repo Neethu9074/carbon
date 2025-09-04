@@ -20,7 +20,6 @@ import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eum
 import { getRuleWithThreshold } from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/eum/components/AlertCreateOrSave';
 import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
-import { alertChannelPerSeverityMobileAppSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
@@ -86,7 +85,6 @@ export default function AlertConfigDialog({
       isSaving={isSaving}
       messages={messages}
       setIsSimpleMode={setIsSimpleMode}
-      alertChannelPerSeverityEnabled={alertChannelPerSeverityMobileAppSaEnabled}
     />
   );
 }
@@ -107,8 +105,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: alertChannelPerSeverityMobileAppSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
-    alertChannels: alertChannelPerSeverityMobileAppSaEnabled ? form.get(fieldNames.alertChannels).value : null,
+    alertChannels: form.get(fieldNames.alertChannels).value,
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
     description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),

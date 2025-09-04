@@ -9,4 +9,8 @@
     cursor: pointer;
     margin: -8px 0 0 0;
   }
+
+  .stack {
+    display: flex;
+  }
 }

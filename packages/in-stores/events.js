@@ -184,7 +184,7 @@ export const healthColors = [
   '#ffbf08',
   '#ffa010',
   '#ff8019',
-  '#ff6121',
+  '#da1e28',
   '#ff4229'
 ];
 
@@ -245,9 +245,9 @@ export const EVENT_TYPES = {
 export function getIcon(eventType) {
   switch (eventType) {
     case EVENT_TYPES.ISSUE_WARNING:
-      return 'lib_events_warning';
+      return 'lib_help_error_warning';
     case EVENT_TYPES.ISSUE_CRITICAL:
-      return 'lib_events_critical';
+      return 'lib_error_filled';
     case EVENT_TYPES.INCIDENT:
       return 'lib_events_incident';
     case EVENT_TYPES.CVE_ISSUE:
@@ -503,4 +503,17 @@ export function eventsPageTracker(productArea, pageRootName, location, event, re
   });
 
   return null; // SegmentEventTracker does not render anything
+}
+
+export function getEventStatusAtFocusMoment(event) {
+  const isImmutableObject = !!event.get;
+  const start = isImmutableObject ? event.get('start') : event.start;
+  const end = isImmutableObject ? event.get('end') : event.end;
+  const state = isImmutableObject ? event.get('state') : event.state;
+
+  return timeConfig$
+    .map(timeConfig => {
+      return isEventOpenAtFocusedMoment(start, end, state, timeConfig);
+    })
+    .distinct();
 }

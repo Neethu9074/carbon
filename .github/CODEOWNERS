@@ -39,6 +39,8 @@ packages/in-custom-dashboards/widgets   @Instana-IBM-GitHub-Enterprise @instana/
 
 packages/in-events                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
 packages/in-events/components/ImpactedBusinessProcesses @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response @instana/eng-bizops
+packages/in-events/components/NotesAndActivity @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-collaboration
+packages/in-events/components/AIChat @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-collaboration
 
 # Shared ownership
 packages/in-forge                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
@@ -147,6 +149,7 @@ packages/in-forge/plugins/liferayApplicationContainer           @Instana-IBM-Git
 packages/in-forge/plugins/linuxKVMHypervisor*                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/lxc                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/mapRNode                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/mapRCluster                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/mariaDbDatabase                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/memcached                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/mongoDb*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
@@ -243,12 +246,12 @@ packages/in-kubernetes/Dashboards/Cluster/tabs/KubeCost    @Instana-IBM-GitHub-E
 packages/in-kubernetes/Dashboards/ArgoCD                   @Instana-IBM-GitHub-Enterprise @instana/ai-observability @instana/eng-k8s @instana/eng-ui
 
 # Logging specific areas
-packages/in-logging                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-logging/*                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 # code needs to be shifted - this will be a follow-up, and has already been discussed
 packages/in-components/Logging      @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-integrations/logging    @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
-packages/in-settings/tabs/GlobalSettings/pages/logManagement @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-settings/tabs/GlobalSettings/pages/logManagement/* @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-settings/tabs/GlobalSettings/pages/integrations/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 
 # No clear ownership: Fallback to eng-ui
@@ -269,7 +272,7 @@ packages/in-server                                                              
 packages/in-nutanix                                                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-xenserver                                                                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-windowshypervisor                                                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
-packages/in-linuxkvmhypervisor                                                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+packages/in-linux-kvm-hypervisor                                                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 
 # enable sensors team to update aws iam permissions
 packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx                       @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-sensors
@@ -324,9 +327,6 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/busines
 # Custom Widget Table
 packages/in-custom-dashboards/widgets/Table @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui @instana/eng-infrastructure
 
-# Website tabs
-packages/in-websites/WebsiteDashboard/tabs/BusinessImpact   @Instana-IBM-GitHub-Enterprise @instana/eng-bizops @instana/eng-ui
-
 packages/in-sap                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-enterprise-apps
 packages/in-synthetics              @Instana-IBM-Github-Enterprise @instana/eng-synthetics-server @instana/eng-ui
 packages/in-test                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui
@@ -338,6 +338,9 @@ packages/in-websites                @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-eum                     @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
 packages/in-websites/alerting       @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-zhmc                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/power-and-z
+
+# Website tabs
+packages/in-websites/WebsiteDashboard/tabs/BusinessImpact   @Instana-IBM-GitHub-Enterprise @instana/eng-bizops @instana/eng-ui
 
 # Container images
 /containers/ @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui
@@ -358,6 +361,7 @@ packages/in-forge/plugins/otelProcess   @Instana-IBM-GitHub-Enterprise @instana/
 packages/in-forge/plugins/oTelDatabase  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
 packages/in-forge/plugins/oTelLLM       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel @instana/ai-observability
 packages/in-forge/plugins/oTelVLLM      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel @instana/ai-observability
+packages/in-forge/plugins/oTelMilvusDB      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel @instana/ai-observability
 packages/in-forge/plugins/genai         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/ai-observability
 
 # Vulnerability Center

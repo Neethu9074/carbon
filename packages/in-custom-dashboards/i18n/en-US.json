@@ -16,9 +16,7 @@
     "editTeamsDialog": {
       "title": "Edit teams",
       "description": "Select teams to associate with this dashboard.",
-      "calloutMessage": "Adding teams will allow team members to view and edit this dashboard. It will also be reflected in the teams page in settings.",
-      "selectorLabel": "Teams",
-      "chooseTeams": "Choose Teams"
+      "calloutMessage": "Adding teams will allow team members to view and edit this dashboard. It will also be reflected in the teams page in settings."
     },
     "grid": {
       "grid": {
@@ -295,6 +293,13 @@
       },
       "index": {
         "websitesBeacons": "Websites (Beacons)"
+      },
+      "conversionGoals": {
+        "websiteSelect": "Website",
+        "goalSelect": "Conversion goal",
+        "sessionsMetric": "Converted sessions rate",
+        "usersMetric": "Converted users rate",
+        "convertTimeMetric": "Average time to convert"
       }
     },
     "srcSyntheticMonitoring": {
@@ -636,7 +641,6 @@
         "timeBasedSli": "Time-based, {{metricNameLabel}}"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "You are not having the required <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> permission to create or edit SLIs.",
         "sliList": "SLI list",
         "createSli": "Create SLI"
       },

@@ -3,46 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import AgentView from 'promise-loader?global,infrastructure!in-infrastructure/agentView/AgentView';
-import InternalViews from 'promise-loader?global,internal!in-internal';
+const AgentView = () => import (/* webpackChunkName: "infrastructure" */ 'in-infrastructure/agentView/AgentView');
+const InternalViews = () => import (/* webpackChunkName: "internal" */ 'in-internal');
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
-import {
-  hasApplicationsAccess,
-  hasBizOpsAccess,
-  hasWebsitesAccess,
-  hasKubernetesAccess,
-  hasMobileAppsAccess,
-  hasInfrastructureAccess,
-  hasSyntheticsAccess,
-  hasVSphereAccess,
-  hasPowerVcAccess,
-  hasPHMCAccess,
-  hasZHMCAccess,
-  hasPCFAccess,
-  hasOpenStackAccess,
-  hasEventsAccess,
-  hasSAPAccess,
-  hasSloAccess,
-  hasAutomationAccess,
-  hasNutanixAccess,
-  hasXenServerAccess,
-  hasWindowsHypervisorAccess,
-  hasLinuxKVMHypervisorAccess
-} from 'in-stores/permission';
+import { getAccountPageVisible } from 'in-client/js/CarbonUIShell/SettingsMenuItem.tsx';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { internalMonitoringUnit, newOTelPageEnabled } from 'in-services/featureFlags';
-import { accountPageVisible } from 'in-client/js/CarbonUIShell/SettingsMenuItem.tsx';
 import { agentsPath, datasourcePath } from 'in-stores/navigation/paths/mainPaths';
 import collectorRoutes from 'in-infrastructure/CollectorsView/Navigation/routes';
-import linuxkvmhypervisorRoutes from 'in-linuxkvmhypervisor/navigation/routes';
+import linuxkvmhypervisorRoutes from 'in-linux-kvm-hypervisor/navigation/routes';
 import windowsHypervisorRoutes from 'in-windowshypervisor/navigation/routes';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import vulnerabilityRoutes from 'in-vulnerability-center/navigation/routes';
+import getInfrastructureRoutes from 'in-infrastructure/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
-import { role, canSeeExtendedInternalMonitoring } from 'in-stores/user';
-import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import integrationRoutes from 'in-integrations/navigation/routes';
@@ -69,9 +45,33 @@ import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
 import sapRoutes from 'in-sap/navigation/routes';
 
-export default (
+export default ({
+  role,
+  hasApplicationsAccess,
+  hasAutomationAccess,
+  hasBizOpsAccess,
+  hasEventsAccess,
+  hasInfrastructureAccess,
+  hasKubernetesAccess,
+  hasLinuxKVMHypervisorAccess,
+  hasMobileAppsAccess,
+  hasNutanixAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasPowerVcAccess,
+  hasSAPAccess,
+  hasSloAccess,
+  hasSyntheticsAccess,
+  hasVSphereAccess,
+  hasWebsitesAccess,
+  hasWindowsHypervisorAccess,
+  hasXenServerAccess,
+  hasZHMCAccess,
+  hasInfrastructureAnalyzeAccess
+}) => (
   <Switch>
-    {hasInfrastructureAccess && infrastructureRoutes}
+    {hasInfrastructureAccess && getInfrastructureRoutes(role, hasInfrastructureAnalyzeAccess)}
     {configurationRoutes}
     {collectorRoutes}
     {role.canConfigureAgents && (
@@ -79,7 +79,7 @@ export default (
         {renderAsyncRouteChildren(AgentView)}
       </Route>
     )}
-    {(canSeeExtendedInternalMonitoring || internalMonitoringUnit) && (
+    {(role.canSeeExtendedInternalMonitoring || internalMonitoringUnit) && (
       <Route path="/internal" windowTitle="Internal">
         {renderAsyncRouteChildren(InternalViews)}
       </Route>
@@ -88,7 +88,7 @@ export default (
     {hasEventsAccess && eventRoutes}
     {hasSloAccess && sloRoutes}
     {hasSyntheticsAccess && syntheticsRoutes}
-    {hasApplicationsAccess && applicationRoutes()}
+    {hasApplicationsAccess && applicationRoutes(role)}
     {hasAutomationAccess && automationRoutes}
     {hasBizOpsAccess && bizopsRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
@@ -112,7 +112,7 @@ export default (
     {hasNutanixAccess && nutanixRoutes}
     {hasWindowsHypervisorAccess && windowsHypervisorRoutes}
     {hasLinuxKVMHypervisorAccess && linuxkvmhypervisorRoutes}
-    {accountPageVisible && accountBillingRoutes}
+    {getAccountPageVisible(role) && accountBillingRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />

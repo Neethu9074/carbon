@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-expect-error Promise loader module need to be translated to TS
-import BusinessPerspectiveSummary from 'promise-loader?global,bizops!in-bizops/dashboards/perspectives/BusinessPerspectiveSummary';
-// @ts-expect-error Promise loader module need to be translated to TS
-import BusinessPerspectivesList from 'promise-loader?global,bizops!in-bizops/lists/businessPerspectives/BusinessPerspectivesList';
-// @ts-expect-error Promise loader module need to be translated to TS
-import BusinessActivitySummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/activity/BusinessActivitySummary';
-// @ts-expect-error Promise loader module need to be translated to TS
-import BusinessProcessSummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/summary/BusinessProcessSummary';
-// @ts-expect-error Promise loader module need to be translated to TS
-import BusinessProcessesList from 'promise-loader?global,bizops!in-bizops/lists/businessProcess/BusinessProcessList';
+const BusinessPerspectiveSummary = () =>
+  import(/* webpackChunkName: "bizops" */ 'in-bizops/dashboards/perspectives/BusinessPerspectiveSummary');
+const BusinessPerspectivesList = () =>
+  import(/* webpackChunkName: "bizops" */ 'in-bizops/lists/businessPerspectives/BusinessPerspectivesList');
+const BusinessActivitySummaryDashboard = () =>
+  import(/* webpackChunkName: "bizops" */ 'in-bizops/dashboards/activity/BusinessActivitySummary');
+const BusinessProcessSummaryDashboard = () =>
+  import(/* webpackChunkName: "bizops" */ 'in-bizops/dashboards/summary/BusinessProcessSummary');
+const BusinessProcessesList = () =>
+  import(/* webpackChunkName: "bizops" */ 'in-bizops/lists/businessProcess/BusinessProcessList');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

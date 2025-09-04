@@ -34,6 +34,7 @@ interface JobDetailsRow {
 interface JobDetailsProps {
   snapshotId: string;
   timeConfig: TimeConfig;
+  duration: string;
 }
 
 const cols = [
@@ -109,7 +110,7 @@ const cols = [
   }
 ];
 
-export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetailsProps) {
+export default function JobDetailsMetrics({ snapshotId, timeConfig, duration }: JobDetailsProps) {
   const data = useObservable(
     () => getRawPayloadWithTimestamp(snapshotId, 'jobDetails', timeConfig),
     [snapshotId, timeConfig]
@@ -175,7 +176,7 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.jobsInformation')}
+      cardTitle={t('in-sap:dashboards.jobsInformation', { duration: duration })}
       cols={cols}
       rows={rows}
       initialSortColumn={0}

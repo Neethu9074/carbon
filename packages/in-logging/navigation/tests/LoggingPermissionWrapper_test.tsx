@@ -7,11 +7,9 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import PermissionWrapper from 'in-logging/navigation/LoggingPermissionWrapper';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
-jest.mock('in-stores/user', () => ({
-  role: {}
-}));
+jest.mock('in-stores/useCurrentUserRole', () => jest.fn(() => [{}]));
 
 jest.mock('in-components/rbac/RestrictedAccessMessage', () => ({
   __esModule: true,
@@ -28,7 +26,7 @@ describe('PermissionWrapper', () => {
   });
 
   it('should render children if user has the required permission', () => {
-    (role as any)[requiredPermission] = true;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ [requiredPermission]: true }]);
 
     render(
       <PermissionWrapper requiredPermission={requiredPermission} permissionLabel={permissionLabel}>
@@ -41,7 +39,7 @@ describe('PermissionWrapper', () => {
   });
 
   it('should render RestrictedAccessMessage if user does not have the required permission', () => {
-    (role as any)[requiredPermission] = false;
+    (useCurrentUserRole as jest.Mock).mockReturnValue([{ [requiredPermission]: false }]);
 
     render(
       <PermissionWrapper requiredPermission={requiredPermission} permissionLabel={permissionLabel}>

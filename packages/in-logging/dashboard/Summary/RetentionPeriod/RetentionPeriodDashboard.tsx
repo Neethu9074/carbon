@@ -14,8 +14,8 @@ import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManag
 import { dashboardRetentionManagementPath } from 'in-logging/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isAddonUserCached } from 'in-logging/api/licence';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RetentionPeriod.mless';
@@ -30,6 +30,7 @@ interface ErrorObject {
   message: string;
 }
 export default function RetentionPeriodDashboard() {
+  const [role] = useCurrentUserRole();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState({ error: false, message: '' } as ErrorObject);
   const [retentionValue, setRetentionValue] = useState<number | undefined | string>();
@@ -68,7 +69,7 @@ export default function RetentionPeriodDashboard() {
     <>
       {!isLoading ? (
         hasError.error ? (
-          <KpiCard title={localisationStrings.currentRetentionPeriod} noTooltipOnTitle iconClassName={locals.error}>
+          <KpiCard title={localisationStrings.currentRetentionPeriod} iconClassName={locals.error}>
             <Stack align="center" distribution="center">
               <span title={hasError.message as string}>
                 <SvgIcon
@@ -81,7 +82,7 @@ export default function RetentionPeriodDashboard() {
             </Stack>
           </KpiCard>
         ) : (
-          <KpiCard title={localisationStrings.currentRetentionPeriod} iconAction={logRetentionIcon} noTooltipOnTitle>
+          <KpiCard title={localisationStrings.currentRetentionPeriod} iconAction={logRetentionIcon}>
             <div className={locals.body}>
               <p className={locals.retentionContent}>
                 <span data-testid="retentionValue" className={locals.number}>

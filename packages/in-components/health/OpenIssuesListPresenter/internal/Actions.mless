@@ -5,12 +5,13 @@
 
 :local {
   .actions {
-    padding: 0.75rem 1rem;
-    background: #fff;
-    border-top: 1px solid var(--ids-color-option-neutral-300);
+    position: relative;
+    bottom: 0;
+    width: 100%;
   }
 
-  .carbonButton {
+  .viewButton {
+    width: 100%;
     min-width: 100%;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -11,6 +11,7 @@ import {
   newNumberWithDecimalsMetric
 } from 'in-analyze/metricDefinitionHelpers';
 import { percentage, number, fourDecimalPlaces } from 'in-services/formatters/number';
+import { websitesBusinessConversionGoalsEnabled } from 'in-services/featureFlags';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { affectedUsers } from 'in-websites/formatters';
 import { t } from 'in-i18n';
@@ -559,5 +560,21 @@ export const availableMetrics = {
     uniqueSessions,
     uniqueUsersOrSessions,
     customMetric
-  ]
+  ],
+  ...(websitesBusinessConversionGoalsEnabled && {
+    conversionGoals: [
+      newNumberMetric({
+        metric: 'convertedSessions',
+        label: t('in-custom-dashboards:widgets.srcWebSite.conversionGoals.sessionsMetric')
+      }),
+      newNumberMetric({
+        metric: 'convertedUsers',
+        label: t('in-custom-dashboards:widgets.srcWebSite.conversionGoals.usersMetric')
+      }),
+      newNumberMetric({
+        metric: 'convertTime',
+        label: t('in-custom-dashboards:widgets.srcWebSite.conversionGoals.convertTimeMetric')
+      })
+    ]
+  })
 };

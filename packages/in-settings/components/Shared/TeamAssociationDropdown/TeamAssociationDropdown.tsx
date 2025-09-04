@@ -71,6 +71,7 @@ export default function TeamAssociationDropdown({
   };
   return (
     <MultiSelect
+      key={JSON.stringify(assignedTeamTags)}
       id="teams-select-dropdown"
       label={t('in-settings:tabs.chooseTeams')}
       titleText={t('in-settings:tabs.accessTitle')}

@@ -149,7 +149,7 @@ export default function alertFormDefinition(
       'timeThreshold',
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
-    .put('threshold', createThresholdForm(alertConfig.rules[0] ?? {}, editMode))
+    .put('threshold', createThresholdForm(alertConfig.rules[0] ?? {}, 'genericRule', editMode))
     .put(
       'evaluationType',
       createField({

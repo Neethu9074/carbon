@@ -53,7 +53,7 @@ export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
 export const xenserverEnabled = isFeatureFlagEnabled('xenserverEnabled');
 export const windowsHypervisorEnabled = isFeatureFlagEnabled('windowsHypervisorEnabled');
-export const linuxkvmhypervisorEnabled = isFeatureFlagEnabled('linuxkvmhypervisorEnabled');
+export const linuxKVMHypervisorEnabled = isFeatureFlagEnabled('linuxKVMHypervisorEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
@@ -67,7 +67,7 @@ export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled')
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const incidentNotesTopActionsEnabled = isFeatureFlagEnabled('incidentNotesTopActionsEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
-export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
+export const alertChannelBidirectionalSlackEnabled = isFeatureFlagEnabled('alertChannelBidirectionalSlackEnabled');
 export const msTeamsAppEnabled = isFeatureFlagEnabled('msTeamsAppEnabled');
 export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
 export const logFormattingEnabled = isFeatureFlagEnabled('logFormattingEnabled');
@@ -110,12 +110,14 @@ export const mobileAppExcessiveNetworkUsageEnabled = isFeatureFlagEnabled(
   'mobileAppExcessiveNetworkUsageEnabled',
   true
 );
+export const mobileAppAnrTabEnabled = isFeatureFlagEnabled('mobileAppAnrTabEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 export const eumImpactedUsersForWebsiteAndMobileAlertEnabled = isFeatureFlagEnabled(
   'eumImpactedUsersForWebsiteAndMobileAlertEnabled',
   true
 );
-
+export const mobileAppFastTriageEnabled = isFeatureFlagEnabled('mobileAppFastTriageEnabled', false);
+export const websiteFastTriageEnabled = isFeatureFlagEnabled('websiteFastTriageEnabled', false);
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
 
 // EUM beacon query optimization
@@ -187,16 +189,7 @@ export const infraDashboardExportPdfEnabled = isFeatureFlagEnabled('infraDashboa
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
 export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');
 export const infraSmartAlertsPredictionsEnabled = isFeatureFlagEnabled('infraSmartAlertsPredictionsEnabled');
-
-export const alertChannelPerSeverityInfraSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityInfraSaEnabled');
-export const alertChannelPerSeverityApplicationSaEnabled = isFeatureFlagEnabled(
-  'alertChannelPerSeverityApplicationSaEnabled'
-);
-export const alertChannelPerSeverityWebsiteSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityWebsiteSaEnabled');
-export const alertChannelPerSeverityMobileAppSaEnabled = isFeatureFlagEnabled(
-  'alertChannelPerSeverityMobileAppSaEnabled'
-);
-export const alertChannelPerSeverityLogSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityLogSaEnabled');
+export const infraSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled('infraSmartAlertsAdaptiveBaselineEnabled');
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 
@@ -207,8 +200,6 @@ export const multiGroupTimeSeriesEnabled = isFeatureFlagEnabled('multiGroupTimeS
 export const zoomWidgetEnabled = isFeatureFlagEnabled('zoomWidgetEnabled');
 
 export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('lastValueForNonTimeSeriesWidgetEnabled');
-
-export const logSmartAlertsEnabled = isFeatureFlagEnabled('logSmartAlertsEnabled');
 
 export const weaselSubresourceIntegrityEnabled = isFeatureFlagEnabled('weaselSubresourceIntegrityEnabled');
 
@@ -271,9 +262,6 @@ export const mobileAppSmartAlertDialogViewEnabled = isFeatureFlagEnabled('mobile
 export const mobileAppSmartAlertSlownessBlueprintEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertSlownessBlueprintEnabled'
 );
-
-// SA carbon table
-export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
 // SA in events section
 export const allSmartAlertsViewEnabled = isFeatureFlagEnabled('allSmartAlertsViewEnabled');
@@ -380,6 +368,7 @@ export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('
 export const actionAiGenerationEnabled = isFeatureFlagEnabled('actionAiGenerationEnabled', false);
 export const graphTabEnabled = isFeatureFlagEnabled('graphTabEnabled', true);
 export const applicationSubtracesEnabled = isFeatureFlagEnabled('applicationSubtracesEnabled', false);
+export const analyzeSubtracesEnabled = isFeatureFlagEnabled('analyzeSubtracesEnabled', false);
 export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
   'customDashboardTopLevelFiltersEnabled',
   false
@@ -387,13 +376,14 @@ export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
 export const aqmDisableConfigOnEventViewEnabled = isFeatureFlagEnabled('aqmDisableConfigOnEventViewEnabled', false);
 export const aqmDataGridEventTableEnabled = isFeatureFlagEnabled('aqmDataGridEventTableEnabled', false);
 export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);
-export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);
+export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', true);
 export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbonTable', true);
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', true);
 export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
 export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
 export const solisEnabled = isFeatureFlagEnabled('solisEnabled', false);
 export const solisTestCatalogEnabled = isFeatureFlagEnabled('solisTestCatalogEnabled', false);
+export const solisInstanaNativeShellEnabled = isFeatureFlagEnabled('solisInstanaNativeShellEnabled', false);
 export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);
 export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);
 export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);
@@ -408,12 +398,19 @@ export const openTelemetryKubernetesUnifiedViewEnabled = isFeatureFlagEnabled(
 export const overrideAdaptiveBaselineSmoothingParamsEnabled = isFeatureFlagEnabled(
   'overrideAdaptiveBaselineSmoothingParamsEnabled'
 );
-export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', true);
 export const eventsTransientEventEnabled = isFeatureFlagEnabled('eventsTransientEventEnabled', false);
-export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', false);
+export const newAccountAndBillingPageEnabled = isFeatureFlagEnabled('newAccountAndBillingPageEnabled', true);
+export const newOnboardingPageEnabled = isFeatureFlagEnabled('newOnboardingPageEnabled', true);
 export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   'onlyFedRampAllowedAlertChannelsEnabled',
   false
 );
+export const newOTelPageEnabled = isFeatureFlagEnabled('newOTelPageEnabled', false);
+export const customEntitiesViewEnabled = isFeatureFlagEnabled('customEntitiesViewEnabled', false);
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
 export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);
+export const agentEnforcementEnabled = isFeatureFlagEnabled('agentEnforcementEnabled', false);
+export const pollRateSupportForUnifiedMetricsEnabled = isFeatureFlagEnabled(
+  'pollRateSupportForUnifiedMetricsEnabled',
+  false
+);

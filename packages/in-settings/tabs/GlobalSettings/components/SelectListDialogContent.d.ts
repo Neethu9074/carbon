@@ -34,7 +34,8 @@ export interface SelectListDialogContentProps {
     onRowClick,
     tableActions,
     rightHeader,
-    inSelectListDialog
+    inSelectListDialog,
+    createdChannelId
   }: {
     setTitle: false;
     pageSize: number;
@@ -45,6 +46,7 @@ export interface SelectListDialogContentProps {
     tableActions: TableActions<any>;
     rightHeader: ReactNode;
     inSelectListDialog: true;
+    createdChannelId?: string;
   }) => JSX.Element;
   hiddenIds: string[];
   onSubmit: (id: string[]) => void;
@@ -52,6 +54,7 @@ export interface SelectListDialogContentProps {
   pageSize: number;
   preventCloseOnSubmit: boolean;
   requiresAtLeastOneMessage?: string;
+  createdChannelId?: string;
 }
 
 declare function SelectListDialogContent(props: SelectListDialogContentProps): JSX.Element;

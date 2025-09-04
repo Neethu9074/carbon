@@ -4,7 +4,8 @@
  */
 
 // all the lazy loaded views. Bundle name: integrations
-import IntegrationLandingPage from 'promise-loader?global,integrations!in-integrations/landing/IntegrationLandingPage';
+const IntegrationLandingPage = () =>
+  import(/* webpackChunkName: "integrations" */ 'in-integrations/landing/IntegrationLandingPage');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

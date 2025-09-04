@@ -5,10 +5,15 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Typography } from '@instana/components';
+import { Callout } from '@instana/carbon';
 
+import TeamAssociationDropdown, {
+  useTaggedTeamsSelection
+} from 'in-settings/components/Shared/TeamAssociationDropdown/TeamAssociationDropdown';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import SaveError from 'in-components/form/SaveError';
@@ -19,7 +24,9 @@ import { t } from 'in-i18n';
 
 import locals from './InputStep.mless';
 
-export default function InputStep({ onSubmit, saveError, field, onChange, loading }) {
+export default function InputStep({ onSubmit, saveError, field, onChange, loading, teams, onTeamsChange }) {
+  const { teamsTagged, teamsSelected } = useTaggedTeamsSelection(teams || [], onTeamsChange);
+
   return (
     <Frame title={t('in-websites:newWebsiteFlow.inputStepTitleAddWebsite')}>
       <Paragraph>{t('in-websites:newWebsiteFlow.inputStepParagraphGetStarted')}</Paragraph>
@@ -41,6 +48,30 @@ export default function InputStep({ onSubmit, saveError, field, onChange, loadin
               className={locals.input}
               disabled={loading}
             />
+            {rbacTeamsEnabled && (
+              <div className={locals.teamDropdown}>
+                <div>
+                  <h1 className={locals.title}>{t('in-mobile-apps:newAppFlow.teamsLabel')}</h1>
+                  <Typography variant="body-01">
+                    {t('in-websites:websiteDashboard.tabs.configuration.teamsDescription')}
+                  </Typography>
+                  <Callout
+                    className={locals.message}
+                    subtitle={t('in-websites:websiteDashboard.tabs.configuration.teamsCallout')}
+                    lowContrast
+                  />
+                  <div className={locals.dropdownRow}>
+                    <div className={locals.teamsSelector}>
+                      <TeamAssociationDropdown
+                        onTeamsSelectionChanged={onTeamsChange}
+                        assignedTeamTags={teamsSelected || []}
+                        teamsTagged={teamsTagged || []}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <Button
               type="submit"
               kind="create"

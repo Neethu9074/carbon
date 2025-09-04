@@ -16,14 +16,14 @@ import { showUpdateErrorMessage, showUpdateSuccessMessage } from 'in-synthetics/
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import { syntheticCredentialEditSubmitButtonClick } from 'in-synthetics/tracking/tracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import TeamsStep, { SYNTHETIC_TAB } from 'in-synthetics/createTests/wizard/TeamsStep';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SlideInConfig, SliderState } from 'in-synthetics/utils/constants';
-import TeamsStep from 'in-synthetics/createTests/wizard/TeamsStep';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { close } from 'in-components/DialogPresenter/store';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import CancelButton from 'in-components/form/CancelButton';
 import { updateCredential } from 'in-synthetics/api';
 import Actions from 'in-components/Dialog/Actions';
@@ -36,6 +36,7 @@ interface Props {
 }
 
 const EditSelectedCredential = ({ item }: Props) => {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const [form, updateForm] = useState(() => editCredentialForm(item));
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideConfig] = useState<SlideInConfig | null>(null);
@@ -92,10 +93,10 @@ const EditSelectedCredential = ({ item }: Props) => {
           <Typography variant="heading-400">{t('in-synthetics:dialog.createCredential.edit.associations')}</Typography>
           <AssociationsCommonSection form={form} updateForm={updateForm} setSliderState={setSliderState} />
         </Stack>
-        {rbacTeamsEnabled && (
+        {isRbacTeamsAvailable && (
           <Stack gap="xsmall">
             <Typography variant="heading-400">{t('in-synthetics:dialog.createCredential.teams')}</Typography>
-            <TeamsStep form={form} updateForm={updateForm} />
+            <TeamsStep form={form} updateForm={updateForm} tab={SYNTHETIC_TAB.CREDENTIALS} />
           </Stack>
         )}
         <Actions>

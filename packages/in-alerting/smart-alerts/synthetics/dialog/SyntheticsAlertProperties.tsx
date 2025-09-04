@@ -27,6 +27,7 @@ interface AlertPropertiesProp {
 export default function SyntheticsAlertProperties(props: AlertPropertiesProp) {
   const { form, onChange } = props;
   const nameField = form.get('name') as Field<string>;
+  const descriptionField = form.get('description') as Field<string>;
   return (
     <AlertPropertiesContainer
       renderAlertProperties={() => (
@@ -40,8 +41,11 @@ export default function SyntheticsAlertProperties(props: AlertPropertiesProp) {
               onChange={onChange}
               getTitlePlaceholder={getTitlePlaceholder}
               placeholderData={{ placeholders: allowedPlaceholders }}
+              widerPlaceholderBtn
             />
           )}
+          placeholders={allowedPlaceholders}
+          widerPlaceholderBtn
         />
       )}
       renderAlertPreview={() => {
@@ -55,6 +59,11 @@ export default function SyntheticsAlertProperties(props: AlertPropertiesProp) {
             entityIconType="lib_synthetic"
             entityLabel2={t('in-alerting:smartAlerts.synthetics.alertProperties.locationName')}
             entityIconType2="lib_synthetic_location"
+            descriptionWithReplacedPlaceholders={replacePlaceholdersWithMarkup(
+              allowedPlaceholders,
+              descriptionField?.value ?? '',
+              ({ name }) => name
+            )}
           />
         );
       }}

@@ -21,7 +21,8 @@ import locals from './SplitScreenTraceDetailContent.mless';
 
 const typePerDataSource = {
   calls: 'call',
-  traces: 'trace'
+  traces: 'trace',
+  subtraces: 'subtrace'
 };
 
 export default function SplitScreenTraceDetailContent({ dataSource, ungroupedViewConfiguration, ...props }) {

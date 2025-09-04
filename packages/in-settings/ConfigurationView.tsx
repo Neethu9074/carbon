@@ -18,6 +18,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isIdpAvailable } from 'in-settings/utils/idp';
 import getTabs from 'in-settings/tabs/index';
 import { t } from 'in-i18n';
@@ -28,6 +29,7 @@ interface ConfigurationViewProps<TAB_PROPS extends {}, EXTENSION_PROPS extends {
 export default function ConfigurationView<TAB_PROPS extends {}, EXTENSION_PROPS extends {}>(
   props: ConfigurationViewProps<TAB_PROPS, EXTENSION_PROPS>
 ) {
+  const [role] = useCurrentUserRole();
   const { goToPath, location } = useNavigation();
   // in-components/AppHeader/components/AccountMenu/components/Menu (and possibly old bookmarks) just points to
   // /config, we redirect this to the default tab (global settings).
@@ -49,7 +51,7 @@ export default function ConfigurationView<TAB_PROPS extends {}, EXTENSION_PROPS 
   };
 
   if (shouldRedirect) {
-    const redirectionPath = roleHasAnyGlobalPermissions() ? globalSettings : userSettingsGeneral;
+    const redirectionPath = roleHasAnyGlobalPermissions(role) ? globalSettings : userSettingsGeneral;
     goToPath(redirectionPath);
 
     return <></>;
@@ -63,7 +65,7 @@ export default function ConfigurationView<TAB_PROPS extends {}, EXTENSION_PROPS 
     }
   }
 
-  const tabs = getTabs().map(tab => ({
+  const tabs = getTabs(role).map(tab => ({
     ...tab,
     noBottomMargin: true
   }));

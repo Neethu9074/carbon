@@ -61,7 +61,11 @@
         "progressBarTitle": "2단계: 세부사항 제공",
         "headline": "세부사항 제공",
         "perspectiveName": "퍼스펙티브 이름",
-        "perspectiveDescription": "설명"
+        "perspectiveDescription": "설명",
+        "failedToLoad": "팀 로드 실패",
+        "selectTeams": "팀 선택",
+        "teams": "Teams",
+        "information": "정보"
       }
     },
     "errorMessages": {

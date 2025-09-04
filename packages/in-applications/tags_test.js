@@ -7,6 +7,7 @@
 import { expect } from 'chai';
 
 import { findSubTreeByFullyQualifiedName, getMultipleTagFromList, getTagFromList } from 'in-applications/tags';
+import { DEFAULT_ROLE } from 'in-stores/constants';
 
 describe('in-applications/tags', () => {
   describe('tag tree', () => {
@@ -29,24 +30,24 @@ describe('in-applications/tags', () => {
     });
 
     it('should find tree node by given fully qualified name', () => {
-      expect(findSubTreeByFullyQualifiedName('a')).to.equal(undefined);
+      expect(findSubTreeByFullyQualifiedName('a', DEFAULT_ROLE)).to.equal(undefined);
 
-      let match = findSubTreeByFullyQualifiedName('a.b');
+      let match = findSubTreeByFullyQualifiedName('a.b', DEFAULT_ROLE);
       expect(match).to.not.equal(null);
-      expect(match.fullyQualifiedName).to.equal('a.b');
+      expect(match.fullyQualifiedName).to.equal('a.b', DEFAULT_ROLE);
 
-      match = findSubTreeByFullyQualifiedName('a.b.c.d');
+      match = findSubTreeByFullyQualifiedName('a.b.c.d', DEFAULT_ROLE);
       expect(match).to.not.equal(null);
-      expect(match.fullyQualifiedName).to.equal('a.b.c.d');
+      expect(match.fullyQualifiedName).to.equal('a.b.c.d', DEFAULT_ROLE);
     });
 
     it('should find tree node by given fully qualified name (findSubTreeByFullyQualifiedName)', () => {
-      expect(findSubTreeByFullyQualifiedName('foo.bar')).to.equal(undefined);
-      expect(findSubTreeByFullyQualifiedName('a.b.c').name).to.equal('a.b.c');
-      expect(findSubTreeByFullyQualifiedName('a.b').name).to.equal('a.b');
-      expect(findSubTreeByFullyQualifiedName('a.b.d').name).to.equal('a.b.d');
-      expect(findSubTreeByFullyQualifiedName('b').name).to.equal('b');
-      expect(findSubTreeByFullyQualifiedName('b.c.d').name).to.equal('b.c.d');
+      expect(findSubTreeByFullyQualifiedName('foo.bar', DEFAULT_ROLE)).to.equal(undefined);
+      expect(findSubTreeByFullyQualifiedName('a.b.c', DEFAULT_ROLE).name).to.equal('a.b.c');
+      expect(findSubTreeByFullyQualifiedName('a.b', DEFAULT_ROLE).name).to.equal('a.b');
+      expect(findSubTreeByFullyQualifiedName('a.b.d', DEFAULT_ROLE).name).to.equal('a.b.d');
+      expect(findSubTreeByFullyQualifiedName('b', DEFAULT_ROLE).name).to.equal('b');
+      expect(findSubTreeByFullyQualifiedName('b.c.d', DEFAULT_ROLE).name).to.equal('b.c.d');
     });
   });
 

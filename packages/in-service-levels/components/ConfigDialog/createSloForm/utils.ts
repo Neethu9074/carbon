@@ -22,6 +22,7 @@ import {
   ServiceLevelErrors
 } from 'in-service-levels/constants';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import { convertToTimestampInTimezone, extractTimeZoneName } from 'in-service-levels/utils/timezone';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { parseDateTime } from 'in-services/formatters/date';
@@ -37,7 +38,10 @@ export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevel
       duration: form.getIn(['objective', 'duration']).value,
       durationUnit: form.getIn(['objective', 'durationUnit']).value,
       type: form.getIn(['objective', 'type']).value,
-      startTimestamp: formToStartTimeStamp(form)
+      startTimestamp: formToStartTimeStamp(form),
+      timezone: form.getIn(['objective', 'timezone', 'bind']).value
+        ? extractTimeZoneName(form.getIn(['objective', 'timezone', 'zone']).value)
+        : ''
     },
     target: form.getIn(['objective', 'target']).value ?? 0
   };
@@ -49,6 +53,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
   if (entityType === 'synthetic') {
     return {
       type: 'synthetic',
+      includeUnscheduledTestResults: false,
       syntheticTestIds: form.getIn(['entity', 'entityIds']).value,
       tagFilterExpression: emptyTagFilterExpression
     };
@@ -134,17 +139,24 @@ export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
 export function formToStartTimeStamp(form: SloForm): number {
   const date = form.getIn(['objective', 'startTimestamp', 'date']).value;
   const time = form.getIn(['objective', 'startTimestamp', 'time']).value;
-  return parseDateTime(`${date} ${time}`).getTime();
+  const timezone = extractTimeZoneName(form.getIn(['objective', 'timezone', 'zone']).value);
+  if (!timezone) {
+    return parseDateTime(`${date} ${time}`).getTime();
+  }
+  const utcStartTimestamp = convertToTimestampInTimezone(date, time, timezone);
+  return utcStartTimestamp;
 }
 
 export function formToTimeWindow(form: SloForm): TimeWindow | FixedTimeWindow | RollingTimeWindow {
   const duration = form.getIn(['objective', 'duration']).value;
   const durationUnit = form.getIn(['objective', 'durationUnit']).value;
   const type = form.getIn(['objective', 'type']).value;
+  const timezone = form.getIn(['objective', 'timezone', 'zone']).value;
   const timeWindow = {
     duration,
     durationUnit,
-    type
+    type,
+    timezone
   };
 
   if (type === 'fixed') {

@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "インシデントのトリガー",
     "alertPropertyInfosLabelDescription": "説明",
     "noChannelSelectedText": "チャンネルは追加されていません。 アラート・チャンネルを選択して開始してください。",
+    "noChannelSelectedDetailPage": "アラート通知を受け取るためのチャンネルはまだ追加されていません。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "追加フィルター",
     "groupBy": "GROUP BY",
     "noChannelAvailable": "使用可能なアラート・チャネルがありません",
@@ -158,7 +159,6 @@
     "descriptionUnsupportedOperator": "サポートされない演算子: {{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "スマート・アラートの追加",
     "createSmartAlert": "スマート・アラートの作成",
     "applicationSmartAlert": "アプリケーションのスマート・アラート",
     "globalApplicationSmartAlert": "グローバル・アプリケーション・スマート・アラート",
@@ -517,8 +517,6 @@
         "noData": "スマート・アラートが構成されていません。 初めてのスマート・アラートを設定するには、下のボタンをクリックしてください。",
         "noPersmissionToCreateGlobalSmartAlert": "スマート・アラートを構成する権限がありません。 管理者にお問い合わせください。",
         "noPermissionGlobalSmartAlertEdit": "このアクションを実行する権限がありません",
-        "labelGlobalSmartAlertsList": "グローバル・アプリケーション・スマート・アラート ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "labelGlobalSmartAlertsTable": "グローバル・アプリケーション・スマート・アラート",
         "labelSmartAlertsTable": "アプリケーション・スマート・アラート",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -644,7 +642,7 @@
         },
         "timeThreshold": {
           "title": "違反がアラートをトリガーするタイミングを設定",
-          "description": "アラートおよびパーシスタンス・タイプを指定し、アラート・トリガーを設定します。"
+          "description": "精度を向上させるために、警告基準を改善します。"
         },
         "staticOrAdaptive": {
           "config": {
@@ -700,7 +698,10 @@
         "configuredAlerts": "構成済みアラート ({{numberOfAlerts}})"
       },
       "columns": {
-        "name": "名前"
+        "name": "名前",
+        "severity": "重大度",
+        "status": "状況",
+        "action": "アクション"
       }
     },
     "form": {
@@ -790,7 +791,8 @@
       "ruleStatusCodeValueOptionNone": "ステータスなし(クライアントが中断/失敗しました)",
       "warningThresholdValidator": "< および <= 演算子の場合、警告しきい値はクリティカルしきい値より大きくなければなりません。",
       "criticalThresholdValidator": "> および >= 演算子の場合、クリティカルしきい値は警告しきい値より大きくなければなりません。",
-      "sensitivityValidator": "臨界感度は、警告感度より小さくする必要があります。"
+      "sensitivityValidator": "臨界感度は、警告感度より小さくする必要があります。",
+      "baselineEmpty": "ベースラインが空です"
     },
     "components": {
       "smartAlertDialog": {
@@ -1020,17 +1022,24 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "違反が継続的に続く",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "影響を受けるトレースの最小数",
           "labelUserImpactOfViolationsInSequence": "特定の数のユーザーが影響を受ける場合",
+          "violationsInSequenceLabel": "連続する時間のバケットで違反が発生した場合",
+          "violationsInPeriodLabel": "複数の違反が複数の時間バケットにわたって発生する場合",
           "granularity": {
             "description": "通話は {{granularity}} 分のウィンドウで行われ、{{granularity}} 分ごとに、そのウィンドウのメトリック値が計算されます"
           },
           "triggerAlert": "トリガー・アラート",
           "triggerAfter": "トリガー後",
           "tracesImpacted": "トレースが影響を受ける",
+          "numberOfTracesImpacted": "影響を受けたトレース数",
           "numberOfUserImpactPostLabel": "またはそれ以上のユーザー数が影響を受けます",
           "percentageOfUserImpactPostLabel": "またはそれ以上の割合のユーザーが影響を受けます",
           "outOfConsecutiveEvaluations": "の範囲外",
+          "violationAcross": "横方向",
+          "violationsOccurrenceLabel": "違反の発生",
           "persistenceType": "パーシスタンス・タイプ",
           "numberOfConsecutiveViolationsPostLabel": "連続した {{granularity}} 分のウィンドウに違反がある",
+          "bucketsOfTime": "{{granularity}}分単位の時間バケット",
+          "numberOfConsecutiveViolationsLabel": "違反があった連続する {{granularity}} 分の時間バケット",
           "static": "静的",
           "thresholdValue": "しきい値"
         }
@@ -1237,7 +1246,6 @@
     "enable": "有効にする",
     "disable": "無効化",
     "synthetics": {
-      "addSmartAlert": "合成スマート・アラートの追加",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
@@ -1253,9 +1261,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "時間しきい値",
-        "filterApplied": "フィルターを適用済み",
-        "violationsCount": "{{violationsCount}}件の障害",
         "numberOfFailures": "失敗アラート",
         "noDataHeader": "合成スマート・アラートなし",
         "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
@@ -1315,7 +1320,9 @@
         "alertTestEntityName": "シンセティック・テスト{{entityName}}",
         "testAttachedCount": "添付されたテスト ({{count}})",
         "testAttached": "添付されたテスト",
-        "noTestAvailable": "合成テストは利用できません"
+        "noTestAvailable": "合成テストは利用できません",
+        "noTestSelected": "合成テストが選択されていません",
+        "noTestSelectedMessage": "開始するには、合成テストの追加をクリックします。"
       },
       "details": {
         "threshold": "しきい値",
@@ -1424,7 +1431,6 @@
         "filter_0": "フィルター",
         "filter_1": "フィルター",
         "filter_2": "フィルター",
-        "filterApplied": "フィルターを適用済み",
         "noDataHeader": "非モバイル・アプリ・スマート・アラート",
         "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
@@ -1619,7 +1625,8 @@
             "subtitle": {
               "staticThresholdType": "静的しきい値",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "forecastAlerting": "予測アラート"
+              "forecastAlerting": "予測アラート",
+              "adaptiveThreshold": "適応しきい値、{{metricName}}"
             }
           }
         },
@@ -1715,6 +1722,11 @@
           "header": "このアラートの通知先はどこにしますか?",
           "description": "このアラートの受信者を選択する"
         },
+        "scopeEntity": {
+          "entityType": "エンティティー・タイプ",
+          "pleaseSelect": "エンティティーの選択",
+          "loadingEntities": "エンティティーのロード中..."
+        },
         "scopeFilter": {
           "title": "インフラストラクチャーの範囲の選択",
           "filter": "フィルター",
@@ -1746,10 +1758,10 @@
         }
       },
       "placeholderTitle": "{{metricName}} で問題が検出されました",
-      "descriptionIsHigherThan": "{{metricName}} は、{{value}} より高い。",
-      "descriptionIsHigherOrEqualTo": "{{metricName}} は、{{value}} 以上です。",
-      "descriptionIsLowerThan": "{{metricName}} は、{{value}} より低い。",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} は、{{value}} 以下です。",
+      "descriptionIsHigherThan": "{{metricName}}は{{value}}より大きいです。",
+      "descriptionIsHigherOrEqualTo": "{{metricName}}は{{value}}以上です。",
+      "descriptionIsLowerThan": "{{metricName}}は {{value}} より小さいです。",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}}は {{value}} 以下です。",
       "evaluationType": {
         "title": "警告方法を選択する",
         "custom": {
@@ -2004,7 +2016,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}} しきい値 (Long) {{operator}} {{value}} & (Short) < 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}、閾値 {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}、閾値 {{operator}} {{value}}",
-        "alertListSloAppliedColumnName": "適用 SLO",
         "sloApplied": "SLOを適用済み",
         "sloCount": "{{count}} 個のSLO",
         "sloCount_plural": "{{count}} 個のSLO",

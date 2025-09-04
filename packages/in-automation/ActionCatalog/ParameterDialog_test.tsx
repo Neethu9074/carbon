@@ -173,11 +173,13 @@ jest.mock('in-i18n', () => ({
   }
 }));
 
-jest.mock('in-stores/user', () => ({
-  role: {
-    canConfigureAutomationActions: true
-  }
-}));
+jest.mock('in-stores/useCurrentUserRole', () =>
+  jest.fn(() => [
+    {
+      canConfigureAutomationActions: true
+    }
+  ])
+);
 
 // Add TextDecoder polyfill
 global.ResizeObserver = ResizeObserver;

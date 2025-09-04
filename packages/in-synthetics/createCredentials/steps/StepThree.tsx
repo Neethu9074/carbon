@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Stack, Typography } from '@instana/components';
 
-import TeamsStep from 'in-synthetics/createTests/wizard/TeamsStep';
+import TeamsStep, { SYNTHETIC_TAB } from 'in-synthetics/createTests/wizard/TeamsStep';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createCredentials/CreateCredentials.mless';
@@ -26,7 +26,7 @@ const StepThree = ({ form, updateForm }: Props) => {
         <Typography variant={'body-regular'}>
           {t('in-synthetics:dialog.createCredential.steps.teamsStepDescription')}
         </Typography>
-        <TeamsStep form={form} updateForm={updateForm} />
+        <TeamsStep form={form} updateForm={updateForm} tab={SYNTHETIC_TAB.CREDENTIALS} />
       </Stack>
     </div>
   );

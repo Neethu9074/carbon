@@ -29,6 +29,7 @@ export default function NewWebsiteFlow() {
   const { addWebsiteTracker } = useWebsiteTracker();
   const [state, setState] = useState({
     field: createField({ value: '', validator: notBlankValidator }),
+    teams: [], // Array of TeamTag objects with id and displayName
     saveError: null,
     saveResult: null,
     loading: false,
@@ -36,7 +37,7 @@ export default function NewWebsiteFlow() {
     enableSRI: true
   });
 
-  const { field, websiteId, website } = state;
+  const { field, teams, websiteId, website } = state;
 
   const saveSubscription = useRef();
   const websiteSubscription = useRef();
@@ -76,7 +77,7 @@ export default function NewWebsiteFlow() {
 
     addWebsiteTracker({ websiteName: field.value });
 
-    saveSubscription.current = combineDataAndError(addWebsite(field.value)).once(({ data, error }) => {
+    saveSubscription.current = combineDataAndError(addWebsite(field.value, teams)).once(({ data, error }) => {
       if (error) {
         setState(prevState => ({
           ...prevState,
@@ -111,10 +112,11 @@ export default function NewWebsiteFlow() {
 
   const setTrackSessions = trackSessions => setState(prevState => ({ ...prevState, trackSessions }));
   const setEnableSRI = enableSRI => setState(prevState => ({ ...prevState, enableSRI }));
+  const onTeamsChange = selectedTeams => setState(prevState => ({ ...prevState, teams: selectedTeams }));
 
   let content;
   if (!websiteId) {
-    content = <InputStep {...state} onChange={onChange} onSubmit={onSubmit} />;
+    content = <InputStep {...state} onChange={onChange} onSubmit={onSubmit} onTeamsChange={onTeamsChange} />;
   } else if (!website) {
     content = <WaitStep {...state} setTrackSessions={setTrackSessions} setEnableSRI={setEnableSRI} />;
   } else {

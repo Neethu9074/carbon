@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '@instana/components';
 
@@ -27,9 +27,14 @@ export default function SelectListDialogContent({
   limit = Number.MAX_VALUE, // unlimited by default
   pageSize = 5,
   preventCloseOnSubmit,
-  renderCustomFormActions
+  renderCustomFormActions,
+  createdChannelId
 }) {
   const [selectedItems, setSelectedItems] = useState([]);
+  useEffect(() => {
+    if (createdChannelId) setSelectedItems([...selectedItems, createdChannelId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdChannelId]);
   const [errorMessage, setErrorMessage] = useState(
     requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
   );
@@ -56,6 +61,8 @@ export default function SelectListDialogContent({
           pageSize={pageSize}
           hiddenIds={hiddenIds}
           hasRowNavigation={false}
+          createdChannelId={createdChannelId}
+          selectedItems={selectedItems}
           noDataMessage={t('in-settings:tabs.noItemsAvailable')}
           onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}
           tableActions={{

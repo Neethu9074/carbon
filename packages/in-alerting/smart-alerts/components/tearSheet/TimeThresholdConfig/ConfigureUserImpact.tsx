@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { MapForm, Field, Item } from 'formalistic';
+import { MapForm, Field, Item, MapPath } from 'formalistic';
 import React from 'react';
 
 import { CarbonDropdown } from '@instana/components';
@@ -25,7 +25,7 @@ import { t } from 'in-i18n';
 export interface ConfigureUserImpactProps {
   form: MapForm<any>;
   updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
-  onChange: (path: string[], updater: (item: Item) => Item) => void;
+  onChange: (path: MapPath<any>, updater: (item: Item) => Item) => void;
 }
 type DropdownItem = { value: string; label: string };
 

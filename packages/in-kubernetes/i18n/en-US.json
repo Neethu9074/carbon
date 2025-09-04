@@ -16,6 +16,16 @@
   },
   "clusterBadgeNameOpenShift": "OpenShift",
   "clusterBadgeNameK8s": "K8s",
+  "controlPlane": {
+    "title": "Control Plane metrics",
+    "description": "Alpha metrics displayed below have no stability guarantees; as such they can be modified or deleted at any time.",
+    "apiServer": "API server",
+    "scheduler": "Scheduler",
+    "etcd": "etcd",
+    "controllerManager": "Controller manager",
+    "details": "Details",
+    "copyToClipboard": "Copy to clipboard"
+  },
   "dashboards": {
     "kubernetesCluster": "Kubernetes cluster",
     "clusterDistributionBadgeType": "{{clusterDistributionName}} cluster",
@@ -31,7 +41,7 @@
     "summary": "Summary",
     "details": "Details",
     "hostCoverage": "Host coverage",
-    "k8SensorVersion": "K8s Sensor Version",
+    "k8SensorVersion": "K8s sensor version",
     "clusterUuid": "Cluster UUID",
     "agentMonitor": "Agent monitor",
     "controlPlane": "Control plane",
@@ -304,7 +314,8 @@
       "namespace": "Namespace",
       "idleCost": "Idle cost",
       "viewInKubeCost": "View in Kubecost",
-      "coreCountByCluster": "vCPU",
+      "coreCountByCluster": "vCPU per cluster",
+      "totalCoreCount": "Total vCPU",
       "noKubecostData": "Enable cost monitoring for this cluster with Kubecost.\\\n To configure the integration, [follow these steps] in the documentation.\n\n[follow these steps]:https://ibm.biz/kubecost",
       "totalClusterCost": "Total cluster cost (last 14 days)",
       "workloadEfficiency": "Workload efficiency",
@@ -356,10 +367,6 @@
     "switchToCardView": "Switch to card view",
     "switchToTableView": "Switch to table view",
     "sortingOptions": {
-      "unhealthyNodesCritical": "Unhealthy nodes (Critical)",
-      "unhealthyNodesWarnings": "Unhealthy nodes (Warnings)",
-      "unhealthyDeploymentsCritical": "Unhealthy deployments (Critical)",
-      "unhealthyDeploymentsWarnings": "Unhealthy deployments (Warnings)",
       "sortBy": "Sort by",
       "sortOrder": "Sort order",
       "name": "Name"

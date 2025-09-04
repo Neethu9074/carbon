@@ -10,8 +10,8 @@ import React from 'react';
 import { CarbonRadioButton, CarbonRadioButtonGroup } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { minutes } from 'in-services/time/time';
-import { role } from 'in-stores/user';
 
 interface EvaluationGranularityInputProps {
   formField: Field<number>;
@@ -19,6 +19,7 @@ interface EvaluationGranularityInputProps {
 }
 
 export const EvaluationGranularityInput = ({ formField, onChangeGranularity }: EvaluationGranularityInputProps) => {
+  const [role] = useCurrentUserRole();
   const evaluationGranularity = formField.value;
   return (
     <CarbonRadioButtonGroup

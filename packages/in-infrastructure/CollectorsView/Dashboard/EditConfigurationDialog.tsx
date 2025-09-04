@@ -5,14 +5,14 @@
  */
 
 import * as yamlMode from '@codemirror/legacy-modes/mode/yaml';
+import React, { useEffect, useState, useRef } from 'react';
 import { StreamLanguage } from '@codemirror/language';
-import React, { useEffect, useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 
 import { Modal, ToastNotification } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
 
-import { loadRawAgentConfiguration, updateOTelConfiguration } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import { loadRawAgentConfigurationOtel, updateOTelConfiguration } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 //@ts-expect-error TS migration
 import { selectedSnapshot$, SnapshotData } from 'in-stores/snapshot';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -25,12 +25,22 @@ import locals from './CollectorDashboard.mless';
 
 export default function EditConfigurationDialog() {
   const snapshot = useObservable(selectedSnapshot$, []) as SnapshotData;
-  const currentConfig = useObservable(() => (snapshot ? loadRawAgentConfiguration(snapshot) : undefined), [snapshot]);
-  const [config, setConfig] = useState(currentConfig?.data);
+  const [config, setConfig] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const configLoadedRef = useRef(false);
+
+  const currentConfig = useObservable(() => {
+    if (snapshot && !configLoadedRef.current) {
+      configLoadedRef.current = true; // Mark as loaded to prevent re-runs when config is cleared
+      return loadRawAgentConfigurationOtel(snapshot);
+    }
+    return null;
+  }, [snapshot]);
 
   useEffect(() => {
-    setConfig(currentConfig?.data);
+    if (currentConfig && currentConfig.data) {
+      setConfig(currentConfig.data);
+    }
   }, [currentConfig]);
 
   const handleConfigChange = (updatedConfig: string) => {
@@ -68,7 +78,8 @@ export default function EditConfigurationDialog() {
       {errorMsg && (
         <ToastNotification
           className={locals.configErrorToast}
-          title={t('in-infrastructure:collectorView.collectorError')}
+          title={t('in-infrastructure:collectorView.errors.updateFailed')}
+          //using type any as a workaround for required string data type
           subtitle={errorMsg}
           onCloseButtonClick={() => {
             //clear error message when closed
@@ -76,11 +87,11 @@ export default function EditConfigurationDialog() {
           }}
         />
       )}
-      {!config && <LoadingIndicator />}
-      {config && (
+      {!currentConfig && <LoadingIndicator />}
+      {currentConfig && (
         <HorizontalFlexWrapper className={locals.editorDialog}>
           <CodeMirror
-            value={config ?? ''}
+            value={config}
             extensions={[StreamLanguage.define(yamlMode.yaml)]}
             height="98vh"
             width="30rem"

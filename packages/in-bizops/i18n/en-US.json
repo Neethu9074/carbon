@@ -47,21 +47,26 @@
       "title": "Matched business processes",
       "empty": "Add filters to build your business perspective",
       "invalidQuery": "Your query is invalid",
-      "noMatchedProcesses": "No matched business processes found",
-      "loadingStateLabel": "Loading processes"
+      "noMatchedProcesses": "No matches were found"
     },
     "dialog": {
-      "title": "New business perspective",
-      "stepOne": {
-        "progressBarTitle": "Step 1: Filter business processes to build your business perspective",
-        "headline": "Filter business processes to build your business perspective",
-        "queryBuilderTitle": "Business processes"
+      "title": "Create a business perspective",
+      "cancel": "Cancel",
+      "create": "Create",
+      "headline": "Enter business perspective details",
+      "subtitle": "Provide a name and optional description for the business perspective.",
+      "name": "Name",
+      "description": "Description (optional)",
+      "queryHeader": "Build the business perspective",
+      "querySubtitle": "Build your business perspective by filtering the business processes",
+      "queryClear": "Clear all filters",
+      "cancelModal": {
+        "heading": "Confirm cancellation",
+        "body": "Are you sure you want to cancel the creation of this business perspective? If you proceed, any information you have entered will be lost. This action cannot be undone.",
+        "confirm": "Cancel business perspective",
+        "continue": "Continue editing"
       },
       "stepTwo": {
-        "progressBarTitle": "Step 2: Provide details",
-        "headline": "Provide details",
-        "perspectiveName": "Perspective name",
-        "perspectiveDescription": "Description",
         "failedToLoad": "Failed to load teams",
         "selectTeams": "Select teams",
         "teams": "Teams",

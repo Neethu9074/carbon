@@ -4,11 +4,16 @@
  */
 
 // all the lazy loaded views. Bundle name: mobileApps
-import MobileAppDashboard from 'promise-loader?global,mobileApps!in-mobile-apps/MobileAppDashboard/MobileAppDashboard';
-import AlertConfigTearSheet from 'promise-loader?global,mobileApps!in-alerting/smart-alerts/mobileApp/TearSheet/AlertConfigTearSheet';
-import NewMobileAppFlow from 'promise-loader?global,mobileApps!in-mobile-apps/NewMobileAppFlow/NewMobileAppFlow';
-import AnalyzeView2_0 from 'promise-loader?global,mobileApps!in-mobile-apps/analyze/AnalyzeView2_0/AnalyzeView';
-import MobileAppsList from 'promise-loader?global,mobileApps!in-mobile-apps/MobileAppsList/MobileAppsList';
+const MobileAppDashboard = () =>
+  import(/* webpackChunkName: "mobileApps" */ 'in-mobile-apps/MobileAppDashboard/MobileAppDashboard');
+const AlertConfigTearSheet = () =>
+  import(/* webpackChunkName: "mobileApps" */ 'in-alerting/smart-alerts/mobileApp/TearSheet/AlertConfigTearSheet');
+const NewMobileAppFlow = () =>
+  import(/* webpackChunkName: "mobileApps" */ 'in-mobile-apps/NewMobileAppFlow/NewMobileAppFlow');
+const AnalyzeView2_0 = () =>
+  import(/* webpackChunkName: "mobileApps" */ 'in-mobile-apps/analyze/AnalyzeView2_0/AnalyzeView');
+const MobileAppsList = () =>
+  import(/* webpackChunkName: "mobileApps" */ 'in-mobile-apps/MobileAppsList/MobileAppsList');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import ApplicationDashboard from 'promise-loader?global,cloudfoundry!in-cloudfoundry/Dashboards/Application/ApplicationDashboard';
-import CloudfoundryMainView from 'promise-loader?global,cloudfoundry!in-cloudfoundry/CloudfoundryMainView';
+const ApplicationDashboard = () =>
+  import(/* webpackChunkName: "cloudfoundry" */ 'in-cloudfoundry/Dashboards/Application/ApplicationDashboard');
+const CloudfoundryMainView = () =>
+  import(/* webpackChunkName: "cloudfoundry" */ 'in-cloudfoundry/CloudfoundryMainView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

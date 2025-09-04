@@ -61,7 +61,11 @@
         "progressBarTitle": "Passo 2: fornire i dettagli",
         "headline": "Fornisci dettagli",
         "perspectiveName": "Nome prospettiva",
-        "perspectiveDescription": "Descrizione"
+        "perspectiveDescription": "Descrizione",
+        "failedToLoad": "Impossibile caricare i team",
+        "selectTeams": "Seleziona team",
+        "teams": "Team",
+        "information": "Informazioni"
       }
     },
     "errorMessages": {

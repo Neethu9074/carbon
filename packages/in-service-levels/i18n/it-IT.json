@@ -263,6 +263,12 @@
     "errorEmptyGoodFilter": "È necessario definire un filtro valido",
     "errorEqualTagFilter": "I filtri buono e cattivo non devono essere identici",
     "nameAndTagsTitle": "Imposta dettagli",
+    "bindTimezoneLabel": "Associa fuso orario",
+    "currentTimezoneMessage": "Il tuo fuso orario attuale è {{timezone}}.",
+    "disabledToggleLabel": "Disabilita",
+    "enabledToggleLabel": "Abilita",
+    "selectedTimezoneMessage": "Il fuso orario dello SLO è impostato su {{timezone}}.",
+    "selectTimezoneMessage": "Selezionare il fuso orario",
     "sloNameLabel": "Nome SLO",
     "sloNamePlaceholder": "Immettere il nome",
     "tagsLabel": "Tag (facoltativo)",
@@ -328,16 +334,20 @@
       "timeWindowType_dynamic": "Finestra temporale dinamica",
       "timeWindowType_rolling": "Finestra temporale scorrevole",
       "timeWindowType_fixed": "Finestra temporale fissa",
-      "configuredTimeWindow": "Finestra temporale SLO configurata:",
+      "configuredTimeWindow": "Finestra temporale SLO configurata",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "Ora di inizio: {{startDay}}, {{startTime}}",
-      "matchedSLOTimeWindow": "Finestra temporale SLO corrispondente: ",
-      "matchedSLOTimeWindow_plural": "Finestre temporali SLO corrispondenti: ",
-      "matchedSLOTimeWindow_0": "Finestra temporale SLO corrispondente: ",
-      "matchedSLOTimeWindow_1": "Finestra temporale SLO corrispondente: ",
-      "matchedSLOTimeWindow_2": "Finestre temporali SLO corrispondenti: ",
+      "matchedSLOTimeWindow": "Finestra temporale SLO corrispondente",
+      "matchedSLOTimeWindow_plural": "Finestre temporali SLO corrispondenti",
+      "matchedSLOTimeWindow_0": "Finestra temporale SLO corrispondente",
+      "matchedSLOTimeWindow_1": "Finestra temporale SLO corrispondente",
+      "matchedSLOTimeWindow_2": "Finestre temporali SLO corrispondenti",
       "noMatchedSLOTimeWindow": "Non è stata trovata alcuna finestra temporale corrispondente",
-      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
+      "currentTimezone": "Il fuso orario attuale è impostato su {{timezone}}.",
+      "editSloTimezone": "Modifica fuso orario SLO",
+      "sloCreatedTimezone": "Questo SLO è stato creato in {{sloTimezone}}",
+      "timezone": "Fuso orario: {{sloTimezone}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "Anteprima non disponibile perché la configurazione non è completa.",
@@ -509,7 +519,8 @@
         "timeWindowLabel": "Finestra temporale",
         "durationLabel": "Lunghezza",
         "startDateLabel": "Data di inizio",
-        "startTimeLabel": "Ora di inizio"
+        "startTimeLabel": "Ora di inizio",
+        "timezoneLabel": "Fuso orario"
       }
     }
   },

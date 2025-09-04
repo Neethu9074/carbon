@@ -43,13 +43,13 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getApplicationConfigScopeRoleId } from 'in-api/users';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const urlStateDefinition = {
@@ -59,6 +59,7 @@ const urlStateDefinition = {
 const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
 
 export default function ApplicationDashboard({ location }: { location: Location }) {
+  const [role] = useCurrentUserRole();
   const { trackSyntheticMonitoringTabInApplicationsClicked } = useApplicationTracker();
   const { trackVulnerabilitiesTabInApplications } = useVulnerabilityTracker();
   const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
@@ -124,7 +125,7 @@ export default function ApplicationDashboard({ location }: { location: Location 
       <TabView
         HeaderComponent={Header}
         location={location}
-        tabs={getApplicationTabs(canConfigureApplications)}
+        tabs={getApplicationTabs(canConfigureApplications, role)}
         props={tabViewProps}
         result$={getApplication({ id: tabViewProps.applicationId })}
         withProps={({ result }) => ({

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import EventView from 'promise-loader?global!in-events/EventView';
+const EventView = () => import(/* webpackChunkName: "events" */ 'in-events/EventView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

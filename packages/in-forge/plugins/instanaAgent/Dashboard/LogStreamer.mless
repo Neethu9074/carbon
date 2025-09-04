@@ -5,27 +5,18 @@
 
 :local {
   .log {
-    font-family: var(--ids-font-family-option-monospace);
-    line-height: 1.4;
-    font-size: 0.688rem;
-
     overflow: auto;
     max-height: 37rem;
     display: block;
-    background: #172429;
-    padding: 0.5rem 0.6rem;
     border-radius: var(--ids-border-radius-option-small);
+    ::-webkit-scrollbar {
+      height: 48px;
+    }
+  }
 
-    &::-webkit-scrollbar {
-      -webkit-appearance: none;
-      width: 8px;
-      height: 8px;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: var(--ids-border-radius-option-medium);
-      background-color: #43565e;
-      -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-    }
+  pre {
+    margin: 0;
+    width: 100%;
   }
 
   .autoScroll {
@@ -34,7 +25,10 @@
     margin: 0 0 1rem 2rem;
   }
 
-  .toggle {
-    margin-left: 8px;
+  .copyButton {
+    float: right;
+    position: relative;
+    inset-block-end: calc(var(--cds-spacing-05) * -1);
+    inset-inline-end: calc(var(--cds-spacing-03) * -1);
   }
 }

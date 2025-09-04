@@ -15,6 +15,7 @@
   "memoryAllocated": "Memoria asignada",
   "hypervisorTypes": "Tipos de hipervisor",
   "clusterArch": "Arquitectura de clúster",
+  "version": "Versión",
   "dashboards": {
     "system": "Sistema",
     "wait": "Espera",

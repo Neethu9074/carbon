@@ -11,8 +11,10 @@ import {
   Capability,
   AreaPermission,
   getInfrastructurePermissions,
-  InfrastructureCapability
+  InfrastructureCapability,
+  applicationsAccessPermissions
 } from 'in-stores/permission';
+import { hasAccess } from 'in-stores/useHasAccess';
 import { InstanaGlobals } from 'in-types';
 
 jest.mock('in-services/featureFlags', () => ({
@@ -170,16 +172,6 @@ describe('in-stores/permission.ts', () => {
         productPermissionsObject[Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS]
       );
     });
-
-    it('Checks that Log SA permission is not available when logSmartAlertsEnabled feature flag is not set', () => {
-      const featureFlags = jest.requireMock('in-services/featureFlags');
-      featureFlags.logSmartAlertsEnabled = false;
-      const productPermissions = getProductPermissions();
-
-      expect(productPermissions).not.toContain(
-        productPermissionsObject[Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS]
-      );
-    });
   });
 
   describe('getInfrastructurePermissions', () => {
@@ -225,7 +217,11 @@ describe('in-stores/permission.ts', () => {
       jest.isolateModules(() => {
         setupPermissions([]);
         // Load permission.ts to ensure it uses the modified window object
-        const { hasApplicationsAccess } = require('./permission');
+        const { role } = require('./user');
+        const hasApplicationsAccess = hasAccess({
+          grantedPermissions: role.permissions,
+          requiredPermissions: applicationsAccessPermissions
+        });
         expect(hasApplicationsAccess).toBe(true);
       });
     });
@@ -235,7 +231,11 @@ describe('in-stores/permission.ts', () => {
       jest.isolateModules(() => {
         setupPermissions([LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]);
         // Load permission.ts to ensure it uses the modified window object
-        const { hasApplicationsAccess } = require('./permission');
+        const { role } = require('./user');
+        const hasApplicationsAccess = hasAccess({
+          grantedPermissions: role.permissions,
+          requiredPermissions: applicationsAccessPermissions
+        });
         expect(hasApplicationsAccess).toBe(false);
       });
     });
@@ -245,7 +245,11 @@ describe('in-stores/permission.ts', () => {
       jest.isolateModules(() => {
         setupPermissions([LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE, AreaPermission.ACCESS_APPLICATIONS]);
         // Load permission.ts to ensure it uses the modified window object
-        const { hasApplicationsAccess } = require('./permission');
+        const { role } = require('./user');
+        const hasApplicationsAccess = hasAccess({
+          grantedPermissions: role.permissions,
+          requiredPermissions: applicationsAccessPermissions
+        });
         expect(hasApplicationsAccess).toBe(true);
       });
     });
@@ -256,7 +260,11 @@ describe('in-stores/permission.ts', () => {
       jest.isolateModules(() => {
         setupPermissions([AreaPermission.ACCESS_APPLICATIONS]);
         // Load permission.ts to ensure it uses the modified window object
-        const { hasApplicationsAccess } = require('./permission');
+        const { role } = require('./user');
+        const hasApplicationsAccess = hasAccess({
+          grantedPermissions: role.permissions,
+          requiredPermissions: applicationsAccessPermissions
+        });
         expect(hasApplicationsAccess).toBe(true);
       });
     });

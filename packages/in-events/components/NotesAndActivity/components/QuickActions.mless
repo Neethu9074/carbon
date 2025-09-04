@@ -68,4 +68,8 @@
   .generating {
     display: contents;
   }
+
+  .summaryPreviewPill {
+    padding-left: 0.25rem;
+  }
 }

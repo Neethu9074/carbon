@@ -12,16 +12,9 @@ import {
   ScopedPermissionItem,
   ScopeRoles
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
-import {
-  Capability,
-  hasApplicationsAccess,
-  hasMobileAppsAccess,
-  hasWebsitesAccess,
-  LimitedAccessScope,
-  LimitedAccessScopeType
-} from 'in-stores/permission';
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
+import { Capability, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 type ProductAreaWithApplicationData = Extract<ProductAreaType, 'WEBSITE' | 'APPLICATION' | 'MOBILE_APP'>;
@@ -45,12 +38,22 @@ interface AreaData {
   areaAccessHeadline?: string;
 }
 
-interface getAreaDataProps {
+interface DataMapPermissions {
+  hasApplicationsAccess: boolean;
+  hasMobileAppsAccess: boolean;
+  hasWebsitesAccess: boolean;
+}
+
+interface GetAreaDataProps extends DataMapPermissions {
   area: ProductAreaWithApplicationData;
   permissionsSet: PermissionSet;
 }
 
-const dataMap: Record<ProductAreaWithApplicationData, dataMapItem> = {
+const getDataMap = ({
+  hasApplicationsAccess,
+  hasMobileAppsAccess,
+  hasWebsitesAccess
+}: DataMapPermissions): Record<ProductAreaWithApplicationData, dataMapItem> => ({
   [ProductArea.WEBSITE]: {
     itemIdKey: 'websiteIds',
     limitedAccessScope: LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
@@ -66,10 +69,10 @@ const dataMap: Record<ProductAreaWithApplicationData, dataMapItem> = {
     limitedAccessScope: LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
     hasAreaAccess: hasMobileAppsAccess
   }
-};
+});
 
-export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaData => {
-  const areaItemData = dataMap[area];
+export const getAreaData = ({ area, permissionsSet, ...permissions }: GetAreaDataProps): AreaData => {
+  const areaItemData = getDataMap(permissions)[area];
   const areaItemIds = permissionsSet[areaItemData.itemIdKey] ?? [];
 
   const areaAccessScope = getScopeFromProductArea(area, permissionsSet);

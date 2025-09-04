@@ -16,9 +16,7 @@
     "editTeamsDialog": {
       "title": "Modifica team",
       "description": "Selezionare i team da associare a questo dashboard.",
-      "calloutMessage": "L'aggiunta di team consentirà ai membri di visualizzare e modificare questo dashboard. Sarà anche visibile nella pagina dei team nelle impostazioni.",
-      "selectorLabel": "Team",
-      "chooseTeams": "Scegli team"
+      "calloutMessage": "L'aggiunta di team consentirà ai membri di visualizzare e modificare questo dashboard. Sarà anche visibile nella pagina dei team nelle impostazioni."
     },
     "grid": {
       "grid": {
@@ -295,6 +293,13 @@
       },
       "index": {
         "websitesBeacons": "Siti web (Beacon)"
+      },
+      "conversionGoals": {
+        "websiteSelect": "Sito web",
+        "goalSelect": "Obiettivo di conversione",
+        "sessionsMetric": "Tasso di sessioni convertite",
+        "usersMetric": "Tasso di utenti convertiti",
+        "convertTimeMetric": "Tempo medio di conversione"
       }
     },
     "srcSyntheticMonitoring": {
@@ -477,7 +482,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Introduzione",
-        "text": "Instana è la prima e unica soluzione APM (Application Performance Performance) completamente automatizzata progettata appositamente per le sfide della gestione di microservizi e di applicazioni native cloud.\n\nIniziare è facile1. Se non hai ancora accesso a Instana, vai su [Instana.com](https://www.instana.com) e registrati per una Prova Gratuita.\n2. Esplora il nostro ecosistema di centinaia di [tecnologie supportate](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies).\n3. Inizia a raccogliere dati con uno dei nostri [agent](https://ibm.biz/installing-agent).\n4. Scopri [come utilizzare Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) per i tuoi casi d'uso.\n5. Leggi informazioni sulle nostre esclusive [funzionalità di base](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).\n6. Estendi Instana con le nostre [integrazioni, SDK & API](https://ibm.biz/integrations-sdks-apis).\n\nQuesto è tutto!\n\nNon riesci a trovare quello che stai cercando? Consulta la [documentazione](https://www.ibm.com/docs/en/obi/current)!"
+        "text": "Instana è la prima e unica soluzione APM (Application Performance Performance) completamente automatizzata progettata appositamente per le sfide della gestione di microservizi e di applicazioni native cloud.\n\nIniziare è facile1. Se non hai ancora accesso a Instana, vai su [Instana.com](https://www.instana.com) e registrati per una Prova Gratuita.\n2. Esplora il nostro ecosistema di centinaia di [tecnologie supportate](https://www.ibm.com/docs/en/instana-observability/latest?topic=configuring-monitoring-supported-technologies).\n3. Inizia a raccogliere dati con uno dei nostri [agent](https://ibm.biz/installing-agent).\n4. Scopri [come utilizzare Instana](https://www.ibm.com/docs/en/instana-observability/latest?topic=using-instana) per i casi d'uso.\n5. Leggi informazioni sulle nostre esclusive [funzionalità di base](https://www.ibm.com/docs/en/instana-observability/latest?topic=core-capabilities).\n6. Estendi Instana con le nostre [integrazioni, SDK & API](https://ibm.biz/integrations-sdks-apis).\n\nQuesto è tutto!\n\nNon riesci a trovare quello che stai cercando? Passa alla [documentazione](https://www.ibm.com/docs/en/instana-observability/latest)!"
       },
       "formComp": {
         "whatULikeShow": "Cosa si desidera mostrare?",
@@ -636,7 +641,6 @@
         "timeBasedSli": "Basato sul tempo, {{metricNameLabel}}"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "Non si dispone delle autorizzazioni <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> necessarie per creare o modificare gli SLI.",
         "sliList": "Elenco SLI",
         "createSli": "Crea SLI"
       },

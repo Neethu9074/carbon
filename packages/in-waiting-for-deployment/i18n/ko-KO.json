@@ -93,6 +93,7 @@
     "applicationDirectory": "애플리케이션 디렉토리",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "ECS 기반 Fargate에서 Python에 대한 지원은 Python 애플리케이션과 동일한 방식으로 작동합니다. <go>Python 문서</go>의 지시사항을 따르십시오.",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "ECS 기반 Fargate에서 Ruby에 대한 지원은 Ruby 애플리케이션과 동일한 방식으로 작동합니다. <go>Ruby 문서</go>의 지시사항을 따르십시오.",
+    "theSupportForPhpOnFargateOnEcsWorksTheSameWayAsWithAnyPhpApplicationFollowTheInstructionsOfThe": "ECS의 Fargate에서 PHP에 대한 지원은 다른 PHP 애플리케이션과 동일한 방식으로 작동합니다. <go>PHP 문서</go>의 지시사항을 따르십시오.",
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate에 대한 지원은 ECS(Elastic Container Service)에서 AWS Fargate와 함께 작동하도록 설계되었습니다.",
     "selectYourApplicationRuntime": "애플리케이션 런타임 선택:",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "Go로 작성된 AWS Lambda 함수는 추적 데이터를 수집하기 위해 수동으로 인스트루먼트해야 합니다. <go>AWS Lambda Go 문서</go>의 지시사항을 따르십시오.",
@@ -282,7 +283,8 @@
     "nodejs10Plus": "Node.js 10.x 이상",
     "python": "Python",
     "python2and3": "Python 2.7 및 3.x",
-    "ruby": "Ruby"
+    "ruby": "Ruby",
+    "php": "PHP"
   },
   "baseImg": {
     "glibcLinux": "Linux(glibc 기반",

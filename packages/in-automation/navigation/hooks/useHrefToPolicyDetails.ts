@@ -22,8 +22,11 @@ export default function useHrefToPolicyDetails() {
     setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, policyId);
     setOrDeleteMatrixKey(location, opParameter.path ?? '', opParameter.name, op);
     if (from !== policyDetailsFullyQualified) {
-      if ([policiesFullyQualified, eventsPath].includes(from)) {
+      if (from === policiesFullyQualified) {
         location.query['from'] = from;
+      } else if (from === eventsPath) {
+        location.query['from'] = from;
+        location.query['eventState'] = JSON.stringify(location.matrix?.[eventsPath]);
       } else {
         delete location.query.from;
       }

@@ -11,12 +11,11 @@ import { KubernetesNamespace, Result, TimeConfig } from '@instana/types';
 import { Pill } from '@instana/components';
 
 // @ts-expect-error TS migration
-import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
-// @ts-expect-error TS migration
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
+import OtelKubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/OtelKubernetesIdsForBreadcrumb';
 // @ts-expect-error TS migration
 import EntityVersionList from 'in-components/EntityVersionList';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
@@ -66,7 +65,7 @@ export default function OtelNodeDashboard({ location }: { location: Location }) 
         }}
       />
 
-      <KubernetesIdsForBreadcrumb
+      <OtelKubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         nodeId={props.nodeId}
         renderBreadcrumbs={(clusterId: string) => (

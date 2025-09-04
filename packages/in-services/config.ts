@@ -35,6 +35,12 @@ export interface ClientConfig {
     regionName?: string;
     ownerName?: string;
   };
+  //cmrDetails injected or set with in build/gulp/util.js
+  cmrDetails: {
+    trackingAccountId?: string;
+    trackingAccountIdType?: string;
+    environmentId?: string;
+  };
 }
 
 export interface BuildInfo {

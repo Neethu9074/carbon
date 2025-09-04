@@ -50,11 +50,12 @@ function parseNodeData(editorValue: EditorConfig) {
 
   Object.entries(pipelines).forEach(([pipelineName, pipeline]) => {
     const pipelineChildren: PipeNode[] = [];
+    // create the pipeline nodes
     Object.entries(pipeline).forEach(([type, elements]) => {
       for (const item of elements) {
         pipelineChildren.push({
           id: `${pipelineName}-${type}-${item}`,
-          height: size,
+          height: 60,
           width: size,
           nodeType: type,
           name: item

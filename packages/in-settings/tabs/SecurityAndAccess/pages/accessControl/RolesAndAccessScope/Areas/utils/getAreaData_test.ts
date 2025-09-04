@@ -19,6 +19,11 @@ import { LimitedAccessScope } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData', () => {
+  const permissions = {
+    hasMobileAppsAccess: true,
+    hasApplicationsAccess: true,
+    hasWebsitesAccess: true
+  };
   describe('returns correct data and calls the translation function with correct params for websites product area', () => {
     beforeEach(() => {
       jest.clearAllMocks();
@@ -29,7 +34,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.WEBSITE,
-          permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE] }
+          permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE] },
+          ...permissions
         });
 
       // Then
@@ -45,7 +51,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.WEBSITE,
-          permissionsSet: mockPermissionsSetWithData
+          permissionsSet: mockPermissionsSetWithData,
+          ...permissions
         });
 
       // Then
@@ -66,7 +73,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.WEBSITE,
-          permissionsSet: mockPermissionsSetWithFullAccessData
+          permissionsSet: mockPermissionsSetWithFullAccessData,
+          ...permissions
         });
 
       // Then
@@ -93,7 +101,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.MOBILE_APP,
-          permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE] }
+          permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE] },
+          ...permissions
         });
 
       // Then
@@ -109,7 +118,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.MOBILE_APP,
-          permissionsSet: mockPermissionsSetWithData
+          permissionsSet: mockPermissionsSetWithData,
+          ...permissions
         });
 
       // Then
@@ -130,7 +140,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.MOBILE_APP,
-          permissionsSet: mockPermissionsSetWithFullAccessData
+          permissionsSet: mockPermissionsSetWithFullAccessData,
+          ...permissions
         });
 
       // Then
@@ -157,7 +168,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.APPLICATION,
-          permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE] }
+          permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE] },
+          ...permissions
         });
 
       // Then
@@ -173,7 +185,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.APPLICATION,
-          permissionsSet: mockPermissionsSetWithData
+          permissionsSet: mockPermissionsSetWithData,
+          ...permissions
         });
 
       // Then
@@ -194,7 +207,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       const { areaColumnHeadline, areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } =
         getAreaData({
           area: ProductArea.APPLICATION,
-          permissionsSet: mockPermissionsSetWithFullAccessData
+          permissionsSet: mockPermissionsSetWithFullAccessData,
+          ...permissions
         });
 
       // Then
@@ -221,7 +235,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
         hasFullAreaAccess
       } = getAreaData({
         area: ProductArea.APPLICATION,
-        permissionsSet: mockPermissionSetApplicationAccessAllContributor
+        permissionsSet: mockPermissionSetApplicationAccessAllContributor,
+        ...permissions
       });
 
       // Then
@@ -249,7 +264,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
         hasFullAreaAccess
       } = getAreaData({
         area: ProductArea.APPLICATION,
-        permissionsSet: mockPermissionSetApplicationLimitedAccessContributor
+        permissionsSet: mockPermissionSetApplicationLimitedAccessContributor,
+        ...permissions
       });
 
       // Then
@@ -277,7 +293,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
         hasFullAreaAccess
       } = getAreaData({
         area: ProductArea.APPLICATION,
-        permissionsSet: mockPermissionSetApplicationLimitedAccessOwner
+        permissionsSet: mockPermissionSetApplicationLimitedAccessOwner,
+        ...permissions
       });
 
       // Then
@@ -305,7 +322,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
         hasFullAreaAccess
       } = getAreaData({
         area: ProductArea.APPLICATION,
-        permissionsSet: mockPermissionSetApplicationAccessAllOwner
+        permissionsSet: mockPermissionSetApplicationAccessAllOwner,
+        ...permissions
       });
 
       // Then

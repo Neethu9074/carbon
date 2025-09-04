@@ -10,12 +10,15 @@ import { isAdaptiveBaselineConfig } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import {
+  replacePlaceholdersWithMarkup,
+  highlightPlaceholdersInHtml
+} from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
-import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -30,7 +33,6 @@ import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/Websi
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
-import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -46,6 +48,8 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
+    name,
+    description,
     rules,
     timeThreshold,
     granularity,
@@ -171,7 +175,7 @@ export default function AlertConfiguration({ alertConfig }) {
           <AlertChannelsViewer
             alertChannelIds={alertChannelIds}
             alertChannels={alertChannels}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityWebsiteSaEnabled}
+            alertChannelPerSeverityEnabled
           />
         </div>
       </ExpandableLightCard>
@@ -186,7 +190,8 @@ export default function AlertConfiguration({ alertConfig }) {
         <AlertPropertyInfos
           shouldDisplayAlertLevelSection={false}
           alertConfig={alertConfig}
-          renderCustomTitle={() => replacePlaceholdersWithMarkup(severityPlaceholderList, alertConfig.name)}
+          renderCustomTitle={() => replacePlaceholdersWithMarkup(severityPlaceholderList, name)}
+          renderCustomDescription={() => highlightPlaceholdersInHtml(description, severityPlaceholderList)}
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="WEBSITE" />

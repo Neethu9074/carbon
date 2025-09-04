@@ -47,6 +47,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
       setOTelDataLoading(false);
       return;
     }
+
     // We check if there is at least one OTel collector entity present.
     // If there is, we skip the onboarding catalog page, otherwise we show it.
     const subscription = getEntities({
@@ -69,13 +70,19 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
       order: { by: 'id', direction: 'ASC' },
       type: 'openTelemetry',
       pagination: { retrievalSize: 1 } // We only need to check if atleast one entry is present.
-    }).subscribe(result => {
-      if (result?.data?.items?.length) {
-        onDialogSkip();
-      } else {
+    }).subscribe(
+      result => {
+        if (!result?.progress?.loading) {
+          setOTelDataLoading(false);
+        }
+        if (result?.data?.items?.length) {
+          onDialogSkip();
+        }
+      },
+      () => {
         setOTelDataLoading(false);
       }
-    });
+    );
     return () => subscription.dispose();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeConfig]);

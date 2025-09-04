@@ -27,12 +27,13 @@ import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import ServiceContext from 'in-applications/components/ServiceContext';
+import getTabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
-import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -42,7 +43,6 @@ import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const urlStateDefinition = {
@@ -55,6 +55,7 @@ const urlStateDefinition = {
 };
 
 export default function EndpointDashboard({ location }) {
+  const [role] = useCurrentUserRole();
   const [{ appId, serviceId, endpointId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
@@ -134,7 +135,7 @@ export default function EndpointDashboard({ location }) {
         result$={getEndpoint(getEndpointParams)}
         HeaderComponent={Header}
         location={location}
-        tabs={tabs}
+        tabs={getTabs(role)}
         filterTabByResult={filterTabByResult}
         props={props}
       />

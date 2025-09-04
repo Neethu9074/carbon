@@ -32,7 +32,6 @@ export default function KubeCostMetrics({ kubeCostData, timeConfig, cluster }: K
       <KpiGridRow sizes={[3, 3, 3, 3]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.kubecost.totalClusterCost')}
-          noTooltipOnTitle
           iconAction={{
             icon: 'lib_help_error_info_outline',
             text: t('in-kubernetes:dashboards.kubecost.totalClusterCostTooltipinfo'),
@@ -48,7 +47,6 @@ export default function KubeCostMetrics({ kubeCostData, timeConfig, cluster }: K
         </KpiCard>
         <KpiCard
           title={t('in-kubernetes:dashboards.kubecost.workloadEfficiency')}
-          noTooltipOnTitle
           iconAction={{
             icon: 'lib_help_error_info_outline',
             text: t('in-kubernetes:dashboards.kubecost.workloadEfficiencyTooltipinfo'),
@@ -64,7 +62,6 @@ export default function KubeCostMetrics({ kubeCostData, timeConfig, cluster }: K
         </KpiCard>
         <KpiCard
           title={t('in-kubernetes:dashboards.kubecost.estimatedMonthlySavings')}
-          noTooltipOnTitle
           iconAction={{
             icon: 'lib_help_error_info_outline',
             text: t('in-kubernetes:dashboards.kubecost.estimatedMonthlySavingsTooltipinfo'),

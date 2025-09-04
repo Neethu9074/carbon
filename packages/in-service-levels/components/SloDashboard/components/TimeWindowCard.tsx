@@ -7,11 +7,13 @@
 import React from 'react';
 
 import type { ServiceLevelObjectiveConfiguration, TimeWindow } from '@instana/types';
-import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { Card, Stack, Typography } from '@instana/components';
+import { formatDateShort } from '@instana/format-date';
 import { isFixedTimeWindow } from '@instana/types';
+import { Tag } from '@instana/carbon';
 
-import TimeWindowPill from 'in-service-levels/components/SloDashboard/components/TimeWindowPill';
+import { formatDateShortInTimezone, formatTimeShortWithoutSecondsInTimezone } from 'in-service-levels/utils/timezone';
+import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 interface TimeWindowCardProps {
@@ -20,32 +22,37 @@ interface TimeWindowCardProps {
 export default function TimeWindowCard({ configuration }: TimeWindowCardProps) {
   const { timeWindow } = configuration;
 
-  const { duration, durationUnit, type } = timeWindow;
-  const startDay = isFixedTimeWindow(timeWindow) && formatDateShort(timeWindow.startTimestamp);
-  const startTime = isFixedTimeWindow(timeWindow) && formatTimeWithoutSeconds(timeWindow.startTimestamp);
+  const { duration, durationUnit, type, timezone } = timeWindow;
+  const startDay = isFixedTimeWindow(timeWindow) && formatDateShortInTimezone(timeWindow.startTimestamp, timezone);
+  const startTime =
+    isFixedTimeWindow(timeWindow) && formatTimeShortWithoutSecondsInTimezone(timeWindow.startTimestamp, timezone);
+
+  const sloTimezone = timeWindow.timezone || utcLabel;
 
   return (
     <Card size="s">
-      <Stack direction="horizontal" gap="xsmall">
+      <Stack direction="vertical" gap="xsmall">
         <Typography noWrap variant="body-regular">
           {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindow')}
         </Typography>
-
-        <TimeWindowPill>
-          {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindowDetails', {
-            duration,
-            durationUnit,
-            type
-          })}
-        </TimeWindowPill>
-        {isFixedTimeWindow(timeWindow) && (
-          <TimeWindowPill>
-            {t('in-service-levels:sloChart.sloChartSummary.startTime', {
-              startDay,
-              startTime
+        <Stack gap="xxsmall" direction="horizontal" wrap>
+          <Tag size="sm">
+            {t('in-service-levels:sloChart.sloChartSummary.configuredTimeWindowDetails', {
+              duration,
+              durationUnit,
+              type
             })}
-          </TimeWindowPill>
-        )}
+          </Tag>
+          {isFixedTimeWindow(timeWindow) && (
+            <Tag size="sm">
+              {t('in-service-levels:sloChart.sloChartSummary.startTime', {
+                startDay,
+                startTime
+              })}
+            </Tag>
+          )}
+          <Tag size="sm">{t('in-service-levels:sloChart.sloChartSummary.timezone', { sloTimezone })}</Tag>
+        </Stack>
       </Stack>
     </Card>
   );

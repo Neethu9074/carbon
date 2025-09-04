@@ -21,12 +21,13 @@ import type {
   DayInterval,
   Month
 } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/types';
-import createCorrectionWindowFormFromConfig from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createCorrectionWindowFormFromConfig';
-import createDefaultCorrectionWindowForm from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createDefaultCorrectionWindowForm';
 import {
   daysOfTheWeekValidator,
-  startAndEndDateValidator
+  startAndEndDateValidator,
+  timeSeparatorValidator
 } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/validators';
+import createCorrectionWindowFormFromConfig from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createCorrectionWindowFormFromConfig';
+import createDefaultCorrectionWindowForm from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/createCorrectionWindowForm/createDefaultCorrectionWindowForm';
 import { ONE_TIME } from 'in-service-levels/features/CorrectionWindows/components/ConfigureCorrectionWindowDialog/constants';
 import { dateFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import { maxValidator, positiveNumberValidator } from 'in-services/validators/number';
@@ -91,7 +92,11 @@ export function createStartFields({
     }),
     time: createField({
       ...time,
-      validator: composeValidators(notBlankValidator, v => timeValidator(v, 'HH:mm'))
+      validator: composeValidators(
+        notBlankValidator,
+        v => timeValidator(v, 'HH:mm'),
+        v => timeSeparatorValidator(v, 'HH:mm')
+      )
     }),
     allDay: createField({ ...allDay })
   };

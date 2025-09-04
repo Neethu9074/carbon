@@ -17,11 +17,12 @@ import {
 } from 'in-stores/time/config';
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import { mobileAppsPath, useGetLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
+import { playwithEnabled, mobileAppCrashBeaconEnabled, rbacTeamsEnabled } from 'in-services/featureFlags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
-import { playwithEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
@@ -30,12 +31,12 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { number, percentage } from 'in-services/formatters/number';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './MobileAppsList.mless';
@@ -107,6 +108,28 @@ const columnDefinitions = [
         }
       ]
     : []),
+  ...(rbacTeamsEnabled
+    ? [
+        {
+          id: 'teams',
+          label: t('in-settings:tabs.teams.teamsTitle'),
+          sortable: false,
+          getContent(item) {
+
+            const teams = item?.mobileApp?.rbacTags || []
+
+            return (
+              <TagsInTable
+                tags={teams.map(team => ({
+                  entity_id: team.id,
+                  displayName: team.displayName || team.name || team.id
+                }))}
+              />
+            );
+          }
+        }
+      ]
+    : []),
   {
     id: 'maxSeverity',
     label: t('in-websites:websitesList.websitesListLabelHealth'),
@@ -166,6 +189,7 @@ export default connectTo(
     timeConfig: timeConfig$
   },
   function MobileAppsList({ timeConfig }) {
+    const [role] = useCurrentUserRole();
     return (
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding className={locals.wrapper}>

@@ -67,7 +67,11 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
                   pool: pool
                 })}
                 data={data
-                  .filter((v, k) => k.indexOf('worker_pool.' + pool) === 0)
+                  .filter(
+                    (v, k) =>
+                      k.indexOf('worker_pool.' + pool + '.') === 0 &&
+                      k.split('worker_pool.' + pool + '.')[1].indexOf('.') === -1
+                  )
                   .mapKeys(k => k.split('worker_pool.' + pool + '.')[1])}
               />
             </Collapsible.Content>

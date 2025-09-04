@@ -11,7 +11,7 @@ import { OrderDirection, TagFilterExpression } from '@instana/types';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import CreateCredentialsButton from 'in-synthetics/dashboards/global/tabs/tests/components/CreateCredentialsButton';
-import columnDefinitions from 'in-synthetics/dashboards/global/tabs/credentials/components/columnDefinitions';
+import getColumnDefinitions from 'in-synthetics/dashboards/global/tabs/credentials/components/columnDefinitions';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
@@ -26,19 +26,21 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function CredentialList() {
+  const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
   const location = useLocation();
   const { trackCta } = useSegmentTracking();
   const pathSegment = syntheticCredentialPath;
   const matrixPrefix = '';
+  const columnDefinitions = getColumnDefinitions(role);
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
       columnDefinitions,

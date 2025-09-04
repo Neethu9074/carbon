@@ -93,6 +93,7 @@
     "applicationDirectory": "アプリケーション・ディレクトリー",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Fargate on ECS では、他の Python アプリケーションと同じように Python がサポートされます。 <go>Python の資料</go>の説明に従ってください。",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "Fargate on ECS では、他の Ruby アプリケーションと同じように Ruby がサポートされます。 <go>Ruby の資料</go>の説明に従ってください。",
+    "theSupportForPhpOnFargateOnEcsWorksTheSameWayAsWithAnyPhpApplicationFollowTheInstructionsOfThe": "ECS上のFargateでのPHPサポートは、他のPHPアプリケーションと同様に機能します。 <go>PHP ドキュメント</go>の指示に従ってください。",
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate のサポートは、AWS Fargate on ECS (Elastic Container Service) と連動するように設計されています。",
     "selectYourApplicationRuntime": "アプリケーション・ランタイムの選択:",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "トレース・データを収集するには、Go で作成された AWS Lambda 関数を手動でインスツルメントする必要があります。 <go>AWS Lambda Go の資料</go>の説明に従ってください。",
@@ -282,7 +283,8 @@
     "nodejs10Plus": "Node.js 10.x 以降",
     "python": "Python",
     "python2and3": "Python 2.7 および 3.x",
-    "ruby": "Ruby"
+    "ruby": "Ruby",
+    "php": "PHP"
   },
   "baseImg": {
     "glibcLinux": "Linux (glibc ベース)",

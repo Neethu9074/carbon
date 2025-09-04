@@ -42,6 +42,7 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getDisplayRunType } from 'in-synthetics/utils/runTypeMap';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -50,7 +51,19 @@ import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.ml
 
 const pathSegment = '/results';
 const matrixPrefix = 'result.';
-const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status', 'retries'];
+
+// Initialize metrics array based on test type
+const getMetricsForTestType = (testType: string) => {
+  const baseMetrics = ['start_time', 'location_id', 'response_time', 'status', 'retries'];
+
+  if (testType === 'SSLCertificate') {
+    return [...baseMetrics, 'custom_metrics'];
+  } else if (testType === 'DNS') {
+    return [...baseMetrics, 'errors'];
+  } else {
+    return [...baseMetrics, 'response_size'];
+  }
+};
 let testId = '';
 let testType: string;
 
@@ -105,7 +118,9 @@ function StartTimeColumn({ item }: { item: TestResultListItem }) {
 }
 
 const runTypeColumnContent = (item: TestResultListItem) => {
-  return <span className={locals.metricLabel}>{item.testResultCommonProperties?.runType ?? ''}</span>;
+  let runType = item.testResultCommonProperties?.runType ?? '';
+  runType = getDisplayRunType(runType);
+  return <span className={locals.metricLabel}>{runType}</span>;
 };
 
 const daysRemainingColumnContent = (item: TestResultListItem) => {
@@ -120,6 +135,33 @@ interface ResultListProps {
   test: TestResponse;
   dataScope?: DataScopeType;
 }
+
+const startTimeColumnContent = (item: TestResultListItem) => {
+  return <StartTimeColumn item={item} />;
+};
+
+export const locationLabelColumnContent = (item: TestResultListItem) => {
+  const displayLabel = massageLocationDisplayLabel(
+    item?.testResultCommonProperties?.locationDisplayLabel ?? '',
+    item?.testResultCommonProperties?.locationId ?? ''
+  );
+  return <span className={locals.metricLabel}>{displayLabel}</span>;
+};
+
+export const responseTimeColumnContent = (item: TestResultListItem) => {
+  const count = get(item, ['metrics', 'response_time', 0, 1], 0);
+  return <span className={locals.metricLabel}>{timeByMillisZeroDecimalPlaces(count)}</span>;
+};
+
+export const responseSizeColumnContent = (item: TestResultListItem) => {
+  const count = get(item, ['metrics', 'response_size', 0, 1], 0);
+  return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
+};
+
+export const retriesColumnContent = (item: TestResultListItem) => {
+  const count = get(item, ['metrics', 'retries', 0, 1], 0);
+  return <span className={locals.metricLabel}>{count}</span>;
+};
 
 export default function ResultsList({ test, dataScope }: ResultListProps) {
   const timeConfig = useTimeConfig();
@@ -153,96 +195,79 @@ export default function ResultsList({ test, dataScope }: ResultListProps) {
     />
   );
 
-  const startTimeColumnContent = (item: TestResultListItem) => {
-    return <StartTimeColumn item={item} />;
-  };
+  // Define all column definitions upfront using React.useMemo to prevent re-renders
+  const columnDefinitions = React.useMemo(() => {
+    // Base columns that are always included
+    const baseColumns: ColumnDefinition<TestResultListItem>[] = [
+      {
+        id: 'start_time',
+        label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
+        defaultOrderDirection: 'DESC',
+        getContent: startTimeColumnContent
+      },
+      {
+        //location_label => location display name
+        id: 'location_label',
+        label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
+        getContent: locationLabelColumnContent
+      },
+      {
+        id: 'response_time',
+        defaultOrderDirection: 'DESC',
+        label: t('in-synthetics:dashboard.resultsListPage.responseTimeColumn'),
+        getContent: responseTimeColumnContent
+      }
+    ];
 
-  const locationLabelColumnContent = (item: TestResultListItem) => {
-    const displayLabel = massageLocationDisplayLabel(
-      item?.testResultCommonProperties?.locationDisplayLabel ?? '',
-      item?.testResultCommonProperties?.locationId ?? ''
+    // Conditionally add response_size column
+    if (!isSSLCertificate && !isDNS) {
+      baseColumns.push({
+        id: 'response_size',
+        defaultOrderDirection: 'DESC' as OrderDirection,
+        label: t('in-synthetics:dashboard.resultsListPage.responseSizeColumn'),
+        getContent: responseSizeColumnContent
+      });
+    }
+
+    // Add retries and runType columns
+    baseColumns.push(
+      {
+        id: 'retries',
+        defaultOrderDirection: 'DESC',
+        label: t('in-synthetics:dashboard.resultsListPage.retriesColumn'),
+        getContent: retriesColumnContent
+      },
+      {
+        id: 'synthetic.runType',
+        defaultOrderDirection: 'DESC',
+        label: t('in-synthetics:dashboard.resultsListPage.cicd.executionType'),
+        getContent: runTypeColumnContent
+      }
     );
-    return <span className={locals.metricLabel}>{displayLabel}</span>;
-  };
 
-  const responseTimeColumnContent = (item: TestResultListItem) => {
-    const count = get(item, ['metrics', 'response_time', 0, 1], 0);
-    return <span className={locals.metricLabel}>{timeByMillisZeroDecimalPlaces(count)}</span>;
-  };
+    // Conditionally add SSL certificate specific column
+    if (isSSLCertificate) {
+      baseColumns.push({
+        id: 'days_remaining',
+        sortable: false,
+        label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
+        getContent: daysRemainingColumnContent
+      });
+    }
 
-  const responseSizeColumnContent = (item: TestResultListItem) => {
-    const count = get(item, ['metrics', 'response_size', 0, 1], 0);
-    return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
-  };
+    // Conditionally add DNS specific column
+    if (syntheticDnsEnabled && isDNS) {
+      baseColumns.push({
+        id: 'failure_type',
+        sortable: false,
+        width: 25,
+        label: t('in-synthetics:dashboard.resultsListPage.dns.failureType'),
+        getContent: renderFailurePopover
+      });
+    }
 
-  const retriesColumnContent = (item: TestResultListItem) => {
-    const count = get(item, ['metrics', 'retries', 0, 1], 0);
-    return <span className={locals.metricLabel}>{count}</span>;
-  };
-
-  let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
-    {
-      id: 'start_time',
-      label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
-      defaultOrderDirection: 'DESC',
-      getContent: startTimeColumnContent
-    },
-    {
-      //location_label => location display name
-      id: 'location_label',
-      label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
-      getContent: locationLabelColumnContent
-    },
-    {
-      id: 'response_time',
-      defaultOrderDirection: 'DESC',
-      label: t('in-synthetics:dashboard.resultsListPage.responseTimeColumn'),
-      getContent: responseTimeColumnContent
-    },
-    ...(!isSSLCertificate && !isDNS
-      ? [
-          {
-            id: 'response_size',
-            defaultOrderDirection: 'DESC' as OrderDirection,
-            label: t('in-synthetics:dashboard.resultsListPage.responseSizeColumn'),
-            getContent: responseSizeColumnContent
-          }
-        ]
-      : []),
-    {
-      id: 'retries',
-      defaultOrderDirection: 'DESC',
-      label: t('in-synthetics:dashboard.resultsListPage.retriesColumn'),
-      getContent: retriesColumnContent
-    },
-    {
-      id: 'synthetic.runType',
-      defaultOrderDirection: 'DESC',
-      label: t('in-synthetics:dashboard.resultsListPage.cicd.executionType'),
-      getContent: runTypeColumnContent
-    },
-    ...(isSSLCertificate
-      ? [
-          {
-            id: 'days_remaining',
-            sortable: false,
-            label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
-            getContent: daysRemainingColumnContent
-          }
-        ]
-      : []),
-    ...(syntheticDnsEnabled && isDNS
-      ? [
-          {
-            id: 'failure_type',
-            sortable: false,
-            width: 25,
-            label: t('in-synthetics:dashboard.resultsListPage.dns.failureType'),
-            getContent: renderFailurePopover
-          }
-        ]
-      : [])
-  ];
+    return baseColumns;
+  }, [isSSLCertificate, isDNS]); // Dependencies that affect column definitions
 
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
@@ -300,13 +325,8 @@ function getSynthTableData({
   locationLabels = [],
   runType = ''
 }: GetList) {
-  if (testType === 'SSLCertificate') {
-    metrics.push('custom_metrics');
-    metrics.splice(metrics.indexOf('response_size'), 1);
-  } else if (testType === 'DNS') {
-    metrics.push('errors');
-    metrics.splice(metrics.indexOf('response_size'), 1);
-  }
+  // Use the metrics array specific to this test type
+  const metrics = getMetricsForTestType(testType);
   let baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,
@@ -421,7 +441,7 @@ function getSeverity(item: TestResultListItem) {
   return getStatus(item) === 1 ? 0 : 10;
 }
 
-function getRelativeTime(item: TestResultListItem) {
+export function getRelativeTime(item: TestResultListItem) {
   let status = getStatus(item);
   let date = get(item, ['metrics', 'start_time', 0, 1]);
   return status === 1 ? fromNow(date) : formatDateTime(date);

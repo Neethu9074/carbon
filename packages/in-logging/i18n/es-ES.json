@@ -88,7 +88,6 @@
       "patternRecognitionSet": {
         "gotIt": "Entendido",
         "cancel": "Cancelar",
-        "gettingStarted": "Guía de inicio",
         "howDoesItWorks": "¿Cómo funciona?",
         "firstDescription_0": "El reconocimiento de patrones de registros entrena un algoritmo de IA para descubrir patrones recurrentes en sus registros. Mediante el análisis de grandes volúmenes de registros, es capaz de reconocer las partes variables y estáticas de los registros y descubrir patrones en ellos. \n\n El algoritmo de IA se basa únicamente en sus mensajes de registro y no los comparte con los registros de otros clientes. Esto garantiza la privacidad y la seguridad de sus datos.",
         "howWillHelpMe": "¿Cómo me va a ayudar?",
@@ -97,7 +96,19 @@
         "popHoverSecondDescription": "Mediante el análisis de grandes volúmenes de registros, es capaz de reconocer las partes variables y estáticas de los registros y descubrir patrones en ellos.\n\nEl algoritmo de IA se basa únicamente en sus mensajes de registro y no los comparte con los registros de otros clientes. Esto garantiza la privacidad y la seguridad de sus datos",
         "hotItWorks": "Cómo funciona",
         "popHoverFirstDescription": "El reconocimiento de patrones de registros entrena un algoritmo de IA para descubrir patrones recurrentes en sus registros. ",
-        "aiExpained": "IA explicada"
+        "aiExpained": "IA explicada",
+        "currentPatterns": "Patrones actuales",
+        "total": "Total",
+        "discoveredPatterns": "Patrones descubiertos",
+        "tableDescription": "Gestione los patrones utilizados al filtrar y agrupar.",
+        "id": "ID",
+        "name": "Nombre",
+        "patternsSample": "Muestra de patrones",
+        "state": "Estado",
+        "noLogsDiscovered": "Aún no se han descubierto patrones de registro",
+        "noLogsDiscoveredDescription": "El reconocimiento de patrones de registros aún está en curso. Debido al gran volumen de datos, los resultados podrían tardar más en aparecer. Vuelva a comprobarlo más tarde.",
+        "enabled": "Habilitado",
+        "disabled": "Inhabilitado"
       }
     }
   }

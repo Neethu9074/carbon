@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "触发突发事件",
     "alertPropertyInfosLabelDescription": "描述",
     "noChannelSelectedText": "未添加通道。 要开始操作，请单击“选择警报通道”。",
+    "noChannelSelectedDetailPage": "尚未添加用于接收警报通知的通道。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他过滤器",
     "groupBy": "分组依据",
     "noChannelAvailable": "没有可用的警报通道",
@@ -47,7 +48,7 @@
       "alertingChartLabelWarningViolations": "警告违例",
       "alertingChartLabelCriticalViolations": "严重违例",
       "alertingChartLabelWarningThreshold": "警告阈值",
-      "alertingChartLabelCriticalThreshold": "关键阈值",
+      "alertingChartLabelCriticalThreshold": "临界阈值",
       "alertingChartLabelForecast": "预测",
       "alertingChartLabelUpperBound": "上限",
       "alertingChartLabelLowerBound": "下限",
@@ -158,7 +159,6 @@
     "descriptionUnsupportedOperator": "不受支持的运算符：{{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "添加智能警报",
     "createSmartAlert": "创建智能警报",
     "applicationSmartAlert": "应用程序智能警报",
     "globalApplicationSmartAlert": "全局应用程序智能警报",
@@ -517,8 +517,6 @@
         "noData": "未配置智能警报。 单击下面的按钮，以配置您的第一个智能警报。",
         "noPersmissionToCreateGlobalSmartAlert": "您无权配置智能警报。 请联系您的管理员。",
         "noPermissionGlobalSmartAlertEdit": "您无权执行此操作",
-        "labelGlobalSmartAlertsList": "全局应用程序智能警报（{{numberOfAlerts}} 个）",
-        "labelSmartAlertsList": "应用程序智能警报（{{numberOfAlerts}} 个）",
         "labelGlobalSmartAlertsTable": "全局应用程序智能警报",
         "labelSmartAlertsTable": "应用程序智能警报",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -644,7 +642,7 @@
         },
         "timeThreshold": {
           "title": "设置违例何时触发警报",
-          "description": "指定警报和持久存储类型，然后设置警报触发器。"
+          "description": "优化警报标准以提高准确性。"
         },
         "staticOrAdaptive": {
           "config": {
@@ -700,7 +698,10 @@
         "configuredAlerts": "已配置的警报数（{{numberOfAlerts}} 个）"
       },
       "columns": {
-        "name": "名称"
+        "name": "名称",
+        "severity": "严重性",
+        "status": "状态",
+        "action": "操作"
       }
     },
     "form": {
@@ -790,7 +791,8 @@
       "ruleStatusCodeValueOptionNone": "无状态（客户端异常中止/发生故障）",
       "warningThresholdValidator": "对于 < 和 <= 运算符，警告阈值应大于临界阈值。",
       "criticalThresholdValidator": "对于 > 和 >= 运算符，临界阈值应大于警告阈值。",
-      "sensitivityValidator": "“严重”敏感度应小于“警告”敏感度。"
+      "sensitivityValidator": "“严重”敏感度应小于“警告”敏感度。",
+      "baselineEmpty": "基线为空"
     },
     "components": {
       "smartAlertDialog": {
@@ -1020,17 +1022,24 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "违例持续存在",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "当最小数量的跟踪受影响时",
           "labelUserImpactOfViolationsInSequence": "当一定数量的用户受到影响时",
+          "violationsInSequenceLabel": "当在一个连续的时间段内发生一次违规时",
+          "violationsInPeriodLabel": "当在多个时间段内发生多次违规时",
           "granularity": {
             "description": "调用以 {{granularity}} 分钟为时间窗口发出；每 {{granularity}} 分钟，针对此窗口计算一次指标值"
           },
           "triggerAlert": "触发警报",
           "triggerAfter": "触发后",
           "tracesImpacted": "个跟踪受到影响",
+          "numberOfTracesImpacted": "受影响的跟踪数量",
           "numberOfUserImpactPostLabel": "或更多数量的用户受到影响",
           "percentageOfUserImpactPostLabel": "或更多比例的用户受到影响",
           "outOfConsecutiveEvaluations": "个（共  个）",
+          "violationAcross": "跨",
+          "violationsOccurrenceLabel": "违规事件",
           "persistenceType": "持久类型",
           "numberOfConsecutiveViolationsPostLabel": "连续 {{granularity}} 分钟时间窗口有违例",
+          "bucketsOfTime": "{{granularity}} 分钟的时间段",
+          "numberOfConsecutiveViolationsLabel": "连续 {{granularity}} 分钟的违规时间段",
           "static": "静态",
           "thresholdValue": "阈值"
         }
@@ -1237,7 +1246,6 @@
     "enable": "启用",
     "disable": "禁用",
     "synthetics": {
-      "addSmartAlert": "添加合成智能警报",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
@@ -1253,9 +1261,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "时间阈值",
-        "filterApplied": "已应用过滤器",
-        "violationsCount": "{{violationsCount}} 个故障",
         "numberOfFailures": "故障警报",
         "noDataHeader": "无合成智能警报",
         "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
@@ -1315,7 +1320,9 @@
         "alertTestEntityName": "合成测试 {{entityName}}",
         "testAttachedCount": "附加的测试（{{count}} 个）",
         "testAttached": "附加的测试",
-        "noTestAvailable": "没有可用的合成测试"
+        "noTestAvailable": "没有可用的合成测试",
+        "noTestSelected": "未选择合成测试",
+        "noTestSelectedMessage": "首先，单击“添加合成测试”。"
       },
       "details": {
         "threshold": "阈值",
@@ -1424,7 +1431,6 @@
         "filter_0": "过滤器",
         "filter_1": "过滤器",
         "filter_2": "过滤器",
-        "filterApplied": "已应用过滤器",
         "noDataHeader": "无移动应用程序智能警报",
         "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       },
@@ -1619,7 +1625,8 @@
             "subtitle": {
               "staticThresholdType": "静态阈值",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "forecastAlerting": "预测警报"
+              "forecastAlerting": "预测警报",
+              "adaptiveThreshold": "自适应阈值，{{metricName}}"
             }
           }
         },
@@ -1714,6 +1721,11 @@
         "step4": {
           "header": "您希望在何处收到此警报的通知？",
           "description": "选择该警报的收件人"
+        },
+        "scopeEntity": {
+          "entityType": "实体类型",
+          "pleaseSelect": "选择实体",
+          "loadingEntities": "正在加载实体..."
         },
         "scopeFilter": {
           "title": "选择基础架构的范围",
@@ -2004,7 +2016,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}}，阈值（长）{{operator}} {{value}} &（短）< 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}，阈值 {{operator}}{{value}}",
         "threshold_STATUS": "{{metric}}，阈值 {{operator}}{{value}}",
-        "alertListSloAppliedColumnName": "已应用 SLO",
         "sloApplied": "已应用 SLO",
         "sloCount": "{{count}} 个 SLO",
         "sloCount_plural": "{{count}} 个 SLO",

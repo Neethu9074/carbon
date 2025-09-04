@@ -34,6 +34,11 @@ interface MobileAppTopListProp {
   mobileAppLabel: string;
   timeConfig: TimeConfig;
   tagFilters: TagFilter[];
+  /**
+   * MobileAppTopList displays data and redirects to analyze grouping.
+   * We can use tagFiltersAnalyze if we need top list data and analyze grouping with different tag filters.
+   */
+  tagFiltersAnalyze?: TagFilter[];
   metrics: string[];
   labels: string[];
   aggregations: string[];
@@ -51,6 +56,7 @@ export default function MobileAppTopList({
   mobileAppLabel,
   timeConfig,
   tagFilters,
+  tagFiltersAnalyze,
   metrics,
   labels,
   aggregations,
@@ -67,7 +73,8 @@ export default function MobileAppTopList({
     httpRequest: useTagCatalog('httpRequest'),
     crash: useTagCatalog('crash'),
     custom: useTagCatalog('custom'),
-    dropBeacon: useTagCatalog('dropBeacon')
+    dropBeacon: useTagCatalog('dropBeacon'),
+    perf: useTagCatalog('perf')
   };
 
   return (
@@ -86,6 +93,7 @@ export default function MobileAppTopList({
       mobileAppLabel={mobileAppLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      tagFiltersAnalyze={tagFiltersAnalyze}
       beaconType={beaconType}
       beaconGroupByFilter={beaconGroupByFilter}
       linkToAllLabel={linkToAllLabel}
@@ -136,6 +144,7 @@ function getList({
 
 interface ViewAllProp {
   tagFilters: TagFilter[];
+  tagFiltersAnalyze?: TagFilter[];
   mobileAppLabel: string;
   beaconType: string;
   tagCatalogs: any;
@@ -146,6 +155,7 @@ interface ViewAllProp {
 
 function ViewAll({
   tagFilters,
+  tagFiltersAnalyze,
   mobileAppLabel,
   beaconType,
   tagCatalogs,
@@ -154,6 +164,8 @@ function ViewAll({
   linkToAllLabel
 }: ViewAllProp) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+  // Use tagFiltersAnalyze for analyze link if its specified
+  const filtersToUse = tagFiltersAnalyze || tagFilters;
 
   return (
     <Link
@@ -163,7 +175,7 @@ function ViewAll({
         getLinkToMobileAppAnalyze({
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,
-            tagFilters,
+            tagFilters: filtersToUse,
             tagCatalog: tagCatalogs[beaconType]
           }),
           beaconType,
@@ -182,13 +194,23 @@ interface LabelProp {
   item: MobileAppPaginatedBeaconGroupsItem;
   mobileAppLabel: string;
   tagFilters: TagFilter[];
+  tagFiltersAnalyze?: TagFilter[];
   beaconType: string;
   tagCatalogs: any;
   beaconGroupByFilter: string;
 }
 
-function Label({ item, mobileAppLabel, tagFilters, beaconType, tagCatalogs, beaconGroupByFilter }: LabelProp) {
+function Label({
+  item,
+  mobileAppLabel,
+  tagFilters,
+  tagFiltersAnalyze,
+  beaconType,
+  tagCatalogs,
+  beaconGroupByFilter
+}: LabelProp) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+  const filtersToUse = tagFiltersAnalyze || tagFilters;
 
   let label = item.name;
   try {
@@ -205,7 +227,7 @@ function Label({ item, mobileAppLabel, tagFilters, beaconType, tagCatalogs, beac
         getLinkToMobileAppAnalyze({
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,
-            tagFilters: tagFilters.concat({
+            tagFilters: filtersToUse.concat({
               name: beaconGroupByFilter,
               operator: 'EQUALS',
               stringValue: label,

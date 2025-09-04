@@ -28,4 +28,10 @@
     margin: 0 0.5rem;
     min-width: 10rem;
   }
+
+  .loadingContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 }

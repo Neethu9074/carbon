@@ -31,6 +31,7 @@ export const patterRecognitionLocalisationStrings = {
   hotItWorks: t('in-logging:dashboard.managementPage.patternRecognitionSet.hotItWorks'),
   popHoverSecondDescription: t('in-logging:dashboard.managementPage.patternRecognitionSet.popHoverSecondDescription'),
   currentPatterns: t('in-logging:dashboard.managementPage.patternRecognitionSet.currentPatterns'),
+  patternState: t('in-logging:dashboard.managementPage.patternRecognitionSet.patternState'),
   discoveredPatterns: t('in-logging:dashboard.managementPage.patternRecognitionSet.discoveredPatterns'),
   tableDescription: t('in-logging:dashboard.managementPage.patternRecognitionSet.tableDescription'),
   id: t('in-logging:dashboard.managementPage.patternRecognitionSet.id'),

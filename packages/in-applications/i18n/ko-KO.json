@@ -304,6 +304,8 @@
     "none": "없음",
     "dataSource_calls": "{{formattedCount}}개 호출",
     "dataSource_calls_plural": "{{formattedCount}}개 호출",
+    "dataSource_subtraces": "{{formattedCount}}개의 하위 추적",
+    "dataSource_subtraces_plural": "{{formattedCount}}개의 하위 추적",
     "dataSource_traces": "{{formattedCount}}개 추적",
     "dataSource_traces_plural": "{{formattedCount}}개 추적",
     "analyzeCallsOfThisTrace": "이 추적의 호출 분석",
@@ -726,7 +728,7 @@
     "traces_erroneousCalls": "잘못된 추적",
     "traces_errors": "잘못된 추적 비율",
     "subtraces_latency": "지속 기간",
-    "subtraces_subtraceDuration": "지속 기간"
+    "subtraces_duration": "지속 기간"
   },
   "viewLists": {
     "application": "애플리케이션",
@@ -791,6 +793,6 @@
   "labelSyntheticMonitoring": "합성 모니터링",
   "labelServiceLevels": "서비스 레벨",
   "labelResourceOptimizations": "최적화",
-  "titleResourceOverutilization": "과다 사용된 리소스({{thresholdUpperLimit}}% 이상의 CPU 사용량)",
-  "titleResourceUnderutilization": "활용도가 낮은 리소스({{thresholdLowerLimit}}% 이하의 CPU 사용량)"
+  "titleResourceOverutilization": "자원 과다 사용({{thresholdUpperLimit}} CPU 사용량 초과)",
+  "titleResourceUnderutilization": "활용도가 낮은 자원({{thresholdLowerLimit}} CPU 사용량 미만)"
 }

@@ -67,14 +67,14 @@
       "totalDataIngestEntitlement": "Diritto totale di inserimento dei dati",
       "actualDataIngest": "Inserimento dati effettivi",
       "onDemandDataIngest": "Inserimento dati su richiesta",
-      "noData": "Nessun dato"
+      "csvExporter": "Esporta in CSV"
     },
     "timePresets": {
       "last7Days": "Ultimi 7 giorni",
       "last30Days": "Ultimi 30 giorni",
       "last365Days": "Ultimi 365 giorni",
-      "thisMonth": "Questo mese",
-      "lastMonth": "Ultimo  Mese"
+      "thisMonth": "Mese corrente",
+      "lastMonth": "Ultimo mese"
     },
     "presentationPresets": {
       "distinct": "Valori distinti",
@@ -129,7 +129,9 @@
         "twoApplicationPerspectivesCreated": "2 Prospettive Applicazione create",
         "oneAlertSetUpAndActivated": "1 Avviso configurato e attivato",
         "oneWebsiteMonitored": "1 sito web monitorato",
-        "fiveUsers": "5 utenti"
+        "fiveUsers": "5 utenti",
+        "notStarted": "Non avviato",
+        "tenantUnit": "Unità tenant"
       },
       "adoptionKPIs": {
         "applicationPerspective": "Prospettiva applicazione",
@@ -161,6 +163,17 @@
         "metric_custom_dashboards": "Dashboard personalizzati",
         "metric_releases": "Release"
       },
+      "sparkChartMetricsV2": {
+        "metric_applications": "AP",
+        "metric_reportingapplications": "Segnalazione AP",
+        "metric_websites": "Siti web",
+        "metric_all_alerts": "Avvisi",
+        "metric_active_alerts": "Avvisi attivi",
+        "metric_mobile_apps": "App",
+        "metric_alert_channels": "Canali di avviso",
+        "metric_custom_dashboards": "Dashboard personalizzati",
+        "metric_releases": "Marcatori di rilascio/rilasci"
+      },
       "userUsage": "Utilizzo utente",
       "userSummary": "Riepilogo utente",
       "totalUser": "Utenti totali",
@@ -180,6 +193,9 @@
     "accountAndBilling": "Account e fatturazione",
     "tabs": {
       "usage": "Utilizzo",
+      "dataUsage": "Utilizzo dei dati",
+      "consumptionOverview": "Panoramica dei consumi",
+      "addOns": "Componenti aggiuntivi",
       "technologiesReporting": "Report di tecnologie",
       "accountInformation": "Informazioni sull'account",
       "entitlements": "Titolarità",
@@ -198,6 +214,11 @@
     },
     "emptyPage": {
       "subtitle": "Nessun dato disponibile"
+    },
+    "label": {
+      "unit": "Unità",
+      "timeRange": "Intervallo di tempo",
+      "values": "Valori"
     }
   }
 }

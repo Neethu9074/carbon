@@ -30,35 +30,14 @@ export const mockSlo1: ServiceLevelObjectiveConfiguration = {
     type: 'eventBased',
     threshold: 75,
     aggregation: undefined,
-    goodEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: false,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
-    badEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: true,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
     blueprint: 'latency'
   },
   timeWindow: {
     type: 'fixed',
     duration: 2,
     durationUnit: 'week',
-    startTimestamp: 1719340200000
+    startTimestamp: 1719340200000,
+    timezone: ''
   },
   tags: []
 };
@@ -87,35 +66,14 @@ export const mockSlo2: ServiceLevelObjectiveConfiguration = {
     type: 'timeBased',
     threshold: 904,
     aggregation: 'MEAN',
-    goodEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: false,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
-    badEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: true,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
     blueprint: 'latency'
   },
   timeWindow: {
     type: 'fixed',
     duration: 1,
     durationUnit: 'week',
-    startTimestamp: 1718143200000
+    startTimestamp: 1718143200000,
+    timezone: ''
   },
   tags: ['NewTag']
 };
@@ -144,35 +102,14 @@ export const mockSlo3: ServiceLevelObjectiveConfiguration = {
     type: 'timeBased',
     threshold: 20,
     aggregation: 'MEAN',
-    goodEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: false,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
-    badEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: true,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
     blueprint: 'availability'
   },
   timeWindow: {
     type: 'fixed',
     duration: 1,
     durationUnit: 'day',
-    startTimestamp: 1696370400000
+    startTimestamp: 1696370400000,
+    timezone: ''
   },
   tags: ['test2']
 };
@@ -201,35 +138,14 @@ export const mockSlo4: ServiceLevelObjectiveConfiguration = {
     type: 'eventBased',
     threshold: 50,
     aggregation: undefined,
-    goodEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: false,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
-    badEventsFilter: {
-      type: 'TAG_FILTER',
-      name: 'call.erroneous',
-      stringValue: undefined,
-      numberValue: undefined,
-      booleanValue: true,
-      key: undefined,
-      value: undefined,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    },
     blueprint: 'availability'
   },
   timeWindow: {
     type: 'fixed',
     duration: 1,
     durationUnit: 'minute',
-    startTimestamp: 1708540200000
+    startTimestamp: 1708540200000,
+    timezone: ''
   },
   tags: ['AndreiK']
 };

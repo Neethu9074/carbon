@@ -31,11 +31,11 @@ import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { SloListItem } from 'in-service-levels/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useMediaQuery from 'in-hooks/useMediaQuery';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 type CellRendererProps = {
@@ -167,6 +167,7 @@ function getColumnDefinitions(isMediumWidth: boolean): ColumnDefinitionItem[] {
 }
 
 export default function ServiceLevelsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
+  const [role] = useCurrentUserRole();
   const { createHrefToPath } = useNavigation();
 
   const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };

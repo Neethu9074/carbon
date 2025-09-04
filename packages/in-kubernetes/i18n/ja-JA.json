@@ -48,6 +48,7 @@
     "statefulSets": "ステートフルセット",
     "cronJobs": "クロンジョブズ",
     "k8SServices": "K8s サービス",
+    "pod": "ポッド",
     "pods": "ポッド",
     "persistentVolume": "永続ボリューム",
     "persistentVolumes": "永続ボリューム",
@@ -277,7 +278,9 @@
       "podsTitle": "使用可能なポッドがありません",
       "podsDescription": "選択された時刻範囲で取得されたポッドはありません。",
       "endpointsTitle": "表示可能なエンドポイントがありません",
-      "endpointsDescription": "選択された時刻範囲で取得されたエンドポイントはありません。"
+      "endpointsDescription": "選択された時刻範囲で取得されたエンドポイントはありません。",
+      "containersTitle": "使用可能なコンテナーはありません",
+      "containersDescription": "選択された時刻範囲で取得されたコンテナーはありません。"
     },
     "kubecost": {
       "costByDeployment": "展開別コスト",
@@ -301,7 +304,8 @@
       "namespace": "名前空間",
       "idleCost": "アイドル・コスト",
       "viewInKubeCost": "Kubecostに表示",
-      "coreCountByCluster": "vCPU",
+      "coreCountByCluster": "クラスターあたりvCPU",
+      "totalCoreCount": "合計 vCPU",
       "noKubecostData": "Kubecost を使用してこのクラスターのコスト監視を有効化します。\n 統合を設定するには、ドキュメントの [以下の手順に従ってください]\n\n[次の手順に従います]:https://ibm.biz/kubecost",
       "totalClusterCost": "クラスター・コスト合計(直近14日間)",
       "workloadEfficiency": "ワークロードの効率性",
@@ -328,13 +332,16 @@
     },
     "filesystemCapacity": "ファイルシステム容量",
     "filesystemAvailable": "使用可能なファイルシステム",
+    "filesystemUsage": "ファイルシステム使用量",
     "filesystemResources": "ファイルシステムのリソース",
     "memoryAvailable": "使用可能なメモリー",
     "cpuUtilization": "CPU 使用率",
     "preview": "プレビュー",
     "cpuTime": "CPU 時間",
     "memoryWorkingset": "メモリー・ワーキング・セット",
-    "memoryRss": "メモリーRSS"
+    "memoryRss": "メモリーRSS",
+    "memoryPageFaults": "メモリー・ページの障害",
+    "memoryMajorPageFaults": "メモリー主要ページの障害"
   },
   "cloudNative": {
     "unhealthyNodes": "正常でないノード",
@@ -350,10 +357,6 @@
     "switchToCardView": "カード・ビューに切り替えます",
     "switchToTableView": "テーブル・ビューに切り替えます",
     "sortingOptions": {
-      "unhealthyNodesCriticals": "正常でないノード(クリティカル)",
-      "unhealthyNodesWarnings": "正常でないノード(警告)",
-      "unhealthyDeploymentsCritical": "正常でないデプロイメント(クリティカル)",
-      "unhealthyDeploymentsWarnings": "正常でないデプロイメント(警告)",
       "sortBy": "ソート基準",
       "sortOrder": "ソート順",
       "name": "名前"

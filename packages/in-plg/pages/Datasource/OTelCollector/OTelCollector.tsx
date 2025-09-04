@@ -13,12 +13,14 @@ import { useObservable } from '@instana/hooks';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CollectorDashboardLink from 'in-infrastructure/CollectorsView/Dashboard/CollectorDashboardLink';
+import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import NoDataEmptyState from 'in-plg/components/NoDataEmptyState/NoDataEmptyState';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { datasourceOtemCollectorCatalog } from 'in-plg/navigation/paths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
+import { datasourceOtelCollectorPath } from 'in-plg/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
@@ -41,12 +43,21 @@ interface GetCollectorsProps {
 }
 
 const LOAD_CHUNK_SIZE = 10;
+const matrixPrefix = '';
+const pathSegment = datasourceOtelCollectorPath;
 
 const OTelCollector = () => {
   const timeConfig = useTimeConfig();
   const { createHrefToPath, goToPath } = useNavigation();
   const [loading, setLoading] = useState(true);
   const [retrievalSize, setRetrievalSize] = useState(LOAD_CHUNK_SIZE);
+  const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
+    pathSegment,
+    matrixPrefix,
+    defaultOrderBy: 'id',
+    defaultPageSize: 10
+  });
+  const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
   const collectorsResult = useObservable(getCollectors({ timeConfig, retrievalSize }), [timeConfig, retrievalSize]);
 
   const collectors = collectorsResult?.data?.items as unknown as Collector[];
@@ -147,10 +158,12 @@ const OTelCollector = () => {
                 totalHits: collectors?.length
               }
             }}
-            page={0}
-            pageSize={collectors?.length}
-            orderBy="id"
-            orderDirection="ASC"
+            onChange={setServerTableUrlState}
+            query={query}
+            pageSize={pageSize}
+            page={page}
+            orderBy={orderBy}
+            orderDirection={orderDirection}
           />
           {canLoadMore && (
             <div className={locals.loadMoreButton}>

@@ -7,41 +7,44 @@
 import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import { CarbonColumn, CarbonGrid, CarbonRow, CarbonStack, Link, SvgIcon } from '@instana/components';
+import { Column, Grid, Row, Stack } from '@instana/carbon';
+import { Link, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { Policy } from '@instana/types';
 
-import CreateNewPolicyTearsheet, {
-  CreateNewPolicyTearsheetProps
-} from 'in-automation/Policies/CreateNewPolicyTearsheet';
+import CreatePolicyTearsheet, {
+  CreatePolicyTearsheetProps
+} from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard/DefaultLoadingDashboard';
 import PolicyTriggerConfigurationCard from 'in-automation/PolicyDetails/PolicyTriggerConfigurationCard';
+import usePolicyForm from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/usePolicyForm';
+import PolicyFormContext from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import ActionConfigurationCard from 'in-automation/PolicyDetails/ActionConfigurationCard';
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import PolicyDetailsdHeader from 'in-automation/PolicyDetails/PolicyDetailsHeader';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
-import usePolicyForm from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
 import PolicyDetailsCard from 'in-automation/PolicyDetails/PolicyDetailsCard';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { policiesFullyQualified } from 'in-automation/navigation/paths';
 import PolicyControls from 'in-automation/PolicyDetails/PolicyControls';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import usePolicy from 'in-automation/PolicyDetails/usePolicy';
 import { hasError, isLoading } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import SectionLine from 'in-settings/components/SectionLine';
 import { pendingResult } from 'in-services/fixedObjects';
 import { eventsPath } from 'in-events/navigation/paths';
 import { ACTION_TYPE } from 'in-automation/constants';
-import Form from 'in-components/form/binding/Form';
 import { Triggers } from 'in-automation/types';
 import useUrlState from 'in-hooks/useUrlState';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';
@@ -96,11 +99,12 @@ interface PolicyViewProps {
 }
 
 function PolicyView({ policy, triggers }: PolicyViewProps) {
-  const { location } = useNavigation();
+  const [role] = useCurrentUserRole();
+  const { location, navigate } = useNavigation();
   const [{ id }] = useUrlState<{ id: string }>({
     bind: [policyDetailsUrlParameters.id]
   });
-  const [form] = usePolicyForm(policy, [], triggers);
+  const { form } = usePolicyForm('EDIT', policy, [], triggers);
   const {
     action,
     agentId,
@@ -115,7 +119,7 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
     }),
     [actionForm]
   );
-  const [tearsheetProps, setTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
+  const [tearsheetProps, setTearsheetProps] = useState<CreatePolicyTearsheetProps>({ open: false });
   const tearsheetToggleHandler = ({ policyId, copy }: { policyId?: string; copy?: boolean }) => {
     setTearsheetProps({ policyId, copy, open: true });
   };
@@ -123,11 +127,34 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
   const from = location.query.from;
   let backLable = from === eventsPath ? t('in-automation:backToEvent') : t('in-automation:backToPolicies');
 
+  const handleBack = () => {
+    delete location.query.from;
+    if (from === eventsPath) {
+      location.pathname = eventsPath;
+      const eventObj = JSON.parse(location.query.eventState as string);
+      delete location.query.eventState;
+      for (const key in eventObj) {
+        setOrDeleteMatrixKey(location, eventsPath, key, eventObj[key]);
+      }
+    } else {
+      location.pathname = policiesFullyQualified;
+    }
+    navigate(location);
+  };
+
   return (
     <ActionFormContext.Provider value={formValue}>
-      <Form form={form} setForm={() => {}} onSubmit={() => {}}>
+      <PolicyFormContext.Provider
+        value={{
+          form,
+          mode: 'EDIT',
+          setForm: () => {},
+          updateForm: () => {},
+          onChange: () => {}
+        }}
+      >
         <section className={local.content}>
-          <CarbonStack gap={5} orientation="vertical">
+          <Stack gap={5} orientation="vertical">
             <div
               className={classNames({
                 [local.controlsWrapper]: true,
@@ -136,12 +163,7 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
               })}
             >
               {from && (
-                <Link
-                  className={local.link}
-                  onClick={() => {
-                    window.history.back();
-                  }}
-                >
+                <Link className={local.link} onClick={handleBack}>
                   <SvgIcon type="lib_arrow_expand_left" className={local.icon} />
                   {backLable}
                 </Link>
@@ -151,38 +173,40 @@ function PolicyView({ policy, triggers }: PolicyViewProps) {
               )}
             </div>
 
-            <CarbonRow>
-              <CarbonGrid fullWidth condensed className={classNames(local.customMarginY, local.gridGap)}>
-                <CarbonColumn lg={8} md={4} className={classNames(local.bgWhite)}>
+            <Row>
+              <Grid fullWidth condensed className={classNames(local.customMarginY, local.gridGap)}>
+                <Column lg={8} md={4} className={classNames(local.bgWhite)}>
                   <PolicyDetailsCard data={policy} />
-                </CarbonColumn>
-                <CarbonColumn lg={8} md={4} className={classNames(local.bgWhite)}>
+                </Column>
+                <Column lg={8} md={4} className={classNames(local.bgWhite)}>
                   <PolicyTriggerConfigurationCard data={policy?.trigger} triggers={triggers} />
-                </CarbonColumn>
+                </Column>
                 {action && (
-                  <CarbonColumn lg={16} md={8}>
+                  <Column lg={16} md={8}>
                     <ActionConfigurationCard
                       data={action}
                       agentId={agentId}
                       inputParameterValues={inputParameterValues}
                     />
-                  </CarbonColumn>
+                  </Column>
                 )}
                 {![ACTION_TYPE.MANUAL, ACTION_TYPE.DOC_LINK].includes(action.type) && (
-                  <CarbonColumn lg={16} md={8}>
+                  <Column lg={16} md={8}>
                     <ActionHistoryTable policyId={id} />
-                  </CarbonColumn>
+                  </Column>
                 )}
-              </CarbonGrid>
-            </CarbonRow>
-          </CarbonStack>
+              </Grid>
+            </Row>
+          </Stack>
         </section>
-        <CreateNewPolicyTearsheet
+        <CreatePolicyTearsheet
           {...tearsheetProps}
-          closeHandler={() => setTearsheetProps({ open: false })}
           isFromDashboard
+          closeHandler={() => {
+            setTearsheetProps({ open: false });
+          }}
         />
-      </Form>
+      </PolicyFormContext.Provider>
     </ActionFormContext.Provider>
   );
 }

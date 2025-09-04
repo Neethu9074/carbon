@@ -5,38 +5,39 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/carbon';
+
 import { setLayoutingStrategy, simpleLayouting$, packedLayouting$ } from 'in-map/stores/physical/layouterStore';
 import { currentLayoutingStrategy$ } from 'in-map/stores/physical/layouterStore';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-import 'in-map/components/MapOverlayControls/components/Layouting.less';
-
-const block = 'in-controls-layouting';
-
 export default connectTo(
   {
     currentLayoutingStrategy: currentLayoutingStrategy$
   },
   function PhysicalLayouting({ currentLayoutingStrategy }) {
+    const rearrangeZonesByNameTranslation = t('in-map:rearrangeZonesByName');
+    const rearrangeZonesAsACompactStructureTranslation = t('in-map:rearrangeZonesAsACompactStructure');
+
     return (
-      <div className={block}>
+      <Stack orientation="horizontal" gap="0.1rem">
         <Control
-          className={`${block}__left`}
+          ariaLabel={rearrangeZonesByNameTranslation}
           onClick={() => setLayoutingStrategy(simpleLayouting$)}
-          tooltipText={t('in-map:rearrangeZonesByName')}
+          tooltipText={rearrangeZonesByNameTranslation}
           type="lib_menu_more_horizontal"
           isActive={simpleLayouting$ === currentLayoutingStrategy}
         />
         <Control
-          className={`${block}__right`}
+          ariaLabel={rearrangeZonesAsACompactStructureTranslation}
           onClick={() => setLayoutingStrategy(packedLayouting$)}
-          tooltipText={t('in-map:rearrangeZonesAsACompactStructure')}
+          tooltipText={rearrangeZonesAsACompactStructureTranslation}
           type="lib_views_apps"
           isActive={packedLayouting$ === currentLayoutingStrategy}
         />
-      </div>
+      </Stack>
     );
   }
 );

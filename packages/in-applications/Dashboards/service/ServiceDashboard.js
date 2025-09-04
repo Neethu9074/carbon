@@ -27,13 +27,14 @@ import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import getTabs from 'in-applications/Dashboards/service/tabs/index';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import getService from 'in-applications/subscriptions/getService';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
-import tabs from 'in-applications/Dashboards/service/tabs/index';
 import { servicesList } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -42,7 +43,6 @@ import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const urlStateDefinition = {
@@ -54,6 +54,7 @@ const urlStateDefinition = {
 };
 
 export default function ServiceDashboard({ location }) {
+  const [role] = useCurrentUserRole();
   const [{ appId, serviceId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
@@ -105,7 +106,7 @@ export default function ServiceDashboard({ location }) {
       <TabView
         HeaderComponent={Header}
         location={location}
-        tabs={tabs}
+        tabs={getTabs(role)}
         result$={getService({
           id: props.serviceId,
           filter: {

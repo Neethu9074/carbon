@@ -4,24 +4,42 @@
  * Copyright IBM Corp. 2023
  */
 
-import SapJavaCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaCentralInstance/SapJavaCentralInstanceDashboard';
-// the following components are all part of the same bundle (kubernetes)
-import SapMainView from 'promise-loader?global,sap!in-sap/SapMainView';
-import SapAbapInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapInstanceSensor/SapAbapInstanceSensorDashboard';
-import AbapCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapCentralInstance/AbapCentralInstanceDashboard';
-import SapAbapSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapSystemSensor/SapAbapSystemSensorDashboard';
-import SapJavaNetWeaverInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/SapJavaNetWeaverInstanceSensorDashboard';
-import SapJavaNetWeaverSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaNetWeaverSystemSensor/SapJavaNetWeaverSystemSensorDashboard';
-import SapWebDispatcherDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapWebDispatcher/SapWebDispatcherDashboard';
-import SapJavaInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaInstance/SapJavaInstanceDashboard';
-import SapJavaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaSystem/SapJavaSystemDashboard';
-import SapHanaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapHanaSystem/SapHanaSystemDashboard';
-import SapDbInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbInstance/SapDbInstanceDashboard';
-import AbapInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapInstance/AbapInstanceDashboard';
-import SapDbTenantDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbTenant/SapDbTenantDashboard';
-import AbapSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapSystem/AbapSystemDashboard';
-import SapDbmsDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbms/SapDbmsDashboard';
-import SapHanaDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapHana/SapHanaDashboard';
+const SapJavaCentralInstanceDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapJavaCentralInstance/SapJavaCentralInstanceDashboard');
+// the following components are all part of the same bundle (sap)
+const SapMainView = () => import(/* webpackChunkName: "sap" */ 'in-sap/SapMainView');
+const SapAbapInstanceSensorDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapAbapInstanceSensor/SapAbapInstanceSensorDashboard');
+const AbapCentralInstanceDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/AbapCentralInstance/AbapCentralInstanceDashboard');
+const SapAbapSystemSensorDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapAbapSystemSensor/SapAbapSystemSensorDashboard');
+const SapJavaNetWeaverInstanceSensorDashboard = () =>
+  import(
+    /* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapJavaNetWeaverInstanceSensor/SapJavaNetWeaverInstanceSensorDashboard'
+  );
+const SapJavaNetWeaverSystemSensorDashboard = () =>
+  import(
+    /* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapJavaNetWeaverSystemSensor/SapJavaNetWeaverSystemSensorDashboard'
+  );
+const SapWebDispatcherDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapWebDispatcher/SapWebDispatcherDashboard');
+const SapJavaInstanceDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapJavaInstance/SapJavaInstanceDashboard');
+const SapJavaSystemDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapJavaSystem/SapJavaSystemDashboard');
+const SapHanaSystemDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapHanaSystem/SapHanaSystemDashboard');
+const SapDbInstanceDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapDbInstance/SapDbInstanceDashboard');
+const AbapInstanceDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/AbapInstance/AbapInstanceDashboard');
+const SapDbTenantDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapDbTenant/SapDbTenantDashboard');
+const AbapSystemDashboard = () =>
+  import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/AbapSystem/AbapSystemDashboard');
+const SapDbmsDashboard = () => import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapDbms/SapDbmsDashboard');
+const SapHanaDashboard = () => import(/* webpackChunkName: "sap" */ 'in-sap/Dashboards/SapHana/SapHanaDashboard');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

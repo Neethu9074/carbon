@@ -7,7 +7,7 @@ import React, { forwardRef } from 'react';
 
 import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import { getLogLevelAndColor } from 'in-logging/components/TraceDetails/utils';
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 import locals from './LogIndicator.mless';
 
@@ -17,6 +17,7 @@ export default forwardRef(function LogIndicator(props, ref) {
 
 const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
   const { onCallClicked } = props;
+  const [role] = useCurrentUserRole();
   const { setSelectedLog } = useLogsInCallsContext();
 
   return (

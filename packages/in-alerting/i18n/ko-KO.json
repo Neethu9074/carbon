@@ -25,6 +25,7 @@
     "alertPropertyInfosLabelTriggersIncident": "인시던트 트리거",
     "alertPropertyInfosLabelDescription": "설명",
     "noChannelSelectedText": "추가된 채널이 없습니다. 시작하려면 '경보 채널 선택'을 클릭하세요.",
+    "noChannelSelectedDetailPage": "아직 경보 알림을 받을 채널이 추가되지 않았습니다.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "추가 필터",
     "groupBy": "그룹별",
     "noChannelAvailable": "사용 가능한 경보 채널 없음",
@@ -158,7 +159,6 @@
     "descriptionUnsupportedOperator": "지원되지 않는 연산자: {{operator}}"
   },
   "smartAlerts": {
-    "addSmartAlert": "스마트 경보 추가",
     "createSmartAlert": "스마트 경보 작성",
     "applicationSmartAlert": "애플리케이션 스마트 경보",
     "globalApplicationSmartAlert": "글로벌 애플리케이션 스마트 경보",
@@ -517,8 +517,6 @@
         "noData": "스마트 경보가 구성되어 있지 않습니다. 아래 단추를 클릭하여 첫 번째 스마트 경보를 구성하십시오.",
         "noPersmissionToCreateGlobalSmartAlert": "스마트 경보를 구성할 권한이 없습니다. 관리자에게 문의하십시오.",
         "noPermissionGlobalSmartAlertEdit": "이 조치를 수행할 수 있는 권한이 없음",
-        "labelGlobalSmartAlertsList": "글로벌 애플리케이션 스마트 경보({{numberOfAlerts}}개)",
-        "labelSmartAlertsList": "애플리케이션 스마트 경보({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "글로벌 애플리케이션 스마트 경보",
         "labelSmartAlertsTable": "애플리케이션 스마트 경보",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -644,7 +642,7 @@
         },
         "timeThreshold": {
           "title": "위반이 경보를 트리거할 때 설정",
-          "description": "경보 및 지속성 유형을 지정한 후 경보 트리거를 설정하십시오."
+          "description": "정확도를 높이려면 경보 기준을 세분화하십시오."
         },
         "staticOrAdaptive": {
           "config": {
@@ -700,7 +698,10 @@
         "configuredAlerts": "구성된 경보 ({{numberOfAlerts}})"
       },
       "columns": {
-        "name": "이름"
+        "name": "이름",
+        "severity": "심각도(Severity)",
+        "status": "상태",
+        "action": "조치"
       }
     },
     "form": {
@@ -790,7 +791,8 @@
       "ruleStatusCodeValueOptionNone": "상태 없음 (클라이언트 중단/실패)",
       "warningThresholdValidator": "경고 임계값은 < 및 <= 연산자의 위험 임계값보다 커야 합니다.",
       "criticalThresholdValidator": "위험 임계값은 > 및 >= 연산자의 경고 임계값보다 커야 합니다.",
-      "sensitivityValidator": "위험 민감도는 경고 민감도보다 작아야 합니다."
+      "sensitivityValidator": "위험 민감도는 경고 민감도보다 작아야 합니다.",
+      "baselineEmpty": "기준선이 비어 있음"
     },
     "components": {
       "smartAlertDialog": {
@@ -1020,17 +1022,24 @@
           "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "위반이 지속적으로 발생함",
           "timeThresholdConfigTimeThresholdLabelTraceImpact": "최소 추적 수가 영향을 받는 경우",
           "labelUserImpactOfViolationsInSequence": "특정 수의 사용자가 영향을 받을 때",
+          "violationsInSequenceLabel": "연속된 시간 버킷에 걸쳐 위반이 발생하는 경우",
+          "violationsInPeriodLabel": "여러 시간 버킷에 걸쳐 여러 개의 위반이 발생하는 경우",
           "granularity": {
             "description": "호출은 {{granularity}}분 단위로 이루어집니다. {{granularity}}분마다 해당 창에 대한 메트릭 값이 계산됩니다."
           },
           "triggerAlert": "트리거 경보",
           "triggerAfter": "트리거 후",
           "tracesImpacted": "추적이 영향을 받음",
+          "numberOfTracesImpacted": "영향을 받은 추적 수",
           "numberOfUserImpactPostLabel": "또는 그 이상의 사용자가 영향을 받을 때",
           "percentageOfUserImpactPostLabel": "또는 그 이상의 % 사용자가 영향을 받을 때",
           "outOfConsecutiveEvaluations": "중",
+          "violationAcross": "횡단",
+          "violationsOccurrenceLabel": "위반 발생",
           "persistenceType": "지속 유형",
           "numberOfConsecutiveViolationsPostLabel": "연속된 {{granularity}}분 창에 위반 사항이 있음",
+          "bucketsOfTime": "{{granularity}}-분 단위 시간 버킷",
+          "numberOfConsecutiveViolationsLabel": "위반이 있는 연속 {{granularity}}-분 단위 시간 버킷",
           "static": "정적",
           "thresholdValue": "임계값"
         }
@@ -1237,7 +1246,6 @@
     "enable": "사용",
     "disable": "사용 안함",
     "synthetics": {
-      "addSmartAlert": "합성 SMART 경보 추가",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "{{count}}개 추가 필터",
@@ -1253,9 +1261,6 @@
         }
       },
       "alertList": {
-        "timeThreshold": "시간 임계값",
-        "filterApplied": "필터 적용됨",
-        "violationsCount": "{{violationsCount}} 실패",
         "numberOfFailures": "실패 경보",
         "noDataHeader": "합성 스마트 경보 없음",
         "noDataDescription": "시작하려면 <strong>스마트 경보 작성</strong>을 클릭하십시오."
@@ -1315,7 +1320,9 @@
         "alertTestEntityName": "합성 테스트 {{entityName}}",
         "testAttachedCount": "첨부된 ({{count}})개 테스트",
         "testAttached": "첨부된 테스트",
-        "noTestAvailable": "사용 가능한 합성 테스트 없음"
+        "noTestAvailable": "사용 가능한 합성 테스트 없음",
+        "noTestSelected": "선택된 합성 테스트 없음",
+        "noTestSelectedMessage": "시작하려면 합성 테스트 추가를 클릭하십시오."
       },
       "details": {
         "threshold": "임계값",
@@ -1424,7 +1431,6 @@
         "filter_0": "필터",
         "filter_1": "필터",
         "filter_2": "필터",
-        "filterApplied": "필터 적용됨",
         "noDataHeader": "모바일 앱 스마트 경보 없음",
         "noDataDescription": "시작하려면 <strong>스마트 경보 작성</strong>을 클릭하십시오."
       },
@@ -1619,7 +1625,8 @@
             "subtitle": {
               "staticThresholdType": "정적 임계값",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "forecastAlerting": "예측 알림"
+              "forecastAlerting": "예측 알림",
+              "adaptiveThreshold": "적응형 임계값, {{metricName}}"
             }
           }
         },
@@ -1715,6 +1722,11 @@
           "header": "이 경보에 대한 알림을 어디에서 받으시겠습니까?",
           "description": "이 경보를 받을 수신자 선택"
         },
+        "scopeEntity": {
+          "entityType": "엔티티 유형",
+          "pleaseSelect": "엔티티 선택",
+          "loadingEntities": "엔티티 로드 중..."
+        },
         "scopeFilter": {
           "title": "인프라 범위 선택",
           "filter": "필터",
@@ -1746,10 +1758,10 @@
         }
       },
       "placeholderTitle": "{{metricName}}에서 문제가 감지됨",
-      "descriptionIsHigherThan": "{{metricName}}이(가) {{value}}보다 높습니다.",
+      "descriptionIsHigherThan": "{{metricName}}이(가) {{value}}보다 큽니다.",
       "descriptionIsHigherOrEqualTo": "{{metricName}}이(가) {{value}}보다 크거나 같습니다.",
-      "descriptionIsLowerThan": "{{metricName}}이(가) {{value}}보다 낮습니다.",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}}이(가) {{value}}보다 낮거나 같습니다.",
+      "descriptionIsLowerThan": "{{metricName}}이(가) {{value}}보다 작습니다.",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}}이(가) {{value}}보다 작거나 같습니다.",
       "evaluationType": {
         "title": "경보 방법 선택",
         "custom": {
@@ -2004,7 +2016,6 @@
         "shortWindowThreshold_BURN_RATE_V2": "{{metric}} 임계값 (긴) {{operator}} {{value}} 및 (짧은) < 1",
         "threshold_BURNED_PERCENTAGE": "{{metric}}, 임계값 {{operator}} {{value}}",
         "threshold_STATUS": "{{metric}}, 임계값 {{operator}} {{value}}",
-        "alertListSloAppliedColumnName": "적용된 SLO",
         "sloApplied": "적용된 SLO",
         "sloCount": "{{count}}개의 SLO",
         "sloCount_plural": "{{count}}개의 SLO",

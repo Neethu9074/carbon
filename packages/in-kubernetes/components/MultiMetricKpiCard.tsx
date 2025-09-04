@@ -14,7 +14,7 @@ import { ResultPrecision } from '@instana/types';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import useResizeObserver from 'in-hooks/useResizeObserver';
+import { useIsTextTruncated } from 'in-hooks/useIsTextTruncated';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -73,7 +73,7 @@ export default function MultiMetricKpiCard({
   iconAction,
   resultPrecision
 }: MultiMetricKpiCardProps) {
-  const { ref, width } = useResizeObserver<HTMLDivElement>();
+  const { containerRef, containerWidth, contentRef, isTruncated } = useIsTextTruncated();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
 
   let resource;
@@ -164,14 +164,17 @@ export default function MultiMetricKpiCard({
     >
       <div
         className={classNames({
-          [locals.title]: true,
           [locals.header]: true,
           [locals.centerTitle]: centerLabels
         })}
-        ref={ref}
+        ref={containerRef}
       >
-        <Tooltip content={title} align="bottomLeft">
-          <span className={locals.titleText}>{title}</span>
+        <Tooltip content={isTruncated ? title : undefined} align="bottomLeft" overflowEllipsis>
+          <div className={locals.titleContainer}>
+            <span className={locals.titleText} ref={contentRef}>
+              {title}
+            </span>
+          </div>
         </Tooltip>
         <div className={locals.flexTooltip}>
           {hasApproximateData && (
@@ -182,7 +185,7 @@ export default function MultiMetricKpiCard({
           <div
             className={classNames({
               [locals.actionWrapper]: true,
-              [locals.showLongVariantOnHover]: width != null && width > 300
+              [locals.showLongVariantOnHoevr]: containerWidth != null && containerWidth > 300
             })}
           >
             <Tooltip content={iconAction.text}>

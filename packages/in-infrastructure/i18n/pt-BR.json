@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "Tabela de comparação",
     "agents": "Agentes",
+    "dataSources": "Origens de dados",
     "map": "Mapa",
     "infrastructure": "Infraestrutura",
     "snapshotVersions": "Versões de captura instantânea",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "Esta consulta tem muitos resultados. Restrinja sua procura usando um filtro mais restritivo ou limite seu intervalo de tempo e tente novamente.",
       "generalError": "Ocorreu um erro inesperado."
     },
+    "warningTitle": "Limite de exportação excedido",
+    "warning": "A exportação de {{count}} registros excede o limite máximo. Somente as primeiras {{max}} entradas serão incluídas e o processo poderá levar mais tempo do que o normal para ser concluído.",
     "entityTypes": "Tipos de entidade {{count, parenthesis}}",
     "relatedInstances": "Analisar instâncias"
   },
@@ -150,5 +153,43 @@
     "label": "Limite",
     "critical": "Crítico quando {{operator}} {{level}}",
     "warning": "Aviso quando {{operator}} {{level}}"
+  },
+  "customEntities": {
+    "labelDashboard": "Painéis",
+    "saveChanges": "Salvar mudanças",
+    "discardChanges": "Descartar mudanças",
+    "addWidget": "Incluir widget",
+    "defaultDashboard": "Painel padrão",
+    "dashboardsInfoWidgetDescription": "Inclua widgets e selecione métricas para exibir no painel para o tipo de entidade customizada. \n\n Todas as instâncias que correspondem a esse tipo de entidade customizada serão exibidas no mesmo painel.",
+    "dashboardsInfoWidgetTitle": "Este é o seu painel de entidade customizada, que você pode configurar por conta própria",
+    "failSaveDashboard": "Falha ao salvar o painel.",
+    "successfulSaveDashboard": "Painel de entidade atualizado.",
+    "editDashboard": "Editar painéis para "
+  },
+  "collectorView": {
+    "otelCollector": "Coletor OpenTelemetry",
+    "restartCollector": "Reiniciar o coletor",
+    "editConfiguration": "Editar a configuração",
+    "collectorConfig": "Configuração do coletor",
+    "cpuTime": "Tempo de CPU",
+    "collectorUptime": "Tempo de atividade do coletor",
+    "memoryUsage": "Uso da memória",
+    "metricPointsAccepted": "Pontos métricos aceitos",
+    "logRecordsAccepted": "Registros de log aceitos",
+    "metricPointsExported": "Pontos métricos exportados",
+    "logRecordsExported": "Pontos de log exportados",
+    "receiverMetrics": "Métricas do destinatário",
+    "exporterMetrics": "Métricas do exportador",
+    "collectorRestartingTitle": "Reinício do coletor",
+    "collectorRestarting": "Reinício do coletor iniciado com sucesso.",
+    "collectorError": "Erro do coletor",
+    "configUpdateSuccessTitle": "Atualização da configuração bem-sucedida",
+    "configUpdateSuccess": "A configuração do coletor foi atualizada com sucesso.",
+    "update": "Atualizar",
+    "cancel": "Cancelar",
+    "configuration": "Configuração",
+    "exporter": "Exportador",
+    "processor": "Processador",
+    "receiver": "Receptor"
   }
 }

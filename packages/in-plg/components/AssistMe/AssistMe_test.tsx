@@ -12,7 +12,14 @@ import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 describe('AssistMe Component', () => {
   test('renders correctly', () => {
     render(<AssistMe />);
-    const getAnswersLabel = screen.getByText('Get answers', { selector: 'button' });
-    expect(getAnswersLabel).toBeInTheDocument();
+    const assistMeButton = screen.getByRole('button');
+    expect(assistMeButton).toBeInTheDocument();
+    expect(assistMeButton).toHaveAttribute('id', 'wm-getanswers');
+  });
+
+  test('has tooltip with correct content', () => {
+    render(<AssistMe />);
+    const tooltipContent = screen.getByText('Guided answers here');
+    expect(tooltipContent).toBeInTheDocument();
   });
 });

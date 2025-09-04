@@ -10,11 +10,13 @@ import { MenuItem } from '@instana/components';
 
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { hasApplicationsAccess } from 'in-stores/permission';
+import { applicationsAccessPermissions } from 'in-stores/permission';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export default function ApplicationsMenuItem() {
   const { matchLocation, createHrefToPath } = useNavigation();
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
 
   if (!hasApplicationsAccess) return null;
 

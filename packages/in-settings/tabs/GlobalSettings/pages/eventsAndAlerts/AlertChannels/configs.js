@@ -19,22 +19,18 @@ import zChatOpsChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsA
 import webhookChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/webhookChannelConfig';
 import slackBDChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackBDChannelConfig';
 import splunkChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
-import {
-  msTeamsAppEnabled,
-  bidirectionalSlackEnabled,
-  onlyFedRampAllowedAlertChannelsEnabled
-} from 'in-services/featureFlags';
 import slackChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
+import { onlyFedRampAllowedAlertChannelsEnabled } from 'in-services/featureFlags';
 
 export const configs = {
   email: emailChannelConfig,
   slack: slackChannelConfig,
-  ...(bidirectionalSlackEnabled && { slackBD: slackBDChannelConfig }),
+  slackBD: slackBDChannelConfig,
   opsgenie: opsgenieChannelConfig,
   pagerduty: PagerdutyChannelConfig,
   office365: office365ChannelConfig,
-  ...(msTeamsAppEnabled && { msTeams: msTeamsAppChannelConfig }),
+  msTeams: msTeamsAppChannelConfig,
   serviceNowWebhook: serviceNowChannelConfig,
   serviceNowBD: serviceNowBDChannelConfig,
   webhook: webhookChannelConfig,
@@ -65,7 +61,7 @@ export const fullyQualified = {
   [configs.opsgenie.name]: configs.opsgenie,
   [configs.pagerduty.name]: configs.pagerduty,
   [configs.slack.name]: configs.slack,
-  ...(bidirectionalSlackEnabled && { [configs.slackBD.name]: slackBDChannelConfig }),
+  [configs.slackBD.name]: configs.slackBD,
   [configs.serviceNowWebhook.name]: configs.serviceNowWebhook,
   [configs.serviceNowBD.name]: configs.serviceNowBD,
   [configs.webhook.name]: configs.webhook,
@@ -77,7 +73,7 @@ export const fullyQualified = {
   [configs.watsonAIOpsWebhook.name]: configs.watsonAIOpsWebhook,
   [configs.zChatOps.name]: configs.zChatOps,
   [configs.salesforceChannelConfig.name]: configs.salesforceChannelConfig,
-  ...(msTeamsAppEnabled && { [configs.msTeams.name]: configs.msTeams })
+  [configs.msTeams.name]: configs.msTeams
 };
 
 export default configs;

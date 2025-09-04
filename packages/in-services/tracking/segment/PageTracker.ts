@@ -30,7 +30,7 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
     }
 
     const url = window.location.href;
-    const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType } = config;
+    const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType, cmrDetails } = config;
     if (!tenantUnitId) {
       return;
     }
@@ -63,7 +63,10 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
       altUserId: userId,
       platformTitle: productPlatformTitle,
       roles: [userSelfDefinedRole],
-      'user.bluemixId': userId
+      'user.bluemixId': userId,
+      accountId: cmrDetails?.trackingAccountId,
+      accountIdType: cmrDetails?.trackingAccountIdType,
+      environment: cmrDetails?.environmentId
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productArea, pageRootName, location.pathname]);

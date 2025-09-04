@@ -24,7 +24,7 @@ interface Props {
 export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, scopeLabel, gracePeriod }: Props) => {
   return (
     <Stack gap="large">
-      <Stack direction="horizontal" distribution="stretch">
+      <Stack direction="horizontal" distribution="spaceBetween">
         <KeyValue
           label={t('in-alerting:smartAlerts.synthetics.details.alertingType')}
           value={thresholdTypeLabel}

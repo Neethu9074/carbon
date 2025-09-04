@@ -31,6 +31,7 @@ import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { base64ToUtf8 } from 'in-automation/utils/actionField';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { formatDateTime } from 'in-services/formatters/date';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
@@ -38,7 +39,6 @@ import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Code from 'in-components/Code';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ActionInstanceDetail.mless';
@@ -52,6 +52,7 @@ export default function DetailTab({
   properties: ActionInstance;
   inActionLane?: boolean;
 }) {
+  const [role] = useCurrentUserRole();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { createHref, location, createHrefToPath } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
@@ -141,8 +142,8 @@ export default function DetailTab({
       showCondition:
         !isEmpty(actorName) &&
         actorType !== 'ACTOR_UNKNOWN' &&
-        ((actorType === 'USER' && role?.canConfigureUsers) ||
-          (actorType === 'APITOKEN' && role?.canConfigureApiTokens) ||
+        ((actorType === 'USER' && role.canConfigureUsers) ||
+          (actorType === 'APITOKEN' && role.canConfigureApiTokens) ||
           actorType === 'POLICY'),
       stringLink: actorType === 'POLICY' ? getPolicyView(actorId ?? '') : getActorLink(actorType, actorId)
     },

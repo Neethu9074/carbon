@@ -52,20 +52,11 @@ export default function Actions({
       ? t('in-components:vulnerabilities.openIssuesListPresenterActionsViewIssues', {
           eventTypeLabel
         })
-      : t('in-components:health.openIssuesListPresenterActionsViewIssues', {
-          eventTypeLabel
-        });
+      : t('in-components:health.viewOpenIssues');
 
     return (
       <div className={locals.actions}>
-        <Button
-          /* @ts-expect-error this will be fixed in the carbon migration in the follow-up */
-          size="compact"
-          kind="secondary"
-          className={locals.carbonButton}
-          href={analyzeLink}
-          onClick={handleClick}
-        >
+        <Button size="lg" kind="ghost" href={analyzeLink} onClick={handleClick} className={locals.viewButton}>
           {buttonText}
         </Button>
       </div>
@@ -78,26 +69,12 @@ export default function Actions({
   }
 
   const buttonText = isCVEIssue
-    ? t('in-components:vulnerabilities.openIssuesListPresenterActionsViewNumbersOfIssue', {
-        openIssueCount: openIssues.length,
-        eventTypeLabel
-      })
-    : t('in-components:health.openIssuesListPresenterActionsViewNumbersOfIssue', {
-        openIssueCount: openIssues.length,
-        eventTypeLabel
-      });
+    ? t('in-components:vulnerabilities.viewOpenIssues')
+    : t('in-components:health.viewOpenIssues');
 
   return (
     <div className={locals.actions}>
-      <Button
-        kind="secondary"
-        /* @ts-expect-error this will be fixed in the carbon migration in the follow-up */
-        size="compact"
-        className={locals.carbonButton}
-        asBlock
-        href={href}
-        onClick={handleClick}
-      >
+      <Button kind="ghost" size="lg" href={href} onClick={handleClick} className={locals.viewButton}>
         {buttonText}
       </Button>
     </div>

@@ -152,4 +152,7 @@ export type Triggers = {
   logSmartAlert: Result<LogSmartAlertConfigWithMetadata[]>;
   syntheticsSmartAlert: Result<SyntheticAlertConfigWithMetadata[]>;
   sloSmartAlert: Result<ServiceLevelsAlertConfigWithMetadata[]>;
+  schedule?: Result<TriggerSpecification[]>;
 };
+
+export type PolicyDialogMode = 'NEW' | 'CLONE' | 'EDIT';

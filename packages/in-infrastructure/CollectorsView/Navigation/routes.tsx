@@ -4,10 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error
-import CollectorDashboard from 'promise-loader?global,infrastructure!in-infrastructure/CollectorsView/Dashboard/CollectorDashboard';
-// @ts-expect-error
-import CollectorView from 'promise-loader?global,infrastructure!in-infrastructure/CollectorsView/CollectorView';
+const CollectorDashboard = () =>
+  import(/* webpackChunkName: "infrastructure" */ 'in-infrastructure/CollectorsView/Dashboard/CollectorDashboard');
 import { Route } from 'react-router';
 import React from 'react';
 

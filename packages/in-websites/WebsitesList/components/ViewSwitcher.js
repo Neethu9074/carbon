@@ -6,16 +6,20 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
+
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
-import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import { websitesAccessPermissions, mobileAppsAccessPermissions } from 'in-stores/permission';
 import { mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileAppsViewSwitcher({ isWebsites }) {
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
   const hasAccessToBothAreas = hasWebsitesAccess && hasMobileAppsAccess;
 
   let header;

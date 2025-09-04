@@ -29,6 +29,7 @@ export interface DashboardTableProps {
   buttonName?: string;
   toggles?: ReactNode;
   searchPlaceHolder?: string;
+  query?: string;
   toggleCallback?: (e: number) => void;
 }
 export interface TableTabProps extends Pick<LinkProps, 'onClick'> {

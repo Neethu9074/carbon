@@ -8,12 +8,11 @@ import React from 'react';
 
 import PotentialProblemsLane from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLane';
 import getApplicationAlertClusters from 'in-applications/subscriptions/getApplicationAlertClusters';
+import ActionsLaneWithAccess from 'in-automation/components/MarkersLane/ActionsLaneWithAccess';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 import AlertsLane from 'in-components/Chart/markerLanes/AlertsLane/AlertsLane';
-import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
 import { potentialProblemsEnabled } from 'in-services/featureFlags';
-import { hasAutomationAccess } from 'in-stores/permission';
 
 export default function ApplicationDashboardsMarkerLanes({
   applicationId,
@@ -36,16 +35,14 @@ export default function ApplicationDashboardsMarkerLanes({
             serviceId
           }}
         />
-        {hasAutomationAccess && (
-          <ActionsLane
-            applicationId={applicationId}
-            {...lanesProps}
-            {...remainingProps}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            boundaryScope={boundaryScope}
-          />
-        )}
+        <ActionsLaneWithAccess
+          applicationId={applicationId}
+          {...lanesProps}
+          {...remainingProps}
+          serviceId={serviceId}
+          endpointId={endpointId}
+          boundaryScope={boundaryScope}
+        />
         {showPotentialProblemsLane && potentialProblemsEnabled && (
           <PotentialProblemsLane
             {...remainingProps}

@@ -25,13 +25,7 @@ describe('Synthetic New Run now test Dialog', () => {
     };
   });
   it('Renders the run now dialog title correctly', () => {
-    render(
-      <CreateSyntheticOnDemandTestDialog
-        testId="obN1wYkqefH9ZVslLG0L"
-        testLocations={['locations']}
-        testType="HTTPAction"
-      />
-    );
+    render(<CreateSyntheticOnDemandTestDialog testId="obN1wYkqefH9ZVslLG0L" testLocations={['locations']} />);
     expect(screen.getByText(t('in-synthetics:dialog.createOnDemandTest.runnowTitle'))).toBeInTheDocument();
     expect(
       screen.getByRole('button', {

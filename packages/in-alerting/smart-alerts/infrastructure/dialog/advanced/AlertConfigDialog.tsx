@@ -7,8 +7,7 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { InfraAlertRuleUnion, InfraAlertConfig, VersionedConfig } from '@instana/types';
-import { RuleWithThreshold } from '@instana/types/typeDefinitions';
+import { InfraAlertConfig, VersionedConfig } from '@instana/types';
 
 import {
   useFormattedThresholdValue,
@@ -19,13 +18,14 @@ import {
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/infrastructure/dialog/AlertConfigDialogWithThreshold';
+import SelectedMetricGroupProvider from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
+import { getRuleWithThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
@@ -47,7 +47,7 @@ export default function AlertConfigDialog({
   startWithSimpleMode
 }: AlertConfigDialogType) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(populateRulesInConfig(alertConfig), editMode));
   const updateForm = useInfraSmartAlertFormSideEffects(form, setForm);
   const duplicateFrom = alertConfig?.duplicateFrom;
 
@@ -58,53 +58,55 @@ export default function AlertConfigDialog({
 
   const { trackCta } = useSegmentTracking();
 
-  const { aggregation, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat, entityType, metric } =
+  const { aggregation, warningThreshold, criticalThreshold, thresholdOperator, metricFormat, entityType, metric } =
     getTitlePlaceholderData(form);
 
   const metricLabel = useGetAlertTitle(entityType, metric, aggregation);
   const alertTitle = generateTitle(metricLabel);
   const alertDescription = useFormattedThresholdValue(
     metricLabel,
-    thresholdOperatorValue(warningThreshold, criticalThreshold),
+    thresholdOperator,
     metricFormat,
     warningThreshold,
     criticalThreshold
   );
 
   return (
-    <AlertConfigDialogWithThreshold
-      updateForm={updateForm}
-      form={form}
-      onChange={createOnChange(updateForm, form)}
-      onChartViewConfigChange={setSelectedChartViewConfigIndex}
-      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-      timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
-      onCreate={() => {
-        createOrSaveAlert({
-          form,
-          setForm,
-          getLinkToAlertConfig,
-          onClose,
-          editMode,
-          setIsSaving,
-          setMessages,
-          toAlertConfig,
-          isSimpleMode,
-          trackCta,
-          duplicateFrom,
-          placeHolderText: { alertTitle, alertDescription }
-        });
-      }}
-      onClose={() => {
-        // canceled and dialog closed
-        onClose();
-      }}
-      editMode={editMode}
-      startWithSimpleMode={startWithSimpleMode}
-      isSaving={isSaving}
-      messages={messages}
-      setIsSimpleMode={setIsSimpleMode}
-    />
+    <SelectedMetricGroupProvider>
+      <AlertConfigDialogWithThreshold
+        updateForm={updateForm}
+        form={form}
+        onChange={createOnChange(updateForm, form)}
+        onChartViewConfigChange={setSelectedChartViewConfigIndex}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
+        onCreate={() => {
+          createOrSaveAlert({
+            form,
+            setForm,
+            getLinkToAlertConfig,
+            onClose,
+            editMode,
+            setIsSaving,
+            setMessages,
+            toAlertConfig,
+            isSimpleMode,
+            trackCta,
+            duplicateFrom,
+            placeHolderText: { alertTitle, alertDescription }
+          });
+        }}
+        onClose={() => {
+          // canceled and dialog closed
+          onClose();
+        }}
+        editMode={editMode}
+        startWithSimpleMode={startWithSimpleMode}
+        isSaving={isSaving}
+        messages={messages}
+        setIsSimpleMode={setIsSimpleMode}
+      />
+    </SelectedMetricGroupProvider>
   );
 }
 
@@ -113,24 +115,6 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
     // @ts-expect-error ts can't determine nested fields of MapForm<any>
     setForm(externalForm.updateIn(path, updater));
   };
-}
-
-function getRuleWithThreshold(form: MapForm<any>) {
-  const warningThresholdField = form.get('threshold').get('warningThreshold');
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
-  const warningThreshold = !isEmpty(warningThresholdField.get('value').value)
-    ? { WARNING: warningThresholdField.toJS() }
-    : {};
-  const criticalThreshold = !isEmpty(criticalThresholdField.get('value').value)
-    ? { CRITICAL: criticalThresholdField.toJS() }
-    : {};
-  const ruleWithThreshold: RuleWithThreshold<InfraAlertRuleUnion> = {
-    rule: form.get('rule').toJS(),
-    thresholdOperator: form.get('threshold').get('operator').value,
-    thresholds: { ...warningThreshold, ...criticalThreshold }
-  };
-
-  return ruleWithThreshold;
 }
 
 function toAlertConfig(
@@ -145,8 +129,7 @@ function toAlertConfig(
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: alertChannelPerSeverityInfraSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
-    alertChannels: alertChannelPerSeverityInfraSaEnabled ? form.get(fieldNames.alertChannels).value : null,
+    alertChannels: form.get(fieldNames.alertChannels).value,
     description: form.get(fieldNames.description).value || (alertDescription?.WARNING ?? alertDescription?.CRITICAL),
     name: form.get(fieldNames.name).value || alertTitle,
     triggering: form.get(fieldNames.triggering).value,

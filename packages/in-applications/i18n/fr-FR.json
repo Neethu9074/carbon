@@ -304,6 +304,8 @@
     "none": "Aucun",
     "dataSource_calls": "{{formattedCount}} appel",
     "dataSource_calls_plural": "{{formattedCount}} appels",
+    "dataSource_subtraces": "{{formattedCount}} sous-trace",
+    "dataSource_subtraces_plural": "{{formattedCount}} sous-traces",
     "dataSource_traces": "{{formattedCount}} trace",
     "dataSource_traces_plural": "{{formattedCount}} traces",
     "analyzeCallsOfThisTrace": "Analyser les appels de cette trace",
@@ -726,7 +728,7 @@
     "traces_erroneousCalls": "Traces erronées",
     "traces_errors": "Taux de traces erronées",
     "subtraces_latency": "Durée",
-    "subtraces_subtraceDuration": "Durée"
+    "subtraces_duration": "Durée"
   },
   "viewLists": {
     "application": "Applications",
@@ -791,6 +793,6 @@
   "labelSyntheticMonitoring": "Surveillance synthétique",
   "labelServiceLevels": "Niveaux de Service",
   "labelResourceOptimizations": "Optimisations",
-  "titleResourceOverutilization": "Ressources surutilisées (plus de {{thresholdUpperLimit}} % d'utilisation de l'UC)",
-  "titleResourceUnderutilization": "Ressources sous-utilisées (plus de {{thresholdLowerLimit}} % d'utilisation de l'UC)"
+  "titleResourceOverutilization": "Ressources surutilisées (plus de {{thresholdUpperLimit}} d'utilisation de l'UC)",
+  "titleResourceUnderutilization": "Ressources sous-utilisées (moins de {{thresholdLowerLimit}} d'utilisation de l'UC)"
 }

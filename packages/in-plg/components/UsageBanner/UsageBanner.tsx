@@ -4,37 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-expect-error
-import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 import { useHistory } from 'react-router';
 import React, { useEffect } from 'react';
 
-import { Link, SvgIcon, Stack, CarbonButton, Tooltip } from '@instana/components';
+import { Link, SvgIcon, Stack, CarbonButton } from '@instana/components';
 import { Observable, create, just } from '@instana/observables';
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
-import {
-  assistmeEnabled,
-  isControlledEnvEnabled,
-  onPremLicenseInformationEnabled,
-  playWithReleaseEnabled,
-  playwithEnabled,
-  tealiumPrivacyEnabled,
-  walkmeToolEnabled
-} from 'in-services/featureFlags';
-//@ts-expect-error missing typescript migration
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesOfEnvironmentAsResultObservable } from 'in-amp/api/account';
-import {
-  isAssistMeScriptLoaded,
-  termsAndPrivacySettingsStore$
-} from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
 import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
-import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { BuyNowDialog } from 'in-plg/components/BuyNowDialog/BuyNowDialog';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -42,13 +26,11 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import useAuthOverview from 'in-settings/hooks/useAuthOverview';
-import AssistMe from 'in-plg/components/AssistMe/AssistMe';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pendingResult } from 'in-services/fixedObjects';
-import { generateStableHash } from '@instana/utils';
 import { isLoading } from 'in-services/util/result';
-import { role, user } from 'in-stores/user';
 import http from 'in-services/http/http';
+import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './UsageBanner.mless';
@@ -58,6 +40,7 @@ interface UsageBannerProps {
 }
 
 export function UsageBanner({ message }: UsageBannerProps) {
+  const [role] = useCurrentUserRole();
   const location = useLocation();
   const history = useHistory();
   const { createHref } = useNavigation();
@@ -84,17 +67,6 @@ export function UsageBanner({ message }: UsageBannerProps) {
     isRemainingDaysLimited &&
     isPaidLicenseUsage &&
     noQueuedLicense;
-  const termsAndPrivacySettingsStore = useObservable(termsAndPrivacySettingsStore$, []);
-
-  const invitePermissions = role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled);
-  const [authOverview] = useAuthOverview({ preventRequest: !invitePermissions });
-  const permissionToShowInvite = invitePermissions && authOverview?.defaultLogin;
-  const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  const isWalkMeEnabled = tealiumPrivacyEnabled
-    ? walkmeToolEnabled
-    : termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
-  // The AssistMe feature will be enabled if The environment is not controlled, assistmeEnabled flag is true, walkme is loaded and the AssistMe script is loaded.
-  const showGetAnswers = !isControlledEnvEnabled && isWalkMeEnabled && assistmeEnabled && isAssistMeScriptLoaded;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';
@@ -121,45 +93,23 @@ export function UsageBanner({ message }: UsageBannerProps) {
           <IconForRemainingDays remainingDays={remainingDays} />
         </>
       )}
-      {onPremLicenseInformationEnabled && (
-        <>
-          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')} themeStyle="light">
-            <CarbonButton
-              id="shareButton"
-              kind="ghost"
-              target="_blank"
-              onClick={() =>
-                addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
-              }
-              renderIcon={() => <IconForButton icon="lib_actions_share" iconSize="s" />}
-            >
-              {t('in-plg:licenseBanner.share')}
-            </CarbonButton>
-          </Tooltip>
-          {showGetAnswers && (
-            <>
-              <div className={locals.verticalLine} /> <AssistMe />
-            </>
-          )}
-          <div className={locals.verticalLine} />
-          <div className={locals.subText}>
-            <Trans
-              i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
-              components={{
-                linkToDocker: (
-                  //@ts-expect-error missing translation
-                  <Link className={locals.bannerLink} external href="https://ibm.biz/license-ops" />
-                ),
-                linkToKubernetes: (
-                  //@ts-expect-error missing translation
-                  <Link className={locals.bannerLink} external href="https://ibm.biz/license-sales-key-renewal" />
-                )
-              }}
-            />
-          </div>
-        </>
-      )}
-      {!onPremLicenseInformationEnabled && (
+      {onPremLicenseInformationEnabled ? (
+        <div className={locals.subText}>
+          <Trans
+            i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
+            components={{
+              linkToDocker: (
+                //@ts-expect-error missing translation
+                <Link className={locals.bannerLink} external href="https://ibm.biz/license-ops" />
+              ),
+              linkToKubernetes: (
+                //@ts-expect-error missing translation
+                <Link className={locals.bannerLink} external href="https://ibm.biz/license-sales-key-renewal" />
+              )
+            }}
+          />
+        </div>
+      ) : (
         <>
           {(isTrial || needToShowReminder) && (
             <CarbonButton
@@ -179,25 +129,6 @@ export function UsageBanner({ message }: UsageBannerProps) {
             >
               {t('in-plg:licenseBanner.buyNow')}
             </CarbonButton>
-          )}
-          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')} themeStyle="light">
-            <CarbonButton
-              id="shareButton"
-              kind="ghost"
-              target="_blank"
-              onClick={() =>
-                addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
-              }
-              renderIcon={() => <IconForButton icon="lib_actions_share" iconSize="s" />}
-            >
-              {t('in-plg:licenseBanner.share')}
-            </CarbonButton>
-          </Tooltip>
-
-          {showGetAnswers && (
-            <>
-              <div className={locals.verticalLine} /> <AssistMe />
-            </>
           )}
         </>
       )}

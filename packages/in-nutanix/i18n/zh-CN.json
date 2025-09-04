@@ -15,6 +15,7 @@
   "memoryAllocated": "分配的内存",
   "hypervisorTypes": "虚拟机管理程序类型",
   "clusterArch": "集群架构",
+  "version": "版本",
   "dashboards": {
     "system": "系统",
     "wait": "等待",

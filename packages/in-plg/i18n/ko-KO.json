@@ -258,6 +258,7 @@
         "configurationOptions": "구성 옵션",
         "monitoringGcr": "Google Cloud Run 모니터링",
         "monitoringAwsFargateRuby": "AWS Fargate (Ruby) 모니터링",
+        "monitoringAwsFargatePhp": "AWS Fargate(PHP) 모니터링",
         "awsServiceDocumentation": "AWS 서비스 문서",
         "monitoringAwsLambda": "AWS 람다 모니터링",
         "configuringAwsLambdaMonitoring": "AWS 람다 모니터링 구성",
@@ -273,7 +274,8 @@
       "nodejs8": "Node.js 8.x",
       "nodejs10Plus": "Node.js 10.x 이상",
       "python2and3": "Python 2.7 및 3.x",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "php": "PHP"
     },
     "bosh": {
       "boshDirectorRuntimeConfig": "BOSH Director 런타임 구성",
@@ -578,7 +580,8 @@
     "startIntegrating": {
       "title": "데이터 통합 시작",
       "description": "에이전트를 설치하여 Instana 설정 및 원활한 데이터 통합을 시작하십시오.",
-      "buttonName": "에이전트 설치"
+      "buttonName": "에이전트 배치",
+      "newDescription": "에이전트 또는 콜렉터를 설치하여 Instana 설정 및 원활한 데이터 통합을 시작하십시오."
     },
     "traceInteractions": {
       "title": "추적 상호작용",
@@ -848,7 +851,8 @@
         "addUser": "사용자 추가",
         "documentation": "IBM 문서",
         "releaseNotes": "릴리스 정보",
-        "communityBlogsLink": "커뮤니티 블로그"
+        "communityBlogsLink": "커뮤니티 블로그",
+        "installDataSource": "데이터 원본 설치"
       },
       "toolTip": {
         "makeDefault": "이 조치를 수행하면 Instana 홈 페이지가 기본 랜딩 페이지로 설정되어, 설정한 사용자 정의 대시보드를 대체합니다."
@@ -968,8 +972,8 @@
         "emptyState_subtitle": "Instana 에이전트를 찾고, 배포하고, 실행하려면 에이전트 설치를 클릭하세요. "
       },
       "oTelCollector": {
-        "emptyState_title": "OpenTelemetry 콜렉터를 설치하여 데이터를 보기 시작하십시오.",
-        "emptyState_linktext": "Instana oTel 콜렉터에 대해 더 알아보기",
+        "emptyState_title": "데이터를 보기 시작하려면 OpenTelemetry 콜렉터를 설치하십시오.",
+        "emptyState_linktext": "Instana OTel 콜렉터에 대해 자세히 알아보기",
         "emptyState_buttontext": "콜렉터 설치",
         "emptyState_subtitle": "콜렉터 설치를 클릭하여 OpenTelemetry 콜렉터를 찾아 배포하고 실행하십시오."
       }
@@ -982,5 +986,43 @@
     "reportingStatus": "{{reporting}} {{datasource}} 보고 ({{nonReporting}} 보고 안 함)",
     "reporting": "보고",
     "notReporting": "보고 안 함"
+  },
+  "onboarding": {
+    "yourDashboard": "대시보드",
+    "gettingStarted": "시작하기",
+    "title": "추천 온보딩 태스크",
+    "description": "Instana를 최대한 활용하기 위해 제안된 태스크를 확인하십시오.",
+    "taskLabel": "온보딩 태스크",
+    "joinCommunityLink": "Instana 커뮤니티 가입",
+    "videotitle": "가이드 동영상",
+    "videoDescription": "환경을 쉽게 설정할 수 있도록 동영상 카탈로그를 확인하십시오.",
+    "video": "동영상",
+    "videoitem": {
+      "installation": "Instana 설치",
+      "addingAgent": "에이전트 추가",
+      "monitorWebsite": "웹 사이트 모니터"
+    },
+    "communityblogs": {
+      "title": "Instana 커뮤니티 블로그",
+      "description": "Instana 커뮤니티에 가입하여 앞으로 다가올 모든 흥미로운 소식을 알아보십시오!",
+      "blogLabel": "블로그",
+      "gettingStartedBlogTitle": "Instana로 시작하기",
+      "gettingStartedBlogDescription": "Instana에 대해 더 자세히 알아보고 제품을 시작하는 데 필요한 정보를 확인하십시오.",
+      "initialDeploymentBlogTitle": "Instana를 사용한 초기 배치 단계",
+      "initialDeploymentBlogDescription": "각 주제별로 쉽게 따라할 수 있는 동영상을 통해 웹 사이트를 모니터하고 경보를 설정하는 방법 등을 알아보십시오."
+    },
+    "resource": {
+      "title": "자원",
+      "tryInstanaWithSampleData": "샘플 데이터로 Instana 체험하기",
+      "ibmDocumentation": "IBM 문서",
+      "community": "커뮤니티",
+      "getSupport": "지원 받기",
+      "watchADemo": "데모 보기"
+    }
+  },
+  "accountBillingPushNotificationMessage": {
+    "description": "이제 설정과는 별도의 페이지에서 계정 및 청구 정보를 확인할 수 있습니다.",
+    "buttonText": "보기 페이지",
+    "title": "계정 및 청구가 이제 별도의 페이지에 있습니다."
   }
 }

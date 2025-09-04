@@ -21,6 +21,10 @@ import { setTimeConfig } from 'in-stores/time/config';
 
 export const infraExplorePath = '/explore';
 
+export const customEntitiesPath = '/customEntities';
+export const customEntitiesDashboard = '/dashboard';
+export const customEntitiesDashboardFullyQualified = `${customEntitiesPath}${customEntitiesDashboard}`;
+
 export const tagFilterExpressionMatrixParameter = {
   path: infraExplorePath,
   name: 'tagFilterExpression',
@@ -96,6 +100,12 @@ export const queryMatrixParameter = {
   initialState: ''
 };
 
+export const customEntityModelMatrixParameter = {
+  path: infraExplorePath,
+  name: 'customEntityModel',
+  initialState: undefined
+};
+
 export const showGroupsWithMissingTagsParameter = {
   path: infraExplorePath,
   name: 'showGroupsWithMissingTags',
@@ -136,7 +146,8 @@ export function useLinkToExplore() {
       timeConfig,
       chartedMetrics,
       fromEventPage,
-      showGroupsWithMissingTags
+      showGroupsWithMissingTags,
+      customEntityModel
     }) => {
       const clonedLocation = cloneLocation(location);
 
@@ -195,6 +206,10 @@ export function useLinkToExplore() {
         setMatrixKey(clonedLocation, showGroupsWithMissingTagsParameter, showGroupsWithMissingTags);
       }
 
+      if (customEntityModel) {
+        setMatrixKey(clonedLocation, customEntityModelMatrixParameter, customEntityModel);
+      }
+
       setMatrixKey(clonedLocation, dataSourcerMatrixParameter, 'infrastructure');
 
       return createHref(clonedLocation);
@@ -237,4 +252,20 @@ export const useNavigationToAlertConfig = () => {
     fillAlertTabSpecificValues(location, alertConfigId, alertConfigVersion);
     return navigate(location);
   };
+};
+
+export const useLinkToCustomEntityDashboards = () => {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = customEntitiesDashboardFullyQualified;
+
+  return useCallback(
+    (customEntityModel, snapshotId) => {
+      setOrDeleteMatrixKey(location, customEntitiesDashboard, 'customEntityModel', customEntityModel);
+      location.query.snapshotId = snapshotId;
+
+      return createHref(location);
+    },
+    [location, createHref]
+  );
 };

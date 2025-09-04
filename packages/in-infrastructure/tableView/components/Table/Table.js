@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { createRef } from 'react';
+import React, { createRef, forwardRef } from 'react';
 
 import {
   ButtonGroup,
@@ -23,6 +23,7 @@ import {
 import { clearSelectedSnapshots, toggleSnapshotId } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import { createStore } from 'in-infrastructure/tableView/components/Table/stores/content';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { shallowEquals } from 'in-services/util/object';
 import { t } from 'in-i18n';
@@ -34,7 +35,7 @@ const carbonFooterElement = locals.carbonFooter;
 const headerLeftSideElement = locals.headerLeft;
 const headerRightSideElement = locals.headerRight;
 
-export default class Table extends React.Component {
+class Table extends React.Component {
   constructor(props) {
     super(props);
     this.selectAllRef = createRef();
@@ -188,7 +189,8 @@ export default class Table extends React.Component {
 
     const showPagination = data.pageCount > 1 || data.page >= data.pageCount || this.props.alwaysShowPagination;
     const showHeader = this.props.leftHeader || this.props.rightHeader || showPagination;
-
+    const location = this.props.location;
+    const navigate = this.props.navigate;
     return (
       <div className={this.props.className}>
         {showHeader ? (
@@ -227,7 +229,7 @@ export default class Table extends React.Component {
         {data?.rows?.length === 0 && emptyTable}
         {/* carbon with data table render */}
         {data?.rows?.length !== 0 && (
-          <DataTable ref={this.tableRef} rows={carbonRows} headers={carbonHeaders} isSortable isSelectable>
+          <DataTable rows={carbonRows} headers={carbonHeaders} isSortable isSelectable>
             {({
               rows,
               headers,
@@ -249,10 +251,15 @@ export default class Table extends React.Component {
                       <CarbonTableSelectAll
                         {...getSelectionProps()}
                         onSelect={e => {
-                          clearSelectedSnapshots();
+                          clearSelectedSnapshots(location, navigate);
                           if (e.target.checked) {
                             data.rows.forEach(row =>
-                              toggleSnapshotId(row.key, row.snapshot ? row.snapshot.get('plugin') : null)
+                              toggleSnapshotId(
+                                row.key,
+                                row.snapshot ? row.snapshot.get('plugin') : null,
+                                location,
+                                navigate
+                              )
                             );
                           }
                           selectAll();
@@ -332,3 +339,12 @@ export default class Table extends React.Component {
     );
   }
 }
+
+function withNavigation(Component) {
+  return forwardRef((props, ref) => {
+    const { location, navigate } = useNavigation();
+    return <Component {...props} location={location} navigate={navigate} ref={ref} />;
+  });
+}
+
+export default withNavigation(Table);

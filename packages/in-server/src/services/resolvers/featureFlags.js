@@ -96,7 +96,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'linuxkvmhypervisorEnabled',
+    uiClientKey: 'linuxKVMHypervisorEnabled',
     instanaCtlKey: 'feature.linuxkvmhypervisor.enabled',
     defaultValue: false
   },
@@ -356,6 +356,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'mobileAppAnrTabEnabled',
+    instanaCtlKey: 'feature.eum.mobile.anr.tab.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'eumImpactedUsersForAppAlertEnabled',
     instanaCtlKey: 'feature.eum.impacted.users.appalert.enabled',
     defaultValue: false
@@ -375,6 +380,17 @@ module.exports = exports = [
     instanaCtlKey: 'feature.eum.mobile.app.excessive.network.usage.enabled',
     defaultValue: true
   },
+  {
+    uiClientKey: 'mobileAppFastTriageEnabled',
+    instanaCtlKey: 'feature.eum.mobile.app.fast.triage.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websiteFastTriageEnabled',
+    instanaCtlKey: 'feature.eum.website.fast.triage.enabled',
+    defaultValue: false
+  },
+
   {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
@@ -488,7 +504,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticSslImprovementEnabled',
     instanaCtlKey: 'feature.synthetic.ssl.improvement.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticCarbonTableEnabled',
@@ -584,17 +600,17 @@ module.exports = exports = [
   {
     uiClientKey: 'rcaTopologyEnabled',
     instanaCtlKey: 'feature.rca.topology.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'rcaAiAutomatedInvestigationEnabled',
     instanaCtlKey: 'feature.ai.automated.investigation.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'rcaAgenticEnabled',
     instanaCtlKey: 'feature.ai.rca.agentic.workflow.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'eventFeedbackEnabled',
@@ -672,11 +688,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'logSmartAlertsEnabled',
-    instanaCtlKey: 'feature.log.smart.alerts.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'applicationSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.application.smart.alert.full.screen.design.enabled',
     defaultValue: false
@@ -712,7 +723,7 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'bidirectionalSlackEnabled',
+    uiClientKey: 'alertChannelBidirectionalSlackEnabled',
     instanaCtlKey: 'feature.alert.channel.bidirectional.slack.enabled',
     defaultValue: true
   },
@@ -787,6 +798,12 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'analyzeSubtracesEnabled',
+    instanaCtlKey: 'feature.analyze.subtraces.enabled',
+    defaultValue: false
+  },
+
+  {
     uiClientKey: 'customDashboardTopLevelFiltersEnabled',
     instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
     defaultValue: false
@@ -805,31 +822,6 @@ module.exports = exports = [
     uiClientKey: 'syntheticSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.synthetic.smart.alert.full.screen.design.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityWebsiteSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.website.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityMobileAppSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.mobile.app.sa.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'alertChannelPerSeverityLogSaEnabled',
-    instanaCtlKey: 'feature.alert.channel.per.severity.log.sa.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'isSmartAlertDialogViewDefaultEnabled',
@@ -854,7 +846,7 @@ module.exports = exports = [
   {
     uiClientKey: 'incidentTriggeringInfraSaEnabled',
     instanaCtlKey: 'feature.incident.triggering.infra.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'websitesSmartAlertDialogViewEnabled',
@@ -877,11 +869,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'smartAlertCarbonTableEnabled',
-    instanaCtlKey: 'feature.smart.alert.carbon.table.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'aqmDisableConfigOnEventViewEnabled',
     instanaCtlKey: 'feature.aqm.disable.config.on.event.view.enabled',
     defaultValue: false
@@ -899,7 +886,7 @@ module.exports = exports = [
   {
     uiClientKey: 'rbacTeamsEnabled',
     instanaCtlKey: 'feature.rbac.teams.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'accessControlCarbonTable',
@@ -934,6 +921,11 @@ module.exports = exports = [
   {
     uiClientKey: 'solisTestCatalogEnabled',
     instanaCtlKey: 'feature.solis.test.catalog.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'solisInstanaNativeShellEnabled',
+    instanaCtlKey: 'solis.instana.native.shell.enabled',
     defaultValue: false
   },
   {
@@ -982,6 +974,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'infraSmartAlertsAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.adaptive.baseline.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'allSmartAlertsViewEnabled',
     instanaCtlKey: 'feature.all.smart.alerts.view.enabled',
     defaultValue: false
@@ -1024,7 +1021,7 @@ module.exports = exports = [
   {
     uiClientKey: 'newAccountAndBillingPageEnabled',
     instanaCtlKey: 'feature.new.account.and.billing.page.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'eumSmartAlertCustomMetricsEnabled',
@@ -1049,6 +1046,31 @@ module.exports = exports = [
   {
     uiClientKey: 'fiveMinuteGranularityForAdaptiveThresholdEnabled',
     instanaCtlKey: 'feature.five.minute.granularity.for.adaptive.threshold.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'newOnboardingPageEnabled',
+    instanaCtlKey: 'feature.new.onboarding.page.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'otelCollectorViewEnabled',
+    instanaCtlKey: 'feature.otel.collector.view.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'customEntitiesViewEnabled',
+    instanaCtlKey: 'feature.custom.entities.view.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'agentEnforcementEnabled',
+    instanaCtlKey: 'feature.agent.enforcement.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'pollRateSupportForUnifiedMetricsEnabled',
+    instanaCtlKey: 'feature.poll.rate.support.for.unified.metrics.enabled',
     defaultValue: false
   }
 ];

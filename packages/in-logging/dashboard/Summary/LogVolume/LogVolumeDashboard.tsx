@@ -16,9 +16,9 @@ import { bytesToLargerUnit } from 'in-settings/tabs/GlobalSettings/pages/logMana
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import { getLogVolumeReport } from 'in-logging/api/logVolume';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './LogVolume.mless';
@@ -32,6 +32,7 @@ const localisationStrings = {
 const placeholderTimeConfig = { to: null, windowSize: 1, autoRefresh: false };
 
 export default function LogVolumeDashboard() {
+  const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
   const { createHrefToPath } = useNavigation();
   const [timePeriod, setTimePeriod] = useState<TimeConfig>(placeholderTimeConfig);
@@ -68,7 +69,7 @@ export default function LogVolumeDashboard() {
           <LoadingSkeleton className={locals.skeleton} />
         </>
       ) : errors && errors?.length > 0 ? (
-        <KpiCard title={localisationStrings.logVolumeTitle} noTooltipOnTitle iconClassName={locals.error}>
+        <KpiCard title={localisationStrings.logVolumeTitle} iconClassName={locals.error}>
           <Stack align="center" distribution="center">
             <span title={errors[0].message}>
               <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />
@@ -76,7 +77,7 @@ export default function LogVolumeDashboard() {
           </Stack>
         </KpiCard>
       ) : (
-        <KpiCard title={localisationStrings.logVolumeTitle} iconAction={logVolumeIcon} noTooltipOnTitle>
+        <KpiCard title={localisationStrings.logVolumeTitle} iconAction={logVolumeIcon}>
           <div className={locals.body}>
             <p className={locals.retentionContent}>
               <span data-testid="retentionValue" className={locals.number}>

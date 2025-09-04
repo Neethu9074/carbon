@@ -61,7 +61,11 @@
         "progressBarTitle": "ステップ2: 詳細の指定",
         "headline": "詳細の指定",
         "perspectiveName": "パースペクティブ名",
-        "perspectiveDescription": "説明"
+        "perspectiveDescription": "説明",
+        "failedToLoad": "チームのロードに失敗しました",
+        "selectTeams": "チームを選択する",
+        "teams": "チーム",
+        "information": "情報"
       }
     },
     "errorMessages": {

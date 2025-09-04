@@ -14,7 +14,7 @@ import { generateUniqueShortId } from '@instana/utils';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import { LocationsSidePanel } from 'in-synthetics/dashboards/global/tabs/tests/components/LocationsSidePanel';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { syntheticCarbonTableEnabled } from 'in-services/featureFlags';
+import { syntheticSslImprovementEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { t } from 'in-i18n';
 
@@ -46,7 +46,7 @@ const LocationsPresenter = ({ item }: Props) => {
     );
   }
 
-  return syntheticCarbonTableEnabled ? (
+  return syntheticSslImprovementEnabled ? (
     <LocationsSidePanel
       locationStatusList={locationStatusList}
       locationsSidePanelOpen={locationsSidePanelOpen}
@@ -85,7 +85,7 @@ export const getContentBySeverity = (location: LocationStatus) => {
   if (severity === 0) {
     return (
       <>
-        {!syntheticCarbonTableEnabled && (
+        {!syntheticSslImprovementEnabled && (
           <span data-test="no-issues-span" className={locals.locationsLabel}>
             {t('in-synthetics:dashboard.testList.locationsColumn.noIssues')}
           </span>
@@ -103,7 +103,7 @@ export const getContentBySeverity = (location: LocationStatus) => {
     if (totalRuns !== 0) {
       return (
         <>
-          {!syntheticCarbonTableEnabled && (
+          {!syntheticSslImprovementEnabled && (
             <span data-test="warning-span" className={locals.locationsLabel}>
               {t('in-synthetics:dashboard.testList.locationsColumn.warning')}
             </span>
@@ -122,7 +122,7 @@ export const getContentBySeverity = (location: LocationStatus) => {
         <span
           data-test="no-health-span"
           className={classNames({
-            [locals.locationsLabel]: !syntheticCarbonTableEnabled
+            [locals.locationsLabel]: !syntheticSslImprovementEnabled
           })}
         >
           {t('in-synthetics:dashboard.testList.na')}

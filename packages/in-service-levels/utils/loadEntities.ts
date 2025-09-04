@@ -10,6 +10,7 @@ import { just } from '@instana/observables';
 
 import getApplication from 'in-applications/subscriptions/getApplication';
 import type { SloMonitoredEntity } from 'in-service-levels/types';
+import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { getFilteredSyntheticTests } from 'in-synthetics/api';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { mapData, error } from 'in-services/util/result';
@@ -31,6 +32,8 @@ export function loadEntities(entity: SloEntityUnion) {
       return loadEntityByTypeAndId({ entityType, entityId: entity.websiteId }).map(res => mapData(res, data => [data]));
     case 'synthetic':
       return loadEntityByTypeAndId({ entityType, entityIds: entity.syntheticTestIds });
+    case 'infrastructure':
+      throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
   }
 }
 

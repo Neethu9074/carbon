@@ -8,9 +8,10 @@
   "affectedApplications": {
     "noAffectedApplications": "영향을 받는 애플리케이션을 찾을 수 없습니다.",
     "title": "제목",
-    "totalcalls": "영향을 받는 통화",
+    "totalcalls": "영향을 받는 호출",
     "errorLoadingData": "데이터를 로드하는 중에 오류가 발생했습니다."
   },
+  "noDataAvailable": "사용 가능한 데이터 없음",
   "entityInfoPresenterDefaultLabel": "날짜: ",
   "entityInfoLabelOfService": "서비스 중:",
   "titleDetail": "세부사항",
@@ -262,9 +263,6 @@
     "naProbabilityBadgeText": "이 확률 등급은 문제의 엔티티가 양호하지 않을 가능성을 기준으로 합니다. 안타깝게도 이 인시던트에 대한 확률 등급을 확인할 수 없었습니다.",
     "evidenceTextFailed": "<linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity>을(를) 통과하는 집계된 호출 중 오류가 있습니다.",
     "evidence": "증거:",
-    "erroneousCalls": "잘못된 호출",
-    "throughEntity": "다음을 통함: {{entityName}} ",
-    "notThroughEntity": "다음을 통하지 않음: {{entityName}} ",
     "evidenceTextNotFailed": "<linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity>을(를) 통과하지 않는 동일한 엔티티에서 집계된 호출 수에 오류가 있습니다.",
     "evidenceTextNotFailedLower": "<linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity>을(를) 통과하지 않는 동일한 엔티티의 호출에 오류가 있습니다.",
     "evidenceTextNotFailedHigher": "<linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity>을(를) 통과하지 않는 동일한 엔티티의 호출은 {{non_rca_error_rate}}%의 높은 오류율을 갖습니다.",
@@ -318,14 +316,30 @@
       "investigationPanelTitle": "에이전트 조사",
       "errorTitle": "오류",
       "commonErrorMessage": "근본 원인을 조사하는 과정에서 예기치 않은 오류가 발생했습니다.",
-      "diagnosisTitle": "진단",
-      "factualityScoreTitle": "사실성 점수",
-      "reasoningTitle": "추론:",
-      "errorLogSummaryTitle": "오류 로그 요약",
-      "traceLogSummaryTitle": "추적 로그 요약",
-      "associatedEventsSummaryTitle": "관련 이벤트 요약",
-      "runInvestigationInstructions": "근본 원인에 대한 상세하고 포괄적인 요약을 보려면 <strong>조사 실행<strong>을 클릭하십시오."
-    }
+      "runInvestigationInstructions": "근본 원인에 대한 상세하고 포괄적인 요약을 보려면 <strong>조사 실행<strong>을 클릭하십시오.",
+      "nonrcaInstructions": "시작하려면 근본 원인 클릭",
+      "aiExplained": {
+        "datatypeIncident": "<strong>인시던트.</strong> 인시던트 문제 설명 및 세부사항을 사용합니다.",
+        "datatypeTracelogs": "<strong>추적 로그.</strong> 근본 원인으로 추정되는 엔티티에 대한 로그 메시지를 사용합니다.",
+        "datatypeTraceError": "<strong>오류 메시지를 추적하십시오.</strong> 근본 원인으로 추정되는 엔티티에 대한 오류 메시지를 사용합니다.",
+        "datatypeAssociatedEvents": "<strong>연관된 이벤트.</strong> 문제 설명 및 연관 이벤트의 세부사항을 근본 원인으로 추정되는 엔티티와 함께 사용합니다.",
+        "datatypeInfrastructureStack": "<strong>인프라 스택 토폴로지.</strong> 근본 원인으로 추정되는 엔티티의 전체 인프라 스택과 상태 정보를 사용합니다.",
+        "featureName": "지능형 조사",
+        "featureDescription": "조사를 위해 인시던트 세부사항과 가능한 근본 원인 정보를 watsonx로 전송합니다. 데이터는 AI 모델과 다양한 추론 단계, 그리고 자체 반영을 통해 처리됩니다. Watsonx는 실패 원인에 대한 간결한 가설과 해당 추론에 사용된 각 방식을 리턴합니다."
+      },
+      "output": {
+        "diagnosis": "진단",
+        "summary": "요약",
+        "errorLogSummaryTitle": "오류 로그 요약",
+        "traceLogSummaryTitle": "추적 로그 요약",
+        "associatedEventsSummaryTitle": "관련 이벤트 요약",
+        "reasoningTitle": "추론:",
+        "factualityScoreTitle": "사실성 점수"
+      }
+    },
+    "errorRates": "잘못된 호출 비율",
+    "rootCause": "근본 원인",
+    "otherEntities": "기타 엔티티"
   },
   "dataGridEventTable": {
     "apply": "적용",
@@ -362,10 +376,26 @@
     "infraSA": "인프라 스마트 경보",
     "logSA": "스마트 경보 로그",
     "websiteSA": "웹사이트 스마트 경보",
-    "mobileSA": "모바일 스마트 경보"
+    "mobileSA": "모바일 스마트 경보",
+    "dialog": {
+      "selectApplication": "애플리케이션 선택",
+      "name": "이름",
+      "cancel": "취소",
+      "proceed": "계속",
+      "selectApplicationToProceed": "계속하려면 애플리케이션 선택",
+      "noDataEmptyListStateTitle": "결과를 찾을 수 없음",
+      "noDataEmptyListStateSubtitle": "원하는 항목을 찾을 수 있도록 검색을 조정해 보십시오.",
+      "noDataEmptyListStateIllustrationDescription": "사용 가능한 데이터가 없음 표시",
+      "selectWebsite": "웹 사이트 선택",
+      "selectWebsiteToProceed": "계속하려면 웹사이트 선택 ",
+      "selectMobileApp": "모바일 앱 선택",
+      "selectMobileAppToProceed": "계속하려면 모바일 앱 선택 "
+    }
   },
   "feedback": {
     "skip": "건너뛰기",
+    "positive": "긍정",
+    "negative": "부정",
     "descriptionUnpleasant": {
       "firstLineApology": "즐거운 경험을 하지 못하셨다니 죄송합니다.",
       "secondLineQuestion": "무엇이 잘못되었는지 확인할 수 있도록 도와주실 수 있으십니까?"
@@ -429,17 +459,13 @@
     "timestamp": "시간소인",
     "numCalls": "호출 수",
     "meanLatency": "평균 대기 시간",
-    "youMustAccept": "이 기능을 사용하려면 Generative AI Assistance Preview Program 계약의 약관에 동의해야 합니다.",
-    "reviewAction": "계약 검토",
     "findingInfoFrom": "{{endpoint}}에서 해당 정보를 찾는 중",
     "noData": "API에서 리턴된 데이터 없음",
-    "whatToKnow": "{{category}}에 대해 무엇을 알고 싶으십니까?",
     "welcome": "안녕하세요, 반갑습니다!\n고객님의 환경, 특히 애플리케이션, 인프라 및 이벤트에 대한 세부 정보를 기꺼이 알려드리겠습니다.  시작하시려면 질문하거나 프롬프트 라이브러리를 탐색하세요.",
-    "apps": "애플리케이션",
-    "infra": "인프라",
     "tableView": "테이블 보기",
     "chartView": "차트 보기",
     "promptLibrary": "프롬프트 라이브러리 열기",
+    "feedback": "피드백",
     "searchTable": "테이블 검색",
     "download": "다운로드",
     "showLess": "간략히 보기",
@@ -456,14 +482,25 @@
     "group": "그룹",
     "resetFilters": "재설정",
     "applyFilter": "적용",
-    "filtering": "필터"
+    "filtering": "필터",
+    "previewDisclaimer": "이는 미리보기 기능입니다. 질문에 대한 모델의 해석을 바탕으로 답변이 제공됩니다. 생성된 답변의 정확도는 다를 수 있습니다. 출력이 사용자 요구에 적합한지 다시 한 번 확인하십시오.",
+    "granite": "granite-3.3-8b-instruct",
+    "aiExplained": "AI 설명",
+    "aiModel": "AI 모델",
+    "poweredByWatsonX": "IBM watsonx Assistant",
+    "watsonXDesc": "IBM watsonx는 최신 AI 모델을 기반으로 대화를 지능적으로 처리하고 언제 어디서든 도움을 제공합니다.",
+    "helpfulResult": "이 결과는 도움이 되었습니다.",
+    "notHelpfulResult": "이 결과는 도움이 되지 않았습니다.",
+    "result": "결과"
   },
   "notes": {
     "recommendedActions": "권장 조치",
     "aiEngine": "AI 엔진",
     "viewAllRecActions": "모든 권장 작업 보기",
     "openNotes": "요약 및 메모 열기",
+    "openNotesFed": "노트 열기",
     "notesActivity": "AI를 활용한 요약 및 메모",
+    "notesActivityFed": "참고",
     "confirmDelete": "삭제 확인",
     "you": "사용자 {{date}}",
     "youEdited": "사용자(편집됨) {{date}}",
@@ -496,6 +533,7 @@
     "summaryAIGen": "이 요약은 AI가 생성한 것입니다.",
     "noActivity": "아직 메모가 없습니다",
     "noActivityDetails": "아직 표시할 요약이나 메모가 없습니다. 댓글 추가 필드를 사용하여 이 인시던트에 대한 지식이나 업데이트를 팀과 공유하세요.",
+    "noActivityDetailsFed": "아직 표시할 노트가 없습니다. 댓글 추가 필드를 사용하여 이 인시던트에 대한 지식이나 업데이트를 팀과 공유하세요.",
     "noResults": "찾을 수 없음",
     "noResultsDetails": "귀하의 조회에 따른 결과가 없습니다. 검색어를 업데이트해 보세요.",
     "aiExplained": "AI 설명",
@@ -509,7 +547,7 @@
     "showAll": "모두 표시",
     "collapse": "접기",
     "aiModel": "AI 모델",
-    "granite": "granite-3-8b-instruct",
+    "granite": "granite-3.3-8b-instruct",
     "withManualEdits": "(수동 편집 포함)",
     "shareIncidentSummarySubject": "인시던트 요약: {{problemText}}",
     "share": "공유",
@@ -526,7 +564,8 @@
     "invalidEmail": "이메일은 쉼표로 구분된 유효한 이메일(user@domain)이어야 합니다.",
     "positiveFeedback": "이 요약이 도움이 되었음",
     "negativeFeedback": "이 요약은 도움이 되지 않음",
-    "surveyButtonTxt": "피드백 공유"
+    "surveyButtonTxt": "피드백 공유",
+    "summaryLower": "요약"
   },
   "incident": {
     "overviewTitle": "인시던트 개요",
@@ -549,8 +588,8 @@
     "cancel": "취소",
     "submit": "제출",
     "title": "피드백 공유",
-    "helpfulQ": "요약에서 어떤 부분이 도움이 되었습니까?",
-    "improveQ": "요약을 어떻게 개선할 수 있습니까?",
+    "helpfulQ": "{{textSubject}}에서 어떤 점이 도움이 되셨습니까?",
+    "improveQ": "{{textSubject}}을(를) 어떻게 개선할 수 있겠습니까?",
     "maxChars": "최대 750자",
     "followUpQuestion": "피드백에 대한 후속 조치를 원하십니까?",
     "yesContect": "예, 연락 주십시오.",

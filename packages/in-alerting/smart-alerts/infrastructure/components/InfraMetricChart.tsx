@@ -10,7 +10,7 @@ import { Message } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { useSelectedMetricGroup } from 'in-alerting/smart-alerts/infrastructure/providers/SelectedMetricGroupProvider';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { ChartSkeleton } from 'in-alerting/smart-alerts/components/ChartSkeleton';
 import { t } from 'in-i18n';
@@ -25,7 +25,6 @@ interface InfraMetricChartProps {
   metricName: string;
   alertsPreviewEnabled?: boolean;
   metricLabel: string;
-  selectedMetricGroup: Tags | null;
 }
 
 export function InfraMetricChart({
@@ -35,9 +34,9 @@ export function InfraMetricChart({
   entityType,
   metricName,
   alertsPreviewEnabled = false,
-  metricLabel,
-  selectedMetricGroup
+  metricLabel
 }: InfraMetricChartProps) {
+  const { selectedMetricGroup } = useSelectedMetricGroup();
   if (selectedMetricGroup?.loading) {
     return <ChartSkeleton />;
   }
@@ -79,7 +78,6 @@ export function InfraMetricChart({
       <InfraAlertChartWrapper
         alertConfig={alertConfig}
         timeConfig={timeConfig}
-        selectedMetricGroup={selectedMetricGroup ?? undefined}
         alertsPreviewEnabled={alertsPreviewEnabled}
         metricLabel={metricLabel}
       />

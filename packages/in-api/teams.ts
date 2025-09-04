@@ -60,3 +60,25 @@ export function deleteTeamFocus() {
     headers: getCsrfHeader()
   });
 }
+
+export function getTeamsAvailableProbeInternal(): Observable<Result<boolean>> {
+  return http<TeamTag[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: teamFocusUrl,
+    mapToResultObject: true
+  }).map<Result<boolean>>(res => {
+    const hasErrors = res.errors.length > 0;
+    const hasData = res.data != null;
+    return {
+      ...res,
+      data: !hasErrors && hasData
+    };
+  });
+}
+
+export const getTeamsAvailableProbe = memoize<void, Result<boolean>>(
+  () => getTeamsAvailableProbeInternal(),
+  () => 'TeamsProbe',
+  60000
+);

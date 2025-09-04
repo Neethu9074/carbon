@@ -10,7 +10,7 @@ import React from 'react';
 import { CarbonTextInput as TextInput } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { role } from 'in-stores/user';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 
 interface SubtraceNameInputProps {
   formField: Field<string>;
@@ -18,6 +18,7 @@ interface SubtraceNameInputProps {
 }
 
 export const SubtraceNameInput = ({ formField, onChange }: SubtraceNameInputProps) => {
+  const [role] = useCurrentUserRole();
   const value = formField.value;
   const invalid = formField.touched && !formField.valid; // invalid if the field was actually edited
   const invalidText = formField.messages?.[0]?.message;

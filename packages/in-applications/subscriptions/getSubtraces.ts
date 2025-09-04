@@ -41,7 +41,7 @@ export const getSubtracesWithDefaults = ({
       subtraceCount: { metric: 'subtraces', aggregation: 'SUM' },
       calls: { metric: 'subtraceCalls', aggregation: 'MEAN' },
       errorRate: { metric: 'subtraceErrorRate', aggregation: 'MEAN' },
-      duration: { metric: 'subtraceDuration', aggregation: 'MEAN' }
+      latency: { metric: 'latency', aggregation: 'MEAN' }
     } as SubtraceMetrics,
     order,
     pagination

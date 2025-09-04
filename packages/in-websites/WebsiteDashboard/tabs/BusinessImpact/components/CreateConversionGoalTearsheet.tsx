@@ -24,31 +24,31 @@ export default function CreateConversionGoalTearsheet({ open, setOpen }: CreateC
   return (
     <CreateTearsheet
       open={open}
-      title={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.title')}
-      backButtonText={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.back')}
-      cancelButtonText={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.cancel')}
-      nextButtonText={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.next')}
-      submitButtonText={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.submit')}
+      title={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.title')}
+      backButtonText={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.back')}
+      cancelButtonText={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.cancel')}
+      nextButtonText={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.next')}
+      submitButtonText={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.submit')}
       onRequestSubmit={() => {}}
       onClose={() => setOpen(false)}
     >
       <div className={local.tearsheet}>
         <CreateTearsheetStep
           hasFieldset={false}
-          title={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.stepOne')}
+          title={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.stepOne')}
         >
           <div className={local.stepDescription}>
-            {t('in-websites:websiteDashboard.tabs.businessMonitoring.configuration.goalDetailsDescription')}
+            {t('in-websites:websiteDashboard.tabs.businessImpact.configuration.goalDetailsDescription')}
           </div>
 
           <TextInput
             className={local.textInput}
             id="goalNameInput"
-            labelText={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.nameInput')}
+            labelText={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.nameInput')}
           />
           <TextArea
             className={local.textArea}
-            labelText={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.descriptionArea')}
+            labelText={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.descriptionArea')}
             enableCounter
             maxCount={200}
           />
@@ -57,33 +57,33 @@ export default function CreateConversionGoalTearsheet({ open, setOpen }: CreateC
       <div className={local.tearsheet}>
         <CreateTearsheetStep
           hasFieldset={false}
-          title={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.stepTwo')}
+          title={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.stepTwo')}
         >
           <div className={local.stepDescription}>
-            {t('in-websites:websiteDashboard.tabs.businessMonitoring.configuration.goalBuildDescription')}
+            {t('in-websites:websiteDashboard.tabs.businessImpact.configuration.goalBuildDescription')}
           </div>
 
           <Select
             id="beaconTypeSelect"
-            labelText={t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.beaconSelect')}
+            labelText={t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.beaconSelect')}
           >
             <option value="pageLoads">
-              {t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.beaconLoads')}
+              {t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.beaconLoads')}
             </option>
             <option value="pageTransitions">
-              {t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.beaconTransitions')}
+              {t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.beaconTransitions')}
             </option>
             <option value="httpRequest">
-              {t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.beaconHttp')}
+              {t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.beaconHttp')}
             </option>
             <option value="customEvents">
-              {t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.beaconCustom')}
+              {t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.beaconCustom')}
             </option>
           </Select>
           <Spacer vertical="medium" />
           <Card useMaxAvailableHeight={false}>
             <Typography variant={'heading-03'}>
-              {t('in-websites:websiteDashboard.tabs.businessMonitoring.tearsheet.beaconFilter')}
+              {t('in-websites:websiteDashboard.tabs.businessImpact.tearsheet.beaconFilter')}
             </Typography>
             {/* TODO: placeholder for wireframes */}
             <BusinessProcessQueryBuilder value={[]} onChange={() => {}} />

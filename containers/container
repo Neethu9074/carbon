@@ -23,7 +23,8 @@ always-auth=true\n\
 registry=${registry}/artifactory/api/npm/${repository_key}/ \
 " > /opt/instana/ui-client/target/.npmrc
 
-RUN npx yarn install --production --frozen-lockfile --cwd /opt/instana/ui-client/target
+RUN npx yarn install --production --frozen-lockfile --cwd /opt/instana/ui-client/target \
+    && rm /opt/instana/ui-client/target/yarn.lock
 
 FROM delivery.instana.io/int-docker-base-images-local/base-images/nodejs22:${base_version}
 

@@ -28,6 +28,8 @@ import {
   rcaAgenticEnabled
 } from 'in-services/featureFlags';
 import AgenticInvestigationWorkflow from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/AgenticInvestigation';
+// import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import { toHtml } from 'in-services/formatters/markdown';
 // @ts-expect-error No typedef
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 // @ts-expect-error No typedef
@@ -39,8 +41,6 @@ import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/Ev
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
 // @ts-expect-error No typedef
-import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
-// @ts-expect-error No typedef
 import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
 // @ts-expect-error No typedef
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
@@ -49,6 +49,7 @@ import { FeedbackComponents } from 'in-events/components/EventTable';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import AutomationCardForLegacyPRC from 'in-automation/AutomationCard/AutomationCardForLegacyPRC';
+import { getRootCauses } from 'in-events/components/RootCauseAnalysis/utils/getRootCauses';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
@@ -59,6 +60,7 @@ import EventListProviders from 'in-events/components/providers/EventListProvider
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
+import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 // @ts-expect-error No typedef
 import { getEvent } from 'in-stores/events';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
@@ -68,14 +70,12 @@ import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { toHtml } from 'in-services/formatters/markdown';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
 import { getEventType } from 'in-stores/events';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
@@ -98,7 +98,7 @@ const IncidentEventList: FC<IncidentEventListProps> = ({ incident, latestSnapsho
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const eventType = getEventType(incident);
-  const hasRootCauses = incident.getIn(['metadata', 'rootCause', 'found']) ?? false;
+  const hasRootCauses = getRootCauses(incident.toJS()).length !== 0;
 
   const { location } = useNavigation();
 
@@ -130,7 +130,12 @@ const IncidentEventList: FC<IncidentEventListProps> = ({ incident, latestSnapsho
 
       {/* Without Agentic investigation */}
       {!rcaAgenticEnabled && rcaUIEnabled && hasRootCauses && (
-        <RootCauseSection incident={incident} rcaRef={rcaSectionRef} />
+        <RootCauseSection
+          incident={incident}
+          rcaRef={rcaSectionRef}
+          event={triggeringEvent?.toJS?.() ?? {}}
+          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+        />
       )}
 
       {/* With agentic investigation Workflow */}
@@ -223,7 +228,7 @@ const IncidentOverview: FC<IncidentOverviewProps> = ({
       onClick={() => {
         // Open notes, generate summary
         setSummaryNotes(true, true);
-        MoveAIChatLauncher('500px');
+        moveAIChatLauncher('500px');
         handleTracking(incident.get('id'), EVENT_AI_GENERATE_SUBMIT_OVERVIEW);
       }}
     >
@@ -341,8 +346,7 @@ interface TriggeringEventProps {
 }
 
 const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }: TriggeringEventProps): JSX.Element => {
-  const canCloseManually = role?.canManuallyCloseIssue;
-  const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
+  const timeConfig = incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
 
   return (
     <Stack gap="xsmall">

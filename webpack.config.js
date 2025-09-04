@@ -264,8 +264,9 @@ module.exports = {
   plugins,
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.d.ts'],
-    alias: { 
+    alias: {
       'react-dom/client': false, // Mock out the module
+      'react/jsx-runtime': require.resolve('react/jsx-runtime'),
       react$: require.resolve('react'),
       ['react-dom']: require.resolve('react-dom')
     }

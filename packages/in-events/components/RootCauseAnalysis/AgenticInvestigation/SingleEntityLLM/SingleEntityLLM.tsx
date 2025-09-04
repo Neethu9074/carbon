@@ -9,6 +9,7 @@
 import { AILabel, AILabelContent, Stack } from '@carbon/react';
 import React, { FC, useCallback, useContext, useState } from 'react';
 
+import { Event, VolatileId } from '@instana/types';
 import { Typography } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
@@ -29,7 +30,12 @@ import locals from 'in-events/components/RootCauseAnalysis/AgenticInvestigation/
 
 const logger = createLogger('in-events:RCA.Investigation');
 
-const SingleEntityLLM: FC = () => {
+interface SingleEntityLLMProps {
+  volatileId: VolatileId;
+  event: Event;
+}
+
+const SingleEntityLLM: FC<SingleEntityLLMProps> = ({ event, volatileId }) => {
   const { incident } = useIncident();
   const { rootCauses, rootCauseMetadata } = useContext(RootCauseDataContext);
   const { selectedEntityId } = useEntitySelection();
@@ -139,6 +145,8 @@ const SingleEntityLLM: FC = () => {
         backendLoading={backendLoading[rootCauseIndex]}
         backendResponse={backendResponse[rootCauseIndex]}
         error={error[rootCauseIndex]}
+        event={event}
+        volatileId={volatileId}
       />
     </Stack>
   );

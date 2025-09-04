@@ -24,11 +24,11 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import FeatureFeedback from 'in-components/FeatureFeedback';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
@@ -52,6 +52,7 @@ function AlertChannelModificationForm(props) {
     listPath,
     setMinHeight = false
   } = props;
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const teamsAssigned = entity.get('rbacTags');
   const assignedTeamTags = Array.from(teamsAssigned, team => ({
     id: team.get('id'),
@@ -153,7 +154,7 @@ function AlertChannelModificationForm(props) {
             testAlertChannelLabel={testAlertChannelLabel}
           />
         )}
-        {rbacTeamsEnabled && !fullyQualifiedAlertChannel?.noTeams && !teamsLoading && !teamsError && (
+        {isRbacTeamsAvailable && !fullyQualifiedAlertChannel?.noTeams && !teamsLoading && !teamsError && (
           <>
             <SectionLine />
             <Label htmlFor="teamsSelect">{t('in-settings:tabs.accessDesc')}</Label>
@@ -265,7 +266,7 @@ function getConfig(alertChannel) {
   return fullyQualified[alertChannel.get('kind')];
 }
 
-export function save(alertChannel, form, isCreate) {
+export function save(alertChannel, form, isCreate, setCreatedChannelId) {
   const addRbacTags = obj => {
     let result = obj;
     const rbacTags = form.get('rbacTags');
@@ -281,6 +282,10 @@ export function save(alertChannel, form, isCreate) {
     path: '',
     channel: form.get('kind').value
   });
+
+  const entries = Array.from(alertChannel.entries());
+  const idValue = entries.find(([key]) => key === 'id')?.[1];
+  if (idValue) setCreatedChannelId?.(idValue);
   return saveAlertChannel(fromJS(addRbacTags(getConfig(alertChannel).createEntity(alertChannel, form))), isCreate);
 }
 

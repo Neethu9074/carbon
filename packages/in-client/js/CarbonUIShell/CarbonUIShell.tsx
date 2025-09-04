@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { keyCodes, MenuItem, UIShell } from '@instana/components';
 
+import useHandleHighlightedTimeframeUpdate from 'in-components/MainNavigation/components/useHandleHighlightedTimeframeUpdate';
 import { click as internalToggleClick } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import SyntheticMonitoringMenuItem from 'in-client/js/CarbonUIShell/SyntheticMonitoringMenuItem';
 import CustomDashboardsMenuItem from 'in-client/js/CarbonUIShell/CustomDashboardsMenuItem';
@@ -40,7 +41,7 @@ export default function CarbonUIShell() {
   const { location } = useNavigation();
   const titleDetail = useUIShellTitleDetail();
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
-
+  useHandleHighlightedTimeframeUpdate();
   const onClickSideNavExpand = () => setIsHeaderExpanded(!isHeaderExpanded);
 
   // If header panel is open, and user clicks outside, close it

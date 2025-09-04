@@ -30,6 +30,7 @@ interface GetLinkToExploreProps {
   chartedMetrics?: Array<MetricItem>;
   fromEventPage?: boolean;
   showGroupsWithMissingTags?: boolean;
+  customEntityModel?: string;
 }
 
 export function isInfraExploreView(): boolean[];

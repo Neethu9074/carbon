@@ -83,6 +83,6 @@ export default function FailedRun({ resultList, testType }: FailedRunProps) {
   );
 }
 
-function getErrors(resultList: Result<PaginatedResult<TestResultListItem>>) {
+export function getErrors(resultList: Result<PaginatedResult<TestResultListItem>>) {
   return get(resultList.data?.items[0], ['testResultCommonProperties', 'errors', 0], '');
 }

@@ -4,4 +4,20 @@
  * Copyright IBM Corp. 2025
  */
 
-export default [];
+// @ts-expect-error
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
+
+export default [
+  {
+    metric: 'cpuUsage',
+    label: t('in-linux-kvm-hypervisor:dashboards.cpuUsage'),
+    formatter: percentage.compact
+  },
+  {
+    metric: 'memoryUsageRatio',
+    label: t('in-linux-kvm-hypervisor:dashboards.memoryUsage'),
+    formatter: percentage.compact
+  }
+];

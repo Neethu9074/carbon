@@ -18,14 +18,22 @@ import { getSyntheticAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/a
 import { useSyntheticTests } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/hooks';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Areas/AreaExpandableListItem';
+import { syntheticsAccessPermissions } from 'in-stores/permission';
+import { syntheticsEnabled } from 'in-services/featureFlags';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 export const SyntheticMonitoringSectionContent = () => {
+  const hasSyntheticsAccess = useHasAccess({
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const [syntheticTests, , , { loading }] = useSyntheticTests();
   const { areaItemIdsWithAccess, areaColumnHeadline, isDisabled } = getSyntheticAreaData({
     area: ProductArea.SYNTHETICS,
-    permissionsSet
+    permissionsSet,
+    hasSyntheticsAccess
   });
 
   const syntheticTestsToDisplay =

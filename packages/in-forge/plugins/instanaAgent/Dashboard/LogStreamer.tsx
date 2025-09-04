@@ -4,16 +4,17 @@
  */
 
 /* eslint-disable react/no-danger */
-import React, { Fragment } from 'react';
+import React from 'react';
 import DOMPurify from 'dompurify';
 
-import { Spacer, Toggle } from '@instana/components';
 import { replaceHtmlChars } from '@instana/utils';
+import { Typography } from '@instana/components';
+import { Toggle, Layer } from '@instana/carbon';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { ansiToHtml } from 'in-forge/plugins/instanaAgent/Dashboard/ansiLoader';
+import CopyToClipboardIconButton from 'in-components/CopyToClipboardIconButton';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
@@ -132,42 +133,45 @@ class LogStreamer extends React.PureComponent<LogStreamerProps> {
   render() {
     const { logStreamTargetId, snapshot, onRender } = this.props;
     const { error, log, scrollToBottomOnChange } = this.state;
+
     return (
-      <Fragment>
+      <div>
         {error && (
           <DashboardNotification type="danger">
             {t('in-forge:plugins.instanaAgent.dashboard.error', { error })}
           </DashboardNotification>
         )}
 
-        <CopyToClipboardButton kind="secondary" size="compact" targetId={logStreamTargetId} />
-
-        <label htmlFor="set-auto-scroll" className={locals.autoScroll}>
-          {t('in-forge:plugins.instanaAgent.dashboard.automaticallyScrollToBottomOnLogChange')}
-          <Spacer horizontal="xxsmall" />
+        <Layer level={0}>
           <Toggle
+            hideLabel
             onToggle={e => {
               this.setState({ scrollToBottomOnChange: e });
-              event?.preventDefault();
-              event?.stopPropagation();
             }}
-            checked={scrollToBottomOnChange}
-            id="set-auto-scroll"
+            size="sm"
+            labelText={t('in-forge:plugins.instanaAgent.dashboard.automaticallyScrollToBottomOnLogChange')}
+            toggled={scrollToBottomOnChange}
+            id={`${logStreamTargetId}-set-auto-scroll`}
             className={locals.toggle}
           />
-        </label>
+          <div className={locals.copyButton}>
+            <CopyToClipboardIconButton targetId={logStreamTargetId} />
+          </div>
+        </Layer>
 
-        <pre>
-          <code
-            className={locals.log}
-            id={logStreamTargetId}
-            dangerouslySetInnerHTML={{ __html: log }}
-            ref={ele => (this.code = ele)}
-          />
-        </pre>
+        <div>
+          <Typography variant="code-01" component="pre">
+            <code
+              className={locals.log}
+              id={logStreamTargetId}
+              dangerouslySetInnerHTML={{ __html: log }}
+              ref={ele => (this.code = ele)}
+            />
+          </Typography>
+        </div>
 
         {onRender?.(this.state, snapshot)}
-      </Fragment>
+      </div>
     );
   }
 }

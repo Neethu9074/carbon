@@ -98,6 +98,8 @@ export default function ThresholdSelectionInteractiveChart({
   );
 }
 
+// TODO: Replace this with the identical function in
+// packages/in-alerting/smart-alerts/components/utils/formUtils.ts
 export function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
   const tagFilterExpression = form.get('tagFilterExpression').value;
   const warningThresholdField = form.get('threshold').get('warningThreshold');

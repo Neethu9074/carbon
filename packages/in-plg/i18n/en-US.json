@@ -40,9 +40,8 @@
     "buyNowBtn": "Buy on AWS",
     "buyNowBtnIbm": "Buy on IBM",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>.",
-    "getAnswers": "Get answers",
-    "share": "Share",
-    "shareTooltip": "Share this page with colleagues and invite them to collaborate in Instana.",
+    "shareTooltip": "Share this page and invite your team",
+    "getAnswersTooltip": "Guided answers here",
     "titleDetail": {
       "trial": "Trial",
       "sandboxTrial": "Sandbox trial"
@@ -258,6 +257,7 @@
         "configurationOptions": "Configuration options",
         "monitoringGcr": "Monitoring Google Cloud Run",
         "monitoringAwsFargateRuby": "Monitoring AWS Fargate (Ruby)",
+        "monitoringAwsFargatePhp": "Monitoring AWS Fargate (PHP)",
         "awsServiceDocumentation": "AWS Services documentation",
         "monitoringAwsLambda": "Monitoring AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configuring AWS Lambda monitoring",
@@ -273,7 +273,8 @@
       "nodejs8": "Node.js 8.x",
       "nodejs10Plus": "Node.js 10.x or newer",
       "python2and3": "Python 2.7 and 3.x",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "php": "PHP"
     },
     "bosh": {
       "boshDirectorRuntimeConfig": "BOSH Director runtime configuration",
@@ -562,7 +563,7 @@
     },
     "logging": {
       "title": "Instana logging",
-      "description": "Now accepting logs anywhere through OTel, and with longer retention up to 90-days as an add-on feature.",
+      "description": "Now accepting logs from anywhere through OTel, and with longer retention up to 90-days as an add-on feature.",
       "buttonName": "Explore now"
     },
     "turbonomic": {
@@ -578,7 +579,8 @@
     "startIntegrating": {
       "title": "Start integrating data",
       "description": "Kickstart your Instana setup and seamless data integration by installing an agent.",
-      "buttonName": "Install agents"
+      "buttonName": "Deploy agent",
+      "newDescription": "Kickstart your Instana setup and seamless data integration by installing an agent or collector."
     },
     "traceInteractions": {
       "title": "Trace interactions",
@@ -848,7 +850,8 @@
         "addUser": "Add user",
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
-        "communityBlogsLink": "Community blogs"
+        "communityBlogsLink": "Community blogs",
+        "installDataSource": "Install a data source"
       },
       "toolTip": {
         "makeDefault": "This action sets the Instana homepage as your default landing page, replacing any custom dashboard you've set."
@@ -944,7 +947,7 @@
   "datasources": {
     "datasources": "Data sources",
     "openTelemetryCollectors": "OpenTelemetry Collectors",
-    "instanaAgents": "Instana Agents",
+    "instanaAgents": "Instana agents",
     "installACollector": "Install a collector",
     "status": {
       "statusUnknown": "Unknown",
@@ -968,8 +971,8 @@
         "emptyState_subtitle": "Click Install an agent to find, deploy, and run an Instana agent "
       },
       "oTelCollector": {
-        "emptyState_title": "Install an OpenTelemetry collector to start viewing data",
-        "emptyState_linktext": "Learn more about Instana oTel collector",
+        "emptyState_title": "Install an OpenTelemetry Collector to start viewing data",
+        "emptyState_linktext": "Learn more about the Instana OTel Collector",
         "emptyState_buttontext": "Install a collector",
         "emptyState_subtitle": "Click Install a collector to find, deploy, and run an OpenTelemetry Collector."
       }
@@ -982,5 +985,50 @@
     "reportingStatus": "{{reporting}} {{datasource}} reporting ({{nonReporting}} not reporting)",
     "reporting": "Reporting",
     "notReporting": "Not reporting"
+  },
+  "onboarding": {
+    "yourDashboard": "Your dashboard",
+    "gettingStarted": "Getting started",
+    "title": "Suggested onboarding tasks",
+    "description": "Get the most out of Instana by completing the following tasks.",
+    "taskLabel": "Onboarding task",
+    "joinCommunityLink": "Join the Instana community",
+    "videotitle": "Guided videos",
+    "tryNow": "Try now",
+    "LearnMore": "Learn more",
+    "videoDescription": "Simplify your setup process by using the video catalog.",
+    "video": "Video",
+    "showCompleted": "Show completed tasks",
+    "hideCompleted": "Hide completed tasks",
+    "tasks": {
+      "setUpFirstDatasource": "Set up your first data source",
+      "verifyTracing": "Verify tracing",
+      "createApplicationPerspective": "Create an application perspective",
+      "inviteYourTeammate": "Invite your teammates",
+      "setUpSmartAlert": "Set up a Smart Alert",
+      "monitorWebsite": "Monitor a website"
+    },
+    "videoitem": {
+      "installation": "How to install Instana",
+      "addingAgent": "How to add agents",
+      "monitorWebsite": "How to monitor a website"
+    },
+    "communityblogs": {
+      "title": "Instana community blogs",
+      "description": "Stay updated on all the exciting news by joining our Instana community.",
+      "blogLabel": "Blog",
+      "gettingStartedBlogTitle": "Getting started with Instana",
+      "gettingStartedBlogDescription": "Find more about Instana and review the information you need to get started.",
+      "initialDeploymentBlogTitle": "Initial installation steps with Instana",
+      "initialDeploymentBlogDescription": "Build your foundation in monitoring websites and setting up alerts with guided videos."
+    },
+    "resource": {
+      "title": "Resources",
+      "tryInstanaWithSampleData": "Try Instana with sample data",
+      "ibmDocumentation": "IBM documentation",
+      "community": "Community",
+      "getSupport": "Get support",
+      "seeInstanaInAction": "See Instana in action"
+    }
   }
 }

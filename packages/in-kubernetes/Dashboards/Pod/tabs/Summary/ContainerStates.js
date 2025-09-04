@@ -126,6 +126,7 @@ export default connectTo(
               IndicatorPresenter={HealthIndicatorPresenter}
               timeConfig={timeConfig}
               snapshotId={status.containerSnapshotId}
+              inContentArea
             />
           )
         };

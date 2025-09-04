@@ -12,8 +12,9 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Glob
 import AlertChannelsList from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default function AlertChannelsViewer({
   alertChannelIds,
@@ -24,13 +25,17 @@ export default function AlertChannelsViewer({
   alertChannels?: { [P in Severity]?: string[] };
   alertChannelPerSeverityEnabled?: boolean;
 }) {
+  const [role] = useCurrentUserRole();
+
   return (
     <>
       <AlertChannelsList
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(alertChannelIds)}
         hasRowNavigation={role?.canConfigureIntegrations}
-        renderNoDataAvailable={() => <NoChannelSelected />}
+        renderNoDataAvailable={() => (
+          <NoChannelSelected text={t('in-alerting:components.noChannelSelectedDetailPage')} />
+        )}
         isSearchable={false}
         getHeader={() => null}
         rightHeader={null}

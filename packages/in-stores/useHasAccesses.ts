@@ -24,18 +24,18 @@ interface HasAccessesProps extends Omit<HasPermissionProps, 'requiredPermissions
  */
 export function hasAccesses({
   grantedPermissions,
-  optionalFeatureFlag,
+  optionalPrecondition,
   requiredPermissions,
   strategy
 }: HasAccessesProps): boolean {
   if (strategy === PERMISSION_STRATEGY.REQUIRE_ANY) {
     return requiredPermissions.some(permissions =>
-      hasAccess({ requiredPermissions: permissions, optionalFeatureFlag, grantedPermissions })
+      hasAccess({ requiredPermissions: permissions, optionalPrecondition, grantedPermissions })
     );
   }
 
   return requiredPermissions.every(permissions =>
-    hasAccess({ requiredPermissions: permissions, optionalFeatureFlag, grantedPermissions })
+    hasAccess({ requiredPermissions: permissions, optionalPrecondition, grantedPermissions })
   );
 }
 
@@ -46,8 +46,8 @@ interface UseHasAccessesProps extends Omit<HasAccessesProps, 'grantedPermissions
  * list of limited-scopes and access-permissions, whom which are specified by
  * an array of permission-tuples.
  * @param {object} props
- * @param {boolean} [props.optionalFeatureFlag] in case the permissions needs
- *   to be feature-flag sensitive
+ * @param {boolean} [props.optionalPrecondition] useful if a permission is
+ *   dependent on other conditions such as an feature-flag
  * @param {string[]} props.requiredPermissions tuple of limited-scope and
  *   access-permission
  * @param {string[]} [props.strategy=PERMISSION_STRATEGY.REQUIRE_ALL] strategy
@@ -55,7 +55,7 @@ interface UseHasAccessesProps extends Omit<HasAccessesProps, 'grantedPermissions
  * @returns {boolean}
  **/
 export default function useHasAccesses({
-  optionalFeatureFlag,
+  optionalPrecondition,
   requiredPermissions,
   strategy = PERMISSION_STRATEGY.REQUIRE_ALL
 }: UseHasAccessesProps): boolean {
@@ -63,7 +63,7 @@ export default function useHasAccesses({
 
   return hasAccesses({
     grantedPermissions: role.permissions,
-    optionalFeatureFlag,
+    optionalPrecondition,
     requiredPermissions,
     strategy
   });

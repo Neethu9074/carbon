@@ -14,13 +14,13 @@ import {
   createTagsUrlParameter,
   createTypeUrlParameter
 } from 'in-automation/navigation/urlParameters';
+import CreatePolicyTearsheet, {
+  CreatePolicyTearsheetProps
+} from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import CreateNewActionTearsheet, {
   CreateNewActionTearsheetProps
 } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
-import CreateNewPolicyTearsheet, {
-  CreateNewPolicyTearsheetProps
-} from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { base64ToUtf8, getDocLinkFromFields, getManualContentFromFields } from 'in-automation/utils/actionField';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
@@ -37,13 +37,13 @@ import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { isLoading } from 'in-services/util/result';
 import { deleteAction } from 'in-automation/api';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 const pathSegment = '/actionCatalog';
@@ -56,6 +56,7 @@ export default function ActionCatalog({
   actions: Result<Action[]>;
   actionsType: 'user' | 'ai';
 }) {
+  const [role] = useCurrentUserRole();
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -74,7 +75,7 @@ export default function ActionCatalog({
   const [{ tags, types }, setFilter] = useActionCatalogFilterUrlState({ pathSegment, matrixPrefix });
   const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, types, tags });
   const [tearsheetProps, setTearsheetProps] = useState<CreateNewActionTearsheetProps>({ open: false });
-  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
+  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreatePolicyTearsheetProps>({ open: false });
 
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
   const totalHits = paginatedActions.data?.totalHits;
@@ -110,7 +111,7 @@ export default function ActionCatalog({
           <>
             {role?.canConfigureAutomationActions && isUserActions && (
               <Button kind="action" onClick={() => toggleActionTearsheet({})} icon="lib_openclose_add_circle_outline">
-                {t('in-automation:ActionCatalog.newAction')}
+                {t('in-automation:ActionCatalog.createAction')}
               </Button>
             )}
             <>
@@ -141,7 +142,7 @@ export default function ActionCatalog({
           setTearsheetProps({ open: false });
         }}
       />
-      <CreateNewPolicyTearsheet
+      <CreatePolicyTearsheet
         {...policyTearsheetProps}
         closeHandler={() => {
           setPolicyTearsheetProps({ open: false });
@@ -162,6 +163,7 @@ function ActionCatalogMoreMenu({
   toggleActionTearsheet?: Function;
   togglePolicyTearsheet: Function;
 }>) {
+  const [role] = useCurrentUserRole();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   let manualContent = '';
@@ -267,7 +269,7 @@ function ActionCatalogMoreMenu({
             )}
             {isUserActions && role?.canConfigureAutomationActions && (
               <MoreMenuButton
-                disabled={isNotEditable(action, false) && action.type !== ACTION_TYPE.ANSIBLE}
+                disabled={isNotEditable(action, false, role) && action.type !== ACTION_TYPE.ANSIBLE}
                 icon="lib_actions_delete"
                 onClick={() => showConfirmationDialog(action)}
               >

@@ -9,11 +9,12 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Link } from '@instana/components';
 
-import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 // eslint-disable-next-line import/no-deprecated
-import { mutateUrl } from 'in-stores/navigation';
 import { useCloseProfilesViewLink } from 'in-components/Profiling/navigation/paths';
+import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
+import { addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import getProfiles from 'in-components/Profiling/subscriptions/getProfiles';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
@@ -45,6 +46,7 @@ export default function ProfilesViewUrlStateExtractor(props) {
 }
 
 function TimeFixater(props) {
+  const { location, navigate } = useNavigation();
   let { timeConfig, time } = props;
   const highlightedTimeframe = useObservable(highlightedTimeframe$, []);
 
@@ -53,9 +55,11 @@ function TimeFixater(props) {
     if (highlightedTimeframe && timeConfig.to == null) {
       // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
       // eslint-disable-next-line import/no-deprecated
-      mutateUrl(location => setTimeConfig(location, fixateTimeConfig(timeConfig)), true);
+      setTimeConfig(location, fixateTimeConfig(timeConfig));
+      addOrDeleteHighlightedTimeframeToParams(location, highlightedTimeframe[0], highlightedTimeframe[1]);
+      navigate(location, true);
     }
-  }, [highlightedTimeframe, timeConfig]);
+  }, [highlightedTimeframe, location, navigate, timeConfig]);
 
   const to = timeConfig.to || Date.now();
   const timeConfigForSnapshots = {

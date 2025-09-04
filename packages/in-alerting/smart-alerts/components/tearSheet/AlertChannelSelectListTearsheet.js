@@ -27,7 +27,8 @@ export default function AlertChannelSelectListTearsheet({
   hiddenIds = [],
   limit = Number.MAX_VALUE, // unlimited by default
   pageSize,
-  entityResult
+  entityResult,
+  createdChannelId
 }) {
   const [selectedItems, setSelectedItems] = useState(selectedChannels.length > 0 ? selectedChannels : []);
   const [errorMessage, setErrorMessage] = useState();
@@ -38,7 +39,10 @@ export default function AlertChannelSelectListTearsheet({
     onSelectionUpdate(selectedItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems]);
-
+  useEffect(() => {
+    if (createdChannelId) setSelectedItems([...selectedItems, createdChannelId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdChannelId]);
   return (
     <div>
       {errorMessage && (
@@ -81,6 +85,7 @@ export default function AlertChannelSelectListTearsheet({
         }}
         rightHeader={listComponentRightHeader}
         renderNoDataAvailable={() => <NoChannelSelected text={t('in-alerting:components.noChannelAvailable')} />}
+        createdChannelId={createdChannelId}
       />
     </div>
   );

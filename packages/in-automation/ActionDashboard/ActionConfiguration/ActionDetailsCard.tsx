@@ -32,9 +32,9 @@ import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { actionAiGenerationEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -97,6 +97,7 @@ function ActionConfigurationActions({
   toggleActionTearsheet,
   togglePolicyTearsheet
 }: Readonly<ActionConfigurationActionsProps>) {
+  const [role] = useCurrentUserRole();
   const { form } = useActionFormContext();
   const navigateToActionCatalog = useNavigateToActionCatalog();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
@@ -178,7 +179,7 @@ function ActionConfigurationActions({
               <CarbonIconButton
                 label={t('in-automation:delete')}
                 kind="ghost"
-                disabled={isNotEditable(data, false) && data.type !== ACTION_TYPE.ANSIBLE}
+                disabled={isNotEditable(data, false, role) && data.type !== ACTION_TYPE.ANSIBLE}
                 size="sm"
                 onClick={() =>
                   showConfirmationDialog(data as Action, { callback: navigateToActionCatalog, disableRefresh: true })

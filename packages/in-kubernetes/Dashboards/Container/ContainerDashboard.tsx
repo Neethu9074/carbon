@@ -4,8 +4,11 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
 import { get } from 'lodash';
+import React from 'react';
+
+import { TimeConfig, EntityHealthInfo } from '@instana/types';
+
 import {
   bytesTwoDecimalPlaces,
   bytesZeroDecimalPlaces,
@@ -18,21 +21,24 @@ import InfrastructureMetricSparkChart from 'in-components/SparkChart/Infrastruct
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error TS migration
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import {
+  clusterIdUrlParameter,
+  namespaceIdUrlParameter,
+  nodeIdUrlParameter
+} from 'in-kubernetes/navigation/urlParameters';
 // @ts-expect-error TS migration
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import getOtelKubernetesContainers from 'in-kubernetes/subscriptions/getOtelKubernetesContainers';
-import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 // @ts-expect-error TS migration
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import getOtelKubernetesContainers from 'in-kubernetes/subscriptions/getOtelKubernetesContainers';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getContainerIconByPlugin } from 'in-kubernetes/utils';
-import { clusterIdUrlParameter, namespaceIdUrlParameter, nodeIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import Capitalize from 'in-components/Capitalize';
 import { t } from 'in-i18n';
-import { TimeConfig, EntityHealthInfo } from '@instana/types';
 
 const pathSegment = '/containers';
 const matrixPrefix = 'container.';
@@ -93,7 +99,7 @@ const columnDefinitions: ColumnDefinition[] = [
     id: 'namespace',
     label: t('in-kubernetes:dashboards.namespace'),
     sortable: true,
-    getContent: (item) => {
+    getContent: item => {
       const namespace = get(item, ['container', 'namespace']);
       return namespace ? <Capitalize>{namespace}</Capitalize> : valueMissingPlaceholder;
     }
@@ -102,7 +108,7 @@ const columnDefinitions: ColumnDefinition[] = [
     id: 'pod',
     label: t('in-kubernetes:dashboards.pod'),
     sortable: true,
-    getContent: (item) => {
+    getContent: item => {
       const podName = get(item, ['container', 'podName']);
       return podName || valueMissingPlaceholder;
     }
@@ -111,7 +117,7 @@ const columnDefinitions: ColumnDefinition[] = [
     id: 'node',
     label: t('in-kubernetes:dashboards.node'),
     sortable: true,
-    getContent: (item) => {
+    getContent: item => {
       const nodeName = get(item, ['container', 'nodeName']);
       return nodeName || valueMissingPlaceholder;
     }
@@ -120,7 +126,7 @@ const columnDefinitions: ColumnDefinition[] = [
     id: 'status',
     label: t('in-kubernetes:dashboards.status'),
     sortable: true,
-    getContent: (item) => {
+    getContent: item => {
       const status = get(item, ['container', 'status']);
       return status ? <Capitalize>{status}</Capitalize> : valueMissingPlaceholder;
     }

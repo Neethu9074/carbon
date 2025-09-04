@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { createField, createMapForm, Severity } from 'formalistic';
+import { createField, createMapForm, MapForm, Severity } from 'formalistic';
 import { useEffect, useState } from 'react';
 import React from 'react';
 
@@ -12,6 +12,7 @@ import { Typography } from '@instana/components';
 
 import { DeleteLogsFormFields } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/modalTypes';
 import { modalLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
+import { InputValues } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsV3/modalTypes';
 import { formatDate, formatTimeWithoutSeconds } from 'in-services/formatters/date';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 
@@ -38,6 +39,21 @@ export const validateTime = (value: string) => {
   return regex.test(value)
     ? null
     : [{ severity: 'error' as Severity, message: modalLocalisationStrings.correctTimeFormat }];
+};
+
+export const isValidTime = (v: string) => /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/.test(v);
+
+export const getTimeFormatValidation = (form: MapForm<any>, inputValues: InputValues, localisationStrings: any) => {
+  const startTouched = form.get('deletionStartTime')?.touched;
+  const endTouched = form.get('deletionEndTime')?.touched;
+
+  const invalidStart = startTouched && !isValidTime(inputValues.startTime as string);
+  const invalidEnd = endTouched && !isValidTime(inputValues.endTime as string);
+
+  return {
+    startTime: invalidStart ? localisationStrings.correctTimeFormat : null,
+    endTime: invalidEnd ? localisationStrings.correctTimeFormat : null
+  } as const;
 };
 
 const createTodayDateWithTime = (time: string) => {

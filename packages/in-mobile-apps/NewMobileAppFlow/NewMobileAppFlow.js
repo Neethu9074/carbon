@@ -33,6 +33,7 @@ export default function NewMobileAppFlow() {
   const [mobileAppName, setMobileAppName] = useState();
   const [saveError, setSaveError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [teams, setTeams] = useState([]);
 
   const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
     timeConfig: getWaitForEntityCreationTimeConfig()
@@ -56,7 +57,7 @@ export default function NewMobileAppFlow() {
       mobileAppName: field.value
     });
 
-    combineDataAndError(addMobileApp(field.value)).once(({ data, error }) => {
+    combineDataAndError(addMobileApp(field.value, teams)).once(({ data, error }) => {
       if (error) {
         setLoading(false);
         setSaveError(get(error, ['response', 'body', 'errors', 0]) || String(error));
@@ -84,10 +85,11 @@ export default function NewMobileAppFlow() {
     });
   }
 
+  const onTeamsChange = selectedTeams => setTeams(selectedTeams);
   let content;
   if (!mobileAppId) {
     content = (
-      <InputStep field={field} saveError={saveError} loading={loading} onChange={onChange} onSubmit={onSubmit} />
+      <InputStep field={field} saveError={saveError} loading={loading} onChange={onChange} onSubmit={onSubmit} teams={teams} onTeamsChange={onTeamsChange} />
     );
   } else if (!mobileApp) {
     content = <WaitStep mobileAppId={mobileAppId} mobileAppName={mobileAppName} />;

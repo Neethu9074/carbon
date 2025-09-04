@@ -264,6 +264,11 @@
     "errorEmptyGoodFilter": "A good filter must be defined",
     "errorEqualTagFilter": "Good and bad filters must not be identical",
     "nameAndTagsTitle": "Set details",
+    "bindTimezoneLabel": "Bind timezone",
+    "currentTimezoneMessage": "Your current time zone is {{timezone}}.",
+    "disabledToggleLabel": "Disable",
+    "enabledToggleLabel": "Enable",
+    "selectTimezoneMessage": "Select time zone",
     "sloNameLabel": "SLO name",
     "sloNamePlaceholder": "Enter name",
     "tagsLabel": "Tags (optional)",
@@ -329,16 +334,20 @@
       "timeWindowType_dynamic": "Dynamic time window",
       "timeWindowType_rolling": "Rolling time window",
       "timeWindowType_fixed": "Fixed time window",
-      "configuredTimeWindow": "Configured SLO time window:",
+      "configuredTimeWindow": "Configured SLO time window",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "Start time: {{startDay}} , {{startTime}}",
-      "matchedSLOTimeWindow": "Matching SLO time window: ",
-      "matchedSLOTimeWindow_plural": "Matching SLO time windows: ",
-      "matchedSLOTimeWindow_0": "Matching SLO time window: ",
-      "matchedSLOTimeWindow_1": "Matching SLO time window: ",
-      "matchedSLOTimeWindow_2": "Matching SLO time windows: ",
+      "matchedSLOTimeWindow": "Matching SLO time window",
+      "matchedSLOTimeWindow_plural": "Matching SLO time windows",
+      "matchedSLOTimeWindow_0": "Matching SLO time window",
+      "matchedSLOTimeWindow_1": "Matching SLO time window",
+      "matchedSLOTimeWindow_2": "Matching SLO time windows",
       "noMatchedSLOTimeWindow": "No matching time window found",
-      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}",
+      "currentTimezone": "Your current time zone is set to {{timezone}}.",
+      "editSloTimezone": "Edit SLO time zone",
+      "sloCreatedTimezone": "This SLO was created in {{sloTimezone}}",
+      "timezone": "Time zone: {{sloTimezone}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "Preview not available because the configuration is incomplete.",
@@ -510,7 +519,8 @@
         "timeWindowLabel": "Time window",
         "durationLabel": "Length",
         "startDateLabel": "Start date",
-        "startTimeLabel": "Start time"
+        "startTimeLabel": "Start time",
+        "timezoneLabel": "Time zone"
       }
     }
   },
@@ -539,7 +549,8 @@
   "configureCorrectionWindowDialog": {
     "validators": {
       "daysOfTheWeek": "Must select atleast one day.",
-      "startAndEndDate": "The end date must be after the start date."
+      "startAndEndDate": "The end date must be after the start date.",
+      "startTime": "Time does not have the format {{timeFormat}}"
     },
     "components": {
       "scopeSection": {

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { Card, DataTable as CarbonDataTable } from '@instana/components';
 
@@ -180,7 +180,7 @@ export default connectTo(
       return <MonitoredContainers {...props} />;
     }
     return (
-      <Fragment>
+      <>
         <Row>
           <Col lg={12}>
             <MonitoredContainers {...props} />
@@ -191,7 +191,7 @@ export default connectTo(
             <UnmonitoredContainers containerStatuses={containerStatuses} />
           </Col>
         </Row>
-      </Fragment>
+      </>
     );
   }
 );
@@ -206,11 +206,7 @@ function MonitoredContainers({ data: pod, timeConfig }) {
     statesMap[allContainerStatuses[i].containerSnapshotId] = allContainerStatuses[i];
   }
 
-  return (
-    <Card>
-      <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} podId={pod.id} statesMap={statesMap} />
-    </Card>
-  );
+  return <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} podId={pod.id} statesMap={statesMap} />;
 }
 
 function UnmonitoredContainers({ containerStatuses }) {

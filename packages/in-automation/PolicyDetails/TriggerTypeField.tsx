@@ -48,6 +48,7 @@ interface TriggerTypeFieldProps {
 }
 
 export function TriggerTypeField({ trigger, type }: TriggerTypeFieldProps) {
+  if(type === 'schedule') return <></>;
   const fields = {
     applicationSmartAlert: {
       label: t('in-automation:policies.filterApplied'),
@@ -96,7 +97,7 @@ export function TriggerTypeField({ trigger, type }: TriggerTypeFieldProps) {
     customEvent: {
       label: t('in-automation:policies.entityType'),
       component: <EntityType entity={trigger as EventSpecificationInfo} />
-    }
+    },
   };
   return <CarbonFormGroup legendText={fields[type].label}>{type && fields[type].component}</CarbonFormGroup>;
 }
@@ -158,7 +159,8 @@ export function getTriggerType(type: TriggerType) {
     logSmartAlert: t('in-automation:policies.logSmartAlert'),
     sloSmartAlert: t('in-automation:policies.sloSmartAlert'),
     builtinEvent: t('in-automation:policies.event'),
-    customEvent: t('in-automation:policies.event')
+    customEvent: t('in-automation:policies.event'),
+    schedule: t('in-automation:policies.schedule')
   };
   return fields[type];
 }

@@ -201,6 +201,19 @@ export function validateStaticThresholdMapForm({
   const criticalThresholdValue = criticalThreshold.get('value')?.value;
   const hasCriticalThreshold = !isEmpty(criticalThresholdValue);
 
+  // check if thresholdValue is greater than `MAX_SAFE_INTEGER`
+  if (hasWarningThreshold || hasCriticalThreshold) {
+    const thresholdValue = hasWarningThreshold ? warningThresholdValue : criticalThresholdValue;
+    if (thresholdValue >= Number.MAX_SAFE_INTEGER || thresholdValue < 0) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-alerting:smartAlerts.form.invalidNumber')
+        }
+      ];
+    }
+  }
+
   if (hasWarningThreshold && hasCriticalThreshold) {
     const operatorValue = operator?.value;
 

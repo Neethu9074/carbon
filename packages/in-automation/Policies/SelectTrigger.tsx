@@ -41,6 +41,7 @@ import { PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
 import { Triggers, TriggerSpecification } from 'in-automation/types';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { hasError, listSuccess } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { getTriggerType } from 'in-automation/utils/trigger';
 import CancelButton from 'in-components/form/CancelButton';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -48,7 +49,6 @@ import { merge } from 'in-services/util/resultMerger';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Policy.mless';
@@ -60,10 +60,12 @@ export default function SelectTrigger({
   triggers: Triggers;
   inEventPage?: boolean;
 }) {
+  const [role] = useCurrentUserRole();
   const { form, setForm } = usePolicyFormContext();
 
   const triggerId = form.get('triggerId');
   const triggerType = form.get('triggerType');
+  if (triggerType.value === 'schedule') return <></>;
   const selectedTriggerType = triggers[triggerType.value];
   // @ts-ignore
   const selectedTrigger = selectedTriggerType?.data?.find(trigger => trigger.id === triggerId.value);
@@ -332,7 +334,9 @@ type TriggerTab =
   | 'mobileAppSmartAlert'
   | 'syntheticsSmartAlert'
   | 'logSmartAlert'
-  | 'sloSmartAlert';
+  | 'sloSmartAlert'
+  | 'schedule';
+
 type EventType = 'customEvent' | 'builtinEvent' | null;
 
 function useTriggerFilters({
@@ -348,6 +352,7 @@ function useTriggerFilters({
     selectedTriggerType === 'builtinEvent' || selectedTriggerType === 'customEvent' ? 'event' : selectedTriggerType
   );
   const [eventType, setEventType] = useState<EventType>(null);
+
   const filteredTriggers =
     selectedTab === 'event'
       ? eventType === null

@@ -288,6 +288,12 @@ function createScriptFileConfigurationForm(configuration: Record<string, any>) {
       })
     )
     .put(
+      'fileName',
+      createField({
+        value: configuration?.fileName || configuration?.scriptFileName
+      })
+    )
+    .put(
       'timeout',
       createField({
         value: configuration?.timeout,
@@ -338,6 +344,12 @@ function createScriptsBundleConfigurationForm(configuration: Record<string, any>
     .put(
       'scripts',
       createZipScriptConfigurationForm(configuration?.scripts?.bundle, configuration?.scripts?.scriptFile!)
+    )
+    .put(
+      'fileName',
+      createField({
+        value: configuration?.fileName || configuration?.scriptFileName
+      })
     )
     .put(
       'timeout',

@@ -30,7 +30,7 @@ interface LogsChartProps {
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
-const logLevelsToShow: LogLevel[] = ['ERROR', 'INFO', 'WARN', 'FATAL', 'NONE'];
+const logLevelsToShow: LogLevel[] = ['ERROR', 'WARN', 'INFO', 'FATAL', 'NONE'];
 
 export default function LogsChart(props: LogsChartProps) {
   const { tagFilterExpression, additionalContextMenuButtons, onLegendItemToggle } = props;

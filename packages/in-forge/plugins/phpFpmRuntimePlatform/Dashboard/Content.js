@@ -21,6 +21,17 @@ export default function PhpFpmDashboard({ snapshot, timeConfig }) {
         {t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.noWorkerPoolsFound')}
       </DashboardNotification>
     );
+  } else if (!isWorkerPoolMonitoringEnabled(snapshot)) {
+    return (
+      <DashboardNotification type="info">
+        <Trans
+          i18nKey="in-forge:plugins.phpFpmRuntimePlatform.dashboard.workerPoolMonitoringDisabledNotification"
+          components={{
+            code: <code />
+          }}
+        />
+      </DashboardNotification>
+    );
   }
 
   return (
@@ -151,4 +162,8 @@ function WorkerPoolMetrics({ snapshot, pool, timeConfig }) {
 
 function isStatusPathEnabled(snapshot, pool) {
   return snapshot.getIn(['data', 'worker_pool.' + pool + '.pm_status_path'], 'undefined') !== 'undefined';
+}
+
+function isWorkerPoolMonitoringEnabled(snapshot) {
+  return snapshot.getIn(['data', 'worker_pools_monitoring'], true) == true;
 }

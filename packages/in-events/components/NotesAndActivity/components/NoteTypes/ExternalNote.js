@@ -6,12 +6,15 @@
 
 import React from 'react';
 
+import { isSlack, isServiceNow, isMSTeams } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
+
 import locals from './ExternalNote.mless';
 
 export function ExternalNote({ noteObj }) {
   const contents = noteObj?.contents;
-  const slack = noteObj?.origin == 'Slack';
-  const snow = noteObj?.origin == 'ServiceNow';
+  const snow = isServiceNow(noteObj?.origin);
+  const teams = isMSTeams(noteObj?.origin);
+  const slack = isSlack(noteObj?.origin);
   return (
     <>
       {snow && (
@@ -21,7 +24,7 @@ export function ExternalNote({ noteObj }) {
           <div className={locals.contents}>{contents}</div>
         </>
       )}
-      {slack && (
+      {(slack || teams) && (
         <div className={locals.noteTypeHeading}>
           {`${noteObj.author}`}
           <div className={locals.contents}>{`${contents}`}</div>

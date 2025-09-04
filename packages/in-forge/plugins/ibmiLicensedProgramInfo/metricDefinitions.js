@@ -14,12 +14,12 @@ export default [
       getDynamicMetricMatch(
         'licenseInformationMetrics',
         'daysToExpire',
-        t('in-forge:plugins.ibmiLicensedProgramInfo.dashboard.tables.licenseInfo.daysToExpire')
+        t('in-forge:plugins.ibmiLicensedProgramInfo.dashboard.tables.licenseInfo.productId') + "/" + t('in-forge:plugins.ibmiLicensedProgramInfo.dashboard.tables.licenseInfo.featureId')
       )
     ],
     labels: [t('in-forge:plugins.ibmiLicensedProgramInfo.dashboard.tables.licenseInfo.daysToExpire')],
     min: 0,
     formatter: number,
-    category: [t('in-forge:plugins.ibmiLicensedProgramInfo.dashboard.tables.licenseInfo.daysToExpire')]
+    category: [t('in-forge:plugins.ibmiLicensedProgramInfo.dashboard.tables.licenseInfo.productId') + "/" + t('in-forge:plugins.ibmiLicensedProgramInfo.dashboard.tables.licenseInfo.featureId')]
   }
 ];

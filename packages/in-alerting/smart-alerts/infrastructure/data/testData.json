@@ -14,7 +14,13 @@
       "crossSeriesAggregation": "MEAN",
       "entityType": "",
       "metricName": "",
-      "regex": false
+      "regex": false,
+      "metricGroupBy": [],
+      "metricTagFilterExpression": {
+        "type": "EXPRESSION",
+        "logicalOperator": "AND",
+        "elements": []
+      }
     },
     "severity": 5,
     "threshold": {

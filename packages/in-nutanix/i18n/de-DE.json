@@ -15,6 +15,7 @@
   "memoryAllocated": "Zugeordneter Hauptspeicher",
   "hypervisorTypes": "Hypervisor-Typen",
   "clusterArch": "Clusterarchitektur",
+  "version": "Version",
   "dashboards": {
     "system": "System",
     "wait": "Warten",

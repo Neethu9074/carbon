@@ -15,10 +15,15 @@ export default connectTo(
     showAggregations: showAggregations$
   },
   function ShowAggregates({ showAggregations }) {
+    const ShowAggregatesTranslation = showAggregations
+      ? t('in-map:disableAggregations')
+      : t('in-map:enableAggregations');
+
     return (
       <Control
+        ariaLabel={ShowAggregatesTranslation}
         onClick={toggle}
-        tooltipText={showAggregations ? t('in-map:disableAggregations') : t('in-map:enableAggregations')}
+        tooltipText={ShowAggregatesTranslation}
         type="lib_datetime_timerange"
         isActive={showAggregations}
       />

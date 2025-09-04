@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
-import { SvgIcon, Pill, Link } from '@instana/components';
+import { ContainedListItem, Tag, Stack } from '@instana/carbon';
+import { SvgIcon, Typography } from '@instana/components';
 import { Event } from '@instana/types';
 
 import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
@@ -25,71 +26,74 @@ interface IssueProps {
   getIssueLink?: (issueId: string) => string;
 }
 
+/**
+ * Renders the fix suggestion content based on its length
+ */
+function renderFixSuggestion(fixSuggestion: string | undefined): React.ReactNode {
+  if (!fixSuggestion) {
+    return null;
+  }
+
+  if (fixSuggestion.length > MAX_PROBLEM_TEXT_LENGTH) {
+    return (
+      <div className={locals.descriptionTooLong}>
+        <Typography variant="helper-text-01">
+          {t('in-components:health.openIssuesListPresenterIssueDescriptionOmitted')}
+        </Typography>
+      </div>
+    );
+  }
+
+  return <DangerousHtmlPresenter html={toHtml(fixSuggestion)} className={locals.fixSuggestion} />;
+}
+
 export default function Issue({ issue, getIssueLink }: IssueProps): React.ReactElement {
   const severity = issue.problem?.severity ?? 0; // or -1 if not set?
   const color = getDesignLibraryColorBySeverity(severity);
   const type = getDesignLibrarySeverityIcon(severity);
 
-  let content = (
-    <Fragment>
-      <div className={locals.stripe} style={{ background: color }}>
-        <SvgIcon type="lib_arrow_right" color="#fff" className={locals.stripeIcon} />
-      </div>
-
-      <h2 className={locals.title}>
-        <SvgIcon
-          type={type}
-          color={color}
-          size="s"
-          className={classNames({
-            [locals.icon]: true,
-            [locals.iconWarning]: !(severity > 5) && severity !== 0
-          })}
-        />
-        {issue.problem?.problemText}
-      </h2>
-
-      <div className={locals.description}>
-        {(issue.problem?.fixSuggestion?.length ?? 0) > MAX_PROBLEM_TEXT_LENGTH ? (
-          <span className={locals.descriptionTooLong}>
-            {t('in-components:health.openIssuesListPresenterIssueDescriptionOmitted')}
-          </span>
-        ) : (
-          <DangerousHtmlPresenter html={toHtml(issue.problem?.fixSuggestion)} />
-        )}
-      </div>
-
-      <div className={locals.timeSection}>
-        <Pill
-          /* @ts-expect-error this kind does not exist on button, and will be fixed in a follow-up */
-          kind="lighter"
-        >
-          {t('in-components:health.openIssuesListPresenterStarted')}
-        </Pill>
-        <time dateTime={new Date(issue.start ?? 0).toISOString()} className={locals.startTime}>
-          {formatDateTime(issue.start)}
-        </time>
-      </div>
-    </Fragment>
-  );
-
-  if (getIssueLink) {
-    const issueHref = getIssueLink(issue.id);
-    content = (
-      <Link href={issueHref} className={locals.link} onClick={() => issueClickTracker({ path: issueHref })}>
-        {content}
-      </Link>
-    );
-  }
+  const issueHref = getIssueLink ? getIssueLink(issue.id) : '';
+  const onClick = () => {
+    issueClickTracker({ path: issueHref });
+    window.location.href = issueHref;
+  };
 
   return (
-    <li
-      className={classNames({
-        [locals.issue]: true,
-        [locals.clickable]: getIssueLink != null
-      })}
+    <ContainedListItem
+      onClick={getIssueLink ? onClick : undefined}
+      className={locals.issue}
+      renderIcon={() => {
+        return (
+          <SvgIcon
+            type={type}
+            color={color}
+            size="xs"
+            className={classNames({
+              [locals.icon]: true,
+              [locals.iconWarning]: severity <= 5 && severity !== 0
+            })}
+          />
+        );
+      }}
     >
-      {content}
-    </li>
+      <Stack gap={3}>
+        <div>
+          <Tag type="gray" size="sm" className={locals.tag}>
+            {t('in-components:health.openIssuesListPresenterStarted')}
+          </Tag>
+          <Typography variant="label-01">{formatDateTime(issue.start)}</Typography>
+        </div>
+        <Stack gap={1}>
+          <div>
+            <div>
+              <Typography variant="body-compact-01">{issue.problem?.problemText}</Typography>
+            </div>
+          </div>
+          <div>
+            <div>{renderFixSuggestion(issue.problem?.fixSuggestion)}</div>
+          </div>
+        </Stack>
+      </Stack>
+    </ContainedListItem>
   );
 }

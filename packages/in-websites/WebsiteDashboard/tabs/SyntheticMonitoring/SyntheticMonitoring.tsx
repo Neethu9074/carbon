@@ -18,10 +18,12 @@ import {
   pathSegment,
   PresenterProps,
   syntheticTypesUrlParameter,
-  locationsUrlParameter
+  locationsUrlParameter,
+  defaultRunType
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { TestsTableWithUrlState } from 'in-synthetics/dashboards/global/tabs/tests/components/TestsTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
@@ -29,6 +31,7 @@ import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSumm
 import getServerTableDescription from 'in-synthetics/utils/getServerTableDescription';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { syntheticSslImprovementEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -42,21 +45,27 @@ const urlStateDefinition = {
   })
 };
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
+function ServerTableWithUrlState(props: Parameters<typeof createServerTableWithUrlState>[0]) {
+  const Component = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions: columnDefinitions.filter(
+        column => !['applicationLabels', 'applicationLabel'].includes(column.id)
+      ),
+      title: t('in-websites:websiteDashboard.tabs.synthetic.noDataTitle'),
+      description: getServerTableDescription('websites')
+    }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter],
     columnDefinitions: columnDefinitions.filter(
       column => !['applicationLabels', 'applicationLabel'].includes(column.id)
     ),
-    title: t('in-websites:websiteDashboard.tabs.synthetic.noDataTitle'),
-    description: getServerTableDescription('websites')
-  }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter],
-  columnDefinitions: columnDefinitions.filter(column => !['applicationLabels', 'applicationLabel'].includes(column.id)),
-  defaultOrderBy: 'successRate',
-  defaultOrderDirection: 'ASC',
-  pathSegment,
-  matrixPrefix
-});
+    defaultOrderBy: 'successRate',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  });
+
+  return <Component {...props} />;
+}
 
 interface Props {
   websiteId: string;
@@ -66,6 +75,8 @@ interface Props {
 const SyntheticMonitoring = ({ websiteId, timeConfig }: Props) => {
   const [{ syntheticTypes, locationIds }, setFilter] = useUrlState(urlStateDefinition);
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(getTests, []) ?? pendingResult;
+  // Use the defaultRunType constant
+  const runType = defaultRunType;
 
   function useFilterHeader(isFilterAllowed: boolean) {
     return function Filter({ syntheticTypes, locationIds }: PresenterProps) {
@@ -89,16 +100,31 @@ const SyntheticMonitoring = ({ websiteId, timeConfig }: Props) => {
 
   return (
     <>
-      <ServerTableWithUrlState
-        timeConfig={timeConfig}
-        context={'website'}
-        websiteId={websiteId}
-        rightHeader={rightHeader}
-        cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
-        get={getTestSummaryListData}
-        syntheticTypes={syntheticTypes}
-        locationIds={locationIds}
-      />
+      {syntheticSslImprovementEnabled ? (
+        <TestsTableWithUrlState
+          isAssociationsContext
+          context={'website'}
+          websiteId={websiteId}
+          syntheticTypes={syntheticTypes}
+          locationIds={locationIds}
+          {...(runType ? { runType } : {})}
+          syntheticTests={syntheticTests}
+          timeConfig={timeConfig}
+          setFilter={setFilter}
+        />
+      ) : (
+        <ServerTableWithUrlState
+          timeConfig={timeConfig}
+          context={'website'}
+          websiteId={websiteId}
+          rightHeader={rightHeader}
+          cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
+          get={getTestSummaryListData}
+          syntheticTypes={syntheticTypes}
+          locationIds={locationIds}
+          {...(runType ? { runType } : {})}
+        />
+      )}
       <Footer />
     </>
   );

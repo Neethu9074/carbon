@@ -20,9 +20,9 @@ describe('Render InfraMultiThresholdCondition : in-alerting/smart-alerts/infrast
   it('Check if component rendered in UI', () => {
     render(<InfraMultiThresholdCondition form={form} updateForm={updateForm} percentageMetric metricUnitPostfix="%" />);
 
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold'))
-    ).toBeInTheDocument();
+    expect(screen.getAllByText(t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold'))).toHaveLength(
+      2
+    );
     expect(
       screen.getByText(t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold'))
     ).toBeInTheDocument();

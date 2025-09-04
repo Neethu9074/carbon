@@ -53,13 +53,18 @@ const createInitialColumnOrder = <ITEM_TYPE extends ListItem>(
     sorted.unshift(nameColumn);
   }
 
-  // If action column exists, move it to the end
+  // If action column exists, move it after the last checked/enabled column
   if (actionColumnIndex !== -1) {
     // Need to recalculate index since the array may have changed
     const newActionIndex = sorted.findIndex(col => isDisabledColumn(col.id, col.label, 'action'));
     if (newActionIndex !== -1) {
       const actionColumn = sorted.splice(newActionIndex, 1)[0];
-      sorted.push(actionColumn);
+
+      // Find the index of the last enabled column
+      const lastEnabledIndex = sorted.findLastIndex(col => !col.optional || enabledColumns.includes(col.id));
+
+      // Insert the action column after the last enabled column
+      sorted.splice(lastEnabledIndex + 1, 0, actionColumn);
     }
   }
 
@@ -125,22 +130,27 @@ export function useColumnReordering<ITEM_TYPE extends ListItem>(
         return col && isDisabledColumn(col.id, col.label, 'action');
       });
 
-      // Prevent dragging before Name column or after Action column
+      // Get the column being dragged
+      const draggedColumn = columnDefinitionsMap[active.id];
+
+      // Check if the dragged column is checked/enabled
+      const isDraggedColumnEnabled = !draggedColumn.optional || enabledColumns.includes(draggedColumn.id);
+
+      // Prevent dragging before Name column and checked columns below Action column
       if (
         (nameColumnIndex !== -1 && newIndex <= nameColumnIndex) ||
-        (actionColumnIndex !== -1 && newIndex >= actionColumnIndex)
+        (isDraggedColumnEnabled && actionColumnIndex !== -1 && newIndex >= actionColumnIndex)
       ) {
         return; // Cancel the drag operation
       }
 
       const newOrderIds = arrayMove(orderedRowIds, oldIndex, newIndex);
-
-      setOrderedRowIds(newOrderIds);
       const columnDefinitionsSorted = createSortedColumnDefinitions(newOrderIds, columnDefinitionsMap);
 
+      setOrderedRowIds(newOrderIds);
       setColDefinitions(columnDefinitionsSorted);
     },
-    [orderedRowIds, columnDefinitionsMap]
+    [orderedRowIds, columnDefinitionsMap, enabledColumns]
   );
 
   return {

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
@@ -23,8 +23,8 @@ import DialogContentWrapper from 'in-alerting/smart-alerts/components/dialog/Dia
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import SlideInView from 'in-components/SlideInView/SlideInView';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import SaveButton from 'in-components/form/SaveButton';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel.mless';
@@ -94,6 +94,8 @@ function SelectListDialogContent({
   numberOfAlertChannelListRows,
   alertChannelPerSeverityEnabled
 }) {
+  const [role] = useCurrentUserRole();
+  const [createdChannelId, setCreatedChannelId] = useState(null);
   return (
     <SelectListDialogContentComponent
       listComponent={AlertChannelsListForSlideIn}
@@ -119,6 +121,7 @@ function SelectListDialogContent({
                             }
                             isTearsheet
                             alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+                            setCreatedChannelId={setCreatedChannelId}
                           />
                         </AlertConfigSlideInContentWrapper>
                       }
@@ -167,6 +170,8 @@ function SelectListDialogContent({
         );
       }}
       pageSize={numberOfAlertChannelListRows}
+      createdChannelId={createdChannelId}
+      setCreatedChannelId={setCreatedChannelId}
     />
   );
 }

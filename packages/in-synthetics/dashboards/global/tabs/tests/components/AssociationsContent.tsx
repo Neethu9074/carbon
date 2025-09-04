@@ -11,7 +11,7 @@ import { TestResultListItem } from '@instana/types';
 import AssociationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContentPresenter';
 import ApplicationLabelContent from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationLabelContent';
 import { AssociationsSidePanel } from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsSidePanel';
-import { syntheticCarbonTableEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
+import { syntheticSslImprovementEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 interface Props {
@@ -42,7 +42,7 @@ const AssociationsContent = ({ item, shouldDisplayLink }: Props) => {
         : [];
     const numberOfAssociations: number = applicationLabels.length + websiteLabels.length + mobileAppLabels.length;
 
-    return syntheticCarbonTableEnabled ? (
+    return syntheticSslImprovementEnabled ? (
       <AssociationsSidePanel
         associationsSidePanelOpen={associationsSidePanelOpen}
         setAssociationsSidePanelOpen={setAssociationsSidePanelOpen}

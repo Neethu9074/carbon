@@ -12,7 +12,7 @@ import { disableTvMode } from 'in-components/WithTvMode';
 let navigationParameters;
 navigationParameters$.subscribe(_navigationParameters => (navigationParameters = _navigationParameters));
 
-export default function onPressed() {
+export function onEscPressed() {
   disableTvMode();
 
   if (!navigationParameters) {

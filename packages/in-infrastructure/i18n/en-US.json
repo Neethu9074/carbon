@@ -59,6 +59,7 @@
   "dashboard": {
     "comparisonTable": "Comparison table",
     "agents": "Agents",
+    "dataSources": "Data sources",
     "map": "Map",
     "infrastructure": "Infrastructure",
     "snapshotVersions": "Snapshot versions",
@@ -94,6 +95,8 @@
       "maximumNumberOfMembers": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",
       "generalError": "An unexpected error occurred."
     },
+    "warningTitle": "Export Limit Exceeded",
+    "warning": "Exporting {{count}} records exceeds the maximum limit. Only the first {{max}} entries will be included, and the process may take longer than usual to complete.",
     "entityTypes": "Entity types {{count, parenthesis}}",
     "relatedInstances": "Analyze instances"
   },
@@ -151,6 +154,18 @@
     "critical": "Critical when {{operator}} {{level}}",
     "warning": "Warning when {{operator}} {{level}}"
   },
+  "customEntities": {
+    "labelDashboard": "Dashboards",
+    "saveChanges": "Save changes",
+    "discardChanges": "Discard changes",
+    "addWidget": "Add widget",
+    "defaultDashboard": "Default dashboard",
+    "dashboardsInfoWidgetDescription": "Add widgets and select metrics to display on the dashboard for the custom entity type. \n\n All instances matching this custom entity type will be displayed using the same dashboard.",
+    "dashboardsInfoWidgetTitle": "This is your custom entity dashboard that you can shape yourself",
+    "failSaveDashboard": "Failed to save the dashboard.",
+    "successfulSaveDashboard": "Entity dashboard updated.",
+    "editDashboard": "Edit dashboards for "
+  },
   "collectorView": {
     "otelCollector": "OpenTelemetry Collector",
     "restartCollector": "Restart collector",
@@ -167,7 +182,6 @@
     "exporterMetrics": "Exporter metrics",
     "collectorRestartingTitle": "Collector restarting",
     "collectorRestarting": "Collecor restart successfully initiated.",
-    "collectorError": "Collector error",
     "configUpdateSuccessTitle": "Configuration update successful",
     "configUpdateSuccess": "Collector configuration succesfully updated.",
     "update": "Update",
@@ -175,6 +189,15 @@
     "configuration": "Configuration",
     "exporter": "Exporter",
     "processor": "Processor",
-    "receiver": "Receiver"
+    "receiver": "Receiver",
+    "errors": {
+      "updateFailed": "Update failed",
+      "restartFailed": "Restart failed",
+      "loadingFailed": "Loading failed",
+      "failedRestartConnectionError": "Collector failed to restart due to a connection issue. Manually restart the collector to re-establish the connection.",
+      "failedConfigFetchConnectionError": "Configuration failed to load due to a connection issue. Manually restart the collector to re-establish the connection.",
+      "manualRestartLink": "Learn how to restart a collector "
+    }
+
   }
 }

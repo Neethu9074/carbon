@@ -4,8 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-// @ts-expect-error
-import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+const ShareAndInviteDialogBox = () =>
+  import(
+    /* webpackChunkName: "shareAndInvite" */ 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox'
+  );
 import { TrashCan, UserAvatar } from '@carbon/icons-react';
 import React from 'react';
 

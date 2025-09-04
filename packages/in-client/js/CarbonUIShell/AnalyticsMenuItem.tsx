@@ -10,11 +10,11 @@ import { MenuItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
-  hasAnalyzeAccess,
-  hasApplicationsAccess,
-  hasInfrastructureAnalyzeAccess,
-  hasMobileAppsAccess,
-  hasWebsitesAccess
+  analyzeAccessPermissions,
+  applicationsAccessPermissions,
+  infrastructureAnalyzeAccessPermissions,
+  mobileAppsAccessPermissions,
+  websitesAccessPermissions
 } from 'in-stores/permission';
 import {
   defaultInfraExploreViewParams,
@@ -34,12 +34,28 @@ import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
+import { PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
 import { isAnalyzeView } from 'in-analyze/navigation/constants';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
+import useHasAccesses from 'in-stores/useHasAccesses';
+import useHasAccess from 'in-stores/useHasAccess';
 import { any } from 'in-services/fixedStreams';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function AnalyticsMenuItem() {
+  const [role] = useCurrentUserRole();
+  const hasAnalyzeAccess = useHasAccesses({
+    requiredPermissions: analyzeAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+  const hasApplicationsAccess = useHasAccess({ requiredPermissions: applicationsAccessPermissions });
+  const hasWebsitesAccess = useHasAccess({ requiredPermissions: websitesAccessPermissions });
+  const hasMobileAppsAccess = useHasAccess({ requiredPermissions: mobileAppsAccessPermissions });
+  const hasInfrastructureAnalyzeAccess = useHasAccess({
+    optionalPrecondition: infraExploreDataEnabled,
+    requiredPermissions: infrastructureAnalyzeAccessPermissions
+  });
   const { matchLocation, createHrefToPath } = useNavigation();
   const isActiveLegacy = useObservable(
     any(isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView, isLogsAnalyzeView, isInfraExploreView()),

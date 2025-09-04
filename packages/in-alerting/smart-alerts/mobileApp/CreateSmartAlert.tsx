@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button } from '@instana/components';
 import { TagFilter } from '@instana/types';
@@ -16,6 +16,7 @@ import {
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/mobileApp/hooks/useSmartAlertCreateUrl';
+import MobileAppEntitySection from 'in-alerting/smart-alerts/mobileApp/MobileAppEntitySection';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
@@ -37,6 +38,7 @@ interface CreateSmartAlertProps {
   location: Location;
   mobileAppId: string;
   tagFilters: TagFilter[];
+  isEventsView?: boolean;
 }
 
 const alertDisplayMode = getSmartAlertDisplayMode(
@@ -44,18 +46,26 @@ const alertDisplayMode = getSmartAlertDisplayMode(
   mobileAppSmartAlertFullScreenDesignEnabled
 );
 
-export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: CreateSmartAlertProps) {
+export default function CreateSmartAlert({ location, mobileAppId, tagFilters, isEventsView }: CreateSmartAlertProps) {
+  const [selectedMobileAppId, setSelectedMobileAppId] = useState(mobileAppId);
   const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
-  const alertType = deriveAlertType(customEventName);
+  const alertType = useMemo(() => deriveAlertType(customEventName), [customEventName]);
   const { goToPath } = useNavigation();
-  const blueprintConfig = getBlueprintConfig(alertType);
+  const blueprintConfig = useMemo(() => getBlueprintConfig(alertType), [alertType]);
   const metricName = blueprintConfig.defaultMetric;
   const beaconType = blueprintConfig.getBeaconType(metricName);
-  const boundedAlertQueryBuilder = getQueryBuilderForBeaconType(beaconType);
+  const boundedAlertQueryBuilder = useMemo(() => getQueryBuilderForBeaconType(beaconType), [beaconType]);
+
+  useEffect(() => {
+    if (selectedMobileAppId && selectedMobileAppId !== mobileAppId) {
+      handleButtonClick();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMobileAppId]);
 
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
-    mobileAppId,
+    mobileAppId: selectedMobileAppId,
     customEventName,
     tagFilters
   });
@@ -63,14 +73,12 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
   const tagCatalog = useTagCatalog(boundedAlertQueryBuilder.getTagCatalog);
   const { trackCta } = useSegmentTracking();
 
-  const alertConfig = generateAlertConfig(mobileAppId, tagFilters, tagCatalog, blueprintConfig, customEventName);
-
   const handleButtonClick = () => {
     if (alertDisplayMode === CHOICE_DIALOG) {
       addActiveDialog(
         <ViewSelectorDialog
           trackCta={trackCta}
-          openOldDialog={() => addDialog()}
+          openOldDialog={() => openDialog()}
           getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
           mode={SIMPLE}
         />
@@ -83,10 +91,26 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
       return;
     }
     trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
-    addDialog();
+    openDialog();
   };
 
-  const addDialog = () => {
+  const handleSelectedMobileApp = (id: string) => {
+    setSelectedMobileAppId(id);
+  };
+
+  const handleMobileAppSelection = () => {
+    setSelectedMobileAppId('');
+    addActiveDialog(<MobileAppEntitySection handleSelectedMobileApp={handleSelectedMobileApp} />);
+  };
+
+  const openDialog = () => {
+    const alertConfig = generateAlertConfig(
+      selectedMobileAppId,
+      tagFilters,
+      tagCatalog,
+      blueprintConfig,
+      customEventName
+    );
     return addActiveDialog(
       <AlertConfigDialog
         onClose={() => {
@@ -104,7 +128,12 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
   };
 
   return (
-    <Button kind="primaryv2" icon="lib_openclose_add" onClick={handleButtonClick} size="xl">
+    <Button
+      kind="primaryv2"
+      icon="lib_openclose_add"
+      onClick={isEventsView ? handleMobileAppSelection : handleButtonClick}
+      size="xl"
+    >
       {t('in-alerting:smartAlerts.createSmartAlert')}
     </Button>
   );

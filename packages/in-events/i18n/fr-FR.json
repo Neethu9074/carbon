@@ -11,6 +11,7 @@
     "totalcalls": "Appels concernés",
     "errorLoadingData": "Erreur lors du chargement des données."
   },
+  "noDataAvailable": "Aucune donnée disponible",
   "entityInfoPresenterDefaultLabel": "Activé : ",
   "entityInfoLabelOfService": "Du service :",
   "titleDetail": "Informations",
@@ -262,9 +263,6 @@
     "naProbabilityBadgeText": "Cette évaluation de probabilité est basée sur la probabilité que l'entité en question ne soit pas saine. Malheureusement, l'évaluation de la probabilité de cet incident n'a pas pu être établie.",
     "evidenceTextFailed": "d'appels agrégés passant par le <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> sont erronés.",
     "evidence": "Preuve :",
-    "erroneousCalls": "Appels erronés",
-    "throughEntity": "Via {{entityName}} ",
-    "notThroughEntity": "Non via {{entityName}} ",
     "evidenceTextNotFailed": "d'appels agrégés provenant des mêmes entités et ne passant pas par le <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> sont erronés.",
     "evidenceTextNotFailedLower": "d'appels provenant des mêmes entités et ne passant pas par le <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> sont erronés.",
     "evidenceTextNotFailedHigher": "Les appels des mêmes entités qui ne passent pas par le <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> ont un taux d'erreur plus élevé de : {{non_rca_error_rate}} %.",
@@ -318,14 +316,30 @@
       "investigationPanelTitle": "Investigation agentique",
       "errorTitle": "Erreur",
       "commonErrorMessage": "Une erreur inattendue s'est produite lors de l'investigation de cette cause première.",
-      "diagnosisTitle": "Diagnostic",
-      "factualityScoreTitle": "Score de factualité",
-      "reasoningTitle": "Raisonnement",
-      "errorLogSummaryTitle": "Résumé du journal des erreurs",
-      "traceLogSummaryTitle": "Résumé du journal des traces",
-      "associatedEventsSummaryTitle": "Résumé des événements associés",
-      "runInvestigationInstructions": "Pour obtenir un résumé détaillé et complet de la cause première, cliquez sur <strong>Exécuter l'enquête.<strong>"
-    }
+      "runInvestigationInstructions": "Pour obtenir un résumé détaillé et complet de la cause première, cliquez sur <strong>Exécuter l'enquête.<strong>",
+      "nonrcaInstructions": "Cliquez sur une cause première pour commencer",
+      "aiExplained": {
+        "datatypeIncident": "<strong>Incident.</strong> Nous utilisons la description et les détails du problème lié à l'incident.",
+        "datatypeTracelogs": "<strong>Journaux de trace.</strong> Nous utilisons des messages de journal concernant l'entité de cause première probable.",
+        "datatypeTraceError": "<strong>Tracer les messages d'erreur.</strong> Nous utilisons des messages d'erreur concernant l'entité de cause première probable.",
+        "datatypeAssociatedEvents": "<strong>Événements associés.</strong> Nous utilisons la description du problème ainsi que les détails des événements associés à l'entité de cause première probable.",
+        "datatypeInfrastructureStack": "<strong>Topologie de la pile d'infrastructure.</strong> Nous utilisons la totalité de la pile d'infrastructure et les états de santé de l'entité de cause première probable.",
+        "featureName": "Enquête intelligente",
+        "featureDescription": "Pour enquêter, nous envoyons les détails de l'incident et les informations sur la cause première probable à watsonx. Les données sont traitées à l'aide d'un modèle d'intelligence artificielle, de diverses étapes de raisonnement et d'une réflexion personnelle. Watsonx renvoie une hypothèse concise sur les causes possibles de la défaillance, ainsi que chaque modalité utilisée dans ce raisonnement."
+      },
+      "output": {
+        "diagnosis": "Diagnostic",
+        "summary": "Récapitulatif",
+        "errorLogSummaryTitle": "Résumé du journal des erreurs",
+        "traceLogSummaryTitle": "Résumé du journal des traces",
+        "associatedEventsSummaryTitle": "Résumé des événements associés",
+        "reasoningTitle": "Raisonnement",
+        "factualityScoreTitle": "Score de factualité"
+      }
+    },
+    "errorRates": "Taux d'appel erronés",
+    "rootCause": "Cause première",
+    "otherEntities": "Autres entités"
   },
   "dataGridEventTable": {
     "apply": "Appliquer",
@@ -356,16 +370,32 @@
     "showNonTransientOnly": "Afficher uniquement les non-transitoires"
   },
   "eventsSmartAlerts": {
-    "globalApplicationSmartAlert": "Alertes intelligentes d'application globale",
+    "globalApplicationSmartAlert": "Alerte Smart Alert d'application globale",
     "ApplicationSmartAlert": "Alertes intelligentes d'application",
     "syntheticsSA": "Alertes intelligentes pour Synthetics",
     "infraSA": "Alertes intelligentes d'infrastructure",
     "logSA": "Alertes intelligentes de journal",
     "websiteSA": "Alertes intelligentes de site Web",
-    "mobileSA": "Alertes intelligentes pour applications mobiles"
+    "mobileSA": "Alertes intelligentes pour applications mobiles",
+    "dialog": {
+      "selectApplication": "Sélectionner une application",
+      "name": "Nom",
+      "cancel": "Annuler",
+      "proceed": "Poursuivre",
+      "selectApplicationToProceed": "Sélectionnez une application pour continuer",
+      "noDataEmptyListStateTitle": "Aucun résultat trouvé",
+      "noDataEmptyListStateSubtitle": "Essayez de modifier votre recherche pour trouver ce que vous cherchez.",
+      "noDataEmptyListStateIllustrationDescription": "Aucune donnée disponible",
+      "selectWebsite": "Sélectionner un site Web",
+      "selectWebsiteToProceed": "Sélectionnez un site web pour continuer ",
+      "selectMobileApp": "Sélectionner l'application mobile",
+      "selectMobileAppToProceed": "Sélectionnez une application mobile pour continuer "
+    }
   },
   "feedback": {
     "skip": "Sauter",
+    "positive": "Positif",
+    "negative": "Négatif",
     "descriptionUnpleasant": {
       "firstLineApology": "Nous sommes désolés que vous n'ayez pas eu une expérience agréable.",
       "secondLineQuestion": "Pouvez-vous nous aider à identifier les problèmes qui se sont posés ?"
@@ -429,17 +459,13 @@
     "timestamp": "Horodatage",
     "numCalls": "Nbre d'appels",
     "meanLatency": "Temps d'attente moyen",
-    "youMustAccept": "Vous devez accepter les conditions de l'Accord du programme d'aperçu de l'assistance IA générative pour utiliser cette fonctionnalité.",
-    "reviewAction": "Contrat de révision",
     "findingInfoFrom": "Recherche de cette information à partir de {{endpoint}}",
     "noData": "Aucune donnée renvoyée par l'API",
-    "whatToKnow": "Que voulez-vous savoir sur {{category}} ?",
     "welcome": "Bonjour et bienvenue !\nJe serais heureux de vous fournir des détails sur votre environnement, en particulier sur vos applications, votre infrastructure et vos événements.  Posez une question ou commencez à explorer la bibliothèque d'invites.",
-    "apps": "Applications",
-    "infra": "Infrastructure",
     "tableView": "Vue Tableau",
     "chartView": "Vue graphique",
     "promptLibrary": "Ouvrir la bibliothèque d'invites",
+    "feedback": "Retour d'informations",
     "searchTable": "Rechercher dans la table",
     "download": "Télécharger",
     "showLess": "Afficher moins",
@@ -456,14 +482,25 @@
     "group": "Groupe",
     "resetFilters": "Réinitialiser",
     "applyFilter": "Appliquer",
-    "filtering": "Filtres"
+    "filtering": "Filtres",
+    "previewDisclaimer": "Il s'agit d'une fonctionnalité d'aperçu technique. Les réponses sont fournies en fonction de l'interprétation de vos questions par le modèle. L'exactitude des réponses générées peut varier. Vérifiez très soigneusement que le résultat est adapté à vos besoins.",
+    "granite": "granite-3.3-8b-instruct",
+    "aiExplained": "Explication de l'IA",
+    "aiModel": "Modèle d'intelligence artificielle",
+    "poweredByWatsonX": "IBM watsonx Assistant",
+    "watsonXDesc": "IBM watsonx est optimisé par les tous nouveaux modèles d'IA qui lui permettent de traiter intelligemment les conversations et de vous fournir une aide partout et à tout moment.",
+    "helpfulResult": "Ce résultat a été utile",
+    "notHelpfulResult": "Ce résultat n'a pas été utile",
+    "result": "résultat"
   },
   "notes": {
     "recommendedActions": "Actions recommandées",
     "aiEngine": "Moteur d'IA",
     "viewAllRecActions": "Voir toutes les actions recommandées",
     "openNotes": "Open le récapitulatif et les notes",
+    "openNotesFed": "Notes ouvertes",
     "notesActivity": "Récapitulatif et notes avec l'IA",
+    "notesActivityFed": "Remarques",
     "confirmDelete": "Confirmer la suppression",
     "you": "Vous {{date}}",
     "youEdited": "Vous (avez modifié) {{date}}",
@@ -496,6 +533,7 @@
     "summaryAIGen": "Ce récapitulatif est généré par l'IA",
     "noActivity": "Pas encore de notes",
     "noActivityDetails": "Il n'y a pas encore de récapitulatifs ou de notes à afficher. Utilisez la zone Ajouter un commentaire pour partager avec votre équipe des connaissances ou une mise à jour concernant cet incident.",
+    "noActivityDetailsFed": "Il n'y a pas encore de notes à afficher. Utilisez la zone Ajouter un commentaire pour partager avec votre équipe des connaissances ou une mise à jour concernant cet incident.",
     "noResults": "Rien trouvé",
     "noResultsDetails": "Il n'y a pas de résultats correspondant à votre requête. Essayez d'actualiser les termes de recherche.",
     "aiExplained": "Explication de l'IA",
@@ -509,7 +547,7 @@
     "showAll": "Afficher tout",
     "collapse": "Réduire",
     "aiModel": "Modèle d'intelligence artificielle",
-    "granite": "granite-3-8b-instruct",
+    "granite": "granite-3.3-8b-instruct",
     "withManualEdits": "(avec modifications manuelles)",
     "shareIncidentSummarySubject": "Récapitulatif de l'incident : {{problemText}}",
     "share": "Partager",
@@ -526,7 +564,8 @@
     "invalidEmail": "L'e-mail doit être valide (utilisateur@domaine) et séparé par des virgules",
     "positiveFeedback": "Ce récapitulatif a été utile",
     "negativeFeedback": "Ce récapitulatif n'a pas été utile",
-    "surveyButtonTxt": "Partagez vos commentaires"
+    "surveyButtonTxt": "Partagez vos commentaires",
+    "summaryLower": "récapitulatif"
   },
   "incident": {
     "overviewTitle": "Vue générale des incidents",
@@ -549,8 +588,8 @@
     "cancel": "Annuler",
     "submit": "Soumettre",
     "title": "Partagez vos commentaires",
-    "helpfulQ": "Qu'avez-vous trouvé utile dans le récapitulatif ?",
-    "improveQ": "Comment pourrions-nous améliorer le récapitulatif ?",
+    "helpfulQ": "Qu'avez-vous trouvé d'utile concernant {{textSubject}}?",
+    "improveQ": "Comment pourrions-nous améliorer {{textSubject}}?",
     "maxChars": "750 caractères au maximum",
     "followUpQuestion": "Voulez-vous que nous prenions contact avec vous au sujet de vos commentaires ?",
     "yesContect": "Oui, veuillez me contacter.",

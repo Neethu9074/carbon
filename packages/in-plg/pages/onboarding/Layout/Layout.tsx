@@ -26,9 +26,21 @@ const MainBody = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.
   );
 };
 
-const SidePanel = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => {
+/**
+ * Side panel component for the onboarding layout.
+ * @param children - React elements to render inside the panel
+ * @param className - Additional CSS class name
+ * @returns Side panel component
+ */
+const SidePanel = ({
+  children,
+  className
+}: {
+  children: JSX.Element | JSX.Element[];
+  className?: string;
+}): JSX.Element => {
   return (
-    <div className={locals.sidePanel}>
+    <div className={`${locals.sidePanel}${className ? ` ${className}` : ''}`}>
       <Stack>{children}</Stack>
     </div>
   );

@@ -7,7 +7,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CSVLink } from 'react-csv';
 
-// this was imported from rxjs by accident probably since fetchData returns @instana/observables/Observable in every use case
 import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 import { Cursor } from '@instana/types';
@@ -16,19 +15,15 @@ import { t } from 'in-i18n';
 
 import locals from './CsvExporter.mless';
 
-export interface CsvExporterProps {
+interface CsvExporterProps {
   data?: Data;
   fetchData?: (cursor: Cursor) => Observable<any>;
   headers: Array<string> | undefined;
   fileName?: string;
   processData?: (d: object[], c: object[]) => Data;
-  asyncOnClick?: boolean | undefined;
   cursor?: Cursor;
   columns?: object[];
-}
-
-export interface LoadingProps {
-  loading: boolean;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 type Data = object[];
@@ -39,22 +34,23 @@ export default function CsvExporter({
   fileName = 'data.csv',
   processData,
   fetchData,
+  onClick,
   cursor,
   columns = [{}]
 }: CsvExporterProps) {
-  const [csvData, setCsvData]: any[] = useState([]);
-  const [isDisable, setIsDisable] = useState(false);
+  const [csvData, setCsvData] = useState<Data>([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const csvInstance = useRef<any | null>(null);
   const subscriptionRef = useRef<any | null>(null);
 
   const asyncExportMethod = () => {
-    setIsDisable(true);
+    setIsDisabled(true);
 
     if (fetchData !== undefined) {
       subscriptionRef.current = fetchData(cursor ?? { offset: 0 }).subscribe(res => {
         if (!res.progress.loading) {
           setCsvData(processData !== undefined ? processData(res?.data?.items, columns) : res?.data?.items);
-          setIsDisable(false);
+          setIsDisabled(false);
         }
       });
     }
@@ -79,11 +75,12 @@ export default function CsvExporter({
     processedData = processData !== undefined ? processData(data, columns) : data;
     return (
       <CSVLink
-        style={{ textDecoration: 'none' }}
+        className={locals.textDecoration}
         data={processedData}
         headers={headers}
         filename={fileName}
         target="_blank"
+        rel="noopener noreferrer"
       >
         <Button kind="secondary" target="_blank" className={locals.csvExporterButton} size="compact">
           {t('in-components:csvExporterButton.label')}
@@ -95,14 +92,15 @@ export default function CsvExporter({
       return (
         <>
           <div
-            onClick={() => {
+            onClick={e => {
+              onClick?.(e);
               asyncExportMethod();
             }}
           >
             <Button
-              iconSpinning={isDisable}
-              icon={isDisable ? 'lib_actions_loading' : undefined}
-              disabled={isDisable}
+              iconSpinning={isDisabled}
+              icon={isDisabled ? 'lib_actions_loading' : undefined}
+              disabled={isDisabled}
               kind="secondary"
               target="_blank"
               className={locals.csvExporterButton}
@@ -123,6 +121,6 @@ export default function CsvExporter({
         </>
       );
     }
-    return <></>;
+    return null;
   }
 }

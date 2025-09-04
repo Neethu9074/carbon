@@ -1,0 +1,41 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .tileGrid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(292px, 32%));
+  }
+  .customPictogramSize {
+    :global(.c4p--card__pictogram svg) {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  .communityBlogtileGrid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(446px, 49%));
+  }
+  .completed {
+    grid-column: span 3;
+  }
+  .sidePanel {
+    margin-top: 6rem;
+    padding-top: 0;
+  }
+  .aspectRatioCard {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    overflow: hidden;
+  }
+  .aspectRatioCard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

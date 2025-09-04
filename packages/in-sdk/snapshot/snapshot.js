@@ -144,9 +144,9 @@ export function getContext(snapshot) {
   return result.filter(v => v && v.size > 0);
 }
 
-export function getDashboardHeaderActions(props) {
+export function getDashboardHeaderActions(props, role) {
   const snapshotDefinition = getOptionalSnapshotDefinition(props.snapshot.get('plugin'));
-  return snapshotDefinition?.getDashboardHeaderActions?.(props) ?? [];
+  return snapshotDefinition?.getDashboardHeaderActions?.(props, role) ?? [];
 }
 
 /**

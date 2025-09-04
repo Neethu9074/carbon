@@ -4,41 +4,15 @@
     "createTest": {
       "buttonLabel": "合成テストの追加",
       "dialogTitle": "合成テストの作成",
-      "noLocationFound": "申し訳ありませんアプリケーションが見つかりません",
       "noApplicationsFound": "アプリケーションが見つかりません",
       "noMatchingFound": "一致するアプリケーションが見つかりません",
-      "titles": {
-        "step1": "ステップ 1：タイプの選択",
-        "step2": "ステップ 2：要求の詳細",
-        "step3": "ステップ 3：スケジューリング",
-        "step4": "ステップ 4：詳細の入力",
-        "step5": "Step5: アソシエイト"
-      },
-      "selectTest": {
-        "title": "どのような種類のシンセティック・テストを作成しますか"
-      },
-      "scheduling": {
-        "title": "スケジューリング"
-      },
       "requestStep": {
-        "title": "要求の指定",
-        "subTitle": "エンドポイント",
-        "labelOperation": "HTTP メソッド",
         "labelUrl": "URL",
-        "popSubTitle": "ポイント・オブ・プレゼンス",
-        "uploadScriptTitle": "スクリプトのアップロード",
         "failureToReadFileContent": "ファイル・コンテンツの読み取りに失敗しました: {{error}}",
         "unsupportedFileFormat": ".{{extension}}ファイルはサポートされていません",
-        "emptyScriptFileError": "コードが空です。 検証するものがありません。",
-        "enterTheScriptMessage": "ここにスクリプトを入力",
-        "privatePoPLabel": "専用",
-        "managedPoPLabel": "管理"
+        "emptyScriptFileError": "コードが空です。 検証するものがありません。"
       },
       "basicDetails": {
-        "title": "この API シンプル (HTTP アクション) テストの名前は何ですか",
-        "scriptTitle": "この API スクリプト (HTTP スクリプト) テストの名前は何ですか",
-        "webpageActionTitle": "このブラウザー・シンプル (Web ページ・アクション) テストの名前",
-        "browserScriptTitle": "このブラウザー・スクリプト・テストの名前",
         "labelName": "テストの名前",
         "labelDescription": "説明（オプション）",
         "labelFrequency": "頻度 (分)",
@@ -49,56 +23,23 @@
       "bluePrint": {
         "title": "いつ使用しますか?",
         "apiSimple": {
-          "name": "API シンプル",
-          "headline": "API シンプル (HTTP アクション)",
           "whenToUse": {
             "line1": "単一の Rest API をテストするための API シンプル (HTTP アクション) テストの使用"
-          },
-          "tipsForUsing": {
-            "title": "使用のヒント",
-            "line1": "ステップ 1: 作成するテストのタイプを選択します。",
-            "line2": "ステップ 2: テストする Web ページの HTTP メソッドと URL を入力します。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
-            "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
-            "line4": "ステップ 4:「名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
         },
         "apiScript": {
-          "name": "API スクリプト",
-          "headline": "API スクリプト (HTTP スクリプト)",
           "whenToUse": {
             "line1": "API スクリプト (HTTP スクリプト) テストおよび Node.js ベースのスクリプトを使用して、複数の Rest API のシーケンスをテストします"
-          },
-          "tipsForUsing": {
-            "line1": "ステップ 1: 作成するテストのタイプを選択します。",
-            "line2": "ステップ 2:「スクリプトのアップロード」オプションを使用して、node.js テスト・スクリプト・ファイルをアップロードします。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
-            "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
-            "line4": "ステップ 4:「テストの名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
         },
         "browserSimple": {
-          "name": "ブラウザー・シンプル",
-          "headline": "ブラウザー・シンプル (Web ページ・アクション)",
           "whenToUse": {
             "line1": "HTTP エラーについて単一の Web ページをテストする場合は、ブラウザー単純テストを使用します。"
-          },
-          "tipsForUsing": {
-            "line1": "ステップ 1: 作成するテストのタイプを選択します。",
-            "line2": "ステップ 2: テストする Web ページの URL を入力します。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
-            "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
-            "line4": "ステップ 4:「名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
         },
         "browserScript": {
-          "name": "ブラウザー・スクリプト",
-          "headline": "ブラウザ・スクリプト (ブラウザ・スクリプト)",
           "whenToUse": {
             "line1": "JavaScript または Selenium IDE スクリプトを使用して Web アプリケーションとのユーザー対話をシミュレートする場合は、ブラウザー・スクリプト・テストを使用します。"
-          },
-          "tipsForUsing": {
-            "line1": "ステップ 1: 作成するテストのタイプを選択します。",
-            "line2": "ステップ 2:「スクリプトのアップロード」オプションを使用して、JavaScript または Selenium IDE スクリプト・ファイルをアップロードします。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
-            "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
-            "line4": "ステップ 4:「テストの名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
         },
         "certificateCheck": {
@@ -124,7 +65,6 @@
         "invalidHost": "ホスト形式が無効です"
       },
       "advancedMode": {
-        "switchModeButton": "拡張モードに切り替える",
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "選択されたテスト・タイプ",
           "rightListLabel": "テスト・タイプ",
@@ -155,7 +95,7 @@
         "scheduleTitle": "スケジュール: このテストはどのように実行されますか?",
         "identifyLabel": "識別",
         "identifyTitle": "識別: テストは何を行いますか?",
-        "teamsCalloutMessage": "チームを追加する場合、チーム・メンバーの権限はチームに割り当てられた役割に基づいて決定されます。 チームが関連付けられているテストは、設定のチーム・ページにも反映されます。",
+        "teamsCalloutMessage": "チームを追加すると、チームメンバーの権限はチームに割り当てられた役割に基づきます。チームに関連付けられている {{syntheticTab}} は、設定のチームページにも反映されます。",
         "customPropertiesTitle": "カスタム・プロパティー(オプション)",
         "frequency": "このテストは {{frequencyValue}} 分ごとに実行されます。",
         "frequencyHours": "このテストは、{{frequencyHours}}時間ごとに実行されます。",
@@ -205,7 +145,6 @@
           "browserUploadFileDescription": "単一の.jsまたは.cjsファイル、バンドルされた.jsまたは.cjsファイルを含む.zipファイル、またはSelenium IDEによって記録された.sideスクリプトのいずれかをアップロードできます。",
           "node22BrowserUploadFileDescription": "単一の.js、.cjs、もしくは.mjsファイル、またはバンドルされた.js、.cjs、もしくは.mjsファイルを含む.zipファイル、またはSelenium IDEによって記録された.sideスクリプトのいずれかをアップロードできます。",
           "sideFileUploadedMessage": "Selenium スクリプトは変更も検証もできません。",
-          "bundleFileNotSupportedMessage": "サポートされないファイルが選択されました。 バンドルは拡張モードでのみサポートされます。",
           "timeoutFieldLabel": "タイムアウト (オプション)",
           "timeUnitsLabel": "時間単位",
           "timeoutFieldOptionMinutes": "分 (m)",
@@ -383,9 +322,7 @@
     },
     "updateTest": {
       "dialogTitle": "{{syntheticType}} テストの編集",
-      "buttonSave": "保存",
-      "scriptSavedMessage": "スクリプトが追加されました",
-      "bundleSavedMessage": "バンドルされたスクリプトが追加されました"
+      "buttonSave": "保存"
     },
     "createLocation": {
       "newLocation": "ロケーションの追加",
@@ -558,7 +495,7 @@
         "noMobileAppsAssociated": "モバイルアプリは関連なし。",
         "nodMobileAppAssociatedWithTest": "選択したテストに関連付けられたモバイル・アプリはありません"
       },
-      "testLabel": "名前",
+      "testLabel": "テスト名",
       "status": "状況",
       "frequencySubText": "{{count}} 分ごと",
       "frequencySubText_plural": "{{count}} 分ごと",
@@ -614,7 +551,28 @@
         "associationsSidePanelTitle": "関連({{totalAssociations}})",
         "associationsNameHeader": "名前",
         "associationsHealthHeader": "正常性"
-      }
+      },
+      "filterPanel": {
+        "typeLabel": "タイプ",
+        "locationLabel": "Location",
+        "associationLabel": "アソシエーション",
+        "applicationLabel": "アプリケーション",
+        "searchPlaceholder": "分類を探す",
+        "sortLabel": "ソート",
+        "selectAllLabel": "({{totalEntityCount}})すべてを選択",
+        "viewAllLabel": "({{totalEntityCount}})すべてを表示"
+      },
+      "resultsList": {
+        "statusLabel": "状況",
+        "startTimeLabel": "開始済み",
+        "responseTimeLabel": "応答時間",
+        "retryCountLabel": "再試行カウント",
+        "errorMessageLabel": "エラー・メッセージ",
+        "errorHeader": "データのロードに失敗しました",
+        "noDataHeader": "表示可能な結果はありません",
+        "noDataDescription": "選択した時刻範囲について、取得された結果はありませんでした。"
+      },
+      "actionLoadingIconDescription": "ロードしています"
     },
     "locationList": {
       "locationLiveModeDisabled": "ライブ・モードは「合成ロケーション」ページには適用されません",
@@ -925,8 +883,7 @@
       "testsApplied": "適用されるテスト",
       "filterApplied": "フィルターを適用済み",
       "violationsCount": "{{violationsCount}}件の障害",
-      "testsCount": "{{testsCount}}個のテスト",
-      "numberOfFailures": "失敗アラート"
+      "testsCount": "{{testsCount}}個のテスト"
     },
     "configuration": {
       "configurationTitle": "{{testType}} テスト構成",
@@ -960,6 +917,7 @@
       "associatedApplication": "関連アプリケーション",
       "noApplicationAssociated": "関連アプリケーションがありません。",
       "configScriptTitle": "スクリプト",
+      "configScriptTitleWithFileName": "スクリプト ( {{fileName}} )",
       "configScriptFileName": "ファイル名",
       "noScriptFileFound": "スクリプト・ファイルが見つかりません。",
       "noCustomProperties": "このテストにはカスタム・プロパティーが定義されていません。",
@@ -1048,6 +1006,20 @@
         "cancelButtonLabel": "キャンセル",
         "deletionSuccess": "クレデンシャルが削除されました"
       }
+    }
+  },
+  "components": {
+    "dataTable": {
+      "filterPanel": {
+        "title": "フィルター",
+        "closeButtonLabel": "閉じる",
+        "cancelButtonLabel": "キャンセル",
+        "applyButtonLabel": "適用"
+      },
+      "noDataHeader": "表示可能なデータがありません",
+      "noDataDescription": "選択された時間範囲のデータは取得されませんでした。",
+      "errorHeader": "データのロードに失敗しました",
+      "searchText": "検索"
     }
   }
 }

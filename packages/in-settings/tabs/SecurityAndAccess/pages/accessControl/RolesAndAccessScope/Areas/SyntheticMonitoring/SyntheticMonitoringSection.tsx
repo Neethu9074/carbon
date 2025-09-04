@@ -11,12 +11,20 @@ import { SyntheticMonitoringSectionContent } from 'in-settings/tabs/SecurityAndA
 import { getSyntheticAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getSyntheticAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
 import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import { syntheticsAccessPermissions } from 'in-stores/permission';
+import { syntheticsEnabled } from 'in-services/featureFlags';
+import useHasAccess from 'in-stores/useHasAccess';
 
 export const SyntheticMonitoringSection = () => {
+  const hasSyntheticsAccess = useHasAccess({
+    optionalPrecondition: syntheticsEnabled,
+    requiredPermissions: syntheticsAccessPermissions
+  });
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const { hasFullAreaAccess } = getSyntheticAreaData({
     area: ProductArea.SYNTHETICS,
-    permissionsSet
+    permissionsSet,
+    hasSyntheticsAccess
   });
 
   if (hasFullAreaAccess) return <SyntheticMonitoringSectionFullAccessContent />;

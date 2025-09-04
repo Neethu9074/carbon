@@ -144,47 +144,58 @@ export default function AffectedCvePresenter() {
     addActiveDialog(<DetectionDetailDialog event={item} timeConfig={timeConfig} onClose={close} />);
   };
 
-  const renderBanner = () => {
-    if (!solisEnabled) {
-      return <ConcertBanner expanded="showVulnerabilityInfoPanel" />;
-    }
-
-    if (isConcertEnabled) {
-      const subVariation = isTableEmpty ? 'trialOnly' : 'trialConfig';
-      const bannerExpanded = isTableEmpty ? 'true' : 'false';
-      return (
-        // @ts-expect-error TS2304: Cannot find name solis
-        // component is loaded from a script in ui-client/packages/in-client/index.html
-        <solis-teaser
-          product="concert"
-          type="banner"
-          variation="vulnerabilities"
-          sub_variation={subVariation}
-          banner_expanded={bannerExpanded}
-        />
-      );
-    }
-
-    return (
-      // @ts-expect-error TS2304: Cannot find name solis
-      // component is loaded from a script in ui-client/packages/in-client/index.html
-      <solis-teaser
-        product="concert"
-        type="banner"
-        variation="vulnerabilities"
-        sub_variation="noTrialNoOptim"
-        product_context="instana"
-        banner_expanded="true"
-      />
-    );
-  };
-
   return (
     <div>
       {((solisEnabled && !isLoading) || !solisEnabled) && (
         <Stack gap="large">
-          {renderBanner()}
-          {(!solisEnabled || isConcertEnabled) && (
+          {!solisEnabled && <ConcertBanner expanded="showVulnerabilityInfoPanel" />}
+          {solisEnabled && !isTableEmpty && isConcertEnabled && (
+            // @ts-expect-error TS2304: Cannot find name solis
+            // component is loaded from a script in ui-client/packages/in-client/index.html
+            <solis-teaser
+              product="concert"
+              type="banner"
+              variation="vulnerabilities"
+              sub_variation="trialConfig"
+              banner_expanded="false"
+            />
+          )}
+          {solisEnabled && !isTableEmpty && !isConcertEnabled && (
+            // @ts-expect-error TS2304: Cannot find name solis
+            // component is loaded from a script in ui-client/packages/in-client/index.html
+            <solis-teaser
+              product="concert"
+              type="banner"
+              variation="vulnerabilities"
+              sub_variation="noTrialNoOptim"
+              product_context="instana"
+              banner_expanded="true"
+            />
+          )}
+          {solisEnabled && isTableEmpty && isConcertEnabled && (
+            // @ts-expect-error TS2304: Cannot find name solis
+            // component is loaded from a script in ui-client/packages/in-client/index.html
+            <solis-teaser
+              product="concert"
+              type="banner"
+              variation="vulnerabilities"
+              sub_variation="trialOnly"
+              banner_expanded="true"
+            />
+          )}
+          {solisEnabled && isTableEmpty && !isConcertEnabled && (
+            // @ts-expect-error TS2304: Cannot find name solis
+            // component is loaded from a script in ui-client/packages/in-client/index.html
+            <solis-teaser
+              product="concert"
+              type="banner"
+              variation="vulnerabilities"
+              sub_variation="noTrialNoOptim"
+              product_context="instana"
+              banner_expanded="true"
+            />
+          )}
+          {(!(solisEnabled && !isConcertEnabled && isTableEmpty) || !solisEnabled) && (
             <ServerTableWithUrlState
               get={fetchCVEEvents}
               timeConfig={timeConfig}

@@ -20,6 +20,7 @@ import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAler
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { eumImpactedUsersForWebsiteAndMobileAlertEnabled } from 'in-services/featureFlags';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -34,19 +35,19 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { eumImpactedUsersForWebsiteAndMobileAlertEnabled } from 'in-services/featureFlags';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { emptyMap } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventContent/WebsiteEventContent.mless';
 
 export default function WebsiteEventContent({ event, snapshot, reload }) {
+  const [role] = useCurrentUserRole();
   const eventEntity = useWebsiteEventEntity(event);
   const alertConfig = useWebsiteEventAlertConfig(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState();

@@ -9,9 +9,11 @@ import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
 
+import { severityWarning } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertLevelRow';
 import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getTruncatedText } from 'in-alerting/smart-alerts/utils/alertPropertiesTitleUtils';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { toHtml } from 'in-services/formatters/markdown';
 import Tooltip from 'in-components/Tooltip';
 
@@ -29,6 +31,8 @@ interface AlertPreviewProps {
   isMultiThreshold?: boolean;
   severity?: number;
   descriptionPlaceholder?: string;
+  descriptionTextWithPlaceHolder?: string;
+  descriptionWithReplacedPlaceholders?: HighlightedPlaceholders;
 }
 
 export function AlertPreview({
@@ -42,12 +46,15 @@ export function AlertPreview({
   isTearSheet = false,
   isMultiThreshold = false,
   severity = Number(form.get('severity')?.value),
-  descriptionPlaceholder
+  descriptionPlaceholder,
+  descriptionWithReplacedPlaceholders
 }: AlertPreviewProps) {
-  const description = form.get('description')?.value;
   const triggering = form.get('triggering')?.value;
+  const descriptionValue = descriptionWithReplacedPlaceholders
+    ? descriptionWithReplacedPlaceholders.join(' ')
+    : undefined;
   const descriptionWithMarkdown = toHtml(
-    description ||
+    descriptionValue ||
       (isMultiThreshold
         ? descriptionPlaceholder ?? getDescriptionPlaceholder(form, severity)
         : getDescriptionPlaceholder(form))
@@ -58,17 +65,18 @@ export function AlertPreview({
         [locals.alertPreview]: true,
         [locals.alertPreviewTearSheeet]: isTearSheet,
         [locals.multiThresholdAlertPreview]: isMultiThreshold,
-        [locals.severityLow]: severity <= 5,
-        [locals.severityHigh]: severity > 5
+        [locals.severityLow]: severity <= severityWarning,
+        [locals.severityHigh]: severity > severityWarning
       })}
     >
       <SvgIcon
         className={classNames({
           [locals.alertLevelIcon]: true,
-          [locals.severityLow]: severity <= 5,
-          [locals.severityHigh]: severity > 5
+          [locals.iconWarning]: severity <= severityWarning,
+          [locals.iconCritical]: severity > severityWarning
         })}
         type={getIconType(severity!, triggering)}
+        color={severity <= severityWarning ? getDesignLibraryColorBySeverity(0.5) : undefined}
       />
       <div className={locals.alertPreviewContent}>
         {renderHeadline()}
@@ -109,7 +117,7 @@ function getIconType(severity: number, triggering: false): string {
   if (triggering) {
     return 'lib_events_incident';
   }
-  return severity <= 5 ? 'lib_events_warning' : 'lib_events_critical';
+  return severity <= 5 ? 'lib_help_error_warning' : 'lib_error_filled';
 }
 
 export function AlertPreviewHeadline({ title }: { title: string | HighlightedPlaceholders }): JSX.Element {

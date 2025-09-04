@@ -65,7 +65,9 @@ export const exploreFullyQualified = `${kubernetes}${explore}`;
 
 export const containerDashboard = `/container`;
 export const containersDashboard = `/containers`;
+export const containerOtelDashboard = `/container/otel`;
 export const containerDashboardFullyQualified = `${kubernetes}${containersDashboard}`;
+export const containerOtelDashboardFullyQualified = `${kubernetes}${containerOtelDashboard}`;
 export const containerDashboardDetailsFullyQualified = `${containerDashboardFullyQualified}/details`;
 
 export const podDashboard = `/pod`;
@@ -362,6 +364,21 @@ export function useOtelNodeDashboard(
       setOrDeleteMatrixKey(params, nodeOtelDashboard, matrixClusterId, clusterId);
     }
   });
+}
+
+export function useOtelContainerDashboard(containerId: string, { timeConfig }: BaseProps & IdsProps = emptyObject) {
+  const { createHref, location } = useNavigation();
+
+  location.pathname = '/physical/dashboard';
+  location.query = {
+    snapshotId: containerId
+  };
+  if (timeConfig?.to !== undefined && timeConfig?.to !== null) {
+    location.query.to = String(timeConfig.to);
+    location.query.focusedMoment = String(timeConfig.to);
+  }
+
+  return createHref(location);
 }
 
 export function useCronJobDashboard(

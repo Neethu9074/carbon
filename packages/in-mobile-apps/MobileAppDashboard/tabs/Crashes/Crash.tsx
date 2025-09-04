@@ -255,7 +255,11 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                     {firstBeacon.errorMessage}
                   </Di>
                 </Dl>
-                <BeaconStack beacon={firstBeacon} optionalLabel />
+                <BeaconStack
+                  beacon={firstBeacon}
+                  textProp={t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonCrashedThreadsStackTrace')}
+                  optionalLabel
+                />
               </Card>
             </Col>
           </Row>

@@ -21,8 +21,8 @@ import { ResultPrecision } from '@instana/types';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
+import { useIsTextTruncated } from 'in-hooks/useIsTextTruncated';
 import { carbonTooltipEnabled } from 'in-services/featureFlags';
-import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './KpiCard.mless';
@@ -70,7 +70,6 @@ export interface KpiCardProps {
   icon?: string;
   iconClassName?: string;
   extraInfo?: string;
-  noTooltipOnTitle?: boolean;
 }
 
 export default function KpiCard({
@@ -99,10 +98,9 @@ export default function KpiCard({
   icon,
   iconClassName,
   extraInfo,
-  noTooltipOnTitle,
   headingVariant = 'heading-3'
 }: KpiCardProps) {
-  const { ref } = useResizeObserver<HTMLDivElement>();
+  const { containerRef, contentRef, isTruncated } = useIsTextTruncated();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
 
   let formattedValue;
@@ -183,41 +181,28 @@ export default function KpiCard({
           [locals.hidden]: isInModal,
           [locals.centerTitle]: centerLabels
         })}
-        ref={ref}
+        ref={containerRef}
       >
-        {!noTooltipOnTitle ? (
-          <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
-            <div className={locals.titleContainer}>
-              {disableHeaderTooltip ? (
-                <HeadingElement variant={headingVariant} className={locals.titleText}>
-                  {title}
-                </HeadingElement>
-              ) : (
-                <>
-                  {icon && <SvgIcon type={icon} className={iconClassName} />}
-                  <HeadingElement variant={headingVariant} className={locals.titleText}>
-                    {title}
-                  </HeadingElement>
-                </>
-              )}
-            </div>
-          </Tooltip>
-        ) : (
+        <Tooltip
+          content={isTruncated ? title : undefined}
+          align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'}
+          overflowEllipsis
+        >
           <div className={locals.titleContainer}>
             {disableHeaderTooltip ? (
-              <HeadingElement variant={headingVariant} className={locals.titleText}>
+              <HeadingElement variant={headingVariant} className={locals.titleText} ref={contentRef}>
                 {title}
               </HeadingElement>
             ) : (
               <>
                 {icon && <SvgIcon type={icon} className={iconClassName} />}
-                <HeadingElement variant={headingVariant} className={locals.titleText}>
+                <HeadingElement variant={headingVariant} className={locals.titleText} ref={contentRef}>
                   {title}
                 </HeadingElement>
               </>
             )}
           </div>
-        )}
+        </Tooltip>
 
         <div className={locals.flexTooltip}>
           <WidgetCardHeader

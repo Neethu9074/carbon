@@ -25,7 +25,6 @@ jest.mock('in-i18n', () => ({
   Trans: ({ i18nKey }: { i18nKey: string }) => i18nKey
 }));
 
-jest.mock('in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InviteUserDialog');
 jest.mock('in-components/DialogPresenter/store');
 
 jest.mock('@instana/hooks');

@@ -10,6 +10,7 @@ import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Checkbox } from '@instana/components';
 import { Link } from '@instana/components';
 
 import ReadOnlyBuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applications/apCreation/ReadOnlyBuiltInSmartAlertsSelectionBaseList';
@@ -17,7 +18,7 @@ import BuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applic
 import { getAllBuiltInGlobalSmartAlerts } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import AlertEnabledStateColumn from 'in-alerting/smart-alerts/applications/apCreation/AlertEnabledStateColumn';
 import { useLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
-import MainColumn from 'in-alerting/smart-alerts/applications/apCreation/MainColumn';
+import SeverityColumn from 'in-alerting/smart-alerts/components/list/columns/SeverityColumn';
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -57,37 +58,42 @@ export default function ConfigTabBuiltInSmartAlertsSelectionList({
   );
 }
 
-function MainColumnContent({ config, applicationId, alertIds, onItemSelect, index }) {
-  const getLinkToAlertDetails = useLinkToAlertDetails();
+function CheckboxColumnContent({ config, applicationId, alertIds, onItemSelect, index }) {
   const isPartiallySelected = hasPartialEnitySelection(config.applications, applicationId);
 
   return (
-    <MainColumn
-      {...config}
-      alertIds={alertIds}
-      onItemSelect={selected => onItemSelect(selected, config.id)}
-      index={index}
-      customLabel={() => (
-        <Stack gap="xxsmall">
-          <Link
-            href={getLinkToAlertDetails(config)}
-            aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', {
-              name: config.name
-            })}
-            external
-          >
-            {config.name}
-          </Link>
-          {isPartiallySelected && (
-            <LabelText asSubText>
-              {t('in-alerting:smartAlerts.applications.apCreation.notAllEnitiesSelected')}
-            </LabelText>
-          )}
-        </Stack>
-      )}
+    <Checkbox
+      id={`select-built-in-alert${index}`}
+      name={`select-built-in-alert${index}`}
+      size="large"
+      onChange={e => {
+        onItemSelect(e.target.checked, config?.id);
+      }}
+      checked={alertIds.includes(config?.id)}
       isIndeterminate={isPartiallySelected}
       disabled={isPartiallySelected}
     />
+  );
+}
+
+function NameColumnContent({ config, applicationId }) {
+  const getLinkToAlertDetails = useLinkToAlertDetails();
+  const isPartiallySelected = hasPartialEnitySelection(config.applications, applicationId);
+  return (
+    <Stack gap="xxsmall">
+      <Link
+        href={getLinkToAlertDetails(config)}
+        aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', {
+          name: config.name
+        })}
+        external
+      >
+        {config.name}
+      </Link>
+      {isPartiallySelected && (
+        <LabelText asSubText>{t('in-alerting:smartAlerts.applications.apCreation.notAllEnitiesSelected')}</LabelText>
+      )}
+    </Stack>
   );
 }
 
@@ -95,9 +101,9 @@ const columnDefinitions = [
   {
     id: 'id1',
     verticallyCenter: true,
-    getContent({ config, onItemSelect, alertIds, applicationId, index }) {
+    getContent(config, onItemSelect, alertIds, index, applicationId) {
       return (
-        <MainColumnContent
+        <CheckboxColumnContent
           config={config}
           applicationId={applicationId}
           alertIds={alertIds}
@@ -109,10 +115,22 @@ const columnDefinitions = [
   },
   {
     id: 'id2',
+    label: t('in-alerting:smartAlerts.list.columns.name'),
+    verticallyCenter: true,
+    getContent(config, applicationId) {
+      return <NameColumnContent config={config} applicationId={applicationId} />;
+    }
+  },
+  {
+    id: 'id3',
     width: 'max-content',
     verticallyCenter: true,
-    getContent({ config }) {
-      return <AlertEnabledStateColumn {...config} />;
+    label: t('in-alerting:smartAlerts.list.columns.severity'),
+    getContent(config) {
+      const { rules } = config;
+      const warningThreshold = rules?.[0].thresholds?.WARNING;
+      const criticalThreshold = rules?.[0].thresholds?.CRITICAL;
+      return <SeverityColumn warningThreshold={warningThreshold} criticalThreshold={criticalThreshold} />;
     }
   }
 ];

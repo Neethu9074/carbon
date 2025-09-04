@@ -32,3 +32,4 @@ export function getIcon(eventType: number): string;
 export function getEventType(event: RawEvent | EventMap): number;
 export function getEventSeverityLabelWithEventType(event: RawEvent | EventMap, timeConfig: TimeConfig): string;
 export function getEventTrackingType(event: RawEvent | Event): string;
+export function getEventStatusAtFocusMoment(event: RawEvent | Event): Observable<string>;

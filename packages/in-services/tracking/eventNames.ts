@@ -116,6 +116,7 @@ export const KUBERNETES_SEARCH_BAR_CLEARED = 'kubernetes.search.bar.cleared';
 export const KUBERNETES_SORTING_CHANGED = 'kubernetes.sorting.changed';
 export const KUBERNETES_CARD_CLICKED = 'kubernetes.card.clicked';
 export const KUBERNETES_POD_VIEW_CHANGED = 'kubernetes.pod.view.changed';
+export const KUBERNETES_CONTROL_PLANE_VIEW_CHANGED = 'kubernetes.control.plane.view.changed';
 
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
@@ -274,6 +275,7 @@ export const SHARE_AND_INVITE_TRIGGERED = 'shareAndInvite.triggered';
 export const SHARE_AND_INVITE_INVITEE_JOINED = 'shareAndInvite.invitee.joined';
 export const SHARE_AND_INVITE_ADD_USER = 'shareAndInvite.add.user';
 export const SHARE_AND_INVITE_NEW_GROUP = 'shareAndInvite.new.group';
+export const SHARE_AND_INVITE_NEW_ROLE = 'shareAndInvite.new.role';
 export const SHARE_AND_INVITE_COPY_LINK = 'shareAndInvite.copy.link';
 
 export const UNIT_ONBOARDING_START_INTEGRATING_CLICK = 'unitOnboarding.installAgents.click';
@@ -291,6 +293,25 @@ export const WELCOME_PAGE_ADD_USER_CLICK = 'welcomePage.addUser.click';
 export const WELCOME_PAGE_IBM_DOCUMENTATION_CLICK = 'welcomePage.ibmDocumentation.click';
 export const WELCOME_PAGE_RELEASE_NOTES_CLICK = 'welcomePage.releaseNotes.click';
 export const WELCOME_PAGE_WHATS_NEW_LINK_CLICK = 'welcomePage.whatsNewLink.click';
+export const YOUR_DASHBOARD_CLICKED = 'welcomePage.yourdashboard.clicked';
+export const GETTINGSTARTED_CLICKED = 'welcomePage.gettingStarted.clicked';
+export const BLOG_GETTINGSTARTED = 'blog.gettingstartedWithInstana.clicked';
+export const BLOG_INITIALDEPLOYMENTSTEP = 'blog.initialDeploymentStepsWithInstana.clicked';
+export const JOIN_INSTANA_COMMUNITY = 'joinInstanaCommunity.clicked';
+export const VIDEO_INSTALLING_INSTANA = 'video.installingInstana.clicked';
+export const VIDEO_ADDING_AGENTS = 'video.addingAgents.clicked';
+export const VIDEO_MONITORWEBSITE = 'video.MonitorWebsite.clicked';
+export const VIDEO_WATCHADEMO = 'video.WatchAdemo.clicked';
+export const LINK_TRY_INSTANA_WITH_SAMPLEDATA = 'link.tryInstana.withSampleData.clicked';
+export const LINK_IBM_DOCUMENTATION = 'link.ibmdocumentation.clicked';
+export const LINK_COMMUNITY = 'link.community.clicked';
+export const GETTINGSTARTED_LINK_TRY_INSTANA = 'gettingStarted.link.tryInstana.clicked';
+export const GETTINGSTARTED_LINK_IBM_DOCUMENTATION = 'gettingStarted.link.ibmDocumentation.clicked';
+export const GETTINGSTARTED_LINK_COMMUNITY = 'gettingStarted.link.community.clicked';
+export const GETTINGSTARTED_LINK_GETSUPPORT = 'gettingStarted.link.getSupport.clicked';
+
+export const VIEW_DEPLOYED_AGENTS = 'view.deployed.agents';
+export const VIEW_INSTALLED_COLLECTOR = 'view.installed.collector';
 
 // Owned by Team Alert Response
 // Tracking all team owned components
@@ -349,6 +370,10 @@ export const SETTINGS_LOG_MANAGEMENT_RETENTION_PERIOD_SUBMITTED = 'settings.logs
 export const SETTINGS_ACCOUNT_BILLING_TENANT_UNIT = 'settings.accountBilling.tenantUnit';
 export const SETTINGS_ACCOUNT_BILLING_TIMERANGE = 'settings.accountBilling.timeRange';
 export const SETTINGS_ACCOUNT_BILLING_PRESENTATION = 'settings.accountBilling.presentation';
+
+export const ACCOUNT_BILLING_TENANT_UNIT = 'accountBilling.tenantUnit';
+export const ACCOUNT_BILLING_TIMERANGE = 'accountBilling.timeRange';
+export const ACCOUNT_BILLING_PRESENTATION = 'accountBilling.presentation';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
@@ -658,10 +683,9 @@ export const EVENT_AI_CHAT_APPLICATION = 'event.ai.chat.application';
 export const EVENT_AI_CHAT_INFRASTRUCTURE = 'event.ai.chat.infrastructure';
 export const EVENT_AI_LIBRARY_OPEN = 'event.ai.library.open';
 export const EVENT_AI_LIBRARY_RESPONSE_OPEN = 'event.ai.library.response.open';
-export const EVENT_AI_CHAT_APIEVENT_RESULT_POSITIVE = 'event.ai.chat.apievent.result.positive';
-export const EVENT_AI_CHAT_APIEVENT_RESULT_NEGATIVE = 'event.ai.chat.apievent.result.negative';
-export const EVENT_AI_CHAT_APICHAT_RESULT_POSITIVE = 'event.ai.chat.apichat.result.positive';
-export const EVENT_AI_CHAT_APICHAT_RESULT_NEGATIVE = 'event.ai.chat.apichat.result.negative';
+export const EVENT_AI_LIBRARY_SELECTION_MADE = 'event.ai.library.selection.made';
+export const EVENT_AI_CHAT_API_RESULT_POSITIVE = 'event.ai.chat.apievent.result.positive';
+export const EVENT_AI_CHAT_API_RESULT_NEGATIVE = 'event.ai.chat.apievent.result.negative';
 export const EVENT_AI_CHAT_API_ERROR_POSITIVE = 'event.ai.chat.api.error.positive';
 export const EVENT_AI_CHAT_API_ERROR_NEGATIVE = 'event.ai.chat.api.error.negative';
 export const EVENT_AI_CHAT_API_RESULT_POS_NEG_FEEDBACK = 'event.api.chat.api.result.pos.neg.feedback';

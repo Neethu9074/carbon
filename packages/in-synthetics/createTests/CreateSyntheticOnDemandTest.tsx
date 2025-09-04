@@ -10,22 +10,35 @@ import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import CreateSyntheticOnDemandTestDialog from 'in-synthetics/createTests/dialog/CreateSyntheticOnDemandTestDialog';
+import { CreateSyntheticOnDemandProps } from 'in-synthetics/utils/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
-interface Props {
-  testId: string;
-  testLocations: string[];
-  testType: string;
+interface CreateSyntheticOnDemandTestProps extends CreateSyntheticOnDemandProps {
+  isLocationsLoading?: boolean;
 }
-const CreateSyntheticOnDemandTest = ({ testId, testLocations, testType }: Props) => {
+const CreateSyntheticOnDemandTest = ({
+  testId,
+  testLocations,
+  onlineLocations,
+  isLocationsLoading = false
+}: CreateSyntheticOnDemandTestProps) => {
   const handleClick = () => {
     addActiveDialog(
-      <CreateSyntheticOnDemandTestDialog testId={testId} testLocations={testLocations} testType={testType} />
+      <CreateSyntheticOnDemandTestDialog
+        testId={testId}
+        testLocations={testLocations}
+        onlineLocations={onlineLocations}
+      />
     );
   };
 
   return (
-    <Button onClick={handleClick} icon="ib_synthetic_run_now" kind="secondary">
+    <Button
+      onClick={handleClick}
+      icon="ib_synthetic_run_now"
+      kind="secondary"
+      disabled={isLocationsLoading || onlineLocations?.length === 0}
+    >
       {t('in-synthetics:dialog.createOnDemandTest.buttonLabel')}
     </Button>
   );

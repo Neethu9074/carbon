@@ -26,9 +26,10 @@ import { manualCloseCTATracker } from 'in-events/tracker';
 import EventIcon from 'in-events/components/EventIcon';
 import { manuallyCloseIssue } from 'in-events/api';
 import { EventOrMap } from 'in-events/types';
-import { role, user } from 'in-stores/user';
 import { config } from 'in-services/config';
+import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
+import { Role } from 'in-types';
 
 export interface FeedbackStepConfigs {
   nextStep: () => void;
@@ -67,9 +68,7 @@ export interface IStepConfig {
   [key: string]: StepConfig;
 }
 
-const canManuallyCloseIssue = role?.canManuallyCloseIssue;
-
-export const eventStepConfig: IStepConfig = {
+export const getEventStepConfig = (role: Role): IStepConfig => ({
   start_0: {
     title: t('in-settings:maintenanceWindow.feedback.problematicStep0Title'),
     titleAlignment: 'left',
@@ -84,12 +83,7 @@ export const eventStepConfig: IStepConfig = {
     ),
     validateStep: (form: MapForm<FeedbackConfigEventForm>) => {
       if (form && form.get('feedback') && !form.get('feedback').touched) return true;
-      if (
-        form && 
-        form.get('feedback') && 
-        form.get('feedback').touched && 
-        form.get('feedback').value.length <= 0
-      )
+      if (form && form.get('feedback') && form.get('feedback').touched && form.get('feedback').value.length <= 0)
         return true;
       return false;
     },
@@ -117,7 +111,7 @@ export const eventStepConfig: IStepConfig = {
     lastStep: stepVars => {
       const { eventData } = stepVars;
       if (
-        !canManuallyCloseIssue ||
+        !role?.canManuallyCloseIssue ||
         (eventData && getEventType(eventData) !== EVENT_TYPES.INCIDENT) ||
         (eventData && eventData?.get('state') === 'manually_closed') ||
         eventData?.get('state') === 'closed'
@@ -215,4 +209,4 @@ export const eventStepConfig: IStepConfig = {
     isEnd: true,
     canSkip: true
   }
-};
+});

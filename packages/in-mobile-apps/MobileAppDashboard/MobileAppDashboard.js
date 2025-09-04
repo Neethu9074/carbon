@@ -17,14 +17,14 @@ import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicator
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracking/segTracker';
 import MobileAppContext from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContext';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { getMobileAppTabs, getViewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
-import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
+import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { useTagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
@@ -33,12 +33,12 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export const urlStateDefinition = {
@@ -48,6 +48,7 @@ export const urlStateDefinition = {
 };
 
 export default function MobileAppDashboard() {
+  const [role] = useCurrentUserRole();
   const { tabChange } = useMobileTracker();
   const { trackCta } = useSegmentTracking();
   const location = useLocation();
@@ -93,7 +94,7 @@ export default function MobileAppDashboard() {
 
   // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
 
-  const hideButtonInTableView = smartAlertCarbonTableEnabled ? location.pathname !== alertsTabListFullyQualified : true;
+  const hideButtonInTableView = location.pathname !== alertsTabListFullyQualified;
 
   const showAlertButton =
     role.canConfigureMobileAppSmartAlerts &&
@@ -117,7 +118,7 @@ export default function MobileAppDashboard() {
         })}
         HeaderComponent={Header}
         location={location}
-        tabs={props.viewId ? viewTabs : mobileAppTabs}
+        tabs={props.viewId ? getViewTabs(role) : getMobileAppTabs(role)}
         tabChangeTracker={tabChange}
         props={{ ...props, tagFilters, customTagFilters }}
         withProps={({ result }) => ({

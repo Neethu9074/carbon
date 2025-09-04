@@ -12,7 +12,8 @@ import { generateStableHash } from '@instana/utils';
 import type {
   CustomBlueprintType,
   SloIndicatorFields,
-  SloTimeWindowFields
+  SloObjectiveFields,
+  SloTimezoneFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { isEmptyExpression, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
@@ -21,6 +22,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isSliThresholdOperator } from 'in-service-levels/types';
+import { utcLabel } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 export const inputNotUndefinedValidator = (v: any): ValidationResult => {
@@ -35,7 +37,7 @@ export const inputNotUndefinedValidator = (v: any): ValidationResult => {
   return undefined;
 };
 
-export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationResult {
+export function validateTimeWindow(timeWindow: SloObjectiveFields): ValidationResult {
   const { duration, durationUnit } = timeWindow;
 
   if (duration === undefined || !durationUnit) return;
@@ -63,6 +65,20 @@ export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationR
       {
         severity: 'error',
         message: t('in-service-levels:createSloDialog.errorTimeWindowWeek')
+      }
+    ];
+  }
+
+  return;
+}
+
+export function validateTimezone(timezone: SloTimezoneFields): ValidationResult {
+  const { bind, zone } = timezone;
+  if (bind?.value && (!zone?.value || zone?.value.trim() === '' || zone?.value === utcLabel)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-services:validators.theValueMustNotBeBlank')
       }
     ];
   }
@@ -108,6 +124,7 @@ export function createThresholdFieldValidator(
 
   switch (blueprint) {
     case 'custom':
+    case 'saturation':
       return undefined;
     case 'traffic':
     case 'latency':
@@ -147,6 +164,7 @@ export const indicatorFormValidator = composeAndShortCircuitOnError(
   noEqualCustomTagFilterExpressions
 );
 export const timeWindowValidator = composeAndShortCircuitOnError(validateTimeWindow);
+export const timezoneValidator = composeAndShortCircuitOnError(validateTimezone);
 
 export function noInvalidTagFilterExpression(tagFilterExpression: FormModelElement[]): ValidationResult {
   try {

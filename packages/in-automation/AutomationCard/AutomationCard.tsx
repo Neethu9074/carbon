@@ -16,10 +16,12 @@ import useScoredActions, {
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
+import { automationAccessPermissions } from 'in-stores/permission';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
-import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t } from 'in-i18n';
 
 interface AutomationCardProps {
@@ -70,6 +72,10 @@ function AutomationCard({ volatileId, event, hasRCA = false }: AutomationCardPro
 }
 
 export default function AutomationCardWrapper({ volatileId, event, hasRCA = false }: AutomationCardProps) {
+  const hasAutomationAccess = useHasAccess({
+    optionalPrecondition: actionAutomationEnabled,
+    requiredPermissions: automationAccessPermissions
+  });
   if (!hasAutomationAccess) return null;
   return <AutomationCard volatileId={volatileId} event={event} hasRCA={hasRCA} />;
 }

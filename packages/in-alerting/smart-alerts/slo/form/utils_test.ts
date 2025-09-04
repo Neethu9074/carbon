@@ -22,7 +22,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 2,
           durationUnit: 'week',
-          startTimestamp: 1719340200000
+          startTimestamp: 1719340200000,
+          timezone: ''
         }
       };
       const slos = [slo1];
@@ -39,7 +40,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 2,
           durationUnit: 'week',
-          startTimestamp: 1719340200000
+          startTimestamp: 1719340200000,
+          timezone: ''
         }
       };
       const slo2: ServiceLevelObjectiveConfiguration = {
@@ -48,7 +50,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 1,
           durationUnit: 'week',
-          startTimestamp: 1718143200000
+          startTimestamp: 1718143200000,
+          timezone: ''
         }
       };
       const slos = [slo1, slo2];
@@ -65,7 +68,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 2,
           durationUnit: 'week',
-          startTimestamp: 1719340200000
+          startTimestamp: 1719340200000,
+          timezone: ''
         }
       };
       const slo2: ServiceLevelObjectiveConfiguration = {
@@ -74,7 +78,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 1,
           durationUnit: 'week',
-          startTimestamp: 1718143200000
+          startTimestamp: 1718143200000,
+          timezone: ''
         }
       };
       const slo3: ServiceLevelObjectiveConfiguration = {
@@ -83,7 +88,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 1,
           durationUnit: 'day',
-          startTimestamp: 1718143200000
+          startTimestamp: 1718143200000,
+          timezone: ''
         }
       };
       const slos = [slo1, slo2, slo3];
@@ -100,7 +106,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 2,
           durationUnit: 'week',
-          startTimestamp: 1719340200000
+          startTimestamp: 1719340200000,
+          timezone: ''
         }
       };
       const slo2: ServiceLevelObjectiveConfiguration = {
@@ -109,7 +116,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 1,
           durationUnit: 'minute',
-          startTimestamp: 1718143200000
+          startTimestamp: 1718143200000,
+          timezone: ''
         }
       };
       const slo3: ServiceLevelObjectiveConfiguration = {
@@ -118,7 +126,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 1,
           durationUnit: 'day',
-          startTimestamp: 1718143200000
+          startTimestamp: 1718143200000,
+          timezone: ''
         }
       };
       const slo4: ServiceLevelObjectiveConfiguration = {
@@ -127,7 +136,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 1,
           durationUnit: 'week',
-          startTimestamp: 1718143200000
+          startTimestamp: 1718143200000,
+          timezone: ''
         }
       };
 
@@ -144,7 +154,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 2,
           durationUnit: 'day',
-          startTimestamp: 1719340200000
+          startTimestamp: 1719340200000,
+          timezone: ''
         }
       };
       const slo2: ServiceLevelObjectiveConfiguration = {
@@ -153,7 +164,8 @@ describe('Smart Alert Form Utils', () => {
           type: 'fixed',
           duration: 1,
           durationUnit: 'week',
-          startTimestamp: 1718143200000
+          startTimestamp: 1718143200000,
+          timezone: ''
         }
       };
       const slos = [slo1, slo2];

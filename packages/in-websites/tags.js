@@ -1,11 +1,12 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
 import { get } from 'lodash';
 
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
+import { websitesBusinessConversionGoalsEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -45,7 +46,8 @@ export const dataSourceTitles = {
   resourceLoad: t('in-websites:tagsDataSourceTitlesResourceLoad'),
   httpRequest: t('in-websites:tagsDataSourceTitlesHTTPRequest'),
   error: t('in-websites:tagsDataSourceTitlesError'),
-  custom: t('in-websites:tagsDataSourceTitlesCustom')
+  custom: t('in-websites:tagsDataSourceTitlesCustom'),
+  conversionGoals: t('in-websites:tagsDataSourceTitlesConversionGoals')
 };
 
 export const dataSourceTypes = {
@@ -54,7 +56,10 @@ export const dataSourceTypes = {
   resourceLoad: 'RESOURCELOAD',
   httpRequest: 'HTTPREQUEST',
   error: 'ERROR',
-  custom: 'CUSTOM'
+  custom: 'CUSTOM',
+  ...(websitesBusinessConversionGoalsEnabled && {
+    conversionGoals: 'CONVERSION_GOALS'
+  })
 };
 
 export const defaultGroupings = {
@@ -76,7 +81,12 @@ export const defaultGroupings = {
   },
   custom: {
     groupbyTag: 'beacon.customEvent.name'
-  }
+  },
+  ...(websitesBusinessConversionGoalsEnabled && {
+    conversionGoals: {
+      groupbyTag: 'beacon.page.name'
+    }
+  })
 };
 
 const commonGroupingTags = [

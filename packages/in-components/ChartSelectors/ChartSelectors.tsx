@@ -124,7 +124,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
     <ComboChartMetricSelector metrics={metrics} selected={getActiveMetric()} onChange={setActiveMetric} />
   ) : (
     tabs.length > 1 && (
-      <>
+      <div className={locals.chartHeader}>
         <TabChartSelector
           cardTitle={cardTitle}
           tabs={tabs}
@@ -144,7 +144,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
             <SvgIcon type="lib_table_of_contents" size={'xs'} />
           </CarbonIconButton>
         )}
-      </>
+      </div>
     )
   );
 

@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-expect-error there is currently no ts support for promise-loader
-import ServiceLevelsObjectiveDashboard from 'promise-loader?global!in-service-levels/views/ServiceLevelsObjectiveDashboard';
-// @ts-expect-error there is currently no ts support for promise-loader
-import ServiceLevelsOverview from 'promise-loader?global!in-service-levels/views/ServiceLevelsOverview';
+const ServiceLevelsObjectiveDashboard = () =>
+  import(/* webpackChunkName: "service-levels" */ 'in-service-levels/views/ServiceLevelsObjectiveDashboard');
+const ServiceLevelsOverview = () =>
+  import(/* webpackChunkName: "service-levels" */ 'in-service-levels/views/ServiceLevelsOverview');
 import { Route } from 'react-router';
 import React from 'react';
 

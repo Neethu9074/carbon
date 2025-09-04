@@ -11,17 +11,18 @@ import { useObservable } from '@instana/hooks';
 import RetentionPeriodContent from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import Breadcrumbs from 'in-logging/dashboard/Management/Breadcrumbs';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import RestrictedAccessMessage from 'in-components/rbac';
-import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-logging/dashboard/Management/Management.mless';
 
 export default function RetentionPeriod() {
+  const [role] = useCurrentUserRole();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
-  if (!(user?.role?.canConfigureLogRetentionPeriod && isLoggingAddonUser)) return <RestrictedAccessMessage />;
+  if (!(role.canConfigureLogRetentionPeriod && isLoggingAddonUser)) return <RestrictedAccessMessage />;
 
   return (
     <>

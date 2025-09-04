@@ -19,6 +19,7 @@ import SloFormStepsContainer from 'in-service-levels/components/ConfigDialog/com
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { objectiveSelectFieldScrollId, ServiceLevelErrors } from 'in-service-levels/constants';
 import type { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import type { UnstableTrackingFunction } from 'in-services/tracking/useSegmentTracking';
@@ -28,7 +29,7 @@ import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useHandleSloForm from 'in-service-levels/hooks/useHandleSloForm';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
+import { scrollIntoView } from 'in-services/util/dom';
 import Dialog from 'in-components/Dialog/Dialog';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -39,18 +40,21 @@ interface CreateModeProps {
   mode: 'NEW';
   trackingMeta: SloTrackingMeta;
   configuration?: never;
+  isEditTimezone?: boolean;
 }
 
 interface CloneModeProps {
   mode: 'CLONE';
   configuration: ServiceLevelObjectiveConfiguration;
   trackingMeta: SloTrackingMeta;
+  isEditTimezone?: boolean;
 }
 
 interface EditModeProps {
   mode: 'EDIT';
   configuration: ServiceLevelObjectiveConfiguration;
   trackingMeta: SloTrackingMeta;
+  isEditTimezone?: boolean;
 }
 
 type CreateSloDialogProps = CreateModeProps | CloneModeProps | EditModeProps;
@@ -58,7 +62,12 @@ type CreateSloDialogProps = CreateModeProps | CloneModeProps | EditModeProps;
 export default function ConfigDialog(props: CreateModeProps): JSX.Element;
 export default function ConfigDialog(props: CloneModeProps): JSX.Element;
 export default function ConfigDialog(props: EditModeProps): JSX.Element;
-export default function ConfigDialog({ configuration, mode, trackingMeta }: CreateSloDialogProps): JSX.Element {
+export default function ConfigDialog({
+  configuration,
+  mode,
+  trackingMeta,
+  isEditTimezone
+}: CreateSloDialogProps): JSX.Element {
   const { form, setForm, updateForm, submitStatus, doSubmit } = useHandleSloForm({ configuration, mode });
   const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
@@ -71,6 +80,9 @@ export default function ConfigDialog({ configuration, mode, trackingMeta }: Crea
       },
       undefined
     );
+    if (isEditTimezone) {
+      scrollIntoView(document.getElementById(objectiveSelectFieldScrollId), { behavior: 'smooth' });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

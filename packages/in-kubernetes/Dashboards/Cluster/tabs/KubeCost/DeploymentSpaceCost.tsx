@@ -15,13 +15,14 @@ import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 // @ts-expect-error needs TS migration
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { KUBECOST_EXPORT_DEPLOYMENT_COST_CLICK } from 'in-services/tracking/eventNames';
-import { percentagePlain, twoDecimalPlaces } from 'in-services/formatters/number';
+import { twoDecimalPlaces, oneDecimalPlaces } from 'in-services/formatters/number';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import CsvExporter from 'in-components/CsvExporter/CsvExporter';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 let currencyType = 'USD';
+
 interface DeploymentCostRow {
   key: string;
   snapshotId: string;
@@ -50,6 +51,8 @@ export const colorFormatter = function Color(value: number | object) {
   }
   return themes.default.ids.color.option.neutral['400'];
 };
+// Format percentage with 1 decimal place
+const percentageWithOneDecimal = (v: number) => `${oneDecimalPlaces(v)}%`;
 
 const cols = [
   {
@@ -179,7 +182,7 @@ const cols = [
       getMetricName(row: DeploymentCostRow) {
         return `deploymentCostList.${row.key}.totalEfficiency`;
       },
-      getContent: percentagePlain.detailed,
+      getContent: percentageWithOneDecimal,
       getTimeWindowAggregation() {
         return 'sum';
       }
@@ -231,14 +234,13 @@ const cols = [
       getMetricName(row: DeploymentCostRow) {
         return `deploymentCostList.${row.key}.trend`;
       },
-      getContent(row: DeploymentCostRow) {
+      getContent(value: number | DeploymentCostRow) {
         // BeeInstana doesn't support negative values, so we subtract the 1000 offset (added by the sensor) to normalize the values for display.
-        const isValidNumber = typeof row === 'number';
-        const adjustedtrendValue = isValidNumber ? row - 1000 : row;
-
+        const isValidNumber = typeof value === 'number';
+        const adjustedtrendValue = isValidNumber ? value - 1000 : 0;
         if (!isValidNumber) return '-';
 
-        return <Badge color={colorFormatter(adjustedtrendValue)}>{adjustedtrendValue + '%'}</Badge>;
+        return <Badge color={colorFormatter(adjustedtrendValue)}>{percentageWithOneDecimal(adjustedtrendValue)}</Badge>;
       },
       getTimeWindowAggregation() {
         return 'sum';

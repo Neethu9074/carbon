@@ -4,42 +4,48 @@
  */
 
 :local {
-  .tableContainer {
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: scroll;
+  .infiniteScrollingContainer {
+    overflow: auto; //our scrollable table container
+    position: relative; //needed for sticky header
 
-    :global(.cds--data-table) {
-      table-layout: fixed;
-      width: 100%;
+    .table {
+      .tableHeaderRow {
+        display: flex;
+        align-items: center;
+        min-block-size: 3rem; // needed for sortable rows increasing size
+
+        .tableHeader {
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .tableBody {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .tableRow {
+          display: flex;
+          align-items: center;
+          min-block-size: 2.5rem;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+
+          .tableCell {
+            height: 100%;
+            > td {
+              height: 100%;
+            }
+          }
+        }
+        .tableExpandedRow {
+          block-size: 50rem;
+        }
+      }
     }
-
-    .fixedTable {
-      /* Ensure tables maintain their column widths */
-      table-layout: fixed;
-    }
-
-    :global(.cds--table-toolbar) {
-      z-index: 2;
-    }
-  }
-
-  .stickyHeader {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .tableBody {
-    overflow: auto;
-    width: 100%;
-    flex: 1;
-    min-height: 0; /* Important for flex containers to allow scrolling */
   }
 
   .tableToolbar {

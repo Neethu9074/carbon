@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
 import { Stack, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -14,7 +14,10 @@ import { FormGroup } from '@instana/carbon';
 import {
   SETTINGS_ACCOUNT_BILLING_PRESENTATION,
   SETTINGS_ACCOUNT_BILLING_TENANT_UNIT,
-  SETTINGS_ACCOUNT_BILLING_TIMERANGE
+  SETTINGS_ACCOUNT_BILLING_TIMERANGE,
+  ACCOUNT_BILLING_PRESENTATION,
+  ACCOUNT_BILLING_TENANT_UNIT,
+  ACCOUNT_BILLING_TIMERANGE
 } from 'in-services/tracking/eventNames';
 import { dataUsageNotificationEnabled, newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
@@ -39,7 +42,8 @@ export default function AmpInformationModifier({
   setTo,
   presentation,
   setPresentation,
-  isAddOn = false
+  isAddOn = false,
+  isTechnologiesReporting = false
 }) {
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
@@ -61,20 +65,30 @@ export default function AmpInformationModifier({
 
   const { trackCta } = useSegmentTracking();
 
-  useEffect(() => {
-    trackCta(SETTINGS_ACCOUNT_BILLING_TENANT_UNIT, { tenantUnit: tenantUnit?.label });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tenantUnit?.label]);
-
-  useEffect(() => {
-    trackCta(SETTINGS_ACCOUNT_BILLING_TIMERANGE, { timeRange });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeRange]);
-
-  useEffect(() => {
-    trackCta(SETTINGS_ACCOUNT_BILLING_PRESENTATION, { presentation });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [presentation]);
+  const handleTenantUnitChange = newTenantUnit => {
+    setTenantUnit(newTenantUnit);
+    trackCta(newAccountAndBillingPageEnabled ? ACCOUNT_BILLING_TENANT_UNIT : SETTINGS_ACCOUNT_BILLING_TENANT_UNIT, {
+      tenantUnit: newTenantUnit.label
+    });
+  };
+  const handlePresentationChange = newPresentation => {
+    setPresentation(newPresentation);
+    trackCta(newAccountAndBillingPageEnabled ? ACCOUNT_BILLING_PRESENTATION : SETTINGS_ACCOUNT_BILLING_PRESENTATION, {
+      presentation: newPresentation.label
+    });
+  };
+  const handleTimeRangeChange = newTimeRange => {
+    setTimeRange(newTimeRange);
+    trackCta(newAccountAndBillingPageEnabled ? ACCOUNT_BILLING_TIMERANGE : SETTINGS_ACCOUNT_BILLING_TIMERANGE, {
+      timeRange: newTimeRange.label
+    });
+  };
+  const handleWindowSizeChange = newWindowSize => {
+    setWindowSize(newWindowSize);
+    trackCta(ACCOUNT_BILLING_TIMERANGE, {
+      timeRange: newWindowSize.label
+    });
+  };
 
   return (
     <div
@@ -105,7 +119,7 @@ export default function AmpInformationModifier({
                   items={unitSelectorOptions}
                   size="md"
                   value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
-                  onChange={setTenantUnit}
+                  onChange={handleTenantUnitChange}
                   className={locals.unitSelector}
                 />
               </FormGroup>
@@ -114,7 +128,7 @@ export default function AmpInformationModifier({
                 items={unitSelectorOptions}
                 size="md"
                 value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
-                onChange={setTenantUnit}
+                onChange={handleTenantUnitChange}
                 className={locals.unitSelector}
               />
             ))}
@@ -123,12 +137,12 @@ export default function AmpInformationModifier({
               <FormGroup legendText={t('in-amp:accountAndBilling.label.timeRange')}>
                 <AmpTimeSelection
                   windowSize={windowSize}
-                  setWindowSize={setWindowSize}
+                  setWindowSize={isTechnologiesReporting ? handleWindowSizeChange : setWindowSize}
                   timeRange={timeRange}
-                  setTimeRange={setTimeRange}
+                  setTimeRange={handleTimeRangeChange}
                   setTo={setTo}
                   presentation={presentation}
-                  setPresentation={setPresentation}
+                  setPresentation={handlePresentationChange}
                 />
               </FormGroup>
             ) : (
@@ -136,10 +150,10 @@ export default function AmpInformationModifier({
                 windowSize={windowSize}
                 setWindowSize={setWindowSize}
                 timeRange={timeRange}
-                setTimeRange={setTimeRange}
+                setTimeRange={handleTimeRangeChange}
                 setTo={setTo}
                 presentation={presentation}
-                setPresentation={setPresentation}
+                setPresentation={handlePresentationChange}
               />
             )}
             {presentation &&
@@ -147,14 +161,14 @@ export default function AmpInformationModifier({
                 <FormGroup legendText={t('in-amp:accountAndBilling.label.values')}>
                   <PresentationSelection
                     presentation={presentation}
-                    setPresentation={setPresentation}
+                    setPresentation={handlePresentationChange}
                     timeRange={timeRange}
                   />
                 </FormGroup>
               ) : (
                 <PresentationSelection
                   presentation={presentation}
-                  setPresentation={setPresentation}
+                  setPresentation={handlePresentationChange}
                   timeRange={timeRange}
                 />
               ))}

@@ -18,8 +18,6 @@ import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
 import ActivationAdoption from 'in-amp/pages/AccountAndBilling/tabs/ActivationAdoption/ActivationAdoptionView';
 //@ts-expect-error - needs TS migration
 import AccountSettings from 'in-amp/components/AccountSettings';
-//@ts-expect-error - needs TS migration
-import RestrictedUsage from 'in-amp/components/RestrictedUsage';
 import Entitlements from 'in-amp/pages/AccountAndBilling/tabs/EntitlementsView';
 import Usage from 'in-amp/pages/AccountAndBilling/tabs/Usage/UsageView';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
@@ -30,7 +28,7 @@ export default function getTabs(): Array<Tab<unknown, any>> {
   const usageTab: Tab<unknown, any> = {
     label: t('in-amp:accountAndBilling.tabs.usage'),
     path: ampUsage,
-    component: ampCompanyInfoEnabled ? Usage : RestrictedUsage
+    component: Usage
   };
   const entitlementsTab: Tab<unknown, any> = {
     label: t('in-amp:accountAndBilling.tabs.entitlements'),

@@ -51,7 +51,6 @@ interface SummaryProps {
 export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = cluster?.id;
-
   const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.cluster', snapshotId, timeConfig);
 
   const { running, limits, requests, usage } = k8sChartColors;

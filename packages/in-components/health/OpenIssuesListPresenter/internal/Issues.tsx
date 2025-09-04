@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ReactElement } from 'react';
+import React from 'react';
 
-import { HorizontalIndicator, LoadingSkeleton } from '@instana/components';
+import { StructuredListSkeleton, ContainedList } from '@instana/carbon';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import Issue from 'in-components/health/OpenIssuesListPresenter/internal/Issue';
 import { OpenIssuesResult } from 'in-components/health/OpenIssuesListPresenter';
+import { t } from 'in-i18n';
 
 import locals from './Issues.mless';
 
@@ -19,28 +20,24 @@ interface IssuesProps {
   getIssueLink?: (issueId: string) => string;
 }
 
-export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink }: IssuesProps): ReactElement {
+export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink }: IssuesProps): React.ReactElement {
   if (openIssuesResult?.progress?.loading) {
-    return (
-      <div>
-        <HorizontalIndicator progress={openIssuesResult.progress} />
-        <LoadingSkeleton className={locals.skeleton} />
-        <LoadingSkeleton className={locals.skeleton} />
-      </div>
-    );
+    return <StructuredListSkeleton rowCount={2} className={locals.loading} />;
   }
 
-  if (openIssuesResult.errors.length > 0) {
+  if (openIssuesResult?.errors && openIssuesResult.errors.length > 0) {
     return <ErroneousResultPresenter errors={openIssuesResult.errors} className={locals.errors} />;
   }
 
-  const openIssues = openIssuesResult.data ?? [];
+  const openIssues = openIssuesResult.data || [];
 
   return (
-    <ol className={locals.issues}>
-      {openIssues.slice(0, maxIssuesToShow).map(issue => (
-        <Issue key={issue.id} getIssueLink={getIssueLink} issue={issue} />
-      ))}
-    </ol>
+    <div className={locals.issues}>
+      <ContainedList kind="on-page" label={t('in-components:health.capitalIssue', { count: openIssues.length })}>
+        {openIssues.slice(0, maxIssuesToShow).map(issue => (
+          <Issue key={issue.id} issue={issue} getIssueLink={getIssueLink ? () => getIssueLink(issue.id) : undefined} />
+        ))}
+      </ContainedList>
+    </div>
   );
 }

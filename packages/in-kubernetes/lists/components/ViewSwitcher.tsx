@@ -15,8 +15,7 @@ import {
   clusterListFullyQualified,
   namespaceListFullyQualified,
   exploreFullyQualified,
-  clusterOtelListFullyQualified,
-  containerDashboardFullyQualified
+  clusterOtelListFullyQualified
 } from 'in-kubernetes/navigation/paths';
 import {
   kubernetesExploreEnabled,
@@ -61,14 +60,6 @@ export default function KubernetesViewSwitcher() {
               icon="lib_kubernetes_namespace"
               label={namespacesLabel}
               isActive={matchLocation(namespaceListFullyQualified)}
-            />
-          )}
-          {isOtelCluster && (
-            <SecondLevelNavigationItem
-              href={createHrefToPath(containerDashboardFullyQualified)}
-              icon="lib_kubernetes_container"
-              label={t('in-kubernetes:containers')}
-              isActive={matchLocation(containerDashboardFullyQualified)}
             />
           )}
           {kubernetesExploreEnabled && !playwithEnabled && !isOtelCluster && (

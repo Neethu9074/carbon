@@ -12,8 +12,8 @@ import SliManageList from 'in-custom-dashboards/widgets/SloLegacy/sli/components
 import { getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
 import SliList from 'in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliList';
 import { success, error, hasError } from 'in-services/util/result';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { pendingResult } from 'in-services/fixedObjects';
-import { role } from 'in-stores/user';
 import { Trans } from 'in-i18n';
 
 jest.mock('@instana/hooks', () => ({
@@ -25,9 +25,13 @@ jest.mock('in-custom-dashboards/widgets/SloLegacy/sli/api', () => ({
   getSliConfigurationsByEntity: jest.fn()
 }));
 
-jest.mock('in-stores/user', () => ({
-  role: { canConfigureServiceLevelIndicators: true }
-}));
+jest.mock('in-stores/useCurrentUserRole', () =>
+  jest.fn(() => [
+    {
+      canConfigureServiceLevelIndicators: true
+    }
+  ])
+);
 
 describe('in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliManageList', () => {
   expect.extend({
@@ -55,7 +59,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliManageLi
         map: mapper => mapper(pendingResult)
       };
     });
-    role.canConfigureServiceLevelIndicators = true;
+    useCurrentUserRole.mockReturnValue([{ canConfigureServiceLevelIndicators: true }]);
   });
 
   it('deselects any selected sli when the slideIn content is closed', () => {
@@ -99,28 +103,9 @@ describe('in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliManageLi
     expect(sliResult).toEqual([expect.objectContaining({ sliName: 'Uncaught typos' })]);
   });
 
-  it('displays an info message if role.canConfigureServiceLevelIndicators if false', () => {
-    // Given
-    role.canConfigureServiceLevelIndicators = false;
-
-    // When
-    const listWrapper = shallow(<SliManageList onChange={jest.fn()} entityType={'application'} entityId={''} />);
-    const staticContent = listWrapper.prop('staticContent');
-    const wrapper = shallow(staticContent);
-
-    // Then
-    expect(
-      wrapper.containsMatchingElement(
-        <Message>
-          <Trans i18nKey="in-custom-dashboards:widgets.slo.sliManageList.configSrvLevelIndicatorsMsg" />
-        </Message>
-      )
-    ).toBeTruthy();
-  });
-
   it('does not allow the creation of sli if role.canConfigureServiceLevelIndicators if false', () => {
     // Given
-    role.canConfigureServiceLevelIndicators = false;
+    useCurrentUserRole.mockReturnValue([{ canConfigureServiceLevelIndicators: false }]);
 
     // When
     const manageListWrapper = shallow(<SliManageList onChange={jest.fn()} entityType={'application'} entityId={''} />);

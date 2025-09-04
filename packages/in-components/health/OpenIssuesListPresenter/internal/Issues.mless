@@ -5,22 +5,22 @@
 
 :local {
   .issues {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    :global {
+      .cds--contained-list__header {
+        display: none;
+      }
+      button.cds--contained-list-item__content {
+        padding: var(--cds-spacing-05);
+      }
+    }
+    border-top: 1px solid var(--cds-border-subtle);
+    border-bottom: 1px solid var(--cds-border-subtle);
     overflow-y: auto;
-
-    @height-of-header-and-actions: 8.75rem;
-    max-height: calc(70vh - @height-of-header-and-actions);
+    @height-of-header-footer: 15rem;
+    max-height: calc(70vh - @height-of-header-footer);
   }
 
-  .skeleton {
-    height: 3.5rem;
-    display: block;
-    margin: 0.5rem 0.625rem;
-  }
-
-  .errors {
-    margin: 0.75rem 1rem;
+  .loading {
+    width: 20rem;
   }
 }

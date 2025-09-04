@@ -24,6 +24,7 @@ interface DumpStatsRow {
 interface DumpStatsProps {
   snapshotId: string;
   timeConfig: TimeConfig;
+  duration: string;
 }
 
 const cols = [
@@ -137,7 +138,7 @@ const cols = [
   }
 ];
 
-export default function DumpStats({ snapshotId, timeConfig }: DumpStatsProps) {
+export default function DumpStats({ snapshotId, timeConfig, duration }: DumpStatsProps) {
   const data = useObservable(
     () => getRawPayloadWithTimestamp(snapshotId, 'abapdumpstats', timeConfig),
     [snapshotId, timeConfig]
@@ -157,11 +158,15 @@ export default function DumpStats({ snapshotId, timeConfig }: DumpStatsProps) {
           };
         })
     : [];
+  const cardTitle =
+    String(duration) == '1'
+      ? t('in-sap:dashboards.abapdumpstatsHour', { duration })
+      : t('in-sap:dashboards.abapdumpstatsHours', { duration });
 
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.abapdumpstats')}
+      cardTitle={cardTitle}
       cols={cols}
       rows={rows}
       initialSortColumn={0}

@@ -21,8 +21,10 @@ import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/Tr
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
+import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
+import { eumImpactedUsersForWebsiteAndMobileAlertEnabled } from 'in-services/featureFlags';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
@@ -31,8 +33,6 @@ import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlert
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
-import { eumImpactedUsersForWebsiteAndMobileAlertEnabled } from 'in-services/featureFlags';
-import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -41,11 +41,11 @@ import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import EventIcon from 'in-events/components/EventIcon';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { EventOrMap } from 'in-events/types';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventContent/MobileEventContent.mless';
@@ -57,6 +57,7 @@ interface Props {
 }
 
 export default function MobileEventContent({ event, snapshot, reload }: Props) {
+  const [role] = useCurrentUserRole();
   const eventEntity = useMobileAppEventEntity(event);
   const alertConfig = useMobileAppEventAlertConfig(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState<string>('');

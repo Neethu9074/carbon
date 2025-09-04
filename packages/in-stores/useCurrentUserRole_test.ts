@@ -8,13 +8,13 @@ import { act, renderHook } from '@testing-library/react-hooks';
 
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { DEFAULT_ROLE } from 'in-stores/constants';
-import { $role } from 'in-stores/user';
+import { role$ } from 'in-stores/user';
 import { Role } from 'in-types';
 
 describe('in-stores/useCurrentUserRole', () => {
   it('must return the default role if obserable is undefined', () => {
     // Given
-    $role.emit(undefined);
+    role$.emit(undefined);
 
     // When
     const { result } = renderHook(useCurrentUserRole);
@@ -30,7 +30,7 @@ describe('in-stores/useCurrentUserRole', () => {
       ...DEFAULT_ROLE,
       name: 'Masters of the Universe'
     };
-    $role.emit(givenRole);
+    role$.emit(givenRole);
 
     // When
     const { result } = renderHook(useCurrentUserRole);
@@ -51,12 +51,12 @@ describe('in-stores/useCurrentUserRole', () => {
       ...DEFAULT_ROLE,
       name: 'Masters of Puppets'
     };
-    $role.emit(givenRole);
+    role$.emit(givenRole);
 
     // When
     const { result } = renderHook(useCurrentUserRole);
     act(() => {
-      $role.emit(newRole);
+      role$.emit(newRole);
     });
     const [role] = result.current;
 
@@ -75,7 +75,7 @@ describe('in-stores/useCurrentUserRole', () => {
       ...DEFAULT_ROLE,
       name: 'The Fellowship of the Ring'
     };
-    $role.emit(givenRole);
+    role$.emit(givenRole);
 
     // When
     const { result } = renderHook(useCurrentUserRole);

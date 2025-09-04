@@ -11,8 +11,9 @@ import { Stack, ThemeProvider } from '@instana/components';
 import useGetAccountActivation, {
   AccountActivationProp
 } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
+import { solisEnabled, whatsNewBannerEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
+import GettingStartedContent from 'in-plg/pages/WelcomePage/GettingStarted/GettingStartedContent';
 import { Activation } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
-import { solisEnabled, whatsNewBannerEnabled } from 'in-services/featureFlags';
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -24,16 +25,27 @@ import config from 'in-services/config';
 import locals from 'in-plg/pages/WelcomePage/WelcomePage.mless';
 
 export default function WelcomePage() {
+  const reportingData = window.instana.reportingData;
+  const [selectedWelcomePage, setSelectedWelcomePage] = useState(() => {
+    if (reportingData && (reportingData.hostCount > 0 || reportingData.serverlessCount > 0)) {
+      return 'yourDashboard';
+    }
+    return 'gettingStarted';
+  });
   const { location } = useNavigation();
   const activation = useGetAccountActivation();
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
   const { activeLicenseType } = config;
   const [randomNumber, setRandomNumber] = useState(0);
-
+  const isTrial = activeLicenseType === 'selfService';
   // Temporary. In the future, which teaser is loaded depends on which products are already integrated with Instana.
   useEffect(() => {
     setRandomNumber(Math.random());
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [selectedWelcomePage]);
 
   return (
     <div className={locals.container}>
@@ -41,6 +53,8 @@ export default function WelcomePage() {
         <WelcomeHeader
           onboardingHeaderEnabled={showCarousal(activation, currentTenantUnit, activeLicenseType)}
           accountActivationData={activation}
+          selectedWelcomePage={selectedWelcomePage}
+          setSelectedWelcomePage={setSelectedWelcomePage}
         />
         <ViewTrackingMeta
           data={{
@@ -49,9 +63,16 @@ export default function WelcomePage() {
             pagePath: location?.pathname
           }}
         />
-        <Stack direction="vertical">
-          <PageContent />
-        </Stack>
+        {newOnboardingPageEnabled && isTrial ? (
+          <Stack direction="vertical">
+            {selectedWelcomePage === 'yourDashboard' && <PageContent />}
+            {selectedWelcomePage === 'gettingStarted' && <GettingStartedContent activation={activation} />}
+          </Stack>
+        ) : (
+          <Stack direction="vertical">
+            <PageContent />
+          </Stack>
+        )}
       </ThemeProvider>
       {false &&
         solisEnabled &&

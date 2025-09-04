@@ -8,6 +8,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { t } from '@instana/i18n-react';
 
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
@@ -47,7 +48,9 @@ export default function BreadcrumbHeader({ automaticActiveState = true }) {
 
   return (
     <DashboardHeaderModule withTopBorder={false} withBottomBorder>
-      <div className={locals.wrapper}>{crumbsElement}</div>
+      <div aria-label={t('in-components:pageStructure.breadcrumbAriaLabel')} className={locals.wrapper}>
+        {crumbsElement}
+      </div>
     </DashboardHeaderModule>
   );
 }

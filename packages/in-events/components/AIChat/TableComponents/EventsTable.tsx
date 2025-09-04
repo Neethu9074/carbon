@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import { GenericItem } from '@carbon/ai-chat';
 import React, { useMemo } from 'react';
-
-import { GenericItem } from '@instana/ai-chat';
 
 import { useTableState, TableRow, TableHeader } from 'in-events/components/AIChat/TableComponents/useTableState';
 import TableView from 'in-events/components/AIChat/TableComponents/TableView';

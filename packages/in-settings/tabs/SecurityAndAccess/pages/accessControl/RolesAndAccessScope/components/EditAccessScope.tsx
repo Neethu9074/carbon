@@ -11,20 +11,36 @@ import { PermissionSet, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
-  hasAPlatformAccess,
-  hasKubernetesAccess,
-  hasLinuxKVMHypervisorAccess,
-  hasNutanixAccess,
-  hasOpenStackAccess,
-  hasPCFAccess,
-  hasPHMCAccess,
-  hasPowerVcAccess,
-  hasSAPAccess,
-  hasVSphereAccess,
-  hasWindowsHypervisorAccess,
-  hasXenServerAccess,
-  hasZHMCAccess
+  anyPlatformAccessPermissions,
+  kubernetesAccessPermissions,
+  linuxKVMHypervisorAccessPermissions,
+  nutanixAccessPermissions,
+  openStackAccessPermissions,
+  pcfAccessPermissions,
+  phmcAccessPermissions,
+  powerVcAccessPermissions,
+  sapAccessPermissions,
+  vSphereAccessPermissions,
+  windowsHypervisorAccessPermissions,
+  xenServerAccessPermissions,
+  zhmcAccessPermissions
 } from 'in-stores/permission';
+import {
+  actionAutomationEnabled,
+  linuxKVMHypervisorEnabled,
+  newOTelPageEnabled,
+  nutanixEnabled,
+  openstackEnabled,
+  pcfEnabled,
+  phmcEnabled,
+  powervcEnabled,
+  sapEnabled,
+  syntheticsEnabled,
+  vsphereEnabled,
+  windowsHypervisorEnabled,
+  xenserverEnabled,
+  zhmcEnabled
+} from 'in-services/featureFlags';
 import {
   getAllSyntheticCredentialsForEntitySelectionWithDefaults,
   getAllSyntheticTestsForEntitySelectionWithDefaults
@@ -58,17 +74,49 @@ import HeadingSection from 'in-settings/tabs/SecurityAndAccess/pages/accessContr
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import { GroupFormFields } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group.form';
-import { actionAutomationEnabled, newOTelPageEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
+import { PERMISSION_STRATEGY } from 'in-stores/useHasPermission';
 import { pendingResult } from 'in-services/fixedObjects';
 import useDerivedState from 'in-hooks/useDerivedState';
+import useHasAccesses from 'in-stores/useHasAccesses';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import useHasAccess from 'in-stores/useHasAccess';
 import { t, Trans } from 'in-i18n';
 
-const amountPlatformAccesses = (() => {
-  if (!hasAPlatformAccess) return 0;
+interface PlatformAccessPermissions {
+  hasAnyPlatformAccess: boolean;
+  hasVSphereAccess: boolean;
+  hasPHMCAccess: boolean;
+  hasZHMCAccess: boolean;
+  hasPCFAccess: boolean;
+  hasOpenStackAccess: boolean;
+  hasPowerVcAccess: boolean;
+  hasKubernetesAccess: boolean;
+  hasSAPAccess: boolean;
+  hasNutanixAccess: boolean;
+  hasXenServerAccess: boolean;
+  hasWindowsHypervisorAccess: boolean;
+  hasLinuxKVMHypervisorAccess: boolean;
+}
+
+function getAmountPlatformAccesses({
+  hasAnyPlatformAccess,
+  hasVSphereAccess,
+  hasPHMCAccess,
+  hasZHMCAccess,
+  hasPCFAccess,
+  hasOpenStackAccess,
+  hasPowerVcAccess,
+  hasKubernetesAccess,
+  hasSAPAccess,
+  hasNutanixAccess,
+  hasXenServerAccess,
+  hasWindowsHypervisorAccess,
+  hasLinuxKVMHypervisorAccess
+}: PlatformAccessPermissions) {
+  if (!hasAnyPlatformAccess) return 0;
   let count = 0;
   if (hasVSphereAccess) count++;
   if (hasPHMCAccess) count++;
@@ -83,7 +131,7 @@ const amountPlatformAccesses = (() => {
   if (hasWindowsHypervisorAccess) count++;
   if (hasLinuxKVMHypervisorAccess) count++;
   return count;
-})();
+}
 
 interface EditAccessScopeDialogProps<FORM_TYPE extends MapFormItems>
   extends Omit<FormControlProps<FORM_TYPE>, 'setForm'> {
@@ -98,8 +146,72 @@ export default function EditAccessScopeDialog({
   onCancel,
   editMode
 }: EditAccessScopeDialogProps<GroupFormFields>) {
+  const hasAnyPlatformAccess = useHasAccesses({
+    requiredPermissions: anyPlatformAccessPermissions,
+    strategy: PERMISSION_STRATEGY.REQUIRE_ANY
+  });
+  const hasKubernetesAccess = useHasAccess({ requiredPermissions: kubernetesAccessPermissions });
+  const hasVSphereAccess = useHasAccess({
+    optionalPrecondition: vsphereEnabled,
+    requiredPermissions: vSphereAccessPermissions
+  });
+  const hasPowerVcAccess = useHasAccess({
+    optionalPrecondition: powervcEnabled,
+    requiredPermissions: powerVcAccessPermissions
+  });
+  const hasPHMCAccess = useHasAccess({
+    optionalPrecondition: phmcEnabled,
+    requiredPermissions: phmcAccessPermissions
+  });
+  const hasZHMCAccess = useHasAccess({
+    optionalPrecondition: zhmcEnabled,
+    requiredPermissions: zhmcAccessPermissions
+  });
+  const hasPCFAccess = useHasAccess({
+    optionalPrecondition: pcfEnabled,
+    requiredPermissions: pcfAccessPermissions
+  });
+  const hasOpenStackAccess = useHasAccess({
+    optionalPrecondition: openstackEnabled,
+    requiredPermissions: openStackAccessPermissions
+  });
+  const hasSAPAccess = useHasAccess({
+    optionalPrecondition: sapEnabled,
+    requiredPermissions: sapAccessPermissions
+  });
+  const hasNutanixAccess = useHasAccess({
+    optionalPrecondition: nutanixEnabled,
+    requiredPermissions: nutanixAccessPermissions
+  });
+  const hasXenServerAccess = useHasAccess({
+    optionalPrecondition: xenserverEnabled,
+    requiredPermissions: xenServerAccessPermissions
+  });
+  const hasWindowsHypervisorAccess = useHasAccess({
+    optionalPrecondition: windowsHypervisorEnabled,
+    requiredPermissions: windowsHypervisorAccessPermissions
+  });
+  const hasLinuxKVMHypervisorAccess = useHasAccess({
+    optionalPrecondition: linuxKVMHypervisorEnabled,
+    requiredPermissions: linuxKVMHypervisorAccessPermissions
+  });
   const [form, setForm] = useDerivedState(originForm);
   const { subSlideConfig, setSubSlideConfig, showSubSlide, setShowSubSlide } = useSubSlideControl();
+  const amountPlatformAccesses = getAmountPlatformAccesses({
+    hasAnyPlatformAccess,
+    hasVSphereAccess,
+    hasPHMCAccess,
+    hasZHMCAccess,
+    hasPCFAccess,
+    hasOpenStackAccess,
+    hasPowerVcAccess,
+    hasKubernetesAccess,
+    hasSAPAccess,
+    hasNutanixAccess,
+    hasXenServerAccess,
+    hasWindowsHypervisorAccess,
+    hasLinuxKVMHypervisorAccess
+  });
   const context = editMode ? 'edit' : 'create';
   const timeConfig = useTimeConfig();
 
@@ -189,7 +301,7 @@ export default function EditAccessScopeDialog({
     amountPlatformAccesses === 1 && hasKubernetesAccess
       ? t('in-settings:productAreas.kubernetes')
       : t('in-settings:productAreas.title_platforms');
-  const platformTitle = hasAPlatformAccess ? platformTitleIfHasOnePlatform() : '';
+  const platformTitle = hasAnyPlatformAccess ? platformTitleIfHasOnePlatform() : '';
 
   let navItems = [
     ...nameItem,
@@ -417,7 +529,7 @@ export default function EditAccessScopeDialog({
       ];
 
   // Filter out areas the user does not have permissions for
-  navItems = hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '7-platforms');
+  navItems = hasAnyPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '7-platforms');
 
   const isValidActionFilter = () => {
     const limitedPermission = permissionSetField?.value

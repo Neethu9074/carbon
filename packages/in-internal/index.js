@@ -10,6 +10,8 @@ import React from 'react';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 // features for monitoring units
 import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
+// @ts-expect-error js to tsx migration
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import SyntheticsHealthProcessor from 'in-internal/monitoringUnit/synthetics/SyntheticsHealthProcessor';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
@@ -71,6 +73,8 @@ import Unit from 'in-internal/monitoringUnit/unit/Unit';
 import Region from 'in-internal/monitoringUnit/Region';
 import Landing from 'in-internal/components/Landing';
 import Agents from 'in-internal/thisUnit/Agents';
+
+const GraphiQLView = () => import(/* webpackChunkName: "graphiql" */ 'in-internal/thisUnit/GraphiQL/GraphiQLView');
 
 export default function Internal() {
   const internalRoutes = internalMonitoringUnit
@@ -196,7 +200,7 @@ export default function Internal() {
       ]
     : [];
   internalRoutes.push(
-    <Route key="internalFeatureFlags" path="/internal/featureflags">
+    <Route key="internalFeatureFlags" path="/internal/thisUnit/featureflags">
       <FeatureFlags />
     </Route>,
 
@@ -246,6 +250,9 @@ export default function Internal() {
     </Route>,
     <Route key="internalTagSets" path="/internal/thisUnit/tagSets">
       {wrapInInternalView(TagSets)}
+    </Route>,
+    <Route key="internalGraphiQL" path="/internal/thisUnit/graphiql">
+      {renderAsyncRouteChildren(GraphiQLView)}
     </Route>
   );
   return internalRoutes;

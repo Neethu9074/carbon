@@ -21,13 +21,14 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import { graphTabEnabled, infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import SearchBar from 'in-components/SearchBar';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 
 export default function InfrastructureViewSwitcher({ showSearchBar = true, theme = themes.dark }) {
+  const [role] = useCurrentUserRole();
   const { matchLocation, createHrefToPath } = useNavigation();
 
   const isMapActive = matchLocation(physicalPath) || matchLocation(containerPath);

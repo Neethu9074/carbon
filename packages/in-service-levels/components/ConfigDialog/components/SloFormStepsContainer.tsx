@@ -35,6 +35,7 @@ function getApplicationAndWebsiteNavItems(form: SloForm): NavItem[] {
   const thresholdField = form.getIn(['indicator', 'threshold']);
   const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
   const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
+  const timezoneForm = form.getIn(['objective', 'timezone']);
 
   const isEntityIdFieldValid = isFieldValid(entityIdField);
   const isNameValid = isFieldValid(nameField);
@@ -44,6 +45,7 @@ function getApplicationAndWebsiteNavItems(form: SloForm): NavItem[] {
   const isDateFieldValid = isFieldValid(dateField);
   const isTimeFieldValid = isFieldValid(timeField);
   const tagFilterFieldValid = isFieldValid(tagFilterField);
+  const isTimezoneFormValid = isFieldValid(timezoneForm);
 
   return [
     {
@@ -72,7 +74,7 @@ function getApplicationAndWebsiteNavItems(form: SloForm): NavItem[] {
       label: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
       scrollId: '3-select-objective',
       title: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
-      valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid
+      valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid && isTimezoneFormValid
     },
     {
       content: <SloNameAndTagsSection />,
@@ -99,6 +101,7 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
   const thresholdField = form.getIn(['indicator', 'threshold']);
   const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
   const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
+  const timezoneForm = form.getIn(['objective', 'timezone']);
 
   const isEntityIdFieldValid = isFieldValid(entityIdField);
   const isNameValid = isFieldValid(nameField);
@@ -107,6 +110,7 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
   const isIndicatorValid = isFieldValid(indicatorForm);
   const isDateFieldValid = isFieldValid(dateField);
   const isTimeFieldValid = isFieldValid(timeField);
+  const isTimezoneFormValid = isFieldValid(timezoneForm);
 
   return [
     {
@@ -128,7 +132,7 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
       label: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
       scrollId: '3-select-objective',
       title: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
-      valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid
+      valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid && isTimezoneFormValid
     },
     {
       content: <SloNameAndTagsSection />,
@@ -147,12 +151,17 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
   ];
 }
 
+function getInfrastructureTestNavItems(): NavItem[] {
+  return [];
+}
+
 function getSloFormNavItems(form: SloForm): NavItem[] {
   const entityType = form.getIn(['entity', 'type']).value;
 
   return {
     application: getApplicationAndWebsiteNavItems,
     website: getApplicationAndWebsiteNavItems,
-    synthetic: getSyntheticTestNavItems
+    synthetic: getSyntheticTestNavItems,
+    infrastructure: getInfrastructureTestNavItems
   }[entityType](form);
 }

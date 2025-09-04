@@ -12,12 +12,13 @@ import { t } from '@instana/i18n-react';
 
 import { FeedbackStepConfigs } from 'in-events/components/feedback/eventStepConfig';
 import { disableEventConfigEnabled } from 'in-services/featureFlags';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { EVENT_TYPES, getEventType } from 'in-stores/events';
-import { role } from 'in-stores/user';
 
 import locals from 'in-events/components/feedback/Feedback.mless';
 
 export default function FeedbackStepThree({ form, setForm, nextStep, eventData }: FeedbackStepConfigs) {
+  const [role] = useCurrentUserRole();
   const setValue = (form: MapForm<any>, path: string[], value: any) => {
     //@ts-expect-error error for typing
     setForm(form.updateIn(path, item => (item as Field<any>).setValue(value).setTouched(true)));

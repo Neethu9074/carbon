@@ -33,7 +33,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   };
 
   const getHealthComponentForSnapshotId = snapshotId => {
-    column.content = <EntityHealthIndicator snapshotId={snapshotId} />;
+    column.content = <EntityHealthIndicator snapshotId={snapshotId} inContentArea />;
     column.subscription = getHealthInfoAtFocusedMoment(snapshotId).subscribe(healthInfo => {
       column.value = healthInfo.get('maxSeverity');
       row.mutationCount++;

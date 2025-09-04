@@ -42,28 +42,14 @@ import WebsiteLabel from 'in-alerting/smart-alerts/websites/components/WebsiteLa
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
-import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-
-function getColumnDefinitions(websiteLabel: string) {
-  return [
-    {
-      id: 'filters',
-      label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
-      getContent: (entity: WebsiteSmartAlertConfigWithMetadata) => (
-        <ScopeColumn config={entity} websiteLabel={websiteLabel} />
-      )
-    }
-  ];
-}
 
 export default function Alerts({
   websiteId,
@@ -74,6 +60,7 @@ export default function Alerts({
   websiteLabel: string;
   isEventsView?: boolean;
 }) {
+  const [role] = useCurrentUserRole();
   const handlers = role?.canConfigureWebsiteSmartAlerts ? actionHandlers : {};
 
   const websiteData = useWebsiteData();
@@ -81,29 +68,25 @@ export default function Alerts({
   return (
     <>
       <AlertBaseList
-        extraColumnDefinitions={getColumnDefinitions(websiteLabel)}
         getAlertConfigs={() =>
           isEventsView ? getAllAlertConfigsWithResult() : getAllAlertConfigs(websiteId, { asObservable: true })
         }
-        actionHandlers={handlers}
-        getSubtitle={config => getSubtitle(config.rule, config.rules)}
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
         alertsTab={isEventsView ? eventsPath : alertsTab}
-        // for carbon table
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
         getNameSubtitle={config =>
           isEventsView ? <WebsiteLabel websiteId={config.websiteId} /> : getWebsiteSubtitle(websiteLabel)
         }
-        displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
-          role?.canConfigureWebsiteSmartAlerts && !isEventsView ? (
+          role?.canConfigureWebsiteSmartAlerts ? (
             <CreateSmartAlert
               websiteId={websiteData.websiteId ?? ''}
               tagFilters={websiteData.tagFilters}
               timeConfig={websiteData.timeConfig}
               location={websiteData.location}
+              isEventsView={isEventsView}
             />
           ) : undefined
         }

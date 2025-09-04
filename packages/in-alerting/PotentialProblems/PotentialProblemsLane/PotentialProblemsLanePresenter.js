@@ -3,8 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import PotentialProblemsDialogPresenter from 'promise-loader?global,potentialProblems!in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
-import AlertConfigDialog from 'promise-loader?global,potentialProblems!in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
+const PotentialProblemsDialogPresenter = () =>
+  import(
+    /* webpackChunkName: "potentialProblems" */ 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter'
+  );
+const AlertConfigDialog = () =>
+  import(/* webpackChunkName: "potentialProblems" */ 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog');
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 

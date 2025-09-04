@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { TagFilter, TimeConfig, Website } from '@instana/types';
+import { TagFilter, TimeConfig } from '@instana/types';
 import { Button } from '@instana/components';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
@@ -21,6 +21,7 @@ import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAl
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { FULLSCREEN, SIMPLE, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
+import WebsiteEntitySection from 'in-alerting/smart-alerts/websites/WebsiteEntitySection';
 import { alertsTabListFullyQualified, detailsPath } from 'in-websites/navigation/paths';
 import { customEventId, errorId as errorIdMatrix } from 'in-websites/navigation/matrix';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
@@ -44,52 +45,59 @@ interface CreateSmartAlertProps {
   websiteId: string;
   tagFilters: TagFilter[];
   timeConfig: TimeConfig;
+  isEventsView?: boolean;
 }
 
-export default function CreateSmartAlert({ location, websiteId, tagFilters, timeConfig }: CreateSmartAlertProps) {
+export default function CreateSmartAlert({
+  location,
+  websiteId,
+  tagFilters,
+  timeConfig,
+  isEventsView
+}: CreateSmartAlertProps) {
+  const [selectedWebsiteId, setSelectedWebsiteId] = useState(websiteId);
+
   const errorId = getMatrixParameter(location, detailsPath, errorIdMatrix) ?? undefined;
   const customEventName = getMatrixParameter(location, detailsPath, customEventId) ?? undefined;
 
   const { goToPath } = useNavigation();
-  const alertType = deriveAlertType(errorId, customEventName);
-  const blueprintConfig = getBlueprintConfig(alertType);
+  const alertType = useMemo(() => deriveAlertType(errorId, customEventName), [errorId, customEventName]);
+  const blueprintConfig = useMemo(() => getBlueprintConfig(alertType), [alertType]);
   const metricName = blueprintConfig.defaultMetric;
   const beaconType = blueprintConfig.getBeaconType(metricName);
-  const boundedAlertQueryBuilder = getQueryBuilderForBeaconType(beaconType);
+  const boundedAlertQueryBuilder = useMemo(() => getQueryBuilderForBeaconType(beaconType), [beaconType]);
 
   const tagCatalog = useTagCatalog(boundedAlertQueryBuilder.getTagCatalog);
-  const [website, websiteStatus] = useWebsite(websiteId);
+  const [_, websiteStatus] = useWebsite(selectedWebsiteId);
 
-  const websiteError = useWebsiteError(websiteId, errorId as string, timeConfig);
+  const websiteError = useWebsiteError(selectedWebsiteId, errorId as string, timeConfig);
   const { trackCta } = useSegmentTracking();
 
+  useEffect(() => {
+    if (selectedWebsiteId !== websiteId) {
+      handleButtonClick();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWebsiteId]);
+
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
-    websiteId,
+    websiteId: selectedWebsiteId,
     errorMessage: websiteError?.data?.message,
     customEventName,
     errorId,
     tagFilters
   });
 
-  if (!tagCatalog || websiteStatus !== 'resolved') {
+  if ((!tagCatalog || websiteStatus !== 'resolved') && !isEventsView) {
     return null;
   }
-
-  const alertConfig = generateAlertConfig(
-    websiteId,
-    tagFilters,
-    blueprintConfig,
-    tagCatalog,
-    websiteError?.data?.message,
-    customEventName
-  );
 
   const handleButtonClick = () => {
     if (alertDisplayMode === CHOICE_DIALOG) {
       addActiveDialog(
         <ViewSelectorDialog
           trackCta={trackCta}
-          openOldDialog={() => addDialog(website)}
+          openOldDialog={() => openDialog()}
           getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
           mode={SIMPLE}
         />
@@ -102,10 +110,26 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
       return;
     }
     trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
-    addDialog(website);
+    openDialog();
   };
 
-  const addDialog = (website: Website) => {
+  const handleSelectedWebsite = (id: string) => {
+    setSelectedWebsiteId(id);
+  };
+
+  const handleWebsitesSelection = () => {
+    addActiveDialog(<WebsiteEntitySection handleSelectedWebsite={handleSelectedWebsite} />);
+  };
+
+  const openDialog = () => {
+    const alertConfig = generateAlertConfig(
+      selectedWebsiteId,
+      tagFilters,
+      blueprintConfig,
+      tagCatalog,
+      websiteError?.data?.message,
+      customEventName
+    );
     return addActiveDialog(
       <AlertConfigDialog
         onClose={() => {
@@ -117,14 +141,18 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
         }}
         //@ts-expect-error
         alertConfig={alertConfig}
-        websiteLabel={website.label}
         startWithSimpleMode
       />
     );
   };
 
   return (
-    <Button kind="primaryv2" icon="lib_openclose_add" onClick={handleButtonClick} size="xl">
+    <Button
+      kind="primaryv2"
+      icon="lib_openclose_add"
+      onClick={isEventsView ? handleWebsitesSelection : handleButtonClick}
+      size="xl"
+    >
       {t('in-alerting:smartAlerts.createSmartAlert')}
     </Button>
   );

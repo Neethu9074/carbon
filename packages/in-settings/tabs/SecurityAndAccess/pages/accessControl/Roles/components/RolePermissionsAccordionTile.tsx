@@ -105,6 +105,7 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_VIEW_TRACE_DETAILS,
               Capability.CAN_CONFIGURE_SERVICE_MAPPING,
               Capability.CAN_CONFIGURE_APPLICATIONS,
+              Capability.CAN_CONFIGURE_SUBTRACES,
               Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
               Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS
             ]}
@@ -250,6 +251,7 @@ export default function RolePermissionsAccordionTile<T>({
               Capability.CAN_CONFIGURE_API_TOKENS,
               Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS,
               Capability.CAN_CONFIGURE_SESSION_SETTINGS,
+              Capability.CAN_CONFIGURE_USERS,
               Capability.CAN_CONFIGURE_TEAMS,
               Capability.CAN_VIEW_AUDIT_LOG
             ]}

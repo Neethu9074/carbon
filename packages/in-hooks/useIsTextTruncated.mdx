@@ -1,0 +1,118 @@
+import { Meta } from '@storybook/blocks';
+import useIsTextTruncated from 'in-hooks/useIsTextTruncated';
+
+
+<Meta component={useIsTextTruncated} />
+
+## Usage
+
+You can use `useIsTextTruncated` to detect when text content is truncated with an ellipsis due to CSS overflow constraints. It uses resize observers to monitor both a container element and its content, checking if either has text that's being cut off.
+
+This will do an operation with calculating sizes in javascript for deciding if something is not visible.
+
+So, please use with care, and don't overuse it. There are better solutions, and some Carbon components will bring better options out-of-the box. (Eg. Link has its own tooltip already, etc.)
+
+## Import
+
+```js
+import useIsTextTruncated from 'in-hooks/useIsTextTruncated';
+```
+
+## Return Value
+
+The hook returns an object with the following properties:
+
+```tsx
+{
+  containerRef: RefObject<HTMLDivElement>, // or RefObject<ContainerType> see invokation
+  containerWidth: number,
+  contentRef: RefObject<HTMLDivElement>, // or RefObject<ContentType> see invokation
+  contentWidth: number,
+  isTruncated: boolean
+}
+```
+
+## Basic Usage
+
+```tsx
+import React from 'react';
+import useIsTextTruncated from 'in-hooks/useIsTextTruncated';
+
+const TruncatedText = ({ text }) => {
+  const { containerRef, contentRef, isTruncated } = useIsTextTruncated();
+
+  return (
+    <div>
+      <div
+        ref={containerRef}
+        style={{
+          width: '200px',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }}
+      >
+        <div ref={contentRef}>
+          {text}
+        </div>
+      </div>
+      {isTruncated && <div>Text is truncated!</div>}
+    </div>
+  );
+};
+```
+
+## With Tooltip Example
+
+When text is truncated, a tooltip should be displayed.
+
+```tsx
+import React from 'react';
+import useIsTextTruncated from 'in-hooks/useIsTextTruncated';
+import Tooltip from 'in-components/Tooltip';
+
+const TruncatedTextWithTooltip = ({ text }) => {
+  const { containerRef, contentRef, isTruncated } = useIsTextTruncated();
+
+  return (
+    <Tooltip content={isTruncated ? text : undefined}>
+      <div
+        ref={containerRef}
+        style={{
+          width: '200px',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }}
+      >
+        <div ref={contentRef}>
+          {text}
+        </div>
+      </div>
+    </Tooltip>
+  );
+};
+```
+
+## Additional information
+
+The hook uses two resize observers. One for the container and another one for the content elements.
+
+It compares the `scrollWidth` and `offsetWidth` of both elements to determine if text is being truncated. If either element has a `scrollWidth` greater than its `offsetWidth`, the text is considered truncated.
+
+
+## Helper Function
+
+The hook also exports a utility function that can be used independently:
+
+```tsx
+import { isEllipsisActive } from 'in-hooks/useIsTextTruncated';
+
+const isTruncated = isEllipsisActive(element);
+```
+
+## Notes
+
+- Both refs (containerRef and contentRef) must be attached to DOM elements for the hook to work properly
+- The hook uses a debounced resize observer to minimize performance impact
+

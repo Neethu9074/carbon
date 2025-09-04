@@ -11,6 +11,8 @@ export const REMAINING = 'remaining';
 export const REMOVING = 'removing';
 export const CRITICAL = 'CRITICAL';
 export const WARNING = 'WARNING';
+export const critical = 'critical';
+export const warning = 'warning';
 
 export const CRITICAL_THRESHOLD = 'criticalThreshold';
 export const WARNING_THRESHOLD = 'warningThreshold';

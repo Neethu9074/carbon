@@ -16,7 +16,6 @@ import {
   fieldTouchedAndInvalid,
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import { smartAlertsLogsBlueprintEnabled, alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/dialog/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreview';
@@ -30,10 +29,10 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { ThresholdSection } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
+import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -75,6 +74,7 @@ export default function AdvancedModeContainer(props) {
 
   const isLogsBlueprint = blueprintConfig.type === 'logs';
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
+  const placeholders = placeholdersByEvaluationTypeAndSeverity(evaluationType);
   const navItems = [
     {
       scrollId: '1',
@@ -192,26 +192,14 @@ export default function AdvancedModeContainer(props) {
       title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
       valid: true,
       content: (
-        <>
-          {alertChannelPerSeverityApplicationSaEnabled ? (
-            <ConfigureAlertChannelMT
-              form={form}
-              onChange={onChange}
-              updateForm={updateForm}
-              setSliderState={setSliderState}
-              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={5}
-            />
-          ) : (
-            <ConfigureAlertChannel
-              form={form}
-              onChange={onChange}
-              setSliderState={setSliderState}
-              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={5}
-            />
-          )}
-        </>
+        <ConfigureAlertChannelMT
+          form={form}
+          onChange={onChange}
+          updateForm={updateForm}
+          setSliderState={setSliderState}
+          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+          numberOfAlertChannelListRows={5}
+        />
       )
     },
     {
@@ -231,11 +219,12 @@ export default function AdvancedModeContainer(props) {
                 <AlertPropertiesTitleRow
                   form={form}
                   onChange={onChange}
-                  placeholderData={{ placeholders: placeholdersByEvaluationTypeAndSeverity(evaluationType) }}
+                  placeholderData={{ placeholders: placeholders }}
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}
               shouldDisplayAlertLevelSelection={false}
+              placeholders={placeholders}
             />
           )}
           renderAlertPreview={() => (

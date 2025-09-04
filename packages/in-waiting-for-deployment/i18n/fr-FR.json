@@ -93,6 +93,7 @@
     "applicationDirectory": "Répertoire d'application",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Le support de Python on Fargate sur ECS fonctionne de la même façon qu'avec n'importe quelle application Python. Suivez les instructions de la <go>documentation Python</go>.",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "La prise en charge de Ruby on Fargate sur ECS fonctionne de la même manière que pour n'importe quelle application Ruby. Suivez les instructions de la <go>documentation Ruby</go>.",
+    "theSupportForPhpOnFargateOnEcsWorksTheSameWayAsWithAnyPhpApplicationFollowTheInstructionsOfThe": "La prise en charge de PHP sur Fargate sur ECS fonctionne de la même manière que pour toute application PHP. Suivez les instructions de la <go>documentation PHP</go>.",
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "La prise en charge d'AWS Fargate est conçue pour fonctionner avec AWS Fargate sur Elastic Container Service (ECS).",
     "selectYourApplicationRuntime": "Sélectionnez votre environnement d'exécution d'application :",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "Les fonctions AWS Lambda écrites dans Go doivent être instrumentées manuellement afin de collecter des données de trace. Suivez les instructions de la <go>documentation AWS Lambda Go</go>.",
@@ -282,7 +283,8 @@
     "nodejs10Plus": "Node.js 10.x ou version ultérieure",
     "python": "Python",
     "python2and3": "Python 2.7 et 3.x",
-    "ruby": "Ruby"
+    "ruby": "Ruby",
+    "php": "PHP"
   },
   "baseImg": {
     "glibcLinux": "Linux (basé sur glibc)",

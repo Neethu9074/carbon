@@ -15,6 +15,7 @@
   "memoryAllocated": "割り当て済みメモリー",
   "hypervisorTypes": "ハイパーバイザー・タイプ",
   "clusterArch": "クラスター・アーキテクチャー",
+  "version": "バージョン",
   "dashboards": {
     "system": "システム",
     "wait": "wait",

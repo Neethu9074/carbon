@@ -11,6 +11,7 @@ const i18next = require('i18next');
 const middleware = require('i18next-http-middleware');
 
 const relevantDocs = require('../solis/helpPanelArticles');
+const relevantTours = require('../solis/helpPanelTours');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers');
@@ -214,12 +215,21 @@ function getUserPermissions(role, features) {
 function generateTopNavItems(t) {
   let topNavItems = [];
   topNavItems.push({
+    id: 'share',
+    type: 'icon_button',
+    mode: 'custom',
+    icon_name: 'share',
+    properties: {
+      label: t('in-server:solis.share')
+    }
+  });
+  topNavItems.push({
     id: 'help',
     type: 'icon_button',
     mode: 'native',
     icon_name: 'help',
     properties: {
-      label: t('in-server:helpPanel.panelTitle')
+      label: t('in-server:solis.helpPanel.panelTitle')
     }
   });
   return topNavItems;
@@ -602,8 +612,13 @@ function getHelp(t) {
   let content = {
     sections: [
       {
+        id: 'relevant_tours',
+        title: t('in-server:solis.helpPanel.tourSectionTitle'),
+        tiles: relevantTours(t)
+      },
+      {
         id: 'relevant_articles',
-        title: t('in-server:helpPanel.articleSectionTitle'),
+        title: t('in-server:solis.helpPanel.articleSectionTitle'),
         tiles: relevantDocs(t)
       }
     ]

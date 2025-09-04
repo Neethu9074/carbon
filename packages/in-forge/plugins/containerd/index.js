@@ -12,11 +12,12 @@ import containerInfoButtonConfig from 'in-forge/plugins/containerd/containerInfo
 import metricDefinitions from 'in-forge/plugins/containerd/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/containerd/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/containerd/kpiDefinitions';
+import { infrastructureAccessPermissions } from 'in-stores/permission';
 import { isWithinKubernetes } from 'in-forge/plugins/containerd/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
-import { hasInfrastructureAccess } from 'in-stores/permission';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { CONTAINERD_ID } from 'in-logging/queryBuilder';
+import { hasAccess } from 'in-stores/useHasAccess';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -31,7 +32,11 @@ registerSnapshotDefinition({
       Labels: snapshot.getIn(['data', 'labels'])
     });
   },
-  getDashboardHeaderActions({ snapshot, timeConfig }) {
+  getDashboardHeaderActions({ snapshot, timeConfig }, role) {
+    const hasInfrastructureAccess = hasAccess({
+      grantedPermissions: role?.permissions ?? [],
+      requiredPermissions: infrastructureAccessPermissions
+    });
     return [
       {
         getObservables,

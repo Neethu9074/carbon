@@ -38,4 +38,4 @@ export const canSeeExtendedInternalMonitoring = role?.canSeeExtendedInternalMoni
  * TeamFocusDropwdown. Preferably use the useCurrentUserRole hook to obtain the
  * user's role and all updates to it from within a React pattern.
  **/
-export const $role = create<Role | undefined>().emit(role);
+export const role$ = create<Role | undefined>().emit(role);

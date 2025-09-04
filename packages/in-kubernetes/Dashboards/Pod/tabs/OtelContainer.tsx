@@ -17,11 +17,11 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 // @ts-expect-error TS migration
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import getOtelKubernetesContainers from 'in-kubernetes/subscriptions/getOtelKubernetesContainers';
 // @ts-expect-error TS migration
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error TS migration
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
+import getOtelKubernetesContainers from 'in-kubernetes/subscriptions/getOtelKubernetesContainers';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -181,9 +181,10 @@ export default connectTo(
       return <MonitoredContainers {...props} />;
     }
 
-    const monitoredSnapshotIds = monitoredContainersResult.data && Array.isArray(monitoredContainersResult.data.items)
-    ? monitoredContainersResult.data.items.map(item => item.container.id)
-    : [];
+    const monitoredSnapshotIds =
+      monitoredContainersResult.data && Array.isArray(monitoredContainersResult.data.items)
+        ? monitoredContainersResult.data.items.map(item => item.container.id)
+        : [];
     const containerStatuses: ContainerStatus[] = [
       ...get(pod, ['status', 'initContainerStatuses'], []),
       ...get(pod, ['status', 'containerStatuses'], [])
@@ -223,11 +224,7 @@ function MonitoredContainers({ data: pod, timeConfig }: { data: PodData; timeCon
     statesMap[allContainerStatuses[i].containerSnapshotId] = allContainerStatuses[i];
   }
 
-  return (
-    <Card>
-      <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} podId={pod.id} statesMap={statesMap} />
-    </Card>
-  );
+  return <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} podId={pod.id} statesMap={statesMap} />;
 }
 
 function UnmonitoredContainers({ containerStatuses }: { containerStatuses: ContainerStatus[] }) {

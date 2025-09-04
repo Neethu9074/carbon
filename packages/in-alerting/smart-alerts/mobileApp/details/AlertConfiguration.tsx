@@ -15,12 +15,15 @@ import {
 import { Stack } from '@instana/components';
 
 import {
+  highlightPlaceholdersInHtml,
+  replacePlaceholdersWithMarkup
+} from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
-import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -36,7 +39,6 @@ import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/Custo
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { alertChannelPerSeverityMobileAppSaEnabled } from 'in-services/featureFlags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -186,7 +188,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
           <AlertChannelsViewer
             alertChannelIds={alertChannelIds}
             alertChannels={alertChannels}
-            alertChannelPerSeverityEnabled={alertChannelPerSeverityMobileAppSaEnabled}
+            alertChannelPerSeverityEnabled
           />
         </div>
       </ExpandableLightCard>
@@ -203,6 +205,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
           alertConfig={alertConfig}
           disableTrigger={false}
           renderCustomTitle={() => replacePlaceholdersWithMarkup(severityPlaceholderList, alertConfig.name)}
+          renderCustomDescription={() => highlightPlaceholdersInHtml(alertConfig.description, severityPlaceholderList)}
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="MOBILE_APP" />

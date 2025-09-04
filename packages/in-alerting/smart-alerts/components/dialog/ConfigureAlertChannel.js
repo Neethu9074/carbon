@@ -19,9 +19,9 @@ import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import SaveButton from 'in-components/form/SaveButton';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel.mless';
@@ -91,6 +91,8 @@ function SelectListDialogContent({
 }) {
   const initialState = false;
   const [slideInContentVisible, setSlideInContentVisible] = useState(initialState);
+  const [role] = useCurrentUserRole();
+  const [createdChannelId, setCreatedChannelId] = useState(null);
 
   return (
     <SlideInView
@@ -145,14 +147,19 @@ function SelectListDialogContent({
             }}
             pageSize={numberOfAlertChannelListRows}
             preventCloseOnSubmit
+            createdChannelId={createdChannelId}
           />
         </AlertConfigSlideInContentWrapper>
       }
       slideInContent={
         <AlertConfigSlideInContentWrapper>
-          <AlertChannelCreation onCancel={() => setSlideInContentVisible(initialState)} />
+          <AlertChannelCreation
+            onCancel={() => setSlideInContentVisible(initialState)}
+            setCreatedChannelId={setCreatedChannelId}
+          />
         </AlertConfigSlideInContentWrapper>
       }
+      setCreatedChannelId={setCreatedChannelId}
       showSlideInContent={slideInContentVisible}
       onShowSlideInContentChange={setSlideInContentVisible}
       HeaderComponent={NoHeader}

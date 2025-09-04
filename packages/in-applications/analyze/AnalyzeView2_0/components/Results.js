@@ -20,6 +20,7 @@ import getSubtraceList from 'in-applications/subscriptions/getSubtraceList';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
+import { analyzeSubtracesEnabled } from 'in-services/featureFlags';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
 import { number } from 'in-services/formatters/number';
@@ -101,7 +102,8 @@ export default function Results(props) {
         const traceIdName = traceIdNamePerDataSource[dataSource];
         return {
           traceId: item[type][traceIdName],
-          ...(dataSource !== 'traces' && { callId: item[type].id })
+          ...(dataSource === 'calls' && { callId: item[type].id }),
+          ...(dataSource === 'subtraces' && { subtraceConfigId: item[type].subtraceConfigId })
         };
       }}
       DetailView={TraceDetailView}
@@ -172,7 +174,7 @@ function LabelServiceContent({ item, type }) {
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const isSubtraceType = type === 'subtrace';
 
-  const label = !isSubtraceType ? item[type].service.label : item.services.map(service => service.label).join(', ');
+  const label = item[type].services?.map(service => service.label).join(', ') ?? item[type].service.label;
   return !isSubtraceType ? (
     <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: item[type].service.id })}>
       {label}
@@ -184,7 +186,7 @@ function LabelServiceContent({ item, type }) {
 
 function getColumnDefinitions(dataSource) {
   const type = typePerDataSource[dataSource];
-  const subtraceType = type === 'subtrace';
+  const isSubtraceType = type === 'subtrace';
   return [
     {
       id: 'erroneous',
@@ -214,16 +216,16 @@ function getColumnDefinitions(dataSource) {
       getContent(item, { getHrefToDetailId, groupLabel }) {
         return (
           <div className={locals.batchedLine}>
-            {subtraceType ? (
+            {
               <>
-                <SvgIcon type={iconTypePerDataSource[dataSource]} size="s" />
+                <SvgIcon
+                  type={iconTypePerDataSource[dataSource]}
+                  /** TODO: Remove this condition once the feature is done*/
+                  color={!isSubtraceType || analyzeSubtracesEnabled ? 'var(--cds-link-primary)' : null}
+                  size="s"
+                />
                 <Spacer horizontal="xsmall" />
-                <span>{item.subtraceName}</span>
-              </>
-            ) : (
-              <>
-                <SvgIcon type={iconTypePerDataSource[dataSource]} color="var(--cds-link-primary)" size="s" />
-                <Spacer horizontal="xsmall" />
+
                 <LinkToDetailPage
                   item={item}
                   dataSource={dataSource}
@@ -241,27 +243,27 @@ function getColumnDefinitions(dataSource) {
                   noTopPosition
                 />
               </>
-            )}
+            }
           </div>
         );
       }
     },
     {
       id: 'service',
-      label: subtraceType ? t('in-applications:labelServices') : t('in-applications:labelService'),
+      label: isSubtraceType ? t('in-applications:labelServices') : t('in-applications:labelService'),
       sortable: false,
       getContent(item) {
         return <LabelServiceContent item={item} type={type} />;
       }
     },
-    ...(subtraceType
+    ...(isSubtraceType
       ? [
           {
             id: 'subtraceCalls',
             label: t('in-applications:subtraces.labelCallsPerSubtrace'),
             sortable: true,
             getContent(item) {
-              return <span>{item.subtraceCalls}</span>;
+              return <span>{item[type].subtraceCalls}</span>;
             }
           }
         ]
@@ -271,19 +273,26 @@ function getColumnDefinitions(dataSource) {
 
 function LinkToDetailPage({ item, dataSource, getHrefToDetailId, linkLabel, groupLabel }) {
   const type = typePerDataSource[dataSource];
+  const isSubtraceType = type === 'subtrace';
   const traceIdName = traceIdNamePerDataSource[dataSource];
-  return (
-    <Link
-      className={locals.link}
-      href={getHrefToDetailId(
-        {
-          traceId: item[type][traceIdName],
-          ...(dataSource !== 'traces' && { callId: item[type].id })
-        },
-        groupLabel
-      )}
-    >
-      {linkLabel}
-    </Link>
-  );
+  /** TODO: Remove this condition once the feature is done*/
+  if (!isSubtraceType || analyzeSubtracesEnabled) {
+    return (
+      <Link
+        className={locals.link}
+        href={getHrefToDetailId(
+          {
+            traceId: item[type][traceIdName],
+            ...(dataSource === 'calls' && { callId: item[type].id }),
+            subtraceConfigId: item[type].subtraceConfigId
+          },
+          groupLabel
+        )}
+      >
+        {linkLabel}
+      </Link>
+    );
+  } else {
+    return linkLabel;
+  }
 }

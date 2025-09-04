@@ -122,6 +122,8 @@
     "formStateLabel": "Bundesstaat"
   },
   "searchBar": {
+    "searchInput": "Sucheingabe",
+    "searchBar": "Suchleiste",
     "usingTheSearchBar": "Die Instana-Suchfunktion 'Dynamischer Fokus' kann verwendet werden, um die 3D-Karten, Vergleichstabellen und Ereignisansichten zu filtern. Die Suchleiste bietet umfangreiche Möglichkeiten für Suchen nach groben Übereinstimmungen und für Platzhaltersuchen sowie für Suchen mit booleschen Operatoren. Die folgende\nAbfrage beschränkt beispielsweise Ansichten auf Produktionshosts mit weniger als vier CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus nutzt die [Lucene-Abfragesyntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) mit den folgenden Unterschieden zum Lucene-Standard:\n- **Standardoperator:** `AND`\n- **Syntaxbedingungen:** werden in der [Dokumentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Suchleisteninteraktion\naufgelistet. Die Suchleiste unterstützt die automatische Vervollständigung für Suchfelder und hebt die Lucene-Abfrage während der Eingabe hervor.\nNach der Eingabe schlägt die Suchleiste Suchfelder vor, die mit der aktuellen Eingabe übereinstimmen. Sie können vorgeschlagene Felder akzeptieren, indem Sie die Eingabetaste drücken. Drücken Sie die Tastenkombination `Strg + Leertaste`, um das Popup-Fenster für die automatische Vervollständigung zu öffnen.\n## Cheat-Sheet für Lucene-Abfragesyntax\n - **Feldspezifische Suche:** `entity.host.cpu.count:>4`\n - **Boolesche Operatoren:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Gruppierung:** ` (entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Platzhaltersuchen:** `entity.type:container*`\n\nWeitere Informationen finden Sie in der [Dokumentation](https://ibm.biz/filtering-dynamic-focus).",
     "filtersBtn": "Filter",
     "filterPresetsMenuHeading": "Filter",
@@ -296,18 +298,14 @@
     "columnizedContentUserInterface": "Benutzerschnittstelle",
     "columnizedContentBackend": "Back-End",
     "labelRegion": "Region",
-    "labelTag": "Tag",
+    "labelTag": "Version",
     "labelCommit": "Festschreiben",
-    "geo": {
-      "title": "Geodaten"
-    },
     "ibm": "IBM",
     "copyRights": "Copyright © IBM Corp. 2020, 2023",
     "instana": "Instana",
     "close": "Schließen",
     "maxMindDescription": "Diese Daten enthalten GeoLite2-Daten, die erstellt wurden von",
     "maxMind": "MaxMind.",
-    "dynamicGraphDescription": "Sehen Sie eine Visualisierung Ihrer Umgebung im",
     "dynamicGraph": "Showcase mit der dynamischen Grafik."
   },
   "blueprintFormMultistep": {
@@ -403,12 +401,10 @@
     "eventType_issue_0": "Probleme",
     "eventType_issue_1": "Problem",
     "eventType_issue_2": "Probleme",
-    "openIssuesListPresenterActionsViewIssues": "{{eventType}} anzeigen",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} {{eventType}} anzeigen",
+    "viewOpenIssues": "Offene Fragen anzeigen",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Offener {{eventType}} wird geladen…",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Offener {{eventType}} konnte nicht geladen werden",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} offener {{eventType}}",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "({{maxIssuesToShow}} schwerwiegendste anzeigen)",
     "openIssuesListPresenterIssueDescriptionOmitted": "Problembeschreibung weggelassen. Weitere Details sind in der Detailansicht des Ereignisses sichtbar.",
     "openIssuesListPresenterStarted": "Gestartet",
     "noIssues": "Keine Probleme",
@@ -433,10 +429,10 @@
     "eventType_issue_1": "Sicherheitslücken",
     "eventType_issue_2": "Sicherheitslücken",
     "openIssuesListPresenterActionsViewIssues": "Sicherheitslücken anzeigen",
-    "openIssuesListPresenterActionsViewNumbersOfIssue": "Ansicht {{openIssueCount}} Schwachstellen",
-    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Laden Offene Sicherheitslücken...",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Offene Sicherheitslücken werden geladen ...",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Offene Schwachstellen konnten nicht geladen werden",
-    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Offene Schwachstellen",
+    "viewOpenIssues": "Sicherheitslücken anzeigen",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} offene Schwachstellen",
     "noVulnerabilities": "Keine Schwachstellen",
     "openVulnerabilities": "{{count}} Schwachstelle",
     "openVulnerabilities_plural": "{{count}} Schwachstellen",
@@ -809,6 +805,7 @@
     }
   },
   "copyToClipboardButtonCopy": "Kopieren",
+  "tooltipCopyToClipboard": "In Zwischenablage kopieren",
   "withEmptyStateFallbackTitleNoDataAvailable": "Keine Daten verfügbar",
   "queryBuilder": {
     "components": {

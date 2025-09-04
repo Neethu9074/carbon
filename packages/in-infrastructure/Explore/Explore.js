@@ -21,7 +21,8 @@ import {
   queryMatrixParameter,
   showGroupsWithMissingTagsParameter,
   useLinkToExplore as useLinkToInfraEntityExplore,
-  defaultInfraExploreViewParams
+  defaultInfraExploreViewParams,
+  customEntityModelMatrixParameter
 } from 'in-infrastructure/navigation/paths';
 import GroupingConfigurator, {
   isGroupingConfigurationValid
@@ -36,6 +37,7 @@ import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedI
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
+import CustomEntitiesList from 'in-infrastructure/CustomEntity/CustomEntitiesList';
 import EntityExploreHeader from 'in-infrastructure/components/EntityExploreHeader';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
 import { useSegmentTracker } from 'in-infrastructure/Explore/services/tracking';
@@ -44,6 +46,7 @@ import { fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import EntityList from 'in-infrastructure/Explore/components/EntityList';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
+import InstanceList from 'in-infrastructure/CustomEntity/InstanceList';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import { ActionSection } from 'in-components/workspace/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -78,7 +81,8 @@ const urlStateDefinition = {
     typeMatrixParameter,
     chartedMetricsMatrixParameter,
     queryMatrixParameter,
-    showGroupsWithMissingTagsParameter
+    showGroupsWithMissingTagsParameter,
+    customEntityModelMatrixParameter
   ],
   resets: [resetMetricsAndOrderOnTypeChange],
   replaceHistory: false
@@ -125,11 +129,12 @@ function InfraExploreViewWithFixatedTimeConfig(props) {
       order: urlOrder,
       chartedMetrics: urlChartedMetrics,
       query: urlQuery,
-      showGroupsWithMissingTags
+      showGroupsWithMissingTags,
+      customEntityModel
     },
     setUrl
   ] = useUrlState(urlStateDefinition);
-  const type = urlType === 'all' ? null : urlType;
+  const type = urlType === 'all' || urlType === 'customEntities' ? null : urlType;
   const groupBy = useMemo(() => urlGroupBy ?? [group], [urlGroupBy, group]);
 
   const tagCatalog = useTagCatalog({ ownerType: type });
@@ -165,21 +170,44 @@ function InfraExploreViewWithFixatedTimeConfig(props) {
     onChartChanged: chartChangedTracker(getInfraExploreState)
   };
 
-  const isInitPage =
+  const isListPage =
     !type &&
     (!groupBy || groupBy?.length === 0) &&
     (!metrics || metrics?.length === 0) &&
     (!tagFilterExpression || tagFilterExpression?.length === 0);
+  const isCustomEntitiesList = urlType === 'customEntities';
+
+  // Add onTypeSelected handler to clear customEntityModel when navigating away
+  const handleTypeSelected = useCallback(
+    selectedType => {
+      // Clear customEntityModel when type changes to allow proper navigation
+      if (customEntityModel && selectedType !== type) {
+        setUrl({ customEntityModel: undefined });
+      }
+      typeSelectorChangedTracker(getInfraExploreState)(selectedType);
+    },
+    [customEntityModel, type, setUrl, typeSelectorChangedTracker, getInfraExploreState]
+  );
 
   return (
     <EntityExploreHeader
-      onTypeSelected={typeSelectorChangedTracker(getInfraExploreState)}
+      onTypeSelected={handleTypeSelected}
       showSearchBar={false}
       theme={themes.light}
       addShadow
       addFooter
-      headerHref$={isInitPage ? null : just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))}
-      renderTypeSelector={!isInitPage}
+      headerHref$={isListPage ? null : just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))}
+      renderTypeSelector={!isListPage}
+      // Add onHeaderClick to clear customEntityModel when clicking header
+      onHeaderClick={() => {
+        if (customEntityModel) {
+          setUrl({ customEntityModel: undefined });
+        }
+      }}
+      // Add onTabChange to handle tab switching
+      onTabChange={params => {
+        setUrl(params);
+      }}
     >
       <ViewTrackingMeta
         data={{
@@ -201,7 +229,8 @@ function InfraExploreViewWithFixatedTimeConfig(props) {
             query={query.value}
             setQuery={query.onChange}
             tagFilterExpression={tagFilterExpression}
-            isInitPage={isInitPage}
+            isListPage={isListPage}
+            isCustomEntitiesList={isCustomEntitiesList}
             isValid={isValid}
             isInvalid={isInvalid}
             timeConfig={timeConfig}
@@ -212,6 +241,7 @@ function InfraExploreViewWithFixatedTimeConfig(props) {
             chartedMetrics={chartedMetrics}
             backendGroupBy={backendGroupBy}
             showGroupsWithMissingTags={showGroupsWithMissingTags}
+            customEntityModel={customEntityModel}
             refreshFixatedTimeConfig={refreshFixatedTimeConfig}
           />
         </Stack>
@@ -230,7 +260,8 @@ function Content({
   query,
   setQuery,
   tagFilterExpression,
-  isInitPage,
+  isListPage,
+  isCustomEntitiesList,
   isValid,
   isInvalid,
   timeConfig,
@@ -241,6 +272,7 @@ function Content({
   chartedMetrics,
   backendGroupBy,
   showGroupsWithMissingTags,
+  customEntityModel,
   refreshFixatedTimeConfig
 }) {
   const setMetrics = useCallback(
@@ -300,7 +332,7 @@ function Content({
 
   const uniqueMetrics = getUniqueMetricsAndLabels(metrics, metricMetadatas);
 
-  const topSection = !isInitPage && (
+  const topSection = !isListPage && (
     <Sections>
       <QueryBuilderSection
         value={tagFilterExpression}
@@ -368,7 +400,8 @@ function Content({
       query={query}
       setQuery={setQuery}
       tagFilterExpression={tagFilterExpression}
-      isInitPage={isInitPage}
+      isListPage={isListPage}
+      isCustomEntitiesList={isCustomEntitiesList}
       timeConfig={timeConfig}
       infrastructureListTrackingConfig={infrastructureListTrackingConfig}
       getInfraExploreState={getInfraExploreState}
@@ -383,6 +416,8 @@ function Content({
       onChartedMetricsChange={onChartedMetricsChange}
       chartedMetrics={chartedMetrics}
       showGroupsWithMissingTags={showGroupsWithMissingTags}
+      customEntityModel={customEntityModel}
+      setUrl={setUrl}
       refreshFixatedTimeConfig={refreshFixatedTimeConfig}
     />
   );
@@ -405,7 +440,8 @@ function List({
   query,
   setQuery,
   tagFilterExpression,
-  isInitPage,
+  isListPage,
+  isCustomEntitiesList,
   timeConfig,
   infrastructureListTrackingConfig,
   getInfraExploreState,
@@ -420,6 +456,8 @@ function List({
   onChartedMetricsChange,
   chartedMetrics,
   showGroupsWithMissingTags,
+  customEntityModel,
+  setUrl,
   refreshFixatedTimeConfig
 }) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
@@ -440,7 +478,15 @@ function List({
     return () => (interval ? clearInterval(interval) : undefined);
   }, [realTimeConfig, refreshFixatedTimeConfig]);
 
-  if (isInitPage) {
+  if (customEntityModel) {
+    return <InstanceList onNavigateBack={() => setUrl({ customEntityModel: undefined })} />;
+  }
+
+  if (isListPage) {
+    if (isCustomEntitiesList) {
+      return <CustomEntitiesList />;
+    }
+
     return (
       <EntityList
         timeConfig={timeConfig}

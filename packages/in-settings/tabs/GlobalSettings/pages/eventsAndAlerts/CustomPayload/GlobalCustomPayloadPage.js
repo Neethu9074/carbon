@@ -44,12 +44,12 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { isLoading, hasError } from 'in-services/util/result';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 const logger = createLogger('customPayloadConfig');
@@ -83,6 +83,7 @@ function getSuggestions(args) {
 }
 
 export function GlobalCustomPayload(props) {
+  const [role] = useCurrentUserRole();
   const {
     result,
     save,

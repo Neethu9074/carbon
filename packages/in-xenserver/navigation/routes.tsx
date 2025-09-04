@@ -4,12 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import HostDashboard from 'promise-loader?global,xenserver!in-xenserver/Dashboards/Host/HostDashboard';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import VMDashboard from 'promise-loader?global,xenserver!in-xenserver/Dashboards/VM/VMDashboard';
-// @ts-expect-error promis-loader cause failures when importing in typescript
-import XenServerMainView from 'promise-loader?global,xenserver!in-xenserver/XenServerMainView';
+const HostDashboard = () => import(/* webpackChunkName: "xenserver" */ 'in-xenserver/Dashboards/Host/HostDashboard');
+const VMDashboard = () => import(/* webpackChunkName: "xenserver" */ 'in-xenserver/Dashboards/VM/VMDashboard');
+const XenServerMainView = () => import(/* webpackChunkName: "xenserver" */ 'in-xenserver/XenServerMainView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

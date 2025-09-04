@@ -22,13 +22,15 @@ import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/const
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { infrastructureAnalyzeAccessPermissions } from 'in-stores/permission';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import { EVENT_TYPES, getEventType } from 'in-stores/events';
 import { numberCompact } from 'in-stores/metric/formatters';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
+import useHasAccess from 'in-stores/useHasAccess';
 import { line } from 'in-stores/metric/renderer';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
@@ -39,6 +41,10 @@ interface Props {
 }
 
 export default function EntityCountVerificationEventContent({ event, snapshot }: Props) {
+  const hasInfrastructureAnalyzeAccess = useHasAccess({
+    optionalPrecondition: infraExploreDataEnabled,
+    requiredPermissions: infrastructureAnalyzeAccessPermissions
+  });
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const eventType = getEventType(event);
   const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;

@@ -52,7 +52,8 @@
   "sapSolman": "解決方案管理程式",
   "dashboards": {
     "instance": "實例",
-    "abapdumpstats": "ABAP 傾出統計資料",
+    "abapdumpstatsHour": "ABAP 傾出統計資料（過去 {{duration}} 小時）",
+    "abapdumpstatsHours": "ABAP 傾出統計資料（過去 {{duration}} 小時）",
     "cpuUsage": "CPU 使用率",
     "combinedCpuMetrics": "整體使用情形（每位使用者）",
     "userListQueueTime": "佇列時間",
@@ -77,7 +78,7 @@
     "spoolWait": "排存",
     "update2Wait": "Update2",
     "sapIdoc": "IDoc",
-    "jobsInformation": "工作資訊",
+    "jobsInformation": "工作資訊 ({{duration}})",
     "prdMins": "PRD 分鐘",
     "scheduleStartTime": "排定開始時間",
     "scheduleStartDate": "排程開始日期",
@@ -616,7 +617,8 @@
     "scheduled": "已排定",
     "owner": "擁有者",
     "destination": "目的地",
-    "spoolError": "排存錯誤",
+    "spoolErrorHour": "排存錯誤（過去 {{duration}} 小時）",
+    "spoolErrorsHours": "排存錯誤（過去 {{duration}} 小時）",
     "rfcSource": "RFC 來源",
     "count": "計數",
     "upTime": "執行時間",
@@ -744,7 +746,8 @@
     "waitingTaskCount": "等待作業",
     "applicationThreadUsage": "應用程式執行緒使用量",
     "threadUsage": "執行緒",
-    "waitingtaskUsage": "等待作業"
+    "waitingtaskUsage": "等待作業",
+    "loading": "載入中..."
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",

@@ -20,18 +20,19 @@ import AddUserToGroupButton from 'in-settings/tabs/SecurityAndAccess/pages/acces
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
 import WithSubscript from 'in-components/WithSubscript/WithSubscript';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import ApiList from 'in-settings/components/ApiList';
 import { ownerRoleId } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 export default function Groups({ userId, refresh }) {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   return (
     <ApiList
       ListRenderer={ListRenderer}
       getItems={getStrippedGroupsWithIdpFlagAsResultObservable(userId)}
-      itemName={rbacTeamsEnabled ? 'Role' : 'Group'}
+      itemName={isRbacTeamsAvailable ? 'Role' : 'Group'}
       orderBy="name"
       renderer={ListInsideACardRenderer}
       pageSize={5}
@@ -110,6 +111,7 @@ const determineMessage = itemsResult => {
 };
 
 function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeletingItemIds, itemsResult, page, setPage }) {
+  const [isRbacTeamsAvailable] = useIsTeamsAvailable();
   const message = determineMessage(itemsResult);
   const { createHrefToPath } = useNavigation();
   return (
@@ -120,7 +122,7 @@ function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeleting
           <Li
             key={group.groupId}
             href={getEntityIdView(
-              rbacTeamsEnabled ? securityAndAccessAccessControlRoles : securityAndAccessAccessControlGroups,
+              isRbacTeamsAvailable ? securityAndAccessAccessControlRoles : securityAndAccessAccessControlGroups,
               group.groupId,
               createHrefToPath
             )}

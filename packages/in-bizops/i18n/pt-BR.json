@@ -61,7 +61,11 @@
         "progressBarTitle": "Etapa 2: Fornecer detalhes",
         "headline": "Forneça detalhes",
         "perspectiveName": "Nome da perspectiva",
-        "perspectiveDescription": "Descrição"
+        "perspectiveDescription": "Descrição",
+        "failedToLoad": "Falha ao carregar equipes",
+        "selectTeams": "Selecionar equipes",
+        "teams": "equipes",
+        "information": "Informações"
       }
     },
     "errorMessages": {

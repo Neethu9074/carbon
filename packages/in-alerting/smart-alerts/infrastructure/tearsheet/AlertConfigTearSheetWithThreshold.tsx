@@ -75,6 +75,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 
   useThresholdSuggestion(form, updateForm, setThresholdResult, editMode, {
     isValid,
+    simpleMode: false,
     alertConfigWithFormModel
   });
 

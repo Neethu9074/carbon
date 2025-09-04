@@ -8,7 +8,7 @@ import type { ValidationResult } from 'formalistic';
 
 import { t } from '@instana/i18n-react';
 
-import { isNotBlank } from 'in-services/util/string';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 
 export function daysOfTheWeekValidator(arr: number[]): ValidationResult {
   if (arr.length === 0) {
@@ -32,5 +32,24 @@ export function startAndEndDateValidator(startDate: string, endDate: string): Va
       }
     ];
   }
+  return null;
+}
+
+export function timeSeparatorValidator(input: string, timeFormat: string): ValidationResult {
+  if (isBlank(input)) {
+    return null;
+  }
+
+  const invalidSeparators = input.match(/[^\d:]/g);
+
+  if (invalidSeparators) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:configureCorrectionWindowDialog.validators.startTime', { timeFormat })
+      }
+    ];
+  }
+
   return null;
 }

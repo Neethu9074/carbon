@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import SystemDashboard from 'promise-loader?global,zhmc!in-zhmc/Dashboards/Systems/SystemDashboard';
-import ZhmcDashboard from 'promise-loader?global,zhmc!in-zhmc/Dashboards/Zhmc/ZhmcDashboard';
-import ZhmcMainView from 'promise-loader?global,zhmc!in-zhmc/ZhmcMainView';
+const SystemDashboard = () => import(/* webpackChunkName: "zhmc" */ 'in-zhmc/Dashboards/Systems/SystemDashboard');
+const ZhmcDashboard = () => import(/* webpackChunkName: "zhmc" */ 'in-zhmc/Dashboards/Zhmc/ZhmcDashboard');
+const ZhmcMainView = () => import(/* webpackChunkName: "zhmc" */ 'in-zhmc/ZhmcMainView');
 import { Route } from 'react-router-dom';
 import React from 'react';
 

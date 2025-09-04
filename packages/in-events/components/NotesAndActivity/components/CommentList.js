@@ -15,6 +15,7 @@ import {
   TYPE_EXT_F_CHANGE,
   TYPE_AI_SUMMARY
 } from 'in-events/components/NotesAndActivity/utils';
+import { isSlack, isServiceNow, isMSTeams } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
 import { noteNameAndTimeFormat, createDataString } from 'in-events/components/NotesAndActivity/components/utils';
 import { AISummary, WatsonAIAvatar } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { ExternalNote } from 'in-events/components/NotesAndActivity/components/NoteTypes/ExternalNote';
@@ -137,28 +138,61 @@ export function CommentList({
 
 // Handle which icon should be rendered for each note entry
 export function EntryIcon({ note = {}, displayIcon }) {
-  const aiSum = note.type === TYPE_AI_SUMMARY;
-  const serviceNow = note.origin === 'ServiceNow';
-  const slack = note.origin === 'Slack';
-  const iconType = (slack && 'lib_slack_icon') || (serviceNow && 'lib_snow_icon') || 'lib_actions_user';
-  const iconSize = (!serviceNow && 'xs') || 'sm';
-  const iconViewBox = (serviceNow && '0 0 24 24') || (slack && '4 4 24 24') || '0 0 16 16';
+  if (!displayIcon) {
+    return note.type === TYPE_AI_SUMMARY ? <WatsonAIAvatar /> : null;
+  }
+
+  // Define icon configurations based on origin
+  const getIconConfig = origin => {
+    if (isSlack(origin)) {
+      return {
+        type: 'lib_slack_icon',
+        size: 'xs',
+        viewBox: '4 4 24 24',
+        className: ''
+      };
+    }
+    if (isServiceNow(origin)) {
+      return {
+        type: 'lib_snow_icon',
+        size: 'sm',
+        viewBox: '0 0 24 24',
+        className: locals.snowIcon
+      };
+    }
+    if (isMSTeams(origin)) {
+      return {
+        type: 'lib_msteams_icon',
+        size: 'sm',
+        viewBox: '0 0 24 24',
+        className: locals.msTeamsIcon
+      };
+    }
+    // Default user icon
+    return {
+      type: 'lib_actions_user',
+      size: 'xs',
+      viewBox: '0 0 16 16',
+      className: locals.userIcon
+    };
+  };
+
+  // AI Summary has its own component
+  if (note.type === TYPE_AI_SUMMARY) {
+    return <WatsonAIAvatar />;
+  }
+
+  // Get the appropriate icon configuration
+  const iconConfig = getIconConfig(note.origin);
+
+  // Render the icon with the determined configuration
   return (
-    <>
-      {displayIcon && !aiSum && (
-        <SvgIcon
-          type={iconType}
-          size={iconSize}
-          viewBox={iconViewBox}
-          className={classNames({
-            [locals.userIcon]: !aiSum && !serviceNow && !slack,
-            [locals.snowIcon]: serviceNow,
-            [locals.aiIcon]: aiSum && !serviceNow
-          })}
-        />
-      )}
-      {aiSum && <WatsonAIAvatar />}
-    </>
+    <SvgIcon
+      type={iconConfig.type}
+      size={iconConfig.size}
+      viewBox={iconConfig.viewBox}
+      className={iconConfig.className}
+    />
   );
 }
 

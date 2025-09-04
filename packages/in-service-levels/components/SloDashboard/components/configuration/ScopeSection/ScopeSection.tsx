@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
+import { isApplicationSloEntity, isInfraSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
 import type { ApplicationSloEntity, SloEntityType, WebsiteSloEntity } from '@instana/types';
 import { KeyValue } from '@instana/components';
 
@@ -26,7 +26,7 @@ interface ScopeSectionProps {
   data: SloTabData | ApplicationSloTabData;
 }
 
-const contentDefinitions: Record<Exclude<SloEntityType, 'synthetic'>, RowDefinition[]> = {
+const contentDefinitions: Record<Exclude<SloEntityType, 'synthetic' | 'infrastructure'>, RowDefinition[]> = {
   application: [
     {
       id: 'boundaryScope',
@@ -60,7 +60,7 @@ export default function ScopeSection({ data }: ScopeSectionProps) {
   const { configuration } = data;
   const { entity } = configuration;
 
-  if (isSyntheticSloEntity(entity)) return <></>;
+  if (isSyntheticSloEntity(entity) || isInfraSloEntity(entity)) return <></>;
 
   const { type } = entity;
 

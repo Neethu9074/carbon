@@ -19,7 +19,8 @@ import {
   noInvalidTagFilterExpression,
   targetFieldValidator,
   timeFieldValidator,
-  timeWindowValidator
+  timeWindowValidator,
+  timezoneValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import type {
   SloEntityFields,
@@ -27,6 +28,7 @@ import type {
   SloIndicatorFields,
   SloObjectiveFields,
   SloScopeFields,
+  SloTimezoneFields,
   TimeStampFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
@@ -39,8 +41,14 @@ import {
   defaultBlueprint,
   defaultBoundaryScope,
   defaultSliThresholdOperator,
-  ServiceLevelErrors
+  ServiceLevelErrors,
+  utcLabel
 } from 'in-service-levels/constants';
+import {
+  buildTimezoneFromLocationName,
+  formatDateInTimezone,
+  formatTimeInTimezone
+} from 'in-service-levels/utils/timezone';
 import { isCustomBlueprintIndicator, isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -172,21 +180,26 @@ export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
     startTimestamp: createMapForm<TimeStampFields>({
       items: getDefaultTimestampFields(sloConfig)
     }),
-    type: createField({ value: sloConfig.timeWindow.type })
+    type: createField({ value: sloConfig.timeWindow.type }),
+    timezone: createMapForm<SloTimezoneFields>({
+      items: getDefaultTimezoneFields(sloConfig),
+      validator: timezoneValidator
+    })
   };
 }
 
 export function getDefaultTimestampFields(sloConfig: ServiceLevelObjectiveConfiguration) {
   const timeWindowType = sloConfig.timeWindow?.type;
+  const timezone = sloConfig.timeWindow.timezone;
   const timeStamp = new Date().setHours(0, 0, 0, 0);
   if (timeWindowType === 'fixed') {
     return {
       date: createField<string>({
-        value: formatDate(sloConfig.timeWindow.startTimestamp) ?? formatDate(timeStamp)!,
+        value: formatDateInTimezone(sloConfig.timeWindow.startTimestamp, timezone) ?? formatDate(timeStamp)!,
         validator: dateFieldValidator
       }),
       time: createField<string>({
-        value: formatTime(sloConfig.timeWindow.startTimestamp) ?? formatTime(timeStamp)!,
+        value: formatTimeInTimezone(sloConfig.timeWindow.startTimestamp, timezone) ?? formatTime(timeStamp)!,
         validator: timeFieldValidator
       })
     };
@@ -197,6 +210,15 @@ export function getDefaultTimestampFields(sloConfig: ServiceLevelObjectiveConfig
       value: formatTime(timeStamp)!,
       validator: timeFieldValidator
     })
+  };
+}
+
+export function getDefaultTimezoneFields(sloConfig: ServiceLevelObjectiveConfiguration) {
+  const toggleTimezoneField = !sloConfig.timeWindow.timezone || sloConfig.timeWindow.timezone === utcLabel;
+  const timezoneName = sloConfig.timeWindow.timezone ?? '';
+  return {
+    bind: createField({ value: !toggleTimezoneField }),
+    zone: createField({ value: buildTimezoneFromLocationName(timezoneName) })
   };
 }
 

@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:abapSystemsensor.activeABAPInstances'),
+    label: t('in-forge:javaNWSystemsensor.activeJavaNWInstances'),
     metric: 'numberOfInstances',
     formatter: number.compact
   }

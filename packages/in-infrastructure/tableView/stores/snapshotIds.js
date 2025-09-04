@@ -9,10 +9,10 @@ import { clearSelectedSnapshots } from 'in-infrastructure/tableView/stores/selec
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { infraEventUIInteraction } from 'in-infrastructure/tracking/tracking';
 import { clearMetrics } from 'in-infrastructure/tableView/stores/metrics';
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
 import { TABLE_TYPE_CHANGED } from 'in-services/tracking/tracking';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
 import { search } from 'in-stores/snapshot/snapshot';
 
@@ -53,11 +53,12 @@ export const selectedType$ = createTrackingStore({
     .filter(selectedType => entityTypeToFullyQualifiedPlugin[selectedType.type])
 }).observable.distinct((current, next) => current.type !== next.type || current.view !== next.view);
 
-export function setSelectedType(type) {
-  mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'plugin', type));
+export function setSelectedType(type, location, navigate) {
+  setOrDeleteMatrixKey(location, tablePath, 'plugin', type);
+  navigate(location);
   infraEventUIInteraction({ event: TABLE_TYPE_CHANGED, type });
-  clearMetrics();
-  clearSelectedSnapshots();
+  clearMetrics(location, navigate);
+  clearSelectedSnapshots(location, navigate);
 }
 
 export const plugin$ = selectedType$.map(translateTypeToPlugin).distinct();
