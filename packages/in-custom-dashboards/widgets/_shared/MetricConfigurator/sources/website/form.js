@@ -35,14 +35,12 @@ export function createForm(form, savedState) {
       'website',
       createField({
         value: savedState?.website || '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'conversionGoal',
       createField({
         value: savedState?.conversionGoal || '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
 }
