@@ -211,6 +211,7 @@ module.exports = {
   eumSmartAlertCustomMetricsEnabled: true,
   onlyFedRampAllowedAlertChannelsEnabled: false,
   deleteLogsV3Enabled: true,
+  fedrampDeploymentEnabled: false,
   fiveMinuteGranularityForAdaptiveThresholdEnabled: true,
   otelCollectorViewEnabled: true,
   downtimesOnHostEnabled: true,
