@@ -204,7 +204,11 @@ function applyFilter(traceIdInUrl: string, subtraceConfigIdInUrl: string | Nulli
         type: CONJUNCTION,
         logicalOperator: OPERATOR_AND
       },
-      tagFilter('subtrace.config.id', EQUALS, subtraceConfigIdInUrl)
+      // In the context of calls, currently we use subtrace.id but it actually represents the subtrace.config.id
+      // This is because we define the tag once in the context of calls and once in the context of subtraces,
+      // but we can't have multiple tag definitions with the same name.
+      // TODO: replace with subtrace name when available
+      tagFilter('subtrace.id', EQUALS, subtraceConfigIdInUrl)
     );
   }
   return filterExpression;
