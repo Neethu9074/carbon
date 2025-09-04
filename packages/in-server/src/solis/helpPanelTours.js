@@ -27,13 +27,6 @@ const getTourConfigs = t => [
     route: '/#/(agents|datasources/instanaagent/installation)[^ ]*'
   },
   {
-    id: 'applications',
-    kind: 'primary',
-    title: t('in-server:solis.helpPanel.tours.applications'),
-    tourId: '1643766',
-    route: '/#/(applications|application)[^ ]*'
-  },
-  {
     id: 'invite-users',
     kind: 'secondary',
     title: t('in-server:solis.helpPanel.tours.inviteUsers'),
@@ -73,13 +66,6 @@ const getTourConfigs = t => [
     kind: 'secondary',
     title: t('in-server:solis.helpPanel.tours.concert'),
     tourId: '2103195',
-    route: '/#/(applications|application)[^ ]*'
-  },
-  {
-    id: 'smart-alerts',
-    kind: 'secondary',
-    title: t('in-server:solis.helpPanel.tours.smartAlerts'),
-    tourId: '1643803',
     route: '/#/(applications|application)[^ ]*'
   }
 ];

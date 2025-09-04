@@ -46,13 +46,11 @@
   },
   "solis": {
     "helpPanel": {
-      "panelTitle": "Help",
+      "label": "Help",
       "tourSectionTitle": "Relevant tours",
       "tours": {
         "agent": "Install an agent",
         "websites": "Monitor a website",
-        "applications": "Create an application perspective",
-        "smartAlerts": "Create smart alerts",
         "inviteUsers": "Invite users",
         "customDashboards": "Create a dashboard",
         "maintenanceWindow": "Schedule a maintenance window",
@@ -93,6 +91,12 @@
         "userSettings": "Modifying the Instana user settings",
         "accountAndBilling": "Viewing data usage and billing",
         "securityAndAccess": "Administering Instana"
+      },
+      "supportSectionTitle": "Instana support",
+      "supportLinks": {
+        "docs": "Instana documentation",
+        "community": "Community",
+        "support": "Submit a support ticket"
       }
     },
     "share": "Share this page and invite your team"

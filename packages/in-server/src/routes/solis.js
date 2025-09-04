@@ -11,6 +11,7 @@ const middleware = require('i18next-http-middleware');
 
 const relevantDocs = require('../solis/helpPanelArticles');
 const relevantTours = require('../solis/helpPanelTours');
+const supportLinks = require('../solis/helpPanelSupportLinks');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers');
@@ -261,7 +262,7 @@ function generateTopNavItems(t, tenantName, unitName) {
     mode: 'native',
     icon_name: 'help',
     properties: {
-      label: t('in-server:solis.helpPanel.panelTitle')
+      label: t('in-server:solis.helpPanel.label')
     }
   });
 
@@ -781,14 +782,19 @@ function getHelp(t) {
   let content = {
     sections: [
       {
-        id: 'relevant_tours',
+        id: 'relevant-tours',
         title: t('in-server:solis.helpPanel.tourSectionTitle'),
         tiles: relevantTours(t)
       },
       {
-        id: 'relevant_articles',
+        id: 'relevant-articles',
         title: t('in-server:solis.helpPanel.articleSectionTitle'),
         tiles: relevantDocs(t)
+      },
+      {
+        id: 'instana-support',
+        title: t('in-server:solis.helpPanel.supportSectionTitle'),
+        tiles: supportLinks(t)
       }
     ]
   };
