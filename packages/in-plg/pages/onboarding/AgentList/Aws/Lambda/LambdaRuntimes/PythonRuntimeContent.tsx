@@ -109,7 +109,7 @@ export default function PythonRuntimeContent({
                 withGap
               />
               <KeyValue
-                label={t('in-plg:agentDetails.aws.lambdaFunctionName')}
+                label={t('in-plg:agentDetails.aws.lambdaFunctionHandler')}
                 value={<FormInputPlg value={lambdaHandler} onChange={setLambdaHandler} />}
                 withGap
               />
@@ -179,7 +179,7 @@ export default function PythonRuntimeContent({
               withGap
             />
             <KeyValue
-              label={t('in-plg:agentDetails.aws.lambdaFunctionHandler')}
+              label={t('in-plg:agentDetails.aws.lambdaFunctionName')}
               value={<FormInputPlg value={functionName} onChange={setFunctionName} />}
               withGap
             />
