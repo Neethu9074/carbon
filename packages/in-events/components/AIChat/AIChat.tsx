@@ -149,7 +149,7 @@ export function AIChat({
 
     // Whenever the chat window opens / closes we want to hide / show the launcher button
     chatInstance.on({
-      type: 'view:change' as BusEventType,
+      type: BusEventType.VIEW_CHANGE,
       handler: (event: any) => {
         if (event.newViewState.mainWindow) {
           launcherElement.style.display = 'none';
@@ -167,13 +167,23 @@ export function AIChat({
       <ChatContainer
         config={chatConfig}
         renderWriteableElements={renderWriteableElements}
-        renderUserDefinedResponse={(props, chatInstance) => (
-          <UserDefinedResponse
-            messageItem={props.messageItem}
-            instance={chatInstance}
-            customResponseDefinitions={customResponseDefinitions}
-          />
-        )}
+        renderUserDefinedResponse={(props, chatInstance) => {
+          // When the warning is displayed we need to remove it whenever
+          // the first message is sent
+          chatInstance.on({
+            type: BusEventType.PRE_SEND,
+            handler: () => {
+              setDisplayWarning(false);
+            }
+          });
+          return (
+            <UserDefinedResponse
+              messageItem={props.messageItem}
+              instance={chatInstance}
+              customResponseDefinitions={customResponseDefinitions}
+            />
+          );
+        }}
         onBeforeRender={(chatInstance: ExtendedChatInstance) => {
           chatInstance.trackCta = trackCta;
           setInstance(chatInstance);
@@ -188,16 +198,6 @@ export function AIChat({
           setupLauncherButton(chatInstance);
           setupDragListeners();
           onAfterRender && onAfterRender(chatInstance);
-
-          // When the warning is displayed we need to remove it whenever
-          // the first message is sent
-          displayWarning &&
-            chatInstance.on({
-              type: 'pre:send' as BusEventType,
-              handler: () => {
-                setDisplayWarning(false);
-              }
-            });
         }}
       />
       <LauncherButton />

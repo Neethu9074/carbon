@@ -42,10 +42,10 @@ export default function EditableOptions({ messageItem, instance }: EditableOptio
   // Once something is sent we want to disable the buttons
   // Then unsubscribe and disable ALL options
   instance.on({
-    type: 'send' as BusEventType,
+    type: BusEventType.SEND,
     handler: () => {
       instance.off({
-        type: 'send' as BusEventType,
+        type: BusEventType.SEND,
         handler: () => {
           setDisable(true);
         }
