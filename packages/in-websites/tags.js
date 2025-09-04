@@ -47,7 +47,9 @@ export const dataSourceTitles = {
   httpRequest: t('in-websites:tagsDataSourceTitlesHTTPRequest'),
   error: t('in-websites:tagsDataSourceTitlesError'),
   custom: t('in-websites:tagsDataSourceTitlesCustom'),
-  conversionGoals: t('in-websites:tagsDataSourceTitlesConversionGoals')
+  ...(websitesBusinessConversionGoalsEnabled && {
+    conversionGoals: t('in-websites:tagsDataSourceTitlesConversionGoals')
+  })
 };
 
 export const dataSourceTypes = {
