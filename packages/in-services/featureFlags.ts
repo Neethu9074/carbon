@@ -415,5 +415,8 @@ export const onlyFedRampAllowedAlertChannelsEnabled = isFeatureFlagEnabled(
   'onlyFedRampAllowedAlertChannelsEnabled',
   false
 );
+
+export const fedrampDeploymentEnabled = isFeatureFlagEnabled('fedrampDeploymentEnabled');
+
 export const otelCollectorViewEnabled = isFeatureFlagEnabled('otelCollectorViewEnabled', true);
 export const downtimesOnHostEnabled = isFeatureFlagEnabled('downtimesOnHostEnabled', false);
