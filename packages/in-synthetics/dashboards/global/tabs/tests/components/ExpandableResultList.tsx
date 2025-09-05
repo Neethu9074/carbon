@@ -173,7 +173,14 @@ export const ExpandableResultList = ({ test, runType, timeConfig }: ExpandableRe
       'resultsLabel',
       item.testResultCommonProperties.locationDisplayLabel + ', ' + getRelativeTime(item)
     );
-    setOrDeleteMatrixKey(location, syntheticDetailsPath, 'runType', runType);
+
+    // If syntheticRunNowEnabled is not enabled, then runType is undefined which caused defect INSTA-52777
+    setOrDeleteMatrixKey(
+      location,
+      syntheticDetailsPath,
+      'runType',
+      syntheticRunNowEnabled ? runType : runTypeScheduled
+    );
 
     return <Link href={createHref(location)}>{getRelativeTime(item)}</Link>;
   };
