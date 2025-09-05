@@ -566,7 +566,7 @@
     },
     "loading": "Loading",
     "policyUserInitiated": {
-      "label": "User Initiated",
+      "label": "User initiated",
       "helperText": "This policy will be associated to the event when it occurs and can be run from the recommended actions table in the issue or incident."
     },
     "policyAutomatic": {
