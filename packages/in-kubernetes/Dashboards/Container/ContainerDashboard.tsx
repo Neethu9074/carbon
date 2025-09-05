@@ -249,21 +249,9 @@ function getTableData({
     timeConfig
   };
 
-  // Add optional filters (backend will be modified to support these without podId)
   if (clusterId) filter.clusterId = clusterId;
   if (namespaceId) filter.namespaceId = namespaceId;
   if (nodeId) filter.nodeId = nodeId;
-
-  // NOTE: podId is intentionally NOT included for standalone containers page
-  //
-  // BACKEND REQUIREMENT:
-  // The backend event 'getNativeKubernetesContainers' needs to be modified to:
-  // 1. Make podId parameter optional
-  // 2. When podId is provided -> return containers for that pod (existing behavior)
-  // 3. When podId is NOT provided -> return containers filtered by clusterId/namespaceId/nodeId
-  // 4. Support pagination, sorting, and filtering across multiple pods
-  //
-  // This will enable the standalone containers page to work properly.
 
   return getOtelKubernetesContainers({
     pagination: {
