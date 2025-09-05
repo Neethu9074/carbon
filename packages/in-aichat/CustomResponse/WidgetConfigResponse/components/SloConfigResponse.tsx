@@ -12,10 +12,10 @@ import { Widget } from '@instana/types';
 import {
   SimpleListItem,
   SimpleSuggestionDropDown
-} from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/ConfigMessage';
-import { FinalConfig, SLOPossibleConfig, SLOInferredConfig } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
-import { WidgetPreviewWithSlots } from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/WidgetPreviewWithSlots';
-import { useSloSuggestions } from 'in-custom-dashboards/CustomDashboard/AiChat/hooks/useSloSuggestions';
+} from 'in-aichat/CustomResponse/WidgetConfigResponse/WidgetConfigResponse';
+import { FinalConfig, SLOPossibleConfig, SLOInferredConfig } from 'in-aichat/CustomResponse/WidgetConfigResponse/types';
+import { WidgetPreviewWithSlots } from 'in-aichat/CustomResponse/WidgetConfigResponse/components/WidgetPreviewWithSlots';
+import { useSloSuggestions } from 'in-aichat/CustomResponse/WidgetConfigResponse/hooks/useSloSuggestions';
 
 interface Props {
   inferredConfig: SLOInferredConfig;
@@ -23,7 +23,7 @@ interface Props {
   onAddPromptedWidget: (widget: Widget) => void;
 }
 
-export const SloConfigMessage = ({ inferredConfig, possibleConfig, onAddPromptedWidget }: Props) => {
+export const SloConfigResponse = ({ inferredConfig, possibleConfig, onAddPromptedWidget }: Props) => {
   const [configState, setConfigState] = useState(inferredConfig);
 
   const anySlotsFilled = Boolean(configState.sloId || configState.name);

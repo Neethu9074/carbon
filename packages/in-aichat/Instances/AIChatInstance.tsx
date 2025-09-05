@@ -10,7 +10,6 @@ import {
   EVENT_AI_CHAT_FEEDBACK_MENU_CLICK,
   EVENT_AI_LIBRARY_SELECTION_MADE
 } from 'in-services/tracking/tracking';
-import AITooltipContent from 'in-aichat/components/AITooltipContent';
 import InstructionPop from 'in-aichat/CustomPanels/InstructionPop';
 import PromptLibrary from 'in-aichat/CustomPanels/PromptLibrary';
 import { handleTracking } from 'in-aichat/utils/utils';
@@ -53,7 +52,6 @@ export default function AIChatInstance() {
             );
           }
         }}
-        aiToolTipContent={<AITooltipContent />}
         previewPill
       />
       {instructionPopOpen && <InstructionPop setInstructionPopOpen={setInstructionPopOpen} />}

@@ -7,19 +7,11 @@ import { CustomDashboard, CustomDashboardPreview, Result, TagCatalog, TimeConfig
 import { create, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 
-import {
-  CreateWidgetResponse,
-  FinalConfig,
-  InferenceResponse,
-  SlotsRequest,
-  SlotsResponse
-} from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 import memoize, { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
 import { DEFAULT_NUMBER_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
-import http, { Response } from 'in-services/http';
-import { seconds } from 'in-services/time/time';
+import http from 'in-services/http';
 
 const refreshSignal = create().emit(Date.now());
 
@@ -128,41 +120,6 @@ export function updateCustomDashboard(customDashboard: CustomDashboard): Observa
     refreshSignal.emit(customDashboard.id);
     return v;
   });
-}
-
-export function inferSlots(input: string): Observable<Response<InferenceResponse>> {
-  return http<InferenceResponse>({
-    method: 'POST',
-    url: `/api/custom-dashboard/infer`,
-    headers: getCsrfHeader(),
-    responseType: 'json',
-    data: { prompt: input },
-    timeout: seconds.toMillis(60),
-    maxRetries: 3
-  });
-}
-
-export function promptSlots(data: SlotsRequest): Observable<SlotsResponse> {
-  return http<SlotsResponse>({
-    method: 'POST',
-    url: `/api/custom-dashboard/slots`,
-    headers: getCsrfHeader(),
-    responseType: 'json',
-    data,
-    timeout: seconds.toMillis(60),
-    maxRetries: 3
-  }).map(response => response.body);
-}
-
-export function promptGetWidgetJson(finalConfig: FinalConfig): Observable<CreateWidgetResponse> {
-  return http<CreateWidgetResponse>({
-    method: 'POST',
-    url: `/api/custom-dashboard/create-widget`,
-    headers: getCsrfHeader(),
-    responseType: 'json',
-    data: { ...finalConfig },
-    maxRetries: 3
-  }).map(response => response.body);
 }
 
 export function removeCustomDashboard(id: string): Observable<Result<void>> {

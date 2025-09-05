@@ -9,8 +9,7 @@ import {
   CustomSendMessageOptions,
   MessageRequest,
   MessageResponseTypes,
-  TextItem,
-  UserDefinedItem
+  TextItem
 } from '@carbon/ai-chat';
 
 import { Observable, combineLatest, just } from '@instana/observables';
@@ -21,22 +20,28 @@ import {
   InferredTagSuggestions,
   IsLoadingCounterType,
   LlmResponse,
-  SlotsResponse,
-  UserDefinedType
-} from 'in-custom-dashboards/CustomDashboard/AiChat/types';
+  SlotsResponse
+} from 'in-aichat/CustomResponse/WidgetConfigResponse/types';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getAllSloConfigurations } from 'in-service-levels/api/sloConfiguration';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
-import { inferSlots, promptSlots } from 'in-custom-dashboards/api';
+import { inferSlots, promptSlots } from 'in-aichat/api/dashboardChatAPI';
+import { PromptLibraryBubbleObject } from 'in-aichat/ResponseObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
+import { SlotsObject } from 'in-aichat/ResponseObjects';
 import { Response } from 'in-services/http/types';
 import { hours } from 'in-services/time/time';
 
+const WELCOME_MESSAGE = `Hello and welcome!\nI'm happy to assist in widget creation based on a given widget type, data source and filter. Ask a question or get started by exploring the prompt library.`;
 const RESTRICTION_TEXT: string =
   'Sorry, I can only handle widget creation on custom dashboards. Please use a more specific prompt.';
 
-export async function customSendMessage(request: MessageRequest, _: CustomSendMessageOptions, instance: ChatInstance) {
+export async function DashboardCustomSendMessages(
+  request: MessageRequest,
+  _: CustomSendMessageOptions,
+  instance: ChatInstance
+) {
   const userQuery = request.input.text;
 
   if (userQuery) {
@@ -45,6 +50,20 @@ export async function customSendMessage(request: MessageRequest, _: CustomSendMe
     inferSlots(userQuery).once(handleInferenceResult(instance), error =>
       handleError(formatErrorMessage(error), instance)
     );
+  } else if (userQuery === '') {
+    // First render
+    instance.messaging.addMessage({
+      id: 'welcome',
+      output: {
+        generic: [
+          {
+            response_type: MessageResponseTypes.TEXT,
+            text: WELCOME_MESSAGE
+          } as TextItem,
+          PromptLibraryBubbleObject
+        ]
+      }
+    });
   }
 }
 
@@ -70,7 +89,7 @@ function handleInferenceResult(instance: ChatInstance) {
       handleError(`Something went wrong. Code: ${response.status}, Message: ${response.statusText}`, instance);
       return;
     }
-
+    instance.updateCSSVariables({ 'BASE-width': '700px' });
     switch (llmResponse.type) {
       case 'TIME_SERIES':
       case 'bigNumber':
@@ -200,12 +219,7 @@ function handleSlotsResult(slotsResponse: SlotsResponse, instance: ChatInstance)
   instance.messaging.addMessage({
     id: crypto.randomUUID(),
     output: {
-      generic: [
-        {
-          response_type: MessageResponseTypes.USER_DEFINED,
-          user_defined: { user_defined_type: UserDefinedType.SLOTS, inferredSlotConfig, possibleSlotConfig }
-        } as UserDefinedItem
-      ]
+      generic: [SlotsObject(inferredSlotConfig, possibleSlotConfig)]
     }
   });
 }

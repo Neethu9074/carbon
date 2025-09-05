@@ -15,15 +15,15 @@ import {
   FilterSuggestions,
   SimpleListItem,
   SimpleSuggestionDropDown
-} from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/ConfigMessage';
+} from 'in-aichat/CustomResponse/WidgetConfigResponse/WidgetConfigResponse';
 import {
   CommonPossibleConfig,
   CommonInferredConfig,
   FinalConfig
-} from 'in-custom-dashboards/CustomDashboard/AiChat/types';
-import { WidgetPreviewWithSlots } from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/WidgetPreviewWithSlots';
-import { useCommonSuggestions } from 'in-custom-dashboards/CustomDashboard/AiChat/hooks/useCommonSuggestions';
-import { toInputConfig } from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/utils';
+} from 'in-aichat/CustomResponse/WidgetConfigResponse/types';
+import { WidgetPreviewWithSlots } from 'in-aichat/CustomResponse/WidgetConfigResponse/components/WidgetPreviewWithSlots';
+import { useCommonSuggestions } from 'in-aichat/CustomResponse/WidgetConfigResponse/hooks/useCommonSuggestions';
+import { toInputConfig } from 'in-aichat/utils/utils';
 
 interface Props {
   widgetType: 'bigNumber' | 'TIME_SERIES';
@@ -32,7 +32,7 @@ interface Props {
   onAddPromptedWidget: (widget: Widget) => void;
 }
 
-export const CommonConfigMessage = ({ widgetType, inferredConfig, possibleConfig, onAddPromptedWidget }: Props) => {
+export const CommonConfigResponse = ({ widgetType, inferredConfig, possibleConfig, onAddPromptedWidget }: Props) => {
   const [configState, setConfigState] = useState(inferredConfig);
 
   const areAllSlotsFilled = Boolean(configState.aggregation && configState.metric && configState.filter);

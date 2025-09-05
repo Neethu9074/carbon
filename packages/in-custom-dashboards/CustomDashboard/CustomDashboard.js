@@ -41,15 +41,14 @@ import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/Custo
 import EditTeamsDialog from 'in-custom-dashboards/CustomDashboard/EditTeamsDialog/EditTeamsDialog';
 import { FilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import DownloadPdfDialog from 'in-components/DownloadPdf/DownloadPdfDialog/DownloadPdfDialog';
-import { AiChatContainer } from 'in-custom-dashboards/CustomDashboard/AiChat/AiChatContainer';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
+import { customDashboardConfig$, setCustomDashboardConfig } from 'in-stores/customDashboard';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { customDashboard } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
-import { customDashboardsPromptingEnabled } from 'in-services/featureFlags';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -74,7 +73,10 @@ export default function CustomDashboardLoader(props) {
   const [{ dashboardId, tagFilterExpression }, setUrlState] = useUrlState(urlStateDefinition);
   const result = useObservable(getCustomDashboard(dashboardId), [dashboardId]);
 
-  const [config, setConfig] = useState(getInitialState(result).config);
+  // From the dashboard Configuration store we get the "config" value
+  const config =
+    useObservable(customDashboardConfig$, [customDashboardConfig$])?.config || getInitialState(result).config;
+
   const [isSaving, setSaving] = useState(getInitialState(result).isSaving);
   const [downloadDashboard, setDownloadDashboard] = useState(false);
   const [prompting, setPrompting] = useState(false);
@@ -90,19 +92,10 @@ export default function CustomDashboardLoader(props) {
     [setUrlState]
   );
 
-  const onAddPromptedWidget = useCallback(
-    widget => {
-      const newConfig = deepCopy(config);
-      newConfig.widgets.push(widget);
-      setConfig(newConfig);
-    },
-    [config]
-  );
-
   useEffect(() => setTopLevelFilters(tagFilterExpression), [tagFilterExpression]);
 
   useEffect(() => {
-    setConfig(getInitialState(result).config);
+    setCustomDashboardConfig(getInitialState(result).config);
     setSaving(getInitialState(result).isSaving);
   }, [result]);
 
@@ -116,7 +109,7 @@ export default function CustomDashboardLoader(props) {
           input.id = generateUniqueShortId();
           newConfig.widgets.push(widget);
         });
-        setConfig(newConfig);
+        setCustomDashboardConfig(newConfig);
       }
     };
 
@@ -156,7 +149,7 @@ export default function CustomDashboardLoader(props) {
         {...props}
         result={result}
         config={config}
-        setConfig={setConfig}
+        setConfig={setCustomDashboardConfig}
         setUrlState={setUrlState}
         // Reset state when the config changes
         key={dashboardId}
@@ -164,10 +157,10 @@ export default function CustomDashboardLoader(props) {
         editable={config?.writable && !isSaving}
         hasChanges={hasChanges(result, config)}
         isSaving={isSaving}
-        onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
+        onLayoutChange={changes => onLayoutChange(config, setCustomDashboardConfig, changes)}
         onDeleteCustomDashboard={onDeleteCustomDashboard}
         onSaveConfiguration={onSaveConfiguration}
-        onRenameDashboard={() => onRenameDashboard(config, setConfig)}
+        onRenameDashboard={() => onRenameDashboard(config, setCustomDashboardConfig)}
         onEditTeams={onEditTeams}
         onDuplicateDashboard={onDuplicateDashboard}
         onAddWidget={onAddWidget}
@@ -193,10 +186,6 @@ export default function CustomDashboardLoader(props) {
         onTopLevelFiltersChange={onTopLevelFiltersChange}
       />
       {PdfExportRenderer}
-      {config && // workaround to render chat only after a dashboard config is present otherwise it messes with onAddPromptedWidget.
-        customDashboardsPromptingEnabled && (
-          <AiChatContainer beforeRender={() => setPrompting(true)} onAddPromptedWidget={onAddPromptedWidget} />
-        )}
     </CustomDashboardContext.Provider>
   );
 
@@ -208,7 +197,7 @@ export default function CustomDashboardLoader(props) {
           const newConfig = deepCopy(config);
           newConfig.widgets.push(widget);
           trackCta(CUSTOM_DASHBOARD_ADD_WIDGET_FINISH, getTrackingMeta(widget));
-          setConfig(newConfig);
+          setCustomDashboardConfig(newConfig);
         }}
       />
     );
@@ -226,7 +215,7 @@ export default function CustomDashboardLoader(props) {
             newConfig.widgets = newConfig.widgets.filter(widget => widget.id !== id);
             newConfig.widgets.push(widget);
             trackCta(CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH, getTrackingMeta(widget));
-            setConfig(newConfig);
+            setCustomDashboardConfig(newConfig);
           }}
         />
       </FilterContext.Provider>
@@ -247,7 +236,7 @@ export default function CustomDashboardLoader(props) {
     trackCta(CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE, getTrackingMeta(widget));
     widget.id = generateUniqueShortId();
     newConfig.widgets.push(widget);
-    setConfig(newConfig);
+    setCustomDashboardConfig(newConfig);
   }
 
   function onZoomWidget(id) {
@@ -272,19 +261,19 @@ export default function CustomDashboardLoader(props) {
     const newConfig = deepCopy(config);
     newConfig.widgets = newConfig.widgets.filter(widget => id !== widget.id);
     trackCta(CUSTOM_DASHBOARD_DELETE_WIDGET, getTrackingMeta(config.widgets?.find(widget => id === widget.id)));
-    setConfig(newConfig);
+    setCustomDashboardConfig(newConfig);
   }
 
   function onEditTeams() {
     trackCta(CUSTOM_DASHBOARD_EIDT_TEAMS);
-    addActiveDialog(<EditTeamsDialog config={config} onSubmit={setConfig} />);
+    addActiveDialog(<EditTeamsDialog config={config} onSubmit={setCustomDashboardConfig} />);
   }
   function onEditAsJson() {
-    addActiveDialog(<EditAsJsonDialog config={config} onSubmit={setConfig} />);
+    addActiveDialog(<EditAsJsonDialog config={config} onSubmit={setCustomDashboardConfig} />);
   }
 
   function onViewAsJson() {
-    addActiveDialog(<EditAsJsonDialog config={config} onSubmit={setConfig} readOnly />);
+    addActiveDialog(<EditAsJsonDialog config={config} onSubmit={setCustomDashboardConfig} readOnly />);
   }
 
   function onShare() {
@@ -295,7 +284,7 @@ export default function CustomDashboardLoader(props) {
           const newConfig = deepCopy(config);
           newConfig.accessRules = accessRules;
           trackCta(CUSTOM_DASHBOARD_SHARE, { title: config.title });
-          setConfig(newConfig);
+          setCustomDashboardConfig(newConfig);
         }}
       />
     );
@@ -344,7 +333,7 @@ export default function CustomDashboardLoader(props) {
     );
   }
 
-  function onRenameDashboard(config, setConfig) {
+  function onRenameDashboard(config, setCustomDashboardConfig) {
     addActiveDialog(
       <Prompt
         header={t('in-custom-dashboards:customDashboard.customDashboard.renameDashboard')}
@@ -355,7 +344,7 @@ export default function CustomDashboardLoader(props) {
         onSubmit={title => {
           const newConfig = deepCopy(config);
           newConfig.title = title;
-          setConfig(newConfig);
+          setCustomDashboardConfig(newConfig);
           close();
         }}
       />
@@ -389,7 +378,7 @@ export default function CustomDashboardLoader(props) {
   }
 
   function onDiscardChanges() {
-    setConfig(deepCopy(result.data));
+    setCustomDashboardConfig(deepCopy(result.data));
   }
 
   function onPDFDownload(config, dashboardConfig) {

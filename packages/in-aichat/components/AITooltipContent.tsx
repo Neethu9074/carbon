@@ -13,11 +13,15 @@ import { t } from 'in-i18n';
 
 import locals from '../AIChat.mless';
 
+interface AiTooltipProps {
+  model: string;
+}
+
 /**
  * AITooltipContent component displays information about the AI Chat
  * including Watson X information, preview disclaimer, and model details
  */
-export const AITooltipContent = () => {
+export const AITooltipContent = ({ model }: AiTooltipProps) => {
   return (
     <>
       {/*IBM watsonx information */}
@@ -53,7 +57,7 @@ export const AITooltipContent = () => {
             window.open('https://www.ibm.com/products/watsonx-ai/foundation-models', '_blank', 'noopener,noreferrer');
           }}
         >
-          {t('in-aichat:aichat.mistralMedium')}
+          {model}
           <Launch className={locals.launchIcon} size={16} />
         </span>
       </div>

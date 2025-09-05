@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { ConfigResponse } from 'in-aichat/CustomResponse/WidgetConfigResponse/WidgetConfigResponse';
 import PromptLibraryResponse from 'in-aichat/CustomResponse/PromptLibraryResponse';
 import TableChartSwitcher from 'in-aichat/TableComponents/TableChartSwitcher';
 import MarkdownResponse from 'in-aichat/CustomResponse/MarkdownResponse';
@@ -69,7 +70,8 @@ const UserDefinedResponse: React.FC<UserDefinedResponseProps> = ({
         TRACKING_EVENT_NEG={messageItem.user_defined.negTrack}
         additionalInfo={messageItem.user_defined.additionalInfo}
       />
-    )
+    ),
+    slots: () => <ConfigResponse messageItem={messageItem} />
   };
 
   customResponseDefinitions &&

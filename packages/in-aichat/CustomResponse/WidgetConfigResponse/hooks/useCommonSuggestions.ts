@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { CommonInferredConfig, CommonPossibleConfig } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
+import { CommonInferredConfig, CommonPossibleConfig } from 'in-aichat/CustomResponse/WidgetConfigResponse/types';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 
 /**

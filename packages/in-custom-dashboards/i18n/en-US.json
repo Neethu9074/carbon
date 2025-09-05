@@ -115,18 +115,12 @@
     }
   },
   "aiChat": {
-    "launcherGreeting": "Hello, you can create some widgets via chat too!",
-    "welcome": "Hello and welcome",
-    "restrictions": "AI-assisted widget creation is currently available for the following parameters",
-    "widgetType": "Widget type",
-    "filter": "Filter",
     "filter_application": "Application name",
     "filter_service": "Service name",
     "filter_endpoint": "Endpoint name",
     "filter_erroneousCall": "Call erroneous",
     "filter_callType": "Call type",
-    "filter_technology": "Technology",
-    "tryOutExamplePrompts": "Feel free to try out one of the example prompts by selecting the widget type below or use your own prompt."
+    "filter_technology": "Technology"
   },
   "dashboardSwitcher": {
     "dashboardSwitcher": {

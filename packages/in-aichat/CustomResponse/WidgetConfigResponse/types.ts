@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ReactNode } from 'react';
-
 import { Result, TagFilterExpressionElementUnion, Widget } from '@instana/types';
 
 /** enum keys should be the format of backend-compatible chart types */
@@ -18,11 +16,6 @@ export enum PromptableWidgetType {
 export enum IsLoadingCounterType {
   INCREASE = 'increase',
   DECREASE = 'decrease'
-}
-
-export interface ChatMessage {
-  type: 'user' | 'system';
-  content: ReactNode;
 }
 
 export type CommonFinalConfig = {
@@ -103,28 +96,4 @@ export type SlotsRequest = {
 export type SlotsResponse = {
   inferredSlotConfig: InferredSlotConfig;
   possibleSlotConfig?: PossibleSlotConfig | null;
-};
-
-export enum UserDefinedType {
-  /**
-   * used for a slots response after the LLM service inferred the possible widget configurations.
-   */
-  SLOTS = 'slots',
-  /**
-   * used for giving the user examples in the welcome message.
-   */
-  EXAMPLES = 'examples'
-}
-
-export type PromptExample = {
-  id: string;
-  /** text that will be passed to the backend request */
-  text: string;
-  /** user-friendly version of the text to emphasize replacable entities */
-  node: JSX.Element;
-};
-
-export type ChatButtonOption = {
-  key: keyof typeof PromptableWidgetType;
-  value: string;
 };
