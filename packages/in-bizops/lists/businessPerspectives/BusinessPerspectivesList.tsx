@@ -53,15 +53,14 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function BusinessPerspectivesList() {
   const timeConfig = useTimeConfig();
   const [createOpen, setCreateOpen] = React.useState(false);
+  const { location } = useNavigation();
+  const [role] = useCurrentUserRole();
+  const createDisabled = role?.limitedBizOpsScope;
 
   function NewPerspectiveButton() {
-    const [role] = useCurrentUserRole();
-    const { location } = useNavigation();
     const trackerProps = {
       path: location.pathname
     };
-
-    const createDisabled = role?.limitedBizOpsScope;
 
     if (createDisabled) return <></>;
     return (
@@ -97,7 +96,7 @@ export default function BusinessPerspectivesList() {
         </LeftRightPadding>
         <Footer />
       </Sticky>
-      <NewPerspectiveDialogPresenter open={createOpen} setOpen={setCreateOpen} />
+      {!createDisabled && <NewPerspectiveDialogPresenter open={createOpen} setOpen={setCreateOpen} />}
     </>
   );
 }
