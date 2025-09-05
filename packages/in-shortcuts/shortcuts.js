@@ -7,8 +7,8 @@ import { keyCodes } from '@instana/components';
 import { on } from '@instana/observables';
 
 import { onLeftArrow, onRightArrow, onUpArrow, onDownArrow } from 'in-shortcuts/keys/navigationViaArrows';
-import { AI_CHAT_TAG_NAME } from 'in-events/components/AIChat/utils/utils';
 import onQuestionMarkPressed from 'in-shortcuts/keys/QuestionMark';
+import { AI_CHAT_TAG_NAME } from 'in-aichat/utils/utils';
 import { onEscPressed } from 'in-shortcuts/keys/Esc';
 import onFPressed from 'in-shortcuts/keys/F';
 import onVPressed from 'in-shortcuts/keys/V';

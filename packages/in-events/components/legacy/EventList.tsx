@@ -40,6 +40,8 @@ import { handleTracking } from 'in-events/components/NotesAndActivity/components
 import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
 import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+// eslint-disable-next-line no-restricted-imports
+import { moveAIChatLauncher } from 'in-aichat/utils/utils';
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
 // @ts-expect-error No typedef
 import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
@@ -61,7 +63,6 @@ import EventListProviders from 'in-events/components/providers/EventListProvider
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
-import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 // @ts-expect-error No typedef
 import { getEvent } from 'in-stores/events';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';

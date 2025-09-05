@@ -15,6 +15,8 @@ import { useObservable } from '@instana/hooks';
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
+// eslint-disable-next-line no-restricted-imports
+import { moveAIChatLauncher } from 'in-aichat/utils/utils';
 import { getNotes, filterSearchNotes, getSummaryCount } from 'in-events/components/NotesAndActivity/utils';
 import { handleUpdateDeleteNote } from 'in-events/components/NotesAndActivity/components/utils';
 import { incidentSummarizationEnabled, isControlledEnvEnabled } from 'in-services/featureFlags';
@@ -23,7 +25,6 @@ import { QuickActions } from 'in-events/components/NotesAndActivity/components/Q
 import { ShareSummary } from 'in-events/components/NotesAndActivity/components/ShareSummary';
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
-import { moveAIChatLauncher } from 'in-events/components/AIChat/utils/utils';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { t } from 'in-i18n';

@@ -15777,7 +15777,7 @@ in-events/EventView.js
   in-components/RedirectWithHash.js
   in-components/Sticky/Sticky.tsx
   in-components/layout/LeftRightPadding/LeftRightPadding.tsx
-  in-events/components/AIChat/AIChat.js
+  in-aichat/AIChat.js
   in-events/components/EventTable.js
   in-events/components/EventsChart.js
   in-events/components/SmartAlerts/Components/SmartAlerts.tsx
@@ -15803,33 +15803,33 @@ in-events/api.ts
   in-services/http/http.ts
   in-services/http/types.ts
   in-services/security/csrf.ts
-in-events/components/AIChat/AIChat.js
-  in-events/components/AIChat/CustomPanels/PromptLibrary.tsx
-  in-events/components/AIChat/CustomResponse/EditableOptions.js
-  in-events/components/AIChat/CustomResponse/NLGResponse.js
-  in-events/components/AIChat/CustomResponse/PromptLibraryResponse.tsx
-  in-events/components/AIChat/CustomResponse/TableChartSwitcher.js
-  in-events/components/AIChat/CustomSendMessages.js
+in-aichat/AIChat.js
+  in-aichat/CustomPanels/PromptLibrary.tsx
+  in-aichat/CustomResponse/EditableOptions.js
+  in-aichat/CustomResponse/NLGResponse.js
+  in-aichat/CustomResponse/PromptLibraryResponse.tsx
+  in-aichat/CustomResponse/TableChartSwitcher.js
+  in-aichat/CustomSendMessages.js
   in-services/tracking/tracking.ts
   in-services/tracking/useSegmentTracking.tsx
-in-events/components/AIChat/CustomPanels/PromptLibrary.tsx
-in-events/components/AIChat/CustomResponse/EditableOptions.js
+in-aichat/CustomPanels/PromptLibrary.tsx
+in-aichat/CustomResponse/EditableOptions.js
   in-services/tracking/tracking.ts
-in-events/components/AIChat/CustomResponse/NLGResponse.js
-in-events/components/AIChat/CustomResponse/PromptLibraryResponse.tsx
+in-aichat/CustomResponse/NLGResponse.js
+in-aichat/CustomResponse/PromptLibraryResponse.tsx
   in-services/tracking/tracking.ts
-in-events/components/AIChat/CustomResponse/TableChartSwitcher.js
-  in-events/components/AIChat/CustomResponse/TableView.js
-  in-events/components/AIChat/chatAPI.js
-in-events/components/AIChat/CustomResponse/TableView.js
-in-events/components/AIChat/CustomSendMessages.js
-  in-events/components/AIChat/chatAPI.js
-in-events/components/AIChat/DefinedQuestions.js
-in-events/components/AIChat/chatAPI.js
+in-aichat/CustomResponse/TableChartSwitcher.js
+  in-aichat/CustomResponse/TableView.js
+  in-aichat/chatAPI.js
+in-aichat/CustomResponse/TableView.js
+in-aichat/CustomSendMessages.js
+  in-aichat/chatAPI.js
+in-aichat/DefinedQuestions.js
+in-aichat/chatAPI.js
   in-events/components/util/carbonDateTimeFormat.ts
   in-services/http/http.ts
   in-services/security/csrf.ts
-in-events/components/AIChat/utils.js
+in-aichat/utils.js
   in-components/ViewTrackingMeta.ts
   in-services/tracking/segment/EventTracker.ts
   in-services/tracking/trackers.ts
@@ -16540,7 +16540,7 @@ in-events/components/NavigatorSplitScreen/NavigatorSplitScreen.js
   in-services/browser.ts
 in-events/components/NotesAndActivity/NotesAndActivity.js
   in-components/Tooltip/Tooltip.tsx
-  in-events/components/AIChat/AIChat.js
+  in-aichat/AIChat.js
   in-events/components/NotesAndActivity/components/CommentInput.js
   in-events/components/NotesAndActivity/components/CommentList.js
   in-events/components/NotesAndActivity/components/QuickActions.js
@@ -17093,7 +17093,7 @@ in-events/components/legacy/EventList.js
   in-components/LoadingIndicators/LoadingIndicator.tsx
   in-components/QueryBuilder/transformation/formModel.ts
   in-components/layout/Grid/Grid.tsx
-  in-events/components/AIChat/AIChat.js
+  in-aichat/AIChat.js
   in-events/components/EventContent/InfraAggregatedEntities.tsx
   in-events/components/EventContent/InfraEventContent.tsx
   in-events/components/EventContent/tagFilterUtils.ts

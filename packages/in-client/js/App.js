@@ -78,9 +78,7 @@ import GlobalTheme from 'in-themes/GlobalTheme';
 import locals from './App.mless';
 
 // Lazy load the AIChatInstance component
-const AIChatInstance = lazy(() =>
-  import(/* webpackChunkName: "ai-chat" */ 'in-events/components/AIChat/Instances/AIChatInstance.tsx')
-);
+const AIChatInstance = lazy(() => import(/* webpackChunkName: "ai-chat" */ 'in-aichat/Instances/AIChatInstance.tsx'));
 
 export default function App() {
   window.RUNTIME_CONTEXT = solisEnabled ? 'solis' : 'standalone';
