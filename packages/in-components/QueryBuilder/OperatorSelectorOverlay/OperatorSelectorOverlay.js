@@ -14,7 +14,6 @@ import { REGEX_MATCH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import OverlayOption from 'in-components/OverlayOption/OverlayOption';
-import { regexMatchEnabled } from 'in-services/featureFlags';
 
 import locals from './OperatorSelectorOverlay.mless';
 
@@ -22,7 +21,7 @@ export default function OperatorSelectorOverlay({ value, allowedOperators, onCha
   const { matrix } = useLocation();
 
   const isLogsRelated = Boolean(matrix['/logs'] || source === 'logs' || matrix['/logging']);
-  const shouldFilterRegex = !regexMatchEnabled || !isLogsRelated;
+  const shouldFilterRegex = !isLogsRelated;
 
   const filteredOperators = shouldFilterRegex
     ? allowedOperators.filter(operator => operator !== REGEX_MATCH)

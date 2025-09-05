@@ -24,7 +24,6 @@ import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import { logFilterSaving } from 'in-services/featureFlags';
 import Sections from 'in-components/workspace/Sections';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
@@ -107,19 +106,17 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
                 }}
               />
             )}
-            {logFilterSaving && (
-              <ActionSection
-                right={
-                  <FilterActions
-                    backendQueryModel={backendQueryModel}
-                    group={groupBy}
-                    formModel={formModel}
-                    dataSource={dataSource as DataSource}
-                    setUrlState={setUrlState as unknown as SetFilterUrlState}
-                  />
-                }
-              />
-            )}
+            <ActionSection
+              right={
+                <FilterActions
+                  backendQueryModel={backendQueryModel}
+                  group={groupBy}
+                  formModel={formModel}
+                  dataSource={dataSource as DataSource}
+                  setUrlState={setUrlState as unknown as SetFilterUrlState}
+                />
+              }
+            />
           </Sections>
           {!isValid && !isLoading && (
             <Message className={locals.message} inline type="error" withIcon small>

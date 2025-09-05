@@ -959,16 +959,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'logFilterSaving',
-    instanaCtlKey: 'feature.log.filterSaving.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'regexMatchEnabled',
-    instanaCtlKey: 'feature.regex.match.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'relatedEventsDatagrid',
     instanaCtlKey: 'feature.related.events.datagrid.enabled',
     defaultValue: false
@@ -1041,7 +1031,7 @@ module.exports = exports = [
   {
     uiClientKey: 'deleteLogsV3Enabled',
     instanaCtlKey: 'feature.log.deleteLogsV3Enabled.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'onlyFedRampAllowedAlertChannelsEnabled',
