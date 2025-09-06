@@ -44,8 +44,10 @@ export default function BusinessPerspectiveSummary() {
     onSyntheticCallsStateChange: {}
   };
 
-  const configDisabled = role?.limitedBizOpsScope;
-  const filteredTabs = configDisabled ? tabs.filter(tab => tab.id != 'config') : tabs;
+  //@ts-expect-error temporary -- canConfigureBizops does exist but role type
+  //needs to be updated
+  const canConfigure = role?.canConfigureBizops;
+  const filteredTabs = !canConfigure ? tabs.filter(tab => tab.id != 'config') : tabs;
 
   return (
     <div className={locals.perspectiveSummaryDiv}>
