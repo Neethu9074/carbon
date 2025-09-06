@@ -55,14 +55,16 @@ export default function BusinessPerspectivesList() {
   const [createOpen, setCreateOpen] = React.useState(false);
   const { location } = useNavigation();
   const [role] = useCurrentUserRole();
-  const createDisabled = role?.limitedBizOpsScope;
+  //@ts-expect-error temporary -- canConfigureBizops does exist but role type
+  //needs to be updated
+  const canCreate = role?.canConfigureBizops;
 
   function NewPerspectiveButton() {
     const trackerProps = {
       path: location.pathname
     };
 
-    if (createDisabled) return <></>;
+    if (!canCreate) return <></>;
     return (
       <Button
         kind="action"
@@ -96,7 +98,7 @@ export default function BusinessPerspectivesList() {
         </LeftRightPadding>
         <Footer />
       </Sticky>
-      {!createDisabled && <NewPerspectiveDialogPresenter open={createOpen} setOpen={setCreateOpen} />}
+      {canCreate && <NewPerspectiveDialogPresenter open={createOpen} setOpen={setCreateOpen} />}
     </>
   );
 }

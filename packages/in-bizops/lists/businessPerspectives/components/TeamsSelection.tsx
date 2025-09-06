@@ -63,7 +63,7 @@ export function TeamsSelection({ onChange, selectedTeams = [], id = 'teamsMultiS
                 });
               onChange(selectedTeamsChange);
             }}
-            items={teamsListResult.data}
+            items={teamsListResult.data || []}
             initialSelectedItems={getInitialSelectedTeams(teamsListResult.data, selectedTeams)}
             label={t('in-bizops:perspectives.dialog.stepTwo.selectTeams')}
             size="md"
@@ -77,7 +77,7 @@ export function TeamsSelection({ onChange, selectedTeams = [], id = 'teamsMultiS
           kind="error"
           title={t('in-bizops:perspectives.dialog.stepTwo.failedToLoad')}
           statusIconDescription={t('in-bizops:perspectives.dialog.stepTwo.information')}
-          subtitle={teamsListResult.errors[0].message}
+          subtitle={teamsListResult?.errors[0]?.message}
         />
       )}
     </div>

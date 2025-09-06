@@ -70,6 +70,14 @@ const testTeamsResultErrors = {
   time: 1747675225549
 };
 
+const testTeamsResultOnlyErrors = {
+  errors: [{ message: 'Insufficient access rights for resource. The missing permissions are canConfigureTeams.' }],
+  progress: {
+    loading: false
+  },
+  time: 1747675225549
+};
+
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
@@ -163,5 +171,27 @@ describe('TeamsSelection', () => {
     const { container } = render(testComponent);
     let errorNotifications = container.querySelectorAll('.cds--inline-notification--error');
     expect(errorNotifications).toHaveLength(1);
+  });
+});
+
+describe('TeamsSelection with only errors in response', () => {
+  beforeEach(jest.clearAllMocks);
+  beforeEach(() => {
+    (useObservable as jest.Mock).mockImplementation(() => testTeamsResultOnlyErrors);
+  });
+
+  it('displays error notification when response only contains errors and no data property', () => {
+    const testComponent = <TeamsSelection selectedTeams={[]} onChange={() => {}} />;
+    const { container } = render(testComponent);
+
+    // Verify error notification is displayed
+    const errorNotifications = container.querySelectorAll('.cds--inline-notification--error');
+    expect(errorNotifications).toHaveLength(1);
+
+    // Verify the error message is displayed correctly
+    const errorText = screen.getByText(
+      'Insufficient access rights for resource. The missing permissions are canConfigureTeams.'
+    );
+    expect(errorText).toBeTruthy();
   });
 });
