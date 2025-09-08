@@ -40,8 +40,6 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileRow) {
-        //const lastAccessedTime = row.fileInfo.get('lastAccessedTime');
-        //return lastAccessedTime ? new Date(lastAccessedTime).toLocaleString() : '';
         return row.fileInfo.get('last_accessed');
       }
     }
@@ -51,8 +49,6 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileRow) {
-        //const lastChangedTime = row.fileInfo.get('lastChangedTime');
-        //return lastChangedTime ? new Date(lastChangedTime).toLocaleString() : '';
         return row.fileInfo.get('last_changed');
       }
     }
@@ -62,8 +58,6 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileRow) {
-        //const lastChangedTime = row.fileInfo.get('lastChangedTime');
-        //return lastChangedTime ? new Date(lastChangedTime).toLocaleString() : '';
         return row.fileInfo.get('access');
       }
     }
@@ -73,8 +67,6 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileRow) {
-        //const lastChangedTime = row.fileInfo.get('lastChangedTime');
-        //return lastChangedTime ? new Date(lastChangedTime).toLocaleString() : '';
         return row.fileInfo.get('type');
       }
     }
@@ -84,8 +76,6 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileRow) {
-        //const lastChangedTime = row.fileInfo.get('lastChangedTime');
-        //return lastChangedTime ? new Date(lastChangedTime).toLocaleString() : '';
         return row.fileInfo.get('size');
       }
     }
@@ -95,8 +85,6 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileRow) {
-        //const contentChanged = row.fileInfo.get('contentChanged');
-        //return contentChanged !== undefined ? (contentChanged ? t('common.yes') : t('common.no')) : '';
         return row.fileInfo.get('content_changed');
       }
     }
@@ -117,9 +105,6 @@ const cols = [
       getValue(row: FileRow) {
         return row.fileInfo.get('group') || '';
       }
-      //getTooltip(row: FileRow) {
-      // return row.fileInfo.get('group') ? t('in-forge:plugins.host.dashboard.groupTooltip') : '';
-      //}
     }
   }
 ];
