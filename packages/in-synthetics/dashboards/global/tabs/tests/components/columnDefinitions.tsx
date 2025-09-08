@@ -152,35 +152,33 @@ export default function getColumnDefinition(role: Role): ColumnDefinition<TestRe
         const sslDaysRemaining = item?.testResultCommonProperties?.sslDaysRemaining;
         if (sslDaysRemaining != null) {
           return (
-            <div>
-              <Stack orientation="vertical">
-                <Stack orientation="horizontal" gap="xsmall">
-                  <h4>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
-                  <InfoIcon
-                    description={t('in-synthetics:dashboard.testList.sslDaysRemaining', {
-                      daysRemaining: sslDaysRemaining
-                    })}
-                    align="bottom"
-                  />
-                </Stack>
-                <span className={locals.secText}>
-                  {t('in-synthetics:dashboard.testList.frequencySubText', {
-                    count: item?.testResultCommonProperties?.testCommonProperties?.frequency
+            <Stack orientation="vertical" gap="xsmall">
+              <Stack orientation="horizontal" gap="xsmall">
+                <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
+                <InfoIcon
+                  description={t('in-synthetics:dashboard.testList.sslDaysRemaining', {
+                    daysRemaining: sslDaysRemaining
                   })}
-                </span>
+                  align="bottom"
+                />
               </Stack>
-            </div>
+              <span className={locals.secText}>
+                {t('in-synthetics:dashboard.testList.frequencySubText', {
+                  count: item?.testResultCommonProperties?.testCommonProperties?.frequency
+                })}
+              </span>
+            </Stack>
           );
         } else {
           return (
-            <div>
+            <Stack orientation="vertical" gap="xsmall">
               <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.type}</h4>
               <span className={locals.secText}>
                 {t('in-synthetics:dashboard.testList.frequencySubText', {
                   count: item?.testResultCommonProperties?.testCommonProperties?.frequency
                 })}
               </span>
-            </div>
+            </Stack>
           );
         }
       }
