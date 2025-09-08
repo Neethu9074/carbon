@@ -11350,7 +11350,7 @@
         "uid": "UID",
         "elapsedTime": "Elapsed time",
         "cpuNormalized": "CPU (normalized)",
-        "processTopList": "Process top list",
+        "processTopList": "Top process list",
         "packages": "Packages",
         "services": "Windows services",
         "service": "Windows service",
