@@ -3,12 +3,12 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2024
  */
-import React, { useCallback } from 'react';
-import { GenericItem } from '@carbon/ai-chat';
+
 import { lowerCase } from 'lodash';
+import React from 'react';
 
 import { Dropdown, ListItem, UnorderedList } from '@instana/carbon';
-import { useObservable } from '@instana/hooks';
+import { Widget } from '@instana/types';
 
 import {
   CommonPossibleConfig,
@@ -17,59 +17,28 @@ import {
   PossibleSlotConfig,
   SLOPossibleConfig,
   SLOInferredConfig
-} from 'in-aichat/CustomResponse/WidgetConfigResponse/types';
-import { CommonConfigResponse } from 'in-aichat/CustomResponse/WidgetConfigResponse/components/CommonConfigResponse';
-import { SloConfigResponse } from 'in-aichat/CustomResponse/WidgetConfigResponse/components/SloConfigResponse';
-// import { Widget } from '@instana/types';
-import { deepCopy } from 'in-services/util/object';
-import { customDashboardConfig$, setCustomDashboardConfig } from 'in-stores/customDashboard';
-
-// Define the specific user_defined type for ConfigResponse
-type ConfigResponseUserDefined = {
-  user_defined_type: string;
-  inferredSlotConfig: InferredSlotConfig;
-  possibleSlotConfig?: PossibleSlotConfig;
-};
+} from 'in-custom-dashboards/CustomDashboard/AiChat/types';
+import { CommonConfigMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/CommonConfigMessage';
+import { SloConfigMessage } from 'in-custom-dashboards/CustomDashboard/AiChat/Messages/SloConfigMessage';
 
 interface Props {
-  messageItem: GenericItem<ConfigResponseUserDefined>;
+  inferredSlotConfig: InferredSlotConfig;
+  possibleSlotConfig?: PossibleSlotConfig | null;
+  onAddPromptedWidget: (widget: Widget) => void;
 }
 
 // ! we are currently assuming that there definitely will be a final slots and a possible slots object. This can change in the future.
-export const ConfigResponse = ({ messageItem }: Props) => {
-  const config = useObservable(customDashboardConfig$, [customDashboardConfig$])?.config || false;
-
-  // Always define the callback hook, regardless of conditions
-  // so that hook rendering stays consistent
-  const onAddPromptedWidget = useCallback(
-    widget => {
-      if (!config) return;
-      const newConfig = deepCopy(config);
-      // @ts-expect-error - No type definitions available
-      newConfig.widgets.push(widget);
-      setCustomDashboardConfig(newConfig);
-    },
-    [config]
-  );
-
-  // Ensure user_defined exists before accessing its properties
-  if (!messageItem.user_defined || !config) {
-    return null; // Return early if user_defined is undefined or no config
-  }
-
-  const inferredSlotConfig = messageItem.user_defined.inferredSlotConfig;
-  const possibleSlotConfig = messageItem.user_defined.possibleSlotConfig;
-
+export const ConfigMessage = ({ inferredSlotConfig, possibleSlotConfig, onAddPromptedWidget }: Props) => {
   const { widgetType: inferredWidgetType, config: inferredConfig } = inferredSlotConfig;
 
   return inferredWidgetType === 'slo2' ? (
-    <SloConfigResponse
+    <SloConfigMessage
       inferredConfig={inferredConfig as SLOInferredConfig}
       possibleConfig={(possibleSlotConfig?.config as SLOPossibleConfig) ?? null}
       onAddPromptedWidget={onAddPromptedWidget}
     />
   ) : (
-    <CommonConfigResponse
+    <CommonConfigMessage
       widgetType={inferredWidgetType!}
       inferredConfig={inferredConfig as CommonInferredConfig}
       possibleConfig={(possibleSlotConfig?.config as CommonPossibleConfig) ?? null}

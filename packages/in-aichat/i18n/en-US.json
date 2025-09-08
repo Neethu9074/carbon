@@ -37,7 +37,6 @@
     "filtering": "Filters",
     "previewDisclaimer": "This is a preview feature. Answers are provided based on the model's interpretation of your questions. Accuracy of generated answers may vary. Double check to determine if the output is appropriate for your needs.",
     "mistralMedium": "mistral-medium-2505",
-    "graniteInstruct": "granite-3-2-8b-instruct",
     "aiExplained": "AI explained",
     "aiModel": "AI model",
     "poweredByWatsonX": "IBM watsonx Assistant",

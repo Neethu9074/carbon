@@ -22,7 +22,6 @@ import {
 import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CustomResponseDefinition } from 'in-aichat/UserDefinedResponse';
-import AITooltipContent from 'in-aichat/components/AITooltipContent';
 import LauncherButton from 'in-aichat/components/LauncherButton';
 import UserDefinedResponse from 'in-aichat/UserDefinedResponse';
 import { t } from 'in-i18n';
@@ -61,6 +60,7 @@ export function AIChat({
   config,
   onAfterRender,
   onBeforeRender,
+  aiToolTipContent,
   previewPill = false
 }: AIChatProps) {
   // Get agent data from our configuration file
@@ -83,7 +83,7 @@ export function AIChat({
   const [displayWarning, setDisplayWarning] = useState(true);
 
   // Combine the default config with the config
-  // passed in. Config supersedes the default.
+  // passed in.  Config supersedes the default.
   const chatConfig = useMemo(() => {
     if (!agentData) {
       return {};
@@ -109,10 +109,10 @@ export function AIChat({
         beforeInputElement: displayWarning && (
           <div className={locals.beforeInputElement}>{t('in-aichat:aichat.accuracyOfAi')}</div>
         ),
-        aiTooltipAfterDescriptionElement: <AITooltipContent model={agentData.model} />
+        aiTooltipAfterDescriptionElement: aiToolTipContent
       };
     }
-  }, [instance, customPanelElement, previewPill, agentData, displayWarning]);
+  }, [instance, customPanelElement, previewPill, aiToolTipContent, agentData, displayWarning]);
 
   // If no Agent data for this page exists we won't render the chat
   // This check is moved here after all hooks have been called

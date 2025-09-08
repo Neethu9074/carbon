@@ -28,6 +28,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { spreadTimeConfig, concatQueries } from 'in-events/utils';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { eventsAIChatEnabled } from 'in-services/featureFlags';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';

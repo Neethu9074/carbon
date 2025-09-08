@@ -3,21 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error - No type definitions available
-import { viewPathFullyQualified } from 'in-custom-dashboards/navigation/url';
-import { DashboardCustomSendMessages } from 'in-aichat/CustomSendMessages/DashboardCustomSendMessages';
-import { customDashboardsPromptingEnabled, eventsAIChatEnabled } from 'in-services/featureFlags';
 import { EventsCustomSendMessages } from 'in-aichat/CustomSendMessages/EventsCustomSendMessages';
-import { DashboardPromptLibrary } from 'in-aichat/PromptLibraries/DashboardPromptLibrary';
 import { EventsPromptLibrary } from 'in-aichat/PromptLibraries/EventsPromptLibrary';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
-import { t } from 'in-i18n';
+import { eventsAIChatEnabled } from 'in-services/featureFlags';
 
 type AgentConfig = {
   path: string;
   customSendMessages: typeof EventsCustomSendMessages;
   promptLibrary: typeof EventsPromptLibrary;
-  model: string;
   featureFlag: boolean;
 };
 
@@ -38,14 +32,6 @@ export const agentConfigurations: Record<string, AgentConfig> = {
     path: eventsPath,
     customSendMessages: EventsCustomSendMessages,
     promptLibrary: EventsPromptLibrary,
-    model: t('in-aichat:aichat.mistralMedium'),
     featureFlag: eventsAIChatEnabled
-  },
-  [viewPathFullyQualified]: {
-    path: viewPathFullyQualified,
-    customSendMessages: DashboardCustomSendMessages,
-    promptLibrary: DashboardPromptLibrary,
-    model: t('in-aichat:aichat.graniteInstruct'),
-    featureFlag: customDashboardsPromptingEnabled
   }
 };

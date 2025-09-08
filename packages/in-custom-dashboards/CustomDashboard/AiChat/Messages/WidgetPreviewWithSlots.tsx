@@ -13,8 +13,8 @@ import { Widget } from '@instana/types';
 
 // @ts-expect-error not yet ts migrated
 import widgets from 'in-custom-dashboards/widgets';
-import { FinalConfig } from 'in-aichat/CustomResponse/WidgetConfigResponse/types';
-import { promptGetWidgetJson } from 'in-aichat/api/dashboardChatAPI';
+import { FinalConfig } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
+import { promptGetWidgetJson } from 'in-custom-dashboards/api';
 
 export function WidgetPreviewWithSlots({
   slots,

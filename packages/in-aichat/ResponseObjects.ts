@@ -5,7 +5,6 @@
 
 import { MessageResponseTypes, TextItem, UserDefinedItem } from '@carbon/ai-chat';
 
-import { InferredSlotConfig, PossibleSlotConfig } from 'in-aichat/CustomResponse/WidgetConfigResponse/types';
 import { TableHeader, TableRow } from 'in-aichat/TableComponents/useTableState';
 import { AdditionalInfoObject } from 'in-aichat/CustomResponse/ThumbsFeedback';
 import { Option } from 'in-aichat/CustomResponse/OptionsResponse';
@@ -18,7 +17,6 @@ export const USER_DEFINED_TYPE_TEXT_RESPONSE = 'typetext_response';
 export const USER_DEFINED_MARKDOWN_RESPONSE = 'markdown_response';
 export const USER_DEFINED_TABLE_CHART = 'table_chart';
 export const USER_DEFINED_EVENTS_TABLE = 'events_table';
-export const USER_DEFINED_SLOTS = 'slots';
 
 // PromptLibrary library prompt object definition
 export const PromptLibraryBubbleObject: UserDefinedItem = {
@@ -109,19 +107,5 @@ export function EventsTableObject(headers: TableHeader[], rows: TableRow[]): Use
   return {
     response_type: MessageResponseTypes.USER_DEFINED,
     user_defined: { user_defined_type: USER_DEFINED_EVENTS_TABLE, headers, rows }
-  };
-}
-
-export function SlotsObject(
-  inferredSlotConfig: InferredSlotConfig,
-  possibleSlotConfig: PossibleSlotConfig | null | undefined
-) {
-  return {
-    response_type: MessageResponseTypes.USER_DEFINED,
-    user_defined: {
-      user_defined_type: USER_DEFINED_SLOTS,
-      inferredSlotConfig,
-      possibleSlotConfig
-    }
   };
 }

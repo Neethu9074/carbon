@@ -4,11 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import {
-  SLOPossibleConfig,
-  SLOInferredConfig,
-  SloSuggestion
-} from 'in-aichat/CustomResponse/WidgetConfigResponse/types';
+import { SLOPossibleConfig, SLOInferredConfig, SloSuggestion } from 'in-custom-dashboards/CustomDashboard/AiChat/types';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import { emptyObject } from 'in-services/fixedObjects';
 
