@@ -1,6 +1,6 @@
 {
   "welcomeToInstana": "Welcome to Instana!",
-  "setUpYourFirstDataSource": "Set up your first data source",
+  "setUpYourFirstDataSource": "Install your first agent or collector",
   "home": "Home",
   "getStartedAndInstallYourFirstAgent": "Get started and install your first agent.",
   "installinOpenTelemetryCollectorOrInstanaAgentToStartCollectingData": "Install an OpenTelemetry collector or Instana agent to start collecting data.",
@@ -779,7 +779,7 @@
       },
       "incidentsWidget": {
         "header": "No incidents",
-        "description": "Incidents help you detect, understand, and investigate issues in your applications.<br><br><strong>Deploy an agent</strong> to start monitoring incidents."
+        "description": "Incidents help you detect, understand, and investigate issues in your applications.<br><br><strong>Install an agent or collector</strong> to start monitoring incidents."
       },
       "websitesWidget": {
         "header": "No websites",
@@ -852,7 +852,7 @@
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
         "communityBlogsLink": "Community blogs",
-        "installDataSource": "Install a data source"
+        "installDataSource": "Install agents or collectors"
       },
       "toolTip": {
         "makeDefault": "This action sets the Instana homepage as your default landing page, replacing any custom dashboard you've set."
@@ -1005,7 +1005,7 @@
     "showCompleted": "Show completed tasks",
     "hideCompleted": "Hide completed tasks",
     "tasks": {
-      "setUpFirstDatasource": "Set up your first data source",
+      "setUpFirstDatasource": "Install your first agent or collector",
       "verifyTracing": "Verify tracing",
       "createApplicationPerspective": "Create an application perspective",
       "inviteYourTeammate": "Invite your teammates",
