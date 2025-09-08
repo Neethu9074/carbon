@@ -60,14 +60,12 @@ const FormComponent = ({
   labelSection
 }: SyntheticFormComponentProps) => {
   const timeConfig = useTimeConfig();
-
   const metricField = form.get('metric');
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
   const aggregationField = form.get('aggregation');
   const aggregators = getAggregations(metricField.value);
   const isSingleAggregator = aggregators?.length < 2;
-
   const tagCatalogResult = useObservable(getGetTagCatalogObservable, [timeConfig]) ?? pendingResult;
 
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
@@ -209,8 +207,9 @@ const getAggregations = (metric: string): string[] => {
   return find(availableMetrics, ({ metric: m }) => m === metric)?.supportedAggregations ?? [];
 };
 
-const getMetricLabel = (metricId: string): string => {
-  return find(availableMetrics, ({ metric: m }) => m === metricId)?.label!;
+const getMetricLabel = (metric: string): string => {
+  return find(availableMetrics, ({ metric: m, metricIdentifier }) => metricIdentifier === metric || m === metric)
+    ?.label!;
 };
 
 function getGetTagCatalogObservable([timeConfig]: TimeConfig[]) {

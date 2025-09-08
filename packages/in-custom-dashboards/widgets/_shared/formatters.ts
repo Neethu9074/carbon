@@ -85,13 +85,13 @@ export function getInfrastructureMetricFormatter(baseUnit?: BaseUnit): Formatter
 }
 
 function getSyntheticMetricFormatter(metric: string): Formatter[] {
-  if (metric === 'id' || metric === 'location_id') {
+  if (metric === 'synthetic.testId' || metric === 'synthetic.id') {
     return [numberCompact];
-  } else if (metric === 'response_time') {
+  } else if (metric === 'synthetic.metricsResponseTime') {
     return [latencyDetailed];
-  } else if (metric === 'status') {
+  } else if (metric === 'synthetic.successRate' || metric === 'synthetic.failureRate') {
     return [percentageDetailed, percentageCompact];
-  } else if (metric === 'response_size') {
+  } else if (metric === 'synthetic.metricsResponseSize') {
     return [bytesCompact, bytesDetailed];
   }
   return publicFormatters;

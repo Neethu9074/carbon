@@ -308,10 +308,12 @@
         "metric": "Metric",
         "selectMetric": "Please select a metric",
         "aggregation": "Aggregation",
-        "successRate": "Success rate",
-        "locations": "Locations",
-        "responseTime": "Response time",
-        "responsesize": "Response size"
+        "totalTests": "Total tests",
+        "totalExecutions": "Total executions",
+        "failureRate": "Failure rate (%)",
+        "successRate": "Success rate (%)",
+        "responseTime": "Average response time (ms)",
+        "responsesize": "Average response size (KB)"
       },
       "index": {
         "syntheticMonitoring": "Synthetic monitoring"
