@@ -22,6 +22,11 @@ interface EventsPayload {
   [key: string]: any;
 }
 
+export interface AgentQueryParams {
+  query: string;
+  thread_id?: string;
+}
+
 // The api query to the chat
 // Simply pass in the query string
 export function sendAPIQuery(query: any) {
@@ -87,15 +92,13 @@ export function fetchEventsData(eventsPayload: EventsPayload, apiPayload: string
  * @param query - The user's query to send to the agent API
  * @returns An observable that will emit the agent's response
  */
-export function sendAgentQuery(query: string) {
+export function sendAgentQuery(params: AgentQueryParams) {
   const obj = http({
     method: 'POST',
     maxRetries: 3,
-    url: 'api/chat/query',
+    url: 'api/chat/agent',
     headers: getCsrfHeader(),
-    data: {
-      query: query
-    }
+    data: params
   });
   return obj.map(response => response.body);
 }

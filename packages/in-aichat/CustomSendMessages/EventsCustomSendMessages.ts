@@ -10,7 +10,6 @@ import {
   ChatInstance,
   MessageRequest,
   MessageResponse,
-  TextItem,
   CustomSendMessageOptions
 } from '@carbon/ai-chat';
 import { uniqueId } from 'lodash';
@@ -21,9 +20,15 @@ import {
   EVENT_AI_CHAT_API_ERROR_POSITIVE,
   EVENT_AI_CHAT_API_ERROR_NEGATIVE
 } from 'in-services/tracking/eventNames';
-import { RePromptObject, ThumbsFeedbackObject, TypeTextObject, InitialLoadOptions } from 'in-aichat/ResponseObjects';
+import {
+  RePromptObject,
+  ThumbsFeedbackObject,
+  TypeTextObject,
+  InitialLoadOptions,
+  MarkdownObject
+} from 'in-aichat/ResponseObjects';
+import { sendAPIQuery, fetchAPIData, fetchEventsData, AgentQueryParams } from 'in-aichat/api/eventsChatAPI';
 import { formatForTable, formatForEventsTable } from 'in-aichat/TableComponents/TableFormatters';
-import { sendAPIQuery, fetchAPIData, fetchEventsData } from 'in-aichat/api/eventsChatAPI';
 import { AdditionalInfoObject } from 'in-aichat/CustomResponse/ThumbsFeedback';
 import { sendAgentQuery } from 'in-aichat/api/eventsChatAPI';
 import { t } from 'in-i18n';
@@ -251,54 +256,47 @@ function processTraditionalQuery(instance: ChatInstance, userQuery: string) {
   );
 }
 
+// Local storage key for thread ID
+const THREAD_ID_STORAGE_KEY = 'ai-chat-thread-id';
 /**
  * Process a user query using the agent API flow
  */
-// TODO: This is skeleton code - update with changes to support agentic chat interface.
 function processAgentQuery(instance: ChatInstance, userQuery: string) {
   instance.updateIsLoadingCounter('increase');
 
-  // Step 1: Show status message
-  const statusMessageId = uniqueId('aichat_');
-  const statusMessage = {
-    id: statusMessageId,
-    output: {
-      generic: [
-        {
-          response_type: MessageResponseTypes.TEXT,
-          text: t('in-aichat:aichat.findingInfo')
-        } as TextItem
-      ]
-    }
-  } as MessageResponse;
+  // Get thread ID from local storage
+  const storedThreadId = localStorage.getItem(THREAD_ID_STORAGE_KEY);
 
-  instance.messaging.addMessage(statusMessage);
+  // Step 1: Call the agent API using observables, including thread_id if available
+  const queryParams: AgentQueryParams = storedThreadId
+    ? { query: userQuery, thread_id: storedThreadId }
+    : { query: userQuery };
 
-  // Step 2: Call the agent API using observables
-  sendAgentQuery(userQuery).once(
+  sendAgentQuery(queryParams).once(
     (response: any) => {
-      // Step 3: Clean up and handle response
+      // Step 2: Clean up and handle response
       instance.updateIsLoadingCounter('decrease');
-      instance.messaging.removeMessages([statusMessageId]);
 
       if (response.error) {
         sendError(instance, response.error, null, userQuery);
         return;
       }
 
-      // Step 4: Display the agent response
-      const responseMessage = {
+      // Step 3: Store thread_id in local storage if it exists in the response and is different from the stored one
+      if (response.thread_id) {
+        const currentStoredThreadId = localStorage.getItem(THREAD_ID_STORAGE_KEY);
+
+        // Update local storage if the thread ID has changed or doesn't exist
+        if (currentStoredThreadId !== response.thread_id) {
+          localStorage.setItem(THREAD_ID_STORAGE_KEY, response.thread_id);
+        }
+      }
+
+      // Step 4: Display the agent response using MarkdownResponse
+      const responseMessage: MessageResponse = {
+        thread_id: response.thread_id, // Store thread_id in the response
         output: {
-          generic: [
-            {
-              response_type: MessageResponseTypes.USER_DEFINED,
-              user_defined: {
-                user_defined_type: 'agent-response',
-                content: response.data
-              }
-            },
-            RePromptObject
-          ]
+          generic: [MarkdownObject(response?.agent)]
         }
       };
 
@@ -306,14 +304,13 @@ function processAgentQuery(instance: ChatInstance, userQuery: string) {
       instance.updateIsLoadingCounter('decrease');
     },
     (error: any) => {
-      instance.messaging.removeMessages([statusMessageId]);
       sendError(instance, formatErrorMessage(error), null, userQuery);
     }
   );
 }
 
-// Feature flag for agentQuery API - will be replaced with real feature flag later
-const useAgenticChat = false;
+// Feature flag for agentQuery API - set to true to use agent chat
+const useAgenticChat = true;
 
 /**
  * Custom message handler for Events AI Chat
@@ -327,7 +324,7 @@ export function EventsCustomSendMessages(request: MessageRequest, _: CustomSendM
 
   // If there's a query, process it; otherwise show welcome message
   if (userQuery !== '') {
-    // Use different processing based on feature flag
+    // Use different processing based on agent flag
     if (useAgenticChat) {
       processAgentQuery(instance, userQuery);
     } else {
