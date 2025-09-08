@@ -25,9 +25,9 @@ import {
 } from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { AdaptiveBaselinePredictionData } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
+import { chartViewConfig24hours, ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { Trans } from 'in-i18n';
 
@@ -54,6 +54,7 @@ export default function MobileAppAlertingChartWithErrorMessage(
     eventBasedAdaptiveBaseline,
     isEventsView,
     isAlertDetailView,
+    viewConfig,
     ...remainingProps
   } = props;
 
@@ -64,6 +65,7 @@ export default function MobileAppAlertingChartWithErrorMessage(
   return (
     <ChartWithErrorMessageAndData
       {...remainingProps}
+      viewConfig={viewConfig ?? chartViewConfig24hours}
       isEventsView={isEventsView}
       isAlertDetailView={isAlertDetailView}
       alertConfigWithFormModel={props.alertConfigWithFormModel}

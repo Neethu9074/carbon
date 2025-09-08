@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { Stack, StackItem } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
@@ -46,6 +46,15 @@ export default function ChartViewConfigurator({
 }: ChartViewConfiguratorProps) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const isSingleConfig = chartViewConfigs?.length === 1;
+
+  // for websites and mobile, when `Adaptive Threshold` is selected, only the 24hour chartViewConfig is supported.
+  useEffect(() => {
+    if (isSingleConfig) {
+      onChartViewConfigChange?.(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSingleConfig]);
+
   return (
     <>
       <LightCard

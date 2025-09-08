@@ -13,19 +13,19 @@ import {
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import {
-  extractAlertConfigWithFormModel,
-  getErrorMessage
-} from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
-import {
   MetricName,
   WebsitesAlertType,
   getBlueprintConfig
 } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import {
+  extractAlertConfigWithFormModel,
+  getErrorMessage
+} from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import { AdaptiveBaselinePredictionData } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { chartViewConfig24hours, ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { Trans } from 'in-i18n';
 
@@ -42,8 +42,14 @@ interface WebsitesAlertingChartWithErrorMessageProps {
 }
 
 export default function WebsitesAlertingChartWithErrorMessage(props: WebsitesAlertingChartWithErrorMessageProps) {
-  const { alertConfigWithFormModel, eventBasedAdaptiveBaseline, isEventsView, isAlertDetailView, ...remainingProps } =
-    props;
+  const {
+    alertConfigWithFormModel,
+    eventBasedAdaptiveBaseline,
+    isEventsView,
+    isAlertDetailView,
+    viewConfig,
+    ...remainingProps
+  } = props;
 
   const { rules } = alertConfigWithFormModel;
   const thresholdType = (rules[0]?.thresholds?.WARNING ?? rules[0]?.thresholds?.CRITICAL)?.type;
@@ -55,6 +61,7 @@ export default function WebsitesAlertingChartWithErrorMessage(props: WebsitesAle
   return (
     <ChartWithErrorMessageAndData
       {...remainingProps}
+      viewConfig={viewConfig ?? chartViewConfig24hours}
       isEventsView={isEventsView}
       isAlertDetailView={isAlertDetailView}
       alertConfigWithFormModel={props.alertConfigWithFormModel}

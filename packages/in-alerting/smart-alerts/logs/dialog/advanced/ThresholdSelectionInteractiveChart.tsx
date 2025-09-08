@@ -61,6 +61,8 @@ export default function ThresholdSelectionInteractiveChart({
     return chartTimeConfig;
   }, []);
 
+  const isSingleConfig = chartViewConfigs?.length === 1;
+
   return (
     <BorderedContainer>
       <LogMultiThresholdCondition
@@ -73,7 +75,7 @@ export default function ThresholdSelectionInteractiveChart({
       <ChartViewConfigurator
         chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={onChartViewConfigChange}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        selectedChartViewConfigIndex={isSingleConfig ? 0 : selectedChartViewConfigIndex}
         title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleTrigger')}
         doNotSetDefaultHeight
         framed
