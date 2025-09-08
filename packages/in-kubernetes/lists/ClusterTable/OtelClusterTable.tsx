@@ -7,13 +7,7 @@
 import React, { useEffect } from 'react';
 import { get, find } from 'lodash';
 
-import {
-  KubernetesClusterListItem,
-  KubernetesClusterManagement,
-  TimeConfig,
-  Result,
-  PaginatedResult
-} from '@instana/types';
+import { KubernetesClusterListItem, TimeConfig, Result, PaginatedResult } from '@instana/types';
 import { CarbonIconButton, SvgIcon, TableEntityCounter } from '@instana/components';
 
 //@ts-expect-error TS migration
@@ -28,12 +22,12 @@ import {
 } from 'in-kubernetes/subscriptions/getOtelKubernetesClusters';
 //@ts-expect-error TS migration
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import { kubernetesCloudNativeExperience, openTelemetryKubernetesUnifiedViewEnabled } from 'in-services/featureFlags';
 import { clusterList, useOtelClusterDashboard, clusterOtelListFullyQualified } from 'in-kubernetes/navigation/paths';
 //@ts-expect-error TS migration
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { urlParameters as timeConfigUrlParameters, timeConfig$ } from 'in-stores/time/config';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { kubernetesCloudNativeExperience } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 //@ts-expect-error TS migration
 import connectTo from 'in-hoc/connectTo';
@@ -122,32 +116,30 @@ export default function OtelClusterTable() {
             }}
           />
           <div className={locals.table}>
-            {openTelemetryKubernetesUnifiedViewEnabled && (
-              <ServerTableWithUrlState
-                get={getTableData}
-                filterColumnDefinitions={createColumnFilter}
-                timeConfig={timeConfig}
-                toolBarContent={
-                  kubernetesCloudNativeExperience ? (
-                    <CarbonIconButton
-                      align="left"
-                      kind="ghost"
-                      size="lg"
-                      label={t('in-kubernetes:cloudNative.switchToCardView')}
-                      onClick={() => {
-                        kubernetesViewModeToggled({
-                          switchedToView: 'card',
-                          tab: 'cluster'
-                        });
-                        window.location.href = createHrefToPath(clusterOtelListFullyQualified);
-                      }}
-                    >
-                      <SvgIcon type="lib_views_grid" size="s" />
-                    </CarbonIconButton>
-                  ) : null
-                }
-              />
-            )}
+            <ServerTableWithUrlState
+              get={getTableData}
+              filterColumnDefinitions={createColumnFilter}
+              timeConfig={timeConfig}
+              toolBarContent={
+                kubernetesCloudNativeExperience ? (
+                  <CarbonIconButton
+                    align="left"
+                    kind="ghost"
+                    size="lg"
+                    label={t('in-kubernetes:cloudNative.switchToCardView')}
+                    onClick={() => {
+                      kubernetesViewModeToggled({
+                        switchedToView: 'card',
+                        tab: 'cluster'
+                      });
+                      window.location.href = createHrefToPath(clusterOtelListFullyQualified);
+                    }}
+                  >
+                    <SvgIcon type="lib_views_grid" size="s" />
+                  </CarbonIconButton>
+                ) : null
+              }
+            />
           </div>
         </>
       )}
@@ -180,28 +172,11 @@ function getHasDataToRender() {
     .flatMap((timeConfig: TimeConfig) => getOtelKubernetesClustersWithDefaults({ timeConfig }))
     .map((result: any) => !result.data || result.data.totalHits > 0);
 }
-const managedby: string = t('in-kubernetes:dashboards.managedby');
-
-function ClusterManagedByWithIcon({ clusterManagement }: { clusterManagement?: KubernetesClusterManagement }) {
-  if (!clusterManagement || clusterManagement.shortName === 'none' || clusterManagement?.shortName === '') {
-    return null;
-  }
-  return (
-    <div className={locals.clusterManagement}>
-      <span className={locals.clusterManagementLabel}>
-        {managedby} {clusterManagement.fullName}
-      </span>
-      <SvgIcon className={locals.clusterManagementIcon} type={`lib_${clusterManagement.shortName}`} />
-    </div>
-  );
-}
 
 function ClusterLink(item: KubernetesClusterListItem) {
   const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
-  const clusterManagement = get(item, ['cluster', 'clusterManagement']);
   const clusterLabel = get(item, ['cluster', 'label']);
   const clusterIcon = `lib_${clusterDistribution}`;
-
   const clusterHref = useOtelClusterDashboard(get(item, ['cluster', 'id']));
 
   return (
@@ -210,7 +185,6 @@ function ClusterLink(item: KubernetesClusterListItem) {
       label={clusterLabel}
       href={clusterHref}
       severity={item.entityHealthInfo.maxSeverity}
-      subscriptComponent={<ClusterManagedByWithIcon clusterManagement={clusterManagement} />}
     />
   );
 }

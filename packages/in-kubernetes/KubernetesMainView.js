@@ -35,9 +35,9 @@ export default function KubernetesMainView(props) {
           <Switch>
             <Route
               path={
-                openTelemetryKubernetesUnifiedViewEnabled
+                kubernetesCloudNativeExperience
                   ? `${clusterOtelListFullyQualified}/table`
-                  : `${clusterOtelListFullyQualified}`
+                  : clusterOtelListFullyQualified
               }
               exact
             >
