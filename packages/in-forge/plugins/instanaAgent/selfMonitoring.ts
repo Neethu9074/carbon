@@ -135,7 +135,7 @@ export function loadRawAgentConfiguration(snapshot: SnapshotData) {
   });
 }
 
-export function loadRawAgentConfigurationOtel(snapshot: SnapshotData) {
+export function loadRawAgentConfigurationOtel(snapshot: SnapshotData, setShowLoading?: (value: boolean) => void) {
   const observable = createAgentResponseObservable({
     action: 'agent.config.raw',
     target: snapshot.get('volatileId'),
@@ -143,6 +143,10 @@ export function loadRawAgentConfigurationOtel(snapshot: SnapshotData) {
   });
   // Need a timeout for when there is a communication error
   let timeoutId: NodeJS.Timeout | null = setTimeout(() => {
+    // Hide config loading indicator
+    if (setShowLoading) {
+      setShowLoading(false);
+    }
     // Close the modal when timeout occurs
     close();
     addMessage({
@@ -265,7 +269,7 @@ export function updateOTelConfiguration(
   snapshot: SnapshotData,
   configString: string,
   close: () => void,
-  getErrorMessage: (msg: string) => void
+  setErrorMsg: (error: string) => void
 ) {
   return createAgentResponseObservable({
     action: 'agent.configuration.update',
@@ -275,7 +279,7 @@ export function updateOTelConfiguration(
     logger.info('OTel collector configuration update response', response);
 
     if (response.error) {
-      getErrorMessage(response.error);
+      setErrorMsg(response.error);
     } else {
       close();
       addMessage({

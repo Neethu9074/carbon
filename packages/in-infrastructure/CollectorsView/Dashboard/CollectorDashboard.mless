@@ -60,16 +60,14 @@
     width: 100%;
   }
 
-  .modal {
-    :global(.cds--modal-container) {
-      min-block-size: 40rem;
-      height: 100vh;
-      width: 75vw;
+  .tearsheet {
+    :global(.c4p--tearsheet__content) {
+      overflow: hidden;
     }
   }
 
   .editorDialog {
-    height: 100vh;
-    width: 100vw;
+    align-items: start;
+    height: '73vh';
   }
 }

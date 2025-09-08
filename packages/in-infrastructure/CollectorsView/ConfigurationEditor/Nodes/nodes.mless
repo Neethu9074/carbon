@@ -5,29 +5,82 @@
  */
 
 :local {
-  .node {
-    height: 50px;
-    width: 50px;
+  .receiverNode,
+  .processorNode,
+  .exporterNode {
+    border: 1px solid;
+    height: 4rem;
+    width: 11.25rem;
+    border-radius: 10px;
+    align-items: center;
   }
 
   .exporterNode {
-    background-color: var(--ids-color-option-blue-400);
+    border-color: var(--cds-tag-color-purple);
+    background: linear-gradient(to right, var(--cds-tag-color-purple) 33.3%, white 33.3%;);
   }
 
   .processorNode {
-    background-color: var(--cds-link-inverse-hover);
+    border-color: var(--cds-tag-border-cyan);
+    background: linear-gradient(to right, var(--cds-tag-border-cyan) 33.3%, white 33.3%;);
   }
 
   .receiverNode {
-    background-color: var(--ids-color-option-blue-100);
+    border-color: var(--cds-tag-border-magenta);
+    background: linear-gradient(to right, var(--cds-tag-border-magenta) 33.3%, white 33.3%;);
   }
 
   .pipelineNode {
-    // cannot use design token, need to set opacity
-    background-color: #4589ff33;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 1px solid;
+    border-color: var(--cds-border-interactive);
   }
 
   .nodeObject {
     overflow: visible;
+  }
+
+  .pipelineNodeTitle {
+    display: flex;
+    flex-direction: row;
+    gap: 0.6rem;
+    margin: -1rem -0.5rem;
+    border-left: 2px solid;
+    padding: 0.75rem;
+  }
+
+  .nodeInfo {
+    display: inline-block;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 6.7rem; /* Limit width to ensure text overflow works */
+    width: 100%;
+  }
+
+  .nodeInfo h2,
+  .nodeInfo span {
+    overflow: hidden;
+    margin-bottom: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .nodeName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .nodeInfoContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.75em;
+    gap: 1.9rem;
   }
 }

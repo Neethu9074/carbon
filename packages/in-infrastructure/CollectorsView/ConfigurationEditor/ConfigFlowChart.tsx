@@ -35,7 +35,7 @@ function Link({ link }: { link: ElkExtendedEdge }) {
   }
 
   path.lineTo(sections.endPoint.x, sections.endPoint.y);
-  return <Edge path={path.toString()} markerEnd="arrow" variant="dash-sm" />;
+  return <Edge path={path.toString()} markerEnd="arrow" />;
 }
 
 function parseNodeData(editorValue: EditorConfig) {
@@ -46,7 +46,7 @@ function parseNodeData(editorValue: EditorConfig) {
   const editorValueYaml: OTelConfig = YAML.parse(editorValue.config);
   const pipelines: Pipelines = editorValueYaml.service.pipelines;
   const nodeData: PipeNode[] = [];
-  const size = 48;
+  const size = 60;
 
   Object.entries(pipelines).forEach(([pipelineName, pipeline]) => {
     const pipelineChildren: PipeNode[] = [];
@@ -55,8 +55,8 @@ function parseNodeData(editorValue: EditorConfig) {
       for (const item of elements) {
         pipelineChildren.push({
           id: `${pipelineName}-${type}-${item}`,
-          height: 60,
-          width: size,
+          height: 65,
+          width: 180,
           nodeType: type,
           name: item
         });
@@ -70,7 +70,7 @@ function parseNodeData(editorValue: EditorConfig) {
       height: size,
       width: size,
       layoutOptions: {
-        'elk.padding': '[left=25, top=25, right=25, bottom=25]',
+        'elk.padding': '[left=25, top=75, right=25, bottom=25]',
         'spacing.nodeNodeBetweenLayers': '50'
       },
       nodeType: 'pipeline',
@@ -187,7 +187,7 @@ export default function ConfigFlowChart(config: EditorConfig) {
             y={pipeline.y}
             height={pipeline.height!}
             width={pipeline.width!}
-            name={pipeline.name!}
+            name={pipeline.name!.charAt(0).toUpperCase() + pipeline.name!.slice(1)}
           />
           {pipeline.children?.map(node => {
             //children node position is calculated relative to the parent, so need to add parent position to determine the final position
@@ -240,14 +240,14 @@ export default function ConfigFlowChart(config: EditorConfig) {
 
   const defs = (
     <defs>
-      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
+      <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10">
         <path d="M 0 0 L 10 5 L 0 10 z" />
       </marker>
     </defs>
   );
 
   return (
-    <ZoomableSVG width="100%" height="1000" defs={defs}>
+    <ZoomableSVG width="100%" height="70.75vh" defs={defs} defaultScale="0.75" defaultX="100" defaultY="-50">
       {nodeElements}
       {linkElements}
     </ZoomableSVG>

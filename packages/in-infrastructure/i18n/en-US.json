@@ -182,19 +182,29 @@
     "collectorRestarting": "Collecor restart successfully initiated.",
     "configUpdateSuccessTitle": "Configuration update successful",
     "configUpdateSuccess": "Collector configuration succesfully updated.",
-    "update": "Update",
-    "cancel": "Cancel",
-    "configuration": "Configuration",
-    "exporter": "Exporter",
-    "processor": "Processor",
-    "receiver": "Receiver",
+    "editConfig": {
+      "updateConfiguration": "Update Configuration",
+      "update": "Update",
+      "exporter": "Exporter",
+      "processor": "Processor",
+      "receiver": "Receiver",
+      "leaveWithoutSaving": "Leave without saving",
+      "lostChanges": "Changes you made will be lost.",
+      "leave": "Leave"
+    },
     "errors": {
       "updateFailed": "Update failed",
+      "updatesInProgress": "Updates in progress",
       "restartFailed": "Restart failed",
       "loadingFailed": "Loading failed",
       "failedRestartConnectionError": "Collector failed to restart due to a connection issue. Manually restart the collector to re-establish the connection.",
       "failedConfigFetchConnectionError": "Configuration failed to load due to a connection issue. Manually restart the collector to re-establish the connection.",
-      "manualRestartLink": "Learn how to restart a collector "
+      "manualRestartLink": "Learn how to restart a collector ",
+      "noChanges": "No changes detected",
+      "configurationRemainsSame": "The current configuration remains the same.",
+      "missingComponentMessage": "Service - pipelines - {{pipelineType}}. At least one {{componentType}} must be included in the configuration.",
+      "missingReferenceMessage": "Service - pipelines - {{pipelineType}}. {{componentType}} \"{{componentName}}\" is not included in the configuration.",
+      "cooldownMessage": "Please wait {{secondsRemaining}} before trying again."
     }
   }
 }
