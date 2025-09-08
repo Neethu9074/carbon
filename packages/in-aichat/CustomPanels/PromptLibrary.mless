@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
   .showHidButton {
     display: inline;
@@ -23,6 +25,10 @@
     }
   }
 
+  .tabContent {
+    .ellipsis();
+  }
+
   .tabsWidth {
     :global(.cds--tab--list) {
       width: 100%;
@@ -37,9 +43,10 @@
     // Helps handle long list of tabs that don't really fit
     // eventually will need better solution
     :global(.cds--tabs__nav-item-label) {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
+      .ellipsis();
+    }
+    :global(.cds--tooltip-trigger__wrapper) {
+      .ellipsis();
     }
   }
 }

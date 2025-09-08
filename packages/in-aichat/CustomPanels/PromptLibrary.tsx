@@ -17,6 +17,7 @@ import {
   CarbonContainedListItem,
   CarbonSearch
 } from '@instana/components';
+import { Tooltip } from '@instana/carbon';
 
 import { handleTracking } from 'in-aichat/utils/utils';
 import { t } from 'in-i18n';
@@ -46,7 +47,9 @@ const PromptLibrary = ({ instance, setInstructionPopOpen, library, trackingIdent
           {library.map((subject: { kind: string }, index: number) => {
             return (
               <CarbonTab className={locals.tabHeader} key={`tab-${subject.kind}-${index}`}>
-                {subject.kind}
+                <Tooltip autoAlign label={subject.kind} enterDelayMs={1000}>
+                  <div className={locals.tabContent}>{subject.kind}</div>
+                </Tooltip>
               </CarbonTab>
             );
           })}
