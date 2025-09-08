@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Information } from '@carbon/icons-react';
 import React, { useContext } from 'react';
 
 import { InlineNotification, Stack, Toggle } from '@instana/carbon';
@@ -13,6 +14,7 @@ import TimezoneList from 'in-service-levels/components/ConfigDialog/components/D
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { getCurrentFormattedTimezone } from 'in-service-levels/utils/timezone';
 import { isFieldValid } from 'in-service-levels/utils/form';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './TimezoneSelector.mless';
@@ -39,6 +41,12 @@ export default function TimezoneSelector() {
 
   return (
     <Stack orientation="vertical" gap={4}>
+      <div className={locals.timeZoneLabelContainer}>
+        {t('in-service-levels:createSloDialog.bindTimezoneLabel')}
+        <Tooltip content={t('in-service-levels:createSloDialog.timezoneTooltip')}>
+          <Information />
+        </Tooltip>
+      </div>
       <Toggle
         className={locals.toggleContainer}
         id="slo-objective-timezone-toggle"
@@ -47,7 +55,6 @@ export default function TimezoneSelector() {
             ? t('in-service-levels:createSloDialog.enabledToggleLabel')
             : t('in-service-levels:createSloDialog.disabledToggleLabel')
         }
-        labelText={t('in-service-levels:createSloDialog.bindTimezoneLabel')}
         labelA={t('in-service-levels:createSloDialog.enabledToggleLabel')}
         labelB={t('in-service-levels:createSloDialog.disabledToggleLabel')}
         size="sm"
