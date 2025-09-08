@@ -157,15 +157,17 @@ export default function ProcessTopList({ snapshot, timeConfig }) {
     return null;
   }
 
-  const osName = snapshot.getIn(['data', 'os', 'name']);
-  const isAix = osName && osName.toLowerCase().includes('aix');
-
-  const hasAixFields = processes.some(
-    process => process.has('ppid') || process.has('uid') || process.has('gid') || process.has('elapsedTime')
-  );
+  const shouldShowAixColumns = (() => {
+    const osName = snapshot.getIn(['data', 'os', 'name']);
+    const isAixByOsName = osName && osName.toLowerCase().includes('aix');
+    const hasAixFields = processes.some(
+      process => process.has('ppid') || process.has('uid') || process.has('gid') || process.has('elapsedTime')
+    );
+    return isAixByOsName || hasAixFields;
+  })();
 
   let cols;
-  if (isAix || hasAixFields) {
+  if (shouldShowAixColumns) {
     cols = [
       ...baseCols.slice(0, 2), // PID and Process Name
       ...aixSpecificCols, // AIX-specific columns
@@ -193,7 +195,7 @@ export default function ProcessTopList({ snapshot, timeConfig }) {
       }
       cols={cols}
       rows={rows}
-      initialSortColumn={isAix || hasAixFields ? 6 : 2}
+      initialSortColumn={shouldShowAixColumns ? 6 : 2}
       initialSortDirection="desc"
     />
   );
