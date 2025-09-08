@@ -10,26 +10,26 @@ import { parse } from 'qs';
 
 import { ApiApplicationScope, ApiGroup, Member, PermissionSet, ScopeBinding } from '@instana/types';
 
-import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
-import { createEmptyPermissionSet, getInitValue } from 'in-settings/utils/form';
-import { emptyObject } from 'in-services/fixedObjects';
-import { isBlank } from 'in-services/util/string';
-import { t } from 'in-i18n';
-import {
-  AreaRoleWithCustomType,
-  ProductArea,
-  ScopedPermissionItem,
-  ScopeRoles
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import {
   getAreaRoleFromPermissionSet,
   getDefaultApplicationConfig,
   getScopeFromProductArea,
   removeAdditionalPermissionsForNoaccess
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
-import { deepFreeze } from 'in-services/util/object';
+import {
+  AreaRoleWithCustomType,
+  ProductArea,
+  ScopedPermissionItem,
+  ScopeRoles
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { createEmptyPermissionSet, getInitValue } from 'in-settings/utils/form';
+import { emptyObject } from 'in-services/fixedObjects';
+import { deepFreeze } from 'in-services/util/object';
+import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 interface InitialRefs {
   /**
@@ -179,6 +179,7 @@ export function createGroupFormFromApiResult({
   const { id, name, members, permissionSet } = group;
   const applicationConfig = getDefaultApplicationConfig(name);
   const scope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
+  const label = permissionSet?.restrictedApplicationFilter?.label ?? '';
   const actionScope = permissionSet && getScopeFromProductArea(ProductArea.AUTOMATION, permissionSet);
   const actionFilter = (actionScope &&
     actionScope === ScopedPermissionItem.LIMITED_ACCESS &&
@@ -191,6 +192,7 @@ export function createGroupFormFromApiResult({
       ...form.toJS(),
       actionFilter,
       id,
+      label,
       members,
       name,
       permissionSet,
