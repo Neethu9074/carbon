@@ -1093,9 +1093,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:^5.34.0":
-  version: 5.34.0
-  resolution: "@instana/components@npm:5.34.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.34.0.tgz"
+"@instana/components@npm:^5.35.0":
+  version: 5.35.0
+  resolution: "@instana/components@npm:5.35.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.35.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/layout": 11.28.0
@@ -1114,7 +1114,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: ada738737d660f4354187582f10ede6cdbd6559db68374c1454cbc509bda54e42dbb9ef934af367c227b130ca1a9fd41bf8fa0432f277ee9b9c78af5eb274f0f
+  checksum: 2ea6b513f0b14053ac288a31fa99d995197544ea7271842d99c2cacbff45cb77f9d91f3a9659837f7b51117ff1bdb37bfed05198ef2b3fd2a2c574a8f547b119
   languageName: node
   linkType: hard
 
@@ -1197,9 +1197,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/ibm-products@npm:^0.18.0":
-  version: 0.18.0
-  resolution: "@instana/ibm-products@npm:0.18.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.18.0.tgz"
+"@instana/ibm-products@npm:^0.18.1":
+  version: 0.18.1
+  resolution: "@instana/ibm-products@npm:0.18.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.18.1.tgz"
   dependencies:
     "@carbon/ibm-products": 2.55.0
     "@carbon/react": 1.72.0
@@ -1207,7 +1207,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: 10d3d2cfcc86e8594da29d6b0b0a9601379f6e211cc3c47f4d451b3fc51b9112d968ea552cce5796d4482ded6a7ba341821196da0ed759752dbc6be734fe8a4b
+  checksum: f23cfe06b098a99dccc84554c83f86467b9294a544a5bd6907eb7308b4def50436aa8d3ba154bf9404fbff968b7adcd7ab2d1e01455125c1305eb0f58012212a
   languageName: node
   linkType: hard
 
@@ -1218,26 +1218,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/playground@npm:4.19.0":
-  version: 4.19.0
-  resolution: "@instana/playground@npm:4.19.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-4.19.0.tgz"
+"@instana/playground@npm:4.19.1":
+  version: 4.19.1
+  resolution: "@instana/playground@npm:4.19.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-4.19.1.tgz"
   dependencies:
     "@carbon/layout": ^11.25.0
     "@carbon/motion": ^11.21.0
     "@carbon/themes": ^11.39.0
     "@instana/carbon": ^1.17.1
     "@instana/carbon-charts": ^0.10.0
-    "@instana/components": ^5.34.0
+    "@instana/components": ^5.35.0
     "@instana/design-tokens": ^1.30.0
     "@instana/hooks": ^1.13.3
     "@instana/i18n": ^1.7.0
-    "@instana/ibm-products": ^0.18.0
+    "@instana/ibm-products": ^0.18.1
     "@instana/observables": ^1.11.1
     classnames: ^2.5.1
     lodash: ^4.17.21
     react-is: ^18.3.1
     storybook-addon-pseudo-states: 9.1.2
-  checksum: d45d7d43284ef65dbbac4e309b338820b0cfb123e9e0068b10d771a8ad9ef303915b55c70dc2a59cd8b46520345c566f18a2ebd8b0e4ed630f95988b2603aec0
+  checksum: 11cb1251cd60b7d0ebb3ca033d36403e22b4adfed001dfa4d7dfa5a501d300e1c398344bdd934b9e51c808adc550f010e319695b037b3b509230d082dcfa56cc
   languageName: node
   linkType: hard
 
@@ -7052,7 +7052,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ui-client-storybook@workspace:."
   dependencies:
-    "@instana/playground": 4.19.0
+    "@instana/playground": 4.19.1
     "@storybook/addon-a11y": 8.6.0
     "@storybook/addon-docs": 8.6.0
     "@storybook/addon-essentials": 8.6.0
