@@ -23,6 +23,7 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import WinServicesTable from 'in-forge/plugins/host/Dashboard/WinServicesTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import CpuProcessTable from 'in-forge/plugins/host/Dashboard/CpuProcessTable';
+import FileAttributes from 'in-forge/plugins/host/Dashboard/FileAttributes';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
@@ -577,6 +578,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
       <FilesystemsTable snapshot={snapshot} timeConfig={timeConfig} />
       {isLinux(snapshot) && <DiskTable snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
+      {isLinux(snapshot) && <FileAttributes snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
 
       <NetworkInterfacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
