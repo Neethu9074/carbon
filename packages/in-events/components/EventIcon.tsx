@@ -58,6 +58,7 @@ export default function EventIcon({ className, event, tooltipLabel, size, disabl
       size={size || 's'}
     />
   );
+  const isRegular = size === ('regular' as unknown as IconButtonSvgSizes);
 
   return (
     <IconButton
@@ -66,7 +67,7 @@ export default function EventIcon({ className, event, tooltipLabel, size, disabl
       align="right"
       size={'sm'}
       type="reset"
-      className={classNames({ [locals.iconButton]: size === ('regular' as unknown as IconButtonSvgSizes) })}
+      className={classNames({ [locals.iconRegularButton]: isRegular, [locals.iconButton]: !isRegular })}
     >
       {IconElement}
     </IconButton>
