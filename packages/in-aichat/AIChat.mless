@@ -52,6 +52,12 @@
     right: 5rem;
   }
 
+  .agentToggle {
+    position: absolute;
+    margin-top: -1.9rem;
+    left: 3rem;
+  }
+
   .watsonXInfo {
     display: flex;
     flex-direction: column;

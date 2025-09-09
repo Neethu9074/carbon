@@ -31,6 +31,7 @@ import { sendAPIQuery, fetchAPIData, fetchEventsData, AgentQueryParams } from 'i
 import { formatForTable, formatForEventsTable } from 'in-aichat/TableComponents/TableFormatters';
 import { AdditionalInfoObject } from 'in-aichat/CustomResponse/ThumbsFeedback';
 import { sendAgentQuery } from 'in-aichat/api/eventsChatAPI';
+import { ExtendedChatInstance } from 'in-aichat/AIChat';
 import { t } from 'in-i18n';
 
 /**
@@ -278,7 +279,7 @@ function processAgentQuery(instance: ChatInstance, userQuery: string) {
       instance.updateIsLoadingCounter('decrease');
 
       if (response.error) {
-        sendError(instance, response.error, null, userQuery);
+        sendError(instance, response.error, response, userQuery);
         return;
       }
 
@@ -304,19 +305,25 @@ function processAgentQuery(instance: ChatInstance, userQuery: string) {
       instance.updateIsLoadingCounter('decrease');
     },
     (error: any) => {
-      sendError(instance, formatErrorMessage(error), null, userQuery);
+      const msg = formatErrorMessage(error);
+      if (msg.includes('HttpRequestTimeoutError') || msg.includes('Request timed out')) {
+        sendError(instance, t('in-aichat:aichat.problemError'), null, userQuery);
+      } else {
+        sendError(instance, msg, null, userQuery);
+      }
     }
   );
 }
-
-// Feature flag for agentQuery API - set to true to use agent chat
-const useAgenticChat = true;
 
 /**
  * Custom message handler for Events AI Chat
  * Processes user queries and displays appropriate responses
  */
-export function EventsCustomSendMessages(request: MessageRequest, _: CustomSendMessageOptions, instance: ChatInstance) {
+export function EventsCustomSendMessages(
+  request: MessageRequest,
+  _: CustomSendMessageOptions,
+  instance: ExtendedChatInstance
+) {
   // Always show the assistant input field
   instance.updateAssistantInputFieldVisibility(true);
 
@@ -324,8 +331,8 @@ export function EventsCustomSendMessages(request: MessageRequest, _: CustomSendM
 
   // If there's a query, process it; otherwise show welcome message
   if (userQuery !== '') {
-    // Use different processing based on agent flag
-    if (useAgenticChat) {
+    // Use different processing based on agent mode from the instance
+    if (instance.agentMode) {
       processAgentQuery(instance, userQuery);
     } else {
       processTraditionalQuery(instance, userQuery);

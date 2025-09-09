@@ -8,6 +8,7 @@ import { BusEventType, ChatContainer, ChatInstance, ViewType, PublicConfig } fro
 import { merge } from 'lodash';
 
 import { PreviewPill } from '@instana/components';
+import { Toggle } from '@instana/carbon';
 
 import {
   handleTracking,
@@ -29,8 +30,9 @@ import { t } from 'in-i18n';
 import locals from './AIChat.mless';
 
 // Extended ChatInstance type to include our custom properties
-interface ExtendedChatInstance extends ChatInstance {
+export interface ExtendedChatInstance extends ChatInstance {
   trackCta?: any;
+  agentMode?: boolean;
 }
 
 interface AIChatProps {
@@ -81,6 +83,7 @@ export function AIChat({
   const { trackCta } = useSegmentTracking();
   const [instance, setInstance] = useState<ExtendedChatInstance | null>(null);
   const [displayWarning, setDisplayWarning] = useState(true);
+  const [agentMode, setAgentMode] = useState(false);
 
   // Combine the default config with the config
   // passed in.  Config supersedes the default.
@@ -103,16 +106,41 @@ export function AIChat({
     if (!agentData) {
       return {};
     } else {
+      /**
+       * Component for the header bottom section of the chat
+       * Contains the preview pill and agent mode toggle
+       */
+      const HeaderBottomComponent = () => {
+        return (
+          <>
+            {previewPill && <PreviewPill className={locals.previewPill} />}
+            {agentData.showAgentModeToggle && (
+              <Toggle
+                className={locals.agentToggle}
+                id="agent-mode-toggle"
+                labelText="Agent mode"
+                hideLabel
+                toggled={agentMode}
+                size="sm"
+                onToggle={(checked: boolean) => {
+                  setAgentMode(checked);
+                }}
+              />
+            )}
+          </>
+        );
+      };
+
       return {
         customPanelElement: customPanelElement && customPanelElement(instance, agentData.promptLibrary),
-        headerBottomElement: previewPill && <PreviewPill className={locals.previewPill} />,
+        headerBottomElement: <HeaderBottomComponent />,
         beforeInputElement: displayWarning && (
           <div className={locals.beforeInputElement}>{t('in-aichat:aichat.accuracyOfAi')}</div>
         ),
         aiTooltipAfterDescriptionElement: aiToolTipContent
       };
     }
-  }, [instance, customPanelElement, previewPill, aiToolTipContent, agentData, displayWarning]);
+  }, [instance, customPanelElement, aiToolTipContent, agentData, displayWarning, agentMode, previewPill]);
 
   // If no Agent data for this page exists we won't render the chat
   // This check is moved here after all hooks have been called
@@ -174,6 +202,7 @@ export function AIChat({
             type: BusEventType.PRE_SEND,
             handler: () => {
               setDisplayWarning(false);
+              (chatInstance as ExtendedChatInstance).agentMode = agentMode;
             }
           });
           return (
@@ -186,6 +215,7 @@ export function AIChat({
         }}
         onBeforeRender={(chatInstance: ExtendedChatInstance) => {
           chatInstance.trackCta = trackCta;
+          chatInstance.agentMode = agentMode;
           setInstance(chatInstance);
           onBeforeRender && onBeforeRender(chatInstance);
         }}

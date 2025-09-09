@@ -13,6 +13,7 @@ type AgentConfig = {
   customSendMessages: typeof EventsCustomSendMessages;
   promptLibrary: typeof EventsPromptLibrary;
   featureFlag: boolean;
+  showAgentModeToggle: boolean;
 };
 
 /*
@@ -32,6 +33,7 @@ export const agentConfigurations: Record<string, AgentConfig> = {
     path: eventsPath,
     customSendMessages: EventsCustomSendMessages,
     promptLibrary: EventsPromptLibrary,
-    featureFlag: eventsAIChatEnabled
+    featureFlag: eventsAIChatEnabled,
+    showAgentModeToggle: true
   }
 };
