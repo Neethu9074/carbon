@@ -16,6 +16,7 @@ import ProfileMenu from 'in-components/MainNavigation/components/ProfileMenu/Pro
 import SoftwareCatalogMenuItem from 'in-client/js/CarbonUIShell/SoftwareCatalogMenuItem';
 import VulnerabilitiesMenuItem from 'in-client/js/CarbonUIShell/VulnerabilitiesMenuItem';
 import GlobalLoadingIndicator from 'in-client/js/CarbonUIShell/GlobalLoadingIndicator';
+import GenAiObservabilityMenuItem from 'in-client/js/CarbonUIShell/GenAiObservabilityMenuItem';
 import InfrastructureMenuItem from 'in-client/js/CarbonUIShell/InfrastructureMenuItem';
 import ServiceLevelsMenuItem from 'in-client/js/CarbonUIShell/ServiceLevelsMenuItem';
 import ApplicationsMenuItem from 'in-client/js/CarbonUIShell/ApplicationsMenuItem';
@@ -95,6 +96,7 @@ export default function CarbonUIShell() {
       <WebsiteMobileAppView />
       <BizOpsMenuItem />
       <ApplicationsMenuItem />
+      <GenAiObservabilityMenuItem />
       <PlatformsMenuItem />
       <InfrastructureMenuItem />
       <MenuItem isDivider />

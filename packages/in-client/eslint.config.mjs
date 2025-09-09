@@ -52,7 +52,8 @@ export default [
           'in-websites',
           'in-windowshypervisor',
           'in-xenserver',
-          'in-zhmc'
+          'in-zhmc',
+          'in-gen-ai-observability'
         ]
       })
     }

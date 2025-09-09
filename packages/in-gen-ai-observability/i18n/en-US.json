@@ -1,0 +1,29 @@
+{
+  "mainDashboard": {
+    "llm": "LLM metrics",
+    "analyzeGenAICalls": "Analyze GenAI calls"
+  },
+  "llmPage": {
+    "inputCost": "Input cost",
+    "outputCost": "Output cost",
+    "totalCost": "Total cost",
+    "models": "Models",
+    "genAiServices": "GenAI services",
+    "llmCalls": "LLM calls",
+    "tokenUsage": "Token usage",
+    "cost": "Cost",
+    "llmLatency": "LLM latency",
+    "latency": "Latency",
+    "byModel": "By model",
+    "byService": "By service",
+    "distribution": "Distribution",
+    "modelName": "Model name",
+    "inputTokens": "Input tokens",
+    "outputTokens": "Output tokens",
+    "totalTokens": "Total tokens",
+    "numberOfCalls": "Number of calls",
+    "noDataAvailable": "No data available",
+    "noModelsFound": "No models found",
+    "loading": "Loading"
+  }
+}

@@ -1,0 +1,25 @@
+:local {
+  .modelsTable {
+    :global {
+      .cds--data-table-container {
+        padding-top: 0;
+      }
+
+      .cds--table-header {
+        padding-bottom: 0;
+      }
+
+      .cds--data-table-header {
+        padding-bottom: 0;
+      }
+
+      .cds--data-table-header__title {
+        margin-bottom: 0;
+      }
+
+      .cds--data-table-header__description {
+        display: none;
+      }
+    }
+  }
+}

@@ -164,6 +164,9 @@ export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'
 );
 
+// GenAI Observability
+export const genAiObservabilityEnabled = isFeatureFlagEnabled('genAiObservabilityEnabled');
+
 // Logs Smart Alerts
 export const logSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled('logSmartAlertsAdaptiveBaselineEnabled');
 

@@ -499,6 +499,7 @@
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
     "viewVulnerabilityCenter": "Vulnerabilities",
+    "viewSwitcherLabelGenAiObservability": "GenAI observability",
     "viewSwitcherLabelSlo": "Service levels",
     "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Analytics",
