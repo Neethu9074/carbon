@@ -53,6 +53,7 @@ import {
   businessObservabilityEnabled,
   actionAutomationEnabled
 } from 'in-services/featureFlags';
+import { SolisLogOutListener } from 'in-components/MainNavigation/components/ProfileMenu/SolisLogOutListener';
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import { CustomTopNavItemListener } from 'in-components/SolisListeners/CustomTopNavItemListener';
 import SessionTimeoutContainer from 'in-components/SessionTimeoutDialog/SessionTimeoutContainer';
@@ -182,6 +183,7 @@ export default function App() {
                       with solis nav */}
                       <TourListener />
                       <CustomTopNavItemListener />
+                      <SolisLogOutListener />
                     </>
                   ) : (
                     <CarbonUIShell />

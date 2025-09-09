@@ -54,6 +54,7 @@ export interface SolisEventDetail {
 }
 
 export const startTourTriggered$ = onCustomEvent<CustomEvent<SolisEventDetail>>('solis:start-tour');
+export const logOutTriggered$ = onCustomEvent<CustomEvent<SolisEventDetail>>('solis:log-out');
 export const customTopNavItemClicked$ = onCustomEvent<CustomEvent<SolisEventDetail>>(
   'solis:custom-top-nav-item-clicked'
 );
