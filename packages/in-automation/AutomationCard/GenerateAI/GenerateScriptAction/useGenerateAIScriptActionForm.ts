@@ -4,7 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Field as FormField, MapForm, createField, createMapForm, notBlankValidator } from 'formalistic';
+import {
+  Field as FormField,
+  MapForm,
+  createField,
+  createMapForm,
+  notBlankValidator,
+  ValidationResult,
+  Severity
+} from 'formalistic';
 import { useState } from 'react';
 
 import { ActionType, Field, GeneratedActionInterpreter } from '@instana/types';
@@ -13,6 +21,7 @@ import { createScriptFields, createGitUrlFields } from 'in-automation/utils/acti
 import { Option } from 'in-components/ComboBox/ComboBox';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { NewAction } from 'in-automation/types';
+import { t } from 'in-i18n';
 
 type GenerateAIScriptActionFormItems = {
   prompt: MapForm<{
@@ -78,6 +87,19 @@ export function getActionFromForm(form: GenerateAIScriptActionForm): NewAction {
 const defaultActionTags = ['ai'];
 const defaultActionType: ActionType = 'SCRIPT';
 
+// Validator for branch option
+function branchOptionValidator(value: Option): ValidationResult {
+  if (value.label === '' && value.value === '') {
+    return [
+      {
+        severity: 'error' as Severity,
+        message: t('in-automation:theValueMustNotBeBlank')
+      }
+    ];
+  }
+  return null;
+}
+
 function createGenerateAIActionForm() {
   const form: GenerateAIScriptActionForm = createMapForm({
     items: {
@@ -126,7 +148,8 @@ function createGenerateAIActionForm() {
             value: ''
           }),
           aiGeneratedContent: createField({
-            value: ''
+            value: '',
+            validator: notBlankValidator
           }),
           feedbackState: createField({
             value: ''
@@ -149,22 +172,28 @@ function createGenerateAIActionForm() {
             value: 'internal'
           }),
           agent: createField({
-            value: ''
+            value: '',
+            validator: notBlankValidator
           }),
           repository: createField({
-            value: ''
+            value: '',
+            validator: notBlankValidator
           }),
-          branch: createField({
-            value: {} as Option
+          branch: createField<Option>({
+            value: { label: '', value: '' },
+            validator: branchOptionValidator
           }),
           file_path: createField({
-            value: ''
+            value: '',
+            validator: notBlankValidator
           }),
           content: createField({
-            value: ''
+            value: '',
+            validator: notBlankValidator
           }),
           message: createField({
-            value: ''
+            value: '',
+            validator: notBlankValidator
           }),
           base: createField({
             value: ''
@@ -181,12 +210,22 @@ function createGenerateAIActionForm() {
     validator: form => {
       const exportType = form.export.get('exportType').value;
       const actionForm = form.action;
+      const exportForm = form.export;
 
       if (exportType === 'internal') {
         return (
           notBlankValidator(actionForm.get('name').value) &&
           notBlankValidator(actionForm.get('description').value) &&
           notBlankValidator(actionForm.get('script').value)
+        );
+      }
+      if (exportType === 'github' || exportType === 'gitlab') {
+        return (
+          notBlankValidator(exportForm.get('agent').value) &&
+          notBlankValidator(exportForm.get('repository').value) &&
+          notBlankValidator(exportForm.get('message').value) &&
+          notBlankValidator(exportForm.get('content').value) &&
+          notBlankValidator(exportForm.get('file_path').value)
         );
       }
       return null;
@@ -197,5 +236,10 @@ function createGenerateAIActionForm() {
 }
 
 export default function useGenerateAIScriptActionForm() {
-  return useState(createGenerateAIActionForm());
+  const [form, setForm] = useState(createGenerateAIActionForm());
+
+  const resetForm = () => {
+    setForm(createGenerateAIActionForm());
+  };
+  return [form, setForm, resetForm] as const;
 }

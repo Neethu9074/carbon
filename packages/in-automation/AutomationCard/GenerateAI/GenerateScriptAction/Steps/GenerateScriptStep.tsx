@@ -1,13 +1,16 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
+// eslint-disable-next-line no-restricted-imports
+import { Button, RadioButton, Stack } from '@carbon/react';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Typography, Spacer, Button, RadioButton, Stack, Link } from '@instana/components';
+import { Typography, Spacer, ValidationBlock } from '@instana/components';
+import { Code as CodeComponent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
@@ -24,7 +27,6 @@ import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import Code from 'in-components/form/Code/Code';
-import CodeComponent from 'in-components/Code';
 import { createStore } from 'in-stores/store';
 import { t, Trans } from 'in-i18n';
 
@@ -41,7 +43,10 @@ export const useGeneratedAction = () => useObservable(generatedAction$, []) ?? n
 
 export const setGeneratedAction = (action: Result<AIActionContent> | null) => generatedActionStore.mutateTo(action);
 
-function EmptySection() {
+function EmptySection({ form }: { form: GenerateAIScriptActionForm }) {
+  const actionForm = form.get('action');
+  const scriptContent = actionForm.get('aiGeneratedContent').touched;
+
   return (
     <FormGroup>
       <div className={locals.header}>
@@ -54,6 +59,7 @@ function EmptySection() {
           <Trans i18nKey="in-automation:GenerateAIActionDialog.generateScriptDialog.noDataAvailableLive" />
         </LeftRightPadding>
       </div>
+      {scriptContent && <ValidationBlock>{t('in-automation:theValueMustNotBeBlank')}</ValidationBlock>}
     </FormGroup>
   );
 }
@@ -117,7 +123,7 @@ function generateAIActionForm({
             .updateIn(['action', 'description'], item => {
               let descriptionValue = promptStep.value;
               if (forRecommededAction && eventName) {
-                descriptionValue = `script for ${eventName}\n` + descriptionValue;
+                descriptionValue = `script for ${eventName}\n${promptStep.value}`;
               }
 
               return item.setValue(descriptionValue).setTouched(true);
@@ -173,7 +179,7 @@ function GenerateScriptButton({
             eventName
           });
         }}
-        icon="lib_generate_ai"
+        renderIcon={() => <span className="icon icon-lib_generate_ai" />}
       >
         {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateButton')}
       </Button>
@@ -190,7 +196,7 @@ function ActionPreview({
 }) {
   const generatedAction = useGeneratedAction();
 
-  if (!generatedAction) return <EmptySection />;
+  if (!generatedAction) return <EmptySection form={form} />;
   if (isLoading(generatedAction))
     return (
       <LoadingSection
@@ -222,11 +228,11 @@ function ScriptSection({
       </div>
       <div className={locals.CodeWithAISlug}>
         <CodeComponent
-          wrapperClassName={locals.scriptSection}
-          withExpandButton
-          linesToShow={20}
           code={plaintextScript}
-          lang={'bash'}
+          lang="bash"
+          linesToShow={12}
+          withExpandButton
+          wrapperClassName={locals.scriptSection}
           softWrap
         />
       </div>
@@ -256,75 +262,55 @@ export default function GenerateScriptStep({
   const onChangeValue = (val: string) => {
     setForm(form => form.updateIn(['prompt', 'promptStep'], item => item.setValue(val).setTouched(true)));
     setForm(form =>
-      form.updateIn(['action', 'description'], item =>
-        item.setValue(`This action has script for  ${val}`).setTouched(true)
-      )
+      form.updateIn(['action', 'description'], item => {
+        let descriptionValue = `This action has script for ${val}`;
+        if (forRecommededAction && eventName) {
+          descriptionValue = `script for ${eventName}\n${val}`;
+        }
+        return item.setValue(descriptionValue).setTouched(true);
+      })
     );
   };
 
   return (
     <>
-      <Spacer vertical="large" />
-      <div className={locals.step2Description}>
-        <Typography variant="body-regular">
-          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline1')}
-        </Typography>
-
-        <Typography variant={'body-regular'}>
-          <Trans
-            i18nKey="in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline2"
-            components={{
-              Link: (
-                // @ts-expect-error
-                <Link
-                  external
-                  linkIconType={'lib_views_external_link'}
-                  href="https://www.ibm.com/docs/en/instana-observability/latest?topic=ma-intelligent-remediation-live-action-generation-watsonx-public-preview"
-                />
-              )
-            }}
-          />
-        </Typography>
-      </div>
-      <Spacer vertical="large" />
+      <>
+        {interpreterType.map(field => (
+          <div>
+            <Typography variant="body-regular" noMargin>
+              Select interpreter for script generation
+            </Typography>
+            <Spacer vertical="small" />
+            <Stack orientation="horizontal">
+              <RadioButton
+                id="bash-radio"
+                labelText="Bash"
+                checked={field.value === 'BASH'}
+                onChange={() => {
+                  setForm(form =>
+                    form.updateIn(['prompt', 'interpreterType'], item => item.setValue('BASH').setTouched(true))
+                  );
+                }}
+              />
+              <RadioButton
+                id="ansible-radio"
+                labelText="Ansible"
+                checked={field.value === 'ANSIBLE'}
+                onChange={() => {
+                  setForm(form =>
+                    form
+                      .updateIn(['prompt', 'interpreterType'], item => item.setValue('ANSIBLE').setTouched(true))
+                      .updateIn(['export', 'exportType'], item => item.setValue('github').setTouched(true))
+                  );
+                }}
+              />
+            </Stack>
+          </div>
+        ))}
+      </>
       <Row className={locals.generateScriptStep}>
         <Col lg={6}>
           <Spacer vertical="normal" />
-
-          <>
-            {interpreterType.map(field => (
-              <div>
-                <Typography variant="body-regular" noMargin>
-                  Select interpreter for script generation
-                </Typography>
-                <Spacer vertical="small" />
-                <Stack direction="horizontal">
-                  <RadioButton
-                    key="Bash"
-                    label="Bash"
-                    checked={field.value === 'BASH'}
-                    onChange={() => {
-                      setForm(form =>
-                        form.updateIn(['prompt', 'interpreterType'], item => item.setValue('BASH').setTouched(true))
-                      );
-                    }}
-                  />
-                  <RadioButton
-                    key="Ansible"
-                    label="Ansible"
-                    checked={field.value === 'ANSIBLE'}
-                    onChange={() => {
-                      setForm(form =>
-                        form
-                          .updateIn(['prompt', 'interpreterType'], item => item.setValue('ANSIBLE').setTouched(true))
-                          .updateIn(['export', 'exportType'], item => item.setValue('github').setTouched(true))
-                      );
-                    }}
-                  />
-                </Stack>
-              </div>
-            ))}
-          </>
 
           {promptStep.map(field => (
             <FormGroup>

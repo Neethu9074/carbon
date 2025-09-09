@@ -9,6 +9,9 @@ import React, { useState } from 'react';
 import { Button, Spacer, Stack, Typography } from '@instana/components';
 import { Action, Error, Result } from '@instana/types';
 
+import GenerateAIScriptActionDialog, {
+  GenerateAIScriptActionDialogProps
+} from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import {
   createTabTypeUrlParameter,
   createTagsUrlParameter,
@@ -17,7 +20,6 @@ import {
 import CreatePolicyTearsheet, {
   CreatePolicyTearsheetProps
 } from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
-import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import CreateNewActionTearsheet, {
   CreateNewActionTearsheetProps
 } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
@@ -76,6 +78,8 @@ export default function ActionCatalog({
   const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, types, tags });
   const [tearsheetProps, setTearsheetProps] = useState<CreateNewActionTearsheetProps>({ open: false });
   const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreatePolicyTearsheetProps>({ open: false });
+  const [generateAIScriptTearsheetProps, setGenerateAIScriptTearsheetProps] =
+    useState<GenerateAIScriptActionDialogProps>({ open: false });
 
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
   const totalHits = paginatedActions.data?.totalHits;
@@ -86,11 +90,15 @@ export default function ActionCatalog({
   const togglePolicyTearsheet = (actionId: string) => {
     setPolicyTearsheetProps({ actionId, open: true });
   };
+  const toggleGenerateAIScriptTearsheet = (manualContent: string, actionName: string) => {
+    setGenerateAIScriptTearsheetProps({ manualContent, actionName, open: true });
+  };
 
   const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({
     isUserActions: isUserActions,
     toggleActionTearsheet,
-    togglePolicyTearsheet
+    togglePolicyTearsheet,
+    toggleGenerateAIScriptTearsheet
   });
 
   return (
@@ -148,6 +156,12 @@ export default function ActionCatalog({
           setPolicyTearsheetProps({ open: false });
         }}
       />
+      <GenerateAIScriptActionDialog
+        {...generateAIScriptTearsheetProps}
+        closeHandler={() => {
+          setGenerateAIScriptTearsheetProps({ open: false });
+        }}
+      />
     </>
   );
 }
@@ -156,12 +170,14 @@ function ActionCatalogMoreMenu({
   action,
   isUserActions,
   toggleActionTearsheet,
-  togglePolicyTearsheet
+  togglePolicyTearsheet,
+  toggleGenerateAIScriptTearsheet
 }: Readonly<{
   action: Action;
   isUserActions: boolean;
   toggleActionTearsheet?: Function;
   togglePolicyTearsheet: Function;
+  toggleGenerateAIScriptTearsheet: Function;
 }>) {
   const [role] = useCurrentUserRole();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
@@ -187,15 +203,13 @@ function ActionCatalogMoreMenu({
               <MoreMenuButton
                 icon="lib_launch_ai"
                 onClick={() => {
+                  toggleGenerateAIScriptTearsheet(manualContent, action?.name);
                   generateAIButtonClickTrackerSegment({
                     type: 'script',
                     location: 'action catalog',
                     actionName: action.name,
                     actionId: action?.id
                   });
-                  addActiveDialog(
-                    <GenerateAIScriptActionDialog manualContent={manualContent} actionName={action.name} />
-                  );
                 }}
               >
                 {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
@@ -243,15 +257,13 @@ function ActionCatalogMoreMenu({
               <MoreMenuButton
                 icon="lib_launch_ai"
                 onClick={() => {
+                  toggleGenerateAIScriptTearsheet(manualContent, action?.name);
                   generateAIButtonClickTrackerSegment({
                     type: 'script',
                     location: 'action catalog',
                     actionName: action.name,
                     actionId: action?.id
                   });
-                  addActiveDialog(
-                    <GenerateAIScriptActionDialog manualContent={manualContent} actionName={action.name} />
-                  );
                 }}
               >
                 {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
@@ -286,11 +298,13 @@ function ActionCatalogMoreMenu({
 const getColumnDefinitions = ({
   isUserActions,
   toggleActionTearsheet,
-  togglePolicyTearsheet
+  togglePolicyTearsheet,
+  toggleGenerateAIScriptTearsheet
 }: {
   isUserActions: boolean;
   toggleActionTearsheet?: Function;
   togglePolicyTearsheet: Function;
+  toggleGenerateAIScriptTearsheet: Function;
 }): ColumnDefinition<Action>[] => [
   nameColumn,
   descriptionColumn,
@@ -307,6 +321,7 @@ const getColumnDefinitions = ({
         isUserActions={isUserActions}
         toggleActionTearsheet={toggleActionTearsheet}
         togglePolicyTearsheet={togglePolicyTearsheet}
+        toggleGenerateAIScriptTearsheet={toggleGenerateAIScriptTearsheet}
       />
     )
   }

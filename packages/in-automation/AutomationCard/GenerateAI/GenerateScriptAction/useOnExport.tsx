@@ -12,8 +12,8 @@ import { Result } from '@instana/types';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import { ExportForm } from 'in-automation/AutomationCard/GenerateAI/CopyActionStepForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { refresh } from 'in-automation/ActionCatalog/useActions';
 import { hasError, isLoading } from 'in-services/util/result';
-import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getGitops } from 'in-automation/api';
 import { Trans, t } from 'in-i18n';
@@ -23,11 +23,19 @@ export default function useOnExport(forRecommededAction: boolean) {
   function onExport({
     exportForm,
     data,
-    setResultUrl
+    setResultUrl,
+    closeHandler,
+    resolve,
+    reject,
+    setIsValid
   }: {
     exportForm: ExportForm;
     data: any;
     setResultUrl: React.Dispatch<React.SetStateAction<Result<any> | null>>;
+    closeHandler?: () => void;
+    resolve?: () => void;
+    reject?: () => void;
+    setIsValid?: (isValid: boolean) => void;
   }) {
     if (!exportForm.hierarchyValid) {
       return;
@@ -40,13 +48,18 @@ export default function useOnExport(forRecommededAction: boolean) {
         setResultUrl(result);
 
         if (hasError(result)) {
+          setIsValid?.(false);
+          reject?.();
           return;
         }
         createPRSuccessNotification(result?.data?.pull_request_url!);
-        close();
+
         if (!forRecommededAction) {
           navigateToActionCatalog();
+          refresh();
+          resolve?.();
         }
+        closeHandler?.();
       });
   }
   return {

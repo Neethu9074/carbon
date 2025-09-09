@@ -81,14 +81,14 @@
       // Add back padding we removed from wrapper
       padding: 0.25rem 0 0.25rem 0.5rem;
       // Desired height - margin for button
-      height: calc(335px - 2.5rem);
+      height: calc(400px - 2.5rem);
       // Editor background
       background-color: var(--cds-layer);
       min-width: 450px;
     }
     @media (max-width: 1500px) and (min-height: 600px) {
       :global .CodeMirror {
-        height: calc(220px - 2.5rem);
+        height: calc(337px - 2.5rem);
       }
     }
     .generateScriptButton {
@@ -125,4 +125,41 @@
       }
     }
   }
+
+  .generate-script-window {
+    :global(.c4p--tearsheet-create__step--title) {
+      font-size: var(--cds-heading-03-font-size, 1.25rem);
+      font-weight: var(--cds-heading-03-font-weight, 400);
+      line-height: var(--cds-heading-03-line-height, 1.4);
+      letter-spacing: var(--cds-heading-03-letter-spacing, 0);
+    }
+
+    :global(.c4p--tearsheet__heading) {
+      position: relative;
+      display: flex;
+      align-items: anchor-center;
+      border-radius: var(--ids-border-radius-option-small) var(--ids-border-radius-option-small) 0 0;
+    }
+
+    :global(.cds--label) {
+      font-size: var(--cds-body-01-font-size, 0.875rem);
+      font-weight: var(--cds-body-01-font-weight, 400);
+      line-height: var(--cds-body-01-line-height, 1.42857);
+      letter-spacing: var(--cds-body-01-letter-spacing, 0.16px);
+      margin-bottom: 1.5rem;
+    }
+
+    :global(.in-automation_AutomationCard_GenerateAI_GenerateScriptAction_GenerateAIScriptActionDialog_mless___CodeWithAISlug){
+      font-size: 0.75rem;
+    }
+  }
+
+  .configure-override {
+    font-size: small;
+  }
+
+.configure-override-close-dialog {
+    z-index: 90001;
+    position: relative;
+     }
 }

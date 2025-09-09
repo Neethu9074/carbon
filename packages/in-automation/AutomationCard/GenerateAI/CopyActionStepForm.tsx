@@ -86,7 +86,6 @@ export default function CopyActionStepForm({
   return (
     <Row>
       <Col lg={7}>
-        <Spacer vertical="medium" />
         {type.value === ACTION_TYPE.SCRIPT && setExportForm && exportForm && exportType && (
           <>
             {exportType.map(field => (
@@ -122,9 +121,8 @@ export default function CopyActionStepForm({
                       setExportForm(form =>
                         form.updateIn(['exportType'], item => item.setValue('github').setTouched(true))
                       );
-                      // You can uncomment and reset agent/repository if needed for external
-                      setExportForm(form => form.updateIn(['agent'], item => item.setValue('').setTouched(true)));
-                      setExportForm(form => form.updateIn(['repository'], item => item.setValue('').setTouched(true)));
+                      setExportForm(form => form.updateIn(['agent'], item => item.setValue('').setTouched(false)));
+                      setExportForm(form => form.updateIn(['repository'], item => item.setValue('').setTouched(false)));
                     }}
                   />
                   <RadioButton
@@ -135,9 +133,8 @@ export default function CopyActionStepForm({
                       setExportForm(form =>
                         form.updateIn(['exportType'], item => item.setValue('gitlab').setTouched(true))
                       );
-                      // You can uncomment and reset agent/repository if needed for external
-                      setExportForm(form => form.updateIn(['agent'], item => item.setValue('').setTouched(true)));
-                      setExportForm(form => form.updateIn(['repository'], item => item.setValue('').setTouched(true)));
+                      setExportForm(form => form.updateIn(['agent'], item => item.setValue('').setTouched(false)));
+                      setExportForm(form => form.updateIn(['repository'], item => item.setValue('').setTouched(false)));
                     }}
                   />
                 </Stack>

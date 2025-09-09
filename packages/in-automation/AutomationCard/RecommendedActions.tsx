@@ -16,7 +16,9 @@ import {
   scoredActionAiEngineColumn,
   scoredActionScoreColumn
 } from 'in-automation/ActionTable/columnDefinitions';
-import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
+import GenerateAIScriptActionDialog, {
+  GenerateAIScriptActionDialogProps
+} from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -164,6 +166,8 @@ export function RecActionsMoreMenu({
   const agents = agentSnapShots?.data?.online ?? [];
   const entityType = scoredAction.entity as Action;
   const policy = scoredAction.entity as Policy;
+  const [generateAIScriptTearsheetProps, setGenerateAIScriptTearsheetProps] =
+    useState<GenerateAIScriptActionDialogProps>({ open: false });
   let manualContent = '';
 
   if (entityType && entityType.type === ACTION_TYPE.MANUAL) {
@@ -305,101 +309,110 @@ export function RecActionsMoreMenu({
     const isExecutable = EXECUTABLE_ACTIONS.includes(type);
 
     return (
-      <Stack align="end">
-        <MoreMenu kind="subtle">
-          {role?.canRunAutomationActions && type === ACTION_TYPE.DOC_LINK && (
-            <MoreMenuButton
-              icon="lib_views_external_link"
-              onClick={() => {
-                window.open(getDocLinkFromFields(fields).value, '_blank')?.focus();
-              }}
-            >
-              {t('in-automation:ActionCatalog.launch')}
-            </MoreMenuButton>
-          )}
+      <>
+        <Stack align="end">
+          <MoreMenu kind="subtle">
+            {role?.canRunAutomationActions && type === ACTION_TYPE.DOC_LINK && (
+              <MoreMenuButton
+                icon="lib_views_external_link"
+                onClick={() => {
+                  window.open(getDocLinkFromFields(fields).value, '_blank')?.focus();
+                }}
+              >
+                {t('in-automation:ActionCatalog.launch')}
+              </MoreMenuButton>
+            )}
 
-          {role?.canRunAutomationActions && isExecutable && (
-            <MoreMenuButton
-              icon="lib_actions_play"
-              requireTitle
-              title={t('in-automation:viewRunAction')}
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                addActiveDialog(<RunActionDialog action={entityType} volatileId={volatileId} event={event} />);
-              }}
-            >
-              {t('in-automation:viewRunAction')}
-            </MoreMenuButton>
-          )}
+            {role?.canRunAutomationActions && isExecutable && (
+              <MoreMenuButton
+                icon="lib_actions_play"
+                requireTitle
+                title={t('in-automation:viewRunAction')}
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  addActiveDialog(<RunActionDialog action={entityType} volatileId={volatileId} event={event} />);
+                }}
+              >
+                {t('in-automation:viewRunAction')}
+              </MoreMenuButton>
+            )}
 
-          {role?.canRunAutomationActions && type === ACTION_TYPE.MANUAL && (
+            {role?.canRunAutomationActions && type === ACTION_TYPE.MANUAL && (
+              <MoreMenuButton
+                icon="lib_views_show"
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  addActiveDialog(<RunActionDialog action={entityType} volatileId={volatileId} event={event} />);
+                  // Track manual action viewed
+                  runActionTrackerSegment({
+                    actionName: entityType.name,
+                    actionType: entityType.type,
+                    policyName: policy.name,
+                    policyType: 'manual',
+                    aiOriginated: isAIAction(entityType) || isAIActionCopy(entityType) ? true : false
+                  });
+                }}
+              >
+                {t('in-automation:ActionCatalog.view')}
+              </MoreMenuButton>
+            )}
+
+            {type === ACTION_TYPE.MANUAL && actionAiGenerationEnabled && (
+              <MoreMenuButton
+                icon="lib_launch_ai"
+                onClick={() => {
+                  generateAIButtonClickTrackerSegment({
+                    type: 'script',
+                    location: 'event',
+                    actionName: entityType.name,
+                    actionId: entityType?.id
+                  });
+                  setGenerateAIScriptTearsheetProps({
+                    manualContent,
+                    actionName: entityType.name,
+                    forRecommededAction: true,
+                    eventName: event?.problem?.problemText ?? '',
+                    open: true
+                  });
+                }}
+              >
+                {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+              </MoreMenuButton>
+            )}
+
             <MoreMenuButton
               icon="lib_views_show"
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                addActiveDialog(<RunActionDialog action={entityType} volatileId={volatileId} event={event} />);
-                // Track manual action viewed
-                runActionTrackerSegment({
-                  actionName: entityType.name,
-                  actionType: entityType.type,
-                  policyName: policy.name,
-                  policyType: 'manual',
-                  aiOriginated: isAIAction(entityType) || isAIActionCopy(entityType) ? true : false
-                });
-              }}
-            >
-              {t('in-automation:ActionCatalog.view')}
-            </MoreMenuButton>
-          )}
-
-          {type === ACTION_TYPE.MANUAL && actionAiGenerationEnabled && (
-            <MoreMenuButton
-              icon="lib_launch_ai"
-              onClick={() => {
-                generateAIButtonClickTrackerSegment({
-                  type: 'script',
-                  location: 'event',
-                  actionName: entityType.name,
-                  actionId: entityType?.id
-                });
-                addActiveDialog(
-                  <GenerateAIScriptActionDialog
-                    manualContent={manualContent}
-                    actionName={entityType.name}
-                    forRecommededAction
-                    eventName={event?.problem?.problemText ?? ''}
-                  />
-                );
-              }}
-            >
-              {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
-            </MoreMenuButton>
-          )}
-
-          <MoreMenuButton
-            icon="lib_views_show"
-            requireTitle
-            title={t('in-automation:viewActionDashboard')}
-            href={hrefToActionDashboard(id)}
-          >
-            {t('in-automation:viewActionDashboard')}
-          </MoreMenuButton>
-
-          {role?.canConfigureAutomationPolicies && (
-            <MoreMenuButton
-              icon="lib_openclose_add_circle_outline"
               requireTitle
-              title={t('in-automation:createPolicy')}
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                addActiveDialog(<CreatePolicyDialog trigger={trigger} action={entityType} event={event} />);
-              }}
+              title={t('in-automation:viewActionDashboard')}
+              href={hrefToActionDashboard(id)}
             >
-              {t('in-automation:createPolicy')}
+              {t('in-automation:viewActionDashboard')}
             </MoreMenuButton>
-          )}
-        </MoreMenu>
-      </Stack>
+
+            {role?.canConfigureAutomationPolicies && (
+              <MoreMenuButton
+                icon="lib_openclose_add_circle_outline"
+                requireTitle
+                title={t('in-automation:createPolicy')}
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  addActiveDialog(<CreatePolicyDialog trigger={trigger} action={entityType} event={event} />);
+                }}
+              >
+                {t('in-automation:createPolicy')}
+              </MoreMenuButton>
+            )}
+          </MoreMenu>
+        </Stack>
+        <GenerateAIScriptActionDialog
+          {...generateAIScriptTearsheetProps}
+          closeHandler={() => {
+            setGenerateAIScriptTearsheetProps({ open: false });
+            refresh();
+          }}
+          forRecommededAction
+        />
+      </>
     );
   }
   return null;

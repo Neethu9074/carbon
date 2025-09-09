@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import type { Item } from 'formalistic';
-import { PolicyForm } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
+import type { Item ,MapForm} from 'formalistic';
 
 export function isFieldValid(field: Item): boolean {
   return field.valid || !field.touched;
@@ -17,7 +16,7 @@ export function getValidationMessage(item: Item): string | undefined {
   return undefined;
 }
 
-export function areFieldsValid(form: PolicyForm, fieldsToValidate: string[][]) {
+export function areFieldsValid<T extends MapForm<any>>(form: T, fieldsToValidate: string[][]) {
   return fieldsToValidate.every(fieldPath => {
     const field = form.getIn(fieldPath as any);
     return field ? isFieldValid(field) : false;

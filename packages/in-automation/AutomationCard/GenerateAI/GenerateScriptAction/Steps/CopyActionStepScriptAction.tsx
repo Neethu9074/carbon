@@ -37,11 +37,10 @@ export default function CopyActionStep({
 
       {resultUrl?.errors && (
         <>
-          <Spacer vertical="small" />
           <ErroneousResultPresenter errors={resultUrl?.errors} />
         </>
       )}
-      <Spacer vertical="small" />
+       <Spacer vertical="small" /> 
       <CopyActionStepForm
         form={actionForm}
         exportForm={exportForm}

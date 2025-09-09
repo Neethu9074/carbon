@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import {
   CarbonButton,
@@ -21,7 +21,9 @@ import {
 } from '@instana/components';
 import { Action } from '@instana/types';
 
-import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
+import GenerateAIScriptActionDialog, {
+  GenerateAIScriptActionDialogProps
+} from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import { CreateNewActionTearsheetProps } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
@@ -101,6 +103,8 @@ function ActionConfigurationActions({
   const { form } = useActionFormContext();
   const navigateToActionCatalog = useNavigateToActionCatalog();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
+  const [generateAIScriptTearsheetProps, setGenerateAIScriptTearsheetProps] =
+    useState<GenerateAIScriptActionDialogProps>({ open: false });
 
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
 
@@ -133,7 +137,7 @@ function ActionConfigurationActions({
               actionName,
               actionId
             });
-            addActiveDialog(<GenerateAIScriptActionDialog manualContent={manualContent} actionName={actionName} />);
+            setGenerateAIScriptTearsheetProps({ manualContent, actionName, open: true });
           }}
           renderIcon={() => <SvgIcon type="lib_launch_ai" size="xs" />}
         >
@@ -202,6 +206,12 @@ function ActionConfigurationActions({
           {t('in-automation:testAction')}
         </CarbonButton>
       )}
+      <GenerateAIScriptActionDialog
+        {...generateAIScriptTearsheetProps}
+        closeHandler={() => {
+          setGenerateAIScriptTearsheetProps({ open: false });
+        }}
+      />
     </CarbonStack>
   );
 }

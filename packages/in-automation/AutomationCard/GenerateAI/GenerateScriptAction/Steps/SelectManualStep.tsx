@@ -1,12 +1,14 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
 
-import { Typography, Spacer, CarbonTileGroup, CarbonRadioTile } from '@instana/components';
+import { Typography, ValidationBlock } from '@instana/components';
+// eslint-disable-next-line no-restricted-imports
+import { TileGroup, RadioTile } from '@carbon/react';
 
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import { setGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/GenerateScriptStep';
@@ -59,30 +61,29 @@ export default function SelectManualStep({
     );
   };
 
+  const selectedManualStep = promptForm.get('selectedManualStep');
+  const isInvalid = !selectedManualStep.valid && selectedManualStep.touched;
+
   return (
     <div className={locals.selectManualStepDiv}>
-      <Spacer vertical="xlarge" />
-      <Typography variant="body-regular">
-        {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step1Headline')}
-      </Typography>
-      <Spacer vertical="xlarge" />
       <div className={locals.header}>
         <Typography variant="heading-200" component="h2">
           {actionName}
         </Typography>
       </div>
-      <CarbonTileGroup
+      <TileGroup
         name="select steps"
         defaultSelected={selectedManualStepId.value}
         onChange={onChangeValue}
         required
       >
         {tasksJson.map(task => (
-          <CarbonRadioTile key={task.id} className={locals.stepsTile} value={task.id}>
+          <RadioTile key={task.id} className={locals.stepsTile} value={task.id}>
             <h6>{task?.step}</h6>
-          </CarbonRadioTile>
+          </RadioTile>
         ))}
-      </CarbonTileGroup>
+      </TileGroup>
+      {isInvalid && <ValidationBlock>{t('in-automation:ActionCatalog.atLeastOneToBeSelected')}</ValidationBlock>}
     </div>
   );
 }
