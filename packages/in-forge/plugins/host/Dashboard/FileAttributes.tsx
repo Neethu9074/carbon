@@ -94,7 +94,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileRow) {
-        return row.fileInfo.get('owner') || '';
+        return row.fileInfo.get('owner');
       }
     }
   },
@@ -103,7 +103,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileRow) {
-        return row.fileInfo.get('group') || '';
+        return row.fileInfo.get('group');
       }
     }
   }
