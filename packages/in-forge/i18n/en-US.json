@@ -11343,7 +11343,7 @@
         "access": "Access",
         "owner": "Owner",
         "group": "Group",
-        "files": "File Attributes",
+        "files": "File attributes",
         "kubernetes": "Kubernetes",
         "node": "Node",
         "cluster": "Cluster",
