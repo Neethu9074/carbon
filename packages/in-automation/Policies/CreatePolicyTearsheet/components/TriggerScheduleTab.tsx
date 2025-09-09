@@ -17,6 +17,7 @@ import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearshe
 import MonthlySection from 'in-automation/Policies/CreatePolicyTearsheet/components/MonthlySection';
 import WeeklySection from 'in-automation/Policies/CreatePolicyTearsheet/components/WeeklySection';
 import YearlySection from 'in-automation/Policies/CreatePolicyTearsheet/components/YearlySection';
+import HourlySection from 'in-automation/Policies/CreatePolicyTearsheet/components/HourlySection';
 import DailySection from 'in-automation/Policies/CreatePolicyTearsheet/components/DailySection';
 import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
@@ -42,6 +43,7 @@ export default function TriggerScheduleTab() {
       <Column lg={3} md={3}>
         <StartTimeSection />
       </Column>
+      {frequencyField.value === RRule.HOURLY && <HourlySection />}
       {frequencyField.value === RRule.DAILY && <DailySection />}
       {frequencyField.value === RRule.WEEKLY && <WeeklySection />}
       {frequencyField.value === RRule.MONTHLY && <MonthlySection />}

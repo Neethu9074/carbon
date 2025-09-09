@@ -200,7 +200,7 @@ function formToByweekday(form: PolicyForm) {
   const daysOfTheWeek = form.getIn(['schedule', 'recurrence', 'daysOfTheWeek']).value;
   const frequency = form.getIn(['schedule', 'frequency']).value;
   if (frequency === RRule.WEEKLY) return daysOfTheWeek;
-  if (frequency === ONE_TIME || frequency === Frequency.DAILY) return null;
+  if (frequency === ONE_TIME || frequency === Frequency.DAILY || frequency === Frequency.HOURLY) return null;
   const repeatType = form.getIn(['schedule', 'recurrence', 'repeatType']).value!;
   if (repeatType === 'date') return null;
   const dayInterval = form.getIn(['schedule', 'recurrence', 'dayInterval']).value!;

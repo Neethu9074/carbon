@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ConditionWhen } from '@instana/types';
 import { RRule } from 'rrule';
+
+import { ConditionWhen } from '@instana/types';
 
 import { t } from 'in-i18n';
 
@@ -17,6 +18,7 @@ export const SCOPE = {
 
 export const recurrenceOptions = [
   { value: ONE_TIME, label: t('in-automation:general.frequency.label', { context: ONE_TIME }) },
+  { value: RRule.HOURLY, label: t('in-automation:general.frequency.label', { context: RRule.HOURLY.toString() }) },
   { value: RRule.DAILY, label: t('in-automation:general.frequency.label', { context: RRule.DAILY.toString() }) },
   { value: RRule.WEEKLY, label: t('in-automation:general.frequency.label', { context: RRule.WEEKLY.toString() }) },
   {
@@ -88,9 +90,9 @@ export const applyOnOptions = [
 export const POLICY_CONDITION = {
   EVENT: 'event',
   SCHEDULE: 'schedule'
-}
+};
 
 export const CONDITION_WHEN = {
-  EVENT_OPEN: "EVENT_OPEN" as ConditionWhen,
-  EVENT_CLOSE: "EVENT_CLOSE" as ConditionWhen
-}
+  EVENT_OPEN: 'EVENT_OPEN' as ConditionWhen,
+  EVENT_CLOSE: 'EVENT_CLOSE' as ConditionWhen
+};

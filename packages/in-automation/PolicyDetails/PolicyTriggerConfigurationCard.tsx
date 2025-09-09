@@ -6,35 +6,13 @@
 
 import { Repeat } from '@carbon/icons-react';
 import classNames from 'classnames';
-import React from 'react';
 import { RRule } from 'rrule';
+import React from 'react';
 
 import { Column, FormGroup, Grid, Stack, Tile } from '@instana/carbon';
 import { Link, Spacer, Typography } from '@instana/components';
 import { Trigger, TriggerType } from '@instana/types';
 
-import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
-import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
-import { MetricLabel as InfraMetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
-import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
-import { useGetAlertConfigLink as useGetLogAlertConfigLink } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
-import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
-import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
-import {
-  useAlertConfig as useApplicationsAlertConfig,
-  useLinkToGlobalAlertConfigWithoutAPDashboard
-} from 'in-applications/navigation/paths';
-import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
-import {
-  dayIntervalOptions,
-  daysOfTheWeekOptions,
-  monthOptions,
-  ONE_TIME,
-  recurrenceOptions
-} from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
-import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
-import { getTriggerType, TriggerTypeField } from 'in-automation/PolicyDetails/TriggerTypeField';
 import {
   isApplicationSmartAlert,
   isEventSpecification,
@@ -47,20 +25,42 @@ import {
   Triggers,
   TriggerSpecification
 } from 'in-automation/types';
-import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
-import { t } from 'in-i18n';
-import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
-import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
-import { useGetAlertConfigLink as useGetServiceLevelAlertConfigLink } from 'in-service-levels/navigation/path';
+import {
+  dayIntervalOptions,
+  daysOfTheWeekOptions,
+  monthOptions,
+  ONE_TIME,
+  recurrenceOptions
+} from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
+import {
+  useAlertConfig as useApplicationsAlertConfig,
+  useLinkToGlobalAlertConfigWithoutAPDashboard
+} from 'in-applications/navigation/paths';
 import {
   getEntityIdView,
   globalSettingsAlertingEventBuiltIn,
   globalSettingsAlertingEventCustom
 } from 'in-settings/navigation/paths';
+import { useGetAlertConfigLink as useGetLogAlertConfigLink } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
+import { useGetAlertConfigLink as useGetServiceLevelAlertConfigLink } from 'in-service-levels/navigation/path';
+import { MetricLabel as InfraMetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
+import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
+import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
+import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
+import { getTriggerType, TriggerTypeField } from 'in-automation/PolicyDetails/TriggerTypeField';
 import { EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
+import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
+import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
+import { SCOPE } from 'in-automation/Policies/usePolicyForm/constants';
 import { useAlertConfigLink } from 'in-websites/navigation/paths';
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
+import { t } from 'in-i18n';
 
 import local from 'in-automation/PolicyDetails/PolicyDetails.mless';
 
@@ -153,6 +153,13 @@ function ScheduleDetails() {
         <Column span="25%">
           <FormGroup legendText={t('in-automation:policyCreateTearsheet.repeatEvery')}>
             {interval} {t('in-automation:policyCreateTearsheet.intervalDropdown.days')}
+          </FormGroup>
+        </Column>
+      )}
+      {frequeny === RRule.HOURLY && (
+        <Column span="25%">
+          <FormGroup legendText={t('in-automation:policyCreateTearsheet.repeatEvery')}>
+            {interval} {t('in-automation:policyCreateTearsheet.intervalDropdown.hours')}
           </FormGroup>
         </Column>
       )}

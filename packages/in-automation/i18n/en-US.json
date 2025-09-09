@@ -540,6 +540,7 @@
     "repeatEvery": "Repeat every",
     "date": "Date",
     "intervalDropdown": {
+      "hours": "Hour(s)",
       "days": "Day(s)",
       "weeks": "Week(s)"
     },
@@ -692,6 +693,7 @@
       "label_1": "Monthly",
       "label_2": "Weekly",
       "label_3": "Daily",
+      "label_4": "Hourly",
       "label_ONE_TIME": "One time only"
     },
     "daysOfTheWeek": {

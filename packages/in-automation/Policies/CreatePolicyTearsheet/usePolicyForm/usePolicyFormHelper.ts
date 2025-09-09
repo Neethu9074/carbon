@@ -148,10 +148,10 @@ export function createReccurenceFields({
     interval: createField({
       ...interval,
       validator:
-        frequency === Frequency.DAILY || frequency === Frequency.WEEKLY
+        frequency === Frequency.HOURLY || frequency === Frequency.DAILY || frequency === Frequency.WEEKLY
           ? composeAndShortCircuitOnError(
               positiveNumberValidator,
-              maxValidator(frequency === Frequency.DAILY ? 31 : 52)
+              maxValidator(frequency === Frequency.HOURLY ? 24 : frequency === Frequency.DAILY ? 31 : 52)
             )
           : undefined
     }),
