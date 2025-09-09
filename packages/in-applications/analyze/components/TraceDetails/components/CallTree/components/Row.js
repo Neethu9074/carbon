@@ -32,6 +32,7 @@ import { LazyLoadingCalls } from 'in-applications/analyze/components/TraceDetail
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import CallTimeAxis from 'in-applications/analyze/components/TraceDetails/components/CallTimeAxis';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
+import { analyzeSubtracesEnabled } from 'in-services/featureFlags';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -48,6 +49,7 @@ export default function EnhancedRow({
   getColor,
   onCallClicked,
   onSubCallClicked,
+  subtraceConfigId,
   isLargeTrace,
   scale,
   depth = 0,
@@ -82,6 +84,7 @@ export default function EnhancedRow({
       getColor={getColor}
       onCallClicked={onCallClicked}
       onSubCallClicked={onSubCallClicked}
+      subtraceConfigId={subtraceConfigId}
       isLargeTrace={isLargeTrace}
       scale={scale}
       depth={depth}
@@ -116,6 +119,7 @@ function Row({
   intermediateRow,
   selectedCall$,
   openedCallId,
+  subtraceConfigId,
   openedCall$,
   onParentAndSiblingCallsLoaded,
   onRelatedCallsLoaded,
@@ -134,6 +138,12 @@ function Row({
   const shouldRenderChildren =
     isChildNestingLevelVisible &&
     (expandedCalls.has(call.id) || isParenWithHiddenNestingLevel(call) || isLazyNode(call));
+
+  function callInSubtrace(call, subtraceConfigId) {
+    return subtraceConfigId !== call.subtraceConfigId; //TODO Figure out how to determine
+  }
+
+  const disabled = analyzeSubtracesEnabled && !callInSubtrace(call, subtraceConfigId);
   return (
     <div className={locals.wrapper}>
       {hasLazyOrHiddenParentNode && (
@@ -191,10 +201,11 @@ function Row({
         >
           <CallInformation
             call={call}
+            disabled={disabled}
             marginLeft={marginLeft}
             lineWidth={lineWidth}
             hasChildren={hasChildren}
-            onCallClicked={isFakeRootCall(call) ? null : onCallClicked}
+            onCallClicked={isFakeRootCall(call) || disabled ? null : onCallClicked}
             onSubCallClicked={subCall => {
               onCallExpanded(call.id);
               onSubCallClicked(subCall);
@@ -220,7 +231,7 @@ function Row({
               call={call}
               nonInternalParentCall={nonInternalParentCall}
               onCallClicked={onCallClicked}
-              getColor={getColor}
+              disabled={disabled}
             />
           )}
         </div>
@@ -242,6 +253,7 @@ function Row({
               openedCallId={openedCallId}
               onCallClicked={onCallClicked}
               onSubCallClicked={onSubCallClicked}
+              subtraceConfigId={subtraceConfigId}
               openedCall$={openedCall$}
               isLargeTrace={isLargeTrace}
               onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
@@ -273,6 +285,7 @@ function CallInformation(props) {
     expandedCalls,
     onCallExpanded,
     onCallCollapsed,
+    disabled,
     onShowHiddenChildNestingLevel
   } = props;
 
@@ -289,6 +302,7 @@ function CallInformation(props) {
     }
   };
 
+  const getColorFunc = disabled ? ()=> 'var(--cds-border-disabled)' : getColor;
   return (
     <div className={locals.detailGroup}>
       <div
@@ -315,7 +329,7 @@ function CallInformation(props) {
               className={classNames({
                 [locals.label]: true,
                 [locals.labelSelected]: isOpened,
-                [locals.clickable]: onCallClicked != null
+                [locals.clickable]: onCallClicked != null && !disabled
               })}
               onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
             >
@@ -346,7 +360,8 @@ function CallInformation(props) {
       {!isLargeTrace && (
         <ChildrenDistributionTimeLine
           call={call}
-          getColor={getColor}
+          disabled={disabled}
+          getColor={getColorFunc}
           scale={scale}
           onCallClicked={onCallClicked}
           onSubCallClicked={onSubCallClicked}

@@ -18,7 +18,13 @@ import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointInformation.mless';
 
-export default function ServiceEndpointInformation({ call, nonInternalParentCall, onCallClicked, marginLeft }) {
+export default function ServiceEndpointInformation({
+  call,
+  nonInternalParentCall,
+  onCallClicked,
+  marginLeft,
+  disabled
+}) {
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
@@ -47,6 +53,7 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
       <SvgIcon className={locals.endpointIcon} type="lib_application_endpoint" size="xs" />
       <Tooltip themeStyle="light" content={call.endpoint.label}>
         <Link
+          disabled={disabled}
           className={locals.link}
           href={getLinkToEndpointDashboard({ serviceId: call.service.id, endpointId: call.endpoint.id })}
         >
@@ -58,7 +65,11 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
 
       <SvgIcon className={locals.serviceIcon} type="lib_application_service" size="xs" />
       <Tooltip themeStyle="light" content={call.service.label}>
-        <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: call.service.id })}>
+        <Link
+          disabled={disabled}
+          className={locals.link}
+          href={getLinkToServiceDashboard({ serviceId: call.service.id })}
+        >
           {call.service.label}
         </Link>
       </Tooltip>

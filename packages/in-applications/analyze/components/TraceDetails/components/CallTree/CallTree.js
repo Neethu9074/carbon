@@ -39,6 +39,7 @@ export default function CallTree({
   expandedCalls,
   onCallExpanded,
   onCallCollapsed,
+  subtraceConfigId,
   traceSummary
 }) {
   if (isLoading(callTreeResult)) {
@@ -64,6 +65,7 @@ export default function CallTree({
       expandedCalls={expandedCalls}
       onCallExpanded={onCallExpanded}
       onCallCollapsed={onCallCollapsed}
+      subtraceConfigId={subtraceConfigId}
       traceSummary={traceSummary}
     />
   );
@@ -82,6 +84,7 @@ function LoadedCallTree({
   expandedCalls,
   onCallExpanded,
   onCallCollapsed,
+  subtraceConfigId,
   traceSummary
 }) {
   const { items: loggingLogItems } = useLogsInCallsContext();
@@ -117,6 +120,7 @@ function LoadedCallTree({
         onSubCallClicked={onSubCallClicked}
         selectedCall$={selectedCall$}
         openedCallId={openedCallId}
+        subtraceConfigId={subtraceConfigId}
         onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
         onRelatedCallsLoaded={onRelatedCallsLoaded}
         expandedCalls={expandedCalls}

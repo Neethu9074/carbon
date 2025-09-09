@@ -25,6 +25,7 @@ import CallDetails from 'in-applications/analyze/components/TraceDetails/compone
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
+import { subtraceDataSource } from 'in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 import LogsInCallsContext from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
@@ -48,12 +49,12 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Summary.mless';
-import { subtraceDataSource } from 'in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 
 export default function Summary({
   data: trace,
   getColor,
   callId,
+  subtraceConfigId,
   traceId,
   setCallId,
   colorCodeType,
@@ -328,6 +329,7 @@ export default function Summary({
                   expandedCalls={expandedCalls}
                   onCallExpanded={onCallExpanded}
                   onCallCollapsed={onCallCollapsed}
+                  subtraceConfigId={subtraceConfigId}
                   traceSummary={trace}
                 />
               </Card>

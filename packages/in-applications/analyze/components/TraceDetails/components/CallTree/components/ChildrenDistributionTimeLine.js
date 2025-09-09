@@ -21,7 +21,7 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './ChildrenDistributionTimeLine.mless';
 
 export default function ChildrenDistributionTimeLine(props) {
-  const { call, getColor, scale, onCallClicked, onSubCallClicked } = props;
+  const { call, getColor, scale, onCallClicked, onSubCallClicked, disabled } = props;
   const { items: loggingLogItems } = useLogsInCallsContext();
 
   const nonSpanLogs = convertToCallLogs(loggingLogItems.filter(filterOtelLogs(call)));
@@ -37,11 +37,11 @@ export default function ChildrenDistributionTimeLine(props) {
         call={call}
         scale={scale}
         getColor={getColor}
-        onClick={isFakeRootCall(call) ? null : onCallClicked}
+        onClick={isFakeRootCall(call) || disabled ? null : onCallClicked}
       />
       {call.children.filter(isCallNode).map((subCall, i) => (
         <CallIndicator
-          onClick={onSubCallClicked}
+          onClick={disabled ? null : onSubCallClicked}
           key={i}
           call={subCall}
           scale={scale}
@@ -159,8 +159,11 @@ function CallIndicator({ call, scale, getColor, onClick }) {
           width: `${width}%`,
           background: getColor(call)
         }}
-        className={classNames(locals.subCallIndicator, locals.clickable)}
-        onClick={() => onClick(call)}
+        className={classNames({
+          [locals.subCallIndicator]: true,
+          [locals.clickable]: onClick != null
+        })}
+        onClick={onClick ? () => onClick(call) : () => {}}
       />
     </Tooltip>
   );
