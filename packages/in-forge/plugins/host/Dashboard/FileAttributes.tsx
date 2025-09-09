@@ -134,7 +134,14 @@ const FileAttributes = function FileAttributes({ snapshotId, timeConfig }: FileA
     return null;
   }
 
-  return <Table cardTitle={t('in-forge:plugins.host.dashboard.files')} withoutPadding cols={cols} rows={rows} />;
+  return (
+     <Table 
+         cardTitle={t('in-forge:plugins.host.dashboard.files')}
+         withoutPadding 
+         cols={cols} 
+          rows={rows} 
+       />
+    );
 };
 
 export default FileAttributes;
