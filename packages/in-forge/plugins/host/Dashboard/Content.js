@@ -50,6 +50,7 @@ import locals from './Content.mless';
 export default function HostDashboard({ snapshot, timeConfig }) {
   const [role] = useCurrentUserRole();
   const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
+  const linuxOS = isLinux(snapshot);
 
   var memoryUsedMetrics = ['memory.used'];
   var memoryUsedMetricsLabels = [t('in-forge:plugins.host.dashboard.used')];
@@ -577,8 +578,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       )}
 
       <FilesystemsTable snapshot={snapshot} timeConfig={timeConfig} />
-      {isLinux(snapshot) && <DiskTable snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
-      {isLinux(snapshot) && <FileAttributes snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
+      {linuxOS && <DiskTable snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
+      {linuxOS && <FileAttributes snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
 
       <NetworkInterfacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
