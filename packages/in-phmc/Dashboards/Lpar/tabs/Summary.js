@@ -20,17 +20,11 @@ export default function Summary({ timeConfig, data: lpar }) {
   const snapshotId = lpar.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[2, 2, 2, 2, 2, 2, 2]}>
+      <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
         <KpiCard title={t('in-phmc:partitionId')} value={lpar.partitionId} raw borderless />
         <KpiCard title={t('in-phmc:dashboards.name')} value={lpar.name} raw borderless />
         <KpiCard title={t('in-phmc:state')} value={lpar.state} raw borderless />
         <KpiCard title={t('in-phmc:mode')} value={lpar.mode} raw borderless />
-        <InfraMetricKpiCard
-          title={t('in-phmc:capacityWeight')}
-          snapshotId={snapshotId}
-          metric="capacityWeight"
-          formatter={number.compact}
-        />
         <InfraMetricKpiCard
           title={t('in-phmc:logicalMem')}
           snapshotId={snapshotId}
@@ -42,6 +36,14 @@ export default function Summary({ timeConfig, data: lpar }) {
           snapshotId={snapshotId}
           metric="entitledProcUnitsPercentage"
           formatter={percentage.detailed}
+        />
+      </KpiGridRow>
+      <KpiGridRow sizes={[2]}>
+        <InfraMetricKpiCard
+          title={t('in-phmc:capacityWeight')}
+          snapshotId={snapshotId}
+          metric="capacityWeight"
+          formatter={number.compact}
         />
       </KpiGridRow>
 
