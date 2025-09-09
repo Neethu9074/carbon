@@ -222,5 +222,5 @@ module.exports = {
   newOnboardingPageEnabled: true,
   agentEnforcementEnabled: false,
   fedrampDeploymentEnabled: false,
-  contextualOnboardingEnabled: false
+  contextualOnboardingEnabled: true
 };

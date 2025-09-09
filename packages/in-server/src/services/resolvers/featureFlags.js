@@ -1081,6 +1081,6 @@ module.exports = exports = [
   {
     uiClientKey: 'contextualOnboardingEnabled',
     instanaCtlKey: 'feature.contextual.onboarding.enabled',
-    defaultValue: false
+    defaultValue: true
   }
 ];

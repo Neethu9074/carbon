@@ -420,4 +420,4 @@ export const pollRateSupportForUnifiedMetricsEnabled = isFeatureFlagEnabled(
   false
 );
 export const fedrampDeploymentEnabled = isFeatureFlagEnabled('fedrampDeploymentEnabled');
-export const contextualOnboardingEnabled = isFeatureFlagEnabled('contextualOnboardingEnabled', false);
+export const contextualOnboardingEnabled = isFeatureFlagEnabled('contextualOnboardingEnabled', true);
