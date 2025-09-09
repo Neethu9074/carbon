@@ -6,7 +6,15 @@
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t } from 'in-i18n';
 
-type ActionType = 'create' | 'delete' | 'update' | 'deactivate' | 'activate' | 'cicd-rerun' | 'cicd-create';
+type ActionType =
+  | 'create'
+  | 'delete'
+  | 'update'
+  | 'deactivate'
+  | 'activate'
+  | 'cicd-rerun'
+  | 'cicd-create'
+  | 'cicd-progress';
 
 const getDeletionFailureMessage = (context?: string, error?: string) => {
   if (context === 'locations')
@@ -54,18 +62,30 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
     case 'cicd-create':
       message = t('in-synthetics:dialog.feedback.successMessageCICDCreate');
       break;
+    case 'cicd-progress':
+      message = t('in-synthetics:dialog.feedback.inProgressMessageOnCICDCreate');
+      break;
     default:
       message = '';
       break;
   }
   addMessage({
-    type: 'info',
+    type: type === 'cicd-create' ? 'success' : 'info',
     timeout: type === 'cicd-create' ? 10000 : 4000,
-    title: t('in-synthetics:dialog.feedback.successTitle'),
+    title: successMessageTitle(type),
     content: message
   });
 }
-
+function successMessageTitle(type?: ActionType) {
+  switch (type) {
+    case 'cicd-create':
+      return t('in-synthetics:dialog.feedback.successTitleCICD');
+    case 'cicd-progress':
+      return t('in-synthetics:dialog.feedback.inProgressTitleCICD');
+    default:
+      return t('in-synthetics:dialog.feedback.successTitle');
+  }
+}
 export function showErrorMessage(type?: ActionType, context?: string, error?: string): void {
   let message;
   switch (type) {
@@ -133,5 +153,6 @@ export const showCICDRerunSuccessMessage = () => showSuccessMessage('cicd-rerun'
 export const showCICDRerunErrorMessage = (error: string) => showErrorMessage('cicd-rerun', undefined, error);
 
 export const showCICDCreateSuccessMessage = () => showSuccessMessage('cicd-create');
+export const showCICDInProgressMessage = () => showSuccessMessage('cicd-progress');
 
 export const showCICDCreateErrorMessage = (error: string) => showErrorMessage('cicd-create', undefined, error);

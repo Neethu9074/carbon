@@ -13,6 +13,7 @@
   .runNow {
     border: 0.0625rem;
     padding: 0;
+    margin-bottom: 2%;
   }
   .descriptionInput {
     flex: 1;

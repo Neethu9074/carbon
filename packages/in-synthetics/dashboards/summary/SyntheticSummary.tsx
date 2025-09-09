@@ -52,6 +52,25 @@ const SyntheticSummaryDashboard = () => {
   const runType: string = getMatrixParameter(location, syntheticsDashboard, 'runType') ?? '';
   const [count, setReloadCount] = useState(0);
   const [dataScope, setDataScope] = useState(dataScopes.find(dataScope => dataScope.value === runType));
+
+  // Add event listener for on-demand test creation
+  React.useEffect(() => {
+    const handleOnDemandTestCreated = (event: CustomEvent) => {
+      // Find the dataScope item that matches the runType from the event using optional chaining
+      const newDataScope = dataScopes.find(item => item.value === event.detail?.runType);
+      if (newDataScope) {
+        setDataScope(newDataScope);
+      }
+    };
+
+    // Add event listener
+    window.addEventListener('onDemandTestCreated', handleOnDemandTestCreated as EventListener);
+
+    // Clean up
+    return () => {
+      window.removeEventListener('onDemandTestCreated', handleOnDemandTestCreated as EventListener);
+    };
+  }, []);
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
 
   const syntheticLocationList: Result<SyntheticLocation[]> =

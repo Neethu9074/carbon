@@ -128,6 +128,16 @@ export const datascopeRunTypes = [
     value: 'CI/CD'
   }
 ];
+export const executionTypes = [
+  {
+    label: t('in-synthetics:dashboard.testList.options.scheduledMenuLabel'),
+    value: 'Scheduled'
+  },
+  {
+    label: t('in-synthetics:dashboard.testList.options.onDemandMenuLabel'),
+    value: 'CI/CD'
+  }
+];
 export const dataScopes = [
   {
     label: t('in-synthetics:dashboard.testList.options.allLabel'),
@@ -448,6 +458,7 @@ export interface FilterState {
   applicationIds?: string[];
   entityIds?: string[];
   runType?: string;
+  executionType?: string[];
 }
 
 export interface FilterLocationState {
@@ -466,6 +477,7 @@ export type CurrentState = {
   applicationIds?: string[];
   entityIds?: string[];
   runType?: string;
+  executionType?: string[];
 };
 
 export type CurrentLocationsState = {
@@ -529,6 +541,15 @@ export const runTypeUrlParameter = {
   initialState: 'Scheduled'
 };
 
+export const executionTypeUrlParameter = {
+  path: pathSegment,
+  name: 'executionType',
+  as: 'executionType',
+  initialState: [],
+  parser: buildJsonParser([]),
+  serializer: buildJsonSerializer()
+};
+
 export const filterLocationTypesUrlStateDefinition = {
   bind: [locationTypesUrlParameter]
 } as Options<UrlState>;
@@ -538,7 +559,7 @@ export const filterUrlStateDefinition = {
     syntheticTypesUrlParameter,
     locationsUrlParameter,
     ...(syntheticRbacLimitedEnabled ? [entityIdsUrlParameter] : [applicationsUrlParameter]),
-    ...(syntheticRunNowEnabled ? [runTypeUrlParameter] : [])
+    ...(syntheticRunNowEnabled ? [runTypeUrlParameter, executionTypeUrlParameter] : [])
   ]
 } as Options<UrlState>;
 
@@ -983,6 +1004,7 @@ export interface TestListProps {
   websiteId?: string;
   timeConfig: TimeConfig;
   runType?: string;
+  executionType?: string[];
   syntheticTypes: string[];
   locationIds: string[];
   applicationIds?: string[];

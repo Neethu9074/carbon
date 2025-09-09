@@ -14,9 +14,10 @@ import {
   getLocationLabels,
   getSyntheticTypes
 } from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
+import { SimpleFilterCheckboxList } from 'in-synthetics/dashboards/global/tabs/tests/components/SimpleFilterCheckboxList';
+import { FilterConfig, FilterState, TestListFiltersProps, executionTypes } from 'in-synthetics/utils/constants';
 import { FilterCheckboxList } from 'in-synthetics/dashboards/global/tabs/tests/components/FilterCheckboxList';
-import { FilterConfig, FilterState, TestListFiltersProps } from 'in-synthetics/utils/constants';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
+import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { FilterId } from 'in-synthetics/components/constants';
 import { t } from 'in-i18n';
 
@@ -32,14 +33,15 @@ export default function TestListFilters({
   isAssociationsContext = false
 }: TestListFiltersProps) {
   // Extract filter values from props
-  const { syntheticTypes, locationIds, entityIds = [], applicationIds = [] } = filters;
+  const { syntheticTypes, locationIds, entityIds = [], applicationIds = [], executionType = [] } = filters;
 
   // Track open/closed state of filter accordions
   const [isFilterOpen, setIsFilterOpen] = useState<Record<FilterId, boolean>>({
     type: syntheticTypes.length > 0,
     location: locationIds.length > 0,
     association: entityIds.length > 0,
-    application: applicationIds.length > 0
+    application: applicationIds.length > 0,
+    executionType: executionType.length > 0
   });
 
   // Map filter IDs to their corresponding property names in FilterState
@@ -48,7 +50,8 @@ export default function TestListFilters({
       ['type', 'syntheticTypes'],
       ['location', 'locationIds'],
       ['association', 'entityIds'],
-      ['application', 'applicationIds']
+      ['application', 'applicationIds'],
+      ['executionType', 'executionType']
     ]);
   }, []);
 
@@ -90,7 +93,21 @@ export default function TestListFilters({
 
   // Generate filter configurations
   const generateFilterConfigs = useCallback((): FilterConfig[] => {
-    const configs: FilterConfig[] = [
+    const configs: FilterConfig[] = [];
+
+    // Add execution type filter at the top if run now feature is enabled
+    if (!isAssociationsContext && syntheticRunNowEnabled) {
+      configs.push({
+        id: 'executionType',
+        title: t('in-synthetics:dashboard.testList.filterPanel.executionTypeLabel'),
+        isOpen: isFilterOpen.executionType,
+        selectedOptions: executionType,
+        options: executionTypes
+      });
+    }
+
+    // Add type and location filters
+    configs.push(
       {
         id: 'type',
         title: t('in-synthetics:dashboard.testList.filterPanel.typeLabel'),
@@ -105,7 +122,7 @@ export default function TestListFilters({
         selectedOptions: locationIds,
         options: getLocationLabels(result)
       }
-    ];
+    );
 
     // Add association or application filter based on context and feature flag
     if (!isAssociationsContext) {
@@ -129,7 +146,16 @@ export default function TestListFilters({
     }
 
     return configs;
-  }, [isFilterOpen, syntheticTypes, locationIds, entityIds, applicationIds, result, isAssociationsContext]);
+  }, [
+    isFilterOpen,
+    syntheticTypes,
+    locationIds,
+    entityIds,
+    applicationIds,
+    executionType,
+    result,
+    isAssociationsContext
+  ]);
 
   // Get filter configurations
   const filterConfigs = generateFilterConfigs();
@@ -155,12 +181,21 @@ export default function TestListFilters({
           }
           onHeadingClick={() => handleAccordionHeadingClick(filter.id)}
         >
-          <FilterCheckboxList
-            selectedValues={filter.selectedOptions}
-            options={filter.options}
-            onChange={newValues => handleFilterChange(filter.id, newValues)}
-            groupId={`${filter.id}-filter`}
-          />
+          {filter.id === 'executionType' ? (
+            <SimpleFilterCheckboxList
+              selectedValues={filter.selectedOptions}
+              options={filter.options}
+              onChange={newValues => handleFilterChange(filter.id, newValues)}
+              groupId={`${filter.id}-filter`}
+            />
+          ) : (
+            <FilterCheckboxList
+              selectedValues={filter.selectedOptions}
+              options={filter.options}
+              onChange={newValues => handleFilterChange(filter.id, newValues)}
+              groupId={`${filter.id}-filter`}
+            />
+          )}
         </AccordionItem>
       ))}
     </Accordion>

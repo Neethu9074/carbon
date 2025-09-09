@@ -6,20 +6,21 @@
 
 import { useCallback, useState } from 'react';
 
+import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { ColumnFilter, useTestListFilterProps } from 'in-synthetics/utils/constants';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default function useTestListFilter({ filterUrlPathParams, setFilter }: useTestListFilterProps) {
-  const { syntheticTypes, locationIds, applicationIds, entityIds } = filterUrlPathParams;
+  const { syntheticTypes, locationIds, applicationIds, entityIds, executionType } = filterUrlPathParams;
 
-  // Initialize local filters based on feature flag
+  // Initialize local filters based on feature flags
   const [tagFilters, setTagFilters] = useState<ColumnFilter[]>([
     { id: 'type', value: syntheticTypes },
     { id: 'location', value: locationIds },
     ...(syntheticRbacLimitedEnabled
       ? [{ id: 'association', value: entityIds }]
-      : [{ id: 'application', value: applicationIds }])
+      : [{ id: 'application', value: applicationIds }]),
+    ...(syntheticRunNowEnabled && executionType ? [{ id: 'executionType', value: executionType }] : [])
   ]);
 
   const resetFilters = useCallback(() => {
@@ -40,12 +41,14 @@ export default function useTestListFilter({ filterUrlPathParams, setFilter }: us
         : {
             id: 'application',
             value: []
-          }
+          },
+      ...(syntheticRunNowEnabled ? [{ id: 'executionType', value: [] }] : [])
     ]);
     setFilter({
       syntheticTypes: [],
       locationIds: [],
-      ...(syntheticRbacLimitedEnabled ? { entityIds: [] } : { applicationIds: [] })
+      ...(syntheticRbacLimitedEnabled ? { entityIds: [] } : { applicationIds: [] }),
+      ...(syntheticRunNowEnabled ? { executionType: [] } : {})
     });
   }, [setTagFilters, setFilter]);
 
@@ -65,6 +68,10 @@ export default function useTestListFilter({ filterUrlPathParams, setFilter }: us
         });
       case 'application':
         return t('in-synthetics:dashboard.testList.tagFilter.filters_application', {
+          value
+        });
+      case 'executionType':
+        return t('in-synthetics:dashboard.testList.tagFilter.filters_executionType', {
           value
         });
       default:

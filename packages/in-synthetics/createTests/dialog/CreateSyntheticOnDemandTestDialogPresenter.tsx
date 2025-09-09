@@ -15,7 +15,8 @@ import {
   CarbonNumberInput as NumberInput,
   CarbonMultiSelect as MultiSelect,
   CarbonColumn as Col,
-  CarbonRow as Row
+  CarbonRow as Row,
+  CarbonInlineNotification as InlineNotification
 } from '@instana/components';
 import { SyntheticLocation } from '@instana/types';
 
@@ -274,6 +275,16 @@ function CreateSyntheticOnDemandTestDialogPresenter({ form, updateForm, testLoca
             runNow
           />
         </Stack>
+      </div>
+      <div className={locals.customizationWidth}>
+        <InlineNotification
+          aria-label="closes notification"
+          kind="warning"
+          lowContrast
+          onClose={() => {}}
+          subtitle={t('in-synthetics:dialog.createOnDemandTest.notificationSubTitle')}
+          title={t('in-synthetics:dialog.createOnDemandTest.notificationTitle')}
+        />
       </div>
     </>
   );

@@ -8,8 +8,8 @@
     margin-bottom: 0.5rem;
   }
   .customProperties {
-    padding: 0.625rem 2rem;
-    margin-bottom: 2%;
+    padding: 0.625rem 2rem 0 2rem;
+    margin-bottom: 0 !important;
     width: 78.4%;
   }
   .descriptionInput {

@@ -24,6 +24,7 @@ import locals from './TagFilters.mless';
 export function mapColumnFiltersToFilterState(columnFilters: ColumnFilter[]): FilterState {
   // Initialize with empty arrays for all filter types
   const filterState: FilterState = {
+    executionType: [],
     syntheticTypes: [],
     locationIds: [],
     entityIds: [],
@@ -33,6 +34,9 @@ export function mapColumnFiltersToFilterState(columnFilters: ColumnFilter[]): Fi
   // Map each column filter to the appropriate property in the filter state
   for (const filter of columnFilters) {
     switch (filter.id) {
+      case 'executionType':
+        filterState.executionType = filter.value;
+        break;
       case 'type':
         filterState.syntheticTypes = filter.value!;
         break;
@@ -71,6 +75,7 @@ function useTagFilters({ columnFilters, setColumnFilters, getFilterLabel, setFil
   return useMemo(() => {
     // Create a map to hold tags by category
     const tagsByCategory: Record<string, Tag[]> = {
+      executionType: [],
       types: [],
       locations: [],
       associations: [],
@@ -99,7 +104,7 @@ function useTagFilters({ columnFilters, setColumnFilters, getFilterLabel, setFil
     }
 
     // Define the order of categories
-    const categoryOrder = ['type', 'location', 'association', 'application'];
+    const categoryOrder = ['executionType', 'type', 'location', 'association', 'application'];
 
     // Combine all tags in the specified order
     const tags = categoryOrder.flatMap(category => tagsByCategory[category] || []);

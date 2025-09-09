@@ -183,7 +183,7 @@ export interface Option {
   value: string;
 }
 
-export type FilterId = 'type' | 'location' | 'association' | 'application';
+export type FilterId = 'type' | 'location' | 'association' | 'application' | 'executionType';
 
 export type SelectionProps =
   | {

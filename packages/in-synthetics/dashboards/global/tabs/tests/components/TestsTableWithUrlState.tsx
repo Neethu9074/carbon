@@ -50,6 +50,7 @@ export const TestsTableWithUrlState = ({
   entityIds,
   associations,
   runType,
+  executionType,
   syntheticTests,
   timeConfig,
   isAssociationsContext,
@@ -60,7 +61,8 @@ export const TestsTableWithUrlState = ({
   const [filtersTemp, setFiltersTemp] = useState<FilterState>({
     syntheticTypes,
     locationIds,
-    ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds })
+    ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds }),
+    executionType
   });
 
   // Keep filtersTemp in sync with the global filter state
@@ -68,16 +70,18 @@ export const TestsTableWithUrlState = ({
     setFiltersTemp({
       syntheticTypes,
       locationIds,
-      ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds })
+      ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds }),
+      executionType
     });
-  }, [syntheticTypes, locationIds, entityIds, applicationIds]);
+  }, [syntheticTypes, locationIds, entityIds, applicationIds, executionType]);
 
   const { getFilterLabel, tagFilters, setTagFilters, resetFilters } =
     useTestListFilter({
       filterUrlPathParams: {
         syntheticTypes,
         locationIds,
-        ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds })
+        ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds }),
+        executionType
       },
       setFilter: setFilter
     }) || {};
@@ -88,6 +92,10 @@ export const TestsTableWithUrlState = ({
 
   const onFilterApply = useCallback(() => {
     setTagFilters([
+      {
+        id: 'executionType',
+        value: filtersTemp.executionType
+      },
       {
         id: 'type',
         value: filtersTemp.syntheticTypes
@@ -113,9 +121,10 @@ export const TestsTableWithUrlState = ({
     setFiltersTemp({
       syntheticTypes,
       locationIds,
-      ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds })
+      ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds }),
+      executionType
     });
-  }, [syntheticTypes, locationIds, entityIds, applicationIds]);
+  }, [syntheticTypes, locationIds, entityIds, applicationIds, executionType]);
 
   const filterComponent = useMemo(() => {
     if (syntheticTests?.progress.loading) return null;
@@ -154,6 +163,7 @@ export const TestsTableWithUrlState = ({
       locationIds={locationIds}
       {...(isAssociationsContext ? {} : syntheticRbacLimitedEnabled ? { entityIds, associations } : { applicationIds })}
       {...(runType ? { runType } : {})}
+      {...(executionType ? { executionType } : {})}
       loading={syntheticTests?.progress.loading}
       paginationResettingUrlParameters={[...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter]}
       columnDefinitions={
@@ -179,7 +189,7 @@ export const TestsTableWithUrlState = ({
         role?.canConfigureSyntheticTests && !isAssociationsContext && <CreateSyntheticTest onClose={close} />
       }
       toolBarContent={
-        syntheticRunNowEnabled && !isAssociationsContext ? (
+        syntheticRunNowEnabled && !syntheticSslImprovementEnabled && !isAssociationsContext ? (
           <Dropdown
             className={locals.dropdownWidth}
             items={datascopeRunTypes}

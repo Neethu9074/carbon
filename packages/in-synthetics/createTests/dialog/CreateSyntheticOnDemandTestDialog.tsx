@@ -10,9 +10,13 @@ import { MapForm } from 'formalistic';
 import { CarbonInlineLoading as InlineLoading } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
 
+import {
+  showCICDCreateSuccessMessage,
+  showCICDInProgressMessage,
+  showCreateErrorMessage
+} from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSyntheticOnDemandTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticOnDemandTestDialogPresenter';
-import { showCICDCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
-import { CICDConfig, CreateSyntheticOnDemandProps } from 'in-synthetics/utils/constants';
+import { CICDConfig, CreateSyntheticOnDemandProps, runTypeCICD } from 'in-synthetics/utils/constants';
 import { createRunNowForm } from 'in-synthetics/createTests/form/createRunNowTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { close } from 'in-components/DialogPresenter/store';
@@ -48,12 +52,19 @@ const CreateSyntheticOnDemandTestDialog = ({
     const timeoutId = setTimeout(() => {
       closeOnce();
     }, 5000);
-
+    showCICDInProgressMessage();
     result$.once(
       () => {
         clearTimeout(timeoutId);
         setIsSubmitting(false);
         showCICDCreateSuccessMessage();
+        // Dispatch a custom event to notify TestSummaryList to update the runType
+        // Create and dispatch a custom event with runType data
+        const event = new CustomEvent('onDemandTestCreated', {
+          detail: { runType: runTypeCICD }
+        });
+        window.dispatchEvent(event);
+
         closeOnce();
       },
       error => {

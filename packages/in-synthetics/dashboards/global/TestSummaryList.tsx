@@ -32,6 +32,7 @@ import {
   datascopeRunTypes,
   entityIdsUrlParameter,
   runTypeUrlParameter,
+  executionTypeUrlParameter,
   runTypeScheduled,
   runTypeCICD
 } from 'in-synthetics/utils/constants';
@@ -99,7 +100,7 @@ const urlStateDefinition: Options<FilterState> = {
   bind: filterUrlStateDefinition.bind,
   reducer: (
     prevState: FilterState,
-    { syntheticTypes, locationIds, applicationIds, entityIds, runType }: CurrentState
+    { syntheticTypes, locationIds, applicationIds, entityIds, runType, executionType }: CurrentState
   ) => {
     const urlStateProps: FilterState = {
       syntheticTypes: syntheticTypes ?? prevState.syntheticTypes,
@@ -113,6 +114,7 @@ const urlStateDefinition: Options<FilterState> = {
     }
     if (syntheticRunNowEnabled) {
       urlStateProps.runType = runType ?? prevState.runType;
+      urlStateProps.executionType = executionType ?? prevState.executionType;
     }
     return urlStateProps;
   }
@@ -132,7 +134,7 @@ function ServerTableWithUrlState(props: Parameters<typeof createServerTableWithU
       syntheticTypesUrlParameter,
       locationsUrlParameter,
       syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter,
-      syntheticRunNowEnabled ? runTypeUrlParameter : []
+      syntheticRunNowEnabled ? [runTypeUrlParameter, executionTypeUrlParameter] : []
     ],
     columnDefinitions,
     defaultOrderBy: 'successRate',
@@ -177,7 +179,7 @@ const TestSummaryList = () => {
   let allWebsiteIds = new Set<string>();
   let allMobileAppIds = new Set<string>();
   let associations;
-  const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType }, setFilter] =
+  const [{ syntheticTypes, locationIds, applicationIds, entityIds, runType, executionType }, setFilter] =
     useUrlState(urlStateDefinition);
   const showTestsColumnCustomizationMessage = addColumnCustomizationNotification();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
@@ -251,6 +253,7 @@ const TestSummaryList = () => {
               locationIds={locationIds}
               {...(syntheticRbacLimitedEnabled ? { entityIds, associations } : { applicationIds })}
               {...(runType ? { runType } : {})}
+              {...(executionType ? { executionType } : {})}
               syntheticTests={syntheticTests}
               timeConfig={timeConfig}
               setFilter={setFilter}
@@ -321,6 +324,7 @@ interface GetTestSummaryList {
   mobileAppIds?: string[];
   excludeIds?: string[];
   runType?: string;
+  executionType?: string[];
 }
 
 export const getTestSummaryListData = ({
@@ -340,7 +344,8 @@ export const getTestSummaryListData = ({
   entityIds = [],
   associations,
   excludeIds = [],
-  runType = 'Scheduled'
+  runType = 'Scheduled',
+  executionType
 }: GetTestSummaryList) => {
   const baseTagFilterExpression: TagFilterExpression = {
     elements: [],
@@ -440,13 +445,25 @@ export const getTestSummaryListData = ({
       logicalOperator: 'OR',
       type: 'EXPRESSION'
     };
-    runTypeTagFilterExpression.elements.push({
-      value: runTypeScheduled,
-      name: runTypeTagName,
-      operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    });
+    if (executionType && executionType.length > 0) {
+      executionType.forEach(type => {
+        runTypeTagFilterExpression.elements.push({
+          value: runTypeScheduled,
+          name: runTypeTagName,
+          operator: type === runTypeCICD ? NOT_EQUAL : EQUALS,
+          entity: NOT_APPLICABLE,
+          type: 'TAG_FILTER'
+        });
+      });
+    } else if (executionType?.length === 0 || runType) {
+      runTypeTagFilterExpression.elements.push({
+        value: runTypeScheduled,
+        name: runTypeTagName,
+        operator: runType === runTypeCICD ? NOT_EQUAL : EQUALS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
+    }
     baseTagFilterExpression.elements.push(runTypeTagFilterExpression);
   }
   addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
