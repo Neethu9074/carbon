@@ -730,7 +730,7 @@ module.exports = exports = [
   {
     uiClientKey: 'msTeamsAppEnabled',
     instanaCtlKey: 'feature.alert.channel.bidirectional.ms.teams.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
