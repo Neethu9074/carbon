@@ -786,7 +786,7 @@
         "description": "Collect website data to understand your user's digital experience.<br><br>To get started, click <strong>Add website</strong>."
       },
       "mobileListWidget": {
-        "header": "No mobiles apps",
+        "header": "No mobile apps",
         "description": "Collect mobile app data to understand your user's digital experience.<br><br>To get started, click <strong>Add mobile app</strong>."
       },
       "infrastructureWidget": {
