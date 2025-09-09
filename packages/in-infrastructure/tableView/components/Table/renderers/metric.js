@@ -6,13 +6,13 @@
 import invariant from 'invariant';
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
 import { just } from '@instana/observables';
 
 import PercentageCell from 'in-infrastructure/tableView/components/Table/components/PercentageCell';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { percentage } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
-import { getMetric } from 'in-stores/metric';
 
 export const type = 'metric';
 
@@ -39,7 +39,7 @@ export function validate(col) {
   );
 }
 
-export function initialize(row, columnDefinition, columnIndex, emitRawDataChange) {
+export function initialize(row, columnDefinition, columnIndex, emitRawDataChange, metricSubscriptionQueue) {
   const column = {
     columnDefinition,
     columnIndex,
@@ -57,24 +57,22 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     snapshotId$ = columnDefinition.typeArgs.getSnapshotId$(row.rowConfig);
   }
 
-  column.subscription = snapshotId$
-    .flatMap(snapshotId =>
-      getMetric({
-        snapshotId,
-        metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
-        timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
-        // this flag enforces the metric subscription to always use the time window aggregated metric values
-        forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
-      })
-    )
-    .subscribe(v => {
-      if (column.value !== v) {
-        column.value = v;
-        column.requiresContentRefresh = true;
-        row.mutationCount++;
-        emitRawDataChange();
-      }
-    });
+  // Use the queue instance from content.js
+  snapshotId$.once(snapshotId => {
+    // Create a request object for the queue
+    const request = {
+      snapshotId,
+      metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
+      column,
+      row,
+      emitRawDataChange,
+      timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
+      forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
+    };
+
+    // Enqueue the metric subscription request
+    metricSubscriptionQueue.addMetricSubscription(request);
+  });
 
   return column;
 }
@@ -82,8 +80,8 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 function refreshContent(row, column) {
   if (column.value == null) {
     const getFallbackContent = column.columnDefinition.typeArgs.getFallbackContent;
-    const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : valueMissingPlaceholder;
-    column.content = fallback;
+    const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : <LoadingSkeleton />;
+    column.content = column.value === null ? fallback : valueMissingPlaceholder;
     return;
   }
 

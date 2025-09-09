@@ -7,6 +7,7 @@ import invariant from 'invariant';
 
 import { create, combineLatest } from '@instana/observables';
 
+import MetricQueueSubscriptions from 'in-infrastructure/tableView/components/Table/stores/MetricQueueSubscriptions.ts';
 import { renderers } from 'in-infrastructure/tableView/components/Table/renderers';
 import { compare, isBlank, containsIgnoreCase } from 'in-services/util/string';
 import { shallowEquals } from 'in-services/util/object';
@@ -34,6 +35,9 @@ export function createStore({
     );
     columnDefinitions.forEach(validateCol);
   }
+
+  // Create a metric subscription queue for this table
+  const metricSubscriptionQueue = new MetricQueueSubscriptions();
 
   // row key => {
   //   mutationCount (used for change detection in react)
@@ -91,7 +95,8 @@ export function createStore({
     setPage,
     onRowChange,
     filter$,
-    setFilter
+    setFilter,
+    metricSubscriptionQueue // Expose the queue to renderers
   };
 
   function setFilter(filter) {
@@ -107,6 +112,8 @@ export function createStore({
 
   function dispose() {
     data.forEach((d, key) => remove(key));
+    // Clear the metric subscription queue when the table is disposed
+    metricSubscriptionQueue.clearQueue();
   }
 
   function setSort(column, direction) {
@@ -211,6 +218,16 @@ export function createStore({
   }
 
   function initializeColumn(row, columnDefinition, columnIndex) {
+    // Pass the metric subscription queue to the renderer if it's a metric column
+    if (columnDefinition.type === 'metric') {
+      return renderers[columnDefinition.type].initialize(
+        row,
+        columnDefinition,
+        columnIndex,
+        emitRawDataChange,
+        metricSubscriptionQueue
+      );
+    }
     return renderers[columnDefinition.type].initialize(row, columnDefinition, columnIndex, emitRawDataChange);
   }
 
