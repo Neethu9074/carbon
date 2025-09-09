@@ -50,7 +50,6 @@ import locals from './Content.mless';
 export default function HostDashboard({ snapshot, timeConfig }) {
   const [role] = useCurrentUserRole();
   const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
-  const linuxOS = isLinux(snapshot);
 
   var memoryUsedMetrics = ['memory.used'];
   var memoryUsedMetricsLabels = [t('in-forge:plugins.host.dashboard.used')];
@@ -303,7 +302,9 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           </DashboardSection>
         )}
       </Columize>
+
       {!isIbmiOs(snapshot) && <CpuTable snapshot={snapshot} timeConfig={timeConfig} />}
+
       {gpuInfoAvailable && <GpuTable snapshot={snapshot} timeConfig={timeConfig} />}
       {gpuInfoAvailable && <GpuProcessList snapshot={snapshot} timeConfig={timeConfig} />}
       {!isIbmiOs(snapshot) && (
@@ -501,6 +502,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           )}
         </DashboardSection>
       )}
+
       {isAixOs(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.systemEvents')}>
           <Chart
@@ -536,6 +538,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       )}
+
       {isAixOs(snapshot) && (
         <>
           <CpuProcessTable snapshot={snapshot} timeConfig={timeConfig} />
@@ -545,6 +548,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           <Disks snapshot={snapshot} timeConfig={timeConfig} />
         </>
       )}
+
       {supportsOpenFiles(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.openFiles')}>
           <Chart
@@ -571,15 +575,13 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       )}
+
       <FilesystemsTable snapshot={snapshot} timeConfig={timeConfig} />
-      if (linuxOS){' '}
-      {
-        <>
-          <DiskTable snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-          <FileAttributes snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-        </>
-      }
+      {isLinux(snapshot) && <DiskTable snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
+      {isLinux(snapshot) && <FileAttributes snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
+
       <NetworkInterfacesTable snapshot={snapshot} timeConfig={timeConfig} />
+
       {!isIbmiOs(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.tcpActivity')}>
           <Chart
@@ -618,9 +620,13 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       )}
+
       <ProcessTopList snapshot={snapshot} />
+
       {isWindows(snapshot) && <WinServicesTable snapshot={snapshot} />}
+
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
+
       {role.canConfigureAgents && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.agentManagement')}>
           <div className={locals.agentManagementContent}>
