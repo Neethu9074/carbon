@@ -920,29 +920,24 @@
   "trialNoviceToProDialog": {
     "welcometitle": "Welcome, {{username}}!",
     "description": "First, what best describes your role?",
-    "getStarted": "Ready to get started?",
-    "descriptionFreeTrial": "Deploy an agent to see your own data in action.",
-    "descriptionSandbox": "Or explore Instana in the Sandbox – our interactive demo environment with sample data.",
-    "trialButtonData": "Start with my own data",
-    "sandboxButtonData": "Start with sample data",
     "roles": {
-      "frontendDeveloper": "Frontend developer",
       "backendDeveloper": "Backend developer",
       "businessManager": "Business manager",
       "devOpsEngineer": "DevOps engineer",
-      "siteReliabilityEngineer": "Site reliability engineer",
-      "itOperations": "IT operations",
+      "frontendDeveloper": "Frontend developer",
       "itDecisionMaker": "IT decision maker",
-      "support": "Support",
+      "itOperations": "IT operator",
       "productManager": "Product manager",
+      "siteReliabilityEngineer": "Site reliability engineer",
+      "support": "Technical support",
       "preferNotToSay": "Prefer not to say",
       "other": "Other"
     },
     "steps": {
-      "stepOne": "Role",
-      "stepTwo": "Getting started"
+      "stepOne": "Personalize your experience",
+      "stepTwo": "Get started"
     },
-    "checkboxText": "Select this checkbox if you want to participate in optional interviews and surveys with our product team",
+    "checkboxText": "I agree to be contacted for optional interviews and surveys by the Instana product team.",
     "specifyRole": "Specify your role",
     "roleName": "Role name",
     "yourRole": "Your role",
@@ -1034,5 +1029,22 @@
       "getSupport": "Get support",
       "seeInstanaInAction": "See Instana in action"
     }
+  },
+  "agentEnforcement": {
+    "deployAgent" : "Install an agent",
+    "other" : "Other",
+    "openTelemetryCollector" : "Set up OpenTelemetry collector",
+    "howToSetUpInstana" : "How do you want to set up Instana?",
+    "letsGo" : "Let’s go!",
+    "agentTileDescription" : "Use Instana agents to collect data from various environments, including hosts, cloud services, and serverless platforms.",
+    "openTelemetryCollectorTileDesciption" : "Use OpenTelemetry collectors to collect and export telemetry data from applications.",
+    "otherTileDescription": "We’ll default to Agents so you can get started fast.",
+    "inviteForAgentInstallation": "Have trouble with installation? Invite someone who can help set up data.",
+    "inviteButton" : "Invite a teammate",
+    "playWithRedirectionDescription" : "Need some inspiration? Explore our sandbox with sample data.",
+    "playWithRedirectionButton" : "Explore sample data",
+    "resources" : "Resources",
+    "ibmDocumentation": "IBM documentation",
+    "contactSupport": "Contact support"
   }
 }

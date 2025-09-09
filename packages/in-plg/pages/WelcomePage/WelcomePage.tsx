@@ -14,6 +14,7 @@ import useGetAccountActivation, {
 import { solisEnabled, whatsNewBannerEnabled, newOnboardingPageEnabled } from 'in-services/featureFlags';
 import GettingStartedContent from 'in-plg/pages/WelcomePage/GettingStarted/GettingStartedContent';
 import { Activation } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
+import { clearSelectedOptionValue } from 'in-plg/components/NoviceToPro/GetStartedFreetrial';
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -38,6 +39,7 @@ export default function WelcomePage() {
   const { activeLicenseType } = config;
   const [randomNumber, setRandomNumber] = useState(0);
   const isTrial = activeLicenseType === 'selfService';
+  clearSelectedOptionValue();
   // Temporary. In the future, which teaser is loaded depends on which products are already integrated with Instana.
   useEffect(() => {
     setRandomNumber(Math.random());

@@ -95,3 +95,30 @@ export function triggerSendNextFreeTrial() {
     logger.error(`Failed to send Page Load event : ${error}`, error);
   });
 }
+
+export function sendLetsGoFreetrialSegmentEvent(data: trackEventRequest): Observable<trackEventRequest> {
+  return http<trackEventRequest>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${trackEventUrl}`,
+    data
+  }).map(response => {
+    return response.body;
+  });
+}
+
+export function triggerSendLetsGoFreetrial(data: trackEventRequest) {
+  const withAdditionalProperty = {
+    ...data,
+    additionalProperties: {
+      //@ts-expect-error
+      altUserId: user?.id
+    }
+  };
+  const result$ = sendLetsGoFreetrialSegmentEvent(withAdditionalProperty);
+  const logger = createLogger('in-plg/components/NoviceToPro/GetStartedFreetrial');
+  result$.errors().once(error => {
+    logger.error(`Failed to send ${data?.requiredProperty} cta event : ${error}`, error);
+  });
+}

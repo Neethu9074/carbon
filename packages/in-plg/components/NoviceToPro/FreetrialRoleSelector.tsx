@@ -10,7 +10,7 @@ import { ProgressIndicator, ProgressStep } from '@instana/carbon';
 import { Tearsheet } from '@instana/ibm-products';
 import { Typography } from '@instana/components';
 
-import RoleSelector from 'in-plg/components/NoviceToPro/assets/RoleSelector.png';
+import Onboarding from 'in-plg/components/NoviceToPro/assets/Onboarding.png';
 import { triggerSendNextFreeTrial } from 'in-plg/components/NoviceToPro/segment';
 import { StepOne } from 'in-plg/components/NoviceToPro/RoleSelector/StepOne';
 import { user } from 'in-stores/user';
@@ -109,7 +109,7 @@ export default function FreetrialRoleSelector({
           />
         </div>
         <div className={locals.imageWrapper}>
-          <img src={RoleSelector} alt="Visual" className={locals.image} />
+          <img src={Onboarding} alt="Visual" className={locals.image} />
         </div>
       </div>
     </Tearsheet>

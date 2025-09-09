@@ -12,6 +12,7 @@ import { Typography } from '@instana/components';
 import { FreeTrialEntries, FreeTrialEntry } from 'in-plg/pages/onboarding/content';
 import AgentCatalogCard from 'in-plg/components/Card/AgentCatalogCard';
 import { SelectedDatasource } from 'in-plg/navigation/paths';
+import { config } from 'in-services/config';
 
 import locals from 'in-plg/components/Card/CardGridV2.mless';
 
@@ -22,6 +23,8 @@ interface CardGridProps {
 }
 
 export default function CardGridV2({ data, selectedDatasource, fromOnboarding = false }: CardGridProps) {
+  const { activeLicenseType } = config;
+  const isTrial = activeLicenseType === 'selfService';
   const datasources = Object.values(data);
 
   return (
@@ -39,11 +42,19 @@ export default function CardGridV2({ data, selectedDatasource, fromOnboarding = 
                   }
                   open
                 >
-                  <DatasourceItems
-                    datasource={datasource}
-                    fromOnboarding={fromOnboarding}
-                    selectedDatasource={selectedDatasource}
-                  />
+                  {isTrial ? (
+                    <DatasourceItemsAgentEnforcement
+                      datasource={datasource}
+                      fromOnboarding={fromOnboarding}
+                      selectedDatasource={selectedDatasource}
+                    />
+                  ) : (
+                    <DatasourceItems
+                      datasource={datasource}
+                      fromOnboarding={fromOnboarding}
+                      selectedDatasource={selectedDatasource}
+                    />
+                  )}
                 </AccordionItem>
               );
             else return null;
@@ -81,5 +92,22 @@ const DatasourceItems = ({ datasource, fromOnboarding, selectedDatasource }: Dat
         </Column>
       ))}
     </Grid>
+  </>
+);
+
+const DatasourceItemsAgentEnforcement = ({ datasource, fromOnboarding, selectedDatasource }: DatasourceItemsProps) => (
+  <>
+    <Typography variant="body-01">{datasource.accordionDesciption}</Typography>
+    <div className={locals.gridAgentEnforcement}>
+      {datasource.data.map(item => (
+        <AgentCatalogCard
+          title={item.label}
+          icon={item.icon}
+          content={item.subTechnology?.label ?? ''}
+          noWrap={false}
+          href={`/datasources${fromOnboarding ? '/onboarding' : `/${selectedDatasource}`}/installation/${item?.id}`}
+        />
+      ))}
+    </div>
   </>
 );

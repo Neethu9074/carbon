@@ -7,12 +7,14 @@
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
+import AgentCatalogOnboarding from 'in-plg/pages/onboarding/AgentCatalogOnboarding';
 //@ts-expect-error
 import AgentCatalog from 'in-plg/pages/onboarding/AgentCatalog';
 import AgentViewRouterV2 from 'in-plg/pages/onboarding/AgentViewRouterV2';
 import AgentViewRouter from 'in-plg/pages/onboarding/AgentViewRouter';
 import AgentCatalogV2 from 'in-plg/pages/onboarding/AgentCatalogV2';
 import { newOTelPageEnabled } from 'in-services/featureFlags';
+import { config } from 'in-services/config';
 
 interface PortalProps {
   agentKey: string;
@@ -20,6 +22,8 @@ interface PortalProps {
 }
 
 const Portal = (props: PortalProps) => {
+  const { activeLicenseType } = config;
+  const isTrial = activeLicenseType === 'selfService';
   return (
     <>
       {newOTelPageEnabled ? (
@@ -36,10 +40,17 @@ const Portal = (props: PortalProps) => {
               />
             )}
           />
-
-          <Route path="/datasources/onboarding/installation" render={() => <AgentCatalogV2 fromOnboarding />} />
-
-          <Route path="/" render={() => <AgentCatalogV2 fromOnboarding />} />
+          {isTrial && <Route path="/" render={() => <AgentCatalogOnboarding fromOnboarding />} />}
+          {isTrial && (
+            <Route
+              path="/datasources/onboarding/installation"
+              render={() => <AgentCatalogOnboarding fromOnboarding />}
+            />
+          )}
+          {!isTrial && <Route path="/" render={() => <AgentCatalogV2 fromOnboarding />} />}
+          {!isTrial && (
+            <Route path="/datasources/onboarding/installation" render={() => <AgentCatalogV2 fromOnboarding />} />
+          )}
         </Switch>
       ) : (
         <Switch>

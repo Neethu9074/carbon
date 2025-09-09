@@ -18,6 +18,9 @@
     padding-top: var(--cds-spacing-06);
     width: calc(var(--cds-spacing-11) * 11);
   }
+  .radioTileSize {
+    height: 230px;
+  }
   .spacing {
     margin-top: var(--cds-spacing-10);
   }
@@ -25,20 +28,39 @@
     display: flex;
     width: 100%;
   }
+  .tileContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .grid {
+    gap: var(--cds-spacing-03);
+    padding: var(--cds-spacing-05);
+  }
   .text {
     width: 50%;
   }
-  .imageWrapper {
-    width: 50%;
+  .roleSelector {
     display: flex;
-    align-items: center;
+    width: 100%;
+  }
+  .stepOne {
+    width: 60%;
+  }
+  .imageWrapper {
+    width: 40%;
+    display: flex;
     justify-content: center;
-    height: 70%;
-    overflow: hidden;
+    align-items: flex-start;
+    padding-top: var(--cds-spacing-12);
   }
   .image {
-    max-width: 90%;
-    max-height: 90%;
+    width: 100%;
+    max-width: 473px;
     object-fit: contain;
+  }
+  .text {
+    word-break: auto-phrase;
   }
 }

@@ -21,12 +21,14 @@ export default function AgentCatalogCard({
   title,
   icon,
   content,
-  href
+  href,
+  noWrap = true
 }: {
   title: string;
   icon: string;
   content?: string;
   href: string;
+  noWrap?: boolean;
 }) {
   const { goToPath } = useNavigation();
 
@@ -54,7 +56,7 @@ export default function AgentCatalogCard({
             <Typography variant="body-bold">{title}</Typography>
             <Tooltip content={content} align="auto">
               <div>
-                <Typography noWrap variant="body-regular">
+                <Typography variant="body-regular" noWrap={noWrap}>
                   {content}
                 </Typography>
               </div>
