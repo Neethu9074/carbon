@@ -11,9 +11,13 @@
   "dashboards": {
     "address": "IP address",
     "libvirtVersion": "Libvirt version",
+    "hypervisorVersion": "Hypervisor version",
     "memoryUsage": "Memory utilization",
     "cpuUsage": "CPU utilization",
+    "cpuCores": "Number of CPU cores",
+    "cpuFrequency": "CPU speed in MHz",
     "networkUsage": "Network utilization",
+    "networkError": "Network error statistics",
     "os": "Operating system",
     "numberOfVms": "Number of virtual machines",
     "used": "Used",
@@ -21,11 +25,17 @@
     "total": "Total",
     "bytesTX": "Bytes transmitted",
     "bytesRX": "Bytes received",
+    "rxError": "Received error count",
+    "rxDrop": "Received drop count",
+    "txError": "Transmitted error count",
+    "txDrop": "Transmitted drop count",
     "vmName": "VM name",
     "vmState": "VM state",
-    "storagePoolName": "Storage pool name",
-    "storagePoolState": "Storage pool state",
-    "storageMemoryUsed": "Storage memory used",
-    "storageMemoryAvailable": "Storage memory available"
+    "virtualCpuCount": "Virtual CPU count",
+    "storagePoolName": "Name",
+    "storagePoolState": "State",
+    "storagePoolAutostart": "Autostart",
+    "storageMemoryUsed": "Used space",
+    "storageMemoryAvailable": "Available space"
   }
 }

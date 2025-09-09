@@ -33,13 +33,12 @@ const cols = [
     }
   },
   {
-    title: t('in-linux-kvm-hypervisor:dashboards.storageMemoryAvailable'),
-    type: 'number',
+    title: t('in-linux-kvm-hypervisor:dashboards.storagePoolAutostart'),
+    type: 'string',
     typeArgs: {
       getValue(row: any) {
-        return row.storagePools.get('totalStorageMemoryAvailable');
-      },
-      getContent: bytes.compact
+        return row.storagePools.get('autostart');
+      }
     }
   },
   {
@@ -48,6 +47,16 @@ const cols = [
     typeArgs: {
       getValue(row: any) {
         return row.storagePools.get('totalStorageMemoryUsed');
+      },
+      getContent: bytes.compact
+    }
+  },
+  {
+    title: t('in-linux-kvm-hypervisor:dashboards.storageMemoryAvailable'),
+    type: 'number',
+    typeArgs: {
+      getValue(row: any) {
+        return row.storagePools.get('totalStorageMemoryAvailable');
       },
       getContent: bytes.compact
     }

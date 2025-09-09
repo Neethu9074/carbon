@@ -15,11 +15,7 @@ import {
   LimitedAccessScopeType,
   PermissionsUnion
 } from 'in-stores/permission';
-import {
-  applicationSubtracesEnabled,
-  infraSmartAlertsEnabled,
-  syntheticsEnabled
-} from 'in-services/featureFlags';
+import { applicationSubtracesEnabled, infraSmartAlertsEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -73,6 +69,7 @@ export const ProductArea = Object.freeze({
   INFRASTRUCTURE: 'INFRASTRUCTURE',
   SAP: 'SAP',
   NUTANIX: 'NUTANIX',
+  LINUX_KVM_HYPERVISOR: 'LINUX_KVM_HYPERVISOR',
   ANALYTICS: 'ANALYTICS',
   EVENT: 'EVENT',
   DASHBOARD: 'DASHBOARD',
@@ -106,6 +103,7 @@ export type LimitableProductArea = Extract<
   | 'SAP'
   | 'AUTOMATION'
   | 'NUTANIX'
+  | 'LINUX_KVM_HYPERVISOR'
 >;
 
 export const PermissionAreas = Object.freeze<Array<keyof PermissionSet>>([
@@ -309,6 +307,11 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.NUTANIX]: {
     limitation: LimitedAccessScope.LIMITED_NUTANIX_SCOPE,
     permission: AreaPermission.ACCESS_NUTANIX,
+    capabilities: noCapabilities
+  },
+  [ProductArea.LINUX_KVM_HYPERVISOR]: {
+    limitation: LimitedAccessScope.LIMITED_LINUX_KVM_HYPERVISOR_SCOPE,
+    permission: AreaPermission.ACCESS_LINUX_KVM_HYPERVISOR,
     capabilities: noCapabilities
   },
   [ProductArea.VSPHERE]: {

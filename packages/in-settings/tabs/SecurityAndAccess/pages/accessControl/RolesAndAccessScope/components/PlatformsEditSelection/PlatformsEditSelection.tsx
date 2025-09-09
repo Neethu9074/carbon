@@ -19,8 +19,20 @@ import {
   pcfAccessPermissions,
   openStackAccessPermissions,
   sapAccessPermissions,
-  nutanixAccessPermissions
+  nutanixAccessPermissions,
+  linuxKVMHypervisorAccessPermissions
 } from 'in-stores/permission';
+import {
+  linuxKVMHypervisorEnabled,
+  nutanixEnabled,
+  openstackEnabled,
+  pcfEnabled,
+  phmcEnabled,
+  powervcEnabled,
+  sapEnabled,
+  vsphereEnabled,
+  zhmcEnabled
+} from 'in-services/featureFlags';
 import {
   getField,
   getScopeFromProductArea,
@@ -33,16 +45,6 @@ import {
   ScopedPermissionItem,
   ScopedPermissionType
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
-import {
-  nutanixEnabled,
-  openstackEnabled,
-  pcfEnabled,
-  phmcEnabled,
-  powervcEnabled,
-  sapEnabled,
-  vsphereEnabled,
-  zhmcEnabled
-} from 'in-services/featureFlags';
 import KubernetesEditSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import Section from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Section';
@@ -70,6 +72,7 @@ interface GeneralAreasPermission {
   hasVSphereAccess: boolean;
   hasZHMCAccess: boolean;
   hasNutanixAccess: boolean;
+  hasLinuxKVMHypervisorAccess: boolean;
 }
 
 function getGeneralAreas({
@@ -80,7 +83,8 @@ function getGeneralAreas({
   hasSAPAccess,
   hasVSphereAccess,
   hasZHMCAccess,
-  hasNutanixAccess
+  hasNutanixAccess,
+  hasLinuxKVMHypervisorAccess
 }: GeneralAreasPermission): Array<LimitableProductArea> {
   return [
     ...(hasPCFAccess ? [ProductArea.PCF] : []),
@@ -90,7 +94,8 @@ function getGeneralAreas({
     ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
     ...(hasVSphereAccess ? [ProductArea.VSPHERE] : []),
     ...(hasSAPAccess ? [ProductArea.SAP] : []),
-    ...(hasNutanixAccess ? [ProductArea.NUTANIX] : [])
+    ...(hasNutanixAccess ? [ProductArea.NUTANIX] : []),
+    ...(hasLinuxKVMHypervisorAccess ? [ProductArea.LINUX_KVM_HYPERVISOR] : [])
   ];
 }
 
@@ -138,6 +143,10 @@ export default function _PlatformsEditSelection<FORM_TYPE extends MapFormItems>(
     optionalPrecondition: nutanixEnabled,
     requiredPermissions: nutanixAccessPermissions
   });
+  const hasLinuxKVMHypervisorAccess = useHasAccess({
+    optionalPrecondition: linuxKVMHypervisorEnabled,
+    requiredPermissions: linuxKVMHypervisorAccessPermissions
+  });
   const generalAreas = getGeneralAreas({
     hasOpenStackAccess,
     hasPCFAccess,
@@ -146,7 +155,8 @@ export default function _PlatformsEditSelection<FORM_TYPE extends MapFormItems>(
     hasSAPAccess,
     hasVSphereAccess,
     hasZHMCAccess,
-    hasNutanixAccess
+    hasNutanixAccess,
+    hasLinuxKVMHypervisorAccess
   });
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet: PermissionSet | undefined = permissionSetField?.value;

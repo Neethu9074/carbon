@@ -7,12 +7,6 @@
 import { PermissionSet } from '@instana/types';
 
 import {
-  LimitableProductArea,
-  ProductArea,
-  ScopedPermissionItem,
-  ScopedPermissionType
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
-import {
   openstackEnabled,
   pcfEnabled,
   phmcEnabled,
@@ -20,8 +14,15 @@ import {
   vsphereEnabled,
   zhmcEnabled,
   sapEnabled,
-  nutanixEnabled
+  nutanixEnabled,
+  linuxKVMHypervisorEnabled
 } from 'in-services/featureFlags';
+import {
+  LimitableProductArea,
+  ProductArea,
+  ScopedPermissionItem,
+  ScopedPermissionType
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { getScopeFromProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import { t } from 'in-i18n';
 
@@ -50,6 +51,7 @@ export const getKubernetesData = (permissionsSet: PermissionSet) => {
   const pcfAccess = hasAnyAccess(ProductArea.PCF, pcfEnabled);
   const sapAccess = hasAnyAccess(ProductArea.SAP, sapEnabled);
   const nutanixAccess = hasAnyAccess(ProductArea.NUTANIX, nutanixEnabled);
+  const linuxKVMHypervisorAccess = hasAnyAccess(ProductArea.LINUX_KVM_HYPERVISOR, linuxKVMHypervisorEnabled);
 
   const countOfKubernetesItemsWithAccess = kubernetesClusterUUIDs.length + kubernetesNamespaceUIDs.length;
   let kubernetesQuantityOfAreas: string;
@@ -99,6 +101,10 @@ export const getKubernetesData = (permissionsSet: PermissionSet) => {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.NUTANIX }));
   }
+  if (linuxKVMHypervisorAccess !== ScopedPermissionItem.NO_ACCESS) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.LINUX_KVM_HYPERVISOR }));
+  }
   if (kubernetesAccess !== ScopedPermissionItem.NO_ACCESS) {
     translations.push(t('in-settings:productAreas.kubernetes'));
   }
@@ -130,6 +136,7 @@ export const getKubernetesData = (permissionsSet: PermissionSet) => {
     openStackAccess,
     sapAccess,
     nutanixAccess,
+    linuxKVMHypervisorAccess,
     hasOtherPlatformsAccess,
     kubernetesClustersWithAccess,
     kubernetesColumnHeadline,

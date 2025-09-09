@@ -53,6 +53,9 @@ export const PlatformsSection = () => {
       {groupConfig.nutanixAccess !== ScopedPermissionItem.NO_ACCESS && (
         <GeneralPlatformListItem area={ProductArea.NUTANIX} />
       )}
+      {groupConfig.linuxKVMHypervisorAccess !== ScopedPermissionItem.NO_ACCESS && (
+        <GeneralPlatformListItem area={ProductArea.LINUX_KVM_HYPERVISOR} />
+      )}
       {groupConfig.kubernetesAccess !== ScopedPermissionItem.NO_ACCESS && currentKubeInstance()}
     </Ul>
   ) : (

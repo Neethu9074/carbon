@@ -9,5 +9,5 @@ import React from 'react';
 import DefaultSidebar from 'in-infrastructure/Dashboard/components/DefaultSidebar';
 
 export default function LinuxKVMHypervisorVMSidebar({ snapshot }) {
-  return <DefaultSidebar snapshot={snapshot} />;
+  return <div />;
 }

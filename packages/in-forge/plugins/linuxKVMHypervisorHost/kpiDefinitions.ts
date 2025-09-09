@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { percentage } from 'in-services/formatters/number';
+import { percentage, bytesPerSecondZeroDecimalPlaces } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -17,5 +17,10 @@ export default [
     metric: 'memoryUsageRatio',
     label: t('in-linux-kvm-hypervisor:dashboards.memoryUsage'),
     formatter: percentage.compact
+  },
+  {
+    metric: 'bytesTxRxTotal',
+    label: t('in-linux-kvm-hypervisor:dashboards.total'),
+    formatter: bytesPerSecondZeroDecimalPlaces
   }
 ];

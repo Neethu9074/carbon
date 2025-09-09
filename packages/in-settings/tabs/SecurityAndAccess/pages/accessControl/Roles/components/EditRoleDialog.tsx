@@ -735,6 +735,24 @@ function PlatformsSection() {
         }}
       />
       <CarbonCheckbox
+        checked={
+          !containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_LINUX_KVM_HYPERVISOR_SCOPE])
+        }
+        id="rbac-role-platforms-linux-kvm-hypervisor"
+        labelText={t('in-settings:dialogs.role.permissionLabel', {
+          context: LimitedAccessScope.LIMITED_LINUX_KVM_HYPERVISOR_SCOPE
+        })}
+        onChange={(_e, { checked: enabled }) => {
+          const updatedPermissions = togglePermissions({
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_LINUX_KVM_HYPERVISOR_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_LINUX_KVM_HYPERVISOR_SCOPE]
+          });
+          updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
+        }}
+      />
+      <CarbonCheckbox
         checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_NUTANIX_SCOPE])}
         id="rbac-role-platforms-nutanix"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
