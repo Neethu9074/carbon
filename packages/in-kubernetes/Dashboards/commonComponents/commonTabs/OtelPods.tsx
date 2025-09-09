@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-import { filter } from 'lodash';
 import React from 'react';
 
 import { KubernetesClusterListItem, EntityHealthInfo, KubernetesCondition, TimeConfig } from '@instana/types';
@@ -88,6 +87,14 @@ const allColumnDefinitions = [
     }
   },
   {
+    id: 'namespace',
+    label: t('in-kubernetes:breadcrumbs.namespace'),
+    getContent({ pod }: { pod: { namespace: string } }) {
+      const namespace = pod.namespace;
+      return namespace || '';
+    }
+  },
+  {
     id: 'health',
     label: t('in-kubernetes:dashboards.health'),
     getContent(
@@ -108,9 +115,6 @@ const allColumnDefinitions = [
   }
 ];
 
-const columnDefinitionsWithoutNamespace = filter(allColumnDefinitions, c => c.id != 'namespace');
-
-const ServerTableWithUrlStateWithoutNamespace = createTable(columnDefinitionsWithoutNamespace);
 const ServerTableWithUrlState = createTable(allColumnDefinitions);
 
 interface TableComponentProps {
@@ -198,7 +202,7 @@ export default function Pods(props: PodsProps) {
     leftHeader,
     nodeId,
     cronJobId,
-    Table = ServerTableWithUrlStateWithoutNamespace
+    Table = ServerTableWithUrlState
   } = props;
 
   const [{ phase }, setPhase] = useUrlState<PhaseUrlState>(urlStateDefinition);
