@@ -24,7 +24,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-infrastructure:agentView.fqdn'),
+    title: t('in-infrastructure:agentView.hostName'),
     type: 'custom',
     typeArgs: {
       comparator: compareIgnoreCase,

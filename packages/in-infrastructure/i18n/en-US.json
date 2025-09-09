@@ -41,7 +41,7 @@
     "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-s390x-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
     "footerButtonDone": "Done",
     "reportingAgents": "Reporting agents",
-    "fqdn": "FQDN",
+    "hostName": "Host name",
     "agentVersion": "Agent version",
     "bootVersion": "Boot version",
     "origin": "Origin",
