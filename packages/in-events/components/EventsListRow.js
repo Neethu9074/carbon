@@ -20,6 +20,7 @@ import {
 } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import MultiEntityLabel from 'in-service-levels/components/Shared/MultiEntityLabel';
+import { hasError, isLoading, successObservable } from 'in-services/util/result';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getSloConfiguration } from 'in-service-levels/api/sloConfiguration';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
@@ -32,7 +33,6 @@ import { Duration } from 'in-events/components/EventDetailsKPIs';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { hasError, isLoading } from 'in-services/util/result';
 import EventIcon from 'in-events/components/EventIcon';
 import { UNKNOWN_LABEL } from 'in-sdk/snapshot/legacy';
 import { isNotBlank } from 'in-services/util/string';
@@ -127,6 +127,24 @@ export const OnEntity = connectTo(
       rawEvent,
       rawEvent: { entityType, entityLabel, plugin, smartAlert, aggregated, entityId, id }
     } = props;
+    if (isSyntheticEntityType(entityType)) {
+      return {
+        labels: getEvent(id)
+          .filter(event => !isEmpty(event))
+          .flatMap(event => {
+            const sloId = event.getIn(['metadata', 'sloId']);
+            if (!sloId) return successObservable({ synthetics: true });
+            return getSloConfiguration(event.getIn(['metadata', 'sloId']));
+          })
+          .filter(slo => !isLoading(slo) && !hasError(slo))
+          .flatMap(slo => {
+            if (slo.data.synthetics) return successObservable([{ label: entityLabel }]);
+            return loadEntities(slo.data.entity);
+          })
+          .filter(entities => !isLoading(entities) && !hasError(entities))
+          .map(entities => entities.data.map(({ label }) => label))
+      };
+    }
     if (isNotBlank(entityLabel)) {
       // use entity label of the event right away if available
       return {
@@ -145,18 +163,6 @@ export const OnEntity = connectTo(
       // default the value to the plugin name.
       return {
         label: aggregated ? just(pseudoEntityLabel) : just(pluginName)
-      };
-    }
-
-    if (isSyntheticEntityType(entityType)) {
-      return {
-        labels: getEvent(id)
-          .filter(event => !isEmpty(event))
-          .flatMap(event => getSloConfiguration(event.getIn(['metadata', 'sloId'])))
-          .filter(slo => !isLoading(slo) && !hasError(slo))
-          .flatMap(slo => loadEntities(slo.data.entity))
-          .filter(entities => !isLoading(entities) && !hasError(entities))
-          .map(entities => entities.data.map(({ label }) => label))
       };
     }
 
