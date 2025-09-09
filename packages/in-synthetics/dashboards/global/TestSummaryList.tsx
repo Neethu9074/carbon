@@ -17,7 +17,7 @@ import {
   TimeConfig
 } from '@instana/types';
 import { Message as CarbonMessage, Typography } from '@instana/components';
-import { Button, Dropdown, HStack, VStack } from '@instana/carbon';
+import { Button, Dropdown, HStack, Link, VStack } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -80,6 +80,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
 import { syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { userSettingsTwoFactor } from 'in-settings/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
@@ -92,7 +93,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTests } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/TestSummaryList.mless';
 
@@ -534,14 +535,22 @@ const ExpandedContentLeft = () => {
   const [role] = useCurrentUserRole();
   return (
     <VStack gap={7}>
-      <Typography variant="body-02">{t('in-synthetics:components.banner.expandedLeftContent')}</Typography>
+      <Typography variant="body-02">
+        <Trans
+          i18nKey="in-synthetics:components.banner.expandedLeftContent"
+          components={{
+            ibmDocumentation: <Link href="https://ibm.biz/synthetic-monitoring" target="_blank" />
+          }}
+        />
+      </Typography>
       <Button
         renderIcon={() => <IconForButton icon="lib_openclose_add" iconSize="xs" />}
         onClick={() => {
-          addActiveDialog(<CreateNewLocationDialog onClose={close} />);
+          if (role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled)
+            addActiveDialog(<CreateNewLocationDialog onClose={close} />);
         }}
         href={createHref({ ...location, pathname: syntheticLocationPath })}
-        disabled={!role?.canConfigureSyntheticLocations || !syntheticInstanaHostedPoPEnabled}
+        disabled={!role?.canConfigureSyntheticTests}
       >
         {t('in-synthetics:components.banner.AddALocation')}
       </Button>
@@ -549,19 +558,46 @@ const ExpandedContentLeft = () => {
   );
 };
 
-const ExpandedContentRight = () => (
-  <HStack>
+const ExpandedContentRight = () => {
+  const { createHrefToPath } = useNavigation();
+  const [role] = useCurrentUserRole();
+  if (role?.canConfigureSyntheticTests)
+    return (
+      <HStack>
+        <div>
+          <Typography variant="heading-01">{t('in-synthetics:components.banner.step1')}</Typography>
+          <Trans
+            i18nKey="in-synthetics:components.banner.step1Content"
+            components={{
+              twofAuthentication: <Link href={createHrefToPath(userSettingsTwoFactor)} target="_blank" />
+            }}
+          />
+        </div>
+        <div>
+          <Typography variant="heading-01">{t('in-synthetics:components.banner.step2')}</Typography>
+          <Trans
+            i18nKey="in-synthetics:components.banner.step2Content"
+            components={{
+              addALocation: <Link href={createHrefToPath(syntheticLocationPath)} target="_blank" />
+            }}
+          />
+        </div>
+        <div>
+          <Typography variant="heading-01">{t('in-synthetics:components.banner.step3')}</Typography>
+          <Trans
+            i18nKey="in-synthetics:components.banner.step3Content"
+            components={{
+              bold: <strong />
+            }}
+          />
+        </div>
+      </HStack>
+    );
+
+  return (
     <div>
-      <Typography variant="heading-01">{t('in-synthetics:components.banner.step1')}</Typography>
-      <Typography variant="body-01">{t('in-synthetics:components.banner.step1Content')}</Typography>
+      <Typography variant="heading-01">{t('in-synthetics:components.banner.noPermissionHeading')}</Typography>
+      <Typography variant="body-01">{t('in-synthetics:components.banner.noPermissionBody')}</Typography>
     </div>
-    <div>
-      <Typography variant="heading-01">{t('in-synthetics:components.banner.step2')}</Typography>
-      <Typography variant="body-01">{t('in-synthetics:components.banner.step2Content')}</Typography>
-    </div>
-    <div>
-      <Typography variant="heading-01">{t('in-synthetics:components.banner.step3')}</Typography>
-      <Typography variant="body-01">{t('in-synthetics:components.banner.step3Content')}</Typography>
-    </div>
-  </HStack>
-);
+  );
+};
