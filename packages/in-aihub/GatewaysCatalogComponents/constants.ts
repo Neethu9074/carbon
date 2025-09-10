@@ -52,13 +52,13 @@ export const modelTypes = [
     recommended: true
   },
   {
-    id: 'mistral_medium',
+    id: 'mistralai/mistral-medium-2505',
     name: 'Mistral (medium)',
     description: t('in-aihub:gateways.createGateway.modelSelection.modelTypes.mistralMediumDescription'),
     recommended: false
   },
   {
-    id: 'mistral_large',
+    id: 'mistralai/mistral-large',
     name: 'Mistral (large)',
     description: t('in-aihub:gateways.createGateway.modelSelection.modelTypes.mistralLargeDescription'),
     recommended: false

@@ -5,11 +5,14 @@
  */
 
 const ActionHistory = () =>
-  import(/* webpackChunkName: "global" */ 'in-automation/components/ActionHistory/ActionHistory');
-const ActionCatalogTab = () => import(/* webpackChunkName: "global" */ 'in-automation/ActionCatalog/ActionCatalogTab');
-const ActionDashboard = () => import(/* webpackChunkName: "global" */ 'in-automation/ActionDashboard/ActionDashboard');
-const PolicyDetail = () => import(/* webpackChunkName: "global" */ 'in-automation/PolicyDetails/PolicyDetails');
-const Policies = () => import(/* webpackChunkName: "global" */ 'in-automation/Policies/Policies');
+  import(/* webpackChunkName: "automation" */ 'in-automation/components/ActionHistory/ActionHistory');
+const ActionCatalogTab = () =>
+  import(/* webpackChunkName: "automation" */ 'in-automation/ActionCatalog/ActionCatalogTab');
+const ActionDashboard = () =>
+  import(/* webpackChunkName: "automation" */ 'in-automation/ActionDashboard/ActionDashboard');
+const PolicyDetail = () => import(/* webpackChunkName: "automation" */ 'in-automation/PolicyDetails/PolicyDetails');
+const Policies = () => import(/* webpackChunkName: "automation" */ 'in-automation/Policies/Policies');
+
 import { Route } from 'react-router';
 import React from 'react';
 

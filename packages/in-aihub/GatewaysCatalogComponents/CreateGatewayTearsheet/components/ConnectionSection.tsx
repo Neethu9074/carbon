@@ -133,6 +133,7 @@ export default function ConnectionSection() {
                   value={field.value}
                   onChange={handleWatsonxKeyChange}
                   invalid={!field.valid && field.touched}
+                  type="password"
                 />
                 <TouchedMessages field={field} />
                 <HelpText>{t('in-aihub:gateways.createGateway.connectionSection.watsonxKeyHelperText')}</HelpText>
@@ -200,6 +201,7 @@ export default function ConnectionSection() {
                   value={field.value}
                   onChange={handlePromptChange}
                   invalid={!field.valid && field.touched}
+                  type="password"
                 />
                 <TouchedMessages field={field} />
               </FormGroup>

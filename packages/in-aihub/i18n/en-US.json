@@ -58,8 +58,8 @@
     "filterByCapability": "Filter by capability",
     "filter": "Filter",
     "clearFilters": "Clear filters",
-    "noDataEmptyStateTitle": "No gateways found",
-    "noDataEmptyStateSubtitle": "Create a new gateway to get started",
+    "noDataEmptyStateTitle": "No LLM gateways found",
+    "noDataEmptyStateSubtitle": "Click Create LLM gateway to get started",
     "noDataEmptyStateIllustrationDescription": "No gateways illustration",
     "errorStateTitle": "Unable to load gateways",
     "errorStateDescription": "There was an error loading the gateways. Please try again later.",
@@ -73,7 +73,7 @@
       "connectionSection": {
         "title": "Set up a connection",
         "description": "Connection settings",
-        "subtitle": "Select service used to execute LLm gateways inferencing",
+        "subtitle": "Select service used to execute LLM gateways inferencing",
         "other": "Other",
         "watsonxKey": "watsonx API key",
         "watsonxKeyHelperText": "Enter the API key for the watsonx service.",
@@ -103,22 +103,22 @@
       "modelConfiguration": {
         "title": "Configure model",
         "tokenLimit": "Token limit (in thousands)",
-        "tokenLimitHelper": "maximum number of tokens a model can process in a single request.",
+        "tokenLimitHelper": "Enter the maximum number of tokens a model can process in a single request.",
         "maxLatency": "Max latency",
-        "maxLatencyHelper": "Longest time it takes for the model to generate a response. ",
+        "maxLatencyHelper": "Enter a value for the longest amount of time it takes the model to generate a response. ",
         "repetitionPenalty": "Repetition penalty",
         "repetitionPenaltyHelper": "Set a repetition penalty to discourage repeating phrases in the output.",
         "temperature": "Temperature",
         "temperatureHelper": "Set a temperature to control randomness. The higher the number, the more creative the output will be.",
         "topK": "top_k",
-        "topKHelper": "Min value: 1",
+        "topKHelper": "Specify how many tokens to sample. The minimum value is 1.",
         "topP": "top_p",
-        "topPHelper": "Controls randomness by limiting token choices to a probability threshold."
+        "topPHelper": "Specify a cumulative probability score threshold that tokens must reach."
       },
       "details": {
         "title": "Enter details",
         "name": "Name",
-        "nameHelper": "Enter a unique name to LLM gateway.",
+        "nameHelper": "Enter a unique name for the LLM gateway.",
         "description": "Description",
         "descriptionHelper": "Provide a description to help explain the purpose of the LLM gateway."
       },
