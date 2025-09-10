@@ -46,7 +46,7 @@ export default function TableSortingConfigurator({ options, orderBy, onChange }:
         <CarbonDropdown
           items={items}
           onChange={({ selectedItem }: { selectedItem: SortOption }) =>
-            onChange({ by: selectedItem.value, direction: orderBy.direction })
+            onChange({ by: selectedItem.value, direction: 'ASC' })
           }
           label={''}
           id="table-sorting"

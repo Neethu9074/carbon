@@ -29,7 +29,7 @@ import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/m
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
-import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
+import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { alertCreated, alertId } from 'in-mobile-apps/navigation/matrix';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
