@@ -321,7 +321,7 @@ const CSVExportButton = ({ csvHeaders, csvData }: CSVExportProps) => {
 
   return (
     <div className={locals.exportBtn} onClick={handleExportClick}>
-      <CsvExporter headers={headers} data={cols} fileName="namespace_cost.csv" onClick={handleExportClick} />
+      <CsvExporter headers={headers} data={cols} fileName="namespace_cost.csv" />
     </div>
   );
 };
