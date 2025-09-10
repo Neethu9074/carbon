@@ -6,15 +6,18 @@
 
 import { useCallback, useState } from 'react';
 
+import { associationsMap, ColumnFilter, executionTypeMap, UseTestListFilterProps } from 'in-synthetics/utils/constants';
 import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
-import { ColumnFilter, useTestListFilterProps } from 'in-synthetics/utils/constants';
+import { getFilterDisplayName } from 'in-synthetics/dashboards/global/utils';
+import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import { t } from 'in-i18n';
 
 export default function useTestListFilter({
   filterUrlPathParams,
   setFilter,
-  locationMap = {}
-}: useTestListFilterProps & { locationMap?: Record<string, string> }) {
+  locationMap = {},
+  applicationsMap = {}
+}: UseTestListFilterProps) {
   const { syntheticTypes, locationIds, applicationIds, entityIds, executionType } = filterUrlPathParams;
 
   // Initialize local filters based on feature flags
@@ -60,7 +63,7 @@ export default function useTestListFilter({
       switch (id) {
         case 'type':
           return t('in-synthetics:dashboard.testList.tagFilter.filters_type', {
-            value
+            value: getDisplayType(value) ?? value
           });
         case 'location':
           return t('in-synthetics:dashboard.testList.tagFilter.filters_location', {
@@ -68,28 +71,27 @@ export default function useTestListFilter({
           });
         case 'association':
           return t('in-synthetics:dashboard.testList.tagFilter.filters_association', {
-            value
+            value: getFilterDisplayName(value, associationsMap) ?? value
           });
         case 'application':
           return t('in-synthetics:dashboard.testList.tagFilter.filters_application', {
-            value
+            value: applicationsMap?.[value] ?? value
           });
         case 'executionType':
           return t('in-synthetics:dashboard.testList.tagFilter.filters_executionType', {
-            value
+            value: getFilterDisplayName(value, executionTypeMap) ?? value
           });
         default:
           return t('in-synthetics:dashboard.testList.tagFilter.filters');
       }
     },
-    [locationMap]
+    [locationMap, applicationsMap]
   );
 
   return {
     getFilterLabel,
     tagFilters,
     setTagFilters,
-    resetFilters,
-    locationMap
+    resetFilters
   };
 }

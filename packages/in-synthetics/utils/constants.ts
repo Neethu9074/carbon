@@ -56,9 +56,9 @@ export const expectMatch = 'Expect Match';
 export const allAccessFilter = 'Selectable tests';
 export const inheritedAccessFilter = 'Inherited tests';
 export const association = {
-  applications: 'Applications',
-  websites: 'Websites',
-  mobileApps: 'Mobile Apps'
+  applications: t('in-synthetics:dashboard.testList.filterPanel.applicationsLabel'),
+  websites: t('in-synthetics:dashboard.testList.filterPanel.websitesLabel'),
+  mobileApps: t('in-synthetics:dashboard.testList.filterPanel.mobileAppsLabel')
 };
 export const selectableCredentialsFilter = 'Selectable credentials';
 export const inheritedCredentialsFilter = 'Inherited credentials';
@@ -152,6 +152,18 @@ export const dataScopes = [
     value: 'CI/CD'
   }
 ];
+
+export const associationsMap = new Map<string, string>([
+  ['applications', t('in-synthetics:dashboard.testList.filterPanel.applicationsLabel')],
+  ['websites', t('in-synthetics:dashboard.testList.filterPanel.websitesLabel')],
+  ['mobileApps', t('in-synthetics:dashboard.testList.filterPanel.mobileAppsLabel')]
+]);
+
+export const executionTypeMap = new Map<string, string>([
+  ['Scheduled', t('in-synthetics:dashboard.testList.options.scheduledMenuLabel')],
+  ['CI/CD', t('in-synthetics:dashboard.testList.options.onDemandMenuLabel')]
+]);
+
 export interface DataScopeType {
   label: string;
   value: string;
@@ -1065,9 +1077,11 @@ export interface Tag {
   onClose: () => void;
 }
 
-export interface useTestListFilterProps {
+export interface UseTestListFilterProps {
   filterUrlPathParams: FilterState;
   setFilter: (x: Object) => void;
+  locationMap: Record<string, string>;
+  applicationsMap: Record<string, string>;
 }
 export interface FilterPanelAnimationProps<ITEM_TYPE> {
   page: number;

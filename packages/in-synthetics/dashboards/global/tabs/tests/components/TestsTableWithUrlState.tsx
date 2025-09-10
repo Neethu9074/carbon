@@ -32,6 +32,7 @@ import TagFilters from 'in-synthetics/dashboards/global/tabs/tests/components/Ta
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
+import { createEntityMap } from 'in-synthetics/dashboards/global/utils';
 import useTestListFilter from 'in-synthetics/hooks/useTestListFilter';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { close } from 'in-components/DialogPresenter/store';
@@ -77,23 +78,11 @@ export const TestsTableWithUrlState = ({
 
   // Create a mapping of location IDs to their display labels
   const locationMap = useMemo(() => {
-    // Create an object with locationId as key and locationDisplayLabel as value
-    return (
-      syntheticTests?.data?.reduce((map, test) => {
-        if (test?.locationDisplayLabels && test?.locations) {
-          test.locationDisplayLabels.forEach((label, i) => {
-            const locationId = test.locations[i];
-            if (locationId && label) {
-              // Only add if not already in the map (first occurrence wins)
-              if (!map[locationId]) {
-                map[locationId] = label;
-              }
-            }
-          });
-        }
-        return map;
-      }, {} as Record<string, string>) || {}
-    );
+    return createEntityMap(syntheticTests?.data, 'locations', 'locationDisplayLabels');
+  }, [syntheticTests?.data]);
+
+  const applicationsMap = useMemo(() => {
+    return createEntityMap(syntheticTests?.data, 'applications', 'applicationLabels');
   }, [syntheticTests?.data]);
 
   const { getFilterLabel, tagFilters, setTagFilters, resetFilters } =
@@ -105,7 +94,8 @@ export const TestsTableWithUrlState = ({
         executionType
       },
       setFilter: setFilter,
-      locationMap
+      locationMap,
+      applicationsMap
     }) || {};
 
   const getRowDetails = (row: TestResultListItem) => {

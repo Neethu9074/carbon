@@ -61,3 +61,37 @@ export const getSortIcon = (sortDirection: SortDirectionType): JSX.Element => {
       return <ArrowsVertical />;
   }
 };
+
+export const createEntityMap = (
+  data: SyntheticTest[] | undefined,
+  idField: keyof SyntheticTest,
+  labelField: keyof SyntheticTest
+): Record<string, string> => {
+  return (
+    data?.reduce((map, test) => {
+      if (test[idField] && test[labelField]) {
+        const ids = test[idField] as unknown as string[];
+        const labels = test[labelField] as unknown as string[];
+
+        ids.forEach((id, i) => {
+          const label = labels[i];
+          if (id && label && !map[id]) {
+            map[id] = label;
+          }
+        });
+      }
+      return map;
+    }, {} as Record<string, string>) || {}
+  );
+};
+
+export function getFilterDisplayName(filter: string, map: Map<string, string>) {
+  for (let [key, value] of map.entries()) {
+    if (key === filter) {
+      return value;
+    } else {
+      continue;
+    }
+  }
+  return filter;
+}

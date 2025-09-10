@@ -293,8 +293,8 @@
       "runnowTitle": "Run test now",
       "multiSelectLabel": "All assigned locations",
       "retryInterval": "This test will retry {{retryCount}} after ",
-      "notificationTitle":"Run time",
-      "notificationSubTitle":"After the test is executed, depending on the test type it will take approx 1-5 mins to run."
+      "notificationTitle": "Run time",
+      "notificationSubTitle": "After the test is executed, depending on the test type it will take approx 1-5 mins to run."
     },
     "httpMethods": {
       "get": "GET",
@@ -573,7 +573,10 @@
         "searchPlaceholder": "Find classification",
         "sortLabel": "Sort",
         "selectAllLabel": "Select all ({{totalEntityCount}})",
-        "viewAllLabel": "View all ({{totalEntityCount}})"
+        "viewAllLabel": "View all ({{totalEntityCount}})",
+        "applicationsLabel": "Applications",
+        "websitesLabel": "Websites",
+        "mobileAppsLabel": "Mobile Apps"
       },
       "resultsList": {
         "statusLabel": "Status",
