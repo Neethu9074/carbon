@@ -39,8 +39,12 @@ function constructElkLink(integration, props) {
   const basePath = constructBasePath(integration.basePath);
   const timeParams = constructTimeParams(timeConfig);
   const query = serializeQuery(props);
+  const dashboardPath = `/app/dashboards#/view/${integration.dashboard}?_g=(refreshInterval:(pause:!t,value:0),time:(mode:absolute,${timeParams}))&_a=(query:(language:lucene,query:'${query}'))`;
 
-  return `${integration.url}${basePath}/app/kibana#/dashboard/${integration.dashboard}?_g=(refreshInterval:(pause:!t,value:0),time:(mode:absolute,${timeParams}))&_a=(query:(language:lucene,query:'${query}'))`;
+  const constructedLink = `${integration.url}/${basePath}/${dashboardPath}`;
+  const normalizedLink = constructedLink.replace(/\/{2,}/g, '/');
+
+  return normalizedLink;
 }
 
 function serializeQuery({ hostName, kubernetesPodName, dockerContainerId }) {

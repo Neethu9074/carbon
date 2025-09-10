@@ -226,5 +226,5 @@ function Heading({ text, htmlFor }) {
 }
 
 function areFieldsBlank(form) {
-  return isBlank(form.get('url').value) || isBlank(form.get('dashboard').value) || isBlank(form.get('basePath').value);
+  return isBlank(form.get('url').value) || isBlank(form.get('dashboard').value);
 }

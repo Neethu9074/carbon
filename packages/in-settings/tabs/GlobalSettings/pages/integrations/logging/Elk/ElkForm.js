@@ -41,14 +41,11 @@ export default function ElkForm({ form, onChange, disabled, id }) {
 
       {form.get('basePath').map(field => (
         <FormGroup>
-          <Label htmlFor="elk-basePath" hasError={!field.value && field.touched}>
-            {t('in-settings:tabs.basePath')}
-          </Label>
+          <Label htmlFor="elk-basePath">{t('in-settings:tabs.basePath')}</Label>
           <Input
             id="elk-basePath"
             value={field.value}
             onChange={e => onChange('basePath', e.target.value)}
-            hasError={!field.value && field.touched}
             placeholder={t('in-settings:tabs.elkBasePathPlaceholder')}
           />
           {!disabled && <TouchedMessages field={field} />}
