@@ -88,7 +88,7 @@ function getSyntheticMetricFormatter(metric: string): Formatter[] {
   if (metric === 'synthetic.testId' || metric === 'synthetic.id') {
     return [numberCompact];
   } else if (metric === 'synthetic.metricsResponseTime') {
-    return [latencyDetailed];
+    return [millisDetailed, millisCompact];
   } else if (metric === 'synthetic.successRate' || metric === 'synthetic.failureRate') {
     return [percentageDetailed, percentageCompact];
   } else if (metric === 'synthetic.metricsResponseSize') {

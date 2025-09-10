@@ -106,7 +106,7 @@ function handleFormatterUpdate(form: MapForm<any>): Item {
   const metricField = metricConfig.get(metricPath) as Field<string>;
   const aggregationField = metricConfig.get(aggregationPath) as Field<AggregationType>;
   const unitField = metricConfig.get(unitPath) as Field<string>;
-
+  const SYNTHETICS = 'SYNTHETICS';
   const source = sourceField?.value;
   const metric = metricField?.value;
   const aggregation = aggregationField?.value;
@@ -115,7 +115,7 @@ function handleFormatterUpdate(form: MapForm<any>): Item {
 
   // Backward compatibility, don't override already selected formatter
   const isFormatterSelected = form.get(formatterSelectedPath)?.value;
-  if (isFormatterSelected) {
+  if (isFormatterSelected && source != SYNTHETICS) {
     return form;
   }
 

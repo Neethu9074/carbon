@@ -38,7 +38,7 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
   const metricField = metricConfig.get(metricPath);
   const aggregationField = metricConfig.get(aggregationPath);
   const unitField = metricConfig.get(unitPath);
-  const syntheticsSource = 'SYNTHETICS';
+  const SYNTHETICS = 'SYNTHETICS';
   const source = sourceField.value;
   const metric = metricField.value;
   const aggregation = aggregationField.value;
@@ -51,7 +51,7 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
     ? getCommonFormatterForUnits(baseUnit)?.[0]?.id
     : metricConfig.get(formatterPath)?.value;
   //backward compatibility, adding selected formatter to the list of available formatters
-  if (isFormatterSelected && source != syntheticsSource) {
+  if (isFormatterSelected && source != SYNTHETICS) {
     const selectedFormatter = form.get(formatterPath)?.value;
     if (selectedFormatter && !formatters.find(formatter => formatter.id === selectedFormatter)) {
       formatters.push(getFormatterById(selectedFormatter));

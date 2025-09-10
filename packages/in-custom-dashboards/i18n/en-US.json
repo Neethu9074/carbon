@@ -312,7 +312,7 @@
         "totalExecutions": "Total executions",
         "failureRate": "Failure rate (%)",
         "successRate": "Success rate (%)",
-        "responseTime": "Average response time (ms)",
+        "responseTime": "Average response time",
         "responsesize": "Average response size (KB)"
       },
       "index": {
