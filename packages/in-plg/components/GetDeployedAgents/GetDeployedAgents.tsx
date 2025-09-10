@@ -136,9 +136,7 @@ const GetDeployedAgents = ({
             trackingService.deployAgentsButtonClicked();
           }}
         >
-          {datasource === DATASOURCE.AGENT
-            ? t('in-plg:agentDetails.common.viewDeployedAgents')
-            : t('in-plg:agentDetails.common.viewInstalledCollector')}
+          {t('in-plg:agentDetails.common.viewInfrastructureMap')}
         </Button>
       ) : null}
     </LayoutSection>

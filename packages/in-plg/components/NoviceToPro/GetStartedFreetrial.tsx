@@ -59,21 +59,21 @@ export default function GetStartedFreetrial({ handleButtonClick }: GetStartedFre
     {
       id: 'deployAgent',
       value: 'deployAgent',
-      data: { requiredProperty: 'deployAgent' },
+      data: { requiredProperty: 'GettingStarted.instanaAgent' },
       label: t('in-plg:agentEnforcement.deployAgent'),
       description: t('in-plg:agentEnforcement.agentTileDescription')
     },
     {
       id: 'openTelemetryCollector',
       value: 'openTelemetryCollector',
-      data: { requiredProperty: 'openTelemetryCollector' },
+      data: { requiredProperty: 'GettingStarted.openTelemetryCollector' },
       label: t('in-plg:agentEnforcement.openTelemetryCollector'),
       description: t('in-plg:agentEnforcement.openTelemetryCollectorTileDesciption')
     },
     {
       id: 'other',
       value: 'other',
-      data: { requiredProperty: 'other' },
+      data: { requiredProperty: 'GettingStarted.other' },
       label: t('in-plg:agentEnforcement.other'),
       description: t('in-plg:agentEnforcement.otherTileDescription')
     }
