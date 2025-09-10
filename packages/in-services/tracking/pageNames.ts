@@ -169,7 +169,8 @@ export const pageNames = Object.freeze({
   entitlements: 'Entitlements',
   activation_and_adoption: 'Activation and adoption',
   technologies_reporting: 'Technologies reporting',
-  account_information: 'Account information'
+  account_information: 'Account information',
+  aiGateway_llmGateways: 'LLM Gateways'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

@@ -34,13 +34,13 @@ export function createForm(form, savedState) {
     .put(
       'website',
       createField({
-        value: savedState?.website || '',
+        value: savedState?.website || ''
       })
     )
     .put(
       'conversionGoal',
       createField({
-        value: savedState?.conversionGoal || '',
+        value: savedState?.conversionGoal || ''
       })
     );
 }

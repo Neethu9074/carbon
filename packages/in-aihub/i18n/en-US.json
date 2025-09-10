@@ -1,0 +1,146 @@
+{
+  "viewSwitcherLabelAIGateway": "AI gateway",
+  "tabs": {
+    "aiAgents": "AI Agents",
+    "egressGateways": "LLM gateways"
+  },
+  "general": {
+    "timePickerDisabledTooltip": "Time picker is not applicable for this view",
+    "nextButtonLabel": "Next",
+    "backButtonLabel": "Back",
+    "createButtonLabel": "Create",
+    "cancelButtonLabel": "Cancel",
+    "saveButtonLabel": "Save"
+  },
+  "aiAgents": {
+    "comingSoon": "AI Agents Coming Soon",
+    "description": "This feature is currently under development. Check back later for AI agent management capabilities."
+  },
+  "gateways": {
+    "tableTitle": "Details",
+    "description": "Description",
+    "tableDescription": "The following table shows details for all the gateways that you've configured. Use the Actions column to view more information.",
+    "columnLabels": {
+      "name": "Name",
+      "modelName": "AI Model",
+      "endpointUrl": "Endpoint URL",
+      "capability": "Capability",
+      "type": "Type",
+      "serviceUsed": "Service Used",
+      "status": "Status"
+    },
+    "statusTiles": {
+      "status": "Status",
+      "total": "Total",
+      "active": "Active",
+      "disabled": "Disabled",
+      "showInTable": "show in table"
+    },
+    "statusToggle": {
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "enabledSuccess": "Gateway \"{{name}}\" has been enabled successfully",
+      "disableTitle": "Cannot disable this gateway",
+      "disableMessage": "One gateway per capability should be active all the time.",
+      "updateFailed": "Failed to update status for gateway \"{{name}}\": {{errorMessage}}",
+      "enableConfirmTitle": "Existing gateway will be disabled",
+      "enableConfirmDescription": "An existing gateway \"{{name}}\" for this capability will be disabled.",
+      "enableConfirmQuestion": "Do you wish to proceed?",
+      "enableConfirmProceed": "Proceed",
+      "enableConfirmCancel": "Cancel"
+    },
+    "searchGateways": "Search LLM gateways",
+    "closeFilter": "Close filter",
+    "reset": "Reset",
+    "apply": "Apply",
+    "newGateway": "Create LLM gateway",
+    "filterByModel": "Filter by model",
+    "filterByCapability": "Filter by capability",
+    "filter": "Filter",
+    "clearFilters": "Clear filters",
+    "noDataEmptyStateTitle": "No gateways found",
+    "noDataEmptyStateSubtitle": "Create a new gateway to get started",
+    "noDataEmptyStateIllustrationDescription": "No gateways illustration",
+    "errorStateTitle": "Unable to load gateways",
+    "errorStateDescription": "There was an error loading the gateways. Please try again later.",
+    "filterPanel": {
+      "searchPlaceholder": "Search",
+      "viewAllLabel": "View all ({totalEntityCount})"
+    },
+    "createGateway": {
+      "title": "Create an LLM  gateway",
+      "editTitle": "Configure LLM gateway: {{entityName}} ",
+      "connectionSection": {
+        "title": "Set up a connection",
+        "description": "Connection settings",
+        "subtitle": "Select service used to execute LLm gateways inferencing",
+        "other": "Other",
+        "watsonxKey": "watsonx API key",
+        "watsonxKeyHelperText": "Enter the API key for the watsonx service.",
+        "watsonxUrl": "watsonx URL",
+        "endpointUrl": "Endpoint URL",
+        "endpointApiKey": "Endpoint api key",
+        "watsonxProject": "watsonx project",
+        "validURL": "Enter valid URL."
+      },
+      "modelSelection": {
+        "title": "Select task and AI model",
+        "description": "Select the type of task you want this LLM gateway to perform and then choose an AI model for that task.",
+        "selectTaskType": "Task",
+        "selectModel": "Select AI model",
+        "recommended": "Recommended",
+        "taskTypes": {
+          "actionGeneration": "Manual action generation",
+          "summaryGeneration": "Incident Summarization",
+          "scriptGeneration": "Script generation"
+        },
+        "modelTypes": {
+          "graniteDescription": "Use it for faster and more accurate results",
+          "mistralLargeDescription": "Consumes more token provides results with less deviations",
+          "mistralMediumDescription": "High accuracy results coupled with cost-effective scalability"
+        }
+      },
+      "modelConfiguration": {
+        "title": "Configure model",
+        "tokenLimit": "Token limit (in thousands)",
+        "tokenLimitHelper": "maximum number of tokens a model can process in a single request.",
+        "maxLatency": "Max latency",
+        "maxLatencyHelper": "Longest time it takes for the model to generate a response. ",
+        "repetitionPenalty": "Repetition penalty",
+        "repetitionPenaltyHelper": "Set a repetition penalty to discourage repeating phrases in the output.",
+        "temperature": "Temperature",
+        "temperatureHelper": "Set a temperature to control randomness. The higher the number, the more creative the output will be.",
+        "topK": "top_k",
+        "topKHelper": "Min value: 1",
+        "topP": "top_p",
+        "topPHelper": "Controls randomness by limiting token choices to a probability threshold."
+      },
+      "details": {
+        "title": "Enter details",
+        "name": "Name",
+        "nameHelper": "Enter a unique name to LLM gateway.",
+        "description": "Description",
+        "descriptionHelper": "Provide a description to help explain the purpose of the LLM gateway."
+      },
+      "messages": {
+        "successfulTitle": "LLM gateway was created successfully.",
+        "successfulContent": "A new LLM gateway \"{{name}}\" has been created successfully"
+      }
+    },
+    "editGateway": {
+      "messages": {
+        "success": {
+          "title": "LLM gateway was updated successfully.",
+          "content": "LLM gateway \"{{name}}\" has been updated successfully."
+        }
+      }
+    },
+    "deleteDialog": {
+      "confirmRemove": "Remove gateway?",
+      "confirmRemoveMsg": "Are you sure you want to remove the gateway \"{{name}}\"?",
+      "delete": "Delete",
+      "success": "Gateway deleted successfully",
+      "failure": "Failed to delete gateway: {{errorMessage}}"
+    }
+  }
+}

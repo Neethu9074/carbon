@@ -1079,6 +1079,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'aIGatewayEnabled',
+    instanaCtlKey: 'feature.ai.gateway.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'fedrampDeploymentEnabled',
     instanaCtlKey: 'feature.fedramp.deployment.enabled',
     defaultValue: false

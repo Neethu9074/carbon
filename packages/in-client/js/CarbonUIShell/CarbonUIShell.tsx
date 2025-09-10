@@ -30,6 +30,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useUIShellTitleDetail from 'in-plg/hooks/useUIShellTitleDetail';
 import BizOpsMenuItem from 'in-client/js/CarbonUIShell/BizOpsMenuItem';
 import EventsMenuItem from 'in-client/js/CarbonUIShell/EventsMenuItem';
+import AIHubMenuItem from 'in-client/js/CarbonUIShell/AIHubMenuItem';
 import LogsMenuItem from 'in-client/js/CarbonUIShell/LogsMenuItem';
 import MoreMenuItem from 'in-client/js/CarbonUIShell/MoreMenuItem';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -107,6 +108,7 @@ export default function CarbonUIShell() {
       <VulnerabilitiesMenuItem />
       <EventsMenuItem />
       <AutomationMenuItem />
+      <AIHubMenuItem />
       <ServiceLevelsMenuItem />
       <MenuItem isDivider />
       <SettingsMenuItem />

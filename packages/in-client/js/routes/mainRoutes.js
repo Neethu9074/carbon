@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-const AgentView = () => import (/* webpackChunkName: "infrastructure" */ 'in-infrastructure/agentView/AgentView');
-const InternalViews = () => import (/* webpackChunkName: "internal" */ 'in-internal');
+const AgentView = () => import(/* webpackChunkName: "infrastructure" */ 'in-infrastructure/agentView/AgentView');
+const InternalViews = () => import(/* webpackChunkName: "internal" */ 'in-internal');
+
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
@@ -41,6 +42,7 @@ import welcomePageRoutes from 'in-plg/navigation/routes';
 import nutanixRoutes from 'in-nutanix/navigation/routes';
 import bizopsRoutes from 'in-bizops/navigation/routes';
 import eventRoutes from 'in-events/navigation/routes';
+import aiHubRoutes from 'in-aihub/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
 import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
@@ -109,6 +111,7 @@ export default ({
     {welcomePageRoutes}
     {genAiObservabilityRoutes}
     {profilingRoutes}
+    {aiHubRoutes}
     {loggingRoutes}
     {deepLinkRoutes}
     {hasNutanixAccess && nutanixRoutes}

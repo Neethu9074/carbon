@@ -373,3 +373,6 @@ packages/in-forge/plugins/genai         @Instana-IBM-GitHub-Enterprise @instana/
 
 # Vulnerability Center
 packages/in-vulnerability-center        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-integrations
+
+# AI gateway
+packages/in-aihub                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation

@@ -221,6 +221,7 @@ module.exports = {
   newTopologyEnabled: true,
   newOnboardingPageEnabled: true,
   agentEnforcementEnabled: false,
+  aIGatewayEnabled: true,
   fedrampDeploymentEnabled: false,
   contextualOnboardingEnabled: true,
   eventsAgenticChatEnabled: true

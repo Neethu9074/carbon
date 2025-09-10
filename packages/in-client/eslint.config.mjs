@@ -20,6 +20,7 @@ export default [
           'in-components',
           'in-analyze',
           'in-applications',
+          'in-aihub',
           'in-automation',
           'in-bizops',
           'in-cloudfoundry',
