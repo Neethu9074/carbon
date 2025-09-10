@@ -9,6 +9,7 @@ import { ThemeProvider } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
+import triggerPageLoadInstanaOnboarding from 'in-plg/components/Segment/OnboardingSegmentEvent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
@@ -48,6 +49,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
       return;
     }
 
+    triggerPageLoadInstanaOnboarding();
     // We check if there is at least one OTel collector entity present.
     // If there is, we skip the onboarding catalog page, otherwise we show it.
     const subscription = getEntities({
