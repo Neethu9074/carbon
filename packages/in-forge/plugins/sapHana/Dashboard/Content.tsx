@@ -29,6 +29,7 @@ import RowStoreMemoryStatsList from 'in-forge/plugins/sapHana/Dashboard/RowStore
 import SchedulerJobsStatsList from 'in-forge/plugins/sapHana/Dashboard/SchedulerJobsStats';
 import SqlPlanCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/SqlPlanCacheStats';
 import SharedMemoryStatsList from 'in-forge/plugins/sapHana/Dashboard/SharedMemoryStats';
+import ConnectionsInfoStatsList from 'in-forge/plugins/sapHana/Dashboard/ConnectionInfo';
 import SystemEventStatsList from 'in-forge/plugins/sapHana/Dashboard/SystemEventStats';
 import TransactionStatsList from 'in-forge/plugins/sapHana/Dashboard/TransactionStats';
 import JobPorgressStatsList from 'in-forge/plugins/sapHana/Dashboard/JobProgressStats';
@@ -399,12 +400,19 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
             timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
-              metrics: ['stats.totalCount', 'stats.idleCount', 'stats.queueingCount', 'stats.runningCount'],
+              metrics: [
+                'stats.totalCount',
+                'stats.runningCount',
+                'stats.queueingCount',
+                'stats.idleCount',
+                'stats.emptyCount'
+              ],
               labels: [
                 t('in-forge:plugins.sapHana.dashboard.total'),
-                t('in-forge:plugins.sapHana.dashboard.idle'),
+                t('in-forge:plugins.sapHana.dashboard.running'),
                 t('in-forge:plugins.sapHana.dashboard.queueingCount'),
-                t('in-forge:plugins.sapHana.dashboard.running')
+                t('in-forge:plugins.sapHana.dashboard.idle'),
+                t('in-forge:plugins.sapHana.dashboard.empty')
               ],
               type: 'line'
             }}
@@ -515,6 +523,7 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       </Columize>
       <ServiceDetailsStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <GarbageCollectionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <ConnectionsInfoStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ExpensiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ActiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SqlPlanCacheStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
