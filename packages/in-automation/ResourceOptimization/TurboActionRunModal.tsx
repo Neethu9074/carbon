@@ -36,6 +36,7 @@ import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExe
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { playwithEnabled, solisEnabled } from 'in-services/featureFlags';
+import { getSolisIntegrationUrl } from 'in-services/integrations/solis';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
@@ -379,7 +380,7 @@ export default function TurboActionRunModal({ action, agents, targetSnapshotId, 
             {metadata?.actionDetailsURL && (
               <div className={locals.turboLink}>
                 <Link
-                  href={metadata?.actionDetailsURL}
+                  href={getSolisIntegrationUrl(metadata?.actionDetailsURL, 'turbonomic')}
                   linkIconType={'lib_views_external_link'}
                   external={!solisEnabled}
                 >
