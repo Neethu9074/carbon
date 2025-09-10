@@ -75,6 +75,27 @@ export const TestsTableWithUrlState = ({
     });
   }, [syntheticTypes, locationIds, entityIds, applicationIds, executionType]);
 
+  // Create a mapping of location IDs to their display labels
+  const locationMap = useMemo(() => {
+    // Create an object with locationId as key and locationDisplayLabel as value
+    return (
+      syntheticTests?.data?.reduce((map, test) => {
+        if (test?.locationDisplayLabels && test?.locations) {
+          test.locationDisplayLabels.forEach((label, i) => {
+            const locationId = test.locations[i];
+            if (locationId && label) {
+              // Only add if not already in the map (first occurrence wins)
+              if (!map[locationId]) {
+                map[locationId] = label;
+              }
+            }
+          });
+        }
+        return map;
+      }, {} as Record<string, string>) || {}
+    );
+  }, [syntheticTests?.data]);
+
   const { getFilterLabel, tagFilters, setTagFilters, resetFilters } =
     useTestListFilter({
       filterUrlPathParams: {
@@ -83,7 +104,8 @@ export const TestsTableWithUrlState = ({
         ...(syntheticRbacLimitedEnabled ? { entityIds } : { applicationIds }),
         executionType
       },
-      setFilter: setFilter
+      setFilter: setFilter,
+      locationMap
     }) || {};
 
   const getRowDetails = (row: TestResultListItem) => {
@@ -138,6 +160,10 @@ export const TestsTableWithUrlState = ({
     );
   }, [syntheticTests, isAssociationsContext, filtersTemp]);
 
+  const getContextSpecificProps = useCallback(() => {
+    return syntheticRbacLimitedEnabled ? { entityIds, associations } : { applicationIds };
+  }, [entityIds, associations, applicationIds]);
+
   const tagFilterContent = useMemo(
     () => (
       <TagFilters
@@ -161,7 +187,7 @@ export const TestsTableWithUrlState = ({
       get={getTestSummaryListData}
       syntheticTypes={syntheticTypes}
       locationIds={locationIds}
-      {...(isAssociationsContext ? {} : syntheticRbacLimitedEnabled ? { entityIds, associations } : { applicationIds })}
+      {...(isAssociationsContext ? {} : getContextSpecificProps())}
       {...(runType ? { runType } : {})}
       {...(executionType ? { executionType } : {})}
       loading={syntheticTests?.progress.loading}

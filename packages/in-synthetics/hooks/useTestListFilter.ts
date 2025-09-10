@@ -10,7 +10,11 @@ import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services
 import { ColumnFilter, useTestListFilterProps } from 'in-synthetics/utils/constants';
 import { t } from 'in-i18n';
 
-export default function useTestListFilter({ filterUrlPathParams, setFilter }: useTestListFilterProps) {
+export default function useTestListFilter({
+  filterUrlPathParams,
+  setFilter,
+  locationMap = {}
+}: useTestListFilterProps & { locationMap?: Record<string, string> }) {
   const { syntheticTypes, locationIds, applicationIds, entityIds, executionType } = filterUrlPathParams;
 
   // Initialize local filters based on feature flags
@@ -51,38 +55,41 @@ export default function useTestListFilter({ filterUrlPathParams, setFilter }: us
       ...(syntheticRunNowEnabled ? { executionType: [] } : {})
     });
   }, [setTagFilters, setFilter]);
-
-  const getFilterLabel = useCallback(({ id, value }) => {
-    switch (id) {
-      case 'type':
-        return t('in-synthetics:dashboard.testList.tagFilter.filters_type', {
-          value
-        });
-      case 'location':
-        return t('in-synthetics:dashboard.testList.tagFilter.filters_location', {
-          value
-        });
-      case 'association':
-        return t('in-synthetics:dashboard.testList.tagFilter.filters_association', {
-          value
-        });
-      case 'application':
-        return t('in-synthetics:dashboard.testList.tagFilter.filters_application', {
-          value
-        });
-      case 'executionType':
-        return t('in-synthetics:dashboard.testList.tagFilter.filters_executionType', {
-          value
-        });
-      default:
-        return t('in-synthetics:dashboard.testList.tagFilter.filters');
-    }
-  }, []);
+  const getFilterLabel = useCallback(
+    ({ id, value }) => {
+      switch (id) {
+        case 'type':
+          return t('in-synthetics:dashboard.testList.tagFilter.filters_type', {
+            value
+          });
+        case 'location':
+          return t('in-synthetics:dashboard.testList.tagFilter.filters_location', {
+            value: locationMap?.[value] ?? value
+          });
+        case 'association':
+          return t('in-synthetics:dashboard.testList.tagFilter.filters_association', {
+            value
+          });
+        case 'application':
+          return t('in-synthetics:dashboard.testList.tagFilter.filters_application', {
+            value
+          });
+        case 'executionType':
+          return t('in-synthetics:dashboard.testList.tagFilter.filters_executionType', {
+            value
+          });
+        default:
+          return t('in-synthetics:dashboard.testList.tagFilter.filters');
+      }
+    },
+    [locationMap]
+  );
 
   return {
     getFilterLabel,
     tagFilters,
     setTagFilters,
-    resetFilters
+    resetFilters,
+    locationMap
   };
 }

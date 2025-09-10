@@ -40,7 +40,7 @@ export default function useFilterPanelAnimation<ITEM_TYPE extends ListItem>({
     const panel = table.querySelector(`.${locals['panel--container']}`);
     const content = table.querySelector(`.cds--data-table-content`);
     const pagination = table.querySelector(`.cds--pagination`);
-    const tagFilterContainer = table.querySelector(`#tag-filter-summary`);
+    const tagFilterContainer = table.querySelector(`#tag-filter-container`);
 
     if (popoverOpen) {
       panel &&

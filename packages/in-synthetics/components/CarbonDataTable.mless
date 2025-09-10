@@ -48,6 +48,19 @@
     text-overflow: ellipsis;
   }
 
+  .popoverOpen {
+    .panel--container {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+    :global(.cds--data-table-content),
+    :global(.cds--pagination),
+    .tagFilterContainer {
+      width: calc(100% - 336px);
+      transform: translateX(336px);
+    }
+  }
+
   .generate-column-widths(@i) when (@i =< 100) {
     .columnWidth-@{i} {
       max-width: @i * 1%;

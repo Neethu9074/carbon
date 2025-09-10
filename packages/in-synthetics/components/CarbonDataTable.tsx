@@ -298,7 +298,7 @@ export const CarbonDataTable = React.memo(
           getExpandedRowProps
         }) => (
           <div ref={tableContainerRef}>
-            <TableContainer {...getTableContainerProps()}>
+            <TableContainer {...getTableContainerProps()} className={classNames({ [locals.popoverOpen]: popoverOpen })}>
               <>
                 {/* Toolbar section with search, filters, and actions */}
                 {showToolbar && (
@@ -382,7 +382,11 @@ export const CarbonDataTable = React.memo(
                     </Button>
                   }
                 />
-                {!isLoading && tagFilterContent}
+                {!isLoading && (
+                  <div className={locals.tagFilterContainer} id="tag-filter-container">
+                    {tagFilterContent}
+                  </div>
+                )}
 
                 {/* Loading state - shows skeleton while data is loading */}
                 {isLoading ? (
