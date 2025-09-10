@@ -17,6 +17,13 @@ import {
 import { useObservable } from '@instana/hooks';
 
 import {
+  awsMetricStreamsPlugin,
+  DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS,
+  DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL,
+  DEFAULT_POLL_RATE,
+  oTelPlugins
+} from 'in-forge/constants';
+import {
   applyFilteredConfiguration,
   FilterResult,
   summarizeFilterResult,
@@ -60,7 +67,6 @@ import { AxisNames } from 'in-components/Chart/data/dataSearchUtils';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { DEFAULT_POLL_RATE } from 'in-forge/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -448,6 +454,10 @@ function addForAxis(
       type,
       ...(pollRateSupportForUnifiedMetricsEnabled
         ? { pollRate: getPollRate(resultDataAsList, metricId) }
+        : type in oTelPlugins
+        ? { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL }
+        : type in awsMetricStreamsPlugin
+        ? { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_AWS_METRIC_STREAMS }
         : { pollRate: DEFAULT_POLL_RATE })
     };
 
