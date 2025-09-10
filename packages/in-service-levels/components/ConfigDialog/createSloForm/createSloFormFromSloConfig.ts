@@ -78,6 +78,7 @@ export function getScopeFieldsFromSloConfig({ entity }: ServiceLevelObjectiveCon
       endpointId: createField({ value: endpointId ?? '' }),
       includeInternal: createField({ value: includeInternal ?? false }),
       includeSynthetic: createField({ value: includeSynthetic ?? false }),
+      includeUnscheduledTestResults: createField({ value: false }),
       serviceId: createField({ value: serviceId ?? '' }),
       tagFilterExpression: createField({
         value: fromBackendModel(tagFilterExpression),
@@ -93,6 +94,7 @@ export function getScopeFieldsFromSloConfig({ entity }: ServiceLevelObjectiveCon
       endpointId: createField({ value: '' }),
       includeInternal: createField({ value: false }),
       includeSynthetic: createField({ value: false }),
+      includeUnscheduledTestResults: createField({ value: false }),
       serviceId: createField({ value: '' }),
       tagFilterExpression: createField({
         value: fromBackendModel(entity.tagFilterExpression),
@@ -102,12 +104,14 @@ export function getScopeFieldsFromSloConfig({ entity }: ServiceLevelObjectiveCon
   }
 
   if (isSyntheticSloEntity(entity)) {
+    const { includeUnscheduledTestResults } = entity;
     return {
       beaconType: createField({ value: undefined }),
       boundaryScope: createField({ value: undefined }),
       endpointId: createField({ value: undefined }),
       includeInternal: createField({ value: undefined }),
       includeSynthetic: createField({ value: undefined }),
+      includeUnscheduledTestResults: createField({ value: includeUnscheduledTestResults ?? false }),
       serviceId: createField({ value: undefined }),
       tagFilterExpression: createField({ value: undefined })
     };

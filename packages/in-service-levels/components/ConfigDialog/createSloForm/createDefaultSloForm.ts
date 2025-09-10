@@ -46,6 +46,7 @@ export const getDefaultScopeFields = (): SloScopeFields => ({
   endpointId: createField({ value: '' }),
   includeInternal: createField({ value: false }),
   includeSynthetic: createField({ value: false }),
+  includeUnscheduledTestResults: createField({ value: false }),
   serviceId: createField({ value: '' }),
   tagFilterExpression: createField({ value: [], validator: noInvalidTagFilterExpression })
 });

@@ -26,7 +26,7 @@ interface ScopeSectionProps {
   data: SloTabData | ApplicationSloTabData;
 }
 
-const contentDefinitions: Record<Exclude<SloEntityType, 'synthetic' | 'infrastructure'>, RowDefinition[]> = {
+const contentDefinitions: Record<Exclude<SloEntityType, 'infrastructure'>, RowDefinition[]> = {
   application: [
     {
       id: 'boundaryScope',
@@ -53,6 +53,12 @@ const contentDefinitions: Record<Exclude<SloEntityType, 'synthetic' | 'infrastru
       columns: [{ getContent: WebsiteCustomFilterColumn }],
       shouldRender: data => Boolean(data.configuration.entity.tagFilterExpression)
     }
+  ],
+  synthetic: [
+    {
+      id: 'includeUnscheduledTestResults',
+      columns: [{ getContent: SyntheticsTestResultsColumn }]
+    }
   ]
 };
 
@@ -60,7 +66,7 @@ export default function ScopeSection({ data }: ScopeSectionProps) {
   const { configuration } = data;
   const { entity } = configuration;
 
-  if (isSyntheticSloEntity(entity) || isInfraSloEntity(entity)) return <></>;
+  if (isInfraSloEntity(entity)) return <></>;
 
   const { type } = entity;
 
@@ -111,6 +117,29 @@ function HiddenCallsColumn({ data }: ScopeSectionProps) {
           <li>
             {t('in-service-levels:sloDashboard.components.scopeSection.apHiddenCallsSynthetic', {
               context: String(doesIncludeSyntheticCalls)
+            })}
+          </li>
+        </ul>
+      }
+    />
+  );
+}
+function SyntheticsTestResultsColumn({ data }: ScopeSectionProps) {
+  const { configuration } = data;
+  const { entity } = configuration;
+
+  if (!isSyntheticSloEntity(entity)) return null;
+
+  const doesIncludeUnscheduledTestResults: boolean = entity.includeUnscheduledTestResults ?? false;
+
+  return (
+    <KeyValue
+      label={t('in-service-levels:sloDashboard.components.scopeSection.syntheticTestResultsLabel')}
+      value={
+        <ul className={locals.listUnstyled}>
+          <li>
+            {t('in-service-levels:sloDashboard.components.scopeSection.syntheticTestResultsInternal', {
+              context: String(doesIncludeUnscheduledTestResults)
             })}
           </li>
         </ul>

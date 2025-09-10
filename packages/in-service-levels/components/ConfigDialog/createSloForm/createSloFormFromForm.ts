@@ -57,6 +57,8 @@ export const getScopeFieldsFromForm = (form: SloForm): SloScopeFields => {
   const endpointIdValue = form.getIn(['scope', 'endpointId']).value;
   const includeInternalValue = form.getIn(['scope', 'includeInternal']).value;
   const includeSyntheticValue = form.getIn(['scope', 'includeSynthetic']).value;
+  const includeUnscheduledTestResults = form.getIn(['scope', 'includeUnscheduledTestResults']).value;
+
   const serviceIdValue = form.getIn(['scope', 'serviceId']).value;
   const tagFilterExpressionValue = form.getIn(['scope', 'tagFilterExpression']).value;
 
@@ -66,6 +68,7 @@ export const getScopeFieldsFromForm = (form: SloForm): SloScopeFields => {
     endpointId: createField({ value: endpointIdValue }),
     includeInternal: createField({ value: includeInternalValue }),
     includeSynthetic: createField({ value: includeSyntheticValue }),
+    includeUnscheduledTestResults: createField({ value: includeUnscheduledTestResults }),
     serviceId: createField({ value: serviceIdValue }),
     tagFilterExpression: createField({ value: tagFilterExpressionValue ?? [], validator: noInvalidTagFilterExpression })
   };

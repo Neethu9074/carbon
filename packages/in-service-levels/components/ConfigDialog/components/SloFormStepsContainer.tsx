@@ -96,6 +96,7 @@ function getApplicationAndWebsiteNavItems(form: SloForm): NavItem[] {
 function getSyntheticTestNavItems(form: SloForm): NavItem[] {
   const entityIdField = form.getIn(['entity', 'entityIds']);
   const nameField = form.getIn(['nameTags', 'name']);
+  const unscheduledTestResultField = form.getIn(['scope', 'includeUnscheduledTestResults']);
   const targetField = form.getIn(['objective', 'target']);
   const indicatorForm = form.get('indicator');
   const thresholdField = form.getIn(['indicator', 'threshold']);
@@ -111,6 +112,7 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
   const isDateFieldValid = isFieldValid(dateField);
   const isTimeFieldValid = isFieldValid(timeField);
   const isTimezoneFormValid = isFieldValid(timezoneForm);
+  const isUnscheduledTestResultFieldValid = isFieldValid(unscheduledTestResultField);
 
   return [
     {
@@ -121,30 +123,37 @@ function getSyntheticTestNavItems(form: SloForm): NavItem[] {
       valid: isEntityIdFieldValid
     },
     {
+      content: <SloScopeSection />,
+      label: t('in-service-levels:createSloDialog.selectScopeNavItem'),
+      scrollId: '2-select-scope',
+      title: t('in-service-levels:createSloDialog.selectScopeNavItem'),
+      valid: isUnscheduledTestResultFieldValid
+    },
+    {
       content: <SloBlueprintsSection />,
       label: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
-      scrollId: '2-select-indicator',
+      scrollId: '3-select-indicator',
       title: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
       valid: isIndicatorValid && isThresholdValid
     },
     {
       content: <SloObjectiveSection />,
       label: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
-      scrollId: '3-select-objective',
+      scrollId: '4-select-objective',
       title: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
       valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid && isTimezoneFormValid
     },
     {
       content: <SloNameAndTagsSection />,
       label: t('in-service-levels:createSloDialog.nameAndTagsTitle'),
-      scrollId: '4-name-and-tags',
+      scrollId: '5-name-and-tags',
       title: t('in-service-levels:createSloDialog.nameAndTagsTitle'),
       valid: isNameValid
     },
     {
       content: <SloFormPreview />,
       label: t('in-service-levels:createSloDialog.previewSection.title', { context: 'synthetic' }),
-      scrollId: '5-sample',
+      scrollId: '6-sample',
       title: t('in-service-levels:createSloDialog.previewSection.title', { context: 'synthetic' }),
       valid: true
     }

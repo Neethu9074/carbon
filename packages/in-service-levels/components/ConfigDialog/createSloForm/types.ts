@@ -58,6 +58,7 @@ export type SloScopeFields = {
   boundaryScope: Field<ApplicationBoundaryScope | undefined>;
   includeInternal: Field<boolean | undefined>;
   includeSynthetic: Field<boolean | undefined>;
+  includeUnscheduledTestResults: Field<boolean | undefined>;
   endpointId: Field<string | undefined>;
   serviceId: Field<string | undefined>;
   tagFilterExpression: Field<FormModelElement[] | undefined>;

@@ -52,6 +52,7 @@ export const testWebsiteForm: SloForm = createMapForm({
         endpointId: createField({ value: '' }),
         includeInternal: createField({ value: false }),
         includeSynthetic: createField({ value: false }),
+        includeUnscheduledTestResults: createField({ value: false }),
         serviceId: createField({ value: '' }),
         tagFilterExpression: createField({ value: fromBackendModel(undefined) })
       }
@@ -112,6 +113,7 @@ export const testApplicationForm: SloForm = createMapForm({
         endpointId: createField({ value: 'endpoindNotEmpty' }),
         includeInternal: createField({ value: true }),
         includeSynthetic: createField({ value: false }),
+        includeUnscheduledTestResults: createField({ value: false }),
         serviceId: createField({ value: '12345' }),
         tagFilterExpression: createField({ value: fromBackendModel(undefined) })
       }
