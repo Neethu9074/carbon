@@ -21,6 +21,8 @@ import CsvExporter from 'in-components/CsvExporter/CsvExporter';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
+import locals from './NameSpaceCost.mless';
+
 let currencyType = 'USD';
 interface NamespaceCostRow {
   key: string;
@@ -312,7 +314,14 @@ const CSVExportButton = ({ csvHeaders, csvData }: CSVExportProps) => {
     cols.push(arr);
   });
 
-  trackCta(KUBECOST_EXPORT_NAMESPACE_COST_CLICK);
+  // Handle the click event when the export button is clicked
+  const handleExportClick = () => {
+    trackCta(KUBECOST_EXPORT_NAMESPACE_COST_CLICK);
+  };
 
-  return <CsvExporter headers={headers} data={cols} fileName="namespace_cost.csv" />;
+  return (
+    <div className={locals.exportBtn} onClick={handleExportClick}>
+      <CsvExporter headers={headers} data={cols} fileName="namespace_cost.csv" onClick={handleExportClick} />
+    </div>
+  );
 };
