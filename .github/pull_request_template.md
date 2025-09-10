@@ -20,6 +20,9 @@ Switch to the [Release Branch PR template](?expand=1&template=release_branch.md)
 >
 > **Thanks for reading**, ^ you can remove these lines, no value for the reviewer ;-)
 
+<!-- Is this a TypeScript migration PR? If so, switch to: -->
+[TypeScript migration template](?expand=1&template=ts_migration.md)
+
 
 # Why
 
