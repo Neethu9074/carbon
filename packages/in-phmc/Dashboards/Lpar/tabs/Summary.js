@@ -38,6 +38,14 @@ export default function Summary({ timeConfig, data: lpar }) {
           formatter={percentage.detailed}
         />
       </KpiGridRow>
+      <KpiGridRow sizes={[2]}>
+        <InfraMetricKpiCard
+          title={t('in-phmc:capacityWeight')}
+          snapshotId={snapshotId}
+          metric="capacityWeight"
+          formatter={number.compact}
+        />
+      </KpiGridRow>
 
       <Row verticallyStretchColumns>
         <Col lg={6}>
