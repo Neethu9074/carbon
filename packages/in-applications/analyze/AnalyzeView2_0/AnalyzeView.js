@@ -646,6 +646,12 @@ function getFacetedSearchSuggestions({
       tagName: group.groupbyTag,
       filter: {
         timeConfig: timeConfig
+      },
+      metrics: {
+        [metricKey]: {
+          metric: subtraceDataSource,
+          aggregation: 'SUM'
+        }
       }
     });
   }
