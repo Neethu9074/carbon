@@ -9,14 +9,15 @@ import { VariableSizeList } from 'react-window';
 
 import { CarbonSearch, IconButton, Toggle } from '@instana/components';
 import { TagFilterExpressionElementUnion } from '@instana/types';
-import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 
-import { getLogsOnIntervalObservable, LINE_HEIGHT, useAbsoluteUrlToItem } from 'in-logging/analyze/ConsoleView/utils';
-import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
-import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
+import {
+  getLogMessageWithParams,
+  getLogsOnIntervalObservable,
+  LINE_HEIGHT
+} from 'in-logging/analyze/ConsoleView/utils';
+import { localisationStrings } from 'in-logging/analyze/ConsoleView/localisationStrings';
+import { ConsoleViewRow } from 'in-logging/analyze/ConsoleView/ConsoleViewRow';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 
 import locals from 'in-logging/analyze/ConsoleView/ConsoleView.mless';
@@ -34,8 +35,6 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
   const listRef = useRef<HTMLDivElement>();
   const windowRef = useRef<VariableSizeList>();
   const filtersString = JSON.stringify(props.filters);
-
-  const { goToPath } = useNavigation();
   const logs = useObservable(getLogsOnIntervalObservable(props.filters), [filtersString]) ?? [];
   const dataLength = logs.length;
 
@@ -58,45 +57,6 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
     return totalWrappedLines * LINE_HEIGHT;
   }
 
-  function Row({ index, style }: { index: number; style: React.CSSProperties }) {
-    const log = logs[index];
-    const logLevel = getLogLevel(log.tags);
-    const path = useAbsoluteUrlToItem(log.itemId);
-    const triggeConsoleNavigation = () => goToPath(path.hash);
-
-    return (
-      <div
-        style={{
-          ...style,
-          overflow: 'hidden'
-        }}
-        onClick={() => {
-          triggeConsoleNavigation();
-        }}
-        data-testid="logConsoleRow"
-      >
-        <div className={locals.logLine} style={{ lineHeight: `${LINE_HEIGHT}px` }}>
-          <span>{formatDateTime(log.timestamp)}</span>
-          <div
-            className={locals.level}
-            style={{ background: getLogLevelColor(logLevel) }}
-            data-testid="logConsoleLevel"
-          >
-            <span>{logLevel}</span>
-          </div>
-          <div className={locals.textContainer} data-testid="logConsoleMesage">
-            <LogMessage
-              tags={log.tags}
-              message={log.message}
-              triggeConsoleNavigation={triggeConsoleNavigation}
-              isConsoleView
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   function handleTailToggle(toggled: boolean) {
     setIsTailEnabled(toggled);
   }
@@ -105,7 +65,9 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
     const searchString = e.target.value;
     setSearchValue(searchString);
     setSearchResultIndexes(
-      logs.flatMap((log, i) => (log.message.toLowerCase().includes(searchString.toLowerCase()) ? [i] : []))
+      logs.flatMap((log, i) =>
+        getLogMessageWithParams(log).toLowerCase().includes(searchString.toLowerCase()) ? [i] : []
+      )
     );
     setSearchItemIndex(0);
   }
@@ -141,7 +103,7 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
           data-testid="logConsoleSearchInput"
         />
         <div className={locals.toggleContainer}>
-          <label htmlFor="tailingToggle">Tailing</label>
+          <label htmlFor="tailingToggle">{localisationStrings.tailing}</label>
           <Toggle id="tailingToggle" checked={isTailEnabled} onToggle={handleTailToggle} />
         </div>
       </fieldset>
@@ -150,17 +112,15 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
           <nav className={locals.searchNavigation} data-testid="logConsoleSearchArrows">
             <IconButton
               type="lib_arrow_down"
-              disabled={isSearchNavigationDisabled}
+              disabled={isSearchNavigationDisabled || searchItemIndex === searchResultIndexes.length - 1}
               onClick={() => handleSearchItemIndexChange('next')}
             />
             <IconButton
               type="lib_arrow_up"
-              disabled={isSearchNavigationDisabled}
+              disabled={isSearchNavigationDisabled || searchItemIndex === 0}
               onClick={() => handleSearchItemIndexChange('previous')}
             />
-            <span>
-              At {searchItemIndex} of {searchResultIndexes.length} results
-            </span>
+            <span>{localisationStrings.searchIndex(searchItemIndex + 1, searchResultIndexes.length)}</span>
           </nav>
         )}
         <section data-testid="logConsoleVirtualList">
@@ -172,7 +132,7 @@ export function ConsoleViewContent(props: ConsoleViewContentProps) {
             itemCount={logs.length}
             itemSize={getItemSize}
           >
-            {Row}
+            {({ index, style }) => <ConsoleViewRow index={index} logs={logs} searchValue={searchValue} style={style} />}
           </VariableSizeList>
         </section>
       </pre>

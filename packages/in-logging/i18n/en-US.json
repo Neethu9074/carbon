@@ -63,6 +63,10 @@
   "stacktraceLogMessage": "Stacktrace",
   "logTraceTitle": "Stacktrace",
   "stackTraceHeader": "Stacktrace Message",
+  "console": {
+    "tailing": "Tailing",
+    "searchIndex": "At {{at}} of {{of}}"
+  },
   "dashboard": {
     "summary": "Summary",
     "smartAlerts": "Smart Alerts",

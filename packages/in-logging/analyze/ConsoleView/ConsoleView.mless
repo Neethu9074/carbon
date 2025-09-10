@@ -83,7 +83,7 @@
   .searchNavigation {
     z-index: 1;
     padding: 0.2rem;
-    background: var(--cds-popover-background-color);
+    background-color: var(--cds-background);
     display: flex;
     align-items: center;
     gap: 0.5rem;

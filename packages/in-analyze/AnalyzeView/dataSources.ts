@@ -253,7 +253,7 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
   },
   logs: {
     logs: 'lib_application_logging',
-    logsConsole: 'lib_application_logging'
+    logsConsole: 'lib_account'
   },
   customEntities: {
     customEntities: 'lib_infrastructure'

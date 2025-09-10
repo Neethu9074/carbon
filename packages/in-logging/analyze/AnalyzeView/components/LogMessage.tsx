@@ -28,17 +28,13 @@ interface LogMessageProps {
   setIsHovered?: React.Dispatch<React.SetStateAction<boolean>>;
   getHrefWithAdditionalTagFilter?: GetHrefWithAdditionalTagFilter;
   getHrefToGroupedView?: GetHrefToGroupedView;
-  triggeConsoleNavigation?: () => void;
-  isConsoleView?: boolean;
 }
 
 export default function LogMessage({
   tags,
   message,
   getHrefWithAdditionalTagFilter,
-  getHrefToGroupedView,
-  triggeConsoleNavigation,
-  isConsoleView
+  getHrefToGroupedView
 }: LogMessageProps) {
   return useMemo(() => {
     const JSONString = getPrettifiedJSON(message);
@@ -54,16 +50,7 @@ export default function LogMessage({
     return (
       <>
         {fillWithParams(toChunks(message, ['{}']), paramTags).map(({ type, value }, i) =>
-          type === MESSAGE_CHUNK ? (
-            <MessageTag key={i} message={value} />
-          ) : (
-            <ParamTag
-              key={i}
-              tag={value as LogTag}
-              triggeConsoleNavigation={triggeConsoleNavigation}
-              isConsoleView={isConsoleView}
-            />
-          )
+          type === MESSAGE_CHUNK ? <MessageTag key={i} message={value} /> : <ParamTag key={i} tag={value as LogTag} />
         )}
       </>
     );
