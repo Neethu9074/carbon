@@ -353,6 +353,7 @@ export const rcaTopologyEnabled = isFeatureFlagEnabled('rcaTopologyEnabled', fal
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const eventsAIChatEnabled = isFeatureFlagEnabled('eventsAIChatEnabled', false);
+export const eventsAgenticChatEnabled = isFeatureFlagEnabled('eventsAgenticChatEnabled', false);
 export const disableEventConfigEnabled = isFeatureFlagEnabled('disableEventConfigEnabled', true);
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);

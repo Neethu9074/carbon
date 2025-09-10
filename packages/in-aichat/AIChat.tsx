@@ -23,6 +23,7 @@ import {
 import { EVENT_AI_CHAT_OPEN, EVENT_AI_CHAT_CLOSE } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CustomResponseDefinition } from 'in-aichat/UserDefinedResponse';
+import { eventsAgenticChatEnabled } from 'in-services/featureFlags';
 import LauncherButton from 'in-aichat/components/LauncherButton';
 import UserDefinedResponse from 'in-aichat/UserDefinedResponse';
 import { t } from 'in-i18n';
@@ -114,7 +115,7 @@ export function AIChat({
         return (
           <>
             {previewPill && <PreviewPill className={locals.previewPill} />}
-            {agentData.showAgentModeToggle && (
+            {agentData.showAgentModeToggle && eventsAgenticChatEnabled && (
               <Toggle
                 className={locals.agentToggle}
                 id="agent-mode-toggle"
