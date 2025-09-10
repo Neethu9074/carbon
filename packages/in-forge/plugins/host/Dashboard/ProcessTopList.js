@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 
 import locals from './ProcessTopList.mless';
 
-const cols = [
+const baseCols = [
   {
     title: t('in-forge:plugins.host.dashboard.pid'),
     type: 'number',
@@ -94,6 +94,57 @@ const cols = [
   }
 ];
 
+const aixSpecificCols = [
+  {
+    title: t('in-forge:plugins.host.dashboard.ppid'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.process.get('ppid');
+      },
+      getContent(value) {
+        return String(value);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.gid'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.process.get('gid');
+      },
+      getContent(value) {
+        return String(value);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.uid'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.process.get('uid');
+      },
+      getContent(value) {
+        return String(value);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.host.dashboard.elapsedTime'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.process.get('elapsedTime');
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  }
+];
+
 export default function ProcessTopList({ snapshot, timeConfig }) {
   const data = useObservable(getRawPayloadWithTimestamp(snapshot.get('id'), 'processes', timeConfig), [snapshot]);
 
@@ -104,6 +155,26 @@ export default function ProcessTopList({ snapshot, timeConfig }) {
   const processes = data.get('raw_payload');
   if (processes.size === 0) {
     return null;
+  }
+
+  const shouldShowAixColumns = (() => {
+    const osName = snapshot.getIn(['data', 'os', 'name']);
+    const isAixByOsName = osName && osName.toLowerCase().includes('aix');
+    const hasAixFields = processes.some(
+      process => process.has('ppid') || process.has('uid') || process.has('gid') || process.has('elapsedTime')
+    );
+    return isAixByOsName || hasAixFields;
+  })();
+
+  let cols;
+  if (shouldShowAixColumns) {
+    cols = [
+      ...baseCols.slice(0, 2), // PID and Process Name
+      ...aixSpecificCols, // AIX-specific columns
+      ...baseCols.slice(2) // CPU, CPU Normalized, and Memory
+    ];
+  } else {
+    cols = baseCols;
   }
 
   const rows = processes.toArray().map(process => {
@@ -124,7 +195,7 @@ export default function ProcessTopList({ snapshot, timeConfig }) {
       }
       cols={cols}
       rows={rows}
-      initialSortColumn={2}
+      initialSortColumn={shouldShowAixColumns ? 6 : 2}
       initialSortDirection="desc"
     />
   );
