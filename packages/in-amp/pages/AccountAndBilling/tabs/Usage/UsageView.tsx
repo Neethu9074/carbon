@@ -10,11 +10,6 @@ import React from 'react';
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent/SideNavigationAndContent.js';
 // @ts-expect-error needs TS migration
 import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
-import {
-  ampCompanyInfoEnabled,
-  onPremLicenseInformationEnabled,
-  fairUsagePolicyEnabled
-} from 'in-services/featureFlags';
 // @ts-expect-error needs TS migration
 import WithAccountInformation from 'in-amp/components/WithAccountInformation';
 import { addOns, ampUsage, consumptionOverview, dataGranularity, dataUsage } from 'in-amp/navigation/paths';
@@ -23,6 +18,7 @@ import RestrictedUsage from 'in-amp/components/RestrictedUsage';
 import ConsumptionOverview from 'in-amp/pages/AccountAndBilling/tabs/Usage/ConsumptionOverview';
 // @ts-expect-error needs TS migration
 import UsageCharts from 'in-amp/components/UsageCharts';
+import { ampCompanyInfoEnabled, fairUsagePolicyEnabled } from 'in-services/featureFlags';
 import DataGranularity from 'in-amp/pages/AccountAndBilling/tabs/Usage/DataGranularity';
 // @ts-expect-error needs TS migration
 import Usage from 'in-amp/components/Usage';
@@ -52,10 +48,10 @@ function View(props: any) {
     {
       path: dataUsage,
       label: t('in-amp:accountAndBilling.tabs.dataUsage'),
-      component: ampCompanyInfoEnabled || !onPremLicenseInformationEnabled ? Usage : RestrictedUsage
+      component: ampCompanyInfoEnabled ? Usage : RestrictedUsage
     }
   ];
-  if (props.hasPaidLicenses && (ampCompanyInfoEnabled || !onPremLicenseInformationEnabled)) {
+  if (props.hasPaidLicenses && ampCompanyInfoEnabled) {
     pages.push(
       {
         path: consumptionOverview,
