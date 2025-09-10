@@ -136,12 +136,7 @@ export default function CustomEntitiesDashboardsPage() {
                 />
               )}
               renderButtonLineSecondary={() => (
-                <ButtonLineSecondary
-                  editable={editable}
-                  onAddWidget={onAddWidget}
-                  setEditable={setEditable}
-                  customEntityName={customEntityName}
-                />
+                <ButtonLineSecondary editable={editable} onAddWidget={onAddWidget} setEditable={setEditable} />
               )}
             />
           </>
@@ -291,13 +286,11 @@ function ButtonLine({
 function ButtonLineSecondary({
   editable,
   onAddWidget,
-  setEditable,
-  customEntityName
+  setEditable
 }: Readonly<{
   editable: boolean;
   onAddWidget: () => void;
   setEditable: (editable: boolean) => void;
-  customEntityName?: string;
 }>) {
   if (editable) {
     return (
@@ -309,7 +302,6 @@ function ButtonLineSecondary({
   return (
     <Button kind="tertiary" onClick={() => setEditable(true)} icon="lib_actions_edit">
       {t('in-infrastructure:customEntities.editDashboard')}
-      {customEntityName}
     </Button>
   );
 }

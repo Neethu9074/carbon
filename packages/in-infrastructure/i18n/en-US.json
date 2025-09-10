@@ -162,7 +162,7 @@
     "dashboardsInfoWidgetTitle": "This is your custom entity dashboard that you can shape yourself",
     "failSaveDashboard": "Failed to save the dashboard.",
     "successfulSaveDashboard": "Entity dashboard updated.",
-    "editDashboard": "Edit dashboards for "
+    "editDashboard": "Edit entity type dashboards "
   },
   "collectorView": {
     "otelCollector": "OpenTelemetry Collector",

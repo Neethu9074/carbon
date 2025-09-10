@@ -91,7 +91,7 @@ export default function CollectorDashboard() {
               <KpiCard title={t('in-infrastructure:collectorView.cpuTime')}>
                 <MetricValue
                   snapshotId={snapshotId}
-                  metric={getMetricByRegex(new RegExp(/.*otelcol_process_cpu_seconds{.*}/), metricsResult)[0]}
+                  metric={getMetricByRegex(new RegExp(/.*otelcol_process_cpu_seconds.*/), metricsResult)[0]}
                   formatter={timeBySecondsTwoDecimalPlaces}
                   timeWindowAggregation="mean"
                 />
@@ -101,7 +101,7 @@ export default function CollectorDashboard() {
               <KpiCard title={t('in-infrastructure:collectorView.collectorUptime')}>
                 <MetricValue
                   snapshotId={snapshotId}
-                  metric={getMetricByRegex(new RegExp(/.*otelcol_process_uptime{.*}/), metricsResult)[0]}
+                  metric={getMetricByRegex(new RegExp(/.*otelcol_process_uptime.*/), metricsResult)[0]}
                   formatter={timeBySecondsTwoDecimalPlaces}
                   timeWindowAggregation="mean"
                 />
@@ -118,7 +118,7 @@ export default function CollectorDashboard() {
                   minRollup={10000}
                   y1={{
                     formatter: bytes.detailed,
-                    metrics: [getMetricByRegex(new RegExp(/.*otelcol_process_memory_rss{.*}/), metricsResult)[0]],
+                    metrics: [getMetricByRegex(new RegExp(/.*otelcol_process_memory_rss.*/), metricsResult)[0]],
                     labels: ['Used'],
                     type: 'stackedArea'
                   }}
@@ -135,10 +135,7 @@ export default function CollectorDashboard() {
                       <MetricValue
                         snapshotId={snapshotId}
                         metric={
-                          getMetricByRegex(
-                            new RegExp(/.*otelcol_receiver_accepted_metric_points{.*}/),
-                            metricsResult
-                          )[0]
+                          getMetricByRegex(new RegExp(/.*otelcol_receiver_accepted_metric_points.*/), metricsResult)[0]
                         }
                         formatter={withSiMultiplyPrefixThreeDecimalPlaces}
                         timeWindowAggregation="mean"
@@ -151,7 +148,7 @@ export default function CollectorDashboard() {
                       <MetricValue
                         snapshotId={snapshotId}
                         metric={
-                          getMetricByRegex(new RegExp(/.*otelcol_receiver_accepted_log_records{.*}/), metricsResult)[0]
+                          getMetricByRegex(new RegExp(/.*otelcol_receiver_accepted_log_records.*/), metricsResult)[0]
                         }
                         formatter={withSiMultiplyPrefixThreeDecimalPlaces}
                         timeWindowAggregation="mean"
@@ -169,7 +166,7 @@ export default function CollectorDashboard() {
                       <MetricValue
                         snapshotId={snapshotId}
                         metric={
-                          getMetricByRegex(new RegExp(/.*otelcol_exporter_sent_metric_points{.*}/), metricsResult)[0]
+                          getMetricByRegex(new RegExp(/.*otelcol_exporter_sent_metric_points.*/), metricsResult)[0]
                         }
                         formatter={withSiMultiplyPrefixThreeDecimalPlaces}
                         timeWindowAggregation="mean"
@@ -181,9 +178,7 @@ export default function CollectorDashboard() {
                     <KpiCard title={t('in-infrastructure:collectorView.logRecordsExported')}>
                       <MetricValue
                         snapshotId={snapshotId}
-                        metric={
-                          getMetricByRegex(new RegExp(/.*otelcol_exporter_sent_log_records{.*}/), metricsResult)[0]
-                        }
+                        metric={getMetricByRegex(new RegExp(/.*otelcol_exporter_sent_log_records.*/), metricsResult)[0]}
                         formatter={withSiMultiplyPrefixThreeDecimalPlaces}
                         timeWindowAggregation="mean"
                       />
