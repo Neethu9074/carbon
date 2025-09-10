@@ -13,9 +13,8 @@ import { t } from '@instana/i18n-react';
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent/SideNavigationAndContent';
 //@ts-expect-error - Cannot find module
 import { getAccountAsResultObservable } from 'in-amp/api/account';
-import CustomerAdoption from 'in-amp/pages/AccountAndBilling/tabs/ActivationAdoption/CustomerAdoption';
-import { ampActivationAdoption, customerAdoption, userUsage } from 'in-amp/navigation/paths';
 import UserUsage from 'in-amp/pages/AccountAndBilling/tabs/ActivationAdoption/UserUsage';
+import { ampActivationAdoption, userUsage } from 'in-amp/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -40,11 +39,6 @@ function View(props: any) {
           {
             pages: [
               {
-                path: customerAdoption,
-                label: t('in-amp:accountAndBilling.tabs.customerAdoption'),
-                component: CustomerAdoption
-              },
-              {
                 path: userUsage,
                 label: t('in-amp:accountAndBilling.tabs.userUsage'),
                 component: UserUsage
@@ -52,7 +46,7 @@ function View(props: any) {
             ]
           }
         ]}
-        redirectToDefaultPage={customerAdoption}
+        redirectToDefaultPage={userUsage}
         redirectFrom={ampActivationAdoption}
         NotFoundPage={() => null}
         {...props}

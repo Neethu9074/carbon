@@ -5,18 +5,10 @@
 
 import React from 'react';
 
-import {
-  ampSettings,
-  ampAccountSettings,
-  ampUsage,
-  ampTechnologies,
-  ampActivationAdoption,
-  ampLicense
-} from 'in-settings/navigation/paths';
+import { ampSettings, ampAccountSettings, ampUsage, ampTechnologies, ampLicense } from 'in-settings/navigation/paths';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
 import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
-import ActivationAdoption from 'in-amp/components/ActivationAdoption';
 import RestrictedLicense from 'in-amp/components/RestrictedLicense';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -54,11 +46,6 @@ export default function View(props) {
                       path: ampLicense,
                       label: t('in-settings:tabs.licenses'),
                       component: Licenses
-                    },
-                    {
-                      path: ampActivationAdoption,
-                      label: t('in-settings:tabs.activationAdoption'),
-                      component: ActivationAdoption
                     },
                     {
                       path: ampTechnologies,
