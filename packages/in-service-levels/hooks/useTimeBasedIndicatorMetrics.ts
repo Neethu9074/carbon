@@ -14,6 +14,7 @@ import type {
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import type { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { adjustTimeWindowsToTimeConfig } from 'in-service-levels/utils/time';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
@@ -37,6 +38,7 @@ export default function useTimeBasedIndicatorMetrics({
   aggregation
 }: UseTimeBasedIndicatorMetricsParams): Result<UnifiedMetricsResult[]> {
   const hasMatchingTimeWindows = timeWindows.length > 0;
+  const { excludeCorrectionIds } = useCorrectionWindowsContext();
   const adjustedTimeWindows = adjustTimeWindowsToTimeConfig(timeConfig, timeWindows);
   const metricConfiguration = adjustedTimeWindows.reduce<GetUnifiedMetricsQuery['metrics']>(
     (previous, timeConfig, index) => ({
@@ -45,7 +47,8 @@ export default function useTimeBasedIndicatorMetrics({
         configId: configuration.id!,
         timeConfig,
         granularity,
-        aggregation
+        aggregation,
+        excludeCorrectionIds
       })
     }),
     {}

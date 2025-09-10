@@ -23,6 +23,7 @@ import { applicationMetrics, sloMetrics, syntheticMetrics, websiteMetrics } from
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { isTrafficBlueprintIndicator } from 'in-service-levels/types';
@@ -49,19 +50,21 @@ export default function TrafficChart({
   const { entity, createdDate, indicator } = configuration;
   const configId = configuration.id!;
   const sloZoomInAction = useSloZoomInAction();
-  const { timeWindows, timeWindowColors, correctionData } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { correction, excludeCorrectionIds } = useCorrectionWindowsContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
     sloConfig: configuration,
-    getMetricConfigForTimeConfig: timeConfig => sloMetrics.traffic.timeSeries({ configId, timeConfig, granularity }),
+    getMetricConfigForTimeConfig: timeConfig =>
+      sloMetrics.traffic.timeSeries({ configId, timeConfig, granularity, excludeCorrectionIds }),
     timeConfig,
     timeWindows,
     granularity
   });
   const label = getMetricLabels({ entity, indicator });
 
-  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data) ?? [];
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correction) ?? [];
 
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: createdDate

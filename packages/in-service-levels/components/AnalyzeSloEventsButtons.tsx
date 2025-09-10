@@ -6,13 +6,13 @@
 
 import React from 'react';
 
-import { isApplicationSloEntity, isSyntheticSloEntity, isWebsiteSloEntity } from '@instana/types';
-import type { ServiceLevelObjectiveConfiguration, SloEntity } from '@instana/types';
-import { Typography, Button } from '@instana/components';
+import type { ApplicationSloEntity, ServiceLevelObjectiveConfiguration, WebsiteSloEntity } from '@instana/types';
+import { isInfraSloEntity, isSyntheticSloEntity } from '@instana/types';
+import { MenuButton, MenuItem } from '@instana/carbon';
 
-import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
+import useNavigateToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useNavigateToUnboundedAnalytics';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
-import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import { getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -21,17 +21,14 @@ interface AnalyzeSloCallsButtonProps {
 }
 
 export default function AnalyzeSloEventsButtons({ configuration }: AnalyzeSloCallsButtonProps) {
-  if (isSyntheticSloEntity(configuration.entity)) return <></>;
+  const { indicator, entity } = configuration;
+  if (isSyntheticSloEntity(entity) || isInfraSloEntity(entity)) return null;
 
-  return <AnalyzeSloAppWebsiteEventsButtons configuration={configuration} />;
-}
-
-function AnalyzeSloAppWebsiteEventsButtons({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
   const { bad: badEventsFilterExpression } = createGoodBadTagFilterExpression({ entity, indicator });
 
   const timeConfig = useTimeConfig();
-  const linkToAnalyze = useHrefToUnboundedAnalytics({ indicator, entity, timeConfig, withLabels: true });
-  const linkToAnalyzeWithBadEvents = useHrefToUnboundedAnalytics({
+  const navigateToAnalyze = useNavigateToUnboundedAnalytics({ indicator, entity, timeConfig, withLabels: true });
+  const navigateToAnalyzeWithBadEvents = useNavigateToUnboundedAnalytics({
     indicator,
     entity,
     timeConfig,
@@ -39,36 +36,23 @@ function AnalyzeSloAppWebsiteEventsButtons({ configuration: { indicator, entity 
     withLabels: true
   });
 
+  const label = getLabel(entity);
   return (
-    <>
-      <Button kind="primary" icon={getIconType(entity)} href={linkToAnalyze}>
-        <Typography variant="body-regular" onDark>
-          {t('in-service-levels:analyzeSloEventsButton.analyze', { entity: getLabel(entity) })}
-        </Typography>
-      </Button>
-      <Button kind="info" icon={getIconType(entity)} href={linkToAnalyzeWithBadEvents}>
-        <Typography variant="body-regular" onDark>
-          {t('in-service-levels:analyzeSloEventsButton.analyzeBadCalls', { entity: getLabel(entity) })}
-        </Typography>
-      </Button>
-    </>
+    <MenuButton menuAlignment="bottom" size="md" label={t('in-service-levels:analyzeSloEventsButton.analyze')}>
+      <MenuItem label={label} onClick={navigateToAnalyze} />
+      <MenuItem
+        label={t('in-service-levels:analyzeSloEventsButton.bad', { label })}
+        onClick={navigateToAnalyzeWithBadEvents}
+      />
+    </MenuButton>
   );
 }
 
-function getIconType(entity: SloEntity): string | undefined {
-  if (isApplicationSloEntity(entity)) {
-    return getIconByType('calls', 'application');
-  } else if (isWebsiteSloEntity(entity)) {
-    return getIconByType(entity.beaconType, 'website');
+function getLabel(entity: WebsiteSloEntity | ApplicationSloEntity) {
+  switch (entity.type) {
+    case 'application':
+      return getLabelByType('calls');
+    case 'website':
+      return getLabelByType(entity.beaconType);
   }
-  return undefined;
-}
-
-function getLabel(entity: SloEntity): string | undefined {
-  if (isApplicationSloEntity(entity)) {
-    return getLabelByType('calls');
-  } else if (isWebsiteSloEntity(entity)) {
-    return getLabelByType(entity.beaconType);
-  }
-  return undefined;
 }

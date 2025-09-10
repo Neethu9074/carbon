@@ -12,6 +12,7 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { refreshSignal } from 'in-service-levels/api/correctionConfiguration';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
@@ -29,6 +30,7 @@ export default function ErrorBudgetKpiCard({ configuration }: ErrorBudgetKpiCard
   const { id, entity } = configuration;
   const timeConfig = useTimeConfig();
   const { timeWindows } = useSloTimeWindowContext();
+  const { excludeCorrectionIds } = useCorrectionWindowsContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
   const memoizeFor = useObservable(
     refreshSignal.flatMap(() => just(0)),
@@ -51,8 +53,16 @@ export default function ErrorBudgetKpiCard({ configuration }: ErrorBudgetKpiCard
         });
       }}
       config={{
-        metricConfiguration: sloMetrics.remainingBudget.singleNumber({ timeConfig, configId: id! }),
-        companionMetricConfiguration: sloMetrics.totalBudget.singleNumber({ timeConfig, configId: id! }),
+        metricConfiguration: sloMetrics.remainingBudget.singleNumber({
+          timeConfig,
+          configId: id!,
+          excludeCorrectionIds
+        }),
+        companionMetricConfiguration: sloMetrics.totalBudget.singleNumber({
+          timeConfig,
+          configId: id!,
+          excludeCorrectionIds
+        }),
         getColor: value => (value != null && value < 0 ? themes.default.ids.color.option.red['500'] : undefined)
       }}
       extraOpts={{ memoizeFor }}

@@ -12,6 +12,7 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createSloPercentageFormatter } from 'in-service-levels/utils/format';
 import { refreshSignal } from 'in-service-levels/api/correctionConfiguration';
@@ -29,6 +30,7 @@ export default function SloStatusKpiCard({ configuration }: SloStatusKpiCardProp
   const formatter = createSloPercentageFormatter();
   const timeConfig = useTimeConfig();
   const { timeWindows } = useSloTimeWindowContext();
+  const { excludeCorrectionIds } = useCorrectionWindowsContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
   const memoizeFor = useObservable(
     refreshSignal.flatMap(() => just(0)),
@@ -41,7 +43,7 @@ export default function SloStatusKpiCard({ configuration }: SloStatusKpiCardProp
       title={sloMetrics.status.label}
       formatter={formatter}
       config={{
-        metricConfiguration: sloMetrics.status.singleNumber({ timeConfig, configId: id! }),
+        metricConfiguration: sloMetrics.status.singleNumber({ timeConfig, configId: id!, excludeCorrectionIds }),
         staticCompanionValue: t('in-service-levels:sloDashboard.components.sloStatusKpiCard.target', {
           value: formatter(target)
         }),

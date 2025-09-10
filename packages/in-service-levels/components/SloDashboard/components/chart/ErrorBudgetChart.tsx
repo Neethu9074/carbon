@@ -10,6 +10,7 @@ import type { ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import SloErrorBudgetChart from 'in-service-levels/components/Shared/SloErrorBudgetChart';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 
@@ -28,9 +29,10 @@ export default function ErrorBudgetChart({
   configuration,
   title
 }: ErrorBudgetChartProps) {
-  const { timeWindows, timeWindowColors, correctionData } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { correction, excludeCorrectionIds } = useCorrectionWindowsContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
-  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data);
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correction);
 
   return (
     <SloErrorBudgetChart
@@ -43,6 +45,7 @@ export default function ErrorBudgetChart({
       timeWindowColors={timeWindowColors}
       configuration={configuration}
       title={title}
+      excludeCorrectionIds={excludeCorrectionIds}
     />
   );
 }

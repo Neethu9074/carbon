@@ -41,7 +41,7 @@ import type { BaseBlueprintType } from 'in-service-levels/types';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { setTimeConfig } from 'in-stores/time/config';
 
-interface UseHrefToUnboundedAnalyticsProps {
+interface UseNavigateToUnboundedAnalyticsProps {
   indicator: ServiceLevelIndicatorUnion;
   entity: SloEntityUnion;
   timeConfig: TimeConfig;
@@ -49,14 +49,14 @@ interface UseHrefToUnboundedAnalyticsProps {
   withLabels?: boolean;
 }
 
-export default function useHrefToUnboundedAnalytics({
+export default function useNavigateToUnboundedAnalytics({
   indicator,
   entity,
   timeConfig,
   additionalTagFilterExpression,
   withLabels
-}: UseHrefToUnboundedAnalyticsProps): string | undefined {
-  const { location, createHref } = useNavigation();
+}: UseNavigateToUnboundedAnalyticsProps) {
+  const { location, navigate } = useNavigation();
   const basicTagFilterExpression = useBasicTagFilterExpression({ entity, withLabels });
 
   const tagFilterExpression = additionalTagFilterExpression
@@ -71,7 +71,7 @@ export default function useHrefToUnboundedAnalytics({
     tagFilterExpression
   });
 
-  return createHref(analyticsLocation);
+  return () => navigate(analyticsLocation);
 }
 
 interface UseLocationToUnboundedAnalyticsProps {

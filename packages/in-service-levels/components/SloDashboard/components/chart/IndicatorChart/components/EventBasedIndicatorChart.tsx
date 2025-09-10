@@ -26,6 +26,7 @@ import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoo
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
 import { getCorrectionWindowMetrics } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import type { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
@@ -67,7 +68,7 @@ export default function EventBasedIndicatorChart({
 }: EventBasedIndicatorChartProps) {
   const sloZoomInAction = useSloZoomInAction();
   const timeConfig = useContextAwareSloTimeWindowConfig();
-  const { correctionData } = useSloTimeWindowContext();
+  const { correction } = useCorrectionWindowsContext();
 
   const granularity = calculateSloGranularity(timeConfig);
   const result = useEventBasedIndicatorMetrics({ configuration, granularity, timeConfig });
@@ -75,7 +76,7 @@ export default function EventBasedIndicatorChart({
   const goodEventsMetricResult = result.data?.find(res => res.id === goodEventsMetricId);
   const badEventsMetricResult = result.data?.find(res => res.id === badEventsMetricId);
 
-  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data) ?? [];
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correction) ?? [];
 
   const renderer = useBarWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
@@ -149,6 +150,7 @@ function useEventBasedIndicatorMetrics({
   granularity
 }: UseEventBasedIndicatorMetricsParams): Result<UnifiedMetricsResult[]> {
   const { timeWindows } = useSloTimeWindowContext();
+  const { excludeCorrectionIds } = useCorrectionWindowsContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
   const configId = configuration.id!;
   return (
@@ -160,7 +162,8 @@ function useEventBasedIndicatorMetrics({
           [timeWindow]: sloMetrics.indicator.timeSeries({
             configId,
             timeConfig,
-            granularity
+            granularity,
+            excludeCorrectionIds
           })
         }
       });

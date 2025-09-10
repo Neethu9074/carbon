@@ -26,6 +26,7 @@ interface SloErrorBudgetChartProps {
   title?: string;
   correctionWindowMetrics?: MetricDataSeries;
   hideCorrectionWindowsLane?: boolean;
+  excludeCorrectionIds?: string[];
 }
 
 export default function SloErrorBudgetChart({
@@ -38,7 +39,8 @@ export default function SloErrorBudgetChart({
   configuration,
   title,
   correctionWindowMetrics,
-  hideCorrectionWindowsLane
+  hideCorrectionWindowsLane,
+  excludeCorrectionIds
 }: SloErrorBudgetChartProps) {
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
@@ -47,7 +49,8 @@ export default function SloErrorBudgetChart({
       sloMetrics.remainingBudget.timeSeries({
         configId: configuration.id!,
         timeConfig,
-        granularity
+        granularity,
+        excludeCorrectionIds
       }),
     timeConfig,
     timeWindows,

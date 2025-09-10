@@ -144,10 +144,12 @@ export function deleteCorrectionConfiguration(id: string): Observable<true> {
 export interface GetCorrectionWindowsArguments {
   sloConfigId?: string;
   timeConfig: TimeConfig;
+  excludeCorrectionIds?: string[];
 }
 
 export function getCorrectionWindowsInternal({
   sloConfigId,
+  excludeCorrectionIds,
   timeConfig
 }: GetCorrectionWindowsArguments): Observable<Result<Correction>> {
   if (isBlank(sloConfigId) || sloConfigId === undefined) {
@@ -163,6 +165,7 @@ export function getCorrectionWindowsInternal({
       mapToResultObject: true,
       queryParams: {
         sloId: sloConfigId,
+        excludeCorrectionId: excludeCorrectionIds,
         from: to - timeConfig.windowSize,
         to
       }

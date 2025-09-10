@@ -15,6 +15,7 @@
     "beacon": "Beacon",
     "boundary": "Boundary",
     "clear": "Clear",
+    "done": "Done",
     "custom": "Custom",
     "duration": "Duration",
     "from": "From",
@@ -407,8 +408,8 @@
     }
   },
   "analyzeSloEventsButton": {
-    "analyze": "Analyze {{entity}}",
-    "analyzeBadCalls": "Analyze bad {{entity}}"
+    "analyze": "Analyze",
+    "bad": "Bad {{label}}"
   },
   "hooks": {
     "useDoDeleteSloConfiguration": {
@@ -427,7 +428,8 @@
   },
   "sloDashboard": {
     "header": {
-      "created_at": "Created on: {{creationDay}} at {{creationTime}}"
+      "created_at": "Created on: {{creationDay}} at {{creationTime}}",
+      "viewCorrectionWindows": "View correction windows"
     },
     "tabs": {
       "summaryLabel": "Summary",
@@ -478,6 +480,16 @@
         "title": "Entity",
         "typeLabel": "Type",
         "nameLabel": "Name"
+      },
+      "correctionWindowPill": {
+        "all": "All correction windows",
+        "count": "{{count}} correction windows",
+        "count_plural": "{{count}} correction windows"
+      },
+      "correctionWindowOverlayDialog": {
+        "title":"Correction windows",
+        "description": "You can select or deselect correction windows to view a temporary change on the SLO calculations.",
+        "all":"All correction windows"
       },
       "scopeSection": {
         "title": "Scope",

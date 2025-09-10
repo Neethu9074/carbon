@@ -8,7 +8,6 @@ import React, { forwardRef, useMemo } from 'react';
 import type { ForwardedRef } from 'react';
 
 import type { CorrectionWindow } from '@instana/types';
-import { generateStableHash } from '@instana/utils';
 import { themes } from '@instana/design-tokens';
 
 import CorrectionWindowsLaneTooltipContent from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/CorrectionWindowsLaneTooltipContent';
@@ -16,12 +15,12 @@ import type { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerL
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import type { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import MarkersLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 import type { ChartContentPostition } from 'in-components/Chart/types';
-import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 export type CorrectionWindowWithName = CorrectionWindow & { name?: string };
@@ -31,13 +30,13 @@ export interface CorrectionWindowMarkerLaneEvent extends MarkerLaneEvent {
 }
 
 function useCorrectionWindowMarkerLaneEvents(clusterSizeMillis: number): CorrectionWindowMarkerLaneEvent[] {
-  const { correctionData } = useSloTimeWindowContext();
+  const { correction, configurations, progress } = useCorrectionWindowsContext();
   return useMemo(
     () => {
       const correctionWindowsWithNames =
-        correctionData.data?.correction?.correctionWindows?.map(window => {
+        correction?.correctionWindows?.map(window => {
           const [id] = window.correctionConfigs ?? [];
-          const config = correctionData.data?.configurations?.find(config => config.id === id)!;
+          const config = configurations?.find(config => config.id === id)!;
           return {
             name: config.name,
             ...window
@@ -64,7 +63,7 @@ function useCorrectionWindowMarkerLaneEvents(clusterSizeMillis: number): Correct
         }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [generateStableHash(correctionData), clusterSizeMillis]
+    [progress, clusterSizeMillis]
   );
 }
 
@@ -76,8 +75,9 @@ export default function CorrectionWindowsLane({ chartContentPosition, ...remaini
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const { clusterSizeMillis } = remainingProps as PresentedLaneProps;
   const events = useCorrectionWindowMarkerLaneEvents(clusterSizeMillis);
-  const { correctionData } = useSloTimeWindowContext();
+  const { progress } = useSloTimeWindowContext();
 
+  const isLoading = progress.loading;
   return (
     <MarkersLane<CorrectionWindowMarkerLaneEvent>
       {...(remainingProps as PresentedLaneProps)}
@@ -87,7 +87,7 @@ export default function CorrectionWindowsLane({ chartContentPosition, ...remaini
       chartContentPosition={chartContentPosition}
       LaneItem={CorrectionWindowsLaneItem}
       isClustered
-      isLoading={isLoading(correctionData)}
+      isLoading={isLoading}
       HoverOverlay={HoverLine}
       TooltipContent={CorrectionWindowsLaneTooltipContent}
     />

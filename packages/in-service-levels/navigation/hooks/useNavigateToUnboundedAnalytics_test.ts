@@ -14,8 +14,8 @@ import type {
   WebsiteSloEntity
 } from '@instana/types';
 
+import useNavigateToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useNavigateToUnboundedAnalytics';
 import useBasicTagFilterExpressionOriginal from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
-import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { useNavigation as useNavigationOriginal } from 'in-stores/navigation/hooks/useNavigation';
 import { days } from 'in-services/time/time';
@@ -29,14 +29,14 @@ const useBasicTagFilterExpression = useBasicTagFilterExpressionOriginal as jest.
   typeof useBasicTagFilterExpressionOriginal
 >;
 
-describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () => {
-  const createHref = jest.fn();
+describe('in-service-levels/navigation/hooks/useNavigateToUnboundedAnalytics', () => {
+  const navigate = jest.fn();
 
   beforeEach(() => {
     jest.resetAllMocks();
     useNavigation.mockImplementationOnce(() => {
       const navigation = useNavigationActual();
-      return { ...navigation, createHref };
+      return { ...navigation, navigate };
     });
     useBasicTagFilterExpression.mockReturnValueOnce(emptyTagFilterExpression);
   });
@@ -65,10 +65,14 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       };
 
       // When
-      renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
+      const { result } = renderHook(() => useNavigateToUnboundedAnalytics({ entity, indicator, timeConfig }));
+
+      const navigateToAnalytics = result.current;
+      // Execute the navigation function
+      navigateToAnalytics();
 
       // Then
-      expect(createHref).toBeCalledWith(
+      expect(navigate).toBeCalledWith(
         expect.objectContaining({
           matrix: {
             '/analyze': expect.objectContaining({
@@ -96,10 +100,14 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       };
 
       // When
-      renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
+      const { result } = renderHook(() => useNavigateToUnboundedAnalytics({ entity, indicator, timeConfig }));
+
+      const navigateToAnalytics = result.current;
+      // Execute the navigation function
+      navigateToAnalytics();
 
       // Then
-      expect(createHref).toBeCalledWith(
+      expect(navigate).toBeCalledWith(
         expect.objectContaining({
           matrix: {
             '/analyze': expect.objectContaining({
@@ -127,10 +135,14 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       };
 
       // When
-      renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
+      const { result } = renderHook(() => useNavigateToUnboundedAnalytics({ entity, indicator, timeConfig }));
+
+      const navigateToAnalytics = result.current;
+      // Execute the navigation function
+      navigateToAnalytics();
 
       // Then
-      expect(createHref).toBeCalledWith(
+      expect(navigate).toBeCalledWith(
         expect.objectContaining({
           matrix: {
             '/analyze': expect.objectContaining({
@@ -158,10 +170,14 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       };
 
       // When
-      renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
+      const { result } = renderHook(() => useNavigateToUnboundedAnalytics({ entity, indicator, timeConfig }));
+
+      const navigateToAnalytics = result.current;
+      // Execute the navigation function
+      navigateToAnalytics();
 
       // Then
-      expect(createHref).toBeCalledWith(
+      expect(navigate).toBeCalledWith(
         expect.objectContaining({
           matrix: {
             '/analyze': expect.objectContaining({
@@ -190,10 +206,14 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       };
 
       // When
-      renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
+      const { result } = renderHook(() => useNavigateToUnboundedAnalytics({ entity, indicator, timeConfig }));
+
+      const navigateToAnalytics = result.current;
+      // Execute the navigation function
+      navigateToAnalytics();
 
       // Then
-      expect(createHref).toBeCalledWith(
+      expect(navigate).toBeCalledWith(
         expect.objectContaining({
           matrix: {
             '/analyzeBeacons': expect.objectContaining({
@@ -220,10 +240,14 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       };
 
       // When
-      renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
+      const { result } = renderHook(() => useNavigateToUnboundedAnalytics({ entity, indicator, timeConfig }));
+
+      const navigateToAnalytics = result.current;
+      // Execute the navigation function
+      navigateToAnalytics();
 
       // Then
-      expect(createHref).toBeCalledWith(
+      expect(navigate).toBeCalledWith(
         expect.objectContaining({
           matrix: {
             '/analyzeBeacons': expect.objectContaining({
@@ -251,10 +275,14 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       };
 
       // When
-      renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
+      const { result } = renderHook(() => useNavigateToUnboundedAnalytics({ entity, indicator, timeConfig }));
+
+      const navigateToAnalytics = result.current;
+      // Execute the navigation function
+      navigateToAnalytics();
 
       // Then
-      expect(createHref).toBeCalledWith(
+      expect(navigate).toBeCalledWith(
         expect.objectContaining({
           matrix: {
             '/analyzeBeacons': expect.objectContaining({
@@ -283,10 +311,14 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       };
 
       // When
-      renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
+      const { result } = renderHook(() => useNavigateToUnboundedAnalytics({ entity, indicator, timeConfig }));
+
+      const navigateToAnalytics = result.current;
+      // Execute the navigation function
+      navigateToAnalytics();
 
       // Then
-      expect(createHref).toBeCalledWith(
+      expect(navigate).toBeCalledWith(
         expect.objectContaining({
           matrix: {
             '/analyzeBeacons': expect.objectContaining({

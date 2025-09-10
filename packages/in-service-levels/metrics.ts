@@ -22,12 +22,14 @@ interface SloMetricConfigGeneratorProps {
   timeConfig: TimeConfig;
   granularity?: number;
   aggregation?: AggregationType;
+  excludeCorrectionIds?: string[];
 }
 
 interface ApplicationMetricConfigGeneratorProps {
   entity: Pick<ApplicationSloEntity, 'includeInternal' | 'includeSynthetic'>;
   tagFilterExpression: TagFilterExpressionElementUnion;
   timeConfig: TimeConfig;
+  excludeCorrectionIds?: string[];
   aggregation?: AggregationType;
 }
 
@@ -35,6 +37,7 @@ interface WebsiteMetricConfigGeneratorProps {
   entity: Pick<WebsiteSloEntity, 'beaconType'>;
   tagFilterExpression: TagFilterExpressionElementUnion;
   timeConfig: TimeConfig;
+  excludeCorrectionIds?: string[];
   aggregation?: AggregationType;
 }
 
@@ -46,7 +49,7 @@ interface SloPreviewConfigGeneratorProps {
 export const sloMetrics = deepFreeze({
   status: {
     label: t('in-service-levels:general.metrics.status'),
-    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    singleNumber: ({ configId, timeConfig, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -54,12 +57,13 @@ export const sloMetrics = deepFreeze({
         configId,
         resultType: 'SINGLE_NUMBER',
         metric: 'STATUS',
+        excludeCorrectionIds,
         timeConfig
       } as const)
   },
   remainingBudget: {
     label: t('in-service-levels:general.metrics.remainingBudget'),
-    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    singleNumber: ({ configId, timeConfig, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -67,9 +71,10 @@ export const sloMetrics = deepFreeze({
         configId,
         resultType: 'SINGLE_NUMBER',
         metric: 'ERROR_BUDGET_REMAINING',
+        excludeCorrectionIds,
         timeConfig
       } as const),
-    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, granularity, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -77,10 +82,11 @@ export const sloMetrics = deepFreeze({
         configId,
         resultType: 'TIME_SERIES',
         metric: 'ERROR_BUDGET_REMAINING_CHART',
+        excludeCorrectionIds,
         timeConfig,
         granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const),
-    timeSeriesCompact: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
+    timeSeriesCompact: ({ configId, timeConfig, granularity, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -88,13 +94,14 @@ export const sloMetrics = deepFreeze({
         configId,
         resultType: 'TIME_SERIES',
         metric: 'ERROR_BUDGET_REMAINING_SPARK_CHART',
+        excludeCorrectionIds,
         timeConfig,
         granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const)
   },
   totalBudget: {
     label: t('in-service-levels:general.metrics.totalBudget'),
-    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    singleNumber: ({ configId, timeConfig, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -102,11 +109,18 @@ export const sloMetrics = deepFreeze({
         configId,
         resultType: 'SINGLE_NUMBER',
         metric: 'TOTAL_ERROR_BUDGET',
+        excludeCorrectionIds,
         timeConfig
       } as const)
   },
   indicator: {
-    timeSeries: ({ configId, timeConfig, granularity, aggregation }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({
+      configId,
+      timeConfig,
+      granularity,
+      aggregation,
+      excludeCorrectionIds
+    }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: aggregation ?? 'MEAN',
@@ -115,11 +129,12 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'INDICATOR_CHART',
         timeConfig,
+        excludeCorrectionIds,
         granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const)
   },
   traffic: {
-    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, granularity, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -128,11 +143,12 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'TRAFFIC_CHART',
         timeConfig,
+        excludeCorrectionIds,
         granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const)
   },
   totalTraffic: {
-    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    singleNumber: ({ configId, timeConfig, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -140,11 +156,12 @@ export const sloMetrics = deepFreeze({
         configId,
         resultType: 'SINGLE_NUMBER',
         metric: 'TOTAL_TRAFFIC',
-        timeConfig
+        timeConfig,
+        excludeCorrectionIds
       } as const)
   },
   trafficPerSecond: {
-    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    singleNumber: ({ configId, timeConfig, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -152,12 +169,13 @@ export const sloMetrics = deepFreeze({
         configId,
         resultType: 'SINGLE_NUMBER',
         metric: 'TRAFFIC_PER_SECOND',
-        timeConfig
+        timeConfig,
+        excludeCorrectionIds
       } as const)
   },
   burnRate: {
     label: t('in-service-levels:general.metrics.burnRate'),
-    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    singleNumber: ({ configId, timeConfig, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -165,9 +183,10 @@ export const sloMetrics = deepFreeze({
         configId,
         resultType: 'SINGLE_NUMBER',
         metric: 'BURN_RATE',
-        timeConfig
+        timeConfig,
+        excludeCorrectionIds
       } as const),
-    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, granularity, excludeCorrectionIds }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -176,6 +195,7 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'ERROR_BURN_RATE_CHART',
         timeConfig,
+        excludeCorrectionIds,
         granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const)
   }
@@ -188,7 +208,8 @@ export const applicationMetrics = deepFreeze({
       entity,
       tagFilterExpression,
       timeConfig,
-      aggregation = 'SUM'
+      aggregation = 'SUM',
+      excludeCorrectionIds
     }: ApplicationMetricConfigGeneratorProps) =>
       ({
         source: 'APPLICATION',
@@ -201,7 +222,8 @@ export const applicationMetrics = deepFreeze({
         aggregation,
         resultType: 'SINGLE_NUMBER',
         queryPrecision: 'FULL',
-        timeConfig
+        timeConfig,
+        excludeCorrectionIds
       } as const)
   },
   latency: {
@@ -218,7 +240,12 @@ export const applicationMetrics = deepFreeze({
 export const websiteMetrics = deepFreeze({
   beaconCount: {
     label: t('in-service-levels:general.metrics.beaconCount'),
-    singleNumber: ({ entity, tagFilterExpression, timeConfig }: WebsiteMetricConfigGeneratorProps) =>
+    singleNumber: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      excludeCorrectionIds
+    }: WebsiteMetricConfigGeneratorProps) =>
       ({
         source: 'WEBSITE',
         metric: 'beaconCount',
@@ -227,6 +254,7 @@ export const websiteMetrics = deepFreeze({
         tagFilterExpression,
         timeShift: { offset: 0 },
         timeConfig,
+        excludeCorrectionIds,
         resultType: 'SINGLE_NUMBER'
       } as const)
   },

@@ -12,13 +12,14 @@ import { isApplicationSloEntity } from '@instana/types';
 import type { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import SloCorrectionWindowsProvider from 'in-service-levels/components/SloDashboard/components/SloCorrectionWindowsProvider';
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader/SloMetaInfoHeader';
 import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
-import type { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
+import type { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { defaultServiceLevelObjectiveUrlParameters } from 'in-service-levels/navigation/urlParameters';
-import tabs, { isApplicationSloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
+import tabs, { isApplicationSloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import type { LabeledEntity, SloMonitoredEntity } from 'in-service-levels/types';
 import type { SloUrlState } from 'in-service-levels/navigation/urlParameters';
 import { getSloConfiguration } from 'in-service-levels/api/sloConfiguration';
@@ -80,20 +81,22 @@ export default function ServiceLevelsObjectiveDashboard() {
         sloTimeWindow={sloTimeWindow}
         timeWindowTypeParameterDefinition={defaultServiceLevelObjectiveUrlParameters.timeWindowType}
       >
-        <TabView
-          location={location}
-          HeaderComponent={SloDashboardHeader}
-          tabs={tabs}
-          props={tabProps ?? {}}
-          additionalHeader={
-            <SloMetaInfoHeader
-              configuration={configuration}
-              entities={entities}
-              service={service}
-              endpoint={endpoint}
-            />
-          }
-        />
+        <SloCorrectionWindowsProvider sloConfigId={sloId}>
+          <TabView
+            location={location}
+            HeaderComponent={SloDashboardHeader}
+            tabs={tabs}
+            props={tabProps ?? {}}
+            additionalHeader={
+              <SloMetaInfoHeader
+                configuration={configuration}
+                entities={entities}
+                service={service}
+                endpoint={endpoint}
+              />
+            }
+          />
+        </SloCorrectionWindowsProvider>
       </SloTimeWindowProvider>
       <Footer />
     </>

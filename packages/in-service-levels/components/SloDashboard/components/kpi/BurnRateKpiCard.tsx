@@ -12,6 +12,7 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { refreshSignal } from 'in-service-levels/api/correctionConfiguration';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
@@ -30,6 +31,7 @@ export default function BurnRateKpiCard({ configuration }: BurnRateKpiCardProps)
   const formatter = number.detailed;
   const timeConfig = useTimeConfig();
   const { timeWindows } = useSloTimeWindowContext();
+  const { excludeCorrectionIds } = useCorrectionWindowsContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
   const memoizeFor = useObservable(
     refreshSignal.flatMap(() => just(0)),
@@ -50,7 +52,7 @@ export default function BurnRateKpiCard({ configuration }: BurnRateKpiCardProps)
       iconAction={burnRateInfo}
       formatter={formatter}
       config={{
-        metricConfiguration: sloMetrics.burnRate.singleNumber({ timeConfig, configId: id! }),
+        metricConfiguration: sloMetrics.burnRate.singleNumber({ timeConfig, configId: id!, excludeCorrectionIds }),
         getColor: value => (value != null && value > 1 ? themes.default.ids.color.option.red['500'] : undefined)
       }}
       extraOpts={{ memoizeFor }}

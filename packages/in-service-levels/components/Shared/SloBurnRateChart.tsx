@@ -25,6 +25,7 @@ interface SloBurnRateChartPeops {
   configuration: ServiceLevelObjectiveConfiguration;
   title?: string;
   correctionWindowMetrics?: MetricDataSeries;
+  excludeCorrectionIds?: string[];
 }
 
 export default function SloBurnRateChart({
@@ -36,7 +37,8 @@ export default function SloBurnRateChart({
   timeWindowColors,
   configuration,
   title,
-  correctionWindowMetrics
+  correctionWindowMetrics,
+  excludeCorrectionIds
 }: SloBurnRateChartPeops) {
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
@@ -45,7 +47,8 @@ export default function SloBurnRateChart({
       sloMetrics.burnRate.timeSeries({
         configId: configuration.id!,
         timeConfig,
-        granularity
+        granularity,
+        excludeCorrectionIds
       }),
     timeConfig,
     timeWindows,

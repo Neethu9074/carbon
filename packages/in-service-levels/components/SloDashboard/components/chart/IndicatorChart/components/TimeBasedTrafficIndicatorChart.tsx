@@ -30,6 +30,7 @@ import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-s
 import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useTimeBasedIndicatorMetrics from 'in-service-levels/hooks/useTimeBasedIndicatorMetrics';
 import { defaultSliThresholdOperator, ServiceLevelErrors } from 'in-service-levels/constants';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
@@ -64,7 +65,8 @@ export default function TimeBasedTrafficIndicatorChart({
   const { threshold } = indicator;
 
   const sloZoomInAction = useSloZoomInAction();
-  const { timeWindows, timeWindowColors, correctionData } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { correction } = useCorrectionWindowsContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
   const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows, timeConfig });
@@ -83,7 +85,7 @@ export default function TimeBasedTrafficIndicatorChart({
   const operator = indicator.operator ?? defaultSliThresholdOperator;
   const isGreaterOp = operator === '>' || operator === '>=';
 
-  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data) ?? [];
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correction) ?? [];
 
   const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator,

@@ -13,6 +13,7 @@ import { just } from '@instana/observables';
 
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { refreshSignal } from 'in-service-levels/api/correctionConfiguration';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
@@ -31,6 +32,7 @@ export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
   const { entity } = configuration;
   const configId = configuration.id!;
   const timeConfig = useContextAwareSloTimeWindowConfig();
+  const { excludeCorrectionIds } = useCorrectionWindowsContext();
   const { timeWindows } = useSloTimeWindowContext();
   const memoizeFor = useObservable(
     refreshSignal.flatMap(() => just(0)),
@@ -39,9 +41,11 @@ export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
 
   const [primaryMetricConfiguration, companionMetricConfiguration] = [
     isApplicationSloEntity(entity)
-      ? sloMetrics.trafficPerSecond.singleNumber({ configId, timeConfig })
-      : sloMetrics.totalTraffic.singleNumber({ configId, timeConfig }),
-    isApplicationSloEntity(entity) ? sloMetrics.totalTraffic.singleNumber({ configId, timeConfig }) : undefined
+      ? sloMetrics.trafficPerSecond.singleNumber({ configId, timeConfig, excludeCorrectionIds })
+      : sloMetrics.totalTraffic.singleNumber({ configId, timeConfig, excludeCorrectionIds }),
+    isApplicationSloEntity(entity)
+      ? sloMetrics.totalTraffic.singleNumber({ configId, timeConfig, excludeCorrectionIds })
+      : undefined
   ];
 
   const hasMatchingTimeWindows = timeWindows.length > 0;

@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import type { CorrectionWithConfiguration } from 'in-service-levels/features/CorrectionWindows/hooks/useCorrectionWindows';
+import type { Correction } from '@instana/types';
+
 import type { RenderConfig } from 'in-components/Chart/renderer/types';
 import type { MetricDataSeries } from 'in-components/Chart/types';
 
@@ -39,10 +40,8 @@ export function getLineWidth(config: RenderConfig) {
   return config.y1?.lineWidth ?? 2;
 }
 
-export function getCorrectionWindowMetrics(
-  correctiondata: CorrectionWithConfiguration | undefined
-): MetricDataSeries | undefined {
-  const correctionWindows = correctiondata?.correction?.correctionWindows;
+export function getCorrectionWindowMetrics(correction: Correction | undefined): MetricDataSeries | undefined {
+  const correctionWindows = correction?.correctionWindows;
   if (!correctionWindows) {
     return undefined;
   }

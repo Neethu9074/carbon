@@ -30,6 +30,7 @@ import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useConte
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useTimeBasedIndicatorMetrics from 'in-service-levels/hooks/useTimeBasedIndicatorMetrics';
+import useCorrectionWindowsContext from 'in-service-levels/hooks/useCorrectionWindowsContext';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
@@ -66,7 +67,8 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const { threshold } = indicator;
 
   const sloZoomInAction = useSloZoomInAction();
-  const { timeWindows, timeWindowColors, correctionData } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { correction } = useCorrectionWindowsContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
   const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows, timeConfig });
@@ -81,7 +83,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
   const normalizedData = isSyntheticSloEntity(entity) ? invertSyntheticPercentageMetrics(filteredData) : filteredData;
 
-  const correctionWindowMetrics = getCorrectionWindowMetrics(correctionData.data) ?? [];
+  const correctionWindowMetrics = getCorrectionWindowMetrics(correction) ?? [];
 
   const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
