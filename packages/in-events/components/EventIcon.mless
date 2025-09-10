@@ -21,6 +21,6 @@
   }
 
   .iconButton {
-    padding-block-start: 0;
+    padding-block-start: 0.2rem;
   }
 }

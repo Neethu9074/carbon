@@ -8,5 +8,6 @@
 :local {
   .titleLink {
     .ellipsis();
+    padding: 0.25rem 0;
   }
 }
