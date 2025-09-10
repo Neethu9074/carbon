@@ -28,9 +28,7 @@ export default function ReceiverNode({ x, y, name }: ReceiverNodeProps) {
         <div className={locals.nodeInfoContainer}>
           <SvgIcon type="lib_actions_download" color="white" />
           <div className={locals.nodeInfo}>
-            <Typography variant="heading-compact-02">
-              {t('in-infrastructure:collectorView.editConfig.receiver')}
-            </Typography>
+            <Typography variant="heading-compact-02">{t('in-infrastructure:collectorView.receiver')}</Typography>
             <Typography variant="body-01">
               <div className={locals.nodeName}>{name}</div>
             </Typography>

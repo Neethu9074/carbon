@@ -28,9 +28,7 @@ export default function ExporterNode({ x, y, name }: ExporterNodeProps) {
         <div className={locals.nodeInfoContainer}>
           <SvgIcon type="lib_actions_upload" color="white" />
           <div className={locals.nodeInfo}>
-            <Typography variant="heading-compact-02">
-              {t('in-infrastructure:collectorView.editConfig.exporter')}
-            </Typography>
+            <Typography variant="heading-compact-02">{t('in-infrastructure:collectorView.exporter')}</Typography>
             <Typography variant="body-01">
               <div className={locals.nodeName}>{name}</div>
             </Typography>

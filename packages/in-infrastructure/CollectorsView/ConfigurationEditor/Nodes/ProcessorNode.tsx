@@ -28,9 +28,7 @@ export default function ProcessorNode({ x, y, name }: ProcessorNodeProps) {
         <div className={locals.nodeInfoContainer}>
           <SvgIcon type="lib_automation" color="white" />
           <div className={locals.nodeInfo}>
-            <Typography variant="heading-compact-02">
-              {t('in-infrastructure:collectorView.editConfig.processor')}
-            </Typography>
+            <Typography variant="heading-compact-02">{t('in-infrastructure:collectorView.processor')}</Typography>
             <Typography variant="body-01">
               <div className={locals.nodeName}>{name}</div>
             </Typography>

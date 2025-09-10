@@ -70,4 +70,50 @@
     align-items: start;
     height: '73vh';
   }
+
+  .pipelineThroughputGraphContainer {
+    display: flex;
+    width: 100%;
+  }
+
+  .pipelineThroughputGraphContainer {
+    > :global(.cds--row) {
+      justify-content: center;
+    }
+  }
+
+  .pipelineThroughputTable {
+    :global(.cds--structured-list-td) {
+      padding: 0.4rem 1.4rem;
+    }
+  }
+
+  .droppedWidgets {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .pipelineThroughputGraphContainer {
+    display: flex;
+    width: 100%;
+  }
+
+  .pipelineThroughputGraphContainer {
+    > :global(.cds--row) {
+      justify-content: center;
+    }
+  }
+
+  .pipelineThroughputTable {
+    :global(.cds--structured-list-td) {
+      padding: 0.4rem 1.4rem;
+    }
+  }
+
+  .droppedWidgets {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
 }
