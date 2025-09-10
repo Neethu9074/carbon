@@ -25,4 +25,9 @@
     display: inline-flex;
     gap: 1rem;
   }
+  .switchTenant {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 1.25rem;
+  }
 }

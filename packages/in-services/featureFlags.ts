@@ -423,3 +423,4 @@ export const pollRateSupportForUnifiedMetricsEnabled = isFeatureFlagEnabled(
 export const aIGatewayEnabled = isFeatureFlagEnabled('aIGatewayEnabled', false);
 export const fedrampDeploymentEnabled = isFeatureFlagEnabled('fedrampDeploymentEnabled');
 export const contextualOnboardingEnabled = isFeatureFlagEnabled('contextualOnboardingEnabled', true);
+export const fairUsagePolicyEnabled = isFeatureFlagEnabled('fairUsagePolicyEnabled', false);

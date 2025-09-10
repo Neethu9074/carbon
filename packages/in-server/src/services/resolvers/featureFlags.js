@@ -1092,5 +1092,10 @@ module.exports = exports = [
     uiClientKey: 'contextualOnboardingEnabled',
     instanaCtlKey: 'feature.contextual.onboarding.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'fairUsagePolicyEnabled',
+    instanaCtlKey: 'feature.fair.usage.policy.enabled',
+    defaultValue: false
   }
 ];

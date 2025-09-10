@@ -8,8 +8,10 @@ import React from 'react';
 
 import { Stack, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Dropdown } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 import { FormGroup } from '@instana/carbon';
+import { Dropdown } from '@instana/carbon';
+import { Link } from '@instana/carbon';
 
 import {
   SETTINGS_ACCOUNT_BILLING_PRESENTATION,
@@ -22,9 +24,11 @@ import {
 import { dataUsageNotificationEnabled, newAccountAndBillingPageEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import LearnMoreAboutDataConsumption from 'in-amp/components/LearnMoreAboutDataConsumption';
+import LearnMoreAboutDataGranularity from 'in-amp/components/LearnMoreAboutDataGranularity';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import PresentationSelection from 'in-amp/components/PresentationSelection';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 import locals from './AmpInformationModifier.mless';
@@ -43,12 +47,20 @@ export default function AmpInformationModifier({
   presentation,
   setPresentation,
   isAddOn = false,
-  isTechnologiesReporting = false
+  isTechnologiesReporting = false,
+  isFup = false,
+  fupTimeRange,
+  setFupTimeRange,
+  fupWindowSize,
+  setFupWindowSize,
+  fupTo,
+  fupSetTo
 }) {
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   const licenseObservableResult = useObservable(getActiveLicensesAsResultObservable(1, 60000), []);
   const accountObservableResult = useObservable(getAccountAsResultObservable(), []);
   const fupOverride = accountObservableResult?.data?.fupOverride;
+  const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
   //Check whether limitedDataUsage flag is set for active paid licenses
   let limitedDataUsageCheck = false;
@@ -99,7 +111,8 @@ export default function AmpInformationModifier({
     >
       <Stack>
         {dataUsageNotificationEnabled && showFupMessage && !isAddOn && <LearnMoreAboutDataConsumption />}
-        {!isAddOn && (
+        {isFup && <LearnMoreAboutDataGranularity />}
+        {!isAddOn && !isFup && (
           <Message
             type="neutral"
             dismissible
@@ -112,26 +125,34 @@ export default function AmpInformationModifier({
           />
         )}
         <Stack direction="horizontal" distribution="spaceBetween">
-          {unitSelectorOptions &&
-            (newAccountAndBillingPageEnabled ? (
-              <FormGroup legendText={t('in-amp:accountAndBilling.label.unit')}>
-                <Dropdown
-                  items={unitSelectorOptions}
-                  size="md"
-                  value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
-                  onChange={handleTenantUnitChange}
-                  className={locals.unitSelector}
-                />
-              </FormGroup>
-            ) : (
+          <Stack direction="horizontal">
+            {unitSelectorOptions && (
               <Dropdown
+                titleText={t('in-amp:accountAndBilling.label.unit')}
+                id="unitDropdown"
+                label={t('in-amp:accountAndBilling.label.unit')}
                 items={unitSelectorOptions}
+                itemToString={item => (item ? item.label : '')}
+                initialSelectedItem={unitSelectorOptions.find(opt => opt.label === tenantUnit.label)}
+                onChange={({ selectedItem }) => {
+                  handleTenantUnitChange(selectedItem);
+                }}
                 size="md"
-                value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
-                onChange={handleTenantUnitChange}
                 className={locals.unitSelector}
+                disabled={isFup}
               />
-            ))}
+            )}
+            {isFup && (
+              <Link
+                target="_blank"
+                href={tenantSwitcherLink}
+                renderIcon={() => <SvgIcon type="lib_views_external_link" size="xs" />}
+                className={locals.switchTenant}
+              >
+                {t('in-amp:fairUsePolicy.tenantSwitcher')}
+              </Link>
+            )}
+          </Stack>
           <div className={locals.ampTimeSelectionWrapper}>
             {newAccountAndBillingPageEnabled ? (
               <FormGroup legendText={t('in-amp:accountAndBilling.label.timeRange')}>
@@ -143,6 +164,12 @@ export default function AmpInformationModifier({
                   setTo={setTo}
                   presentation={presentation}
                   setPresentation={handlePresentationChange}
+                  fupTimeRange={fupTimeRange}
+                  setFupTimeRange={setFupTimeRange}
+                  fupWindowSize={fupWindowSize}
+                  setFupWindowSize={setFupWindowSize}
+                  fupTo={fupTo}
+                  fupSetTo={fupSetTo}
                 />
               </FormGroup>
             ) : (
@@ -154,6 +181,12 @@ export default function AmpInformationModifier({
                 setTo={setTo}
                 presentation={presentation}
                 setPresentation={handlePresentationChange}
+                fupTimeRange={fupTimeRange}
+                setFupTimeRange={setFupTimeRange}
+                fupWindowSize={fupWindowSize}
+                setFupWindowSize={setFupWindowSize}
+                fupTo={fupTo}
+                fupSetTo={fupSetTo}
               />
             )}
             {presentation &&

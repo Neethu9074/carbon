@@ -224,5 +224,6 @@ module.exports = {
   aIGatewayEnabled: true,
   fedrampDeploymentEnabled: false,
   contextualOnboardingEnabled: true,
+  fairUsagePolicyEnabled: false,
   eventsAgenticChatEnabled: true
 };

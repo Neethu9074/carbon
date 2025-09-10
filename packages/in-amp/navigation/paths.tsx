@@ -19,6 +19,7 @@ export const ampAccountInformation = `${ampAccountAndBilling}/accountInformation
 export const dataUsage = `${ampUsage}/dataUsage`;
 export const consumptionOverview = `${ampUsage}/consumptionOverview`;
 export const addOns = `${ampUsage}/addOns`;
+export const dataGranularity = `${ampUsage}/dataGranularity`;
 export const activeEntitlements = `${ampEntitlements}/activeEntitlements`;
 export const expiredEntitlements = `${ampEntitlements}/expiredEntitlements`;
 export const queuedEntitlements = `${ampEntitlements}/queuedEntitlements`;

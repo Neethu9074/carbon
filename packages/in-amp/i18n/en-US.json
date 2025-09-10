@@ -196,7 +196,8 @@
       "queuedEntitlements": "Queued entitlements",
       "expiredEntitlements": "Expired entitlements",
       "activationAdoption": "Activation & adoption",
-      "userUsage": "User usage"
+      "userUsage": "User usage",
+      "dataGranularity" : "Data granularity"
     },
     "entitlementsTableColumns": {
       "startDate": "Start date",
@@ -212,5 +213,20 @@
       "timeRange": "Time range",
       "values": "Values"
     }
-  }
+  },
+  "fairUsePolicy": {
+      "serviceName": "Service name",
+      "precentageUsage": "Percentage of usage",
+      "tableHeading": "Traces",
+      "tableDefinition": "You can find services with the highest data consumption below. You can search and filter this view to get insights on services you are most interested in.",
+      "tenantSwitcher": "Switch tenant",
+      "tableSearchText": "Search input text",
+      "learnMoreDataGranularity": {
+        "learnMore": "Learn more about data granularity",
+        "leftTitle": "What do the consumption values represent?",
+        "leftBody":"Instana's Fair Use Policy outlines the monthly data allowance associated with your license type. To learn more about data usage guidelines, check out the <fupDocLink>Fair Use Policy documentation</fupDocLink>.",
+        "rightTitle": "How do I take action?",
+        "rightBody": "Learn more about how data usage and optimization works from an expert <salesLink>here</salesLink>."
+      }
+    }
 }

@@ -10,18 +10,23 @@ import React from 'react';
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent/SideNavigationAndContent.js';
 // @ts-expect-error needs TS migration
 import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
+import {
+  ampCompanyInfoEnabled,
+  onPremLicenseInformationEnabled,
+  fairUsagePolicyEnabled
+} from 'in-services/featureFlags';
 // @ts-expect-error needs TS migration
 import WithAccountInformation from 'in-amp/components/WithAccountInformation';
+import { addOns, ampUsage, consumptionOverview, dataGranularity, dataUsage } from 'in-amp/navigation/paths';
 //@ts-expect-error - needs TS migration
 import RestrictedUsage from 'in-amp/components/RestrictedUsage';
 import ConsumptionOverview from 'in-amp/pages/AccountAndBilling/tabs/Usage/ConsumptionOverview';
 // @ts-expect-error needs TS migration
 import UsageCharts from 'in-amp/components/UsageCharts';
-import { addOns, ampUsage, consumptionOverview, dataUsage } from 'in-amp/navigation/paths';
+import DataGranularity from 'in-amp/pages/AccountAndBilling/tabs/Usage/DataGranularity';
 // @ts-expect-error needs TS migration
 import Usage from 'in-amp/components/Usage';
 import AddOns from 'in-amp/pages/AccountAndBilling/tabs/Usage/AddOns';
-import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -47,10 +52,10 @@ function View(props: any) {
     {
       path: dataUsage,
       label: t('in-amp:accountAndBilling.tabs.dataUsage'),
-      component: ampCompanyInfoEnabled ? Usage : RestrictedUsage
+      component: ampCompanyInfoEnabled || !onPremLicenseInformationEnabled ? Usage : RestrictedUsage
     }
   ];
-  if (props.hasPaidLicenses && ampCompanyInfoEnabled) {
+  if (props.hasPaidLicenses && (ampCompanyInfoEnabled || !onPremLicenseInformationEnabled)) {
     pages.push(
       {
         path: consumptionOverview,
@@ -63,6 +68,13 @@ function View(props: any) {
         component: AddOns
       }
     );
+  }
+  if (ampCompanyInfoEnabled && fairUsagePolicyEnabled) {
+    pages.push({
+      path: dataGranularity,
+      label: t('in-amp:accountAndBilling.tabs.dataGranularity'),
+      component: DataGranularity
+    });
   }
   return (
     <>
