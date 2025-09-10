@@ -23,6 +23,7 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import WinServicesTable from 'in-forge/plugins/host/Dashboard/WinServicesTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import CpuProcessTable from 'in-forge/plugins/host/Dashboard/CpuProcessTable';
+import FileAttributes from 'in-forge/plugins/host/Dashboard/FileAttributes';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
@@ -49,6 +50,7 @@ import locals from './Content.mless';
 export default function HostDashboard({ snapshot, timeConfig }) {
   const [role] = useCurrentUserRole();
   const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
+  const linuxOS = isLinux(snapshot);
 
   var memoryUsedMetrics = ['memory.used'];
   var memoryUsedMetricsLabels = [t('in-forge:plugins.host.dashboard.used')];
@@ -576,7 +578,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       )}
 
       <FilesystemsTable snapshot={snapshot} timeConfig={timeConfig} />
-      {isLinux(snapshot) && <DiskTable snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
+      {linuxOS && <DiskTable snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
+      {linuxOS && <FileAttributes snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
 
       <NetworkInterfacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
