@@ -37,6 +37,14 @@ import {
   runTypeCICD
 } from 'in-synthetics/utils/constants';
 import {
+  SYNTHETIC_TEST_BANNER_2FA_LINK_CLICK,
+  SYNTHETIC_TEST_BANNER_ADDLOCATION_LINK_CLICK,
+  SYNTHETIC_TEST_BANNER_IBM_DOC_CLICK,
+  SYNTHETIC_TEST_BANNER_PRIMARY_CTC_CLICK,
+  SYNTHETIC_TEST_BANNER_SHOW_LESS_CLICK,
+  SYNTHETIC_TEST_BANNER_SHOW_MORE_CLICK
+} from 'in-services/tracking/eventNames';
+import {
   syntheticSslImprovementEnabled,
   syntheticRbacLimitedEnabled,
   syntheticRunNowEnabled,
@@ -75,6 +83,7 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getLocationData } from 'in-synthetics/dashboards/global/LocationList';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
@@ -176,6 +185,7 @@ const TestSummaryList = () => {
   const [role] = useCurrentUserRole();
   const timeConfig = useTimeConfig();
   const location = useLocation();
+  const { trackCta } = useSegmentTracking();
   let allApplicationIds = new Set<string>();
   let allWebsiteIds = new Set<string>();
   let allMobileAppIds = new Set<string>();
@@ -246,6 +256,12 @@ const TestSummaryList = () => {
               expanded={locationCount?.data?.items?.length === 0}
               expandedContentLeft={<ExpandedContentLeft />}
               expandedContentRight={<ExpandedContentRight />}
+              onCollapseFunc={() => {
+                trackCta(SYNTHETIC_TEST_BANNER_SHOW_LESS_CLICK);
+              }}
+              onExpandFunc={() => {
+                trackCta(SYNTHETIC_TEST_BANNER_SHOW_MORE_CLICK);
+              }}
             />
           )}
           {syntheticSslImprovementEnabled ? (
@@ -533,19 +549,29 @@ export default TestSummaryList;
 const ExpandedContentLeft = () => {
   const { location, createHref } = useNavigation();
   const [role] = useCurrentUserRole();
+  const { trackCta } = useSegmentTracking();
   return (
     <VStack gap={7}>
       <Typography variant="body-02">
         <Trans
           i18nKey="in-synthetics:components.banner.expandedLeftContent"
           components={{
-            ibmDocumentation: <Link href="https://ibm.biz/synthetic-monitoring" target="_blank" />
+            ibmDocumentation: (
+              <Link
+                href="https://ibm.biz/synthetic-monitoring"
+                target="_blank"
+                onClick={() => {
+                  trackCta(SYNTHETIC_TEST_BANNER_IBM_DOC_CLICK);
+                }}
+              />
+            )
           }}
         />
       </Typography>
       <Button
         renderIcon={() => <IconForButton icon="lib_openclose_add" iconSize="xs" />}
         onClick={() => {
+          trackCta(SYNTHETIC_TEST_BANNER_PRIMARY_CTC_CLICK);
           if (role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled)
             addActiveDialog(<CreateNewLocationDialog onClose={close} />);
         }}
@@ -561,6 +587,7 @@ const ExpandedContentLeft = () => {
 const ExpandedContentRight = () => {
   const { createHrefToPath } = useNavigation();
   const [role] = useCurrentUserRole();
+  const { trackCta } = useSegmentTracking();
   if (role?.canConfigureSyntheticTests)
     return (
       <HStack>
@@ -569,7 +596,15 @@ const ExpandedContentRight = () => {
           <Trans
             i18nKey="in-synthetics:components.banner.step1Content"
             components={{
-              twofAuthentication: <Link href={createHrefToPath(userSettingsTwoFactor)} target="_blank" />
+              twofAuthentication: (
+                <Link
+                  href={createHrefToPath(userSettingsTwoFactor)}
+                  target="_blank"
+                  onClick={() => {
+                    trackCta(SYNTHETIC_TEST_BANNER_2FA_LINK_CLICK);
+                  }}
+                />
+              )
             }}
           />
         </div>
@@ -578,7 +613,15 @@ const ExpandedContentRight = () => {
           <Trans
             i18nKey="in-synthetics:components.banner.step2Content"
             components={{
-              addALocation: <Link href={createHrefToPath(syntheticLocationPath)} target="_blank" />
+              addALocation: (
+                <Link
+                  href={createHrefToPath(syntheticLocationPath)}
+                  target="_blank"
+                  onClick={() => {
+                    trackCta(SYNTHETIC_TEST_BANNER_ADDLOCATION_LINK_CLICK);
+                  }}
+                />
+              )
             }}
           />
         </div>

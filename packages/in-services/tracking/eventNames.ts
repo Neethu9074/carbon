@@ -644,6 +644,14 @@ export const SYNTHETIC_CREDENTIAL_EDIT_SUBMIT_BUTTON_CLICK = 'synthetic.monitori
 export const SYNTHETIC_CREDENTIAL_DELETE_SUBMIT_BUTTON_CLICK =
   'synthetic.monitoring.credential.delete.submit.button.click';
 
+export const SYNTHETIC_TEST_BANNER_PRIMARY_CTC_CLICK = 'synthetic.monitoring.contextualonboarding.primary.cta.click';
+export const SYNTHETIC_TEST_BANNER_SHOW_LESS_CLICK = 'synthetic.monitoring.contextualonboarding.show.less.click';
+export const SYNTHETIC_TEST_BANNER_SHOW_MORE_CLICK = 'synthetic.monitoring.contextualonboarding.show.more.click';
+export const SYNTHETIC_TEST_BANNER_IBM_DOC_CLICK = 'synthetic.monitoring.contextualonboarding.ibm.doc.click';
+export const SYNTHETIC_TEST_BANNER_2FA_LINK_CLICK = 'synthetic.monitoring.contextualonboarding.2fa.link.click';
+export const SYNTHETIC_TEST_BANNER_ADDLOCATION_LINK_CLICK =
+  'sythetic.monitoring.contextualonboarding.addlocation.link.click';
+
 // Events Page RCA Tracking
 export const EVENT_RCA_SUGGESTION_HELPFUL = 'event.rca.suggestion.helpful';
 export const EVENT_RCA_SUGGESTION_UNHELPFUL = 'event.rca.suggestion.unhelpful';

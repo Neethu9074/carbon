@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ExpandableTile, HStack, Stack, TileAboveTheFoldContent, TileBelowTheFoldContent } from '@instana/carbon';
 import { Typography } from '@instana/components';
@@ -19,6 +19,8 @@ interface BannerProps {
   expanded?: boolean;
   expandedContentLeft: JSX.Element;
   expandedContentRight: JSX.Element;
+  onCollapseFunc?: (() => void) | null;
+  onExpandFunc?: (() => void) | null;
 }
 
 const Banner = ({
@@ -26,10 +28,26 @@ const Banner = ({
   heading,
   expanded = false,
   expandedContentLeft,
-  expandedContentRight
+  expandedContentRight,
+  onCollapseFunc = null,
+  onExpandFunc = null
 }: BannerProps) => {
+  const [expandInternalState, setExpandInternalState] = useState(expanded);
+
   return (
-    <ExpandableTile expanded={expanded}>
+    <ExpandableTile
+      expanded={expandInternalState}
+      onClick={() => {
+        const newState = !expandInternalState;
+        setExpandInternalState(newState);
+
+        if (!newState && onCollapseFunc) {
+          onCollapseFunc();
+        } else if (newState && onExpandFunc) {
+          onExpandFunc();
+        }
+      }}
+    >
       <TileAboveTheFoldContent>
         <Stack gap={1}>
           <Typography variant="label-01">{label}</Typography>
