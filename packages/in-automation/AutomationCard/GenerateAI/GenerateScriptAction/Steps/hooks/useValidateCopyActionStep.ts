@@ -36,7 +36,7 @@ export function useValidateCopyActionStep({
           .updateIn(['export', 'branch'], item => item.setTouched(true))
           .updateIn(['export', 'file_path'], item => item.setTouched(true))
           .updateIn(['export', 'message'], item => item.setTouched(true))
-          .updateIn(['action', 'script'], item => item.setTouched(true))
+          .updateIn(['action', 'script'], item => item.setTouched(true));
         setForm(updatedForm);
         const disableSubmit = !areFieldsValid(updatedForm, [
           ['export', 'agent'],

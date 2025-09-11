@@ -4,33 +4,33 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
-
 // eslint-disable-next-line no-restricted-imports
 import { InlineLoading } from '@carbon/react';
+import React from 'react';
+
 import { Column, ContentSwitcher, Grid, Switch } from '@instana/carbon';
 import { CreateTearsheetStep } from '@instana/ibm-products';
 
-import TriggerEventTab from 'in-automation/Policies/CreatePolicyTearsheet/components/TriggerEventTab';
-import TriggerScheduleTab from 'in-automation/Policies/CreatePolicyTearsheet/components/TriggerScheduleTab';
-import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
-import { POLICY_CONDITION } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
-import { PolicyCondition } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
 import validateFormFields, {
   validateScheduleFilds
 } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/utils';
-import { Triggers } from 'in-automation/types';
+import TriggerScheduleTab from 'in-automation/Policies/CreatePolicyTearsheet/components/TriggerScheduleTab';
+import { POLICY_CONDITION } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/constants';
+import TriggerEventTab from 'in-automation/Policies/CreatePolicyTearsheet/components/TriggerEventTab';
+import { usePolicyFormContext } from 'in-automation/Policies/CreatePolicyTearsheet/PolicyFormContext';
+import { PolicyCondition } from 'in-automation/Policies/CreatePolicyTearsheet/usePolicyForm/types';
 import { areFieldsValid } from 'in-automation/utils/form';
+import { Triggers } from 'in-automation/types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet.mless';
 
 export default function TriggerConfigurationStep({
   triggers,
-  loading
-}: Readonly<{ triggers: Triggers; loading: boolean }>) {
+  loading,
+  inEventPage
+}: Readonly<{ triggers: Triggers; loading: boolean; inEventPage: boolean }>) {
   const { form, onChange } = usePolicyFormContext();
-  const inEventPage = false;
 
   const conditionField = form.get('condition');
   const isFormValid = useCheckFiledsValid();
@@ -62,7 +62,11 @@ export default function TriggerConfigurationStep({
               size="md"
             >
               <Switch name={POLICY_CONDITION.EVENT} text={t('in-automation:policyCreateTearsheet.event')} />
-              <Switch name={POLICY_CONDITION.SCHEDULE} text={t('in-automation:policyCreateTearsheet.schedule')} />
+              <Switch
+                name={POLICY_CONDITION.SCHEDULE}
+                text={t('in-automation:policyCreateTearsheet.schedule')}
+                disabled={inEventPage}
+              />
             </ContentSwitcher>
           </Column>
           {isEvent ? <TriggerEventTab inEventPage={inEventPage} triggers={triggers} /> : <TriggerScheduleTab />}

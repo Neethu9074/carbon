@@ -205,7 +205,7 @@ describe('TriggerConfigurationStep', () => {
       mode: 'NEW'
     });
 
-    render(<TriggerConfigurationStep triggers={mockTriggers} loading />);
+    render(<TriggerConfigurationStep triggers={mockTriggers} loading inEventPage={false} />);
 
     expect(screen.getByText('in-automation:policyCreateTearsheet.loading')).toBeInTheDocument();
   });
@@ -247,7 +247,7 @@ describe('TriggerConfigurationStep', () => {
       mode: 'NEW'
     });
 
-    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} />);
+    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} inEventPage={false} />);
 
     expect(screen.getByTestId('trigger-event-tab')).toBeInTheDocument();
   });
@@ -299,7 +299,7 @@ describe('TriggerConfigurationStep', () => {
       mode: 'NEW'
     });
 
-    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} />);
+    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} inEventPage={false} />);
 
     // Click on the Schedule tab
     fireEvent.click(screen.getByText('in-automation:policyCreateTearsheet.schedule'));
@@ -346,7 +346,7 @@ describe('TriggerConfigurationStep', () => {
       mode: 'NEW'
     });
 
-    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} />);
+    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} inEventPage={false} />);
 
     expect(screen.getByTestId('trigger-schedule-tab')).toBeInTheDocument();
   });
@@ -388,7 +388,7 @@ describe('TriggerConfigurationStep', () => {
       mode: 'NEW'
     });
 
-    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} />);
+    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} inEventPage={false} />);
 
     // The Next button should be disabled due to invalid form
     expect(screen.getByText('in-automation:policyCreateTearsheet.page1.title')).toBeInTheDocument();
@@ -449,7 +449,7 @@ describe('TriggerConfigurationStep', () => {
       mode: 'NEW'
     });
 
-    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} />);
+    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} inEventPage={false} />);
 
     // The Next button should be disabled due to invalid form
     expect(screen.getByText('in-automation:policyCreateTearsheet.page1.title')).toBeInTheDocument();
@@ -502,7 +502,7 @@ describe('TriggerConfigurationStep', () => {
       mode: 'EDIT'
     });
 
-    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} />);
+    render(<TriggerConfigurationStep triggers={mockTriggers} loading={false} inEventPage={false} />);
 
     expect(screen.getByTestId('trigger-event-tab')).toBeInTheDocument();
   });

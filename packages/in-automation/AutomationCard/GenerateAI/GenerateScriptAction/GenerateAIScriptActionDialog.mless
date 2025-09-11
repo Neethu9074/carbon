@@ -149,7 +149,9 @@
       margin-bottom: 1.5rem;
     }
 
-    :global(.in-automation_AutomationCard_GenerateAI_GenerateScriptAction_GenerateAIScriptActionDialog_mless___CodeWithAISlug){
+    :global(
+        .in-automation_AutomationCard_GenerateAI_GenerateScriptAction_GenerateAIScriptActionDialog_mless___CodeWithAISlug
+      ) {
       font-size: 0.75rem;
     }
   }
@@ -158,8 +160,8 @@
     font-size: small;
   }
 
-.configure-override-close-dialog {
+  .configure-override-close-dialog {
     z-index: 90001;
     position: relative;
-     }
+  }
 }

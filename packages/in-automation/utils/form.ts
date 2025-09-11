@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import type { Item ,MapForm} from 'formalistic';
+import type { Item, MapForm } from 'formalistic';
 
 export function isFieldValid(field: Item): boolean {
   return field.valid || !field.touched;

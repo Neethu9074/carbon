@@ -6,60 +6,56 @@
 
 import React, { useState } from 'react';
 
-import { Button, Spacer, Stack, Typography, CarbonButton } from '@instana/components';
-import { Event, Result, VolatileId, Action, Policy } from '@instana/types';
+import { Button, CarbonButton, Spacer, Stack, Typography } from '@instana/components';
+import { Action, Event, Policy, Result, VolatileId } from '@instana/types';
 
 import {
-  scoredActionTagsColumn,
-  scoredActionNameColumn,
-  scoredActionDescriptionColumn,
   scoredActionAiEngineColumn,
-  scoredActionScoreColumn
+  scoredActionDescriptionColumn,
+  scoredActionNameColumn,
+  scoredActionScoreColumn,
+  scoredActionTagsColumn
 } from 'in-automation/ActionTable/columnDefinitions';
 import GenerateAIScriptActionDialog, {
   GenerateAIScriptActionDialogProps
 } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
+import CreatePolicyTearsheet, {
+  CreatePolicyTearsheetProps
+} from 'in-automation/Policies/CreatePolicyTearsheet/CreatePolicyTearsheet';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import CreateNewPolicyTearsheet, {
-  CreateNewPolicyTearsheetProps
-} from 'in-automation/Policies/CreateNewPolicyTearsheet';
 import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { base64ToUtf8, getDocLinkFromFields, getManualContentFromFields } from 'in-automation/utils/actionField';
 import CreatePolicyButton, { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import RecommendationsExplainability from 'in-automation/AutomationCard/RecommendationsExplainability';
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import { refresh, usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import { ACTION_TYPE, EXECUTABLE_ACTIONS, ScoredActionsType } from 'in-automation/constants';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
-import { base64ToUtf8, getManualContentFromFields } from 'in-automation/utils/actionField';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
-import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { ScoredAction, TriggerSpecification } from 'in-automation/types';
-import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
-import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter } from 'in-automation/ActionTable/tableFilters';
-import { getDocLinkFromFields } from 'in-automation/utils/actionField';
+import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
+import { hasError, isLoading, mapData } from 'in-services/util/result';
 import { actionAiGenerationEnabled } from 'in-services/featureFlags';
-import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { TagsFilter } from 'in-automation/components/tableFilters';
+import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import EmptyState from 'in-automation/AutomationCard/EmptyState';
 import useCurrentUserRole from 'in-stores/useCurrentUserRole';
 import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { isManual } from 'in-automation/utils/policy';
-import { isLoading } from 'in-services/util/result';
-import { hasError } from 'in-services/util/result';
-import { mapData } from 'in-services/util/result';
 import { deletePolicy } from 'in-automation/api';
 import { t, Trans } from 'in-i18n';
 
@@ -573,7 +569,7 @@ export default function RecommendedActions({
     serverTableUrlState,
     setServerTableUrlState
   });
-  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreateNewPolicyTearsheetProps>({ open: false });
+  const [policyTearsheetProps, setPolicyTearsheetProps] = useState<CreatePolicyTearsheetProps>({ open: false });
 
   const togglePolicyTearsheet = ({
     triggerDetails,
@@ -648,7 +644,7 @@ export default function RecommendedActions({
         }
         searchPlaceholder={t('in-automation:searchActionsAndPolicies')}
       />
-      <CreateNewPolicyTearsheet
+      <CreatePolicyTearsheet
         {...policyTearsheetProps}
         closeHandler={() => {
           setPolicyTearsheetProps({ open: false });

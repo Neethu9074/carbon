@@ -30,15 +30,15 @@ import { CloseDialogConfirmation } from 'in-automation/AutomationCard/GenerateAI
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import useOnExport from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useOnExport';
 import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { error, hasError, isLoading } from 'in-services/util/result';
-import { areFieldsValid } from 'in-automation/utils/form';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { refresh } from 'in-automation/ActionCatalog/useActions';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
+import { areFieldsValid } from 'in-automation/utils/form';
 import { pendingResult } from 'in-services/fixedObjects';
 import { saveNewAction } from 'in-automation/api';
 import { t, Trans } from 'in-i18n';
@@ -136,8 +136,8 @@ function useOnSubmit(
             setResult(err);
           }
         );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [createActionTrackerSegment, AIActionContentModifiedTrackerSegment, navigateToActionCatalog, closeHandler]
   );
 
@@ -152,7 +152,7 @@ function useOnCancel(step: number, closeHandler: () => void) {
   return useCallback(() => {
     if (generatedAction) {
       return addActiveDialog(
-        <div  className={locals['configure-override-close-dialog']}>
+        <div className={locals['configure-override-close-dialog']}>
           <CloseDialogConfirmation
             step={step}
             dialogHeader={t('in-automation:GenerateAIActionDialog.generateScriptDialog.dialogHeader')}

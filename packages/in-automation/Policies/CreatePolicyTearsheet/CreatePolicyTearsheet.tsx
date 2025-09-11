@@ -29,11 +29,14 @@ import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUr
 import { TriggerDetailsProps } from 'in-automation/AutomationCard/CreatePolicyButton';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { refreshPolicy } from 'in-automation/PolicyDetails/usePolicy';
+import { productAreas } from 'in-services/tracking/productAreas';
 import useActions from 'in-automation/ActionCatalog/useActions';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { refresh } from 'in-automation/Policies/usePolicies';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import { isAIActionCopy } from 'in-automation/utils/action';
 import { AutomationErrors } from 'in-automation/constants';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
 import usePolicy from 'in-automation/Policies/usePolicy';
 import { PolicyDialogMode } from 'in-automation/types';
@@ -151,6 +154,15 @@ export default function CreatePolicyTearsheet({
         updateForm
       }}
     >
+      {!inEventPage && open && (
+        <ViewTrackingMeta
+          data={{
+            productArea: productAreas.automation,
+            pageRootName: pageNames.automation_policy_create
+          }}
+        />
+      )}
+
       <CreateTearsheet
         open={open}
         backButtonText={t('in-automation:policyCreateTearsheet.back')}
@@ -188,7 +200,7 @@ export default function CreatePolicyTearsheet({
           )
         }
       >
-        <TriggerConfigurationStep triggers={triggers} loading={loading} />
+        <TriggerConfigurationStep triggers={triggers} loading={loading} inEventPage={inEventPage} />
         <ActionConfigurationStep actions={actions.data!} />
         <PolicyDetailsStep errors={errors} />
       </CreateTearsheet>

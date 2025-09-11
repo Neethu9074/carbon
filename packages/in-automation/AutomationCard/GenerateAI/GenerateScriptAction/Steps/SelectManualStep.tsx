@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2025
  */
 
+// eslint-disable-next-line no-restricted-imports
+import { TileGroup, RadioTile } from '@carbon/react';
 import React from 'react';
 
 import { Typography, ValidationBlock } from '@instana/components';
-// eslint-disable-next-line no-restricted-imports
-import { TileGroup, RadioTile } from '@carbon/react';
 
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import { setGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/GenerateScriptStep';
@@ -71,12 +71,7 @@ export default function SelectManualStep({
           {actionName}
         </Typography>
       </div>
-      <TileGroup
-        name="select steps"
-        defaultSelected={selectedManualStepId.value}
-        onChange={onChangeValue}
-        required
-      >
+      <TileGroup name="select steps" defaultSelected={selectedManualStepId.value} onChange={onChangeValue} required>
         {tasksJson.map(task => (
           <RadioTile key={task.id} className={locals.stepsTile} value={task.id}>
             <h6>{task?.step}</h6>
