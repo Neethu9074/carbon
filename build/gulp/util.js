@@ -64,6 +64,7 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
     walkmeKey: '9ef25d161f0e453a8f3e4dea9390a967',
     amplitudeKey: 'client-R2KC1Tw3m8BAnSOiVOSwMWosWdGyGDmN',
+    saasConsoleUrl: 'https://mocked-url.com',
     agentEndpoint: 'ingress-pink-saas.instana.rocks',
     agentEndpointPort: 443,
     serverlessEndpoint: 'https://serverless-pink-saas.instana.rocks',

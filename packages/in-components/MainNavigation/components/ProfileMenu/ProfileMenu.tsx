@@ -51,6 +51,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
   const { trackCta } = useSegmentTracking();
   const activeLicenseType = config.activeLicenseType;
   const { isMcspEnvironment, mcspSaasConsoleUrl, regionName, ownerName } = config.mcspDetails ?? {};
+  const saasConsoleUrl = isControlledEnvEnabled ? config.saasConsoleUrl : mcspSaasConsoleUrl;
   //// Show MCSP menu items only if the environment is MCSP
   // and the active license type is either 'hostBasedPaid' or 'paidPerUse'.
   const shouldShowMcspMenuItems =
@@ -186,7 +187,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
           {shouldShowMcspMenuItems ? (
             <SwitcherItem
               target="_blank"
-              href={mcspSaasConsoleUrl}
+              href={saasConsoleUrl}
               onClick={() => {
                 trackCta(PROFILE_MENU_SAAS_CONSOLE_CLICK); // Add tracking for SaaS Console click
                 onClickSideNavExpand?.(); // Ensure side nav expands if needed

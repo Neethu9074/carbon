@@ -28,6 +28,8 @@ export interface ClientConfig {
   activeLicenseType: string;
   // this is injected or set with in a build step in build/gulp/build.js
   amplitudeKey: string;
+  //fedramp url
+  saasConsoleUrl: string;
   //mcspDetails injected or set with in build/gulp/util.js
   mcspDetails: {
     isMcspEnvironment?: boolean;
