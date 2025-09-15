@@ -29,7 +29,7 @@ export interface ClientConfig {
   // this is injected or set with in a build step in build/gulp/build.js
   amplitudeKey: string;
   //fedramp url
-  saasConsoleUrl: string;
+  fedrampSaasConsoleUrl: string;
   //mcspDetails injected or set with in build/gulp/util.js
   mcspDetails: {
     isMcspEnvironment?: boolean;

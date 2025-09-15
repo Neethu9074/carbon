@@ -27,7 +27,7 @@ import {
   PROFILE_MENU_USER_PROFILE_CLICK,
   PROFILE_MENU_SAAS_CONSOLE_CLICK
 } from 'in-services/tracking/tracking';
-import { isControlledEnvEnabled, tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import { fedrampDeploymentEnabled, tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import TeamFocusDropdown from 'in-settings/components/Shared/TeamFocusDropdown';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import useIsTeamsAvailable from 'in-settings/hooks/useIsTeamsAvailable';
@@ -51,7 +51,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
   const { trackCta } = useSegmentTracking();
   const activeLicenseType = config.activeLicenseType;
   const { isMcspEnvironment, mcspSaasConsoleUrl, regionName, ownerName } = config.mcspDetails ?? {};
-  const saasConsoleUrl = isControlledEnvEnabled ? config.saasConsoleUrl : mcspSaasConsoleUrl;
+  const fedrampSaasConsoleUrl = fedrampDeploymentEnabled ? config.fedrampSaasConsoleUrl : mcspSaasConsoleUrl;
   //// Show MCSP menu items only if the environment is MCSP
   // and the active license type is either 'hostBasedPaid' or 'paidPerUse'.
   const shouldShowMcspMenuItems =
@@ -147,8 +147,8 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
           </div>
         ) : null}
         <Switcher aria-label={t('in-components:mainNavigation.profileMenu_switcherContainer')}>
-          {!isControlledEnvEnabled && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
-          {tealiumPrivacyEnabled && !isControlledEnvEnabled && (
+          {!fedrampDeploymentEnabled && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
+          {tealiumPrivacyEnabled && !fedrampDeploymentEnabled && (
             <SwitcherItem
               data-autoid="dds--privacy-cp__link"
               onClick={() => {
@@ -187,7 +187,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isHeaderExpanded }: 
           {shouldShowMcspMenuItems ? (
             <SwitcherItem
               target="_blank"
-              href={saasConsoleUrl}
+              href={fedrampSaasConsoleUrl}
               onClick={() => {
                 trackCta(PROFILE_MENU_SAAS_CONSOLE_CLICK); // Add tracking for SaaS Console click
                 onClickSideNavExpand?.(); // Ensure side nav expands if needed

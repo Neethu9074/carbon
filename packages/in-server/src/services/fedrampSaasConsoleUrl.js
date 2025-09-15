@@ -6,6 +6,6 @@
 
 const serverConfig = require('../serverConfig');
 
-exports.getSaasConsoleUrl = function getSaasConsoleUrl() {
-  return serverConfig.saasConsoleUrl;
+exports.getFedrampSaasConsoleUrl = function getFedrampSaasConsoleUrl() {
+  return serverConfig.fedrampSaasConsoleUrl;
 };
